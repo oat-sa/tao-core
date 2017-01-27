@@ -163,24 +163,26 @@ define([
                 assert.ok(status.$component.find('.component-report .content > .hierarchical').hasClass('feedback-warning'), 'the status report inherit the type of the report');
                 assert.equal(status.$component.find('.component-report .hierarchical').length, 4, 'the report has 4 hierarchical reports');
                 assert.equal(status.$component.find('.component-report .leaf').length, 3, 'the report has 3 leaf reports');
-                assert.equal(status.$component.find('.component-report .hierarchical:visible').length, 1, '1 hierarchical report is visible');
-                assert.equal(status.$component.find('.component-report .leaf:visible').length, 0, 'no leaf report is visible');
+                assert.equal(status.$component.find('.component-report .hierarchical:visible').length, 4, 'all hierarchical reports are visible');
+                assert.equal(status.$component.find('.component-report .leaf:visible').length, 3, 'all leaf reports are visible');
 
                 $checkbox = status.$component.find('.component-report .fold :checkbox');
                 assert.equal($checkbox.length, 1, 'checkbox found');
                 $checkbox.click();//show details
 
-            }).on('showDetails', function(){
-
-                assert.equal(status.$component.find('.component-report .hierarchical:visible').length, 4, 'all hierarchical reports are visible');
-                assert.equal(status.$component.find('.component-report .leaf:visible').length, 3, 'all leaf reports are visible');
-                $checkbox.click()//hide details
-
             }).on('hideDetails', function(){
 
                 assert.equal(status.$component.find('.component-report .hierarchical:visible').length, 1, '1 hierarchical report is visible');
                 assert.equal(status.$component.find('.component-report .leaf:visible').length, 0, 'no leaf report is visible');
+
+                $checkbox.click()//hide details
+
                 QUnit.start();
+            }).on('showDetails', function(){
+
+                assert.equal(status.$component.find('.component-report .hierarchical:visible').length, 4, 'all hierarchical reports are visible');
+                assert.equal(status.$component.find('.component-report .leaf:visible').length, 3, 'all leaf reports are visible');
+
             })
             .render($fixtureContainer)
             .start();

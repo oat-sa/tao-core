@@ -124,9 +124,10 @@ define([
                     }).on('finished', function (taskData) {
                         if(self.status !== 'finished'){
                             self.report = self._createReport(taskData.report.type || 'info', messageTpl({
-                                name : taskData.label,
-                                status : _status.running
-                            }), taskData.report || {});
+                                    name : taskData.label,
+                                    status : _status.finished
+                                }), taskData.report || {})
+                                .showDetails();
                         }
                         self.status = 'finished';
                         self.trigger('finished', taskData);

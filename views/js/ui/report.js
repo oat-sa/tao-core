@@ -64,11 +64,13 @@ define([
         },
         showDetails : function showDetails(){
             this.$component.addClass('detailed');
+            this.$component.find('.fold input').prop('checked', true);
             this.trigger('showDetails');
             return this;
         },
         hideDetails : function hideDetails(){
             this.$component.removeClass('detailed');
+            this.$component.find('.fold input').prop('checked', false);
             this.trigger('hideDetails');
             return this;
         }
