@@ -133,12 +133,8 @@ define([
                             title: __('Refresh'),
                             label: __('Refresh'),
                             action: function () {
-
+                                self.$component.datatable('refresh');
                                 self.trigger('refresh');
-
-                                return;
-                                //refresh
-                                this.$component.datatable('refresh');
                             }
                         }],
                         model: [{
