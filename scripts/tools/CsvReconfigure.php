@@ -99,6 +99,20 @@ class CsvReconfigure implements Action
             );
         }
         
+        $report->add(
+            new Report(
+                Report::TYPE_INFO,
+                "output delimiter: '${outputDelimiter}', output enclosure: '${outputEnclosure}', output escape character: '${outputEscapeChar}'"
+            )
+        );
+        
+        $report->add(
+            new Report(
+                Report::TYPE_INFO,
+                "input delimiter: '${inputDelimiter}', input enclosure: '${inputEnclosure}', input escape character: '${inputEscapeChar}'"
+            )
+        );
+        
         $rowCount = 0;
         while ($sourceData = fgetcsv($sourceFp, 0, $inputDelimiter, $inputEnclosure, $inputEscapeChar)) {
             
