@@ -43,6 +43,12 @@ use oat\oatbox\action\Action;
  * Parameter 7: (optional) The input CSV enclosure (default is '"').
  * Parameter 8: (optional) The input CSV escape character (default is "\").
  * 
+ * Bash example usage:
+ * 
+ * Reconfigure output CSV with delimiter character = ";", enclosure character = '"', escape character = "\".
+ * 
+ * sudo -u www-data php index.php "oat\tao\scripts\tools\CsvReconfigure" /some/path/original.csv /some/path/reconfigured.csv \; \" \\
+ * 
  */
 class CsvReconfigure implements Action
 {
