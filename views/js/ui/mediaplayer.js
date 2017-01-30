@@ -1545,12 +1545,8 @@ define([
 
             if (!this.is('youtube')) {
                 page = new UrlParser(window.location);
-                _.forEach(this.config.sources, function(source) {
-                    var url = new UrlParser(source.src);
-                    if (!url.checkCORS(page)) {
-                        isCORS = true;
-                        return false;
-                    }
+                isCORS = _.some(this.config.sources, function(source) {
+                    return !page.sameDomain(source.src);
                 });
             }
 

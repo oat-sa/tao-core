@@ -647,7 +647,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.47.0');
         }
 
-        $this->skip('7.47.0', '7.54.0');
+        $this->skip('7.47.0', '7.54.1');
 
         if ($this->isVersion('7.54.0')) {
             $persistence = \common_persistence_Manager::getPersistence('default');
@@ -667,7 +667,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.54.1');
         }
 
-	$this->skip('7.54.1', '7.58.0');
+	    $this->skip('7.54.1', '7.58.1');
     }
 
     private function migrateFsAccess() {
