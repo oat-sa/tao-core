@@ -88,7 +88,7 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $queryProphecy->addCriterion(
             Argument::type('string'),
             Argument::type('string'),
-            Argument::type('string')
+            Argument::any()
         )->shouldBeCalledTimes(count($filters));
 
         $queryMock = $queryProphecy->reveal();

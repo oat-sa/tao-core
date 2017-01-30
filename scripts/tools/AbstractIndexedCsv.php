@@ -79,10 +79,20 @@ abstract class AbstractIndexedCsv implements Action
         
         if (isset($params[2])) {
             $this->setIndexColumn(intval($params[2]));
+        } else {
+            return new Report(
+                Report::TYPE_ERROR,
+                "'Index Column' parameter not provided."
+            );
         }
         
         if (isset($params[3])) {
             $this->setFirstRowColumnNames(boolval($params[3]));
+        } else {
+            return new Report(
+                Report::TYPE_ERROR,
+                "'First Row Column Names' parameter not provided."
+            );
         }
         
         // -- Initial report.
@@ -115,6 +125,9 @@ abstract class AbstractIndexedCsv implements Action
         
         // -- Deal with reports.
         $report->add($this->index());
+        
+        // Clean rewind before processing.
+        rewind($this->getSourceFp());
         $report->add($this->process());
         $report->add($this->afterProcess());
         
@@ -424,10 +437,26 @@ abstract class AbstractIndexedCsv implements Action
     protected function index()
     {
         $index = [];
-        $sourceFp = $this->getSourceFp();
-        $destinationFp = $this->getDestinationFp();
+        $scanCount = $this->fillIndex($index, $this->getSourceFp());
+        $this->setIndex($index);
+        
+        return new Report(
+            Report::TYPE_INFO,
+            $scanCount . " rows scanned for indexing. " . count($index) . " unique values indexed."
+        );
+    }
+    
+    protected function fillIndex(&$index, $sourceFp)
+    {
         $indexColumn = $this->getIndexColumn();
         $scanCount = 0;
+        
+        rewind($sourceFp);
+        
+        if ($this->isFirstRowColumnNames()) {
+            // Ignore first line in indexing.
+            fgetcsv($sourceFp);
+        }
         
         while (!feof($sourceFp)) {
             $position = ftell($sourceFp);
@@ -451,12 +480,8 @@ abstract class AbstractIndexedCsv implements Action
         }
         
         ksort($index);
-        $this->setIndex($index);
         
-        return new Report(
-            Report::TYPE_INFO,
-            $scanCount . " rows scanned for indexing. " . count($index) . " unique values indexed."
-        );
+        return $scanCount;
     }
     
     /**
