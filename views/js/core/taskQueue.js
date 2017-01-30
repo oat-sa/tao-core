@@ -58,22 +58,29 @@ define([
 
         var api = eventifier({
             getStatus : function getStatus(taskId){
+                var status;
+                var error;
                 if(!config.url || !config.url.status){
-                    return Promise.reject(new Error('config.url.status is not defined'));
+                    error = new Error('config.url.status is not defined');
+                    api.trigger('error', error);
+                    return Promise.reject(error);
                 }
 
-                return request(config.url.status, {taskId: taskId})
+                status = request(config.url.status, {taskId: taskId})
                     .then(function(taskData){
                         //check taskData
-                        if(taskData.status){
+                        if(taskData && taskData.status){
                             return Promise.resolve(taskData);
-                        }else{
-                            return Promise.reject(taskData);
                         }
-                    })
-                    .catch(function(res){
-                        api.trigger('error', res);
+                        console.log('error', taskData);
+                        return Promise.reject(new Error('failed to get task data'));
                     });
+
+                status.catch(function(err){
+                    api.trigger('error', err);
+                });
+
+                return status;
             },
             pollStatus : function pollStatus(taskId){
 
@@ -112,18 +119,20 @@ define([
                             }
                         }).catch(function(res){
                             done.reject();
-                            api.trigger('error', res);
                         });
                     }
                 });
                 updateInterval(poll);
                 poll.start();
+                api.trigger('pollStart');
                 return api;
             },
             pollStop : function pollStop(){
                 if(poll){
                     poll.stop();
+                    api.trigger('pollStop');
                 }
+
                 return api;
             },
             remove : function remove(taskId){

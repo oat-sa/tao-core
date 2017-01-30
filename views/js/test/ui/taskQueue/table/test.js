@@ -88,7 +88,7 @@ define([
 
                 var $component = $('.component', $fixtureContainer);
                 assert.equal($('.datatable-container > table', $component).length, 1, 'The table is also added');
-                assert.equal($('.datatable-container > table tbody tr', $component).length, 3, 'The table contains 2 rows');
+                assert.equal($('.datatable-container > table tbody tr', $component).length, 3, 'The table contains 3 rows');
 
                 QUnit.start();
             })
