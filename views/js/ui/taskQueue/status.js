@@ -42,7 +42,8 @@ define([
         taskType: '',
         taskStatus: _status.loading,
         taskName: '',
-        back : true
+        back : false,
+        showDetailsButton : true
     };
 
     var statusComponent = {
@@ -68,7 +69,7 @@ define([
             if(_.isPlainObject(taskReport) && taskReport.type){
                 reportData.children = [taskReport];
             }
-            if(self.config.back){
+            if(this.config.back){
                 actions.push({
                     id: 'back',
                     icon: 'backward',
@@ -80,7 +81,8 @@ define([
             return report({
                     replace : true,
                     noBorder : true,
-                    actions : actions
+                    actions : actions,
+                    showDetailsButton : this.config.showDetailsButton
                 }, reportData)
                 .on('action-back', function(){
                     self.trigger('back');

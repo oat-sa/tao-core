@@ -133,7 +133,6 @@ define([
             })
             .render($fixtureContainer)
             .start();
-
     });
 
     QUnit.module('Behaviour');
@@ -186,7 +185,6 @@ define([
             })
             .render($fixtureContainer)
             .start();
-
     });
 
 });

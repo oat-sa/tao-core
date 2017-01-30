@@ -1,5 +1,5 @@
 <div class="component-report{{#if noBorder}} no-border{{/if}}">
-    {{#if hasDetailedReport}}
+    {{#if detailsButtonVisible}}
     <label class="fold pseudo-label-box">
         <span class="check-txt hide">{{__ "Hide detailed report"}}</span>
         <span class="check-txt show">{{__ "Show detailed report"}}</span>

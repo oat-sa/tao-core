@@ -27,6 +27,7 @@ define([
     'use strict';
 
     var _defaults = {
+        showDetailsButton : true,
         actions:[]
     };
 
@@ -88,10 +89,10 @@ define([
         var initConfig = _.defaults(config || {}, _defaults);
 
         if(data && _.isArray(data.children) && data.children.length){
-             initConfig.hasDetailedReport = true;
+             initConfig.detailsButtonVisible = initConfig.showDetailsButton;
         }
 
-        return component(report, _defaults)
+        return component(report)
             .setTemplate(layoutTpl)
             .on('render', function () {
 

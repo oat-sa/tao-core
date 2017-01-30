@@ -71,6 +71,7 @@ define([
                 replace : true,
                 taskId: taskId,
                 serviceUrl: this.config.statusUrl,
+                showDetailsButton : false,
                 back : true
             }).on('showDetails', function(){
                 $report.height(640);//fix this
