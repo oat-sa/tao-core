@@ -44,7 +44,7 @@ use oat\oatbox\action\Action;
  * Parameter 8: (optional) The input CSV escape character (default is "\").
  * 
  */
-class RemoveCsvRowsByPattern implements Action
+class CsvReconfigure implements Action
 {
     public function __invoke($params)
     {
@@ -96,7 +96,7 @@ class RemoveCsvRowsByPattern implements Action
         
         while ($sourceData = fgetcsv($sourceFp, 0, $inputDelimiter, $inputEnclosure, $inputEscapeChar)) {
             
-            fputcsv($destinationFp, $outputDelimiter, $outputEnclosure, $outputEscapeChar);
+            fputcsv($destinationFp, $sourceData, $outputDelimiter, $outputEnclosure, $outputEscapeChar);
             
             $rowCount++;
         }
