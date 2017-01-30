@@ -48,8 +48,13 @@ class CsvReconfigure implements Action
 {
     public function __invoke($params)
     {
-        // -- Deal with parameters.
+        // Main report.
+        $report = new Report(
+            Report::TYPE_INFO,
+            'Unknown'
+        );
         
+        // -- Deal with parameters.
         if (!empty($params[0])) {
             $source = $params[0];
         } else {
@@ -94,6 +99,7 @@ class CsvReconfigure implements Action
             );
         }
         
+        $rowCount = 0;
         while ($sourceData = fgetcsv($sourceFp, 0, $inputDelimiter, $inputEnclosure, $inputEscapeChar)) {
             
             fputcsv($destinationFp, $sourceData, $outputDelimiter, $outputEnclosure, $outputEscapeChar);
@@ -104,9 +110,9 @@ class CsvReconfigure implements Action
         @fclose($sourceFp);
         @fclose($destinationFp);
         
-        return new Report(
-            Report::TYPE_SUCCESS,
-            $rowCount . " lines written in file '" . realpath($destination) . "'."
-        );
+        $report->setType(Report::TYPE_SUCCESS);
+        $report->setMessage($rowCount . " lines written in file '" . realpath($destination) . "'.");
+        
+        return $report;
     }
 }
