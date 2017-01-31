@@ -134,9 +134,10 @@ define([
                                 name : taskData.label,
                                 status : _status.running
                             }));
+                            self.status = 'running';
+                            self.trigger('running', taskData);
+                            self.trigger('statechange', self.status);
                         }
-                        self.status = 'running';
-                        self.trigger('running', taskData);
                     }).on('finished', function (taskData) {
                         if(self.status !== 'finished'){
                             self.report = self._createReport(taskData.report.type || 'info', messageTpl({
@@ -144,9 +145,10 @@ define([
                                     status : _status.finished
                                 }), taskData.report || {})
                                 .showDetails();
+                            self.status = 'finished';
+                            self.trigger('finished', taskData);
+                            self.trigger('statechange', self.status);
                         }
-                        self.status = 'finished';
-                        self.trigger('finished', taskData);
                     }).on('error', function (err) {
                         self.trigger('error', err);
                     })

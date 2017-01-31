@@ -73,10 +73,6 @@ define([
                 serviceUrl: this.config.statusUrl,
                 showDetailsButton : false,
                 back : true
-            }).on('showDetails', function(){
-                $report.height(640);//fix this
-            }).on('hideDetails', function(){
-                $report.height('auto');
             }).on('back', function(){
                 status.destroy();
                 $dataTable.show();
@@ -135,6 +131,7 @@ define([
                     })
                     .datatable({
                         url: this.config.dataUrl,
+                        rows : this.config.rows,
                         filtercolumns: {type: this.config.context},
                         status: {
                             empty: __('No Task yet'),
