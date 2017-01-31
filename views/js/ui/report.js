@@ -31,11 +31,16 @@ define([
         actions:[]
     };
 
+    /**
+     * Array of authorized report types
+     * @type {Array}
+     */
     var authorizedTypes = ['success', 'info', 'warning', 'error'];
 
     /**
      * Recursive function to render report messages
      *
+     * @private
      * @param {Object} data - a standard report object sent by the backend
      * @param {String} data.type - the error type
      * @param {String} data.message - the feedback message
@@ -43,14 +48,14 @@ define([
      * @param {Array} [actions] - the actions buttons to be added, only for the first level of the hierarchy
      * @returns {*}
      */
-    var renderFeebacks = function renderFeebacks(data, actions){
+    var _renderFeebacks = function _renderFeebacks(data, actions){
         var children = [];
         if(!data.type || authorizedTypes.indexOf(data.type) === -1){
             throw new TypeError('Unkown report type: '+data.type);
         }
         if(_.isArray(data.children) && data.children.length){
             _.each(data.children, function(child){
-                children.push(renderFeebacks(child));
+                children.push(_renderFeebacks(child));
             });
         }
         data.hasChildren = (children.length > 0);
@@ -60,15 +65,29 @@ define([
     }
 
     var report = {
+        /**
+         * Check if the details of the report are currently visible
+         * @returns {Boolean}
+         */
         isDetailed : function isDetailed(){
             return this.$component.hasClass('detailed');
         },
+        /**
+         * Show the report details
+         * 
+         * @returns {this}
+         */
         showDetails : function showDetails(){
             this.$component.addClass('detailed');
             this.$component.find('.fold input').prop('checked', true);
             this.trigger('showDetails');
             return this;
         },
+        /**
+         * HIde the report details
+         *
+         * @returns {this}
+         */
         hideDetails : function hideDetails(){
             this.$component.removeClass('detailed');
             this.$component.find('.fold input').prop('checked', false);
@@ -78,11 +97,35 @@ define([
     };
 
     /**
-     * simple component to display a standard report
+     * Simple component to display a standard report
      *
-     * @param config
-     * @param data
-     * @returns {*}
+     * Example:
+     * report({
+     *       actions: [{
+     *           id: 'continue',
+     *           icon: 'right',
+     *           title: 'Continue to next step',
+     *           label: 'Continue'
+     *       }]
+     *   }, {
+     *       type: "warning",
+     *       message: "<em>Data not imported. All records are <strong>invalid.</strong></em>",
+     *       children: [{
+     *           type: "error",
+     *          message: "Row 1 Student Number Identifier"
+     *       }]
+     *   }).on('action-continue', function () {
+     *       console.log('go to next step');
+     *   }).render('body');
+     *
+     * @param {Object} config
+     * @param {Boolean} [config.showDetailsButton=true] - display the show/hide details toggle
+     * @param {Array} [config.actions] - possibility to add more button controls
+     * @param {Object} data - a standard report object
+     * @param {String} data.type - the type of the report
+     * @param {String} data.message - the message to be included in the report body (html allowed)
+     * @param {Array} [data.children] - children report object
+     * @returns {reportComponent}
      */
     var reportComponent = function reportComponent(config, data) {
 
@@ -99,12 +142,13 @@ define([
                 var self = this;
                 var $content = this.$component.find('.content');
                 var $checkbox = this.$component.find('.fold input');
-                $content.append(renderFeebacks(data, this.config.actions));
+                $content.append(_renderFeebacks(data, this.config.actions));
 
                 //init actions:
                 $content.on('click', '.action', function(){
                     var actionId = $(this).data('trigger');
                     self.trigger('action-'+actionId);
+                    self.trigger('action', actionId);
                 });
 
                 $checkbox.click(function(){

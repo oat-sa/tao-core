@@ -37,24 +37,50 @@ define([
         }
     };
 
+    /**
+     * Format the status string
+     *
+     * @param {String} status
+     * @returns {String}
+     */
     var formatStatus = function formatStatus(status) {
         return status;
     };
 
+    /**
+     * Format the input timestamp into a user friendly format
+     *
+     * @param {String} date
+     * @returns {String}
+     */
     var formatDate = function formatDate(date) {
         return moment.unix(date).fromNow();
     };
 
+    /**
+     * Check if the datatable row is removable
+     * @param {Object} row - datatable row
+     * @returns {boolean}
+     */
     var isRemovable = function isRemovable(row) {
         return (row.status === 'finished');
     };
 
+    /**
+     * Check if the datatable row can display a report
+     * @param {Object} row - datatable row
+     * @returns {boolean}
+     */
     var isReportable = function isReportable(row) {
         return (row.status === 'finished');
     };
 
     var taskQueueTable = {
-        showReport: function showReport(taskId) {
+        /**
+         * Display a report for a task
+         * @param taskId
+         */
+        showReport : function showReport(taskId) {
             var status;
             var $report = this.$component.find('.report-container');
             var $dataTable = this.$component.find('.datatable-wrapper');
@@ -72,15 +98,27 @@ define([
                 taskId: taskId,
                 serviceUrl: this.config.statusUrl,
                 showDetailsButton : false,
-                back : true
-            }).on('back', function(){
+                actions : [{
+                    id: 'back',
+                    icon: 'backward',
+                    title: __('Back to listing'),
+                    label: __('Back')
+                }]
+            }).on('action-back', function(){
                 status.destroy();
                 $dataTable.show();
             })
             .render($report)
             .start();
+
+            return this;
         },
-        remove:function remove(taskId){
+
+        /**
+         * Remove a task from the datatable
+         * @param taskId
+         */
+        remove : function remove(taskId){
             var self = this;
             this.taskQueueApi.remove(taskId).then(function(){
                 self.$component.datatable('refresh');
@@ -88,15 +126,16 @@ define([
             }).catch(function(err){
                 self.trigger('error', err);
             });
+            return this;
         }
     };
 
     /**
-     * Creates the taskQueueListing component
+     * Creates the taskQueueTable component
      *
      * @param {String} testCenterId - the test center URI
-     * @returns {taskQueueListing} the component
-     * @throws {TypeError} when the context is absent in the config
+     * @returns {taskQueueTable} the component
+     * @throws {TypeError} when the task queue context (type) is absent in the config
      */
     return function taskQueueTableFactory(config) {
 
@@ -126,7 +165,7 @@ define([
                     .on('query.datatable', function () {
                         self.trigger('loading');
                     })
-                    .on('load.datatable', function (e) {
+                    .on('load.datatable', function () {
                         self.trigger('loaded');
                     })
                     .datatable({

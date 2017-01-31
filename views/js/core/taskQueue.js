@@ -18,17 +18,6 @@
 
 /**
  * Task queue management API
- *
- * @example
- *      taskQueueManager = taskQueue({url:{status: 'serviceUrl'}})
-            .on('running', function (taskData) {
-                console.log('running');
-            }).on('finished', function (taskData) {
-                console.log('finished !');
-            }).on('error', function (err) {
-                self.trigger('error', err);
-            }).pollStatus('task123xyz');
- *
  */
 define([
     'lodash',
@@ -43,6 +32,15 @@ define([
         url : {}
     };
 
+    /**
+     * Builds a task queue management API
+     *
+     * @param {Object} config - the API config
+     * @param {Object} [config.url] - The list of task queue endpoints
+     * @param {String} [config.url.status] - the get status endpoint
+     * @param {String} [config.url.remove] - the remove task endpoint
+     * @returns {taskQueueApi}
+     */
     return function taskQueueApi(config){
 
         config = _.defaults(config||{}, _defaults);
@@ -57,6 +55,12 @@ define([
         var poll;
 
         var api = eventifier({
+            /**
+             * Get the status of a task identified by its unique task id
+             *
+             * @param {String} taskId - unique task identifier
+             * @returns {Promise}
+             */
             getStatus : function getStatus(taskId){
                 var status;
                 var error;
@@ -72,7 +76,6 @@ define([
                         if(taskData && taskData.status){
                             return Promise.resolve(taskData);
                         }
-                        console.log('error', taskData);
                         return Promise.reject(new Error('failed to get task data'));
                     });
 
@@ -82,15 +85,23 @@ define([
 
                 return status;
             },
+
+            /**
+             * Poll the status of a task
+             *
+             * @param {String} taskId - unique task identifier
+             * @returns {taskQueueApi}
+             */
             pollStatus : function pollStatus(taskId){
 
                 var loop = 0;
 
                 /**
                  * gradually increase the polling interval to ease server load
-                 * @param pollingInstance - a poll object
+                 * @private
+                 * @param {Object} pollingInstance - a poll object
                  */
-                var updateInterval = function updateInterval(pollingInstance){
+                var _updateInterval = function _updateInterval(pollingInstance){
                     var pollingInterval;
                     if(loop){
                         loop --;
@@ -114,7 +125,7 @@ define([
                                 poll.stop();
                             }else{
                                 api.trigger('running', taskData);
-                                updateInterval(poll);
+                                _updateInterval(poll);
                                 done.resolve();
                             }
                         }).catch(function(){
@@ -122,12 +133,18 @@ define([
                         });
                     }
                 });
-                updateInterval(poll);
+                _updateInterval(poll);
                 poll.start();
                 api.trigger('pollStart');
 
                 return api;
             },
+
+            /**
+             * Stop the current polling
+             *
+             * @returns {taskQueueApi}
+             */
             pollStop : function pollStop(){
                 if(poll){
                     poll.stop();
@@ -135,6 +152,13 @@ define([
                 }
                 return api;
             },
+
+            /**
+             * Remove a task identified by its unique task id
+             *
+             * @param {String} taskId - unique task identifier
+             * @returns {Promise}
+             */
             remove : function remove(taskId){
 
                 var status;

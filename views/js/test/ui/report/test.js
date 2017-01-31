@@ -331,4 +331,22 @@ define([
 
     });
 
+    report({
+            actions: [{
+                id: 'continue',
+                icon: 'right',
+                title: 'Continue to next step',
+                label: 'Continue'
+            }]
+        }, {
+            type: "warning",
+            message: "<em>Data not imported. All records are <strong>invalid.</strong></em>",
+            children: [{
+                type: "error",
+                message: "Row 1 Student Number Identifier"
+            }]
+        }).on('action-continue', function () {
+            console.log('go to next step');
+        }).render('body');
+
 });

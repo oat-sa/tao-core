@@ -39,53 +39,64 @@ define([
     var _defaults = {
         serviceUrl: '',
         taskId: '',
-        taskType: '',
         taskStatus: _status.loading,
-        taskName: '',
-        back : false,
-        showDetailsButton : true
+        showDetailsButton : true,
+        actions : []
     };
 
     var statusComponent = {
-        start:function start(){
-            if (this.taskQueueManager) {
-                this.taskQueueManager.pollStatus(this.config.taskId);
+
+        /**
+         * Starts the task status polling
+         * @returns {statusComponent}
+         */
+        start : function start(){
+            if (this.taskQueueApi) {
+                this.taskQueueApi.pollStatus(this.config.taskId);
             }
             return this;
         },
-        stop: function stop(){
-            if (this.taskQueueManager) {
-                this.taskQueueManager.pollStop();
+
+        /**
+         * Stops the task status polling
+         * @returns {statusComponent}
+         */
+        stop : function stop(){
+            if (this.taskQueueApi) {
+                this.taskQueueApi.pollStop();
             }
             return this;
         },
+
+        /**
+         * Create a report
+         *
+         * @param {String} reportType - the top report type
+         * @param {String} message - the top report message
+         * @param taskReport
+         * @returns {Object} a ui/report component
+         * @private
+         */
         _createReport : function _createReport(reportType, message, taskReport){
             var self = this;
-            var actions = [];
             var reportData = {
                 type: reportType,
                 message: message,
             };
+
             if(_.isPlainObject(taskReport) && taskReport.type){
                 reportData.children = [taskReport];
-            }
-            if(this.config.back){
-                actions.push({
-                    id: 'back',
-                    icon: 'backward',
-                    title: __('Back to listing'),
-                    label: __('Back')
-                });
             }
 
             return report({
                     replace : true,
                     noBorder : true,
-                    actions : actions,
-                    showDetailsButton : this.config.showDetailsButton
+                    showDetailsButton : this.config.showDetailsButton,
+                    actions : this.config.actions
                 }, reportData)
-                .on('action-back', function(){
-                    self.trigger('back');
+                .on('action', function(actionId){
+                    self.trigger('action-' + actionId);
+                    self.trigger('action', actionId);
                 }).on('showDetails', function(){
                     self.trigger('showDetails');
                 }).on('hideDetails', function(){
@@ -101,12 +112,11 @@ define([
      * @param {Object} config
      * @param {String} config.serviceUrl - the service be called in ajax to check the status of the task
      * @param {String} config.taskId - the id of the task
-     * @param {String} config.taskType - the type of the task
-     * @param {String} config.taskName - the name of the task
-     * @param {String} config.taskStatus - initial status of the task
+     * @param {Boolean} [config.showDetailsButton=true] - display the show/hide details toggle
+     * @param {Array} [config.actions] - possibility to add more button controls on the report
      * @returns {*}
      */
-    var taskQueueStatusComponent = function taskQueueStatusComponent(config) {
+    return function taskQueueStatusComponent(config) {
 
         var config = _.defaults(config || {}, _defaults);
 
@@ -114,11 +124,11 @@ define([
             throw new TypeError('The task queue status needs to be configured with a service url');
         }
 
-        return component(statusComponent, _defaults)
+        return component(statusComponent)
             .setTemplate(statusTpl)
             .on('destroy', function () {
-                if (this.taskQueueManager) {
-                    this.taskQueueManager.pollStop();
+                if (this.taskQueueApi) {
+                    this.taskQueueApi.pollStop();
                 }
             })
             .on('render', function () {
@@ -127,7 +137,7 @@ define([
 
                 self.report = self._createReport('info', __('Loading task status ...'));
 
-                this.taskQueueManager = taskQueue({url:{status: config.serviceUrl}})
+                this.taskQueueApi = taskQueue({url:{status: config.serviceUrl}})
                     .on('running', function (taskData) {
                         if(self.status !== 'running'){
                             self.report = self._createReport('info', messageTpl({
@@ -155,6 +165,4 @@ define([
             })
             .init(config);
     }
-
-    return taskQueueStatusComponent;
 });
