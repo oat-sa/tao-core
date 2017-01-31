@@ -232,7 +232,6 @@ define([
         status.then(function(){
             assert.ok(false, 'should not be triggered here');
         }).catch(function(err){
-            console.log(err);
             assert.ok(err instanceof Error, 'error returned');
             assert.equal(err, error, 'same error returned via catch and event');
             QUnit.start();
