@@ -117,7 +117,7 @@ define([
                                 updateInterval(poll);
                                 done.resolve();
                             }
-                        }).catch(function(res){
+                        }).catch(function(){
                             done.reject();
                         });
                     }
@@ -125,6 +125,7 @@ define([
                 updateInterval(poll);
                 poll.start();
                 api.trigger('pollStart');
+
                 return api;
             },
             pollStop : function pollStop(){
@@ -132,24 +133,33 @@ define([
                     poll.stop();
                     api.trigger('pollStop');
                 }
-
                 return api;
             },
             remove : function remove(taskId){
+
+                var status;
+                var error;
+
                 if(!config.url || !config.url.remove){
-                    return Promise.reject(new Error('config.url.remove is not defined'));
+                    error = new Error('config.url.remove is not defined');
+                    api.trigger('error', error);
+                    return Promise.reject(error);
                 }
-                return request(config.url.remove, {taskId: taskId})
+
+                status = request(config.url.remove, {taskId : taskId})
                     .then(function(taskData){
                         if(taskData.status === 'archived'){
                             return Promise.resolve(taskData);
                         }else{
-                            return Promise.reject(taskData);
+                            return Promise.reject(new Error('removed task status should be archived'));
                         }
-                    })
-                    .catch(function(res){
-                        api.trigger('error', res);
                     });
+
+                status.catch(function(res){
+                    api.trigger('error', res);
+                });
+
+                return status;
             }
         });
 

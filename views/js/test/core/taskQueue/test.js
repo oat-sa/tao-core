@@ -99,16 +99,33 @@ define([
             }).pollStatus();
     });
 
+    QUnit.asyncTest('remove', function (assert){
+
+        var statusUrl = '/tao/views/js/test/core/taskQueue/data-status-archived.json';
+        var taskQueue = taskQueueApi({url:{status: statusUrl}});
+        var status = taskQueue.getStatus('task#65480abc');
+
+        assert.ok(status instanceof Promise, 'getStatus returns a Promise');
+
+        status.then(function(taskData){
+            assert.equal(taskData.id, 'task#65480abc', 'task id ok');
+            assert.equal(taskData.status, 'archived', 'task status ok');
+            assert.equal(taskData.label, 'Mass import DDD', 'task label ok');
+            QUnit.start();
+        });
+    });
+
     QUnit.module('Error handling');
 
     QUnit.asyncTest('get status (invalid server data)', function (assert){
 
         var statusUrl = '/tao/views/js/test/core/taskQueue/data-error.json';
         var error;
-        var taskQueue = taskQueueApi({url:{status: statusUrl}}).on('error', function(err){
-            assert.ok(err instanceof Error, 'error returned');
-            error = err;
-        })
+        var taskQueue = taskQueueApi({url:{status: statusUrl}})
+            .on('error', function(err){
+                assert.ok(err instanceof Error, 'error returned');
+                error = err;
+            });
         var status = taskQueue.getStatus('task#65480abc')
 
         assert.ok(status instanceof Promise, 'getStatus returns a Promise');
@@ -122,14 +139,14 @@ define([
         });
     });
 
-    QUnit.asyncTest('get status (bad url)', function (assert){
+    QUnit.asyncTest('get status (no url)', function (assert){
 
-        var statusUrl = '';
         var error;
-        var taskQueue = taskQueueApi({url:{status: statusUrl}}).on('error', function(err){
-            assert.ok(err instanceof Error, 'error returned');
-            error = err;
-        })
+        var taskQueue = taskQueueApi({})
+            .on('error', function(err){
+                assert.ok(err instanceof Error, 'error returned');
+                error = err;
+            });
         var status = taskQueue.getStatus('task#65480abc');
 
         assert.ok(status instanceof Promise, 'getStatus returns a Promise');
@@ -152,7 +169,74 @@ define([
             .on('error', function (err) {
                 assert.ok(err instanceof Error, 'error returned');
                 QUnit.start();
-            }).pollStatus();
+            })
+            .pollStatus();
+    });
+
+    QUnit.asyncTest('remove (invalid server data)', function (assert){
+
+        var statusUrl = '/tao/views/js/test/core/taskQueue/data-error.json';
+        var error;
+        var taskQueue = taskQueueApi({url:{remove: statusUrl}})
+            .on('error', function(err){
+                assert.ok(err instanceof Error, 'error returned');
+                error = err;
+            });
+        var status = taskQueue.remove('task#65480abc')
+
+        assert.ok(status instanceof Promise, 'remove() returns a Promise');
+
+        status.then(function(){
+            assert.ok(false, 'should not be triggered here');
+        }).catch(function(err){
+            assert.ok(err instanceof Error, 'error returned');
+            assert.equal(err, error, 'same error returned via catch and event');
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('remove (no url)', function (assert){
+
+        var error;
+        var taskQueue = taskQueueApi({})
+            .on('error', function(err){
+                assert.ok(err instanceof Error, 'error returned');
+                error = err;
+            });
+        var status = taskQueue.remove('task#65480abc');
+
+        assert.ok(status instanceof Promise, 'remove() returns a Promise');
+
+        status.then(function(){
+            assert.ok(false, 'should not be triggered here');
+        }).catch(function(err){
+            assert.ok(err instanceof Error, 'error returned');
+            assert.equal(err, error, 'same error returned via catch and event');
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('remove (wrong status)', function (assert){
+
+        var serviceUrl = '/tao/views/js/test/core/taskQueue/data-status-finished.json';
+        var error;
+        var taskQueue = taskQueueApi({url:{remove: serviceUrl}})
+            .on('error', function(err){
+                assert.ok(err instanceof Error, 'error returned');
+                error = err;
+            })
+        var status = taskQueue.remove('task#65480abc');
+
+        assert.ok(status instanceof Promise, 'remove() returns a Promise');
+
+        status.then(function(){
+            assert.ok(false, 'should not be triggered here');
+        }).catch(function(err){
+            console.log(err);
+            assert.ok(err instanceof Error, 'error returned');
+            assert.equal(err, error, 'same error returned via catch and event');
+            QUnit.start();
+        });
     });
 
 });
