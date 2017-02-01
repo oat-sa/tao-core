@@ -264,6 +264,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         $propertyMap = $this->getPropertiesMap();
         $data = [];
         foreach ($payload['data'] as $resource) {
+            $resource = (object)$resource;
             $resource = new \core_kernel_classes_Resource($resource->subject);
             $resourceData = $resource->getPropertiesValues($propertyMap);
             $entityInfo = array_map(function($row) use($resourceData) {
