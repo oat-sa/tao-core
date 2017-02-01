@@ -60,6 +60,7 @@ define([
         });
 
         var getCursor = function getCursor(){
+
             var isFocused = false;
 
             if (document.activeElement) {
@@ -76,19 +77,31 @@ define([
                 });
             }
 
-            if (!isFocused) {
-                _cursor.position = 0;
-                _cursor.$dom = $navigables[0];//todo get first visible
+            if (isFocused) {
+                return _cursor;
             }
 
-            return _cursor;
+            return null;
         };
 
         /**
          * Set cursor to initial position
          */
         var resetCursor = function resetCursor(){
+            var position = getClosestPositionRight(0);
+            _cursor.position = position;
+            _cursor.$dom = $navigables[position];
+        }
 
+        var getClosestPositionRight = function getClosestPositionRight(fromPosition){
+            var pos;
+            fromPosition = fromPosition||0;
+            for(pos = fromPosition; pos < $navigables.length; pos++){
+                if($navigables[pos] && $($navigables[pos]).is(':visible')){
+                    return pos;
+                }
+            }
+            return -1;
         }
 
         if(_navigationGroups[id]){
@@ -105,7 +118,6 @@ define([
             },
             next : function next(){
                 var cursor = getCursor();
-                console.log(cursor);
                 var i;
                 var pos;
                 if(cursor){
@@ -126,7 +138,7 @@ define([
                     }
                     this.trigger('next', getCursor());
                 }else{
-                    this.focusPosition(0);
+                    this.focusPosition(getClosestPositionRight(0));
                 }
             },
             previous : function previous(){
@@ -151,7 +163,7 @@ define([
                     }
                     this.trigger('previous', getCursor());
                 }else{
-                    this.focusPosition(0);
+                    this.focusPosition(getClosestPositionRight(0));
                 }
             },
             activate : function activate(){
