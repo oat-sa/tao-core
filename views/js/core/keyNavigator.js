@@ -32,18 +32,25 @@ define([
 
     var _navigationGroups = {};
 
+    var _defaults = {
+        keepState : false,
+        replace : false,
+        loop : false
+    };
+
     var navigationGroupFactory = function navigationGroupFactory(config){
 
-        var _defaults = {
-            keepState : false,
-            replace : false,
-            loop : false
-        };
         config = _.defaults(config, _defaults);
+
         var id = config.id;
         var $navigables = $(config.elements);
+
+        var _cursor = {
+            position : -1,
+            $dom : null
+        };
+
         var i = 0;
-        var _cursor;
         $navigables.each(function(){
             var $navigable = $(this);
             $navigable.attr('data-navigation-order', i);
@@ -52,13 +59,6 @@ define([
             i++;
         });
 
-        var initCursor = function initCursor(){
-            _cursor = {
-                position : -1,
-                $dom : null
-            };
-        };
-
         var getCursor = function getCursor(){
             var isFocused = false;
 
@@ -66,7 +66,7 @@ define([
                 // try to find the focused element within the known list of focusable elements
                 _.forEach($navigables, function(focusable, index) {
                     if (document.activeElement === focusable
-                        || $.contains(document.activeElement, focusable)
+                        || $.contains(focusable, document.activeElement)
                     ) {
                         _cursor.position = index;
                         _cursor.$dom = $(focusable);
@@ -78,18 +78,18 @@ define([
 
             if (!isFocused) {
                 _cursor.position = 0;
-                _cursor.$dom = $navigables[0];
+                _cursor.$dom = $navigables[0];//todo get first visible
             }
 
             return _cursor;
-
-            if(_cursor && _cursor.position >= 0){//verify cursor in dom
-                return _cursor;
-            }else{
-                initCursor();
-                return null;
-            }
         };
+
+        /**
+         * Set cursor to initial position
+         */
+        var resetCursor = function resetCursor(){
+
+        }
 
         if(_navigationGroups[id]){
             if(config.replace){
@@ -99,39 +99,59 @@ define([
             }
         }
 
-        initCursor();
-
         var navigationGroup = eventifier({
             getId : function(){
                 return id;
             },
             next : function next(){
                 var cursor = getCursor();
-                if(cursor && $navigables[cursor.position+1]){//TODO improve verification, exists etc?
-                    this.focusPosition(cursor.position+1);
-                    this.trigger('next', getCursor());
-                }else{
-                    if(config.loop){
+                console.log(cursor);
+                var i;
+                var pos;
+                if(cursor){
+                    for(i = cursor.position + 1; i < $navigables.length; i++){
+                        if($navigables[i] && $($navigables[i]).is(':visible')){
+                            pos = i;
+                            break;
+                        }
+                    }
+                    if(pos >= 0){
+                        this.focusPosition(pos);
+                    }else if(config.loop){
+                        //loop allowed, so returns to the first element
                         this.focusPosition(0);
-                        this.trigger('next', getCursor());
                     }else{
+                        //reaching the end of the list
                         this.trigger('upperbound', cursor);
                     }
+                    this.trigger('next', getCursor());
+                }else{
+                    this.focusPosition(0);
                 }
             },
             previous : function previous(){
                 var cursor = getCursor();
-                if(cursor && $navigables[cursor.position-1]){
-                    //todo find next visible focusable element
-                    this.focusPosition(cursor.position-1);
-                    this.trigger('previous', getCursor());
-                }else{
-                    if(config.loop){
+                var i;
+                var pos;
+                if(cursor){
+                    for(i = cursor.position -1; i >= 0; i--){
+                        if($navigables[i] && $($navigables[i]).is(':visible')){
+                            pos = i;
+                            break;
+                        }
+                    }
+                    if(pos >= 0){
+                        this.focusPosition(pos);
+                    }else if(config.loop){
+                        //loop allowed, so returns to the first element
                         this.focusPosition($navigables.length - 1);
-                        this.trigger('previous', getCursor());
                     }else{
+                        //reaching the end of the list
                         this.trigger('lowerbound', cursor);
                     }
+                    this.trigger('previous', getCursor());
+                }else{
+                    this.focusPosition(0);
                 }
             },
             activate : function activate(){
