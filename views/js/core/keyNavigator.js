@@ -95,8 +95,17 @@ define([
 
         var getClosestPositionRight = function getClosestPositionRight(fromPosition){
             var pos;
-            fromPosition = fromPosition||0;
             for(pos = fromPosition; pos < $navigables.length; pos++){
+                if($navigables[pos] && $($navigables[pos]).is(':visible')){
+                    return pos;
+                }
+            }
+            return -1;
+        }
+
+        var getClosestPositionLeft = function getClosestPositionLeft(fromPosition){
+            var pos;
+            for(pos = fromPosition; pos >= 0; pos--){
                 if($navigables[pos] && $($navigables[pos]).is(':visible')){
                     return pos;
                 }
@@ -118,23 +127,17 @@ define([
             },
             next : function next(){
                 var cursor = getCursor();
-                var i;
                 var pos;
                 if(cursor){
-                    for(i = cursor.position + 1; i < $navigables.length; i++){
-                        if($navigables[i] && $($navigables[i]).is(':visible')){
-                            pos = i;
-                            break;
-                        }
-                    }
+                    pos = getClosestPositionRight(cursor.position + 1);
                     if(pos >= 0){
                         this.focusPosition(pos);
                     }else if(config.loop){
                         //loop allowed, so returns to the first element
-                        this.focusPosition(0);
+                        this.focusPosition(getClosestPositionRight(0));
                     }else{
                         //reaching the end of the list
-                        this.trigger('upperbound', cursor);
+                        this.trigger('upperbound');
                     }
                     this.trigger('next', getCursor());
                 }else{
@@ -143,23 +146,17 @@ define([
             },
             previous : function previous(){
                 var cursor = getCursor();
-                var i;
                 var pos;
                 if(cursor){
-                    for(i = cursor.position -1; i >= 0; i--){
-                        if($navigables[i] && $($navigables[i]).is(':visible')){
-                            pos = i;
-                            break;
-                        }
-                    }
+                    pos = getClosestPositionLeft(cursor.position - 1);
                     if(pos >= 0){
                         this.focusPosition(pos);
                     }else if(config.loop){
                         //loop allowed, so returns to the first element
-                        this.focusPosition($navigables.length - 1);
+                        this.focusPosition(getClosestPositionLeft($navigables.length - 1));
                     }else{
                         //reaching the end of the list
-                        this.trigger('lowerbound', cursor);
+                        this.trigger('lowerbound');
                     }
                     this.trigger('previous', getCursor());
                 }else{
@@ -179,9 +176,9 @@ define([
             },
             focus : function focus(){
                 if(config.keepState && _cursor && _cursor.position >= 0){
-                    this.focusPosition(_cursor.position);
+                    this.focusPosition(getClosestPositionRight(_cursor.position));
                 }else{
-                    this.focusPosition(0);
+                    this.focusPosition(getClosestPositionRight(0));
                 }
             },
             focusPosition : function focusPosition(position){
