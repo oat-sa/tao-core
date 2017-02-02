@@ -43,26 +43,6 @@ define([
         var _cursor = {
             position : 0
         };
-        _.each(groups, function(groupId){
-            var navigationGroup = keyNavigator.get(groupId);
-            var $group = navigationGroup.getGroup();
-
-            if(!$group.length || !$.contains(document, $group[0])){
-                throw new Error('the group dom element does not exists');
-            }
-
-            //add the focusin and focus out class for group highlighting
-            $group.on('focusin'+_ns, function(){
-                $group.addClass('focusin');
-            }).on('focusout'+_ns, function(){
-                $group.removeClass('focusin');
-            });
-
-            navigationGroups.push({
-                group : navigationGroup,
-                $dom : $group
-            });
-        });
 
         var getCursor = function getCursor(){
             var isFocused = false;
@@ -110,6 +90,35 @@ define([
             }else{
                 throw new Error('the navigation group id is already in use : '+id);
             }
+        }
+
+        _.each(groups, function(groupId){
+            var navigationGroup = keyNavigator.get(groupId);
+            var $group = navigationGroup.getGroup();
+
+            if(!$group.length || !$.contains(document, $group[0])){
+                throw new Error('the group dom element does not exists');
+            }
+
+            //add the focusin and focus out class for group highlighting
+            $group.on('focusin'+_ns, function(){
+                $group.addClass('focusin');
+            }).on('focusout'+_ns, function(){
+                $group.removeClass('focusin');
+            });
+
+            navigationGroups.push({
+                group : navigationGroup,
+                $dom : $group
+            });
+
+        });
+
+
+        var initialCursor = getCursor();
+        if(initialCursor){
+            //if the focus is on the element before the refresh, refocus again
+            navigationGroups[getClosestPositionRight(initialCursor.position)].$dom.trigger('focus');
         }
 
         var groupNavigator = eventifier({

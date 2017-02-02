@@ -68,15 +68,6 @@ define([
             $dom : null
         };
 
-        $navigables.each(function(){
-            var $navigable = $(this);
-            if(!$navigable.length){
-                throw new Error('dom element does not exist');
-            }
-            $navigable.attr('tabindex', -1);//add simply a tabindex to enable focusing, this tabindex is not actually used in tabbing order
-            $navigable.addClass('key-navigation-highlight');
-        });
-
         var getCursor = function getCursor(){
 
             var isFocused = false;
@@ -99,15 +90,6 @@ define([
 
             return null;
         };
-
-        /**
-         * Set cursor to initial position
-         */
-        var resetCursor = function resetCursor(){
-            var position = getClosestPositionRight(0);
-            _cursor.position = position;
-            _cursor.$dom = $navigables[position];
-        }
 
         var getClosestPositionRight = function getClosestPositionRight(fromPosition){
             var pos;
@@ -136,6 +118,19 @@ define([
                 throw new Error('the navigation group id is already in use : '+id);
             }
         }
+
+        if(!$navigables.length){
+            throw new Error('no navigation element');
+        }
+
+        $navigables.each(function(){
+            var $navigable = $(this);
+            if(!$navigable.length){
+                throw new Error('dom element does not exist');
+            }
+            $navigable.attr('tabindex', -1);//add simply a tabindex to enable focusing, this tabindex is not actually used in tabbing order
+            $navigable.addClass('key-navigation-highlight');
+        });
 
         if(config.group){
             $group = $(config.group);
