@@ -26,6 +26,8 @@ define([
 
     var _groupNavigators = {};
 
+    var _ns = '.group-navigator';
+
     var _defaults = {
         replace : false,
         loop : true
@@ -49,9 +51,10 @@ define([
                 throw new Error('the group dom element does not exists');
             }
 
-            $group.on('focusin', function(){
+            //add the focusin and focus out class for group highlighting
+            $group.on('focusin'+_ns, function(){
                 $group.addClass('focusin');
-            }).on('focusout', function(){
+            }).on('focusout'+_ns, function(){
                 $group.removeClass('focusin');
             });
 
@@ -62,9 +65,7 @@ define([
         });
 
         var getCursor = function getCursor(){
-
             var isFocused = false;
-
             if (document.activeElement) {
                 _.forEach(navigationGroups, function(navigationGroup, index) {
                     var groupElement = navigationGroup.$dom.get(0);
@@ -124,7 +125,6 @@ define([
                         this.focusPosition(pos);
                     }else if(config.loop){
                         //loop allowed, so returns to the first element
-
                         this.focusPosition(getClosestPositionRight(0));
                     }else{
                         //reaching the end of the list
@@ -143,7 +143,7 @@ define([
                     if(pos >= 0){
                         this.focusPosition(pos);
                     }else if(config.loop){
-                        //loop allowed, so returns to the first element
+                        //loop allowed, so returns to the last element
                         this.focusPosition(getClosestPositionLeft(navigationGroups.length - 1));
                     }else{
                         //reaching the end of the list
@@ -156,6 +156,7 @@ define([
             },
             focusPosition : function focusPosition(position){
                 if(navigationGroups[position]){
+                    _cursor.position = position;
                     navigationGroups[position].group.focus();
                     this.trigger('focus', navigationGroups[position]);
                 }
@@ -164,11 +165,14 @@ define([
                 _.each(navigationGroups, function(group){
                     group.$dom
                         .removeClass('focusin')
-                        .off('.navigation-group');
+                        .off(_ns);
                 });
                 delete _groupNavigators[id];
             }
         });
+
+        //store the navigator for external reference
+        _groupNavigators[id] = groupNavigator;
 
         return groupNavigator;
     }
@@ -178,7 +182,6 @@ define([
             return _groupNavigators[id];
         }
     };
-
 
     return groupNavigatorFactory;
 });

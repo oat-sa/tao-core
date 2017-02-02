@@ -23,14 +23,9 @@ define([
 ], function($, _, eventifier){
     'use strict';
 
-    var KEY_CODE_SPACE = 32;
-    var KEY_CODE_ENTER = 13;
-    var KEY_CODE_LEFT  = 37;
-    var KEY_CODE_UP    = 38;
-    var KEY_CODE_RIGHT = 39;
-    var KEY_CODE_DOWN  = 40;
-
     var _navigationGroups = {};
+
+    var _ns = '.navigation-group';
 
     var _defaults = {
         default : 0,
@@ -39,28 +34,47 @@ define([
         loop : false
     };
 
+    var KEY_CODE_SPACE = 32;
+    var KEY_CODE_ENTER = 13;
+    var KEY_CODE_LEFT  = 37;
+    var KEY_CODE_UP    = 38;
+    var KEY_CODE_RIGHT = 39;
+    var KEY_CODE_DOWN  = 40;
+
+    var getArrowKeyMap = function getArrowKeyMap(){
+        var map = {};
+        map[KEY_CODE_UP] = 'up';
+        map[KEY_CODE_LEFT] = 'left';
+        map[KEY_CODE_DOWN] = 'down';
+        map[KEY_CODE_RIGHT] = 'right';
+        return map;
+    }
+
+    var getActivateKey = function getActivateKey(){
+        return [KEY_CODE_SPACE, KEY_CODE_ENTER];
+    }
+
     var navigationGroupFactory = function navigationGroupFactory(config){
 
         config = _.defaults(config, _defaults);
 
         var id = config.id;
         var $navigables = $(config.elements);
+        var arrowKeyMap = getArrowKeyMap();
+        var activationKeys = getActivateKey();
         var $group;
         var _cursor = {
             position : -1,
             $dom : null
         };
 
-        var i = 0;
         $navigables.each(function(){
             var $navigable = $(this);
             if(!$navigable.length){
                 throw new Error('dom element does not exist');
             }
-            $navigable.attr('data-navigation-order', i);
-            $navigable.attr('tabindex', -1);
+            $navigable.attr('tabindex', -1);//add simply a tabindex to enable focusing, this tabindex is not actually used in tabbing order
             $navigable.addClass('key-navigation-highlight');
-            i++;
         });
 
         var getCursor = function getCursor(){
@@ -132,6 +146,9 @@ define([
             }
         }
 
+        /**
+         * Create a navigation group object
+         */
         var navigationGroup = eventifier({
             getId : function(){
                 return id;
@@ -204,35 +221,26 @@ define([
                 }
             },
             destroy : function destroy(){
-                $navigables.off('.navigation-group');
+                $navigables.off(_ns);
                 delete _navigationGroups[id];
             }
         });
 
-        //replace this by events
-        var map = {};
-        map[KEY_CODE_UP] = 'up';
-        map[KEY_CODE_LEFT] = 'left';
-        map[KEY_CODE_DOWN] = 'down';
-        map[KEY_CODE_RIGHT] = 'right';
-        var activateKeys = [KEY_CODE_SPACE, KEY_CODE_ENTER];
-
-        $navigables.on('keydown.navigation-group', function(e){
+        //internal key bindings
+        $navigables.on('keydown'+_ns, function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(map[keyCode]){
-                //e.preventDefault();
-                //e.stopPropagation();
-                navigationGroup.trigger(map[keyCode]);
+            if(arrowKeyMap[keyCode]){
+                navigationGroup.trigger(arrowKeyMap[keyCode]);
             }
-        }).on('keyup.navigation-group', function(e){
+        }).on('keyup'+_ns, function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(activateKeys.indexOf(keyCode) >= 0){
+            if(activationKeys.indexOf(keyCode) >= 0){
                 e.preventDefault();
-                //e.stopPropagation();
                 navigationGroup.activate();
             }
         });
 
+        //store the navigator for external reference
         _navigationGroups[id] = navigationGroup;
 
         return navigationGroup;
