@@ -33,6 +33,7 @@ define([
     var _navigationGroups = {};
 
     var _defaults = {
+        default : 0,
         keepState : false,
         replace : false,
         loop : false
@@ -44,7 +45,7 @@ define([
 
         var id = config.id;
         var $navigables = $(config.elements);
-
+        var $group;
         var _cursor = {
             position : -1,
             $dom : null
@@ -53,9 +54,12 @@ define([
         var i = 0;
         $navigables.each(function(){
             var $navigable = $(this);
+            if(!$navigable.length){
+                throw new Error('dom element does not exist');
+            }
             $navigable.attr('data-navigation-order', i);
-            $(this).attr('tabindex', -1);
-            $(this).addClass('key-navigation-highlight');
+            $navigable.attr('tabindex', -1);
+            $navigable.addClass('key-navigation-highlight');
             i++;
         });
 
@@ -66,9 +70,7 @@ define([
             if (document.activeElement) {
                 // try to find the focused element within the known list of focusable elements
                 _.forEach($navigables, function(focusable, index) {
-                    if (document.activeElement === focusable
-                        || $.contains(focusable, document.activeElement)
-                    ) {
+                    if (document.activeElement === focusable) {
                         _cursor.position = index;
                         _cursor.$dom = $(focusable);
                         isFocused = true;
@@ -121,9 +123,21 @@ define([
             }
         }
 
+        if(config.group){
+            $group = $(config.group);
+            if($group.length){
+                $group
+                    .addClass('key-navigation-group')
+                    .attr('data-navigation-id', id);
+            }
+        }
+
         var navigationGroup = eventifier({
             getId : function(){
                 return id;
+            },
+            getGroup : function(){
+                return $group;
             },
             next : function next(){
                 var cursor = getCursor();
@@ -178,7 +192,7 @@ define([
                 if(config.keepState && _cursor && _cursor.position >= 0){
                     this.focusPosition(getClosestPositionRight(_cursor.position));
                 }else{
-                    this.focusPosition(getClosestPositionRight(0));
+                    this.focusPosition(getClosestPositionRight(config.default));
                 }
             },
             focusPosition : function focusPosition(position){
@@ -213,7 +227,7 @@ define([
         }).on('keyup.navigation-group', function(e){
             var keyCode = e.keyCode ? e.keyCode : e.charCode;
             if(activateKeys.indexOf(keyCode) >= 0){
-                //e.preventDefault();
+                e.preventDefault();
                 //e.stopPropagation();
                 navigationGroup.activate();
             }
@@ -223,6 +237,17 @@ define([
 
         return navigationGroup;
     }
+
+    navigationGroupFactory.get = function get(id){
+        if(_navigationGroups[id]){
+            return _navigationGroups[id];
+        }
+    };
+
+    navigationGroupFactory.getAll = function getAll(id){
+        //return object references only
+        return _.clone(_navigationGroups[id]);
+    };
 
     return navigationGroupFactory;
 });
