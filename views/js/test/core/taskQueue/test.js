@@ -98,7 +98,7 @@ define([
                 assert.ok(false, 'should not be triggered here');
             }).on('error', function () {
                 assert.ok(false, 'should not be triggered here');
-            }).pollStatus();
+            }).pollStatus('task#65480abc');
     });
 
     QUnit.asyncTest('remove', function (assert){
@@ -106,8 +106,8 @@ define([
         QUnit.expect(4);
 
         var statusUrl = '/tao/views/js/test/core/taskQueue/data-status-archived.json';
-        var taskQueue = taskQueueApi({url:{status: statusUrl}});
-        var status = taskQueue.getStatus('task#65480abc');
+        var taskQueue = taskQueueApi({url:{remove: statusUrl}});
+        var status = taskQueue.remove('task#65480abc');
 
         assert.ok(status instanceof Promise, 'getStatus returns a Promise');
 

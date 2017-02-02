@@ -18,6 +18,36 @@
 
 /**
  * Task queue management API
+ *
+ * @example
+ * //instantiate
+ * var taskQueue = taskQueueApi({
+ *       url:{
+ *           status : 'http://my.server/taskQueue/status',
+ *           remove : 'http://my.server/taskQueue/remove'
+ *       }
+ *   });
+ *
+ * @example
+ * //get status
+ * taskQueue.getStatus('task#65480abc').then(function(taskData){
+ *     console.log('the task status is ', taskData.status);
+ * });
+ *
+ * @example
+ * //poll status
+ * taskQueue.
+ *     on('finished', function(){
+ *           console.log('task task#65480abc is finished');
+ *     }).pollStatus('task#65480abc');
+ *
+ * @example
+ * //remove status
+ * taskQueue.remove('task#65480abc').then(function(taskData){
+ *     console.log('task task#65480abc is removed');
+ * });
+ *
+ * @author Sam <sam@taotesting.com>
  */
 define([
     'lodash',

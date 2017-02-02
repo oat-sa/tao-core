@@ -15,6 +15,19 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * Create a task queue status component to poll task's status
+ *
+ * @example
+ * taskQueueStatusFactory({
+ *       serviceUrl:'http://my.server/taskQueue/Status',
+ *       taskId:'task#123456xyz'
+ * })
+ * .on('finished')
+ * .render('body')
+ * .start();
+ */
 define([
     'jquery',
     'lodash',
@@ -97,6 +110,11 @@ define([
          * @param taskReport
          * @returns {Object} a ui/report component
          * @private
+         * @see ui/report
+         * @fires reportComponent#showDetails
+         * @fires reportComponent#hideDetails
+         * @fires reportComponent#action
+         * @fires reportComponent#action-{custom action name}
          */
         var createReport = function createReport(reportType, message, taskReport){
             var reportData = {
@@ -125,6 +143,14 @@ define([
                 .render(taskQueueStatus.getElement());
         }
 
+        /**
+         * The task queue status component
+         * @typedef taskQueueStatus
+         * @see ui/component
+         * @fires taskQueueStatus#running after every loop
+         * @fires taskQueueStatus#finished when the task is complete
+         * @fires taskQueueStatus#statechange on each task state change
+         */
         taskQueueStatus = component(statusComponent)
             .setTemplate(statusTpl)
             .on('destroy', function () {
@@ -146,9 +172,9 @@ define([
                                 status : _status.running
                             }));
                             self.status = 'running';
-                            self.trigger('running', taskData);
                             self.trigger('statechange', self.status);
                         }
+                        self.trigger('running', taskData);
                     }).on('finished', function (taskData) {
                         if(self.status !== 'finished'){
                             self.report = createReport(taskData.report.type || 'info', messageTpl({

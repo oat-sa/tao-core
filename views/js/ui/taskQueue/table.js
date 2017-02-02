@@ -16,6 +16,18 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  *
  */
+
+/**
+ * Create a task queue status component to poll task's status
+ *
+ * @example
+ * taskQueueTableFactory({
+ *       context:'studentimport',
+ *       dataUrl : 'http://my.server/taskQueue/list',
+ *       statusUrl : 'http://my.server/taskQueue/status',
+ *       removeUrl : 'http://my.server/taskQueue/remove'
+ *   }).init().render('body')
+ */
 define([
     'jquery',
     'lodash',
@@ -80,6 +92,7 @@ define([
         /**
          * Display a report for a task
          * @param taskId
+         * @returns {taskQueueTable}
          */
         showReport : function showReport(taskId) {
             var status;
@@ -118,6 +131,9 @@ define([
         /**
          * Remove a task from the datatable
          * @param taskId
+         * @returns {taskQueueTable}
+         * @fires taskQueueTable#removed
+         * @fires taskQueueTable#error
          */
         remove : function remove(taskId){
             var self = this;
@@ -147,9 +163,12 @@ define([
         }
 
         /**
-         * The component.
-         *
+         * The task queue table component
+         * @typedef taskQueueTable
          * @see ui/component
+         * @fires taskQueueTable#loading when the table is loading
+         * @fires taskQueueTable#loaded when the data is loaded
+         * @fires taskQueueTable#refresh when refreshing table content
          */
         return component(taskQueueTable, config)
             .on('init', function(){

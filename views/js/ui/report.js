@@ -19,7 +19,7 @@
 /**
  * Simple component to display a standard report
  *
- * Example:
+ * @example
  * report({
  *       actions: [{
  *           id: 'continue',
@@ -101,6 +101,7 @@ define([
          * Show the report details
          * 
          * @returns {this}
+         * @fires reportComponent#showDetails
          */
         showDetails : function showDetails(){
             if(this.is('rendered')){
@@ -111,9 +112,10 @@ define([
             return this;
         },
         /**
-         * HIde the report details
+         * Hide the report details
          *
          * @returns {this}
+         * @fires reportComponent#hideDetails
          */
         hideDetails : function hideDetails(){
             if(this.is('rendered')) {
@@ -126,26 +128,7 @@ define([
     };
 
     /**
-     * Simple component to display a standard report
-     *
-     * Example:
-     * report({
-     *       actions: [{
-     *           id: 'continue',
-     *           icon: 'right',
-     *           title: 'Continue to next step',
-     *           label: 'Continue'
-     *       }]
-     *   }, {
-     *       type: "warning",
-     *       message: "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-     *       children: [{
-     *           type: "error",
-     *          message: "Row 1 Student Number Identifier"
-     *       }]
-     *   }).on('action-continue', function () {
-     *       console.log('go to next step');
-     *   }).render('body');
+     * Create a simple report component
      *
      * @param {Object} config
      * @param {Boolean} [config.showDetailsButton=true] - display the show/hide details toggle
@@ -156,7 +139,7 @@ define([
      * @param {Array} [data.children] - children report object
      * @returns {reportComponent}
      */
-    var reportComponent = function reportComponent(config, data) {
+    var reportComponentFactory = function reportComponentFactory(config, data) {
 
         var initConfig = _.defaults(config || {}, _defaults);
 
@@ -164,6 +147,12 @@ define([
              initConfig.detailsButtonVisible = initConfig.showDetailsButton;
         }
 
+        /**
+         * THe report component
+         * @typedef reportComponent
+         * @fires reportComponent#action
+         * @fires reportComponent#action-{custom action name}
+         */
         return component(report)
             .setTemplate(layoutTpl)
             .on('render', function () {
@@ -192,5 +181,5 @@ define([
             .init(initConfig);
     }
 
-    return reportComponent;
+    return reportComponentFactory;
 });
