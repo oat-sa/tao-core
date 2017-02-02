@@ -50,12 +50,16 @@ define([
     QUnit
         .cases(reportApi)
         .test('instance API ', function (data, assert) {
+            QUnit.expect(1);
             var instance = report();
             assert.equal(typeof instance[data.name], 'function', 'The report instance exposes a "' + data.title + '" function');
         });
 
 
     QUnit.test('init', function (assert) {
+
+        QUnit.expect(12);
+
         var config = {
             nothing: undefined,
             dummy: null,
@@ -90,6 +94,8 @@ define([
 
     QUnit.asyncTest('simple report', function (assert) {
 
+        QUnit.expect(7);
+
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
             "type": "warning",
@@ -112,6 +118,8 @@ define([
     });
 
     QUnit.asyncTest('simple report with actions', function (assert) {
+
+        QUnit.expect(9);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
@@ -153,6 +161,8 @@ define([
     });
 
     QUnit.asyncTest('hierarchical report', function (assert) {
+
+        QUnit.expect(6);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
@@ -206,6 +216,8 @@ define([
 
     QUnit.asyncTest('trigger actions', function (assert) {
 
+        QUnit.expect(11);
+
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
             "type": "warning",
@@ -254,6 +266,8 @@ define([
 
 
     QUnit.asyncTest('toggle details', function (assert) {
+
+        QUnit.expect(14);
 
         var $fixtureContainer = $('#qunit-fixture');
         var sampleData = {
@@ -330,23 +344,5 @@ define([
             }).render($fixtureContainer);
 
     });
-
-    report({
-            actions: [{
-                id: 'continue',
-                icon: 'right',
-                title: 'Continue to next step',
-                label: 'Continue'
-            }]
-        }, {
-            type: "warning",
-            message: "<em>Data not imported. All records are <strong>invalid.</strong></em>",
-            children: [{
-                type: "error",
-                message: "Row 1 Student Number Identifier"
-            }]
-        }).on('action-continue', function () {
-            console.log('go to next step');
-        }).render('body');
 
 });

@@ -55,6 +55,8 @@ define([
 
     QUnit.asyncTest('get status', function (assert){
 
+        QUnit.expect(4);
+
         var statusUrl = '/tao/views/js/test/core/taskQueue/data-status-running.json';
         var taskQueue = taskQueueApi({url:{status: statusUrl}});
         var status = taskQueue.getStatus('task#65480abc');
@@ -101,6 +103,8 @@ define([
 
     QUnit.asyncTest('remove', function (assert){
 
+        QUnit.expect(4);
+
         var statusUrl = '/tao/views/js/test/core/taskQueue/data-status-archived.json';
         var taskQueue = taskQueueApi({url:{status: statusUrl}});
         var status = taskQueue.getStatus('task#65480abc');
@@ -118,6 +122,8 @@ define([
     QUnit.module('Error handling');
 
     QUnit.asyncTest('get status (invalid server data)', function (assert){
+
+        QUnit.expect(4);
 
         var statusUrl = '/tao/views/js/test/core/taskQueue/data-error.json';
         var error;
@@ -140,6 +146,8 @@ define([
     });
 
     QUnit.asyncTest('get status (no url)', function (assert){
+
+        QUnit.expect(4);
 
         var error;
         var taskQueue = taskQueueApi({})
@@ -175,6 +183,8 @@ define([
 
     QUnit.asyncTest('remove (invalid server data)', function (assert){
 
+        QUnit.expect(4);
+
         var statusUrl = '/tao/views/js/test/core/taskQueue/data-error.json';
         var error;
         var taskQueue = taskQueueApi({url:{remove: statusUrl}})
@@ -197,6 +207,8 @@ define([
 
     QUnit.asyncTest('remove (no url)', function (assert){
 
+        QUnit.expect(4);
+
         var error;
         var taskQueue = taskQueueApi({})
             .on('error', function(err){
@@ -217,6 +229,8 @@ define([
     });
 
     QUnit.asyncTest('remove (wrong status)', function (assert){
+
+        QUnit.expect(4);
 
         var serviceUrl = '/tao/views/js/test/core/taskQueue/data-status-finished.json';
         var error;

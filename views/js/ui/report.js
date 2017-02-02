@@ -15,6 +15,31 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * Simple component to display a standard report
+ *
+ * Example:
+ * report({
+ *       actions: [{
+ *           id: 'continue',
+ *           icon: 'right',
+ *           title: 'Continue to next step',
+ *           label: 'Continue'
+ *       }]
+ *   }, {
+ *       type: "warning",
+ *       message: "<em>Data not imported. All records are <strong>invalid.</strong></em>",
+ *       children: [{
+ *           type: "error",
+ *          message: "Row 1 Student Number Identifier"
+ *       }]
+ *   }).on('action-continue', function () {
+ *       console.log('go to next step');
+ *   }).render('body');
+ *
+ * @author Sam <sam@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -70,7 +95,7 @@ define([
          * @returns {Boolean}
          */
         isDetailed : function isDetailed(){
-            return this.$component.hasClass('detailed');
+            return this.is('detailed');
         },
         /**
          * Show the report details
@@ -78,9 +103,11 @@ define([
          * @returns {this}
          */
         showDetails : function showDetails(){
-            this.$component.addClass('detailed');
-            this.$component.find('.fold input').prop('checked', true);
-            this.trigger('showDetails');
+            if(this.is('rendered')){
+                this.setState('detailed', true);
+                this.getElement().find('.fold input').prop('checked', true);
+                this.trigger('showDetails');
+            }
             return this;
         },
         /**
@@ -89,9 +116,11 @@ define([
          * @returns {this}
          */
         hideDetails : function hideDetails(){
-            this.$component.removeClass('detailed');
-            this.$component.find('.fold input').prop('checked', false);
-            this.trigger('hideDetails');
+            if(this.is('rendered')) {
+                this.setState('detailed');
+                this.getElement().find('.fold input').prop('checked', false);
+                this.trigger('hideDetails');
+            }
             return this;
         }
     };
@@ -140,8 +169,8 @@ define([
             .on('render', function () {
 
                 var self = this;
-                var $content = this.$component.find('.content');
-                var $checkbox = this.$component.find('.fold input');
+                var $content = this.getElement().find('.content');
+                var $checkbox = this.getElement().find('.fold input');
                 $content.append(_renderFeebacks(data, this.config.actions));
 
                 //init actions:

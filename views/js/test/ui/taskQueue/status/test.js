@@ -75,10 +75,10 @@ define([
     QUnit.module('Rendering');
 
     QUnit.asyncTest('status running', function (assert){
+        QUnit.expect(6);
 
         var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-running.json';
         var $fixtureContainer = $('#qunit-fixture');
-        //var $fixtureContainer = $('#qunit-fixture-external');
         var status = taskQueueStatusFactory({
             taskId:'task#123456xyz',
             serviceUrl:serviceUrl
@@ -105,10 +105,10 @@ define([
     });
 
     QUnit.asyncTest('status finished', function (assert){
+        QUnit.expect(7);
 
         var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-finished.json';
         var $fixtureContainer = $('#qunit-fixture');
-        //var $fixtureContainer = $('#qunit-fixture-external');
         var status = taskQueueStatusFactory({
             taskId:'task#123456xyz',
             serviceUrl:serviceUrl
@@ -138,10 +138,10 @@ define([
     QUnit.module('Behaviour');
 
     QUnit.asyncTest('toggle details', function (assert){
+        QUnit.expect(16);
 
         var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-finished.json';
         var $fixtureContainer = $('#qunit-fixture');
-        var $fixtureContainer = $('#qunit-fixture-external');
         var status = taskQueueStatusFactory({
             taskId:'task#123456xyz',
             serviceUrl:serviceUrl

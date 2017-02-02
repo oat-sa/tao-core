@@ -24,9 +24,10 @@ define([
     'core/taskQueue',
     'ui/component',
     'ui/taskQueue/status',
+    'tpl!ui/taskQueue/tpl/report',
     'ui/datatable',
     'ui/modal'
-], function ($, _, __, moment, taskQueueApi, component, taskQueueStatusFactory) {
+], function ($, _, __, moment, taskQueueApi, component, taskQueueStatusFactory, reportTpl) {
     'use strict';
 
     var _defaults = {
@@ -86,7 +87,7 @@ define([
             var $dataTable = this.$component.find('.datatable-wrapper');
 
             if(!$report.length){
-                $report = $('<div class="report-container"></div>');
+                $report = $(reportTpl());
                 this.$component.append($report);
             }
 

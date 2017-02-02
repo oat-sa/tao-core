@@ -172,7 +172,7 @@ define([
 
                 status = request(config.url.remove, {taskId : taskId})
                     .then(function(taskData){
-                        if(taskData.status === 'archived'){
+                        if(taskData && taskData.status === 'archived'){
                             return Promise.resolve(taskData);
                         }else{
                             return Promise.reject(new Error('removed task status should be archived'));

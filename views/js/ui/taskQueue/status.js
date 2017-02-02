@@ -66,43 +66,6 @@ define([
                 this.taskQueueApi.pollStop();
             }
             return this;
-        },
-
-        /**
-         * Create a report
-         *
-         * @param {String} reportType - the top report type
-         * @param {String} message - the top report message
-         * @param taskReport
-         * @returns {Object} a ui/report component
-         * @private
-         */
-        _createReport : function _createReport(reportType, message, taskReport){
-            var self = this;
-            var reportData = {
-                type: reportType,
-                message: message,
-            };
-
-            if(_.isPlainObject(taskReport) && taskReport.type){
-                reportData.children = [taskReport];
-            }
-
-            return report({
-                    replace : true,
-                    noBorder : true,
-                    showDetailsButton : this.config.showDetailsButton,
-                    actions : this.config.actions
-                }, reportData)
-                .on('action', function(actionId){
-                    self.trigger('action-' + actionId);
-                    self.trigger('action', actionId);
-                }).on('showDetails', function(){
-                    self.trigger('showDetails');
-                }).on('hideDetails', function(){
-                    self.trigger('hideDetails');
-                })
-                .render(self.$component);
         }
     }
 
@@ -118,13 +81,51 @@ define([
      */
     return function taskQueueStatusComponent(config) {
 
-        var config = _.defaults(config || {}, _defaults);
+        var taskQueueStatus;
+
+        config = _.defaults(config || {}, _defaults);
 
         if (_.isEmpty(config.serviceUrl)) {
             throw new TypeError('The task queue status needs to be configured with a service url');
         }
 
-        return component(statusComponent)
+        /**
+         * Create a report
+         *
+         * @param {String} reportType - the top report type
+         * @param {String} message - the top report message
+         * @param taskReport
+         * @returns {Object} a ui/report component
+         * @private
+         */
+        var createReport = function createReport(reportType, message, taskReport){
+            var reportData = {
+                type: reportType,
+                message: message,
+            };
+
+            if(_.isPlainObject(taskReport) && taskReport.type){
+                reportData.children = [taskReport];
+            }
+
+            return report({
+                replace : true,
+                noBorder : true,
+                showDetailsButton : config.showDetailsButton,
+                actions : config.actions
+            }, reportData)
+                .on('action', function(actionId){
+                    taskQueueStatus.trigger('action-' + actionId);
+                    taskQueueStatus.trigger('action', actionId);
+                }).on('showDetails', function(){
+                    taskQueueStatus.trigger('showDetails');
+                }).on('hideDetails', function(){
+                    taskQueueStatus.trigger('hideDetails');
+                })
+                .render(taskQueueStatus.getElement());
+        }
+
+        taskQueueStatus = component(statusComponent)
             .setTemplate(statusTpl)
             .on('destroy', function () {
                 if (this.taskQueueApi) {
@@ -135,12 +136,12 @@ define([
 
                 var self = this;
 
-                self.report = self._createReport('info', __('Loading task status ...'));
+                self.report = createReport('info', __('Loading task status ...'));
 
                 this.taskQueueApi = taskQueue({url:{status: config.serviceUrl}})
                     .on('running', function (taskData) {
                         if(self.status !== 'running'){
-                            self.report = self._createReport('info', messageTpl({
+                            self.report = createReport('info', messageTpl({
                                 name : taskData.label,
                                 status : _status.running
                             }));
@@ -150,7 +151,7 @@ define([
                         }
                     }).on('finished', function (taskData) {
                         if(self.status !== 'finished'){
-                            self.report = self._createReport(taskData.report.type || 'info', messageTpl({
+                            self.report = createReport(taskData.report.type || 'info', messageTpl({
                                     name : taskData.label,
                                     status : _status.finished
                                 }), taskData.report || {})
@@ -164,5 +165,7 @@ define([
                     })
             })
             .init(config);
+
+        return taskQueueStatus;
     }
 });

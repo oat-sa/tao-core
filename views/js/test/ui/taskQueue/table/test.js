@@ -73,7 +73,6 @@ define([
 
         var context = 'oneTypeOfSuperLongTask';
         var $fixtureContainer = $('#qunit-fixture');
-        var $fixtureContainer = $('#qunit-fixture-external');
         var taskTable = taskQueueTableFactory({context:context});
 
         taskTable
