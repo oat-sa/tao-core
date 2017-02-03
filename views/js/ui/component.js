@@ -74,6 +74,9 @@ define([
         var $container;
 
         // base skeleton
+        /**
+         * @typedef {Object} Component
+         */
         var componentApi = {
             /**
              * Initializes the component

@@ -93,7 +93,7 @@ define([
      * above the bar.
      * @type {Number}
      */
-    var volumePositionThreshold = 150;
+    var volumePositionThreshold = 200;
 
     /**
      * Some default values
@@ -1545,12 +1545,8 @@ define([
 
             if (!this.is('youtube')) {
                 page = new UrlParser(window.location);
-                _.forEach(this.config.sources, function(source) {
-                    var url = new UrlParser(source.src);
-                    if (!url.checkCORS(page)) {
-                        isCORS = true;
-                        return false;
-                    }
+                isCORS = _.some(this.config.sources, function(source) {
+                    return !page.sameDomain(source.src);
                 });
             }
 
@@ -1701,7 +1697,7 @@ define([
                 if(!overing && !self.$volumeControl.hasClass('up') && !self.$volumeControl.hasClass('down')) {
                     overing = true;
                     position = self.$controls[0].getBoundingClientRect();
-                    if(position && position.y && position.y < volumePositionThreshold){
+                    if(position && position.top && position.top < volumePositionThreshold){
                         self.$volumeControl.addClass('down');
                     } else {
                         self.$volumeControl.addClass('up');
