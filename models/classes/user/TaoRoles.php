@@ -23,4 +23,6 @@ namespace oat\tao\model\user;
 interface TaoRoles
 {
     const ANONYMOUS = 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole';
+    
+    const BACK_OFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
 }
