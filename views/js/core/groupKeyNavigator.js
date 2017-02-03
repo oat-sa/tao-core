@@ -137,11 +137,15 @@ define([
         }
 
         _.each(groups, function(groupId){
+            var $group;
             var navigationGroup = keyNavigator.get(groupId);
-            var $group = navigationGroup.getGroup();
+            if(!navigationGroup){
+                throw new TypeError('the navigation group does not exist');
+            }
 
+            $group = navigationGroup.getGroup();
             if(!$group.length || !$.contains(document, $group[0])){
-                throw new Error('the group dom element does not exists');
+                throw new TypeError('the group dom element does not exist');
             }
 
             //add the focusin and focus out class for group highlighting

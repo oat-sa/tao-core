@@ -250,7 +250,8 @@ define([
                     }
                     this.trigger('next', getCursor());
                 }else{
-                    this.focusPosition(getClosestPositionRight(0));
+                    //no cursor, might be blurred, so attempt resuming navigation from cursor in memory
+                    this.focusPosition(getClosestPositionRight(_cursor.position+1 || 0));
                 }
                 return this;
             },
@@ -278,7 +279,8 @@ define([
                     }
                     this.trigger('previous', getCursor());
                 }else{
-                    this.focusPosition(getClosestPositionRight(0));
+                    //no cursor, might be blurred, so attempt resuming navigation from cursor in memory
+                    this.focusPosition(getClosestPositionRight(_cursor.position-1 || 0));
                 }
                 return this;
             },
