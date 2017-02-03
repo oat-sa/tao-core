@@ -251,6 +251,8 @@ class tao_helpers_Array
         
         foreach ($arrays as $index => $arr) {
             
+            $counts[$index] = 0;
+            
             if (!is_array($arr)) {
                 return false;
             }
@@ -258,10 +260,9 @@ class tao_helpers_Array
             $arrayCountValues = array_count_values($arr);
             
             foreach ($values as $value) {
-                if (isset($arrayCountValues[$value])) {
-                    $counts[$index] = $arrayCountValues[$value];
-                } else {
-                    $counts[$index] = 0;
+                $keys = array_keys($arrayCountValues);
+                if (($search = array_search($value, $keys)) !== false) {
+                    $counts[$index] += $arrayCountValues[$keys[$search]];
                 }
             }
         }
@@ -271,6 +272,7 @@ class tao_helpers_Array
         
             return ($returnAll) ? $mins : $mins[0];
         } else {
+            
             return false;
         }
     }
