@@ -1,0 +1,10 @@
+{
+    "success": true,
+    "data": {
+        "id": "task#123456xyz",
+        "label": "My Task XYZ",
+        "creationDate": 1485442088,
+        "status": "running",
+        "report" : null
+    }
+}
