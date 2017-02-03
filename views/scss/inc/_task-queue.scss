@@ -1,0 +1,31 @@
+.task-queue-status{
+    .task-name{
+        font-weight: bold;
+    }
+    .task-status{
+        font-weight: bold;
+    }
+    height: 100%;
+    .component-report{
+        height: 100%;
+        .content{
+            height: 100%;
+            & > .hierarchical{
+                height: 100%;
+                & > .hierarchical {
+                    height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    & > .hierarchical-icon{
+                        display: none;
+                    }
+                    & > .message{
+                        font-weight: bold;
+                        position: relative;
+                        left: -10px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -668,13 +668,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.54.1');
         }
 
-	    $this->skip('7.54.1', '7.60.1');
+	    $this->skip('7.54.1', '7.61.0');
 
-        if ($this->isVersion('7.60.1')) {
+        if ($this->isVersion('7.61.0')) {
 
             $setClientLoggerConfig = new SetClientLoggerConfig();
             $setClientLoggerConfig([]);
-            $this->setVersion('7.61.0');
+            $this->setVersion('7.62.0');
         }
     }
 
