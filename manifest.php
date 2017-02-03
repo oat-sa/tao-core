@@ -21,6 +21,7 @@
  *
  */
 use oat\tao\scripts\install\AddLogFs;
+use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
 
@@ -84,9 +85,9 @@ return array(
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
-            dirname(__FILE__).'/scripts/install/setClientLoggerConfig.php',
             AddLogFs::class,
-            RegisterValidationRules::class
+            RegisterValidationRules::class,
+            SetClientLoggerConfig::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',

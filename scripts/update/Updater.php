@@ -68,6 +68,7 @@ use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
 use oat\tao\model\i18n\ExtraPoService;
+use oat\tao\scripts\install\SetClientLoggerConfig;
 
 /**
  *
@@ -670,13 +671,9 @@ class Updater extends \common_ext_ExtensionUpdater {
 	    $this->skip('7.54.1', '7.60.1');
 
         if ($this->isVersion('7.60.1')) {
-            
-            ClientLibConfigRegistry::getRegistry()->register(
-                'core/logger', [
-                    'level'   => 'warn',
-                    'loggers' =>  ['core/logger/console']
-                ]
-            );
+
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
             $this->setVersion('7.61.0');
         }
     }

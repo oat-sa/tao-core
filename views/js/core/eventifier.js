@@ -273,15 +273,12 @@ define([
      * @returns {Object} the target for conveniance
      */
     function eventifier(target){
-
-        //try to get something that looks like a name, an id or generate one only for logging purposes
-        var targetName = target.name || target.id || target.serial || uuid(6);
+        var targetName;
+        var logger;
 
         //it stores all the handlers under ns/name/[handlers]
         var eventHandlers  = {};
 
-        //create a child logger per eventifier
-        var logger = eventifierLogger.child({ target : targetName });
 
         /**
          * Get the handlers for an event type
@@ -488,6 +485,12 @@ define([
         };
 
         target = target || {};
+
+        //try to get something that looks like a name, an id or generate one only for logging purposes
+        targetName = target.name || target.id || target.serial || uuid(6);
+
+        //create a child logger per eventifier
+        logger = eventifierLogger.child({ target : targetName });
 
         _(eventApi).functions().forEach(function(method){
             target[method] = function delegate(){
