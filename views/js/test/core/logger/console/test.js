@@ -181,11 +181,11 @@ define(['core/logger/console'], function(consoleLogger) {
 
     QUnit.module('fallback logging', {
         setup : function(){
-            delete window.console.error;
-            delete window.console.warn;
-            delete window.console.info;
-            delete window.console.log;
-            delete window.console.debug;
+            window.console.error = undefined;
+            window.console.warn  = undefined;
+            window.console.info = undefined;
+            window.console.log = undefined;
+            window.console.debug = undefined;
         },
         teardown: function() {
             window.console.error = cerr;
