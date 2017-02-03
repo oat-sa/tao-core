@@ -94,10 +94,9 @@ define([
             getStatus : function getStatus(taskId){
                 var status;
                 var error;
+
                 if(!config.url || !config.url.status){
-                    error = new Error('config.url.status is not defined');
-                    api.trigger('error', error);
-                    return Promise.reject(error);
+                    throw new TypeError('config.url.status is not configured while getStatus() is being called');
                 }
 
                 status = request(config.url.status, {taskId: taskId})
@@ -125,6 +124,10 @@ define([
             pollStatus : function pollStatus(taskId){
 
                 var loop = 0;
+
+                if(!config.url || !config.url.status){
+                    throw new TypeError('config.url.status is not configured while getStatus() is being called');
+                }
 
                 /**
                  * gradually increase the polling interval to ease server load
@@ -195,9 +198,7 @@ define([
                 var error;
 
                 if(!config.url || !config.url.remove){
-                    error = new Error('config.url.remove is not defined');
-                    api.trigger('error', error);
-                    return Promise.reject(error);
+                    throw new TypeError('config.url.remove is not configured while remove is being called');
                 }
 
                 status = request(config.url.remove, {taskId : taskId})

@@ -145,40 +145,22 @@ define([
         });
     });
 
-    QUnit.asyncTest('get status (no url)', function (assert){
-
-        QUnit.expect(4);
-
-        var error;
-        var taskQueue = taskQueueApi({})
-            .on('error', function(err){
-                assert.ok(err instanceof Error, 'error returned');
-                error = err;
-            });
-        var status = taskQueue.getStatus('task#65480abc');
-
-        assert.ok(status instanceof Promise, 'getStatus returns a Promise');
-
-        status.then(function(){
-            assert.ok(false, 'should not be triggered here');
-        }).catch(function(err){
-            assert.ok(err instanceof Error, 'error returned');
-            assert.equal(err, error, 'same error returned via catch and event');
-            QUnit.start();
-        });
-    });
-
-    QUnit.asyncTest('poll status', function (assert){
+    QUnit.test('get status (no url)', function (assert){
 
         QUnit.expect(1);
 
-        //no status url defined
-        taskQueueApi({url:{}})
-            .on('error', function (err) {
-                assert.ok(err instanceof Error, 'error returned');
-                QUnit.start();
-            })
-            .pollStatus();
+        assert.throws(function(){
+            taskQueueApi({}).getStatus('task#65480abc');
+        }, TypeError, 'config.url.status is not configured while getStatus() is being called');
+    });
+
+    QUnit.test('poll status (no url)', function (assert){
+
+        QUnit.expect(1);
+
+        assert.throws(function(){
+            taskQueueApi({}).pollStatus('task#65480abc');
+        }, TypeError, 'config.url.status is not configured while getStatus() is being called');
     });
 
     QUnit.asyncTest('remove (invalid server data)', function (assert){
@@ -205,27 +187,13 @@ define([
         });
     });
 
-    QUnit.asyncTest('remove (no url)', function (assert){
+    QUnit.test('remove (no url)', function (assert){
 
-        QUnit.expect(4);
+        QUnit.expect(1);
 
-        var error;
-        var taskQueue = taskQueueApi({})
-            .on('error', function(err){
-                assert.ok(err instanceof Error, 'error returned');
-                error = err;
-            });
-        var status = taskQueue.remove('task#65480abc');
-
-        assert.ok(status instanceof Promise, 'remove() returns a Promise');
-
-        status.then(function(){
-            assert.ok(false, 'should not be triggered here');
-        }).catch(function(err){
-            assert.ok(err instanceof Error, 'error returned');
-            assert.equal(err, error, 'same error returned via catch and event');
-            QUnit.start();
-        });
+        assert.throws(function(){
+            taskQueueApi({}).remove('task#65480abc')
+        }, TypeError, 'config.url.remove is not configured while remove is being called');
     });
 
     QUnit.asyncTest('remove (wrong status)', function (assert){
