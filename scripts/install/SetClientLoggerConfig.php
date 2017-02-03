@@ -14,15 +14,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
+namespace oat\tao\scripts\install;
 
-namespace oat\tao\model\user;
+use oat\tao\model\ClientLibConfigRegistry;
 
-interface TaoRoles
+/**
+ * Defines the default client logger config
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
+class SetClientLoggerConfig extends \common_ext_action_InstallAction
 {
-    const ANONYMOUS = 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole';
-    
-    const BACK_OFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
+    public function __invoke($params)
+    {
+        ClientLibConfigRegistry::getRegistry()->register(
+            'core/logger', [
+                'level'   => 'warn',
+                'loggers' =>  ['core/logger/console']
+            ]
+        );
+    }
 }

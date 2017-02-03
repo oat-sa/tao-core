@@ -1,0 +1,1 @@
+<div class="message">{{__ "Status of"}} <span class="task-name">{{name}}</span> : <span class="task-status">{{status}}</span></div>
