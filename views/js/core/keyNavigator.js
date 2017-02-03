@@ -209,30 +209,52 @@ define([
             },
             focusPosition : function focusPosition(position){
                 if($navigables[position]){
+                    if(_cursor.$dom){
+                        this.trigger('blur', _cursor);
+                    }
                     _cursor.position = position;
                     $navigables[_cursor.position].focus();
-                    _cursor.$dom = $navigables[_cursor.position];
+                    _cursor.$dom = $($navigables[_cursor.position]);
                     this.trigger('focus', _cursor);
                 }
             },
             destroy : function destroy(){
                 $navigables.off(_ns);
+                $navigables.removeClass('navigation-highlight');
                 delete _navigationGroups[id];
+            },
+            blur : function blur(){
+                if(_cursor && _cursor.$dom){
+                    this.trigger('blur', _cursor);
+                }else{
+                    console.warn('blurred without', _cursor);
+                }
             }
         });
 
         //internal key bindings
-        $navigables.on('keydown'+_ns, function(e){
-            var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(arrowKeyMap[keyCode]){
-                navigationGroup.trigger(arrowKeyMap[keyCode]);
-            }
-        }).on('keyup'+_ns, function(e){
-            var keyCode = e.keyCode ? e.keyCode : e.charCode;
-            if(activationKeys.indexOf(keyCode) >= 0){
-                e.preventDefault();
-                navigationGroup.activate();
-            }
+        if($navigables.length > 1){
+            $navigables.on('keydown'+_ns, function(e){
+                var keyCode = e.keyCode ? e.keyCode : e.charCode;
+                if(arrowKeyMap[keyCode]){
+                    if(e.target.tagName === 'INPUT'){
+                        //prevent scrolling of parent element
+                        e.preventDefault();
+                    }
+                    e.stopPropagation();
+                    navigationGroup.trigger(arrowKeyMap[keyCode]);
+                }
+            }).on('keyup'+_ns, function(e){
+                var keyCode = e.keyCode ? e.keyCode : e.charCode;
+                if(activationKeys.indexOf(keyCode) >= 0){
+                    e.preventDefault();
+                    navigationGroup.activate();
+                }
+            });
+        }
+
+        $navigables.on('blur', function(){
+            navigationGroup.blur();
         });
 
         //store the navigator for external reference
