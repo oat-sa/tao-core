@@ -19,7 +19,7 @@ define([
     'jquery',
     'lodash',
     'core/taskQueue',
-    'core/Promise',
+    'core/promise',
 ], function($, _, taskQueueApi, Promise){
     'use strict';
 
