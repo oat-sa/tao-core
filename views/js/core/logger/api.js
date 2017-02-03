@@ -13,22 +13,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
 /**
+ * Logger API, highly inspired and mostly compatible from https://github.com/trentm/node-bunyan
  *
- * Logger API, highly inspired from https://github.com/trentm/node-bunyan
+ * @example
+ * var logger = loggerFactory('component');
+ * logger.info('Message');
+ * logger.debug('Formated %s', 'message');
+ * logger.trace({ anotherField : true}, 'hello');
+ * logger.error(new Error('Something went wrong');
  *
- * TODO sprintf like messages
- * TODO
+ * var childLogger = logger.child({ type : 'sub-component'});
+ * childLogger.warn('oops');
+ *
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash'], function(_){
+define([
+    'lodash',
+    'core/format',
+    'core/promise'
+], function(_, format, Promise){
     'use strict';
 
+    /**
+     * The default level
+     */
     var defaultLevel = 'info';
 
     var levels = {
@@ -40,85 +54,169 @@ define(['lodash'], function(_){
         trace : 10  // Logging from external libraries used by your app or very detailed application logging.
     };
 
+    /**
+     * Major version of the node-bunyan package (for compat)
+     */
+    var bunyanVersion = 0;
+
+    /**
+     * Where messages dwells
+     */
     var logQueue = [];
 
     /**
+     * Get the actual level as a string,
+     * fallback to the default level.
+     * @param {String|Number} [level] - the level
+     * @returns {String} the level
+     */
+    var getLevel = function getLevel(level){
+        if(typeof level === 'undefined' || (_.isString(level) && !_.has(levels, level)) ){
+            return defaultLevel;
+        }
+        if(_.isNumber(level)){
+            return _.findKey(levels, function(l){
+                return l === level;
+            }) || defaultLevel;
+        }
+        return level;
+    };
+
+    /**
+     * Get the actual level as a number,
+     * fallback to the default level.
+     * @param {String|Number} [level] - the level
+     * @returns {Number} the level
+     */
+    var getLevelNum = function getLevelNum(level){
+        if(_.isString(level) && _.has(levels, level)){
+            return levels[level];
+        }
+        if(_.isNumber(level) && _.contains(levels, level)){
+            return level;
+        }
+        return levels[defaultLevel];
+    };
+
+    /**
+     * Check whether the given level is above the minimum level threshold
+     * @param {String|Number} minlevel- the minimum level
+     * @param {String|Number} [level] - the level to check
+     * @returns {Boolean}
+     */
+    var checkMinLevel = function checkMinLevel(minLevel, level) {
+        return getLevelNum(level) >= getLevelNum(minLevel);
+    };
+
+    /**
      * Creates a logger instance
-     * @param {loggerProvider} provider - the logger provider
-     * @param {String} [context] - add a context in all logged messages
+     *
+     * @param {String} name - each logger instance MUST have a name
+     * @param {String|Number} minLevel - the minimum logging level
+     * @param {Object} [fields] - fields to add to all records
+     *
      * @returns {logger} a new logger instance
      */
-    var loggerFactory = function loggerFactory(context){
+    var loggerFactory = function loggerFactory(name, minLevel, fields){
 
+        var baseRecord;
+        var logger;
+
+        if(!_.isString(name) || _.isEmpty(name)){
+            throw new TypeError('A logger needs a name');
+        }
+
+        baseRecord = _.defaults(fields || {}, {
+            name     : name,
+            pid      : 1,    // only for compat
+            hostname : navigator.userAgent
+        });
 
         /**
          * Exposes a log method and one by log level, like logger.trace()
          *
          * @typedef logger
          */
-        var logger = {
+        logger = {
+
 
             /**
              * Log messages by delegating to the provider
              *
-             * @param {String|Number} [level] - the log level
-             * @param {...String} messages - the messages
+             * @param {String|Number} level - the log level
+             * @param {Object} [recordFields] - fields to add to the log record
+             * @param {String|Error} message - the message to log
+             * @param {...String} [rest] - rest parameters if the message is formatted
              * @returns {logger} chains
              */
-            log : function log(level){
-                var messages;
-                var stack;
-                var time = Date.now();
+            log : function log(level, recordFields, message){
 
-                //extract arguments : optional level and messages
-                if(_.isString(level) && !_.isNumber(levels[level])){
-                   messages = [].slice.call(arguments);
-                   level = defaultLevel;
-                }
-                if(_.isNumber(level)){
-                    level = _.findKey(levels, function(l){
-                        return l === level;
-                    }) || defaultLevel;
+                var record;
+                var err;
+                var rest = [];
+                var time = new Date().toISOString();
+
+                //without providers or not the level, we don't log.
+                if(loggerFactory.providers === false || !checkMinLevel(minLevel || defaultLevel, level)){
+                    return;
                 }
 
-                if(!messages){
-                   messages = [].slice.call(arguments, 1);
+                if(_.isString(recordFields) || recordFields instanceof Error){
+                    message = recordFields;
+                    recordFields = {};
+                    rest = [].slice.call(arguments, 2);
+                } else {
+                    rest = [].slice.call(arguments, 3);
                 }
 
-                if(levels[level] >= levels.error){
-                    stack = new Error().stack || 'no stack infos';
+                record = {
+                    level : getLevel(level),
+                    v     : bunyanVersion,
+                    time  : time
+                };
+
+                if(checkMinLevel(levels.error, level) || message instanceof Error){
+                    err = message instanceof Error ? message : new Error(message);
+
+                    record.msg = err.message;
+                    record.err = err;
+
+                } else {
+                    record.msg = format.apply(null, [message].concat(rest));
                 }
 
-                //push the message to the queue
-                logQueue.push({
-                    time     : time,
-                    level    : level,
-                    messages : messages,
-                    context  : context,
-                    stack    : stack
-                });
+                _.merge(record, baseRecord, recordFields);
 
-               this.flush();
+                logQueue.push(record);
+
+                loggerFactory.flush();
 
                 return this;
             },
 
             /**
-             * Flush the message queue if there's at least on provider
-             * @returns {logger} chains
+             * Get/set the default level of the logger
+             * @param {String|Number} [level] - set the default level
+             * @returns {String|logger} the default level as a getter or chains as a setter
              */
-            flush : function flush(){
-                if(loggerFactory.providers && loggerFactory.providers.length){
-                    _.forEach(logQueue, function(message){
-                        //forward to the providers
-                        _.forEach(loggerFactory.providers, function(provider){
-                            provider.log.call(provider, message);
-                        });
-                    });
-                    //clear the queue
-                    logQueue = [];
+            level : function(value){
+                if(typeof value !== 'undefined'){
+                    //update the partial function
+                    minLevel = getLevelNum(value);
+                    return this;
                 }
-                return this;
+                return getLevel(minLevel);
+            },
+
+            /**
+             * Fork the current logger to create a child logger :
+             * same config + child fields
+             *
+             * @param {Object} [childFields] - specialized child fields
+             * @return {logger} the child logger
+             */
+            child : function child(childFields){
+                return loggerFactory(name, minLevel, _.defaults(childFields, baseRecord));
             }
         };
 
@@ -127,6 +225,48 @@ define(['lodash'], function(_){
             target[levelName] = _.partial(logger.log, level);
             return target;
         }, logger);
+    };
+
+    /**
+     * Exposes the levels
+     * @type {Object}
+     */
+    loggerFactory.levels = levels;
+
+    /**
+     * The list of providers bound to the logger.
+     * @type {Boolean|Array} false means we don't log, array even empty we keep the logs
+     */
+    loggerFactory.providers = false;
+
+    /**
+     * Load providers from AMD modules
+     * @param {String[]} modules - provider's modules to load and register
+     * @returns {Promise} resolves once modules are registered
+     */
+    loggerFactory.load = function load(modules){
+        var self = this;
+        this.providers = [];
+
+        return new Promise( function(resolve, reject) {
+            //we can load the loggers dynamically
+            require(modules, function(){
+                var loadedProviders = [].slice.call(arguments);
+                _.forEach(loadedProviders, function (provider){
+                    try {
+                        self.register(provider);
+                    } catch(err){
+                        reject(err);
+                    }
+                });
+
+                //flush messages that arrived before the providers are there
+                self.flush();
+
+                resolve();
+
+            }, reject);
+        });
     };
 
     /**
@@ -142,6 +282,32 @@ define(['lodash'], function(_){
         }
         this.providers = this.providers || [];
         this.providers.push(provider);
+    };
+
+    /**
+     * Flush the messages queue into the providers
+     */
+    loggerFactory.flush = function flush(){
+        if(_.isArray(this.providers) && this.providers.length > 0){
+            _.forEach(logQueue, function(message){
+                //forward to the providers
+                _.forEach(loggerFactory.providers, function(provider){
+                    provider.log.call(provider, message);
+                });
+            });
+            //clear the queue
+            logQueue = [];
+        }
+    };
+
+    /**
+     * Change the default level for all loggers
+     * @param {String|Number} [level] - set the default level
+     * @returns {String} the defined level
+     */
+    loggerFactory.setDefaultLevel = function setDefaultLevel(level){
+        defaultLevel = getLevel(level);
+        return defaultLevel;
     };
 
     return loggerFactory;

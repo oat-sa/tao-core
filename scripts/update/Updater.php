@@ -68,6 +68,7 @@ use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
 use oat\tao\model\i18n\ExtraPoService;
+use oat\tao\scripts\install\SetClientLoggerConfig;
 
 /**
  *
@@ -668,6 +669,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
 	    $this->skip('7.54.1', '7.61.0');
+
+        if ($this->isVersion('7.61.0')) {
+
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            $this->setVersion('7.62.0');
+        }
+
+        $this->skip('7.62.0', '7.63.0');
     }
 
     private function migrateFsAccess() {

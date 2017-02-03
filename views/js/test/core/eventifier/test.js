@@ -1102,24 +1102,4 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
         emitter.trigger('foo bar.moo bar');
     });
 
-    QUnit.module('logger');
-
-    QUnit.asyncTest("logging events", function(assert){
-        var emitter = eventifier({
-                name : 'moo'
-            }, {
-            debug : function (name, method, eventName){
-                assert.equal(name, 'moo', 'The logger get the target name');
-                assert.equal(method, 'trigger', 'The logger get the method name');
-                assert.equal(eventName, 'foo.bar', 'The logger get the event name');
-
-                QUnit.start();
-            }
-        });
-
-        QUnit.expect(3);
-
-        emitter.trigger('foo.bar');
-    });
-
 });

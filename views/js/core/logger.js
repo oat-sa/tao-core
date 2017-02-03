@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -24,38 +24,42 @@
  * Load the logger providers based on the module configuration
  * and exposes the logger api
  *
- *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'lodash',
     'module',
-    'core/logger/api',
-    'core/logger/console'
-], function(_, module, loggerApi, consoleLogger){
+    'core/logger/api'
+], function(_, module, loggerFactory) {
     'use strict';
 
+    /**
+     * The default configuration if nothing
+     * is found on the module config
+     */
+    var defaultConfig = {
+        level : loggerFactory.levels.warn,
+        loggers : ['core/logger/console']
+    };
+
     //the logger providers are configured through the AMD module config
-    var config = module.config();
+    var config = _.defaults(module.config() || {}, defaultConfig);
+
+
     if(_.isArray(config.loggers) && config.loggers.length){
-
-        //we can load the loggers dynamically
-        require(config.loggers, function(){
-            var loggerProviders = [].slice.call(arguments);
-            _.forEach(loggerProviders, function (provider){
-                loggerApi.register(provider);
-            });
-
-            //flush messages that arrived before the providers are there
-            loggerApi.flush();
-        });
-
-    } else {
-
-        //defaults to the console provider
-        loggerApi.register(consoleLogger);
+        loggerFactory.setDefaultLevel(config.level);
+        loggerFactory.load(config.loggers);
     }
 
+    /**
+     * Expose explicitely an direct way to activate log levels
+     * @param {String|Number} level - the new log level
+     * @returns {String} the defined level
+     */
+    window.setTaoLogLevel = function setTaoLogLevel(level){
+        return loggerFactory.setDefaultLevel(level);
+    };
+
     //exposes the API
-    return loggerApi;
+    return loggerFactory;
 });

@@ -1,4 +1,3 @@
-<?php
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,15 +13,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\tao\model\user;
+/**
+ * Mock + log = mlogck (mock of a logger provider to test module loading)
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
+define([], function(){
+    'use strict';
 
-interface TaoRoles
-{
-    const ANONYMOUS = 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole';
-    
-    const BACK_OFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
-}
+    return {
+        log : function log(){
+        }
+    };
+});
