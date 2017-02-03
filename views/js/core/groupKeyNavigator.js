@@ -16,6 +16,19 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
+
+/**
+ * Create a navigator to navigate between navigation group
+ * @see core/keyNavigator
+ *
+ * @example
+ * groupKeyNavigator({
+ *       id : 'test-runner',
+ *       groups : ['top-toolbar', 'middle-panel', 'bottom-toolbar']
+ * });
+ *
+ * @author Sam <sam@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -33,17 +46,32 @@ define([
         loop : true
     };
 
+    /**
+     * Create a navigationGroup
+     *
+     * @param config
+     * @param {String} config.id - global unique id to define this group
+     * @param {Array} config.groups - array of navigation groups to manage
+     * @param {Boolean} [config.replace=false] - define if the navigation group can be reinitialized, hence replacing the existing one
+     * @param {Boolean} [config.loop=false] - define if the navigation should loop after reaching the last or the first element
+     * @returns {groupNavigator}
+     */
     var groupNavigatorFactory = function groupNavigatorFactory(config){
 
         config = _.defaults(config, _defaults);
 
         var id = config.id;
-        var groups = config.groups;
+        var groups = config.groups || [];
         var navigationGroups = [];
         var _cursor = {
             position : 0
         };
 
+        /**
+         * Get the current focused element within the key navigation group
+         *
+         * @returns {Object} the cursor
+         */
         var getCursor = function getCursor(){
             var isFocused = false;
             if (document.activeElement) {
@@ -64,6 +92,12 @@ define([
             return null;
         };
 
+        /**
+         * Get the closest allowed position in the right
+         *
+         * @param {Number} fromPosition - the starting position
+         * @returns {Number}
+         */
         var getClosestPositionRight = function getClosestPositionRight(fromPosition){
             var pos;
             for(pos = fromPosition; pos < navigationGroups.length; pos++){
@@ -74,6 +108,12 @@ define([
             return -1;
         }
 
+        /**
+         * Get the closest allowed position in the left
+         *
+         * @param {Number} fromPosition - the starting position
+         * @returns {Number}
+         */
         var getClosestPositionLeft = function getClosestPositionLeft(fromPosition){
             var pos;
             for(pos = fromPosition; pos >= 0; pos--){
@@ -90,6 +130,10 @@ define([
             }else{
                 throw new Error('the navigation group id is already in use : '+id);
             }
+        }
+
+        if(!_.isArray(groups) || !groups.length){
+            throw new Error('the groups must be configured with an no empty array of navigationGroup ids');
         }
 
         _.each(groups, function(groupId){
@@ -121,10 +165,28 @@ define([
             navigationGroups[getClosestPositionRight(initialCursor.position)].$dom.trigger('focus');
         }
 
+        /**
+         * The group navigator object
+         *
+         * @typedef groupNavigator
+         */
         var groupNavigator = eventifier({
+
+            /**
+             * Get the navigation group id
+             * @returns {String}
+             */
             getId : function getId(){
                 return id;
             },
+
+            /**
+             * Move cursor to next position
+             *
+             * @returns {groupNavigator}
+             * @fires groupNavigator#upperbound when we cannot move further
+             * @fires groupNavigator#next when the cursor successfully moved to the next position
+             */
             next : function next(){
                 var cursor = getCursor();
                 var pos;
@@ -144,6 +206,14 @@ define([
                     this.focusPosition(getClosestPositionRight(0));
                 }
             },
+
+            /**
+             * Move cursor to previous position
+             *
+             * @returns {groupNavigator}
+             * @fires groupNavigator#lowerbound when we cannot move lower
+             * @fires groupNavigator#previous when the cursor successfully moved to the previous position
+             */
             previous : function previous(){
                 var cursor = getCursor();
                 var pos;
@@ -163,13 +233,27 @@ define([
                     this.focusPosition(getClosestPositionRight(0));
                 }
             },
+
+            /**
+             * Focus to a position defined by its index
+             *
+             * @param {Integer} position
+             * @returns {groupNavigator}
+             * @fires groupNavigator#focus on the new cursor
+             */
             focusPosition : function focusPosition(position){
                 if(navigationGroups[position]){
                     _cursor.position = position;
                     navigationGroups[position].group.focus();
                     this.trigger('focus', navigationGroups[position]);
                 }
+                return this;
             },
+
+            /**
+             * Destroy and cleanup
+             * @returns {groupNavigator}
+             */
             destroy : function destroy(){
                 _.each(navigationGroups, function(group){
                     group.$dom
@@ -177,6 +261,7 @@ define([
                         .off(_ns);
                 });
                 delete _groupNavigators[id];
+                return this;
             }
         });
 
@@ -185,7 +270,13 @@ define([
 
         return groupNavigator;
     }
-    
+
+    /**
+     * Get a group navigator by its id
+     *
+     * @param {String} id
+     * @returns {groupNavigator}
+     */
     groupNavigatorFactory.get = function get(id){
         if(_groupNavigators[id]){
             return _groupNavigators[id];
