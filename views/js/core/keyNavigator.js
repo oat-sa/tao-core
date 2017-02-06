@@ -178,18 +178,18 @@ define([
             if(config.replace){
                 _navigationGroups[id].destroy();
             }else{
-                throw new Error('the navigation group id is already in use : '+id);
+                throw new TypeError('the navigation group id is already in use : '+id);
             }
         }
 
         if(!$navigables.length){
-            throw new Error('no navigation element');
+            throw new TypeError('no navigation element');
         }
 
         $navigables.each(function(){
             var $navigable = $(this);
             if(!$navigable.length){
-                throw new Error('dom element does not exist');
+                throw new TypeError('dom element does not exist');
             }
             $navigable.attr('tabindex', -1);//add simply a tabindex to enable focusing, this tabindex is not actually used in tabbing order
             $navigable.addClass('key-navigation-highlight');
@@ -201,6 +201,8 @@ define([
                 $group
                     .addClass('key-navigation-group')
                     .attr('data-navigation-id', id);
+            }else{
+                throw new TypeError('group element does not exist');
             }
         }
 
@@ -374,8 +376,13 @@ define([
             }
         });
 
-        //internal key bindings, only if the there is more than one focusable element
-        if($navigables.length > 1){
+        //internal key bindings
+        //to save useless event bindings, the events are attached only if the there are more than one focusable element
+        // or no group or with the group identical to the single element
+        if($navigables.length > 1
+            || !$group
+            || $group && $navigables.get(0) !== $group.get(0)){
+
             $navigables.on('keydown'+_ns, function(e){
                 var keyCode = e.keyCode ? e.keyCode : e.charCode;
                 if(arrowKeyMap[keyCode]){
