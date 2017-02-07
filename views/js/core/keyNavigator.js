@@ -295,10 +295,10 @@ define([
              * @fires navigationGroup#blur on the previous cursor
              * @fires navigationGroup#focus on the new cursor
              */
-            activate : function activate(){
+            activate : function activate(target){
                 var cursor = getCursor();
                 if(cursor){
-                    this.trigger('activate', cursor);
+                    this.trigger('activate', cursor, target);
                 }
                 return this;
             },
@@ -397,7 +397,7 @@ define([
                 var keyCode = e.keyCode ? e.keyCode : e.charCode;
                 if(activationKeys.indexOf(keyCode) >= 0){
                     e.preventDefault();
-                    navigationGroup.activate();
+                    navigationGroup.activate(e.target);
                 }
             });
         }
