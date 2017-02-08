@@ -90,6 +90,7 @@ define([
      * @param {String} config.taskId - the id of the task
      * @param {Boolean} [config.showDetailsButton=true] - display the show/hide details toggle
      * @param {Array} [config.actions] - possibility to add more button controls on the report
+     * @param {Object} [config.data] - directly set the task data if already available, in this case no polling required
      * @returns {*}
      */
     return function taskQueueStatusComponent(config) {
@@ -127,11 +128,11 @@ define([
             }
 
             return report({
-                replace : true,
-                noBorder : true,
-                showDetailsButton : config.showDetailsButton,
-                actions : config.actions
-            }, reportData)
+                    replace : true,
+                    noBorder : true,
+                    showDetailsButton : config.showDetailsButton,
+                    actions : config.actions
+                }, reportData)
                 .on('action', function(actionId){
                     taskQueueStatus.trigger('action-' + actionId);
                     taskQueueStatus.trigger('action', actionId);
@@ -140,7 +141,8 @@ define([
                 }).on('hideDetails', function(){
                     taskQueueStatus.trigger('hideDetails');
                 })
-                .render(taskQueueStatus.getElement());
+                .render(taskQueueStatus.getElement())
+                .showDetails();
         }
 
         /**
@@ -162,33 +164,45 @@ define([
 
                 var self = this;
 
-                self.report = createReport('info', __('Loading task status ...'));
+                if(config.data && config.data.status === 'finished'){
+                    //since the data is already available, there is no need to poll the status, so we directly display the report
+                    self.report = createReport(config.data.report.type || 'info', messageTpl({
+                        name : config.data.label,
+                        status : _status.finished
+                    }), config.data.report || {});
 
-                this.taskQueueApi = taskQueue({url:{status: config.serviceUrl}})
-                    .on('running', function (taskData) {
-                        if(self.status !== 'running'){
-                            self.report = createReport('info', messageTpl({
-                                name : taskData.label,
-                                status : _status.running
-                            }));
-                            self.status = 'running';
-                            self.trigger('statechange', self.status);
-                        }
-                        self.trigger('running', taskData);
-                    }).on('finished', function (taskData) {
-                        if(self.status !== 'finished'){
-                            self.report = createReport(taskData.report.type || 'info', messageTpl({
+                }else{
+
+                    //create a temporary report  to display a loading message
+                    self.report = createReport('info', __('Loading task status ...'));
+
+                    //poll the status
+                    this.taskQueueApi = taskQueue({url:{status: config.serviceUrl}})
+                        .on('running', function (taskData) {
+                            if(self.status !== 'running'){
+                                self.report = createReport('info', messageTpl({
+                                    name : taskData.label,
+                                    status : _status.running
+                                }));
+                                self.status = 'running';
+                                self.trigger('statechange', self.status);
+                            }
+                            self.trigger('running', taskData);
+                        }).on('finished', function (taskData) {
+                            if(self.status !== 'finished'){
+                                self.report = createReport(taskData.report.type || 'info', messageTpl({
                                     name : taskData.label,
                                     status : _status.finished
-                                }), taskData.report || {})
-                                .showDetails();
-                            self.status = 'finished';
-                            self.trigger('finished', taskData);
-                            self.trigger('statechange', self.status);
-                        }
-                    }).on('error', function (err) {
-                        self.trigger('error', err);
-                    })
+                                }), taskData.report || {});
+                                self.status = 'finished';
+                                self.trigger('finished', taskData);
+                                self.trigger('statechange', self.status);
+                            }
+                        }).on('error', function (err) {
+                            self.trigger('error', err);
+                        });
+                }
+
             })
             .init(config);
 

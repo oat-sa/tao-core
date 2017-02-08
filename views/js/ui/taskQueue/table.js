@@ -85,66 +85,7 @@ define([
      * @returns {boolean}
      */
     var isReportable = function isReportable(row) {
-        return (row.status === 'finished');
-    };
-
-    var taskQueueTable = {
-        /**
-         * Display a report for a task
-         * @param taskId
-         * @returns {taskQueueTable}
-         */
-        showReport : function showReport(taskId) {
-            var status;
-            var $report = this.$component.find('.report-container');
-            var $dataTable = this.$component.find('.datatable-wrapper');
-
-            if(!$report.length){
-                $report = $(reportTpl());
-                this.$component.append($report);
-            }
-
-            //toggle display fo queue table
-            $dataTable.hide();
-
-            status = taskQueueStatusFactory({
-                replace : true,
-                taskId: taskId,
-                serviceUrl: this.config.statusUrl,
-                showDetailsButton : false,
-                actions : [{
-                    id: 'back',
-                    icon: 'backward',
-                    title: __('Back to listing'),
-                    label: __('Back')
-                }]
-            }).on('action-back', function(){
-                status.destroy();
-                $dataTable.show();
-            })
-            .render($report)
-            .start();
-
-            return this;
-        },
-
-        /**
-         * Remove a task from the datatable
-         * @param taskId
-         * @returns {taskQueueTable}
-         * @fires taskQueueTable#removed
-         * @fires taskQueueTable#error
-         */
-        remove : function remove(taskId){
-            var self = this;
-            this.taskQueueApi.remove(taskId).then(function(){
-                self.$component.datatable('refresh');
-                self.trigger('removed', taskId);
-            }).catch(function(err){
-                self.trigger('error', err);
-            });
-            return this;
-        }
+        return true;
     };
 
     /**
@@ -155,6 +96,8 @@ define([
      * @throws {TypeError} when the task queue context (type) is absent in the config
      */
     return function taskQueueTableFactory(config) {
+
+        var tasks;
 
         config = _.defaults(config, _defaults);
 
@@ -170,7 +113,70 @@ define([
          * @fires taskQueueTable#loaded when the data is loaded
          * @fires taskQueueTable#refresh when refreshing table content
          */
-        return component(taskQueueTable, config)
+        return component({
+                /**
+                 * Display a report for a task
+                 * @param taskId
+                 * @returns {taskQueueTable}
+                 */
+                showReport : function showReport(taskId) {
+                    var status, data;
+                    var $report = this.$component.find('.report-container');
+                    var $dataTable = this.$component.find('.datatable-wrapper');
+
+                    if(!$report.length){
+                        $report = $(reportTpl());
+                        this.$component.append($report);
+                    }
+
+                    //toggle display fo queue table
+                    $dataTable.hide();
+
+                    var task = _.find(tasks, {id : taskId});
+                    if(task && task.status === 'finished' && task.report){
+                        data = task;
+                    }
+
+                    status = taskQueueStatusFactory({
+                            replace : true,
+                            taskId: taskId,
+                            serviceUrl: this.config.statusUrl,
+                            showDetailsButton : false,
+                            actions : [{
+                                id: 'back',
+                                icon: 'backward',
+                                title: __('Back to listing'),
+                                label: __('Back')
+                            }],
+                            data : data
+                        }).on('action-back', function(){
+                            status.destroy();
+                            $dataTable.show();
+                        })
+                        .render($report)
+                        .start();
+
+                    return this;
+                },
+
+                /**
+                 * Remove a task from the datatable
+                 * @param taskId
+                 * @returns {taskQueueTable}
+                 * @fires taskQueueTable#removed
+                 * @fires taskQueueTable#error
+                 */
+                remove : function remove(taskId){
+                    var self = this;
+                    this.taskQueueApi.remove(taskId).then(function(){
+                        self.$component.datatable('refresh');
+                        self.trigger('removed', taskId);
+                    }).catch(function(err){
+                        self.trigger('error', err);
+                    });
+                    return this;
+                }
+            }, config)
             .on('init', function(){
                 this.taskQueueApi = taskQueueApi({url:{
                     status: this.config.serviceUrl,
@@ -182,6 +188,11 @@ define([
 
                 //set up the ui/datatable
                 this.$component
+                    .on('beforeload.datatable', function(e, dataSet){
+                        if(dataSet && dataSet.data){
+                            tasks = dataSet.data;
+                        }
+                    })
                     .on('query.datatable', function () {
                         self.trigger('loading');
                     })
