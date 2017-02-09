@@ -30,3 +30,16 @@
         }
     }
 }
+
+.task-queue-table{
+    .datatable-container .matrix tr{
+        &.error{
+            background: $errorBgColor;
+        }
+        button{
+            [class^="icon-"], [class*=" icon-"]{
+                padding: 0;
+            }
+        }
+    }
+}

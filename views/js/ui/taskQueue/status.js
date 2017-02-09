@@ -43,10 +43,10 @@ define([
     'use strict';
 
     var _status = {
-        loading: __('loading status information'),
-        created: __('not started'),
-        running: __('running'),
-        finished: __('finished')
+        loading: __('Loading status'),
+        created: __('Not started'),
+        running: __('In progress'),
+        finished: __('Completed')
     };
 
     var _defaults = {
@@ -118,13 +118,21 @@ define([
          * @fires reportComponent#action-{custom action name}
          */
         var createReport = function createReport(reportType, message, taskReport){
+            var innerTaskReport;
             var reportData = {
                 type: reportType,
                 message: message,
             };
 
-            if(_.isPlainObject(taskReport) && taskReport.type){
-                reportData.children = [taskReport];
+            if(_.isPlainObject(taskReport)
+                && taskReport.type
+                && _.isArray(taskReport.children)
+                && taskReport.children.length){
+
+                // strip the outer generic report that wraps the actual task report
+                innerTaskReport = taskReport.children[0];//there could be only one report by task
+                reportData.type = innerTaskReport.type;
+                reportData.children = taskReport.children;
             }
 
             return report({
