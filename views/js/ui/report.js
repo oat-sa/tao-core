@@ -160,7 +160,7 @@ define([
                 var self = this;
                 var $content = this.getElement().find('.content');
                 var $checkbox = this.getElement().find('.fold input');
-                $content.append(_renderFeebacks(data, this.config.actions));
+                $content.append(_renderFeebacks(_.cloneDeep(data), this.config.actions));
 
                 //init actions:
                 $content.on('click', '.action', function(){
