@@ -17,6 +17,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\upload;
 
 
@@ -34,8 +35,6 @@ class UploadService extends ConfigurableService
 
     static public $tmpFilesystemId = 'sharedTmp';
     private $uriSerializer;
-    static protected $SESSION_ATTRIBUTE_FILES = 'tracked_uploads';
-    static protected $SESSION_ATTRIBUTE_LOCAL = 'tracked_uploads_local_copies';
 
 
     /**
@@ -101,14 +100,11 @@ class UploadService extends ConfigurableService
      */
     public function universalizeUpload($file)
     {
-        if (filter_var($file, FILTER_VALIDATE_URL)) {
-            return $this->getSerializer()->unserializeFile($file);
-        }
         if (is_string($file) && is_file($file)) {
             return $file;
         }
 
-        throw new \common_Exception('Unsupported file reference');
+        return $this->getUploadedFlyFile($file);
     }
 
     /**
@@ -123,7 +119,7 @@ class UploadService extends ConfigurableService
     {
         $file = $this->universalizeUpload($serial);
         if ($file instanceof File) {
-            $file = $this->getLocalCopy($serial);
+            $file = $this->getLocalCopy($file);
         }
         return $file;
     }
@@ -131,14 +127,13 @@ class UploadService extends ConfigurableService
     /**
      * @param string $serial
      * @return File
-     * @throws \common_Exception
      */
     public function getUploadedFlyFile($serial)
     {
         if (filter_var($serial, FILTER_VALIDATE_URL)) {
             return $this->getSerializer()->unserializeFile($serial);
         }
-        throw new \common_Exception('Unsupported file reference');
+        return null;
     }
 
     /**
@@ -165,10 +160,8 @@ class UploadService extends ConfigurableService
      */
     public static function listenUploadEvent(FileUploadedEvent $event)
     {
-        $session = \PHPSession::singleton();
-        $storedFlyFiles = $session->hasAttribute(self::$SESSION_ATTRIBUTE_FILES) ? $session->getAttribute(self::$SESSION_ATTRIBUTE_FILES) : [];
-        $storedFlyFiles[md5($event->getFile()->getPrefix())] = $event->getFile();
-        $session->setAttribute(self::$SESSION_ATTRIBUTE_FILES, $storedFlyFiles);
+        $storage = TempFlyStorageAssociation::getStorage();
+        $storage->setUpload($event->getFile());
     }
 
     /**
@@ -176,46 +169,23 @@ class UploadService extends ConfigurableService
      */
     public static function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
     {
-        $session = \PHPSession::singleton();
-        $storedLocalTmps = $session->hasAttribute(self::$SESSION_ATTRIBUTE_LOCAL) ? $session->getAttribute(self::$SESSION_ATTRIBUTE_LOCAL) : [];
-        $storedLocalTmps = is_array($storedLocalTmps) ? $storedLocalTmps : [];
-        $storedLocalTmps[$event->getTmpPath()] = md5($event->getFile()->getPrefix());
-        $session->setAttribute(self::$SESSION_ATTRIBUTE_LOCAL, $storedLocalTmps);
+        $storage = TempFlyStorageAssociation::getStorage();
+        $storage->addLocalCopies($event->getFile(), $event->getTmpPath());
     }
 
     public function remove($file)
     {
-        $session = \PHPSession::singleton();
-        $storedLocalTmps = $session->hasAttribute(self::$SESSION_ATTRIBUTE_LOCAL) ? $session->getAttribute(self::$SESSION_ATTRIBUTE_LOCAL) : [];
-        $storedFlyFiles = $session->hasAttribute(self::$SESSION_ATTRIBUTE_FILES) ? $session->getAttribute(self::$SESSION_ATTRIBUTE_FILES) : [];
-
-
-        if (is_string($file) && is_file($file)) {
-            $hash = isset($storedLocalTmps[$file]) ? $storedLocalTmps[$file] : null;
-            $file = isset($storedFlyFiles[$hash]) ? $storedFlyFiles[$hash] : null;
-        }
+        $storage = TempFlyStorageAssociation::getStorage();
 
         if ($file instanceof File) {
-            $referencedHash = $this->getHash($file->getPrefix());
 
-            foreach ($storedLocalTmps as $tmp => &$hash) {
-                if ($hash === $referencedHash) {
-                    tao_helpers_File::remove($tmp);
-                    $hash = null;
-                }
+            $storedLocalTmps = $storage->getLocalCopies($file);
+            foreach ((array)$storedLocalTmps as $tmp) {
+                tao_helpers_File::remove($tmp);
             }
+            $storage->removeFiles($file);
             $file->delete();
-            unset($storedFlyFiles[$referencedHash]);
         }
-
-        $session->setAttribute(self::$SESSION_ATTRIBUTE_LOCAL, array_filter($storedLocalTmps));
-        $session->setAttribute(self::$SESSION_ATTRIBUTE_FILES, array_filter($storedFlyFiles));
-
-    }
-
-    private function getHash($value)
-    {
-        return md5($value);
     }
 
 }
