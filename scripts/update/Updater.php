@@ -68,6 +68,7 @@ use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
 use oat\tao\model\i18n\ExtraPoService;
+use oat\tao\scripts\install\SetClientLoggerConfig;
 
 /**
  *
@@ -647,13 +648,42 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.47.0');
         }
 
-        $this->skip('7.47.0', '7.50.0');
+        $this->skip('7.47.0', '7.54.0');
 
-        if ($this->isVersion('7.50.0')) {
+        if ($this->isVersion('7.54.0')) {
+            $persistence = \common_persistence_Manager::getPersistence('default');
+            /** @var common_persistence_sql_pdo_SchemaManager $schemaManager */
+            $schemaManager = $persistence->getDriver()->getSchemaManager();
+            $schema = $schemaManager->createSchema();
+            $fromSchema = clone $schema;
+            // test if already executed
+            $statementsTableData = $schema->getTable('statements');
+            $statementsTableData->dropIndex('idx_statements_modelid');
+            $modelsTableData = $schema->getTable('models');
+            $modelsTableData->dropIndex('idx_models_modeluri');
+            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+            foreach ($queries as $query) {
+                $persistence->exec($query);
+            }
+            $this->setVersion('7.54.1');
+        }
+
+	    $this->skip('7.54.1', '7.61.0');
+
+        if ($this->isVersion('7.61.0')) {
+
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            $this->setVersion('7.62.0');
+        }
+
+        $this->skip('7.62.0', '7.66.1');
+
+        if ($this->isVersion('7.66.1')) {
             $action = new AddTmpFsHandlers();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
-            $this->setVersion('7.51.0');
+            $this->setVersion('7.67.0');
         }
     }
 
