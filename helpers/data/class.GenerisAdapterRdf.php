@@ -48,7 +48,9 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     {
         $returnValue = false;
 
-        $source = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getUploadedFile($source);
+        /** @var UploadService $uploadService */
+        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+        $source = $uploadService->getUploadedFile($source);
         
         $api = core_kernel_impl_ApiModelOO::singleton();
 		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
@@ -64,8 +66,8 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 		else if (file_exists($source)){
 			$returnValue = $api->importXmlRdf($localModel, $source);
 		}
-        
-        
+
+        $uploadService->remove($uploadService->getUploadedFlyFile($source));
 
         return (bool) $returnValue;
     }

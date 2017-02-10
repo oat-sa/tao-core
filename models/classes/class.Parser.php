@@ -119,14 +119,16 @@ class tao_models_classes_Parser
      * @param  string $source
      * @param  array $options
      * @throws common_exception_Error
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\ServiceNotFoundException
      */
     public function __construct($source, $options = array())
     {
-        try {
-            $source = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
-        } catch (Exception $e) {
-        }
-        if($source instanceof \oat\oatbox\filesystem\File) {
+        $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
+        if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
+            $this->sourceType = self::SOURCE_FLYFILE;
+            $source = $uploadFile;
+        } elseif ($source instanceof \oat\oatbox\filesystem\File) {
             $this->sourceType = self::SOURCE_FLYFILE;
         } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {
             $this->sourceType = self::SOURCE_STRING;

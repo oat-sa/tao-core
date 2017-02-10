@@ -131,8 +131,10 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         if(is_null($destination)){
         	throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
-
-        $csvData = $this->load(ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getUploadedFile($source));
+        /** @var UploadService $uploadService */
+        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+        $file = $uploadService->getUploadedFile($source);
+        $csvData = $this->load($file);
         
         $createdResources = 0;
         $toImport = $csvData->count();
@@ -197,6 +199,9 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		    $report->setType(common_report_Report::TYPE_WARNING);
 		    $report->setMessage(__('Imported %1$d/%2$d. Some records are invalid.', $createdResources, $toImport));
 		}
+
+        $uploadService->remove($uploadService->getUploadedFlyFile($source));
+		
 		return $report;
     }
 

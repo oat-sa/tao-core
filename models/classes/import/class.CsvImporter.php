@@ -157,8 +157,6 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 
         $result = parent::importFile($class, $options);
 
-        $uploadService->remove($options['file']);
-
         return $result;
     }
 }
