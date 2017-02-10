@@ -50,21 +50,19 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 
         /** @var UploadService $uploadService */
         $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-        $source = $uploadService->getUploadedFile($source);
+        $uploadedFile = $uploadService->getUploadedFile($source);
         
         $api = core_kernel_impl_ApiModelOO::singleton();
 		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
 
-        if(!is_null($destination) && file_exists($source)){
+        if (!is_null($destination) && file_exists($uploadedFile)) {
 
             $destModel = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
-			$returnValue = $api->importXmlRdf($destModel, $source);
-		}
-		else if (file_exists($source) && !is_null($namespace)){
-			$returnValue = $api->importXmlRdf($namespace, $source);
-		}
-		else if (file_exists($source)){
-			$returnValue = $api->importXmlRdf($localModel, $source);
+            $returnValue = $api->importXmlRdf($destModel, $uploadedFile);
+		} else if (file_exists($uploadedFile) && !is_null($namespace)) {
+            $returnValue = $api->importXmlRdf($namespace, $uploadedFile);
+		} else if (file_exists($uploadedFile)) {
+            $returnValue = $api->importXmlRdf($localModel, $uploadedFile);
 		}
 
         $uploadService->remove($uploadService->getUploadedFlyFile($source));
