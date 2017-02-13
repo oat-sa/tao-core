@@ -24,46 +24,65 @@ define([
 ], function ($, _, eventifier) {
     'use strict';
 
-    var domNavigableElement = function domNavigableElement($element) {
+    var _ns = '.group-navigator';
 
-        $element = $($element);
+    var groupNavigableElement = function groupNavigableElement(navigableElement) {
+
+        var $group;
+
+        if(!navigableElement){
+            throw new TypeError('the navigation group does not exist');
+        }
+
+        $group = navigableElement.getGroup();
+        if(!$group.length || !$.contains(document, $group[0])){
+            throw new TypeError('the group dom element does not exist');
+        }
 
         return eventifier({
             init: function init() {
-                if (!$element.length) {
-                    throw new TypeError('dom element does not exist');
-                }
-                $element.attr('tabindex', -1);//add simply a tabindex to enable focusing, this tabindex is not actually used in tabbing order
-                $element.addClass('key-navigation-highlight');
+
+                //add the focusin and focus out class for group highlighting
+                $group.on('focusin'+_ns, function(){
+                    $group.addClass('focusin');
+                }).on('focusout'+_ns, function(){
+                    $group.removeClass('focusin');
+                });
+
                 return this;
             },
             destroy : function destroy(){
-                $element.removeClass('key-navigation-highlight');
+
+                $group
+                    .removeClass('focusin')
+                    .off(_ns);
+
+                //navigableElement.destroy();
                 return this;
             },
             getElement: function getElement() {
-                return $element;
+                return $group;
             },
             isVisible: function isVisible() {
-                return $element.is(':visible');
+                return $group.is(':visible');
             },
             exists: function exists() {
-                return $element.length;
+                return $group.length;
             },
             focus: function focus() {
-                $element.focus();
+                navigableElement.focus();
                 return this;
             }
         });
     };
 
-    domNavigableElement.createFromJqueryContainer =  function createFromJqueryContainer($elements){
+    groupNavigableElement.createFromNavigableDoms =  function createFromNavigableDoms(navigableDomElements){
         var list = [];
-        $elements.each(function(){
-            list.push(domNavigableElement($(this)));
+        _.each(navigableDomElements, function(el){
+            list.push(groupNavigableElement(el));
         });
         return list;
     };
 
-    return domNavigableElement;
+    return groupNavigableElement;
 });
