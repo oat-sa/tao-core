@@ -136,9 +136,8 @@ define([
             throw new Error('the groups must be configured with an no empty array of navigationGroup ids');
         }
 
-        _.each(groups, function(groupId){
+        _.each(groups, function(navigationGroup){
             var $group;
-            var navigationGroup = keyNavigator.get(groupId);
             if(!navigationGroup){
                 throw new TypeError('the navigation group does not exist');
             }
