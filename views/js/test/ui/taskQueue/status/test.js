@@ -138,7 +138,7 @@ define([
     QUnit.module('Behaviour');
 
     QUnit.asyncTest('toggle details', function (assert){
-        QUnit.expect(16);
+        QUnit.expect(12);
 
         var serviceUrl = '/tao/views/js/test/ui/taskQueue/status/data-finished.json';
         var $fixtureContainer = $('#qunit-fixture');
@@ -155,7 +155,6 @@ define([
                 assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
             })
             .on('finished', function(){
-
 
                 assert.equal(this.$component.find('.component-report').length, 1, 'a report has been attached to the status');
                 assert.equal(status.$component.find('.component-report .fold').length, 1, 'the status report has the show details button');
@@ -177,11 +176,6 @@ define([
                 $checkbox.click()//hide details
 
                 QUnit.start();
-            }).on('showDetails', function(){
-
-                assert.equal(status.$component.find('.component-report .hierarchical:visible').length, 4, 'all hierarchical reports are visible');
-                assert.equal(status.$component.find('.component-report .leaf:visible').length, 3, 'all leaf reports are visible');
-
             })
             .render($fixtureContainer)
             .start();

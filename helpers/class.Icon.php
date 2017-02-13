@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2017-01-31 14:18:02
+ * @date   2017-02-07 14:34:30
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,7 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_ELIMINATE = 'icon-eliminate';
     const CLASS_WHEELCHAIR = 'icon-wheelchair';
     const CLASS_TEXT_MARKER = 'icon-text-marker';
     const CLASS_UNSHIELD = 'icon-unshield';
@@ -276,6 +277,10 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconEliminate($options=array()){
+        return self::buildIcon(self::CLASS_ELIMINATE, $options);
+    }
 
     public static function iconWheelchair($options=array()){
         return self::buildIcon(self::CLASS_WHEELCHAIR, $options);
