@@ -46,7 +46,11 @@ define([
                 $group.on('focusin'+_ns, function(){
                     $group.addClass('focusin');
                 }).on('focusout'+_ns, function(){
-                    $group.removeClass('focusin');
+                    _.defer(function(){
+                        if(!document.activeElement || !$.contains($group.get(0), document.activeElement)){
+                            $group.removeClass('focusin');
+                        }
+                    });
                 });
 
                 return this;

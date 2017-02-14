@@ -176,6 +176,10 @@ define([
 
         config = _.defaults(config, _defaults);
 
+        if(!_.isArray(navigables) || !navigables.length){
+            throw new TypeError('no navigation element');
+        }
+
         if(_navigationGroups[id]){
             if(config.replace){
                 _navigationGroups[id].destroy();
@@ -184,13 +188,9 @@ define([
             }
         }
 
-        if(!_.isArray(navigables) || !navigables.length){
-            throw new TypeError('no navigation element');
-        }
-
-        _.each(navigables, function(navigable){
-            //check if it is a valid navigable element
-            navigable.init();
+         _.each(navigables, function(navigable){
+                //check if it is a valid navigable element
+                navigable.init();
         });
         //$navigables.each(function(){
         //    var $navigable = $(this);
