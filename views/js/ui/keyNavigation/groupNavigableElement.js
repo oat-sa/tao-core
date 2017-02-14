@@ -57,7 +57,6 @@ define([
                     .removeClass('focusin')
                     .off(_ns);
 
-                //navigableElement.destroy();
                 return this;
             },
             getElement: function getElement() {
