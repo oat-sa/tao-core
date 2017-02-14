@@ -87,6 +87,17 @@ define([
         return [KEY_CODE_SPACE, KEY_CODE_ENTER];
     };
 
+    var isNavigableElement = function isNavigableElement(navElement){
+        return (
+            navElement
+            && _.isFunction(navElement.init)
+            && _.isFunction(navElement.destroy)
+            && _.isFunction(navElement.getElement)
+            && _.isFunction(navElement.isVisible)
+            && _.isFunction(navElement.focus)
+        );
+    };
+
     /**
      * Create a navigationGroup
      *
@@ -102,12 +113,9 @@ define([
      */
     var keyNavigatorFactory = function keyNavigatorFactory(config){
 
-        var navigationGroup;
-        var id = config.id;
-        var navigables = config.elements;
+        var id, navigables, navigationGroup, $group;
         var arrowKeyMap = getArrowKeyMap();
         var activationKeys = getActivateKey();
-        var $group;
         var _cursor = {
             position : -1,
             navigable : null
@@ -174,11 +182,10 @@ define([
             return -1;
         };
 
-        config = _.defaults(config, _defaults);
+        config = _.defaults(config || {}, _defaults);
 
-        if(!_.isArray(navigables) || !navigables.length){
-            throw new TypeError('no navigation element');
-        }
+        id = config.id || _.uniqueId('navigator_');
+        navigables = config.elements || [];
 
         if(_navigationGroups[id]){
             if(config.replace){
@@ -223,7 +230,7 @@ define([
              * Get the navigation group id
              * @returns {String}
              */
-            getId : function(){
+            getId : function getId(){
                 return id;
             },
 
@@ -231,7 +238,7 @@ define([
              * Get the defined group the navigator group belongs to
              * @returns {JQuery}
              */
-            getGroup : function(){
+            getGroup : function getGroup(){
                 return $group;
             },
 
@@ -387,6 +394,10 @@ define([
         });
 
         _.each(navigables, function(navigable){
+
+            if(!isNavigableElement(navigable)){
+                throw new TypeError('not a valid navigable element');
+            }
 
             if(navigables.length > 1
                 || !$group
