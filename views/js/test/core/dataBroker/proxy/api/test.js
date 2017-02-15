@@ -192,10 +192,11 @@ define([
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.destroy() method has returned a promise');
 
-                return result.then(function () {
-                    assert.ok(true, 'The promise should be resolved');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function () {
+                assert.ok(true, 'The promise should be resolved');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -243,10 +244,11 @@ define([
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.create() method has returned a promise');
 
-                return result.then(function () {
-                    assert.ok(true, 'The promise should be resolved');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function () {
+                assert.ok(true, 'The promise should be resolved');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -293,10 +295,11 @@ define([
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.read() method has returned a promise');
 
-                return result.then(function () {
-                    assert.ok(true, 'The promise should be resolved');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function () {
+                assert.ok(true, 'The promise should be resolved');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -343,10 +346,11 @@ define([
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.write() method has returned a promise');
 
-                return result.then(function () {
-                    assert.ok(true, 'The promise should be resolved');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function () {
+                assert.ok(true, 'The promise should be resolved');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -393,10 +397,11 @@ define([
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.remove() method has returned a promise');
 
-                return result.then(function () {
-                    assert.ok(true, 'The promise should be resolved');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function () {
+                assert.ok(true, 'The promise should be resolved');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -446,10 +451,11 @@ define([
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.action() method has returned a promise');
 
-                return result.then(function () {
-                    assert.ok(true, 'The promise should be resolved');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function () {
+                assert.ok(true, 'The promise should be resolved');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -603,9 +609,10 @@ define([
 
         proxy.init({}, expectedParams)
             .then(function () {
-                return proxy.read(expectedParams).then(function () {
-                    QUnit.start();
-                });
+                return proxy.read(expectedParams);
+            })
+            .then(function () {
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');

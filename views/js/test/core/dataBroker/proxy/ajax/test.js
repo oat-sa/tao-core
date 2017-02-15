@@ -29,6 +29,7 @@ define([
 
     var ajaxProviderApi = [
         {title: 'init'},
+        {title: 'destroy'},
         {title: 'create'},
         {title: 'read'},
         {title: 'write'},
@@ -68,7 +69,7 @@ define([
         };
         var result, proxy;
 
-        QUnit.expect(6);
+        QUnit.expect(9);
 
         proxy = proxyFactory('ajax');
         result = proxy
@@ -85,6 +86,14 @@ define([
             .then(function () {
                 assert.ok(true, 'The promise should be resolved');
                 assert.deepEqual(proxy.getConfig(), expectedConfig, 'The proxyFactory has provided the config object through the "init" event');
+
+                assert.equal(typeof proxy.processRequest, 'function', 'Internal method should exist');
+
+                return proxy.destroy();
+            })
+            .then(function() {
+                assert.ok(true, 'The promise should be resolved');
+                assert.equal(proxy.processRequest, null, 'Internal method should be destroyed');
                 QUnit.start();
             })
             .catch(function (err) {
@@ -106,6 +115,14 @@ define([
             success: true,
             data: {
                 list: [1, 2, 3]
+            }
+        };
+        var initConfig = {
+            actions: {
+                create: {
+                    url: expectedUrl,
+                    method: expectedMethod
+                }
             }
         };
 
@@ -134,24 +151,18 @@ define([
             requestMock.api.trigger('success', expectedResponse);
         });
 
-        proxy.init({
-            actions: {
-                create: {
-                    url: expectedUrl,
-                    method: expectedMethod
-                }
-            }
-        })
+        proxy.init(initConfig)
             .then(function () {
                 var result = proxy.create(expectedParams);
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.create() method has returned a promise');
 
-                return result.then(function (response) {
-                    assert.ok(true, 'The promise should be resolved');
-                    assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function (response) {
+                assert.ok(true, 'The promise should be resolved');
+                assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -172,6 +183,11 @@ define([
             success: true,
             data: {
                 list: [1, 2, 3]
+            }
+        };
+        var initConfig = {
+            actions: {
+                read: expectedUrl
             }
         };
 
@@ -200,21 +216,18 @@ define([
             requestMock.api.trigger('success', expectedResponse);
         });
 
-        proxy.init({
-            actions: {
-                read: expectedUrl
-            }
-        })
+        proxy.init(initConfig)
             .then(function () {
                 var result = proxy.read(expectedParams);
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.read() method has returned a promise');
 
-                return result.then(function (response) {
-                    assert.ok(true, 'The promise should be resolved');
-                    assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function (response) {
+                assert.ok(true, 'The promise should be resolved');
+                assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -229,12 +242,32 @@ define([
         var expectedParams = {
             foo: 'bar'
         };
+        var wrongParams = {
+            wrong: 'wrong'
+        };
         var expectedUrl = 'http://foo.bar/write';
         var expectedMethod = 'POST';
         var expectedResponse = {
             success: true,
             data: {
                 list: [1, 2, 3]
+            }
+        };
+        var expectedError = {
+            success: false,
+            type: 'invalid',
+            action: 'write',
+            params: wrongParams
+        };
+        var initConfig = {
+            actions: {
+                write: {
+                    url: expectedUrl,
+                    method: expectedMethod,
+                    validate: function(params) {
+                        return _.isPlainObject(params) && !!params.foo;
+                    }
+                }
             }
         };
 
@@ -265,30 +298,21 @@ define([
             requestMock.api.trigger('success', expectedResponse);
         });
 
-        proxy.init({
-            actions: {
-                write: {
-                    url: expectedUrl,
-                    method: expectedMethod,
-                    validate: function(params) {console.log(params, _.isPlainObject(params) && !!params.foo)
-                        return _.isPlainObject(params) && !!params.foo;
-                    }
-                }
-            }
-        })
+        proxy.init(initConfig)
             .then(function () {
-                return proxy.write({wrong: 'wrong'})
+                return proxy.write(wrongParams)
                     .then(function() {
                         assert.ok(false, 'The promise should be rejected');
                     })
-                    .catch(function () {
-                        assert.ok(true, 'The promise should be rejected');
+                    .catch(function (err) {
+                        assert.deepEqual(err, expectedError, 'The expected error descriptor should be provided');
 
-                        return proxy.write(expectedParams).then(function (response) {
-                            assert.ok(true, 'The promise should be resolved');
-                            assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
-                            QUnit.start();
-                        });
+                        return proxy.write(expectedParams);
+                    })
+                    .then(function (response) {
+                        assert.ok(true, 'The promise should be resolved');
+                        assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
+                        QUnit.start();
                     });
             })
             .catch(function (err) {
@@ -308,6 +332,11 @@ define([
         var expectedMethod = 'GET';
         var expectedResponse = {
             success: true
+        };
+        var initConfig = {
+            actions: {
+                remove: expectedUrl
+            }
         };
 
         QUnit.expect(10);
@@ -335,21 +364,18 @@ define([
             requestMock.api.trigger('success', expectedResponse);
         });
 
-        proxy.init({
-            actions: {
-                remove: expectedUrl
-            }
-        })
+        proxy.init(initConfig)
             .then(function () {
                 var result = proxy.remove(expectedParams);
 
                 assert.ok(result instanceof Promise, 'The proxyFactory.remove() method has returned a promise');
 
-                return result.then(function (response) {
-                    assert.ok(true, 'The promise should be resolved');
-                    assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
-                    QUnit.start();
-                });
+                return result;
+            })
+            .then(function (response) {
+                assert.ok(true, 'The promise should be resolved');
+                assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
+                QUnit.start();
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');
@@ -370,15 +396,31 @@ define([
         var expectedResponse = {
             success: true
         };
+        var expectedError = {
+            success: false,
+            type: 'notimplemented',
+            action: 'unknown',
+            params: {}
+        };
+        var initConfig = {
+            actions: {
+                foo: {
+                    url: expectedUrl,
+                    method: expectedMethod
+                }
+            }
+        };
 
-        QUnit.expect(11);
+        QUnit.expect(13);
 
         proxy = proxyFactory('ajax')
             .on('action', function (promise, action, params) {
                 assert.ok(true, 'The proxyFactory has fired the "action" event');
                 assert.ok(promise instanceof Promise, 'The proxyFactory has provided the promise through the "action" event');
-                assert.equal(action, expectedAction, 'The proxyFactory has provided the action name through the "action" event');
-                assert.deepEqual(params, expectedParams, 'The proxyFactory has provided the params through the "action" event');
+                promise.then(function() {
+                    assert.equal(action, expectedAction, 'The proxyFactory has provided the action name through the "action" event');
+                    assert.deepEqual(params, expectedParams, 'The proxyFactory has provided the params through the "action" event');
+                });
             });
 
         proxy.action()
@@ -397,24 +439,22 @@ define([
             requestMock.api.trigger('success', expectedResponse);
         });
 
-        proxy.init({
-            actions: {
-                foo: {
-                    url: expectedUrl,
-                    method: expectedMethod
-                }
-            }
-        })
+        proxy.init(initConfig)
             .then(function () {
-                var result = proxy.action(expectedAction, expectedParams);
+                return proxy.action('unknown')
+                    .then(function() {
+                        assert.ok(false, 'The promise should be rejected');
+                    })
+                    .catch(function (err) {
+                        assert.deepEqual(err, expectedError, 'The expected error descriptor should be provided');
 
-                assert.ok(result instanceof Promise, 'The proxyFactory.action() method has returned a promise');
-
-                return result.then(function (response) {
-                    assert.ok(true, 'The promise should be resolved');
-                    assert.deepEqual(response, expectedResponse, 'The expected responses have been provided');
-                    QUnit.start();
-                });
+                        return proxy.action(expectedAction, expectedParams);
+                    })
+                    .then(function (response) {
+                        assert.ok(true, 'The promise should be resolved');
+                        assert.deepEqual(response, expectedResponse, 'The expected response have been provided');
+                        QUnit.start();
+                    });
             })
             .catch(function (err) {
                 assert.ok(false, 'The promise should not be rejected');

@@ -31,6 +31,22 @@ define([
     };
 
     /**
+     * Builds a reject descriptor for a particular action context
+     * @param {String} type
+     * @param {String} action
+     * @param {Object} params
+     * @returns {Promise}
+     */
+    function rejectAction(type, action, params) {
+        return Promise.reject({
+            success: false,
+            type: type,
+            action: action,
+            params: params
+        });
+    }
+
+    /**
      * Defines an AJAX proxy implementation.
      * Will request a server to fetch data.
      */
@@ -67,57 +83,42 @@ define([
          * @param {Boolean} [config.noCache] - Prevent the request to be cached by the client (default: true)
          */
         init: function ajaxInit(config) {
-            _.defaults(config, _defaults);
-
-            // Gets a descriptor for a particular action
-            function getAction(action) {
-                var descriptor = config.actions[action];
-                if (_.isString(descriptor)) {
-                    descriptor = {url: descriptor};
-                }
-                return descriptor;
-            }
-
-            // Gets the URL related to a particular action
-            function getActionUrl(action, params) {
-                var descriptor = getAction(action);
-                var url;
-                if (descriptor && (!_.isFunction(descriptor.validate) || descriptor.validate(params) !== false)) {
-                    url = descriptor.url;
-                }
-                return url;
-            }
-
-            // Gets the HTTP method related to a particular action
-            function getActionMethod(action, method) {
-                var descriptor = getAction(action);
-                if (descriptor && descriptor.method) {
-                    method = descriptor.method;
-                }
-                return method || 'GET';
-            }
-
             // Will request the server for the wanted action.
             // May reject the request if the action is not implemented.
             this.processRequest = function processRequest(action, params, method) {
-                var url = getActionUrl(action, params);
+                var descriptor = config.actions[action];
 
-                if (url) {
-                    if (config.noCache) {
-                        params = _.merge({_: (new Date).getTime()}, params);
+                if (_.isString(descriptor)) {
+                    descriptor = {
+                        url: descriptor
+                    };
+                }
+
+                if (descriptor && descriptor.url) {
+                    if (_.isFunction(descriptor.validate) && descriptor.validate(params) === false) {
+                        // invalid parameter
+                        return rejectAction('invalid', action, params);
                     }
-
-                    return request(url, params, getActionMethod(action, method));
                 } else {
                     // action not implemented
-                    return Promise.reject({
-                        success: false,
-                        type: 'notimplemented',
-                        action: action,
-                        params: params
-                    });
+                    return rejectAction('notimplemented', action, params);
                 }
+
+                if (config.noCache) {
+                    params = _.merge({_: (new Date).getTime()}, params);
+                }
+
+                return request(descriptor.url, params, descriptor.method || method);
             };
+
+            _.defaults(config, _defaults);
+        },
+
+        /**
+         * Cleans up the instance when destroying
+         */
+        destroy: function htmlDataDestroy() {
+            this.processRequest = null;
         },
 
         /**
