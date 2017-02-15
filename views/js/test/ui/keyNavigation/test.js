@@ -68,7 +68,6 @@ define([
         assert.equal(navigables.length, 3, 'navigable element created');
 
         navigator = keyNavigator({
-            id : 'bottom-toolbar',
             elements : navigables,
             default : navigables.length - 1
         }).on('activate', function(cursor){
@@ -111,7 +110,7 @@ define([
         });
 
         navigator.focus();
-        assert.equal($(document.activeElement).data('id'), 'C', 'focus on last');
+        assert.equal($(document.activeElement).data('id'), 'C', 'default focus on last');
         navigator.next();
         assert.equal($(document.activeElement).data('id'), 'C', 'stay on last');
         navigator.previous();
@@ -135,9 +134,6 @@ define([
         assert.equal(navigables.length, 3, 'navigable element created');
 
         navigator = keyNavigator({
-            id : 'bottom-toolbar',
-            replace : true,
-            group : $container,
             elements : navigables,
             default : navigables.length - 1
         }).on('right down', function(){
@@ -155,7 +151,7 @@ define([
         });
 
         navigator.focus();
-        assert.equal($(document.activeElement).data('id'), 'C', 'focus on last');
+        assert.equal($(document.activeElement).data('id'), 'C', 'default focus on last');
 
         $(document.activeElement).trigger($.Event('keydown',{keyCode: 40}));//down
         assert.equal($(document.activeElement).data('id'), 'C', 'stay on last');
@@ -187,8 +183,6 @@ define([
         assert.equal(navigables.length, 3, 'navigable element created');
 
         navigator = keyNavigator({
-            id : 'bottom-toolbar',
-            replace : true,
             loop : true,
             elements : navigables
         }).on('right down', function(){
@@ -233,8 +227,6 @@ define([
         assert.equal(navigables.length, 3, 'navigable element created');
 
         navigator = keyNavigator({
-            id : 'bottom-toolbar',
-            replace : true,
             elements : navigables
         }).on('right down', function(){
             this.next();
@@ -274,8 +266,6 @@ define([
         assert.equal(navigables.length, 3, 'navigable element created');
 
         navigator = keyNavigator({
-            id : 'bottom-toolbar',
-            replace : true,
             keepState : true,
             elements : navigables
         }).on('right down', function(){
@@ -307,6 +297,60 @@ define([
 
     QUnit.module('Group navigable element');
 
+    QUnit.asyncTest('navigate between navigable areas', function(assert){
+        var navigator;
+        var $container = $('#qunit-fixture');
+        var navigableAreas = [
+            keyNavigator({
+                id : 'A',
+                replace : true,
+                elements : domNavigableElement.createFromJqueryContainer($container.find('[data-id=A]')),
+                group : $container.find('[data-id=A]')
+            }),
+            keyNavigator({
+                id : 'B',
+                replace : true,
+                elements : domNavigableElement.createFromJqueryContainer($container.find('[data-id=B]')),
+                group : $container.find('[data-id=B]')
+            }),
+            keyNavigator({
+                id : 'C',
+                replace : true,
+                elements : domNavigableElement.createFromJqueryContainer($container.find('[data-id=C]')),
+                group : $container.find('[data-id=C]')
+            })
+        ];
 
+        var navigables = groupNavigableElement.createFromNavigableDoms(navigableAreas);
+
+        QUnit.expect(8);
+
+        assert.equal(navigables.length, 3, 'navigable element created');
+
+        navigator = keyNavigator({
+            elements : navigables
+        }).on('right down', function(){
+            this.next();
+        }).on('left up', function(){
+            this.previous();
+        }).on('activate', function(cursor){
+            QUnit.start();
+            assert.ok(true, 'activated');
+            assert.equal(cursor.position, 2, 'activated position is ok');
+            assert.ok(cursor.navigable.getElement() instanceof $, 'navigable element in cursor');
+            assert.equal(cursor.navigable.getElement().data('id'), 'C', 'navigable element in cursor is correct');
+        });
+
+        navigator.focus();
+        assert.equal($(document.activeElement).data('id'), 'A', 'focus on first');
+
+        navigator.next();
+        assert.equal($(document.activeElement).data('id'), 'B', 'focus on second');
+
+        navigator.next();
+        assert.equal($(document.activeElement).data('id'), 'C', 'focus on last');
+
+        navigator.activate();
+    });
 
 });
