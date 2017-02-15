@@ -210,12 +210,30 @@ define([
              */
             getConfig: function getConfig() {
                 return initConfig;
+            },
+
+            /**
+             * Gets the middlewares handler
+             * @returns {middlewareHandler}
+             */
+            getMiddlewares: function getMidlewares() {
+                return middlewares;
+            },
+
+            /**
+             * Sets the middlewares handler
+             * @param {middlewareHandler} [handler] - An optional middlewares handler
+             * @returns {proxy}
+             */
+            setMiddlewares: function setMidlewares(handler) {
+                middlewares = handler;
+                return this;
             }
         });
 
         var delegateProxy = delegator(proxy, proxyAdapter, {
             name: 'proxy',
-            wrapper: function pluginWrapper(response) {
+            wrapper: function proxyWrapper(response) {
                 return Promise.resolve(response);
             }
         });

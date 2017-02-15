@@ -41,10 +41,13 @@ define([
         {title: 'create'},
         {title: 'read'},
         {title: 'write'},
+        {title: 'remove'},
         {title: 'action'},
         {title: 'addExtraParams'},
         {title: 'getTokenHandler'},
-        {title: 'getConfig'}
+        {title: 'getConfig'},
+        {title: 'getMiddlewares'},
+        {title: 'setMiddlewares'}
     ];
 
 
@@ -554,12 +557,11 @@ define([
 
 
     QUnit.test('proxy.getTokenHandler()', function (assert) {
+        var proxy, securityToken;
 
         proxyFactory.registerProvider('default', defaultProxy);
-
-        var proxy = proxyFactory('default');
-
-        var securityToken = proxy.getTokenHandler();
+        proxy = proxyFactory('default');
+        securityToken = proxy.getTokenHandler();
 
         QUnit.expect(3);
 
@@ -579,6 +581,9 @@ define([
             success: true,
             list: [1, 2, 3]
         };
+        var expectedResponse = _.merge({
+            record: expectedParams
+        }, expectedData);
 
         var middleware = {
             use: function () {
@@ -588,11 +593,12 @@ define([
                 assert.deepEqual(request, {command: current, params: params}, "The request command has been set");
                 assert.deepEqual(response, expectedData, "The response has been provided");
 
+                response.record = expectedParams;
                 return response;
             }
         };
 
-        QUnit.expect(4);
+        QUnit.expect(7);
 
         proxyFactory.registerProvider('default', _.defaults({
             init: function () {
@@ -609,9 +615,14 @@ define([
 
         proxy.init({}, expectedParams)
             .then(function () {
+                assert.equal(proxy.getMiddlewares(), middleware, 'The proxy should return the registered middleware handler');
+
                 return proxy.read(expectedParams);
             })
-            .then(function () {
+            .then(function (response) {
+                assert.deepEqual(response, expectedResponse, "The correct response has been read");
+                proxy.setMiddlewares(null);
+                assert.equal(proxy.getMiddlewares(), null, 'The middleware handler has been changed');
                 QUnit.start();
             })
             .catch(function (err) {

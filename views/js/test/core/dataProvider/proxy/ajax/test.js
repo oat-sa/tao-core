@@ -33,6 +33,7 @@ define([
         {title: 'create'},
         {title: 'read'},
         {title: 'write'},
+        {title: 'remove'},
         {title: 'action'}
     ];
 

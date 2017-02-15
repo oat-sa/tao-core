@@ -34,7 +34,8 @@ define([
         {title: 'destroy'},
         {title: 'create'},
         {title: 'read'},
-        {title: 'write'}
+        {title: 'write'},
+        {title: 'remove'}
     ];
 
 
@@ -72,7 +73,7 @@ define([
         };
         var result, proxy;
 
-        QUnit.expect(11);
+        QUnit.expect(13);
 
         proxy = proxyFactory('htmlData');
         result = proxy
@@ -92,6 +93,7 @@ define([
 
                 assert.equal(typeof proxy.get, 'function', 'Internal method should exist');
                 assert.equal(typeof proxy.set, 'function', 'Internal method should exist');
+                assert.equal(typeof proxy.erase, 'function', 'Internal method should exist');
 
                 return proxy.destroy();
             })
@@ -99,6 +101,7 @@ define([
                 assert.ok(true, 'The promise should be resolved');
                 assert.equal(proxy.get, null, 'Internal method should be destroyed');
                 assert.equal(proxy.set, null, 'Internal method should be destroyed');
+                assert.equal(proxy.erase, null, 'Internal method should be destroyed');
                 QUnit.start();
             })
             .catch(function (err) {
