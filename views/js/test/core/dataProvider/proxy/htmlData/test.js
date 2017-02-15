@@ -123,10 +123,7 @@ define([
         var existingData = {
             foo: 'bar'
         };
-        var expectedResponse = {
-            success: true,
-            data: expectedParams
-        };
+        var expectedResponse = expectedParams;
 
         QUnit.expect(9);
 
@@ -187,12 +184,9 @@ define([
             }
         },
         response: {
-            success: true,
-            data: {
-                list: [1, 2, 3],
-                record: {
-                    foo: 'bar'
-                }
+            list: [1, 2, 3],
+            record: {
+                foo: 'bar'
             }
         }
     }, {
@@ -210,12 +204,9 @@ define([
         },
         after: {},
         response: {
-            success: true,
-            data: {
-                list: [1, 2, 3],
-                record: {
-                    foo: 'bar'
-                }
+            list: [1, 2, 3],
+            record: {
+                foo: 'bar'
             }
         }
     }, {
@@ -239,10 +230,7 @@ define([
             }
         },
         response: {
-            success: true,
-            data: {
-                list: [1, 2, 3]
-            }
+            list: [1, 2, 3]
         }
     }, {
         title: 'filter by config',
@@ -264,10 +252,7 @@ define([
             }
         },
         response: {
-            success: true,
-            data: {
-                list: [1, 2, 3]
-            }
+            list: [1, 2, 3]
         }
     }];
 
@@ -329,16 +314,10 @@ define([
         var existingData = {
             foo: 'bar'
         };
-        var expectedWriteResponse = {
-            success: true,
-            data: expectedParams
-        };
+        var expectedWriteResponse = expectedParams;
         var expectedReadResponse = {
-            success: true,
-            data: {
-                foo: 'bar',
-                list: [1, 2, 3]
-            }
+            foo: 'bar',
+            list: [1, 2, 3]
         };
 
         QUnit.expect(10);
@@ -371,7 +350,7 @@ define([
             .then(function (response) {
                 assert.ok(true, 'The promise should be resolved');
                 assert.deepEqual(response, expectedWriteResponse, 'The expected responses have been provided');
-                assert.deepEqual($(initConfig.container).data(), expectedReadResponse.data, 'The DOM element has been hydrated');
+                assert.deepEqual($(initConfig.container).data(), expectedReadResponse, 'The DOM element has been hydrated');
                 return proxy.read();
             })
             .then(function(response) {
@@ -400,15 +379,9 @@ define([
         },
         after: {},
         response: {
-            success: true
-        },
-        read: {
-            success: true,
-            data: {
-                list: [1, 2, 3],
-                record: {
-                    foo: 'bar'
-                }
+            list: [1, 2, 3],
+            record: {
+                foo: 'bar'
             }
         }
     }, {
@@ -431,15 +404,9 @@ define([
             }
         },
         response: {
-            success: true
-        },
-        read: {
-            success: true,
-            data: {
-                list: [1, 2, 3],
-                record: {
-                    foo: 'bar'
-                }
+            list: [1, 2, 3],
+            record: {
+                foo: 'bar'
             }
         }
     }, {
@@ -461,13 +428,7 @@ define([
             }
         },
         response: {
-            success: true
-        },
-        read: {
-            success: true,
-            data: {
-                list: [1, 2, 3]
-            }
+            list: [1, 2, 3]
         }
     }];
 
@@ -476,7 +437,7 @@ define([
         .asyncTest('htmlData.remove() ', function (data, assert) {
             var proxy;
 
-            QUnit.expect(9);
+            QUnit.expect(8);
 
             assert.deepEqual($(data.config.container).data(), data.before, 'The DOM element have data');
 
@@ -500,12 +461,11 @@ define([
                     return proxy.read();
                 })
                 .then(function(response) {
-                    assert.deepEqual(response, data.read, 'The expected data have been found');
+                    assert.deepEqual(response, data.response, 'The expected data have been found');
                     assert.deepEqual($(data.config.container).data(), data.before, 'The DOM element still have data');
 
                     return proxy.remove(data.params);
-                }).then(function(response) {
-                    assert.deepEqual(response, data.response, 'The expected response has been provided');
+                }).then(function() {
                     assert.deepEqual($(data.config.container).data(), data.after, 'The DOM element has the expected remaining data');
                     QUnit.start();
                 })

@@ -125,10 +125,7 @@ define([
                     self.$container.data(key, value);
                 });
 
-                return {
-                    success: _.size(output) === _.size(data),
-                    data: output
-                };
+                return output;
             };
 
             // erase the data by keys
@@ -172,11 +169,7 @@ define([
          * @param {Array} [params.keys] - The list of entries to read
          */
         read: function htmlDataRead(params) {
-            var data = this.get(params);
-            return {
-                success: !!_.size(data),
-                data: data
-            };
+            return this.get(params);
         },
 
         /**
@@ -195,9 +188,6 @@ define([
         remove: function htmlDataRemove(params) {
             var data = this.get(params);
             this.erase(_.keys(data));
-            return {
-                success: true
-            };
         }
     };
 });
