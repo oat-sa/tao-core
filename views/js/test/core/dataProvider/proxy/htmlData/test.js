@@ -22,8 +22,8 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'core/dataBroker/proxy',
-    'core/dataBroker/proxy/htmlData'
+    'core/dataProvider/proxy',
+    'core/dataProvider/proxy/htmlData'
 ], function ($, _, Promise, proxyFactory, htmlDataProvider) {
     'use strict';
 

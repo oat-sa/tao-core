@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Core - DataBroker HTML data Proxy</title>
+        <title>Core - DataProvider HTML data Proxy</title>
         <base href="../../../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/dataBroker/proxy/htmlData.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/dataProvider/proxy/htmlData.js"></script>
 
         <script  type="text/javascript">
 
@@ -19,7 +19,7 @@
             require(['/tao/ClientConfig/config'], function(){
 
                 //load the test
-                require(['test/core/dataBroker/proxy/htmlData/test'], function(){
+                require(['test/core/dataProvider/proxy/htmlData/test'], function(){
 
                     //Tests loaded, run tests
                     QUnit.start();

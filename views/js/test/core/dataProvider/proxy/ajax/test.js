@@ -22,8 +22,8 @@ define([
     'lodash',
     'core/promise',
     'core/dataProvider/request',
-    'core/dataBroker/proxy',
-    'core/dataBroker/proxy/ajax'
+    'core/dataProvider/proxy',
+    'core/dataProvider/proxy/ajax'
 ], function (_, Promise, requestMock, proxyFactory, ajaxProvider) {
     'use strict';
 

@@ -19,7 +19,7 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'core/dataBroker/middleware'
+    'core/middleware'
 ], function (middlewaresHandlerFactory) {
     'use strict';
 
