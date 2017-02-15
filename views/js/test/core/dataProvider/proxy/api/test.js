@@ -85,18 +85,14 @@ define([
 
     QUnit.asyncTest('proxy.init()', function (assert) {
         var initConfig = {};
-        var expectedParams = {
-            foo: 'bar'
-        };
         var result, proxy;
 
-        QUnit.expect(9);
+        QUnit.expect(8);
 
         proxyFactory.registerProvider('default', _.defaults({
-            init: function (config, params) {
+            init: function (config) {
                 assert.ok(true, 'The proxyFactory has delegated the call');
                 assert.deepEqual(config, initConfig, 'The proxyFactory has provided the config object as a parameter');
-                assert.deepEqual(params, expectedParams, 'The delegated method received the expected parameters');
                 return Promise.resolve();
             }
         }, defaultProxy));
@@ -108,7 +104,7 @@ define([
                 assert.ok(promise instanceof Promise, 'The proxyFactory has provided the promise through the "init" event');
                 assert.deepEqual(config, initConfig, 'The proxyFactory has provided the config object through the "init" event');
             })
-            .init(initConfig, expectedParams);
+            .init(initConfig);
 
         assert.ok(result instanceof Promise, 'The proxyFactory.init() method has returned a promise');
 
@@ -116,51 +112,6 @@ define([
             .then(function () {
                 assert.ok(true, 'The promise should be resolved');
                 assert.deepEqual(proxy.getConfig(), initConfig, 'The proxyFactory has provided the config object through the "init" event');
-                QUnit.start();
-            })
-            .catch(function (err) {
-                assert.ok(false, 'The promise should not be rejected');
-                console.error(err);
-                QUnit.start();
-            });
-    });
-
-
-    QUnit.asyncTest('proxy.init() #extra parameters', function (assert) {
-        var initConfig = {};
-        var extraParams = {abc: '123', def: 456};
-        var initParams = {
-            foo: 'bar'
-        };
-        var expectedParams = _.merge({}, initParams, extraParams);
-        var result;
-
-        QUnit.expect(9);
-
-        proxyFactory.registerProvider('default', _.defaults({
-            init: function (config, params) {
-                assert.ok(true, 'The proxyFactory has delegated the call');
-                assert.deepEqual(config, initConfig, 'The proxyFactory has provided the config object as a parameter');
-                assert.deepEqual(params, expectedParams, 'The delegated method received the expected parameters');
-                return Promise.resolve();
-            }
-        }, defaultProxy));
-
-        result = proxyFactory('default')
-            .on('init', function (promise, config, params) {
-                assert.ok(true, 'The proxyFactory has fired the "init" event');
-                assert.ok(promise instanceof Promise, 'The proxyFactory has provided the promise through the "init" event');
-                assert.deepEqual(config, initConfig, 'The proxyFactory has provided the config object through the "init" event');
-                assert.deepEqual(params, expectedParams, 'The proxyFactory has provided the init params through the "init" event');
-            })
-            .addExtraParams(extraParams)
-            .init(initConfig, initParams);
-
-        assert.ok(result instanceof Promise, 'The proxyFactory.init() method has returned a promise');
-
-        result
-            .then(function () {
-                assert.ok(true, 'The promise should be resolved');
                 QUnit.start();
             })
             .catch(function (err) {
@@ -589,7 +540,7 @@ define([
             use: function () {
             },
             apply: function (request, response) {
-                var params = current === 'init' ? [{}, expectedParams] : [expectedParams];
+                var params = current === 'init' ? [{}] : [expectedParams];
                 assert.deepEqual(request, {command: current, params: params}, "The request command has been set");
                 assert.deepEqual(response, expectedData, "The response has been provided");
 
@@ -613,7 +564,7 @@ define([
 
         proxy = proxyFactory('default', middleware);
 
-        proxy.init({}, expectedParams)
+        proxy.init()
             .then(function () {
                 assert.equal(proxy.getMiddlewares(), middleware, 'The proxy should return the registered middleware handler');
 
