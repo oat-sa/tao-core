@@ -92,7 +92,7 @@ class RdsNotification
         return $notification;
     }
 
-    public function getNotifications(\core_kernel_classes_Resource $user)
+    public function getNotifications($userId)
     {
         $notification = [];
         $persistence = $this->getPersistence();
@@ -104,7 +104,7 @@ class RdsNotification
                         'LIMIT 20';
 
         $params      = [
-            $user->getUri()
+            $userId
         ];
 
         $stmt   = $persistence->query($selectQuery , $params);
@@ -182,7 +182,7 @@ class RdsNotification
 
     }
 
-    public function notificationCount(\core_kernel_classes_Resource $user)
+    public function notificationCount($userId)
     {
 
         $persistence = $this->getPersistence();
@@ -194,7 +194,7 @@ class RdsNotification
             '  GROUP BY ' . self::NOTIF_FIELD_STATUS ;
 
         $params      = [
-            $user->getUri()
+            $userId
         ];
 
         $stmt   = $persistence->query($selectQuery , $params);

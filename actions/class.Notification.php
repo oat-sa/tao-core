@@ -34,7 +34,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
          */
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
-            $count = $notificationService->notificationCount($user);
+            $count = $notificationService->notificationCount($user->getUri());
         } catch (\Exception $e) {
             return $this->returnError($e->getMessage());
         }
@@ -52,7 +52,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
          */
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
-            $list = $notificationService->getNotifications($user);
+            $list = $notificationService->getNotifications($user->getUri());
         } catch (\Exception $e) {
             return $this->returnError($e->getMessage());
         }
@@ -85,7 +85,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
          */
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
-            $list = $notificationService->getNotifications($user);
+            $list = $notificationService->getNotifications($user->getUri());
         } catch (\Exception $e) {
             return $this->returnError($e->getMessage());
         }
