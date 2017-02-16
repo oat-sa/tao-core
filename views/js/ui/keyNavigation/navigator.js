@@ -99,7 +99,7 @@ define([
     };
 
     /**
-     * Create a navigationGroup
+     * Create a keyNavigator
      *
      * @param config - the config
      * @param {String} config.id - global unique id to define this group
@@ -109,11 +109,11 @@ define([
      * @param {Boolean} [config.keepState=false] - define if the position should be saved in memory after the group blurs and re-focuses
      * @param {Boolean} [config.replace=false] - define if the navigation group can be reinitialized, hence replacing the existing one
      * @param {Boolean} [config.loop=false] - define if the navigation should loop after reaching the last or the first element
-     * @returns {navigationGroup}
+     * @returns {keyNavigator}
      */
     var keyNavigatorFactory = function keyNavigatorFactory(config){
 
-        var id, navigables, navigationGroup, $group;
+        var id, navigables, keyNavigator, $group;
         var arrowKeyMap = getArrowKeyMap();
         var activationKeys = getActivateKey();
         var _cursor = {
@@ -222,9 +222,9 @@ define([
         /**
          * The navigation group object
          *
-         * @typedef navigationGroup
+         * @typedef keyNavigator
          */
-        navigationGroup = eventifier({
+        keyNavigator = eventifier({
 
             /**
              * Get the navigation group id
@@ -245,9 +245,9 @@ define([
             /**
              * Move cursor to next position
              *
-             * @returns {navigationGroup}
-             * @fires navigationGroup#upperbound when we cannot move further
-             * @fires navigationGroup#next when the cursor successfully moved to the next position
+             * @returns {keyNavigator}
+             * @fires keyNavigator#upperbound when we cannot move further
+             * @fires keyNavigator#next when the cursor successfully moved to the next position
              */
             next : function next(){
                 var cursor = getCursor();
@@ -274,9 +274,9 @@ define([
             /**
              * Move cursor to previous position
              *
-             * @returns {navigationGroup}
-             * @fires navigationGroup#lowerbound when we cannot move lower
-             * @fires navigationGroup#previous when the cursor successfully moved to the previous position
+             * @returns {keyNavigator}
+             * @fires keyNavigator#lowerbound when we cannot move lower
+             * @fires keyNavigator#previous when the cursor successfully moved to the previous position
              */
             previous : function previous(){
                 var cursor = getCursor();
@@ -304,9 +304,9 @@ define([
              * Focus to a position defined by its index
              *
              * @param {Integer} position
-             * @returns {navigationGroup}
-             * @fires navigationGroup#blur on the previous cursor
-             * @fires navigationGroup#focus on the new cursor
+             * @returns {keyNavigator}
+             * @fires keyNavigator#blur on the previous cursor
+             * @fires keyNavigator#focus on the new cursor
              */
             activate : function activate(target){
                 var cursor = getCursor();
@@ -320,8 +320,8 @@ define([
              * Go to another navigation group, defined by its id
              *
              * @param {String} groupId
-             * @returns {navigationGroup}
-             * @fires navigationGroup#error is the target group does not exists
+             * @returns {keyNavigator}
+             * @fires keyNavigator#error is the target group does not exists
              */
             goto : function goto(groupId){
                 if(_navigationGroups[groupId]){
@@ -334,9 +334,10 @@ define([
 
             /**
              * Focus the cursor position in memory is keepState is activated, or the default position otherwise
-             * @returns {navigationGroup}
+             * @param {keyNavigator} [originNavigator] -  optionally indicates where the previous focus is on
+             * @returns {keyNavigator}
              */
-            focus : function focus(){
+            focus : function focus(originNavigator){
                 var pos;
                 if(config.keepState && _cursor && _cursor.position >= 0){
                     pos = _cursor.position;
@@ -345,7 +346,7 @@ define([
                 }else{
                     pos = config.default;
                 }
-                this.focusPosition(getClosestPositionRight(pos));
+                this.focusPosition(getClosestPositionRight(pos), originNavigator);
                 return this;
             },
 
@@ -353,26 +354,36 @@ define([
              * Focus to a position defined by its index
              *
              * @param {Integer} position
-             * @returns {navigationGroup}
+             * @returns {keyNavigator}
              * @fires blur on the previous cursor
              * @fires focus on the new cursor
              */
-            focusPosition : function focusPosition(position){
+            focusPosition : function focusPosition(position, originNavigator){
                 if(navigables[position]){
                     if(_cursor.navigable){
-                        this.trigger('blur', _cursor);
+                        this.trigger('blur', _cursor, originNavigator);
                     }
                     _cursor.position = position;
                     navigables[_cursor.position].focus();
                     _cursor.navigable = navigables[_cursor.position];
-                    this.trigger('focus', _cursor);
+                    this.trigger('focus', _cursor, originNavigator);
                 }
+                return this;
+            },
+
+            first  : function first(){
+                this.focusPosition(getClosestPositionRight(0));
+                return this;
+            },
+
+            last  : function last(){
+                this.focusPosition(getClosestPositionLeft(navigables.length -1));
                 return this;
             },
 
             /**
              * Destroy and cleanup
-             * @returns {navigationGroup}
+             * @returns {keyNavigator}
              */
             destroy : function destroy(){
                 _.each(navigables, function(navigable){
@@ -387,7 +398,7 @@ define([
 
             /**
              * Blur the current cursor
-             * @returns {navigationGroup}
+             * @returns {keyNavigator}
              */
             blur : function blur(){
                 if(_cursor && _cursor.navigable){
@@ -418,34 +429,34 @@ define([
                             e.preventDefault();
                         }
                         e.stopPropagation();
-                        navigationGroup.trigger(arrowKeyMap[keyCode]);
+                        keyNavigator.trigger(arrowKeyMap[keyCode]);
                     }
                 }).on('keyup'+_ns, function(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
                     if(activationKeys.indexOf(keyCode) >= 0){
                         e.preventDefault();
-                        navigationGroup.activate(e.target);
+                        keyNavigator.activate(e.target);
                     }
                 });
             }
 
             navigable.getElement().on('blur', function(){
-                navigationGroup.blur();
+                keyNavigator.blur();
             });
 
         });
 
         //store the navigator for external reference
-        _navigationGroups[id] = navigationGroup;
+        _navigationGroups[id] = keyNavigator;
 
-        return navigationGroup;
+        return keyNavigator;
     };
 
     /**
      * Get a group navigation by its id
      *
      * @param {String} id
-     * @returns {navigationGroup}
+     * @returns {keyNavigator}
      */
     keyNavigatorFactory.get = function get(id){
         if(_navigationGroups[id]){

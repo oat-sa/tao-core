@@ -73,7 +73,7 @@ define([
                 return $group.length;
             },
             focus: function focus() {
-                navigableElement.focus();
+                navigableElement.focus(this);
                 return this;
             }
         });
