@@ -405,7 +405,7 @@ define([
 
             if(navigables.length > 1
                 || !$group
-                || $group && navigable.getElement() !== $group.get(0)){
+                || $group && navigable.getElement().get(0) !== $group.get(0)){
 
                 //internal key bindings
                 //to save useless event bindings, the events are attached only if the there are more than one focusable element
@@ -413,7 +413,7 @@ define([
                 navigable.getElement().on('keydown'+_ns, function(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
                     if(arrowKeyMap[keyCode]){
-                        if(e.target.tagName !== 'IMG'){
+                        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
                             //prevent scrolling of parent element
                             e.preventDefault();
                         }
