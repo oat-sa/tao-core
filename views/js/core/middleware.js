@@ -90,7 +90,7 @@ define([
                 return new Promise(function (resolve, reject) {
                     async.series(list, function (err) {
                         // handle implicit error from response descriptor
-                        if (!err && !response.success) {
+                        if (!err && response.success === false) {
                             err = response;
                         }
 
