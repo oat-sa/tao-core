@@ -678,14 +678,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.62.0');
         }
 
-        $this->skip('7.62.0', '7.63.0');
+        $this->skip('7.62.0', '7.67.1');
 
-        if($this->isVersion('7.64.0')) {
+        if($this->isVersion('7.67.1')) {
             $notifInstaller = new InstallNotificationTable();
             $notifInstaller->__invoke([]);
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
-            $this->setVersion('7.65.0');
+            $this->setVersion('7.68.0');
         }
+
     }
 
     private function migrateFsAccess() {
