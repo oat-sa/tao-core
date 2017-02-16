@@ -63,7 +63,8 @@ define([
              * Initializes the proxy
              * @param {Object} [config] - Some optional config depending of implementation,
              *                            this object will be forwarded to the proxy adapter
-             * @returns {Promise} - Returns a promise. The proxy will be fully initialized on resolve.
+             * @returns {Promise} - Returns a promise that provide the proxy.
+             *                      The proxy will be fully initialized on resolve.
              *                      Any error will be provided if rejected.
              * @fires init
              */
@@ -75,10 +76,10 @@ define([
                  * @param {Promise} promise
                  * @param {Object} params
                  */
-                return delegate('init', initConfig).then(function (data) {
+                return delegate('init', initConfig).then(function () {
                     // If the delegate call succeed the proxy is initialized.
                     initialized = true;
-                    return data;
+                    return proxy;
                 });
             },
 

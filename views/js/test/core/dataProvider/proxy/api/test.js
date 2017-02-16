@@ -87,7 +87,7 @@ define([
         var initConfig = {};
         var result, proxy;
 
-        QUnit.expect(8);
+        QUnit.expect(9);
 
         proxyFactory.registerProvider('default', _.defaults({
             init: function (config) {
@@ -109,9 +109,10 @@ define([
         assert.ok(result instanceof Promise, 'The proxyFactory.init() method has returned a promise');
 
         result
-            .then(function () {
+            .then(function (resolvedProxy) {
                 assert.ok(true, 'The promise should be resolved');
-                assert.deepEqual(proxy.getConfig(), initConfig, 'The proxyFactory has provided the config object through the "init" event');
+                assert.deepEqual(proxy.getConfig(), initConfig, 'The proxyFactory has provided the config object');
+                assert.equal(resolvedProxy, proxy, 'The promise has been resolved with the initialized proxy');
                 QUnit.start();
             })
             .catch(function (err) {
