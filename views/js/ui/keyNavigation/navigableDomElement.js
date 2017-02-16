@@ -17,6 +17,9 @@
  *
  */
 
+/**
+ * From a dom element, create a navigable element compatible with ui/KeyNavigator/navigator
+ */
 define([
     'jquery',
     'lodash',
@@ -24,10 +27,18 @@ define([
 ], function ($, _, eventifier) {
     'use strict';
 
-    var domNavigableElement = function domNavigableElement($element) {
+    /**
+     * From a dom element, create a navigable element compatible with ui/KeyNavigator/navigator
+     * @param {JQuery} $element
+     * @returns {navigableDomElement}
+     */
+    var navigableDomElement = function navigableDomElement($element) {
 
         $element = $($element);
 
+        /**
+         * @typedef navigableDomElement
+         */
         return eventifier({
             init: function init() {
                 if (!$element.length) {
@@ -57,13 +68,18 @@ define([
         });
     };
 
-    domNavigableElement.createFromJqueryContainer =  function createFromJqueryContainer($elements){
+    /**
+     * From a JQuery container, returns an array of navigableDomElement
+     * @param {JQuery} $elements
+     * @returns {Array}
+     */
+    navigableDomElement.createFromDoms =  function createFromDoms($elements){
         var list = [];
         $elements.each(function(){
-            list.push(domNavigableElement($(this)));
+            list.push(navigableDomElement($(this)));
         });
         return list;
     };
 
-    return domNavigableElement;
+    return navigableDomElement;
 });

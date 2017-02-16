@@ -19,9 +19,9 @@ define([
     'jquery',
     'lodash',
     'ui/keyNavigation/navigator',
-    'ui/keyNavigation/domNavigableElement',
-    'ui/keyNavigation/groupNavigableElement',
-], function($, _, keyNavigator, domNavigableElement, groupNavigableElement){
+    'ui/keyNavigation/navigableDomElement',
+    'ui/keyNavigation/navigableGroupElement',
+], function($, _, keyNavigator, navigableDomElement, navigableGroupElement){
     'use strict';
 
     var pluginApi = [
@@ -63,13 +63,13 @@ define([
         var navigator;
         var $container = $('#qunit-fixture');
         var $navigables = $container.find('.nav');
-        var navigables = domNavigableElement.createFromJqueryContainer($navigables);
+        var navigables = navigableDomElement.createFromDoms($navigables);
 
         assert.equal(navigables.length, 3, 'navigable element created');
 
         navigator = keyNavigator({
             elements : navigables,
-            default : navigables.length - 1
+            defaultPosition : navigables.length - 1
         }).on('activate', function(cursor){
             QUnit.start();
             assert.ok(true, 'activated');
@@ -87,7 +87,7 @@ define([
         var navigator;
         var $container = $('#qunit-fixture');
         var $navigables = $container.find('.nav');
-        var navigables = domNavigableElement.createFromJqueryContainer($navigables);
+        var navigables = navigableDomElement.createFromDoms($navigables);
 
         assert.equal(navigables.length, 3, 'navigable element created');
 
@@ -96,7 +96,7 @@ define([
             replace : true,
             group : $container,
             elements : navigables,
-            default : navigables.length - 1
+            defaultPosition : navigables.length - 1
         }).on('right down', function(){
             this.next();
         }).on('left up', function(){
@@ -127,7 +127,7 @@ define([
         var navigator;
         var $container = $('#qunit-fixture');
         var $navigables = $container.find('.nav');
-        var navigables = domNavigableElement.createFromJqueryContainer($navigables);
+        var navigables = navigableDomElement.createFromDoms($navigables);
 
         QUnit.expect(16);
 
@@ -135,7 +135,7 @@ define([
 
         navigator = keyNavigator({
             elements : navigables,
-            default : navigables.length - 1
+            defaultPosition : navigables.length - 1
         }).on('right down', function(){
             this.next();
             assert.ok(true, 'go next');
@@ -176,7 +176,7 @@ define([
         var navigator;
         var $container = $('#qunit-fixture');
         var $navigables = $container.find('.nav');
-        var navigables = domNavigableElement.createFromJqueryContainer($navigables);
+        var navigables = navigableDomElement.createFromDoms($navigables);
 
         QUnit.expect(10);
 
@@ -220,7 +220,7 @@ define([
         var navigator;
         var $container = $('#qunit-fixture');
         var $navigables = $container.find('.nav');
-        var navigables = domNavigableElement.createFromJqueryContainer($navigables);
+        var navigables = navigableDomElement.createFromDoms($navigables);
 
         QUnit.expect(9);
 
@@ -259,7 +259,7 @@ define([
         var navigator;
         var $container = $('#qunit-fixture');
         var $navigables = $container.find('.nav');
-        var navigables = domNavigableElement.createFromJqueryContainer($navigables);
+        var navigables = navigableDomElement.createFromDoms($navigables);
 
         QUnit.expect(9);
 
@@ -304,24 +304,24 @@ define([
             keyNavigator({
                 id : 'A',
                 replace : true,
-                elements : domNavigableElement.createFromJqueryContainer($container.find('[data-id=A]')),
+                elements : navigableDomElement.createFromDoms($container.find('[data-id=A]')),
                 group : $container.find('[data-id=A]')
             }),
             keyNavigator({
                 id : 'B',
                 replace : true,
-                elements : domNavigableElement.createFromJqueryContainer($container.find('[data-id=B]')),
+                elements : navigableDomElement.createFromDoms($container.find('[data-id=B]')),
                 group : $container.find('[data-id=B]')
             }),
             keyNavigator({
                 id : 'C',
                 replace : true,
-                elements : domNavigableElement.createFromJqueryContainer($container.find('[data-id=C]')),
+                elements : navigableDomElement.createFromDoms($container.find('[data-id=C]')),
                 group : $container.find('[data-id=C]')
             })
         ];
 
-        var navigables = groupNavigableElement.createFromNavigableDoms(navigableAreas);
+        var navigables = navigableGroupElement.createFromNavigators(navigableAreas);
 
         QUnit.expect(8);
 

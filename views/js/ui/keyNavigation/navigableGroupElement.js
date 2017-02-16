@@ -17,6 +17,10 @@
  *
  */
 
+/**
+ * From an instance of keyNavigator, create a navigable element compatible with ui/KeyNavigator/navigator
+ * It enables navigating within a group of keyNavigator
+ */
 define([
     'jquery',
     'lodash',
@@ -24,21 +28,29 @@ define([
 ], function ($, _, eventifier) {
     'use strict';
 
-    var _ns = '.group-navigator';
+    var _ns = '.navigable-group-element';
 
-    var groupNavigableElement = function groupNavigableElement(navigableElement) {
+    /**
+     * From an instance of keyNavigator, create a navigable element compatible with ui/KeyNavigator/navigator
+     * @param {keyNavigator} keyNavigator
+     * @returns {navigableGroupElement}
+     */
+    var navigableGroupElementFactory = function navigableGroupElementFactory(keyNavigator) {
 
         var $group;
 
-        if(!navigableElement){
+        if(!keyNavigator){
             throw new TypeError('the navigation group does not exist');
         }
 
-        $group = navigableElement.getGroup();
+        $group = keyNavigator.getGroup();
         if(!$group.length || !$.contains(document, $group[0])){
             throw new TypeError('the group dom element does not exist');
         }
 
+        /**
+         * @typedef navigableGroupElement
+         */
         return eventifier({
             init: function init() {
 
@@ -73,19 +85,24 @@ define([
                 return $group.length;
             },
             focus: function focus() {
-                navigableElement.focus(this);
+                keyNavigator.focus(this);
                 return this;
             }
         });
     };
 
-    groupNavigableElement.createFromNavigableDoms =  function createFromNavigableDoms(navigableDomElements){
+    /**
+     *
+     * @param {Array} keyNavigators - the array of navigators to be transformed into an array or navigableGroupElement
+     * @returns {Array}
+     */
+    navigableGroupElementFactory.createFromNavigators =  function createFromNavigators(keyNavigators){
         var list = [];
-        _.each(navigableDomElements, function(el){
-            list.push(groupNavigableElement(el));
+        _.each(keyNavigators, function(keyNavigator){
+            list.push(navigableGroupElementFactory(keyNavigator));
         });
         return list;
     };
 
-    return groupNavigableElement;
+    return navigableGroupElementFactory;
 });

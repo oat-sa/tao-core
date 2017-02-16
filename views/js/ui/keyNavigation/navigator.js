@@ -24,12 +24,13 @@
  * @example
  * var $navigationBar = $('#navigation-bar');
  * var $buttons = $navigationBar.find('li');
+ * var navigables = domNavigableElement.createFromJqueryContainer($buttons);
  * keyNavigator({
  *       id : 'navigation-toolbar',
  *       replace : true,
  *       group : $navigationBar,
- *       elements : $buttons,
- *       default : 0
+ *       elements : navigables,
+ *       defaultPosition : 0
  *   }).on('right down', function(){
  *       this.next();
  *   }).on('left up', function(){
@@ -49,10 +50,10 @@ define([
 
     var _navigationGroups = {};
 
-    var _ns = '.navigation-group';
+    var _ns = '.ui-key-navigator';
 
     var _defaults = {
-        default : 0,
+        defaultPosition : 0,
         keepState : false,
         replace : false,
         loop : false
@@ -87,6 +88,12 @@ define([
         return [KEY_CODE_SPACE, KEY_CODE_ENTER];
     };
 
+    /**
+     * Check if the object is argument is a valid navigable element
+     *
+     * @param {Object} navElement
+     * @returns {boolean}
+     */
     var isNavigableElement = function isNavigableElement(navElement){
         return (
             navElement
@@ -105,7 +112,7 @@ define([
      * @param {String} config.id - global unique id to define this group
      * @param {JQuery} config.elements - the group of element to be keyboard-navigated
      * @param {JQuery} [config.group] - the container the group of elements belong to
-     * @param {Number} [config.default=0] - the default position the group should set the focus on
+     * @param {Number|Function} [config.defaultPosition=0] - the default position the group should set the focus on (could be a function to compute the position)
      * @param {Boolean} [config.keepState=false] - define if the position should be saved in memory after the group blurs and re-focuses
      * @param {Boolean} [config.replace=false] - define if the navigation group can be reinitialized, hence replacing the existing one
      * @param {Boolean} [config.loop=false] - define if the navigation should loop after reaching the last or the first element
@@ -199,14 +206,6 @@ define([
                 //check if it is a valid navigable element
                 navigable.init();
         });
-        //$navigables.each(function(){
-        //    var $navigable = $(this);
-        //    if(!$navigable.length){
-        //        throw new TypeError('dom element does not exist');
-        //    }
-        //    $navigable.attr('tabindex', -1);//add simply a tabindex to enable focusing, this tabindex is not actually used in tabbing order
-        //    $navigable.addClass('key-navigation-highlight');
-        //});
 
         if(config.group){
             $group = $(config.group);
@@ -341,10 +340,10 @@ define([
                 var pos;
                 if(config.keepState && _cursor && _cursor.position >= 0){
                     pos = _cursor.position;
-                }else if(_.isFunction(config.default)){
-                    pos = config.default(navigables);
+                }else if(_.isFunction(config.defaultPosition)){
+                    pos = config.defaultPosition(navigables);
                 }else{
-                    pos = config.default;
+                    pos = config.defaultPosition;
                 }
                 this.focusPosition(getClosestPositionRight(pos), originNavigator);
                 return this;
@@ -371,12 +370,20 @@ define([
                 return this;
             },
 
-            first  : function first(){
+            /**
+             * Set focus on the first available focusable element
+             * @returns {keyNavigator}
+             */
+            first : function first(){
                 this.focusPosition(getClosestPositionRight(0));
                 return this;
             },
 
-            last  : function last(){
+            /**
+             * Set focus on the last available focusable element
+             * @returns {keyNavigator}
+             */
+            last : function last(){
                 this.focusPosition(getClosestPositionLeft(navigables.length -1));
                 return this;
             },
