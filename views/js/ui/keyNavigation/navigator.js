@@ -337,11 +337,15 @@ define([
              * @returns {navigationGroup}
              */
             focus : function focus(){
+                var pos;
                 if(config.keepState && _cursor && _cursor.position >= 0){
-                    this.focusPosition(getClosestPositionRight(_cursor.position));
+                    pos = _cursor.position;
+                }else if(_.isFunction(config.default)){
+                    pos = config.default(navigables);
                 }else{
-                    this.focusPosition(getClosestPositionRight(config.default));
+                    pos = config.default;
                 }
+                this.focusPosition(getClosestPositionRight(pos));
                 return this;
             },
 
@@ -409,7 +413,7 @@ define([
                 navigable.getElement().on('keydown'+_ns, function(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
                     if(arrowKeyMap[keyCode]){
-                        if(e.target.tagName === 'INPUT'){
+                        if(e.target.tagName !== 'IMG'){
                             //prevent scrolling of parent element
                             e.preventDefault();
                         }
