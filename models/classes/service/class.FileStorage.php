@@ -109,22 +109,35 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
         $path = $this->id2path($id);
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->getFsId($public))->deleteDir($path);
     }
-    
-    public function import($id, $directoryPath) {
+
+    /**
+     * @param string $id
+     * @param string $directoryPath
+     * @throws common_Exception
+     */
+    public function import($id, $directoryPath)
+    {
         $directory = $this->getDirectoryById($id);
-        if (file_exists($directory->getPath())) {
-            if(tao_helpers_File::isDirEmpty($directory->getPath())){
-                common_Logger::d('Directory already found but content is empty');
-                helpers_File::copy($directoryPath, $directory->getPath(), true);
-                
-            }else if (tao_helpers_File::isIdentical($directory->getPath(), $directoryPath)) {
-                common_Logger::d('Directory already found but content is identical');
-            } else {
-                throw new common_Exception('Duplicate dir '.$id.' with different content');
+        if (is_dir($directoryPath) && is_readable($directoryPath)) {
+            foreach (
+                $iterator = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($directoryPath, \RecursiveDirectoryIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::SELF_FIRST) as $item
+            ) {
+                if (!$item->isDir()) {
+                    $file = $directory->getFile($iterator->getSubPathName());
+
+                    if ($file->exists() && 0 !== strcmp($file->read(), file_get_contents($item))) {
+                        throw new common_Exception('Different file content');
+                    }
+
+                    $fh = fopen($item, 'rb');
+                    $file->put($fh);
+                    fclose($fh);
+                }
             }
         } else {
-            mkdir($directory->getPath(), 0700, true);
-            helpers_File::copy($directoryPath, $directory->getPath(), true);
+            common_Logger::w('Missing directory ' . $directoryPath);
         }
     }
     
