@@ -126,14 +126,17 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
             ) {
                 if (!$item->isDir()) {
                     $file = $directory->getFile($iterator->getSubPathName());
+                    $fileExists = $file->exists();
 
-                    if ($file->exists() && 0 !== strcmp($file->read(), file_get_contents($item))) {
+                    if ($fileExists && 0 !== strcmp($file->read(), file_get_contents($item))) {
                         throw new common_Exception('Different file content');
                     }
 
-                    $fh = fopen($item, 'rb');
-                    $file->put($fh);
-                    fclose($fh);
+                    if (!$fileExists) {
+                        $fh = fopen($item, 'rb');
+                        $file->put($fh);
+                        fclose($fh);
+                    }
                 }
             }
         } else {
