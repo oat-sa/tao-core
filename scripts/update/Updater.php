@@ -678,7 +678,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.62.0');
         }
 
-
         $this->skip('7.62.0', '7.68.0');
 
         if($this->isVersion('7.68.0')) {
@@ -688,6 +687,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
             $this->setVersion('7.69.0');
         }
+      
+        $this->skip('7.69.0', '7.69.1');
 
     }
 
