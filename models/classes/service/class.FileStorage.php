@@ -128,12 +128,13 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
                     $file = $directory->getFile($iterator->getSubPathName());
                     $fileExists = $file->exists();
 
-                    if ($fileExists && 0 !== strcmp($file->read(), file_get_contents($item))) {
+                    $fh = fopen($item, 'rb');
+
+                    if ($fileExists && $this->getStreamHash($fh) !== $this->getStreamHash($file->readStream())) {
                         throw new common_Exception('Different file content');
                     }
 
                     if (!$fileExists) {
-                        $fh = fopen($item, 'rb');
                         $file->put($fh);
                         fclose($fh);
                     }
@@ -158,5 +159,18 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
         }
         
         return $returnValue.DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Calculates hash for given stream
+     * @param $stream
+     * @param string $hash
+     * @return string
+     */
+    private function getStreamHash($stream, $hash = 'md5')
+    {
+        $hc = hash_init($hash);
+        hash_update_stream($hc, $stream);
+        return hash_final($hc);
     }
 }
