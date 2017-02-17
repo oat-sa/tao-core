@@ -24,6 +24,7 @@ use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
+use oat\tao\scripts\install\InstallNotificationTable;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -32,10 +33,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '7.68.1',
+    'version' => '7.69.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=3.9.0',
+        'generis' => '>=3.17.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -87,7 +88,8 @@ return array(
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
             AddLogFs::class,
             RegisterValidationRules::class,
-            SetClientLoggerConfig::class
+            SetClientLoggerConfig::class,
+            InstallNotificationTable::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -99,6 +101,7 @@ return array(
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'ServiceModule')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'Notification')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'File', 'act' => 'upload')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
