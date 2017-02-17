@@ -121,7 +121,6 @@ class RdsNotification
             $createdAt  = $notificationDetail[self::NOTIF_FIELD_CREATION];
             $updatedAt  = $notificationDetail[self::NOTIF_FIELD_UPDATED];
             $status     = $notificationDetail[self::NOTIF_FIELD_STATUS];
-
             $notification[] = new Notification($userId , $title , $message , $senderId , $senderName , $id , $createdAt , $updatedAt ,  $status);
         }
 

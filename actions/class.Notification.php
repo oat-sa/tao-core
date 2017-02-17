@@ -20,7 +20,7 @@
 
 use \oat\oatbox\notification\NotificationServiceInterface;
 use \oat\oatbox\notification\NotificationInterface;
-use \oat\oatbox\notification\exception\NotListedNotificationNotListedNotification;
+use \oat\oatbox\notification\exception\NotListedNotification;
 
 class tao_actions_Notification extends \tao_actions_CommonModule
 {
@@ -36,7 +36,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $count = $notificationService->notificationCount($user->getUri());
-        } catch (NotListedNotificationNotListedNotification $e) {
+        } catch (NotListedNotification $e) {
             return $this->returnError($e->getUserMessage());
         }
         return $this->returnJson($count);
@@ -54,7 +54,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $list = $notificationService->getNotifications($user->getUri());
-        } catch (NotListedNotificationNotListedNotification $e) {
+        } catch (NotListedNotification $e) {
             return $this->returnError($e->getUserMessage());
         }
         return $this->returnJson($list);
@@ -70,7 +70,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
             $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
             try {
                 $list = $notificationService->getNotification($id);
-            } catch (NotListedNotificationNotListedNotification $e) {
+            } catch (NotListedNotification $e) {
                 return $this->returnError($e->getUserMessage());
             }
             return $this->returnJson($list);
@@ -89,7 +89,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $list = $notificationService->getNotifications($user->getUri());
-        } catch (NotListedNotificationNotListedNotification $e) {
+        } catch (NotListedNotification $e) {
             return $this->returnError($e->getUserMessage());
         }
         /**
