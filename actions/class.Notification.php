@@ -62,18 +62,20 @@ class tao_actions_Notification extends \tao_actions_CommonModule
     }
 
     public function getDetail() {
-
-        $id = $this->getRequestParameter('id');
-        /**
-         * @var \oat\oatbox\notification\NotificationServiceInterface $notificationService
-         */
-        $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
-        try {
-            $list = $notificationService->getNotification($id);
-        } catch (NotListedNotificationNotListedNotification $e) {
-            return $this->returnError($e->getUserMessage());
+        if( $this->hasRequestParameter('id')) {
+            $id = $this->getRequestParameter('id');
+            /**
+             * @var \oat\oatbox\notification\NotificationServiceInterface $notificationService
+             */
+            $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+            try {
+                $list = $notificationService->getNotification($id);
+            } catch (NotListedNotificationNotListedNotification $e) {
+                return $this->returnError($e->getUserMessage());
+            }
+            return $this->returnJson($list);
         }
-        return $this->returnJson($list);
+        return $this->returnError(__('require notification ID'));
     }
 
     public function getUiList() {

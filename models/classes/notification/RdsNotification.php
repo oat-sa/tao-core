@@ -134,7 +134,7 @@ class RdsNotification
 
         $selectQuery = 'SELECT ' . self::NOTIF_FIELD_ID . ' , ' . $this->getAllFieldString() .
             ' FROM ' . self::NOTIF_TABLE . ' WHERE ' .
-            self::NOTIF_FIELD_RECIPIENT . ' = ? ';
+            self::NOTIF_FIELD_ID . ' = ? ';
 
         $params      = [
             $id
@@ -159,7 +159,7 @@ class RdsNotification
             return new Notification($user , $title , $message , $sender , $id , $createdAt , $updatedAt ,  $status);
         }
 
-        throw new \Exception('unknown notification id '. $id );
+        throw new \common_exception_NotFound('unknown notification id '. $id );
     }
 
     public function changeStatus(NotificationInterface $notification)
