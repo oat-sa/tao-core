@@ -33,6 +33,7 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\scripts\install\InstallNotificationTable;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -677,7 +678,18 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.62.0');
         }
 
-        $this->skip('7.62.0', '7.65.1');
+        $this->skip('7.62.0', '7.68.0');
+
+        if($this->isVersion('7.68.0')) {
+            $notifInstaller = new InstallNotificationTable();
+            $notifInstaller->setServiceLocator($this->getServiceManager());
+            $notifInstaller->__invoke([]);
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
+            $this->setVersion('7.69.0');
+        }
+      
+        $this->skip('7.69.0', '7.69.1');
+
     }
 
     private function migrateFsAccess() {
