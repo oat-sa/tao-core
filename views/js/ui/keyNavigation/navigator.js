@@ -24,18 +24,19 @@
  * @example
  * var $navigationBar = $('#navigation-bar');
  * var $buttons = $navigationBar.find('li');
+ * var navigables = domNavigableElement.createFromJqueryContainer($buttons);
  * keyNavigator({
  *       id : 'navigation-toolbar',
  *       replace : true,
  *       group : $navigationBar,
- *       elements : $buttons,
- *       default : 0
+ *       elements : navigables,
+ *       defaultPosition : 0
  *   }).on('right down', function(){
  *       this.next();
  *   }).on('left up', function(){
  *       this.previous();
  *   }).on('activate', function(cursor){
- *       cursor.$dom.click();
+ *       cursor.navigable.getElement().click();
  *   });
  *
  * @author Sam <sam@taotesting.com>
@@ -49,10 +50,10 @@ define([
 
     var _navigationGroups = {};
 
-    var _ns = '.navigation-group';
+    var _ns = '.ui-key-navigator';
 
     var _defaults = {
-        default : 0,
+        defaultPosition : 0,
         keepState : false,
         replace : false,
         loop : false
@@ -77,7 +78,7 @@ define([
         map[KEY_CODE_DOWN] = 'down';
         map[KEY_CODE_RIGHT] = 'right';
         return map;
-    }
+    };
 
     /**
      * Get the list of keys that should be mapped to activation action
@@ -85,33 +86,46 @@ define([
      */
     var getActivateKey = function getActivateKey(){
         return [KEY_CODE_SPACE, KEY_CODE_ENTER];
-    }
+    };
 
     /**
-     * Create a navigationGroup
+     * Check if the object is argument is a valid navigable element
+     *
+     * @param {Object} navElement
+     * @returns {boolean}
+     */
+    var isNavigableElement = function isNavigableElement(navElement){
+        return (
+            navElement
+            && _.isFunction(navElement.init)
+            && _.isFunction(navElement.destroy)
+            && _.isFunction(navElement.getElement)
+            && _.isFunction(navElement.isVisible)
+            && _.isFunction(navElement.focus)
+        );
+    };
+
+    /**
+     * Create a keyNavigator
      *
      * @param config - the config
      * @param {String} config.id - global unique id to define this group
      * @param {JQuery} config.elements - the group of element to be keyboard-navigated
      * @param {JQuery} [config.group] - the container the group of elements belong to
-     * @param {Number} [config.default=0] - the default position the group should set the focus on
+     * @param {Number|Function} [config.defaultPosition=0] - the default position the group should set the focus on (could be a function to compute the position)
      * @param {Boolean} [config.keepState=false] - define if the position should be saved in memory after the group blurs and re-focuses
      * @param {Boolean} [config.replace=false] - define if the navigation group can be reinitialized, hence replacing the existing one
      * @param {Boolean} [config.loop=false] - define if the navigation should loop after reaching the last or the first element
-     * @returns {navigationGroup}
+     * @returns {keyNavigator}
      */
-    var navigationGroupFactory = function navigationGroupFactory(config){
+    var keyNavigatorFactory = function keyNavigatorFactory(config){
 
-        config = _.defaults(config, _defaults);
-
-        var id = config.id;
-        var $navigables = $(config.elements);
+        var id, navigables, keyNavigator, $group;
         var arrowKeyMap = getArrowKeyMap();
         var activationKeys = getActivateKey();
-        var $group;
         var _cursor = {
             position : -1,
-            $dom : null
+            navigable : null
         };
 
         /**
@@ -125,10 +139,11 @@ define([
 
             if (document.activeElement) {
                 // try to find the focused element within the known list of focusable elements
-                _.forEach($navigables, function(focusable, index) {
-                    if (document.activeElement === focusable) {
+                _.forEach(navigables, function(navigable, index) {
+                    if (navigable.isVisible()
+                        && (document.activeElement === navigable.getElement().get(0) || $.contains(navigable.getElement().get(0), document.activeElement))) {
                         _cursor.position = index;
-                        _cursor.$dom = $(focusable);
+                        _cursor.navigable = navigable;
                         isFocused = true;
                         return false;
                     }
@@ -150,13 +165,13 @@ define([
          */
         var getClosestPositionRight = function getClosestPositionRight(fromPosition){
             var pos;
-            for(pos = fromPosition; pos < $navigables.length; pos++){
-                if($navigables[pos] && $($navigables[pos]).is(':visible')){
+            for(pos = fromPosition; pos < navigables.length; pos++){
+                if(navigables[pos] && navigables[pos].isVisible()){
                     return pos;
                 }
             }
             return -1;
-        }
+        };
 
         /**
          * Get the closest allowed position in the left
@@ -167,12 +182,17 @@ define([
         var getClosestPositionLeft = function getClosestPositionLeft(fromPosition){
             var pos;
             for(pos = fromPosition; pos >= 0; pos--){
-                if($navigables[pos] && $($navigables[pos]).is(':visible')){
+                if(navigables[pos] && navigables[pos].isVisible()){
                     return pos;
                 }
             }
             return -1;
-        }
+        };
+
+        config = _.defaults(config || {}, _defaults);
+
+        id = config.id || _.uniqueId('navigator_');
+        navigables = config.elements || [];
 
         if(_navigationGroups[id]){
             if(config.replace){
@@ -182,17 +202,9 @@ define([
             }
         }
 
-        if(!$navigables.length){
-            throw new TypeError('no navigation element');
-        }
-
-        $navigables.each(function(){
-            var $navigable = $(this);
-            if(!$navigable.length){
-                throw new TypeError('dom element does not exist');
-            }
-            $navigable.attr('tabindex', -1);//add simply a tabindex to enable focusing, this tabindex is not actually used in tabbing order
-            $navigable.addClass('key-navigation-highlight');
+         _.each(navigables, function(navigable){
+                //check if it is a valid navigable element
+                navigable.init();
         });
 
         if(config.group){
@@ -209,15 +221,15 @@ define([
         /**
          * The navigation group object
          *
-         * @typedef navigationGroup
+         * @typedef keyNavigator
          */
-        var navigationGroup = eventifier({
+        keyNavigator = eventifier({
 
             /**
              * Get the navigation group id
              * @returns {String}
              */
-            getId : function(){
+            getId : function getId(){
                 return id;
             },
 
@@ -225,16 +237,16 @@ define([
              * Get the defined group the navigator group belongs to
              * @returns {JQuery}
              */
-            getGroup : function(){
+            getGroup : function getGroup(){
                 return $group;
             },
 
             /**
              * Move cursor to next position
              *
-             * @returns {navigationGroup}
-             * @fires navigationGroup#upperbound when we cannot move further
-             * @fires navigationGroup#next when the cursor successfully moved to the next position
+             * @returns {keyNavigator}
+             * @fires keyNavigator#upperbound when we cannot move further
+             * @fires keyNavigator#next when the cursor successfully moved to the next position
              */
             next : function next(){
                 var cursor = getCursor();
@@ -261,9 +273,9 @@ define([
             /**
              * Move cursor to previous position
              *
-             * @returns {navigationGroup}
-             * @fires navigationGroup#lowerbound when we cannot move lower
-             * @fires navigationGroup#previous when the cursor successfully moved to the previous position
+             * @returns {keyNavigator}
+             * @fires keyNavigator#lowerbound when we cannot move lower
+             * @fires keyNavigator#previous when the cursor successfully moved to the previous position
              */
             previous : function previous(){
                 var cursor = getCursor();
@@ -274,7 +286,7 @@ define([
                         this.focusPosition(pos);
                     }else if(config.loop){
                         //loop allowed, so returns to the first element
-                        this.focusPosition(getClosestPositionLeft($navigables.length - 1));
+                        this.focusPosition(getClosestPositionLeft(navigables.length - 1));
                     }else{
                         //reaching the end of the list
                         this.trigger('lowerbound');
@@ -291,9 +303,9 @@ define([
              * Focus to a position defined by its index
              *
              * @param {Integer} position
-             * @returns {navigationGroup}
-             * @fires navigationGroup#blur on the previous cursor
-             * @fires navigationGroup#focus on the new cursor
+             * @returns {keyNavigator}
+             * @fires keyNavigator#blur on the previous cursor
+             * @fires keyNavigator#focus on the new cursor
              */
             activate : function activate(target){
                 var cursor = getCursor();
@@ -307,28 +319,33 @@ define([
              * Go to another navigation group, defined by its id
              *
              * @param {String} groupId
-             * @returns {navigationGroup}
-             * @fires navigationGroup#error is the target group does not exists
+             * @returns {keyNavigator}
+             * @fires keyNavigator#error is the target group does not exists
              */
             goto : function goto(groupId){
                 if(_navigationGroups[groupId]){
                     _navigationGroups[groupId].focus();
                 }else{
-                    this.trigger('error', new Error('goto an unknown navigation group'))
+                    this.trigger('error', new Error('goto an unknown navigation group'));
                 }
                 return this;
             },
 
             /**
              * Focus the cursor position in memory is keepState is activated, or the default position otherwise
-             * @returns {navigationGroup}
+             * @param {keyNavigator} [originNavigator] -  optionally indicates where the previous focus is on
+             * @returns {keyNavigator}
              */
-            focus : function focus(){
+            focus : function focus(originNavigator){
+                var pos;
                 if(config.keepState && _cursor && _cursor.position >= 0){
-                    this.focusPosition(getClosestPositionRight(_cursor.position));
+                    pos = _cursor.position;
+                }else if(_.isFunction(config.defaultPosition)){
+                    pos = config.defaultPosition(navigables);
                 }else{
-                    this.focusPosition(getClosestPositionRight(config.default));
+                    pos = config.defaultPosition;
                 }
+                this.focusPosition(getClosestPositionRight(pos), originNavigator);
                 return this;
             },
 
@@ -336,93 +353,123 @@ define([
              * Focus to a position defined by its index
              *
              * @param {Integer} position
-             * @returns {navigationGroup}
+             * @returns {keyNavigator}
              * @fires blur on the previous cursor
              * @fires focus on the new cursor
              */
-            focusPosition : function focusPosition(position){
-                if($navigables[position]){
-                    if(_cursor.$dom){
-                        this.trigger('blur', _cursor);
+            focusPosition : function focusPosition(position, originNavigator){
+                if(navigables[position]){
+                    if(_cursor.navigable){
+                        this.trigger('blur', _cursor, originNavigator);
                     }
                     _cursor.position = position;
-                    $navigables[_cursor.position].focus();
-                    _cursor.$dom = $($navigables[_cursor.position]);
-                    this.trigger('focus', _cursor);
+                    navigables[_cursor.position].focus();
+                    _cursor.navigable = navigables[_cursor.position];
+                    this.trigger('focus', _cursor, originNavigator);
                 }
                 return this;
             },
 
             /**
+             * Set focus on the first available focusable element
+             * @returns {keyNavigator}
+             */
+            first : function first(){
+                this.focusPosition(getClosestPositionRight(0));
+                return this;
+            },
+
+            /**
+             * Set focus on the last available focusable element
+             * @returns {keyNavigator}
+             */
+            last : function last(){
+                this.focusPosition(getClosestPositionLeft(navigables.length -1));
+                return this;
+            },
+
+            /**
              * Destroy and cleanup
-             * @returns {navigationGroup}
+             * @returns {keyNavigator}
              */
             destroy : function destroy(){
-                $navigables.off(_ns);
-                $navigables.removeClass('navigation-highlight');
+                _.each(navigables, function(navigable){
+                    navigable.getElement().off(_ns);
+                    navigable.destroy();
+                });
+
+                //$navigables.removeClass('navigation-highlight');
                 delete _navigationGroups[id];
                 return this;
             },
 
             /**
              * Blur the current cursor
-             * @returns {navigationGroup}
+             * @returns {keyNavigator}
              */
             blur : function blur(){
-                if(_cursor && _cursor.$dom){
+                if(_cursor && _cursor.navigable){
                     this.trigger('blur', _cursor);
                 }
                 return this;
             }
         });
 
-        //internal key bindings
-        //to save useless event bindings, the events are attached only if the there are more than one focusable element
-        // or no group or with the group identical to the single element
-        if($navigables.length > 1
-            || !$group
-            || $group && $navigables.get(0) !== $group.get(0)){
+        _.each(navigables, function(navigable){
 
-            $navigables.on('keydown'+_ns, function(e){
-                var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                if(arrowKeyMap[keyCode]){
-                    if(e.target.tagName === 'INPUT'){
-                        //prevent scrolling of parent element
-                        e.preventDefault();
+            if(!isNavigableElement(navigable)){
+                throw new TypeError('not a valid navigable element');
+            }
+
+            if(navigables.length > 1
+                || !$group
+                || $group && navigable.getElement().get(0) !== $group.get(0)){
+
+                //internal key bindings
+                //to save useless event bindings, the events are attached only if the there are more than one focusable element
+                // or no group or with the group identical to the single element
+                navigable.getElement().on('keydown'+_ns, function(e){
+                    var keyCode = e.keyCode ? e.keyCode : e.charCode;
+                    if(arrowKeyMap[keyCode]){
+                        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
+                            //prevent scrolling of parent element
+                            e.preventDefault();
+                        }
+                        e.stopPropagation();
+                        keyNavigator.trigger(arrowKeyMap[keyCode]);
                     }
-                    e.stopPropagation();
-                    navigationGroup.trigger(arrowKeyMap[keyCode]);
-                }
-            }).on('keyup'+_ns, function(e){
-                var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                if(activationKeys.indexOf(keyCode) >= 0){
-                    e.preventDefault();
-                    navigationGroup.activate(e.target);
-                }
-            });
-        }
+                }).on('keyup'+_ns, function(e){
+                    var keyCode = e.keyCode ? e.keyCode : e.charCode;
+                    if(activationKeys.indexOf(keyCode) >= 0){
+                        e.preventDefault();
+                        keyNavigator.activate(e.target);
+                    }
+                });
+            }
 
-        $navigables.on('blur', function(){
-            navigationGroup.blur();
+            navigable.getElement().on('blur', function(){
+                keyNavigator.blur();
+            });
+
         });
 
         //store the navigator for external reference
-        _navigationGroups[id] = navigationGroup;
+        _navigationGroups[id] = keyNavigator;
 
-        return navigationGroup;
-    }
+        return keyNavigator;
+    };
 
     /**
      * Get a group navigation by its id
      *
      * @param {String} id
-     * @returns {navigationGroup}
+     * @returns {keyNavigator}
      */
-    navigationGroupFactory.get = function get(id){
+    keyNavigatorFactory.get = function get(id){
         if(_navigationGroups[id]){
             return _navigationGroups[id];
         }
     };
 
-    return navigationGroupFactory;
+    return keyNavigatorFactory;
 });
