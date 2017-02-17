@@ -169,10 +169,11 @@ class RdsNotification
                             ' WHERE ' . self::NOTIF_FIELD_ID . ' = ? ';
 
         $persistence = $this->getPersistence();
+        $platform = $this->getPersistence()->getPlatForm();
 
         $data =
             [
-                $notification->getUpdatedAt(),
+                $platform->getNowExpression(),
                 $notification->getStatus(),
                 $notification->getId(),
             ];
