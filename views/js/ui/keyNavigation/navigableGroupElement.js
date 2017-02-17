@@ -52,7 +52,11 @@ define([
          * @typedef navigableGroupElement
          */
         return eventifier({
-            init: function init() {
+            /**
+             * Init the navigableGroupElement instance
+             * @returns {navigableGroupElement}
+             */
+            init : function init() {
 
                 //add the focusin and focus out class for group highlighting
                 $group.on('focusin'+_ns, function(){
@@ -67,6 +71,11 @@ define([
 
                 return this;
             },
+
+            /**
+             * Destroy the navigableGroupElement instance
+             * @returns {navigableGroupElement}
+             */
             destroy : function destroy(){
 
                 $group
@@ -75,16 +84,28 @@ define([
 
                 return this;
             },
-            getElement: function getElement() {
+
+            /**
+             * Get the dom element
+             * @returns {JQuery}
+             */
+            getElement : function getElement() {
                 return $group;
             },
+
+            /**
+             * Check if the navigable element is visible
+             * @returns {boolean}
+             */
             isVisible: function isVisible() {
                 return $group.is(':visible');
             },
-            exists: function exists() {
-                return $group.length;
-            },
-            focus: function focus() {
+
+            /**
+             * Set focus on the navigable element
+             * @returns {navigableGroupElement}
+             */
+            focus : function focus() {
                 keyNavigator.focus(this);
                 return this;
             }

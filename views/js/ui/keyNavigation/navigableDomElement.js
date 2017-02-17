@@ -40,7 +40,11 @@ define([
          * @typedef navigableDomElement
          */
         return eventifier({
-            init: function init() {
+            /**
+             * Init the navigableDomElement instance
+             * @returns {navigableDomElement}
+             */
+            init : function init() {
                 if (!$element.length) {
                     throw new TypeError('dom element does not exist');
                 }
@@ -48,20 +52,37 @@ define([
                 $element.addClass('key-navigation-highlight');
                 return this;
             },
+
+            /**
+             * Destroy the navigableDomElement instance
+             * @returns {navigableDomElement}
+             */
             destroy : function destroy(){
                 $element.removeClass('key-navigation-highlight');
                 return this;
             },
-            getElement: function getElement() {
+
+            /**
+             * Get the dom element
+             * @returns {JQuery}
+             */
+            getElement : function getElement() {
                 return $element;
             },
-            isVisible: function isVisible() {
+
+            /**
+             * Check if the navigable element is visible
+             * @returns {boolean}
+             */
+            isVisible : function isVisible() {
                 return $element.is(':visible');
             },
-            exists: function exists() {
-                return $element.length;
-            },
-            focus: function focus() {
+
+            /**
+             * Set focus on the navigable element
+             * @returns {navigableGroupElement}
+             */
+            focus : function focus() {
                 $element.focus();
                 return this;
             }
