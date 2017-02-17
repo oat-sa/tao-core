@@ -280,9 +280,10 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         /* @var $notifService NotificationServiceInterface */
         $notifService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
-        $notif = $notifService->notificationCount($user);
+        $notif = $notifService->notificationCount($user->getUri());
 
         $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
+
         $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
             [
                 'structure' => 'tao_Notifications',
