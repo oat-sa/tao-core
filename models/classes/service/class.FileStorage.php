@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 use oat\tao\model\websource\WebsourceManager;
@@ -126,18 +126,17 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
             ) {
                 if (!$item->isDir()) {
                     $file = $directory->getFile($iterator->getSubPathName());
-                    $fileExists = $file->exists();
                     $fh = fopen($item, 'rb');
 
-                    if ($fileExists && 0 !== strcmp($this->getStreamHash($fh),
-                            $this->getStreamHash($file->readStream()))
-                    ) {
-                        throw new common_Exception('Different file content');
-                    }
-                    if (!$fileExists) {
+                    if ($file->exists()) {
+                        if (0 !== strcmp($this->getStreamHash($fh), $this->getStreamHash($file->readStream()))) {
+                            fclose($fh);
+                            throw new common_Exception('Different file content');
+                        }
+                    } else {
                         $file->put($fh);
+                        fclose($fh);
                     }
-                    fclose($fh);
                 }
             }
         } else {
