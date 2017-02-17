@@ -108,20 +108,4 @@ class tao_actions_Notification extends \tao_actions_CommonModule
 
     }
 
-    public function addNotification() {
-
-        $userService = \tao_models_classes_UserService::singleton();
-        $user = $userService->getCurrentUser();
-
-        $notification = new \oat\oatbox\notification\implementation\Notification(
-            $user->getUri() , 'title test 2' , 'message test 2' , $user->getUri() , $user->getLabel()
-        );
-
-        /* @var $notifService NotificationServiceInterface */
-        $notifService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
-        $notifService->sendNotification($notification);
-        die();
-
-    }
-
 }
