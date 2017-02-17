@@ -131,7 +131,7 @@ define([
             // erase the data by keys
             this.erase = function erase(list) {
                 _.forEach(list, function(key) {
-                    self.$container.removeData(key).removeAttr(key);
+                    self.$container.removeData(key).removeAttr('data-' + key);
                 });
             };
 

@@ -21,8 +21,9 @@
 define([
     'lodash',
     'core/eventifier',
-    'core/promise'
-], function (_, eventifier, Promise) {
+    'core/promise',
+    'core/middleware'
+], function (_, eventifier, Promise, middlewareHandlerFactory) {
     'use strict';
 
     var _defaults = {};
@@ -34,11 +35,14 @@ define([
      * to target both DOM content data and remote data.
      *
      * @param {Object} config - Some optional config entries
+     * @param {middlewareHandler} [config.middlewares] - An optional middlewares handler that will be set to every provider.
+     *                                                   When this option is missing a default instance is created.
      * @returns {dataBroker}
      */
     function dataBrokerFactory(config) {
         var initConfig = _.defaults({}, config, _defaults);
         var providers = {};
+        var middlewares;
 
         /**
          * @typedef {dataBroker}
@@ -97,7 +101,12 @@ define([
                 if (!_.isPlainObject(provider) || !_.isFunction(provider.read)) {
                     throw new TypeError('Yous must provide a valid provider!');
                 }
+
                 providers[name] = provider;
+
+                if (_.isFunction(provider.setMiddlewares)) {
+                    provider.setMiddlewares(middlewares);
+                }
 
                 /**
                  * @event addprovider
@@ -157,7 +166,7 @@ define([
                  */
                 dataBroker.trigger('read', entry, params);
 
-                return dataBroker.readProvider('default', _.merge({keys: [entry]}, params))
+                return dataBroker.readProvider('default', _.merge({target: entry}, params))
                     .catch(function(err) {
                         if (err) {
                             return Promise.reject(err);
@@ -187,8 +196,23 @@ define([
              */
             getConfig: function getConfig() {
                 return initConfig;
+            },
+
+            /**
+             * Gets the middlewares handler
+             * @returns {middlewareHandler}
+             */
+            getMiddlewares: function getMiddlewares() {
+                return middlewares;
             }
         });
+
+        if (initConfig.middlewares &&
+            (!_.isPlainObject(initConfig.middlewares) || !_.isFunction(initConfig.middlewares.apply))) {
+            throw new TypeError('You must provide a valid middlewares handler');
+        }
+
+        middlewares = initConfig.middlewares || middlewareHandlerFactory();
 
         return dataBroker;
     }

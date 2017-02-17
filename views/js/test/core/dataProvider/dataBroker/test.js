@@ -34,7 +34,8 @@ define([
         {title: 'addProvider'},
         {title: 'readProvider'},
         {title: 'read'},
-        {title: 'getConfig'}
+        {title: 'getConfig'},
+        {title: 'getMiddlewares'}
     ];
 
 
@@ -61,14 +62,26 @@ define([
 
     QUnit.asyncTest('factory', function (assert) {
         var initConfig = {
-            foo: 'bar'
+            foo: 'bar',
+            middlewares: {
+                use: _.noop,
+                apply: _.noop
+            }
         };
         var expectedConfig = {
-            foo: 'bar'
+            foo: 'bar',
+            middlewares: {
+                use: _.noop,
+                apply: _.noop
+            }
         };
         var dataBroker;
 
-        QUnit.expect(4);
+        QUnit.expect(6);
+
+        assert.throws(function() {
+            dataBrokerFactory({middlewares: {}});
+        }, 'Should throw an error if a wrong middlewares handler is provided');
 
         dataBroker = dataBrokerFactory(initConfig)
             .on('destroy', function () {
@@ -79,6 +92,7 @@ define([
         assert.equal(typeof dataBroker, 'object', "The dataBroker factory produces an object");
 
         assert.deepEqual(dataBroker.getConfig(), expectedConfig, 'The dataBroker instance has the expected config');
+        assert.deepEqual(dataBroker.getMiddlewares(), initConfig.middlewares, 'The dataBroker instance has the expected middlewares handler');
 
         dataBroker.destroy();
 
@@ -90,10 +104,13 @@ define([
         var dataBroker;
         var fooProvider = {
             name: 'foo',
-            read: function() {}
+            read: function() {},
+            setMiddlewares: function(m) {
+                this.middlewares = m;
+            }
         };
 
-        QUnit.expect(12);
+        QUnit.expect(14);
 
         dataBroker = dataBrokerFactory()
             .on('addprovider', function (name, provider) {
@@ -119,11 +136,14 @@ define([
 
         assert.equal(false, dataBroker.hasProvider('foo'), "The dataBroker does not have provider");
         assert.equal(null, dataBroker.getProvider('foo'), "The provider 'foo' does not exists");
+        assert.equal(typeof fooProvider.middlewares, 'undefined', "The provider 'foo' does not have a middlewares");
 
         assert.equal(dataBroker.addProvider(fooProvider), dataBroker, 'The addProvider() method returns the instance');
 
         assert.equal(true, dataBroker.hasProvider('foo'), "The dataBroker now have provider");
         assert.equal(fooProvider, dataBroker.getProvider('foo'), "The provider 'foo' now exists");
+        assert.equal(fooProvider.middlewares, dataBroker.getMiddlewares(), "The provider 'foo' now have a middlewares");
+
     });
 
 
