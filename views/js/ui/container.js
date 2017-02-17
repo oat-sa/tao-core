@@ -42,11 +42,11 @@ define([
     }
 
     /**
-     *
-     * @param {String} selector
+     * Defines a container manager
+     * @param {String} containerSelector
      * @returns {containerManager}
      */
-    function containerFactory(selector) {
+    function containerFactory(containerSelector) {
         var $container;
         var containerCls;
 
@@ -64,9 +64,9 @@ define([
                 }
 
                 containerCls = getCssClass(cssScope);
-                selector = cssScope;
+                containerSelector = cssScope;
 
-                $container = $(selector);
+                $container = $(containerSelector);
                 return this;
             },
 
@@ -106,10 +106,29 @@ define([
             },
 
             /**
-             * Gets access to the container
+             * Find an element that belongs to the container.
+             * @param {String} selector
              * @returns {jQuery}
              */
-            getContainer: function getContainer() {
+            find: function find(selector) {
+                return $container.find(selector);
+            },
+
+            /**
+             * Writes content into the container.
+             * @param content
+             * @returns {containerManager}
+             */
+            write: function write(content) {
+                $container.html(content);
+                return this;
+            },
+
+            /**
+             * Gets access to the container element
+             * @returns {jQuery}
+             */
+            getElement: function getElement() {
                 return $container;
             },
 
@@ -118,11 +137,11 @@ define([
              * @returns {String}
              */
             getSelector: function getSelector() {
-                return selector;
+                return containerSelector;
             }
         };
 
-        return containerManager.init(selector || '.container');
+        return containerManager.init(containerSelector || '.container');
     }
 
     return containerFactory;

@@ -30,7 +30,9 @@ define([
         { title : 'destroy' },
         { title : 'hasScope' },
         { title : 'changeScope' },
-        { title : 'getContainer' },
+        { title : 'find' },
+        { title : 'write' },
+        { title : 'getElement' },
         { title : 'getSelector' }
     ];
 
@@ -52,6 +54,7 @@ define([
             var instance = container();
             QUnit.expect(1);
             assert.equal(typeof instance[data.title], 'function', 'The container instance exposes a "' + data.title + '" function');
+            instance.destroy();
         });
 
 
@@ -61,13 +64,13 @@ define([
 
         QUnit.expect(9);
 
-        assert.equal(typeof instance.getContainer(), 'object', 'A container object exists');
-        assert.equal(instance.getContainer().length, 1, 'A container has been caught');
+        assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
+        assert.equal(instance.getElement().length, 1, 'A container has been caught');
         assert.equal(instance.getSelector(), '.container', 'The default container selector has been set');
 
         assert.equal(instance.destroy(), instance, 'destroy() returns the instance');
 
-        assert.equal(instance.getContainer(), null, 'The container has been destroyed');
+        assert.equal(instance.getElement(), null, 'The container has been destroyed');
 
         assert.throws(function() {
             instance.init();
@@ -90,8 +93,8 @@ define([
 
         QUnit.expect(8);
 
-        assert.equal(typeof instance.getContainer(), 'object', 'A container object exists');
-        assert.equal(instance.getContainer().length, 1, 'A container has been caught');
+        assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
+        assert.equal(instance.getElement().length, 1, 'A container has been caught');
         assert.equal(instance.getSelector(), '.container', 'The default container selector has been set');
 
         assert.ok(instance.hasScope('.fixture'), 'The container has the wanted scope');
@@ -100,7 +103,45 @@ define([
         assert.ok(!instance.hasScope('.fixture'), 'The container does not have the .fixture scope anymore');
         assert.ok(instance.hasScope('.foo'), 'The container have the .foo scope');
 
-        assert.equal(instance.getContainer().attr('class'), 'container foo', 'The container has the expected CSS class');
+        assert.equal(instance.getElement().attr('class'), 'container foo', 'The container has the expected CSS class');
+
+        instance.destroy();
+    });
+
+
+    QUnit.test('find', function(assert) {
+
+        var instance = container();
+
+        QUnit.expect(5);
+
+        assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
+        assert.equal(instance.getElement().length, 1, 'A container has been caught');
+
+        assert.equal(typeof instance.find('.child'), 'object', 'The searched element exists');
+        assert.equal(instance.find('.child').length, 1, 'The searched element has been caught');
+        assert.equal(instance.find('.child').get(0), $('#qunit-fixture .child').get(0), 'The right element has been caught');
+
+        instance.destroy();
+    });
+
+
+    QUnit.test('write', function(assert) {
+
+        var instance = container('.paper');
+
+        QUnit.expect(6);
+
+        assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
+        assert.equal(instance.getElement().length, 1, 'A container has been caught');
+        assert.equal(instance.getElement().children().length, 0, 'The container is empty');
+
+        assert.equal(instance.write('<div>foo</div>'), instance, 'write() returns the instance');
+
+        assert.equal(instance.getElement().children().length, 1, 'The container is not empty');
+        assert.equal(instance.getElement().html().trim(), '<div>foo</div>', 'The container contains the right content');
+
+        instance.destroy();
     });
 
 });
