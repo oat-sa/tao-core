@@ -134,11 +134,10 @@ class tao_models_classes_service_FileStorage extends ConfigurableService
                     ) {
                         throw new common_Exception('Different file content');
                     }
-
                     if (!$fileExists) {
                         $file->put($fh);
-                        fclose($fh);
                     }
+                    fclose($fh);
                 }
             }
         } else {
