@@ -24,7 +24,7 @@
  * @example
  * var $navigationBar = $('#navigation-bar');
  * var $buttons = $navigationBar.find('li');
- * var navigables = domNavigableElement.createFromJqueryContainer($buttons);
+ * var navigables = domNavigableElement.createFromDoms($buttons);
  * keyNavigator({
  *       id : 'navigation-toolbar',
  *       replace : true,
