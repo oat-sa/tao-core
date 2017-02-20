@@ -43,7 +43,7 @@ define([
 
     /**
      * Defines a container manager
-     * @param {String} containerSelector
+     * @param {String} [containerSelector] - The CSS selector of the container (default: .container)
      * @returns {containerManager}
      */
     function containerFactory(containerSelector) {
