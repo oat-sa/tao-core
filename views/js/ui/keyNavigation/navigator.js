@@ -133,7 +133,7 @@ define([
          *
          * @returns {Object} the cursor
          */
-        var getCursor = function getCursor(){
+        var getCurrentCursor = function getCurrentCursor(){
 
             var isFocused = false;
 
@@ -249,7 +249,7 @@ define([
              * @fires keyNavigator#next when the cursor successfully moved to the next position
              */
             next : function next(){
-                var cursor = getCursor();
+                var cursor = getCurrentCursor();
                 var pos;
                 if(cursor){
                     pos = getClosestPositionRight(cursor.position + 1);
@@ -262,7 +262,7 @@ define([
                         //reaching the end of the list
                         this.trigger('upperbound');
                     }
-                    this.trigger('next', getCursor());
+                    this.trigger('next', getCurrentCursor());
                 }else{
                     //no cursor, might be blurred, so attempt resuming navigation from cursor in memory
                     this.focusPosition(getClosestPositionRight(0));
@@ -278,7 +278,7 @@ define([
              * @fires keyNavigator#previous when the cursor successfully moved to the previous position
              */
             previous : function previous(){
-                var cursor = getCursor();
+                var cursor = getCurrentCursor();
                 var pos;
                 if(cursor){
                     pos = getClosestPositionLeft(cursor.position - 1);
@@ -291,7 +291,7 @@ define([
                         //reaching the end of the list
                         this.trigger('lowerbound');
                     }
-                    this.trigger('previous', getCursor());
+                    this.trigger('previous', getCurrentCursor());
                 }else{
                     //no cursor, might be blurred, so attempt resuming navigation from cursor in memory
                     this.focusPosition(getClosestPositionRight(0));
@@ -308,7 +308,7 @@ define([
              * @fires keyNavigator#focus on the new cursor
              */
             activate : function activate(target){
-                var cursor = getCursor();
+                var cursor = getCurrentCursor();
                 if(cursor){
                     this.trigger('activate', cursor, target);
                 }
@@ -360,12 +360,12 @@ define([
             focusPosition : function focusPosition(position, originNavigator){
                 if(navigables[position]){
                     if(_cursor.navigable){
-                        this.trigger('blur', _cursor, originNavigator);
+                        this.trigger('blur', this.getCursor(), originNavigator);
                     }
                     _cursor.position = position;
                     navigables[_cursor.position].focus();
                     _cursor.navigable = navigables[_cursor.position];
-                    this.trigger('focus', _cursor, originNavigator);
+                    this.trigger('focus', this.getCursor(), originNavigator);
                 }
                 return this;
             },
@@ -408,10 +408,20 @@ define([
              * @returns {keyNavigator}
              */
             blur : function blur(){
-                if(_cursor && _cursor.navigable){
-                    this.trigger('blur', _cursor);
+                var cursor = this.getCursor();
+                if(cursor && cursor.navigable){
+                    this.trigger('blur', cursor);
                 }
                 return this;
+            },
+
+            /**
+             * Return the current cursor of the navigator
+             * @returns {Object}
+             */
+            getCursor : function getCursor(){
+                //clone the return cursor to protect this private variable
+                return _.clone(_cursor);
             }
         });
 
