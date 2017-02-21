@@ -33,6 +33,8 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\notification\implementation\RdsNotification;
+use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\scripts\install\InstallNotificationTable;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
@@ -688,7 +690,24 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.69.0');
         }
       
-        $this->skip('7.69.0', '7.69.5');
+        $this->skip('7.69.0', '7.69.4');
+
+        if($this->isVersion('7.69.4')) {
+            $queue = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+            $queue->setOption('rds' ,
+                array(
+                    'class'   => RdsNotification::class,
+                    'options' => [
+                        RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                        'visibility'  => false,
+                    ],
+                )
+            );
+
+            $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
+
+            $this->setVersion('7.69.5');
+        }
 
     }
 
