@@ -31,7 +31,7 @@ class InstallNotificationTable extends InstallAction
 
     public function __invoke($params)
     {
-        $persistence = \common_persistence_Manager::getPersistence(RdsNotification::PERSISTENCE_OPTION);
+        $persistence = \common_persistence_Manager::getPersistence(RdsNotification::DEFAULT_PERSISTENCE);
         $schemaManager = $persistence->getDriver()->getSchemaManager();
         $schema = $schemaManager->createSchema();
         /**
