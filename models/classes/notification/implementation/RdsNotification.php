@@ -17,17 +17,13 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  */
-namespace oat\tao\model\notification;
+namespace oat\tao\model\notification\implementation;
 
-
-use oat\oatbox\notification\implementation\Notification;
-use oat\oatbox\notification\NotificationInterface;
-use oat\oatbox\notification\NotificationServiceInterface;
-use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\notification\AbstractNotificationService;
+use oat\tao\model\notification\NotificationInterface;
 
 class RdsNotification
-    extends ConfigurableService
-    implements NotificationServiceInterface
+    extends AbstractNotificationService
 
 {
 
@@ -43,7 +39,9 @@ class RdsNotification
     const NOTIF_FIELD_CREATION     = 'created_at';
     const NOTIF_FIELD_UPDATED      = 'updated_at';
 
-    const PERSISTENCE_OPTION       = 'default';
+    const OPTION_PERSISTENCE       = 'persistence';
+
+    const DEFAULT_PERSISTENCE      = 'default';
     /**
      * @var \common_persistence_Manager
      */
@@ -55,8 +53,15 @@ class RdsNotification
     protected function getPersistence()
     {
         if(is_null($this->persistence)) {
+
+            $persistence = self::DEFAULT_PERSISTENCE;
+
+            if($this->hasOption(self::OPTION_PERSISTENCE)) {
+                $persistence = $this->getOption(self::OPTION_PERSISTENCE);
+            }
+
             $persistenceManager = $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID);
-            $this->persistence  = $persistenceManager->getPersistenceById(self::PERSISTENCE_OPTION);
+            $this->persistence  = $persistenceManager->getPersistenceById($persistence);
         }
         return $this->persistence;
     }
@@ -209,6 +214,7 @@ class RdsNotification
         return $count;
 
     }
+
 
 
 }
