@@ -27,19 +27,12 @@
 abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
 {
     /**
-     * Renders a single page using the default layout.
-     * Detects whether the client only need JSON content.
-     *
-     * @param string [$scope] - A CSS class name that scope the view
-     * @param array [$data] - An optional data set to forward to the view
-     * @param String [$template] - Defines the path of the view, default to 'pages/index.tpl'
-     * @param String [$extension] - Defines the extension that should contain the template
-     * @throws \common_exception_Error
+     * Gets the path to the layout
+     * @return array
      */
-    protected function singlePage($scope = '', $data = array(), $template = '', $extension = '')
+    protected function getLayout()
     {
-        $this->setView('layout.tpl', 'tao');
-        $this->composeView($scope, $data, $template, $extension);
+        return ['layout.tpl', 'tao'];
     }
 
     /**
@@ -90,6 +83,9 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
             $this->setView($template, $extension);
         } else {
             $this->setData('content-template', [$template, $extension]);
+            
+            $layout = (array)$this->getLayout();
+            $this->setView($layout[0], isset($layout[1]) ? $layout[1] : null);
         }
     }
 }
