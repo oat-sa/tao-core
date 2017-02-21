@@ -27,6 +27,7 @@ define([
 
     var _defaults = {
         noCache: true,
+        noToken: false,
         actions: {}
     };
 
@@ -81,12 +82,16 @@ define([
          * Other actions are applied with POST method by default. You can override the method in each action descriptor.
          *
          * @param {Boolean} [config.noCache] - Prevent the request to be cached by the client (default: true)
+         * @param {Boolean} [config.noToken] - Prevent the request to be use the security token when available (default: false)
          */
         init: function ajaxInit(config) {
             // Will request the server for the wanted action.
             // May reject the request if the action is not implemented.
             this.processRequest = function processRequest(action, params, method) {
                 var descriptor = config.actions[action];
+                var headers = {};
+                var tokenHandler = this.getTokenHandler();
+                var token;
 
                 if (_.isString(descriptor)) {
                     descriptor = {
@@ -108,7 +113,30 @@ define([
                     params = _.merge({_: (new Date).getTime()}, params);
                 }
 
-                return request(descriptor.url, params, descriptor.method || method);
+                if (!config.noToken) {
+                    token = tokenHandler.getToken();
+                    if (token) {
+                        headers['X-Auth-Token'] = token;
+                    }
+                }
+
+                return request(descriptor.url, params, descriptor.method || method, headers)
+                    .then(function(data) {
+                        if (data && data.token) {
+                            tokenHandler.setToken(data.token);
+                        }
+                        return data;
+                    })
+                    .catch(function(err) {
+                        var t = err.response && (err.response.token || (err.response.data && err.response.data.token));
+                        if (t) {
+                            tokenHandler.setToken(t);
+                        } else if (!config.noToken) {
+                            tokenHandler.setToken(token);
+                        }
+
+                        return Promise.reject(err);
+                    });
             };
 
             _.defaults(config, _defaults);

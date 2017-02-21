@@ -29,14 +29,15 @@ define([
      * @param {String} url
      * @param {Object} [params]
      * @param {String} [method = 'GET']
+     * @param {Object} [headers]
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    function requestMock(url, params, method) {
+    function requestMock(url, params, method, headers) {
         return new Promise(function(resolve, reject){
             requestMock.api
                 .on('success', resolve)
                 .on('failure', reject)
-                .trigger('request', url, params, method || 'GET');
+                .trigger('request', url, params, method || 'GET', headers || {});
         });
     }
 
