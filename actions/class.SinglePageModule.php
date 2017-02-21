@@ -17,8 +17,6 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\actions;
-
 /**
  * Abstraction for controllers serving single page application.
  *
@@ -26,7 +24,7 @@ namespace oat\tao\actions;
  * @package oat\tao\actions
  *
  */
-abstract class SinglePageModule extends \tao_actions_CommonModule
+abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
 {
     /**
      * Renders a single page using the default layout.
