@@ -33,7 +33,7 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
-use oat\tao\model\notification\implementation\NotificationService;
+use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -695,7 +695,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if($this->isVersion('7.69.4')) {
 
-            $queue = new NotificationService([
+            $queue = new NotificationServiceAggregator([
                 'rds' =>
                     array(
                         'class'   => RdsNotification::class,

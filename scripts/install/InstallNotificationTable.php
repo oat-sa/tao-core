@@ -22,7 +22,7 @@ namespace oat\tao\scripts\install;
 
 use Doctrine\DBAL\Schema\SchemaException;
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\notification\implementation\NotificationService;
+use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\implementation\RdsNotification;
 
@@ -65,7 +65,7 @@ class InstallNotificationTable extends InstallAction
             \common_Logger::i('Database Schema already up to date.');
         }
 
-        $queue = new NotificationService();
+        $queue = new NotificationServiceAggregator();
         $queue->setServiceLocator($this->getServiceManager());
         $queue->setOption('rds' ,
             array(

@@ -33,8 +33,6 @@ interface NotificationInterface
     const READ_STATUS     = 3;
     const ARCHIVED_STATUS = 4;
 
-    public function __construct($userId , $title , $message , $senderId , $senderName  , $id = null, $createdAt = null , $updatedAt = null ,  $status = 0 );
-
     public function getStatus();
 
     public function getRecipient();

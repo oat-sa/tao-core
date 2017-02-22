@@ -26,7 +26,7 @@ use oat\tao\model\notification\exception\NotListedNotification;
 use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\NotificationServiceInterface;
 
-class NotificationService extends AbstractNotificationService
+class NotificationServiceAggregator extends AbstractNotificationService
 {
 
 
