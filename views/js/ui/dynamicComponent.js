@@ -24,10 +24,11 @@ define([
     'interact',
     'ui/component',
     'ui/transformer',
+    'ui/interactUtils',
     'util/position',
     'lib/uuid',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, transformer, position, uuid, layoutTpl){
+], function ($, _, interact, component, transformer, interactUtils, position, uuid, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -224,7 +225,9 @@ define([
                         restrict : _.merge(getRestriction(), {
                             elementRect: { left: 0, right: 1, top: 0, bottom: 1 }
                         }),
-                        onmove : _moveItem
+                        onmove : function(event) {
+                            interactUtils.moveElement($element, event.dx, event.dy);
+                        }
                     });
 
                     //manually start interactjs draggable on the handle
@@ -292,7 +295,7 @@ define([
                     if(!draggableContainer) {
                         return {
                             restriction : 'parent',
-                            endOnly : false,
+                            endOnly : false
                         };
                     }
                     return {
@@ -307,20 +310,6 @@ define([
                         draggableContainer = draggableContainer[0];
                     }
                     return draggableContainer;
-                }
-
-                /**
-                 * Callback for on move event
-                 * @param {Object} e - the interact event object
-                 */
-                function _moveItem(event){
-
-                    self.position.x = (parseFloat(self.position.x) || 0) + event.dx;
-                    self.position.y = (parseFloat(self.position.y) || 0) + event.dy;
-
-                    transformer.translate($element, self.position.x, self.position.y);
-
-                    self.trigger('move', self.position);
                 }
 
                 /**
@@ -340,17 +329,18 @@ define([
                         $element.removeClass('small').removeClass('large');
                     }
 
-                    self.position.x              = (parseFloat(self.position.x) || 0) + e.deltaRect.left;
-                    self.position.y              = (parseFloat(self.position.y) || 0) + e.deltaRect.top;
-                    self.position.width          = width;
-                    self.position.height         = height;
+                    interactUtils.moveElement(
+                        $element,
+                        (width > config.minWidth && width < config.maxWidth) ? e.deltaRect.left : 0,
+                        (height > config.minHeight && height < config.maxHeight) ? e.deltaRect.top : 0
+                    );
 
-
-                    transformer.translate($element, self.position.x, self.position.y);
+                    self.position.width   = width;
+                    self.position.height  = height;
 
                     $element.css({
                         width  : width + 'px',
-                        height : height + 'px',
+                        height : height + 'px'
                     });
 
                     _.defer(function(){
