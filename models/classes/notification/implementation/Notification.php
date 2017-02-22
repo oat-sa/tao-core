@@ -32,7 +32,7 @@ class Notification implements NotificationInterface, \JsonSerializable
 
     protected $recipient;
 
-    protected $sender;
+    protected $senderId;
 
     protected $senderName;
 
@@ -61,7 +61,7 @@ class Notification implements NotificationInterface, \JsonSerializable
         $this->id         = intval($id);
         $this->status     = intval($status);
         $this->recipient  = $userId;
-        $this->sender     = $senderId;
+        $this->senderId   = $senderId;
         $this->senderName = $senderName;
         $this->title      = $title;
         $this->message    = $message;
@@ -90,7 +90,7 @@ class Notification implements NotificationInterface, \JsonSerializable
      */
     public function getSenderId()
     {
-        return $this->sender;
+        return $this->senderId;
     }
 
     /**
@@ -98,7 +98,7 @@ class Notification implements NotificationInterface, \JsonSerializable
      */
     public function getSenderName()
     {
-        return $this->sender;
+        return $this->senderName;
     }
 
     public function getMessage()
