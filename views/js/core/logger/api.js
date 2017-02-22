@@ -112,7 +112,7 @@ define([
      * Creates a logger instance
      *
      * @param {String} name - each logger instance MUST have a name
-     * @param {String|Number} minLevel - the minimum logging level
+     * @param {String|Number} [minLevel] - the minimum logging level
      * @param {Object} [fields] - fields to add to all records
      *
      * @returns {logger} a new logger instance
@@ -124,6 +124,11 @@ define([
 
         if(!_.isString(name) || _.isEmpty(name)){
             throw new TypeError('A logger needs a name');
+        }
+
+        if(_.isPlainObject(minLevel) && typeof field === 'undefined'){
+            fields = minLevel;
+            minLevel = defaultLevel;
         }
 
         baseRecord = _.defaults(fields || {}, {
