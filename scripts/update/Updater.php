@@ -33,6 +33,9 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\notification\implementation\NotificationServiceAggregator;
+use oat\tao\model\notification\implementation\RdsNotification;
+use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\scripts\install\InstallNotificationTable;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
@@ -653,7 +656,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('7.54.0')) {
             $persistence = \common_persistence_Manager::getPersistence('default');
-            /** @var common_persistence_sql_pdo_SchemaManager $schemaManager */
+            /** @var \common_persistence_sql_pdo_SchemaManager $schemaManager */
             $schemaManager = $persistence->getDriver()->getSchemaManager();
             $schema = $schemaManager->createSchema();
             $fromSchema = clone $schema;
@@ -690,6 +693,26 @@ class Updater extends \common_ext_ExtensionUpdater {
       
         $this->skip('7.69.0', '7.69.5');
 
+        if($this->isVersion('7.69.4')) {
+
+            $queue = new NotificationServiceAggregator([
+                'rds' =>
+                    array(
+                        'class'   => RdsNotification::class,
+                        'options' => [
+                            RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                            'visibility'  => false,
+                        ],
+                    )
+                ]
+            );
+
+            $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
+
+            $this->setVersion('7.69.5');
+        }
+        
+        $this->skip('7.69.5', '7.69.6');
     }
 
     private function migrateFsAccess() {

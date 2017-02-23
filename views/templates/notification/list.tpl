@@ -18,7 +18,7 @@ use oat\tao\helpers\Template;
                         </thead>
                         <tbody>
                         <?php foreach(get_data('notif-list') as $notification): ?>
-                            <?php if($notification->getStatus() === \oat\oatbox\notification\NotificationInterface::CREATED_STATUS): ?>
+                            <?php if($notification->getStatus() === oat\tao\model\notification\NotificationInterface::CREATED_STATUS): ?>
                                 <tr >
                                     <td class="bordered"><strong><?= date( 'Y-m-d H:i' ,$notification->getCreatedAt()); ?></strong></td>
                                     <td><strong><?=  $notification->getSenderName(); ?></strong></td>
