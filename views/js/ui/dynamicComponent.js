@@ -45,8 +45,8 @@ define([
         smallWidthThreshold : 200,
         draggableContainer : 'parent',
         preserveAspectRatio : true,
-        top : 0, //position top absolute in the window
-        left : 0//position left absolute in the window
+        top : 0,
+        left : 0
     };
 
     /**
@@ -79,15 +79,17 @@ define([
          * @fires dynamicComponent#move
          */
         resetPosition : function resetPosition(){
-            if(this.is('rendered') && !this.is('disabled')){
-                this.getElement().css({
-                    top : this.config.top,
-                    left : this.config.left,
-                    transform : 'none'
-                });
+            var $element = this.getElement();
 
-                this.position.x = this.config.left;
-                this.position.y = this.config.top;
+            if(this.is('rendered') && !this.is('disabled')){
+                interactUtils.restoreOriginalPosition($element);
+
+                this.setCoords();
+
+                $element.css({
+                    left: this.config.left,
+                    top: this.config.top
+                });
 
                 /**
                  * @event dynamicComponent#move
@@ -96,6 +98,16 @@ define([
                 this.trigger('move', this.position);
             }
             return this;
+        },
+
+        /**
+         * compute x/y coords of the component according to the start position and the dragged offset
+         */
+        setCoords : function setCoords() {
+            var $element = this.getElement();
+
+            this.position.x = parseFloat($element.attr('data-x')) + this.config.left;
+            this.position.y = parseFloat($element.attr('data-y')) + this.config.top;
         },
 
         /**
@@ -159,8 +171,8 @@ define([
      * @param {Number} [config.smallWidthThreshold] - the width above which the container will get the class "large"
      * @param {Boolean} [config.preserveAspectRatio] - preserve ratio on resize
      * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
-     * @param {Number} [config.top] - the initial position top absolute to the windows
-     * @param {Number} [config.left] - the initial position left absolute to the windows
+     * @param {Number} [config.top] - the initial position top absolute to the relative positioned container
+     * @param {Number} [config.left] - the initial position left absolute to the relative positioned container
      * @returns {component}
      */
     var dynComponentFactory = function dynComponentFactory(specs, defaults){
@@ -185,7 +197,7 @@ define([
                 var interactElement;
 
                 //keeps moving/resizing positions data
-                this.position = {
+                self.position = {
                     x:      this.config.left,
                     y:      this.config.top,
                     width:  this.config.width,
@@ -227,6 +239,10 @@ define([
                         }),
                         onmove : function(event) {
                             interactUtils.moveElement($element, event.dx, event.dy);
+                        },
+                        onend : function() {
+                            self.setCoords();
+                            console.dir(self.position);
                         }
                     });
 
@@ -337,6 +353,7 @@ define([
 
                     self.position.width   = width;
                     self.position.height  = height;
+                    self.setCoords();
 
                     $element.css({
                         width  : width + 'px',
