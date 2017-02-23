@@ -37,11 +37,19 @@ define([
 
     /**
      * Creates a logger for the app
+     * @type {logger}
      */
     var appLogger = loggerFactory('application');
 
     /**
-     * Defines an application  controller that will manage the routes through the history.
+     * Next route to be called once the controller has been dispatched.
+     * Used to redirect/forward a route while dispatching, otherwise the router can fall in an infinite loop.
+     * @type {Function}
+     */
+    var nextRoute;
+
+    /**
+     * Defines an application controller that will manage the routes through the history.
      * It will start by dispatching the current location, in order to keep history consistency.
      * To properly use this application controller you need to take care of it in each controller
      * that is intended to be routed through the history. See samples below.
@@ -122,7 +130,15 @@ define([
          * @param {String} url
          */
         redirect: function redirect(url) {
-            historyRouter.trigger('dispatch', url);
+            var doRedirect = function doRedirect() {
+                historyRouter.trigger('dispatch', url);
+            };
+
+            if (appController.getState('dispatching')) {
+                nextRoute = doRedirect;
+            } else {
+                doRedirect();
+            }
         },
 
         /**
@@ -130,9 +146,17 @@ define([
          * @param {String} url
          */
         forward: function forward(url) {
-            historyRouter.dispatch({
-                url: url
-            }, true);
+            var doForward = function doForward() {
+                historyRouter.dispatch({
+                    url: url
+                }, true);
+            };
+
+            if (appController.getState('dispatching')) {
+                nextRoute = doForward;
+            } else {
+                doForward();
+            }
         },
 
         /**
@@ -174,6 +198,12 @@ define([
             appController.setState('dispatching', false);
             appController.setState('ready');
             appController.trigger('started', url);
+
+            // is a route pending dispatch?
+            if (nextRoute) {
+                nextRoute();
+                nextRoute = null;
+            }
         });
 
     return appController;
