@@ -32,6 +32,10 @@ define([
         { title : 'changeScope' },
         { title : 'find' },
         { title : 'write' },
+        { title : 'getData' },
+        { title : 'setData' },
+        { title : 'getValue' },
+        { title : 'setValue' },
         { title : 'getElement' },
         { title : 'getSelector' }
     ];
@@ -140,6 +144,29 @@ define([
 
         assert.equal(instance.getElement().children().length, 1, 'The container is not empty');
         assert.equal(instance.getElement().html().trim(), '<div>foo</div>', 'The container contains the right content');
+
+        instance.destroy();
+    });
+
+
+    QUnit.test('data', function(assert) {
+
+        var instance = container('.data');
+
+        QUnit.expect(9);
+
+        assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
+        assert.equal(instance.getElement().length, 1, 'A container has been caught');
+
+        assert.deepEqual(instance.getValue('list'), [1, 2, 3], "The 'list' value has been read");
+        assert.deepEqual(instance.getValue('record'), {foo: "bar"}, "The 'record' value has been read");
+
+        assert.equal(instance.setValue('list', ["foo"]), instance, 'The method setValue returns the instance');
+        assert.deepEqual(instance.getValue('list'), ["foo"], "The 'list' value has been changed");
+
+        assert.deepEqual(instance.getData(), {list: ["foo"], record: {foo: "bar"}}, "The values has been read");
+        assert.equal(instance.setData({foo: "bar"}), instance, 'The method setData returns the instance');
+        assert.deepEqual(instance.getData(), {foo: "bar"}, "The values has been changed");
 
         instance.destroy();
     });

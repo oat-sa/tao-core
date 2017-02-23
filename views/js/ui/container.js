@@ -125,6 +125,45 @@ define([
             },
 
             /**
+             * Gets the data encoded into the DOM.
+             * @returns {Object}
+             */
+            getData: function getData() {
+                return $container.data();
+            },
+
+            /**
+             * Sets the data encoded into the DOM.
+             * @param {Object} data
+             * @returns {containerManager}
+             */
+            setData: function setData(data) {
+                $container.removeData().data(data);
+                return this;
+            },
+
+            /**
+             * Gets a value encoded into the DOM.
+             * @param {String} name
+             * @returns {*}
+             */
+            getValue: function getValue(name) {
+                var data = this.getData();
+                return data && data[name];
+            },
+
+            /**
+             * Encodes into the DOM.
+             * @param {String} name
+             * @param {Object} value
+             * @returns {containerManager}
+             */
+            setValue: function setValue(name, value) {
+                $container.data(name, value);
+                return this;
+            },
+
+            /**
              * Gets access to the container element
              * @returns {jQuery}
              */
