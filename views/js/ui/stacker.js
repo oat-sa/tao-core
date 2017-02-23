@@ -21,6 +21,14 @@
  * It does not provide any way to define the stacking context, as there are many ways to do so,
  * with different implications on the rest of the layout. Prefer CSS for that.
  *
+ * stacker = stackerFactory();
+ *
+ * // put on top
+ * stacker.bringToFront($element);
+ *
+ * // put on top on mouse click
+ * stacker.autoBringToFront($element);
+ *
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
