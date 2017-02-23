@@ -276,6 +276,30 @@ define(['core/logger/api'], function(loggerFactory){
         logger.debug('something');
     });
 
+    QUnit.test('optional min level', function(assert){
+        var logger;
+        var moo = {
+            a : false,
+            b : [-1, -12]
+        };
+        QUnit.expect(3);
+
+        loggerFactory.register({
+            log : function log(message){
+                assert.equal(message.foo, 'bar', 'the foo field match');
+                assert.equal(message.msg, 'something', 'the level match');
+                assert.deepEqual(message.moo, moo, 'the moo field match');
+            }
+        });
+
+        logger = loggerFactory('foo', {
+            foo : 'bar',
+            moo : moo
+        });
+        logger.trace('nothing');
+        logger.warn('something');
+    });
+
     QUnit.test('fields override', function(assert){
         var logger;
         QUnit.expect(4);
