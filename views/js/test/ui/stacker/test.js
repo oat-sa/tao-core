@@ -41,10 +41,17 @@ define([
             $container = $(fixtureContainer),
             $div1 = $container.find('#div1');
 
-        QUnit.expect(1);
+        QUnit.expect(3);
+
+        stacker.resetScope();
+
+        assert.equal($div1.css('z-index'), 'auto', 'no z-index is set');
 
         stacker.bringToFront($div1);
-        assert.equal($div1.css('z-index'), 1001, 'correct z-index has been set');
+        assert.equal($div1.css('z-index'), 1010, 'z-index has been set');
+
+        stacker.reset($div1);
+        assert.equal($div1.css('z-index'), 'auto', 'z-index has been removed');
     });
 
     QUnit.test('does not increase z-index if already max', function (assert) {
@@ -52,13 +59,17 @@ define([
             $container = $(fixtureContainer),
             $div1 = $container.find('#div1');
 
-        QUnit.expect(2);
+        QUnit.expect(3);
+
+        stacker.resetScope();
+
+        assert.equal($div1.css('z-index'), 'auto', 'no z-index is set');
 
         stacker.bringToFront($div1);
-        assert.equal($div1.css('z-index'), 1001, 'correct z-index has been set');
+        assert.equal($div1.css('z-index'), 1010, 'z-index has been set');
 
         stacker.bringToFront($div1);
-        assert.equal($div1.css('z-index'), 1001, 'z-index has not been increased again');
+        assert.equal($div1.css('z-index'), 1010, 'z-index has not been increased again');
     });
 
     QUnit.test('increase z-index by configured increment', function (assert) {
@@ -70,35 +81,37 @@ define([
 
         QUnit.expect(18);
 
+        stacker.resetScope();
+
         stacker.bringToFront($div1);
-        assert.equal($div1.css('z-index'), 1005, 'div1 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1010, 'div1 has the correct z-index');
         assert.equal($div2.css('z-index'), 'auto', 'div2 has the correct z-index');
         assert.equal($div3.css('z-index'), 'auto', 'div3 has the correct z-index');
 
         stacker.bringToFront($div2);
-        assert.equal($div1.css('z-index'), 1005, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1010, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
         assert.equal($div3.css('z-index'), 'auto', 'div3 has the correct z-index');
 
         stacker.bringToFront($div3);
-        assert.equal($div1.css('z-index'), 1005, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1015, 'div3 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1010, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1030, 'div3 has the correct z-index');
 
         stacker.bringToFront($div1);
-        assert.equal($div1.css('z-index'), 1020, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1015, 'div3 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1040, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1030, 'div3 has the correct z-index');
 
         stacker.bringToFront($div3);
-        assert.equal($div1.css('z-index'), 1020, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1025, 'div3 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1040, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1050, 'div3 has the correct z-index');
 
         stacker.bringToFront($div2);
-        assert.equal($div1.css('z-index'), 1020, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1030, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1025, 'div13has the correct z-index');
+        assert.equal($div1.css('z-index'), 1040, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1060, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1050, 'div13has the correct z-index');
     });
 
     QUnit.module('.autoBringToFront()');
@@ -112,39 +125,41 @@ define([
 
         QUnit.expect(18);
 
+        stacker.resetScope();
+
         stacker.autoBringToFront($div1);
         stacker.autoBringToFront($div2);
         stacker.autoBringToFront($div3);
 
         $div1.trigger('mousedown');
-        assert.equal($div1.css('z-index'), 1005, 'div1 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1010, 'div1 has the correct z-index');
         assert.equal($div2.css('z-index'), 'auto', 'div2 has the correct z-index');
         assert.equal($div3.css('z-index'), 'auto', 'div3 has the correct z-index');
 
         $div2.trigger('mousedown');
-        assert.equal($div1.css('z-index'), 1005, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1010, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
         assert.equal($div3.css('z-index'), 'auto', 'div3 has the correct z-index');
 
         $div3.trigger('mousedown');
-        assert.equal($div1.css('z-index'), 1005, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1015, 'div3 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1010, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1030, 'div3 has the correct z-index');
 
         $div1.trigger('mousedown');
-        assert.equal($div1.css('z-index'), 1020, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1015, 'div3 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1040, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1030, 'div3 has the correct z-index');
 
         $div3.trigger('mousedown');
-        assert.equal($div1.css('z-index'), 1020, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1010, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1025, 'div3 has the correct z-index');
+        assert.equal($div1.css('z-index'), 1040, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1020, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1050, 'div3 has the correct z-index');
 
         $div2.trigger('mousedown');
-        assert.equal($div1.css('z-index'), 1020, 'div1 has the correct z-index');
-        assert.equal($div2.css('z-index'), 1030, 'div2 has the correct z-index');
-        assert.equal($div3.css('z-index'), 1025, 'div13has the correct z-index');
+        assert.equal($div1.css('z-index'), 1040, 'div1 has the correct z-index');
+        assert.equal($div2.css('z-index'), 1060, 'div2 has the correct z-index');
+        assert.equal($div3.css('z-index'), 1050, 'div3 has the correct z-index');
     });
 
 });

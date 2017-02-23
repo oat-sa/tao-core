@@ -21,7 +21,7 @@
  * It does not provide any way to define the stacking context, as there are many ways to do so,
  * with different implications on the rest of the layout. Prefer CSS for that.
  *
- * stacker = stackerFactory();
+ * stacker = stackerFactory('test-runner');
  *
  * // put on top
  * stacker.bringToFront($element);
@@ -37,47 +37,56 @@ define([
     'use strict';
 
     var ns = '.stacker',
-        defaults = {
-            zIndexStart: 1000,
-            increment: 1
-        };
+        indexes = {},
+        increment = 10,
+        zIndexStart = 1000,
+        defaultScope = 'global';
 
     /**
-     * @param {Number} rawConfig.zIndexStart - where should we start the zIndex increments
-     * @param {Number} rawConfig.increment - by how much will the z-index be incremented
+     * Intialise the scope if it does not exist yet
+     */
+    function initScope(scope) {
+        scope = scope && defaultScope;
+
+        if (_.isUndefined(indexes[scope])) {
+            indexes[scope] = zIndexStart;
+        }
+    }
+
+    /**
+     * Check if the given element z-index has already the maximum available value
+     * @param {jQuery} $element
+     * @param {String} scope
+     * @returns {Boolean}
+     */
+    function isHighest($element, scope) {
+        var elementIndex = parseInt($element.css('z-index'), 10);
+        return elementIndex >= indexes[scope];
+    }
+
+    /**
+     * @returns {Number} - the next available zIndex
+     */
+    function getNext(scope) {
+        indexes[scope] += increment;
+        return indexes[scope];
+    }
+
+    /**
+     * @param {String} scope - an artificial context to scope the stacker
      * @returns {Object} - the stacker helper
      */
-    return function stackerFactory(rawConfig) {
-        var stacker,
-            config = _.defaults(rawConfig || {}, defaults),
-            currentIndex = config.zIndexStart;
+    return function stackerFactory(scope) {
+        initScope(scope);
 
-        /**
-         * Check if the given element z-index has already the maximum available value
-         * @param {jQuery} $element
-         * @returns {Boolean}
-         */
-        function isHighest($element) {
-            var elementIndex = parseInt($element.css('z-index'), 10);
-            return elementIndex >= currentIndex;
-        }
-
-        /**
-         * @returns {Number} - the next available zIndex
-         */
-        function getNext() {
-            currentIndex += config.increment;
-            return currentIndex;
-        }
-
-        stacker = {
+        return {
             /**
              * Set the z-index, on the given element, to the next available value
              * @param {jQuery} $element
              */
             bringToFront: function bringToFront($element) {
-                if (! isHighest($element)) {
-                    $element.get(0).style.zIndex = getNext();
+                if (! isHighest($element, scope)) {
+                    $element.get(0).style.zIndex = getNext(scope);
                 }
             },
 
@@ -92,9 +101,23 @@ define([
                 $element.on('mousedown' + ns, function() {
                     self.bringToFront($element);
                 });
+            },
+
+            reset: function reset($element) {
+                $element.get(0).style.zIndex = 'auto';
+            },
+
+            resetScope: function resetScope() {
+                indexes[scope] = zIndexStart;
+            },
+
+
+            /**
+             * Returns index of the current scope
+             */
+            getCurrent: function getCurrent() {
+                return indexes[scope];
             }
         };
-
-        return stacker;
     };
 });
