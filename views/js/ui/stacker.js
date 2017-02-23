@@ -77,7 +77,7 @@ define([
              */
             bringToFront: function bringToFront($element) {
                 if (! isHighest($element)) {
-                    $element.css({ 'z-index': getNext() });
+                    $element.get(0).style.zIndex = getNext();
                 }
             },
 

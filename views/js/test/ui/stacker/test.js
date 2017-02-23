@@ -147,5 +147,4 @@ define([
         assert.equal($div3.css('z-index'), 1025, 'div13has the correct z-index');
     });
 
-
 });

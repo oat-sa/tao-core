@@ -155,32 +155,33 @@ define([
 
     /**
      * Builds an instance of the dynamic component
-     * @param {Object} config
-     * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
-     * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
-     * @param {String} [config.title] - title to be displayed in the title bar
-     * @param {Boolean} [config.resizable] - allow the component to be resizable
-     * @param {Boolean} [config.draggable] - allow the component to be draggable
-     * @param {Number} [config.width] - the initial width of the component content
-     * @param {Number} [config.height] - the intial height of the component content
-     * @param {Number} [config.minWidth] - the min width for resize
-     * @param {Number} [config.minHeight] - the min height for resize
-     * @param {Number} [config.maxWidth] - the max width for resize
-     * @param {Number} [config.maxHeight] - the max height for resize
-     * @param {Number} [config.largeWidthThreshold] - the width below which the container will get the class "small"
-     * @param {Number} [config.smallWidthThreshold] - the width above which the container will get the class "large"
-     * @param {Boolean} [config.preserveAspectRatio] - preserve ratio on resize
-     * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
-     * @param {Number} [config.top] - the initial position top absolute to the relative positioned container
-     * @param {Number} [config.left] - the initial position left absolute to the relative positioned container
+     * @param {Object} specs - extra functions to extend the component
+     * @param {Object} rawConfig
+     * @param {jQuery|HTMLElement|String} [rawConfig.renderTo] - An optional container in which renders the component
+     * @param {Boolean} [rawConfig.replace] - When the component is appended to its container, clears the place before
+     * @param {String} [rawConfig.title] - title to be displayed in the title bar
+     * @param {Boolean} [rawConfig.resizable] - allow the component to be resizable
+     * @param {Boolean} [rawConfig.draggable] - allow the component to be draggable
+     * @param {Number} [rawConfig.width] - the initial width of the component content
+     * @param {Number} [rawConfig.height] - the intial height of the component content
+     * @param {Number} [rawConfig.minWidth] - the min width for resize
+     * @param {Number} [rawConfig.minHeight] - the min height for resize
+     * @param {Number} [rawConfig.maxWidth] - the max width for resize
+     * @param {Number} [rawConfig.maxHeight] - the max height for resize
+     * @param {Number} [rawConfig.largeWidthThreshold] - the width below which the container will get the class "small"
+     * @param {Number} [rawConfig.smallWidthThreshold] - the width above which the container will get the class "large"
+     * @param {Boolean} [rawConfig.preserveAspectRatio] - preserve ratio on resize
+     * @param {jQuery|HTMLElement|String} [rawConfig.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
+     * @param {Number} [rawConfig.top] - the initial position top absolute to the relative positioned container
+     * @param {Number} [rawConfig.left] - the initial position left absolute to the relative positioned container
      * @returns {component}
      */
-    var dynComponentFactory = function dynComponentFactory(specs, defaults){
+    var dynComponentFactory = function dynComponentFactory(specs, rawConfig){
 
-        defaults = _.defaults(defaults || {}, _defaults);
+        rawConfig = _.defaults(rawConfig || {}, _defaults);
         specs = _.defaults(specs || {}, dynamicComponent);
 
-        return component(specs, defaults)
+        return component(specs, rawConfig)
             .setTemplate(layoutTpl)
             .on('init', function(){
                 this.id = uuid();
@@ -242,7 +243,6 @@ define([
                         },
                         onend : function() {
                             self.setCoords();
-                            console.dir(self.position);
                         }
                     });
 
