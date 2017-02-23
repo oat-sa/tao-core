@@ -46,9 +46,9 @@ define([
      * Intialise the scope if it does not exist yet
      */
     function initScope(scope) {
-        scope = scope && defaultScope;
+        scope = scope || defaultScope;
 
-        if (_.isUndefined(indexes[scope])) {
+        if (! indexes[scope]) {
             indexes[scope] = zIndexStart;
         }
     }
@@ -61,6 +61,7 @@ define([
      */
     function isHighest($element, scope) {
         var elementIndex = parseInt($element.css('z-index'), 10);
+        console.log(elementIndex);
         return elementIndex >= indexes[scope];
     }
 
