@@ -143,6 +143,16 @@ define([
             },
 
             /**
+             * Checks whether a value has been encoded into the DOM.
+             * @param {String} name
+             * @returns {Boolean}
+             */
+            hasValue: function hasValue(name) {
+                var data = this.getData();
+                return 'undefined' !== typeof (data && data[name]);
+            },
+
+            /**
              * Gets a value encoded into the DOM.
              * @param {String} name
              * @returns {*}

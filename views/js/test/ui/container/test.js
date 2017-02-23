@@ -34,6 +34,7 @@ define([
         { title : 'write' },
         { title : 'getData' },
         { title : 'setData' },
+        { title : 'hasValue' },
         { title : 'getValue' },
         { title : 'setValue' },
         { title : 'getElement' },
@@ -153,7 +154,7 @@ define([
 
         var instance = container('.data');
 
-        QUnit.expect(9);
+        QUnit.expect(12);
 
         assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
         assert.equal(instance.getElement().length, 1, 'A container has been caught');
@@ -167,6 +168,12 @@ define([
         assert.deepEqual(instance.getData(), {list: ["foo"], record: {foo: "bar"}}, "The values has been read");
         assert.equal(instance.setData({foo: "bar"}), instance, 'The method setData returns the instance');
         assert.deepEqual(instance.getData(), {foo: "bar"}, "The values has been changed");
+
+        assert.equal(instance.hasValue('foo'), true, "The container has the value 'foo'");
+        assert.equal(instance.hasValue('bar'), false, "The container does not have the value 'bar");
+
+        instance.setValue('empty', 0);
+        assert.equal(instance.hasValue('empty'), true, "The container has the value 'empty'");
 
         instance.destroy();
     });
