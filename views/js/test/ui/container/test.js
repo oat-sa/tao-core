@@ -154,7 +154,7 @@ define([
 
         var instance = container('.data');
 
-        QUnit.expect(12);
+        QUnit.expect(14);
 
         assert.equal(typeof instance.getElement(), 'object', 'A container object exists');
         assert.equal(instance.getElement().length, 1, 'A container has been caught');
@@ -174,6 +174,9 @@ define([
 
         instance.setValue('empty', 0);
         assert.equal(instance.hasValue('empty'), true, "The container has the value 'empty'");
+
+        assert.equal(instance.removeData(), instance, 'The method removeData returns the instance');
+        assert.deepEqual(instance.getData(), {}, "The values has been removed");
 
         instance.destroy();
     });

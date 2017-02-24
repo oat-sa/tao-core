@@ -143,6 +143,15 @@ define([
             },
 
             /**
+             * Remove the data encoded into the DOM.
+             * @returns {containerManager}
+             */
+            removeData: function removeData() {
+                $container.removeData();
+                return this;
+            },
+
+            /**
              * Checks whether a value has been encoded into the DOM.
              * @param {String} name
              * @returns {Boolean}
