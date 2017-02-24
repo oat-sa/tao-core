@@ -23,12 +23,13 @@ define([
     'lodash',
     'interact',
     'ui/component',
+    'ui/component/stackable',
     'ui/transformer',
     'ui/interactUtils',
     'util/position',
     'lib/uuid',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, transformer, interactUtils, position, uuid, layoutTpl){
+], function ($, _, interact, componentFactory, makeStackable, transformer, interactUtils, position, uuid, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -156,32 +157,35 @@ define([
     /**
      * Builds an instance of the dynamic component
      * @param {Object} specs - extra functions to extend the component
-     * @param {Object} rawConfig
-     * @param {jQuery|HTMLElement|String} [rawConfig.renderTo] - An optional container in which renders the component
-     * @param {Boolean} [rawConfig.replace] - When the component is appended to its container, clears the place before
-     * @param {String} [rawConfig.title] - title to be displayed in the title bar
-     * @param {Boolean} [rawConfig.resizable] - allow the component to be resizable
-     * @param {Boolean} [rawConfig.draggable] - allow the component to be draggable
-     * @param {Number} [rawConfig.width] - the initial width of the component content
-     * @param {Number} [rawConfig.height] - the intial height of the component content
-     * @param {Number} [rawConfig.minWidth] - the min width for resize
-     * @param {Number} [rawConfig.minHeight] - the min height for resize
-     * @param {Number} [rawConfig.maxWidth] - the max width for resize
-     * @param {Number} [rawConfig.maxHeight] - the max height for resize
-     * @param {Number} [rawConfig.largeWidthThreshold] - the width below which the container will get the class "small"
-     * @param {Number} [rawConfig.smallWidthThreshold] - the width above which the container will get the class "large"
-     * @param {Boolean} [rawConfig.preserveAspectRatio] - preserve ratio on resize
-     * @param {jQuery|HTMLElement|String} [rawConfig.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
-     * @param {Number} [rawConfig.top] - the initial position top absolute to the relative positioned container
-     * @param {Number} [rawConfig.left] - the initial position left absolute to the relative positioned container
+     * @param {Object} defaults
+     * @param {jQuery|HTMLElement|String} [defaults.renderTo] - An optional container in which renders the component
+     * @param {Boolean} [defaults.replace] - When the component is appended to its container, clears the place before
+     * @param {String} [defaults.title] - title to be displayed in the title bar
+     * @param {Boolean} [defaults.resizable] - allow the component to be resizable
+     * @param {Boolean} [defaults.draggable] - allow the component to be draggable
+     * @param {Number} [defaults.width] - the initial width of the component content
+     * @param {Number} [defaults.height] - the intial height of the component content
+     * @param {Number} [defaults.minWidth] - the min width for resize
+     * @param {Number} [defaults.minHeight] - the min height for resize
+     * @param {Number} [defaults.maxWidth] - the max width for resize
+     * @param {Number} [defaults.maxHeight] - the max height for resize
+     * @param {Number} [defaults.largeWidthThreshold] - the width below which the container will get the class "small"
+     * @param {Number} [defaults.smallWidthThreshold] - the width above which the container will get the class "large"
+     * @param {Boolean} [defaults.preserveAspectRatio] - preserve ratio on resize
+     * @param {jQuery|HTMLElement|String} [defaults.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
+     * @param {Number} [defaults.top] - the initial position top absolute to the relative positioned container
+     * @param {Number} [defaults.left] - the initial position left absolute to the relative positioned container
+     * @param {Number} [defaults.stackingScope] - in which scope to stack the component
      * @returns {component}
      */
-    var dynComponentFactory = function dynComponentFactory(specs, rawConfig){
+    var dynComponentFactory = function dynComponentFactory(specs, defaults){
 
-        rawConfig = _.defaults(rawConfig || {}, _defaults);
+        var component;
+
+        defaults = _.defaults(defaults || {}, _defaults);
         specs = _.defaults(specs || {}, dynamicComponent);
 
-        return component(specs, rawConfig)
+        component = componentFactory(specs, defaults)
             .setTemplate(layoutTpl)
             .on('init', function(){
                 this.id = uuid();
@@ -376,6 +380,8 @@ define([
             .on('destroy', function(){
                 $(window).off('resize.dynamic-component-' + this.id);
             });
+
+        return makeStackable(component);
     };
 
     return dynComponentFactory;
