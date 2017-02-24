@@ -1533,6 +1533,7 @@ define([
 
             this._setState('error', error);
             this._setState('nogui', !_support.canControl());
+            this._setState('loading', true);
         },
 
         /**
@@ -1842,6 +1843,7 @@ define([
             this._setState('ready', true);
             this._setState('canplay', true);
             this._setState('canpause', this.config.canPause);
+            this._setState('loading', false);
 
             /**
              * Triggers a media ready event
@@ -1865,6 +1867,7 @@ define([
          */
         _onError : function _onError() {
             this._setState('error', true);
+            this._setState('loading', false);
 
             /**
              * Triggers an unrecoverable media error event
