@@ -98,6 +98,7 @@ define([], function() {
             autoBringToFront: function autoBringToFront($element) {
                 var self = this;
 
+                $element.off('mousedown' + ns);
                 $element.on('mousedown' + ns, function() {
                     self.bringToFront($element);
                 });
