@@ -19,15 +19,16 @@
  */
 namespace oat\tao\model\datatable\implementation;
 
+use ArrayIterator;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet;
+use oat\oatbox\service\ServiceManager;
+use oat\search\base\QueryBuilderInterface;
+use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\datatable\DatatablePayload as DatatablePayloadInterface;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
-use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
-use oat\search\base\QueryBuilderInterface;
-use oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet;
 
 /**
  * class DatatablePayload
@@ -118,6 +119,8 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
             foreach ($filterVal as $values) {
                 if (is_array($values)) {
                     $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $values);
+                } elseif (is_string($values)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $values);
                 }
             }
         }
@@ -229,7 +232,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
      * @param bool|string $multitask will return all filters as [[filter1], [filter2]]
      * @return array
      */
-    protected function map($filter, $multitask=false)
+    protected function map($filter, $multitask = false)
     {
         $data = [];
         $map = $this->getPropertiesMap();
@@ -239,10 +242,10 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
 
             if ($multitask) {
                 if (!is_array($val)) {
-                    $val = [$val];
+                    $data[$key] = [$val];
+                } else {
+                    $data[$key][] = array_unique($val);
                 }
-
-                $data[$key][] = array_unique($val);
             } else {
                 $data[$key] = $val;
             }
