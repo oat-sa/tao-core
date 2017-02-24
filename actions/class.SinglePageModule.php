@@ -49,6 +49,10 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
      */
     protected function composeView($scope = '', $data = array(), $template = '', $extension = '')
     {
+        if (!is_array($data)) {
+            $data = [];
+        }
+        
         if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
             $this->returnJson([
                 'success' => true,
@@ -83,7 +87,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
             $this->setView($template, $extension);
         } else {
             $this->setData('content-template', [$template, $extension]);
-            
+
             $layout = (array)$this->getLayout();
             $this->setView($layout[0], isset($layout[1]) ? $layout[1] : null);
         }
