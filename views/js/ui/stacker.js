@@ -21,6 +21,9 @@
  * It does not provide any way to define the stacking context, as there are many ways to do so,
  * with different implications on the rest of the layout. Prefer CSS for that.
  *
+ * To share the same scope between modules, instanciate the component with the relevant scope id
+ *
+ * @example
  * stacker = stackerFactory('test-runner');
  *
  * // put on top
@@ -31,9 +34,7 @@
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([
-    'lodash'
-], function(_) {
+define([], function() {
     'use strict';
 
     var ns = '.stacker',
@@ -46,8 +47,6 @@ define([
      * Intialise the scope if it does not exist yet
      */
     function initScope(scope) {
-        scope = scope || defaultScope;
-
         if (! indexes[scope]) {
             indexes[scope] = zIndexStart;
         }
@@ -61,7 +60,6 @@ define([
      */
     function isHighest($element, scope) {
         var elementIndex = parseInt($element.css('z-index'), 10);
-        console.log(elementIndex);
         return elementIndex >= indexes[scope];
     }
 
@@ -78,6 +76,7 @@ define([
      * @returns {Object} - the stacker helper
      */
     return function stackerFactory(scope) {
+        scope = scope || defaultScope;
         initScope(scope);
 
         return {
@@ -104,12 +103,12 @@ define([
                 });
             },
 
+            /**
+             * Reset the z-index of the given element
+             * @param {jQuery} $element
+             */
             reset: function reset($element) {
                 $element.get(0).style.zIndex = 'auto';
-            },
-
-            resetScope: function resetScope() {
-                indexes[scope] = zIndexStart;
             },
 
 

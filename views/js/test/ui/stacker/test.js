@@ -34,6 +34,27 @@ define([
         assert.ok(typeof stackerFactory === 'function', 'The module expose a function');
     });
 
+    QUnit.module('getCurrent()');
+
+    QUnit.test('returns the current index value', function (assert) {
+        var stacker = stackerFactory(),
+            $container = $(fixtureContainer),
+            $div1 = $container.find('#div1'),
+            $div2 = $container.find('#div2'),
+            $div3 = $container.find('#div3');
+
+        QUnit.expect(3);
+
+        stacker.bringToFront($div1);
+        assert.equal(stacker.getCurrent(), 1010, 'index has been correctly incremented');
+
+        stacker.bringToFront($div2);
+        assert.equal(stacker.getCurrent(), 1020, 'index has been correctly incremented');
+
+        stacker.bringToFront($div3);
+        assert.equal(stacker.getCurrent(), 1030, 'index has been correctly incremented');
+    });
+
     QUnit.module('.bringToFront()');
 
     QUnit.test('set the highest zIndex', function (assert) {
@@ -43,12 +64,10 @@ define([
 
         QUnit.expect(3);
 
-        stacker.resetScope();
-
         assert.equal($div1.css('z-index'), 'auto', 'no z-index is set');
 
         stacker.bringToFront($div1);
-        assert.equal($div1.css('z-index'), stacker.getCurrent(), 'z-index has been set');
+        assert.equal($div1.css('z-index'), stacker.getCurrent(), 'z-index has been set to ' + stacker.getCurrent());
 
         stacker.reset($div1);
         assert.equal($div1.css('z-index'), 'auto', 'z-index has been removed');
@@ -61,8 +80,6 @@ define([
             index;
 
         QUnit.expect(3);
-
-        stacker.resetScope();
 
         assert.equal($div1.css('z-index'), 'auto', 'no z-index is set');
 
@@ -85,8 +102,6 @@ define([
             index3 = 'auto';
 
         QUnit.expect(18);
-
-        stacker.resetScope();
 
         stacker.bringToFront($div1);
         index1 = stacker.getCurrent();
@@ -138,8 +153,6 @@ define([
             index3 = 'auto';
 
         QUnit.expect(18);
-
-        stacker.resetScope();
 
         stacker.autoBringToFront($div1);
         stacker.autoBringToFront($div2);
