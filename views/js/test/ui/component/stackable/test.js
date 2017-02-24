@@ -19,9 +19,9 @@ define([
         assert.ok(typeof makeStackable === 'function', 'The module expose a function');
     });
 
-    QUnit.module('stackable');
+    QUnit.module('Regular component');
 
-    QUnit.test('regular component has no z-index behavior', function (assert) {
+    QUnit.test('does not provide any z-index behavior', function (assert) {
         var $container = $(fixtureContainer),
             component = componentFactory({}, { stackingScope: stackingScope })
                 .init()
@@ -32,11 +32,13 @@ define([
         QUnit.expect(3);
 
         assert.ok(! hider.isHidden($element), 'component is visible');
-        assert.equal($element.css('z-index'), 'auto', 'component has no z-index');
+        assert.equal($element.get(0).style.zIndex, '', 'component has no z-index');
 
         $element.trigger('click');
-        assert.equal($element.css('z-index'), 'auto', 'component has still no z-index');
+        assert.equal($element.get(0).style.zIndex, '', 'component has still no z-index');
     });
+
+    QUnit.module('Stackable component');
 
     QUnit.test('bring component to front on .render()', function(assert) {
         var $container = $(fixtureContainer),
@@ -46,8 +48,6 @@ define([
             $element = component.getElement();
 
         QUnit.expect(2);
-
-        $element.css('position: relative');
 
         assert.ok(! hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, stacker.getCurrent(), 'component has the latest z-index');
@@ -61,8 +61,6 @@ define([
             $element = component.getElement();
 
         QUnit.expect(4);
-
-        $element.css('position: relative');
 
         assert.ok(! hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, stacker.getCurrent(), 'component has been brought to the front');
@@ -83,8 +81,6 @@ define([
             $element = component.getElement();
 
         QUnit.expect(4);
-
-        $element.css('position: relative');
 
         assert.ok(! hider.isHidden($element), 'component is visible');
         assert.equal($element.get(0).style.zIndex, stacker.getCurrent(), 'component has been brought to the front');
