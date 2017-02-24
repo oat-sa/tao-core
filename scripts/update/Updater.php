@@ -691,9 +691,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.69.0');
         }
       
-        $this->skip('7.69.0', '7.69.5');
+        $this->skip('7.69.0', '7.69.6');
 
-        if($this->isVersion('7.69.4')) {
+        if($this->isVersion('7.69.6')) {
 
             $queue = new NotificationServiceAggregator([
                 'rds' =>
@@ -709,10 +709,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
 
-            $this->setVersion('7.69.5');
+            $this->setVersion('7.69.7');
         }
-        
-        $this->skip('7.69.5', '7.69.6');
     }
 
     private function migrateFsAccess() {
