@@ -42,13 +42,6 @@ define([
     var appLogger = loggerFactory('application');
 
     /**
-     * Next route to be called once the controller has been dispatched.
-     * Used to redirect/forward a route while dispatching, otherwise the router can fall in an infinite loop.
-     * @type {Function}
-     */
-    var nextRoute;
-
-    /**
      * Defines an application controller that will manage the routes through the history.
      * It will start by dispatching the current location, in order to keep history consistency.
      * To properly use this application controller you need to take care of it in each controller
@@ -59,14 +52,8 @@ define([
      *  return {
      *      // Will be called each time the history routes the action to this controller
      *      start: function start() {
-     *          // Take care of the application controller. If the current controller is the entry point, we first
-     *          // need to wait for the history to dispatch the action, otherwise the controller will be called twice.
-     *          if (!appController.getState('dispatching')) {
-     *              return appController.start();
-     *          }
-     *
-     *          // Do the stuff of the controller
-     *          ...
+     *          // Take care of the application controller by applying a hook on each routable links
+     *          return appController.apply('.link');
      *
      *          // You can also be notified of a change in the route,
      *          // and release some resources as this controller will be destroyed.
@@ -78,22 +65,17 @@ define([
      *              // Release resources
      *              ...
      *          });
+     *
+     *          // Do the stuff of the controller
+     *          ...
+     *
+     *          // If you need to change the current route you can rely on the router brought by the appController
+     *          appController.getRouter().redirect(url);
      *  };
      *
      * @typedef {appController}
      */
     var appController = eventifier(statifier({
-        /**
-         * App controller entry point: set up the router.
-         */
-        start: function start() {
-            // all links that are tagged with the "router" class are dispatched using the history router
-            appController.apply();
-
-            // dispatch the current route
-            appController.forward(window.location + '');
-        },
-
         /**
          * Catch all links below the target, when they have the provided selector,
          * then dispatch them using the history router.
@@ -120,43 +102,9 @@ define([
                 // use the history router to change the current view
                 // the called controller will have in charge to get the data and update the view accordingly
                 if (href) {
-                    appController.redirect(href);
+                    historyRouter.redirect(href);
                 }
             });
-        },
-
-        /**
-         * Redirects the page to another controller
-         * @param {String} url
-         */
-        redirect: function redirect(url) {
-            var doRedirect = function doRedirect() {
-                historyRouter.trigger('dispatch', url);
-            };
-
-            if (appController.getState('dispatching')) {
-                nextRoute = doRedirect;
-            } else {
-                doRedirect();
-            }
-        },
-
-        /**
-         * Forwards to another controller
-         * @param {String} url
-         */
-        forward: function forward(url) {
-            var doForward = function doForward() {
-                historyRouter.dispatch({
-                    url: url
-                }, true);
-            };
-
-            if (appController.getState('dispatching')) {
-                nextRoute = doForward;
-            } else {
-                doForward();
-            }
         },
 
         /**
@@ -196,15 +144,11 @@ define([
         })
         .on('dispatched', function (url) {
             appController.setState('dispatching', false);
-            appController.setState('ready');
             appController.trigger('started', url);
-
-            // is a route pending dispatch?
-            if (nextRoute) {
-                nextRoute();
-                nextRoute = null;
-            }
         });
+
+    // all links that are tagged with the "router" class are dispatched using the history router
+    appController.apply();
 
     return appController;
 });
