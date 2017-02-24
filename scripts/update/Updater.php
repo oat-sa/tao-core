@@ -33,6 +33,9 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\notification\implementation\NotificationServiceAggregator;
+use oat\tao\model\notification\implementation\RdsNotification;
+use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\scripts\install\InstallNotificationTable;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
@@ -653,18 +656,29 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('7.54.0')) {
             $persistence = \common_persistence_Manager::getPersistence('default');
-            /** @var common_persistence_sql_pdo_SchemaManager $schemaManager */
+            /** @var \common_persistence_sql_pdo_SchemaManager $schemaManager */
             $schemaManager = $persistence->getDriver()->getSchemaManager();
             $schema = $schemaManager->createSchema();
             $fromSchema = clone $schema;
+
+            $doUpdate = false;
             // test if already executed
             $statementsTableData = $schema->getTable('statements');
-            $statementsTableData->dropIndex('idx_statements_modelid');
+            if ($statementsTableData->hasIndex('idx_statements_modelid')) {
+                $statementsTableData->dropIndex('idx_statements_modelid');
+                $doUpdate = true;
+            }
             $modelsTableData = $schema->getTable('models');
-            $modelsTableData->dropIndex('idx_models_modeluri');
-            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
-            foreach ($queries as $query) {
-                $persistence->exec($query);
+            if ($modelsTableData->hasIndex('idx_models_modeluri')) {
+                $modelsTableData->dropIndex('idx_models_modeluri');
+                $doUpdate = true;
+            }
+
+            if ($doUpdate) {
+                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+                foreach ($queries as $query) {
+                    $persistence->exec($query);
+                }
             }
             $this->setVersion('7.54.1');
         }
@@ -688,7 +702,28 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.69.0');
         }
       
-        $this->skip('7.69.0', '7.69.4');
+        $this->skip('7.69.0', '7.69.6');
+
+        if($this->isVersion('7.69.6')) {
+
+            $queue = new NotificationServiceAggregator([
+                'rds' =>
+                    array(
+                        'class'   => RdsNotification::class,
+                        'options' => [
+                            RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                            'visibility'  => false,
+                        ],
+                    )
+                ]
+            );
+
+            $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
+
+            $this->setVersion('7.69.7');
+        }
+
+        $this->skip('7.69.7', '7.69.8');
 
     }
 
