@@ -81,6 +81,7 @@ define([
          * then dispatch them using the history router.
          * @param {String} [selector] - The CSS signature of links to catch (default: ".router")
          * @param {String|HTMLElement|jQuery} [target] - The container from which catch links (default: document)
+         * @returns {appController}
          */
         apply: function apply(selector, target) {
             selector = selector || '.router';
@@ -105,6 +106,8 @@ define([
                     historyRouter.redirect(href);
                 }
             });
+
+            return this;
         },
 
         /**
@@ -128,11 +131,13 @@ define([
         /**
          * Catches errors
          * @param {Object} err
+         * @returns {appController}
          */
         onError: function onError(err) {
             var message = err && err.message || err;
             appLogger.error(err);
             feedback().error(message);
+            return this;
         }
     }));
 

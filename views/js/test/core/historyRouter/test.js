@@ -19,12 +19,10 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'jquery',
-    'core/promise',
     'core/historyRouter',
     'html5-history-api',
     'test/core/historyRouter/mock/controller'
-], function ($, Promise, historyRouterFactory, history, controller) {
+], function (historyRouterFactory, history, controller) {
     'use strict';
 
     var location = window.history.location || window.location;
@@ -237,10 +235,9 @@ define([
     });
 
 
-
     QUnit
         .cases(errorsProvider)
-        .asyncTest('disptach', function (data, assert) {
+        .asyncTest('dispatch', function (data, assert) {
             var instance = historyRouterFactory();
 
             QUnit.expect(1);
