@@ -44,7 +44,7 @@
 define([
     'jquery',
     'lodash',
-    'core/eventifier',
+    'core/eventifier'
 ], function($, _, eventifier){
     'use strict';
 
@@ -101,6 +101,7 @@ define([
             && _.isFunction(navElement.destroy)
             && _.isFunction(navElement.getElement)
             && _.isFunction(navElement.isVisible)
+            && _.isFunction(navElement.isEnabled)
             && _.isFunction(navElement.focus)
         );
     };
@@ -140,7 +141,7 @@ define([
             if (document.activeElement) {
                 // try to find the focused element within the known list of focusable elements
                 _.forEach(navigables, function(navigable, index) {
-                    if (navigable.isVisible()
+                    if (navigable.isVisible() && navigable.isEnabled()
                         && (document.activeElement === navigable.getElement().get(0) || $.contains(navigable.getElement().get(0), document.activeElement))) {
                         _cursor.position = index;
                         _cursor.navigable = navigable;
@@ -166,7 +167,7 @@ define([
         var getClosestPositionRight = function getClosestPositionRight(fromPosition){
             var pos;
             for(pos = fromPosition; pos < navigables.length; pos++){
-                if(navigables[pos] && navigables[pos].isVisible()){
+                if(navigables[pos] && navigables[pos].isVisible() && navigables[pos].isEnabled()){
                     return pos;
                 }
             }
@@ -182,7 +183,7 @@ define([
         var getClosestPositionLeft = function getClosestPositionLeft(fromPosition){
             var pos;
             for(pos = fromPosition; pos >= 0; pos--){
-                if(navigables[pos] && navigables[pos].isVisible()){
+                if(navigables[pos] && navigables[pos].isVisible() && navigables[pos].isEnabled()){
                     return pos;
                 }
             }
