@@ -34,7 +34,7 @@
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([], function() {
+define(['jquery'], function($) {
     'use strict';
 
     var ns = '.stacker',
@@ -42,6 +42,14 @@ define([], function() {
         increment = 10,
         zIndexStart = 1000,
         defaultScope = 'global';
+
+    /**
+     * Check that the given element is valid
+     * @returns Boolean
+     */
+    function isElementValid($element) {
+        return $element instanceof $ && $element.length;
+    }
 
     /**
      * Intialise the scope if it does not exist yet
@@ -85,7 +93,7 @@ define([], function() {
              * @param {jQuery} $element
              */
             bringToFront: function bringToFront($element) {
-                if (! isHighest($element, scope)) {
+                if (isElementValid($element) && ! isHighest($element, scope)) {
                     $element.get(0).style.zIndex = getNext(scope);
                 }
             },
@@ -98,10 +106,12 @@ define([], function() {
             autoBringToFront: function autoBringToFront($element) {
                 var self = this;
 
-                $element.off('mousedown' + ns);
-                $element.on('mousedown' + ns, function() {
-                    self.bringToFront($element);
-                });
+                if (isElementValid($element)) {
+                    $element.off('mousedown' + ns);
+                    $element.on('mousedown' + ns, function() {
+                        self.bringToFront($element);
+                    });
+                }
             },
 
             /**
@@ -109,7 +119,9 @@ define([], function() {
              * @param {jQuery} $element
              */
             reset: function reset($element) {
-                $element.get(0).style.zIndex = 'auto';
+                if (isElementValid($element)) {
+                    $element.get(0).style.zIndex = 'auto';
+                }
             },
 
 

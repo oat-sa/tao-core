@@ -20,9 +20,8 @@
  */
 define([
     'jquery',
-    'lodash',
     'ui/stacker'
-], function ($, _, stackerFactory) {
+], function ($, stackerFactory) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture';

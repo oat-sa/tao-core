@@ -16,7 +16,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
- * This can be used whenever you want to make a component stackable, meaning that is z-index will be controlled by the module ui/stacker
+ * This can be used whenever you want to make a component stackable, meaning that its z-index will be controlled by the module ui/stacker
  * If you want to use a stacking scope, the component should be initialised with a stackingScope property
  *
  * @example
@@ -26,11 +26,13 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
-    'lodash',
     'ui/stacker'
-], function(_, stackerFactory) {
+], function(stackerFactory) {
     'use strict';
 
+    /**
+     * @param {Component} - an instance of ui/component
+     */
     return function makeStackable(component) {
         var stacker;
 
