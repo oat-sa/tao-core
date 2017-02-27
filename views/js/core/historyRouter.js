@@ -59,7 +59,7 @@ define([
          */
         historyRouter =  eventifier(statifier({
             /**
-             * Redirects the page to another controller
+             * Redirects the page to another controller. Adds a step to the history.
              * @param {String} url
              * @returns {Promise}
              */
@@ -68,25 +68,22 @@ define([
             },
 
             /**
-             * Forwards to another controller
+             * Forwards to another controller. Does not change the current location nor the history,
+             * only loads the target controller.
              * @param {String} url
              * @returns {Promise}
              */
             forward: function forward(url) {
-                return this.dispatch({
-                    url: url
-                }, false);
+                return this.dispatch(url, false);
             },
 
             /**
-             * Replace by another controller
+             * Forwards to another controller. Replaces the current location and replace the history.
              * @param {String} url
              * @returns {Promise}
              */
             replace: function replace(url) {
-                return this.dispatch({
-                    url: url
-                }, true);
+                return this.dispatch(url, true);
             },
 
             /**
