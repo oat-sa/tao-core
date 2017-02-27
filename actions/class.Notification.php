@@ -18,9 +18,9 @@
  *
  */
 
-use \oat\oatbox\notification\NotificationServiceInterface;
-use \oat\oatbox\notification\NotificationInterface;
-use \oat\oatbox\notification\exception\NotListedNotification;
+use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\exception\NotListedNotification;
 
 class tao_actions_Notification extends \tao_actions_CommonModule
 {
@@ -31,7 +31,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         $user = $userService->getCurrentUser();
 
         /**
-         * @var \oat\oatbox\notification\NotificationServiceInterface $notificationService
+         * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
          */
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
@@ -49,7 +49,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         $user = $userService->getCurrentUser();
 
         /**
-         * @var \oat\oatbox\notification\NotificationServiceInterface $notificationService
+         * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
          */
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {
@@ -65,7 +65,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         if( $this->hasRequestParameter('id')) {
             $id = $this->getRequestParameter('id');
             /**
-             * @var \oat\oatbox\notification\NotificationServiceInterface $notificationService
+             * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
              */
             $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
             try {
@@ -84,7 +84,7 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         $user = $userService->getCurrentUser();
 
         /**
-         * @var \oat\oatbox\notification\NotificationServiceInterface $notificationService
+         * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
          */
         $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
         try {

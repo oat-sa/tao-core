@@ -32,8 +32,8 @@ use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\mvc\DefaultUrlService;
-use oat\oatbox\notification\NotificationServiceInterface;
-use oat\oatbox\notification\NotificationInterface;
+use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\notification\NotificationInterface;
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -280,18 +280,20 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         /* @var $notifService NotificationServiceInterface */
         $notifService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
-        $notif = $notifService->notificationCount($user->getUri());
 
-        $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
+        if($notifService->getVisibility()) {
+            $notif = $notifService->notificationCount($user->getUri());
 
-        $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
-            [
-                'structure' => 'tao_Notifications',
-                'ext'       => 'tao',
-                'section'   => 'settings_my_notifications',
-            ]
-        ));
+            $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
 
+            $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
+                [
+                    'structure' => 'tao_Notifications',
+                    'ext'       => 'tao',
+                    'section'   => 'settings_my_notifications',
+                ]
+            ));
+        }
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getLogoutUrl());

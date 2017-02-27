@@ -127,7 +127,7 @@ define([
     /**
      * Create a logger
      */
-    var eventifierLogger = loggerFactory('eventifier');
+    var eventifierLogger = loggerFactory('core/eventifier');
 
     /**
      * Create an async callstack
@@ -413,7 +413,7 @@ define([
                             return acc;
                         }, getHandlerObject());
 
-                    logger.debug({event : eventName, args : args}, 'trigger %s', eventName);
+                    logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
 
                     if(mergedHandlers){
 
