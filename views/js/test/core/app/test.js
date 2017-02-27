@@ -19,12 +19,12 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'core/promise',
+    'jquery',
     'core/app',
     'core/historyRouter',
     'core/logger',
     'ui/feedback'
-], function (Promise, appController, historyRouterFactory, loggerFactory, feedback) {
+], function ($, appController, historyRouterFactory, loggerFactory, feedback) {
     'use strict';
 
     var appControllerApi = [
