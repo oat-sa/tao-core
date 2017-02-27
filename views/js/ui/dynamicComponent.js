@@ -107,6 +107,8 @@ define([
         setCoords : function setCoords() {
             var $element = this.getElement();
 
+            // fixme: attributes data-x and data-y are added by interactUtils.
+            // If the position is really needed, it should be computed differently
             this.position.x = parseFloat($element.attr('data-x')) + this.config.left;
             this.position.y = parseFloat($element.attr('data-y')) + this.config.top;
         },
