@@ -209,6 +209,12 @@ ul.listbox {
         color: $textColor;
         @include font-size(20);
     }
+
+    button.key-navigation-highlight {
+        &:focus{
+            text-decoration: underline !important;
+        }
+    }
 }
 
 .modal-bg {
