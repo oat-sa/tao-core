@@ -211,8 +211,13 @@ ul.listbox {
     }
 
     button.key-navigation-highlight {
+        .label{
+            border-bottom: solid 1.5px transparent;
+        }
         &:focus{
-            text-decoration: underline !important;
+            .label{
+                border-bottom-color: inherit;
+            }
         }
     }
 }
