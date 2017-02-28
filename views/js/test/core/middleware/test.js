@@ -44,14 +44,14 @@ define([
     QUnit
         .cases(middlewareApi)
         .test('instance API ', function (data, assert) {
-            var instance = middlewaresHandlerFactory('default');
+            var instance = middlewaresHandlerFactory();
             QUnit.expect(1);
             assert.equal(typeof instance[data.title], 'function', 'The middlewaresHandlerFactory instance exposes a "' + data.title + '" function');
         });
 
 
     QUnit.asyncTest('middlewares.apply() #success', function (assert) {
-        var middlewares = middlewaresHandlerFactory('default');
+        var middlewares = middlewaresHandlerFactory();
         var request = {
             command: 'read',
             params: {
@@ -103,7 +103,7 @@ define([
 
 
     QUnit.asyncTest('middlewares.apply() #fails', function (assert) {
-        var middlewares = middlewaresHandlerFactory('default');
+        var middlewares = middlewaresHandlerFactory();
         var request = {
             command: 'read',
             params: {
@@ -155,7 +155,7 @@ define([
 
 
     QUnit.asyncTest('middlewares.apply() #failed response', function (assert) {
-        var middlewares = middlewaresHandlerFactory('default');
+        var middlewares = middlewaresHandlerFactory();
         var request = {
             command: 'read',
             params: {
@@ -198,6 +198,56 @@ define([
             })
             .catch(function (err) {
                 assert.deepEqual(err, response, 'The error has been provided');
+                QUnit.start();
+            });
+    });
+
+
+    QUnit.asyncTest('middlewares.apply() #missing next', function (assert) {
+        var middlewares = middlewaresHandlerFactory();
+        var request = {
+            command: 'read',
+            params: {
+                foo: 'bar'
+            }
+        };
+        var response = {
+            success: true,
+            data: {
+                list: [1, 2, 3]
+            }
+        };
+        var context = {
+            name: 'foo'
+        };
+        var to = setTimeout(function() {
+            assert.ok(true, 'The next has never be called...');
+            QUnit.start();
+        }, 500);
+
+        QUnit.expect(3);
+
+        middlewares
+            .use(function () {
+                assert.ok(true, 'The global middleware has been called');
+            })
+            .use('read', function (req, res, next) {
+                assert.ok(true, 'The read middleware has been called');
+                next();
+            })
+            .use('refresh', function (req, res, next) {
+                assert.ok(false, 'The refresh middleware should not be called');
+                next(false);
+            })
+            .apply(request, response, context)
+            .then(function () {
+                assert.ok(false, 'The promise should not be rejected');
+                clearTimeout(to);
+                QUnit.start();
+            })
+            .catch(function () {
+                assert.ok(false, 'The promise should not be rejected');
+                clearTimeout(to);
                 QUnit.start();
             });
     });
