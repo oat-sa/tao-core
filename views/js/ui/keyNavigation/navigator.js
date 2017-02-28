@@ -343,6 +343,9 @@ define([
                     pos = _cursor.position;
                 }else if(_.isFunction(config.defaultPosition)){
                     pos = config.defaultPosition(navigables);
+                    if(pos < 0){
+                        pos = 0;
+                    }
                 }else{
                     pos = config.defaultPosition;
                 }
@@ -399,7 +402,6 @@ define([
                     navigable.destroy();
                 });
 
-                //$navigables.removeClass('navigation-highlight');
                 delete _navigationGroups[id];
                 return this;
             },
