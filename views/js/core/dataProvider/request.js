@@ -57,9 +57,10 @@ define([
      * @param {String} url - the endpoint full url
      * @param {Object} [data] - additional parameters
      * @param {String} [method = 'GET'] - the HTTP method
+     * @param {Object} [headers] - the HTTP header
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    return function request(url, data, method){
+    return function request(url, data, method, headers){
         return new Promise(function(resolve, reject){
 
             if(_.isEmpty(url)){
@@ -70,6 +71,7 @@ define([
                 url: url,
                 type: method || 'GET',
                 dataType: 'json',
+                headers: headers,
                 data : data
             })
             .done(function(response, status, xhr){

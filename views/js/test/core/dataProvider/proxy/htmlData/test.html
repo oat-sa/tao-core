@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Core - DataProvider HTML data Proxy</title>
+        <base href="../../../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/dataProvider/proxy/htmlData.js"></script>
+
+        <script  type="text/javascript">
+
+             //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                //load the test
+                require(['test/core/dataProvider/proxy/htmlData/test'], function(){
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <div id="fixture-1" data-foo="bar"></div>
+            <div id="fixture-2" data-list='[1, 2, 3]' data-record='{"foo":"bar"}'></div>
+            <div id="fixture-3" data-list='[1, 2, 3]' data-record='{"foo":"bar"}'></div>
+            <div id="fixture-4" data-list='[1, 2, 3]' data-record='{"foo":"bar"}'></div>
+            <div id="fixture-5" data-list='[1, 2, 3]' data-record='{"foo":"bar"}'></div>
+            <div id="fixture-6" data-foo="bar"></div>
+            <div id="fixture-7" data-list='[1, 2, 3]' data-record='{"foo":"bar"}'></div>
+            <div id="fixture-8" data-list='[1, 2, 3]' data-record='{"foo":"bar"}'></div>
+            <div id="fixture-9" data-list='[1, 2, 3]' data-record='{"foo":"bar"}'></div>
+        </div>
+    </body>
+</html>
