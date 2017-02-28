@@ -31,8 +31,10 @@ define([
     'i18n',
     'tpl!ui/dialog/tpl/body',
     'tpl!ui/dialog/tpl/buttons',
+    'ui/keyNavigation/navigator',
+    'ui/keyNavigation/navigableDomElement',
     'ui/modal'
-], function ($, _, __, bodyTpl, buttonsTpl) {
+], function ($, _, __, bodyTpl, buttonsTpl, keyNavigator, navigableDomElement) {
     'use strict';
 
     /**
@@ -346,7 +348,7 @@ define([
          * @param {Event} event
          * @private
          */
-        _onButtonClick : function(event) {
+        _onButtonClick : function _onButtonClick(event) {
             var $btn = $(event.target);
             var id = $btn.data('control');
             var btn = this.buttons[id];
@@ -362,7 +364,7 @@ define([
          * @private
          * @fires dialog#[button.id]btn.modal
          */
-        _execute : function(btn) {
+        _execute : function _execute(btn) {
             // call the optional callback
             if (btn.action) {
                 btn.action.apply(this, [btn, this]);
@@ -382,26 +384,15 @@ define([
         },
 
         _setFocusOnModal: function _setFocusOnModal(){
-            var $btnOk, $btn;
-            // default OK button (for enter key)
-            $btnOk = $('button.ok', this.$buttons);
-            if ($btnOk.length) {
-                $btnOk.focus();
-            } else {
-                // other button
-                $btn = $('button', this.$buttons).first();
-                if ($btn.length) {
-                    $btn.focus();
-                }
-            }
+            this.navigator.focus();
         },
 
         /**
          * Installs the dialog box
          * @private
          */
-        _install : function() {
-            var self = this;
+        _install : function _install() {
+            var self = this, $buttons;
 
             this.$html.modal({
                 width: this.width,
@@ -414,14 +405,35 @@ define([
                 }
             });
 
-            this._setFocusOnModal();
+            if(!this.destroyed){
+                $buttons = this.$buttons.find('button');
+                this.navigator = keyNavigator({
+                    elements : navigableDomElement.createFromDoms($buttons),
+                    defaultPosition : function defaultPosition(navigables){
+                        return _.findIndex(navigables, function(navigable){
+                            return navigable.getElement().hasClass('ok');
+                        });
+                    }
+                }).on('right down', function(){
+                    this.next();
+                }).on('left up', function(){
+                    this.previous();
+                }).on('activate', function(cursor){
+                    cursor.navigable.getElement().click();
+                });
+
+                //delay the focus to prevent immediately activating the button when the dialog is opened with a keyboard
+                _.delay(function(){
+                    self._setFocusOnModal();
+                }, 200);
+            }
         },
 
         /**
          * Opens the dialog box
          * @private
          */
-        _open : function() {
+        _open : function _open() {
             this.$html.modal('open');
         },
 
@@ -429,7 +441,7 @@ define([
          * Closes the dialog box
          * @private
          */
-        _close : function() {
+        _close : function _close() {
             this.$html.modal('close');
         },
 
@@ -437,8 +449,11 @@ define([
          * Destroys the dialog box
          * @private
          */
-        _destroy : function() {
+        _destroy : function _destroy() {
             this.$html.modal('destroy');
+            if(this.navigator){
+                this.navigator.destroy();
+            }
         }
     };
 
