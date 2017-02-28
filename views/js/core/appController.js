@@ -77,6 +77,17 @@ define([
      */
     var appController = eventifier(statifier({
         /**
+         * App controller entry point: set up the router.
+         */
+        start: function start(){
+            // all links that are tagged with the "router" class are dispatched using the history router
+            appController.apply();
+
+            // dispatch the current route
+            historyRouter.forward(window.location + '');
+        },
+
+        /**
          * Catch all links below the target, when they have the provided selector,
          * then dispatch them using the history router.
          * @param {String} [selector] - The CSS signature of links to catch (default: ".router")
@@ -151,9 +162,6 @@ define([
             appController.setState('dispatching', false);
             appController.trigger('started', url);
         });
-
-    // all links that are tagged with the "router" class are dispatched using the history router
-    appController.apply();
 
     return appController;
 });

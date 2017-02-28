@@ -29,6 +29,7 @@ define([
 
     var appControllerApi = [
         // core
+        {title: 'start'},
         {title: 'apply'},
         {title: 'getRouter'},
         {title: 'getLogger'},
@@ -122,4 +123,17 @@ define([
         $target.find('a').click();
     });
 
+
+    QUnit.asyncTest('start', function(assert) {
+
+        QUnit.expect(2);
+
+        historyRouterFactory().on('forward', function(url) {
+            assert.ok(true, 'The historyRouter has forwarded the route');
+            assert.equal(url, window.location.href, 'The right url has been forwarded');
+            QUnit.start();
+        })
+
+        appController.start();
+    });
 });

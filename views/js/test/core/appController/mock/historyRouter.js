@@ -24,6 +24,9 @@ define([
     'use strict';
 
     var historyRouter = eventifier({
+        forward: function forward(url) {
+            historyRouter.trigger('forward', url);
+        },
         redirect: function refirect(url) {
             historyRouter.trigger('dispatching', url);
             setTimeout(function() {
