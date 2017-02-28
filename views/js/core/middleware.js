@@ -23,7 +23,7 @@ define([
     'async',
     'core/eventifier',
     'core/promise'
-], function (_, async, eventifier, Promise) {
+], function (_, asyncUtil, eventifier, Promise) {
     'use strict';
 
     /**
@@ -88,7 +88,7 @@ define([
 
                 // apply each middleware in series, then resolve or reject the promise
                 return new Promise(function (resolve, reject) {
-                    async.series(list, function (err) {
+                    asyncUtil.series(list, function (err) {
                         // handle implicit error from response descriptor
                         if (!err && response.success === false) {
                             err = response;
