@@ -20,7 +20,7 @@
  */
 define([
     'jquery',
-    'core/appController',
+    'controller/app',
     'core/historyRouter',
     'core/logger',
     'ui/feedback'
