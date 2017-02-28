@@ -118,11 +118,39 @@ define([
             },
 
             /**
+             * Loads a list of named providers. Accept promises that resolve with instance of provider.
+             * @param {Object} providers - A list of providers (can be promises) to load.
+             * @returns {Promise} - Returns a promise that should be resolved with the dataBroker
+             * instance once all providers have been loaded.
+             */
+            loadProviders: function loadProviders(providers) {
+                var initChain = [];
+
+                providers = providers || {};
+                _.forEach(providers, function (provider, name) {
+                    if (provider instanceof Promise) {
+                        initChain.push(provider.then(function (instance) {
+                            providers[name] = instance;
+                        }));
+                    }
+                });
+
+                return Promise.all(initChain).then(function () {
+                    _.forEach(providers, function (provider, name) {
+                        dataBroker.addProvider(name, provider);
+                    });
+
+                    return dataBroker;
+                });
+            },
+
+            /**
              * Read data using a particular provider.
              * @param {String} name
              * @param {Object} [params]
              * @returns {Promise}
              * @fires readprovider
+             * @fires data
              */
             readProvider: function readProvider(name, params) {
                 var provider = dataBroker.getProvider(name);
@@ -134,60 +162,19 @@ define([
                      */
                     dataBroker.trigger('readprovider', name, params);
 
-                    return provider.read(params);
+                    return provider.read(params)
+                        .then(function(data) {
+                            /**
+                             * @event data
+                             * @param {Object} data
+                             * @param {String} name
+                             * @param {Object} params
+                             */
+                            dataBroker.trigger('data', data, name, params);
+                            return data;
+                        });
                 }
-                return Promise.reject();
-            },
-
-            /**
-             * Reads data for a particular entry using the registered providers.
-             * First tries the default provider, then if an error occurs or
-             * if no data was found, call the targeted provider.
-             * @param {String} entry
-             * @param {Object} [params]
-             * @returns {Promise}
-             * @fires read
-             * @fires data
-             */
-            read: function read(entry, params) {
-                if (!dataBroker.hasProvider(entry)) {
-                    return Promise.reject({
-                        success: false,
-                        type: 'notimplemented',
-                        action: entry,
-                        params: params
-                    });
-                }
-
-                /**
-                 * @event read
-                 * @param {String} entry
-                 * @param {Object} params
-                 */
-                dataBroker.trigger('read', entry, params);
-
-                return dataBroker.readProvider('default', _.merge({target: entry}, params))
-                    .catch(function(err) {
-                        if (err) {
-                            return Promise.reject(err);
-                        }
-                    })
-                    .then(function(data) {
-                        if (!data || !_.size(data)) {
-                            return dataBroker.readProvider(entry, params);
-                        }
-                        return data;
-                    })
-                    .then(function(data) {
-                        /**
-                         * @event data
-                         * @param {Object} data
-                         * @param {String} entry
-                         * @param {Object} params
-                         */
-                        dataBroker.trigger('data', data, entry, params);
-                        return data;
-                    });
+                return Promise.reject(new TypeError('The provider ' + name + ' is not implemented'));
             },
 
             /**

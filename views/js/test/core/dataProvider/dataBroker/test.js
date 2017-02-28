@@ -25,15 +25,13 @@ define([
 ], function (_, Promise, dataBrokerFactory) {
     'use strict';
 
-    var readCases;
-    var readErrorCases;
     var dataBrokerApi = [
         {title: 'destroy'},
         {title: 'getProvider'},
         {title: 'hasProvider'},
         {title: 'addProvider'},
+        {title: 'loadProviders'},
         {title: 'readProvider'},
-        {title: 'read'},
         {title: 'getConfig'},
         {title: 'getMiddlewares'}
     ];
@@ -165,7 +163,7 @@ define([
             }
         };
 
-        QUnit.expect(8);
+        QUnit.expect(11);
 
         dataBroker = dataBrokerFactory()
             .addProvider(successProvider)
@@ -173,6 +171,11 @@ define([
             .on('readprovider', function(name, params) {
                 assert.ok(_.indexOf(['success', 'failure'], name) >= 0, "The `readprovider` event has been triggered as expected");
                 assert.equal(typeof params, 'object', "The params have been provided to the event");
+            })
+            .on('data', function (response, name, params) {
+                assert.ok(_.indexOf(['success', 'failure'], name) >= 0, "The `data` event has been triggered as expected");
+                assert.deepEqual(params, expectedParams, "The params have been provided to the event");
+                assert.equal(typeof response, 'object', "Data has been provided");
             });
 
         assert.equal(typeof dataBroker, 'object', "The dataBroker factory produces an object");
@@ -208,184 +211,52 @@ define([
     });
 
 
-    readCases = [{
-        title: 'data in default',
-        expected: {
-            foo: 'bar'
-        },
-        params: {},
-        defaultProvider: {
-            read: function() {
-                return Promise.resolve({
-                    foo: 'bar'
-                });
+    QUnit.asyncTest('dataBroker.loadProviders()', function (assert) {
+        var dataBroker;
+        var fooProvider = {
+            name: 'foo',
+            read: function(params) {
+                return Promise.resolve(params);
             }
-        },
-        dataProvider: {
-            read: function() {
-                return Promise.reject();
+        };
+        var barProvider = {
+            name: 'bar',
+            read: function(params) {
+                return Promise.resolve(params);
             }
-        }
-    }, {
-        title: 'data not in default',
-        expected: {
-            foo: 'bar'
-        },
-        params: {},
-        defaultProvider: {
-            read: function() {
-                return Promise.resolve();
-            }
-        },
-        dataProvider: {
-            read: function() {
-                return Promise.resolve({
-                    foo: 'bar'
+        };
+
+        QUnit.expect(8);
+
+        dataBroker = dataBrokerFactory();
+
+        dataBroker.loadProviders()
+            .then(function(broker) {
+                assert.ok(true, "The loadProviders has resolved the promise, even if no provider has been given");
+                assert.equal(broker, dataBroker, "The data broker should be provided");
+
+                assert.ok(!dataBroker.hasProvider('foo'), 'There is not a foo provider');
+                assert.ok(!dataBroker.hasProvider('bar'), 'There is not a bar provider');
+
+                return dataBroker.loadProviders({
+                    foo: fooProvider,
+                    bar: Promise.resolve(barProvider)
                 });
-            }
-        }
-    }, {
-        title: 'default cannot serve data',
-        expected: {
-            foo: 'bar'
-        },
-        params: {},
-        defaultProvider: {
-            read: function() {
-                return Promise.reject();
-            }
-        },
-        dataProvider: {
-            read: function() {
-                return Promise.resolve({
-                    foo: 'bar'
-                });
-            }
-        }
-    }];
+            })
+            .then(function(broker) {
+                assert.ok(true, "The loadProviders has resolved the promise");
+                assert.equal(broker, dataBroker, "The data broker should be provided");
 
-    QUnit
-        .cases(readCases)
-        .asyncTest('dataBroker.read() ', function (data, assert) {
-            var dataBroker;
-
-            QUnit.expect(9);
-
-            dataBroker = dataBrokerFactory()
-                .addProvider('default', data.defaultProvider)
-                .addProvider('data', data.dataProvider)
-                .on('read', function (name, params) {
-                    assert.ok(_.indexOf(['default', 'data'], name) >= 0, "The `read` event has been triggered as expected");
-                    assert.deepEqual(params, data.params, "The params have been provided to the event");
-                })
-                .on('data', function (response, name, params) {
-                    assert.ok(_.indexOf(['default', 'data'], name) >= 0, "The `data` event has been triggered as expected");
-                    assert.deepEqual(params, data.params, "The params have been provided to the event");
-                    assert.equal(typeof response, 'object', "Data has been provided");
-                });
-
-            assert.equal(typeof dataBroker, 'object', "The dataBroker factory produces an object");
-
-            dataBroker.read('unknown', data.params)
-                .then(function() {
-                    assert.ok(false, "Unknown provider should raise error!");
-                    QUnit.start();
-                })
-                .catch(function(err) {
-                    assert.ok(true, "Unknown provider should raise error!");
-                    assert.deepEqual(err, {
-                        success: false,
-                        type: 'notimplemented',
-                        action: 'unknown',
-                        params: data.params
-                    }, "The dataBroker has has thrown the expected error");
-
-                    return dataBroker.read('data', data.params);
-                })
-                .then(function(response) {
-                    assert.deepEqual(response, data.expected, "Should provide the expected data");
-                    QUnit.start();
-                })
-                .catch(function (err) {
-                    assert.ok(false, 'The promise should not be rejected');
-                    console.error(err);
-                    QUnit.start();
-                });
-        });
+                assert.equal(dataBroker.getProvider('foo'), fooProvider, 'The foo provider has been registered');
+                assert.equal(dataBroker.getProvider('bar'), barProvider, 'The bar provider has been registered');
+                QUnit.start();
+            })
+            .catch(function (err) {
+                assert.ok(false, 'The promise should not be rejected');
+                console.error(err);
+                QUnit.start();
+            });
 
 
-    readErrorCases = [{
-        title: 'default provider raises error',
-        expected: {
-            success: false,
-            message: 'oops'
-        },
-        params: {},
-        defaultProvider: {
-            read: function() {
-                return Promise.reject({
-                    success: false,
-                    message: 'oops'
-                });
-            }
-        },
-        dataProvider: {
-            read: function() {
-                return Promise.resolve({
-                    foo: 'bar'
-                });
-            }
-        }
-    }, {
-        title: 'data provider raises error',
-        expected: {
-            success: false,
-            message: 'oops'
-        },
-        params: {},
-        defaultProvider: {
-            read: function() {
-                return Promise.reject();
-            }
-        },
-        dataProvider: {
-            read: function() {
-                return Promise.reject({
-                    success: false,
-                    message: 'oops'
-                });
-            }
-        }
-    }];
-
-    QUnit
-        .cases(readErrorCases)
-        .asyncTest('dataBroker.read() #error ', function (data, assert) {
-            var dataBroker;
-
-            QUnit.expect(4);
-
-            dataBroker = dataBrokerFactory()
-                .addProvider('default', data.defaultProvider)
-                .addProvider('data', data.dataProvider)
-                .on('read', function (name, params) {
-                    assert.ok(_.indexOf(['default', 'data'], name) >= 0, "The `read` event has been triggered as expected");
-                    assert.deepEqual(params, data.params, "The params have been provided to the event");
-                })
-                .on('data', function () {
-                    assert.ok(false, "Should not trigger the `data` event");
-                });
-
-            assert.equal(typeof dataBroker, 'object', "The dataBroker factory produces an object");
-
-            dataBroker.read('data', data.params)
-                .then(function() {
-                    assert.ok(false, "The provider should raise error!");
-                    QUnit.start();
-                })
-                .catch(function(err) {
-                    assert.deepEqual(err, data.expected, "Should provide the expected error");
-                    QUnit.start();
-                });
-        });
+    });
 });
