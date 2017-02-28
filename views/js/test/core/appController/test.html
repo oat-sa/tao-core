@@ -8,7 +8,7 @@
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/app.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/appController.js"></script>
     <script type="text/javascript">
 
         //don't start the test now
@@ -20,14 +20,14 @@
             //some mocks
             requirejs.config({
                 "paths": {
-                    "core/historyRouter" : "test/core/app/mock/historyRouter",
-                    "core/logger" : "test/core/app/mock/logger",
-                    "ui/feedback" : "test/core/app/mock/feedback"
+                    "core/historyRouter" : "test/core/appController/mock/historyRouter",
+                    "core/logger" : "test/core/appController/mock/logger",
+                    "ui/feedback" : "test/core/appController/mock/feedback"
                 }
             });
 
             //load the test
-            require(['test/core/app/test'], function () {
+            require(['test/core/appController/test'], function () {
 
                 //Tests loaded, run tests
                 QUnit.start();
