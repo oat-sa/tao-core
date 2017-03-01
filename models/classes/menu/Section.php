@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -22,10 +22,11 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use oat\oatbox\ArrayCastable;
 use oat\taoBackOffice\model\menuStructure\ClassActionRegistry;
 use oat\taoBackOffice\model\menuStructure\Action as iAction;
 
-class Section extends MenuElement implements PhpSerializable
+class Section extends MenuElement implements PhpSerializable, ArrayCastable
 {
 
     const SERIAL_VERSION = 1392821334;
@@ -348,5 +349,42 @@ class Section extends MenuElement implements PhpSerializable
         . \common_Utils::toPHPVariableString($this->actions) . ','
         . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         . ")";
+    }
+    
+    public function __toArray()
+    {
+        $array = [
+            'data' => $this->data,
+            'trees' => [],
+            'actions' => [],
+            'serialVersion' => self::SERIAL_VERSION
+        ];
+        
+        foreach ($this->trees as $tree) {
+            $array['trees'][] = $tree->__toArray();
+        }
+        
+        foreach ($this->actions as $action) {
+            $array['actions'][] = $action->__toArray();
+        }
+        
+        return $array;
+    }
+    
+    public static function fromArray(array $array) {
+        foreach ($array['trees'] as $key => $tree) {
+            $array['trees'][$key] = Tree::fromArray($tree);
+        }
+        
+        foreach ($array['actions'] as $key => $action) {
+            $array['actions'][$key] = Action::fromArray($action);
+        }
+        
+        return new static(
+            $array['data'],
+            $array['trees'],
+            $array['actions'],
+            $array['serialVersion']
+        );
     }
 }

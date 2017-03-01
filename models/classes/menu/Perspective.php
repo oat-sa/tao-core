@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -22,8 +22,9 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use oat\oatbox\ArrayCastable;
 
-class Perspective extends MenuElement implements PhpSerializable
+class Perspective extends MenuElement implements PhpSerializable, ArrayCastable
 {
 
     const GROUP_DEFAULT = 'main';
@@ -200,6 +201,47 @@ class Perspective extends MenuElement implements PhpSerializable
 
     public function getUrl() {
         return _url('index', null, null, array('structure' => $this->getId(), 'ext' => $this->getExtension()));
+    }
+    
+    public function __toArray()
+    {
+        $array = [
+            'data' => [
+                'id' => $this->data['id'],
+                'group' => $this->data['group'],
+                'name' => $this->data['name'],
+                'binding' => $this->data['binding'],
+                'description' => $this->data['description'],
+                'extension' => $this->data['extension'],
+                'level' => $this->data['level'],
+                'icon' => ($this->data['icon'] !== null) ? $this->data['icon']->__toArray() : null
+            ],
+            'children' => [],
+            'serialVersion' => self::SERIAL_VERSION
+        ];
+        
+        foreach ($this->children as $child) {
+            $array['children'][] = $child->__toArray();
+        }
+        
+        return $array;
+    }
+    
+    public static function fromArray(array $array)
+    {
+        if ($array['data']['icon'] !== null) {
+            $array['data']['icon'] = Icon::fromArray($array['data']['icon']['data'], $array['data']['icon']['structureExtensionId']);
+        }
+        
+        foreach ($array['children'] as $key => $child) {
+            $array['children'][$key] = Section::fromArray($child);
+        }
+        
+        return new static(
+            $array['data'],
+            $array['children'],
+            $array['serialVersion']
+        );
     }
 
     public function __toPhpCode()
