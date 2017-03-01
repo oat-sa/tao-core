@@ -1,6 +1,7 @@
 <?php if (has_data('breadcrumbs')): ?>
 <ul class="breadcrumbs plain action-bar horizontal-action-bar">
     <?php foreach(get_data('breadcrumbs') as $breadcrumb): ?>
+    <?php if($breadcrumb): ?>
     <li class="breadcrumb" data-breadcrumb="<?= $breadcrumb['id']; ?>">
         <?php if (isset($breadcrumbs['url'])): ?>
         <a href="<?= $breadcrumb['url']; ?>"><?= $breadcrumb['label']; ?><?= isset($breadcrumb['data']) ?' - ' . $breadcrumb['data'] : ''; ?></a>
@@ -17,6 +18,7 @@
         </ul>
         <?php endif; ?>
     </li>
+    <?php endif; ?>
     <?php endforeach; ?>
 </ul>
 <?php endif; ?>
