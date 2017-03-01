@@ -108,6 +108,12 @@ define([
                     provider.setMiddlewares(middlewares);
                 }
 
+                if (_.isFunction(provider.on)) {
+                    provider.off('error.dataBroker').on('error.dataBroker', function(err) {
+                        dataBroker.trigger('error', err);
+                    });
+                }
+
                 /**
                  * @event addprovider
                  * @param {String} name

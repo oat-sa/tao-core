@@ -150,6 +150,7 @@ define([
         var expectedParams = {
             foo: 'bar'
         };
+        var expectedError = new Error("Test");
         var successProvider = {
             name: 'success',
             read: function(params) {
@@ -160,12 +161,25 @@ define([
             name: 'failure',
             read: function(params) {
                 return Promise.reject(params);
+            },
+            off: function(name) {
+                assert.equal(name, 'error.dataBroker', 'The dataBroker has cleaned the error channel');
+                return this;
+            },
+            on: function(name, cb) {
+                assert.equal(name, 'error.dataBroker', 'The dataBroker is listening to the error channel');
+                assert.equal(typeof cb, 'function', 'The dataBroker has registered an error handler');
+                cb(expectedError);
+                return this;
             }
         };
 
-        QUnit.expect(11);
+        QUnit.expect(15);
 
         dataBroker = dataBrokerFactory()
+            .on('error', function(err) {
+                assert.equal(err, expectedError, 'The dataBroker has caught the right error');
+            })
             .addProvider(successProvider)
             .addProvider(failureProvider)
             .on('readprovider', function(name, params) {
