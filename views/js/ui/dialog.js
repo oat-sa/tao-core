@@ -383,7 +383,10 @@ define([
             }
         },
 
-        _setFocusOnModal: function _setFocusOnModal(){
+        /**
+         * Set focus on the dialog
+         */
+        focus : function focus(){
             this.navigator.focus();
         },
 
@@ -393,17 +396,6 @@ define([
          */
         _install : function _install() {
             var self = this, $buttons;
-
-            this.$html.modal({
-                width: this.width,
-                animate: this.animate,
-                disableClosing: this.disableClosing,
-                disableEscape: this.disableEscape
-            }).on('closed' + _scope, function() {
-                if (self.autoDestroy) {
-                    self.destroy();
-                }
-            });
 
             if(!this.destroyed){
                 $buttons = this.$buttons.find('button');
@@ -433,12 +425,18 @@ define([
                 }).on('activate', function(cursor){
                     cursor.navigable.getElement().click();
                 });
-
-                //delay the focus to prevent immediately activating the button when the dialog is opened with a keyboard
-                _.delay(function(){
-                    self._setFocusOnModal();
-                }, 200);
             }
+
+            this.$html.modal({
+                width: this.width,
+                animate: this.animate,
+                disableClosing: this.disableClosing,
+                disableEscape: this.disableEscape
+            }).on('closed' + _scope, function() {
+                if (self.autoDestroy) {
+                    self.destroy();
+                }
+            });
         },
 
         /**
