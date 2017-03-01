@@ -407,47 +407,39 @@ define([
                 throw new TypeError('not a valid navigable element');
             }
 
-            if(navigables.length > 1
-                || !$group
-                || $group && navigable.getElement().get(0) !== $group.get(0)){
+            //init standard key bindings
+            navigable.shortcuts = shortcutRegistry(navigable.getElement())
+                .add('tab shift+tab', function(e, key){
+                    keyNavigator.trigger(key);
+                })
+                .add('enter', function(e){
+                    keyNavigator.activate(e.target);
+                }, {
+                    propagate : false,
+                    prevent : true
+                })
+                .add('up down left right', function(e, key){
+                    if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
+                        //prevent scrolling of parent element
+                        e.preventDefault();
+                    }
+                    keyNavigator.trigger(key);
+                }, {
+                    propagate : false
+                });
 
-                //internal key bindings
-                //to save useless event bindings, the events are attached only if the there are more than one focusable element
-                // or no group or with the group identical to the single element
-
-                //requires a keyup to make unselecting radio button work with space bar
-                navigable.getElement().on('keyup'+_ns, function(e){
+            navigable.getElement()
+                //requires a keyup event to make unselecting radio button work with space bar
+                .on('keyup'+_ns, function(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
                     if(keyCode === 32){//space bar
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
+                })
+                .on('blur', function(){
+                    keyNavigator.blur();
                 });
-
-                navigable.shortcuts = shortcutRegistry(navigable.getElement())
-                    .add('enter', function(e){
-                        keyNavigator.activate(e.target);
-                    }, {
-                        propagate : false,
-                        prevent : true
-                    })
-                    .add('Tab Shift+Tab', function(e, key){
-                        keyNavigator.trigger(key);
-                    })
-                    .add('up down left right', function(e, key){
-                        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
-                            //prevent scrolling of parent element
-                            e.preventDefault();
-                        }
-                        keyNavigator.trigger(key);
-                    }, {
-                        propagate : false
-                    });
-            }
-
-            navigable.getElement().on('blur', function(){
-                keyNavigator.blur();
-            });
 
         });
 
