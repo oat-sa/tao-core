@@ -44,8 +44,9 @@
 define([
     'jquery',
     'lodash',
-    'core/eventifier'
-], function($, _, eventifier){
+    'core/eventifier',
+    'util/shortcut/registry'
+], function($, _, eventifier, shortcutRegistry){
     'use strict';
 
     var _navigationGroups = {};
@@ -400,6 +401,9 @@ define([
                 _.each(navigables, function(navigable){
                     navigable.getElement().off(_ns);
                     navigable.destroy();
+                    if(navigable.shortcuts){
+                        navigable.shortcuts.clear();
+                    }
                 });
 
                 delete _navigationGroups[id];
@@ -457,6 +461,18 @@ define([
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
+                });
+
+                navigable.shortcuts = shortcutRegistry(navigable.getElement());
+                navigable.shortcuts.add('up', function(e, key){
+                    console.log('up', key);
+                    //keyNavigator.trigger('shift+tab');
+                });
+                navigable.shortcuts.add('Shift+Tab', function(e){
+                    keyNavigator.trigger('shift+tab');
+                });
+                navigable.shortcuts.add('Tab', function(e){
+                    keyNavigator.trigger('tab');
                 });
             }
 

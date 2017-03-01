@@ -418,6 +418,18 @@ define([
                     this.next();
                 }).on('left up', function(){
                     this.previous();
+                }).on('tab', function(){
+                    if(this.getCursor().position === $buttons.length -1){
+                        this.first();
+                    }else{
+                        this.next();
+                    }
+                }).on('shift+tab', function(){
+                    if(this.getCursor().position === 0){
+                        this.last();
+                    }else{
+                        this.previous();
+                    }
                 }).on('activate', function(cursor){
                     cursor.navigable.getElement().click();
                 });
