@@ -60,35 +60,6 @@ define([
         loop : false
     };
 
-    var KEY_CODE_SPACE = 32;
-    var KEY_CODE_ENTER = 13;
-    var KEY_CODE_LEFT  = 37;
-    var KEY_CODE_UP    = 38;
-    var KEY_CODE_RIGHT = 39;
-    var KEY_CODE_DOWN  = 40;
-
-    /**
-     * Get the list of keys that should be mapped to the directional keys
-     *
-     * @returns {Object}
-     */
-    var getArrowKeyMap = function getArrowKeyMap(){
-        var map = {};
-        map[KEY_CODE_UP] = 'up';
-        map[KEY_CODE_LEFT] = 'left';
-        map[KEY_CODE_DOWN] = 'down';
-        map[KEY_CODE_RIGHT] = 'right';
-        return map;
-    };
-
-    /**
-     * Get the list of keys that should be mapped to activation action
-     * @returns {Array}
-     */
-    var getActivateKey = function getActivateKey(){
-        return [KEY_CODE_SPACE, KEY_CODE_ENTER];
-    };
-
     /**
      * Check if the object is argument is a valid navigable element
      *
@@ -123,8 +94,6 @@ define([
     var keyNavigatorFactory = function keyNavigatorFactory(config){
 
         var id, navigables, keyNavigator, $group;
-        var arrowKeyMap = getArrowKeyMap();
-        var activationKeys = getActivateKey();
         var _cursor = {
             position : -1,
             navigable : null
@@ -445,47 +414,35 @@ define([
                 //internal key bindings
                 //to save useless event bindings, the events are attached only if the there are more than one focusable element
                 // or no group or with the group identical to the single element
-                navigable.getElement()
-                //    .on('keydown'+_ns, function(e){
-                //    var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                //    if(arrowKeyMap[keyCode]){
-                //        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
-                //            //prevent scrolling of parent element
-                //            e.preventDefault();
-                //        }
-                //        e.stopPropagation();
-                //        keyNavigator.trigger(arrowKeyMap[keyCode]);
-                //    }
-                //
-                //})
+
                 //requires a keyup to make unselecting radio button work with space bar
-                .on('keyup'+_ns, function(e){
+                navigable.getElement().on('keyup'+_ns, function(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(keyCode === KEY_CODE_SPACE){
+                    if(keyCode === 32){//space bar
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
                 });
 
-                navigable.shortcuts = shortcutRegistry(navigable.getElement());
-                navigable.shortcuts.add('enter', function(e){
-                    keyNavigator.activate(e.target);
-                }, {
-                    propagate : false,
-                    prevent : true
-                });
-                navigable.shortcuts.add('Tab Shift+Tab', function(e, key){
-                    keyNavigator.trigger(key);
-                });
-                navigable.shortcuts.add('up down left right', function(e, key){
-                    if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
-                        //prevent scrolling of parent element
-                        e.preventDefault();
-                    }
-                    keyNavigator.trigger(key);
-                }, {
-                    propagate : false
-                });
+                navigable.shortcuts = shortcutRegistry(navigable.getElement())
+                    .add('enter', function(e){
+                        keyNavigator.activate(e.target);
+                    }, {
+                        propagate : false,
+                        prevent : true
+                    })
+                    .add('Tab Shift+Tab', function(e, key){
+                        keyNavigator.trigger(key);
+                    })
+                    .add('up down left right', function(e, key){
+                        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
+                            //prevent scrolling of parent element
+                            e.preventDefault();
+                        }
+                        keyNavigator.trigger(key);
+                    }, {
+                        propagate : false
+                    });
             }
 
             navigable.getElement().on('blur', function(){
