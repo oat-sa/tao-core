@@ -583,4 +583,39 @@ define([
                 QUnit.start();
             });
     });
+
+
+    QUnit.asyncTest('proxy #error', function (assert) {
+        var proxy;
+        var expectedError = new Error("Test");
+
+        QUnit.expect(5);
+
+        proxyFactory.registerProvider('default', _.defaults({
+            read: function () {
+                assert.ok(true, 'The proxyFactory has delegated the call');
+                return Promise.reject(expectedError);
+            }
+        }, defaultProxy));
+
+        proxy = proxyFactory('default')
+            .on('error', function (err) {
+                assert.ok(true, 'The proxyFactory has fired the "error" event');
+                assert.deepEqual(err, expectedError, 'The proxyFactory has provided the error through the "error" event');
+            });
+
+        proxy.init()
+            .then(function () {
+                return proxy.read();
+            })
+            .then(function () {
+                assert.ok(false, 'The promise should be rejected');
+                QUnit.start();
+            })
+            .catch(function (err) {
+                assert.ok(true, 'The promise should be rejected');
+                assert.deepEqual(err, expectedError, 'The proxyFactory has provided the error');
+                QUnit.start();
+            });
+    });
 });

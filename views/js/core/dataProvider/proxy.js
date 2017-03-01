@@ -263,12 +263,17 @@ define([
             if (!initialized && fnName !== 'init') {
                 return Promise.reject(new Error('Proxy is not properly initialized or has been destroyed!'));
             }
-            return delegateProxy.apply(null, arguments).then(function (data) {
-                if (middlewares) {
-                    return middlewares.apply(request, data);
-                }
-                return data;
-            });
+            return delegateProxy.apply(null, arguments)
+                .then(function (data) {
+                    if (middlewares) {
+                        return middlewares.apply(request, data);
+                    }
+                    return data;
+                })
+                .catch(function (err) {
+                    proxy.trigger('error', err);
+                    return Promise.reject(err);
+                });
         }
 
 
