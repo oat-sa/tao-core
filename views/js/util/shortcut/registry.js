@@ -171,7 +171,7 @@ define([
             }
         }
 
-        return key || specialKeys[code] || character;
+        return specialKeys[code] || key || character;
     }
 
     /**
@@ -428,6 +428,7 @@ define([
         function registerKeyboard() {
             if (!keyboardIsRegistered) {
                 registerEvent(root, 'keydown', onKeyboard);
+                //registerEvent(root, 'keyup', onKeyboard);
                 keyboardIsRegistered = true;
             }
 
@@ -445,6 +446,7 @@ define([
 
                 if (keyboardIsRegistered) {
                     unregisterEvent(root, 'keydown', onKeyboard);
+                    //unregisterEvent(root, 'keyup', onKeyboard);
                     keyboardIsRegistered = false;
                 }
             }
@@ -601,6 +603,13 @@ define([
             var $target;
 
             if (shortcut && !states.disabled) {
+
+                console.log('processShortcut');
+                //console.log(event, shortcut.options.keyup);
+                if(shortcut.options.eventType && shortcut.options.eventType !== event.type){
+                    return;
+                }
+
                 if (shortcut.options.avoidInput === true) {
                     $target = $(event.target);
                     if ($target.closest('[type="text"],textarea').length) {
@@ -646,7 +655,7 @@ define([
              * the provided CSS class, even if the shortcut is triggered from an input field.
              * @returns {shortcut} this
              */
-            set: function add(shortcut, options) {
+            set: function set(shortcut, options) {
                 _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);

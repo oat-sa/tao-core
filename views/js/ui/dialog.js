@@ -349,7 +349,7 @@ define([
          * @private
          */
         _onButtonClick : function _onButtonClick(event) {
-            var $btn = $(event.target);
+            var $btn = $(event.target).closest('button');
             var id = $btn.data('control');
             var btn = this.buttons[id];
 
