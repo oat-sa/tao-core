@@ -445,34 +445,46 @@ define([
                 //internal key bindings
                 //to save useless event bindings, the events are attached only if the there are more than one focusable element
                 // or no group or with the group identical to the single element
-                navigable.getElement().on('keydown'+_ns, function(e){
+                navigable.getElement()
+                //    .on('keydown'+_ns, function(e){
+                //    var keyCode = e.keyCode ? e.keyCode : e.charCode;
+                //    if(arrowKeyMap[keyCode]){
+                //        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
+                //            //prevent scrolling of parent element
+                //            e.preventDefault();
+                //        }
+                //        e.stopPropagation();
+                //        keyNavigator.trigger(arrowKeyMap[keyCode]);
+                //    }
+                //
+                //})
+                //requires a keyup to make unselecting radio button work with space bar
+                .on('keyup'+_ns, function(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(arrowKeyMap[keyCode]){
-                        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
-                            //prevent scrolling of parent element
-                            e.preventDefault();
-                        }
-                        e.stopPropagation();
-                        keyNavigator.trigger(arrowKeyMap[keyCode]);
-                    }
-                }).on('keyup'+_ns, function(e){
-                    var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(activationKeys.indexOf(keyCode) >= 0){
+                    if(keyCode === KEY_CODE_SPACE){
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
                 });
 
                 navigable.shortcuts = shortcutRegistry(navigable.getElement());
-                navigable.shortcuts.add('up', function(e, key){
-                    console.log('up', key);
-                    //keyNavigator.trigger('shift+tab');
+                navigable.shortcuts.add('enter', function(e){
+                    keyNavigator.activate(e.target);
+                }, {
+                    propagate : false,
+                    prevent : true
                 });
-                navigable.shortcuts.add('Shift+Tab', function(e){
-                    keyNavigator.trigger('shift+tab');
+                navigable.shortcuts.add('Tab Shift+Tab', function(e, key){
+                    keyNavigator.trigger(key);
                 });
-                navigable.shortcuts.add('Tab', function(e){
-                    keyNavigator.trigger('tab');
+                navigable.shortcuts.add('up down left right', function(e, key){
+                    if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
+                        //prevent scrolling of parent element
+                        e.preventDefault();
+                    }
+                    keyNavigator.trigger(key);
+                }, {
+                    propagate : false
                 });
             }
 
