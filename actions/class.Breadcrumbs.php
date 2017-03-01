@@ -24,7 +24,7 @@ use oat\tao\model\mvc\Breadcrumbs;
  * For each context route a service will be requested to get the breadcrumbs.
  * 
  * To provide a breadcrumbs service you must register a class that implements `oat\tao\model\mvc\Breadcrumbs`, and
- * use a service identifier with respect to this format: `breadcrumbs/<extension>/<controller>`. Hence this service
+ * use a service identifier with respect to this format: `<extension>/<controller>/breadcrumbs`. Hence this service
  * will be invoked each time a breadcrumbs request is made against an action under `<extension>/<controller>`.
  * The `breadcrumbs()` method will have to provide the breadcrumb related to the route, an optionally a list of 
  * related links. @see breadcrumbs() for more explanations.
@@ -46,8 +46,13 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     protected function parseRoute($route)
     {
         $parsedRoute = parse_url($route);
-        $path = explode('/', isset($parsedRoute['path']) ? $parsedRoute['path'] : '');
-        
+        $path = [];
+        if (isset($parsedRoute['path'])) {
+            if (substr($parsedRoute['path'], 0, 1) == '/') {
+                $parsedRoute['path'] = substr($parsedRoute['path'], 1);
+            }
+            $path = explode('/', isset($parsedRoute['path']) ? $parsedRoute['path'] : '');
+        }
         if (isset($parsedRoute['query'])) {
             parse_str($parsedRoute['query'], $parsedRoute['params']);
         } else {
@@ -106,7 +111,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     /**
      * Calls a service to get the breadcrumbs for a particular route.
      * To provide a breadcrumbs service you must register a class that implements `oat\tao\model\mvc\Breadcrumbs`, and
-     * use a service identifier with respect to this format: `breadcrumbs/<extension>/<controller>`. Hence this service 
+     * use a service identifier with respect to this format: `<extension>/<controller>/breadcrumbs`. Hence this service 
      * will be invoked each time a breadcrumbs request is made against an action under `<extension>/<controller>`.
      * You can also override the Breadcrumbs controller and provide your own `breadcrumbs()` method, in order to
      * provide default values. By default there is no default breadcrumbs.
@@ -117,12 +122,12 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
      */
     protected function requestService($route, $parsedRoute)
     {
-        $serviceName = 'breadcrumbs';
+        $serviceName = null;
         if ($parsedRoute['extension'] && $parsedRoute['controller'] && $parsedRoute['action']) {
-            $serviceName .= '/' . $parsedRoute['extension'] . '/' . $parsedRoute['controller'];    
+            $serviceName = $parsedRoute['extension'] . '/' . $parsedRoute['controller'] . '/breadcrumbs';    
         }
 
-        if ($this->getServiceManager()->has($serviceName)) {
+        if ($serviceName && $this->getServiceManager()->has($serviceName)) {
             $service = $this->getServiceManager()->get($serviceName);
         } else {
             $service = $this;

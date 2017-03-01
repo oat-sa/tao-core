@@ -8,7 +8,7 @@
         <?php else: ?>
         <span class="a"><?= $breadcrumb['label']; ?><?= isset($breadcrumb['data']) ?' - ' . $breadcrumb['data'] : ''; ?></span>
         <?php endif; ?>
-        <?php if (isset($breadcrumbs['entries'])): ?>
+        <?php if (isset($breadcrumb['entries'])): ?>
         <ul class="entries plain">
             <?php foreach($breadcrumb['entries'] as $entry): ?>
             <li data-breadcrumb="<?= $entry['id']; ?>">
