@@ -217,11 +217,12 @@ ul.listbox {
         .buttons{
             top: 16px;
             position: relative;
+
+            //flat button
             button{
-                margin-left: 8px;
                 @include border-radius(2);
+                margin-left: 8px;
                 height: 36px;
-                font-size: 1.6rem !important;
                 text-shadow: none;
                 text-transform: uppercase;
                 color: $info !important;
