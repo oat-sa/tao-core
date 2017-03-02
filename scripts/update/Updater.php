@@ -690,7 +690,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
             $this->setVersion('7.69.0');
         }
-      
+
         $this->skip('7.69.0', '7.69.6');
 
         if($this->isVersion('7.69.6')) {
@@ -709,10 +709,10 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
 
-            $this->setVersion('7.69.7');
+            $this->setVersion('7.70.0');
         }
 
-        $this->skip('7.69.7', '7.71.0');
+        $this->skip('7.70.0', '7.74.0');
     }
 
     private function migrateFsAccess() {
