@@ -394,7 +394,7 @@ define([
             blur : function blur(){
                 var cursor = this.getCursor();
                 if(cursor && cursor.navigable){
-                    this.trigger('blur', cursor);
+                    cursor.navigable.getElement().blur();
                 }
                 return this;
             },
@@ -438,15 +438,19 @@ define([
 
             navigable.getElement()
                 //requires a keyup event to make unselecting radio button work with space bar
-                .on('keyup'+_ns, function(e){
+                .on('keyup'+_ns, function keyupSpace(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
                     if(keyCode === 32){//space bar
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
                 })
-                .on('blur', function(){
-                    keyNavigator.blur();
+                //listen to blurred navigable element
+                .on('blur', function blurCurrentCursor(){
+                    var cursor = keyNavigator.getCursor();
+                    if(cursor && cursor.navigable){
+                        keyNavigator.trigger('blur', cursor);
+                    }
                 });
 
         });
