@@ -330,6 +330,77 @@ define([
         assert.equal(getTranslation($element).y, 100, 'component\'s element has the the right y translation');
     });
 
+    QUnit.asyncTest('.moveBy() - multiple consecutive calls', function(assert) {
+        var component = makePlaceable(componentFactory()),
+            $container = $(fixtureContainer).width(800).height(600),
+            position,
+            $element,
+            moveCounter = 0;
+
+        QUnit.expect(23);
+
+        component
+            .on('move', function(x, y) {
+                moveCounter++;
+
+                if (moveCounter === 2) {
+                    assert.ok(true, 'move event has been triggered');
+                    assert.equal(x, 260, 'correct x value is transmitted as an event parameter');
+                    assert.equal(y, 225, 'correct y value is transmitted as an event parameter');
+
+                } else if (moveCounter === 3) {
+                    assert.ok(true, 'move event has been triggered');
+                    assert.equal(x, 150, 'correct x value is transmitted as an event parameter');
+                    assert.equal(y, 150, 'correct y value is transmitted as an event parameter');
+
+                } else if (moveCounter === 4) {
+                    assert.ok(true, 'move event has been triggered');
+                    assert.equal(x, 300, 'correct x value is transmitted as an event parameter');
+                    assert.equal(y, 200, 'correct y value is transmitted as an event parameter');
+
+                    QUnit.start();
+                }
+            })
+            .init({
+                x: 210,
+                y: 125
+            })
+            .render($container);
+
+        $element = component.getElement();
+
+        position = component.getPosition();
+        assert.equal(position.x, 210, 'component has the correct x');
+        assert.equal(position.y, 125, 'component has the correct y');
+
+        component.moveBy(50, 100);
+
+        position = component.getPosition();
+        assert.equal(position.x, 260, 'component has the correct x');
+        assert.equal(position.y, 225, 'component has the correct y');
+
+        assert.equal(getTranslation($element).x, 50, 'component\'s element has the right x translation');
+        assert.equal(getTranslation($element).y, 100, 'component\'s element has the right y translation');
+
+        component.moveBy(-110, -75);
+
+        position = component.getPosition();
+        assert.equal(position.x, 150, 'component has the correct x');
+        assert.equal(position.y, 150, 'component has the correct y');
+
+        assert.equal(getTranslation($element).x, -60, 'component\'s element has the right x translation');
+        assert.equal(getTranslation($element).y, 25, 'component\'s element has the right y translation');
+
+        component.moveBy(150, 50);
+
+        position = component.getPosition();
+        assert.equal(position.x, 300, 'component has the correct x');
+        assert.equal(position.y, 200, 'component has the correct y');
+
+        assert.equal(getTranslation($element).x, 90, 'component\'s element has the right x translation');
+        assert.equal(getTranslation($element).y, 75, 'component\'s element has the right y translation');
+
+    });
 
     QUnit.asyncTest('.moveTo() - no default position', function (assert) {
         var component = makePlaceable(componentFactory()),
