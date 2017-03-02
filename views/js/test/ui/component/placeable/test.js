@@ -20,9 +20,10 @@
 
 define([
     'jquery',
+    'ui/transformer',
     'ui/component',
     'ui/component/placeable'
-], function ($, componentFactory, makePlaceable) {
+], function ($, transformer, componentFactory, makePlaceable) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture';
@@ -107,7 +108,7 @@ define([
             position,
             $element;
 
-        QUnit.expect(10);
+        QUnit.expect(8);
 
         component
             .init()
@@ -126,8 +127,6 @@ define([
         assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 0, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 0, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 0, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 0, 'component\'s element has the correct data y value');
     });
 
 
@@ -137,7 +136,7 @@ define([
             position,
             $element;
 
-        QUnit.expect(10);
+        QUnit.expect(8);
 
         component
             .init({
@@ -159,8 +158,6 @@ define([
         assert.equal($element.css('top'), '50px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 0, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 0, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 100, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 50, 'component\'s element has the correct data y value');
     });
 
     QUnit.asyncTest('.center() - no default position', function (assert) {
@@ -169,13 +166,13 @@ define([
             position,
             $element;
 
-        QUnit.expect(13);
+        QUnit.expect(11);
 
         component
-            .on('center', function(left, top) {
+            .on('center', function(x, y) {
                 assert.ok(true, 'center event has been triggered');
-                assert.equal(left, 160, 'correct left value is transmitted as an event parameter');
-                assert.equal(top, 120, 'correct top value is transmitted as an event parameter');
+                assert.equal(x, 160, 'correct x value is transmitted as an event parameter');
+                assert.equal(y, 120, 'correct y value is transmitted as an event parameter');
 
                 QUnit.start();
             })
@@ -198,8 +195,6 @@ define([
         assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 160, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 120, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 160, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 120, 'component\'s element has the correct data y value');
     });
 
     QUnit.asyncTest('.center() - with default position', function (assert) {
@@ -208,13 +203,13 @@ define([
             position,
             $element;
 
-        QUnit.expect(13);
+        QUnit.expect(11);
 
         component
-            .on('center', function(left, top) {
+            .on('center', function(x, y) {
                 assert.ok(true, 'center event has been triggered');
-                assert.equal(left, 160, 'correct left value is transmitted as an event parameter');
-                assert.equal(top, 120, 'correct top value is transmitted as an event parameter');
+                assert.equal(x, 160, 'correct x value is transmitted as an event parameter');
+                assert.equal(y, 120, 'correct y value is transmitted as an event parameter');
 
                 QUnit.start();
             })
@@ -240,8 +235,6 @@ define([
         assert.equal($element.css('top'), '170px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 10, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, -50, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 160, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 120, 'component\'s element has the correct data y value');
     });
 
     QUnit.asyncTest('.moveBy() - no default position', function (assert) {
@@ -251,7 +244,7 @@ define([
             $element,
             moveCounter = 0;
 
-        QUnit.expect(15);
+        QUnit.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -287,8 +280,6 @@ define([
         assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 50, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 100, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 50, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 100, 'component\'s element has the correct data y value');
     });
 
     QUnit.asyncTest('.moveBy() - with default position', function (assert) {
@@ -298,7 +289,7 @@ define([
             $element,
             moveCounter = 0;
 
-        QUnit.expect(15);
+        QUnit.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -337,8 +328,6 @@ define([
         assert.equal($element.css('top'), '125px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 50, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 100, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 260, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 225, 'component\'s element has the correct data y value');
     });
 
 
@@ -349,7 +338,7 @@ define([
             $element,
             moveCounter = 0;
 
-        QUnit.expect(15);
+        QUnit.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -385,8 +374,6 @@ define([
         assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 400, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 300, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 400, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 300, 'component\'s element has the correct data y value');
     });
 
     QUnit.asyncTest('.moveTo() - with default position', function (assert) {
@@ -396,7 +383,7 @@ define([
             $element,
             moveCounter = 0;
 
-        QUnit.expect(15);
+        QUnit.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -435,8 +422,6 @@ define([
         assert.equal($element.css('top'), '425px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 190, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, -125, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 400, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 300, 'component\'s element has the correct data y value');
     });
 
     QUnit.asyncTest('.resetPosition() - no default position', function (assert) {
@@ -446,7 +431,7 @@ define([
             $element,
             moveCounter = 0;
 
-        QUnit.expect(15);
+        QUnit.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -484,8 +469,6 @@ define([
         assert.equal($element.css('top'), '0px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 0, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 0, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 0, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 0, 'component\'s element has the correct data y value');
     });
 
     QUnit.asyncTest('.resetPosition() - with default position', function (assert) {
@@ -495,7 +478,7 @@ define([
             $element,
             moveCounter = 0;
 
-        QUnit.expect(15);
+        QUnit.expect(13);
 
         component
             .on('move', function(x, y) {
@@ -536,8 +519,6 @@ define([
         assert.equal($element.css('top'), '425px', 'component\'s element has the correct value for css property top');
         assert.equal(getTranslation($element).x, 0, 'component\'s element has the right x translation');
         assert.equal(getTranslation($element).y, 0, 'component\'s element has the the right y translation');
-        assert.equal($element.data('x'), 210, 'component\'s element has the correct data x value');
-        assert.equal($element.data('y'), 425, 'component\'s element has the correct data y value');
     });
 
 

@@ -17,8 +17,9 @@
  */
 
 /**
- *
- *
+ * Here's how it works:
+ * - default position is set by css properties top/left
+ * - any movement is achieved with css transform properties translateX/Y
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
@@ -37,6 +38,34 @@ define([
     };
 
     var placeableComponent = {
+
+        _translate: function _translate(xOffset, yOffset) {
+            var $element = this.getElement(),
+                newX,
+                newY;
+
+            transformer.translate($element, xOffset, yOffset);
+
+            // retrieving current translate values is a costly process (see ui/transformer & ui/unmatrix)
+            // thus, we store them as custom attributes for later use, and especially when a relative transform will be needed (eg, .moveBy())
+            $element.data('translateX', xOffset);
+            $element.data('translateY', yOffset);
+
+            // we also save current coordinates instead so we don't need to compute them each time they are needed
+            newX = xOffset + this.config.x;
+            newY = yOffset + this.config.y;
+            $element.data('x', newX);
+            $element.data('y', newY);
+
+            /**
+             * @event Placeable#move - the component has moved
+             * @param {Number} x - the new x position
+             * @param {Number} y - the new y position
+             */
+            this.trigger('move', newX, newY);
+
+        },
+
         /**
          * Center the container inside its parent container
          * @returns {movableComponent} chains
@@ -46,55 +75,45 @@ define([
         center: function place() {
             var $container = this.getContainer(),
                 $element = this.getElement(),
-                position;
+                centerX,
+                centerY;
 
             if (this.is('rendered') && !this.is('disabled')) {
                 if ($container.length) {
-                    this.moveTo(
-                        $container.width() / 2 - $element.width() / 2,
-                        $container.height() / 2 - $element.height() / 2
-                    );
-                    position = this.getPosition();
+                    centerX = $container.width() / 2 - $element.width() / 2;
+                    centerY = $container.height() / 2 - $element.height() / 2;
+
+                    this.moveTo(centerX, centerY);
 
                     /**
                      * @event movableComponent#center the component has been centered
                      * @param {Number} x
                      * @param {Number} y
                      */
-                    this.trigger('center', position.x, position.y);
+                    this.trigger('center', centerX, centerY);
                 }
             }
             return this;
         },
 
         /**
-         * Moves the component by the given offset
-         * @param {Number} xOffset
-         * @param {Number} yOffset
+         * Moves the component by the given offset, which is relative to the current position
+         * @param {Number} xOffsetRelative
+         * @param {Number} yOffsetRelative
          * @returns {movableComponent} chains
          *
          * @fires movableComponent#move
          */
-        moveBy: function moveBy(xOffset, yOffset) {
+        moveBy: function moveBy(xOffsetRelative, yOffsetRelative) {
             var $element = this.getElement(),
-                newX,
-                newY;
+                xOffsetAbsolute,
+                yOffsetAbsolute;
 
             if (this.is('rendered') && !this.is('disabled')) {
-                transformer.translate($element, xOffset, yOffset);
+                xOffsetAbsolute = parseFloat($element.data('translateX')) + xOffsetRelative;
+                yOffsetAbsolute = parseFloat($element.data('translateY')) + yOffsetRelative;
 
-                newX = this.config.x + xOffset;
-                newY = this.config.y + yOffset;
-
-                $element.data('x', newX);
-                $element.data('y', newY);
-
-                /**
-                 * @event movableComponent#move the component has moved
-                 * @param {Number} x - the new x position
-                 * @param {Number} y - the new y position
-                 */
-                this.trigger('move', newX, newY);
+                this._translate(xOffsetAbsolute, yOffsetAbsolute);
             }
             return this;
         },
@@ -108,25 +127,14 @@ define([
          * @fires movableComponent#move
          */
         moveTo: function moveTo(x, y) {
-            var $element = this.getElement(),
-                xOffset,
-                yOffset;
+            var xOffsetAbsolute,
+                yOffsetAbsolute;
 
             if (this.is('rendered') && !this.is('disabled')) {
-                xOffset = x - this.config.x;
-                yOffset = y - this.config.y;
+                xOffsetAbsolute = x - this.config.x;
+                yOffsetAbsolute = y - this.config.y;
 
-                transformer.translate($element, xOffset, yOffset);
-
-                $element.data('x', x);
-                $element.data('y', y);
-
-                /**
-                 * @event movableComponent#move the component has moved
-                 * @param {Number} x - the new x position
-                 * @param {Number} y - the new y position
-                 */
-                this.trigger('move', x, y);
+                this._translate(xOffsetAbsolute, yOffsetAbsolute);
             }
             return this;
         },
@@ -135,23 +143,14 @@ define([
             var $element = this.getElement();
 
             if (this.is('rendered')) {
+                // set default position
                 $element.css({
                     top: this.config.y,
-                    left: this.config.x,
-                    position: 'absolute'
+                    left: this.config.x
                 });
 
-                $element.data('x', this.config.x);
-                $element.data('y', this.config.y);
-
-                transformer.reset($element);
-
-                /**
-                 * @event movableComponent#move the component has moved
-                 * @param {Number} x - the new x position
-                 * @param {Number} y - the new y position
-                 */
-                this.trigger('move', this.config.x, this.config.y);
+                // reset translations
+                this._translate(0, 0);
             }
         },
 
@@ -160,17 +159,14 @@ define([
          * @returns {Object}
          */
         getPosition: function getPosition() {
-            var $element;
-            var position = {
-                x: this.config.x,
-                y: this.config.y
-            };
+            var $element,
+                position;
 
             if (this.is('rendered')) {
                 $element = this.getElement();
                 position = {
-                    x: $element.data('x') || 0,
-                    y: $element.data('y') || 0
+                    x: parseFloat($element.data('x')) || 0,
+                    y: parseFloat($element.data('y')) || 0
                 };
             }
             return position;
@@ -183,8 +179,8 @@ define([
 
         return component
             .on('init', function() {
-                this.config.x = this.config.x || defaultConfig.x;
-                this.config.y = this.config.y || defaultConfig.y;
+                this.config.x = parseInt(this.config.x, 10) || defaultConfig.x;
+                this.config.y = parseInt(this.config.y, 10) || defaultConfig.y;
             })
             .on('render', function() {
                 var $element = this.getElement();
