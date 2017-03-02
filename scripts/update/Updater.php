@@ -709,7 +709,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
 
-            $this->setVersion('7.69.7');
+            $this->setVersion('7.70.0');
         }
 
         $this->skip('7.69.7', '7.70.0');
