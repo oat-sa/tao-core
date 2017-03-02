@@ -174,15 +174,16 @@ define([
         }
     };
 
-    return function makePlaceable(component) {
+    function makePlaceable(component) {
         _.assign(component, placeableComponent);
 
         return component
-            .on('init', function() {
+            .off('.makePlaceable')
+            .on('init.makePlaceable', function() {
                 this.config.x = parseInt(this.config.x, 10) || defaultConfig.x;
                 this.config.y = parseInt(this.config.y, 10) || defaultConfig.y;
             })
-            .on('render', function() {
+            .on('render.makePlaceable', function() {
                 var $element = this.getElement();
 
                 $element.css({
@@ -191,6 +192,16 @@ define([
 
                 this.resetPosition();
             });
+    }
+
+    makePlaceable.isPlaceable = function isPlaceable(component) {
+        var api = ['center', 'moveBy', 'moveTo', 'getPosition', 'resetPosition'];
+
+        return api.every(function(method) {
+            return typeof component[method] === 'function';
+        });
     };
+
+    return makePlaceable;
 
 });

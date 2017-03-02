@@ -51,6 +51,18 @@ define([
             assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.method);
         });
 
+    QUnit.test('.isPlaceable()', function(assert) {
+        var component = componentFactory();
+
+        QUnit.expect(2);
+
+        assert.ok(! makePlaceable.isPlaceable(component), 'returns false if component is not placeable');
+
+        makePlaceable(component);
+
+        assert.ok(makePlaceable.isPlaceable(component), 'returns true if component is placeable');
+    });
+
 
     QUnit.module('getTranslation helper');
 
