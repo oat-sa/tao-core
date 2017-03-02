@@ -48,21 +48,21 @@ define([
              * @param {Function} [callback] A middleware callback. Must accept 3 parameters: request, response, next.
              * @returns {proxy}
              */
-            use: function use(command, callback) {
+            use: function use(command) {
                 var queue = command && _.isString(command) ? command : 'all';
                 var list = middlewares[queue] || [];
                 middlewares[queue] = list;
 
-                _.each(arguments, function (callback) {
-                    if (_.isFunction(callback)) {
-                        list.push(callback);
+                _.forEach(arguments, function (cb) {
+                    if (_.isFunction(cb)) {
+                        list.push(cb);
 
                         /**
                          * @event add
                          * @param {String} command
                          * @param {Function} callback
                          */
-                        middlewareHandler.trigger('add', command, callback);
+                        middlewareHandler.trigger('add', command, cb);
                     }
                 });
                 return this;
