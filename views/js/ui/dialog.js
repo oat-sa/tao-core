@@ -33,8 +33,9 @@ define([
     'tpl!ui/dialog/tpl/buttons',
     'ui/keyNavigation/navigator',
     'ui/keyNavigation/navigableDomElement',
+    'util/shortcut/registry',
     'ui/modal'
-], function ($, _, __, bodyTpl, buttonsTpl, keyNavigator, navigableDomElement) {
+], function ($, _, __, bodyTpl, buttonsTpl, keyNavigator, navigableDomElement, shortcutRegistry) {
     'use strict';
 
     /**
@@ -399,6 +400,8 @@ define([
 
             if(!this.destroyed){
                 $buttons = this.$buttons.find('button');
+
+                //creates the navigator to manage the key navigation
                 this.navigator = keyNavigator({
                     elements : navigableDomElement.createFromDoms($buttons),
                     defaultPosition : function defaultPosition(navigables){
@@ -425,6 +428,14 @@ define([
                 }).on('activate', function(cursor){
                     cursor.navigable.getElement().click();
                 });
+
+                //added a global shortcut to enable setting focus on tab
+                this.globalShortcut = shortcutRegistry($('body'))
+                    .add('tab shift+tab', function(){
+                        if(!self.navigator.isFocused()){
+                            self.navigator.focus();
+                        }
+                    });
             }
 
             this.$html.modal({
@@ -463,6 +474,9 @@ define([
             this.$html.modal('destroy');
             if(this.navigator){
                 this.navigator.destroy();
+            }
+            if(this.globalShortcut){
+                this.globalShortcut.clear();
             }
         }
     };
