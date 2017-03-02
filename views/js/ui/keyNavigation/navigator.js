@@ -213,6 +213,14 @@ define([
             },
 
             /**
+             * Check if the navigator is on focus
+             * @returns {boolean}
+             */
+            isFocused : function isFocused(){
+                return !!getCurrentCursor();
+            },
+
+            /**
              * Move cursor to next position
              *
              * @returns {keyNavigator}
