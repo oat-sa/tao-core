@@ -115,10 +115,21 @@ class MenuService {
             } else {
                 //cache management
                 try {
-                    self::$structure = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
+                    $fromCache = \common_cache_FileCache::singleton()->get(self::CACHE_KEY);
+                    self::$structure = [
+                        'perspectives' => []
+                    ];
+                    
+                    foreach ($fromCache as $key => $perspective) {
+                        self::$structure['perspectives'][$key] = Perspective::fromArray($perspective);
+                    }
                 } catch (\common_cache_NotFoundException $e) {
                     self::$structure = self::buildStructures();
-                    \common_cache_FileCache::singleton()->put(self::$structure, self::CACHE_KEY);
+                    $toCache = self::$structure['perspectives'];
+                    foreach ($toCache as $key => $perspective) {
+                        $toCache[$key] = $perspective->__toArray();
+                    }
+                    \common_cache_FileCache::singleton()->put($toCache, self::CACHE_KEY);
                 }
 
             }

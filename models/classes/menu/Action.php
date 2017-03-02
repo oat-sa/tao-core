@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -22,9 +22,10 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use oat\oatbox\ArrayCastable;
 use oat\taoBackOffice\model\menuStructure\Action as iAction;
 
-class Action implements PhpSerializable, iAction
+class Action implements PhpSerializable, ArrayCastable, iAction
 {
     const SERIAL_VERSION = 1392821334;
 
@@ -179,5 +180,31 @@ class Action implements PhpSerializable, iAction
             .\common_Utils::toPHPVariableString($this->data).','
             .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         .")";
+    }
+    
+    public function __toArray()
+    {
+        $array = [
+            'data' => $this->data,
+            'serialVersion' => self::SERIAL_VERSION
+        ];
+        
+        if (isset($this->data['icon'])) {
+            $array['data']['icon'] = $this->data['icon']->__toArray();
+        }
+        
+        return $array;
+    }
+    
+    public static function fromArray(array $array)
+    {
+        if (isset($array['data']['icon'])) {
+            $array['data']['icon'] = Icon::fromArray($array['data']['icon']['data'], $array['data']['icon']['structureExtensionId']);
+        }
+        
+        return new static(
+            $array['data'],
+            $array['serialVersion']
+        );
     }
 }

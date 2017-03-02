@@ -14,7 +14,7 @@ i *
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -22,8 +22,9 @@ i *
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use oat\oatbox\ArrayCastable;
 
-class Tree  implements PhpSerializable
+class Tree implements PhpSerializable, ArrayCastable
 {
     const SERIAL_VERSION = 1392821334;
     
@@ -75,5 +76,21 @@ class Tree  implements PhpSerializable
             .\common_Utils::toPHPVariableString($this->data).','
             .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         .")";
+    }
+    
+    public function __toArray()
+    {
+        return [
+            'data' => $this->data,
+            'serialVersion' => self::SERIAL_VERSION
+        ];
+    }
+    
+    public static function fromArray(array $array)
+    {
+        return new static(
+            $array['data'],
+            $array['serialVersion']
+        );
     }
 }
