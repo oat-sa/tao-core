@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test - AppController</title>
+    <base href="../../../../"/>
+    <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+    <script type="text/javascript" src="js/lib/require.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="controller/app.js"></script>
+    <script type="text/javascript">
+
+        //don't start the test now
+        QUnit.config.autostart = false;
+
+        //load the config
+        require(['/tao/ClientConfig/config'], function () {
+
+            //some mocks
+            requirejs.config({
+                "paths": {
+                    "core/historyRouter" : "test/controller/app/mock/historyRouter",
+                    "core/logger" : "test/controller/app/mock/logger",
+                    "ui/feedback" : "test/controller/app/mock/feedback"
+                }
+            });
+
+            //load the test
+            require(['test/controller/app/test'], function () {
+
+                //Tests loaded, run tests
+                QUnit.start();
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture">
+    <a class="fixture" href="/test/fixture">test</a>
+    <div class="fixture">
+        <a href="/test/fixture">test</a>
+    </div>
+</div>
+</body>
+</html>
