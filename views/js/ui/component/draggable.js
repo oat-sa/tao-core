@@ -37,7 +37,6 @@ define([
                 if (! makePlaceable.isPlaceable(component)) {
                     makePlaceable(component);
                 }
-                this.setState('draggable');
             })
             .on('render.makeDraggable', function() {
                 var self        = this,

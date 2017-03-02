@@ -36,7 +36,7 @@ define([
 
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('.resetPosition() - with default position', function (assert) {
+    QUnit.asyncTest('Display and play', function (assert) {
         var component = componentFactory(),
             $container = $('#outside');
 
