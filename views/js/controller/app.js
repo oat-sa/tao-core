@@ -39,7 +39,7 @@ define([
      * Creates a logger for the app
      * @type {logger}
      */
-    var appLogger = loggerFactory('application');
+    var appLogger = loggerFactory('controller/app');
 
     /**
      * Defines an application controller that will manage the routes through the history.
