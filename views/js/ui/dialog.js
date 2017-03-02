@@ -403,12 +403,7 @@ define([
 
                 //creates the navigator to manage the key navigation
                 this.navigator = keyNavigator({
-                    elements : navigableDomElement.createFromDoms($buttons),
-                    defaultPosition : function defaultPosition(navigables){
-                        return _.findIndex(navigables, function(navigable){
-                            return navigable.getElement().hasClass('ok');
-                        });
-                    }
+                    elements : navigableDomElement.createFromDoms($buttons)
                 }).on('right down', function(){
                     this.next();
                 }).on('left up', function(){
