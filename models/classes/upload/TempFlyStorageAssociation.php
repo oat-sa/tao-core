@@ -50,7 +50,7 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
     public function setUpload(File $file)
     {
         $hash = $this->getHashedKey($file);
-        $this->set($hash, common_Utils::toHumanReadablePhpString([]));
+        $this->set($hash, []);
     }
 
     /**
@@ -62,7 +62,7 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
         $hash = $this->getHashedKey($remote);
         $current = $this->getLocalCopies($remote);
         $current[] = $local;
-        $this->set($hash, common_Utils::toHumanReadablePhpString($current));
+        $this->set($hash, $current);
     }
 
     /**
@@ -71,8 +71,7 @@ class TempFlyStorageAssociation extends AbstractRegistry implements TmpLocalAwar
      */
     public function getLocalCopies(File $file)
     {
-        $localFiles = $this->get($this->getHashedKey($file));
-        $result = eval('return ' . $localFiles . ';');
+        $result = $this->get($this->getHashedKey($file));
         return is_array($result) ? $result : [];
     }
 
