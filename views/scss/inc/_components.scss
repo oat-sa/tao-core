@@ -218,7 +218,7 @@ ul.listbox {
             top: 16px;
             position: relative;
             button{
-                margin-left: 8px;
+                margin-left:8px;
                 @include border-radius(2);
                 height: 36px;
                 font-size: 1.6rem !important;
@@ -226,10 +226,66 @@ ul.listbox {
                 text-transform: uppercase;
                 color: $info !important;
                 background: none;
-                &:focus, &:hover{
+                &:focus,&:hover{
                     color: $textColor !important;
                     background: whiten($uiClickableActiveBg, .5);
                 }
+            }
+        }
+    }
+
+    button.key-navigation-highlight-x {
+        .label{
+            border-bottom: solid 1.5px transparent;
+        }
+        &:focus{
+            .label{
+                border-bottom-color: inherit;
+            }
+        }
+    }
+
+    button.key-navigation-highlight-x {
+        &.btn-info{
+            color: $darkBarTxt;
+            background: $darkBar;
+        }
+        &:focus{
+            //@include box-shadow(0, 0, 6px, 2px, whiten($info, .2));
+        }
+    }
+
+    button.key-navigation-highlight {
+
+    }
+
+    button.key-navigation-highlight-x {
+        .label{
+            border: 0;
+            box-sizing: border-box;
+            box-shadow: inset 0 0 0 2px transparent; // Using inset box-shadow instead of border for sizing simplicity
+            font-size: inherit;
+            position: relative;
+            vertical-align: middle;
+
+            &::before{
+                box-sizing: border-box;
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                transform-origin: center; // Ensure scaling is done from the center (expands outwards)
+                border-bottom: 1.5px solid white() !important;;
+                transform: scale3d(0, 1, 1); // Shrink only width
+            }
+        }
+
+        &:focus{
+            .label::before {
+                transform: scale3d(1, 1, 1); // Show full-size
+                transition: transform 0.2s;
             }
         }
     }
