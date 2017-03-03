@@ -86,7 +86,7 @@ define(['jquery'],
         return {
             /**
              * Show loading bar
-             * @param bool covered - whether overlay HTML element should be added (disable GUI). Default - true
+             * @param {Boolean} [covered = true] - - whether overlay HTML element should be added (disable GUI).
              */
             start: function (covered) {
                 if (typeof covered === 'undefined') {
