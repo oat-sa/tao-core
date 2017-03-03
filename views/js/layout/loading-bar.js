@@ -24,26 +24,7 @@
  */
 define(['jquery'],
     function ($) {
-
         'use strict';
-
-        /**
-         * the TAO header can have three different forms
-         * 1. version warning on alpha/beta + main navi
-         * 2. main navi only on regular version
-         * 3. nothing in the case of LTI
-         *
-         * @param headerElements
-         */
-        function getHeaderHeight(headerElements){
-            var headerHeight = 0, $element;
-            for($element in headerElements) {
-                if(headerElements[$element].length && headerElements[$element].is(':visible')) {
-                    headerHeight += headerElements[$element].outerHeight();
-                }
-            }
-            return headerHeight;
-        }
 
         var $loadingBar = $('.loading-bar'),
             originalHeight = $loadingBar.height(),
@@ -54,10 +35,32 @@ define(['jquery'],
                 $versionWarning: $contentWrap.find('.version-warning'),
                 $header: $contentWrap.find('header:first()')
             },
-            headerHeight   = getHeaderHeight(headerElements);
-        
-        $win.on('scroll.loadingbar', function () {
-            if(!$loadingBar.hasClass('loading')) {
+            headerHeight = getHeaderHeight(headerElements);
+
+        /**
+         * the TAO header can have three different forms
+         * 1. version warning on alpha/beta + main navi
+         * 2. main navi only on regular version
+         * 3. nothing in the case of LTI
+         *
+         * @param headerElements
+         */
+        function getHeaderHeight(headerElements){
+            var $element;
+            headerHeight = 0;
+            for($element in headerElements) {
+                if(headerElements[$element].length && headerElements[$element].is(':visible')) {
+                    headerHeight += headerElements[$element].outerHeight();
+                }
+            }
+            return headerHeight;
+        }
+
+        /**
+         * Update height of cover element
+         */
+        function updateHeight() {
+            if (!$loadingBar.hasClass('loading')) {
                 return;
             }
             // status of height would change for instance when version warning is hidden
@@ -65,20 +68,36 @@ define(['jquery'],
 
             if (headerHeight <= $win.scrollTop()) {
                 $loadingBar.addClass('fixed');
-            }
-            else {
+            } else {
                 $loadingBar.removeClass('fixed');
             }
-            $loadingBar.height($doc.height());
+
+            if ($loadingBar.hasClass('loadingbar-covered')) {
+                $loadingBar.height($doc.height());
+            } else {
+                $loadingBar.height('');
+            }
+        }
+
+        $win.on('scroll.loadingbar', function () {
+            updateHeight();
         });
 
         return {
-            start: function () {
-                if($loadingBar.hasClass('loading')) {
+            /**
+             * Show loading bar
+             * @param {Boolean} [covered = true] - - whether overlay HTML element should be added (disable GUI).
+             */
+            start: function (covered) {
+                if (typeof covered === 'undefined') {
+                    covered = true;
+                }
+                if ($loadingBar.hasClass('loading')) {
                     $loadingBar.stop();
                 }
                 $loadingBar.addClass('loading');
-                $win.trigger('scroll.loadingbar');
+                $loadingBar.toggleClass('loadingbar-covered', covered);
+                updateHeight();
             },
             stop: function () {
                 $loadingBar.removeClass('loading fixed').height(originalHeight);
