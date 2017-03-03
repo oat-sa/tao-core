@@ -64,22 +64,23 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
 			$report->add($parser->getReport());
 			return $report;
 		} else{
-		    return $this->flatImport($file, $class);
+            return $this->flatImport($parser->getContent(), $class);
 		}
     }
     
     /**
      * Imports the rdf file into the selected class
-     * 
-     * @param string $file
+     *
+     * @param string $content
      * @param core_kernel_classes_Class $class
      * @return common_report_Report
      */
-    private function flatImport($file, core_kernel_classes_Class $class) {
+    protected function flatImport($content, core_kernel_classes_Class $class)
+    {
         $report = common_report_Report::createSuccess(__('Data imported successfully'));
         
         $graph = new EasyRdf_Graph();
-        $graph->parseFile($file);
+        $graph->parse($content);
 
         // keep type property
         $map = array(
@@ -110,7 +111,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
      * @param core_kernel_classes_Class $class
      * @return common_report_Report
      */
-    private function importProperties(core_kernel_classes_Resource $resource, $propertiesValues, $map, $class) {
+    protected function importProperties(core_kernel_classes_Resource $resource, $propertiesValues, $map, $class) {
         if (isset($propertiesValues[RDF_TYPE])) {
             // assuming single Type
             if (count($propertiesValues[RDF_TYPE]) > 1) {
