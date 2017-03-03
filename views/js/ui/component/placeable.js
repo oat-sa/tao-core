@@ -110,8 +110,8 @@ define([
                 yOffsetAbsolute;
 
             if (this.is('rendered') && !this.is('disabled')) {
-                xOffsetAbsolute = parseFloat($element.data('translateX')) + xOffsetRelative;
-                yOffsetAbsolute = parseFloat($element.data('translateY')) + yOffsetRelative;
+                xOffsetAbsolute = $element.data('translateX') + xOffsetRelative;
+                yOffsetAbsolute = $element.data('translateY') + yOffsetRelative;
 
                 this._translate(xOffsetAbsolute, yOffsetAbsolute);
             }
@@ -165,8 +165,8 @@ define([
             if (this.is('rendered')) {
                 $element = this.getElement();
                 position = {
-                    x: parseFloat($element.data('x')) || 0,
-                    y: parseFloat($element.data('y')) || 0
+                    x: $element.data('x') || 0,
+                    y: $element.data('y') || 0
                 };
             }
             return position;
