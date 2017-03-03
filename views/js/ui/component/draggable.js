@@ -30,14 +30,12 @@ define([
     'use strict';
 
     return function makeDraggable(component) {
+        if (! makePlaceable.isPlaceable(component)) {
+            makePlaceable(component);
+        }
 
         return component
             .off('.makeDraggable')
-            .on('init.makeDraggable', function() {
-                if (! makePlaceable.isPlaceable(component)) {
-                    makePlaceable(component);
-                }
-            })
             .on('render.makeDraggable', function() {
                 var self        = this,
                     $element    = this.getElement(),

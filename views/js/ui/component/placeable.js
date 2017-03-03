@@ -165,8 +165,8 @@ define([
             if (this.is('rendered')) {
                 $element = this.getElement();
                 position = {
-                    x: $element.data('x') || 0,
-                    y: $element.data('y') || 0
+                    x: $element.data('x') || this.config.x || 0,
+                    y: $element.data('y') || this.config.y || 0
                 };
             }
             return position;
@@ -195,6 +195,7 @@ define([
     }
 
     makePlaceable.isPlaceable = function isPlaceable(component) {
+        // todo: make better
         var api = ['center', 'moveBy', 'moveTo', 'getPosition', 'resetPosition'];
 
         return api.every(function(method) {

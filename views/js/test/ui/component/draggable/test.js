@@ -34,6 +34,12 @@ define([
         assert.ok(typeof makeDraggable === 'function', 'The module expose a function');
     });
 
+    QUnit.test('auto makes the component placeable', function(assert) {
+        var component = makeDraggable(componentFactory());
+        QUnit.expect(1);
+        assert.ok(makePlaceable.isPlaceable(component), 'created component is placeable');
+    });
+
     QUnit.module('Visual test');
 
     QUnit.asyncTest('Display and play', function (assert) {

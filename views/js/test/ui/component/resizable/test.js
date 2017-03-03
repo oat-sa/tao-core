@@ -21,9 +21,10 @@
 define([
     'jquery',
     'ui/component',
+    'ui/component/placeable',
     'ui/component/draggable',
     'ui/component/resizable'
-], function ($, componentFactory, makeDraggable, makeResizable) {
+], function ($, componentFactory, makePlaceable, makeDraggable, makeResizable) {
     'use strict';
 
     QUnit.module('API');
@@ -32,6 +33,12 @@ define([
         QUnit.expect(1);
 
         assert.ok(typeof makeResizable === 'function', 'The module expose a function');
+    });
+
+    QUnit.test('auto makes the component placeable', function(assert) {
+        var component = makeDraggable(componentFactory());
+        QUnit.expect(1);
+        assert.ok(makePlaceable.isPlaceable(component), 'created component is placeable');
     });
 
     QUnit.module('Helpers functions');
@@ -124,15 +131,22 @@ define([
                 resizeW: 630,   resizeH: 450,   fromLeft: true,     fromTop: true,
                 newW: 620,      newH: 400,      newX: 30,           newY: 50            }
         ])
-        .test('', function (data, assert) {
+        .asyncTest('.resizeTo()', function (data, assert) {
             var $container = $('#qunit-fixture').width(800).height(600),
                 component = makeResizable(componentFactory()),
                 $element,
                 position;
 
-            QUnit.expect(8);
+            QUnit.expect(11);
 
             component
+                .on('resize', function(width, height) {
+                    assert.ok(true, 'resize event has been triggered');
+                    assert.equal(width, data.newW, 'correct width has been passed as an event parameter');
+                    assert.equal(height, data.newH, 'correct height has been passed as an event parameter');
+
+                    QUnit.start();
+                })
                 .init({
                     x: 150,
                     y: 150,
@@ -189,10 +203,7 @@ define([
                 minWidth: 300,
                 maxWidth: 700,
                 minHeight: 150,
-                maxHeight: 450,
-                // fixme: commenting this breaks the layout
-                x: 0,
-                y: 0
+                maxHeight: 450
             })
             .render($container)
             .setSize(500, 300)

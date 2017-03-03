@@ -65,26 +65,27 @@ define([
             if (this.is('rendered') && !this.is('disabled')) {
                 $element = this.getElement();
 
-                currentWidth = $element.data('width') || $element.width();
-                currentHeight = $element.data('height') || $element.height();
+                currentWidth = parseFloat($element.data('width')) || $element.width();
+                currentHeight = parseFloat($element.data('height')) || $element.height();
 
                 newWidth = this._getCappedValue(newWidth, this.config.minWidth, this.config.maxWidth);
                 newHeight = this._getCappedValue(newHeight, this.config.minHeight, this.config.maxHeight);
 
                 // make sure the component will stay right-aligned if resized from the left
                 if (resizeFromLeft && (newWidth !== currentWidth)) {
-                    rightX = parseFloat($element.data('x')) + parseFloat(currentWidth);
-                    newX = rightX - parseFloat(newWidth);
+                    rightX = $element.data('x') + currentWidth;
+                    newX = rightX - newWidth;
                     shouldMove = true;
                 }
 
                 // make sure the component will stay bottom-aligned if resized from the top
                 if (resizeFromTop && (newHeight !== currentHeight)) {
-                    bottomY = parseFloat($element.data('y')) + parseFloat(currentHeight);
-                    newY = bottomY - parseFloat(newHeight);
+                    bottomY = $element.data('y') + currentHeight;
+                    newY = bottomY - newHeight;
                     shouldMove = true;
                 }
 
+                // first we move the component to its new position, if needed
                 if (shouldMove) {
                     this.moveTo(
                         newX || $element.data('x'),
@@ -92,9 +93,9 @@ define([
                     );
                 }
 
+                // then we resize it!
                 this.setSize(newWidth, newHeight);
 
-                // todo: move this into the component .setSize() method
                 $element.data('width', newWidth);
                 $element.data('height', newHeight);
 
@@ -103,7 +104,7 @@ define([
                  * @param {Number} width - the new width
                  * @param {Number} height - the new height
                  */
-                this.trigger('resize', this.config.width, this.config.height);
+                this.trigger('resize', newWidth, newHeight);
             }
             return this;
         }
@@ -112,13 +113,12 @@ define([
     return function makeResizable(component) {
         _.assign(component, resizableComponent);
 
+        if (! makePlaceable.isPlaceable(component)) {
+            makePlaceable(component);
+        }
+
         return component
             .off('.makeResizable')
-            .on('init.makeResizable', function() {
-                if (! makePlaceable.isPlaceable(component)) {
-                    makePlaceable(component);
-                }
-            })
             .on('render.makeResizable', function() {
                 var self        = this,
                     $element    = this.getElement(),

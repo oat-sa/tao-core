@@ -20,10 +20,9 @@
 
 define([
     'jquery',
-    'ui/transformer',
     'ui/component',
     'ui/component/placeable'
-], function ($, transformer, componentFactory, makePlaceable) {
+], function ($, componentFactory, makePlaceable) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture';
@@ -71,7 +70,7 @@ define([
                 window.getComputedStyle($element[0]).getPropertyValue('-webkit-transform'),
 
             // transformMatrix equals something like: matrix(1, 0, 0, 1, 5, 5)
-            // we turn this into an array
+            // we extract the values that we are interested in
             transformArray = transformMatrix.replace(/matrix\(|\)| /g, '').split(',');
 
         return {
