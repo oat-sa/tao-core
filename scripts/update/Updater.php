@@ -660,15 +660,27 @@ class Updater extends \common_ext_ExtensionUpdater {
             $schemaManager = $persistence->getDriver()->getSchemaManager();
             $schema = $schemaManager->createSchema();
             $fromSchema = clone $schema;
+
             // test if already executed
+            $doUpdate = false;
             $statementsTableData = $schema->getTable('statements');
-            $statementsTableData->dropIndex('idx_statements_modelid');
-            $modelsTableData = $schema->getTable('models');
-            $modelsTableData->dropIndex('idx_models_modeluri');
-            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
-            foreach ($queries as $query) {
-                $persistence->exec($query);
+            if ($statementsTableData->hasIndex('idx_statements_modelid')) {
+                $statementsTableData->dropIndex('idx_statements_modelid');
+                $doUpdate = true;
             }
+            $modelsTableData = $schema->getTable('models');
+            if ($modelsTableData->hasIndex('idx_models_modeluri')) {
+                $modelsTableData->dropIndex('idx_models_modeluri');
+                $doUpdate = true;
+            }
+
+            if ($doUpdate) {
+                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+                foreach ($queries as $query) {
+                    $persistence->exec($query);
+                }
+            }
+
             $this->setVersion('7.54.1');
         }
 
