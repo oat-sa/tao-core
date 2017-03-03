@@ -32,10 +32,6 @@
  */
 abstract class tao_helpers_data_GenerisAdapter
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * Short description of attribute options
