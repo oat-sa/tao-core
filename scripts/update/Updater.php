@@ -37,6 +37,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -66,7 +67,6 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -712,7 +712,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.70.0');
         }
 
-        $this->skip('7.70.0', '7.74.0');
+        $this->skip('7.70.0', '7.73.0');
+
+        if ($this->isVersion('7.73.0')) {
+            $action = new AddTmpFsHandlers();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+            $this->setVersion('7.74.0');
+        }
+        $this->skip('7.74.0', '7.76.0');
     }
 
     private function migrateFsAccess() {

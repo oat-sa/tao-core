@@ -18,6 +18,8 @@
  *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * The description of a file at upload time.
@@ -28,6 +30,7 @@
  */
 class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_FileDescription
 {
+
     /** Action form: add */
     const FORM_ACTION_ADD = 'add';
 
@@ -47,9 +50,9 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
      * the right place on the file system.
      *
      * @access private
-     * @var string
+     * @var \oat\oatbox\filesystem\File
      */
-    private $tmpPath = '';
+    private $tmpPath;
 
     /**
      * Allow to specify action to know form purpose
@@ -70,12 +73,16 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
      * @param  string $tmpPath
      * @param  string $action
      * @return mixed
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
     public function __construct($name, $size, $type, $tmpPath, $action = null)
     {
         parent::__construct($name, $size);
         $this->type = $type;
-        $this->tmpPath = $tmpPath;
+        if ($tmpPath) {
+            $this->tmpPath = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($tmpPath);
+        }
         $this->action = is_null($action) ? self::FORM_ACTION_ADD : $action;
     }
 
@@ -96,11 +103,11 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @return string
+     * @return \oat\oatbox\filesystem\File
      */
     public function getTmpPath()
     {
-        return (string) $this->tmpPath;
+        return $this->tmpPath;
     }
 
     /**
