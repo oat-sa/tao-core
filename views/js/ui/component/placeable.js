@@ -195,10 +195,7 @@ define([
     }
 
     makePlaceable.isPlaceable = function isPlaceable(component) {
-        // todo: make better
-        var api = ['center', 'moveBy', 'moveTo', 'getPosition', 'resetPosition'];
-
-        return api.every(function(method) {
+        return Object.keys(placeableComponent).every(function(method) {
             return typeof component[method] === 'function';
         });
     };
