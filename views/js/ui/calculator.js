@@ -33,7 +33,8 @@ define([
         width : 240,
         height : 360,
         minWidth : 150,
-        minHeight : 220
+        minHeight : 220,
+        alternativeTemplate : null
     };
 
     /**
@@ -121,6 +122,8 @@ define([
      * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable component will be constraint in
      * @param {Number} [config.top] - the initial position top absolute to the windows
      * @param {Number} [config.left] - the initial position left absolute to the windows
+     * @param {Function} [config.alternativeTemplate] - allow defining an alternative template (a handlebar cimpiled template function)
+     * @param {String} [config.stackingScope] - The scope in which to stack the component
      * @returns {calculator}
      */
     function calculatorFactory(config){
@@ -129,10 +132,14 @@ define([
 
         return dynamicComponent(calculator)
             .on('rendercontent', function ($content){
-                var $input, self = this;
+                var $input, self = this, calcConfig = {};
+
+                if(_.isFunction(config.alternativeTemplate)){
+                    calcConfig.template = config.alternativeTemplate;
+                }
 
                 //init the calculator
-                this.calc = calculatorBuild.init($content);
+                this.calc = calculatorBuild.init($content, calcConfig);
 
                 $input = $content.find('input.calcDisplay').on('change', function(){
                     adjustFontSize($input, self.fontRatio, self.fontSize);

@@ -82,4 +82,13 @@
             <section id="settings_my_password" name="Change password" url="/tao/UserSettings/password"/>
         </sections>
     </structure>
+
+    <structure id="tao_Notifications" name="Notifications" level="110" group="none">
+        <description/>
+        <icon id="icon-mail" src=""/>
+        <sections>
+            <section id="settings_my_notifications" name="My settings" url="/tao/Notification/getUiList"/>
+        </sections>
+    </structure>
+
 </structures>

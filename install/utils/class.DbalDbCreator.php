@@ -319,7 +319,8 @@ class tao_install_utils_DbalDbCreator {
      */
     public function createDatabase($database){
         $sm = $this->getSchemaManager();
-        return $sm->createDatabase($database);
+        $escapedName = $sm->getDatabasePlatform()->quoteIdentifier($database);
+        return $sm->createDatabase($escapedName);
     }
     
     /**

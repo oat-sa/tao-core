@@ -33,6 +33,10 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\notification\implementation\NotificationServiceAggregator;
+use oat\tao\model\notification\implementation\RdsNotification;
+use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
@@ -652,7 +656,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('7.54.0')) {
             $persistence = \common_persistence_Manager::getPersistence('default');
-            /** @var common_persistence_sql_pdo_SchemaManager $schemaManager */
+            /** @var \common_persistence_sql_pdo_SchemaManager $schemaManager */
             $schemaManager = $persistence->getDriver()->getSchemaManager();
             $schema = $schemaManager->createSchema();
             $fromSchema = clone $schema;
@@ -677,13 +681,44 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.62.0');
         }
 
-        $this->skip('7.62.0', '7.66.1');
+        $this->skip('7.62.0', '7.68.0');
 
-        if ($this->isVersion('7.66.1')) {
+        if($this->isVersion('7.68.0')) {
+            $notifInstaller = new InstallNotificationTable();
+            $notifInstaller->setServiceLocator($this->getServiceManager());
+            $notifInstaller->__invoke([]);
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
+            $this->setVersion('7.69.0');
+        }
+
+        $this->skip('7.69.0', '7.69.6');
+
+        if($this->isVersion('7.69.6')) {
+
+            $queue = new NotificationServiceAggregator([
+                'rds' =>
+                    array(
+                        'class'   => RdsNotification::class,
+                        'options' => [
+                            RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                            'visibility'  => false,
+                        ],
+                    )
+                ]
+            );
+
+            $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
+
+            $this->setVersion('7.70.0');
+        }
+
+        $this->skip('7.70.0', '7.73.0');
+
+        if ($this->isVersion('7.73.0')) {
             $action = new AddTmpFsHandlers();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
-            $this->setVersion('7.67.0');
+            $this->setVersion('7.74.0');
         }
     }
 
