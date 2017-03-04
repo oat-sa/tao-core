@@ -171,7 +171,8 @@ define([
             }
         }
 
-        return key || specialKeys[code] || character;
+        //return special key map first, if not fallback to one of the other key identification methods
+        return specialKeys[code] || key || character;
     }
 
     /**
@@ -646,7 +647,7 @@ define([
              * the provided CSS class, even if the shortcut is triggered from an input field.
              * @returns {shortcut} this
              */
-            set: function add(shortcut, options) {
+            set: function set(shortcut, options) {
                 _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);
