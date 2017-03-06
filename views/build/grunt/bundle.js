@@ -76,7 +76,11 @@ module.exports = function(grunt) {
             }, {
                 name: 'controller/backoffice',
                 include: ['lib/require', 'loader/bootstrap'].concat(libs),
-                exclude: ['json!i18ntr/messages.json',  'mathJax', 'ckeditor'],
+                exclude: ['json!i18ntr/messages.json',  'mathJax', 'ckeditor']
+            }, {
+                name: 'controller/app',
+                include: ['lib/require', 'loader/bootstrap'].concat(libs),
+                exclude : ['json!i18ntr/messages.json']
             }, {
                 name: 'controller/routes',
                 include : ext.getExtensionsControllers(['tao']),
@@ -94,6 +98,8 @@ module.exports = function(grunt) {
             { src: [out + '/controller/login.js.map'],        dest: '../js/loader/login.min.js.map' },
             { src: [out + '/controller/backoffice.js'],       dest: '../js/loader/backoffice.min.js' },
             { src: [out + '/controller/backoffice.js.map'],   dest: '../js/loader/backoffice.min.js.map' },
+            { src: [out + '/controller/app.js'],              dest: '../js/loader/app.min.js' },
+            { src: [out + '/controller/app.js.map'],          dest: '../js/loader/app.min.js.map' },
             { src: [out + '/controller/routes.js'],           dest: '../js/controllers.min.js' },
             { src: [out + '/controller/routes.js.map'],       dest: '../js/controllers.min.js.map' }
         ],
