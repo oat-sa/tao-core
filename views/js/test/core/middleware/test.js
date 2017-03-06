@@ -205,7 +205,7 @@ define([
     });
 
 
-    QUnit.asyncTest('middlewares.apply() #break', function (assert) {
+    QUnit.asyncTest('middlewares.apply() #break direct', function (assert) {
         var middlewares = middlewaresHandlerFactory();
         var request = {
             command: 'read',
@@ -233,6 +233,56 @@ define([
                 assert.deepEqual(res, response, 'The response has been provided');
                 assert.deepEqual(this, context, 'The right context has been set');
                 return false;
+            })
+            .use('refresh', function () {
+                assert.ok(false, 'The refresh middleware should not be called');
+                return Promise.reject();
+            })
+            .apply(request, response, context)
+            .then(function () {
+                assert.ok(false, 'The promise should be rejected');
+                QUnit.start();
+            })
+            .catch(function (err) {
+                assert.deepEqual(err, response, 'The error has been provided');
+                QUnit.start();
+            });
+    });
+
+
+    QUnit.asyncTest('middlewares.apply() #break promise', function (assert) {
+        var middlewares = middlewaresHandlerFactory();
+        var request = {
+            command: 'read',
+            params: {
+                foo: 'bar'
+            }
+        };
+        var response = {
+            success: false,
+            message: "oups"
+        };
+        var context = {
+            name: 'foo'
+        };
+
+        QUnit.expect(5);
+
+        middlewares
+            .use(function () {
+                assert.ok(false, 'The global middleware should not be called');
+            })
+            .use('read', function (req, res) {
+                assert.ok(true, 'The read middleware has been called');
+                assert.deepEqual(req, request, 'The request has been provided');
+                assert.deepEqual(res, response, 'The response has been provided');
+                assert.deepEqual(this, context, 'The right context has been set');
+
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        resolve(false);
+                    }, 300);
+                });
             })
             .use('refresh', function () {
                 assert.ok(false, 'The refresh middleware should not be called');
