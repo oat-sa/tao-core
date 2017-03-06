@@ -20,14 +20,15 @@
  */
 define([
     'lodash',
-    'async',
     'core/eventifier',
     'core/promise'
-], function (_, asyncUtil, eventifier, Promise) {
+], function (_, eventifier, Promise) {
     'use strict';
 
     /**
-     * Defines a middlewares handler
+     * Defines a middlewares chain handler.
+     * It will manage a chain of middlewares that can interact with request responses.
+     * Each middleware must return a promise.
      *
      * @returns {middlewareHandler} - The middlewares handler instance
      */
@@ -45,7 +46,7 @@ define([
             /**
              * Add a middleware
              * @param {String} [command] The command queue in which add the middleware (default: 'all')
-             * @param {Function} [callback] A middleware callback. Must accept 3 parameters: request, response, next.
+             * @param {Function} [callback] A middleware callback. Must accept 2 parameters (request and response) and can return a promise.
              * @returns {proxy}
              */
             use: function use(command) {
@@ -79,43 +80,54 @@ define([
              * @returns {Promise}
              */
             apply: function apply(request, response, context) {
-                // wrap each middleware to provide parameters
-                var list = _.map(getMiddlewares(request.command), function (middleware) {
-                    return function (next) {
-                        middleware.call(context, request, response, next);
-                    };
-                });
+                var stack = getMiddlewares(request.command);
+                var pointer = 0;
 
                 // apply each middleware in series, then resolve or reject the promise
                 return new Promise(function (resolve, reject) {
-                    asyncUtil.series(list, function (err) {
-                        // handle implicit error from response descriptor
-                        if (!err && response.success === false) {
-                            err = response;
-                        }
-
-                        if (err) {
-                            /**
-                             * @event failed
-                             * @param {Object} request - The request descriptor
-                             * @param {Object} response The response descriptor
-                             * @param {Object} context - The call context
-                             */
-                            middlewareHandler.trigger('failed', request, response, context);
-
-                            reject(err);
+                    function next() {
+                        var middleware = stack[pointer ++];
+                        if (middleware) {
+                            Promise.resolve(middleware.call(context, request, response))
+                                .then(function(res) {
+                                    if (res !== false) {
+                                        next();
+                                    } else {
+                                        resolve();
+                                    }
+                                })
+                                .catch(reject);
                         } else {
-                            /**
-                             * @event applied
-                             * @param {Object} request - The request descriptor
-                             * @param {Object} response The response descriptor
-                             * @param {Object} context - The call context
-                             */
-                            middlewareHandler.trigger('applied', request, response, context);
-
-                            resolve(response);
+                            resolve();
                         }
-                    });
+                    }
+
+                    next();
+                }).then(function() {
+                    // handle implicit error from response descriptor
+                    if (response.success === false) {
+                        return Promise.reject(response);
+                    }
+
+                    /**
+                     * @event applied
+                     * @param {Object} request - The request descriptor
+                     * @param {Object} response The response descriptor
+                     * @param {Object} context - The call context
+                     */
+                    middlewareHandler.trigger('applied', request, response, context);
+
+                    return response;
+                }).catch(function(err) {
+                    /**
+                     * @event failed
+                     * @param {Object} request - The request descriptor
+                     * @param {Object} response The response descriptor
+                     * @param {Object} context - The call context
+                     */
+                    middlewareHandler.trigger('failed', request, response, context);
+
+                    return Promise.reject(err);
                 });
             }
 
