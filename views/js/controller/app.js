@@ -78,13 +78,23 @@ define([
     var appController = eventifier(statifier({
         /**
          * App controller entry point: set up the router.
+         * @param {Object} options
+         * @param {String} [options.forwardTo] - an optional route of a client controller to forward
          */
-        start: function start(){
+        start: function start(options){
+            var currentRoute;
+
             // all links that are tagged with the "router" class are dispatched using the history router
             appController.apply();
 
             // dispatch the current route
-            historyRouter.forward(window.location + '');
+            if (options && options.forwardTo) {
+                currentRoute = options.forwardTo;
+            } else {
+                currentRoute = window.location + '';
+            }
+
+            historyRouter.forward(currentRoute);
         },
 
         /**

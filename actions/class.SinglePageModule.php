@@ -27,6 +27,20 @@
 abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
 {
     /**
+     * This header is added to the response to inform the client a forward occurs
+     */
+    const FORWARD_HEADER = 'X-Tao-Forward';
+
+    /**
+     * Sets the route to be used by the client controller
+     * @param string $route
+     */
+    protected function setClientRoute($route) {
+        header(self::FORWARD_HEADER . ': ' . $route);
+        $this->setData(self::FORWARD_HEADER, $route);
+    }
+    
+    /**
      * Gets the path to the layout
      * @return array
      */
