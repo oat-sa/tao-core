@@ -39,15 +39,19 @@ define([
      * Create a new error based on the given response
      * @param {Object} response - the server body response as plain object
      * @param {String} fallbackMessage - the error message in case the response isn't correct
+     * @param {XMLHttpRequest} xhr - the response header
      * @returns {Error} the new error
      */
-    var createError = function createError(response, fallbackMessage){
+    var createError = function createError(response, fallbackMessage, xhr){
         var err;
         if(response && response.errorCode){
             err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage));
             err.response = response;
         } else {
             err = new Error(fallbackMessage);
+        }
+        if (xhr && xhr.status) {
+            err.code = xhr.status;
         }
         return err;
     };
@@ -57,9 +61,10 @@ define([
      * @param {String} url - the endpoint full url
      * @param {Object} [data] - additional parameters
      * @param {String} [method = 'GET'] - the HTTP method
+     * @param {Object} [headers] - the HTTP header
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    return function request(url, data, method){
+    return function request(url, data, method, headers){
         return new Promise(function(resolve, reject){
 
             if(_.isEmpty(url)){
@@ -70,6 +75,7 @@ define([
                 url: url,
                 type: method || 'GET',
                 dataType: 'json',
+                headers: headers,
                 data : data
             })
             .done(function(response, status, xhr){
@@ -84,7 +90,7 @@ define([
                 }
 
                 //the server has handled the error
-                return reject(createError(response, 'No response'));
+                return reject(createError(response, 'No response', xhr));
             })
             .fail(function(xhr){
                 var response;
@@ -94,7 +100,7 @@ define([
                     _.noop();
                 }
 
-                return reject(createError(response, xhr.status + ' : ' + xhr.statusText));
+                return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr));
             });
         });
     };
