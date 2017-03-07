@@ -10,6 +10,7 @@
     {{#with options.status}}
     <h2>
         <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{__ 'Nothing to list!'}}{{/if}}</span>
+        <span class="tags hidden"><span class="text">{{__ 'Group(s):'}}</span><span class="tag-list"></span>.</span>
         <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{__ 'Available'}}{{/if}}</span>: <span class="count">{{count}}</span></span>
         <span class="loading">{{#if loading}}{{loading}}{{else}}{{__ 'Loading'}}{{/if}}...</span>
     </h2>
