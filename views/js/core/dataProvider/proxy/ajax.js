@@ -84,7 +84,7 @@ define([
          * @param {Boolean} [config.noCache] - Prevent the request to be cached by the client (default: true)
          * @param {Boolean} [config.noToken] - Prevent the request to be use the security token when available (default: false)
          */
-        init: function ajaxInit(config) {
+        init: function init(config) {
             // Will request the server for the wanted action.
             // May reject the request if the action is not implemented.
             this.processRequest = function processRequest(action, params, method) {
@@ -145,7 +145,7 @@ define([
         /**
          * Cleans up the instance when destroying
          */
-        destroy: function htmlDataDestroy() {
+        destroy: function destroy() {
             this.processRequest = null;
         },
 
@@ -153,7 +153,7 @@ define([
          * Requests the server for a create action
          * @param {Object} params
          */
-        create: function ajaxCreate(params) {
+        create: function create(params) {
             return this.processRequest('create', params, 'POST');
         },
 
@@ -161,7 +161,7 @@ define([
          * Requests the server for a read action
          * @param {Object} params
          */
-        read: function ajaxRead(params) {
+        read: function read(params) {
             return this.processRequest('read', params, 'GET');
         },
 
@@ -169,7 +169,7 @@ define([
          * Requests the server for a write action
          * @param {Object} params
          */
-        write: function ajaxWrite(params) {
+        write: function write(params) {
             return this.processRequest('write', params, 'POST');
         },
 
@@ -177,17 +177,17 @@ define([
          * Requests the server for a remove action
          * @param {Object} params
          */
-        remove: function ajaxRemove(params) {
+        remove: function remove(params) {
             return this.processRequest('remove', params, 'GET');
         },
 
         /**
          * Requests the server using a particular action
-         * @param {String} action
+         * @param {String} actionName
          * @param {Object} params
          */
-        action: function ajaxAction(action, params) {
-            return this.processRequest(action, params, 'POST');
+        action: function action(actionName, params) {
+            return this.processRequest(actionName, params, 'POST');
         }
     };
 });
