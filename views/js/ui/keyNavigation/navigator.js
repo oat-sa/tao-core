@@ -45,7 +45,8 @@ define([
     'jquery',
     'lodash',
     'core/eventifier',
-], function($, _, eventifier){
+    'util/shortcut/registry'
+], function($, _, eventifier, shortcutRegistry){
     'use strict';
 
     var _navigationGroups = {};
@@ -57,35 +58,6 @@ define([
         keepState : false,
         replace : false,
         loop : false
-    };
-
-    var KEY_CODE_SPACE = 32;
-    var KEY_CODE_ENTER = 13;
-    var KEY_CODE_LEFT  = 37;
-    var KEY_CODE_UP    = 38;
-    var KEY_CODE_RIGHT = 39;
-    var KEY_CODE_DOWN  = 40;
-
-    /**
-     * Get the list of keys that should be mapped to the directional keys
-     *
-     * @returns {Object}
-     */
-    var getArrowKeyMap = function getArrowKeyMap(){
-        var map = {};
-        map[KEY_CODE_UP] = 'up';
-        map[KEY_CODE_LEFT] = 'left';
-        map[KEY_CODE_DOWN] = 'down';
-        map[KEY_CODE_RIGHT] = 'right';
-        return map;
-    };
-
-    /**
-     * Get the list of keys that should be mapped to activation action
-     * @returns {Array}
-     */
-    var getActivateKey = function getActivateKey(){
-        return [KEY_CODE_SPACE, KEY_CODE_ENTER];
     };
 
     /**
@@ -101,6 +73,7 @@ define([
             && _.isFunction(navElement.destroy)
             && _.isFunction(navElement.getElement)
             && _.isFunction(navElement.isVisible)
+            && _.isFunction(navElement.isEnabled)
             && _.isFunction(navElement.focus)
         );
     };
@@ -121,8 +94,6 @@ define([
     var keyNavigatorFactory = function keyNavigatorFactory(config){
 
         var id, navigables, keyNavigator, $group;
-        var arrowKeyMap = getArrowKeyMap();
-        var activationKeys = getActivateKey();
         var _cursor = {
             position : -1,
             navigable : null
@@ -140,7 +111,7 @@ define([
             if (document.activeElement) {
                 // try to find the focused element within the known list of focusable elements
                 _.forEach(navigables, function(navigable, index) {
-                    if (navigable.isVisible()
+                    if (navigable.isVisible() && navigable.isEnabled()
                         && (document.activeElement === navigable.getElement().get(0) || $.contains(navigable.getElement().get(0), document.activeElement))) {
                         _cursor.position = index;
                         _cursor.navigable = navigable;
@@ -166,7 +137,7 @@ define([
         var getClosestPositionRight = function getClosestPositionRight(fromPosition){
             var pos;
             for(pos = fromPosition; pos < navigables.length; pos++){
-                if(navigables[pos] && navigables[pos].isVisible()){
+                if(navigables[pos] && navigables[pos].isVisible() && navigables[pos].isEnabled()){
                     return pos;
                 }
             }
@@ -182,7 +153,7 @@ define([
         var getClosestPositionLeft = function getClosestPositionLeft(fromPosition){
             var pos;
             for(pos = fromPosition; pos >= 0; pos--){
-                if(navigables[pos] && navigables[pos].isVisible()){
+                if(navigables[pos] && navigables[pos].isVisible() && navigables[pos].isEnabled()){
                     return pos;
                 }
             }
@@ -239,6 +210,14 @@ define([
              */
             getGroup : function getGroup(){
                 return $group;
+            },
+
+            /**
+             * Check if the navigator is on focus
+             * @returns {boolean}
+             */
+            isFocused : function isFocused(){
+                return !!getCurrentCursor();
             },
 
             /**
@@ -342,6 +321,9 @@ define([
                     pos = _cursor.position;
                 }else if(_.isFunction(config.defaultPosition)){
                     pos = config.defaultPosition(navigables);
+                    if(pos < 0){
+                        pos = 0;
+                    }
                 }else{
                     pos = config.defaultPosition;
                 }
@@ -396,9 +378,11 @@ define([
                 _.each(navigables, function(navigable){
                     navigable.getElement().off(_ns);
                     navigable.destroy();
+                    if(navigable.shortcuts){
+                        navigable.shortcuts.clear();
+                    }
                 });
 
-                //$navigables.removeClass('navigation-highlight');
                 delete _navigationGroups[id];
                 return this;
             },
@@ -410,7 +394,7 @@ define([
             blur : function blur(){
                 var cursor = this.getCursor();
                 if(cursor && cursor.navigable){
-                    this.trigger('blur', cursor);
+                    cursor.navigable.getElement().blur();
                 }
                 return this;
             },
@@ -431,35 +415,43 @@ define([
                 throw new TypeError('not a valid navigable element');
             }
 
-            if(navigables.length > 1
-                || !$group
-                || $group && navigable.getElement().get(0) !== $group.get(0)){
-
-                //internal key bindings
-                //to save useless event bindings, the events are attached only if the there are more than one focusable element
-                // or no group or with the group identical to the single element
-                navigable.getElement().on('keydown'+_ns, function(e){
-                    var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(arrowKeyMap[keyCode]){
-                        if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
-                            //prevent scrolling of parent element
-                            e.preventDefault();
-                        }
-                        e.stopPropagation();
-                        keyNavigator.trigger(arrowKeyMap[keyCode]);
+            //init standard key bindings
+            navigable.shortcuts = shortcutRegistry(navigable.getElement())
+                .add('tab shift+tab', function(e, key){
+                    keyNavigator.trigger(key);
+                })
+                .add('enter', function(e){
+                    keyNavigator.activate(e.target);
+                }, {
+                    propagate : false,
+                    prevent : true
+                })
+                .add('up down left right', function(e, key){
+                    if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
+                        //prevent scrolling of parent element
+                        e.preventDefault();
                     }
-                }).on('keyup'+_ns, function(e){
+                    keyNavigator.trigger(key);
+                }, {
+                    propagate : false
+                });
+
+            navigable.getElement()
+                //requires a keyup event to make unselecting radio button work with space bar
+                .on('keyup'+_ns, function keyupSpace(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(activationKeys.indexOf(keyCode) >= 0){
+                    if(keyCode === 32){//space bar
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
+                })
+                //listen to blurred navigable element
+                .on('blur', function blurCurrentCursor(){
+                    var cursor = keyNavigator.getCursor();
+                    if(cursor && cursor.navigable){
+                        keyNavigator.trigger('blur', cursor);
+                    }
                 });
-            }
-
-            navigable.getElement().on('blur', function(){
-                keyNavigator.blur();
-            });
 
         });
 

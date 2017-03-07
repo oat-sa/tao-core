@@ -25,8 +25,9 @@ define([
     'lodash',
     'interact',
     'ui/component',
+    'ui/component/stackable',
     'ui/transformer'
-], function (_, interact, component, transformer) {
+], function (_, interact, componentFactory, makeStackable, transformer) {
     'use strict';
 
     /**
@@ -158,14 +159,16 @@ define([
      * @param {Number} [defaults.maxHeight] - the max height for resize
      * @param {Number} [defaults.x] - the initial position top absolute to the windows
      * @param {Number} [defaults.y] - the initial position left absolute to the windows
+     * @param {String} [defaults.stackingScope] - in which scope to stack the component
      * @returns {movableComponent} the component (uninitialized)
      */
     function movableComponentFactory(specs, defaults) {
+        var component;
 
         defaults = _.defaults(defaults || {}, defaultConfig);
         specs = _.defaults(specs || {}, movableComponent);
 
-        return component(specs, defaults).on('render', function () {
+        component = componentFactory(specs, defaults).on('render', function () {
             var self       = this;
             var $element   = this.getElement();
             var element    = $element[0];
@@ -228,6 +231,8 @@ define([
                 }, 25);
             });
         });
+
+        return makeStackable(component);
     }
 
     return movableComponentFactory;

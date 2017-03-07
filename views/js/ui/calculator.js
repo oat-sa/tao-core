@@ -123,6 +123,7 @@ define([
      * @param {Number} [config.top] - the initial position top absolute to the windows
      * @param {Number} [config.left] - the initial position left absolute to the windows
      * @param {Function} [config.alternativeTemplate] - allow defining an alternative template (a handlebar cimpiled template function)
+     * @param {String} [config.stackingScope] - The scope in which to stack the component
      * @returns {calculator}
      */
     function calculatorFactory(config){

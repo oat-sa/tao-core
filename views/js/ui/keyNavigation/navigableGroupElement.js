@@ -24,7 +24,7 @@
 define([
     'jquery',
     'lodash',
-    'core/eventifier',
+    'core/eventifier'
 ], function ($, _, eventifier) {
     'use strict';
 
@@ -99,6 +99,14 @@ define([
              */
             isVisible: function isVisible() {
                 return $group.is(':visible');
+            },
+
+            /**
+             * Check if the navigable element is not disabled
+             * @returns {boolean}
+             */
+            isEnabled : function isEnabled() {
+                return !$group.is(':disabled');
             },
 
             /**

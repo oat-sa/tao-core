@@ -203,11 +203,36 @@ ul.listbox {
     .modal-close {
         position: absolute;
         right: 12px;
-        top: 12px;
+        top: 10px;
         cursor: pointer;
         font-weight: bold;
         color: $textColor;
         @include font-size(20);
+        &:hover{
+            opacity: 0.6;
+        }
+    }
+
+    .modal-body{
+        .buttons{
+            top: 16px;
+            position: relative;
+
+            //flat button
+            button{
+                @include border-radius(2);
+                margin-left: 8px;
+                height: 36px;
+                text-shadow: none;
+                text-transform: uppercase;
+                color: $info !important;
+                background: none;
+                &:focus, &:hover{
+                    color: $textColor !important;
+                    background: whiten($uiClickableActiveBg, .5);
+                }
+            }
+        }
     }
 }
 
