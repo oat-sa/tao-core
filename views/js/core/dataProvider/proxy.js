@@ -30,8 +30,6 @@ define([
 
     var _defaults = {};
 
-    var _slice = [].slice;
-
     /**
      * Defines a CRUD proxy bound to a particular adapter. Each adapter will have to provide the following API:
      *
@@ -259,7 +257,7 @@ define([
          * @throws Error
          */
         function delegate(fnName) {
-            var request = {command: fnName, params: _slice.call(arguments, 1)};
+            var request = {command: fnName, params: Array.prototype.slice.call(arguments, 1)};
             if (!initialized && fnName !== 'init') {
                 return Promise.reject(new Error('Proxy is not properly initialized or has been destroyed!'));
             }
