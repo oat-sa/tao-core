@@ -39,10 +39,10 @@ define([
      * Create a new error based on the given response
      * @param {Object} response - the server body response as plain object
      * @param {String} fallbackMessage - the error message in case the response isn't correct
-     * @param {XMLHttpRequest} xhr - the response header
+     * @param {Number} httpCode - the response HTTP code
      * @returns {Error} the new error
      */
-    var createError = function createError(response, fallbackMessage, xhr){
+    var createError = function createError(response, fallbackMessage, httpCode){
         var err;
         if(response && response.errorCode){
             err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage));
@@ -50,8 +50,8 @@ define([
         } else {
             err = new Error(fallbackMessage);
         }
-        if (xhr && xhr.status) {
-            err.code = xhr.status;
+        if (httpCode) {
+            err.code = httpCode;
         }
         return err;
     };
@@ -90,7 +90,7 @@ define([
                 }
 
                 //the server has handled the error
-                return reject(createError(response, 'No response', xhr));
+                return reject(createError(response, 'No response', xhr.status));
             })
             .fail(function(xhr){
                 var response;
@@ -100,7 +100,7 @@ define([
                     _.noop();
                 }
 
-                return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr));
+                return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
             });
         });
     };
