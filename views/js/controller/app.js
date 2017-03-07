@@ -79,6 +79,7 @@ define([
         /**
          * App controller entry point: set up the router.
          * @param {Object} options
+         * @param {String} [options.forwardTo] - an optional route of a client controller to forward
          */
         start: function start(options){
             var currentRoute;
