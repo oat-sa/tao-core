@@ -15,11 +15,16 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
-
 /**
- * Here's how it works:
+ * Add positioning capabilities to a component. This is needed for draggable and resizable behavior.
  * - default position is set by css properties top/left
  * - any movement is achieved with css transform properties translateX/Y
+ *
+ * @example
+ * var component = componentFactory();
+ * makePlaceable(component, { initialX: 150, initialY: 150 });
+ *
+ * component.center()
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
@@ -32,47 +37,56 @@ define([
     'use strict';
 
     var defaultConfig = {
-        x: 0,
-        y: 0,
-        position: 'absolute'
+        initialX: 0,
+        initialY: 0
     };
+
+    var positioningMode = 'absolute';
 
     var placeableComponent = {
 
-        _translate: function _translate(xOffset, yOffset) {
+        /**
+         * Set the translation of the component
+         * @param {Number} xOffsetAbsolute
+         * @param {Number} yOffsetAbsolute
+         *
+         * @fires Component#move
+         * @private
+         */
+        _translate: function _translate(xOffsetAbsolute, yOffsetAbsolute) {
             var $element = this.getElement(),
                 newX,
                 newY;
 
-            transformer.translate($element, xOffset, yOffset);
+            transformer.translate($element, xOffsetAbsolute, yOffsetAbsolute);
 
-            // retrieving current translate values is a costly process (see ui/transformer & ui/unmatrix)
+            // retrieving current translate values is a costly process (see ui/transformer and/or lib/unmatrix)
             // thus, we store them as custom attributes for later use, and especially when a relative transform will be needed (eg, .moveBy())
-            $element.data('translateX', xOffset);
-            $element.data('translateY', yOffset);
+            $element.data('translateX', xOffsetAbsolute);
+            $element.data('translateY', yOffsetAbsolute);
 
             // we also save current coordinates instead so we don't need to compute them each time they are needed
-            newX = xOffset + this.config.x;
-            newY = yOffset + this.config.y;
+            newX = xOffsetAbsolute + this.config.initialX;
+            newY = yOffsetAbsolute + this.config.initialY;
+
             $element.data('x', newX);
             $element.data('y', newY);
 
             /**
-             * @event Placeable#move - the component has moved
-             * @param {Number} x - the new x position
-             * @param {Number} y - the new y position
+             * @event Component#move - the component has moved
+             * @param {Number} newX
+             * @param {Number} newY
              */
             this.trigger('move', newX, newY);
-
         },
 
         /**
-         * Center the container inside its parent container
-         * @returns {movableComponent} chains
+         * Center the component inside its parent container
+         * @returns {Component} chains
          *
-         * @fires movableComponent#center
+         * @fires Component#center
          */
-        center: function place() {
+        center: function center() {
             var $container = this.getContainer(),
                 $element = this.getElement(),
                 centerX,
@@ -86,9 +100,9 @@ define([
                     this.moveTo(centerX, centerY);
 
                     /**
-                     * @event movableComponent#center the component has been centered
-                     * @param {Number} x
-                     * @param {Number} y
+                     * @event Component#center the component has been centered
+                     * @param {Number} centerX
+                     * @param {Number} centerY
                      */
                     this.trigger('center', centerX, centerY);
                 }
@@ -100,9 +114,7 @@ define([
          * Moves the component by the given offset, which is relative to the current position
          * @param {Number} xOffsetRelative
          * @param {Number} yOffsetRelative
-         * @returns {movableComponent} chains
-         *
-         * @fires movableComponent#move
+         * @returns {Component} chains
          */
         moveBy: function moveBy(xOffsetRelative, yOffsetRelative) {
             var $element = this.getElement(),
@@ -122,40 +134,44 @@ define([
          * Moves the component to the given position
          * @param {Number} x
          * @param {Number} y
-         * @returns {movableComponent} chains
-         *
-         * @fires movableComponent#move
+         * @returns {Component} chains
          */
         moveTo: function moveTo(x, y) {
             var xOffsetAbsolute,
                 yOffsetAbsolute;
 
             if (this.is('rendered') && !this.is('disabled')) {
-                xOffsetAbsolute = x - this.config.x;
-                yOffsetAbsolute = y - this.config.y;
+                xOffsetAbsolute = x - this.config.initialX;
+                yOffsetAbsolute = y - this.config.initialY;
 
                 this._translate(xOffsetAbsolute, yOffsetAbsolute);
             }
             return this;
         },
 
+        /**
+         * Restore the default position of the component
+         * @returns {Component} chains
+         */
         resetPosition: function resetPosition() {
             var $element = this.getElement();
 
             if (this.is('rendered')) {
                 // set default position
                 $element.css({
-                    top: this.config.y,
-                    left: this.config.x
+                    top: this.config.initialY,
+                    left: this.config.initialX
                 });
 
                 // reset translations
                 this._translate(0, 0);
             }
+            return this;
         },
 
         /**
-         * Gets the actual position of the component inside its container, with respect to the possible translation
+         * Gets the actual position of the component inside its container,
+         * with respect to the possible translation
          * @returns {Object}
          */
         getPosition: function getPosition() {
@@ -165,35 +181,48 @@ define([
             if (this.is('rendered')) {
                 $element = this.getElement();
                 position = {
-                    x: $element.data('x') || this.config.x || 0,
-                    y: $element.data('y') || this.config.y || 0
+                    x: $element.data('x') || 0,
+                    y: $element.data('y') || 0
                 };
             }
             return position;
-
         }
     };
 
-    function makePlaceable(component) {
+    /**
+     * @param {Component} component - an instance of ui/component
+     * @param {Object} config
+     * @param {Number} config.initialX - x start position
+     * @param {Number} config.initialY - y start position
+     */
+    function makePlaceable(component, config) {
         _.assign(component, placeableComponent);
 
         return component
             .off('.makePlaceable')
             .on('init.makePlaceable', function() {
-                this.config.x = parseInt(this.config.x, 10) || defaultConfig.x;
-                this.config.y = parseInt(this.config.y, 10) || defaultConfig.y;
+                _.defaults(
+                    this.config,
+                    config || {},
+                    defaultConfig
+                );
             })
             .on('render.makePlaceable', function() {
                 var $element = this.getElement();
 
                 $element.css({
-                    position: 'absolute'
+                    position: positioningMode
                 });
 
                 this.resetPosition();
             });
     }
 
+    /**
+     * Check that the given component implements the placeableComponent API
+     * @param {Component} component - an instance of ui/component
+     * @returns {boolean}
+     */
     makePlaceable.isPlaceable = function isPlaceable(component) {
         return Object.keys(placeableComponent).every(function(method) {
             return typeof component[method] === 'function';
@@ -201,5 +230,4 @@ define([
     };
 
     return makePlaceable;
-
 });

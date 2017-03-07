@@ -62,42 +62,41 @@ define([
         assert.ok(makePlaceable.isPlaceable(component), 'returns true if component is placeable');
     });
 
+    QUnit.module('component options');
 
-    QUnit.module('getTranslation helper');
+    QUnit.test('pass options with makePlaceable()', function (assert) {
+        var $container = $(fixtureContainer),
+            component = makePlaceable(
+                componentFactory(),
+                { initialX: 50, initialY: 50 }
+            ),
+            position;
 
-    function getTranslation($element) {
-        var transformMatrix = window.getComputedStyle($element[0]).getPropertyValue('transform') ||
-                window.getComputedStyle($element[0]).getPropertyValue('-webkit-transform'),
+        component
+            .init()
+            .render($container);
 
-            // transformMatrix equals something like: matrix(1, 0, 0, 1, 5, 5)
-            // we extract the values that we are interested in
-            transformArray = transformMatrix.replace(/matrix\(|\)| /g, '').split(',');
+        position = component.getElement().position();
+        assert.equal(position.left, 50, 'initialX option has been used');
+        assert.equal(position.top, 50, 'initialX option has been used');
+    });
 
-        return {
-            x: parseFloat(transformArray[4]) || 0,
-            y: parseFloat(transformArray[5]) || 0
-        };
-    }
+    QUnit.test('options in init overrides options passed in makePlaceable()', function (assert) {
+        var $container = $(fixtureContainer),
+            component = makePlaceable(
+                componentFactory(),
+                { initialX: 50, initialY: 50 }
+            ),
+            position;
 
-    QUnit
-        .cases([
-            { title: 'no translation',      x: 0,   y: 0,       transformRule: '' },
-            { title: 'x translation only',  x: 55,  y: 0,       transformRule: 'translateX(55px)' },
-            { title: 'y translation only',  x: 0,   y: 75.5,    transformRule: 'translateY(75.5px)' },
-            { title: 'x/y translation',     x: 55,  y: 75.5,    transformRule: 'translateX(55px) translateY(75.5px)' },
-            { title: 'negative x',          x: -55, y: 0,       transformRule: 'translateX(-55px)' },
-            { title: 'negative y',          x: 0,   y: -75.5,   transformRule: 'translateY(-75.5px)' },
-            { title: 'negative x/y',        x: -55, y: -75.5,   transformRule: 'translateX(-55px) translateY(-75.5px)' }
-        ])
-        .test('getTranslation()', function (data, assert) {
-            var $element = $('<div>').css('transform', data.transformRule),
-                translation = getTranslation($element);
+        component
+            .init({ initialX: 75, initialY: 75 })
+            .render($container);
 
-            QUnit.expect(2);
-
-            assert.strictEqual(translation.x, data.x, 'getTranslation() returns the correct X translation');
-            assert.strictEqual(translation.y, data.y, 'getTranslation() returns the correct Y translation');
-        });
+        position = component.getElement().position();
+        assert.equal(position.left, 75, 'initialX option has been used');
+        assert.equal(position.top, 75, 'initialX option has been used');
+    });
 
     QUnit.module('Placeable component');
 
@@ -151,8 +150,8 @@ define([
 
         component
             .init({
-                x: 100,
-                y: 50
+                initialX: 100,
+                initialY: 50
             })
             .render($container);
 
@@ -225,8 +224,8 @@ define([
                 QUnit.start();
             })
             .init({
-                x: 150,
-                y: 170
+                initialX: 150,
+                initialY: 170
             })
             .render($container);
 
@@ -315,8 +314,8 @@ define([
                 }
             })
             .init({
-                x: 210,
-                y: 125
+                initialX: 210,
+                initialY: 125
             })
             .render($container);
 
@@ -373,8 +372,8 @@ define([
                 }
             })
             .init({
-                x: 210,
-                y: 125
+                initialX: 210,
+                initialY: 125
             })
             .render($container);
 
@@ -480,8 +479,8 @@ define([
                 }
             })
             .init({
-                x: 210,
-                y: 425
+                initialX: 210,
+                initialY: 425
             })
             .render($container);
 
@@ -575,8 +574,8 @@ define([
                 }
             })
             .init({
-                x: 210,
-                y: 425
+                initialX: 210,
+                initialY: 425
             })
             .render($container);
 
@@ -603,5 +602,40 @@ define([
         assert.equal(getTranslation($element).y, 0, 'component\'s element has the the right y translation');
     });
 
+    QUnit.module('getTranslation helper');
+
+    function getTranslation($element) {
+        var transformMatrix = window.getComputedStyle($element[0]).getPropertyValue('transform') ||
+                window.getComputedStyle($element[0]).getPropertyValue('-webkit-transform'),
+
+            // transformMatrix equals something like: matrix(1, 0, 0, 1, 5, 5)
+            // we extract the values that we are interested in
+            transformArray = transformMatrix.replace(/matrix\(|\)| /g, '').split(',');
+
+        return {
+            x: parseFloat(transformArray[4]) || 0,
+            y: parseFloat(transformArray[5]) || 0
+        };
+    }
+
+    QUnit
+        .cases([
+            { title: 'no translation',      x: 0,   y: 0,       transformRule: '' },
+            { title: 'x translation only',  x: 55,  y: 0,       transformRule: 'translateX(55px)' },
+            { title: 'y translation only',  x: 0,   y: 75.5,    transformRule: 'translateY(75.5px)' },
+            { title: 'x/y translation',     x: 55,  y: 75.5,    transformRule: 'translateX(55px) translateY(75.5px)' },
+            { title: 'negative x',          x: -55, y: 0,       transformRule: 'translateX(-55px)' },
+            { title: 'negative y',          x: 0,   y: -75.5,   transformRule: 'translateY(-75.5px)' },
+            { title: 'negative x/y',        x: -55, y: -75.5,   transformRule: 'translateX(-55px) translateY(-75.5px)' }
+        ])
+        .test('getTranslation()', function (data, assert) {
+            var $element = $('<div>').css('transform', data.transformRule),
+                translation = getTranslation($element);
+
+            QUnit.expect(2);
+
+            assert.strictEqual(translation.x, data.x, 'getTranslation() returns the correct X translation');
+            assert.strictEqual(translation.y, data.y, 'getTranslation() returns the correct Y translation');
+        });
 
 });
