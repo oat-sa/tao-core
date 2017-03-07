@@ -21,6 +21,7 @@ define([
     'ui/keyNavigation/navigator',
     'ui/keyNavigation/navigableDomElement',
     'ui/keyNavigation/navigableGroupElement',
+    'lib/simulator/jquery.simulate'
 ], function($, _, keyNavigator, navigableDomElement, navigableGroupElement){
     'use strict';
 
@@ -80,7 +81,7 @@ define([
 
         navigator.focus();
         assert.equal($(document.activeElement).data('id'), 'C', 'focus on last');
-        $(document.activeElement).trigger($.Event('keyup',{keyCode: 13}));
+        $(document.activeElement).simulate('keydown', {keyCode: 13});//enter
     });
 
     QUnit.asyncTest('navigate with API', function(assert){
@@ -153,23 +154,42 @@ define([
         navigator.focus();
         assert.equal($(document.activeElement).data('id'), 'C', 'default focus on last');
 
-        $(document.activeElement).trigger($.Event('keydown',{keyCode: 40}));//down
+        $(document.activeElement).simulate('keydown', {keyCode: 40});//down
         assert.equal($(document.activeElement).data('id'), 'C', 'stay on last');
 
-        $(document.activeElement).trigger($.Event('keydown',{keyCode: 38}));//up
+        $(document.activeElement).simulate('keydown', {keyCode: 38});//up
         assert.equal($(document.activeElement).data('id'), 'B', 'focus on second');
 
-        $(document.activeElement).trigger($.Event('keydown',{keyCode: 37}));//left
+        $(document.activeElement).simulate('keydown', {keyCode: 37});//left
         assert.equal($(document.activeElement).data('id'), 'A', 'focus on first');
 
-        $(document.activeElement).trigger($.Event('keydown',{keyCode: 38}));//up
+        $(document.activeElement).simulate('keydown', {keyCode: 38});//up
         assert.equal($(document.activeElement).data('id'), 'A', 'stay on first');
 
-        $(document.activeElement).trigger($.Event('keydown',{keyCode: 39}));//right
+        $(document.activeElement).simulate('keydown', {keyCode: 39});//right
         assert.equal($(document.activeElement).data('id'), 'B', 'focus on second');
 
-        $(document.activeElement).trigger($.Event('keyup',{keyCode: 13}));//enter
+        $(document.activeElement).simulate('keydown', {keyCode: 13});//enter
 
+    });
+
+    QUnit.test('isFocused', function(assert){
+        var navigator;
+        var $container = $('#qunit-fixture');
+        var $navigables = $container.find('.nav');
+        var navigables = navigableDomElement.createFromDoms($navigables);
+
+        QUnit.expect(4);
+
+        assert.equal(navigables.length, 3, 'navigable element created');
+
+        navigator = keyNavigator({elements : navigables});
+
+        assert.ok(!navigator.isFocused(), 'the navigator is not on focus');
+        navigator.focus();
+        assert.ok(navigator.isFocused(), 'the navigator is now on focus');
+        navigator.blur();
+        assert.ok(!navigator.isFocused(), 'the navigator is now blurred');
     });
 
     QUnit.asyncTest('loop', function(assert){

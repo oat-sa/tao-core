@@ -37,6 +37,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -66,7 +67,6 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -660,15 +660,27 @@ class Updater extends \common_ext_ExtensionUpdater {
             $schemaManager = $persistence->getDriver()->getSchemaManager();
             $schema = $schemaManager->createSchema();
             $fromSchema = clone $schema;
+
             // test if already executed
+            $doUpdate = false;
             $statementsTableData = $schema->getTable('statements');
-            $statementsTableData->dropIndex('idx_statements_modelid');
-            $modelsTableData = $schema->getTable('models');
-            $modelsTableData->dropIndex('idx_models_modeluri');
-            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
-            foreach ($queries as $query) {
-                $persistence->exec($query);
+            if ($statementsTableData->hasIndex('idx_statements_modelid')) {
+                $statementsTableData->dropIndex('idx_statements_modelid');
+                $doUpdate = true;
             }
+            $modelsTableData = $schema->getTable('models');
+            if ($modelsTableData->hasIndex('idx_models_modeluri')) {
+                $modelsTableData->dropIndex('idx_models_modeluri');
+                $doUpdate = true;
+            }
+
+            if ($doUpdate) {
+                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+                foreach ($queries as $query) {
+                    $persistence->exec($query);
+                }
+            }
+
             $this->setVersion('7.54.1');
         }
 
@@ -690,7 +702,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
             $this->setVersion('7.69.0');
         }
-      
+
         $this->skip('7.69.0', '7.69.6');
 
         if($this->isVersion('7.69.6')) {
@@ -711,6 +723,17 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('7.70.0');
         }
+
+        $this->skip('7.70.0', '7.73.0');
+
+        if ($this->isVersion('7.73.0')) {
+            $action = new AddTmpFsHandlers();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+            $this->setVersion('7.74.0');
+        }
+
+        $this->skip('7.74.0', '7.79.0');
     }
 
     private function migrateFsAccess() {
