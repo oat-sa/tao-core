@@ -46,10 +46,10 @@ define([
         var err;
         if(response && response.errorCode){
             err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage));
-            err.response = response;
         } else {
             err = new Error(fallbackMessage);
         }
+        err.response = response;
         if (httpCode) {
             err.code = httpCode;
         }
