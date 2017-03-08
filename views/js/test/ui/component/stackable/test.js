@@ -62,7 +62,7 @@ define([
 
     QUnit.test('bring component to front on .render()', function(assert) {
         var $container = $(fixtureContainer),
-            component = makeStackable(componentFactory, { stackingScope: stackingScope })
+            component = makeStackable(componentFactory(), { stackingScope: stackingScope })
                 .init()
                 .render($container),
             $element = component.getElement();
@@ -75,7 +75,7 @@ define([
 
     QUnit.test('bring component to front on .show()', function(assert) {
         var $container = $(fixtureContainer),
-            component = makeStackable(componentFactory, { stackingScope: stackingScope })
+            component = makeStackable(componentFactory(), { stackingScope: stackingScope })
                 .init()
                 .render($container),
             $element = component.getElement();
@@ -95,7 +95,7 @@ define([
 
     QUnit.test('bring component to front on mousedown', function(assert) {
         var $container = $(fixtureContainer),
-            component = makeStackable(componentFactory, { stackingScope: stackingScope })
+            component = makeStackable(componentFactory(), { stackingScope: stackingScope })
                 .init()
                 .render($container),
             $element = component.getElement();
