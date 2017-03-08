@@ -16,6 +16,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
@@ -223,6 +224,4 @@ define([
             .setSize(500, 300)
             .center();
     });
-
-
 });

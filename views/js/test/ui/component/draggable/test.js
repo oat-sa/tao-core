@@ -16,8 +16,8 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
+ * @author Christophe Noël <christophe@taotesting.com>
  */
-
 define([
     'jquery',
     'ui/component',

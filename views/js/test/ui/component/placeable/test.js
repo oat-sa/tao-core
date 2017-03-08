@@ -17,6 +17,7 @@
  */
 /**
  * @author Christophe Noël <christophe@taotesting.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'jquery',
