@@ -34,8 +34,8 @@ define([
     'use strict';
 
     var defaultConfig = {
-        minWidth: 100,
-        minHeight: 100,
+        minWidth: 50,
+        minHeight: 50,
         maxWidth: 400,
         maxHeight: 400
     };
