@@ -79,7 +79,7 @@ define([
 
         position = component.getElement().position();
         assert.equal(position.left, 50, 'initialX option has been used');
-        assert.equal(position.top, 50, 'initialX option has been used');
+        assert.equal(position.top, 50, 'initialY option has been used');
     });
 
     QUnit.test('options in init overrides options passed in makePlaceable()', function (assert) {
@@ -96,7 +96,7 @@ define([
 
         position = component.getElement().position();
         assert.equal(position.left, 75, 'initialX option has been used');
-        assert.equal(position.top, 75, 'initialX option has been used');
+        assert.equal(position.top, 75, 'initialY option has been used');
     });
 
     QUnit.module('Placeable component');
