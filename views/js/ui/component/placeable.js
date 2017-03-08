@@ -24,6 +24,10 @@
  * var component = componentFactory();
  * makePlaceable(component, { initialX: 150, initialY: 150 });
  *
+ * component.center();
+ * component.moveTo(50, 50);
+ * component.moveBy(10, 10);
+ *
  * component.center()
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>

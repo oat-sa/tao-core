@@ -15,9 +15,12 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  */
-
 /**
+ * This adds draggable behavior to a component.
  *
+ * @example
+ * var component = componentFactory();
+ * makeDraggable(component);
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
