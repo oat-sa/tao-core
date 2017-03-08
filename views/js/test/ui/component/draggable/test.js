@@ -55,12 +55,10 @@ define([
                 assert.ok(true);
                 QUnit.start();
             })
-            .init({
-                x: 100,
-                y: 100
-            })
+            .init()
             .render($container)
-            .setSize(200, 300);
+            .setSize(200, 300)
+            .center();
     });
 
 

@@ -58,7 +58,10 @@ define([
                             elementRect: {left: 0, right: 1, top: 0, bottom: 1}
                         },
                         onmove: function onMove(event) {
-                            self.moveBy(event.dx, event.dy);
+                            self.moveBy(
+                                Math.round(event.dx),
+                                Math.round(event.dy)
+                            );
                         }
                     })
                     .on('dragstart', function () {

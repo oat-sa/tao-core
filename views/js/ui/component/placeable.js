@@ -60,7 +60,7 @@ define([
                 newX,
                 newY;
 
-            transformer.translate($element, xOffsetAbsolute, yOffsetAbsolute);
+            transformer.translateXY($element, xOffsetAbsolute, yOffsetAbsolute);
 
             // retrieving current translate values is a costly process (see ui/transformer and/or lib/unmatrix)
             // thus, we store them as custom attributes for later use, and especially when a relative transform will be needed (eg, .moveBy())
@@ -161,8 +161,8 @@ define([
             if (this.is('rendered')) {
                 // set default position
                 $element.css({
-                    top: this.config.initialY,
-                    left: this.config.initialX
+                    left: this.config.initialX,
+                    top: this.config.initialY
                 });
 
                 // reset translations

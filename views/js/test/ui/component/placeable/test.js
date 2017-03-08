@@ -16,8 +16,8 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
+ * @author Christophe Noël <christophe@taotesting.com>
  */
-
 define([
     'jquery',
     'ui/component',
@@ -604,6 +604,11 @@ define([
 
     QUnit.module('getTranslation helper');
 
+    /**
+     * This is an easy way to check the css transform values
+     * @param $element
+     * @returns {{x: (Number), y: (Number)}}
+     */
     function getTranslation($element) {
         var transformMatrix = window.getComputedStyle($element[0]).getPropertyValue('transform') ||
                 window.getComputedStyle($element[0]).getPropertyValue('-webkit-transform'),
