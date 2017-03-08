@@ -25,14 +25,15 @@ define([
     'lodash',
     'router',
     'html5-history-api',
-    'core/eventifier'
-], function ($, _, router, history, eventifier) {
+    'core/eventifier',
+    'core/statifier',
+    'core/promise'
+], function ($, _, router, history, eventifier, statifier, Promise) {
     'use strict';
 
     //start the history polyfill, see https://github.com/devote/HTML5-History-API (a getter should trigger it)
     var historyRouter;
-    var location = window.history.location || window.location;
-
+    var location = (window.history.location || window.location) + '';
 
     /**
      * Create an history router
@@ -44,7 +45,8 @@ define([
      *
      * @returns {historyRouter} the router (same instance)
      */
-    var historyRouterFactory = function historyRouterFactory(){
+    function historyRouterFactory(){
+        var pendingPromise;
 
         if(historyRouter){
             return historyRouter;
@@ -53,36 +55,88 @@ define([
         /**
          * @typedef historyRouter
          * @see core/eventifier
+         * @see core/statifier
          */
-        historyRouter =  eventifier({
+        historyRouter =  eventifier(statifier({
+            /**
+             * Redirects the page to another controller. Adds a step to the history.
+             * @param {String} url
+             * @returns {Promise}
+             */
+            redirect: function redirect(url) {
+                return this.pushState(url);
+            },
+
+            /**
+             * Forwards to another controller. Does not change the current location nor the history,
+             * only loads the target controller.
+             * @param {String} url
+             * @returns {Promise}
+             */
+            forward: function forward(url) {
+                return this.dispatch(url, false);
+            },
+
+            /**
+             * Forwards to another controller. Replaces the current location and replace the history.
+             * @param {String} url
+             * @returns {Promise}
+             */
+            replace: function replace(url) {
+                return this.dispatch(url, true);
+            },
 
             /**
              * Dispatch manually and replace the current state if necessary
              * @param {Object|String} state - the state object or directly the URL
              * @param {String} state.url - if the state is an object, then it must have an URL to dispatch
              * @param {Boolean} [replace = false] - if we replace the current state
+             * @returns {Promise}
              *
              * @fires historyRouter#dispatching before dispatch
              * @fires historyRouter#dispatched  once dispatch succeed
              */
             dispatch : function dispatch(state, replace){
                 var self = this;
-                if(_.isString(state)){
-                    state = { url : state };
-                }
-                if(!state || !state.url){
-                    return;
+                function doDispatch() {
+                    return new Promise(function(resolve, reject) {
+                        if(_.isString(state)){
+                            state = { url : state };
+                        }
+                        if(!state || !state.url){
+                            return reject(new TypeError("The state should contain an URL!"));
+                        }
+
+                        /**
+                         * @event historyRouter#dispatching
+                         * @param {String} url
+                         */
+                        self.setState('dispatching')
+                            .trigger('dispatching', state.url);
+
+                        if(replace === true){
+                            history.replaceState(state, '', state.url);
+                        }
+
+                        router.dispatch(state.url, function(){
+                            /**
+                             * @event historyRouter#dispatched
+                             * @param {String} url
+                             */
+                            self.trigger('dispatched', state.url)
+                                .setState('dispatching', false);
+
+                            resolve(state.url);
+                        });
+                    });
                 }
 
-               self.trigger('dispatching', state.url);
-
-                if(replace === true){
-                    history.replaceState(state, '', state.url);
+                if (pendingPromise) {
+                    pendingPromise = pendingPromise.then(doDispatch).catch(doDispatch);
+                } else {
+                    pendingPromise = doDispatch();
                 }
-
-                router.dispatch(state.url, function(){
-                    self.trigger('dispatched', state.url);
-                });
+                return pendingPromise;
             },
 
             /**
@@ -90,18 +144,22 @@ define([
              * You can either call pushState or trigger the 'dispatch' event.
              * @param {Object|String} state - the state object or directly the URL
              * @param {String} state.url - if the state is an object, then it must have an URL to dispatch
+             * @returns {Promise}
              */
             pushState : function pushState(state){
                 if(_.isString(state)){
                     state = { url : state };
                 }
                 history.pushState(state, '', state.url);
-                this.dispatch(state);
+                return this.dispatch(state);
             }
-        });
+        }));
+
+        // ensure the current route is in the history
+        history.replaceState({url: location}, '', location);
 
         //back & forward button, and push state
-        $(window).on('popstate', function (event) {
+        $(window).on('popstate', function () {
             historyRouter.dispatch(history.state);
         });
 
@@ -113,7 +171,7 @@ define([
         });
 
         return historyRouter;
-    };
+    }
 
     return historyRouterFactory;
 });

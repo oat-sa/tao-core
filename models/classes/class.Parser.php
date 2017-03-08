@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * The Parser enables you to load, parse and validate xml content from an xml
@@ -31,7 +33,6 @@
  */
 class tao_models_classes_Parser
 {
-
     /**
      * XML content string
      *
@@ -115,14 +116,19 @@ class tao_models_classes_Parser
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string source
-     * @param  array options
-     * @return mixed
+     * @param  string $source
+     * @param  array $options
+     * @throws common_exception_Error
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\ServiceNotFoundException
      */
     public function __construct($source, $options = array())
     {
-
-        if($source instanceof \oat\oatbox\filesystem\File) {
+        $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
+        if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
+            $this->sourceType = self::SOURCE_FLYFILE;
+            $source = $uploadFile;
+        } elseif ($source instanceof \oat\oatbox\filesystem\File) {
             $this->sourceType = self::SOURCE_FLYFILE;
         } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {
             $this->sourceType = self::SOURCE_STRING;
@@ -297,7 +303,7 @@ class tao_models_classes_Parser
      * @param boolean $refresh load content again.
      * @return string
      */
-    protected function getContent($refresh = false)
+    public function getContent($refresh = false)
     {
         if ($this->content === null || $refresh) {
             try{
