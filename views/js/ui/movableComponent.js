@@ -232,7 +232,7 @@ define([
             });
         });
 
-        return makeStackable(component);
+        return makeStackable(component, { stackingScope: defaults.stackingScope });
     }
 
     return movableComponentFactory;

@@ -26,25 +26,34 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'ui/stacker'
-], function(stackerFactory) {
+], function(_, stackerFactory) {
     'use strict';
+
+    var defaultConfig = {
+        stackingScope: ''
+    };
 
     /**
      * @param {Component} - an instance of ui/component
+     * @param {Object} config
+     * @param {String} config.stackingScope - scope id for the stacker
      */
-    return function makeStackable(component) {
+    return function makeStackable(component, config) {
         var stacker;
 
         return component
-            .on('init', function () {
-                var scope = this.config && this.config.stackingScope;
-                stacker = stackerFactory(scope);
+            .off('.makeStackable')
+            .on('init.makeStackable', function () {
+                _.defaults(this.config, config || {}, defaultConfig);
+
+                stacker = stackerFactory(this.config.stackingScope);
             })
-            .on('show', function () {
+            .on('show.makeStackable', function () {
                 stacker.bringToFront(this.getElement());
             })
-            .on('render', function () {
+            .on('render.makeStackable', function () {
                 var $element = this.getElement();
 
                 stacker.reset($element);
