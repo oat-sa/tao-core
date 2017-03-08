@@ -35,6 +35,18 @@ define([
         assert.ok(typeof makeResizable === 'function', 'The module expose a function');
     });
 
+    QUnit
+        .cases([
+            { title: 'resizeTo',          method: 'resizeTo' },
+            { title: '_getCappedValue',   method: '_getCappedValue' }
+        ])
+        .test('component API', function(data, assert) {
+            var component = makeResizable(componentFactory());
+
+            QUnit.expect(1);
+            assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.method);
+        });
+
     QUnit.test('auto makes the component placeable', function(assert) {
         var component = makeDraggable(componentFactory());
         QUnit.expect(1);
@@ -137,19 +149,21 @@ define([
                 $element,
                 position;
 
-            QUnit.expect(11);
+            QUnit.expect(13);
 
             component
-                .on('resize', function(width, height) {
+                .on('resize', function(width, height, x, y) {
                     assert.ok(true, 'resize event has been triggered');
                     assert.equal(width, data.newW, 'correct width has been passed as an event parameter');
                     assert.equal(height, data.newH, 'correct height has been passed as an event parameter');
+                    assert.equal(x, data.newX, 'correct x has been passed as an event parameter');
+                    assert.equal(y, data.newY, 'correct y has been passed as an event parameter');
 
                     QUnit.start();
                 })
                 .init({
-                    x: 150,
-                    y: 150,
+                    initialX: 150,
+                    initialY: 150,
                     minWidth: 300,
                     maxWidth: 620,
                     minHeight: 200,

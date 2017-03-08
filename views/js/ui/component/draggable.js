@@ -32,6 +32,9 @@ define([
 ], function (_, interact, makePlaceable) {
     'use strict';
 
+    /**
+     * @param {Component} component - an instance of ui/component
+     */
     return function makeDraggable(component) {
         if (! makePlaceable.isPlaceable(component)) {
             makePlaceable(component);

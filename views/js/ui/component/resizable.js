@@ -17,7 +17,11 @@
  */
 
 /**
+ * Adds resizable behavior to a component.
  *
+ * @example
+ * var component = componentFactory();
+ * makePlaceable(component, { minWidth: 150, minHeight: 150, maxWidth: 500, maxHeight: 500 });
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
@@ -29,8 +33,23 @@ define([
 ], function (_, interact, makePlaceable) {
     'use strict';
 
+    var defaultConfig = {
+        minWidth: 100,
+        minHeight: 100,
+        maxWidth: 400,
+        maxHeight: 400
+    };
+
     var resizableComponent = {
 
+        /**
+         * Make sure the given value is within given boundaries. If not, set it to the closest boundary.
+         * @param {Number} value
+         * @param {Number} min - lower boundary
+         * @param {Number} max - upper boundary
+         * @returns {Number} The new value
+         * @private
+         */
         _getCappedValue: function (value, min, max) {
             var capped = value;
             if (typeof (max) !== 'undefined') {
@@ -50,7 +69,7 @@ define([
          * @param {Boolean} resizeFromTop - if the bottom border has been dragged for the resize
          * @returns {movableComponent} chains
          *
-         * @fires movableComponent#resize
+         * @fires Component#resize
          */
         resizeTo: function resizeTo(newWidth, newHeight, resizeFromLeft, resizeFromTop) {
             var $element,
@@ -60,6 +79,7 @@ define([
                 newY,
                 rightX,
                 bottomY,
+                position,
                 shouldMove = false;
 
             if (this.is('rendered') && !this.is('disabled')) {
@@ -71,30 +91,34 @@ define([
                 newWidth = this._getCappedValue(newWidth, this.config.minWidth, this.config.maxWidth);
                 newHeight = this._getCappedValue(newHeight, this.config.minHeight, this.config.maxHeight);
 
+                position = this.getPosition();
+
                 // make sure the component will stay right-aligned if resized from the left
                 if (resizeFromLeft && (newWidth !== currentWidth)) {
-                    rightX = $element.data('x') + currentWidth;
-                    newX = rightX - newWidth;
-                    shouldMove = true;
+                    rightX      = position.x + currentWidth;
+                    newX        = rightX - newWidth;
+                    shouldMove  = true;
                 }
 
                 // make sure the component will stay bottom-aligned if resized from the top
                 if (resizeFromTop && (newHeight !== currentHeight)) {
-                    bottomY = $element.data('y') + currentHeight;
-                    newY = bottomY - newHeight;
-                    shouldMove = true;
+                    bottomY     = position.y + currentHeight;
+                    newY        = bottomY - newHeight;
+                    shouldMove  = true;
                 }
 
-                // first we move the component to its new position, if needed
+                // We can now move the component to its new position, if needed...
                 if (shouldMove) {
                     this.moveTo(
-                        newX || $element.data('x'),
-                        newY || $element.data('y')
+                        newX || position.x,
+                        newY || position.y
                     );
                 }
 
-                // then we resize it!
+                // ... and then resize it!
                 this.setSize(newWidth, newHeight);
+
+                position = this.getPosition(); // update the position
 
                 $element.data('width', newWidth);
                 $element.data('height', newHeight);
@@ -103,14 +127,25 @@ define([
                  * @event movableComponent#resize the component has been resized
                  * @param {Number} width - the new width
                  * @param {Number} height - the new height
+                 * @param {Number} x - the new x position
+                 * @param {Number} y - the new y position
                  */
-                this.trigger('resize', newWidth, newHeight);
+                this.trigger('resize', newWidth, newHeight, position.x, position.y);
             }
             return this;
         }
     };
 
-    return function makeResizable(component) {
+    /**
+     * @param {Component} component - an instance of ui/component
+     * @param {Object} config
+     * @param {Number} config.minWidth
+     * @param {Number} config.minHeight
+     * @param {Number} config.maxWidth
+     * @param {Number} config.maxHeight
+     */
+    return function makeResizable(component, config) {
+
         _.assign(component, resizableComponent);
 
         if (! makePlaceable.isPlaceable(component)) {
@@ -119,6 +154,9 @@ define([
 
         return component
             .off('.makeResizable')
+            .on('init.makeResizable', function() {
+                _.defaults(this.config, config || {}, defaultConfig);
+            })
             .on('render.makeResizable', function() {
                 var self        = this,
                     $element    = this.getElement(),

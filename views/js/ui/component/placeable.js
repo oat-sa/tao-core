@@ -28,8 +28,6 @@
  * component.moveTo(50, 50);
  * component.moveBy(10, 10);
  *
- * component.center()
- *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -205,11 +203,7 @@ define([
         return component
             .off('.makePlaceable')
             .on('init.makePlaceable', function() {
-                _.defaults(
-                    this.config,
-                    config || {},
-                    defaultConfig
-                );
+                _.defaults(this.config, config || {}, defaultConfig);
             })
             .on('render.makePlaceable', function() {
                 var $element = this.getElement();
