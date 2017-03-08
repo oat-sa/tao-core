@@ -18,8 +18,9 @@
 
 define([
     'jquery',
-    'ui/movableComponent'
-], function($, movableComponentFactory) {
+    'ui/movableComponent',
+    'ui/component/placeable'
+], function($, movableComponentFactory, makePlaceable) {
     'use strict';
 
     QUnit.module('API');
@@ -48,12 +49,19 @@ define([
         {name : 'getContainer', title : 'getContainer'},
         {name : 'getElement',   title : 'getElement'},
         {name : 'getTemplate',  title : 'getTemplate'},
-        {name : 'setTemplate',  title : 'setTemplate'}
+        {name : 'setTemplate',  title : 'setTemplate'},
+        {name : 'resizeTo',     title : 'resizeTo'}
     ])
     .test('component API contains ', function(data, assert) {
         var component = movableComponentFactory();
         QUnit.expect(1);
         assert.equal(typeof component[data.name], 'function', 'The component has the method ' + data.name);
+    });
+
+    QUnit.test('component is placeable', function(assert) {
+        var component = makePlaceable(movableComponentFactory());
+        QUnit.expect(1);
+        assert.ok(makePlaceable.isPlaceable(component), 'created component is placeable');
     });
 
 
