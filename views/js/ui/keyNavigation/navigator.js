@@ -173,9 +173,9 @@ define([
             }
         }
 
-         _.each(navigables, function(navigable){
+        _.each(navigables, function(navigable){
                 //check if it is a valid navigable element
-                navigable.init();
+            navigable.init();
         });
 
         if(config.group){
@@ -439,8 +439,9 @@ define([
             navigable.getElement()
                 //requires a keyup event to make unselecting radio button work with space bar
                 .on('keyup'+_ns, function keyupSpace(e){
+                    var $target = $(e.target);
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(keyCode === 32){//space bar
+                    if(keyCode === 32 && !$target.is(':input')){//space bar
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
