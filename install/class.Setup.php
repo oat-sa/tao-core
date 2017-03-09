@@ -171,6 +171,10 @@ class tao_install_Setup implements Action
             $options['session_name'] = $global['session_name'];
         }
 
+        if(isset($global['anonymous_lang'])){
+            $options['anonymous_lang'] = $global['anonymous_lang'];
+        }
+
         //get extensions to install
         if(isset($parameters['extensions'])){
             $options['extensions'] = $parameters['extensions'];
