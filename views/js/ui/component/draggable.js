@@ -58,10 +58,17 @@ define([
                             elementRect: {left: 0, right: 1, top: 0, bottom: 1}
                         },
                         onmove: function onMove(event) {
-                            self.moveBy(
-                                Math.round(event.dx),
-                                Math.round(event.dy)
-                            );
+                            var xOffset = Math.round(event.dx),
+                                yOffset = Math.round(event.dy);
+
+                            self.moveBy(xOffset, yOffset);
+
+                            /**
+                             * @event Component#dragmove the component has been dragged
+                             * @param {Number} xOffset
+                             * @param {Number} yOffset
+                             */
+                            self.trigger('dragmove', xOffset, yOffset);
                         }
                     })
                     .on('dragstart', function () {
