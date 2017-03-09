@@ -72,9 +72,7 @@ define([
          * @fires Component#resize
          */
         resizeTo: function resizeTo(newWidth, newHeight, resizeFromLeft, resizeFromTop) {
-            var $element,
-                currentWidth,
-                currentHeight,
+            var currentSize,
                 newX,
                 newY,
                 rightX,
@@ -83,10 +81,7 @@ define([
                 shouldMove = false;
 
             if (this.is('rendered') && !this.is('disabled')) {
-                $element = this.getElement();
-
-                currentWidth = parseFloat($element.data('width')) || $element.width();
-                currentHeight = parseFloat($element.data('height')) || $element.height();
+                currentSize = this.getSize();
 
                 newWidth = this._getCappedValue(newWidth, this.config.minWidth, this.config.maxWidth);
                 newHeight = this._getCappedValue(newHeight, this.config.minHeight, this.config.maxHeight);
@@ -94,15 +89,15 @@ define([
                 position = this.getPosition();
 
                 // make sure the component will stay right-aligned if resized from the left
-                if (resizeFromLeft && (newWidth !== currentWidth)) {
-                    rightX      = position.x + currentWidth;
+                if (resizeFromLeft && (newWidth !== currentSize.width)) {
+                    rightX      = position.x + currentSize.width;
                     newX        = rightX - newWidth;
                     shouldMove  = true;
                 }
 
                 // make sure the component will stay bottom-aligned if resized from the top
-                if (resizeFromTop && (newHeight !== currentHeight)) {
-                    bottomY     = position.y + currentHeight;
+                if (resizeFromTop && (newHeight !== currentSize.height)) {
+                    bottomY     = position.y + currentSize.height;
                     newY        = bottomY - newHeight;
                     shouldMove  = true;
                 }
@@ -120,11 +115,8 @@ define([
 
                 position = this.getPosition(); // update the position
 
-                $element.data('width', newWidth);
-                $element.data('height', newHeight);
-
                 /**
-                 * @event movableComponent#resize the component has been resized
+                 * @event Component#resize the component has been resized
                  * @param {Number} width - the new width
                  * @param {Number} height - the new height
                  * @param {Number} x - the new x position
