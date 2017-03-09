@@ -1,12 +1,4 @@
 {
-  "seed": {
-    "identifier": "taocloud-classic",
-    "author": "geoffrey@taotesting.com",
-    "version": {
-      "code": "0.0.0",
-      "name": ""
-    }
-  },
   "extensions": [
     "taoCe"
   ],
@@ -19,6 +11,7 @@
   },
   "configuration": {
     "global": {
+      "anonymous_lang": "en-US",
       "lang": "en-US",
       "mode": "debug",
       "instance_name": "mytao",
