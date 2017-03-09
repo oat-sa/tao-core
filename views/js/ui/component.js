@@ -54,6 +54,9 @@ define([
                 $element.height(height);
             }
         }
+
+        $element.data('width', width);
+        $element.data('height', height);
     }
 
     /**
@@ -91,7 +94,7 @@ define([
             init : function init(config) {
                 this.config = _(config || {})
                     .omit(function(value){
-                        return value === null || value === undefined;
+                        return value === null || typeof value === 'undefined';
                     })
                     .defaults(defaults || {})
                     .value();
@@ -192,6 +195,23 @@ define([
 
                 return this;
             },
+
+            /**
+             * Get the component's size
+             * @returns {Object}
+             * @fires component#setsize
+             */
+            getSize: function getSize() {
+                var $element = this.getElement();
+
+                if (this.is('rendered')) {
+                    return {
+                        width: $element.data('width') || 0,
+                        height: $element.data('height') || 0
+                    };
+                }
+            },
+
 
             /**
              * Shows the component
