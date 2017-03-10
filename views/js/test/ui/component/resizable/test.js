@@ -59,6 +59,7 @@ define([
     QUnit
         .cases([
             { title: 'no constrains',           expected: 100, input: 100 },
+            { title: 'no constrains',           expected: 100, input: 100,  min: null,  max: null },
             { title: 'unused min constrain',    expected: 100, input: 100,  min: 50 },
             { title: 'applied min constrain',   expected: 100, input: 50,   min: 100 },
             { title: 'unused max constrain',    expected: 100, input: 100,              max: 200 },
@@ -150,13 +151,21 @@ define([
                 $element,
                 position;
 
-            QUnit.expect(13);
+            QUnit.expect(19);
 
             component
-                .on('resize', function(width, height, x, y) {
+                .on('beforeresize', function(width, height, fromLeft, fromTop) {
+                    assert.equal(width, data.resizeW, 'correct width has been passed as an event parameter');
+                    assert.equal(height, data.resizeH, 'correct height has been passed as an event parameter');
+                    assert.equal(fromLeft, data.fromLeft, 'correct value for resizeFromLeft has been passed as an event parameter');
+                    assert.equal(fromTop, data.fromTop, 'correct value for resizeFromTop has been passed as an event parameter');
+                })
+                .on('resize', function(width, height, fromLeft, fromTop, x, y) {
                     assert.ok(true, 'resize event has been triggered');
                     assert.equal(width, data.newW, 'correct width has been passed as an event parameter');
                     assert.equal(height, data.newH, 'correct height has been passed as an event parameter');
+                    assert.equal(fromLeft, data.fromLeft, 'correct value for resizeFromLeft has been passed as an event parameter');
+                    assert.equal(fromTop, data.fromTop, 'correct value for resizeFromTop has been passed as an event parameter');
                     assert.equal(x, data.newX, 'correct x has been passed as an event parameter');
                     assert.equal(y, data.newY, 'correct y has been passed as an event parameter');
 

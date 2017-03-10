@@ -52,10 +52,10 @@ define([
          */
         _getCappedValue: function (value, min, max) {
             var capped = value;
-            if (typeof (max) !== 'undefined') {
+            if (! _.isUndefined(max) && ! _.isNull(max)) {
                 capped = Math.min(capped, max);
             }
-            if (typeof (min) !== 'undefined') {
+            if (! _.isUndefined(min) && ! _.isNull(min)) {
                 capped = Math.max(capped, min);
             }
             return capped;
@@ -67,8 +67,9 @@ define([
          * @param {Number} newHeight - the new height
          * @param {Boolean} resizeFromLeft - if the left border has been dragged for the resize
          * @param {Boolean} resizeFromTop - if the bottom border has been dragged for the resize
-         * @returns {movableComponent} chains
+         * @returns {Component} chains
          *
+         * @fires Component#beforeresize
          * @fires Component#resize
          */
         resizeTo: function resizeTo(newWidth, newHeight, resizeFromLeft, resizeFromTop) {
@@ -81,6 +82,15 @@ define([
                 shouldMove = false;
 
             if (this.is('rendered') && !this.is('disabled')) {
+                /**
+                 * @event Component#beforeresize the component is about to be resized (or not)
+                 * @param {Number} width - the new expected width
+                 * @param {Number} height - the new expected height
+                 * @param {Boolean} resizeFromLeft - if resize happens from the left
+                 * @param {Boolean} resizeFromTop - if resize happens from the top
+                 */
+                this.trigger('beforeresize', newWidth, newHeight, resizeFromLeft, resizeFromTop);
+
                 currentSize = this.getSize();
 
                 newWidth = this._getCappedValue(newWidth, this.config.minWidth, this.config.maxWidth);
@@ -119,10 +129,13 @@ define([
                  * @event Component#resize the component has been resized
                  * @param {Number} width - the new width
                  * @param {Number} height - the new height
+                 * @param {Boolean} resizeFromLeft - if resize happens from the left
+                 * @param {Boolean} resizeFromTop - if resize happens from the top
                  * @param {Number} x - the new x position
                  * @param {Number} y - the new y position
                  */
-                this.trigger('resize', newWidth, newHeight, position.x, position.y);
+                // todo: adapt tests
+                this.trigger('resize', newWidth, newHeight, resizeFromLeft, resizeFromTop, position.x, position.y);
             }
             return this;
         }
