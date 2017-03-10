@@ -43,7 +43,7 @@ define([
     QUnit.module('Visual test');
 
     QUnit.asyncTest('Display and play', function (assert) {
-        var component = componentFactory(),
+        var component = componentFactory({}, { width: 200, height: 300 }),
             $container = $('#outside');
 
         QUnit.expect(1);
@@ -57,8 +57,8 @@ define([
             })
             .init()
             .render($container)
-            .setSize(200, 300)
-            .center();
+            .center()
+        ;
     });
 
 
