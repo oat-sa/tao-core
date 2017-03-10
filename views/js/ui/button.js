@@ -59,6 +59,32 @@ define([
         }, defaults)
             .setTemplate(buttonTpl)
 
+            /**
+             * @todo We should support within the component async actions in order to disable the button while
+             * the action is running. In order to do this we should support Promises within events (TT-36)
+             * in order to do something like :
+             *
+             * ```
+             *  component()
+             *      .before('click', function(){
+             *          this.disable();
+             *      })
+             *      .after('click', function(){
+             *          this.enable();
+             *      })
+             * ```
+             *
+             * So when someone use the component with
+             *
+             * ```
+             *  var myAwesomeButton = button().on('click', function(){
+             *      return aPromise;
+             *  });
+             * ```
+             *
+             * the button state changes accordingly
+             */
+
             // renders the component
             .on('render', function () {
                 var self = this;
