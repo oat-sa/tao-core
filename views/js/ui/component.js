@@ -48,10 +48,10 @@ define([
 
         if ($element) {
             if (_.isNumber(width)) {
-                $element.width(width);
+                $element.css({ width: width });
             }
             if (_.isNumber(height)) {
-                $element.height(height);
+                $element.css({ height: height });
             }
         }
 
