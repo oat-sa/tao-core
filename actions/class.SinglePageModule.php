@@ -27,6 +27,38 @@
 abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
 {
     /**
+     * This header is added to the response to inform the client a forward occurs
+     */
+    const FORWARD_HEADER = 'X-Tao-Forward';
+
+    /**
+     * A list of parameters to provide to the client controller
+     * @var array
+     */
+    protected $clientParams = [];
+
+    /**
+     * Sets the route to be used by the client controller
+     * @param string $route
+     */
+    protected function setClientRoute($route) {
+        header(self::FORWARD_HEADER . ': ' . $route);
+        $this->setClientParam('forwardTo', $route);
+    }
+
+    /**
+     * Add a parameter to provide to the client controller
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    protected function setClientParam($name, $value)
+    {
+        $this->clientParams[$name] = $value;
+        return $this;
+    }
+    
+    /**
      * Gets the path to the layout
      * @return array
      */
@@ -91,5 +123,17 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
             $layout = (array)$this->getLayout();
             $this->setView($layout[0], isset($layout[1]) ? $layout[1] : null);
         }
+    }
+
+    /**
+     * Retrieve the data from the url and make the base initialization
+     *
+     * @return void
+     */
+    protected function defaultData()
+    {
+        parent::defaultData();
+        
+        $this->setData('client_params', $this->clientParams);
     }
 }
