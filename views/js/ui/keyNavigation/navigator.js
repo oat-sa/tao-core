@@ -427,7 +427,8 @@ define([
                     prevent : true
                 })
                 .add('up down left right', function(e, key){
-                    if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
+                    var $target = $(e.target);
+                    if( !$target.is('img,:text,textarea') && !$target.hasClass('key-navigation-scrollable')){
                         //prevent scrolling of parent element
                         e.preventDefault();
                     }
@@ -439,11 +440,15 @@ define([
             navigable.getElement()
                 //requires a keyup event to make unselecting radio button work with space bar
                 .on('keyup'+_ns, function keyupSpace(e){
-                    var $target = $(e.target);
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(keyCode === 32 && !$target.is(':input')){//space bar
-                        e.preventDefault();
-                        keyNavigator.activate(e.target);
+                    if(keyCode === 32){
+                        //if an inner element is an input we let the space work
+                        if(e.target !== this && $(e.target).is(':input')){
+                            e.stopPropagation();
+                        } else {
+                            e.preventDefault();
+                            keyNavigator.activate(e.target);
+                        }
                     }
                 })
                 //listen to blurred navigable element
