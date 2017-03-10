@@ -48,17 +48,15 @@ define([
      * @fires click - When the button is clicked
      */
     function buttonFactory(config) {
-        config =  _.defaults(config || {}, defaults);
-
         return component({
             /**
              * Gets the identifier of the button
              * @returns {String}
              */
             getId: function getId() {
-                return config.id;
+                return this.config.id;
             }
-        })
+        }, defaults)
             .setTemplate(buttonTpl)
 
             // renders the component
@@ -73,7 +71,7 @@ define([
                      * @event click
                      * @param {String} buttonId
                      */
-                    self.trigger('click', config.id);
+                    self.trigger('click', self.config.id);
                 });
             })
             .init(config);
