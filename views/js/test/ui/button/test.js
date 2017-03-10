@@ -64,7 +64,9 @@ define([
     QUnit.module('button');
 
 
-    QUnit.test('module', 3, function (assert) {
+    QUnit.test('module', function (assert) {
+        QUnit.expect(3);
+
         assert.equal(typeof button, 'function', "The button module exposes a function");
         assert.equal(typeof button(), 'object', "The button factory produces an object");
         assert.notStrictEqual(button(), button(), "The button factory provides a different object on each call");
@@ -75,6 +77,7 @@ define([
         .cases(buttonApi)
         .test('instance API ', function (data, assert) {
             var instance = button();
+            QUnit.expect(1);
             assert.equal(typeof instance[data.title], 'function', 'The button instance exposes a "' + data.title + '" function');
         });
 
@@ -88,6 +91,8 @@ define([
             id: buttonId
         };
         var instance = button(config);
+
+        QUnit.expect(5);
 
         assert.notEqual(instance.config, config, 'The button instance must duplicate the config set');
         assert.equal(instance.hasOwnProperty('nothing'), false, 'The button instance must not accept undefined config properties');
@@ -207,6 +212,8 @@ define([
 
         var $component = instance.getElement();
 
+        QUnit.expect(8);
+
         assert.equal(instance.is('rendered'), true, 'The button instance must be rendered');
         assert.equal($component.length, 1, 'The button instance returns the rendered content');
 
@@ -231,6 +238,8 @@ define([
         var instance = button().render();
         var $component = instance.getElement();
 
+        QUnit.expect(8);
+
         assert.equal(instance.is('rendered'), true, 'The button instance must be rendered');
         assert.equal($component.length, 1, 'The button instance returns the rendered content');
 
@@ -254,6 +263,8 @@ define([
     QUnit.test('state', function (assert) {
         var instance = button().render();
         var $component = instance.getElement();
+
+        QUnit.expect(8);
 
         assert.equal(instance.is('rendered'), true, 'The button instance must be rendered');
         assert.equal($component.length, 1, 'The button instance returns the rendered content');
