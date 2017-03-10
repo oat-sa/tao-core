@@ -151,10 +151,11 @@ define([
                 $element,
                 position;
 
-            QUnit.expect(19);
+            QUnit.expect(20);
 
             component
                 .on('beforeresize', function(width, height, fromLeft, fromTop) {
+                    assert.ok(true, 'beforeresize event has been triggered');
                     assert.equal(width, data.resizeW, 'correct width has been passed as an event parameter');
                     assert.equal(height, data.resizeH, 'correct height has been passed as an event parameter');
                     assert.equal(fromLeft, data.fromLeft, 'correct value for resizeFromLeft has been passed as an event parameter');
