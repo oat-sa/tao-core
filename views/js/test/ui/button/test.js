@@ -46,20 +46,6 @@ define([
         {title: 'setTemplate'}
     ];
 
-    // toggle the sample display
-    var showSample = false;
-
-    // display a sample of the component
-    if (showSample) {
-        button({
-            renderTo: $('body'),
-            id: 'btn1',
-            label: 'Button 1'
-        }).on('click', function () {
-            console.log('button 1', arguments);
-        });
-    }
-
 
     QUnit.module('button');
 
@@ -323,6 +309,25 @@ define([
             .render()
             .trigger('custom')
             .destroy();
+    });
+
+
+    QUnit.module('Visual');
+
+
+    QUnit.test('simple button', function(assert){
+        QUnit.expect(1);
+        button({
+            id: 'btn1',
+            label: 'Button 1'
+        })
+            .on('render', function(){
+                assert.ok(true);
+            })
+            .on('click', function () {
+                console.log('button 1', arguments);
+            })
+            .render('#outside');
     });
 
 });
