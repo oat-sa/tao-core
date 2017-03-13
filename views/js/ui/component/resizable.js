@@ -28,10 +28,9 @@
  */
 define([
     'lodash',
-    'jquery',
     'interact',
     'ui/component/placeable'
-], function (_, $, interact, makePlaceable) {
+], function (_, interact, makePlaceable) {
     'use strict';
 
     var defaultConfig = {
@@ -147,7 +146,7 @@ define([
      * @param {Number} config.minHeight
      * @param {Number} config.maxWidth
      * @param {Number} config.maxHeight
-     * @param {jQuery|Element} config.restriction - DOM element if which the resizing is restricted. Will default to the resizable container
+     * @param {jQuery|Element} config.resizeRestriction - interact restriction property. See {@link http://interactjs.io/docs/restriction/#restriction}
      * @param {Object} config.edges
      * @param {Object} config.edges.top - is resizing from the top allowed
      * @param {Object} config.edges.right - is resizing from the right allowed
@@ -172,18 +171,15 @@ define([
                     $element    = this.getElement(),
                     element     = $element[0];
 
-                if (typeof this.config.restriction === $) {
-                    this.config.restriction = this.config.restriction[0];
-
-                } else if (! _.isElement(this.config.restriction)) {
-                    this.config.restriction = this.getContainer()[0];
+                if (! this.config.resizeRestriction) {
+                    this.config.resizeRestriction = this.getContainer()[0];
                 }
 
                 interact(element)
                     .resizable({
                         autoScroll: true,
                         restrict: {
-                            restriction: this.config.restriction
+                            restriction: this.config.resizeRestriction
                         },
                         edges: this.config.edges
                     })

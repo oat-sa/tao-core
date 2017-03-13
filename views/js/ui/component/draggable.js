@@ -34,27 +34,34 @@ define([
 
     /**
      * @param {Component} component - an instance of ui/component
+     * @param {Object} config
+     * @param {jQuery|Element} config.dragRestriction - interact restriction property. See {@link http://interactjs.io/docs/restriction/#restriction}
      */
-    return function makeDraggable(component) {
+    return function makeDraggable(component, config) {
         if (! makePlaceable.isPlaceable(component)) {
             makePlaceable(component);
         }
 
         return component
             .off('.makeDraggable')
+            .on('init.makeDraggable', function() {
+                _.defaults(this.config, config || {});
+            })
             .on('render.makeDraggable', function() {
                 var self        = this,
                     $element    = this.getElement(),
                     element     = $element[0],
-                    $container  = this.getContainer(),
-                    container   = $container[0],
                     rootNode    = document.querySelector('html');
+
+                if (! this.config.dragRestriction) {
+                    this.config.dragRestriction = this.getContainer()[0];
+                }
 
                 interact(element)
                     .draggable({
                         autoScroll: true,
                         restrict: {
-                            restriction: container,
+                            restriction: this.config.dragRestriction,
                             elementRect: {left: 0, right: 1, top: 0, bottom: 1}
                         },
                         onmove: function onMove(event) {
