@@ -421,18 +421,22 @@ define([
                     keyNavigator.trigger(key);
                 })
                 .add('enter', function(e){
-                    keyNavigator.activate(e.target);
-                }, {
-                    propagate : false,
-                    prevent : true
+                    if($(e.target).is(':text,textarea')){
+                        e.stopPropagation();
+                    } else {
+                        e.preventDefault();
+                        keyNavigator.activate(e.target);
+                    }
                 })
                 .add('up down left right', function(e, key){
                     var $target = $(e.target);
-                    if( !$target.is('img,:text,textarea') && !$target.hasClass('key-navigation-scrollable')){
-                        //prevent scrolling of parent element
-                        e.preventDefault();
+                    if(!$target.is(':text,textarea')){
+                        if( !$target.is('img') && !$target.hasClass('key-navigation-scrollable')){
+                            //prevent scrolling of parent element
+                            e.preventDefault();
+                        }
+                        keyNavigator.trigger(key);
                     }
-                    keyNavigator.trigger(key);
                 }, {
                     propagate : false
                 });
