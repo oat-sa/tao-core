@@ -21,23 +21,23 @@
  *
  * @example
  * var component = componentFactory();
- * makePlaceable(component, { minWidth: 150, minHeight: 150, maxWidth: 500, maxHeight: 500 });
+ * makeResizable(component, { minWidth: 150, minHeight: 150, maxWidth: 500, maxHeight: 500 });
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
     'lodash',
+    'jquery',
     'interact',
     'ui/component/placeable'
-], function (_, interact, makePlaceable) {
+], function (_, $, interact, makePlaceable) {
     'use strict';
 
     var defaultConfig = {
         minWidth: 50,
         minHeight: 50,
-        maxWidth: 400,
-        maxHeight: 400
+        edges: { left: true, right: true, bottom: true, top: true }
     };
 
     var resizableComponent = {
@@ -134,7 +134,6 @@ define([
                  * @param {Number} x - the new x position
                  * @param {Number} y - the new y position
                  */
-                // todo: adapt tests
                 this.trigger('resize', newWidth, newHeight, resizeFromLeft, resizeFromTop, position.x, position.y);
             }
             return this;
@@ -148,6 +147,12 @@ define([
      * @param {Number} config.minHeight
      * @param {Number} config.maxWidth
      * @param {Number} config.maxHeight
+     * @param {jQuery|Element} config.restriction - DOM element if which the resizing is restricted. Will default to the resizable container
+     * @param {Object} config.edges
+     * @param {Object} config.edges.top - is resizing from the top allowed
+     * @param {Object} config.edges.right - is resizing from the right allowed
+     * @param {Object} config.edges.bottom - is resizing from the bottom allowed
+     * @param {Object} config.edges.left - is resizing from the left allowed
      */
     return function makeResizable(component, config) {
 
@@ -165,17 +170,22 @@ define([
             .on('render.makeResizable', function() {
                 var self        = this,
                     $element    = this.getElement(),
-                    element     = $element[0],
-                    $container  = this.getContainer(),
-                    container   = $container[0];
+                    element     = $element[0];
+
+                if (typeof this.config.restriction === $) {
+                    this.config.restriction = this.config.restriction[0];
+
+                } else if (! _.isElement(this.config.restriction)) {
+                    this.config.restriction = this.getContainer()[0];
+                }
 
                 interact(element)
                     .resizable({
                         autoScroll: true,
                         restrict: {
-                            restriction: container
+                            restriction: this.config.restriction
                         },
-                        edges: { left: true, right: true, bottom: true, top: true }
+                        edges: this.config.edges
                     })
                     .on('resizemove', function (event) {
                         self.resizeTo(
