@@ -722,6 +722,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.74.0', '7.82.1');
+
+        if ($this->isVersion('7.82.1')) {
+            $service = new \oat\tao\model\import\ImportersService([]);
+            $this->getServiceManager()->register(\oat\tao\model\import\ImportersService::SERVICE_ID, $service);
+            $this->setVersion('7.83.0');
+        }
     }
 
     private function migrateFsAccess() {
