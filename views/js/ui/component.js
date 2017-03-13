@@ -48,15 +48,15 @@ define([
 
         if ($element) {
             if (_.isNumber(width)) {
-                $element.css({ width: width });
+                $element.css({ width: width + 'px' });
             }
             if (_.isNumber(height)) {
-                $element.css({ height: height });
+                $element.css({ height: height + 'px' });
             }
         }
 
-        $element.data('width', width);
-        $element.data('height', height);
+        this._width = width;
+        this._height = height;
     }
 
     /**
@@ -202,12 +202,10 @@ define([
              * @fires component#setsize
              */
             getSize: function getSize() {
-                var $element = this.getElement();
-
                 if (this.is('rendered')) {
                     return {
-                        width: $element.data('width') || 0,
-                        height: $element.data('height') || 0
+                        width: this._width || 0,
+                        height: this._height || 0
                     };
                 }
             },

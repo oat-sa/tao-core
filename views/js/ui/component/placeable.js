@@ -56,30 +56,25 @@ define([
          * @private
          */
         _translate: function _translate(xOffsetAbsolute, yOffsetAbsolute) {
-            var $element = this.getElement(),
-                newX,
-                newY;
+            var $element = this.getElement();
 
             transformer.translateXY($element, xOffsetAbsolute, yOffsetAbsolute);
 
             // retrieving current translate values is a costly process (see ui/transformer and/or lib/unmatrix)
             // thus, we store them as custom attributes for later use, and especially when a relative transform will be needed (eg, .moveBy())
-            $element.data('translateX', xOffsetAbsolute);
-            $element.data('translateY', yOffsetAbsolute);
+            this._translateX = xOffsetAbsolute;
+            this._translateY = yOffsetAbsolute;
 
             // we also save current coordinates instead so we don't need to compute them each time they are needed
-            newX = xOffsetAbsolute + this.config.initialX;
-            newY = yOffsetAbsolute + this.config.initialY;
-
-            $element.data('x', newX);
-            $element.data('y', newY);
+            this._x = xOffsetAbsolute + this.config.initialX;
+            this._y = yOffsetAbsolute + this.config.initialY;
 
             /**
              * @event Component#move - the component has moved
              * @param {Number} newX
              * @param {Number} newY
              */
-            this.trigger('move', newX, newY);
+            this.trigger('move', this._x, this._y);
         },
 
         /**
@@ -119,13 +114,12 @@ define([
          * @returns {Component} chains
          */
         moveBy: function moveBy(xOffsetRelative, yOffsetRelative) {
-            var $element = this.getElement(),
-                xOffsetAbsolute,
+            var xOffsetAbsolute,
                 yOffsetAbsolute;
 
             if (this.is('rendered') && !this.is('disabled')) {
-                xOffsetAbsolute = $element.data('translateX') + xOffsetRelative;
-                yOffsetAbsolute = $element.data('translateY') + yOffsetRelative;
+                xOffsetAbsolute = this._translateX + xOffsetRelative;
+                yOffsetAbsolute = this._translateY + yOffsetRelative;
 
                 this._translate(xOffsetAbsolute, yOffsetAbsolute);
             }
@@ -177,14 +171,12 @@ define([
          * @returns {Object}
          */
         getPosition: function getPosition() {
-            var $element,
-                position;
+            var position;
 
             if (this.is('rendered')) {
-                $element = this.getElement();
                 position = {
-                    x: $element.data('x') || 0,
-                    y: $element.data('y') || 0
+                    x: this._x || 0,
+                    y: this._y || 0
                 };
             }
             return position;
