@@ -23,9 +23,9 @@ namespace oat\tao\model\import;
 use oat\oatbox\service\ConfigurableService;
 
 /**
- * Class AbstractTestImport
+ * Class ImportersService
  *
- * @package oat\taoTests\models\import
+ * @package oat\tao\model\import
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
 class ImportersService extends ConfigurableService

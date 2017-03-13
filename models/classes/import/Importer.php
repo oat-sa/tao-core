@@ -25,7 +25,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Interface Importer
- * @package oat\tao\model\export
+ * @package oat\tao\model\import
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
 interface Importer extends ServiceLocatorAwareInterface

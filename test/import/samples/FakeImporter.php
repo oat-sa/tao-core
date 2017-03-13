@@ -25,7 +25,7 @@ use oat\oatbox\filesystem\File;
 
 /**
  * Class FakeImporter
- * @package oat\taoQtiTest\models\metadata
+ * @package oat\tao\test\import\samples
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
 class FakeImporter extends AbstractImporter
