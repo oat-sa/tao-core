@@ -58,11 +58,12 @@ define([
             assert.equal(typeof navigator[data.name], 'function', 'The navigator exposes a "' + data.name + '" function');
         });
 
+
     QUnit.module('Dom navigable element');
 
     QUnit.asyncTest('activate', function(assert){
         var navigator;
-        var $container = $('#qunit-fixture');
+        var $container = $('#qunit-fixture .nav-1');
         var $navigables = $container.find('.nav');
         var navigables = navigableDomElement.createFromDoms($navigables);
 
@@ -86,7 +87,7 @@ define([
 
     QUnit.asyncTest('navigate with API', function(assert){
         var navigator;
-        var $container = $('#qunit-fixture');
+        var $container = $('#qunit-fixture .nav-1');
         var $navigables = $container.find('.nav');
         var navigables = navigableDomElement.createFromDoms($navigables);
 
@@ -126,7 +127,7 @@ define([
 
     QUnit.asyncTest('navigate with keyboard', function(assert){
         var navigator;
-        var $container = $('#qunit-fixture');
+        var $container = $('#qunit-fixture .nav-1');
         var $navigables = $container.find('.nav');
         var navigables = navigableDomElement.createFromDoms($navigables);
 
@@ -175,7 +176,7 @@ define([
 
     QUnit.test('isFocused', function(assert){
         var navigator;
-        var $container = $('#qunit-fixture');
+        var $container = $('#qunit-fixture .nav-1');
         var $navigables = $container.find('.nav');
         var navigables = navigableDomElement.createFromDoms($navigables);
 
@@ -194,7 +195,7 @@ define([
 
     QUnit.asyncTest('loop', function(assert){
         var navigator;
-        var $container = $('#qunit-fixture');
+        var $container = $('#qunit-fixture .nav-1');
         var $navigables = $container.find('.nav');
         var navigables = navigableDomElement.createFromDoms($navigables);
 
@@ -238,7 +239,7 @@ define([
 
     QUnit.asyncTest('keep state off', function(assert){
         var navigator;
-        var $container = $('#qunit-fixture');
+        var $container = $('#qunit-fixture .nav-1');
         var $navigables = $container.find('.nav');
         var navigables = navigableDomElement.createFromDoms($navigables);
 
@@ -277,7 +278,7 @@ define([
 
     QUnit.asyncTest('keep state on', function(assert){
         var navigator;
-        var $container = $('#qunit-fixture');
+        var $container = $('#qunit-fixture .nav-1');
         var $navigables = $container.find('.nav');
         var navigables = navigableDomElement.createFromDoms($navigables);
 
@@ -314,6 +315,55 @@ define([
 
         navigator.activate();
     });
+
+    QUnit.asyncTest('activate with space', function(assert){
+        var navigator;
+        var $container = $('#qunit-fixture .nav-2');
+        var $navigables = $container.find('.nav');
+        var navigables = navigableDomElement.createFromDoms($navigables);
+
+        var $textarea  = $('textarea', $container);
+        QUnit.expect(7);
+
+        assert.equal(navigables.length, 3, 'navigable element created');
+
+        navigator = keyNavigator({
+            keepState : true,
+            elements : navigables
+        })
+        .on('right', function(){
+            this.next();
+        })
+        .on('activate', function(cursor){
+            assert.equal(cursor.position, 2, 'activated position is ok');
+            assert.equal(cursor.navigable.getElement().data('id'), 'C', 'navigable element in cursor is correct');
+
+            assert.equal($textarea.length, 1, 'The textarea element exists');
+
+            this.on('blur', function(){
+                assert.ok(false, 'Hitting the space key should not blur the active element');
+            });
+
+            $textarea.simulate('keydown', {keyCode: 32});//space-> should not blur
+            $textarea.simulate('keyup', {keyCode: 32});//space
+
+            setTimeout(function(){
+                QUnit.start();
+            }, 10);
+        });
+
+        navigator.focus();
+        assert.equal($(document.activeElement).data('id'), 'A', 'focus on first');
+
+        $(document.activeElement).simulate('keydown', {keyCode: 39});//right
+        assert.equal($(document.activeElement).data('id'), 'B', 'focus on second');
+
+        $(document.activeElement).simulate('keydown', {keyCode: 39});//right
+        assert.equal($(document.activeElement).data('id'), 'C', 'focus on third');
+
+        $(document.activeElement).simulate('keyup', {keyCode: 32});//space -> activate
+    });
+
 
     QUnit.module('Group navigable element');
 

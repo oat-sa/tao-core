@@ -428,17 +428,22 @@ define([
                     prevent: true
                 })
                 .add('enter', function(e){
-                    keyNavigator.activate(e.target);
-                }, {
-                    propagate : false,
-                    prevent : true
+                    if($(e.target).is(':text,textarea')){
+                        e.stopPropagation();
+                    } else {
+                        e.preventDefault();
+                        keyNavigator.activate(e.target);
+                    }
                 })
                 .add('up down left right', function(e, key){
-                    if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
-                        //prevent scrolling of parent element
-                        e.preventDefault();
+                    var $target = $(e.target);
+                    if(!$target.is(':text,textarea')){
+                        if( !$target.is('img') && !$target.hasClass('key-navigation-scrollable')){
+                            //prevent scrolling of parent element
+                            e.preventDefault();
+                        }
+                        keyNavigator.trigger(key, e.target);
                     }
-                    keyNavigator.trigger(key, e.target);
                 }, {
                     propagate : false
                 });
@@ -447,9 +452,14 @@ define([
                 //requires a keyup event to make unselecting radio button work with space bar
                 .on('keyup'+_ns, function keyupSpace(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(keyCode === 32){//space bar
-                        e.preventDefault();
-                        keyNavigator.activate(e.target);
+                    if(keyCode === 32){
+                        //if an inner element is an input we let the space work
+                        if(e.target !== this && $(e.target).is(':input')){
+                            e.stopPropagation();
+                        } else {
+                            e.preventDefault();
+                            keyNavigator.activate(e.target);
+                        }
                     }
                 })
                 //listen to blurred navigable element
