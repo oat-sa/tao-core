@@ -410,6 +410,14 @@ define([
             getCursor : function getCursor(){
                 //clone the return cursor to protect this private variable
                 return _.clone(_cursor);
+            },
+
+            /**
+             * Return the array of navigable objects composing the navigator
+             * @returns {Array}
+             */
+            getNavigables : function getNavigables(){
+                return _.clone(navigables);
             }
         });
 
