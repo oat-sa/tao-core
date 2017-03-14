@@ -453,7 +453,7 @@ define([
                     }
                 })
                 //listen to blurred navigable element
-                .on('blur', function blurCurrentCursor(){
+                .on('blur'+_ns, function blurCurrentCursor(){
                     var cursor = keyNavigator.getCursor();
                     if(cursor && cursor.navigable){
                         keyNavigator.trigger('blur', cursor);
