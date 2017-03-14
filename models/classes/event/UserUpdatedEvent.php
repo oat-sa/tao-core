@@ -19,36 +19,20 @@
  */
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Property;
-use core_kernel_classes_Resource;
-use JsonSerializable;
-use oat\oatbox\event\Event;
-
-class UserUpdatedEvent implements Event, JsonSerializable
+class UserUpdatedEvent extends AbstractUserEvent
 {
-
-    /** @var  string */
-    protected $user;
+    /** @var array */
     protected $data;
 
     /**
-     * @param core_kernel_classes_Resource $user
+     * @param string $uri
      * @param array $data
      */
-    public function __construct(core_kernel_classes_Resource $user, array $data)
+    public function __construct($uri, array $data)
     {
-        $this->user = $user;
+        parent::__construct($uri);
+
         $this->data = $data;
-    }
-
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return get_class($this);
     }
 
     /**
@@ -61,7 +45,7 @@ class UserUpdatedEvent implements Event, JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'uri' => $this->user->getUri(),
+            'uri' => $this->uri,
             'data' => $this->data,
         ];
     }

@@ -17,14 +17,11 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\event;
 
-use JsonSerializable;
-use oat\oatbox\event\Event;
-
-abstract class AbstractRoleEvent implements Event, JsonSerializable
+abstract class AbstractRoleEvent extends LoggableEvent
 {
-
     /** @var  string */
     protected $roleUri;
 
@@ -34,16 +31,6 @@ abstract class AbstractRoleEvent implements Event, JsonSerializable
     public function __construct($roleUri)
     {
         $this->roleUri = $roleUri;
-    }
-
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return get_class($this);
     }
 
     /**

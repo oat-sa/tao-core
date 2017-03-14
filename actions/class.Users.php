@@ -321,7 +321,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
                 if ($binder->bind($values)) {
-                    $this->getEventManager()->trigger(new UserUpdatedEvent($user, $values));
+                    $this->getEventManager()->trigger(new UserUpdatedEvent($user->getUri(), $values));
                     $this->setData('message', __('User saved'));
                 }
             }

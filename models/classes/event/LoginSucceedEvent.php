@@ -19,10 +19,7 @@
  */
 namespace oat\tao\model\event;
 
-use JsonSerializable;
-use oat\oatbox\event\Event;
-
-class LoginSucceedEvent implements Event, JsonSerializable
+class LoginSucceedEvent extends LoggableEvent
 {
     private $login = '';
 
@@ -41,15 +38,6 @@ class LoginSucceedEvent implements Event, JsonSerializable
     public function getLogin()
     {
         return $this->login;
-    }
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return __CLASS__;
     }
 
     /**

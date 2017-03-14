@@ -17,47 +17,10 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Resource;
-use JsonSerializable;
-use oat\oatbox\event\Event;
-
-class UserRemovedEvent implements Event, JsonSerializable
+class UserRemovedEvent extends AbstractUserEvent
 {
 
-    /** @var  string */
-    private $userUri;
-
-    /**
-     * @param string $userUri
-     */
-    public function __construct($userUri)
-    {
-        $this->userUri = $userUri;
-    }
-
-
-    /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return get_class($this);
-    }
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'uri' => $this->userUri,
-        ];
-    }
 }
