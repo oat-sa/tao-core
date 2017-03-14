@@ -35,7 +35,16 @@ class LoginResponse extends ResponseAbstract {
     }
     
     public function send() {
-        header(\HTTPToolkit::locationHeader(_url('login', 'Main', 'tao')));
+        $params = [];
+        if ($this->exception instanceof \tao_models_classes_AccessDeniedException) {
+            $params = [
+                'redirect' => $this->exception->getDeniedRequest()->getRequestURI(),
+                'msg' => $this->exception->getUserMessage()
+            ];
+        }
+        /* @var $urlRouteService \oat\tao\model\mvc\DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get('tao/urlroute');
+        header(\HTTPToolkit::locationHeader($urlRouteService->getLoginUrl($params)));
         return;
     }
     

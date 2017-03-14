@@ -59,11 +59,9 @@ abstract class tao_helpers_form_elements_GenerisAsyncFile
     	if ($value instanceof tao_helpers_form_data_UploadFileDescription){
     		// The file is being uploaded.
     		$this->value = $value;
-    	}
-    	else if (common_Utils::isUri($value)){
+    	} elseif (!is_null($value)) {
     		// The file has already been uploaded
-    		$file = new core_kernel_file_File($value);
-    		$this->value = new tao_helpers_form_data_StoredFileDescription($file);
+    		$this->value = new tao_helpers_form_data_StoredFileDescription($value);
     	}
     	else{
     		// Empty file upload description, nothing was uploaded.

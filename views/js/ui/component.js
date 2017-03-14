@@ -29,12 +29,40 @@ define([
     var _slice = [].slice;
 
     /**
+     * Handles the resize of the component regarding the config set
+     */
+    function delegatedResize() {
+        var width = this.config.width;
+        var height = this.config.height;
+        var $container = this.getContainer();
+        var $element = this.getElement();
+
+        if ($container) {
+            if ('auto' === width) {
+                width = $container.width();
+            }
+            if ('auto' === height) {
+                height = $container.height();
+            }
+        }
+
+        if ($element) {
+            if (_.isNumber(width)) {
+                $element.width(width);
+            }
+            if (_.isNumber(height)) {
+                $element.height(height);
+            }
+        }
+    }
+
+    /**
      * Builds a component from a base skeleton
      * @param {Object} [specs] - Some extra methods to assign to the component instance
      * @param {Object} [defaults] - Some default config entries
      * @returns {component}
      */
-    var component = function component(specs, defaults) {
+    function component(specs, defaults) {
 
         // the template is a private property
         var componentTpl = defaultTpl;
@@ -46,25 +74,28 @@ define([
         var $container;
 
         // base skeleton
+        /**
+         * @typedef {Object} Component
+         */
         var componentApi = {
             /**
              * Initializes the component
              * @param {Object} config
              * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
              * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
+             * @param {Number|String} [config.width] - The width in pixels, or 'auto' to use the container's width
+             * @param {Number|String} [config.height] - The height in pixels, or 'auto' to use the container's height
              * @returns {component}
              * @fires component#init
              */
             init : function init(config) {
-                var self = this;
-
                 this.config = _(config || {})
-                                .omit(function(value){
-                                    return value === null || value === undefined;
-                                })
-                                .defaults(defaults || {})
-                                .value();
-                            
+                    .omit(function(value){
+                        return value === null || value === undefined;
+                    })
+                    .defaults(defaults || {})
+                    .value();
+
                 componentState = {};
 
                 /**
@@ -124,12 +155,40 @@ define([
 
                 this.setState('rendered', true);
 
+                delegatedResize.call(this);
+
                 /**
                  * Executes extra render tasks
                  * @event component#render
                  * @param {jQuery} $component
                  */
                 this.trigger('render', this.$component);
+
+                return this;
+            },
+
+            /**
+             * Sets the component's size
+             * @param {Number|String} width - The width in pixels, or 'auto' to use the container's width
+             * @param {Number|String} height - The height in pixels, or 'auto' to use the container's height
+             * @returns {component}
+             * @fires component#setsize
+             */
+            setSize: function setSize(width, height) {
+                this.config.width = width;
+                this.config.height = height;
+
+                if (this.is('rendered')) {
+                    delegatedResize.call(this);
+                }
+
+                /**
+                 * Executes extra resize tasks
+                 * @event component#setsize
+                 * @param {Number|String} width
+                 * @param {Number|String} height
+                 */
+                this.trigger('setsize', width, height);
 
                 return this;
             },
@@ -297,7 +356,7 @@ define([
         }
 
         return eventifier(componentApi);
-    };
+    }
 
     return component;
 });

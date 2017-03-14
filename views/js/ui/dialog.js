@@ -31,8 +31,11 @@ define([
     'i18n',
     'tpl!ui/dialog/tpl/body',
     'tpl!ui/dialog/tpl/buttons',
+    'ui/keyNavigation/navigator',
+    'ui/keyNavigation/navigableDomElement',
+    'util/shortcut/registry',
     'ui/modal'
-], function ($, _, __, bodyTpl, buttonsTpl) {
+], function ($, _, __, bodyTpl, buttonsTpl, keyNavigator, navigableDomElement, shortcutRegistry) {
     'use strict';
 
     /**
@@ -113,6 +116,8 @@ define([
          * @param {String|jQuery|HTMLElement} options.renderTo - A container in which renders the dialog (default: 'body').
          * @param {Boolean} options.autoRender - Allow the dialog to be immediately rendered after initialise.
          * @param {Boolean} options.autoDestroy - Allow the dialog to be immediately destroyed when closing.
+         * @param {Boolean} [options.disableClosing = false] - to disable the default closers
+         * @param {Boolean} [options.disableEscape = false] - to disable the ability to escape close the dialog
          * @param {Number} options.width - The dialog box width in pixels (default: 500).
          * @param {Number|Boolean} options.animate - The dialog box animate duration (default: false).
          * @param {Function} options.onXYZbtn - An event handler assigned to a particular button (XYZ).
@@ -344,8 +349,8 @@ define([
          * @param {Event} event
          * @private
          */
-        _onButtonClick : function(event) {
-            var $btn = $(event.target);
+        _onButtonClick : function _onButtonClick(event) {
+            var $btn = $(event.target).closest('button');
             var id = $btn.data('control');
             var btn = this.buttons[id];
 
@@ -360,7 +365,7 @@ define([
          * @private
          * @fires dialog#[button.id]btn.modal
          */
-        _execute : function(btn) {
+        _execute : function _execute(btn) {
             // call the optional callback
             if (btn.action) {
                 btn.action.apply(this, [btn, this]);
@@ -379,39 +384,72 @@ define([
             }
         },
 
-        _setFocusOnModal: function _setFocusOnModal(){
-            var $btnOk, $btn;
-            // default OK button (for enter key)
-            $btnOk = $('button.ok', this.$buttons);
-            if ($btnOk.length) {
-                $btnOk.focus();
-            } else {
-                // other button
-                $btn = $('button', this.$buttons).first();
-                if ($btn.length) {
-                    $btn.focus();
-                }
-            }
+        /**
+         * Set focus on the dialog
+         */
+        focus : function focus(){
+            this.navigator.focus();
         },
-        
+
         /**
          * Installs the dialog box
          * @private
          */
-        _install : function() {
+        _install : function _install() {
+            var self = this, $buttons;
+
+            if(!this.destroyed){
+                $buttons = this.$buttons.find('button');
+
+                //creates the navigator to manage the key navigation
+                this.navigator = keyNavigator({
+                    elements : navigableDomElement.createFromDoms($buttons)
+                }).on('right down', function(){
+                    this.next();
+                }).on('left up', function(){
+                    this.previous();
+                }).on('tab', function(){
+                    if(this.getCursor().position === $buttons.length -1){
+                        this.first();
+                    }else{
+                        this.next();
+                    }
+                }).on('shift+tab', function(){
+                    if(this.getCursor().position === 0){
+                        this.last();
+                    }else{
+                        this.previous();
+                    }
+                }).on('activate', function(cursor){
+                    cursor.navigable.getElement().click();
+                });
+
+                //added a global shortcut to enable setting focus on tab
+                this.globalShortcut = shortcutRegistry($('body'))
+                    .add('tab shift+tab', function(){
+                        if(!self.navigator.isFocused()){
+                            self.navigator.focus();
+                        }
+                    });
+            }
+
             this.$html.modal({
                 width: this.width,
-                animate: this.animate
+                animate: this.animate,
+                disableClosing: this.disableClosing,
+                disableEscape: this.disableEscape
+            }).on('closed' + _scope, function() {
+                if (self.autoDestroy) {
+                    self.destroy();
+                }
             });
-            
-            this._setFocusOnModal();
         },
 
         /**
          * Opens the dialog box
          * @private
          */
-        _open : function() {
+        _open : function _open() {
             this.$html.modal('open');
         },
 
@@ -419,7 +457,7 @@ define([
          * Closes the dialog box
          * @private
          */
-        _close : function() {
+        _close : function _close() {
             this.$html.modal('close');
         },
 
@@ -427,8 +465,14 @@ define([
          * Destroys the dialog box
          * @private
          */
-        _destroy : function() {
+        _destroy : function _destroy() {
             this.$html.modal('destroy');
+            if(this.navigator){
+                this.navigator.destroy();
+            }
+            if(this.globalShortcut){
+                this.globalShortcut.clear();
+            }
         }
     };
 

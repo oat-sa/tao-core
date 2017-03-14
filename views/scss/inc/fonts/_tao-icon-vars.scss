@@ -18,20 +18,23 @@
                                 <*_/   <*/
                                  
 @mixin tao-icon-setup {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'tao' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'tao' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-eliminate { content: "\e904"; }
+@mixin icon-wheelchair { content: "\e903"; }
+@mixin icon-text-marker { content: "\e902"; }
 @mixin icon-unshield { content: "\e32a"; }
 @mixin icon-shield { content: "\e8e8"; }
 @mixin icon-tree { content: "\e6b4"; }
@@ -223,3 +226,6 @@
 @mixin icon-reload { content: "\e984"; }
 @mixin icon-speed { content: "\e9a6"; }
 @mixin icon-volume { content: "\ea27"; }
+@mixin icon-contrast { content: "\e9d5"; }
+@mixin icon-compress { content: "\f066"; }
+@mixin icon-map-o { content: "\f278"; }

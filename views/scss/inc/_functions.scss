@@ -229,8 +229,14 @@ Usage:
     @include vendor-prefix($animation, $value, property);
 }
 
+/// CSS transition mixin to the current selection (apply also vendor prefixes).
+/// See <https://developer.mozilla.org/en-US/docs/Web/CSS/transition> for the values
+///
+/// @param {property} [$type = all] the CSS property to apply the transition to
+/// @param {time} [$duration = .5s] the transition property
+/// @param {timing-function} [$effect = ease-out] the transition property
 @mixin transition($type : all, $duration : 0.5s, $effect : ease-out){
-    @include vendor-prefix($type, $duration, $effect);
+    @include vendor-prefix(transition, $type + ', ' + $duration + ', ' + $effect, property);
 }
 
 @mixin fade($duration: 1s){

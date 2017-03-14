@@ -18,6 +18,9 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-eliminate:before { @include icon-eliminate; }
+.icon-wheelchair:before { @include icon-wheelchair; }
+.icon-text-marker:before { @include icon-text-marker; }
 .icon-unshield:before { @include icon-unshield; }
 .icon-shield:before { @include icon-shield; }
 .icon-tree:before { @include icon-tree; }
@@ -209,3 +212,6 @@
 .icon-reload:before { @include icon-reload; }
 .icon-speed:before { @include icon-speed; }
 .icon-volume:before { @include icon-volume; }
+.icon-contrast:before { @include icon-contrast; }
+.icon-compress:before { @include icon-compress; }
+.icon-map-o:before { @include icon-map-o; }

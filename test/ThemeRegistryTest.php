@@ -133,60 +133,6 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertEquals('taoAccess/theme/A.tpl', $superAccessTheme['templates']['tplA']);
         
     }
-
-    public function testGetAvailableTheme(){
-        ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->createTarget('testsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', array('itemsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', array('itemsTest', 'testsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('blackAndWhite', 'Black and White', ThemeRegistry::WEBSOURCE.'test', array('itemsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('blackRedWhite', 'Black, Red and White', 'blackRedWhite', array('itemsTest'));
-        ThemeRegistry::getRegistry()->unregisterTheme('blackRedWhite');
-
-        $themes = ThemeRegistry::getRegistry()->getAvailableThemes();
-
-        $this->assertInternalType('array', $themes);
-        $this->assertArrayNotHasKey(ThemeRegistry::WEBSOURCE, $themes);
-        $this->assertArrayHasKey('itemsTest', $themes);
-        $this->assertArrayHasKey('testsTest', $themes);
-        $this->assertEquals(ROOT_URL.'base', $themes['itemsTest']['base']);
-        $this->assertEquals(ROOT_URL.'base', $themes['testsTest']['base']);
-        $this->assertArrayHasKey('available', $themes['itemsTest']);
-        $this->assertArrayHasKey('available', $themes['testsTest']);
-
-        $websource = WebsourceManager::singleton()->getWebsource(ThemeRegistry::getRegistry()->get(ThemeRegistry::WEBSOURCE));
-        $expected_themes = array(// id => (path_type, path)
-            'itemsTest' => array(
-                'blackOnLightMagenta' => array('type' => 'simple', 'path' => 'blackOnLightMagenta'),
-                'lightBlueOnDarkBlue' => array('type' => 'simple', 'path' => 'lightBlueOnDarkBlue'),
-                'blackAndWhite'       => array('type' => 'websource', 'path' => $websource->getAccessUrl('test')),
-            ),
-            'testsTest' => array(
-                'lightBlueOnDarkBlue' => array('type' => 'simple', 'path' => 'lightBlueOnDarkBlue')
-            )
-        );
-
-        foreach ($themes as $targetId => $target) {
-            if( !array_key_exists($targetId, $expected_themes) ){
-                continue; //default themes
-            }
-
-            $this->assertEquals(count($expected_themes[$targetId]), count($target['available']) );
-
-            foreach ($target['available'] as $theme) {
-                $this->assertArrayHasKey($theme['id'], $expected_themes[$targetId]);
-
-                $path = $expected_themes[$targetId][$theme['id']]['path'];
-                //add base path if simple
-                if( $expected_themes[$targetId][$theme['id']]['type'] == 'simple' ){
-                    $path = ROOT_URL.$path;
-                }
-
-                $this->assertEquals($theme['path'], $path);
-            }
-        }
-
-    }
     
     public function testGetTemplate(){
         
@@ -196,15 +142,6 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
         $this->assertNotEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplA'));
         $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplB'));
         $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccessNoTpl', 'tplA'));
-    }
-    
-    public function testGetStylesheet(){
-        
-        ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', 'my/path/to/style.css', array('itemsTest'));
-        ThemeRegistry::getRegistry()->registerTheme('superAccessNoCss', 'super accessibility theme without tpl', '', array('itemsTest'));
-        $this->assertEquals(ROOT_URL. 'my/path/to/style.css', ThemeRegistry::getRegistry()->getStylesheet('itemsTest', 'superAccess'));
-        $this->assertEmpty(ThemeRegistry::getRegistry()->getStylesheet('itemsTest', 'superAccessNoCss'));
     }
         
     public function testUnregisterTheme()

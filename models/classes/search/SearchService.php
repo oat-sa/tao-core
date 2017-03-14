@@ -21,6 +21,7 @@
 namespace oat\tao\model\search;
 
 use oat\tao\model\menu\MenuService;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Search service
@@ -36,14 +37,7 @@ class SearchService
      */
     static public function getSearchImplementation() 
     {
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $impl = $ext->getConfig(self::CONFIG_KEY);
-        
-        if ($impl === false || !$impl instanceof Search) {
-            throw new \common_exception_Error('No valid Search implementation found');
-        }
-        
-        return $impl;
+        return ServiceManager::getServiceManager()->get(Search::SERVICE_ID);
     }
 
     /**
@@ -53,8 +47,7 @@ class SearchService
      */
     static public function setSearchImplementation(Search $impl) 
     {
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $ext->setConfig(self::CONFIG_KEY, $impl);
+        return ServiceManager::getServiceManager()->register(Search::SERVICE_ID, $impl);
     }
     
     /**
@@ -65,7 +58,7 @@ class SearchService
     static public function runIndexing() 
     {
         $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
-        return self::getSearchImplementation()->index($iterator);
+        return self::getSearchImplementation()->fullReIndex($iterator);
     }
     
     /**

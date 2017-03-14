@@ -51,7 +51,8 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
          * @param {Object} [options] - plugin options
          * @param {String} [options.modalClose = 'modal-close'] - the css class for the modal closer
          * @param {String} [options.modalOverlay = 'modal-bg'] - the css class for the modal overlay element
-         * @param {Boolean} [options .disableClosing = false] - to disable the default closers
+         * @param {Boolean} [options.disableClosing = false] - to disable the default closers
+         * @param {Boolean} [options.disableEscape = false] - to disable the ability to escape close the dialog
          * @param {String|Number|Boolean}  [options.width = 'responsive'] - the width behavior, responsive or a fixed value, or default if false
          * @param {Number}  [options.minWidth = 0] - the minimum width of the modal
          * @param {Number}  [options.minHeight = 0] - the minimum height of the modal
@@ -154,20 +155,22 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 if (!options.disableClosing) {
                     $('.' + options.modalCloseClass, $element).on('click.' + pluginName, function (e) {
                         e.preventDefault();
-                        modal._close($element);
+                        closeModal($element, 'close');
                     });
 
                     $('#' + options.modalOverlay).on('click.' + pluginName, function (e) {
                         e.preventDefault();
-                        modal._close($element);
+                        closeModal($element, 'overlay');
                     });
 
-                    $(document).on('keydown.' + pluginName, function (e) {
-                        if (e.keyCode === 27) {
-                            e.preventDefault();
-                            modal._close($element);
-                        }
-                    });
+                    if (!options.disableEscape) {
+                        $(document).on('keydown.' + pluginName, function (e) {
+                            if (e.keyCode === 27) {
+                                e.preventDefault();
+                                closeModal($element, 'escape');
+                            }
+                        });
+                    }
                 }
             }
         },
@@ -253,29 +256,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
          * @fires modal#closed.modal
          */
         _close: function ($element) {
-            var options = $element.data(dataNs);
-            var $overlay = $('#' + options.modalOverlay);
-            var onClose = function() {
-                $element.removeClass('opened');
-                $element.css('display', 'none');
-
-                /**
-                 * The target has been closed/removed.
-                 * @event modal#closed.modal
-                 */
-                $element.trigger('closed.' + pluginName);
-            };
-
-            modal._unBindEvents($element);
-
-            if (options.animate && $element.is(':visible')){
-                $overlay.fadeOut(options.animate - animateDiff);
-                $element.animate({'opacity': '0', 'top': '-1000px'}, options.animate, onClose);
-            } else {
-                $overlay.hide();
-                $element.hide();
-                onClose();
-            }
+            closeModal($element, 'api');
         },
 
         /**
@@ -300,6 +281,39 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
             $element.css(css);
         }
     };
+
+    /**
+     * Close the modal dialog
+     * @param {jQuery} $element
+     * @param {String} reason The reason to close the modal: 'api', 'overlay', 'close', 'escape'
+     * @fires modal#closed.modal
+     */
+    function closeModal($element, reason) {
+        var options = $element.data(dataNs);
+        var $overlay = $('#' + options.modalOverlay);
+        var onClose = function() {
+            $element.removeClass('opened');
+            $element.css('display', 'none');
+
+            /**
+             * The target has been closed/removed.
+             * @event modal#closed.modal
+             * @param {String} reason The reason to close the modal: 'api', 'overlay', 'close', 'escape'
+             */
+            $element.trigger('closed.' + pluginName, reason);
+        };
+
+        modal._unBindEvents($element);
+
+        if (options.animate && $element.is(':visible')){
+            $overlay.fadeOut(options.animate - animateDiff);
+            $element.animate({'opacity': '0', 'top': '-1000px'}, options.animate, onClose);
+        } else {
+            $overlay.hide();
+            $element.hide();
+            onClose();
+        }
+    }
 
 
     //Register the modal to behave as a jQuery plugin.

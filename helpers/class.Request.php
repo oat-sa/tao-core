@@ -71,7 +71,12 @@ class tao_helpers_Request
         if (substr($absPath, 0, strlen($rootUrlPath)) != $rootUrlPath ) {
             throw new ResolverException('Request Uri '.$url.' outside of TAO path '.ROOT_URL);
         }
-        return substr($absPath, strlen($rootUrlPath));
+        if ($absPath === $rootUrlPath) {
+            $result = '';
+        } else {
+            $result = substr($absPath, strlen($rootUrlPath));
+        }
+        return $result;
     }
     
 

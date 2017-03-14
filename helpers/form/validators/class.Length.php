@@ -20,34 +20,27 @@
  */
 
 /**
- * Short description of class tao_helpers_form_validators_Length
+ * Validate string lenght
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
  */
 class tao_helpers_form_validators_Length
     extends tao_helpers_form_Validator
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
     public function setOptions(array $options)
     {
         parent::setOptions($options);
-
-        if( isset($this->options['min']) && isset($this->options['max']) ){
-            $this->setMessage(__('Invalid field length')." (minimum ".$this->options['min'].", maximum ".$this->options['max'].")");
+        
+        if($this->hasOption('min') && $this->hasOption('max')){
+            $this->setMessage(__('Invalid field length')." (minimum ".$this->getOption('min').", maximum ".$this->getOption('max').")");
         }
-        else if( isset($this->options['min']) && !isset($this->options['max']) ){
-            $this->setMessage(__('This field is too short')." (minimum ".$this->options['min'].")");
+        else if($this->hasOption('min') && !$this->hasOption('max')){
+            $this->setMessage(__('This field is too short')." (minimum ".$this->getOption('min').")");
         }
-        else if( !isset($this->options['min']) && isset($this->options['max']) ){
-            $this->setMessage(__('This field is too long')." (maximum ".$this->options['max'].")");
+        else if(!$this->hasOption('min') && $this->hasOption('max')){
+            $this->setMessage(__('This field is too long')." (maximum ".$this->getOption('max').")");
         }
         else{
             throw new Exception("Please set 'min' and/or 'max' options!");
@@ -72,15 +65,15 @@ class tao_helpers_form_validators_Length
         
 		$values = is_array($values) ? $values : array($values);
 		foreach ($values as $value) {
-			if (isset($this->options['min']) && mb_strlen($value) < $this->options['min']) {
-				if (isset($this->options['allowEmpty']) &&  $this->options['allowEmpty'] && empty($value)) {
+			if ($this->hasOption('min') && mb_strlen($value) < $this->getOption('min')) {
+				if ($this->hasOption('allowEmpty') &&  $this->getOption('allowEmpty') && empty($value)) {
 					continue;
 				} else {
 					$returnValue = false;
 					break;
 				}
 			}
-			if (isset($this->options['max']) && mb_strlen($value) > $this->options['max']) {
+			if ($this->hasOption('max') && mb_strlen($value) > $this->getOption('max')) {
 				$returnValue = false;
 				break;
 			}
@@ -91,5 +84,3 @@ class tao_helpers_form_validators_Length
     }
 
 }
-
-?>

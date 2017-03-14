@@ -10,7 +10,7 @@
     "rules": {
         "consistent-this":      ["error", "self"],
         "eqeqeq":               ["error", "smart"],
-        "indent":               ["warn", 4],
+        "indent":               ["warn", 4, { "SwitchCase": 1 }],
         "linebreak-style":      ["error", "unix"],
         "no-alert":             ["error"],
         "no-caller":            ["error"],
@@ -19,7 +19,7 @@
         "no-eval":              ["error"],
         "no-extend-native":     ["error"],
         "no-extra-bind":        ["error"],
-        "no-implicit-globals":   ["error"],
+        "no-implicit-globals":  ["error"],
         "no-implied-eval":      ["error"],
         "no-lone-blocks":       ["error"],
         "no-new-func":          ["error"],
@@ -30,7 +30,7 @@
         "no-trailing-spaces":   ["error"],
         "no-undefined":         ["error"],
         "no-use-before-define": ["error", { "functions": false }],
-        "semi":                 ["error","always"],
+        "semi":                 ["error", "always"],
         "strict":               ["error", "function"],
         "vars-on-top":          ["error"]
     }

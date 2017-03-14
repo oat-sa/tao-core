@@ -21,8 +21,10 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\accessControl\AclProxy;
 
 /**
  * Top level controller
@@ -48,6 +50,21 @@ abstract class tao_actions_CommonModule extends Module
      */
     public function __construct()
     {
+    }
+
+    /**
+     * Whenever or not the current user has access to a specific action
+     * using functional and data access control
+     *
+     * @param string $controllerClass
+     * @param string $action
+     * @param array $parameters
+     * @return boolean
+     */
+    public function hasAccess($controllerClass, $action, $parameters = [])
+    {
+        $user = common_session_SessionManager::getSession()->getUser();
+        return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
     }
 
     /**
@@ -149,18 +166,11 @@ abstract class tao_actions_CommonModule extends Module
     /**
      * Helps you to add the URL of the client side config file
      * 
-     * @param array $extraParameters additionnal parameters to append to the URL 
+     * @param array $extraParameters additional parameters to append to the URL
      * @return string the URL
      */
-    protected function getClientConfigUrl($extraParameters = array()){
-        $context = Context::getInstance();
-        $clientConfigParams = array(
-            'extension'         => $context->getExtensionName(),
-            'module'            => $context->getModuleName(),
-            'action'            => $context->getActionName()
-        );
-        
-        return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParams, $extraParameters));
+    protected function getClientConfigUrl($extraParameters = []){
+        return JavaScript::getClientConfigUrl($extraParameters);
     }
 
 

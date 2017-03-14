@@ -8,11 +8,12 @@ define([
     'context',
     'core/store',
     'layout/actions',
+    'layout/section',
     'ui/feedback',
     'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, actionManager, feedback, uri){
+], function($, _, __, context, store, actionManager, sectionManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -64,7 +65,7 @@ define([
          * @private
          */
         var setUpTree  = function setUpTree(){
-
+            var treeSectionId = context.section;
             //try to load the action instance from the options
             options.actions = _.transform(options.actions, function(result, value, key){
                 if(value && value.length){
@@ -90,6 +91,11 @@ define([
                         }
                         //create the tree
                         $elt.tree(treeOptions);
+                        sectionManager.on('show.section', function (section) {
+                            if (treeSectionId === section.id) {
+                                $elt.trigger('refresh.taotree');
+                            }
+                        });
                     });
                 });
             }
@@ -222,13 +228,18 @@ define([
                     var treeState       = $elt.data('tree-state') || {};
                     var selectNode      = treeState.selectNode || options.selectNode;
                     var nodeSelection   = function nodeSelection(){
+
                         //the node to select is given
                         if(selectNode){
                              $selectNode = $('#' + selectNode, $elt);
                              if($selectNode.length && !$selectNode.hasClass('private')){
                                 return tree.select_branch($selectNode);
                              }
+                        } else if(tree.selected !== undefined) {//after refreshing tree previously node will be already selected.
+                             return tree.selected;
                         }
+
+                        //if selectNode was not given and there is no selected node on the tree then try to find node to select:
 
                         //try to select the last one
                         if(lastSelected){
@@ -238,7 +249,6 @@ define([
                                 return tree.select_branch($lastSelected);
                             }
                         }
-
                         //or the 1st instance
                         if ($firstInstance.length) {
                             return tree.select_branch($firstInstance);
@@ -419,14 +429,15 @@ define([
                     //update the state with data to be used later (ie. filter value, etc.)
                     treeState = _.merge($elt.data('tree-state') || {}, data);
 
-
-
-
                     if (data && data.loadNode) {
                         tree.deselect_branch(tree.selected);
                         tree.settings.selected = false;
                         treeState.selectNode = data.loadNode;
+                    } else if (data && data.selectNode) { //node will be selected in `onload` function
+                        tree.deselect_branch(tree.selected);
+                        tree.settings.selected = false;
                     }
+
                     $elt.data('tree-state', treeState);
                     tree.refresh();
                 }

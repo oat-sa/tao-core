@@ -1,0 +1,23 @@
+.splash-modal-large {
+
+    .modal-title {
+        margin-top: 0;
+        padding-bottom: 30px;
+    }
+    .modal-content {
+        max-height: calc(100vh - 350px);
+        overflow-y: auto;
+        padding-right: 20px;
+       .highlighted {
+          text-decoration:underline;
+       }
+    }
+    .modal-footer {
+        margin-top: 30px;
+        button {
+            float: right;
+            display: inline-block;
+        }
+    }
+
+}

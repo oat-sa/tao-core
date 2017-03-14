@@ -34,18 +34,10 @@ class RestExceptionHandler
 		switch (get_class($exception)) {
 
 			case \common_exception_BadRequest::class:
-				header("HTTP/1.0 400 Bad Request");
-				break;
-
 			case \common_exception_MissingParameter::class:
-				header("HTTP/1.0 400 Bad Request");
-				break;
-
 			case \common_exception_InvalidArgumentType::class:
-				header("HTTP/1.0 400 Bad Request");
-				break;
-                            
 			case \common_exception_InconsistentData::class:
+			case \common_exception_ValidationFailed::class:
 				header("HTTP/1.0 400 Bad Request");
 				break;
 
@@ -57,8 +49,8 @@ class RestExceptionHandler
 				header("HTTP/1.0 404 Not Found");
 				break;
 
-			case "common_exception_MethodNotAllowed":
-				header("HTTP/1.0 405 Not Found");
+            case \common_exception_MethodNotAllowed::class:
+				header("HTTP/1.0 405 Method Not Allowed");
 				break;
 
 			case \common_exception_NotAcceptable::class:

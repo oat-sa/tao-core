@@ -47,7 +47,7 @@ define([
 
     /**
      * Builds an instance of the bulkActionPopup component
-     * 
+     *
      * @param {Object} config
      * @param {jQuery} config.renderTo - the jQuery container it should be rendered to
      * @param {String} config.actionName - the action name (use in the title text)
@@ -74,16 +74,16 @@ define([
             reasonRequired: false,
             resourceCount : config.allowedResources.length,
             single : (config.allowedResources.length === 1),
+            singleDenied : (config.deniedResources && config.deniedResources.length === 1),
             resourceTypes : config.resourceType + 's'
         });
-        
+
         var checkRequiredFields = function checkRequiredFields($container) {
-            
             return $("select, textarea", $container).filter(function () {
                     return $.trim($(this).val()).length === 0;
                 }).length === 0;
         };
-        
+
         return component()
             .setTemplate(layoutTpl)
 
@@ -114,14 +114,14 @@ define([
                     state.comment = $(this).val();
                     self.trigger('change', state);
                 }).on('click', '.actions .done', function(e){
-                    
+
                     $('.feedback-error', $element).remove();
                     if (!checkRequiredFields($element)) {
                         var error = $('<div class="feedback-error small"></div>').text(__('All fields are required'));
                         $element.find('.actions').prepend(error);
                         return;
                     }
-                    
+
                     self.trigger('ok', state);
                     self.destroy();
                 }).on('click', '.actions .cancel', function(e){

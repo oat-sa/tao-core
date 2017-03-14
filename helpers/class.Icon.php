@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2016-06-27 13:38:45
+ * @date   2017-02-07 14:34:30
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,9 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_ELIMINATE = 'icon-eliminate';
+    const CLASS_WHEELCHAIR = 'icon-wheelchair';
+    const CLASS_TEXT_MARKER = 'icon-text-marker';
     const CLASS_UNSHIELD = 'icon-unshield';
     const CLASS_SHIELD = 'icon-shield';
     const CLASS_TREE = 'icon-tree';
@@ -266,11 +269,26 @@ class tao_helpers_Icon {
     const CLASS_RELOAD = 'icon-reload';
     const CLASS_SPEED = 'icon-speed';
     const CLASS_VOLUME = 'icon-volume';
+    const CLASS_CONTRAST = 'icon-contrast';
+    const CLASS_COMPRESS = 'icon-compress';
+    const CLASS_MAP_O = 'icon-map-o';
 
 	
     /**
      * List of all icons as function
      */
+
+    public static function iconEliminate($options=array()){
+        return self::buildIcon(self::CLASS_ELIMINATE, $options);
+    }
+
+    public static function iconWheelchair($options=array()){
+        return self::buildIcon(self::CLASS_WHEELCHAIR, $options);
+    }
+
+    public static function iconTextMarker($options=array()){
+        return self::buildIcon(self::CLASS_TEXT_MARKER, $options);
+    }
 
     public static function iconUnshield($options=array()){
         return self::buildIcon(self::CLASS_UNSHIELD, $options);
@@ -1034,6 +1052,18 @@ class tao_helpers_Icon {
 
     public static function iconVolume($options=array()){
         return self::buildIcon(self::CLASS_VOLUME, $options);
+    }
+
+    public static function iconContrast($options=array()){
+        return self::buildIcon(self::CLASS_CONTRAST, $options);
+    }
+
+    public static function iconCompress($options=array()){
+        return self::buildIcon(self::CLASS_COMPRESS, $options);
+    }
+
+    public static function iconMapO($options=array()){
+        return self::buildIcon(self::CLASS_MAP_O, $options);
     }
 
 

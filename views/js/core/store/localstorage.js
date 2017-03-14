@@ -21,14 +21,26 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash', 'core/promise'], function(_, Promise){
+define([
+    'lodash',
+    'core/promise',
+    'lib/uuid'
+], function(_, Promise, uuid){
     'use strict';
 
     /**
      * Prefix all databases
+     * @type {String}
      */
     var prefix = 'tao-store-';
+
+    /**
+     * Alias to the Storage API
+     * @type {Storage}
+     */
     var storage = window.localStorage;
+
+    var idStoreName = 'id';
 
     /**
      * Open and access a store
@@ -112,7 +124,6 @@ define(['lodash', 'core/promise'], function(_, Promise){
             clear : function clear(){
                 var keyPattern = new RegExp('^' + name);
                 return new Promise(function(resolve, reject){
-                    var i;
                     try{
                         _(storage)
                             .map(function(entry, index){
@@ -129,8 +140,70 @@ define(['lodash', 'core/promise'], function(_, Promise){
                         reject(ex);
                     }
                 });
+            },
+
+            /**
+             * Delete the database related to the current store
+             * @returns {Promise} with true in resolve once cleared
+             */
+            removeStore : function removeStore() {
+                return this.clear();
             }
         };
+    };
+
+    /**
+     * Removes all storage
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    localStorageBackend.removeAll = function removeAll(validate) {
+        var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        return new Promise(function (resolve, reject) {
+            try {
+                _(storage)
+                    .map(function(entry, index){
+                        return storage.key(index);
+                    })
+                    .filter(function(key){
+                        var res = keyPattern.exec(key);
+                        var storeName = res && res[1];
+                        if (storeName) {
+                            return validate ? validate(storeName) : true;
+                        }
+                        return false;
+                    })
+                    .forEach(function(key){
+                        storage.removeItem(key);
+                    });
+                resolve(true);
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    };
+
+    /**
+     * Get the identifier of the storage
+     * @returns {Promise} that resolves with the store identifier
+     */
+    localStorageBackend.getStoreIdentifier = function getStoreIdentifier(){
+        var idStore = localStorageBackend(idStoreName);
+
+        //we use the storeName also as the id
+        return idStore.getItem(idStoreName).then(function(id){
+            if(!_.isEmpty(id)){
+                return id;
+            }
+            id = uuid();
+
+            return idStore.setItem(idStoreName, id).then(function(){
+                return id;
+            });
+        });
     };
 
     return localStorageBackend;

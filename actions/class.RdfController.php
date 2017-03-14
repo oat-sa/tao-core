@@ -295,7 +295,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	     
 	    //then compute ACL for each node of the tree
 	    $treeKeys = array_keys($tree);
-	    if (is_int($treeKeys[0])) {
+	    if (isset($treeKeys[0]) && is_int($treeKeys[0])) {
 	        foreach ($tree as $index => $treeNode) {
 	            $tree[$index] = $this->computePermissions($actions, $user, $treeNode);
 	        }
@@ -508,7 +508,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	    $response = array();	
 		if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
             $instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-            $clazz = $this->getClassService()->getClass($instance);
+            $types = $instance->getTypes();
+            $clazz = reset($types);
 			$destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
 
 			if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){

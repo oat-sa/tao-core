@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Combobox
@@ -25,18 +26,11 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-class tao_helpers_form_elements_xhtml_Combobox
-    extends tao_helpers_form_elements_Combobox
+class tao_helpers_form_elements_xhtml_Combobox extends tao_helpers_form_elements_Combobox
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
+    use XhtmlRenderingTrait;
+        
     /**
      * Short description of method render
      *
@@ -46,39 +40,24 @@ class tao_helpers_form_elements_xhtml_Combobox
      */
     public function render()
     {
-        $returnValue = (string) '';
-
+        $returnValue = $this->renderLabel();
         
-
-		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		$returnValue .= "<select name='{$this->name}' id='{$this->name}' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= ">";
-		if(!empty($this->emptyOption)){
-			$this->options = array_merge(
-				array(' ' => $this->emptyOption),
-				$this->options
-			);
-		}
-		foreach($this->options as $optionId => $optionLabel){
-			 $returnValue .= "<option value='{$optionId}' ";
-			 if($this->value === $optionId){
-			 	$returnValue .= " selected='selected' ";
-			 }
-			 $returnValue .= ">"._dh($optionLabel)."</option>";
-		}
-		$returnValue .= "</select>";
-		
+        $returnValue .= "<select name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= ">";
+        if (! empty($this->emptyOption)) {
+            $this->options = array_merge(array(
+                ' ' => $this->emptyOption), $this->options);
+        }
+        foreach ($this->options as $optionId => $optionLabel) {
+            $returnValue .= "<option value='{$optionId}' ";
+            if ($this->value === $optionId) {
+                $returnValue .= " selected='selected' ";
+            }
+            $returnValue .= ">" . _dh($optionLabel) . "</option>";
+        }
+        $returnValue .= "</select>";
         
-
         return (string) $returnValue;
     }
-
 }
-
-?>

@@ -8,9 +8,11 @@ define([
     'core/mimetype',
     'core/pluginifier',
     'ui/mediaplayer',
-    'iframeNotifier'
+    'iframeNotifier',
+    'ui/documentViewer',
+    'ui/documentViewer/providers/pdfViewer'
 ],
-function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
+function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, documentViewer, pdfViewer) {
     'use strict';
 
     var ns = 'previewer';
@@ -26,14 +28,18 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
      * @type {Object}
      * @private
      */
-    var defaultSize = {
+    var _defaultSize = {
         video : {
-            width : 290,
-            height : 270
+            width : 480,
+            height : 300
         },
         audio : {
             width : 290,
             height : 36
+        },
+        pdf : {
+            width : 340,
+            height : 500
         }
     };
 
@@ -43,7 +49,7 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
         videoTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
         audioTemplate: _.template("<div data-src=${jsonurl} data-type='${mime}'></div>"),
         imageTemplate: _.template("<img src=${jsonurl} alt='${name}' />"),
-        pdfTemplate: _.template("<object data=${jsonurl} type='application/pdf'><a href=${jsonurl} target='_blank'>${name}</a></object>"),
+        pdfTemplate: _.template("<div class='pdfpreview'></div>"),
         flashTemplate: _.template("<object data=${jsonurl} type='application/x-shockwave-flash'><param name='movie' value=${jsonurl}></param></object>"),
         mathmlTemplate: _.template("<iframe src=${jsonurl}></iframe>"),
         xmlTemplate: _.template("<pre>${xml}</pre>"),
@@ -63,6 +69,8 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
             }
         }
     };
+
+    documentViewer.registerProvider('pdf', pdfViewer);
 
     /**
      * @exports ui/previewer
@@ -123,13 +131,20 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
             });
         },
         /**
+         * Set the player
+         * @private
+         */
+        _setPlayer: function($elt, player) {
+            $elt.data('player', player);
+        },
+        /**
          * Uninstalls the player if any
          * @private
          */
-        _clearPlayer: function() {
-            if (previewer.player) {
-                previewer.player.destroy();
-                previewer.player = null;
+        _clearPlayer: function($elt) {
+            if ($elt && $elt.data('player')) {
+                $elt.data('player').destroy();
+                $elt.removeData('player');
             }
         },
         /**
@@ -139,12 +154,12 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
          */
         _update: function($elt) {
             var self = previewer;
+            var player;
             var $content, $controls;
             var options = $elt.data(dataNs);
             var content, type;
 
-            self._clearPlayer();
-
+            self._clearPlayer($elt);
             if (options) {
                 type = options.type || mimeType.getFileType({mime: options.mime, name: options.url});
 
@@ -156,7 +171,7 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                 }
 
                 if (!content) {
-                    content = previewGenerator.placeHolder(_.merge({desc: __('No preview available')}, options));
+                    content = previewGenerator.placeHolder({desc: __('No preview available'), type:options.type||options.mime||''});
                 }
                 $content = $(content);
 
@@ -172,26 +187,27 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                 }
 
                 $elt.empty().html($content);
-                if (type === 'audio' || type === 'video') {
-                    if (options.url) {
-                        self.player = mediaplayer({
-                            url: options.url,
-                            type: options.mime,
-                            renderTo: $content
-                        })
+                if(options.url){
+                    if (type === 'audio' || type === 'video') {
+                        player = mediaplayer({
+                                url: options.url,
+                                type: options.mime,
+                                renderTo: $content
+                            })
                             .on('ready', function() {
-                                var defSize = defaultSize[this.getType()] || defaultSize.video;
+                                var defSize = _defaultSize[this.getType()] || _defaultSize.video;
                                 var width = options.width || defSize.width;
                                 var height = options.height || defSize.height;
                                 this.resize(width, height);
                             });
+                        self._setPlayer($elt, player);
 
                         // stop video and free the socket on escape keypress(modal window hides)
                         $('body')
                             .off('keydown.mediaelement')
                             .on('keydown.mediaelement', function(event) {
                                 if (event.keyCode === 27) {
-                                    self._clearPlayer();
+                                    self._clearPlayer($elt);
                                 }
                             });
 
@@ -203,8 +219,22 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                             event.stopPropagation();
                             if (!$(this).closest('.mediaplayer').length) {
                                 $controls.off('mousedown.mediaelement');
-                                self._clearPlayer();
+                                self._clearPlayer($elt);
                             }
+                        });
+                    }else if(type === 'pdf'){
+                        documentViewer({
+                            renderTo: $content,
+                            replace: true,
+                            width : options.width || _defaultSize.pdf.width,
+                            height : options.height || _defaultSize.pdf.height
+                        }).load(options.url, 'pdf');
+
+                        //if the documenviewer is used within the test runner (the old one)
+                        //we need to inform it the content will change.
+                        //this is an already deperecated feature, but we need backward compat
+                        _.defer(function(){
+                            iframeNotifier.parent('imageloaded');
                         });
                     }
                 }
@@ -216,7 +246,6 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                 $elt.trigger('update.' + ns);
             }
         },
-        player: null,
         /**
          * Destroy completely the plugin.
          *
@@ -225,11 +254,9 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
          * @public
          */
         destroy: function() {
-            previewer._clearPlayer();
-
             this.each(function() {
                 var $elt = $(this);
-
+                previewer._clearPlayer($elt);
                 /**
                  * The plugin has been destroyed.
                  * @event previewer#destroy.previewer

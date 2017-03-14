@@ -47,7 +47,7 @@ class tao_actions_form_AdvancedProperty
     public function initElements()
     {
         
-    	$property = new core_kernel_classes_Property($this->instance->getUri());
+        $property = $this->getPropertyInstance();
     	
     	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
     	

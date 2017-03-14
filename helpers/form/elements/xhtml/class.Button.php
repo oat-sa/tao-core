@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Button
@@ -29,32 +30,31 @@
 class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_Button
 {
 
-    // --- ASSOCIATIONS ---
+    use XhtmlRenderingTrait;
 
     /**
+     *
      * @var string
      */
     protected $icon = '';
 
     /**
+     *
      * @var string
      */
     protected $type = 'button';
 
     /**
+     *
      * @var string
      */
     protected $iconPosition = '';
 
     public function setIcon($icon, $position = 'before')
     {
-        $this->icon         = '<span class="' . $icon . '"></span>';
+        $this->icon = '<span class="' . $icon . '"></span>';
         $this->iconPosition = $position;
     }
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * Short description of method render
@@ -65,49 +65,33 @@ class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_B
      */
     public function render()
     {
-        $returnValue = '';
+        $returnValue = $this->renderLabel();
 
-
-//        foreach($this->attributes as $key => $value){
-//
-//            if($key === 'class' && $value) {
-//
-//            }
-//            $returnValue .= " {$key}='{$value}' ";
-//        }
-
-        /***
-         * this attributes
-         */
-
-        if (!empty($this->description)) {
-            $returnValue .= "<label class='form_desc' for='{$this->name}'>" . _dh($this->getDescription()) . "</label>";
-        }
         $content = _dh($this->value);
-
+        
         if ($this->icon) {
-            $content = $this->iconPosition === 'before'
-                ? $this->icon . ' ' . $content
-                : $content . ' ' . $this->icon;
+            $content = $this->iconPosition === 'before' ? $this->icon . ' ' . $content : $content . ' ' . $this->icon;
         }
-
+        
         $returnValue .= "<button type='{$this->type}' name='{$this->name}' id='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '">' . $content . '</button>';
-
-
+        
         return $returnValue;
     }
 
     /**
      * Sets allowed by html5 buttons type
+     * 
      * @param string $type
      */
-    public function setType( $type )
+    public function setType($type)
     {
-        if (in_array( strtolower( $type ), array( 'button', 'submit', 'reset' ) )) {
+        if (in_array(strtolower($type), array(
+            'button',
+            'submit',
+            'reset'))) {
             $this->type = $type;
         }
     }
-
 }

@@ -145,7 +145,6 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		
 		//login field
 		$loginElement = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
-		$loginElement->setDescription($loginElement->getDescription() . ' *');
 		if($this->options['mode'] === 'add'){
 			$loginElement->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
@@ -166,7 +165,6 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		
 		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_DEFLG));
 		$dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$dataLangElt->setDescription($dataLangElt->getDescription() . ' *');
     	$dataUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
 		$dataOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
@@ -176,7 +174,6 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		
 		$uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-        $uiLangElt->setDescription($uiLangElt->getDescription() . ' *');
     	$guiUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_GUI);
 		$guiOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($guiUsage) as $lang){
@@ -194,7 +191,6 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		asort($rolesOptions);
 								 
 		$rolesElt = $this->form->getElement(tao_helpers_Uri::encode($property->getUri()));
-		$rolesElt->setDescription($rolesElt->getDescription() . ' *');
 		$rolesElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$rolesElt->setOptions($rolesOptions);
 		
@@ -203,7 +199,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		
 		if($this->options['mode'] === 'add'){
 			$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
-			$pass1Element->setDescription(__('Password *'));
+			$pass1Element->setDescription(__('Password'));
 			$pass1Element->addValidator( tao_helpers_form_FormFactory::getValidator( 'NotEmpty' ) );
 			$pass1Element->addValidators( PasswordConstraintsService::singleton()->getValidators() );
 			$pass1Element->setBreakOnFirstError( false );
@@ -211,7 +207,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 			$this->form->addElement($pass1Element);
 			
 			$pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
-			$pass2Element->setDescription(__('Repeat password *'));
+			$pass2Element->setDescription(__('Repeat password'));
 			$pass2Element->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 				tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => $pass1Element)),

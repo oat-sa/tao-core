@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Loading Bar</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <link rel="stylesheet" type="text/css" href="/tao/views/css/tao-main-style.css">
+    <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="/tao/views/js/layout/loading-bar.js"></script>
+
+    <script  type="text/javascript">
+
+        //don't start the test now
+        QUnit.config.autostart = false;
+
+        //load the config
+        require(['/tao/ClientConfig/config'], function(){
+
+            //load the test
+            require(['tao/test/layout/loadingBar/test'], function(){
+
+                //Tests loaded, run tests
+                QUnit.start();
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture">
+</div>
+<div class="loading-bar"></div>
+</body>
+</html>

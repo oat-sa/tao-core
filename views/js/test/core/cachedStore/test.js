@@ -26,7 +26,7 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
 
     QUnit.test('module', function(assert) {
         QUnit.expect(1);
-        
+
         assert.equal(typeof cachedStore, 'function', "The cachedStore module exposes a function");
     });
 
@@ -101,7 +101,7 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
 
 
     QUnit.asyncTest('persistence', function(assert) {
-        QUnit.expect(4);
+        QUnit.expect(6);
 
         var name = 'test3';
         var expectedName = 'foo';
@@ -119,7 +119,16 @@ define(['core/store', 'core/cachedStore'], function(store, cachedStore) {
                     var value = storage2.getItem(expectedName);
                     assert.equal(value, expectedValue, 'The got value is correct');
 
-                    QUnit.start();
+                    storage2.removeStore().then(function() {
+                        cachedStore(name).then(function(storage3) {
+                            assert.equal(typeof storage3, 'object', 'Another instance of the cachedStore accessor has been created');
+
+                            var value = storage3.getItem(expectedName);
+                            assert.equal(typeof value, 'undefined', 'The got value is correct');
+
+                            QUnit.start();
+                        });
+                    });
                 });
             });
         });

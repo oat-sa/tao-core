@@ -308,7 +308,7 @@ class tao_helpers_File
         		$mimetype = '';
         	}
 
-            if (!in_array($ext, array('css', 'ogg'))) {
+            if (!in_array($ext, array('css', 'ogg', 'mp3'))) {
         		if  (file_exists($path)) {
         			if (function_exists('finfo_open')) {
         				$finfo = finfo_open(FILEINFO_MIME);
@@ -441,6 +441,12 @@ class tao_helpers_File
 
         if ($src instanceof \Psr\Http\Message\StreamInterface) {
             if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
+                $done++;
+            }
+        } elseif (is_resource($src)) {
+            fseek($src, 0);
+            $content = stream_get_contents($src);
+            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $content)) {
                 $done++;
             }
         } elseif (is_dir($src)) {

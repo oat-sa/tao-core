@@ -42,7 +42,7 @@ class tao_install_utils_ChecksHelper {
     public static function getConfigChecker($extensionIds)
     {
         $returnValue = new common_configuration_ComponentCollection();
-    
+        $checkArray = array();
         // resolve dependencies
         foreach (self::getRawChecks($extensionIds) as $c){
             $checkArray[] = $c;

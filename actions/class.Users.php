@@ -94,7 +94,10 @@ class tao_actions_Users extends tao_actions_CommonModule
         $order = array_key_exists($sortBy, $fieldsMap) ? $fieldsMap[$sortBy] : $fieldsMap['login'];
 
         // filtering
-        $filters = [];
+        $filters = [
+            PROPERTY_USER_LOGIN => '*',
+        ];
+        
         if ($filterQuery) {
             if (!$filterColumns) {
                 // if filter columns not set, search by all columns
@@ -293,7 +296,8 @@ class tao_actions_Users extends tao_actions_CommonModule
         $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         $this->checkUser($user->getUri());
 
-        $myFormContainer = new tao_actions_form_Users($this->userService->getClass($user), $user);
+        $types = $user->getTypes();
+        $myFormContainer = new tao_actions_form_Users(reset($types), $user);
         $myForm = $myFormContainer->getForm();
 
         if ($myForm->isSubmited()) {

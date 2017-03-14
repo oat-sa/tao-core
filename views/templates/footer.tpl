@@ -14,8 +14,12 @@ use oat\tao\helpers\Template;
     });
 <?php endif; ?>
 <?php if(get_data('reload')): ?>
-    require(['jquery'], function ($) {
-        $('.tree').trigger('refresh.taotree', [{
+    require(['jquery', 'layout/section'], function ($, section) {
+        var $trees;
+        var currentSection = section.current().selected;
+        $trees = (currentSection && currentSection.panel && currentSection.panel.length) ?
+            $('.tree', currentSection.panel) : $('.tree:visible');
+        $trees.trigger('refresh.taotree', [{
             selectNode : <?=json_encode(get_data('selectNode'))?>
         }]);
     });

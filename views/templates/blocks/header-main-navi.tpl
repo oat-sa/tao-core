@@ -75,11 +75,19 @@ $settingsMenu = get_data('settings-menu');
                             </ul>
                         <?php endif; ?>
                     </li>
+
                 <?php endforeach ?>
             <?php endif; ?>
-
+            <?php if(has_data('unread-notification')): ?>
+                <li data-env="user" class="li-logout">
+                    <a id="logout" href="<?= get_data('notification-url') ?>" title="<?= __('Messages') ?>">
+                        <span class="icon-email glyph"></span>
+                        <sup class="notification-count"><?= get_data('unread-notification') ?></sup>
+                    </a>
+                </li>
+            <?php endif; ?>
             <li data-env="user" class="li-logout">
-                <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
+                <a id="logout" href="<?= get_data('logout') ?>" title="<?= __('Log Out') ?>">
                     <span class="icon-logout glyph"></span>
                 </a>
             </li>

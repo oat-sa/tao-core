@@ -18,25 +18,15 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
- * Short description of class tao_helpers_form_elements_xhtml_Free
- *
- * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- 
+ * Free element that renders the value (expects html)         
  */
-class tao_helpers_form_elements_xhtml_Free
-    extends tao_helpers_form_elements_Free
+class tao_helpers_form_elements_xhtml_Free extends tao_helpers_form_elements_Free
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
+    use XhtmlRenderingTrait;
+    
     /**
      * Short description of method render
      *
@@ -46,17 +36,6 @@ class tao_helpers_form_elements_xhtml_Free
      */
     public function render()
     {
-        $returnValue = (string) '';
-
-        
-		
-		$returnValue = $this->value;
-		
-        
-
-        return (string) $returnValue;
+        return (string) $this->value;
     }
-
 }
-
-?>
