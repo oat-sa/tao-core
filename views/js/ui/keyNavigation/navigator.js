@@ -428,12 +428,13 @@ define([
                     prevent: true
                 })
                 .add('enter', function(e){
-                    if($(e.target).is(':text,textarea')){
-                        e.stopPropagation();
-                    } else {
+                    if(!$(e.target).is(':text,textarea')){
+                        //prevent activating the element when typing a text
                         e.preventDefault();
                         keyNavigator.activate(e.target);
                     }
+                }, {
+                    propagate : false
                 })
                 .add('up down left right', function(e, key){
                     var $target = $(e.target);
