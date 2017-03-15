@@ -83,17 +83,27 @@ class tao_actions_Export extends tao_actions_CommonModule
         $this->setData('myForm', $myForm->render());
         if ($this->hasRequestParameter('exportChooser_sent') && $this->getRequestParameter('exportChooser_sent') == 1) {
 
-            //use method GET to allow direct file download (not ajax compatible)
             $exportData = $this->getRequestParameters();
 
             if (isset($exportData['instances'])) {
-
                 $instances = json_decode(urldecode($exportData['instances']));
-
                 unset($exportData['instances']);
-                foreach ($instances as $i => $instance){
-                    $exportData['instances'][] = tao_helpers_Uri::decode($instance);
+
+                //allow to export complete classes
+                if(isset($exportData['type']) && $exportData['type'] === 'class'){
+
+                    $children = array();
+                    foreach ($instances as $i => $instance){
+                        $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($instance));
+                        $children = array_merge($children,$class->getInstances());
+                    }
+                    $exportData['instances'] = $children;
+                } else {
+                    foreach ($instances as $i => $instance){
+                        $exportData['instances'][] = tao_helpers_Uri::decode($instance);
+                    }
                 }
+
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
