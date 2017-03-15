@@ -1,26 +1,32 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
- * 
+ *
  */
 
+
+use oat\tao\model\notification\NotificationServiceInterface;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\notification\implementation\Notification;
+use oat\oatbox\task\Queue;
+use oat\oatbox\filesystem\File;
 /**
  * This controller provide the actions to export and manage exported data
  *
@@ -98,34 +104,22 @@ class tao_actions_Export extends tao_actions_CommonModule
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
 
-            $file = null;
-            try {
-                $report = $exporter->export($exportData, tao_helpers_Export::getExportPath());
-                $file = $report;
+            $className = get_class($this);
+            $exportData['selfClass'] = $className;
+            $exportData['exporter'] = $exporter;
 
-            } catch (common_exception_UserReadableException $e) {
-                $report = common_report_Report::createFailure($e->getUserMessage());
+            /**
+             * @var $taskQueue Queue
+             */
+            $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
+            $task = $taskQueue->createTask( [$className , 'exportTask'] , $exportData , false, __('export File'));
+
+            if($task === false){
+                $this->returnJson(['exported' => false, 'message' => __("error occured during export task")]);
+                return;
             }
 
-            $html = '';
-            if ($report instanceof common_report_Report) {
-                $file = $report->getData();
-
-                if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
-                    $report->setType(common_report_Report::TYPE_ERROR);
-                    if (! $report->getMessage()) {
-                        $report->setMessage(__('Error(s) has occurred during export.'));
-                    }
-
-                    $html = tao_helpers_report_Rendering::render($report);
-                }
-            }
-
-            if ($html !== '') {
-                echo $html;
-            } elseif (! is_null($file) && file_exists($file)) {
-                $this->sendFileToClient($file, $selectedResource);
-            }
+            $this->returnJson(['exported' => true, 'message' => __("Export is in taskQueue")]);
             return;
 
         }
@@ -138,6 +132,73 @@ class tao_actions_Export extends tao_actions_CommonModule
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
 
+    }
+
+    public static function exportTask($options)
+    {
+
+        if(!isset($options['selfClass'])) {
+            throw new \common_Exception('Wrong option parameter, selfClass missing');
+        }
+
+        if(!isset($options['exporter'])) {
+            throw new \common_Exception('Wrong option parameter, exporter missing');
+        }
+
+        $className =  $options['selfClass'] ;
+        $controller = new $className();
+
+        $exporterClassName =  $options['exporter'] ;
+        $exporter = new $exporterClassName();
+
+        $file = null;
+
+        try {
+            $report = $exporter->export($options, tao_helpers_Export::getExportPath());
+            $file = $report;
+
+        } catch (common_exception_UserReadableException $e) {
+            $report = common_report_Report::createFailure($e->getUserMessage());
+        }
+
+        if ($report instanceof common_report_Report) {
+            $file = $report->getData();
+
+            if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
+                $report->setType(common_report_Report::TYPE_ERROR);
+                if (! $report->getMessage()) {
+                    $report->setMessage(__('Error(s) has occurred during export.'));
+                }
+
+                $html = tao_helpers_report_Rendering::render($report);
+            }
+        }
+
+        /**
+         * @var $fileSystem FileSystemService
+         */
+        $fileSystem = $controller->getServiceManager()->get(FileSystemService::SERVICE_ID);
+        $fs = $fileSystem->getFileSystem('taskQueueStorage');
+        $report = common_report_Report::createSuccess('finished');
+
+        $fs->put(basename($file), file_get_contents($file));
+        /** @var NotificationServiceInterface $notificationService */
+        $notificationService = $controller->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+        $notification = new Notification(
+            common_session_SessionManager::getSession()->getUserUri(),
+            __('Export'),
+            __('Your export is ready'),
+            'system',
+            'system',
+            null,
+            null,
+            null,
+            null,
+            _url('outputFile', null, null, array('filename' => basename($file)))
+        );
+        $notificationService->sendNotification($notification);
+
+        return $report;
     }
 
     /**
@@ -214,13 +275,48 @@ class tao_actions_Export extends tao_actions_CommonModule
         );
     }
 
+
     /**
-     * @param $file
+     * @deprecated
      */
     protected function sendFileToClient($file, $test)
     {
-        setcookie("fileDownload", "true", 0, "/");
-        tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
+
+        throw new common_exception_DeprecatedApiMethod('Please stop using this method');
+    }
+
+    public function outputFile()
+    {
+        if (!$this->hasRequestParameter('filename')) {
+            return false;
+        }
+
+        $filename = $this->getRequestParameter('filename');
+
+        /**
+         * @var $fileSystem FileSystemService
+         */
+        $fileSystem = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+
+        $fs = $fileSystem->getDirectory('taskQueueStorage');
+
+        $file = $fs->getFile($filename);
+
+        $this->output($file);
+    }
+
+    protected function output(File $file)
+    {
+
+        $tmpFile = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . $file->getBasename();
+        if (($resource = fopen($tmpFile, 'w')) === false) {
+            throw new \common_Exception('Unable to write "' . $file->getPrefix() . '" into tmp folder("' . $tmpFile . '").');
+        }
+        stream_copy_to_stream($file->readStream(), $resource);
+        fclose($resource);
+
+        \tao_helpers_Export::outputFile($file->getBasename());
+
         return;
     }
 }
