@@ -51,16 +51,13 @@
 
                         params.instances = encodeURIComponent(JSON.stringify(instances));
 
-                        $.ajax({
-                            url : helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"),
-                            data:  params,
-                            type : 'POST',
-                            dataType: "json"
-                        }).done(function(response){
-                            if(response.exported){
-                                feedback().success(response.message);
-                            } else {
-                                feedback().error(response.message);
+
+                        $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"), {
+                            httpMethod: 'POST',
+                            data: params,
+                            failCallback: function (html) {
+                                $('#export-container').html(html);
+                                $('#import-continue').remove();
                             }
                         });
                     }
