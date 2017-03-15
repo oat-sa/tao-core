@@ -53,6 +53,7 @@ class InstallNotificationTable extends InstallAction
             $queueTable->addColumn(RdsNotification::NOTIF_FIELD_SENDER_NANE  , "string"   ,array("default" => null , "notnull" => false,"length" => 255));
             $queueTable->addColumn(RdsNotification::NOTIF_FIELD_CREATION     , "datetime" ,array("notnull" => true));
             $queueTable->addColumn(RdsNotification::NOTIF_FIELD_UPDATED      , "datetime" ,array("notnull" => true));
+            $queueTable->addColumn(RdsNotification::NOTIF_FIELD_URL          , "string"   ,array("length" => 255, "notnull" => false));
             $queueTable->setPrimaryKey(array(RdsNotification::NOTIF_FIELD_ID));
 
             $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
