@@ -729,9 +729,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.83.0');
         }
 
-        $this->skip('7.83.0', '7.84.0');
 
-        if ($this->isVersion('7.84.0')) {
+        $this->skip('7.83.0', '7.85.0');
+
+        if ($this->isVersion('7.85.0')) {
             $persistence = \common_persistence_Manager::getPersistence('default');
             /** @var \common_persistence_sql_pdo_SchemaManager $schemaManager */
             $schemaManager = $persistence->getDriver()->getSchemaManager();
@@ -746,9 +747,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                     $persistence->exec($query);
                 }
             }
-            $this->setVersion('7.85.0');
+            $this->setVersion('7.86.0');
         }
-
     }
 
     private function migrateFsAccess() {
