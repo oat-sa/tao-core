@@ -93,13 +93,13 @@ class tao_actions_Export extends tao_actions_CommonModule
                 if(isset($exportData['type']) && $exportData['type'] === 'class'){
 
                     $children = array();
-                    foreach ($instances as $i => $instance){
+                    foreach ($instances as $instance){
                         $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($instance));
                         $children = array_merge($children,$class->getInstances());
                     }
                     $exportData['instances'] = $children;
                 } else {
-                    foreach ($instances as $i => $instance){
+                    foreach ($instances as $instance){
                         $exportData['instances'][] = tao_helpers_Uri::decode($instance);
                     }
                 }
