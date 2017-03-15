@@ -728,6 +728,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(\oat\tao\model\import\ImportersService::SERVICE_ID, $service);
             $this->setVersion('7.83.0');
         }
+
+        $this->skip('7.83.0', '7.84.0');
     }
 
     private function migrateFsAccess() {
