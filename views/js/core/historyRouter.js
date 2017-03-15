@@ -68,13 +68,16 @@ define([
             },
 
             /**
-             * Forwards to another controller. Does not change the current location nor the history,
-             * only loads the target controller.
+             * Forwards to another controller. Does not change the current location, just loads the target controller.
+             * Will replace the current history state by an obfuscated version that displays the current location but
+             * internally routes to the provided URL.
              * @param {String} url
              * @returns {Promise}
              */
             forward: function forward(url) {
-                return this.dispatch(url, false);
+                var state = _.isString(url) ? { url : url } : url;
+                history.replaceState(state, '', window.location + '');
+                return this.dispatch(state, false);
             },
 
             /**
