@@ -48,12 +48,19 @@
                                 params[param.name] = param.value;
                             }
                         });
-                        params.instances = instances;
 
-                        $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>", params), {
-                            failCallback: function (html) {
-                                $('#export-container').html(html);
-                                $('#import-continue').remove();
+                        params.instances = encodeURIComponent(JSON.stringify(instances));
+
+                        $.ajax({
+                            url : helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"),
+                            data:  params,
+                            type : 'POST',
+                            dataType: "json"
+                        }).done(function(response){
+                            if(response.exported){
+                                feedback().success(response.message);
+                            } else {
+                                feedback().error(response.message);
                             }
                         });
                     }
