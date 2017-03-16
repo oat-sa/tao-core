@@ -88,11 +88,10 @@ class tao_helpers_Date
     }
 
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
-     * @param unknown $interval            
-     * @param unknown $format            
-     * @return string|Ambigous <string, string>
+     * @param int|DateInterval $interval
+     * @param int|string $format
+     * @return string
      */
     static public function displayInterval($interval, $format = self::FORMAT_INTERVAL_LONG)
     {
@@ -125,14 +124,14 @@ class tao_helpers_Date
                     common_Logger::w('Unknown date format ' . $format . ' for ' . __FUNCTION__, 'TAO');
             }
         }
+
         return $returnValue;
     }
 
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param DateInterval $interval            
-     * @param unknown $formatStrings            
+     * @param array $formatStrings
      * @return string
      */
     static protected function formatElapsed(DateInterval $interval, $formatStrings)
@@ -145,10 +144,9 @@ class tao_helpers_Date
     }
 
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
-     * @param DateInterval $interval            
-     * @return multitype:string Ambigous <string, string>
+     * @param DateInterval $interval
+     * @return array
      */
     static private function getNonNullIntervalFormats(DateInterval $interval)
     {
@@ -168,6 +166,10 @@ class tao_helpers_Date
         if ($interval->i > 0) {
             $formats[] = $interval->i == 1 ? __("%i minute") : __("%i minutes");
         }
+        if ($interval->s > 0) {
+            $formats[] = $interval->s == 1 ? __("%s second") : __("%s seconds");
+        }
+
         return $formats;
     }
 
