@@ -1,15 +1,14 @@
 define([
     'jquery',
-    'ui/transformer',
-    'lib/unmatrix/unmatrix'
-], function ($, transformer, _unmatrix) {
+    'ui/transformer'
+], function ($, transformer) {
 
     'use strict';
 
     function resetContainer(transformation) {
         var $fixture = $('#qunit-fixture').empty();
         var $container = $('<div id="container"/>');
-        if (!!transformation) {
+        if (transformation) {
             $container.addClass('pre-' + transformation);
         }
         $fixture.append($container);
@@ -32,7 +31,7 @@ define([
 
     QUnit.test('Module', function (assert) {
         QUnit.expect(1);
-        assert.ok(undefined !== transformer, 'The module exports something');
+        assert.ok(typeof transformer !== 'undefined', 'The module exports something');
     });
 
     QUnit.test('API', function (assert) {
@@ -50,9 +49,9 @@ define([
     });
 
     QUnit.test('Basics', function (assert) {
-        QUnit.expect(2);
-
         var $container = $('#container');
+
+        QUnit.expect(2);
 
         assert.equal($container.length, 1, 'Container exists');
 
@@ -73,11 +72,11 @@ define([
 
 
     QUnit.test('Translating / neutral container', function (assert) {
-        QUnit.expect(3);
-
         var $container = $('#container'),
             rect,
             origRect = getRect($container);
+
+        QUnit.expect(5);
 
         // Translation neutral container
         transformer.translateX($container, 100);
@@ -93,15 +92,25 @@ define([
         transformer.translate($container, 100);
         rect = getRect($container);
         assert.ok(rect.left === origRect.left + 100 && rect.top === origRect.top + 100, 'translate(100)');
+
+        $container = resetContainer();
+        transformer.translateXY($container, 150, 125);
+        rect = getRect($container);
+        assert.ok(rect.left === origRect.left + 150 && rect.top === origRect.top + 125, 'translateXY(150, 125)');
+
+        $container = resetContainer();
+        transformer.translateXY($container, 150, 0);
+        rect = getRect($container);
+        assert.ok(rect.left === origRect.left + 150 && rect.top === origRect.top, 'translateXY(150, 0)');
     });
 
 
     QUnit.test('Translating / pre-transformed container', function (assert) {
-        QUnit.expect(3);
-
         var $container = resetContainer('translate'),
             rect,
             origTop = getRect($container).top;
+
+        QUnit.expect(5);
 
         transformer.translateX($container, 100);
         rect = getRect($container);
@@ -116,14 +125,24 @@ define([
         transformer.translate($container, 100);
         rect = getRect($container);
         assert.ok(rect.left === 200 && rect.top === origTop + 100, 'translate(100) on top of existing 100px');
+
+        $container = resetContainer('translate');
+        transformer.translateXY($container, 150, 125);
+        rect = getRect($container);
+        assert.ok(rect.left === 250 && rect.top === origTop + 125, 'translate(150, 125) on top of existing 100px');
+
+        $container = resetContainer('translate');
+        transformer.translateXY($container, 150, 0);
+        rect = getRect($container);
+        assert.ok(rect.left === 250 && rect.top === origTop, 'translate(150, 0) on top of existing 100px');
     });
 
 
     QUnit.test('Rotating / neutral container', function (assert) {
-        QUnit.expect(1);
-
         var $container = $('#container'),
             rect;
+
+        QUnit.expect(1);
 
         transformer.rotate($container, 45);
         rect = getRect($container);
@@ -132,10 +151,10 @@ define([
 
 
     QUnit.test('Rotating / pre-transformed container', function (assert) {
-        QUnit.expect(1);
-
         var $container = resetContainer('rotate'),
             rect;
+
+        QUnit.expect(1);
 
         transformer.rotate($container, 25);
         rect = getRect($container);
@@ -144,10 +163,10 @@ define([
 
 
     QUnit.test('Skewing / neutral container', function (assert) {
-        QUnit.expect(1);
-
         var $container = $('#container'),
             rect;
+
+        QUnit.expect(1);
 
         transformer.skew($container, 45);
         rect = getRect($container);
@@ -156,10 +175,10 @@ define([
 
 
      QUnit.test('Skewing / pre-transformed container', function (assert) {
-         QUnit.expect(1);
-
          var $container = resetContainer('skew'),
              rect;
+
+         QUnit.expect(1);
 
          transformer.skew($container, 25);
          rect = getRect($container);
@@ -168,10 +187,10 @@ define([
 
 
     QUnit.test('Scaling / neutral container', function (assert) {
-        QUnit.expect(3);
-
         var $container = $('#container'),
             rect;
+
+        QUnit.expect(3);
 
         // Scaling
         transformer.scaleX($container, 3);
@@ -191,10 +210,10 @@ define([
 
 
     QUnit.test('Scaling / pre-transformed container', function (assert) {
-        QUnit.expect(3);
-
         var $container = resetContainer('scale'),
             rect;
+
+        QUnit.expect(3);
 
         transformer.scaleX($container, 3);
         rect = getRect($container);

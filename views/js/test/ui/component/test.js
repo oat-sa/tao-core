@@ -181,8 +181,9 @@ define([
         var expectedWidth = 200;
         var expectedHeight = 100;
         var instance;
+        var getSizeResult;
 
-        QUnit.expect(36);
+        QUnit.expect(42);
 
         // auto render at init
         assert.equal($container1.children().length, 1, 'The container1 already contains an element');
@@ -204,6 +205,10 @@ define([
 
         assert.equal(instance.getElement().width(), expectedWidth, 'The expected width has been set');
         assert.equal(instance.getElement().height(), expectedHeight, 'The expected height has been set');
+
+        getSizeResult = instance.getSize();
+        assert.equal(getSizeResult.width, expectedWidth, '.getSize() returns the expected width');
+        assert.equal(getSizeResult.height, expectedHeight, '.getSize() returns the expected height');
 
         instance.destroy();
 
@@ -235,6 +240,10 @@ define([
         assert.equal(instance.getElement().width(), expectedWidth, 'The expected width has been set');
         assert.equal(instance.getElement().height(), expectedHeight, 'The expected height has been set');
 
+        getSizeResult = instance.getSize();
+        assert.equal(getSizeResult.width, expectedWidth, '.getSize() returns the expected width');
+        assert.equal(getSizeResult.height, expectedHeight, '.getSize() returns the expected height');
+
         instance.destroy();
 
         assert.equal($container2.children().length, 1, 'The component has beend removed from the container2');
@@ -261,6 +270,10 @@ define([
         instance.setSize(expectedWidth, expectedHeight);
         assert.equal(instance.getElement().width(), expectedWidth, 'The expected width has been set');
         assert.equal(instance.getElement().height(), expectedHeight, 'The expected height has been set');
+
+        getSizeResult = instance.getSize();
+        assert.equal(getSizeResult.width, expectedWidth, '.getSize() returns the expected width');
+        assert.equal(getSizeResult.height, expectedHeight, '.getSize() returns the expected height');
 
         instance.destroy();
 

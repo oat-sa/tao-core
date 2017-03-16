@@ -48,9 +48,13 @@
                                 params[param.name] = param.value;
                             }
                         });
-                        params.instances = instances;
 
-                        $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>", params), {
+                        params.instances = encodeURIComponent(JSON.stringify(instances));
+
+
+                        $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"), {
+                            httpMethod: 'POST',
+                            data: params,
                             failCallback: function (html) {
                                 $('#export-container').html(html);
                                 $('#import-continue').remove();
