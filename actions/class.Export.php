@@ -171,18 +171,6 @@ class tao_actions_Export extends tao_actions_CommonModule
             $report = common_report_Report::createFailure($e->getUserMessage());
         }
 
-        if ($report instanceof common_report_Report) {
-            $file = $report->getData();
-
-            if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
-                $report->setType(common_report_Report::TYPE_ERROR);
-                if (! $report->getMessage()) {
-                    $report->setMessage(__('Error(s) has occurred during export.'));
-                }
-
-                $html = tao_helpers_report_Rendering::render($report);
-            }
-        }
 
         /**
          * @var $fileSystem FileSystemService
@@ -194,10 +182,26 @@ class tao_actions_Export extends tao_actions_CommonModule
         $fs->put(basename($file), file_get_contents($file));
         /** @var NotificationServiceInterface $notificationService */
         $notificationService = $controller->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+
+        if ($report instanceof common_report_Report) {
+            $file = $report->getData();
+
+            $message = __('Your export is ready');
+
+            if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
+                $report->setType(common_report_Report::TYPE_ERROR);
+                if (! $report->getMessage()) {
+                    $report->setMessage(__('Error(s) has occurred during export.'));
+                }
+
+                $message = $report->getMessage();
+            }
+        }
+
         $notification = new Notification(
             common_session_SessionManager::getSession()->getUserUri(),
             __('Export'),
-            __('Your export is ready'),
+            $message,
             'system',
             'system',
             null,
