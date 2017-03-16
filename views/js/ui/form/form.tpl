@@ -1,24 +1,25 @@
-<form
-    name="{{name}}"
-    {{#if method}}
-    method="{{method}}"
-    {{/if}}
-    {{#if action}}
-    action="{{action}}"
-    {{/if}}
->
+<div class="ui-form xhtml_form">
+    <form
+        {{#if action}}
+        action="{{action}}"
+        {{/if}}
+        {{#if method}}
+        method="{{method}}"
+        {{/if}}
+        name="{{name}}">
 
-    <div class="ui-form-field"></div>
+        <div class="ui-form-field"></div>
 
-    <div class="form-toolbar">
-        <button
-            type="submit"
-            name="{{'save' + name}}"
-            class="form-submitter btn-success small"
-            value="Save"
-        >
-            <span class="icon-save"/> Save
-        </button>
-    </div>
+        <div class="form-toolbar">
+            <button
+                type="submit"
+                name="{{submit.name}}"
+                id="Save"
+                class="form-submitter btn-success small"
+                value="{{submit.value}}">
+                <span class="icon-save"/> Save
+            </button>
+        </div>
 
-</form>
+    </form>
+</div>

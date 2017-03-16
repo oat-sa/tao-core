@@ -31,7 +31,7 @@ define([
      * Default namespace/class
      * @type {String}
      */
-    var _ns = '.ui-form-field';
+    var _ns = 'ui-form-field';
 
 
     /**
@@ -39,10 +39,12 @@ define([
      * @type {Object}
      */
     var _defaults = {
-        container : _ns,
+        container : '.' + _ns,
         object : {
             input : {
-                name : 'input'
+                name : 'input',
+                rdfs : '',
+                value : ''
             },
             label : 'Label',
             required : false
@@ -70,24 +72,72 @@ define([
     var field = {
 
         /**
+         * Container property
+         * @type {HTMLElement}
+         */
+        container : null,
+
+
+        /**
+         * Element property
+         * @type {HTMLElement}
+         */
+        element : null,
+
+
+        /**
+         * Errors property
+         * @type {Array}
+         */
+        errors : [],
+
+
+        /**
+         * Form property
+         * @type {HTMLElement}
+         */
+        form : null,
+
+
+        /**
+         * Options property
+         * @type {Object}
+         */
+        options : {},
+
+
+        /**
+         * Validators property
+         * @type {Array}
+         */
+        validators : [],
+
+
+        /**
          * Initializes the ui/form/field
          * @param {Object} options
+         * @param {String|HTMLElement|jQuery} options.form
          * @param {Array|Function} [validators]
          * @returns {field}
          */
         init : function init(options, validators) {
+            // Check for required parameters without defaults
+            if (!options.form) {
+                // TODO: How to handle if form doesn't exist?
+                return false;
+            }
+
             // Set options
-            _.defaults(this.options, options, _defaults);
+            _.merge(this.options, _defaults, options);
 
             // Set template
             this.template = _templates[this.options.type] || _templates.default;
 
             // Set form
-            // TODO: How to handle if form doesn't exist
-            this.form = this.options.form;
+            this.form = $(this.options.form).get(0);
 
             // Set fields' container
-            this.container = this.options.container;
+            this.container = $(this.options.container).get(0);
 
             // Set validations
             this.validators = Array.isArray(validators) ? validators :
@@ -106,13 +156,16 @@ define([
             }
 
             this.element = this.template(this.options.object);
+
+            return this;
         },
 
 
         /**
          * Attach ui/form/field to ui/form
          */
-        attach : function attach() {
+        // TODO: should using jQuery's appendTo be preferred?
+        attachTo : function attach() {
             var $el, $to;
 
             if (!this.element) {
@@ -127,7 +180,9 @@ define([
             $el = $(this.element);
             $to = $(this.container, this.form);
 
-            $el.append($to);
+            $el.appendTo($to);
+
+            return this;
         },
 
 
@@ -140,6 +195,8 @@ define([
                     return !v;
                 });
             }
+
+            return this;
         },
 
 
@@ -150,6 +207,8 @@ define([
             if (this.element) {
                 $(this.element).remove();
             }
+
+            return this;
         }
     };
 

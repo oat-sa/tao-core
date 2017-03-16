@@ -33,7 +33,7 @@ define([
      * Default namespace/class
      * @type {String}
      */
-    var _ns = '.ui-form';
+    var _ns = 'ui-form';
 
 
     /**
@@ -41,9 +41,13 @@ define([
      * @type {Object}
      */
     var _defaults = {
-        fields : [],
-        name : _ns,
-        object : {}
+        object : {
+            name : _ns,
+            submit : {
+                name : 'submit-' + _ns,
+                value : 'Save'
+            }
+        }
     };
 
 
@@ -54,13 +58,34 @@ define([
     var form = {
 
         /**
+         * Element property
+         * @type {HTMLElement}
+         */
+        element : null,
+
+
+        /**
+         * Fields property
+         * @type {Array}
+         */
+        fields : [],
+
+
+        /**
+         * Options property
+         * @type {Object}
+         */
+        options : {},
+
+
+        /**
          * Initializes the form
-         * @param {Object} options
+         * @param {Object} [options]
          * @returns {form}
          */
         init : function init(options) {
             // Set options
-            _.defaults(this.options, options, _defaults);
+            _.merge(this.options, _defaults, options || {});
 
             return this;
         },
@@ -80,6 +105,8 @@ define([
                 var f = field(val);
                 f.attach();
             });
+
+            return this;
         },
 
 
@@ -87,7 +114,8 @@ define([
          * Attach ui/form to DOM
          * @param {String|jQueryElement|HTMLElement} to
          */
-        attach : function attach(to) {
+        // TODO: should jQuery's appendTo be preferred?
+        attachTo : function attach(to) {
             var $el, $to;
 
             if (!this.element) {
@@ -102,7 +130,9 @@ define([
             $el = $(this.element);
             $to = $(to);
 
-            $el.append($to);
+            $el.appendTo($to);
+
+            return this;
         },
 
 
@@ -113,10 +143,32 @@ define([
             if (this.element) {
                 $(this.element).remove();
             }
-        }
+
+            return this;
+        },
 
 
-        // TODO: addField method
+        /**
+         * Add ui/form/field to ui/form
+         * @param {Object} options
+         */
+        addField : function addField(options) {
+            var f;
+
+            if (!this.element) {
+                // TODO: How to handle this?
+                return false;
+            }
+
+            options = options || {};
+            options.form = this.element;
+
+            f = field(options).attachTo();
+
+            this.fields.push(f);
+
+            return this;
+        },
 
 
         // TODO: create event binding/unbinding methods
