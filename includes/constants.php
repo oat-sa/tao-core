@@ -1,22 +1,22 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -30,7 +30,7 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '3.2.0-sprint46½');
+define('TAO_VERSION', '3.2.0-sprint47');
 
 $version = TAO_VERSION;
 
@@ -38,7 +38,7 @@ $version = TAO_VERSION;
 if(is_readable(ROOT_PATH.'build')){
     $content = file_get_contents(ROOT_PATH.'build');
     $version = 'v' . $version;
-    $version = is_numeric($content) ? $version. '+build' . $content : $version;  
+    $version = is_numeric($content) ? $version. '+build' . $content : $version;
 }
 define('TAO_VERSION_NAME', $version);
 
@@ -68,7 +68,7 @@ $todefine = array(
 	'CLASS_LANGUAGES'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
 	'INSTANCE_ROLE_GLOBALMANAGER'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole',
 	'INSTANCE_ROLE_TAOMANAGER'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
-    'INSTANCE_ROLE_SYSADMIN'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',     
+    'INSTANCE_ROLE_SYSADMIN'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
 	'INSTANCE_ROLE_BACKOFFICE'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',
 	'INSTANCE_ROLE_FRONTOFFICE'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole',
 	'INSTANCE_ROLE_SERVICE'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole',
@@ -99,7 +99,7 @@ $todefine = array(
 	'CLASS_WORKERROLE'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole',
 	'CLASS_TAO_USER'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#User',
 	'DEFAULT_USER_URI_SUFFIX'			=> '#superUser',
-	
+
 	'CLASS_OAUTH_CONSUMER' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
 	'PROPERTY_OAUTH_KEY'			    => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
 	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
@@ -120,32 +120,32 @@ $todefine = array(
     'PROPERTY_CALLOFSERVICES_LEFT'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesLeft',
     'PROPERTY_CALLOFSERVICES_WIDTH'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesWidth',
     'PROPERTY_CALLOFSERVICES_HEIGHT'				=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesHeight',
-    
+
     'CLASS_ACTUALPARAMETER'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassActualParameters',
     'PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable',
     'PROPERTY_ACTUALPARAMETER_CONSTANTVALUE'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersConstantValue',
     'PROPERTY_ACTUALPARAMETER_FORMALPARAMETER'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersFormalParameter',
-    
+
     'CLASS_SERVICESDEFINITION'						=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions',
     'PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT'	=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyServiceDefinitionsFormalParameterOut',
     'PROPERTY_SERVICESDEFINITION_FORMALPARAMIN' 	=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyServiceDefinitionsFormalParameterIn',
-    
+
     'CLASS_SUPPORTSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices',
     'PROPERTY_SUPPORTSERVICES_URL'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl',
-    
+
     'CLASS_WEBSERVICES'								=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices',
-    
+
     'CLASS_FORMALPARAMETER'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters',
     'PROPERTY_FORMALPARAMETER_DEFAULTCONSTANTVALUE' => 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersDefaultConstantValue',
     'PROPERTY_FORMALPARAMETER_DEFAULTPROCESSVARIABLE'=>'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersDefaultProcessVariable',
     'PROPERTY_FORMALPARAMETER_NAME'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersName',
     'PROPERTY_LOCK'                                 => 'http://www.tao.lu/Ontologies/TAO.rdf#Lock',
-    
+
     'INSTANCE_ROLE_BASEUSER'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',
-    
+
     'PROPERTY_USER_FIRSTTIME'                       => 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao',
     'PROPERTY_USER_LASTEXTENSION'                   => 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed',
-    
+
     // models
 	'PROPERTY_ABSTRACTMODEL_STATUS'                 => 'http://www.tao.lu/Ontologies/TAO.rdf#AbstractModelStatus'
 );
