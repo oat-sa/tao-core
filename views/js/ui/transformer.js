@@ -202,6 +202,17 @@ define([
         },
 
         /**
+         * Translate X/Y
+         *
+         * @param $elem
+         * @param {Number} valueX
+         * @param {Number} valueY, does not default to valueX
+         */
+        translateXY: function ($elem, valueX, valueY) {
+            _transform($elem, { translateX: valueX, translateY: valueY });
+        },
+
+        /**
          * TranslateX
          *
          * @param $elem

@@ -228,8 +228,7 @@ ul.listbox {
                 color: $info !important;
                 background: none;
                 &:focus, &:hover{
-                    color: $textColor !important;
-                    background: whiten($uiClickableActiveBg, .5);
+                    background: whiten($info, .85);
                 }
             }
         }

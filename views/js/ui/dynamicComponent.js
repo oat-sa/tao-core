@@ -383,7 +383,7 @@ define([
                 $(window).off('resize.dynamic-component-' + this.id);
             });
 
-        return makeStackable(component);
+        return makeStackable(component, { stackingScope: defaults.stackingScope });
     };
 
     return dynComponentFactory;

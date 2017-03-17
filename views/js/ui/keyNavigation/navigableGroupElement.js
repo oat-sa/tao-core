@@ -98,7 +98,17 @@ define([
              * @returns {boolean}
              */
             isVisible: function isVisible() {
-                return $group.is(':visible');
+                var hasVisibleNavigable = false;
+                if(!$group.is(':visible')){
+                    return false;
+                }
+                _.each(keyNavigator.getNavigables(), function(nav){
+                    if(nav.isVisible()){
+                        hasVisibleNavigable = true;
+                        return false;
+                    }
+                });
+                return hasVisibleNavigable;
             },
 
             /**
