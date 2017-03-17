@@ -20,10 +20,11 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'tpl!ui/form/field/tpl/text',
+    'tpl!ui/form/field/tpl/checkbox_list',
     'tpl!ui/form/field/tpl/password',
-    'tpl!ui/form/field/tpl/select'
-], function ($, _, __, textTpl, passwordTpl, selectTpl) {
+    'tpl!ui/form/field/tpl/select',
+    'tpl!ui/form/field/tpl/text'
+], function ($, _, __, checkboxListTpl, passwordTpl, selectTpl, textTpl) {
     'use strict';
 
 
@@ -48,9 +49,19 @@ define([
             },
             label : 'Label',
             required : false
-        },
-        type : 'text'
+        }
     };
+
+
+    /**
+     * Requisite properties for ui/form/field
+     * @type {Object}
+     */
+    var _requisites = [
+        'form',
+        'object.input.name',
+        'object.type'
+    ];
 
 
     /**
@@ -58,6 +69,7 @@ define([
      * @type {Object}
      */
     var _templates = {
+        checkbox_list : checkboxListTpl,
         default : textTpl,
         password : passwordTpl,
         select : selectTpl,
@@ -122,16 +134,16 @@ define([
          */
         init : function init(options, validators) {
             // Check for required parameters without defaults
-            if (!options.form) {
-                // TODO: How to handle if form doesn't exist?
-                return false;
-            }
+            // if (!_.has(options, _requisites)) {
+            //     // TODO: How to handle if form doesn't exist?
+            //     throw Error('Missing required parameter');
+            // }
 
             // Set options
             _.merge(this.options, _defaults, options);
 
             // Set template
-            this.template = _templates[this.options.type] || _templates.default;
+            this.template = _templates[this.options.object.type] || _templates.default;
 
             // Set form
             this.form = $(this.options.form).get(0);
@@ -219,7 +231,7 @@ define([
      * @returns {field}
      */
     var fieldFactory = function fieldFactory(options) {
-        var f = _.clone(field);
+        var f = _.cloneDeep(field);
         return f.init(options);
     };
 

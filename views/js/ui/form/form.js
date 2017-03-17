@@ -181,7 +181,7 @@ define([
      * @returns {form}
      */
     var formFactory = function formFactory(options) {
-        var f = _.clone(form);
+        var f = _.cloneDeep(form);
         return f.init(options);
     };
 
