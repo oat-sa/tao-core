@@ -29,6 +29,13 @@ use oat\tao\model\routing\NamespaceRoute;
 class Route
 {
     /**
+     * List of known routes
+     * @var array
+     */
+    private static $routes;
+    
+    
+    /**
      * Tries to resolve an URL using the routes first
      * and then falls back to the legacy controllers
      * 
@@ -97,15 +104,17 @@ class Route
      */
     private static function getRouteMap()
     {
-        $routes = array();
-        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
-            foreach (self::getRoutes($extension) as $route) {
-                $routes[] = array(
-                    'extId' => $extension->getId(),
-                    'route' => $route
-                );
+        if (!isset(self::$routes)) {
+            self::$routes = [];
+            foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+                foreach (self::getRoutes($extension) as $route) {
+                    self::$routes[] = array(
+                        'extId' => $extension->getId(),
+                        'route' => $route
+                    );
+                }
             }
         }
-        return $routes;
+        return self::$routes;
     }
 }
