@@ -17,6 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
+use oat\tao\helpers\Route;
 use oat\tao\model\mvc\Breadcrumbs;
 
 /**
@@ -38,40 +39,6 @@ use oat\tao\model\mvc\Breadcrumbs;
  */
 class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Breadcrumbs
 {
-    /**
-     * Parses the provided context route
-     * @param string $route
-     * @return array
-     */
-    protected function parseRoute($route)
-    {
-        $parsedRoute = parse_url($route);
-        $path = [];
-        if (isset($parsedRoute['path'])) {
-            if (substr($parsedRoute['path'], 0, 1) == '/') {
-                $parsedRoute['path'] = substr($parsedRoute['path'], 1);
-            }
-            $path = explode('/', isset($parsedRoute['path']) ? $parsedRoute['path'] : '');
-        }
-        if (isset($parsedRoute['query'])) {
-            parse_str($parsedRoute['query'], $parsedRoute['params']);
-        } else {
-            $parsedRoute['params'] = [];
-        }
-        
-        if (count($path) === 3) {
-            $parsedRoute['extension'] = $path[0]; 
-            $parsedRoute['controller'] = $path[1]; 
-            $parsedRoute['action'] = $path[2]; 
-        } else {
-            $parsedRoute['extension'] = null;
-            $parsedRoute['controller'] = null;
-            $parsedRoute['action'] = null;
-        }
-        
-        return $parsedRoute;
-    }
-
     /**
      * Gets the provided context route
      * @return array|mixed|null|string
@@ -164,7 +131,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
         $data = [];
         $routes = $this->getRoutes();
         foreach($routes as $route) {
-            $parsedRoute = $this->parseRoute($route);
+            $parsedRoute = Route::resolve($route);
             $data[] = $this->requestService($route, $parsedRoute);
         }
         $this->returnData($data);
