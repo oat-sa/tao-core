@@ -69,7 +69,7 @@ define([
     QUnit.module('Behavior');
 
     QUnit.asyncTest('create table', function (assert){
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         var context = 'oneTypeOfSuperLongTask';
         var $fixtureContainer = $('#qunit-fixture');
@@ -88,13 +88,36 @@ define([
                 var $component = $('.component', $fixtureContainer);
                 assert.equal($('.datatable-container > table', $component).length, 1, 'The table is also added');
                 assert.equal($('.datatable-container > table tbody tr', $component).length, 3, 'The table contains 3 rows');
-
+                assert.equal($('.actions .btn-info', $('.datatable-container > table tbody tr', $component)[0]).length, 2, 'Each row contains 2 buttons');
                 QUnit.start();
             })
             .init({
                 dataUrl : '/tao/views/js/test/ui/taskQueue/table/data.json',
                 statusUrl : '/tao/views/js/test/ui/taskQueue/table/data-status.json',
-                removeUrl : '/tao/views/js/test/ui/taskQueue/table/data-archived.json'
+                removeUrl : '/tao/views/js/test/ui/taskQueue/table/data-archived.json',
+            })
+            .render($fixtureContainer);
+    });
+
+    QUnit.asyncTest('create table with download button', function (assert){
+        QUnit.expect(1);
+
+        var context = 'oneTypeOfSuperLongTask';
+        var $fixtureContainer = $('#qunit-fixture');
+        var taskTable = taskQueueTableFactory({context:context});
+
+        taskTable
+            .on('loaded', function(){
+
+                var $component = $('.component', $fixtureContainer);
+                assert.equal($('.actions .btn-info', $('.datatable-container > table tbody tr', $component)[0]).length, 3, 'Each row contains 3 buttons');
+                QUnit.start();
+            })
+            .init({
+                dataUrl : '/tao/views/js/test/ui/taskQueue/table/data.json',
+                statusUrl : '/tao/views/js/test/ui/taskQueue/table/data-status.json',
+                removeUrl : '/tao/views/js/test/ui/taskQueue/table/data-archived.json',
+                downloadUrl : '/tao/views/js/test/ui/taskQueue/table/data-archived.json'
             })
             .render($fixtureContainer);
     });
