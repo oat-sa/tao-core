@@ -40,12 +40,17 @@ class AssetService extends ConfigurableService
      * Get the full URL of an asset
      *
      * @param string $asset the asset path, relative, from the views folder
-     * @param string $extensionId
+     * @param string $extensionId  if the asset is relative to an extension base www (optional)
      * @return string the asset URL
      */
-    public function getAsset($asset, $extensionId)
+    public function getAsset($asset, $extensionId = null)
     {
-        $url = $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
+        if( ! is_null($extensionId)){
+            $url = $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
+        } else {
+            $url = $this->getAssetUrl() . FsUtils::normalizePath($asset);
+        }
+
         $buster = $this->getCacheBuster();
         if(!is_null($buster)){
             $url .= '?' . self::CACHE_BUSTER_KEY . '=' . $buster;
