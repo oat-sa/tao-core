@@ -1034,7 +1034,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 foo: false
             };
 
-        QUnit.expect(2);
+        QUnit.expect(3);
 
         emitter.on('foo', function(){
             return new Promise(function (resolve) {
@@ -1046,6 +1046,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             });
         });
         emitter.after('foo', function(){
+            assert.ok(true, 'The after foo handler is called');
             assert.ok(state.foo, 'The foo handler has been called before the after foo handler');
             QUnit.start();
         });
@@ -1079,7 +1080,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 foo2: false
             };
 
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         emitter.on('foo', function(){
             return new Promise(function (resolve) {
@@ -1100,7 +1101,9 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             });
         });
         emitter.after('foo', function(){
-            assert.ok(false, 'The after foo handler should not be called');
+            assert.ok(true, 'The after foo handler is called');
+            assert.ok(state.foo1, 'The first foo handler has been called before the after foo handler');
+            assert.ok(state.foo2, 'The second foo handler has been called before the after foo handler');
             QUnit.start();
         });
         emitter.trigger('foo');
@@ -1109,7 +1112,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
     QUnit.asyncTest('async promise, multiple with mixed response', function (assert) {
         var emitter = eventifier();
 
-        QUnit.expect(4);
+        QUnit.expect(2);
 
         emitter.on('foo', function(){
             return new Promise(function (resolve) {
