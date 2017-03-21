@@ -33,9 +33,24 @@ class AssetService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/asset';
 
+    //the query param key of the cache buster
+    const CACHE_BUSTER_KEY = 'buster';
+
+    /**
+     * Get the full URL of an asset
+     *
+     * @param string $asset the asset path, relative, from the views folder
+     * @param string $extensionId
+     * @return string the asset URL
+     */
     public function getAsset($asset, $extensionId)
     {
-        return $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
+        $url = $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
+        $buster = $this->getCacheBuster();
+        if(!is_null($buster)){
+            $url .= '?' . self::CACHE_BUSTER_KEY . '=' . $buster;
+        }
+        return $url;
     }
 
     public function getJsBaseWww($extensionId)
@@ -48,4 +63,15 @@ class AssetService extends ConfigurableService
         return $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
     }
 
+    /**
+     * Get a the cache buster value
+     * @return string|null the buster
+     */
+    protected function getCacheBuster()
+    {
+        if(defined('TAO_VERSION')){
+            return TAO_VERSION;
+        }
+        return null;
+    }
 }
