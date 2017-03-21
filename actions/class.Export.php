@@ -24,7 +24,6 @@
 
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\notification\implementation\Notification;
 use oat\oatbox\task\Queue;
 use oat\oatbox\filesystem\File;
 /**
@@ -37,6 +36,8 @@ use oat\oatbox\filesystem\File;
  */
 class tao_actions_Export extends tao_actions_CommonModule
 {
+
+    use \oat\tao\model\TaskQueueActionTrait;
 
     /**
      * get the path to save and retrieve the exported files regarding the current extension
@@ -116,13 +117,14 @@ class tao_actions_Export extends tao_actions_CommonModule
 
             $className = get_class($this);
             $exportData['selfClass'] = $className;
-            $exportData['exporter'] = $exporter;
+            $exportData['exportHandler'] = get_class($exporter);
 
             /**
              * @var $taskQueue Queue
              */
             $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
-            $task = $taskQueue->createTask( [$className , 'exportTask'] , $exportData , false, __('export File'));
+
+            $task = $taskQueue->createTask( [$className , 'exportTask'] , $exportData , false, __('Export File'), $this->getContext());
 
             if($task === false){
                 $this->returnJson(['exported' => false, 'message' => __("error occured during export task")]);
@@ -144,49 +146,42 @@ class tao_actions_Export extends tao_actions_CommonModule
 
     }
 
+    protected function getContext()
+    {
+        return 'Export';
+    }
+
     public static function exportTask($options)
     {
 
+        common_Logger::w(print_r($options,true));
         if(!isset($options['selfClass'])) {
             throw new \common_Exception('Wrong option parameter, selfClass missing');
         }
 
-        if(!isset($options['exporter'])) {
+        if(!isset($options['exportHandler'])) {
             throw new \common_Exception('Wrong option parameter, exporter missing');
         }
 
         $className =  $options['selfClass'] ;
         $controller = new $className();
 
-        $exporterClassName =  $options['exporter'] ;
+        $exporterClassName =  $options['exportHandler'] ;
         $exporter = new $exporterClassName();
 
         $file = null;
 
         try {
             $report = $exporter->export($options, tao_helpers_Export::getExportPath());
-            $file = $report;
+            $file = $report->getData();
 
         } catch (common_exception_UserReadableException $e) {
             $report = common_report_Report::createFailure($e->getUserMessage());
         }
-
-
-        /**
-         * @var $fileSystem FileSystemService
-         */
-        $fileSystem = $controller->getServiceManager()->get(FileSystemService::SERVICE_ID);
-        $fs = $fileSystem->getFileSystem('taskQueueStorage');
-        $report = common_report_Report::createSuccess('finished');
-
-        $fs->put(basename($file), file_get_contents($file));
         /** @var NotificationServiceInterface $notificationService */
-        $notificationService = $controller->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
 
         if ($report instanceof common_report_Report) {
-            $file = $report->getData();
 
-            $message = __('Your export is ready');
 
             if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
                 $report->setType(common_report_Report::TYPE_ERROR);
@@ -194,23 +189,18 @@ class tao_actions_Export extends tao_actions_CommonModule
                     $report->setMessage(__('Error(s) has occurred during export.'));
                 }
 
-                $message = $report->getMessage();
+            } else {
+
+                /**
+                 * @var $fileSystem FileSystemService
+                 */
+                $fileSystem = $controller->getServiceManager()->get(FileSystemService::SERVICE_ID);
+                $fs = $fileSystem->getFileSystem('taskQueueStorage');
+
+
+                $fs->put(basename($file), file_get_contents($file));
             }
         }
-
-        $notification = new Notification(
-            common_session_SessionManager::getSession()->getUserUri(),
-            __('Export'),
-            $message,
-            'system',
-            'system',
-            null,
-            null,
-            null,
-            null,
-            _url('outputFile', null, null, array('filename' => basename($file)))
-        );
-        $notificationService->sendNotification($notification);
 
         return $report;
     }
@@ -301,11 +291,11 @@ class tao_actions_Export extends tao_actions_CommonModule
 
     public function outputFile()
     {
-        if (!$this->hasRequestParameter('filename')) {
-            return false;
-        }
+//        if (!$this->hasRequestParameter('filename')) {
+//            return false;
+//        }
 
-        $filename = $this->getRequestParameter('filename');
+        $filename = 'item_2_1489659267.zip';
 
         /**
          * @var $fileSystem FileSystemService
@@ -326,6 +316,7 @@ class tao_actions_Export extends tao_actions_CommonModule
         if (($resource = fopen($tmpFile, 'w')) === false) {
             throw new \common_Exception('Unable to write "' . $file->getPrefix() . '" into tmp folder("' . $tmpFile . '").');
         }
+
         stream_copy_to_stream($file->readStream(), $resource);
         fclose($resource);
 
