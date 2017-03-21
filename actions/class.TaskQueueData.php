@@ -45,7 +45,7 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
             /** @var oat\Taskqueue\Action\TaskQueueSearch $dataPayLoad */
             $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
 
-            echo $dataPayLoad->jsonSerialize();
+            echo json_encode($dataPayLoad);
             return;
         }
     }
