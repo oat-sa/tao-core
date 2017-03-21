@@ -1,4 +1,3 @@
-
 <div class="main-container flex-container-form-main" id="export-container">
     <h2><?=get_data('formTitle')?></h2>
     <?php if(has_data('myForm')):?>
@@ -8,6 +7,13 @@
     <?php endif;?>
 </div>
 
+<div class="data-container-wrapper col-6">
+    <div id="task-list"></div>
+</div>
+
+
+
+
 <script>
     require([
                 'jquery',
@@ -16,9 +22,10 @@
                 'helpers',
                 'uiForm',
                 'ui/feedback',
-                'jquery.fileDownload'
+                'tao/controller/export/index'
             ],
-            function($, _, __, helpers, uiForm, feedback){
+            function($, _, __, helpers, uiForm, feedback, index){
+                index.start();
 
                 var $form = $('#exportChooser'),
                         $submitter = $form.find('.form-submitter'),
