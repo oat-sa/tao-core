@@ -60,6 +60,21 @@
                 width: 25%;
                 min-width: 0;
                 cursor: pointer;
+                &.div-1{
+                    width: 100%;
+                }
+                &.div-2{
+                    width: 50%;
+                }
+                &.div-3{
+                    width: 33.33%;
+                }
+                &.div-4{
+                    width: 25%;
+                }
+                &.div-5{
+                    width: 20%;
+                }
                 &.calcFirst {
                     clear: left;
                 }

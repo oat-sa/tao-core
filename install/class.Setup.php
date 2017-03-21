@@ -118,14 +118,31 @@ class tao_install_Setup implements Action
         }
 
         $persistence = $parameters['configuration']['generis']['persistences']['default'];
-        $options['db_driver'] = $persistence['driver'];
-        $options['db_host'] = $persistence['host'];
-        $options['db_name'] = $persistence['dbname'];
-        if(isset($persistence['user'])){
-            $options['db_user'] = $persistence['user'];
-        }
-        if(isset($persistence['password'])){
-            $options['db_pass'] = $persistence['password'];
+
+        if(isset($persistence['connection'])){
+            if(isset($persistence['connection']['wrapperClass']) && $persistence['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection'){
+                $options['db_driver'] = $persistence['connection']['driver'];
+                $options['db_host'] = $persistence['connection']['master']['host'];
+                $options['db_name'] = $persistence['connection']['master']['dbname'];
+                if(isset($persistence['connection']['master']['user'])){
+                    $options['db_user'] = $persistence['connection']['master']['user'];
+                }
+                if(isset($persistence['connection']['master']['password'])){
+                    $options['db_pass'] = $persistence['connection']['master']['password'];
+                }
+            } else {
+                return Report::createFailure('The wrapperClass of the connection should be an instanceof MasterSlaveConnection');
+            }
+        } else {
+            $options['db_driver'] = $persistence['driver'];
+            $options['db_host'] = $persistence['host'];
+            $options['db_name'] = $persistence['dbname'];
+            if(isset($persistence['user'])){
+                $options['db_user'] = $persistence['user'];
+            }
+            if(isset($persistence['password'])){
+                $options['db_pass'] = $persistence['password'];
+            }
         }
 
         if(!isset($parameters['configuration']['global'])){
@@ -152,6 +169,10 @@ class tao_install_Setup implements Action
 
         if(isset($global['session_name'])){
             $options['session_name'] = $global['session_name'];
+        }
+
+        if(isset($global['anonymous_lang'])){
+            $options['anonymous_lang'] = $global['anonymous_lang'];
         }
 
         //get extensions to install
@@ -213,9 +234,7 @@ class tao_install_Setup implements Action
 
         // configure persistences
         foreach($parameters['configuration']['generis']['persistences'] as $key => $persistence){
-            if($key !== 'default'){
-                \common_persistence_Manager::addPersistence($key, $persistence);
-            }
+            \common_persistence_Manager::addPersistence($key, $persistence);
         }
 
         if (isset($parameters['configuration']['generis']['log'])) {

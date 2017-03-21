@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -33,6 +33,11 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\notification\implementation\NotificationServiceAggregator;
+use oat\tao\model\notification\implementation\RdsNotification;
+use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -62,12 +67,12 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
 use oat\tao\model\i18n\ExtraPoService;
+use oat\tao\scripts\install\SetClientLoggerConfig;
 
 /**
  *
@@ -647,8 +652,84 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.47.0');
         }
 
-        $this->skip('7.47.0', '7.48.1');
+        $this->skip('7.47.0', '7.54.0');
 
+        if ($this->isVersion('7.54.0')) {
+            $persistence = \common_persistence_Manager::getPersistence('default');
+            /** @var \common_persistence_sql_pdo_SchemaManager $schemaManager */
+            $schemaManager = $persistence->getDriver()->getSchemaManager();
+            $schema = $schemaManager->createSchema();
+            $fromSchema = clone $schema;
+            // test if already executed
+            $statementsTableData = $schema->getTable('statements');
+            $statementsTableData->dropIndex('idx_statements_modelid');
+            $modelsTableData = $schema->getTable('models');
+            $modelsTableData->dropIndex('idx_models_modeluri');
+            $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
+            foreach ($queries as $query) {
+                $persistence->exec($query);
+            }
+            $this->setVersion('7.54.1');
+        }
+
+	    $this->skip('7.54.1', '7.61.0');
+
+        if ($this->isVersion('7.61.0')) {
+
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            $this->setVersion('7.62.0');
+        }
+
+        $this->skip('7.62.0', '7.68.0');
+
+        if($this->isVersion('7.68.0')) {
+            $notifInstaller = new InstallNotificationTable();
+            $notifInstaller->setServiceLocator($this->getServiceManager());
+            $notifInstaller->__invoke([]);
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole', ['ext'=>'tao','mod' => 'Notification']));
+            $this->setVersion('7.69.0');
+        }
+
+        $this->skip('7.69.0', '7.69.6');
+
+        if($this->isVersion('7.69.6')) {
+
+            $queue = new NotificationServiceAggregator([
+                'rds' =>
+                    array(
+                        'class'   => RdsNotification::class,
+                        'options' => [
+                            RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                            'visibility'  => false,
+                        ],
+                    )
+                ]
+            );
+
+            $this->getServiceManager()->register(NotificationServiceInterface::SERVICE_ID, $queue);
+
+            $this->setVersion('7.70.0');
+        }
+
+        $this->skip('7.70.0', '7.73.0');
+
+        if ($this->isVersion('7.73.0')) {
+            $action = new AddTmpFsHandlers();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+            $this->setVersion('7.74.0');
+        }
+
+        $this->skip('7.74.0', '7.82.1');
+
+        if ($this->isVersion('7.82.1')) {
+            $service = new \oat\tao\model\import\ImportersService([]);
+            $this->getServiceManager()->register(\oat\tao\model\import\ImportersService::SERVICE_ID, $service);
+            $this->setVersion('7.83.0');
+        }
+
+        $this->skip('7.83.0', '7.87.2');
     }
 
     private function migrateFsAccess() {

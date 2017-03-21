@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * Adapter for RDF/RDFS format
@@ -27,8 +29,7 @@
  * @package tao
  
  */
-class tao_helpers_data_GenerisAdapterRdf
-    extends tao_helpers_data_GenerisAdapter
+class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 {
 
     /**
@@ -36,35 +37,36 @@ class tao_helpers_data_GenerisAdapterRdf
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
-     * @param  Class destination
-     * @param  string namespace
+     * @param  string $source
+     * @param  core_kernel_classes_Class $destination
+     * @param  string $namespace
      * @return boolean
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
     public function import($source,  core_kernel_classes_Class $destination = null, $namespace = null)
     {
-        $returnValue = (bool) false;
+        $returnValue = false;
 
-        
-        
-        $api = core_kernel_impl_ApiModelOO::singleton();
-		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
-			
-    	if(!is_null($destination) && file_exists($source)){
-			
-			$destModel = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
-			$returnValue = $api->importXmlRdf($destModel, $source);
-		}
-		else if (file_exists($source) && !is_null($namespace)){
-			$returnValue = $api->importXmlRdf($namespace, $source);
-		}
-		else if (file_exists($source)){
-			$returnValue = $api->importXmlRdf($localModel, $source);
-		}
-        
-        
+        /** @var UploadService $uploadService */
+        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+        $uploadedFile = $uploadService->getUploadedFile($source);
 
-        return (bool) $returnValue;
+        if (file_exists($uploadedFile)) {
+            $api = core_kernel_impl_ApiModelOO::singleton();
+            if (!is_null($destination)) {
+                $targetNamespace = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
+            } elseif (!is_null($namespace)) {
+                $targetNamespace = $namespace;
+            } else {
+                $targetNamespace = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
+            }
+            $returnValue = $api->importXmlRdf($targetNamespace, $uploadedFile);
+        }
+
+        $uploadService->remove($uploadService->getUploadedFlyFile($source));
+
+        return $returnValue;
     }
 
     /**

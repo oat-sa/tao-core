@@ -19,15 +19,16 @@
  */
 namespace oat\tao\model\datatable\implementation;
 
+use ArrayIterator;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet;
+use oat\oatbox\service\ServiceManager;
+use oat\search\base\QueryBuilderInterface;
+use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\datatable\DatatablePayload as DatatablePayloadInterface;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
-use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\helper\SupportedOperatorHelper;
-use oat\search\base\QueryBuilderInterface;
-use oat\generis\model\kernel\persistence\smoothsql\search\TaoResultSet;
 
 /**
  * class DatatablePayload
@@ -111,15 +112,15 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     {
         $search = $this->getSearchService();
 
-        $filters = $this->map($this->getFilters());
+        $filters = $this->map($this->getFilters(), true);
         $query = $search->searchType($queryBuilder, $this->getType(), true);
 
         foreach ($filters as $filterProp => $filterVal) {
-            if (is_string($filterVal)) {
-                $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $filterVal);
-            } else {
-                if (is_array($filterVal)) {
-                    $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $filterVal);
+            foreach ($filterVal as $values) {
+                if (is_array($values)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $values);
+                } elseif (is_string($values)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $values);
                 }
             }
         }
@@ -228,17 +229,23 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
      * // ['http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'john']
      * ```
      * @param array $filter
+     * @param bool|string $multitask will return all filters as [[filter1], [filter2]]
      * @return array
      */
-    protected function map($filter)
+    protected function map($filter, $multitask = false)
     {
         $data = [];
         $map = $this->getPropertiesMap();
         foreach ($filter as $key => $val) {
-            $newKey = isset($map[$key]) ? $map[$key] : false;
 
-            if ($newKey !== false) {
-                $data[$newKey] = $val;
+            $key = isset($map[$key]) ? $map[$key] : $key;
+
+            if ($multitask) {
+                if (!is_array($val)) {
+                    $data[$key] = [$val];
+                } else {
+                    $data[$key][] = array_unique($val);
+                }
             } else {
                 $data[$key] = $val;
             }
@@ -246,6 +253,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
 
         return $data;
     }
+
 
     /**
      * Fetch all the values of properties listed in properties map
@@ -259,6 +267,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         $propertyMap = $this->getPropertiesMap();
         $data = [];
         foreach ($payload['data'] as $resource) {
+            $resource = (object)$resource;
             $resource = new \core_kernel_classes_Resource($resource->subject);
             $resourceData = $resource->getPropertiesValues($propertyMap);
             $entityInfo = array_map(function($row) use($resourceData) {

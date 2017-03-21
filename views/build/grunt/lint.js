@@ -16,6 +16,8 @@ module.exports = function(grunt) {
         '!' + extensionRoot + 'views/js/test/**/*.js',
         '!' + extensionRoot + 'views/js/lib/**/*.js',
         '!' + extensionRoot + 'views/js/portableSharedLibraries/**/*.js',
+        '!' + extensionRoot + 'views/js/pciCreator/dev/**/*.js',
+        '!' + extensionRoot + 'views/js/picCreator/dev/**/*.js',
         '!' + extensionRoot + 'views/js/**/jquery.*.js'
     ];
 

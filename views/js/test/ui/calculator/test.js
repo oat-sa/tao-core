@@ -89,6 +89,34 @@ define([
         assert.equal($container.find('.dynamic-component-container .calcContainer .calcDigit').length, 10, 'calculator digit button ok');
     });
 
+    QUnit.asyncTest('render (visual test)', function (assert){
+
+        var $container = $('#fixture-1')
+            .css({
+                height : 1000,
+                width : 1000,
+                position : 'relative',
+                backgroundColor : '#ccc'
+            });
+
+        require(['tpl!tao/test/ui/calculator/alt-template'], function(alternativeTemplate){
+            var config = {
+                renderTo : $container,
+                replace : true,
+                alternativeTemplate : alternativeTemplate
+            };
+            calculator(config);
+
+            assert.equal($container.find('.dynamic-component-container .calcContainer').length, 1, 'calculator container ok');
+            assert.equal($container.find('.dynamic-component-container .calcContainer .calcDisplay').length, 1, 'calculator display ok');
+            assert.equal($container.find('.dynamic-component-container .calcContainer .calcFunction').length, 8, 'calculator function button ok');
+            assert.equal($container.find('.dynamic-component-container .calcContainer .calcClear').length, 3, 'calculator clear button ok');
+            assert.equal($container.find('.dynamic-component-container .calcContainer .calcDigit').length, 10, 'calculator digit button ok');
+
+            QUnit.start();
+        });
+    });
+
     QUnit.test('press', function (assert){
 
         var $container = $('#fixture-1');
