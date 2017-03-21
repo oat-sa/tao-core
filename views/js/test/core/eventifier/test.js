@@ -968,18 +968,20 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
 
         var testDriver = eventifier();
 
-        QUnit.expect(2);
+        QUnit.expect(5);
 
         testDriver.on('next', function(){
             assert.ok(true, "This listener should be executed : e.g. move to next item");
         });
 
-        testDriver.after('next', function(){
+        testDriver.after('next', function(bool, str, num){
+            assert.equal(bool, true, 'The 1st parameter is correct');
+            assert.equal(str, 'yo', 'The 2nd parameter is correct');
+            assert.equal(num, 1.4, 'The 3rd parameter is correct');
             assert.ok(true, "This listener should be executed : e.g. push response to storage");
             QUnit.start();
         });
-
-        testDriver.trigger('next');
+        testDriver.trigger('next', true, 'yo', 1.4);
     });
 
     QUnit.asyncTest("namespaced after events order", function(assert){
