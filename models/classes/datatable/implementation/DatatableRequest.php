@@ -62,7 +62,10 @@ class DatatableRequest implements DatatableRequestInterface
      */
     public function getRows()
     {
-        $rows = isset($this->requestParams[self::PARAM_ROWS]) ? $this->requestParams[self::PARAM_ROWS] : self::DEFAULT_ROWS;
+        $rows = isset($this->requestParams[self::PARAM_ROWS])
+            ? $this->requestParams[self::PARAM_ROWS]
+            : self::DEFAULT_ROWS;
+
         return (integer)$rows;
     }
 

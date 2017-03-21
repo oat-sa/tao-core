@@ -23,13 +23,49 @@
  */
 define([
     'jquery',
+    'lodash',
     'core/dataProvider/request',
     'core/promise'
-], function ($, request, Promise){
+], function ($, _, request, Promise){
     'use strict';
 
     var requestCases;
     var $ajax = $.ajax;
+    var responses = {
+        '//200': [{
+            success: true,
+            data: {'foo': 'bar'}
+        }, 'OK', {
+            status: 200
+        }],
+
+        '//200/error/1': [{
+            success: false,
+            errorCode: 1,
+            errorMessage: 'oops'
+        }, 'Error', {
+            status: 200
+        }],
+
+        '//200/error/2': [{
+            success: false,
+            errorCode: 2,
+            errorMsg: 'woops'
+        }, 'Error', {
+            status: 200
+        }],
+
+        '//200/error/fallback': [{
+            success: false
+        }, 'Error', {
+            status: 200
+        }],
+
+        '//204': [null, 'No Content', {status: 204}]
+    };
+    var errors = {
+        '//500': [{status: 500, statusText: 'Server Error'}]
+    };
 
     QUnit.module('API');
 
@@ -46,22 +82,22 @@ define([
             $.ajax = function(options){
                 return {
                     done : function(cb){
-                        if(options.url === '//200'){
-                            cb({
-                                success : true,
-                                data : { 'foo' : 'bar'}
-                            }, 'OK', {
-                                status : 200
-                            });
-                        }
-                        if(options.url === '//204'){
-                            cb(null, 'No Content', { status : 204});
+                        var response = responses[options.url];
+                        if (response) {
+                            if (options.headers) {
+                                response = _.cloneDeep(response);
+                                if (!response[0].data) {
+                                    response[0].data = {};
+                                }
+                                response[0].data.requestHeaders = options.headers;
+                            }
+                            cb.apply(null, response);
                         }
                         return this;
                     },
                     fail : function(cb){
-                        if(options.url === '//500'){
-                            cb({ status : 500, statusText : 'Server Error'});
+                        if (errors[options.url]) {
+                            cb.apply(null, errors[options.url]);
                         }
                         return this;
                     }
@@ -80,7 +116,12 @@ define([
     }, {
         title : '200 got content',
         url : '//200',
-        content: { foo : 'bar'}
+        content: { foo : 'bar' }
+    }, {
+        title : '200 header',
+        url : '//200',
+        headers: { 'x-foo': 'bar' },
+        content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
     }, {
         title : '204 no content',
         url : '//204'
@@ -89,13 +130,28 @@ define([
         url : '//500',
         reject : true,
         err : new Error('500 : Server Error')
+    }, {
+        title : '200 error 1',
+        url : '//200/error/1',
+        reject : true,
+        err : new Error('1 : oops')
+    }, {
+        title : '200 error 2',
+        url : '//200/error/2',
+        reject : true,
+        err : new Error('2 : woops')
+    }, {
+        title : '200 error fallback',
+        url : '//200/error/fallback',
+        reject : true,
+        err : new Error('No response')
     }];
 
     QUnit
         .cases(requestCases)
         .asyncTest('request with ', function(data, assert){
 
-            var result = request(data.url, data.data, data.method);
+            var result = request(data.url, data.data, data.method, data.headers);
             assert.ok(result instanceof Promise, 'The request function returns a promise');
 
             if(data.reject){

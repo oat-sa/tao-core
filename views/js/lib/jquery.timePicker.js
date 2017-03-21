@@ -12,7 +12,7 @@
 
 /*jslint evil: true, white: false, undef: false, nomen: false */
 
-define(['jquery'], function(jQuery) {
+define(['jquery', 'jqueryui'], function(jQuery) {
 
     var $ = jQuery;
 

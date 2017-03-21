@@ -1,18 +1,24 @@
-.dynamic-component-container{
-    .calcContainer{
-        width : 100%;
-        height : 100%;
+/* Style for the calculator component */
+
+/* font size mixin specific to calculator to use em instead of rem unit */
+@mixin calc-font-size($em) {
+    font-size: ($em) * 1em !important;
+}
+
+.dynamic-component-container {
+    .calcContainer {
+        width: 100%;
+        height: 100%;
         background: none;
         border: none;
         bottom: auto;
         clear: none;
-        color: #000;
+        color: $textColor;
         display: block;
         float: none;
         font-family: sans-serif;
-        @include font-size(15);
         left: auto;
-        line-height: 1;
+        line-height: normal;
         margin: 0;
         max-height: none;
         max-width: none;
@@ -33,96 +39,96 @@
             height: 0;
             visibility: hidden;
         }
-        form{
+        form {
             height: 100%;
             width: 100%;
-            input,button{
-                background-color : $uiClickableDefaultBg;
+            /*
+            * the font-size of the parent element of the calculator will serve as the reference for the children.
+            * the children must use em unit for font-sizing to ensure proportional increase when resized.
+            */
+            font-size: 10px;
+            input, button {
+                background-color: $uiClickableDefaultBg;
                 border-radius: 0;
-                padding : 0;
+                padding: 0;
                 border: none;
-                color : $textColor !important;
+                color: $textColor !important;
                 float: left;
                 height: 14%;
                 text-align: center;
                 text-shadow: none;
-                width: 25%; 
-                min-width:0;
+                width: 25%;
+                min-width: 0;
                 cursor: pointer;
-                @include font-size(15, true);
-                sup {
-                    padding-right: 1px;
-                    @include font-size(10, true);
+                &.div-1{
+                    width: 100%;
                 }
-                sub{
-                    padding-left: 1px;
-                    @include font-size(12, true);
+                &.div-2{
+                    width: 50%;
                 }
-                &.calcFirst{
+                &.div-3{
+                    width: 33.33%;
+                }
+                &.div-4{
+                    width: 25%;
+                }
+                &.div-5{
+                    width: 20%;
+                }
+                &.calcFirst {
                     clear: left;
                 }
-                &.calcClear{
-                    color : $info !important;
+                &.calcClear {
+                    color: $info !important;
+                    @include calc-font-size(1.8);
                 }
-                &.calcDisplay{
-                    cursor:text;
+                &.calcFunction {
+                    @include calc-font-size(1.8);
+                    sup {
+                        top: -0.5em;
+                        padding-right: 1px;
+                        @include calc-font-size(0.8);
+                    }
+                    sub {
+                        padding-left: 1px;
+                        @include calc-font-size(1.0);
+                    }
+                    &.calcDivision, &.calcMultiplication, &.calcSubtraction, &.calcSum{
+                        @include calc-font-size(2.2);
+                    }
+                }
+                &.calcDisplay {
+                    cursor: text;
                     opacity: 1 !important;
-                    background : whiten($uiClickableDefaultBg, .7);
-                    &:hover{
-                        background : whiten($uiClickableDefaultBg, .9);
+                    background: whiten($uiClickableDefaultBg, .7);
+                    &:hover {
+                        background: whiten($uiClickableDefaultBg, .9);
                     }
                     font-family: monospace;
                     text-align: right;
                     width: 100%;
                     max-width: none;
-                    padding: 0.6rem;
+                    padding: 0 0.2em;
                     height: 16%;
-                    @include font-size(20, true);
+                    font-size: 2.8em;
                 }
-                &.calcDigit{
+                &.calcInput {
                     font-weight: bold;
+                    @include calc-font-size(1.8);
                 }
-                &.calcSubmit{
+                &.calcSubmit {
                     font-weight: bold;
                     color: $textColor !important;
                     background-color: #ddd;
                     text-shadow: none;
+                    line-height: normal;
                 }
-                &:hover{
+                &:hover {
                     background: $uiClickableActiveBg;
                 }
-                &.triggered{
+                &.triggered {
                     background: whiten($uiClickableHoverBg, .2);
                 }
-            }
-        }
-    }
-    &.small .calcContainer form{
-        input,button{
-            @include font-size(12, true);
-            &.calcDisplay{
-                @include font-size(14, true);
-            }
-            sup {
-                @include font-size(7, true);
-            }
-            sub{
-                @include font-size(9, true);
-            }
-        }
-    } 
-    &.large .calcContainer form{
-        input,button{
-            @include font-size(21, true);
-            &.calcDisplay{
-                @include font-size(34, true);
-            }
-            sup {
-                @include font-size(12, true);
-                top : -1rem;
-            }
-            sub {
-                @include font-size(18, true);
             }
         }
     }

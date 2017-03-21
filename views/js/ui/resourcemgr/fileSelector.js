@@ -119,8 +119,6 @@ define([
             }
         });
 
-        $(window).on('resize.resourcemgr', _.throttle(updateSize, 10));
-
         //listen for file activation
         $(parentSelector)
             .off('click', '.files li')
@@ -256,7 +254,7 @@ define([
                 });
             });
 
-            //siwtch to upload mode
+            //switch to upload mode
             $switcher.click(function(e){
                 e.preventDefault();
                 switchUpload();
@@ -289,20 +287,10 @@ define([
                 $fileContainer.append(fileSelectTpl({
                     files : files
                 }));
-                
-                updateSize();
+
             } else if ($fileContainer.css('display') !== 'none'){
                 $placeholder.show();
             }
-        }
-
-        function updateSize(){
-            var listWidth = $fileContainer.innerWidth();
-            $('li', $fileContainer).each(function(){
-                var $item = $(this);
-                var actionsWidth = $('.actions', $item).outerWidth(true);
-                $('.desc', $item).width(listWidth - (actionsWidth + 60));   //40 is for the image in :before  and the possible scroll bar
-            });
         }
     };
 });

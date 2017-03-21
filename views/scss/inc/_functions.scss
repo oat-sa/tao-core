@@ -171,6 +171,24 @@ Usage:
   border-top-left-radius: $radius * 1px;
 }
 
+@mixin border-radius-top-right($radius: 2) {
+  -webkit-border-top-right-radius: $radius * 1px;
+  -moz-border-radius-topright: $radius * 1px;
+  border-top-right-radius: $radius * 1px;
+}
+
+@mixin border-radius-bottom-right($radius: 2) {
+  -webkit-border-bottom-right-radius: $radius * 1px;
+  -moz-border-radius-bottomright: $radius * 1px;
+  border-bottom-right-radius: $radius * 1px;
+}
+
+@mixin border-radius-bottom-left($radius: 2) {
+    -webkit-border-bottom-left-radius: $radius * 1px;
+    -moz-border-radius-bottomleft: $radius * 1px;
+    border-bottom-left-radius: $radius * 1px;
+}
+
 @mixin border-box() {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

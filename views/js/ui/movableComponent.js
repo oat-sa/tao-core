@@ -25,8 +25,10 @@ define([
     'lodash',
     'interact',
     'ui/component',
-    'ui/transformer'
-], function (_, interact, component, transformer) {
+    'ui/component/draggable',
+    'ui/component/resizable',
+    'ui/component/stackable'
+], function (_, interact, componentFactory, makeDraggable, makeResizable, makeStackable) {
     'use strict';
 
     /**
@@ -34,88 +36,12 @@ define([
      * @type {Object}
      */
     var defaultConfig = {
-        x: 0,
-        y: 0,
+        initialX: 0,
+        initialY: 0,
         width: 250,
         height: 100,
         minWidth: 75,
         minHeight: 25
-    };
-
-    /**
-     * Defines a movableComponent
-     * @typedef {Object} movableComponent
-     */
-    var movableComponent = {
-
-        /**
-         * Place the container against the parent container (at the center/middle)
-         * @returns {movableComponent} chains
-         */
-        place: function place() {
-            var $container = this.getContainer();
-            var $element = this.getElement();
-            if (this.is('rendered') && !this.is('disabled')) {
-                if ($container.length) {
-                    $element.css({
-                        left: $container.width() / 2 - $element.width() / 2,
-                        top: $container.height() / 2 - $element.height() / 2
-                    });
-                }
-            }
-            return this;
-        },
-
-        /**
-         * Moves the mask to the given position
-         * @param {Number} x - the new x position
-         * @param {Number} y - the new y position
-         * @returns {movableComponent} chains
-         *
-         * @fires movableComponent#move
-         */
-        moveTo: function moveTo(x, y) {
-            var $element = this.getElement();
-            if (this.is('rendered') && !this.is('disabled')) {
-                this.config.x = this.config.x + x;
-                this.config.y = this.config.y + y;
-
-                transformer.translate($element, this.config.x, this.config.y);
-
-                /**
-                 * @event movableComponent#move the component has moved
-                 * @param {Number} x - the new x position
-                 * @param {Number} y - the new y position
-                 */
-                this.trigger('move', this.config.x, this.config.y);
-            }
-            return this;
-        },
-
-        /**
-         * Resize the mask (minimum constraints applies)
-         * @param {Number} width - the new width
-         * @param {Number} height - the new height
-         * @returns {movableComponent} chains
-         *
-         * @fires movableComponent#resize
-         */
-        resize: function resize(width, height) {
-            if (this.is('rendered') && !this.is('disabled')) {
-                this.setSize(
-                    width > this.config.minWidth ? width : this.config.minWidth,
-                    height > this.config.minHeight ? height : this.config.minHeight
-                );
-
-                /**
-                 * @event movableComponent#resize the component has been resized
-                 * @param {Number} width - the new width
-                 * @param {Number} height - the new height
-                 */
-                this.trigger('resize', this.config.width, this.config.height);
-            }
-            return this;
-        }
     };
 
     /**
@@ -128,63 +54,30 @@ define([
      * @param {Number} [defaults.height] - the intial height of the component
      * @param {Number} [defaults.minWidth] - the min width for resize
      * @param {Number} [defaults.minHeight] - the min height for resize
-     * @param {Number} [defaults.x] - the initial position top absolute to the windows
-     * @param {Number} [defaults.y] - the initial position left absolute to the windows
-     * @returns {movableComponent} the component (uninitialized)
+     * @param {Number} [defaults.maxWidth] - the max width for resize
+     * @param {Number} [defaults.maxHeight] - the max height for resize
+     * @param {Number} [defaults.initialX] - the initial position top absolute to the windows
+     * @param {Number} [defaults.initialY] - the initial position left absolute to the windows
+     * @param {String} [defaults.stackingScope] - in which scope to stack the component
+     * @returns {Component} the component (uninitialized)
      */
     function movableComponentFactory(specs, defaults) {
+        var component;
 
         defaults = _.defaults(defaults || {}, defaultConfig);
-        specs = _.defaults(specs || {}, movableComponent);
 
-        return component(specs, defaults).on('render', function () {
-            var self = this;
-            var $element = this.getElement();
-            var element = $element[0];
-            var $container = this.getContainer();
-            var container = $container[0];
+        component = componentFactory(specs, defaults);
 
+        makeDraggable(component);
+        makeResizable(component);
+        makeStackable(component);
+
+        component.on('render', function () {
             this.setSize(this.config.width, this.config.height)
-                .place();
-            if (this.config.x !== 0 || this.config.y !== 0) {
-                this.moveTo(0, 0);
-            }
-
-            interact(element)
-                .draggable({
-                    autoScroll: true,
-                    restrict: {
-                        restriction: container,
-                        elementRect: {left: 0, right: 1, top: 0, bottom: 1}
-                    },
-                    onmove: function onMove(event) {
-                        self.moveTo(event.dx, event.dy);
-                    }
-                })
-                .resizable({
-                    autoScroll: true,
-                    restrict: {
-                        restriction: container
-                    },
-                    edges: {left: true, right: true, bottom: true, top: true}
-                })
-                .on('resizemove', function (event) {
-                    self.resize(event.rect.width, event.rect.height);
-                    self.moveTo(event.deltaRect.left, event.deltaRect.top);
-                })
-                .on('dragstart', function () {
-                    self.setState('moving', true);
-                })
-                .on('dragend', function () {
-                    self.setState('moving', false);
-                })
-                .on('resizestart', function () {
-                    self.setState('sizing', true);
-                })
-                .on('resizeend', function () {
-                    self.setState('sizing', false);
-                });
+                .center();
         });
+
+        return component;
     }
 
     return movableComponentFactory;

@@ -50,7 +50,7 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
         });
     });
 
-    QUnit.test('increment decimal 0.5 + 1.00 = 1', function(assert){
+    QUnit.test('increment decimal 0.5 + 1.00 = 1.5', function(assert){
         QUnit.expect(3);
 
         var $container = $('#container-1');
@@ -64,7 +64,7 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
             $container.find('.ctrl > a.inc').click();
         });
          $elt.on('increment.incrementer', function(){
-            assert.equal($elt.val(), 1, "The value has been incremented");
+            assert.equal($elt.val(), 1.5, "The value has been incremented");
         });
 
         $elt.incrementer({
@@ -73,7 +73,7 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
 
     });
 
-    QUnit.test('increment decimal 1.01 + 1.00 = 2', function(assert){
+    QUnit.test('increment decimal 1.01 + 1.00 = 2.01', function(assert){
         QUnit.expect(3);
 
         var $container = $('#container-1');
@@ -87,7 +87,7 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
             $container.find('.ctrl > a.inc').click();
         });
          $elt.on('increment.incrementer', function(){
-            assert.equal($elt.val(), 2, "The value has been incremented");
+            assert.equal($elt.val(), 2.01, "The value has been incremented");
         });
 
         $elt.incrementer({
@@ -95,7 +95,7 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
         });
     });
 
-    QUnit.test('decrement decimal 0.5 - 1.00 = 0', function(assert){
+    QUnit.test('decrement decimal 0.5 - 1.00 = -0.5 (no min)', function(assert){
         QUnit.expect(3);
 
         var $container = $('#container-1');
@@ -109,11 +109,35 @@ define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
             $container.find('.ctrl > a.dec').click();
         });
          $elt.on('decrement.incrementer', function(){
-            assert.equal($elt.val(), 0, "The value has been decremented");
+            assert.equal($elt.val(), -0.5, "The value has been decremented");
         });
 
         $elt.incrementer({
             step: 1.00
+        });
+    });
+
+
+    QUnit.test('decrement decimal 0.5 - 1.00 = 0 (min=0)', function(assert){
+        QUnit.expect(2);
+
+        var $container = $('#container-1');
+        assert.ok($container.length === 1, 'Test the fixture is available');
+
+        var $elt = $(':text', $container);
+        assert.ok($elt.length === 1, 'Test input is available');
+        $elt.val(0.5);
+
+        $elt.on('create.incrementer', function(){
+            $container.find('.ctrl > a.dec').click();
+        });
+        $elt.on('decrement.incrementer', function(){
+            assert.ok(false, "Should not have been decremented because minimum reached");
+        });
+
+        $elt.incrementer({
+            step: 1.00,
+            min: 0
         });
     });
 

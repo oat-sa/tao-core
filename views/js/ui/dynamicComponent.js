@@ -23,9 +23,13 @@ define([
     'lodash',
     'interact',
     'ui/component',
+    'ui/component/stackable',
     'ui/transformer',
+    'ui/interactUtils',
+    'util/position',
+    'lib/uuid',
     'tpl!ui/dynamicComponent/layout'
-], function ($, _, interact, component, transformer, layoutTpl){
+], function ($, _, interact, componentFactory, makeStackable, transformer, interactUtils, position, uuid, layoutTpl){
     'use strict';
 
     var _defaults = {
@@ -42,8 +46,8 @@ define([
         smallWidthThreshold : 200,
         draggableContainer : 'parent',
         preserveAspectRatio : true,
-        top : 0, //position top absolute in the window
-        left : 0//position left absolute in the window
+        top : 0,
+        left : 0
     };
 
     /**
@@ -76,15 +80,17 @@ define([
          * @fires dynamicComponent#move
          */
         resetPosition : function resetPosition(){
-            if(this.is('rendered') && !this.is('disabled')){
-                this.getElement().css({
-                    top : this.config.top,
-                    left : this.config.left,
-                    transform : 'none'
-                });
+            var $element = this.getElement();
 
-                this.position.x = this.config.left;
-                this.position.y = this.config.top;
+            if(this.is('rendered') && !this.is('disabled')){
+                interactUtils.restoreOriginalPosition($element);
+
+                this.setCoords();
+
+                $element.css({
+                    left: this.config.left,
+                    top: this.config.top
+                });
 
                 /**
                  * @event dynamicComponent#move
@@ -93,6 +99,18 @@ define([
                 this.trigger('move', this.position);
             }
             return this;
+        },
+
+        /**
+         * compute x/y coords of the component according to the start position and the dragged offset
+         */
+        setCoords : function setCoords() {
+            var $element = this.getElement();
+
+            // fixme: attributes data-x and data-y are added by interactUtils.
+            // If the position is really needed, it should be computed differently
+            this.position.x = parseFloat($element.attr('data-x')) + this.config.left;
+            this.position.y = parseFloat($element.attr('data-y')) + this.config.top;
         },
 
         /**
@@ -140,33 +158,40 @@ define([
 
     /**
      * Builds an instance of the dynamic component
-     * @param {Object} config
-     * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
-     * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
-     * @param {String} [config.title] - title to be displayed in the title bar
-     * @param {Boolean} [config.resizable] - allow the component to be resizable
-     * @param {Boolean} [config.draggable] - allow the component to be draggable
-     * @param {Number} [config.width] - the initial width of the component content
-     * @param {Number} [config.height] - the intial height of the component content
-     * @param {Number} [config.minWidth] - the min width for resize
-     * @param {Number} [config.minHeight] - the min height for resize
-     * @param {Number} [config.maxWidth] - the max width for resize
-     * @param {Number} [config.maxHeight] - the max height for resize
-     * @param {Number} [config.largeWidthThreshold] - the width below which the container will get the class "small"
-     * @param {Number} [config.smallWidthThreshold] - the width above which the container will get the class "large"
-     * @param {Boolean} [config.preserveAspectRatio] - preserve ratio on resize
-     * @param {jQuery|HTMLElement|String} [config.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
-     * @param {Number} [config.top] - the initial position top absolute to the windows
-     * @param {Number} [config.left] - the initial position left absolute to the windows
+     * @param {Object} specs - extra functions to extend the component
+     * @param {Object} defaults
+     * @param {jQuery|HTMLElement|String} [defaults.renderTo] - An optional container in which renders the component
+     * @param {Boolean} [defaults.replace] - When the component is appended to its container, clears the place before
+     * @param {String} [defaults.title] - title to be displayed in the title bar
+     * @param {Boolean} [defaults.resizable] - allow the component to be resizable
+     * @param {Boolean} [defaults.draggable] - allow the component to be draggable
+     * @param {Number} [defaults.width] - the initial width of the component content
+     * @param {Number} [defaults.height] - the intial height of the component content
+     * @param {Number} [defaults.minWidth] - the min width for resize
+     * @param {Number} [defaults.minHeight] - the min height for resize
+     * @param {Number} [defaults.maxWidth] - the max width for resize
+     * @param {Number} [defaults.maxHeight] - the max height for resize
+     * @param {Number} [defaults.largeWidthThreshold] - the width below which the container will get the class "small"
+     * @param {Number} [defaults.smallWidthThreshold] - the width above which the container will get the class "large"
+     * @param {Boolean} [defaults.preserveAspectRatio] - preserve ratio on resize
+     * @param {jQuery|HTMLElement|String} [defaults.draggableContainer] - the DOMElement the draggable/resizable component will be constraint in
+     * @param {Number} [defaults.top] - the initial position top absolute to the relative positioned container
+     * @param {Number} [defaults.left] - the initial position left absolute to the relative positioned container
+     * @param {Number} [defaults.stackingScope] - in which scope to stack the component
      * @returns {component}
      */
     var dynComponentFactory = function dynComponentFactory(specs, defaults){
 
+        var component;
+
         defaults = _.defaults(defaults || {}, _defaults);
         specs = _.defaults(specs || {}, dynamicComponent);
 
-        return component(specs, defaults)
+        component = componentFactory(specs, defaults)
             .setTemplate(layoutTpl)
+            .on('init', function(){
+                this.id = uuid();
+            })
             .on('render', function (){
 
                 var self            = this;
@@ -175,10 +200,11 @@ define([
                 var $content        = $('.dynamic-component-content', $element);
                 var $titleBar       = $('.dynamic-component-title-bar', $element);
                 var $contentOverlay = $('.dynamic-component-layer', $element);
+                var pixelRatio      = window.devicePixelRatio;
                 var interactElement;
 
                 //keeps moving/resizing positions data
-                this.position = {
+                self.position = {
                     x:      this.config.left,
                     y:      this.config.top,
                     width:  this.config.width,
@@ -211,7 +237,6 @@ define([
                 interactElement = interact($element[0]);
                 if(config.draggable){
 
-
                     interactElement.draggable({
                         inertia : false,
                         autoScroll : true,
@@ -219,12 +244,11 @@ define([
                         restrict : _.merge(getRestriction(), {
                             elementRect: { left: 0, right: 1, top: 0, bottom: 1 }
                         }),
-                        onmove : _moveItem,
-                        onstart: function () {
-                            $contentOverlay.addClass('dragging-active');
+                        onmove : function(event) {
+                            interactUtils.moveElement($element, event.dx, event.dy);
                         },
-                        onend: function () {
-                            $contentOverlay.removeClass('dragging-active');
+                        onend : function() {
+                            self.setCoords();
                         }
                     });
 
@@ -246,6 +270,21 @@ define([
                         interactElement,
                         $element[0]);
                     });
+
+                    $(window).on('resize.dynamic-component-' + self.id, function(){
+                        var container;
+
+                        //on browser zoom, reset the position to prevent having
+                        //the component pushed outside it's container
+                        if(window.devicePixelRatio !== pixelRatio ) {
+                            pixelRatio = window.devicePixelRatio;
+
+                            container = getDraggableContainer();
+                            if( position.isInside(container, $element[0]) === false ){
+                                self.resetPosition();
+                            }
+                        }
+                    });
                 }
                 if(config.resizable){
 
@@ -254,25 +293,31 @@ define([
                         autoScroll : true,
                         restrict : getRestriction(),
                         edges : {left : true, right : true, bottom : true, top : true},
-                        onmove : _resizeItem,
-                        onstart: function () {
-                            $contentOverlay.addClass('dragging-active');
-                        },
-                        onend: function () {
-                            $contentOverlay.removeClass('dragging-active');
-                        }
+                        onmove : _resizeItem
                     });
                 }
 
-                function getRestriction(){
-                    var draggableContainer = config.draggableContainer;
-                    if(draggableContainer instanceof $ && draggableContainer.length){
-                        draggableContainer = draggableContainer[0];
+                interactElement
+                    .on('dragstart resizeinertiastart resizestart', function() {
+                        $contentOverlay.addClass('dragging-active');
+                    })
+                    .on('dragend resizeend', function(){
+                        $contentOverlay.removeClass('dragging-active');
+                    });
+
+                //interact sometimes doesn't trigger the start event if the move is quick and ends over an iframe...
+                $element.on('mousedown', function(){
+                    if(/\-resize/.test($('html').css('cursor')) && ! $contentOverlay.hasClass('dragging-active')){
+                        $contentOverlay.addClass('dragging-active');
                     }
+                });
+
+                function getRestriction(){
+                    var draggableContainer = getDraggableContainer();
                     if(!draggableContainer) {
                         return {
                             restriction : 'parent',
-                            endOnly : false,
+                            endOnly : false
                         };
                     }
                     return {
@@ -281,18 +326,12 @@ define([
                     };
                 }
 
-                /**
-                 * Callback for on move event
-                 * @param {Object} e - the interact event object
-                 */
-                function _moveItem(event){
-
-                    self.position.x = (parseFloat(self.position.x) || 0) + event.dx;
-                    self.position.y = (parseFloat(self.position.y) || 0) + event.dy;
-
-                    transformer.translate($element, self.position.x, self.position.y);
-
-                    self.trigger('move', self.position);
+                function getDraggableContainer(){
+                    var draggableContainer = config.draggableContainer;
+                    if(draggableContainer instanceof $ && draggableContainer.length){
+                        draggableContainer = draggableContainer[0];
+                    }
+                    return draggableContainer;
                 }
 
                 /**
@@ -312,16 +351,19 @@ define([
                         $element.removeClass('small').removeClass('large');
                     }
 
-                    self.position.x              = (parseFloat(self.position.x) || 0) + e.deltaRect.left;
-                    self.position.y              = (parseFloat(self.position.y) || 0) + e.deltaRect.top;
-                    self.position.width          = width;
-                    self.position.height         = height;
+                    interactUtils.moveElement(
+                        $element,
+                        (width > config.minWidth && width < config.maxWidth) ? e.deltaRect.left : 0,
+                        (height > config.minHeight && height < config.maxHeight) ? e.deltaRect.top : 0
+                    );
 
-                    transformer.translate($element, self.position.x, self.position.y);
+                    self.position.width   = width;
+                    self.position.height  = height;
+                    self.setCoords();
 
                     $element.css({
                         width  : width + 'px',
-                        height : height + 'px',
+                        height : height + 'px'
                     });
 
                     _.defer(function(){
@@ -336,7 +378,12 @@ define([
                         self.trigger('resize', self.position);
                     });
                 }
+            })
+            .on('destroy', function(){
+                $(window).off('resize.dynamic-component-' + this.id);
             });
+
+        return makeStackable(component, { stackingScope: defaults.stackingScope });
     };
 
     return dynComponentFactory;

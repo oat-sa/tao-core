@@ -864,4 +864,94 @@ define([
             metaKey: false
         });
     });
+
+
+    QUnit.module('State');
+
+
+    QUnit.test('setState/getState', function (assert) {
+        var $target = $('#qunit-fixture');
+        var shortcuts = shortcutRegistry($target.get(0));
+        var res;
+
+        QUnit.expect(3);
+
+        assert.ok(!shortcuts.getState('disabled'), 'The shortcuts registry is enabled');
+
+        res = shortcuts.setState('disabled', true);
+        assert.equal(res, shortcuts, 'The helper returns itself');
+
+        assert.ok(shortcuts.getState('disabled'), 'The shortcuts registry is disabled');
+    });
+
+
+    QUnit.test('enable/disable', function (assert) {
+        var $target = $('#qunit-fixture');
+        var shortcuts = shortcutRegistry($target.get(0));
+        var res;
+
+        QUnit.expect(5);
+
+        assert.ok(!shortcuts.getState('disabled'), 'The shortcuts registry is enabled');
+
+        res = shortcuts.disable();
+        assert.equal(res, shortcuts, 'The helper returns itself');
+
+        assert.ok(shortcuts.getState('disabled'), 'The shortcuts registry is disabled');
+
+        res = shortcuts.enable();
+        assert.equal(res, shortcuts, 'The helper returns itself');
+
+        assert.ok(!shortcuts.getState('disabled'), 'The shortcuts registry is enabled');
+    });
+
+
+    QUnit.asyncTest('disable', function (assert) {
+        var $target = $('#qunit-fixture');
+        var shortcuts = shortcutRegistry($target.get(0));
+        var res;
+
+        QUnit.expect(6);
+
+        res = shortcuts.add('Meta+C', function (event, keystroke) {
+            assert.ok(true, 'The shortcut has been caught');
+            assert.equal(typeof event, 'object', 'The event object is provided');
+            assert.equal(keystroke, 'meta+c', 'The keystroke is provided');
+
+            res = shortcuts.disable();
+            assert.equal(res, shortcuts, 'The helper returns itself');
+
+            $target.on('keydown.test-disabled', function () {
+                $target.off('keydown.test-disabled');
+                assert.ok(true, 'The shortcut has been disabled');
+                QUnit.start();
+            });
+
+            $target.simulate('keydown', {
+                charCode: 0,
+                keyCode: 67,
+                which: 67,
+                code: 'KeyC',
+                key: 'c',
+                ctrlKey: false,
+                shiftKey: false,
+                altKey: false,
+                metaKey: true
+            });
+        });
+
+        assert.equal(res, shortcuts, 'The helper returns itself');
+
+        $target.simulate('keydown', {
+            charCode: 0,
+            keyCode: 67,
+            which: 67,
+            code: 'KeyC',
+            key: 'c',
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: false,
+            metaKey: true
+        });
+    });
 });

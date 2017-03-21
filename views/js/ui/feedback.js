@@ -18,328 +18,276 @@
  */
 
 /**
+ * Displays feedbacks "toasts" messages.
+ *
+ * @example
+ *  feedback().info('This is correct');
+ *
+ *  feedback().warning('You are about to remove %d %s', [5, 'users']);
+ *
+ *  feedback($anotherContainer, {
+ *    timeout : -1
+ *    encodeHtml: false
+ *  })
+ *  .error('<p>Error : </p><ul><li>Reason 1</li>...</ul>');
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'jquery',
     'lodash',
+    'core/format',
+    'ui/component',
     'util/wrapLongWords',
     'util/encode',
     'tpl!ui/feedback/feedback'
-], function($, _, wrapLongWords, encode, tpl){
+], function($, _, format, component, wrapLongWords, encode, tpl){
     'use strict';
+
+    //The default container of the feedbacks
+    var defaultContainerSelector = '#feedback-box';
 
     //keep a reference to ALL alive feedback
     var currents = [];
 
-    //contains the reference to the main feedback box. We expect other containers to be only edge cases.
-    var $feedBackBox;
+    //available levels
+    var levels = [
+        'info',
+        'success',
+        'warning',
+        'danger',
+        'error'
+    ];
 
-    //feedback levels are divided into 2 categories
-    var categories = {
-
-        //volatiles messages disappear after a certain amount of time.
-        //If 2 messages of the same category appears, only the last one is displayed
-        'volatile'      : ['info', 'success'],
-
-        //persistent feedback stay until their are closed.
-        //Other persistent feedback are merged to keep all the info.
-        //To prevent UI pollution, they may be collapsed  in a notification area
-        'persistent'    : ['warning', 'danger', 'error']
-    };
-
-    //extract the available levels from the categories
-    var levels = _(categories).values().flatten().value();
-
-    //feedback's states
-    var states = {
-        created     : 'created',
-        displayed   : 'displayed',
-        closed      : 'closed',
-        merged      : 'merged',
-        collapsed   : 'collapsed'
-    };
-
-    //the default options
     var defaultOptions = {
         timeout: {
-            info: 2000,
+            info:    2000,
             success: 2000,
             warning: 4000,
-            danger: 4000,
-            error: 8000
+            danger:  4000,
+            error:   8000
         },
         // Note: value depends on font, font-weight and such.
         // 40 is pretty good in the current setup but will
         // never be exact with a non-proportional font.
         wrapLongWordsAfter: 40,
+
+        //by default HTML content is encoded
         encodeHtml : true,
+
+        //change the display (absolute or in the flow)
         popup: true
     };
 
     /**
-     * Object delegation. This enables us to separate the instance of feedback from the feedbackApi.
-     * An instance can call methods from the API like it was it, so each object will not contain the function definition.
-     * @private
-     * @param {Object} receiver - the object that receive the methods
-     * @param {Object} provider - it provides the methods to the receiver
-     * @returns {Object} the receiver augmented by the provider's methods.
+     * Creates a feedback object.
+     *
+     * @exports ui/feedback
+     * @param {jQUeryElement} [$container] - only to specify another container
+     * @param {Object} [config] - change the config
+     * @param {Object|Number} [config.timeout] - either one for every level or per level timeout in ms
+     * @param {Number} [config.wrapLongWordsAfter] - add a space in the middle of very long word to enable wrap lines
+     * @param {Boolean} [config.encodeHtml] - weither the message is html encoded
+     * @param {Boolean} [config.popup] - displays the message as a popup or in the flow
+     * @returns {feedback} the feedback object
+     * @throws {TypeError} without a container
      */
-    function delegate (receiver, provider) {
-        _(provider).functions().forEach(function delegateMethod(methodName) {
-            receiver[methodName] = function applyDelegated() {
-                return provider[methodName].apply(receiver, arguments);
-            };
-        });
-        return receiver;
-    }
+    var feedbackFactory = function feedbackFactory( $container, config ){
+        var feedback;
 
-    /**
-     * It provides the feedback behavior
-     * @typedef FeedbackApi
-     */
-    var feedbackApi = {
+        if(!$container || !$container.length){
+            $container = $(defaultContainerSelector);
+        }
+        if(!$container.length){
+            throw new TypeError('The feedback needs to belong to an existing container');
+        }
 
-        level : null,
+        /**
+         * @typedef {Object} feedback - the feedback component
+         */
+        feedback =  component({
 
-        category : null,
+            /**
+             * Creates a message, not displayed.
+             * @param {String} [level = 'info'] - the message level
+             * @param {String} msg - the message to display
+             * @param {Array} [params] - parameters for the message format (%s,%d,%j)
+             * @param {Object} [options] - specify the config
+             * @returns {feedback} chains
+             */
+            message : function message(level, msg, params, options){
+                var displayedMessage = msg;
 
-        message : function message(level, msg, options){
-            if(!level || !_.contains(levels, level)){
-                level = 'info';
-            }
-            this.setState(states.created);
+                if(!level || !_.contains(levels, level)){
+                    level = 'info';
+                }
 
-            this.level = level;
-            this.category = _.findKey(categories, [this.level]);
-            this.options  = _.defaults(options || {}, defaultOptions);
+                //parameterized messages
+                if(_.isPlainObject(params)) {
+                    options = params;
+                    params  = [];
+                }
 
-            // encode plain text string to html
-            msg = this.options.encodeHtml ? encode.html(msg) : msg;
+                this.config  = _.defaults(options || {}, this.config);
+                this.config.level = level;
 
-            // wrap long words
-            msg = !!this.options.wrapLongWordsAfter ? wrapLongWords(msg, this.options.wrapLongWordsAfter) : msg;
+                // encode plain text string to html
+                if(this.config.encodeHtml){
+                    displayedMessage = encode.html(displayedMessage);
+                }
 
-            this.content  = tpl({
-                level : level,
-                msg : msg,
-                popup : !!this.options.popup
-            });
+                // wrap long words
+                if(this.config.wrapLongWordsAfter){
+                    displayedMessage = wrapLongWords(displayedMessage, this.config.wrapLongWordsAfter);
+                }
 
-            this._trigger('create');
+                //apply strf like format parameters
+                if(_.isArray(params) && params.length){
+                    displayedMessage = format.apply(format, [displayedMessage].concat(params));
+                }
 
-            return this;
-        },
+                this.config.msg = displayedMessage;
 
-        info : function info(msg, options){
-            return this.message('info', msg, options)
-                       .open();
-        },
+                return this;
+            },
 
-        success : function success(msg, options){
-            return this.message('success', msg, options)
-                       .open();
-        },
+            /**
+             * Opens an info message
+             * @param {String} msg - the message to display
+             * @param {Array} [params] - parameters for the message format (%s,%d,%j)
+             * @param {Object} [options] - specify the config
+             * @returns {feedback} chains
+             */
+            info : function info(msg, params, options){
+                return this.message('info', msg, params, options).open();
+            },
 
-        warning : function warning(msg, options){
-            return this.message('warning', msg, options)
-                       .open();
-        },
+            /**
+             * Opens an success message
+             * @param {String} msg - the message to display
+             * @param {Array} [params] - parameters for the message format (%s,%d,%j)
+             * @param {Object} [options] - specify the config
+             * @returns {feedback} chains
+             */
+            success : function success(msg, params, options){
+                return this.message('success', msg, params, options).open();
+            },
 
-        danger : function danger(msg, options){
-            return this.message('danger', msg, options)
-                       .open();
-        },
+            /**
+             * Opens an warning message
+             * @param {String} msg - the message to display
+             * @param {Array} [params] - parameters for the message format (%s,%d,%j)
+             * @param {Object} [options] - specify the config
+             * @returns {feedback} chains
+             */
+            warning : function warning(msg, params, options){
+                return this.message('warning', msg, params, options).open();
+            },
 
-        error : function error(msg, options){
-            return this.message('error', msg, options)
-                       .open();
-        },
+            /**
+             * Opens an danger message
+             * @param {String} msg - the message to display
+             * @param {Array} [params] - parameters for the message format (%s,%d,%j)
+             * @param {Object} [options] - specify the config
+             * @returns {feedback} chains
+             */
+            danger : function danger(msg, params, options){
+                return this.message('danger', msg, params, options).open();
+            },
 
-        open : function open(){
+            /**
+             * Opens an error message
+             * @param {String} msg - the message to display
+             * @param {Array} [params] - parameters for the message format (%s,%d,%j)
+             * @param {Object} [options] - specify the config
+             * @returns {feedback} chains
+             */
+            error : function error(msg, params, options){
+                return this.message('error', msg, params, options).open();
+            },
 
-            this._trigger();
-
-            // do not manage persistent message until finished
-            //if(this.category === 'persistent'){
-                 //this.merge();
-            //} else {
+            /**
+             * Opens the message (and close previous one)
+             * ! Method kept for backward compat with previous version !
+             * @returns {feedback} chains
+             */
+            open : function open(){
 
                 //close others
                 _(currents)
-                    //.where({ category : 'volatile' })       //all volatiles
-                    .reject({ id : this.id})                //but this
-                    .invoke('close');                       //run close
+                    .reject(this)
+                    .invoke('close');
 
-                //and display me
-                this.display('open');
-//            }
-            return this;
-        },
-
-        close : function close(){
-            if(this.isInState(states.displayed)){
-
-                this.setState(states.closed);
-
-                $('#' + this.id).remove();
-
-                this._trigger('close');
-
-                //clean up refs
-                _.remove(currents, { _state : states.closed });
-            }
-        },
-
-        display : function display(){
-            var self = this;
-            if(this.content){
-                this.setState(states.displayed);
-
-                $(this.content)
-                    .attr('id', this.id)
-                    .appendTo(this._container);
-
-                this._trigger('display');
-
-                if(this._getTimeout() >= 0){
-                    setTimeout(function(){
-
-                        //volatiles messages auto close and persistent collapse
-        //                if(self.category === 'volatile'){
-                            self.close();
-                        //} else {
-                            //self.collapse();
-                        //}
-
-                    }, this._getTimeout());
-                }
-
-                // close button
-                var $btn = this._container.find('.icon-close');
-                if($btn.length) {
-                    $btn
-                        .off('click')
-                        .on('click', self.close );
-                }
-
-            }
-            return this;
-        },
-
-        merge : function merge(){
-           var previous =  _.find(currents, { category : 'persistent' });
-           if(!previous){
+                //and display
                 return this.display();
-           }
-           //do the merge
-           this.setState(states.merged);
+            },
 
+            /**
+             * Closes the message
+             * ! Method kept for backward compat with previous version !
+             * @returns {feedback} chains
+             */
+            close : function close(){
+                if(this.is('rendered')){
+                    this.destroy();
+                }
+            },
 
-           this._trigger('merge');
-        },
+            /**
+             * Displays the message (does the render)
+             * ! Method kept for backward compat with previous version !
+             * @returns {feedback} chains
+             */
+            display : function display(){
 
-        collapse : function collapse(){
-           this._trigger('collapse');
-        },
+                if(this.is('rendered')){
+                    this.show();
+                } else {
+                    this.render($container);
+                }
+                return this;
+            },
+        }, defaultOptions);
 
-        /**
-         * trigger the event and the callback if exists
-         * @param {String} [eventName] - the name of the event, use the caller name if not set
-         */
-        _trigger : function _trigger(eventName) {
-            var name = eventName ;
+        return feedback
+            .setTemplate(tpl)
+            .on('init', function(){
+                this.config.id = 'feedback-' + (currents.length + 1);
 
-            //trigger the related event
-            this._container.trigger(name + '.feedback', [this]);
+                currents.push(this);
 
-            //run the callback if set in options
-            if(_.isFunction(this.options[name])){
-                this.options[name].call(this);
-            }
-        },
+                //for backward compat
+                $container.trigger('create.feedback');
+            })
+            .on('render', function(){
+                var self = this;
+                var $component = this.getElement();
 
-        /**
-         * Get level-specific or custom timeout for message
-         * @returns {*}
-         * @private
-         */
-        _getTimeout: function (level) {
-            if (_.isUndefined(level)){
-                level = this.level;
-            }
-            if (_.isObject(this.options.timeout)) {
-                return this.options.timeout[level];
-            }
-            return this.options.timeout;
-        }
+                var $closer = $('.icon-close', $component);
+                var timeout = _.isPlainObject(this.config.timeout) ? this.config.timeout[this.config.level] : this.config.timeout;
+
+                $closer.off('click').on('click', function(e){
+                    e.preventDefault();
+                    self.destroy();
+                });
+
+                if(_.isNumber(timeout) && timeout > 0){
+                    _.delay(function(){
+                        self.close();
+                    }, timeout);
+                }
+
+                //for backward compat
+                $container.trigger('display.feedback');
+            })
+            .on('destroy', function(){
+                //for backward compat
+                $container.trigger('close.feedback');
+
+                _.remove(currents, this);
+            })
+            .init(config);
     };
-
-    /**
-     * Contains the current state of the feedback and accessor
-     * @typedef feedbackState
-     */
-    var feedbackState = {
-
-        //the current state
-        _state : null,
-
-        /**
-         * Check if the current state is one of the given values
-         * @param {String|Array} verify - the statue to check
-         * @returns {Boolean} true if the object is in the state to verify
-         */
-        isInState : function isInState(verify){
-            if(!_.isString(verify)){
-                verify = [verify];
-            }
-            return _.contains(verify, this._state);
-        },
-
-        /**
-         * Change the current state
-         * @param {String} state - the new state
-         * @throws {Error} if we try to set an invalid state
-         */
-        setState : function setState(state){
-            if(!_.contains(states, state)){
-                throw new Error('Unkown state ' + state );
-            }
-            this._state = state;
-        }
-    };
-
-    /**
-     * Enables you to create a new feedback.
-     * example fb().error("content");
-     * @exports ui/feedback
-     * @param {jQUeryElement} [$container] - only to specify another container
-     * @returns {Object} the feedback object
-     * @throws {Error} if the container isn't found
-     */
-    var feedbackFactory = function feedbackFactory( $container ){
-        var _container;
-        if(!$feedBackBox){
-            $feedBackBox = $('#feedback-box');
-        }
-        _container = $container || $feedBackBox;
-
-        if(!_container || !_container.length){
-            throw new Error('The feedback needs to belong to an existing container');
-        }
-
-        //mixin the new object with the state object
-        var fb = _.extend( {
-            id          : 'feedback-' + (currents.length + 1),
-            _container  : _container
-        }, feedbackState);
-
-        currents.push(fb);
-
-        //delegate the api calls to the new instance
-        return delegate(fb, feedbackApi);
-    };
-
 
     return feedbackFactory;
 });

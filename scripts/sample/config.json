@@ -1,0 +1,92 @@
+{
+  "extensions": [
+    "taoCe"
+  ],
+  "super-user": {
+    "login": "admin",
+    "lastname": "",
+    "firstname": "",
+    "email": "",
+    "password": "admin"
+  },
+  "configuration": {
+    "global": {
+      "anonymous_lang": "en-US",
+      "lang": "en-US",
+      "mode": "debug",
+      "instance_name": "mytao",
+      "namespace": "http://tao.local/mytao.rdf",
+      "url": "http://tao.dev/",
+      "file_path": "/var/www/package-tao/data/",
+      "root_path": "/var/www/package-tao/",
+      "session_name": "tao_123AbC",
+      "timezone": "Europe/Luxembourg",
+      "import_data": false
+    },
+    "generis": {
+      "persistences": {
+        "default": {
+          "driver": "pdo_mysql",
+          "host": "localhost",
+          "dbname": "tao",
+          "user": "tao",
+          "password": "tao"
+        },
+        "cache": {
+          "driver": "phpfile"
+        },
+        "keyValueResult": {
+          "driver": "phpredis",
+          "host": "10.33.33.33",
+          "port": 6379
+        }
+      },
+      "awsClient": {
+        "type": "configurableService",
+        "class": "oat\\awsTools\\AwsClient",
+        "options": {
+          "region": "eu-west-1",
+          "version": "latest",
+          "credentials":{
+            "secret": "Secret",
+            "key": "Key"
+          }
+        }
+      },
+      "filesystem":{
+        "type": "configurableService",
+        "class":"oat\\awsTools\\AwsFileSystemService",
+        "options": {
+            "filesPath": "/var/www/package-tao/data/",
+            "first_prefix": "",
+            "defaultOptions": {
+              "cache": true,
+              "bucket": "my_bucket",
+              "client": "generis/awsClient"
+            },
+            "adapters": {
+
+            }
+          }
+      },
+      "log": [
+        {
+          "class": "UDPAppender",
+          "host": "127.0.0.1",
+          "port": 5775,
+          "threshold": 1
+        },
+        {
+          "class": "SingleFileAppender",
+          "file": "/var/www/package-tao/log/error.txt",
+          "max_file_size": 1048576,
+          "rotation-ratio": 5,
+          "format": "%m",
+          "threshold": 4
+        }
+      ]
+    }
+  },
+  "postInstall": [
+  ]
+}
