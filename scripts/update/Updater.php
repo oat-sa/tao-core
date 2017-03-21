@@ -732,21 +732,6 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('7.83.0', '7.88.0');
 
         if ($this->isVersion('7.88.0')) {
-            $persistence = \common_persistence_Manager::getPersistence('default');
-            /** @var \common_persistence_sql_pdo_SchemaManager $schemaManager */
-            $schemaManager = $persistence->getDriver()->getSchemaManager();
-            $schema = $schemaManager->createSchema();
-            $fromSchema = clone $schema;
-
-            $queueTable = $schema->getTable(RdsNotification::NOTIF_TABLE);
-            if(!$queueTable->hasColumn(RdsNotification::NOTIF_FIELD_URL)){
-                $queueTable->addColumn(RdsNotification::NOTIF_FIELD_URL          , "string"   ,array("length" => 255, "notnull" => false));
-                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $schema);
-                foreach ($queries as $query) {
-                    $persistence->exec($query);
-                }
-            }
-
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
 
             $this->setVersion('7.89.0');

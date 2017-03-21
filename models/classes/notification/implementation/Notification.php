@@ -44,8 +44,6 @@ class Notification implements NotificationInterface, \JsonSerializable
 
     protected $updatedAt;
 
-    protected $url;
-
     /**
      * AbstractNotification constructor.
      * @param string $userId
@@ -57,9 +55,8 @@ class Notification implements NotificationInterface, \JsonSerializable
      * @param null|string $createdAt
      * @param null|string $updatedAt
      * @param int $status
-     * @param string $url
      */
-    public function __construct($userId , $title , $message , $senderId , $senderName  , $id = null, $createdAt = null , $updatedAt = null,  $status = 0, $url = '')
+    public function __construct($userId , $title , $message , $senderId , $senderName  , $id = null, $createdAt = null , $updatedAt = null,  $status = 0)
     {
         $this->id         = intval($id);
         $this->status     = intval($status);
@@ -70,7 +67,6 @@ class Notification implements NotificationInterface, \JsonSerializable
         $this->message    = $message;
         $this->createdAt  = $createdAt;
         $this->updatedAt  = $updatedAt;
-        $this->url        = $url;
     }
 
     /**
@@ -166,11 +162,6 @@ class Notification implements NotificationInterface, \JsonSerializable
         return $this->title;
     }
 
-    public function getUrl() {
-        \common_Logger::d($this->url);
-        return $this->url;
-    }
-
     public function jsonSerialize()
     {
         return
@@ -184,7 +175,6 @@ class Notification implements NotificationInterface, \JsonSerializable
                 'message'    => $this->getMessage(),
                 'createdAt'  => $this->getCreatedAt(),
                 'updatedAt'  => $this->getUpdatedAt(),
-                'url'        => $this->getUrl(),
             ];
     }
 

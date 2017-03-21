@@ -25,9 +25,6 @@ use oat\tao\helpers\Template;
                                     <td><strong><?=  $notification->getSenderName(); ?></strong></td>
                                     <td><strong><?= $notification->getTitle(); ?></strong></td>
                                     <td><strong><?= $notification->getMessage(); ?></strong></td>
-                                    <?php if(!empty($notification->getUrl())): ?>
-                                    <td><strong><a href="<?= $notification->getUrl(); ?>"><?= __('Download')?></a></strong></td>
-                                    <?php endif;?>
                                 </tr>
                             <?php else: ?>
                                 <tr >
@@ -35,9 +32,6 @@ use oat\tao\helpers\Template;
                                     <td><em><?=  $notification->getSenderName(); ?></em></td>
                                     <td><em><?= $notification->getTitle(); ?></em></td>
                                     <td><em><?= $notification->getMessage(); ?></em></td>
-                                    <?php if(!empty($notification->getUrl())): ?>
-                                    <td><em><a href="<?= $notification->getUrl(); ?>"><?= __('Download')?></a></em></td>
-                                    <?php endif;?>
                                 </tr>
                             <?php endif; ?>
                         <?php endforeach;?>

@@ -33,7 +33,6 @@ class RdsNotification
     const NOTIF_FIELD_RECIPIENT    = 'recipient';
     const NOTIF_FIELD_TITLE        = 'title';
     const NOTIF_FIELD_STATUS       = 'status';
-    const NOTIF_FIELD_URL          = 'url';
     const NOTIF_FIELD_SENDER       = 'sender_id';
     const NOTIF_FIELD_SENDER_NANE  = 'sender_name';
     const NOTIF_FIELD_MESSAGE      = 'message';
@@ -69,7 +68,7 @@ class RdsNotification
 
     protected function getAllFieldString() {
         return self::NOTIF_FIELD_RECIPIENT . ' , ' . self::NOTIF_FIELD_STATUS . ' , ' . self::NOTIF_FIELD_SENDER . ' , ' . self::NOTIF_FIELD_SENDER_NANE
-            . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED . ' , ' . self::NOTIF_FIELD_URL  ;
+            . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED;
     }
 
     public function sendNotification(NotificationInterface $notification)
@@ -90,8 +89,7 @@ class RdsNotification
             $notification->getTitle(),
             $notification->getMessage(),
             $platform->getNowExpression(),
-            $platform->getNowExpression(),
-            $notification->getUrl()
+            $platform->getNowExpression()
         ];
 
         $persistence->exec($sqlQuery , $data);
@@ -128,8 +126,7 @@ class RdsNotification
             $createdAt  = $notificationDetail[self::NOTIF_FIELD_CREATION];
             $updatedAt  = $notificationDetail[self::NOTIF_FIELD_UPDATED];
             $status     = $notificationDetail[self::NOTIF_FIELD_STATUS];
-            $url        = $notificationDetail[self::NOTIF_FIELD_URL];
-            $notification[] = new Notification($userId , $title , $message , $senderId , $senderName , $id , $createdAt , $updatedAt ,  $status, $url);
+            $notification[] = new Notification($userId , $title , $message , $senderId , $senderName , $id , $createdAt , $updatedAt ,  $status);
         }
 
         return $notification;
