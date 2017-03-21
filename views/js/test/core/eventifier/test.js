@@ -1026,6 +1026,113 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
         }, 10);
     });
 
+    QUnit.asyncTest('async promise, resolved', function (assert) {
+        var emitter = eventifier(),
+            state = {
+                foo: false
+            };
+
+        QUnit.expect(2);
+
+        emitter.on('foo', function(){
+            return new Promise(function (resolve) {
+                setTimeout(function() {
+                    assert.ok(true, 'The foo handler is called');
+                    state.foo = true;
+                    resolve();
+                }, 10);
+            });
+        });
+        emitter.after('foo', function(){
+            assert.ok(state.foo, 'The foo handler has been called before the after foo handler');
+            QUnit.start();
+        });
+        emitter.trigger('foo');
+    });
+
+    QUnit.asyncTest('async promise, rejected', function (assert) {
+        var emitter = eventifier();
+
+        QUnit.expect(1);
+
+        emitter.on('foo', function(){
+            return new Promise(function (resolve, reject) {
+                setTimeout(function() {
+                    assert.ok(true, 'The foo handler is called');
+                    reject();
+                    QUnit.start();
+                }, 10);
+            });
+        });
+        emitter.after('foo', function(){
+            assert.ok(false, 'The after foo handler should not be called');
+        });
+        emitter.trigger('foo');
+    });
+
+    QUnit.asyncTest('async promise, multiple resolve', function (assert) {
+        var emitter = eventifier(),
+            state = {
+                foo1: false,
+                foo2: false
+            };
+
+        QUnit.expect(4);
+
+        emitter.on('foo', function(){
+            return new Promise(function (resolve) {
+                setTimeout(function() {
+                    assert.ok(true, 'The foo first handler is called');
+                    state.foo1 = true;
+                    resolve();
+                }, 10);
+            });
+        });
+        emitter.on('foo', function(){
+            return new Promise(function (resolve) {
+                setTimeout(function() {
+                    assert.ok(true, 'The foo second handler is called');
+                    state.foo2 = true;
+                    resolve();
+                }, 20);
+            });
+        });
+        emitter.after('foo', function(){
+            assert.ok(false, 'The after foo handler should not be called');
+            QUnit.start();
+        });
+        emitter.trigger('foo');
+    });
+
+    QUnit.asyncTest('async promise, multiple with mixed response', function (assert) {
+        var emitter = eventifier();
+
+        QUnit.expect(4);
+
+        emitter.on('foo', function(){
+            return new Promise(function (resolve) {
+                setTimeout(function() {
+                    assert.ok(true, 'The foo first handler is called');
+                    resolve();
+                }, 10);
+            });
+        });
+        emitter.on('foo', function(){
+            return new Promise(function (resolve, reject) {
+                setTimeout(function() {
+                    assert.ok(true, 'The foo second handler is called');
+                    reject();
+
+                    QUnit.start();
+                }, 20);
+            });
+        });
+        emitter.after('foo', function(){
+            assert.ok(false, 'The after foo handler should not be called');
+        });
+        emitter.trigger('foo');
+    });
+
 
     QUnit.module('multiple events names');
 
