@@ -433,15 +433,25 @@ define([
                  * @param {Object} handlers - the event handler object to execute
                  */
                 function triggerEvent(handlers){
-                    //trigger the event handlers
-                    _.forEach(handlers.between, function(handler){
-                        handler.apply(self, args);
-                    });
 
-                    //trigger the after event handlers if applicable
-                    _.forEach(handlers.after, function(handler){
-                        handler.apply(self, args);
-                    });
+                    function triggerAsyncEvents(_handlers, _args) {
+                        var _self = this;
+                        return Promise.all(_handlers.map(function (handler) {
+                            return handler.apply(_self, _args);
+                        }));
+                    }
+
+                    triggerAsyncEvents.call(this, handlers.between, args)
+                        .then(function() {
+                            //trigger the after event handlers if applicable
+                            _.forEach(handlers.after, function(handler){
+                                handler.apply(self, args);
+                            });
+                        })
+                        .catch(function() {
+                            // do what here ?
+                            // logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
+                        });
                 }
 
                 return this;
