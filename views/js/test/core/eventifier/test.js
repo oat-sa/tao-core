@@ -248,9 +248,9 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
     });
 
     QUnit.asyncTest("off namespaced", function(assert){
-        QUnit.expect(2);
-
         var emitter = eventifier();
+
+        QUnit.expect(2);
 
         emitter.on('foo', function(){
             assert.ok(true, 'the foo handler should be called');
@@ -273,9 +273,9 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
     });
 
     QUnit.asyncTest("off all namespaces", function(assert){
-        QUnit.expect(1);
-
         var emitter = eventifier();
+
+        QUnit.expect(1);
 
         emitter.on('foo', function(){
             assert.ok(true, 'the foo handler should be called');
@@ -311,7 +311,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             assert.ok(true, "The 1st listener should be executed : e.g. save context recovery");
         });
         testDriver.on('next', function(){
-            assert.ok(true, "The 2nd listener should be executed : e.g. save resposne ");
+            assert.ok(true, "The 2nd listener should be executed : e.g. save response ");
         });
         testDriver.on('next', function(){
             assert.ok(true, "The third and last listener should be executed : e.g. move to next item");
@@ -356,7 +356,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             assert.ok(true, "The 1st listener should be executed : e.g. save context recovery");
         });
         testDriver.on('next', function(){
-            assert.ok(true, "The 2nd listener should be executed : e.g. save resposne ");
+            assert.ok(true, "The 2nd listener should be executed : e.g. save response ");
         });
         testDriver.on('next', function(){
             assert.ok(true, "The third and last listener should be executed : e.g. move to next item");
@@ -364,6 +364,8 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
         });
 
         testDriver.before('next', function(e, a1, a2){
+            var done;
+
             assert.equal(typeof e, 'object', 'the event context object is provided');
             assert.equal(e.name, 'next', 'the event name is provided');
             assert.equal(e.namespace, '@', 'the event namespace is provided');
@@ -373,7 +375,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             assert.equal(a1, arg1, 'the first event arg is correct');
             assert.equal(a2, arg2, 'the second event arg is correct');
             assert.ok(true, "The 1st 'before' listener should be executed : e.g. validate item state");
-            var done = e.done();
+            done = e.done();
             setTimeout(function(){
                 done();
             }, 10);
@@ -463,11 +465,11 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             assert.equal(typeof e.done, 'function', 'the event async enabler API is provided');
             assert.equal(typeof e.prevent, 'function', 'the event preventer API is provided');
             assert.equal(typeof e.preventNow, 'function', 'the event immediate preventer API is provided');
-            var done = e.done();
+            e.done();
             //fail to call done here although we are in an async context
         });
 
-        testDriver.before('next', function(e){
+        testDriver.before('next', function(){
             assert.ok(false, "The 2nd 'before' listener should not be executed : e.g. validate a special interaction state");
         });
 
@@ -559,7 +561,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             assert.equal(typeof e.done, 'function', 'the event async enabler API is provided');
             assert.equal(typeof e.prevent, 'function', 'the event preventer API is provided');
             assert.equal(typeof e.preventNow, 'function', 'the event immediate preventer API is provided');
-            var done = e.done();
+            e.done();
             setTimeout(function(){
                 e.prevent();
             }, 10);
@@ -638,7 +640,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             e.preventNow();
             QUnit.start();
         });
-        itemEditor.before('save', function(e){
+        itemEditor.before('save', function(){
             assert.ok(false, "The 2nd 'before' listener should not be executed : e.g. do save item stylesheet");
         });
 
@@ -672,7 +674,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
 
             QUnit.start();
         });
-        itemEditor.before('save', function(e){
+        itemEditor.before('save', function(){
             assert.ok(false, "The 2nd 'before' listener should not be executed : e.g. do save item stylesheet");
         });
 
@@ -795,7 +797,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             .on('ev2.ns', function(){
                 assert.ok(true, "The ev2.ns handler is called");
             })
-            .before('ev2', function(e){
+            .before('ev2', function(){
                 assert.ok(false, "The before ev2 handler should not be called");
             })
             .before('ev2.*', function(e){
@@ -895,7 +897,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             .on('ev3.ns3', function(){
                 assert.ok(true, "The ev3.ns3 handler is called");
             })
-            .before('ev3', function(e){
+            .before('ev3', function(){
                 assert.ok(false, "The before ev3 handler should not be called");
             })
             .before('ev3.*', function(e){
@@ -929,7 +931,7 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             .on('ev4.ns4', function(){
                 assert.ok(true, "The ev4.ns4 handler is called");
             })
-            .before('ev4', function(e){
+            .before('ev4', function(){
                 assert.ok(false, "The before ev4 handler should not be called");
             })
             .before('ev4.*', function(e){
