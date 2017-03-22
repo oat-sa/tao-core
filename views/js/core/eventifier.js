@@ -417,14 +417,57 @@ define([
 
                     if(mergedHandlers){
 
-                        //if there is something in before we delay the execution
+                        /* * /
+                        // if there is something in before we delay the execution
                         if(mergedHandlers.before.length){
                             createAsyncCallstack(mergedHandlers.before, self, name, ns, args, _.partial(triggerEvent, mergedHandlers));
                         } else {
                             triggerEvent(mergedHandlers);
                         }
+                        /* */
+                        /* */
+                        // each 'before' handlers will get a special 'event' object as its first parameter
+                        var beforeArgs = args.slice();
+                        beforeArgs.unshift({
+                            name: name,
+                            namespace: ns,
+                            // todo: remove the following
+                            done: function () {
+                                return _.noop;
+                            },
+                            prevent: _.noop,
+                            preventNow: _.noop
+                        });
+                        triggerEvents('before', mergedHandlers, beforeArgs)
+                            .then(function() {
+                                return triggerEvents('between', mergedHandlers, args);
+                            })
+                            .then(function() {
+                                return triggerEvents('after', mergedHandlers, args);
+                            })
+                            .catch(function() {
+                                // do what here ?
+                                // logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
+                            });
+                        /* */
                     }
                 });
+
+                function triggerEvents(type, handlers, _args) {
+                    var pHandlers;
+
+                    if (handlers[type].length) {
+                        // console.log('applying handlers ', type);
+                    }
+                    pHandlers = handlers[type].map(function (handler) {
+                        return handler.apply(self, _args);
+                    });
+                    if (! pHandlers.length) {
+                        return Promise.resolve();
+                    }
+                    return Promise.all(pHandlers);
+                }
+
 
                 /**
                  * Execute the given event handlers (between and then after)
@@ -433,25 +476,15 @@ define([
                  * @param {Object} handlers - the event handler object to execute
                  */
                 function triggerEvent(handlers){
+                    //trigger the event handlers
+                    _.forEach(handlers.between, function(handler){
+                        handler.apply(self, args);
+                    });
 
-                    function triggerAsyncEvents(_handlers, _args) {
-                        var _self = this;
-                        return Promise.all(_handlers.map(function (handler) {
-                            return handler.apply(_self, _args);
-                        }));
-                    }
-
-                    triggerAsyncEvents.call(this, handlers.between, args)
-                        .then(function() {
-                            //trigger the after event handlers if applicable
-                            _.forEach(handlers.after, function(handler){
-                                handler.apply(self, args);
-                            });
-                        })
-                        .catch(function() {
-                            // do what here ?
-                            // logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
-                        });
+                    //trigger the after event handlers if applicable
+                    _.forEach(handlers.after, function(handler){
+                        handler.apply(self, args);
+                    });
                 }
 
                 return this;
