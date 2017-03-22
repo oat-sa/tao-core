@@ -19,6 +19,8 @@
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\oatbox\filesystem\File;
 
 /**
  * Rest API controller for task queue
@@ -101,5 +103,46 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         } catch (\Exception $e) {
             return $this->returnError(__('impossible to update task status'));
         }
+    }
+
+    public function download(){
+        if($this->hasRequestParameter('taskId')){
+            /**
+             * @var $task \oat\Taskqueue\JsonTask
+             */
+            $task   = $this->getTask($this->getRequestParameter('taskId'));
+            $report = $task->getReport();
+            $report = \common_report_Report::jsonUnserialize($report);
+
+            if(!is_null($report)){
+                $filename = '';
+                /** @var \common_report_Report $success */
+                foreach ($report->getSuccesses() as $success){
+                    if(!is_null($filename = $success->getData())){
+                        break;
+                    }
+                }
+                /** @var FileSystemService $fileSystem */
+                $fileSystem = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+                $directory = $fileSystem->getDirectory('taskQueueStorage');
+                $file = $directory->getFile($filename);
+                $this->output($file);
+                return;
+            }
+        }
+        return $this->returnJson([
+            'success' => false,
+        ]);
+    }
+    protected function output(File $file)
+    {
+        $tmpFile = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . $file->getBasename();
+        if (($resource = fopen($tmpFile, 'w')) === false) {
+            throw new \common_Exception('Unable to write "' . $file->getPrefix() . '" into tmp folder("' . $tmpFile . '").');
+        }
+        stream_copy_to_stream($file->readStream(), $resource);
+        fclose($resource);
+        \tao_helpers_Export::outputFile($file->getBasename());
+        return;
     }
 }
