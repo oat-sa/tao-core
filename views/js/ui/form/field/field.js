@@ -21,10 +21,11 @@ define([
     'lodash',
     'i18n',
     'tpl!ui/form/field/tpl/checkbox_list',
+    'tpl!ui/form/field/tpl/hidden',
     'tpl!ui/form/field/tpl/password',
     'tpl!ui/form/field/tpl/select',
     'tpl!ui/form/field/tpl/text'
-], function ($, _, __, checkboxListTpl, passwordTpl, selectTpl, textTpl) {
+], function ($, _, __, checkboxListTpl, hiddenTpl, passwordTpl, selectTpl, textTpl) {
     'use strict';
 
 
@@ -71,6 +72,7 @@ define([
     var _templates = {
         checkbox_list : checkboxListTpl,
         default : textTpl,
+        hidden : hiddenTpl,
         password : passwordTpl,
         select : selectTpl,
         text : textTpl

@@ -41,6 +41,62 @@ $userLabel = $userService->createUniqueLabel($class);
         // TODO use id
         .attachTo('.form-container')
 
+        // Hidden - User form sent
+        .addField({
+            object : {
+                input : {
+                    class : 'global',
+                    name : 'user_form_sent',
+                    value : '1'
+                },
+                type : 'hidden'
+            }
+        })
+
+        // Hidden - Tao forms instance
+        .addField({
+            object : {
+                input : {
+                    name : 'tao.forms.instance',
+                    value : '1'
+                },
+                type : 'hidden'
+            }
+        })
+
+        // Class URI (hidden)
+        .addField({
+            object : {
+                input : {
+                    name : 'classUri',
+                    value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_User'
+                },
+                type : 'hidden'
+            }
+        })
+
+        // URI (hidden)
+        .addField({
+            object : {
+                input : {
+                    name : 'uri',
+                    value : 'http_2_taoplatform_1_data_0_rdf_3_i1490197173849770'
+                },
+                type : 'hidden'
+            }
+        })
+
+        // ID (hidden)
+        .addField({
+            object : {
+                input : {
+                    name : 'id',
+                    value : 'http://taoplatform/data.rdf#i1490197173849770'
+                },
+                type : 'hidden'
+            }
+        })
+
         // Label
         .addField({
             object : {
