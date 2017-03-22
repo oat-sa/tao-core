@@ -73,6 +73,7 @@ use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
 use oat\tao\model\i18n\ExtraPoService;
 use oat\tao\scripts\install\SetClientLoggerConfig;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
 
 /**
  *
@@ -730,6 +731,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.83.0', '7.87.1');
+
+        if ($this->isVersion('7.87.1')) {
+            $service = new ExceptionInterpreterService([]);
+            $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
+            $this->setVersion('7.88.0');
+        }
     }
 
     private function migrateFsAccess() {

@@ -35,6 +35,7 @@ use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
 use Exception;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -221,10 +222,10 @@ class Bootstrap {
      */
     protected function catchError(Exception $exception)
     {
-        
-        $Interpretor = new error\ExceptionInterpretor();
-        $Interpretor->setServiceLocator($this->getServiceManager());
-        $Interpretor->setException($exception)->getResponse()->send();
+        $exceptionInterpreterService = $this->getServiceManager()->get(ExceptionInterpreterService::SERVICE_ID);
+        $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
+        $interpretor->setServiceLocator($this->getServiceManager());
+        $interpretor->setException($exception)->getResponse()->send();
     }
 
     /**
