@@ -426,45 +426,53 @@ define([
                         }
                         /* */
                         /* */
-                        // each 'before' handlers will get a special 'event' object as its first parameter
-                        var beforeArgs = args.slice();
-                        beforeArgs.unshift({
-                            name: name,
-                            namespace: ns,
-                            // todo: remove the following
-                            done: function () {
-                                return _.noop;
-                            },
-                            prevent: _.noop,
-                            preventNow: _.noop
-                        });
-                        triggerEvents('before', mergedHandlers, beforeArgs)
-                            .then(function() {
-                                return triggerEvents('between', mergedHandlers, args);
-                            })
-                            .then(function() {
-                                return triggerEvents('after', mergedHandlers, args);
-                            })
-                            .catch(function() {
-                                // do what here ?
-                                // logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
-                            });
-                        /* */
+
+                        if (mergedHandlers.before.length) {
+                            triggerBefore(mergedHandlers.before, name, ns)
+                                .then(triggerBetweenAndAfter.bind(null, mergedHandlers))
+                                .catch(function(err) {
+                                    // logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
+                                });
+                        } else {
+                            triggerBetweenAndAfter(mergedHandlers)
+                                .catch(function(err) {
+                                    // logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
+                                });
+                            /* */
+                        }
                     }
                 });
 
-                function triggerEvents(type, handlers, _args) {
-                    var pHandlers;
+                function triggerBefore(handlers, name, namespace) {
+                    var pHandlers,
+                        beforeArgs = args.slice();
 
-                    if (handlers[type].length) {
-                        // console.log('applying handlers ', type);
-                    }
-                    pHandlers = handlers[type].map(function (handler) {
-                        return handler.apply(self, _args);
+                    // .before() handlers will get a special 'event' object as their first parameter
+                    beforeArgs.unshift({
+                        name: name,
+                        namespace: namespace
                     });
-                    if (! pHandlers.length) {
-                        return Promise.resolve();
-                    }
+
+                    pHandlers = handlers.map(function(handler) {
+                        var value = handler.apply(self, beforeArgs);
+                        // .before() handlers use to return false to cancel the call stack
+                        // to maintain backward compatibility, we transform this into a rejected Promise
+                        return (value === false) ? Promise.reject() : value;
+                    });
+
+                    return Promise.all(pHandlers);
+                }
+
+                function triggerBetweenAndAfter(mergedHandlers) {
+                    return triggerEvents(mergedHandlers.between)
+                        .then(triggerEvents.bind(null, mergedHandlers.after)); //todo: really ?
+                }
+
+                function triggerEvents(handlers) {
+                    var pHandlers;
+                    pHandlers = handlers.map(function (handler) {
+                        return handler.apply(self, args);
+                    });
                     return Promise.all(pHandlers);
                 }
 
