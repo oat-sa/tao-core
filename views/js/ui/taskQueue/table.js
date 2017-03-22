@@ -38,7 +38,8 @@ define([
     'ui/taskQueue/status',
     'tpl!ui/taskQueue/tpl/report',
     'ui/datatable',
-    'ui/modal'
+    'ui/modal',
+    'jquery.fileDownload'
 ], function ($, _, __, moment, taskQueueApi, component, taskQueueStatusFactory, reportTpl) {
     'use strict';
 
@@ -46,7 +47,8 @@ define([
         context: '',
         urls: {
             listing: '',
-            remove: ''
+            remove: '',
+            download: ''
         },
         status : {
             loading: __('Loading status'),
@@ -176,17 +178,78 @@ define([
                     self.trigger('error', err);
                 });
                 return this;
+            },
+            download : function download(taskId){
+                var self = this;
+
+                $.fileDownload(this.config.downloadUrl, {
+                    data: {taskId:taskId},
+                    failCallback: function (responseHtml, url) {
+                        self.trigger('error', __('File download failed'));
+                    }
+                });
+                return this;
             }
         }, config)
             .on('init', function(){
                 this.taskQueueApi = taskQueueApi({url:{
                     status: this.config.serviceUrl,
-                    remove: this.config.removeUrl
+                    remove: this.config.removeUrl,
+                    download: this.config.downloadUrl
                 }});
             })
             .on('render', function () {
                 var self = this;
                 var $component = this.getElement();
+                var actions  = [
+                    {
+                        id: 'delete',
+                        icon: 'bin',
+                        title: __('Remove'),
+                        disabled: function disabled(){
+                            if(this.status === config.status.finished
+                                || this.status === config.status.finishedError
+                                || this.status === config.status.finishedSuccess){
+                                return false
+                            }
+                            return true;
+                        },
+                        action: function action(id) {
+                            self.remove(id);
+                        }
+                    }, {
+                        id: 'report',
+                        icon: 'templates',
+                        title: __('View report'),
+                        disabled: function disabled(){
+                            if(this.status !== config.status.created){
+                                return false
+                            }
+                            return true;
+                        },
+                        action: function action(id) {
+                            self.showReport(id);
+                        }
+                    }
+                ];
+
+                if (typeof this.config.downloadUrl !== 'undefined' && this.config.downloadUrl !== ''){
+                    actions.push({
+                        id: 'download',
+                        icon: 'download',
+                        title: __('Download'),
+                        disabled: function disabled(){
+                            if(this.status === config.status.finished
+                                || this.status === config.status.finishedSuccess){
+                                return false
+                            }
+                            return true;
+                        },
+                        action: function action(id) {
+                            self.download(id);
+                        }
+                    });
+                }
 
                 //set up the ui/datatable
                 $component
@@ -256,29 +319,7 @@ define([
                             id: 'actions',
                             label: __('Actions'),
                             type: 'actions',
-                            actions: [{
-                                id: 'delete',
-                                icon: 'bin',
-                                title: __('Remove'),
-                                disabled: function disabled(){
-                                    if(this.status === config.status.finished
-                                        || this.status === config.status.finishedError
-                                        || this.status === config.status.finishedSuccess){
-                                        return false
-                                    }
-                                    return true;
-                                },
-                                action: function action(id) {
-                                    self.remove(id);
-                                }
-                            }, {
-                                id: 'report',
-                                icon: 'templates',
-                                title: __('View report'),
-                                action: function action(id) {
-                                    self.showReport(id);
-                                }
-                            }]
+                            actions: actions
                         }],
                         selectable: false
                     });
