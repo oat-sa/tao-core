@@ -59,6 +59,7 @@ class ExceptionInterpreterService extends ConfigurableService
         $result = new $interpreterClass;
 
         $result->setException($e);
+        $result->setServiceLocator($this->getServiceManager());
         return $result;
     }
 

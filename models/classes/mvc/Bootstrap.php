@@ -224,7 +224,6 @@ class Bootstrap {
     {
         $exceptionInterpreterService = $this->getServiceManager()->get(ExceptionInterpreterService::SERVICE_ID);
         $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
-        $interpretor->setServiceLocator($this->getServiceManager());
         $interpretor->getResponse()->send();
     }
 
