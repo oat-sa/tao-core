@@ -731,16 +731,17 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.83.0');
         }
 
-        $this->skip('7.83.0', '7.87.1');
+        $this->skip('7.83.0', '7.88.0');
 
-        if ($this->isVersion('7.87.1')) {
+
+        if ($this->isVersion('7.88.0')) {
             $service = new ExceptionInterpreterService([
                 ExceptionInterpreterService::OPTION_INTERPRETERS => [
                     \Exception::class => ExceptionInterpretor::class
                 ]
             ]);
             $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
-            $this->setVersion('7.88.0');
+            $this->setVersion('7.89.0');
         }
     }
 
