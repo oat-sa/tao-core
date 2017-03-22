@@ -17,6 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
+use oat\tao\model\routing\Resolver;
 use oat\tao\model\mvc\Breadcrumbs;
 
 /**
@@ -46,28 +47,18 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     protected function parseRoute($route)
     {
         $parsedRoute = parse_url($route);
-        $path = [];
-        if (isset($parsedRoute['path'])) {
-            if (substr($parsedRoute['path'], 0, 1) == '/') {
-                $parsedRoute['path'] = substr($parsedRoute['path'], 1);
-            }
-            $path = explode('/', isset($parsedRoute['path']) ? $parsedRoute['path'] : '');
-        }
+        
         if (isset($parsedRoute['query'])) {
             parse_str($parsedRoute['query'], $parsedRoute['params']);
         } else {
             $parsedRoute['params'] = [];
         }
-        
-        if (count($path) === 3) {
-            $parsedRoute['extension'] = $path[0]; 
-            $parsedRoute['controller'] = $path[1]; 
-            $parsedRoute['action'] = $path[2]; 
-        } else {
-            $parsedRoute['extension'] = null;
-            $parsedRoute['controller'] = null;
-            $parsedRoute['action'] = null;
-        }
+
+        $resolvedRoute = new Resolver(new \common_http_Request($route));
+        $parsedRoute['extension']         = $resolvedRoute->getExtensionId();
+        $parsedRoute['controller']        = $resolvedRoute->getControllerShortName();
+        $parsedRoute['controller_class']  = $resolvedRoute->getControllerClass();
+        $parsedRoute['action']            = $resolvedRoute->getMethodName();
         
         return $parsedRoute;
     }
