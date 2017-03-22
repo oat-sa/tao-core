@@ -54,12 +54,12 @@ class ExceptionInterpreterService extends ConfigurableService
                 $foundInterpreters[$exceptionClassesHierarchy[$configuredExceptionClass]] = $configuredInterpreterClass;
             }
         }
-        if (empty($foundInterpreters)) { //return default one
-            return new ExceptionInterpretor;
-        } else {
-            $interpreterClass = $foundInterpreters[min(array_keys($foundInterpreters))];
-            return new $interpreterClass;
-        }
+
+        $interpreterClass = $foundInterpreters[min(array_keys($foundInterpreters))];
+        $result = new $interpreterClass;
+
+        $result->setException($e);
+        return $result;
     }
 
     /**
