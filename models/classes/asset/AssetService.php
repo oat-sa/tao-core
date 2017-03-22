@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -27,7 +27,13 @@ use Jig\Utils\FsUtils;
 /**
  * Asset service to retrieve assets easily based on a config
  *
+ * The service can be instantiated with the following options :
+ *  - base : the base URL
+ *  - buster : the cache buster value
+ *  - no-buster : don't use a cache buster
+ *
  * @author Antoine Robin
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 class AssetService extends ConfigurableService
 {
@@ -48,35 +54,51 @@ class AssetService extends ConfigurableService
         if( ! is_null($extensionId)){
             $url = $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
         } else {
-            $url = $this->getAssetUrl() . FsUtils::normalizePath($asset);
+            $url = $this->getAssetBaseUrl() . FsUtils::normalizePath($asset);
         }
 
-        $buster = $this->getCacheBuster();
-        if(!is_null($buster)){
-            $url .= '?' . self::CACHE_BUSTER_KEY . '=' . $buster;
+        if(!$this->hasOption('noBuster')) {
+            $url .= '?' . self::CACHE_BUSTER_KEY . '=' . urlencode($this->getCacheBuster());
         }
         return $url;
     }
 
     public function getJsBaseWww($extensionId)
     {
-        return $this->getAssetUrl() . $extensionId . '/views/';
+        return $this->getAssetBaseUrl() . $extensionId . '/views/';
     }
 
+    /**
+     * @deprecated use getAssetBaseUrl
+     */
     protected function getAssetUrl()
     {
         return $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
     }
 
     /**
+     * Get the asset BASE URL
+     * @return string the base URL
+     */
+    protected function getAssetBaseUrl()
+    {
+        $baseUrl = $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
+
+        $baseUrl = trim($baseUrl);
+        if(substr($baseUrl, -1) != '/'){
+            $baseUrl .= '/';
+        }
+
+        return $baseUrl;
+    }
+
+
+    /**
      * Get a the cache buster value
-     * @return string|null the buster
+     * @return string the busteri value
      */
     protected function getCacheBuster()
     {
-        if(defined('TAO_VERSION')){
-            return TAO_VERSION;
-        }
-        return null;
+        return $this->hasOption('buster') ? $this->getOption('buster') : TAO_VERSION;
     }
 }
