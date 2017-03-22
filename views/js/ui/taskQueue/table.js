@@ -184,7 +184,7 @@ define([
 
                 $.fileDownload(this.config.downloadUrl, {
                     data: {taskId:taskId},
-                    failCallback: function (responseHtml, url) {
+                    failCallback: function () {
                         self.trigger('error', __('File download failed'));
                     }
                 });
@@ -194,8 +194,7 @@ define([
             .on('init', function(){
                 this.taskQueueApi = taskQueueApi({url:{
                     status: this.config.serviceUrl,
-                    remove: this.config.removeUrl,
-                    download: this.config.downloadUrl
+                    remove: this.config.removeUrl
                 }});
             })
             .on('render', function () {
