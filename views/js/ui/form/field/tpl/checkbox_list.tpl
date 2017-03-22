@@ -1,6 +1,6 @@
-<div class="bool-list">
+<div class="ui-form-field bool-list">
     <label
-        class="form_desc"
+        class="label form_desc"
         for="{{input.name}}">
         {{label}}
         {{#if required}}
@@ -8,7 +8,7 @@
         {{/if}}
     </label><!--
 
-    --><div class="form_radlst form_checklst">
+    --><div class="input form_radlst form_checklst">
         {{#each input.options}}
         <input
             name="{{name}}"

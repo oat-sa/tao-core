@@ -179,7 +179,7 @@ define([
          * Attach ui/form/field to ui/form
          */
         // TODO: should using jQuery's appendTo be preferred?
-        attachTo : function attach() {
+        attachTo : function attach(to) {
             var $el, $to;
 
             if (!this.element) {
@@ -192,9 +192,10 @@ define([
             }
 
             $el = $(this.element);
-            $to = $(this.container, this.form);
+            $to = $(to || this.container, this.form);
 
-            $el.appendTo($to);
+            $el.insertBefore('.ui-form-toolbar', this.form);
+            // $el.appendTo($to);
 
             return this;
         },

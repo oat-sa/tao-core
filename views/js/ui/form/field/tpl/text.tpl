@@ -1,6 +1,6 @@
-<div>
+<div class="ui-form-field">
     <label
-        class="form_desc"
+        class="label form_desc"
         for="{{input.name}}">
         {{label}}
         {{#if required}}
@@ -9,6 +9,7 @@
     </label><!--
 
     --><input
+        class="input"
         name="{{input.name}}"
         type="text"
         value="{{input.value}}">

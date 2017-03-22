@@ -1,4 +1,5 @@
 <input
+    class="ui-form-field"
     type="hidden"
 
     {{#if input.class}}

@@ -161,6 +161,7 @@ define([
             }
 
             options = options || {};
+            options.container = '.field-container';
             options.form = this.element;
 
             f = field(options).attachTo();

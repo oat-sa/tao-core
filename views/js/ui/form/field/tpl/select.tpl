@@ -1,6 +1,6 @@
-<div>
+<div class="ui-form-field">
     <label
-        class="form_desc"
+        class="label form_desc"
         for="{{input.name}}">
         {{label}}
         {{#if required}}
@@ -8,7 +8,9 @@
         {{/if}}
     </label><!--
 
-    --><select name="{{input.name}}">
+    --><select
+        class="input"
+        name="{{input.name}}">
         {{#each input.options}}
         <option value="{{value}}">{{label}}</option>
         {{/each}}
