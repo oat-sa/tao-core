@@ -932,4 +932,171 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
         emitter.trigger('foo bar.moo bar');
     });
 
+    QUnit.module('stop');
+
+    QUnit.asyncTest("stop in sync .before() handlers", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(1);
+
+        emitter
+            .before('save', function(){
+                assert.ok(true, 'The 1st .before() handler has been called');
+                emitter.stop();
+                QUnit.start();
+            })
+            .before('save', function(){
+                assert.ok(false, 'The 2nd .before() handler should not be called');
+            })
+            .on('save', function(){
+                assert.ok(false, 'The .on() handler should not be called');
+            })
+            .after('save', function() {
+                assert.ok(false, 'The .after() handler should not be called');
+            })
+            .trigger('save');
+    });
+
+    QUnit.asyncTest("stop in sync .on() handlers", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(2);
+
+        emitter
+            .before('save', function(){
+                assert.ok(true, 'The .before() handler has been called');
+            })
+            .on('save', function(){
+                assert.ok(true, 'The 1st .on() handler has been called');
+                emitter.stop();
+                QUnit.start();
+            })
+            .on('save', function(){
+                assert.ok(false, 'The 2nd .on() handler should not be called');
+            })
+            .after('save', function() {
+                assert.ok(false, 'The .after() handler should not be called');
+            })
+            .trigger('save');
+    });
+
+    QUnit.asyncTest("stop in sync .after() handlers", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(3);
+
+        emitter
+            .before('save', function(){
+                assert.ok(true, 'The .before() handler has been called');
+            })
+            .on('save', function(){
+                assert.ok(true, 'The .on() handler has been called');
+            })
+            .after('save', function() {
+                assert.ok(true, 'The .after() handler has been called');
+                emitter.stop();
+                QUnit.start();
+            })
+            .after('save', function(){
+                assert.ok(false, 'The 2nd .after() handler should not be called');
+            })
+            .trigger('save');
+    });
+
+    QUnit.asyncTest("stop in async .before() handlers", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(3);
+
+        emitter
+            .before('save', function(){
+                assert.ok(true, 'The 1st .before() handler has been called');
+            })
+            .before('save', function(){
+                assert.ok(true, 'The 2nd .before() handler has been called');
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        emitter.stop();
+                        QUnit.start();
+                        resolve();
+                    }, 10);
+                });
+            })
+            .before('save', function(){
+                assert.ok(true, 'The 3rd .before() handler has been called');
+            })
+            .on('save', function(){
+                assert.ok(false, 'The .on() handler should not be called');
+            })
+            .after('save', function() {
+                assert.ok(false, 'The .after() handler should not be called');
+            })
+            .trigger('save');
+    });
+
+    QUnit.asyncTest("stop in async .on() handlers", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(4);
+
+        emitter
+            .before('save', function(){
+                assert.ok(true, 'The .before() handler has been called');
+            })
+            .on('save', function(){
+                assert.ok(true, 'The 1st .on() handler has been called');
+            })
+            .on('save', function(){
+                assert.ok(true, 'The 2nd .on() handler has been called');
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        emitter.stop();
+                        QUnit.start();
+                        resolve();
+                    }, 10);
+                });
+            })
+            .on('save', function(){
+                assert.ok(true, 'The 3rd .on() handler has been called');
+            })
+            .after('save', function() {
+                assert.ok(false, 'The .after() handler should not be called');
+            })
+            .trigger('save');
+    });
+
+
+    QUnit.asyncTest("stop in async .after() handlers", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(5);
+
+        emitter
+            .before('save', function(){
+                assert.ok(true, 'The .before() handler has been called');
+            })
+            .on('save', function(){
+                assert.ok(true, 'The .on() handler has been called');
+            })
+            .after('save', function() {
+                assert.ok(true, 'The 1st .after() handler has been called');
+            })
+            .after('save', function(){
+                assert.ok(true, 'The 2nd .after() handler has been called');
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        emitter.stop();
+                        QUnit.start();
+                        resolve();
+                    }, 10);
+                });
+            })
+            .after('save', function(){
+                assert.ok(true, 'The 3rd .after() handler has been called');
+            })
+            .trigger('save');
+    });
+
+
+
 });

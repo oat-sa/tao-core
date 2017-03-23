@@ -275,6 +275,7 @@ define([
     function eventifier(target){
         var targetName;
         var logger;
+        var isStopped;
 
         //it stores all the handlers under ns/name/[handlers]
         var eventHandlers  = {};
@@ -397,6 +398,8 @@ define([
                 var self = this;
                 var args = [].slice.call(arguments, 1);
 
+                isStopped = false;
+
                 _.forEach(getEventNames(eventNames), function(eventName){
                     var ns = getNamespace(eventName);
                     var name = getName(eventName);
@@ -454,9 +457,9 @@ define([
                     });
 
                     pHandlers = handlers.map(function(handler) {
-                        var value = handler.apply(self, beforeArgs);
                         // .before() handlers use to return false to cancel the call stack
                         // to maintain backward compatibility, we transform this into a rejected Promise
+                        var value = (isStopped) ? false : handler.apply(self, beforeArgs);
                         return (value === false) ? Promise.reject() : value;
                     });
 
@@ -465,13 +468,13 @@ define([
 
                 function triggerBetweenAndAfter(mergedHandlers) {
                     return triggerEvents(mergedHandlers.between)
-                        .then(triggerEvents.bind(null, mergedHandlers.after)); //todo: really ?
+                        .then(triggerEvents.bind(null, mergedHandlers.after));
                 }
 
                 function triggerEvents(handlers) {
                     var pHandlers;
                     pHandlers = handlers.map(function (handler) {
-                        return handler.apply(self, args);
+                        return (isStopped) ? Promise.reject() : handler.apply(self, args);
                     });
                     return Promise.all(pHandlers);
                 }
@@ -532,6 +535,17 @@ define([
                     });
                 }
                 return this;
+            },
+
+            /**
+             * If triggered into an sync handler, this cancels the execution of all following handlers
+             * If triggered asynchronously, this will only cancel the next category of handlers:
+             * - .on() and .after() if triggered during a .before() handler
+             * - .after() if triggered during a .on() handler
+             * - nothing if triggered during a .after() handler
+             */
+            stop : function stop() {
+                isStopped = true;
             }
         };
 
