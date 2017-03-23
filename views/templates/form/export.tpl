@@ -59,17 +59,21 @@
                         //prepare download params
                         var $iframeContainer = $('#iframe-container'),
                                 params = {},
-                                instances = [];
+                                instances = [],
+                                classes = [];
 
                         _.each($form.serializeArray(), function(param){
                             if(param.name.indexOf('instances_') === 0){
                                 instances.push(param.value);
-                            }else{
+                            }else if(param.name.indexOf('classes_') === 0){
+                                classes.push(param.value);
+                            } else {
                                 params[param.name] = param.value;
                             }
                         });
 
                         params.instances = encodeURIComponent(JSON.stringify(instances));
+                        params.classes = encodeURIComponent(JSON.stringify(classes));
 
 
                         $.ajax({
