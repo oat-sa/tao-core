@@ -743,7 +743,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
             $this->setVersion('7.89.0');
         }
-        $this->skip('7.89.0', '7.89.1');
+        $this->skip('7.89.0', '7.89.2');
     }
 
     private function migrateFsAccess() {
