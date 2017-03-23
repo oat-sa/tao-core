@@ -22,10 +22,23 @@
                 'helpers',
                 'uiForm',
                 'ui/feedback',
-                'tao/controller/export/index'
+                'ui/taskQueue/table'
             ],
-            function($, _, __, helpers, uiForm, feedback, index){
-                index.start();
+            function($, _, __, helpers, uiForm, feedback, taskQueueTableFactory){
+
+                var $queueArea = $('#task-list');
+
+                var taskQueueTable = taskQueueTableFactory({
+                    rows : 10,
+                    replace : true,
+                    context : "<?=get_data('context')?>",
+                    dataUrl : helpers._url('getTasks', 'TaskQueueData', 'tao'),
+                    statusUrl : helpers._url('getStatus', 'TaskQueueData', 'tao'),
+                    removeUrl : helpers._url('archiveTask', 'TaskQueueData', 'tao'),
+                    downloadUrl : helpers._url('download', 'TaskQueueData', 'tao')
+                })
+                    .init()
+                    .render($queueArea);
 
                 var $form = $('#exportChooser'),
                         $submitter = $form.find('.form-submitter'),
@@ -67,6 +80,7 @@
                         }).done(function(response){
                             if(response.exported){
                                 feedback().success(response.message);
+                                taskQueueTable.trigger('reload')
                             } else {
                                 feedback().error(response.message);
                             }
