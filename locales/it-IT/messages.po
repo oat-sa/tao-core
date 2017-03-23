@@ -227,10 +227,10 @@ msgid "Calendar"
 msgstr "Calendario"
 
 msgid "cancel"
-msgstr "annulla"
+msgstr "no"
 
 msgid "Cancel"
-msgstr "Cancella"
+msgstr "No"
 
 msgid "cancel the action"
 msgstr "annulla operazione"
@@ -818,10 +818,10 @@ msgid "of"
 msgstr "di"
 
 msgid "OK"
-msgstr "OK"
+msgstr "SI"
 
 msgid "Ok"
-msgstr "Ok"
+msgstr "Sì"
 
 msgid "Old Password"
 msgstr "Vecchia password"
