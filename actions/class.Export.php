@@ -92,6 +92,8 @@ class tao_actions_Export extends tao_actions_CommonModule
 
             $exportData = $this->getRequestParameters();
 
+            $exportLabel = isset($exportData['filename']) ? $exportData['filename'] : $selectedResource->getLabel();
+
             $className = get_class($this);
             $exportData['selfClass'] = $className;
             $exportData['exportHandler'] = get_class($exporter);
@@ -101,7 +103,7 @@ class tao_actions_Export extends tao_actions_CommonModule
              */
             $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
 
-            $task = $taskQueue->createTask( [$className , 'exportTask'] , $exportData , false, __('Export File'), $this->getContext());
+            $task = $taskQueue->createTask( [$className , 'exportTask'] , $exportData , false, __('Export File') . ' ' . $exportLabel, $this->getContext());
 
             if($task === false){
                 $this->returnJson(['exported' => false, 'message' => __("error occured during export task")]);
@@ -114,6 +116,7 @@ class tao_actions_Export extends tao_actions_CommonModule
         }
 
         $context = Context::getInstance();
+        $this->setData('context', $this->getContext());
         $this->setData('export_extension', $context->getExtensionName());
         $this->setData('export_module', $context->getModuleName());
         $this->setData('export_action', $context->getActionName());
@@ -125,7 +128,9 @@ class tao_actions_Export extends tao_actions_CommonModule
 
     protected function getContext()
     {
-        return 'Export';
+        $context = Context::getInstance();
+
+        return $context->getExtensionName().'/'.$context->getModuleName().'/'.$context->getActionName();
     }
 
     public static function exportTask($options)
@@ -151,24 +156,31 @@ class tao_actions_Export extends tao_actions_CommonModule
             $instances = json_decode(urldecode($options['instances']));
             unset($options['instances']);
 
-            //allow to export complete classes
-
-            if(isset($options['type']) && $options['type'] === 'class'){
-
-                $children = array();
-                foreach ($instances as $instance){
-                    $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($instance));
-                    $children = array_keys($class->getInstances());
-                }
-                $options['instances'] = $children;
-            } else {
-                foreach ($instances as $instance){
-                    $options['instances'][] = tao_helpers_Uri::decode($instance);
-                }
+            foreach ($instances as $instance){
+                $options['instances'][tao_helpers_Uri::decode($instance)] = tao_helpers_Uri::decode($instance);
             }
-
         } elseif (isset($options['exportInstance'])) {
             $options['exportInstance'] = tao_helpers_Uri::decode($options['exportInstance']);
+        }
+
+
+        //allow to export complete classes
+        if(isset($options['classes'])){
+            $classes = json_decode(urldecode($options['classes']));
+            unset($options['classes']);
+
+
+            $children = array();
+            foreach ($classes as $classUri){
+                $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($classUri));
+                $uris = array_keys($class->getInstances());
+                $children = array_combine($uris,$uris);
+            }
+
+            if(empty($options['instances'])){
+                $options['instances'] = [];
+            }
+            $options['instances'] = array_merge($options['instances'],$children);
         }
 
         $file = null;
@@ -290,53 +302,5 @@ class tao_actions_Export extends tao_actions_CommonModule
     {
 
         throw new common_exception_DeprecatedApiMethod('Please stop using this method');
-    }
-
-    public function outputFile()
-    {
-
-        if($this->hasRequestParameter('taskId')){
-            /**
-             * @var $task \oat\Taskqueue\JsonTask
-             */
-            $task   = $this->getTask($this->getRequestParameter('taskId'));
-            $report = $task->getReport();
-            $report = \common_report_Report::jsonUnserialize($report);
-            $filename = '';
-
-            if(!is_null($report)){
-                /** @var \common_report_Report $success */
-                foreach ($report->getSuccesses() as $success){
-                    if(!is_null($filename = $success->getData())){
-                        break;
-                    }
-                }
-                /** @var FileSystemService $fileSystem */
-                $fileSystem = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
-                $directory = $fileSystem->getDirectory('taskQueueStorage');
-                $file = $directory->getFile($filename);
-                $this->output($file);
-                return;
-            }
-        }
-        echo 'NON';
-        return;
-
-    }
-
-    protected function output(File $file)
-    {
-
-        $tmpFile = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . $file->getBasename();
-        if (($resource = fopen($tmpFile, 'w')) === false) {
-            throw new \common_Exception('Unable to write "' . $file->getPrefix() . '" into tmp folder("' . $tmpFile . '").');
-        }
-
-        stream_copy_to_stream($file->readStream(), $resource);
-        fclose($resource);
-
-        \tao_helpers_Export::outputFile($file->getBasename());
-
-        return;
     }
 }
