@@ -59,6 +59,7 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
     public function export($formValues, $destination) {
         
     	$file = null;
+        $report = common_report_Report::createSuccess(__('Successful export of resources'));
     	if(isset($formValues['filename']) && isset($formValues['resource'])){
 
 		    $class = new core_kernel_classes_Class($formValues['resource']);
@@ -66,16 +67,24 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 		    $adapter = new tao_helpers_data_GenerisAdapterRdf();
 		    $rdf = $adapter->export($class);
 		    
-		    if(!empty($rdf)){
-		        $name = $formValues['filename'].'_'.time().'.rdf';
-		        $path = tao_helpers_File::concat(array($destination, $name));
-				if(file_put_contents($path, $rdf)){
-					$file = $path;
-				}
+            if(empty($rdf)){
+    	        $report->setType(common_report_Report::TYPE_INFO);
+                $report->setMessage(__('No data to set in the file'));
 			}
-		       
-		}
-		return $file;
+            $name = $formValues['filename'].'_'.time().'.rdf';
+            $path = tao_helpers_File::concat(array($destination, $name));
+            if(file_put_contents($path, $rdf)){
+                $file = $path;
+                $report->setData($file);
+            }
+
+
+		} else {
+    	    $report->setType(common_report_Report::TYPE_ERROR);
+    	    $report->setMessage(__('Some parameters are missing'));
+        }
+
+		return $report;
     }
     
     /**
