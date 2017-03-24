@@ -14,7 +14,6 @@ use oat\tao\helpers\Template;
                             <th class="bordered author"><?= __('From'); ?></th>
                             <th class="version"><?= __('Title'); ?></th>
                             <th class="version"><?= __('Message'); ?></th>
-                            <th class="version"></th>
                         </tr>
                         </thead>
                         <tbody>
