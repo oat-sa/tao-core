@@ -181,7 +181,7 @@ define([
     function eventifier(target){
         var targetName;
         var logger;
-        var shouldStop;
+        var stoppedEvents;
 
         //it stores all the handlers under ns/name/[handlers]
         var eventHandlers  = {};
@@ -304,6 +304,8 @@ define([
                 var self = this;
                 var args = [].slice.call(arguments, 1);
 
+                stoppedEvents = {};
+
                 _.forEach(getEventNames(eventNames), function(eventName){
                     var ns = getNamespace(eventName);
                     var name = getName(eventName);
@@ -320,8 +322,6 @@ define([
                             return acc;
                         }, getHandlerObject());
 
-                    shouldStop = false; // todo: test this with multiple events
-
                     logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
 
                     if(mergedHandlers){
@@ -329,10 +329,10 @@ define([
                     }
                 });
 
-                function triggerAllHandlers(allHandlers, name, namespace) {
+                function triggerAllHandlers(allHandlers, name, ns) {
                     var event = {
                         name: name,
-                        namespace: namespace
+                        namespace: ns
                     };
 
                     if (allHandlers.before.length) {
@@ -358,7 +358,7 @@ define([
                     pHandlers = handlers.map(function(handler) {
                         // .before() handlers use to return false to cancel the call stack
                         // to maintain backward compatibility, we treat this case as a rejected Promise
-                        var value = (shouldStop) ? false : handler.apply(self, beforeArgs);
+                        var value = (shouldStop(event.name)) ? false : handler.apply(self, beforeArgs);
                         return (value === false) ? Promise.reject() : value;
                     });
 
@@ -366,23 +366,22 @@ define([
                 }
 
                 function triggerBetweenAndAfter(allHandlers, event) {
-                    if (shouldStop) {
+                    if (shouldStop(event.name)) {
                         logHandlerStop(null, event, 'before'); // .stop() has been called in an async .before() callback
                     } else {
                         // trigger the event handlers
-                        triggerHandlers(allHandlers.between)
+                        triggerHandlers(allHandlers.between, event)
                             .then(function() {
 
-                                if (shouldStop) {
+                                if (shouldStop(event.name)) {
                                     logHandlerStop(null, event, 'on'); // .stop() has been called in an async .on() callback
                                 } else {
                                     // trigger the after event handlers if applicable
-                                    triggerHandlers(allHandlers.after)
+                                    triggerHandlers(allHandlers.after, event)
                                         .catch(function(err) {
                                             logHandlerStop(err, event, 'after');
                                         });
                                 }
-
                             })
                             .catch(function(err) {
                                 logHandlerStop(err, event, 'on');
@@ -390,16 +389,20 @@ define([
                     }
                 }
 
-                function triggerHandlers(handlers) {
+                function triggerHandlers(handlers, event) {
                     var pHandlers;
                     pHandlers = handlers.map(function (handler) {
-                        return (shouldStop) ? Promise.reject() : handler.apply(self, args);
+                        return (shouldStop(event.name)) ? Promise.reject() : handler.apply(self, args);
                     });
                     return Promise.all(pHandlers);
                 }
 
                 function logHandlerStop(err, event, stoppedIn) {
-                    logger.trace({ err: err, event: event, stoppedIn: stoppedIn }, 'event handlers stopped');
+                    logger.trace({ err: err, event: event.name, stoppedIn: stoppedIn }, 'event handlers stopped');
+                }
+
+                function shouldStop(name) {
+                    return stoppedEvents[name];
                 }
 
                 return this;
@@ -449,8 +452,10 @@ define([
              * - .after() if triggered during a .on() handler
              * - nothing if triggered during a .after() handler
              */
-            stop : function stop() {
-                shouldStop = true;
+            stop : function stop(name) {
+                if (name) {
+                    stoppedEvents[name] = true;
+                }
             }
         };
 
