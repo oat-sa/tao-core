@@ -743,9 +743,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
             $this->setVersion('7.89.0');
         }
-        $this->skip('7.89.0', '7.89.1');
 
-        if ($this->isVersion('7.89.1')) {
+        $this->skip('7.89.0', '7.89.5');
+
+        if ($this->isVersion('7.89.5')) {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
 
             $this->setVersion('7.90.0');
