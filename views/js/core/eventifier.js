@@ -338,13 +338,13 @@ define([
                     if (allHandlers.before.length) {
                         triggerBefore(allHandlers.before, event)
                             .then(function() {
-                                triggerBetweenAndAfter(allHandlers, event);
+                                triggerBetween(allHandlers, event);
                             })
                             .catch(function(err) {
-                                logHandlerStop(err, event, 'before');
+                                logHandlerStop('before', event, err);
                             });
                     } else {
-                        triggerBetweenAndAfter(allHandlers, event);
+                        triggerBetween(allHandlers, event);
                     }
                 }
 
@@ -365,26 +365,33 @@ define([
                     return Promise.all(pHandlers);
                 }
 
-                function triggerBetweenAndAfter(allHandlers, event) {
+                function triggerBetween(allHandlers, event) {
                     if (shouldStop(event.name)) {
-                        logHandlerStop(null, event, 'before'); // .stop() has been called in an async .before() callback
+                        logHandlerStop('before', event); // .stop() has been called in an async .before() callback
                     } else {
                         // trigger the event handlers
                         triggerHandlers(allHandlers.between, event)
                             .then(function() {
+                                triggerAfter(allHandlers.after, event);
+                            })
+                            .catch(function(err) {
+                                logHandlerStop('on', event, err);
+                            });
+                    }
+                }
 
+                function triggerAfter(handlers, event) {
+                    if (shouldStop(event.name)) {
+                        logHandlerStop('on', event); // .stop() has been called in an async .on() callback
+                    } else {
+                        triggerHandlers(handlers, event)
+                            .then(function() {
                                 if (shouldStop(event.name)) {
-                                    logHandlerStop(null, event, 'on'); // .stop() has been called in an async .on() callback
-                                } else {
-                                    // trigger the after event handlers if applicable
-                                    triggerHandlers(allHandlers.after, event)
-                                        .catch(function(err) {
-                                            logHandlerStop(err, event, 'after');
-                                        });
+                                    logHandlerStop('after', event); // .stop() has been called in an async .after() callback
                                 }
                             })
                             .catch(function(err) {
-                                logHandlerStop(err, event, 'on');
+                                logHandlerStop('after', event, err);
                             });
                     }
                 }
@@ -397,7 +404,7 @@ define([
                     return Promise.all(pHandlers);
                 }
 
-                function logHandlerStop(err, event, stoppedIn) {
+                function logHandlerStop(stoppedIn, event, err) {
                     logger.trace({ err: err, event: event.name, stoppedIn: stoppedIn }, 'event handlers stopped');
                 }
 

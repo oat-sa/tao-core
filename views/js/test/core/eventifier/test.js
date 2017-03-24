@@ -1157,7 +1157,9 @@ define([
     QUnit.asyncTest("stop in async .after() handlers", function(assert){
         var emitter = eventifier();
 
-        QUnit.expect(5);
+        QUnit.expect(8);
+
+        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -1174,7 +1176,6 @@ define([
                 return new Promise(function(resolve) {
                     setTimeout(function() {
                         emitter.stop('save');
-                        QUnit.start();
                         resolve();
                     }, 10);
                 });
@@ -1183,6 +1184,18 @@ define([
                 assert.ok(true, 'The 3rd .after() handler has been called');
             })
             .trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            QUnit.start();
+
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'after', 'trace has been logged in the right place');
+            assert.equal(stopTraces[0].event, 'save', 'event has the correct name');
+        }, 20);
     });
 
 
