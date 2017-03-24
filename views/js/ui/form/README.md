@@ -50,7 +50,6 @@ TODO
 TODO
 * - add_user
 + 	- move js to controller
-	- move hidden fields to ui/form/generis/user/new
 + 	- add on submit (to tao/users/new)
   		- 2** - show success message and redirect to ?
   		- 4** - show errors on form

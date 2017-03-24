@@ -110,19 +110,32 @@ define([
                     throw Error('Error occurred on new user form submission.');
                 }
 
-                //todo differ handling based on http status
-                _.delay(function() {
-                    window.location = helpers._url(
-                        'index',
-                        'main',
-                        'tao',
-                        {
-                            structure : 'users',
-                            ext : 'tao',
-                            section : 'list_users'
+                if (data.status === 201) {
+                    //todo show success message and maybe a spinner
+                    _.delay(function() {
+                        window.location = helpers._url(
+                            'index',
+                            'main',
+                            'tao',
+                            {
+                                structure : 'users',
+                                ext : 'tao',
+                                section : 'list_users'
+                            }
+                        );
+                    }, 1000);
+                } else if (400 <= data.status && data.status < 500) {
+                    _.each(data.errors, function(error) {
+                        var field = userForm.form.fields[error.field];
+                        if (field) {
+                            field.showError(error.message);
+                        } else {
+                            //todo flash error [that isn't associated with a field]
                         }
-                    );
-                }, 1000);
+                    });
+                } else {
+                    //todo flash 500 errors
+                }
             });
         }
 
