@@ -1,4 +1,27 @@
-define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ */
+
+define([
+    'lodash',
+    'core/eventifier',
+    'core/promise',
+    'tao/test/core/logger/testLogger'
+], function(_, eventifier, Promise, testLogger){
     'use strict';
 
     QUnit.module('eventifier');
@@ -937,13 +960,14 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
     QUnit.asyncTest("stop in sync .before() handlers", function(assert){
         var emitter = eventifier();
 
-        QUnit.expect(1);
+        QUnit.expect(5);
+
+        testLogger.reset();
 
         emitter
             .before('save', function(){
                 assert.ok(true, 'The 1st .before() handler has been called');
                 emitter.stop();
-                QUnit.start();
             })
             .before('save', function(){
                 assert.ok(false, 'The 2nd .before() handler should not be called');
@@ -955,12 +979,26 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 assert.ok(false, 'The .after() handler should not be called');
             })
             .trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'before', 'trace has been logged in the right place');
+            assert.ok(_.isObject(stopTraces[0].event), 'log record has an event object');
+            assert.equal(stopTraces[0].event.name, 'save', 'event object has the correct name property');
+            QUnit.start();
+        }, 10);
     });
 
     QUnit.asyncTest("stop in sync .on() handlers", function(assert){
         var emitter = eventifier();
 
-        QUnit.expect(2);
+        QUnit.expect(6);
+
+        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -969,7 +1007,6 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             .on('save', function(){
                 assert.ok(true, 'The 1st .on() handler has been called');
                 emitter.stop();
-                QUnit.start();
             })
             .on('save', function(){
                 assert.ok(false, 'The 2nd .on() handler should not be called');
@@ -978,12 +1015,26 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 assert.ok(false, 'The .after() handler should not be called');
             })
             .trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'on', 'trace has been logged in the right place');
+            assert.ok(_.isObject(stopTraces[0].event), 'log record has an event object');
+            assert.equal(stopTraces[0].event.name, 'save', 'event object has the correct name property');
+            QUnit.start();
+        }, 10);
     });
 
     QUnit.asyncTest("stop in sync .after() handlers", function(assert){
         var emitter = eventifier();
 
-        QUnit.expect(3);
+        QUnit.expect(7);
+
+        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -995,18 +1046,31 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             .after('save', function() {
                 assert.ok(true, 'The .after() handler has been called');
                 emitter.stop();
-                QUnit.start();
             })
             .after('save', function(){
                 assert.ok(false, 'The 2nd .after() handler should not be called');
             })
             .trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'after', 'trace has been logged in the right place');
+            assert.ok(_.isObject(stopTraces[0].event), 'log record has an event object');
+            assert.equal(stopTraces[0].event.name, 'save', 'event object has the correct name property');
+            QUnit.start();
+        }, 10);
     });
 
     QUnit.asyncTest("stop in async .before() handlers", function(assert){
         var emitter = eventifier();
 
-        QUnit.expect(3);
+        QUnit.expect(7);
+
+        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -1017,7 +1081,6 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 return new Promise(function(resolve) {
                     setTimeout(function() {
                         emitter.stop();
-                        QUnit.start();
                         resolve();
                     }, 10);
                 });
@@ -1032,12 +1095,26 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 assert.ok(false, 'The .after() handler should not be called');
             })
             .trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'before', 'trace has been logged in the right place');
+            assert.ok(_.isObject(stopTraces[0].event), 'log record has an event object');
+            assert.equal(stopTraces[0].event.name, 'save', 'event object has the correct name property');
+            QUnit.start();
+        }, 20);
     });
 
     QUnit.asyncTest("stop in async .on() handlers", function(assert){
         var emitter = eventifier();
 
-        QUnit.expect(4);
+        QUnit.expect(8);
+
+        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -1051,7 +1128,6 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 return new Promise(function(resolve) {
                     setTimeout(function() {
                         emitter.stop();
-                        QUnit.start();
                         resolve();
                     }, 10);
                 });
@@ -1063,6 +1139,18 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
                 assert.ok(false, 'The .after() handler should not be called');
             })
             .trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'on', 'trace has been logged in the right place');
+            assert.ok(_.isObject(stopTraces[0].event), 'log record has an event object');
+            assert.equal(stopTraces[0].event.name, 'save', 'event object has the correct name property');
+            QUnit.start();
+        }, 20);
     });
 
 
@@ -1096,6 +1184,44 @@ define(['core/eventifier', 'core/promise'], function(eventifier, Promise){
             })
             .trigger('save');
     });
+
+
+    QUnit.asyncTest("stop with multiple events", function(assert){
+        var emitter = eventifier();
+
+        QUnit.expect(7);
+
+        testLogger.reset();
+
+        emitter
+            .on('save', function(){
+                assert.ok(true, 'The .on(save) handler has been called');
+                emitter.stop();
+            })
+            .after('save', function() {
+                assert.ok(false, 'The .after(exit) handler should not be called');
+            })
+            .on('exit', function(){
+                assert.ok(true, 'The .on(exit) handler has been called');
+            })
+            .after('exit', function() {
+                assert.ok(true, 'The .after(exit) handler has been called');
+            })
+            .trigger('save exit');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'on', 'trace has been logged in the right place');
+            assert.ok(_.isObject(stopTraces[0].event), 'log record has an event object');
+            assert.equal(stopTraces[0].event.name, 'save', 'event object has the correct name property');
+            QUnit.start();
+        }, 10);
+    });
+
 
 
 
