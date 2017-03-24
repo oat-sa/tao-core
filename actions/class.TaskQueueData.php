@@ -47,8 +47,7 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
             /** @var oat\Taskqueue\Action\TaskQueueSearch $dataPayLoad */
             $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
 
-            echo json_encode($dataPayLoad);
-            return;
+            return $this->returnJson($dataPayLoad);
         }
     }
 
@@ -126,23 +125,12 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
                 $fileSystem = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
                 $directory = $fileSystem->getDirectory('taskQueueStorage');
                 $file = $directory->getFile($filename);
-                $this->output($file);
+                tao_helpers_Http::returnStream($file->readPsrStream());
                 return;
             }
         }
         return $this->returnJson([
             'success' => false,
         ]);
-    }
-    protected function output(File $file)
-    {
-        $tmpFile = \tao_helpers_Export::getExportPath() . DIRECTORY_SEPARATOR . $file->getBasename();
-        if (($resource = fopen($tmpFile, 'w')) === false) {
-            throw new \common_Exception('Unable to write "' . $file->getPrefix() . '" into tmp folder("' . $tmpFile . '").');
-        }
-        stream_copy_to_stream($file->readStream(), $resource);
-        fclose($resource);
-        \tao_helpers_Export::outputFile($file->getBasename());
-        return;
     }
 }
