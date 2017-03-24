@@ -73,6 +73,8 @@ use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\oatbox\task\TaskService;
 use oat\tao\model\i18n\ExtraPoService;
 use oat\tao\scripts\install\SetClientLoggerConfig;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
+use oat\tao\model\mvc\error\ExceptionInterpretor;
 
 /**
  *
@@ -731,10 +733,22 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('7.83.0', '7.88.0');
 
+
         if ($this->isVersion('7.88.0')) {
+            $service = new ExceptionInterpreterService([
+                ExceptionInterpreterService::OPTION_INTERPRETERS => [
+                    \Exception::class => ExceptionInterpretor::class
+                ]
+            ]);
+            $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
+            $this->setVersion('7.89.0');
+        }
+        $this->skip('7.89.0', '7.89.1');
+
+        if ($this->isVersion('7.89.1')) {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
 
-            $this->setVersion('7.89.0');
+            $this->setVersion('7.90.0');
         }
     }
 
