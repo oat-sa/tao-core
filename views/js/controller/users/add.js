@@ -105,26 +105,25 @@ define([
             });
 
             // On submit
-            // userForm.onSubmit(function(err, data) {
-            //     if (err) {
-            //         throw Error('Error occurred on new user form submission.');
-            //     }
+            userForm.form.onSubmit(function(err, data) {
+                if (err) {
+                    throw Error('Error occurred on new user form submission.');
+                }
 
-            //     console.log('add user submit successfull', data);
-
-            //     _.delay(function() {
-            //         window.location = helpers._url(
-            //             'index',
-            //             'main',
-            //             'tao',
-            //             {
-            //                 structure : 'users',
-            //                 ext : 'tao',
-            //                 section : 'list_users'
-            //             }
-            //         );
-            //     }, 1000);
-            // });
+                //todo differ handling based on http status
+                _.delay(function() {
+                    window.location = helpers._url(
+                        'index',
+                        'main',
+                        'tao',
+                        {
+                            structure : 'users',
+                            ext : 'tao',
+                            section : 'list_users'
+                        }
+                    );
+                }, 1000);
+            });
         }
 
     };

@@ -24,7 +24,7 @@ TODO
   	- stub rdf user schema
 * - create @create action
   	- creates user
-  	- returns { success: bool, data: [], errors: [] }
+  	- returns { success: bool, status: int/str, data: [], errors: [] }
   		- if success then 201
   		- else if user exists then 409
   		- else if user validation error then 400
@@ -34,7 +34,7 @@ TODO
   	- stub rdf user schema
   - create @update action
   	- updates user
-  	- returns { success: bool, data: [], errors: [] }
+  	- returns { success: bool, status: int/str, data: [], errors: [] }
   		- if success then 200
   		- else if user validation error then 400
   		- else 500
@@ -50,7 +50,8 @@ TODO
 TODO
 * - add_user
 + 	- move js to controller
-  	- add on submit (to tao/users/new)
+	- move hidden fields to ui/form/generis/user/new
++ 	- add on submit (to tao/users/new)
   		- 2** - show success message and redirect to ?
   		- 4** - show errors on form
   		- 5** - redirect to error page
@@ -82,9 +83,13 @@ TODO (hash out how to accomplish this)
 - get these dynamically
 - can I get these currently from tao actions
 
+### ui/form
+TODO
+* - index fields property by field name
+
 ### ui/form/field
 TODO
-- create addErrors()
+* - create addErrors()
 	- color red
 	- list errors in field
 

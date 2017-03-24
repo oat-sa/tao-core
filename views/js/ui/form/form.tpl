@@ -1,4 +1,4 @@
-<div class="ui-form xhtml_form">
+<div id="da_form" class="ui-form xhtml_form">
     <form
         {{#if action}}
         action="{{action}}"

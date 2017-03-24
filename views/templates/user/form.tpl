@@ -21,9 +21,9 @@ $userLabel = $userService->createUniqueLabel($class);
     .config({
         config : {
             'tao/controller/users/add' : {
-                // exit    : <?= json_encode(get_data('exit')) ?>,
-                formContainer : '.form-container',
-                // loginId : <?= json_encode(get_data('loginUri')) ?>
+                formContainer : '.form-container'
+                /* exit : <?= json_encode(get_data('exit')) ?>, */
+                /* loginId : <?= json_encode(get_data('loginUri')) ?> */
             }
         }
     });

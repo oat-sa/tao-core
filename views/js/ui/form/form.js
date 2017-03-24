@@ -99,7 +99,7 @@ define([
                 this.remove();
             }
 
-            this.element = formTpl(this.options.object);
+            this.element = $(formTpl(this.options.object));
 
             _.each(this.fields, function(val) {
                 var f = field(val);
@@ -167,6 +167,34 @@ define([
             f = field(options).attachTo();
 
             this.fields.push(f);
+
+            return this;
+        },
+
+
+        /**
+         * Handles form submission
+         * @param {Function} callback
+         */
+        onSubmit : function onSubmit(callback) {
+            if (!this.element) {
+                return false;
+            }
+
+            $('form', this.element)
+            .on('submit', function(e) {
+                e.preventDefault();
+
+                //todo: call tao/users@create
+                callback(null, {
+                    success: true,
+                    status: 201,
+                    errors: [],
+                    data: []
+                });
+
+                return false;
+            });
 
             return this;
         },
