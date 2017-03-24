@@ -153,8 +153,6 @@ define([
          * @param {Object} options
          */
         addField : function addField(options) {
-            var f;
-
             if (!this.element) {
                 // TODO: How to handle this?
                 return false;
@@ -164,9 +162,7 @@ define([
             options.container = '.field-container';
             options.form = this.element;
 
-            f = field(options).attachTo();
-
-            this.fields.push(f);
+            this.fields[options.object.input.name] = field(options).attachTo();
 
             return this;
         },
@@ -187,9 +183,18 @@ define([
 
                 //todo: call tao/users@create
                 callback(null, {
-                    success: true,
-                    status: 201,
-                    errors: [],
+                    success: false,
+                    status: 400,
+                    errors: [
+                        {
+                            field : 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                            message : 'This field is too short (minimum 4)'
+                        },
+                        {
+                            field : 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                            message : 'Must include at least one letter'
+                        }
+                    ],
                     data: []
                 });
 

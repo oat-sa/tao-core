@@ -119,6 +119,13 @@ define([
 
 
         /**
+         * Error container property
+         * @type {String}
+         */
+        errorContainer : '.form-error',
+
+
+        /**
          * Form property
          * @type {HTMLElement}
          */
@@ -181,7 +188,7 @@ define([
                 this.remove();
             }
 
-            this.element = this.template(this.options.object);
+            this.element = $(this.template(this.options.object));
 
             return this;
         },
@@ -236,6 +243,33 @@ define([
             if (this.element) {
                 $(this.element).remove();
             }
+
+            return this;
+        },
+
+
+        /**
+         * Show ui/form/field errors
+         */
+        showError : function showError(message) {
+            var $el, $error, errorClass;
+
+            $el = $(this.element);
+            $error = $el.find(this.errorContainer);
+
+            $el.find('input').addClass('error');
+
+            if (!$error.length) {
+                errorClass = this.errorContainer.substring(1);
+
+                $(this.element)
+                .append('<div class="' + errorClass + '"></div>');
+
+                $error = $el.find(this.errorContainer);
+            }
+
+            //todo only add break if other errors exist (and before message)
+            $error.append(message + '<br>');
 
             return this;
         }
