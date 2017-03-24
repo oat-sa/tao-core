@@ -43,7 +43,7 @@ define([
     resetMessages();
 
     /**
-     * Initialize the logger API with the console provider
+     * Initialize the logger API
      * @returns {logger} the logger
      */
     return {
