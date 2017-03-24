@@ -43,18 +43,20 @@
  * // notify only hello.world and hello.* listeners
  * emitter.trigger('hello.world', 'world');
  *
- * @example using before
+ * @example stopping synchronous events
  * emitter.before('hello', function(e, who){
  *      if(!who || who === 'nobody'){
  *          console.log('I am not saying Hello to nobody');
+ *          emitter.stop('hello');
+ *          // alternative (deprecated)
  *          return false;
  *      }
  * });
  *
- * @example using before asynchronously
+ * @example stopping asynchronous events
  * emitter.before('hello', function(e, who){
  *
- *      // you can know about the event context
+ *      // in before handlers, you can know about the event context
  *      var eventName = e.name;
  *      var eventNamespace = e.namespace;
  *      console.log('Received a ' + eventName + '.' + eventNamespace + ' event');
@@ -69,32 +71,15 @@
  *              } else {
  *                  console.log('I don't talk to stranger');
  *                  reject();
+ *                  // alternative:
+ *                  emitter.stop('hello');
  *              }
  *          }).catch(function(err){
  *              console.log('System failure, I should quit now');
  *              reject(err);
+ *              // alternative:
+ *              emitter.stop('hello');
  *          });
- *      });
- * });
- *
- * @example using before asynchronously (deprecated)
- * emitter.before('hello', function(e, who){
- *
- *      //I am in an asynchronous context
- *      var done = e.done();
- *
- *      //ajax call
- *      fetch('do/I/know?who='+who).then(function(yes){
- *          if(yes){
- *              console.log('I know', who);
- *              e.done();
- *          }else{
- *              console.log('I don't talk to stranger');
- *              e.prevent();
- *          }
- *      })).catch(function(){
- *          console.log('System failure, I should quit now');
- *          e.preventNow();
  *      });
  * });
  *
@@ -452,16 +437,19 @@ define([
             },
 
             /**
-             * If triggered into an sync handler, this cancels the execution of all following handlers,
+             * If triggered into an sync handler, this immediately cancels the execution of all following handlers
              * regardless of their category
              * If triggered asynchronously, this will only cancel the next category of handlers:
              * - .on() and .after() if triggered during a .before() handler
              * - .after() if triggered during a .on() handler
              * - nothing if triggered during a .after() handler
+             * In an async context, you can also reject a Promise with the same results
+             *
+             * @param {string} name - of the event to stop
              */
             stop : function stop(name) {
-                if (name) {
-                    stoppedEvents[name] = true;
+                if (_.isString(name) && ! _.isEmpty(name.trim())) {
+                    stoppedEvents[name.trim()] = true;
                 }
             }
         };

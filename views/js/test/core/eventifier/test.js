@@ -322,7 +322,7 @@ define([
 
     QUnit.module('before');
 
-    QUnit.asyncTest("sync done - return nothing", function(assert){
+    QUnit.asyncTest("sync", function(assert){
 
         var testDriver = eventifier();
         var arg1 = 'X',
@@ -361,7 +361,7 @@ define([
         testDriver.trigger('next', arg1, arg2);
     });
 
-    QUnit.asyncTest("async promise", function(assert){
+    QUnit.asyncTest("async - resolved promise", function(assert){
 
         var testDriver = eventifier();
         var arg1 = 'X',
@@ -406,11 +406,13 @@ define([
         testDriver.trigger('next', arg1, arg2);
     });
 
-    QUnit.asyncTest("sync prevent - return false", function(assert){
+    QUnit.asyncTest("sync - return false", function(assert){
 
         var itemEditor = eventifier();
 
-        QUnit.expect(8);
+        QUnit.expect(11);
+
+        testLogger.reset();
 
         itemEditor.on('save', function(){
             assert.ok(false, "The listener should not be executed : e.g. do save item");
@@ -428,17 +430,31 @@ define([
             assert.equal(typeof e, 'object', 'the event context object is provided');
             assert.equal(e.name, 'save', 'the event name is provided');
             assert.equal(e.namespace, '@', 'the event namespace is provided');
-            QUnit.start();
         });
 
         itemEditor.trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            QUnit.start();
+
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'before', 'trace has been logged in the right place');
+            assert.equal(stopTraces[0].event, 'save', 'event has the correct name');
+        }, 10);
+
     });
 
-    QUnit.asyncTest("async prevent with promise", function(assert){
+    QUnit.asyncTest("async - rejected promise", function(assert){
 
         var itemEditor = eventifier();
 
-        QUnit.expect(8);
+        QUnit.expect(11);
+
+        testLogger.reset();
 
         itemEditor.on('save', function(){
             assert.ok(false, "The listener should not be executed : e.g. do save item");
@@ -459,10 +475,21 @@ define([
             assert.equal(typeof e, 'object', 'the event context object is provided');
             assert.equal(e.name, 'save', 'the event name is provided');
             assert.equal(e.namespace, '@', 'the event namespace is provided');
-            QUnit.start();
         });
 
         itemEditor.trigger('save');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            QUnit.start();
+
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'before', 'trace has been logged in the right place');
+            assert.equal(stopTraces[0].event, 'save', 'event has the correct name');
+        }, 10);
     });
 
     QUnit.asyncTest("namespaced events before order", function(assert){
@@ -700,6 +727,146 @@ define([
         emitter.trigger('ev4.ns4 ev2');
     });
 
+    QUnit.module('on/between');
+
+    QUnit.asyncTest('async promise, resolved', function (assert) {
+        var emitter = eventifier(),
+            state = {
+                foo: false
+            };
+
+        QUnit.expect(3);
+
+        emitter
+            .on('foo', function(){
+                return new Promise(function (resolve) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo handler is called');
+                        state.foo = true;
+                        resolve();
+                    }, 10);
+                });
+            })
+            .after('foo', function(){
+                assert.ok(true, 'The after foo handler is called');
+                assert.ok(state.foo, 'The foo handler has been called before the after foo handler');
+                QUnit.start();
+            })
+            .trigger('foo');
+    });
+
+    QUnit.asyncTest('async promise, rejected', function (assert) {
+        var emitter = eventifier();
+
+        QUnit.expect(4);
+
+        testLogger.reset();
+
+        emitter
+            .on('foo', function(){
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo handler is called');
+                        reject();
+                    }, 10);
+                });
+            })
+            .after('foo', function(){
+                assert.ok(false, 'The after foo handler should not be called');
+            })
+            .trigger('foo');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            QUnit.start();
+
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'on', 'trace has been logged in the right place');
+            assert.equal(stopTraces[0].event, 'foo', 'event has the correct name');
+        }, 20);
+    });
+
+    QUnit.asyncTest('async promise, multiple resolve', function (assert) {
+        var emitter = eventifier(),
+            state = {
+                foo1: false,
+                foo2: false
+            };
+
+        QUnit.expect(5);
+
+        emitter
+            .on('foo', function(){
+                return new Promise(function (resolve) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo first handler is called');
+                        state.foo1 = true;
+                        resolve();
+                    }, 10);
+                });
+            })
+            .on('foo', function(){
+                return new Promise(function (resolve) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo second handler is called');
+                        state.foo2 = true;
+                        resolve();
+                    }, 20);
+                });
+            })
+            .after('foo', function(){
+                assert.ok(true, 'The after foo handler is called');
+                assert.ok(state.foo1, 'The first foo handler has been called before the after foo handler');
+                assert.ok(state.foo2, 'The second foo handler has been called before the after foo handler');
+                QUnit.start();
+            })
+            .trigger('foo');
+    });
+
+    QUnit.asyncTest('async promise, multiple with mixed response', function (assert) {
+        var emitter = eventifier();
+
+        QUnit.expect(5);
+
+        testLogger.reset();
+
+        emitter
+            .on('foo', function(){
+                return new Promise(function (resolve) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo first handler is called');
+                        resolve();
+                    }, 10);
+                });
+            })
+            .on('foo', function(){
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo second handler is called');
+                        reject();
+                    }, 20);
+                });
+            })
+            .after('foo', function(){
+                assert.ok(false, 'The after foo handler should not be called');
+            })
+            .trigger('foo');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace,
+                stopTraces = allTraces.filter(function(trace) {
+                    return trace.stoppedIn;
+                });
+            QUnit.start();
+
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'on', 'trace has been logged in the right place');
+            assert.equal(stopTraces[0].event, 'foo', 'event has the correct name');
+        }, 30);
+    });
 
     QUnit.module('after');
 
@@ -766,117 +933,6 @@ define([
             QUnit.start();
         }, 10);
     });
-
-    QUnit.asyncTest('async promise, resolved', function (assert) {
-        var emitter = eventifier(),
-            state = {
-                foo: false
-            };
-
-        QUnit.expect(3);
-
-        emitter.on('foo', function(){
-            return new Promise(function (resolve) {
-                setTimeout(function() {
-                    assert.ok(true, 'The foo handler is called');
-                    state.foo = true;
-                    resolve();
-                }, 10);
-            });
-        });
-        emitter.after('foo', function(){
-            assert.ok(true, 'The after foo handler is called');
-            assert.ok(state.foo, 'The foo handler has been called before the after foo handler');
-            QUnit.start();
-        });
-        emitter.trigger('foo');
-    });
-
-    QUnit.asyncTest('async promise, rejected', function (assert) {
-        var emitter = eventifier();
-
-        QUnit.expect(1);
-
-        emitter.on('foo', function(){
-            return new Promise(function (resolve, reject) {
-                setTimeout(function() {
-                    assert.ok(true, 'The foo handler is called');
-                    reject();
-                    QUnit.start();
-                }, 10);
-            });
-        });
-        emitter.after('foo', function(){
-            assert.ok(false, 'The after foo handler should not be called');
-        });
-        emitter.trigger('foo');
-    });
-
-    QUnit.asyncTest('async promise, multiple resolve', function (assert) {
-        var emitter = eventifier(),
-            state = {
-                foo1: false,
-                foo2: false
-            };
-
-        QUnit.expect(5);
-
-        emitter.on('foo', function(){
-            return new Promise(function (resolve) {
-                setTimeout(function() {
-                    assert.ok(true, 'The foo first handler is called');
-                    state.foo1 = true;
-                    resolve();
-                }, 10);
-            });
-        });
-        emitter.on('foo', function(){
-            return new Promise(function (resolve) {
-                setTimeout(function() {
-                    assert.ok(true, 'The foo second handler is called');
-                    state.foo2 = true;
-                    resolve();
-                }, 20);
-            });
-        });
-        emitter.after('foo', function(){
-            assert.ok(true, 'The after foo handler is called');
-            assert.ok(state.foo1, 'The first foo handler has been called before the after foo handler');
-            assert.ok(state.foo2, 'The second foo handler has been called before the after foo handler');
-            QUnit.start();
-        });
-        emitter.trigger('foo');
-    });
-
-    QUnit.asyncTest('async promise, multiple with mixed response', function (assert) {
-        var emitter = eventifier();
-
-        QUnit.expect(2);
-
-        emitter.on('foo', function(){
-            return new Promise(function (resolve) {
-                setTimeout(function() {
-                    assert.ok(true, 'The foo first handler is called');
-                    resolve();
-                }, 10);
-            });
-        });
-        emitter.on('foo', function(){
-            return new Promise(function (resolve, reject) {
-                setTimeout(function() {
-                    assert.ok(true, 'The foo second handler is called');
-                    reject();
-
-                    QUnit.start();
-                }, 20);
-            });
-        });
-        emitter.after('foo', function(){
-            assert.ok(false, 'The after foo handler should not be called');
-        });
-        emitter.trigger('foo');
-    });
-
 
     QUnit.module('multiple events names');
 
@@ -1321,8 +1377,4 @@ define([
             assert.equal(stopTraces[0].event, 'save', 'event has the correct name');
         }, 10);
     });
-
-
-
-
 });
