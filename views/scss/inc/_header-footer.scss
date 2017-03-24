@@ -396,12 +396,12 @@ body > footer {
 }
 
 @media (max-width: 1024px) {
-    body:not(.delivery-scope){
+    body:not(.delivery-scope,.small-navi){
         @include mobile-navi();
     }
 }
 
 // works in conjunction with layout/nav.js
-body.oversized-nav:not(.delivery-scope){
+body.oversized-nav:not(.delivery-scope,.small-navi){
     @include mobile-navi();
 }

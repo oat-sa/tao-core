@@ -103,15 +103,11 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
             }
 
-
+            $this->setData('logout', $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
-
             $this->setData('settings-menu', $naviElements);
-            
             $this->setData('current-section', $this->getRequestParameter('section'));
-
             $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
-
             $this->setView('layout.tpl', 'tao');
 	    }
 	}
