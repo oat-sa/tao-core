@@ -22,8 +22,6 @@ namespace oat\tao\model;
 
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
-use oat\oatbox\user\User;
-use oat\Taskqueue\Action\TaskQueueSearch;
 
 trait TaskQueueActionTrait
 {
