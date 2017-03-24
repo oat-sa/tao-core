@@ -79,7 +79,7 @@ class RdsNotification
 
         $sqlQuery    = 'INSERT INTO ' . self::NOTIF_TABLE .
                         ' (' . $this->getAllFieldString() . ') 
-                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?)';
+                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ?)';
 
         $data = [
             $notification->getRecipient(),
