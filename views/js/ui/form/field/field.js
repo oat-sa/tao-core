@@ -23,9 +23,20 @@ define([
     'tpl!ui/form/field/tpl/checkbox_list',
     'tpl!ui/form/field/tpl/hidden',
     'tpl!ui/form/field/tpl/password',
+    'tpl!ui/form/field/tpl/password_confirm',
     'tpl!ui/form/field/tpl/select',
     'tpl!ui/form/field/tpl/text'
-], function ($, _, __, checkboxListTpl, hiddenTpl, passwordTpl, selectTpl, textTpl) {
+], function (
+    $,
+    _,
+    __,
+    checkboxListTpl,
+    hiddenTpl,
+    passwordTpl,
+    passwordConfirmTpl,
+    selectTpl,
+    textTpl
+) {
     'use strict';
 
 
@@ -74,6 +85,7 @@ define([
         default : textTpl,
         hidden : hiddenTpl,
         password : passwordTpl,
+        password_confirm : passwordConfirmTpl,
         select : selectTpl,
         text : textTpl
     };
@@ -177,11 +189,9 @@ define([
 
         /**
          * Attach ui/form/field to ui/form
+         * @param {jQuery|HTMLElement|String} [to]
          */
-        // TODO: should using jQuery's appendTo be preferred?
         attachTo : function attach(to) {
-            var $el, $to;
-
             if (!this.element) {
                 this.render();
             }
@@ -191,11 +201,15 @@ define([
                 return false;
             }
 
-            $el = $(this.element);
-            $to = $(to || this.container, this.form);
-
-            $el.insertBefore('.ui-form-toolbar', this.form);
-            // $el.appendTo($to);
+            if (to) {
+                $(this.element)
+                .appendTo(
+                    $(to || this.container, this.form)
+                );
+            } else {
+                $(this.element)
+                .insertBefore('.ui-form-toolbar', this.form);
+            }
 
             return this;
         },
