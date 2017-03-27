@@ -58,7 +58,7 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
             $data = [
                 'status'  => $task->getStatus(),
                 'label'  => $task->getLabel(),
-                'creationDate'  => strtotime($task->getCreationDate()),
+                'creationDate'  => $task->getCreationDate(),
                 'report' => $report
             ];
             $this->returnJson([
