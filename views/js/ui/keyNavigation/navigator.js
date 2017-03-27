@@ -57,7 +57,8 @@ define([
         defaultPosition : 0,
         keepState : false,
         replace : false,
-        loop : false
+        loop : false,
+        propagateTab : true
     };
 
     /**
@@ -112,7 +113,8 @@ define([
                 // try to find the focused element within the known list of focusable elements
                 _.forEach(navigables, function(navigable, index) {
                     if (navigable.isVisible() && navigable.isEnabled()
-                        && (document.activeElement === navigable.getElement().get(0) || $.contains(navigable.getElement().get(0), document.activeElement))) {
+                        && (document.activeElement === navigable.getElement().get(0)
+                        || (!$(document.activeElement).hasClass('key-navigation-highlight') || $(document.activeElement).data('key-navigatior-id') !== id ) && $.contains(navigable.getElement().get(0), document.activeElement))) {
                         _cursor.position = index;
                         _cursor.navigable = navigable;
                         isFocused = true;
@@ -173,9 +175,11 @@ define([
             }
         }
 
-         _.each(navigables, function(navigable){
-                //check if it is a valid navigable element
-                navigable.init();
+        _.each(navigables, function(navigable){
+            //check if it is a valid navigable element
+            navigable.init();
+            //tad the dom element as it belongs this navigator, TODO make it an array
+            navigable.getElement().data('key-navigatior-id', id);
         });
 
         if(config.group){
@@ -406,6 +410,14 @@ define([
             getCursor : function getCursor(){
                 //clone the return cursor to protect this private variable
                 return _.clone(_cursor);
+            },
+
+            /**
+             * Return the array of navigable objects composing the navigator
+             * @returns {Array}
+             */
+            getNavigables : function getNavigables(){
+                return _.clone(navigables);
             }
         });
 
@@ -418,20 +430,29 @@ define([
             //init standard key bindings
             navigable.shortcuts = shortcutRegistry(navigable.getElement())
                 .add('tab shift+tab', function(e, key){
-                    keyNavigator.trigger(key);
+                    keyNavigator.trigger(key, e.target);
+                },{
+                    propagate : !!config.propagateTab,
+                    prevent: true
                 })
                 .add('enter', function(e){
-                    keyNavigator.activate(e.target);
+                    if(!$(e.target).is(':text,textarea')){
+                        //prevent activating the element when typing a text
+                        e.preventDefault();
+                        keyNavigator.activate(e.target);
+                    }
                 }, {
-                    propagate : false,
-                    prevent : true
+                    propagate : false
                 })
                 .add('up down left right', function(e, key){
-                    if(e.target.tagName !== 'IMG' && !$(e.target).hasClass('key-navigation-scrollable')){
-                        //prevent scrolling of parent element
-                        e.preventDefault();
+                    var $target = $(e.target);
+                    if(!$target.is(':text,textarea')){
+                        if( !$target.is('img') && !$target.hasClass('key-navigation-scrollable')){
+                            //prevent scrolling of parent element
+                            e.preventDefault();
+                        }
+                        keyNavigator.trigger(key, e.target);
                     }
-                    keyNavigator.trigger(key);
                 }, {
                     propagate : false
                 });
@@ -440,13 +461,18 @@ define([
                 //requires a keyup event to make unselecting radio button work with space bar
                 .on('keyup'+_ns, function keyupSpace(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
-                    if(keyCode === 32){//space bar
-                        e.preventDefault();
-                        keyNavigator.activate(e.target);
+                    if(keyCode === 32){
+                        //if an inner element is an input we let the space work
+                        if(e.target !== this && $(e.target).is(':input')){
+                            e.stopPropagation();
+                        } else {
+                            e.preventDefault();
+                            keyNavigator.activate(e.target);
+                        }
                     }
                 })
                 //listen to blurred navigable element
-                .on('blur', function blurCurrentCursor(){
+                .on('blur'+_ns, function blurCurrentCursor(){
                     var cursor = keyNavigator.getCursor();
                     if(cursor && cursor.navigable){
                         keyNavigator.trigger('blur', cursor);

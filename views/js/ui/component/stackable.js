@@ -26,30 +26,46 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'ui/stacker'
-], function(stackerFactory) {
+], function(_, stackerFactory) {
     'use strict';
+
+    var defaultConfig = {
+        stackingScope: ''
+    };
+
+    var stackableComponent = {
+        bringToFront: function bringToFront() {
+            var $element = this.getElement();
+            this._stacker.bringToFront($element);
+        }
+    };
 
     /**
      * @param {Component} - an instance of ui/component
+     * @param {Object} config
+     * @param {String} config.stackingScope - scope id for the stacker
      */
-    return function makeStackable(component) {
-        var stacker;
+    return function makeStackable(component, config) {
+        _.assign(component, stackableComponent);
 
         return component
-            .on('init', function () {
-                var scope = this.config && this.config.stackingScope;
-                stacker = stackerFactory(scope);
+            .off('.makeStackable')
+            .on('init.makeStackable', function () {
+                _.defaults(this.config, config || {}, defaultConfig);
+
+                this._stacker = stackerFactory(this.config.stackingScope);
             })
-            .on('show', function () {
-                stacker.bringToFront(this.getElement());
+            .on('show.makeStackable', function () {
+                this.bringToFront();
             })
-            .on('render', function () {
+            .on('render.makeStackable', function () {
                 var $element = this.getElement();
 
-                stacker.reset($element);
-                stacker.bringToFront($element);
-                stacker.autoBringToFront($element);
+                this._stacker.reset($element);
+                this._stacker.autoBringToFront($element);
+                this.bringToFront();
             });
     };
 
