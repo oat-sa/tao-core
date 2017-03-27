@@ -25,8 +25,9 @@ define([
     'module',
     'helpers',
     'users', //todo
+    'ui/form/form',
     'ui/form/generis/user'
-], function ($, _, module, helpers, users, userForm) {
+], function ($, _, module, helpers, users, form, userForm) {
     'use strict';
 
 
@@ -35,110 +36,42 @@ define([
      */
     var controller = {
 
-        /**
-         * Ran at the start... maybe dom ready?
-         */
         start : function () {
-            var config, form;
+            userForm({ container : '.form-container' })
+            .onSubmit(function(err, res) {
+                console.log('on submit');
+                // if (err) {
+                //     throw Error('Error occurred on new user form submission.');
+                // }
 
-            config = module.config();
-            form = userForm();
-
-            //todo : why didn't module get the config?
-            config.formContainer = '.form-container';
-            form.renderTo(config.formContainer);
-
-            // Hidden - User form sent
-            form.form.addField({
-                object : {
-                    input : {
-                        class : 'global',
-                        name : 'user_form_sent',
-                        value : '1'
-                    },
-                    type : 'hidden'
-                }
-            });
-
-            // Hidden - Tao forms instance
-            form.form.addField({
-                object : {
-                    input : {
-                        name : 'tao.forms.instance',
-                        value : '1'
-                    },
-                    type : 'hidden'
-                }
-            });
-
-            // Class URI (hidden)
-            form.form.addField({
-                object : {
-                    input : {
-                        name : 'classUri',
-                        value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_User'
-                    },
-                    type : 'hidden'
-                }
-            });
-
-            // URI (hidden)
-            form.form.addField({
-                object : {
-                    input : {
-                        name : 'uri',
-                        value : 'http_2_taoplatform_1_data_0_rdf_3_i1490197173849770'
-                    },
-                    type : 'hidden'
-                }
-            });
-
-            // ID (hidden)
-            form.form.addField({
-                object : {
-                    input : {
-                        name : 'id',
-                        value : 'http://taoplatform/data.rdf#i1490197173849770'
-                    },
-                    type : 'hidden'
-                }
-            });
-
-            // On submit
-            form.form.onSubmit(function(err, data) {
-                if (err) {
-                    throw Error('Error occurred on new user form submission.');
-                }
-
-                if (data.status === 201) {
-                    //todo show success message and maybe a spinner
-                    _.delay(function() {
-                        window.location = helpers._url(
-                            'index',
-                            'main',
-                            'tao',
-                            {
-                                structure : 'users',
-                                ext : 'tao',
-                                section : 'list_users'
-                            }
-                        );
-                    }, 1000);
-                } else if (400 <= data.status && data.status < 500) {
-                    _.each(data.errors, function(error) {
-                        var field = form.form.fields[error.field];
-                        if (field) {
-                            field.showError(error.message);
-                        } else {
-                            //todo flash error [that isn't associated with a field]
-                        }
-                    });
-                } else {
-                    //todo flash 500 errors
-                }
+                // if (data.status === 201) {
+                //     //todo show success message and maybe a spinner
+                //     _.delay(function() {
+                //         window.location = helpers._url(
+                //             'index',
+                //             'main',
+                //             'tao',
+                //             {
+                //                 structure : 'users',
+                //                 ext : 'tao',
+                //                 section : 'list_users'
+                //             }
+                //         );
+                //     }, 1000);
+                // } else if (400 <= data.status && data.status < 500) {
+                //     _.each(data.errors, function(error) {
+                //         var field = form.form.fields[error.field];
+                //         if (field) {
+                //             field.showError(error.message);
+                //         } else {
+                //             //todo flash error [that isn't associated with a field]
+                //         }
+                //     });
+                // } else {
+                //     //todo flash 500 errors
+                // }
             });
         }
-
     };
 
 

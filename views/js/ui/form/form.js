@@ -20,207 +20,77 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'urlParser',
-    'core/eventifier',
+    'ui/component',
     'ui/form/field/field',
     'tpl!ui/form/form',
     'css!ui/form/form'
-], function ($, _, __, UrlParser, eventifier, field, formTpl) {
+], function ($, _, __, component, field, formTpl) {
     'use strict';
 
 
-    /**
-     * Default namespace/class
-     * @type {String}
-     */
-    var _ns = 'ui-form';
-
-
-    /**
-     * Default properties for form
-     * @type {Object}
-     */
     var _defaults = {
-        object : {
-            name : _ns,
-            submit : {
-                name : 'submit-' + _ns,
-                value : 'Save'
-            }
+        action : '',
+        method : 'get',
+        name : '',
+        submit : {
+            value : __('Save')
         }
     };
 
 
     /**
-     * Defines a form object
-     * @type {Object}
+     * Factory for ui/form component
+     * @param {Object} [config]
+     * @param {String} [config.action] - The form action attribute (default is `''`)
+     * @param {String} [config.method] - The form method attribute (default is `'get'`)
+     * @param {String} [config.name] - The name of the form (default is `''`)
+     * @param {String} [config.submit.value] - The submit button text (default is `'Save'`)
      */
-    var form = {
+    var formFactory = function formFactory(config) {
+        return component({
+            /**
+             * Add ui/form/field to ui/form
+             */
+            addField : function addField(fieldConfig) {
+                var f = field(fieldConfig);
 
-        /**
-         * Element property
-         * @type {HTMLElement}
-         */
-        element : null,
+                f.render('.field-container');
 
+                if (!this.fields) {
+                    this.fields = {};
+                }
 
-        /**
-         * Fields property
-         * @type {Array}
-         */
-        fields : [],
+                this.fields[fieldConfig.input.name] = field(fieldConfig);
+            },
 
+            /**
+             * Handle form submission
+             * @param {Function} callback - Function called on return of form submission
+             */
+            onSubmit : function onSubmit(callback) {
+                var $form = this.getElement().find('form');
 
-        /**
-         * Options property
-         * @type {Object}
-         */
-        options : {},
+                $form.on('submit', function(e) {
+                    e.preventDefault();
 
+                    //todo add spinner & disable form
 
-        /**
-         * Initializes the form
-         * @param {Object} [options]
-         * @returns {form}
-         */
-        init : function init(options) {
-            // Set options
-            _.merge(this.options, _defaults, options || {});
+                    //todo call action
+                    callback(null, {
+                        success : true,
+                        errors : [],
+                        data : []
+                    });
 
-            return this;
-        },
-
-
-        /**
-         * Renders ui/form
-         */
-        render : function render() {
-            if (this.element) {
-                this.remove();
-            }
-
-            this.element = $(formTpl(this.options.object));
-
-            _.each(this.fields, function(val) {
-                var f = field(val);
-                f.attach();
-            });
-
-            return this;
-        },
-
-
-        /**
-         * Attach ui/form to DOM
-         * @param {String|jQueryElement|HTMLElement} to
-         */
-        // TODO: should jQuery's appendTo be preferred?
-        attachTo : function attach(to) {
-            var $el, $to;
-
-            if (!this.element) {
-                this.render();
-            }
-
-            if (!to) {
-                // TODO: how to handle this?
-                return false;
-            }
-
-            $el = $(this.element);
-            $to = $(to);
-
-            $el.appendTo($to);
-
-            return this;
-        },
-
-
-        /**
-         * Remove ui/form
-         */
-        remove : function remove() {
-            if (this.element) {
-                $(this.element).remove();
-            }
-
-            return this;
-        },
-
-
-        /**
-         * Add ui/form/field to ui/form
-         * @param {Object} options
-         */
-        addField : function addField(options) {
-            if (!this.element) {
-                // TODO: How to handle this?
-                return false;
-            }
-
-            options = options || {};
-            options.container = '.field-container';
-            options.form = this.element;
-
-            this.fields[options.object.input.name] = field(options).attachTo();
-
-            return this;
-        },
-
-
-        /**
-         * Handles form submission
-         * @param {Function} callback
-         */
-        onSubmit : function onSubmit(callback) {
-            if (!this.element) {
-                return false;
-            }
-
-            $('form', this.element)
-            .on('submit', function(e) {
-                e.preventDefault();
-
-                //todo: add spinner, disable & blur form
-
-                //todo: call tao/users@create
-                callback(null, {
-                    success: false,
-                    status: 400,
-                    errors: [
-                        {
-                            field : 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                            message : 'This field is too short (minimum 4)'
-                        },
-                        {
-                            field : 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                            message : 'Must include at least one letter'
-                        }
-                    ],
-                    data: []
+                    return false;
                 });
+            }
+        }, _defaults)
 
-                return false;
-            });
+        .setTemplate(formTpl)
 
-            return this;
-        },
-
-
-        // TODO: create event binding/unbinding methods
+        .init(config);
     };
-
-
-    /**
-     * Creates a form instance
-     * @param {Object} options
-     * @returns {form}
-     */
-    var formFactory = function formFactory(options) {
-        var f = _.cloneDeep(form);
-        return f.init(options);
-    };
-
 
     return formFactory;
 });

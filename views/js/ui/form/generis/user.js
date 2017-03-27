@@ -17,221 +17,195 @@
  */
 
 define([
-    'lodash',
-    'ui/form/form'
+    "lodash",
+    "ui/form/form"
 ], function(_, form) {
-    'use strict';
+    "use strict";
 
 
-    /**
-     * Defines a new user form object
-     * @type {Object}
-     */
-    var newUserForm = {
-
-        /**
-         * Fields property
-         * @type {Array}
-         */
-        fields : [
-            {
-                label : 'Label',
-                rdfs : 'http://www.w3.org/2000/01/rdf-schema#label',
-                required : true,
-                type : 'text',
-                value : ''
+    var _response = {
+        "success": true,
+        "data": {
+            "class": {
+                "uri": "http://www.tao.lu/Ontologies/generis.rdf#User",
+                "label": "User"
             },
-            {
-                label : 'First Name',
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
-                type : 'text',
-                value : ''
-            },
-            {
-                label : 'Last Name',
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#userLastName',
-                type : 'text',
-                value : ''
-            },
-            {
-                label : 'Mail',
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#userMail',
-                type : 'text',
-                value : ''
-            },
-            {
-                label : 'Data Language',
-                options : [
-                    { value : ' ', label : ' ' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langda-DK', label : 'Danish' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langde-DE', label : 'German' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langel-GR', label : 'Greek' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langen-US', label : 'English' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langes-ES', label : 'Spanish' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langfr-FR', label : 'French' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langis-IS', label : 'Icelandic' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langit-IT', label : 'Italian' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langja-JP', label : 'Japanese' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langnl-NL', label : 'Dutch' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langpt-PT', label : 'Portuguese' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langsv-SE', label : 'Swedish' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Languk-UA', label : 'Ukrainian' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langzh-CN', label : 'Simplified Chinese from China' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langzh-TW', label : 'Traditional Chinese from Taiwan' }
-                ],
-                range : 'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
-                required : true,
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
-                type : 'select',
-                value : ''
-            },
-            {
-                label : 'Interface Language',
-                options : [
-                    { value : ' ', label : ' ' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langda-DK', label : 'Danish' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langde-DE', label : 'German' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langel-GR', label : 'Greek' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langen-US', label : 'English' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langes-ES', label : 'Spanish' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langfr-FR', label : 'French' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langis-IS', label : 'Icelandic' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langit-IT', label : 'Italian' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langja-JP', label : 'Japanese' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langnl-NL', label : 'Dutch' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langpt-PT', label : 'Portuguese' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langsv-SE', label : 'Swedish' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Languk-UA', label : 'Ukrainian' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langzh-CN', label : 'Simplified Chinese from China' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_Langzh-TW', label : 'Traditional Chinese from Taiwan' }
-                ],
-                range : 'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
-                required : true,
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#userUILg',
-                type : 'select',
-                value : ''
-            },
-            {
-                label : 'Login',
-                required : true,
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#login',
-                type : 'text',
-                value : ''
-            },
-            {
-                label : 'Roles',
-                options : [
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_GlobalManagerRole',  name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_0', label : 'Global Manager' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAOItem_0_rdf_3_ItemAuthor',     name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_1', label : 'Item Author' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_LockManagerRole',    name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_2', label : 'Lock Manager' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAOProctor_0_rdf_3_ProctorRole', name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_3', label : 'Proctor' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_SysAdminRole',       name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_4', label : 'System Administrator' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_TaskQueueManager',   name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_5', label : 'Task Queue Manager' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAOItem_0_rdf_3_TestAuthor',     name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_6', label : 'Test Author' },
-                    { value : 'http_2_www_0_tao_0_lu_1_Ontologies_1_TAO_0_rdf_3_DeliveryRole',       name : 'http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_userRoles_7', label : 'Test Taker' }
-                ],
-                range : 'http://www.tao.lu/Ontologies/generis.rdf#UserRole',
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
-                type : 'checkbox_list',
-                value : ''
-            },
-            {
-                label : 'Password',
-                required : true,
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                type : 'password_confirm',
-                value : ''
-            },
-            {
-                inaccessible : true,
-                label : 'Time Zone',
-                range : null, //TODO
-                rdfs : 'http://www.tao.lu/Ontologies/generis.rdf#userTimezone',
-                type : 'select',
-                value : ''
-            }
-        ],
-
-
-        /**
-         * Form property
-         * @type {ui/form}
-         */
-        form : null,
-
-        /**
-         * Initializes the new user form
-         * @param {Object} [options]
-         */
-        init : function(options) {
-            _.merge(this.options, options || {});
-
-            this.form = form({
-                object : {
-                    action : '/tao/users/add',
-                    name : 'user_form',
-                    method : 'post'
+            "properties": [
+                {
+                    "uri": "http://www.w3.org/2000/01/rdf-schema#label",
+                    "label": "Label",
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox",
+                    "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
+                    "required": true
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#userFirstName",
+                    "label": "First Name",
+                    "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#userLastName",
+                    "label": "Last Name",
+                    "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#userMail",
+                    "label": "Mail",
+                    "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#userDefLg",
+                    "label": "Data Language",
+                    "range": "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
+                    "required": true,
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#userUILg",
+                    "label": "Interface Language",
+                    "range": "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
+                    "required": true,
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#login",
+                    "label": "Login",
+                    "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
+                    "required": true,
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#userRoles",
+                    "label": "Roles",
+                    "range": "http://www.tao.lu/Ontologies/TAO.rdf#UserRole",
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#password",
+                    "label": "Password",
+                    "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
+                    "required": true,
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox"
                 }
-            });
-
-            return this;
-        },
-
-
-        /**
-         * Options property
-         * @type {Object}
-         */
-        options : {},
-
-
-        /**
-         * Renders ui/form/generis/user
-         * @param {jQuery|HTMLElement|String} to
-         */
-        renderTo : function(to) {
-            var self = this;
-
-            if (!to) {
-                return false;
-            }
-
-            this.form.attachTo(to);
-
-            _.each(this.fields, function(field) {
-                if (field.inaccessible) {
-                    return;
-                }
-
-                self.form.addField({
-                    object : {
-                        input : {
-                            name : field.rdfs,
-                            options : field.options
-                        },
-                        label : field.label,
-                        required : field.required,
-                        type : field.type,
-                        value : field.value //TODO get unique label for user label
+            ],
+            "values": {
+                "http://www.tao.lu/Ontologies/TAO.rdf#Languages": [
+                    {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langda-DK",
+                        "label": "Danish"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langde-DE",
+                        "label": "German"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langel-GR",
+                        "label": "Greek"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langen-US",
+                        "label": "English"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langes-ES",
+                        "label": "Spanish"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langfr-FR",
+                        "label": "French"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langis-IS",
+                        "label": "Icelandic"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langit-IT",
+                        "label": "Italian"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langja-JP",
+                        "label": "Japanese"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langnl-NL",
+                        "label": "Dutch"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langpt-PT",
+                        "label": "Portuguese"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langsv-SE",
+                        "label": "Swedish"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Languk-UA",
+                        "label": "Ukrainian"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langzh-CN",
+                        "label": "Simplified Chinese from China"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#Langzh-TW",
+                        "label": "Traditional Chinese from Taiwan"
                     }
-                });
-            });
-
-            return this;
-        }
+                ],
+                "http://www.tao.lu/Ontologies/TAO.rdf#UserRole": [
+                    {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole",
+                        "label": "Global Manager"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor",
+                        "label": "Item Author"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#LockManagerRole",
+                        "label": "Lock Manager"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole",
+                        "label": "Proctor"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#SysAdminRole",
+                        "label": "System Administrator"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager",
+                        "label": "Task Queue Manager"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAOItem.rdf#TestAuthor",
+                        "label": "Test Author"
+                    }, {
+                        "uri": "http//www.tao.lu/Ontologies/TAO.rdf#DeliveryRole",
+                        "label": "Test Taker"
+                    }
+                ]
+            }
+        },
+        "version": "TAO-3.2.0-sprint46"
     };
 
 
     /**
-     * Create a new user form instance
-     * @param {Object} [options]
-     * @returns {newUserForm}
+     * Factory for ui/form/generis/user
+     * @param {Object} config
+     * @param {String} [config.action] - URI that processes form (default is `"/tao/users/add"`)
+     * @param {String} config.container - Container to render form
+     * @param {String} [config.method] - The HTTP method the browser uses to submit the form (default is `"get"`)
      */
-    var newUserFormFactory = function newUserFormFactory(options) {
-        var f = _.cloneDeep(newUserForm);
-        return f.init(options);
+    var userGenerisFormFactory = function userGenerisFormFactory(config) {
+        var userForm;
+
+        config = config || {};
+
+        userForm = form({
+            action : config.action || "/tao/users/add",
+            name : _response.data.class.uri,
+            method : config.method || "post"
+        });
+
+        userForm.render(config.container);
+
+        // "uri": "http://www.tao.lu/Ontologies/generis.rdf#userUILg",
+        // "label": "Interface Language",
+        // "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox",
+        // "range": "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
+        // "required": true
+        _.each(_response.data.properties, function(property) {
+            userForm.addField({
+                input : {
+                    name : property.uri,
+                    options : _response.data.values[property.range],
+                    value : property.value
+                },
+                label : property.label,
+                required : property.required,
+                type : property.widget
+            });
+        });
+
+        return userForm;
     };
 
 
-    return newUserFormFactory;
+    return userGenerisFormFactory;
 });

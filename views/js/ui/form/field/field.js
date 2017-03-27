@@ -21,306 +21,114 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'tpl!ui/form/field/tpl/checkbox_list',
-    'tpl!ui/form/field/tpl/hidden',
-    'tpl!ui/form/field/tpl/password',
-    'tpl!ui/form/field/tpl/password_confirm',
-    'tpl!ui/form/field/tpl/select',
-    'tpl!ui/form/field/tpl/text'
+    'tpl!ui/form/field/tpl/checkBox',
+    'tpl!ui/form/field/tpl/comboBox',
+    'tpl!ui/form/field/tpl/hiddenBox',
+    'tpl!ui/form/field/tpl/textBox'
 ], function (
     $,
     _,
     __,
     component,
-    checkboxListTpl,
-    hiddenTpl,
-    passwordTpl,
-    passwordConfirmTpl,
-    selectTpl,
-    textTpl
+    checkBoxTpl,
+    comboBoxTpl,
+    hiddenBoxTpl,
+    textBoxTpl
 ) {
     'use strict';
 
 
-    /**
-     * Default namespace/class
-     * @type {String}
-     */
-    var _ns = 'ui-form-field';
-
-
-    /**
-     * Default properties for ui/form/field
-     * @type {Object}
-     */
     var _defaults = {
-        container : '.' + _ns,
-        object : {
-            input : {
-                name : 'input',
-                rdfs : '',
-                value : ''
-            },
-            label : 'Label',
-            required : false
-        }
+        input : {
+            name : '',
+            options : [],
+            placeholder : '',
+            value : ''
+        },
+        label : '',
+        required : false,
+        type : 'default'
     };
 
 
-    /**
-     * Requisite properties for ui/form/field
-     * @type {Object}
-     */
-    var _requisites = [
-        'form',
-        'object.input.name',
-        'object.type'
-    ];
-
-
-    /**
-     * Default templates
-     * @type {Object}
-     */
     var _templates = {
-        checkbox_list : checkboxListTpl,
-        default : textTpl,
-        hidden : hiddenTpl,
-        password : passwordTpl,
-        password_confirm : passwordConfirmTpl,
-        select : selectTpl,
-        text : textTpl
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox' : checkBoxTpl,
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox' : comboBoxTpl,
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox' : hiddenBoxTpl,
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox' : textBoxTpl
     };
 
 
     /**
-     * Defines a ui/form/field object
-     * @type {Object}
+     * Factory for ui/form/field component
+     * @param {Object} config
+     * @param {Object} config.input - Config of input element
+     * @param {String} config.input.name - Input element's name
+     * @param {Array} [config.input.options] - Input element's select options (default is `[]`)
+     * @param {String} [config.input.placeholder] - Input element's placeholder (default is `''`)
+     * @param {String} [config.input.value] - Input element's value (default is `''`)
+     * @param {String} config.label - Label element's text (default is `''`)
+     * @param {bool} [config.required] - Flag to determine if ui/form/field is required (default is `false`)
+     * @param {String} config.type - Type of ui/form/field
      */
-    var field = {
-
-        /**
-         * Container property
-         * @type {HTMLElement}
-         */
-        container : null,
-
-
-        /**
-         * Element property
-         * @type {HTMLElement}
-         */
-        element : null,
-
-
-        /**
-         * Errors property
-         * @type {Array}
-         */
-        errors : [],
-
-
-        /**
-         * Error container property
-         * @type {String}
-         */
-        errorContainer : '.form-error',
-
-
-        /**
-         * Form property
-         * @type {HTMLElement}
-         */
-        form : null,
-
-
-        /**
-         * Options property
-         * @type {Object}
-         */
-        options : {},
-
-
-        /**
-         * Validators property
-         * @type {Array}
-         */
-        validators : [],
-
-
-        /**
-         * Initializes the ui/form/field
-         * @param {Object} options
-         * @param {String|HTMLElement|jQuery} options.form
-         * @param {Array|Function} [validators]
-         * @returns {field}
-         */
-        init : function init(options, validators) {
-            // Check for required parameters without defaults
-            // if (!_.has(options, _requisites)) {
-            //     // TODO: How to handle if form doesn't exist?
-            //     throw Error('Missing required parameter');
-            // }
-
-            // Set options
-            _.merge(this.options, _defaults, options);
-
-            // Set template
-            this.template = _templates[this.options.object.type] || _templates.default;
-
-            // Set form
-            this.form = $(this.options.form).get(0);
-
-            // Set fields' container
-            this.container = $(this.options.container).get(0);
-
-            // Set validations
-            this.validators = Array.isArray(validators) ? validators :
-                _.isFunction(validators) ? [validators] : [];
-
-            return this;
-        },
-
-
-        /**
-         * Renders ui/form/field
-         */
-        render : function render() {
-            if (this.element) {
-                this.remove();
-            }
-
-            this.element = $(this.template(this.options.object));
-
-            return this;
-        },
-
-
-        /**
-         * Attach ui/form/field to ui/form
-         * @param {jQuery|HTMLElement|String} [to]
-         */
-        attachTo : function attach(to) {
-            if (!this.element) {
-                this.render();
-            }
-
-            if (!this.form) {
-                // TODO: Should I add container div to form if doesn't exist
-                return false;
-            }
-
-            if (to) {
-                $(this.element)
-                .appendTo(
-                    $(to || this.container, this.form)
-                );
-            } else {
-                $(this.element)
-                .insertBefore('.ui-form-toolbar', this.form);
-            }
-
-            return this;
-        },
-
-
-        /**
-         * Disable ui/form/field
-         */
-        disable : function disable() {
-            if (this.element) {
-                $(this.element).prop('disabled', function(i, v) {
-                    return !v;
-                });
-            }
-
-            return this;
-        },
-
-
-        /**
-         * Remove ui/form/field from ui/form
-         */
-        remove : function remove() {
-            if (this.element) {
-                $(this.element).remove();
-            }
-
-            return this;
-        },
-
-
-        /**
-         * Show ui/form/field errors
-         */
-        showError : function showError(message) {
-            var $el, $error, errorClass;
-
-            $el = $(this.element);
-            $error = $el.find(this.errorContainer);
-
-            $el.find('input').addClass('error');
-
-            if (!$error.length) {
-                errorClass = this.errorContainer.substring(1);
-
-                $(this.element)
-                .append('<div class="' + errorClass + '"></div>');
-
-                $error = $el.find(this.errorContainer);
-            }
-
-            //todo only add break if other errors exist (and before message)
-            $error.append(message + '<br>');
-
-            return this;
+    var fieldFactory = function fieldFactory(config) {
+        // Check for required parameters
+        if (!config &&
+            !config.input && !config.input.name &&
+            !config.type && !_templates[config.type]) {
+            throw Error('Invalid config parameters.');
         }
+
+        return component({
+            //todo: show validation errors (on 'change' and a brief period
+            // without more changes)
+            //note: the thought is to show frontend validation errors per field
+            // and backend errors as flash message
+
+            /**
+             * Show error message
+             * @param {String} message - Error message to display
+             */
+            showError : function showError(message) {
+                var $el, $error;
+
+                $el = this.getElement();
+                $error = $el.find('.form-error');
+
+                $el.find('input').addClass('error');
+
+                if (!$error.length) {
+                    $el.append(
+                        '<div class="form-error"></div>'
+                    );
+
+                    $error = $el.find('.form-error');
+                }
+
+                $error.append(message + '<br>');
+            },
+
+            /**
+             * Remove error messages
+             */
+            removeErrors : function removeErrors() {
+                var $el, $error;
+
+                $el = this.getElement();
+                $error = $el.find('.form-error');
+
+                $el.find('input').removeClass('error');
+
+                if ($error.length) {
+                    $error.remove();
+                }
+            }
+        }, _defaults)
+
+        .setTemplate(_templates[config.type])
+
+        .init(config);
     };
-
-
-    /**
-     * Creates a new ui/form/field instance
-     * @param {Object} options
-     * @returns {field}
-     */
-    var fieldFactory = function fieldFactory(options) {
-        var f = _.cloneDeep(field);
-        return f.init(options);
-    };
-
-
-    // var defaults = {
-
-    // };
-
-
-    // var templates = {
-    //     checkbox_list : checkboxListTpl,
-    //     default : textTpl,
-    //     hidden : hiddenTpl,
-    //     password : passwordTpl,
-    //     password_confirm : passwordConfirmTpl,
-    //     select : selectTpl,
-    //     text : textTpl,
-
-    //     comboBox : comboBoxTpl,
-    //     hiddenBox : hiddenBoxTpl,
-    //     textBox : textBoxTpl,
-
-    //     selectBox : selectBoxTpl
-    // };
-
-
-    // var fieldFactory = function fieldFactory(config) {
-    //     return component({
-    //         // setErrors
-    //         // setValidations
-    //     }, defaults)
-
-    //     .setTemplate(templates[config.type || 'default'])
-
-    //     .init(config);
-    // };
 
 
     return fieldFactory;

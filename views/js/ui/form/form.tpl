@@ -1,4 +1,4 @@
-<div id="da_form" class="ui-form xhtml_form">
+<div class="ui-form xhtml_form">
     <form
         {{#if action}}
         action="{{action}}"
@@ -6,18 +6,18 @@
         {{#if method}}
         method="{{method}}"
         {{/if}}
-        name="{{name}}">
+        {{#if name}}
+        name="{{name}}"
+        {{/if}}>
 
-        <!--<div class="field-container"></div>-->
+        <div class="field-container"></div>
 
-        <div class="ui-form-toolbar form-toolbar">
+        <div class="form-toolbar">
             <button
                 class="btn-success small"
                 type="submit"
-                name="{{submit.name}}"
-                id="Save"
-                value="{{submit.value}}">
-                <span class="icon-save"/> Save
+                name="ui-form-submit">
+                <span class="icon-save"/> {{submit.value}}
             </button>
         </div>
 

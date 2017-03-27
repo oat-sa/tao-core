@@ -7,44 +7,11 @@
 - Alphabetize (or create a consistent way to place properties)
 
 
-
 ### Users resource
-  ACTION    VERB      PATH                RETURN (JSON)
-  @index    [GET]     tao/users           [ user ]
-* @new      [GET]     tao/users/new       { user, schema }
-* @create   [POST]    tao/users           created?
-  @show     [GET]     tao/users/:id       user
-* @edit     [GET]     tao/users/:id/edit  { user, schema }
-* @update   [PATCH]   tao/users/:id       updated?
-  @destroy  [DELETE]  tao/users/:id       destroyed?
+@describe [GET]   tao/users/desc?uri
+@add      [POST]  tao/users/add
+@edit     [PATCH] tao/users/edit?uri
 
-### Users resource
-  ACTION   VERB     PATH               RETURN (JSON)
-	@new     [GET]    tao/user/desc      res.data
-	@create  [POST]   tao/user/add       res.data
-	@edit    [GET]    tao/user/desc?uri  res.data
-	@update  [PATCH]  tao/user/edit?uri  res.data
-
-TODO
-* - create @new action
-  	- return unique label (within a user object)
-  	- stub rdf user schema
-* - create @create action
-  	- creates user
-  	- returns { success: bool, status: int/str, data: [], errors: [] }
-  		- if success then 201
-  		- else if user exists then 409
-  		- else if user validation error then 400
-  		- else 500
-  - create @edit action
-  	- return user
-  	- stub rdf user schema
-  - create @update action
-  	- updates user
-  	- returns { success: bool, status: int/str, data: [], errors: [] }
-  		- if success then 200
-  		- else if user validation error then 400
-  		- else 500
 
 ### Users pages
   TITLE                 STRUCTURE  EXT  SECTION       CONTROLLER
@@ -54,19 +21,6 @@ TODO
   Manage roles          users      tao  manage_roles
   Manage Access Rights  users      tao  manage_acl
 
-TODO
-* - add_user
-+ 	- move js to controller
-+ 	- add on submit (to tao/users/new)
-  		- 2** - show success message and redirect to ?
-  		- 4** - show errors on form
-  		- 5** - redirect to error page
-  - edit_user
-  	- create js controller
-  	- create on submit (to tao/users/edit)
-  		- 2** - show success mesagge and redirect to ?
-  		- 4** - show errors on form
-  		- 5** - redirect to error page
 
 ### Users schema
   KEY        VALUE/RDFS                                              TYPE
@@ -89,17 +43,27 @@ TODO (hash out how to accomplish this)
 - get these dynamically
 - can I get these currently from tao actions
 
+### ui/component
+- init(config : { renderTo, replace })
+- destroy()
+- render(container)
+- show()
+- hide()
+- enable()
+- disable()
+- is(state)
+- setState(state, flag)
+- getContainer()
+- getElement()
+- getTemplate()
+- setTemplate()
+
 ### ui/form
-TODO
-* - index fields property by field name
 
 ### ui/form/field
-TODO
-* - create addErrors()
-	- color red
-	- list errors in field
 
-### Users fields
+### ui/form/generis/user
+Fields
 - label
 - first name
 - last name
