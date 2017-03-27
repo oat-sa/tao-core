@@ -18,6 +18,7 @@ module.exports = function(grunt) {
                     '../css/tao-3.css' : '../scss/tao-3.scss',
                     '../css/layout.css' : '../scss/layout.scss',
                     '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss',
+                    '../css/component/switch.css' : '../scss/component/switch.scss'
                 }
             },
             ckeditor : {
