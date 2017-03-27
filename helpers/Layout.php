@@ -176,6 +176,16 @@ class Layout{
 
 
     /**
+     * Navigation is considered small when it has no main and max. 2 item in the settings menu
+     * @return bool
+     */
+    public static function isSmallNavi() {
+        $settingsMenu = get_data('settings-menu');
+        return empty(get_data('main-menu')) && empty($settingsMenu) || count($settingsMenu) < 3;
+    }
+
+
+    /**
      * Retrieve the template with the actual content
      *
      * @return array
