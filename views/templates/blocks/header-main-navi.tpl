@@ -2,6 +2,7 @@
 use oat\tao\helpers\Layout;
 $mainMenu     = get_data('main-menu');
 $settingsMenu = get_data('settings-menu');
+$userLabel    = get_data('userLabel');
 ?>
 <nav>
     <ul class="plain clearfix lft main-menu">
@@ -77,7 +78,17 @@ $settingsMenu = get_data('settings-menu');
                     </li>
 
                 <?php endforeach ?>
+
+            <?php elseif(!empty($userLabel)): ?>
+
+                <li class="infoControl user-label-outside-menu">
+                    <span class="a">
+                        <span class="icon-user"></span>
+                        <span><?=$userLabel?></span>
+                    </span>
+                </li>
             <?php endif; ?>
+
             <?php if(has_data('unread-notification')): ?>
                 <li data-env="user" class="li-logout">
                     <a id="logout" href="<?= get_data('notification-url') ?>" title="<?= __('Messages') ?>">
@@ -86,7 +97,7 @@ $settingsMenu = get_data('settings-menu');
                     </a>
                 </li>
             <?php endif; ?>
-            <li data-env="user" class="li-logout">
+            <li data-env="user" class="li-logout<?php if(!empty($userLabel) && print ' sep-before')?>">
                 <a id="logout" href="<?= get_data('logout') ?>" title="<?= __('Log Out') ?>">
                     <span class="icon-logout glyph"></span>
                 </a>
