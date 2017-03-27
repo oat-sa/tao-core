@@ -629,6 +629,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.31.0', '7.31.1');
+
         // add validation widget
         if ($this->isVersion('7.31.1')) {
             OntologyUpdater::syncModels();
@@ -745,6 +746,21 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.89.0', '7.89.5');
+
+        if($this->isVersion('7.89.5')) {
+            $service = new \oat\tao\model\mvc\psr7\ActionExecutor(
+                [
+                    'executor' =>
+                        [
+                            \oat\tao\model\mvc\psr7\executor\TaoExecutor::class,
+                            \oat\tao\model\mvc\psr7\executor\Psr7Executor::class,
+                        ]
+                ]
+            );
+            $this->getServiceManager()->register(\oat\tao\model\mvc\psr7\ActionExecutor::SERVICE_ID, $service);
+            $this->setVersion('8.0.0');
+        }
+
     }
 
     private function migrateFsAccess() {

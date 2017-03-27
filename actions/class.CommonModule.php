@@ -29,10 +29,12 @@ use oat\tao\model\accessControl\AclProxy;
 /**
  * Top level controller
  * All children extenions module should extends the CommonModule to access the shared data
- *
+ * deprecated please use oat\tao\model\mvc\psr7\Controller
+ * 
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2 http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
+ * @deprecated since version v7.31.0
  *         
  */
 abstract class tao_actions_CommonModule extends Module
