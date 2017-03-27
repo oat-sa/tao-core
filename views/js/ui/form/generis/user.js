@@ -81,6 +81,12 @@ define([
                     "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
                     "required": true,
                     "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox"
+                }, {
+                    "uri": "http://www.tao.lu/Ontologies/generis.rdf#passwordConfirm",
+                    "label": "Password Confirm",
+                    "range": "http://www.w3.org/2000/01/rdf-schema#Literal",
+                    "required": true,
+                    "widget": "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox"
                 }
             ],
             "values": {

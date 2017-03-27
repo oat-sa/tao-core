@@ -25,9 +25,8 @@ define([
     'module',
     'helpers',
     'users', //todo
-    'ui/form/form',
     'ui/form/generis/user'
-], function ($, _, module, helpers, users, form, userForm) {
+], function ($, _, module, helpers, users, userForm) {
     'use strict';
 
 
