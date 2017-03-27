@@ -68,7 +68,7 @@ class RdsNotification
 
     protected function getAllFieldString() {
         return self::NOTIF_FIELD_RECIPIENT . ' , ' . self::NOTIF_FIELD_STATUS . ' , ' . self::NOTIF_FIELD_SENDER . ' , ' . self::NOTIF_FIELD_SENDER_NANE
-            . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED ;
+            . ' , ' . self::NOTIF_FIELD_TITLE . ' , ' .  self::NOTIF_FIELD_MESSAGE . ' , ' . self::NOTIF_FIELD_CREATION . ' , ' . self::NOTIF_FIELD_UPDATED;
     }
 
     public function sendNotification(NotificationInterface $notification)
@@ -79,7 +79,7 @@ class RdsNotification
 
         $sqlQuery    = 'INSERT INTO ' . self::NOTIF_TABLE .
                         ' (' . $this->getAllFieldString() . ') 
-                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ? )';
+                            VALUES ( ? , ? , ? , ? , ? , ? , ? , ?)';
 
         $data = [
             $notification->getRecipient(),

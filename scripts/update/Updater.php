@@ -745,6 +745,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.89.0', '7.89.5');
+
+        if ($this->isVersion('7.89.5')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
+
+            $this->setVersion('7.90.0');
+        }
     }
 
     private function migrateFsAccess() {

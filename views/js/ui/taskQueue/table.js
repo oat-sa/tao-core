@@ -274,6 +274,8 @@ define([
                     .datatable({
                         url: this.config.dataUrl,
                         rows : this.config.rows,
+                        sortby : 'added',
+                        sortorder : 'desc',
                         filtercolumns: {type: this.config.context},
                         status: {
                             empty: __('No Task yet'),
@@ -294,14 +296,16 @@ define([
                             id: 'label',
                             label: __('Task Name')
                         }, {
-                            id: 'creationDate',
+                            id: 'added',
                             label: __('Created'),
+                            sortable: true,
                             transform: function (value) {
                                 return formatDate(value, self.config);
                             }
                         }, {
                             id: 'status',
                             label: __('Status'),
+                            sortable: true,
                             transform: function (value, row) {
                                 if (row.status === 'finished') {
                                     if(isTaskErrorReport(row.report)){

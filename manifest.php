@@ -34,10 +34,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '7.89.5',
+    'version' => '7.90.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=3.17.0',
+        'generis' => '>=3.21.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -105,6 +105,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'ServiceModule')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'Notification')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueData')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'File', 'act' => 'upload')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionActions')),
