@@ -18,6 +18,13 @@
 * @update   [PATCH]   tao/users/:id       updated?
   @destroy  [DELETE]  tao/users/:id       destroyed?
 
+### Users resource
+  ACTION   VERB     PATH               RETURN (JSON)
+	@new     [GET]    tao/user/desc      res.data
+	@create  [POST]   tao/user/add       res.data
+	@edit    [GET]    tao/user/desc?uri  res.data
+	@update  [PATCH]  tao/user/edit?uri  res.data
+
 TODO
 * - create @new action
   	- return unique label (within a user object)

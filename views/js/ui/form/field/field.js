@@ -20,6 +20,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'ui/component',
     'tpl!ui/form/field/tpl/checkbox_list',
     'tpl!ui/form/field/tpl/hidden',
     'tpl!ui/form/field/tpl/password',
@@ -30,6 +31,7 @@ define([
     $,
     _,
     __,
+    component,
     checkboxListTpl,
     hiddenTpl,
     passwordTpl,
@@ -285,6 +287,40 @@ define([
         var f = _.cloneDeep(field);
         return f.init(options);
     };
+
+
+    // var defaults = {
+
+    // };
+
+
+    // var templates = {
+    //     checkbox_list : checkboxListTpl,
+    //     default : textTpl,
+    //     hidden : hiddenTpl,
+    //     password : passwordTpl,
+    //     password_confirm : passwordConfirmTpl,
+    //     select : selectTpl,
+    //     text : textTpl,
+
+    //     comboBox : comboBoxTpl,
+    //     hiddenBox : hiddenBoxTpl,
+    //     textBox : textBoxTpl,
+
+    //     selectBox : selectBoxTpl
+    // };
+
+
+    // var fieldFactory = function fieldFactory(config) {
+    //     return component({
+    //         // setErrors
+    //         // setValidations
+    //     }, defaults)
+
+    //     .setTemplate(templates[config.type || 'default'])
+
+    //     .init(config);
+    // };
 
 
     return fieldFactory;

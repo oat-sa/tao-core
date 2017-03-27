@@ -181,6 +181,8 @@ define([
             .on('submit', function(e) {
                 e.preventDefault();
 
+                //todo: add spinner, disable & blur form
+
                 //todo: call tao/users@create
                 callback(null, {
                     success: false,

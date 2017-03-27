@@ -25,8 +25,8 @@ define([
     'module',
     'helpers',
     'users', //todo
-    'ui/form/generis/users/new'
-], function ($, _, module, helpers, users, newUserForm) {
+    'ui/form/generis/user'
+], function ($, _, module, helpers, users, userForm) {
     'use strict';
 
 
@@ -39,17 +39,17 @@ define([
          * Ran at the start... maybe dom ready?
          */
         start : function () {
-            var config, userForm;
+            var config, form;
 
             config = module.config();
-            userForm = newUserForm();
+            form = userForm();
 
             //todo : why didn't module get the config?
             config.formContainer = '.form-container';
-            userForm.renderTo(config.formContainer);
+            form.renderTo(config.formContainer);
 
             // Hidden - User form sent
-            userForm.form.addField({
+            form.form.addField({
                 object : {
                     input : {
                         class : 'global',
@@ -61,7 +61,7 @@ define([
             });
 
             // Hidden - Tao forms instance
-            userForm.form.addField({
+            form.form.addField({
                 object : {
                     input : {
                         name : 'tao.forms.instance',
@@ -72,7 +72,7 @@ define([
             });
 
             // Class URI (hidden)
-            userForm.form.addField({
+            form.form.addField({
                 object : {
                     input : {
                         name : 'classUri',
@@ -83,7 +83,7 @@ define([
             });
 
             // URI (hidden)
-            userForm.form.addField({
+            form.form.addField({
                 object : {
                     input : {
                         name : 'uri',
@@ -94,7 +94,7 @@ define([
             });
 
             // ID (hidden)
-            userForm.form.addField({
+            form.form.addField({
                 object : {
                     input : {
                         name : 'id',
@@ -105,7 +105,7 @@ define([
             });
 
             // On submit
-            userForm.form.onSubmit(function(err, data) {
+            form.form.onSubmit(function(err, data) {
                 if (err) {
                     throw Error('Error occurred on new user form submission.');
                 }
@@ -126,7 +126,7 @@ define([
                     }, 1000);
                 } else if (400 <= data.status && data.status < 500) {
                     _.each(data.errors, function(error) {
-                        var field = userForm.form.fields[error.field];
+                        var field = form.form.fields[error.field];
                         if (field) {
                             field.showError(error.message);
                         } else {
