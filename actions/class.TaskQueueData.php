@@ -18,9 +18,9 @@
 
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
+use oat\oatbox\task\TaskPayload;
 use oat\oatbox\task\Task;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\filesystem\File;
 
 /**
  * Rest API controller for task queue
@@ -38,16 +38,13 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
     {
         $user = common_session_SessionManager::getSession()->getUser();
 
-        /**
-         * @var $taskQueue oat\Taskqueue\Persistence\RdsQueue
-         */
         $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
 
-        if(is_a($taskQueue , 'oat\Taskqueue\Persistence\RdsQueue', true)) {
-            /** @var oat\Taskqueue\Action\TaskQueueSearch $dataPayLoad */
+        if($taskQueue instanceof TaskPayload) {
             $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
 
-            return $this->returnJson($dataPayLoad);
+            $this->returnJson($dataPayLoad);
+            return;
         }
     }
 
@@ -64,14 +61,16 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
                 'creationDate'  => strtotime($task->getCreationDate()),
                 'report' => $report
             ];
-            return $this->returnJson([
+            $this->returnJson([
                 'success' => true,
                 'data' => $data,
             ]);
+            return;
         }
-        return $this->returnJson([
+        $this->returnJson([
             'success' => false,
         ]);
+        return;
     }
 
     public function archiveTask() {
@@ -84,23 +83,27 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
             $task        = $this->getTask($taskId);
 
         } catch (\Exception $e) {
-            return $this->returnError(__('unkown task id %s' , $taskId));
+            $this->returnError(__('unkown task id %s' , $taskId));
+            return;
         }
         if(empty($task)) {
-            return $this->returnError(__('unkown task id %s' , $taskId));
+            $this->returnError(__('unkown task id %s' , $taskId));
+            return;
         }
         try {
             $taskService->updateTaskStatus($taskId , Task::STATUS_ARCHIVED);
             $task   = $taskService->getTask($taskId);;
-            return $this->returnJson([
+            $this->returnJson([
                 'success' => true ,
                 'data'=>[
                     'id' => $taskId,
                     'status' => $task->getStatus()
                 ]
             ]);
+            return;
         } catch (\Exception $e) {
-            return $this->returnError(__('impossible to update task status'));
+            $this->returnError(__('impossible to update task status'));
+            return;
         }
     }
 
@@ -129,8 +132,9 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
                 return;
             }
         }
-        return $this->returnJson([
+        $this->returnJson([
             'success' => false,
         ]);
+        return;
     }
 }
