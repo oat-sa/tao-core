@@ -267,7 +267,7 @@ class ThemeRegistry extends AbstractRegistry
                 return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
         }
         else {
-            $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
             return $assetService->getAsset($path);
         }
     }
@@ -296,7 +296,7 @@ class ThemeRegistry extends AbstractRegistry
         $array = $this->get($target);
 
         if(is_string($array['base'])){
-            $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
             $base = $assetService->getAsset($array['base']);
 
         } else if(is_array($array['base'])){
@@ -410,5 +410,10 @@ class ThemeRegistry extends AbstractRegistry
             return $base['css'];
         }
         return null;
+    }
+
+    public function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }
