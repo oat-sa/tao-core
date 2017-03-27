@@ -38,6 +38,9 @@ define([
     'use strict';
 
 
+    /**
+     * Property for ui/form/field configuration defaults
+     */
     var _defaults = {
         input : {
             name : '',
@@ -51,6 +54,9 @@ define([
     };
 
 
+    /**
+     * Property for ui/form/field templates mapping
+     */
     var _templates = {
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox' : checkBoxTpl,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox' : comboBoxTpl,
@@ -131,5 +137,8 @@ define([
     };
 
 
+    /**
+     * @exports ui/form/field
+     */
     return fieldFactory;
 });

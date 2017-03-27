@@ -28,6 +28,9 @@ define([
     'use strict';
 
 
+    /**
+     * Property for ui/form configuration defaults
+     */
     var _defaults = {
         action : '',
         method : 'get',
@@ -36,6 +39,12 @@ define([
             value : __('Save')
         }
     };
+
+
+    /**
+     * Property for location of field container
+     */
+    var _fieldContainer = '.field-container';
 
 
     /**
@@ -50,17 +59,36 @@ define([
         return component({
             /**
              * Add ui/form/field to ui/form
+             * @param {Object} fieldConfig - Config options for ui/form/field
+             * @returns {Object} - The created ui/form/field
              */
             addField : function addField(fieldConfig) {
-                var f = field(fieldConfig);
-
-                f.render('.field-container');
+                var newField = field(fieldConfig);
 
                 if (!this.fields) {
-                    this.fields = {};
+                    this.fields = [];
                 }
 
-                this.fields[fieldConfig.input.name] = field(fieldConfig);
+                // Ensure fields are unique by field name
+                _.remove(this.fields, function(existingField) {
+                    return existingField.config.input.name === newField.config.input.name;
+                });
+
+                // Insert into array to preserve order
+                this.fields.push(newField);
+
+                return newField;
+            },
+
+            /**
+             * Retrieve a ui/form/field from ui/form
+             * @param {String} name - Name of ui/form/field
+             * @returns {Object} - The matched ui/form/field, else undefined
+             */
+            getField : function getField(name) {
+                return _.find(this.fields, function(existingField) {
+                    return existingField.config.input.name === name;
+                });
             },
 
             /**
@@ -89,8 +117,18 @@ define([
 
         .setTemplate(formTpl)
 
+        .on('render', function() {
+            _.each(this.fields, function(existingField) {
+                existingField.render(_fieldContainer);
+            });
+        })
+
         .init(config);
     };
 
+
+    /**
+     * @exports ui/form
+     */
     return formFactory;
 });
