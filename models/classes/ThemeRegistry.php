@@ -247,7 +247,7 @@ class ThemeRegistry extends AbstractRegistry
                 $theme['path'] = $webUrl;
             }
             else {
-                $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+                $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
                 $theme['path'] = $assetService->getAsset($theme['path']);
             }
         }
