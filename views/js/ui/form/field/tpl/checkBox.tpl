@@ -11,13 +11,13 @@
     --><div class="input form_radlst form_checklst">
         {{#each input.options}}
         <input
-            name="{{name}}"
+            name="{{uri}}"
             type="checkbox"
-            value="{{value}}">
+            value="{{uri}}">
         &nbsp;
         <label
             class="elt_desc"
-            for="{{name}}">
+            for="{{uri}}">
             {{label}}
         </label>
         <br>

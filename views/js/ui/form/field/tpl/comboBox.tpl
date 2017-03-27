@@ -11,8 +11,9 @@
     --><select
         class="input"
         name="{{input.name}}">
+        <option value=""></option>
         {{#each input.options}}
-        <option value="{{value}}">{{label}}</option>
+        <option value="{{uri}}">{{label}}</option>
         {{/each}}
     </select>
 </div>
