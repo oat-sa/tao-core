@@ -29,8 +29,7 @@ use Jig\Utils\FsUtils;
  *
  * The service can be instantiated with the following options :
  *  - base : the base URL
- *  - buster : the cache buster value
- *  - no-buster : don't use a cache buster
+ *  - buster : the cache buster value (false means no buster)
  *
  * @author Antoine Robin
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -40,7 +39,13 @@ class AssetService extends ConfigurableService
     const SERVICE_ID = 'tao/asset';
 
     //the query param key of the cache buster
-    const CACHE_BUSTER_KEY = 'buster';
+    const BUSTER_QUERY_KEY = 'buster';
+
+    //key to get the base
+    const BASE_OPTION_KEY  = 'base';
+
+    //key to get the buster value
+    const BUSTER_OPTION_KEY = 'buster';
 
     /**
      * Get the full URL of an asset
@@ -57,12 +62,19 @@ class AssetService extends ConfigurableService
             $url = $this->getAssetBaseUrl() . FsUtils::normalizePath($asset);
         }
 
-        if(!$this->hasOption('noBuster')) {
-            $url .= '?' . self::CACHE_BUSTER_KEY . '=' . urlencode($this->getCacheBuster());
+        $buster = $this->getCacheBuster();
+        if($buster != false) {
+            $url .= '?' . self::BUSTER_QUERY_KEY . '=' . urlencode($buster);
         }
+
         return $url;
     }
 
+    /**
+     * Get the asset base of a given extension (should be getBaseWww)
+     * @param string $extensionId
+     * @return string the base URL
+     */
     public function getJsBaseWww($extensionId)
     {
         return $this->getAssetBaseUrl() . $extensionId . '/views/';
@@ -73,7 +85,7 @@ class AssetService extends ConfigurableService
      */
     protected function getAssetUrl()
     {
-        return $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
+        return $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : ROOT_URL;
     }
 
     /**
@@ -82,7 +94,7 @@ class AssetService extends ConfigurableService
      */
     protected function getAssetBaseUrl()
     {
-        $baseUrl = $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
+        $baseUrl = $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : ROOT_URL;
 
         $baseUrl = trim($baseUrl);
         if(substr($baseUrl, -1) != '/'){
@@ -92,13 +104,21 @@ class AssetService extends ConfigurableService
         return $baseUrl;
     }
 
-
     /**
-     * Get a the cache buster value
+     * Get a the cache buster value, if none we use the tao version.
      * @return string the busteri value
      */
-    protected function getCacheBuster()
+    public function getCacheBuster()
     {
-        return $this->hasOption('buster') ? $this->getOption('buster') : TAO_VERSION;
+        return $this->hasOption(self::BUSTER_OPTION_KEY) ? $this->getOption(self::BUSTER_OPTION_KEY) : TAO_VERSION;
+    }
+
+    /**
+     * Change the cache buster value
+     * @param string|bool $buster the new buster value, false means no buster at all
+     */
+    public function setCacheBuster($buster)
+    {
+        return $this->setOption(self::BUSTER_OPTION_KEY, $buster);
     }
 }

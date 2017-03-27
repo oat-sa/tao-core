@@ -35,16 +35,12 @@ class AssetServiceTest extends TaoPhpUnitTestRunner
      * Test the method AssetServie->getAsset
      * @dataProvider getAssetProvider
      */
-    public function testGetAsset($baseUrl, $buster, $noBuster, $path, $extension, $expected)
+    public function testGetAsset($baseUrl, $buster, $path, $extension, $expected)
     {
         $options = [
             'base'   => $baseUrl,
             'buster' => $buster
         ];
-
-        if($noBuster){
-            $options['noBuster'] = $noBuster;
-        }
 
         $assetService = new AssetService($options);
 
@@ -60,12 +56,12 @@ class AssetServiceTest extends TaoPhpUnitTestRunner
      */
     public function getAssetProvider(){
         return [
-            ['https://test.taotesting.com', '7654321', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css?buster=7654321'],
-            ['https://test.taotesting.com/', 'AF034B', false, 'js/lib/require.js', 'tao', 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
-            ['https://test.taotesting.com/', 'AF034B', false, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
-            ['https://test.taotesting.com/', 'éHo?/©', false, 'js/core/eventifier.js', 'tao', 'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'],
-            ['https://test.taotesting.com', null, false, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster='.TAO_VERSION],
-            ['https://test.taotesting.com', '123', true, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css']
+            ['https://test.taotesting.com', '7654321', 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css?buster=7654321'],
+            ['https://test.taotesting.com/', 'AF034B', 'js/lib/require.js', 'tao', 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
+            ['https://test.taotesting.com/', 'AF034B', 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
+            ['https://test.taotesting.com/', 'éHo?/©', 'js/core/eventifier.js', 'tao', 'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'],
+            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster='.TAO_VERSION],
+            ['https://test.taotesting.com', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css']
         ];
     }
 }
