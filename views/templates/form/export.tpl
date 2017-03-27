@@ -28,17 +28,19 @@
 
                 var $queueArea = $('#task-list');
 
-                var taskQueueTable = taskQueueTableFactory({
-                    rows : 10,
-                    replace : true,
-                    context : "<?=get_data('context')?>",
-                    dataUrl : helpers._url('getTasks', 'TaskQueueData', 'tao'),
-                    statusUrl : helpers._url('getStatus', 'TaskQueueData', 'tao'),
-                    removeUrl : helpers._url('archiveTask', 'TaskQueueData', 'tao'),
-                    downloadUrl : helpers._url('download', 'TaskQueueData', 'tao')
-                })
-                    .init()
-                    .render($queueArea);
+                if("<?= get_data('asynchronous')?>"){
+                    var taskQueueTable = taskQueueTableFactory({
+                        rows : 10,
+                        context : "<?=get_data('context')?>",
+                        dataUrl : helpers._url('getTasks', 'TaskQueueData', 'tao'),
+                        statusUrl : helpers._url('getStatus', 'TaskQueueData', 'tao'),
+                        removeUrl : helpers._url('archiveTask', 'TaskQueueData', 'tao'),
+                        downloadUrl : helpers._url('download', 'TaskQueueData', 'tao')
+                    })
+                        .init()
+                        .render($queueArea);
+
+                }
 
                 var $form = $('#exportChooser'),
                         $submitter = $form.find('.form-submitter'),
@@ -76,19 +78,33 @@
                         params.classes = encodeURIComponent(JSON.stringify(classes));
 
 
-                        $.ajax({
-                            url : helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"),
-                            data:  params,
-                            type : 'POST',
-                            dataType: "json"
-                        }).done(function(response){
-                            if(response.exported){
-                                feedback().success(response.message);
-                                taskQueueTable.trigger('reload')
-                            } else {
-                                feedback().error(response.message);
-                            }
-                        });
+                        if("<?= get_data('asynchronous')?>"){
+                            $.ajax({
+                                url : helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"),
+                                data:  params,
+                                type : 'POST',
+                                dataType: "json"
+                            }).done(function(response){
+                                if(response.exported){
+                                    feedback().success(response.message);
+                                    taskQueueTable.trigger('reload')
+                                } else {
+                                    feedback().error(response.message);
+                                }
+                            });
+
+                        } else {
+                            $.fileDownload(helpers._url("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"), {
+                                httpMethod: 'POST',
+                                data: params,
+                                failCallback: function (html) {
+                                    $('#export-container').html(html);
+                                    $('#import-continue').remove();
+                                }
+                            });
+                        }
+
+
                     }
 
                 });
