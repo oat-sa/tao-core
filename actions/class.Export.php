@@ -22,10 +22,10 @@
  */
 
 
-use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\export\ExportTask;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\task\Queue;
-use oat\oatbox\filesystem\File;
+use oat\tao\model\export\ExportService;
 /**
  * This controller provide the actions to export and manage exported data
  *
@@ -88,35 +88,19 @@ class tao_actions_Export extends tao_actions_CommonModule
             $myForm->setValues(array('exportHandler' => get_class($exporter)));
         }
         $this->setData('myForm', $myForm->render());
+        $taskContext = $this->getTaskContext($selectedResource);
         if ($this->hasRequestParameter('exportChooser_sent') && $this->getRequestParameter('exportChooser_sent') == 1) {
 
             $exportData = $this->getRequestParameters();
-
-            $exportLabel = isset($exportData['filename']) ? $exportData['filename'] : $selectedResource->getLabel();
-
-            $className = get_class($this);
-            $exportData['selfClass'] = $className;
             $exportData['exportHandler'] = get_class($exporter);
-
-            /**
-             * @var $taskQueue Queue
-             */
-            $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
-
-            $task = $taskQueue->createTask( [$className , 'exportTask'] , $exportData , false, __('Export File') . ' ' . $exportLabel, $this->getContext());
-
-            if($task === false){
-                $this->returnJson(['exported' => false, 'message' => __("error occured during export task")]);
-                return;
-            }
-
-            $this->returnJson(['exported' => true, 'message' => __("Export is in taskQueue")]);
+            $this->returnJson($this->getServiceManager()->get(ExportService::SERVICE_ID)->export($exportData, $selectedResource, $taskContext));
             return;
 
         }
 
         $context = Context::getInstance();
-        $this->setData('context', $this->getContext());
+        $this->setData('asynchronous', $this->getServiceManager()->get(ExportService::SERVICE_ID)->isAsynchronous());
+        $this->setData('context', $taskContext);
         $this->setData('export_extension', $context->getExtensionName());
         $this->setData('export_module', $context->getModuleName());
         $this->setData('export_action', $context->getActionName());
@@ -126,99 +110,13 @@ class tao_actions_Export extends tao_actions_CommonModule
 
     }
 
-    protected function getContext()
+    protected function getTaskContext($resource)
     {
         $context = Context::getInstance();
 
-        return $context->getExtensionName().'/'.$context->getModuleName().'/'.$context->getActionName();
+        return $context->getExtensionName().'/'.$context->getModuleName().'/'.$context->getActionName().'/'.tao_helpers_Uri::encode($resource->getUri());
     }
 
-    public static function exportTask($options)
-    {
-
-        if(!isset($options['selfClass'])) {
-            throw new \common_Exception('Wrong option parameter, selfClass missing');
-        }
-
-        if(!isset($options['exportHandler'])) {
-            throw new \common_Exception('Wrong option parameter, exporter missing');
-        }
-
-        $className =  $options['selfClass'] ;
-        $controller = new $className();
-
-        $exporterClassName =  $options['exportHandler'] ;
-        $exporter = new $exporterClassName();
-
-
-
-        if (isset($options['instances'])) {
-            $instances = json_decode(urldecode($options['instances']));
-            unset($options['instances']);
-
-            foreach ($instances as $instance){
-                $options['instances'][tao_helpers_Uri::decode($instance)] = tao_helpers_Uri::decode($instance);
-            }
-        } elseif (isset($options['exportInstance'])) {
-            $options['exportInstance'] = tao_helpers_Uri::decode($options['exportInstance']);
-        }
-
-
-        //allow to export complete classes
-        if(isset($options['classes'])){
-            $classes = json_decode(urldecode($options['classes']));
-            unset($options['classes']);
-
-
-            $children = array();
-            foreach ($classes as $classUri){
-                $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($classUri));
-                $uris = array_keys($class->getInstances());
-                $children = array_combine($uris,$uris);
-            }
-
-            if(empty($options['instances'])){
-                $options['instances'] = [];
-            }
-            $options['instances'] = array_merge($options['instances'],$children);
-        }
-
-        $file = null;
-
-        try {
-            $report = $exporter->export($options, tao_helpers_Export::getExportPath());
-            $file = $report->getData();
-
-        } catch (common_exception_UserReadableException $e) {
-            $report = common_report_Report::createFailure($e->getUserMessage());
-        }
-        /** @var NotificationServiceInterface $notificationService */
-
-        if ($report instanceof common_report_Report) {
-
-
-            if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
-                $report->setType(common_report_Report::TYPE_ERROR);
-                if (! $report->getMessage()) {
-                    $report->setMessage(__('Error(s) has occurred during export.'));
-                }
-
-            } else {
-
-                /**
-                 * @var $fileSystem FileSystemService
-                 */
-                $fileSystem = $controller->getServiceManager()->get(FileSystemService::SERVICE_ID);
-                $fs = $fileSystem->getFileSystem('taskQueueStorage');
-
-
-                $fs->put(basename($file), file_get_contents($file));
-                $report->setData(basename($file));
-            }
-        }
-
-        return $report;
-    }
 
     /**
      * Is the metadata of the given resource is exportable?
@@ -301,6 +199,8 @@ class tao_actions_Export extends tao_actions_CommonModule
     protected function sendFileToClient($file, $test)
     {
 
-        throw new common_exception_DeprecatedApiMethod('Please stop using this method');
+        setcookie("fileDownload", "true", 0, "/");
+        tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
+        return;
     }
 }
