@@ -53,7 +53,7 @@ class tao_models_classes_service_ServiceCallHelper
         }
         if ($url[0] == '/') {
             //create absolute url (prevent issue when TAO installed on a subfolder
-            $url = ROOT_URL.ltrim($url, '/');
+            $url = \tao_helpers_Uri::getRootUrl() . ltrim($url, '/');
         }
         return $url;
     }

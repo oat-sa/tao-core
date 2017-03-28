@@ -30,13 +30,6 @@
  */
 class tao_helpers_Request
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
      * Enables you to know if the request in the current scope is an ajax
      *
@@ -64,18 +57,20 @@ class tao_helpers_Request
      * @throws ResolverException
      * @return string
      */
-    public static function getRelativeUrl($url = null) {
-        $url = is_null($url) ? '/'.ltrim($_SERVER['REQUEST_URI'], '/') : $url;
-        $rootUrlPath	= parse_url(ROOT_URL, PHP_URL_PATH);
-        $absPath		= parse_url($url, PHP_URL_PATH);
-        if (substr($absPath, 0, strlen($rootUrlPath)) != $rootUrlPath ) {
-            throw new ResolverException('Request Uri '.$url.' outside of TAO path '.ROOT_URL);
+    public static function getRelativeUrl($url = null)
+    {
+        $url = is_null($url) ? '/' . ltrim($_SERVER['REQUEST_URI'], '/') : $url;
+        $rootUrlPath = parse_url(tao_helpers_Uri::getRootUrl(), PHP_URL_PATH);
+        $absPath = parse_url($url, PHP_URL_PATH);
+        if (substr($absPath, 0, strlen($rootUrlPath)) != $rootUrlPath) {
+            throw new ResolverException('Request Uri ' . $url . ' outside of TAO path ' . tao_helpers_Uri::getRootUrl());
         }
         if ($absPath === $rootUrlPath) {
             $result = '';
         } else {
             $result = substr($absPath, strlen($rootUrlPath));
         }
+
         return $result;
     }
     

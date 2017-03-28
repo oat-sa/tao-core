@@ -38,11 +38,12 @@ class ActionTest extends TaoPhpUnitTestRunner {
     /**
      * Provides data for testGetClassNameByUrl : url and expected controller class name
      * @return array() the data
-     */     
-    public function getClassNameByUrlProvider(){
-        return array(
-            array(ROOT_URL. 'tao/Main/index', 'tao_actions_Main')
-        );
+     */
+    public function getClassNameByUrlProvider()
+    {
+        return [
+            [tao_helpers_Uri::getRootUrl() . 'tao/Main/index', 'tao_actions_Main']
+        ];
     }   
  
     /**

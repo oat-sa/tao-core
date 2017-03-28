@@ -19,11 +19,12 @@
  */
 namespace oat\tao\model;
 
+use common_ext_ExtensionsManager;
+use common_Logger;
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
+use tao_helpers_Uri;
 
 /**
  * 
@@ -60,16 +61,17 @@ class ClientLibRegistry extends AbstractRegistry
     public function getLibAliasMap()
     {
         $extensionsAliases = array();
-        $assetservice = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         foreach (ClientLibRegistry::getRegistry()->getMap() as $alias => $lib ){
             if (is_array($lib) && isset($lib['extId']) && isset($lib['path'])) {
-                $extensionsAliases[$alias] = $assetservice->getJsBaseWww($lib['extId']).$lib['path'];
+                $extensionsAliases[$alias] = $assetService->getJsBaseWww($lib['extId']).$lib['path'];
             } elseif (is_string($lib)) {
-                $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
+                $extensionsAliases[$alias] = str_replace(tao_helpers_Uri::getRootUrl(), '../../../', $lib);
             } else {
                 throw new \common_exception_InconsistentData('Invalid '.self::getConfigId().' entry found');
             }
         }
+
         return $extensionsAliases;
     }
     
@@ -90,9 +92,9 @@ class ClientLibRegistry extends AbstractRegistry
         if (self::getRegistry()->isRegistered($id)) {
             common_Logger::w('Lib already registered');
         }
-        
+
         if (substr($fullPath, 0, strlen('../../../')) == '../../../') {
-            $fullPath = ROOT_URL.substr($fullPath, strlen('../../../'));
+            $fullPath = tao_helpers_Uri::getRootUrl() . substr($fullPath, strlen('../../../'));
         }
         
         $found = false;

@@ -23,6 +23,7 @@ use common_Logger;
 use GuzzleHttp\Client;
 use helpers_TimeOutHelper;
 use oat\tao\model\media\MediaBrowser;
+use tao_helpers_Uri;
 
 /**
  * This media source gives access to files not part of the Tao platform
@@ -62,7 +63,7 @@ class HttpSource implements MediaBrowser
         if (USE_HTTP_AUTH) {
 
             $addAuth = false;
-            $domains = array('localhost', '127.0.0.1', ROOT_URL);
+            $domains = array('localhost', '127.0.0.1', tao_helpers_Uri::getRootUrl());
 
             foreach ($domains as $domain) {
                 if (preg_match("/" . preg_quote($domain, '/') . "/", $url)) {

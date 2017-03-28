@@ -22,8 +22,9 @@
 namespace oat\tao\helpers;
 
 use common_session_SessionManager;
-use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use tao_helpers_Uri;
 
 /**
  * Helper for TaoCe related operations
@@ -80,7 +81,7 @@ class TaoCe {
 	    $urls = common_session_SessionManager::getSession()->getUserPropertyValues(PROPERTY_USER_LASTEXTENSION);
 	    if (!empty($urls)) {
 	        $lastUrl = current($urls);
-	        return ROOT_URL.$lastUrl;
+            return tao_helpers_Uri::getRootUrl() . $lastUrl;
 	    } else {
 	        return null;
 	    }
@@ -106,7 +107,7 @@ class TaoCe {
     	        // user in ontology
     	        
     	        //clean up what's stored
-    	        $url = str_replace(ROOT_URL, '', $url);
+    	        $url = str_replace(tao_helpers_Uri::getRootUrl(), '', $url);
     	        $success = $user->editPropertyValues(new core_kernel_classes_Property(PROPERTY_USER_LASTEXTENSION), $url);
     	    } // else we fail;
 	    }

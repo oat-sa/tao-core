@@ -253,15 +253,16 @@ class tao_install_Installator{
 			$session_name = (isset($installData['session_name']))?$installData['session_name']:self::generateSessionName();
 			$generisConfigWriter->createConfig();
 			$constants = array(
-                'LOCAL_NAMESPACE'			=> $installData['module_namespace'],
-                'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'],
+                'LOCAL_NAMESPACE'			=> $installData['module_namespace'],      // use instance name instead of domain
+                'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'], /// for local ns
                 'GENERIS_SESSION_NAME'		=> $session_name,
                 'ROOT_PATH'					=> $this->options['root_path'],
                 'FILES_PATH'                => $installData['file_path'],
-                'ROOT_URL'					=> $installData['module_url'],
+                'ROOT_URL'					=> $installData['module_url'],  // replace by call of helper
+                'BASE_URL'                  => '', // set there relative url during the install
                 'DEFAULT_LANG'				=> $installData['module_lang'],
                 'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
-                'TIME_ZONE'                  => $installData['timezone']
+                'TIME_ZONE'                 => $installData['timezone']
             );
 
             $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];

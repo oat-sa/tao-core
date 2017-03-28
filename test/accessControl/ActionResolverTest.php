@@ -23,8 +23,8 @@
  */
 
 use oat\tao\model\accessControl\ActionResolver;
-use oat\tao\model\routing\Resolver;
 use oat\tao\test\TaoPhpUnitTestRunner;
+
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
@@ -37,15 +37,16 @@ class ActionResolverTest extends TaoPhpUnitTestRunner {
     
    
     /**
-     * Provides data for {@link self::testActionResolver} : url, expected controller class name and actioni
+     * Provides data for {@link self::testActionResolver} : url, expected controller class name and action
      * @todo add a row with a namespaced controller
      * @return array[] the data
-     */     
-    public function actionResolverProvider(){
-        return array(
-            array(ROOT_URL . 'tao/Main/index', 'tao_actions_Main', 'index'),
-        );
-    }   
+     */
+    public function actionResolverProvider()
+    {
+        return [
+            [tao_helpers_Uri::getRootUrl() . 'tao/Main/index', 'tao_actions_Main', 'index']
+        ];
+    }
  
     /**
      * Test {@link ActionResolver} construction from url
