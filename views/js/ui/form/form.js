@@ -73,12 +73,21 @@ define([
                 }
 
                 // Ensure fields are unique by field name
-                _.remove(this.fields, function (existingField) {
-                    return existingField.config.input.name === newField.config.input.name;
-                });
+                _.each(
+                    _.remove(this.fields, function (existingField) {
+                        return existingField.config.input.name === newField.config.input.name;
+                    }),
+                    function (removedField) {
+                        removedField.destroy();
+                    }
+                );
 
                 // Insert into array to preserve order
                 this.fields.push(newField);
+
+                if (this.is('rendered')) {
+                    newField.render(_fieldContainer);
+                }
 
                 newField.on('change', function () {
                     self.trigger('change', newField);
@@ -106,7 +115,9 @@ define([
                 $form = this.getElement().find('form');
 
             _.each(this.fields, function (existingField) {
-                existingField.render(_fieldContainer);
+                if (!existingField.is('rendered')) {
+                    existingField.render(_fieldContainer);
+                }
             });
 
             $form.on('submit', function (e) {
