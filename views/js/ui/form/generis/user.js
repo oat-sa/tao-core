@@ -17,9 +17,10 @@
  */
 
 define([
+    'jquery',
     'lodash',
     'ui/form/form'
-], function(_, form) {
+], function($, _, form) {
     'use strict';
 
 
@@ -208,6 +209,22 @@ define([
         });
 
         userForm.render(config.container);
+
+        userForm.on('submit', function(htmlForm) {
+            $.ajax({
+                url : userForm.config.action,
+                type : userForm.config.method,
+                dataType : 'json',
+                data : $(htmlForm).serialize(),
+                success : function (data) {
+                    console.log('success', data);
+                },
+                error : function (xhr, err, more) {
+                    //todo: display backend error
+                    console.log('error', err, more);
+                }
+            });
+        });
 
         return userForm;
     };

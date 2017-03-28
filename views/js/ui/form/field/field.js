@@ -18,8 +18,6 @@
 
 define([
     'jquery',
-    'lodash',
-    'i18n',
     'ui/component',
     'tpl!ui/form/field/tpl/checkBox',
     'tpl!ui/form/field/tpl/comboBox',
@@ -27,8 +25,6 @@ define([
     'tpl!ui/form/field/tpl/textBox'
 ], function (
     $,
-    _,
-    __,
     component,
     checkBoxTpl,
     comboBoxTpl,
@@ -76,6 +72,7 @@ define([
      * @param {String} config.label - Label element's text (default is `''`)
      * @param {bool} [config.required] - Flag to determine if ui/form/field is required (default is `false`)
      * @param {String} config.type - Type of ui/form/field
+     * @event fieldFactory#change - Fires change event on completion of field change
      */
     var fieldFactory = function fieldFactory(config) {
         return component({
@@ -125,6 +122,23 @@ define([
         }, _defaults)
 
         .setTemplate(_templates[config.type])
+
+        .on('render', function () {
+            var self = this,
+                timer,
+                $input = this.getElement().find('input');
+
+            if ($input.length) {
+                $input.on('keyup', function () {
+                    clearTimeout(timer);
+                    if ($input.val()) {
+                        timer = setTimeout(function () {
+                            self.trigger('change');
+                        }, 2000);
+                    }
+                });
+            }
+        })
 
         .init(config);
     };

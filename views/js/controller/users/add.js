@@ -16,17 +16,9 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
 
-/**
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- */
 define([
-    'jquery',
-    'lodash',
-    'module',
-    'helpers',
-    'users', //todo
     'ui/form/generis/user'
-], function ($, _, module, helpers, users, userForm) {
+], function (userForm) {
     'use strict';
 
 
@@ -36,76 +28,56 @@ define([
     var controller = {
 
         start : function () {
-            userForm({ container : '.form-container' })
-            .onSubmit(function(err, res) {
-                console.log('on submit');
-                // if (err) {
-                //     throw Error('Error occurred on new user form submission.');
-                // }
-
-                // if (data.status === 201) {
-                //     //todo show success message and maybe a spinner
-                //     _.delay(function() {
-                //         window.location = helpers._url(
-                //             'index',
-                //             'main',
-                //             'tao',
-                //             {
-                //                 structure : 'users',
-                //                 ext : 'tao',
-                //                 section : 'list_users'
-                //             }
-                //         );
-                //     }, 1000);
-                // } else if (400 <= data.status && data.status < 500) {
-                //     _.each(data.errors, function(error) {
-                //         var field = form.form.fields[error.field];
-                //         if (field) {
-                //             field.showError(error.message);
-                //         } else {
-                //             //todo flash error [that isn't associated with a field]
-                //         }
-                //     });
-                // } else {
-                //     //todo flash 500 errors
-                // }
-            });
+            userForm({ container : '.form-container' });
         }
     };
 
 
     /**
-     * controller/users/add
-     * @exports {Object} controller
+     * @exports {Object} controller/users/add
      */
     return controller;
-
-    // /**
-    //  * The user add controller
-    //  * @exports controller/users/add
-    //  */
-    // return {
-    //     start : function() {
-    //         var conf = module.config();
-    //         var url  = helpers._url('checkLogin', 'Users', 'tao');
-
-    //         users.checkLogin(conf.loginId, url);
-
-    //         if (conf.exit === true) {
-    //             setTimeout(function() {
-    //                 //TODO would be better to clean up the form and switch the section
-    //                 window.location = helpers._url(
-    //                     'index',
-    //                     'Main',
-    //                     'tao',
-    //                     {
-    //                         structure: 'users',
-    //                         ext : 'tao',
-    //                         section : 'list_users'
-    //                     }
-    //                 );
-    //             }, 1000);
-    //         }
-    //     }
-    // };
 });
+
+// /**
+//  * @author Bertrand Chevrier <bertrand@taotesting.com>
+//  */
+// define([
+//     'jquery',
+//     'lodash',
+//     'module',
+//     'helpers',
+//     'users', //todo
+//     'ui/form/generis/user'
+// ], function ($, _, module, helpers, users, userForm) {
+//     'use strict';
+
+//     /**
+//      * The user add controller
+//      * @exports controller/users/add
+//      */
+//     return {
+//         start : function() {
+//             var conf = module.config();
+//             var url  = helpers._url('checkLogin', 'Users', 'tao');
+
+//             users.checkLogin(conf.loginId, url);
+
+//             if (conf.exit === true) {
+//                 setTimeout(function() {
+//                     //TODO would be better to clean up the form and switch the section
+//                     window.location = helpers._url(
+//                         'index',
+//                         'Main',
+//                         'tao',
+//                         {
+//                             structure: 'users',
+//                             ext : 'tao',
+//                             section : 'list_users'
+//                         }
+//                     );
+//                 }, 1000);
+//             }
+//         }
+//     };
+// });

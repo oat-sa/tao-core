@@ -54,6 +54,8 @@ define([
      * @param {String} [config.method] - The form method attribute (default is `'get'`)
      * @param {String} [config.name] - The name of the form (default is `''`)
      * @param {String} [config.submit.value] - The submit button text (default is `'Save'`)
+     * @event formFactory#submit - Fires submit event on form submission with form as first parameter
+     * @event formFactory#change - Fires change event on field change with field component as first parameter
      */
     var formFactory = function formFactory(config) {
         return component({
@@ -63,7 +65,8 @@ define([
              * @returns {Object} - The created ui/form/field
              */
             addField : function addField(fieldConfig) {
-                var newField = field(fieldConfig);
+                var newField = field(fieldConfig),
+                    self = this;
 
                 if (!this.fields) {
                     this.fields = [];
@@ -77,6 +80,10 @@ define([
                 // Insert into array to preserve order
                 this.fields.push(newField);
 
+                newField.on('change', function () {
+                    self.trigger('change', newField);
+                });
+
                 return newField;
             },
 
@@ -89,37 +96,23 @@ define([
                 return _.find(this.fields, function(existingField) {
                     return existingField.config.input.name === name;
                 });
-            },
-
-            /**
-             * Handle form submission
-             * @param {Function} callback - Function called on return of form submission
-             */
-            onSubmit : function onSubmit(callback) {
-                var $form = this.getElement().find('form');
-
-                $form.on('submit', function(e) {
-                    e.preventDefault();
-
-                    //todo add spinner & disable form
-
-                    //todo call action
-                    callback(null, {
-                        success : true,
-                        errors : [],
-                        data : []
-                    });
-
-                    return false;
-                });
             }
         }, _defaults)
 
         .setTemplate(formTpl)
 
         .on('render', function() {
+            var self = this,
+                $form = this.getElement().find('form');
+
             _.each(this.fields, function(existingField) {
                 existingField.render(_fieldContainer);
+            });
+
+            $form.on('submit', function(e) {
+                e.preventDefault();
+                self.trigger('submit', this);
+                return false;
             });
         })
 
