@@ -743,11 +743,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
             $this->setVersion('7.89.0');
         }
-        $this->skip('7.89.0', '7.89.1');
 
-        if ($this->isVersion('7.89.1')) {
+        $this->skip('7.89.0', '7.90.1');
+
+        if ($this->isVersion('7.90.1')) {
             OntologyUpdater::syncModels();
-            $this->setVersion('7.89.2');
+            $this->setVersion('7.90.2');
         }
     }
 
