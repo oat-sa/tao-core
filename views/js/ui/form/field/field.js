@@ -78,13 +78,6 @@ define([
      * @param {String} config.type - Type of ui/form/field
      */
     var fieldFactory = function fieldFactory(config) {
-        // Check for required parameters
-        if (!config &&
-            !config.input && !config.input.name &&
-            !config.type && !_templates[config.type]) {
-            throw Error('Invalid config parameters.');
-        }
-
         return component({
             //todo: show validation errors (on 'change' and a brief period
             // without more changes)

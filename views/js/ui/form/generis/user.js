@@ -188,8 +188,6 @@ define([
     var userGenerisFormFactory = function userGenerisFormFactory(config) {
         var userForm;
 
-        config = config || {};
-
         userForm = form({
             action : config.action || '/tao/users/add',
             name : _class.uri,
