@@ -20,7 +20,7 @@ define([
     'jquery',
     'lodash',
     'ui/form/form'
-], function($, _, form) {
+], function ($, _, form) {
     'use strict';
 
 
@@ -195,7 +195,7 @@ define([
             method : config.method || 'post'
         });
 
-        _.each(_properties, function(property) {
+        _.each(_properties, function (property) {
             userForm.addField({
                 input : {
                     name : property.uri,
@@ -210,7 +210,7 @@ define([
 
         userForm.render(config.container);
 
-        userForm.on('submit', function(htmlForm) {
+        userForm.on('submit', function (htmlForm) {
             $.ajax({
                 url : userForm.config.action,
                 type : userForm.config.method,

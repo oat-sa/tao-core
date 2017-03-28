@@ -73,7 +73,7 @@ define([
                 }
 
                 // Ensure fields are unique by field name
-                _.remove(this.fields, function(existingField) {
+                _.remove(this.fields, function (existingField) {
                     return existingField.config.input.name === newField.config.input.name;
                 });
 
@@ -93,7 +93,7 @@ define([
              * @returns {Object} - The matched ui/form/field, else undefined
              */
             getField : function getField(name) {
-                return _.find(this.fields, function(existingField) {
+                return _.find(this.fields, function (existingField) {
                     return existingField.config.input.name === name;
                 });
             }
@@ -101,15 +101,15 @@ define([
 
         .setTemplate(formTpl)
 
-        .on('render', function() {
+        .on('render', function () {
             var self = this,
                 $form = this.getElement().find('form');
 
-            _.each(this.fields, function(existingField) {
+            _.each(this.fields, function (existingField) {
                 existingField.render(_fieldContainer);
             });
 
-            $form.on('submit', function(e) {
+            $form.on('submit', function (e) {
                 e.preventDefault();
                 self.trigger('submit', this);
                 return false;
