@@ -211,6 +211,8 @@ define([
         userForm.render(config.container);
 
         userForm.on('submit', function (htmlForm) {
+            userForm.disable();
+
             $.ajax({
                 url : userForm.config.action,
                 type : userForm.config.method,
@@ -222,6 +224,7 @@ define([
                 error : function (xhr, err, more) {
                     //todo: display backend error
                     console.log('error', err, more);
+                    userForm.enable();
                 }
             });
         });
