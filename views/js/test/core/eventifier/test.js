@@ -1011,7 +1011,7 @@ define([
         emitter.trigger('foo bar.moo bar');
     });
 
-    QUnit.module('stop');
+    QUnit.module('stopEvent');
 
     QUnit.asyncTest("stop in sync .before() handlers", function(assert){
         var emitter = eventifier();
@@ -1023,7 +1023,7 @@ define([
         emitter
             .before('save', function(){
                 assert.ok(true, 'The 1st .before() handler has been called');
-                emitter.stop('save');
+                emitter.stopEvent('save');
             })
             .before('save', function(){
                 assert.ok(false, 'The 2nd .before() handler should not be called');
@@ -1062,7 +1062,7 @@ define([
             })
             .on('save', function(){
                 assert.ok(true, 'The 1st .on() handler has been called');
-                emitter.stop('save');
+                emitter.stopEvent('save');
             })
             .on('save', function(){
                 assert.ok(false, 'The 2nd .on() handler should not be called');
@@ -1101,7 +1101,7 @@ define([
             })
             .after('save', function() {
                 assert.ok(true, 'The .after() handler has been called');
-                emitter.stop('save');
+                emitter.stopEvent('save');
             })
             .after('save', function(){
                 assert.ok(false, 'The 2nd .after() handler should not be called');
@@ -1136,7 +1136,7 @@ define([
                 assert.ok(true, 'The 2nd .before() handler has been called');
                 return new Promise(function(resolve) {
                     setTimeout(function() {
-                        emitter.stop('save');
+                        emitter.stopEvent('save');
                         resolve();
                     }, 10);
                 });
@@ -1183,7 +1183,7 @@ define([
                 assert.ok(true, 'The 2nd .on() handler has been called');
                 return new Promise(function(resolve) {
                     setTimeout(function() {
-                        emitter.stop('save');
+                        emitter.stopEvent('save');
                         resolve();
                     }, 10);
                 });
@@ -1231,7 +1231,7 @@ define([
                 assert.ok(true, 'The 2nd .after() handler has been called');
                 return new Promise(function(resolve) {
                     setTimeout(function() {
-                        emitter.stop('save');
+                        emitter.stopEvent('save');
                         resolve();
                     }, 10);
                 });
@@ -1265,7 +1265,7 @@ define([
         emitter
             .on('save', function(){
                 assert.ok(true, 'The .on(save) handler has been called');
-                emitter.stop('save');
+                emitter.stopEvent('save');
             })
             .after('save', function() {
                 assert.ok(false, 'The .after(save) handler should not be called');
@@ -1303,7 +1303,7 @@ define([
                 return new Promise(function(resolve) {
                     setTimeout(function() {
                         assert.ok(true, 'The .on(save) handler has been called');
-                        emitter.stop('save');
+                        emitter.stopEvent('save');
                         resolve();
                     }, 10);
                 });
@@ -1315,7 +1315,7 @@ define([
                 return new Promise(function(resolve) {
                     setTimeout(function() {
                         assert.ok(true, 'The .before(exit) handler has been called');
-                        emitter.stop('exit');
+                        emitter.stopEvent('exit');
                         resolve();
                     }, 20);
                 });
@@ -1352,7 +1352,7 @@ define([
         emitter
             .before('save.ns1', function(){
                 assert.ok(true, 'The .before() handler has been called');
-                emitter.stop('save');
+                emitter.stopEvent('save');
             })
             .on('save', function(){
                 assert.ok(false, 'The .on(save) handler should not be called');

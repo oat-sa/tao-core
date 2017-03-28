@@ -47,8 +47,8 @@
  * emitter.before('hello', function(e, who){
  *      if(!who || who === 'nobody'){
  *          console.log('I am not saying Hello to nobody');
- *          emitter.stop('hello');
- *          // alternative (deprecated)
+ *          emitter.stopEvent('hello');
+ *          // alternative (in .before() only, deprecated)
  *          return false;
  *      }
  * });
@@ -72,13 +72,13 @@
  *                  console.log('I don't talk to stranger');
  *                  reject();
  *                  // alternative:
- *                  emitter.stop('hello');
+ *                  emitter.stopEvent('hello');
  *              }
  *          }).catch(function(err){
  *              console.log('System failure, I should quit now');
  *              reject(err);
  *              // alternative:
- *              emitter.stop('hello');
+ *              emitter.stopEvent('hello');
  *          });
  *      });
  * });
@@ -329,6 +329,7 @@ define([
                                 logHandlerStop('before', event, err);
                             });
                     } else {
+
                         triggerBetween(allHandlers, event);
                     }
                 }
@@ -352,7 +353,7 @@ define([
 
                 function triggerBetween(allHandlers, event) {
                     if (shouldStop(event.name)) {
-                        logHandlerStop('before', event); // .stop() has been called in an async .before() callback
+                        logHandlerStop('before', event); // .stopEvent() has been called in an async .before() callback
                     } else {
                         // trigger the event handlers
                         triggerHandlers(allHandlers.between, event)
@@ -367,12 +368,12 @@ define([
 
                 function triggerAfter(handlers, event) {
                     if (shouldStop(event.name)) {
-                        logHandlerStop('on', event); // .stop() has been called in an async .on() callback
+                        logHandlerStop('on', event); // .stopEvent() has been called in an async .on() callback
                     } else {
                         triggerHandlers(handlers, event)
                             .then(function() {
                                 if (shouldStop(event.name)) {
-                                    logHandlerStop('after', event); // .stop() has been called in an async .after() callback
+                                    logHandlerStop('after', event); // .stopEvent() has been called in an async .after() callback
                                 }
                             })
                             .catch(function(err) {
@@ -390,7 +391,7 @@ define([
                 }
 
                 function logHandlerStop(stoppedIn, event, err) {
-                    logger.trace({ err: err, event: event.name, stoppedIn: stoppedIn }, 'event handlers stopped');
+                    logger.trace({ err: err, event: event.name, stoppedIn: stoppedIn }, event.name + ' handlers stopped');
                 }
 
                 function shouldStop(name) {
@@ -447,7 +448,7 @@ define([
              *
              * @param {string} name - of the event to stop
              */
-            stop : function stop(name) {
+            stopEvent : function stopEvent(name) {
                 if (_.isString(name) && ! _.isEmpty(name.trim())) {
                     stoppedEvents[name.trim()] = true;
                 }
