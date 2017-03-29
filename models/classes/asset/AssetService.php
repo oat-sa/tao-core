@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -27,25 +27,98 @@ use Jig\Utils\FsUtils;
 /**
  * Asset service to retrieve assets easily based on a config
  *
+ * The service can be instantiated with the following options :
+ *  - base : the base URL
+ *  - buster : the cache buster value (false means no buster)
+ *
  * @author Antoine Robin
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 class AssetService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/asset';
 
-    public function getAsset($asset, $extensionId)
+    //the query param key of the cache buster
+    const BUSTER_QUERY_KEY = 'buster';
+
+    //key to get the base
+    const BASE_OPTION_KEY  = 'base';
+
+    //key to get the buster value
+    const BUSTER_OPTION_KEY = 'buster';
+
+    /**
+     * Get the full URL of an asset
+     *
+     * @param string $asset the asset path, relative, from the views folder
+     * @param string $extensionId  if the asset is relative to an extension base www (optional)
+     * @return string the asset URL
+     */
+    public function getAsset($asset, $extensionId = null)
     {
-        return $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
+        if( ! is_null($extensionId)){
+            $url = $this->getJsBaseWww($extensionId) . FsUtils::normalizePath($asset);
+        } else {
+            $url = $this->getAssetBaseUrl() . FsUtils::normalizePath($asset);
+        }
+
+        $buster = $this->getCacheBuster();
+        if($buster != false) {
+            $url .= '?' . self::BUSTER_QUERY_KEY . '=' . urlencode($buster);
+        }
+
+        return $url;
     }
 
+    /**
+     * Get the asset base of a given extension (should be getBaseWww)
+     * @param string $extensionId
+     * @return string the base URL
+     */
     public function getJsBaseWww($extensionId)
     {
-        return $this->getAssetUrl() . $extensionId . '/views/';
+        return $this->getAssetBaseUrl() . $extensionId . '/views/';
     }
 
+    /**
+     * @deprecated use getAssetBaseUrl
+     */
     protected function getAssetUrl()
     {
-        return $this->hasOption('base') ? $this->getOption('base') : ROOT_URL;
+        return $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : ROOT_URL;
     }
 
+    /**
+     * Get the asset BASE URL
+     * @return string the base URL
+     */
+    protected function getAssetBaseUrl()
+    {
+        $baseUrl = $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : ROOT_URL;
+
+        $baseUrl = trim($baseUrl);
+        if(substr($baseUrl, -1) != '/'){
+            $baseUrl .= '/';
+        }
+
+        return $baseUrl;
+    }
+
+    /**
+     * Get a the cache buster value, if none we use the tao version.
+     * @return string the busteri value
+     */
+    public function getCacheBuster()
+    {
+        return $this->hasOption(self::BUSTER_OPTION_KEY) ? $this->getOption(self::BUSTER_OPTION_KEY) : TAO_VERSION;
+    }
+
+    /**
+     * Change the cache buster value
+     * @param string|bool $buster the new buster value, false means no buster at all
+     */
+    public function setCacheBuster($buster)
+    {
+        return $this->setOption(self::BUSTER_OPTION_KEY, $buster);
+    }
 }

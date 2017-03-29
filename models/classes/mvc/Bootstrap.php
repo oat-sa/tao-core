@@ -307,31 +307,31 @@ class Bootstrap {
         $fc->legacy($re);
     }
 
-	/**
-	 * Load external resources for the current context
-	 * @see tao_helpers_Scriptloader
-	 */
-	protected function scripts()
-	{
-	    $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-            $cssFiles = array(
-			$assetService->getJsBaseWww('tao') . 'css/layout.css',
-			$assetService->getJsBaseWww('tao') . 'css/tao-main-style.css',
-			$assetService->getJsBaseWww('tao') . 'css/tao-3.css'
-        );
+    /**
+     * Load external resources for the current context
+     * @see tao_helpers_Scriptloader
+     */
+    protected function scripts()
+    {
+        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+        $cssFiles = [
+            $assetService->getAsset('css/layout.css', 'tao'),
+            $assetService->getAsset('css/tao-main-style.css', 'tao'),
+            $assetService->getAsset('css/tao-3.css', 'tao')
+        ];
 
         //stylesheets to load
         \tao_helpers_Scriptloader::addCssFiles($cssFiles);
 
         if(\common_session_SessionManager::isAnonymous()) {
             \tao_helpers_Scriptloader::addCssFile(
-				$assetService->getJsBaseWww('tao') . 'css/portal.css'
+                $assetService->getAsset('css/portal.css', 'tao')
             );
         }
     }
 
-	private function getServiceManager()
-	{
-	    return ServiceManager::getServiceManager();
-	}
+    private function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
+    }
 }

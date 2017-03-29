@@ -3,7 +3,9 @@ require.config({
     baseUrl : '<?=get_data('tao_base_www')?>js',
     catchError: true,
     waitSeconds: <?=get_data('client_timeout')?>,
-    urlArgs : "buster=<?=get_data('version')?>",
+<?php if(get_data('buster')):?>
+    urlArgs : "buster=<?=get_data('buster')?>",
+<?php endif; ?>
 
     config : {
         'context': {
