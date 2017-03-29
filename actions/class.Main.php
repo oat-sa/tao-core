@@ -103,6 +103,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
             }
 
+            if ($this->hasRequestParameter('errorMessage')){
+                $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
+            }
             $this->setData('logout', $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
             $this->setData('settings-menu', $naviElements);
