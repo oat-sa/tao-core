@@ -39,7 +39,7 @@ define([
 
 
     /**
-     * @exports {Object} controller/users/add
+     * @exports {Object} controller/users/edit
      */
     return controller;
 });

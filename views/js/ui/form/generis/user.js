@@ -186,14 +186,18 @@ define([
      * @param {String} config.container - Container to render form
      * @param {String} [config.method] - The HTTP method the browser uses to submit the form (default is `'get'`)
      */
-    var userGenerisFormFactory = function userGenerisFormFactory(config, user, userLabel) {
-        var userForm;
+    var userGenerisFormFactory = function userGenerisFormFactory(config, user) {
+        var labelField, userForm;
+
+        user = user || {};
 
         userForm = form({
             action : config.action || '/tao/users/add',
             name : _class.uri,
             method : config.method || 'post'
         });
+
+        //if (user.uriResource) { // get user (tao/users/desc?uri) }
 
         _.each(_properties, function (property) {
             userForm.addField({
@@ -207,6 +211,12 @@ define([
                 type : property.widget
             });
         });
+
+        // Add a unique label to new user
+        labelField = userForm.getField('http://www.w3.org/2000/01/rdf-schema#label');
+        if (labelField && user.label) {
+            labelField.config.input.value = user.label;
+        }
 
         userForm.render(config.container);
 

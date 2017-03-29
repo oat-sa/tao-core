@@ -10,8 +10,11 @@
         config : {
             'controller/users/add' : {
                 formContainer : '.form-container',
-                user : '<?= $user; ?>',
-                userLabel : '<?= $userLabel; ?>'
+                userLabel : '<?= json_encode($user); ?>'
+            },
+            'controller/users/edit' : {
+                formContainer : '.form-container',
+                user : '<?= json_encode($user); ?>'
             }
         }
     });
