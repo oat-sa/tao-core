@@ -160,9 +160,9 @@ define([
                 uri : 'http//www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',
                 label : 'Lock Manager'
             }, {
-                uri : 'http//www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole',
-                label : 'Proctor'
-            }, {
+            //     uri : 'http//www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole',
+            //     label : 'Proctor'
+            // }, {
                 uri : 'http//www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
                 label : 'System Administrator'
             }, {

@@ -1,4 +1,4 @@
-<div class="ui-form xhtml_form">
+<div class="ui-form">
     <form
         {{#if action}}
         action="{{action}}"
@@ -12,9 +12,9 @@
 
         <div class="field-container"></div>
 
-        <div class="form-toolbar">
+        <div class="toolbar">
             <button
-                class="btn-success small"
+                class="btn-submit btn-success small"
                 type="submit"
                 name="ui-form-submit">
                 <span class="icon-save"/> {{submit.value}}

@@ -1,0 +1,45 @@
+.ui-form {
+    .field-container {
+        .ui-form-field {
+            margin-bottom: 10px;
+
+            .label {
+                width: 35%;
+                vertical-align: top;
+            }
+
+            .input {
+                border: 1px solid #ddd;
+                border-radius: 2px;
+                font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
+                width: 65%;
+            }
+
+            .checkbox {
+                border: none;
+                display: inline-block;
+                overflow: hidden;
+
+                div {
+                    margin: 0;
+
+                    label {
+                        top: 1px;
+                        right: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .toolbar {
+        margin-top: 30px;
+        overflow: hidden;
+
+        .btn-submit {
+            background-color: #266d9c;
+            text-shadow: 1px 1px 0 #0b4a74;
+            float: right;
+        }
+    }
+}

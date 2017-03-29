@@ -1,6 +1,6 @@
 <div class="ui-form-field">
     <label
-        class="label form_desc"
+        class="label"
         for="{{input.name}}">
         {{label}}
         {{#if required}}
