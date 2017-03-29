@@ -83,7 +83,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
             $assetService->setCacheBuster($updateid);
             $this->getServiceLocator()->register(AssetService::SERVICE_ID, $assetService);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             \common_Logger::e($e->getMessage());
             $report->add(new common_report_Report(common_report_Report::TYPE_WARNING,__('Unable to update the asset service')));
         }
