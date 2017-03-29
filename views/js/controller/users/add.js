@@ -32,7 +32,9 @@ define([
             var conf = module.config();
 
             userForm({
+                action : '/tao/users/add',
                 container : conf.formContainer,
+                method : 'post'
             }, conf.user);
         }
 

@@ -192,9 +192,9 @@ define([
         user = user || {};
 
         userForm = form({
-            action : config.action || '/tao/users/add',
+            action : config.action,
             name : _class.uri,
-            method : config.method || 'post'
+            method : config.method
         });
 
         //if (user.uriResource) { // get user (tao/users/desc?uri) }

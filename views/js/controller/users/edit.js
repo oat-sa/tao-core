@@ -32,7 +32,9 @@ define([
             var conf = module.config();
 
             userForm({
+                action : '/tao/users/edit',
                 container : conf.formContainer,
+                method : 'patch'
             }, conf.user);
         }
 
