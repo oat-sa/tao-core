@@ -17,8 +17,9 @@
  */
 
 define([
+    'module',
     'ui/form/generis/user'
-], function (userForm) {
+], function (module, userForm) {
     'use strict';
 
 
@@ -28,7 +29,11 @@ define([
     var controller = {
 
         start : function () {
-            userForm({ container : '.form-container' });
+            var conf = module.config();
+
+            userForm({
+                container : conf.formContainer,
+            }, conf.user, conf.userLabel);
         }
     };
 
@@ -38,46 +43,3 @@ define([
      */
     return controller;
 });
-
-// /**
-//  * @author Bertrand Chevrier <bertrand@taotesting.com>
-//  */
-// define([
-//     'jquery',
-//     'lodash',
-//     'module',
-//     'helpers',
-//     'users', //todo
-//     'ui/form/generis/user'
-// ], function ($, _, module, helpers, users, userForm) {
-//     'use strict';
-
-//     /**
-//      * The user add controller
-//      * @exports controller/users/add
-//      */
-//     return {
-//         start : function() {
-//             var conf = module.config();
-//             var url  = helpers._url('checkLogin', 'Users', 'tao');
-
-//             users.checkLogin(conf.loginId, url);
-
-//             if (conf.exit === true) {
-//                 setTimeout(function() {
-//                     //TODO would be better to clean up the form and switch the section
-//                     window.location = helpers._url(
-//                         'index',
-//                         'Main',
-//                         'tao',
-//                         {
-//                             structure: 'users',
-//                             ext : 'tao',
-//                             section : 'list_users'
-//                         }
-//                     );
-//                 }, 1000);
-//             }
-//         }
-//     };
-// });

@@ -186,7 +186,7 @@ define([
      * @param {String} config.container - Container to render form
      * @param {String} [config.method] - The HTTP method the browser uses to submit the form (default is `'get'`)
      */
-    var userGenerisFormFactory = function userGenerisFormFactory(config) {
+    var userGenerisFormFactory = function userGenerisFormFactory(config, user, userLabel) {
         var userForm;
 
         userForm = form({

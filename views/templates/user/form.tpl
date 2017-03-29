@@ -8,7 +8,7 @@
 <script>
     requirejs.config({
         config : {
-            'tao/controller/users/add' : {
+            'controller/users/add' : {
                 formContainer : '.form-container',
                 user : '<?= $user; ?>',
                 userLabel : '<?= $userLabel; ?>'
