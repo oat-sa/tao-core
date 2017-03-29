@@ -19,12 +19,17 @@
 
 namespace oat\tao\model\mvc\psr7;
 
+use oat\tao\model\mvc\psr7\executor\ExecutorInterface;
+use \oat\oatbox\service\ConfigurableService;
+
 /**
  * Description of ActionRenderer
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-class ActionExecutor extends \oat\oatbox\service\ConfigurableService implements ActionExecutorInterface 
+class ActionExecutor
+    extends ConfigurableService
+    implements ActionExecutorInterface
 {
     
     public function execute($controller, $response = null) {
@@ -32,7 +37,7 @@ class ActionExecutor extends \oat\oatbox\service\ConfigurableService implements 
         $executorList = $this->getOption('executor');
         
         foreach ($executorList as $executorClass) {
-            /* @var $executor render\ExecutorInterface  */
+            /* @var $executor ExecutorInterface  */
             $executor = new $executorClass();
             if($executor->isExecutable($controller)) {
                 return $executor->render($controller, $response);

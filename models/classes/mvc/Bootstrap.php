@@ -21,6 +21,7 @@
  */
 namespace oat\tao\model\mvc;
 
+use GuzzleHttp\Psr7\ServerRequest;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
@@ -297,14 +298,14 @@ class Bootstrap {
 
 	/**
 	 *  Start the MVC Loop from the ClearFW
-	 *  @throws ActionEnforcingException in case of wrong module or action
-	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
+	 *  @throws \ActionEnforcingException in case of wrong module or action
+	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
 	 */
     protected function mvc()
     {
-        $re = \common_http_Request::currentRequest();
+        $request = ServerRequest::fromGlobals();
         $fc = new TaoFrontController();
-        $fc->legacy($re);
+        $fc->legacy($request);
     }
 
 	/**

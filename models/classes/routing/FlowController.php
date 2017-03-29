@@ -16,20 +16,18 @@
  * 
  * Copyright (c) 2006-2009 (original work) Public Research Centre Henri Tudor (under the project FP6-IST-PALETTE);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2014      (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2014-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\routing;
 
-use ActionEnforcingException;
-use common_Logger;
 use common_http_Request;
 use common_ext_ExtensionsManager;
-use HTTPToolkit;
 use InterruptedActionException;
 use Context;
-use FlowController as ClearFwFlowController;
-use tao_helpers_Uri;
+use oat\tao\model\mvc\psr7\ContextAwareTrait;
+use Psr\Http\Message\ServerRequestInterface;
+
 
 /**
  * The FlowController helps you to navigate through MVC actions.
@@ -37,8 +35,10 @@ use tao_helpers_Uri;
  * @author Jérôme Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
  * @author Bertrand Chevrier <Bertrand@taotestin.com>
  */
-class FlowController extends ClearFwFlowController
+class FlowController
 {
+
+    use ContextAwareTrait;
 
     /**
      * This header is added to the response to inform the client a forward occurs
@@ -97,6 +97,25 @@ class FlowController extends ClearFwFlowController
                                              $context->getModuleName(),
                                              $context->getActionName());
                 
+    }
+
+    public function forwardRequest(ServerRequestInterface $request ) {
+
+
+
+    }
+
+    // HTTP 303 : The response to the request can be found under a different URI
+    public function redirect($url, $statusCode = 302)
+    {
+        $context = $this->getContext();
+
+        header(\HTTPToolkit::statusCodeHeader($statusCode));
+        header(\HTTPToolkit::locationHeader($url));
+
+        throw new InterruptedActionException('Interrupted action after a redirection',
+            $context->getModuleName(),
+            $context->getActionName());
     }
 
     /**

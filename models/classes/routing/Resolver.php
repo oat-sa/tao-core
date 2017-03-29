@@ -111,7 +111,7 @@ class Resolver
         throw new \ResolverException('Unable to resolve '.$this->request->getUrl());
     }
     
-    private function getRoutes(\common_ext_Extension $extension) {
+    protected function getRoutes(\common_ext_Extension $extension) {
         $routes = array();
         foreach ($extension->getManifest()->getRoutes() as $routeId => $routeData) {
             if (is_string($routeData)) {
@@ -131,8 +131,8 @@ class Resolver
         }
         return $routes;
     }
-    
-    private function getRouteMap() {
+
+    protected function getRouteMap() {
         $routes = array();
         foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
             foreach ($this->getRoutes($extension) as $route) {

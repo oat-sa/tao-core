@@ -23,6 +23,7 @@ use common_Logger;
 use Context;
 use Exception;
 use HTTPToolkit;
+use oat\tao\model\mvc\psr7\ContextAwareTrait;
 use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -35,7 +36,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface {
     
     use ServiceLocatorAwareTrait;
-    
+    use ContextAwareTrait;
     /**
      * http response code
      * @var integer 
@@ -100,7 +101,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @return $this
      */
     protected function sendHeaders() {
-        $context = Context::getInstance();
+        $context = $this->getContext();
         $context->getResponse()->setContentHeader($this->contentType);
         header(HTTPToolkit::statusCodeHeader($this->httpCode));
         return $this;

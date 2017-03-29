@@ -30,6 +30,7 @@ class LegacyRoute extends Route
 {
     public function resolve($relativeUrl) {
         $parts = explode('/', $relativeUrl);
+
         if ($parts[0] == $this->getId()) {
             
             $controllerShortName = isset($parts[1]) && !empty($parts[1]) ? $parts[1] : DEFAULT_MODULE_NAME;

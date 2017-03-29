@@ -21,10 +21,11 @@
 
 namespace oat\tao\model\routing;
 
-use Context;
+use oat\tao\model\mvc\psr7\Context;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
 use common_http_Request;
+use oat\tao\model\mvc\psr7\Resolver;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -35,27 +36,28 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class TaoFrontController {
 
+    protected $context;
+
+    protected function getContext() {
+        if(is_null($this->context)) {
+            $this->context = new Context();
+        }
+        return $this->context;
+    }
+
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
-        $request->getUri();
-        $pRequest = \common_http_Request::currentRequest();
-        $this->legacy($pRequest, $response);
+        $this->legacy($request);
     }
 
     /**
-     * Run the controller
-     * 
-     * @param common_http_Request $pRequest
-     * @throws \ActionEnforcingException
-     * @throws \Exception
-     * @throws \common_exception_Error
-     * @throws \common_ext_ExtensionException
+     * @param ServerRequestInterface $request
      */
-    public function legacy(common_http_Request $pRequest) {
-        $resolver = new Resolver($pRequest);
+    public function legacy(ServerRequestInterface $request) {
 
+        $resolver = new Resolver($request);
         // load the responsible extension
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
-        \Context::getInstance()->setExtensionName($resolver->getExtensionId());
+        $this->getContext()->setExtensionName($resolver->getExtensionId());
 
         // load translations
         $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
@@ -86,7 +88,8 @@ class TaoFrontController {
 
         try {
             ob_start();
-            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
+            $params   = array_merge($request->getParsedBody() , $request->getQueryParams());
+            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
             $controller = $enforcer->execute();
             $implicitContent = ob_get_clean();
             $this->response($controller, $implicitContent);
