@@ -224,22 +224,23 @@ class tao_install_Setup implements Action
         $installator->install($options);
 
 
-        // Can be PostInstalled
-        // DeliveryExecution config
-        // serviceState config
-        // session config
-        // uriProvider config
-        // authentication config
-
-
         // configure persistences
         foreach($parameters['configuration']['generis']['persistences'] as $key => $persistence){
             \common_persistence_Manager::addPersistence($key, $persistence);
         }
 
-        if (isset($parameters['configuration']['generis']['log'])) {
-            if(!\common_ext_ExtensionsManager::singleton()->getExtensionById('generis')->setConfig('log', $parameters['configuration']['generis']['log'])){
-                return Report::createInfo('You logger config cannot be set');
+        foreach($parameters['configuration'] as $extension => $configs){
+            foreach($configs as $key => $config){
+                if(!(isset($config['type']) && $config['type'] === 'configurableService')){
+                    if (!is_null(\common_ext_ExtensionsManager::singleton()->getInstalledVersion($extension))) {
+                        if( !$serviceManager->has($extension . '/' . $key) ||
+                            !$serviceManager->get($extension . '/' . $key) instanceof \oat\oatbox\service\ConfigurableService){
+                            if(!\common_ext_ExtensionsManager::singleton()->getExtensionById($extension)->setConfig($key, $config)){
+                                return Report::createInfo('Your config ' . $extension . '/' . $key . ' cannot be set');
+                            }
+                        }
+                    }
+                }
             }
         }
 
