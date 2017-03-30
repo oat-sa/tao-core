@@ -130,6 +130,7 @@ abstract class tao_actions_CommonModule extends Module
      * 
      * @param string $description error to show
      * @param boolean $returnLink whenever or not to add a return link
+     * @param int $httpStatus
      */
     protected function returnError($description, $returnLink = true, $httpStatus = null) {
         if (tao_helpers_Request::isAjax()) {
