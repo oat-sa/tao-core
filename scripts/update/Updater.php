@@ -742,7 +742,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             ]);
             $this->getServiceManager()->register(ExceptionInterpreterService::SERVICE_ID, $service);
             $this->setVersion('7.89.0');
-        }      
+        }
 
         $this->skip('7.89.0', '7.91.2');
 
@@ -750,6 +750,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $this->setVersion('7.91.3');
         }
+        $this->skip('7.91.3', '8.0.0');
     }
 
     private function migrateFsAccess() {
