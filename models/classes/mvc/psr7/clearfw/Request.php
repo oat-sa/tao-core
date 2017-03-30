@@ -69,7 +69,10 @@ class Request {
     }
 
     public function addParameters($parameters) {
-        var_dump($parameters);die();
+        $params = array_merge($parameters , $this->psrRequest->getQueryParams());
+        $request = $this->getPsrRequest()->withQueryParams($params);
+        $this->setPsrRequest($request);
+        return $this;
     }
 
     public function getParameters() {
