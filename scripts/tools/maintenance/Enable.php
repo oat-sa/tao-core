@@ -45,8 +45,10 @@ class Enable implements Action, ServiceLocatorAwareInterface
                     __('TAO platform is already on live mode since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
                 );
             }
+
+            $report = \common_report_Report::createSuccess(__('TAO platform is now live. It was in maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT)));
             $this->getMaintenanceService()->enablePlatform();
-            return \common_report_Report::createSuccess(__('TAO platform is now live.'));
+            return $report;
         } catch (\common_Exception $e) {
             return \common_report_Report::createFailure(__('Error: %s', $e->getMessage()));
         }

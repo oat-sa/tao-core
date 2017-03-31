@@ -45,8 +45,10 @@ class Disable implements Action, ServiceLocatorAwareInterface
                     __('TAO platform is already on maintenance mode since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
                 );
             }
+
+            $report = \common_report_Report::createSuccess(__('TAO platform is now under maintenance. It was in maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT)));
             $this->getMaintenanceService()->disablePlatform();
-            return \common_report_Report::createSuccess(__('TAO platform is now under maintenance.'));
+            return $report;
         } catch (\common_Exception $e) {
             return \common_report_Report::createFailure(__('Error: %s', $e->getMessage()));
         }
