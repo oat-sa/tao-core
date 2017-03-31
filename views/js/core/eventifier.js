@@ -43,18 +43,20 @@
  * // notify only hello.world and hello.* listeners
  * emitter.trigger('hello.world', 'world');
  *
- * @example using before
+ * @example stopping synchronous events
  * emitter.before('hello', function(e, who){
  *      if(!who || who === 'nobody'){
  *          console.log('I am not saying Hello to nobody');
+ *          emitter.stopEvent('hello');
+ *          // alternative (in .before() only, deprecated)
  *          return false;
  *      }
  * });
  *
- * @example using before asynchronously
+ * @example stopping asynchronous events
  * emitter.before('hello', function(e, who){
  *
- *      // you can know about the event context
+ *      // in before handlers, you can know about the event context
  *      var eventName = e.name;
  *      var eventNamespace = e.namespace;
  *      console.log('Received a ' + eventName + '.' + eventNamespace + ' event');
@@ -69,39 +71,17 @@
  *              } else {
  *                  console.log('I don't talk to stranger');
  *                  reject();
+ *                  // alternative:
+ *                  emitter.stopEvent('hello');
  *              }
  *          }).catch(function(err){
  *              console.log('System failure, I should quit now');
  *              reject(err);
+ *              // alternative:
+ *              emitter.stopEvent('hello');
  *          });
  *      });
  * });
- *
- * @example using before asynchronously (deprecated)
- * emitter.before('hello', function(e, who){
- *
- *      //I am in an asynchronous context
- *      var done = e.done();
- *
- *      //ajax call
- *      fetch('do/I/know?who='+who).then(function(yes){
- *          if(yes){
- *              console.log('I know', who);
- *              e.done();
- *          }else{
- *              console.log('I don't talk to stranger');
- *              e.prevent();
- *          }
- *      })).catch(function(){
- *          console.log('System failure, I should quit now');
- *          e.preventNow();
- *      });
- * });
- *
- * TODO replace before done syntax by promises. Work in progress:
- * - promise support added: instead of using e.done() or e.prevent() you can now just return a promise and rely on its workflow to resolve/reject the event
- * - need now to update every extension with the new syntax in order to be able to use a full promise version
- * TODO support flow control for all types of events not only before.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -128,95 +108,6 @@ define([
      * Create a logger
      */
     var eventifierLogger = loggerFactory('core/eventifier');
-
-    /**
-     * Create an async callstack
-     * @param {array} handlers - array of handlers to create the async callstack from
-     * @param {object} context - the object that each handler will be applied on
-     * @param {String} eventName - The name of the triggered event
-     * @param {String} namespace - The namespace of the triggered event
-     * @param {array} args - the arguments passed to each handler
-     * @param {function} success - the success callback
-     * @returns {array} array of aync call stack
-     */
-    function createAsyncCallstack(handlers, context, eventName, namespace, args, success){
-
-        var callstack =  _.map(handlers, function(handler){
-
-            //return an async call
-            return function(cb){
-
-                var result;
-                var asyncMode = false;
-                var _args = _.clone(args);
-                var event = {
-                    name: eventName,
-                    namespace: namespace,
-                    done : function asyncDone(){
-                        asyncMode = true;
-                        //returns the done function and wait until it is called to continue the async queue processing
-                        return done;
-                    },
-                    prevent : function asyncPrevent(){
-                        asyncMode = true;
-                        //immediately call prevent()
-                        prevent();
-                    },
-                    preventNow : function asyncPreventNow(){
-                        asyncMode = true;
-                        //immediately call preventNow()
-                        preventNow();
-                    }
-                };
-
-                /**
-                 * Call success
-                 * @private
-                 */
-                function done(){
-                    //allow passing to next
-                    cb(null, {success:true});
-                }
-
-                /**
-                 * Call fail but can continue to next loop
-                 * @private
-                 */
-                function prevent(){
-                    cb(null, {success:false});
-                }
-
-                /**
-                 * Call fail and must stop the execution of the stack right now
-                 * @returns {undefined}
-                 */
-                function preventNow(){
-                    //stop async processing queue right now
-                    cb(new Error('prevent now'), {success:false, immediate:true});
-                }
-
-                //set the event object as the first argument
-                _args.unshift(event);
-                result = handler.apply(context, _args);
-
-                if(!asyncMode){
-                    if(result === false){
-                        //if the call
-                        prevent();
-                    }else{
-                        Promise.resolve(result).then(done).catch(prevent);
-                    }
-                }
-            };
-        });
-
-        async.series(callstack, function(err, results){
-            var successes = _.pluck(results, 'success');
-            if(_.indexOf(successes, false) === -1){
-                success();
-            }
-        });
-    }
 
     /**
      * Get the list of events from an eventName string (ie, separated by spaces)
@@ -275,6 +166,7 @@ define([
     function eventifier(target){
         var targetName;
         var logger;
+        var stoppedEvents;
 
         //it stores all the handlers under ns/name/[handlers]
         var eventHandlers  = {};
@@ -397,6 +289,8 @@ define([
                 var self = this;
                 var args = [].slice.call(arguments, 1);
 
+                stoppedEvents = {};
+
                 _.forEach(getEventNames(eventNames), function(eventName){
                     var ns = getNamespace(eventName);
                     var name = getName(eventName);
@@ -416,32 +310,92 @@ define([
                     logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
 
                     if(mergedHandlers){
-
-                        //if there is something in before we delay the execution
-                        if(mergedHandlers.before.length){
-                            createAsyncCallstack(mergedHandlers.before, self, name, ns, args, _.partial(triggerEvent, mergedHandlers));
-                        } else {
-                            triggerEvent(mergedHandlers);
-                        }
+                        triggerAllHandlers(mergedHandlers, name, ns);
                     }
                 });
 
-                /**
-                 * Execute the given event handlers (between and then after)
-                 *
-                 * @private
-                 * @param {Object} handlers - the event handler object to execute
-                 */
-                function triggerEvent(handlers){
-                    //trigger the event handlers
-                    _.forEach(handlers.between, function(handler){
-                        handler.apply(self, args);
+                function triggerAllHandlers(allHandlers, name, ns) {
+                    var event = {
+                        name: name,
+                        namespace: ns
+                    };
+
+                    if (allHandlers.before.length) {
+                        triggerBefore(allHandlers.before, event)
+                            .then(function() {
+                                triggerBetween(allHandlers, event);
+                            })
+                            .catch(function(err) {
+                                logHandlerStop('before', event, err);
+                            });
+                    } else {
+
+                        triggerBetween(allHandlers, event);
+                    }
+                }
+
+                function triggerBefore(handlers, event) {
+                    var pHandlers,
+                        beforeArgs = args.slice();
+
+                    // .before() handlers will get a special 'event' object as their first parameter
+                    beforeArgs.unshift(event);
+
+                    pHandlers = handlers.map(function(handler) {
+                        // .before() handlers use to return false to cancel the call stack
+                        // to maintain backward compatibility, we treat this case as a rejected Promise
+                        var value = (shouldStop(event.name)) ? false : handler.apply(self, beforeArgs);
+                        return (value === false) ? Promise.reject() : value;
                     });
 
-                    //trigger the after event handlers if applicable
-                    _.forEach(handlers.after, function(handler){
-                        handler.apply(self, args);
+                    return Promise.all(pHandlers);
+                }
+
+                function triggerBetween(allHandlers, event) {
+                    if (shouldStop(event.name)) {
+                        logHandlerStop('before', event); // .stopEvent() has been called in an async .before() callback
+                    } else {
+                        // trigger the event handlers
+                        triggerHandlers(allHandlers.between, event)
+                            .then(function() {
+                                triggerAfter(allHandlers.after, event);
+                            })
+                            .catch(function(err) {
+                                logHandlerStop('on', event, err);
+                            });
+                    }
+                }
+
+                function triggerAfter(handlers, event) {
+                    if (shouldStop(event.name)) {
+                        logHandlerStop('on', event); // .stopEvent() has been called in an async .on() callback
+                    } else {
+                        triggerHandlers(handlers, event)
+                            .then(function() {
+                                if (shouldStop(event.name)) {
+                                    logHandlerStop('after', event); // .stopEvent() has been called in an async .after() callback
+                                }
+                            })
+                            .catch(function(err) {
+                                logHandlerStop('after', event, err);
+                            });
+                    }
+                }
+
+                function triggerHandlers(handlers, event) {
+                    var pHandlers;
+                    pHandlers = handlers.map(function (handler) {
+                        return (shouldStop(event.name)) ? Promise.reject() : handler.apply(self, args);
                     });
+                    return Promise.all(pHandlers);
+                }
+
+                function logHandlerStop(stoppedIn, event, err) {
+                    logger.trace({ err: err, event: event.name, stoppedIn: stoppedIn }, event.name + ' handlers stopped');
+                }
+
+                function shouldStop(name) {
+                    return stoppedEvents[name];
                 }
 
                 return this;
@@ -481,6 +435,23 @@ define([
                     });
                 }
                 return this;
+            },
+
+            /**
+             * If triggered into an sync handler, this immediately cancels the execution of all following handlers
+             * regardless of their category
+             * If triggered asynchronously, this will only cancel the next category of handlers:
+             * - .on() and .after() if triggered during a .before() handler
+             * - .after() if triggered during a .on() handler
+             * - nothing if triggered during a .after() handler
+             * In an async context, you can also reject a Promise with the same results
+             *
+             * @param {string} name - of the event to stop
+             */
+            stopEvent : function stopEvent(name) {
+                if (_.isString(name) && ! _.isEmpty(name.trim())) {
+                    stoppedEvents[name.trim()] = true;
+                }
             }
         };
 

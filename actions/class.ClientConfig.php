@@ -76,6 +76,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         }
         $this->setData('lang',              $lang);
         $this->setData('version',           TAO_VERSION);
+        $this->setData('buster',            $assetService->getCacheBuster());
         $this->setData('extension',         $this->getRequestParameter('extension'));
         $this->setData('module',            $this->getRequestParameter('module'));
         $this->setData('action',            $this->getRequestParameter('action'));
