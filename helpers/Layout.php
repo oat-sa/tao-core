@@ -150,7 +150,7 @@ class Layout{
         $bundleMode   = \tao_helpers_Mode::is('production');
         $configUrl    = get_data('client_config_url');
         $requireJsUrl = Template::js('lib/require.js', 'tao');
-        $bootstrapUrl = Template::js('loader/bootstrap', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 

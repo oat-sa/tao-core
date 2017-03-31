@@ -83,7 +83,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
-                return $this->returnError(__('You currently have no access to the platform'));
+                return $this->returnError(__('You currently have no access to the platform'), true, 403);
 	        }
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
@@ -103,6 +103,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
             }
 
+            if ($this->hasRequestParameter('errorMessage')){
+                $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
+            }
             $this->setData('logout', $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
             $this->setData('settings-menu', $naviElements);

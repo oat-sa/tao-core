@@ -33,6 +33,7 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
@@ -744,7 +745,35 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.89.0');
         }
 
-        $this->skip('7.89.0', '7.90.1');
+        $this->skip('7.89.0', '7.91.2');
+
+        if ($this->isVersion('7.91.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.91.3');
+        }
+        $this->skip('7.91.3', '8.1.0');
+
+        if ($this->isVersion('8.1.0')) {
+            if (! $this->getServiceManager()->has(Maintenance::SERVICE_ID)) {
+
+                $maintenancePersistence = 'maintenance';
+
+                try {
+                    \common_persistence_Manager::getPersistence($maintenancePersistence);
+                } catch (\common_Exception $e) {
+                    \common_persistence_Manager::addPersistence($maintenancePersistence,  array('driver' => 'phpfile'));
+                }
+
+                $service = new Maintenance();
+                $service->setOption(Maintenance::OPTION_PERSISTENCE, $maintenancePersistence);
+                $this->getServiceManager()->register(Maintenance::SERVICE_ID, $service);
+
+                $this->getServiceManager()->get(Maintenance::SERVICE_ID)->enablePlatform();
+            }
+            $this->setVersion('8.2.0');
+        }
+
+        $this->skip('8.2.0', '8.2.2');
     }
 
     private function migrateFsAccess() {
