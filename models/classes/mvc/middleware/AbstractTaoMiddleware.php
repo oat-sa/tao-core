@@ -19,7 +19,6 @@
 namespace oat\tao\model\mvc\middleware;
 
 use Interop\Container\ContainerInterface;
-use oat\tao\model\mvc\psr7\ContextAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -34,17 +33,30 @@ abstract class AbstractTaoMiddleware implements ServiceLocatorAwareInterface
 {
 
     use ServiceLocatorAwareTrait;
-
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
+    /**
+     * AbstractTaoMiddleware constructor.
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
 
     /**
+     * @return ContainerInterface
+     */
+    protected function getContainer() {
+        return $this->container;
+    }
+
+    /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
-     * @param callable $next
+     * @param array $args
      * @return ResponseInterface
      */
     abstract public function __invoke($request, $response, $args);

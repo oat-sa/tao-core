@@ -28,11 +28,21 @@ use oat\tao\model\mvc\psr7\Resolver;
 use Slim\App;
 use Slim\Container;
 
+/**
+ * @todo change for a service with options container and routes
+ */
 class SlimLauncher {
 
+    /**
+     * configure slim Container
+     * @return Container
+     */
     protected function configureContainer() {
         $container = new Container();
-
+        /**
+         * @todo change factory to invokables
+         * Actually, a new instance is return each time
+         */
         $container['resolver'] = function () {
             return new Resolver();
         };
@@ -50,19 +60,17 @@ class SlimLauncher {
     }
 
     public function launch() {
+
         $container = $this->configureContainer();
+        $slimApplication = new App($container);
+        /**
+         * @todo use configurable route prefix to support subdirectory install
+         */
+        $slimApplication->map(['GET', 'POST'] , '/[{relativeUri}]' , TaoResolver::class)
+            ->add( TaoAuthenticate::class );
+        //->add( TaoControllerExecution::class);
+        return $slimApplication->run();
 
-        try {
-            $slimApplication = new App($container);
-
-            $slimApplication->map(['GET', 'POST'] , '/[{ext}[/{mod}[/{action}]]]' , TaoResolver::class)
-                ->add( TaoAuthenticate::class )
-                ->add( TaoControllerExecution::class);
-
-            return $slimApplication->run();
-        } catch (\Exception $e) {
-            var_dump($e->getMessage());
-        }
     }
 
 

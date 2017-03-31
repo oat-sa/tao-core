@@ -77,6 +77,7 @@ class Bootstrap {
 	 * Initialize the context
 	 * @param string $configFile
 	 * @param array $options
+     * @todo transform as middleware
 	 */
 	public function __construct($configFile, $options = array())
 	{
@@ -122,6 +123,7 @@ class Bootstrap {
     }
 
 	/**
+     * @todo clean this
 	 * Start all the services:
 	 *  1. Start the session
 	 *  2. Update the include path
@@ -140,7 +142,9 @@ class Bootstrap {
 		}
 		common_Profiler::stop('start');
 	}
-	
+    /**
+     * @todo clean this
+     */
 	protected function dispatchHttp()
 	{
 	    $isAjax = tao_helpers_Request::isAjax();
@@ -177,8 +181,10 @@ class Bootstrap {
 	    // explicitly close session
 	    session_write_close();
 	}
-	
-        
+
+    /**
+     * @todo change this
+     */
 	protected function dispatchCli()
 	{
 	    $params = $_SERVER['argv'];
@@ -218,7 +224,7 @@ class Bootstrap {
     /**
      * Catch any errors
      * return a http response in function of client accepted mime type 
-     *
+     * @todo use Slim error handling
      * @param Exception $exception
      */
     protected function catchError(Exception $exception)
@@ -230,6 +236,7 @@ class Bootstrap {
 
     /**
      * Start the session
+     * @todo transform as middleware
      */
     protected function session()
     {
@@ -262,7 +269,10 @@ class Bootstrap {
             }
         }
     }
-	
+
+    /**
+     * @todo transform as middleware
+     */
     private function configureSessionHandler() {
         $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
         if ($sessionHandler !== false) {
@@ -288,6 +298,7 @@ class Bootstrap {
 
 	/**
 	 * Set Timezone quickfix
+     * @todo transform as middleware
 	 */
 	protected function setDefaultTimezone()
 	{
@@ -303,6 +314,9 @@ class Bootstrap {
 	 */
     protected function mvc()
     {
+        /**
+         * @todo invoke as service
+         */
         $slim = new SlimLauncher();
         $slim->launch();
     }
@@ -310,6 +324,7 @@ class Bootstrap {
 	/**
 	 * Load external resources for the current context
 	 * @see tao_helpers_Scriptloader
+     * @todo transform as middleware
 	 */
 	protected function scripts()
 	{

@@ -46,6 +46,9 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         try {
             ob_start();
             $params   = array_merge($request->getParsedBody() , $request->getQueryParams());
+            /**
+             * @todo report usable part of ActionEnforcer
+             */
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
             //$controller = $enforcer->execute();
             //$implicitContent = ob_get_clean();
@@ -56,11 +59,20 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         return $response;
     }
 
+    /**
+     * @todo this must return a PSR7 response
+     * @param $controller
+     * @param $implicitContent
+     * @param ResponseInterface $response
+     */
     protected function response($controller, $implicitContent ,ResponseInterface $response) {
         /**
          * @var $executor ActionExecutor
          */
         $executor = $this->get('taoService')->get(ActionExecutor::SERVICE_ID);
+        /**
+         * @todo ActionExecutor::execute must return a PSR7 response
+         */
         $executor->execute($controller , $response);
         echo $implicitContent;
     }

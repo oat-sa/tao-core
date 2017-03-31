@@ -38,7 +38,6 @@ class TaoAuthenticate extends AbstractTaoMiddleware
          */
         $resolver = $this->container->get('resolver');
         $resolver->setRequest($request);
-
         //if the controller is a rest controller we try to authenticate the user
         $controllerClass = $resolver->getControllerClass();
 
@@ -49,6 +48,9 @@ class TaoAuthenticate extends AbstractTaoMiddleware
                 $session = new \common_session_RestSession($user);
                 \common_session_SessionManager::startSession($session);
             } catch (\common_user_auth_AuthFailedException $e) {
+                /**
+                 * @todo change for prs7 response
+                 */
                 $data['success'] = false;
                 $data['errorCode'] = '401';
                 $data['errorMsg'] = 'You are not authorized to access this functionality.';

@@ -31,25 +31,22 @@ class TaoResolver extends AbstractTaoMiddleware
 
     public function __invoke($request, $response, $args)
     {
-        try {
-            /**
-             * @var $resolver Resolver
-             */
-            $resolver = $this->container->get('resolver');
-            $resolver->setRequest($request);
-            $extId = $resolver->getExtensionId();
 
-            // load the responsible extension
-            $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
+        /**
+         * @var $resolver Resolver
+         * @todo use relativeUri extract from route to resolve tao action in this case, use request isn't necessary
+         */
+        $resolver = $this->container->get('resolver');
+        $resolver->setRequest($request);
+        $extId = $resolver->getExtensionId();
+        // load the responsible extension
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
+        $this->container->get('context')->setExtensionName($resolver->getExtensionId());
+        // load translations
+        $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
+        \tao_helpers_I18n::init($ext, $uiLang);
+        return $response;
 
-            $this->container->get('context')->setExtensionName($resolver->getExtensionId());
-            // load translations
-            $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
-            \tao_helpers_I18n::init($ext, $uiLang);
-            return $response;
-        } catch(\Exception $e) {
-            var_dump($e->getTraceAsString());die();
-        }
     }
 
 }
