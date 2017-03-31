@@ -130,15 +130,21 @@ abstract class tao_actions_CommonModule extends Module
      * 
      * @param string $description error to show
      * @param boolean $returnLink whenever or not to add a return link
+     * @param int $httpStatus
      */
-    protected function returnError($description, $returnLink = true) {
+    protected function returnError($description, $returnLink = true, $httpStatus = null) {
         if (tao_helpers_Request::isAjax()) {
             common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description); 
         } else {
             $this->setData('message', $description);
             $this->setData('returnLink', $returnLink);
-            $this->setView('error/user_error.tpl', 'tao');
+
+            if(!is_null($httpStatus) && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+                $this->setView("error/error${httpStatus}.tpl", 'tao');
+            } else {
+                $this->setView('error/user_error.tpl', 'tao');
+            }
         }
     }
 
