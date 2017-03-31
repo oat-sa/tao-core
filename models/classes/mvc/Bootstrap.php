@@ -24,6 +24,7 @@ namespace oat\tao\model\mvc;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
 use common_Profiler;
@@ -112,12 +113,13 @@ class Bootstrap {
 	}
 
     /**
-     * Check if the application is ready
-     * @return {boolean} Return true if the application is ready
+     * Check if the platform is ready
+     *
+     * @return boolean Return true if the application is ready
      */
     protected function isReady()
     {
-        return defined('SYS_READY') ? SYS_READY : true;
+        return $this->getMaintenanceService()->isPlatformReady();
     }
 
 	/**
@@ -328,6 +330,16 @@ class Bootstrap {
 				$assetService->getJsBaseWww('tao') . 'css/portal.css'
             );
         }
+    }
+
+    /**
+     * Get the maintenance service to handle maintenance status
+     *
+     * @return Maintenance
+     */
+    protected function getMaintenanceService()
+    {
+        return $this->getServiceManager()->get(Maintenance::SERVICE_ID);
     }
 
 	private function getServiceManager()
