@@ -110,7 +110,7 @@ class tao_helpers_Uri
             }
         }
 
-        return (string) self::$root . self::getBaseUrl();
+        return (string) self::$root;
     }
 
     /**
