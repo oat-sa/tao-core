@@ -22,6 +22,7 @@ namespace oat\tao\scripts\tools\maintenance;
 
 use oat\oatbox\action\Action;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\maintenance\MaintenanceState;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -29,19 +30,33 @@ class Disable implements Action, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * Action to put platform on maintenance mode
+     *
+     * @param $params
+     * @return \common_report_Report
+     */
     public function __invoke($params)
     {
         try {
-            if ($this->getMaintenanceService()->isApplicationDisabled()) {
-                return \common_report_Report::createSuccess(__('TAO platform is already on maintenance mode.'));
+            $state = $this->getMaintenanceService()->getPlatformState();
+            if ($this->getMaintenanceService()->isPlatformOnMaintenance()) {
+                return \common_report_Report::createSuccess(
+                    __('TAO platform is already on maintenance mode since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+                );
             }
-            $this->getMaintenanceService()->setApplicationDisabled();
+            $this->getMaintenanceService()->disablePlatform();
             return \common_report_Report::createSuccess(__('TAO platform is now under maintenance.'));
         } catch (\common_Exception $e) {
             return \common_report_Report::createFailure(__('Error: %s', $e->getMessage()));
         }
     }
 
+    /**
+     * Get the maintenance service
+     *
+     * @return Maintenance
+     */
     protected function getMaintenanceService()
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);

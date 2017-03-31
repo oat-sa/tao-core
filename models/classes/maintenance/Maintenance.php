@@ -23,35 +23,76 @@ namespace oat\tao\model\maintenance;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
+/**
+ * Class Maintenance
+ *
+ * Service to manage platform maintenance
+ *
+ * @package oat\tao\model\maintenance
+ */
 class Maintenance extends ConfigurableService
 {
     const SERVICE_ID = 'tao/maintenance';
 
     const OPTION_PERSISTENCE = 'persistence';
 
+    /**
+     * Storage to store platform state
+     *
+     * @var MaintenanceStorage
+     */
     protected $storage;
 
-    public function isPlatformReady()
+    /**
+     * Check if platform is ready, if $state is null, it is retrieved from storage
+     *
+     * @param MaintenanceState|null $state
+     * @return bool
+     */
+    public function isPlatformReady(MaintenanceState $state = null)
     {
-        return ($this->getPlatformState()->getBooleanStatus() === true);
+        if (is_null($state)) {
+            $state = $this->getPlatformState();
+        }
+        return ($state->getBooleanStatus() === true);
     }
 
-    public function isPlatformOnMaintenance()
+    /**
+     * Check if platform is on maintenance, if $state is null, it is retrieved from storage
+     *
+     * @param MaintenanceState|null $state
+     * @return bool
+     */
+    public function isPlatformOnMaintenance(MaintenanceState $state = null)
     {
-        return ($this->getPlatformState()->getBooleanStatus() === false);
+        if (is_null($state)) {
+            $state = $this->getPlatformState();
+        }
+        return ($state->getBooleanStatus() === false);
     }
 
+    /**
+     * Enable the platform by updating storage
+     */
     public function enablePlatform()
     {
         $this->setPlatformState(MaintenanceState::LIVE_MODE);
     }
 
+    /**
+     * Disable the platform by updating storage
+     */
     public function disablePlatform()
     {
         $this->setPlatformState(MaintenanceState::OFFLINE_MODE);
     }
 
-    protected function getPlatformState()
+    /**
+     * Get the current maintenance state of the platform
+     *
+     * @return MaintenanceState
+     */
+    public function getPlatformState()
     {
         try {
             return $this->getStorage()->getCurrentPlatformState();
@@ -62,6 +103,11 @@ class Maintenance extends ConfigurableService
         }
     }
 
+    /**
+     * Update platform state
+     *
+     * @param $status
+     */
     protected function setPlatformState($status)
     {
         $state = new MaintenanceState(array(
@@ -72,6 +118,8 @@ class Maintenance extends ConfigurableService
     }
 
     /**
+     * Get the maintenance storage
+     *
      * @return MaintenanceStorage
      * @throws InconsistencyConfigException
      */

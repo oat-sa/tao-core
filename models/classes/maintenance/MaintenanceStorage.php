@@ -26,20 +26,36 @@ class MaintenanceStorage
 
     const PREFIX = 'maintenance_';
 
+    /**
+     * Driver to access KeyValue storage
+     *
+     * @var \common_persistence_KeyValuePersistence
+     */
     protected $driver;
 
+    /**
+     * MaintenanceStorage constructor.
+     *
+     * @param \common_persistence_KeyValuePersistence $driver
+     */
     public function __construct(\common_persistence_KeyValuePersistence $driver)
     {
         $this->driver = $driver;
     }
 
+    /**
+     * Persist the maintenance state
+     *
+     * If old maintenance exists, set key with old state id
+     * Persist new maintenance state with key 'last'
+     *
+     * @param MaintenanceState $state
+     */
     public function setPlatformState(MaintenanceState $state)
     {
-        $currentTimestamp = $this->getCurrentTimestamp();
-
         if ($previous = $this->getDriver()->get(self::PREFIX . self::LAST_MODE)) {
             $currentState = new MaintenanceState(json_decode($previous, true));
-            $currentState->setEndTime($currentTimestamp);
+            $currentState->setEndTime($state->getStartTime());
             $this->getDriver()->set(self::PREFIX . $currentState->getId(), json_encode($currentState->toArray()));
 
             $state->setId($currentState->getId() + 1);
@@ -49,12 +65,19 @@ class MaintenanceStorage
         $this->getDriver()->set(self::PREFIX . self::LAST_MODE, json_encode($state->toArray()));
     }
 
+    /**
+     * Get maintenance history as list of state
+     *
+     * @todo Return an arrayIterator
+     * @return array
+     */
     public function getHistory()
     {
-        $i = 1;
         $history = array(
-            $i => new MaintenanceState(json_decode($this->getDriver()->get(self::PREFIX . self::LAST_MODE), true))
+            1 => new MaintenanceState(json_decode($this->getDriver()->get(self::PREFIX . self::LAST_MODE), true))
         );
+
+        $i = 2;
         while ($data = json_decode($this->getDriver()->get(self::PREFIX . $i), true)) {
             $history[$i] = new MaintenanceState($data);
             $i++;
@@ -62,6 +85,12 @@ class MaintenanceStorage
         return $history;
     }
 
+    /**
+     * Get the current state of the platform
+     *
+     * @return MaintenanceState
+     * @throws \common_exception_NotFound If no state is set
+     */
     public function getCurrentPlatformState()
     {
         $data = json_decode($this->getDriver()->get(self::PREFIX . self::LAST_MODE), true);
@@ -71,11 +100,12 @@ class MaintenanceStorage
         return new MaintenanceState($data);
     }
 
-    protected function getCurrentTimestamp()
-    {
-        return (new \DateTime())->format('Ymdhis');
-    }
-
+    /**
+     * Get the driver to access KeyValue persistence
+     *
+     * @return \common_persistence_KeyValuePersistence
+     * @throws \common_Exception
+     */
     protected function getDriver()
     {
         if (! $this->driver) {

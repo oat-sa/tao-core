@@ -31,99 +31,160 @@ class MaintenanceState
     const OFFLINE_MODE = 'off';
 
     const DATETIME_FORMAT = 'Ymdhis';
+    const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
 
     protected static $availableStatus = array(self::LIVE_MODE, self::OFFLINE_MODE);
 
+    /**
+     * The id to identify a Maintenance state
+     *
+     * @var integer
+     */
     protected $id;
 
+    /**
+     * The datetime when MaintenanceState was begun
+     *
+     * @var \DateTime
+     */
     protected $startTime;
 
+    /**
+     * The datetime when MaintenanceState was ended
+     *
+     * @var \DateTime
+     */
     protected $endTime = null;
 
+    /**
+     * The maintenance status, must be be in self::$availableStatus
+     *
+     * @var mixed
+     */
     protected $status;
 
+
+    /**
+     * MaintenanceState constructor.
+     *
+     * @param array $data
+     */
     public function __construct(array $data)
     {
         $this->checkData($data);
-        $this->id        = isset($data[self::ID]) ? $data[self::ID] : 1;
-        $this->status    = $data[self::STATUS];
-        $this->setStartTime(isset($data[self::START_TIME]) ? $data[self::START_TIME] : new \DateTime());
+        $this->id     = isset($data[self::ID]) ? $data[self::ID] : 1;
+        $this->status = $data[self::STATUS];
+
+        if (isset($data[self::START_TIME])) {
+            $this->startTime = $this->getDateTime($data[self::START_TIME]);
+        } else {
+            $this->startTime = new \DateTime();
+        }
 
         if (isset($data[self::END_TIME])) {
-            $this->setEndTime($data[self::END_TIME]);
+            $this->endTime = $this->getDateTime($data[self::END_TIME]);
         }
     }
 
+    /**
+     * Return the Maintenance state as array, Datetime are converted to timestamp
+     *
+     * @return array
+     */
     public function toArray()
     {
         $data = array(
             self::ID         => $this->id,
             self::STATUS     => $this->status,
-            self::START_TIME => $this->getStringStartTime(),
+            self::START_TIME => $this->startTime->getTimestamp(),
         );
 
         if (! is_null($this->endTime)) {
-            $data[self::END_TIME] = $this->getStringEndTime();
+            $data[self::END_TIME] = $this->endTime->getTimestamp();
         }
 
         return $data;
     }
 
+    /**
+     * @return int|mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @param $id
+     */
     public function setId($id)
     {
         $this->id = $id;
     }
 
+    /**
+     * @param $endTime
+     */
     public function setEndTime($endTime)
     {
         $this->endTime = $this->getDateTime($endTime);
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
+
+    /**
+     * @return bool
+     */
     public function getBooleanStatus()
     {
         return $this->status === self::LIVE_MODE ? true : false;
     }
 
-    protected function setStartTime($startTime)
+    /**
+     * @return \DateInterval
+     */
+    public function getDuration()
     {
-        $this->startTime = $this->getDateTime($startTime);
+        $endTime = $this->endTime ?: new \DateTime();
+        return $this->startTime->diff($endTime);
     }
 
-    protected function getStringEndTime()
-    {
-        return $this->endTime->format(self::DATETIME_FORMAT);
-    }
-
-    protected function getStringStartTime()
-    {
-        return $this->startTime->format(self::DATETIME_FORMAT);
-    }
-
+    /**
+     * Transform a string|Datetime to Datetime
+     *
+     * @param $dateTime
+     * @return \DateTime
+     * @throws \common_Exception
+     */
     protected function getDateTime($dateTime)
     {
         if ($dateTime instanceof \DateTime) {
             return $dateTime;
         }
 
-        if (
-            ((is_string($dateTime) && (int) $dateTime > 0) || is_numeric($dateTime))
-            && strlen($dateTime) == 14
-        ) {
-            return \DateTime::createFromFormat(self::DATETIME_FORMAT, $dateTime);
+        if ((is_string($dateTime) && (int) $dateTime > 0) || is_numeric($dateTime)) {
+            return (new \DateTime())->setTimestamp($dateTime);
+
         }
 
-        throw new \common_Exception(__('A date has to be a Datetime or string in format %s', self::DATETIME_FORMAT));
+        throw new \common_Exception(__('A date has to be a Datetime or timestamp'));
     }
 
+    /**
+     * Check data of constructor input
+     *
+     * @param array $data
+     * @throws \common_Exception
+     */
     protected function checkData(array $data)
     {
         if (! isset($data[self::STATUS]) || ! in_array($data[self::STATUS], self::$availableStatus)) {
-            var_dump($data[self::STATUS]);
             throw new \common_Exception(
                 __('A maintenance status must have a STATUS: "%s" or "%s"', self::LIVE_MODE, self::OFFLINE_MODE)
             );

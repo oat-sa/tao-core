@@ -22,6 +22,7 @@ namespace oat\tao\scripts\tools\maintenance;
 
 use oat\oatbox\action\Action;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\maintenance\MaintenanceState;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -29,21 +30,37 @@ class Status implements Action, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * Get the status of platform
+     *
+     * @param $params
+     * @return \common_report_Report
+     */
     public function __invoke($params)
     {
         try {
-            if ($this->getMaintenanceService()->isApplicationEnabled()) {
-                return \common_report_Report::createSuccess(__('TAO platform is live.'));
+            $state = $this->getMaintenanceService()->getPlatformState();
+            if ($this->getMaintenanceService()->isPlatformReady($state)) {
+                return \common_report_Report::createSuccess(
+                    __('TAO platform is live since %s.', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+                );
             }
 
-            if ($this->getMaintenanceService()->isApplicationDisabled()) {
-                return \common_report_Report::createSuccess(__('TAO platform is under maintenance.'));
+            if ($this->getMaintenanceService()->isPlatformOnMaintenance($state)) {
+                return \common_report_Report::createSuccess(
+                    __('TAO platform is under maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+                );
             }
         } catch (\common_Exception $e) {
             return \common_report_Report::createFailure(__('Error: %s', $e->getMessage()));
         }
     }
 
+    /**
+     * Get the maintenance service
+     *
+     * @return Maintenance array|object
+     */
     protected function getMaintenanceService()
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
