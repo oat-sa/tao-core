@@ -65,6 +65,12 @@ class tao_actions_Export extends tao_actions_CommonModule
         }
         $formData['id'] = $this->getRequestParameter('id');
 
+        if (!$this->isExportable($formData)) {
+            $this->setData('message', $this->getNotExportableMessage($formData));
+            $this->setView('form/export_error_feedback.tpl', 'tao');
+            return;
+        }
+
         $handlers = $this->getAvailableExportHandlers();
         $exporter = $this->getCurrentExporter();
 
@@ -75,17 +81,29 @@ class tao_actions_Export extends tao_actions_CommonModule
             $myForm->setValues(array('exportHandler' => get_class($exporter)));
         }
         $this->setData('myForm', $myForm->render());
-
         if ($this->hasRequestParameter('exportChooser_sent') && $this->getRequestParameter('exportChooser_sent') == 1) {
 
-            //use method GET to allow direct file download (not ajax compatible)
-            $exportData = $_GET;
+            $exportData = $this->getRequestParameters();
 
             if (isset($exportData['instances'])) {
-                $instanceCount = count($exportData['instances']);
-                for ($i = 0; $i < $instanceCount; $i++) {
-                    $exportData['instances'][$i] = tao_helpers_Uri::decode($exportData['instances'][$i]);
+                $instances = json_decode(urldecode($exportData['instances']));
+                unset($exportData['instances']);
+
+                //allow to export complete classes
+                if(isset($exportData['type']) && $exportData['type'] === 'class'){
+
+                    $children = array();
+                    foreach ($instances as $instance){
+                        $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($instance));
+                        $children = array_merge($children,$class->getInstances());
+                    }
+                    $exportData['instances'] = $children;
+                } else {
+                    foreach ($instances as $instance){
+                        $exportData['instances'][] = tao_helpers_Uri::decode($instance);
+                    }
                 }
+
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
@@ -103,19 +121,22 @@ class tao_actions_Export extends tao_actions_CommonModule
             if ($report instanceof common_report_Report) {
                 $file = $report->getData();
 
-                if ($report->getType() === common_report_Report::TYPE_ERROR) {
+                if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
+                    $report->setType(common_report_Report::TYPE_ERROR);
+                    if (! $report->getMessage()) {
+                        $report->setMessage(__('Error(s) has occurred during export.'));
+                    }
+
                     $html = tao_helpers_report_Rendering::render($report);
                 }
             }
 
             if ($html !== '') {
                 echo $html;
-            } elseif (!is_null($file) && file_exists($file)) {
+            } elseif (! is_null($file) && file_exists($file)) {
                 $this->sendFileToClient($file, $selectedResource);
             }
-
             return;
-
 
         }
 
@@ -127,6 +148,29 @@ class tao_actions_Export extends tao_actions_CommonModule
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
 
+    }
+
+    /**
+     * Is the metadata of the given resource is exportable?
+     *
+     * @author Gyula Szucs, <gyula@taotesting.com>
+     * @param array $formData
+     * @return bool
+     */
+    protected function isExportable(array $formData)
+    {
+        return true;
+    }
+
+    /**
+     * Return a message, if the metadata of the resource is not exportable
+     *
+     * @author Gyula Szucs, <gyula@taotesting.com>
+     * @return string
+     */
+    protected function getNotExportableMessage($formData)
+    {
+        return __('Metadata export is not available for the selected resource.');
     }
 
     protected function getResourcesToExport()

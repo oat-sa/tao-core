@@ -37,4 +37,28 @@ define(['core/mimetype'], function(mimeType){
                 QUnit.start();
             });
         });
+
+    var mimetypes = [
+        //simple correct mime typed files
+        { filename: 'filename.zip', mime: 'application/zip', equals: 'application/zip', title : 'application/zip zip'},
+        { filename: 'filename.jpg', mime: 'image/jpeg', equals: 'image/jpeg', title : 'image/jpeg jpg'},
+        //if the File has a generic typed mime, the mime type resolution will be based on the file extension
+        { filename: 'filename.txt', mime: 'invalid/octet-stream', equals: 'text/plain', title : 'invalid/octet-stream text'},
+        { filename: 'filename.pdf', mime: 'invalid/octet-stream', equals: 'application/pdf', title : 'invalid/octet-stream pdf'},
+        { filename: 'filename.pdf', mime: 'application/octet-stream', equals: 'application/pdf', title : 'application/octet-stream pdf'},
+        { filename: 'filename.pdf', mime: 'application/force-download', equals: 'application/pdf', title : 'application/force-download pdf'},
+        //if the file extension is of an unknown mime, the returned value defaults to the mimetype of the File
+        { filename: 'filename.bz2', mime: 'application/octet-stream', equals: 'application/octet-stream', title : 'application/octet-stream bz2'}
+    ];
+
+    QUnit
+        .cases(mimetypes)
+        .test('getMimeType', function(data, assert) {
+            //create a file mock
+            var file = {
+                name : data.filename,
+                type : data.mime,
+            };
+            assert.equal(mimeType.getMimeType(file), data.equals, data.title);
+        });
 });

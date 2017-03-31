@@ -30,41 +30,17 @@
 class tao_helpers_form_validators_AlphaNum
     extends tao_helpers_form_validators_Regex
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array options
-     * @return mixed
+     * (non-PHPdoc)
+     * @see tao_helpers_form_validators_Regex::setOptions()
      */
-    public function __construct($options = array())
+    public function setOptions(array $options)
     {
-        
-        
-    	if(isset($options['format'])){
-    		unset($options['format']);	//the pattern cannot be overriden
-    	}
+    	$options['format'] = isset($options['allow_punctuation'])
+    	   ? "/^[a-zA-Z0-9_\-]*$/"
+	       : "/^[a-zA-Z0-9]*$/";
     	
-    	if(isset($options['allow_punctuation'])){
-    		$pattern = "/^[a-zA-Z0-9_\-]*$/";
-    	}
-    	else{
-    		$pattern = "/^[a-zA-Z0-9]*$/";
-    	}
-    	
-    	parent::__construct(array_merge(array('format' => $pattern), $options));
-    	
-        
+    	parent::setOptions($options);
     }
-
 }
-
-?>

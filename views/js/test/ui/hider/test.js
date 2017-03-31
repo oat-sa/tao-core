@@ -77,7 +77,7 @@ define([
     });
 
     QUnit.test('toggle', function (assert) {
-        QUnit.expect(8);
+        QUnit.expect(12);
 
         var $container = $('#qunit-fixture');
         var $table = $('table', $container);
@@ -96,6 +96,16 @@ define([
 
         assert.ok( $table.hasClass('hidden'), 'The table has the hidden class');
         assert.equal( $table.css('display'), 'none', 'The table is hidden');
+
+        hider.toggle($table, false);
+
+        assert.ok( $table.hasClass('hidden'), 'The table has the hidden class');
+        assert.equal( $table.css('display'), 'none', 'The table is hidden');
+
+        hider.toggle($table, true);
+
+        assert.ok( ! $table.hasClass('hidden'), 'The table has not the hidden class');
+        assert.equal( $table.css('display'), 'table', 'The table is shown');
     });
 
     QUnit.test('isHidden', function (assert) {

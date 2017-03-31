@@ -24,6 +24,7 @@ use core_kernel_classes_Class;
 use oat\tao\model\search\Search;
 use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -31,7 +32,7 @@ use oat\tao\model\search\ResultSet;
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-class GenerisSearch extends Configurable implements Search
+class GenerisSearch extends ConfigurableService implements Search
 {
 
     /**
@@ -58,9 +59,9 @@ class GenerisSearch extends Configurable implements Search
     
     /**
      * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::index()
+     * @see \oat\tao\model\search\Search::fullReIndex()
      */
-    public function index(\Traversable $resourceTraversable) {
+    public function fullReIndex(\Traversable $resourceTraversable) {
         // no indexation required
         return 0;
     }
@@ -84,5 +85,36 @@ class GenerisSearch extends Configurable implements Search
                 'like'      => true,
             )
         );
+    }
+    
+    /**
+     * (Re)Generate the index for a given resource
+     *
+     * @param core_kernel_classes_Resource $resource
+     * @return boolean true if successfully indexed
+    */
+    public function index(\core_kernel_classes_Resource $resource)
+    {
+        // nothing to do
+        return true;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::remove()
+     */
+    public function remove($resourceId)
+    {
+        // nothing to do
+        return true;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::supportCustomIndex()
+     */
+    public function supportCustomIndex()
+    {
+        return false;
     }
 }

@@ -52,26 +52,26 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
             $this->setMessage(__('The value of this field must be numeric'));
             $returnValue = false;
         } else {
-            if (isset($this->options['min']) || isset($this->options['max'])) {
+            if ($this->hasOption('min') || $this->hasOption('max')) {
                 
-                if (isset($this->options['min']) && isset($this->options['max'])) {
+                if ($this->hasOption('min') && $this->hasOption('max')) {
                     
-                    if ($this->options['min'] <= $value && $value <= $this->options['max']) {
+                    if ($this->getOption('min') <= $value && $value <= $this->getOption('max')) {
                         $returnValue = true;
                     } else {
-                        $this->setMessage(__('Invalid field range (minimum value: %1$s, maximum value: %2$s)', $this->options['min'], $this->options['max']));
+                        $this->setMessage(__('Invalid field range (minimum value: %1$s, maximum value: %2$s)', $this->getOption('min'), $this->getOption('max')));
                     }
-                } elseif (isset($this->options['min']) && ! isset($this->options['max'])) {
-                    if ($this->options['min'] <= $value) {
+                } elseif ($this->hasOption('min') && ! $this->hasOption('max')) {
+                    if ($this->getOption('min') <= $value) {
                         $returnValue = true;
                     } else {
-                        $this->setMessage(__('Invalid field range (minimum value: %s)',$this->options['min']));
+                        $this->setMessage(__('Invalid field range (minimum value: %s)',$this->getOption('min')));
                     }
-                } elseif (! isset($this->options['min']) && isset($this->options['max'])) {
-                    if ($value <= $this->options['max']) {
+                } elseif (! $this->hasOption('min') && $this->hasOption('max')) {
+                    if ($value <= $this->getOption('max')) {
                         $returnValue = true;
                     } else {
-                        $this->setMessage(__('Invalid field range (maximum value: %s)', $this->options['max']));
+                        $this->setMessage(__('Invalid field range (maximum value: %s)', $this->getOption('max')));
                     }
                 }
             } else {
@@ -80,9 +80,9 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
         }
         
         // Test less, greater, equal to another
-        if ($returnValue && isset($this->options['integer2_ref']) && $this->options['integer2_ref'] instanceof tao_helpers_form_FormElement) {
-            $secondElement = $this->options['integer2_ref'];
-            switch ($this->options['comparator']) {
+        if ($returnValue && $this->hasOption('integer2_ref') && $this->getOption('integer2_ref') instanceof tao_helpers_form_FormElement) {
+            $secondElement = $this->getOption('integer2_ref');
+            switch ($this->getOption('comparator')) {
                 case '>':
                 case 'sup':
                     if ($value > $secondElement->getRawValue()) {

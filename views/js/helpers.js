@@ -1,5 +1,7 @@
 /*
  * Helpers
+ *
+ * @deprecated Do not use it anymore. Only here for backward compat.
  */
 define([
     'lodash',
@@ -8,7 +10,7 @@ define([
     'layout/loading-bar',
     'jqueryui'
 ], function (_, $, context, loadingBar) {
-
+    'use strict';
 
     var Helpers = {
         init: function () {
@@ -195,7 +197,7 @@ define([
          * apply effect to elements that are only present
          */
         _autoFx: function () {
-            
+
             console.warn('deprecated');
             setTimeout(function () {
                 $(".auto-highlight").effect("highlight", {color: "#9FC9FF"}, 2500);
@@ -262,7 +264,7 @@ define([
          * @return {boolean}
          */
         isFlashPluginEnabled: function () {
-            return   (typeof navigator.plugins !== "undefined" && typeof navigator.plugins["Shockwave Flash"] === "object") || 
+            return   (typeof navigator.plugins !== "undefined" && typeof navigator.plugins["Shockwave Flash"] === "object") ||
                      (window.ActiveXObject && (new window.ActiveXObject("ShockwaveFlash.ShockwaveFlash")) !== false);
         },
 
@@ -278,9 +280,10 @@ define([
 
         /**
          * simple _url implementation, requires layout_header to set some global variables
+         * @deprecated use util/url#route instead
          */
         _url: function (action, controller, extension, params) {
-    
+
             var url;
 
             if(typeof action !== 'string' || typeof controller !== 'string' || typeof extension !== 'string'){

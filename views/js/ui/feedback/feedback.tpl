@@ -1,8 +1,7 @@
-<div class="feedback feedback-{{level}} {{#if popup}}popup{{/if}}">
+<div id="{{id}}" class="feedback feedback-{{level}} {{#if popup}}popup{{/if}}">
     <span class="icon-{{level}}"></span>
     <div>
         {{{msg}}}
     </div>
-    {{!-- Collapse not yet implemented <span title="{{__ 'Collapse Message'}}" class="icon-remove"></span>--}}
-    <span title="{{__ 'Remove Message'}}" class="icon-close" data-close=":parent .feedback"></span>
+    <span title="{{__ 'Close message'}}" class="icon-close" data-close=":parent .feedback"></span>
 </div>

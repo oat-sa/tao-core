@@ -1,4 +1,7 @@
 <?php
+
+use oat\oatbox\validator\ValidatorInterface;
+use oat\oatbox\Configurable;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +19,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2016 (update and modification) Open Assessment Technologies SA;
  * 
  */
 
@@ -29,43 +33,18 @@
  * @package tao
  
  */
-abstract class tao_helpers_form_Validator
+abstract class tao_helpers_form_Validator extends Configurable
+    implements ValidatorInterface
 {
-    // --- ASSOCIATIONS ---
-    // generateAssociationEnd :     // generateAssociationEnd : 
-
-    // --- ATTRIBUTES ---
-
     /**
-     * Short description of attribute options
-     *
-     * @access protected
-     * @var array
-     */
-    protected $options = array();
-
-    /**
-     * Short description of attribute message
+     * Message to the user
      *
      * @access protected
      * @var string
      */
-    protected $message = '';
+    protected $message = null;
 
     // --- OPERATIONS ---
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  array $options
-     * @return mixed
-     */
-    public function __construct(array $options = array())
-    {
-        $this->setOptions($options);
-    }
 
     /**
      * Short description of method getName
@@ -80,18 +59,6 @@ abstract class tao_helpers_form_Validator
     }
 
     /**
-     * Short description of method getOptions
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return array
-     */
-    public function getOptions()
-    {
-        return (array) $this->options;
-    }
-
-    /**
      * Short description of method getMessage
      *
      * @access public
@@ -100,7 +67,7 @@ abstract class tao_helpers_form_Validator
      */
     public function getMessage()
     {
-        return isset($this->options['message']) ? $this->options['message'] : $this->getDefaultMessage();;
+        return is_null($this->message) ? $this->getDefaultMessage() : $this->message;
     }
 
     /**
@@ -112,7 +79,7 @@ abstract class tao_helpers_form_Validator
      */
     public function setMessage($message)
     {
-        $this->options['message'] = $message;
+        $this->message = $message;
     }
     
     /**
@@ -121,11 +88,6 @@ abstract class tao_helpers_form_Validator
     protected function getDefaultMessage()
     {
         return __('');
-    }
-
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
     }
 
     /**

@@ -150,7 +150,7 @@ class Layout{
         $bundleMode   = \tao_helpers_Mode::is('production');
         $configUrl    = get_data('client_config_url');
         $requireJsUrl = Template::js('lib/require.js', 'tao');
-        $bootstrapUrl = Template::js('loader/bootstrap', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 
@@ -172,6 +172,16 @@ class Layout{
     public static function getTitle() {
         $title = get_data('title');
         return $title ? $title : PRODUCT_NAME . ' ' .  TAO_VERSION;
+    }
+
+
+    /**
+     * Navigation is considered small when it has no main and max. 2 item in the settings menu
+     * @return bool
+     */
+    public static function isSmallNavi() {
+        $settingsMenu = get_data('settings-menu');
+        return empty(get_data('main-menu')) && empty($settingsMenu) || count($settingsMenu) < 3;
     }
 
 

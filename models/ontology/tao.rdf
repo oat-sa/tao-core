@@ -148,7 +148,19 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[The System Administrator Role]]></rdfs:comment>
     <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
   </rdf:Description>
-  
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Task Queue Manager]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The Task Queue Manager Role]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
+  </rdf:Description>
+  <!-- Operational Administrator Role -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Operational Administrator]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The Operational Administrator role]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
+  </rdf:Description>
   <!-- FrontOffice Sub Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
@@ -202,7 +214,36 @@
   	<rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
   </rdf:Description>
+
+  <!-- Validation -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#validationRule">
+  	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Validation Rules]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Validation rules for the values of this property]]></rdfs:comment>
+  	<rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+	<widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector"/>
+	<generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+  </rdf:Description>
+
+  <!-- Validation Widget -->
+  <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector">
+    <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+    <widget:identifier><![CDATA[validation]]></widget:identifier>
+    <rdfs:label xml:lang="en-US"><![CDATA[Validation]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Select the validation rules]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelectorXhtmlRenderer">
+    <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+    <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector"/>
+    <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+    <widget:implementation><![CDATA[oat\tao\helpers\form\elements\xhtml\Validators]]></widget:implementation>
+  </rdf:Description>
   
+  <rdf:Description rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
+    <generis:validationRule><![CDATA[notEmpty]]></generis:validationRule>
+  </rdf:Description>
   
     <!-- Some user's meta -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed">
@@ -219,5 +260,12 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#Boolean"/>
   </rdf:Description>
-  
+
+  <!-- Assessement content object -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[assessmentObject]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Object to represent assessment contents]]></rdfs:comment>
+  </rdf:Description>
+
 </rdf:RDF>

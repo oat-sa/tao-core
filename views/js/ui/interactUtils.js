@@ -28,14 +28,17 @@ define([
 ], function($, _, interact, triggerMouseEvent) {
     'use strict';
 
-    var simulateDrop = null;
+    var interactHelper,
+        simulateDrop;
 
     function iFrameDragFixCb() {
-        simulateDrop();
+        if (_.isFunction(simulateDrop)) {
+            simulateDrop();
+        }
         interact.stop();
     }
 
-    var interactHelper = {
+    interactHelper = {
 
         /**
          * Chrome/Safari fix: manually drop a dragged element when the mouse leaves the item runner iframe

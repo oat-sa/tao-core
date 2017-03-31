@@ -208,22 +208,44 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
             width: $playerActionSize;
             height: $playerActionSize;
 
-            &:hover {
-                .volume {
-                    display: block;
-                }
-            }
 
             .volume {
                 cursor: default;
                 position: absolute;
                 z-index: 3;
-                display: none;
-                padding: 7px;
+                background-color: $playerBackground;
+                padding: 0 10px 0 10px;
+                height: 0;
+                top: 0;
+                left: -1px;
+                opacity : 0;
+                border: solid 1px $playerBorder;
+                @include vendor-prefix(transition, 'height 300ms ease-out, top 300ms ease-out, opacity 50ms linear 250ms', property);
+
+                &.up, &.down {
+                    height: 120px;
+                    padding: 10px 10px 5px 10px;
+                    opacity : 1;
+                    .slider {
+                        opacity : 1;
+                        transition: opacity 50ms linear 200ms;
+                        @include vendor-prefix(transition, 'opacity 50ms linear 200ms', property);
+                    }
+                }
+                &.up {
+                    top: -125px;
+                     @include vendor-prefix(transition, 'height 300ms ease-out 50ms, top 300ms ease-out 50ms, opacity 50ms linear', property);
+                }
+                &.down {
+                    top: 29px;
+                     @include vendor-prefix(transition, 'height 300ms ease-out 50ms, opacity 50ms linear', property);
+                }
             }
 
             .slider {
+                opacity : 0;
                 .noUi-handle {
+                    cursor: pointer;
                     width: 9px;
                     height: 9px;
                 }
@@ -374,5 +396,25 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
                 vertical-align: middle;
             }
         }
+    }
+
+    &.loading::before {
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        margin-top: -15px;
+        margin-left: -15px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        border-top-color: #07d;
+        animation: spinner .6s linear infinite;
     }
 }

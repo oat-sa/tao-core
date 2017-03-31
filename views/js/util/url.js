@@ -23,8 +23,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash'
-], function(_){
+    'lodash',
+    'context'
+], function(_, context){
     'use strict';
 
 
@@ -149,7 +150,9 @@ define([
          */
         build : function build(path, params){
 
-            var url;
+            var url,
+                queryString = '',
+                hasQueryString;
 
             if(path){
                 if(_.isString(path)){
@@ -168,17 +171,50 @@ define([
                     });
                 }
                 if(_.isPlainObject(params)){
-                    if(url.indexOf('?') === -1){
-                        url += '?';
-                    }
-                    url = _.reduce(params, function(acc, value, key){
-                        acc += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(value);
+                    hasQueryString = url.indexOf('?') > -1;
+                    queryString = _.reduce(params, function(acc, value, key){
+                        if(!_.isEmpty(acc) || hasQueryString){
+                            acc += '&';
+                        }
+                        acc += encodeURIComponent(key) + '=' + encodeURIComponent(value);
                         return acc;
-                    }, url);
+                    }, queryString);
+                    if(!_.isEmpty(queryString)){
+                        if(!hasQueryString){
+                            url += '?';
+                        }
+                        url += queryString;
+                    }
                 }
             }
 
             return url;
+        },
+
+        /**
+         * Get the URL from a TAO controller route
+         * @param {String} action - The controller's action
+         * @param {String} controller - The controller's name
+         * @param {String} extension - The controller's extension
+         * @param {String} [rootUrl] - to change the root url, otherwise taken from context
+         * @param {Object} [params] - params to add to the URL
+         * @returns {String} the url
+         *
+         * @throws {TypeError} if one of the required parameter is missing or empty
+         */
+        route : function route(action, controller, extension, params, rootUrl){
+
+            var routeParts = [extension, controller, action];
+
+            if(_.some(routeParts, function(value){
+                return _.isEmpty(value) || !_.isString(value);
+            })){
+                throw new TypeError('All parts are required to build an URL');
+            }
+
+            rootUrl = rootUrl || context && context['root_url'];
+
+            return this.build([rootUrl].concat(routeParts), params);
         }
     };
 

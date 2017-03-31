@@ -19,12 +19,23 @@
 
 namespace oat\tao\model\mvc\error;
 
+use common_Logger;
+use Context;
+use Exception;
+use HTTPToolkit;
+use tao_helpers_Request;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+
 /**
  * Description of ResponseAbstract
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
  */
-abstract class ResponseAbstract implements ResponseInterface {
+abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface {
+    
+    use ServiceLocatorAwareTrait;
+    
     /**
      * http response code
      * @var integer 
@@ -37,7 +48,7 @@ abstract class ResponseAbstract implements ResponseInterface {
     protected $contentType = '';
     
     /**
-     * @var \Exception
+     * @var Exception
      */
     protected $exception;
 
@@ -74,22 +85,24 @@ abstract class ResponseAbstract implements ResponseInterface {
             
         }
 
-        if(\tao_helpers_Request::isAjax()) {
+        if(tao_helpers_Request::isAjax()) {
             $renderClass = 'ajax';
         }
 
         $className = __NAMESPACE__ . '\\' . $this->rendererClassList[$renderClass];
-
-        return new $className();
+        
+        $renderer = new $className();
+        
+        return $renderer->setServiceLocator($this->getServiceLocator());
     }
     /**
      * send headers
      * @return $this
      */
     protected function sendHeaders() {
-        $context = \Context::getInstance();
+        $context = Context::getInstance();
         $context->getResponse()->setContentHeader($this->contentType);
-        header(\HTTPToolkit::statusCodeHeader($this->httpCode));
+        header(HTTPToolkit::statusCodeHeader($this->httpCode));
         return $this;
     }
     /**
@@ -118,18 +131,17 @@ abstract class ResponseAbstract implements ResponseInterface {
      */
     public function trace($message) {
         
-        \common_Logger::d($this->exception->getTraceAsString());
-        \common_Logger::e($message);
+        common_Logger::i($message);
         
         return $this;
     }
 
     /**
      * set up exception
-     * @param \Exception $exception
+     * @param Exception $exception
      * @return $this
      */
-    public function setException(\Exception $exception) {
+    public function setException(Exception $exception) {
         $this->exception = $exception;
         return $this;
     }

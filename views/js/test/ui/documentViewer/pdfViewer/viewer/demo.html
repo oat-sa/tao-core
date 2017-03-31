@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo - PDF Viewer</title>
+    <base href="../../../../../../"/>
+    <link rel="stylesheet" type="text/css" href="css/tao-main-style.css"/>
+    <script type="text/javascript" src="js/lib/require.js"></script>
+
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+
+        #demo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 10px;
+            right: 10px;
+            padding: 0;
+        }
+    </style>
+    <script type="text/javascript">
+        //load the config
+        require(['/tao/ClientConfig/config'], function () {
+
+            //load the test
+            require([
+                'jquery',
+                'ui/documentViewer',
+                'ui/documentViewer/viewerFactory',
+                'ui/documentViewer/providers/pdfViewer'
+            ], function ($, documentViewerFactory, viewerFactory, pdfViewer) {
+                viewerFactory.registerProvider('pdf', pdfViewer);
+                documentViewerFactory({
+                    renderTo: '#demo',
+                    fitToWidth: true,
+                    allowSearch: true
+                }).load(location.href.replace('/pdfViewer/viewer/demo.html', '/sample/demo.pdf'), 'pdf')
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="demo"></div>
+</body>
+</html>

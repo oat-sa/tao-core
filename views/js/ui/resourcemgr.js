@@ -70,7 +70,7 @@ define([
             
                     $target.modal({
                         startClosed: true,
-                        minWidth : 900
+                        minWidth : 'responsive'
                     });
 
                     //rethrow some events

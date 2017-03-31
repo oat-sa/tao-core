@@ -83,7 +83,7 @@ abstract class tao_scripts_Runner
         $this->inputFormat = $inputFormat;
         
         //check if help is needed
-        $helpTokens = array('-h', 'help', '-help', '--help)');
+        $helpTokens = array('-h', 'help', '-help', '--help');
         foreach( $helpTokens as $helpToken){
             if(in_array($helpToken, $this->argv)){
             		 	$this->help();

@@ -1,5 +1,6 @@
 <?php
 use oat\tao\model\search\Index;
+use oat\tao\helpers\form\ValidationRuleRegistry;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -349,11 +350,16 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
     protected function saveSimpleProperty($propertyValues)
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
+        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyValues['uri']));
         $type = $propertyValues['type'];
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
+        unset($propertyValues['uri']);
         unset($propertyValues['type']);
         unset($propertyValues['range']);
         $rangeNotEmpty = false;
+        $values = array(
+            ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => array()
+        );
 
         if (isset($propertyMap[$type])) {
             $values[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
@@ -361,14 +367,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         }
         
         foreach($propertyValues as $key => $value){
-            $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
-        
-        }
-
-        // if the label is empty
-        $validator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Property\'s label field is required')));
-        if(!$validator->evaluate($values[RDFS_LABEL])){
-            throw new Exception($validator->getMessage());
+            if (is_string($value)) {
+                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+            } elseif (is_array($value)) {
+                $values[tao_helpers_Uri::decode($key)] = $value;
+            } else {
+                common_Logger::w('Unsuported value type '.gettype($value));
+            }
         }
 
         $rangeValidator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Range field is required')));
@@ -376,8 +381,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             throw new Exception($rangeValidator->getMessage());
         }
 
-        $property = new core_kernel_classes_Property($values['uri']);
-        unset($values['uri']);
         $this->bindProperties($property, $values);
 
         // set the range

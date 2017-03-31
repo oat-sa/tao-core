@@ -21,8 +21,11 @@ define([
     'lodash',
     'i18n',
     'core/pluginifier',
-    'tpl!ui/datatable/tpl/layout'
-], function($, _, __, Pluginifier, layout){
+    'tpl!ui/datatable/tpl/layout',
+    'tpl!ui/datatable/tpl/button',
+    'ui/datatable/filterStrategy/filterStrategy',
+    'ui/pagination'
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent){
 
     'use strict';
 
@@ -35,7 +38,9 @@ define([
         rows: 25,
         page: 1,
         sortby: 'id',
-        sortorder: 'asc'
+        sortorder: 'asc',
+        paginationStrategyTop: 'none',
+        paginationStrategyBottom: 'simple'
     };
 
     /**
@@ -59,6 +64,7 @@ define([
      * @param {String} sortorder - order of sorting, can be 'asc' or 'desc' for ascending sorting and descending sorting respectively.
      *
      * Filtering
+     * @param {String} filterstrategy - filtering strategy. Default is single (see ui/datatable/filterStrategy/single.js).
      * @param {String} filterquery - query string for filtering of rows.
      * @param {String[]} filtercolumns[] - array of columns, in which will be implemented search during filtering process.
      * For column filter it will be only one item with column name, but component has ability define list of columns for default filter (in top toolbar).
@@ -88,16 +94,18 @@ define([
          * @param {Object} options.tools - a list of tool buttons to display above the table.
          * @param {Object|Boolean} options.status - allow to display a status bar.
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
+         * @param {String} options.filterStrategy - 'multiple' | 'single'  -- filtered by all filters together or filtering allowed only by one field at the moment (default 'single'),
+         * @param {String} options.filterSelector - css selector for search of filter inputs, by defaul 'select, input'
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
          * @param {String} options.filterquery - a query string for filtering, using only in runtime.
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
+         * @param {String} options.paginationStrategyTop  - 'none' | 'pages' | 'simple' -- 'none' by default (next/prev), 'pages' show pages and extended control for pagination
+         * @param {String} options.paginationStrategyBottom  - 'none' | 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
          * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
         init: function(options, data) {
-
-            var self = dataTable;
             options = _.defaults(options, defaults);
 
             return this.each(function() {
@@ -116,9 +124,9 @@ define([
                     });
 
                     if (data) {
-                        self._render($elt, data);
+                        dataTable._render($elt, data);
                     } else {
-                        self._query($elt);
+                        dataTable._query($elt);
                     }
                 } else {
                     // update existing options
@@ -126,8 +134,9 @@ define([
                         $elt.data(dataNs, _.merge(currentOptions, options));
                     }
 
-                    self._refresh($elt, data);
+                    dataTable._refresh($elt, data);
                 }
+
             });
         },
 
@@ -157,26 +166,19 @@ define([
          * @fires dataTable#query.datatable
          */
         _query: function($elt) {
-
             var self = this;
             var options = $elt.data(dataNs);
-            var parameters = _.merge({},_.pick(options, ['rows', 'page', 'sortby', 'sortorder']), options.params || {});
+            var parameters = _.merge(
+                {},
+                _.pick(options, ['rows', 'page', 'sortby', 'sortorder', 'filterquery', 'filtercolumns']),
+                options.params || {}
+            );
             var ajaxConfig = {
                 url: options.url,
                 data: parameters,
                 dataType : 'json',
                 type: options.querytype || 'GET'
             };
-
-            // add current filter if any
-            if (options.filter && options.filterquery) {
-                ajaxConfig.data.filterquery = options.filterquery;
-            }
-
-            // add columns for filter if any
-            if (options.filter && options.filtercolumns) {
-                ajaxConfig.data.filtercolumns = options.filtercolumns;
-            }
 
             /**
              * @event dataTable#query.datatable
@@ -210,8 +212,6 @@ define([
             var $statusEmpty;
             var $statusAvailable;
             var $statusCount;
-            var $forwardBtn;
-            var $backwardBtn;
             var $sortBy;
             var $sortElement;
             var $checkAll;
@@ -219,6 +219,8 @@ define([
             var $massActionBtns = $();
             var $rows;
             var amount;
+            var transforms;
+
             var join = function join(input) {
                 return typeof input !== 'object' ? input : input.join(', ');
             };
@@ -236,6 +238,11 @@ define([
                 if (!options.filter) {
                     field.filterable = false;
                 }
+
+                if (field.filterable && typeof field.filterable !== 'object') {
+                    field.filterable = {placeholder : __('Filter')};
+                }
+
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
@@ -247,16 +254,13 @@ define([
 
             // process data by model rules
             if (_.some(options.model, 'transform')) {
-                var transforms = _.where(options.model, 'transform');
+                transforms = _.where(options.model, 'transform');
                 _.forEach(dataset.data, function (row, index) {
                     _.forEach(transforms, function (field) {
                         row[field.id] = field.transform(row[field.id], row, field, index, dataset.data);
                     });
                 });
             }
-
-
-
 
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));
@@ -283,27 +287,43 @@ define([
                 }
             });
 
-            // Attach a listener to every action button created
-            _.forEach(options.actions, function(action, name){
-                var css;
+            var attachActionListeners = function (actions) {
+                // Attach a listener to every action button created
+                _.forEach(actions, function(action, name){
+                    var css;
 
-                if (!_.isFunction(action)) {
-                    name = action.id || name;
-                    action = action.action || function() {};
-                }
+                    if (!_.isFunction(action)) {
+                        name = action.id || name;
+                        action = action.action || function() {};
+                    }
 
-                css = '.' + name;
+                    css = '.' + name;
 
-                $rendering
-                    .off('click', css)
-                    .on('click', css, function(e) {
-                        var $btn = $(this);
-                        e.preventDefault();
-                        if (!$btn.hasClass('disabled')) {
-                            action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
-                        }
-                    });
-            });
+                    $rendering
+                        .off('click', css)
+                        .on('click', css, function(e) {
+                            var $btn = $(this);
+                            e.preventDefault();
+                            if (!$btn.hasClass('disabled')) {
+                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
+                            }
+                        });
+                });
+            };
+
+            if (options.actions) {
+                attachActionListeners(options.actions);
+            }
+
+            // Attach listeners to model.type = action
+            if (_.some(options.model, 'type')) {
+                var types = _.where(options.model, 'type');
+                _.forEach(types, function (field) {
+                    if (field.type === 'actions' && field.actions) {
+                        attachActionListeners(field.actions);
+                    }
+                });
+            }
 
             // Attach a listener to every tool button created
             _.forEach(options.tools, function(action, name) {
@@ -341,10 +361,42 @@ define([
                     .on(ev, callback);
             });
 
+            function renderPagination($container, mode) {
+                paginationComponent({
+                    mode: mode,
+                    activePage: dataset.page,
+                    totalPages: dataset.total
+                })
+                    .on('change', function () {
+                        self._setPage($elt, this.getActivePage());
+                    })
+                    .on('prev', function () {
+                        /**
+                         * @event dataTable#backward.dataTable
+                         */
+                        $elt.trigger('backward.' + ns);
+                    })
+                    .on('next', function () {
+                        /**
+                         * @event dataTable#forward.dataTable
+                         */
+                        $elt.trigger('forward.' + ns);
+                    })
+                    .render($container);
+            }
+
+            if (options.paginationStrategyTop !== 'none') {
+                // bind pagination component to the datatable
+                renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop);
+            }
+            if (options.paginationStrategyBottom !== 'none') {
+                // bind pagination component to the datatable
+                renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom);
+            }
+
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
-            $forwardBtn = $rendering.find('.datatable-forward');
-            $backwardBtn = $rendering.find('.datatable-backward');
+
             $sortBy = $rendering.find('th [data-sort-by]');
             $sortElement = $rendering.find('[data-sort-by="'+ options.sortby +'"]');
             $checkAll = $rendering.find('th.checkboxes input');
@@ -369,61 +421,41 @@ define([
                 });
             }
 
-            $forwardBtn.click(function() {
-                self._next($elt);
-            });
+            $sortBy.on('click keyup', function(e) {
+                var column;
+                if(e.type === 'keyup' && e.keyCode !== 13){
+                    return;
+                }
+                e.preventDefault();
+                column = $(this).data('sort-by');
 
-            $backwardBtn.click(function() {
-                self._previous($elt);
-            });
-
-            $sortBy.click(function() {
-                var column = $(this).data('sort-by');
                 self._sort($elt, column);
             });
 
             // Add the filter behavior
             if (options.filter) {
-                var filterColumns = options.filtercolumns ? options.filtercolumns : [];
+                self._getFilterStrategy($elt).render($rendering, options);
+                _.forEach($('.filter', $rendering), function (filter) {
+                    var $filter = $(filter);
+                    var $filterBtn = $('button', $filter);
+                    var $filterInput = $('select, input', $filter);
 
-                _.forEach($rendering.find('.filter'), function (filter) {
-
-                    var $filterBtn = $('button', filter);
-                    var column = $(filter).data('column');
-                    var isFilterCustom = $(filter).hasClass('customInput');
-                    var $filterInput = isFilterCustom ? $('select', filter) : $('input', filter);
-
-                    var model = _.find(options.model, function (o) {
-                        return o.id === column;
-                    });
-
-                    // set value to filter field
-                    if (options.filterquery && column === filterColumns.join()) {
-                        $filterInput.val(options.filterquery).addClass('focused');
-                    }
-
-                    if (model && model.customFilter) {
-                        if ('function' === typeof model.customFilter.callback) {
-                            model.customFilter.callback($filterInput);
-                        }
-                    }
-
-                    if (isFilterCustom) {
+                    if ($filterInput.is('select')) {
                         $filterInput.on('change', function () {
-                            self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                            self._filter($elt, $filter);
                         });
                     } else {
                         // clicking the button trigger the request
                         $filterBtn.off('click').on('click', function (e) {
                             e.preventDefault();
-                            self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                            self._filter($elt, $filter);
                         });
 
                         // or press ENTER
                         $filterInput.off('keypress').on('keypress', function (e) {
                             if (e.which === 13) {
                                 e.preventDefault();
-                                self._filter($elt, filter, column ? column.split(',') : options.filter.columns);
+                                self._filter($elt, $filter);
                             }
                         });
                     }
@@ -474,18 +506,6 @@ define([
             // Add the sorted class to the sorted element and the order class
             $sortElement.addClass('sorted').addClass('sorted_'+options.sortorder);
 
-            if (!dataset.page || dataset.page === 1) {
-                $backwardBtn.attr('disabled', '');
-            } else {
-                $backwardBtn.removeAttr('disabled');
-            }
-
-            if (dataset.page >= dataset.total) {
-                $forwardBtn.attr('disabled', '');
-            } else {
-                $forwardBtn.removeAttr('disabled');
-            }
-
             // Update the status
             if (options.status) {
                 $statusEmpty = $rendering.find('.empty-list');
@@ -521,55 +541,26 @@ define([
         },
 
         /**
-         * Query next page
+         * Query set new page
          *
-         * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').datatable('next');
-         *
-         * @param {jQueryElement} $elt - plugin's element
-         * @fires dataTable#forward.datatable
+         * @param $elt
+         * @param page
+         * @fires dataTable#setpage.datatable
          */
-        _next: function($elt) {
+        _setPage: function _setPage($elt, page) {
             var options = $elt.data(dataNs);
+            if(options.page !== page){
 
-            //increase page number
-            options.page += 1;
-
-            //rebind options to the elt
-            $elt.data(dataNs, options);
-
-            /**
-             * @event dataTable#forward.dataTable
-             */
-            $elt.trigger('forward.' + ns);
-
-            // Call the query
-            this._query($elt);
-        },
-
-        /**
-         * Query the previous page
-         *
-         * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').datatable('previous');
-         *
-         * @param {jQueryElement} $elt - plugin's element
-         * @fires dataTable#backward.datatable
-         */
-        _previous: function($elt) {
-            var options = $elt.data(dataNs);
-            if(options.page > 1){
-
-                //decrease page number
-                options.page -= 1;
+                // set new page value
+                options.page = page;
 
                 //rebind options to the elt
                 $elt.data(dataNs, options);
 
                 /**
-                 * @event dataTable#backward.dataTable
+                 * @event dataTable#setpage.dataTable
                  */
-                $elt.trigger('backward.' + ns);
+                $elt.trigger('setpage.' + ns);
 
                 // Call the query
                 this._query($elt);
@@ -580,30 +571,16 @@ define([
          * Query filtered list of items
          *
          * @param {jQueryElement} $elt - plugin's element
-         * @param {String} filter - the filter input
-         * @param {String[]} columns - list of columns in which will be done search
+         * @param {jQueryElement} $filter - the filter input
          * @fires dataTable#filter.datatable
          * @fires dataTable#sort.datatable
          * @private
          */
-        _filter: function _filter($elt, filter, columns) {
+        _filter: function _filter($elt, $filter) {
             var options = $elt.data(dataNs);
-            var query = $(filter).find(':input').filter(function () {
-                return $(this).val();
-            }).val();
-
-            //set the filter
-            if (!_.isObject(options.filter)) {
-                options.filter = {};
-            }
-
-            // set correct filter data
-            options.filterquery = query;
-            options.filtercolumns = (columns && columns.length) ? columns : [];
+            var data = this._getFilterStrategy($elt).getQueryData($elt, $filter, options);
             options.page = 1;
-
-            //rebind options to the elt
-            $elt.data(dataNs, options);
+            $elt.data(dataNs, _.assign(options, data));
 
             /**
              * @event dataTable#filter.datatable
@@ -611,14 +588,13 @@ define([
              */
             $elt.trigger('filter.' + ns, [options]);
 
-            /**
-             * @event dataTable#sort.datatable
-             * @param {String} query - The filter query
-             */
-            $elt.trigger('sort.' + ns, [query]);
-
             // Call the query
             this._query($elt);
+        },
+
+        _getFilterStrategy: function _getFilterStrategy($elt) {
+            var options = $elt.data(dataNs);
+            return filterStrategyFactory(options);
         },
 
         /**
@@ -694,10 +670,52 @@ define([
             });
 
             return selection;
+        },
+
+        /**
+         * Highlight the row with identifier
+         *
+         * @param $elt
+         * @param rowId
+         */
+        _highlightRow: function($elt, rowId) {
+            this._addRowClass($elt, rowId, 'highlight');
+        },
+
+        /**
+         * Css class add to the row with id
+         *
+         * @param $elt
+         * @param rowId
+         * @param className
+         * @private
+         */
+        _addRowClass: function ($elt, rowId, className) {
+            var $row = $elt.find('[data-item-identifier="' + rowId + '"]');
+
+            if (!$row.hasClass(className)) {
+                $row.addClass(className);
+            }
+        },
+
+        /**
+         * Css class remove from the row with id
+         *
+         * @param $elt
+         * @param rowId
+         * @param className
+         * @private
+         */
+        _removeRowClass: function ($elt, rowId, className) {
+            var $row = $elt.find('[data-item-identifier="' + rowId + '"]');
+
+            if ($row.hasClass(className)) {
+                $row.removeClass(className);
+            }
         }
     };
 
     Pluginifier.register(ns, dataTable, {
-         expose : ['refresh', 'next', 'previous', 'sort', 'filter', 'selection', 'render']
+         expose : ['refresh', 'sort', 'filter', 'selection', 'render', 'highlightRow', 'addRowClass', 'removeRowClass']
     });
 });

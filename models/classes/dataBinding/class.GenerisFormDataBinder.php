@@ -1,6 +1,4 @@
 <?php
-use oat\oatbox\service\ServiceManager;
-use oat\generis\model\fileReference\FileReferenceSerializer;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +16,7 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
  * 
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
 
@@ -34,16 +32,13 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
  * @package tao
  
  */
-class tao_models_classes_dataBinding_GenerisFormDataBinder
-    extends tao_models_classes_dataBinding_GenerisInstanceDataBinder
+
+use oat\oatbox\service\ServiceManager;
+use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\tao\model\upload\UploadService;
+
+class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_classes_dataBinding_GenerisInstanceDataBinder
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
      * Simply bind data from a Generis Instance Form to a specific generis class
      *
@@ -66,27 +61,26 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
     {
         $returnValue = null;
 
-        
+
         try {
         	$instance = parent::bind($data);
-        	
+
         	// Take care of what the generic data binding did not.
 			foreach ($data as $p => $d){
 				$property = new core_kernel_classes_Property($p);
-				
+
 				if ($d instanceof tao_helpers_form_data_UploadFileDescription){
 					$this->bindUploadFileDescription($property, $d);
 				}
 			}
-        	
+
         	$returnValue = $instance;
         }
         catch (common_Exception $e){
         	$msg = "An error occured while binding property values to instance '': " . $e->getMessage();
-        	$instanceUri = $instance->getUri();
         	throw new tao_models_classes_dataBinding_GenerisFormDataBindingException($msg);
         }
-        
+
 
         return $returnValue;
     }
@@ -96,46 +90,75 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
      *
      * @access protected
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @param  Property property The property to bind the data.
-     * @param  UploadFileDescription desc the upload file description.
+     * @param  core_kernel_classes_Property $property The property to bind the data.
+     * @param  tao_helpers_form_data_UploadFileDescription $desc the upload file description.
      * @return void
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
-    protected function bindUploadFileDescription( core_kernel_classes_Property $property,  tao_helpers_form_data_UploadFileDescription $desc)
-    {
-        
+    protected function bindUploadFileDescription(
+        core_kernel_classes_Property $property,
+        tao_helpers_form_data_UploadFileDescription $desc
+    ) {
         $instance = $this->getTargetInstance();
-        
-        // Delete old files.
-        foreach ($instance->getPropertyValues($property) as $oF) {
-            $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-            $oldFile = $referencer->unserialize($oF);
-            $oldFile->delete();
-            $referencer->cleanup($oF);
-            $instance->removePropertyValue($property, $oF);
-        }
-        
-        $name = $desc->getName();
-        $size = $desc->getSize();
-        
-        if (!empty($name) && !empty($size)){
-            // Move the file at the right place.
-            $source = $desc->getTmpPath();
-            $serial = tao_models_classes_TaoService::singleton()->storeUploadedFile($source, $name);
-            tao_helpers_File::remove($source);
 
-            $instance->editPropertyValues($property, $serial);
-
-            // Update the UploadFileDescription with the stored file.
-            $desc->setFile($serial);
+        // If form has delete action, remove file
+        if ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
+            $this->removeFile($property);
         }
-        
+
+        // If form has add action, remove file & replace by new
+        elseif ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_ADD) {
+            $name = $desc->getName();
+            $size = $desc->getSize();
+
+            if (! empty($name) && ! empty($size)) {
+
+                // Remove old
+                $this->removeFile($property);
+
+                // Move the file at the right place.
+                $source = $desc->getTmpPath();
+                $serial = tao_models_classes_TaoService::singleton()->storeUploadedFile($source, $name);
+                $this->getServiceLocator()->get(UploadService::SERVICE_ID)->remove($source);
+
+                // Create association between item & file, database side
+                $instance->editPropertyValues($property, $serial);
+
+                // Update the UploadFileDescription with the stored file.
+                $desc->setFile($serial);
+            }
+        }
     }
 
+    /**
+     * Remove file stored into given $property from $targetInstance
+     * - Remove file properties
+     * - Remove physically file
+     * - Remove property link between item & file
+     *
+     * @param core_kernel_classes_Property $property
+     */
+    protected function removeFile(core_kernel_classes_Property $property)
+    {
+        $instance = $this->getTargetInstance();
+        $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+
+        foreach ($instance->getPropertyValues($property) as $oldFileSerial) {
+            /** @var \oat\oatbox\filesystem\File $oldFile */
+            $oldFile = $referencer->unserializeFile($oldFileSerial);
+            $oldFile->delete();
+            $referencer->cleanup($oldFileSerial);
+            $instance->removePropertyValue($property, $oldFileSerial);
+        }
+    }
+
+    /**
+     * @return ServiceManager
+     */
     public function getServiceLocator()
     {
         return ServiceManager::getServiceManager();
     }
 
 }
-
-?>

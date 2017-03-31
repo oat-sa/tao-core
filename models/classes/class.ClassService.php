@@ -64,6 +64,11 @@ abstract class tao_models_classes_ClassService
             
             $returnValue = true;
             
+            $instances = $clazz->getInstances();
+            foreach ($instances as $instance) {
+                $this->deleteResource($instance);
+            }
+            
             $subclasses = $clazz->getSubClasses(false);
             foreach ($subclasses as $subclass) {
                 $returnValue = $returnValue && $this->deleteClass($subclass);
