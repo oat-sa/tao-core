@@ -25,7 +25,6 @@ use oat\tao\model\mvc\psr7\InterruptedActionException;
 use oat\tao\model\mvc\psr7\Resolver;
 use oat\tao\model\routing\ActionEnforcer;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * execute tao controller
@@ -50,11 +49,14 @@ class TaoControllerExecution extends AbstractTaoMiddleware
              * @todo report usable part of ActionEnforcer
              */
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-            //$controller = $enforcer->execute();
-            //$implicitContent = ob_get_clean();
-            return $response;
+            $controller = $enforcer->execute();
+            $implicitContent = ob_get_clean();
+            return $this->response( $controller , $implicitContent , $response);
+
         } catch (InterruptedActionException $iE) {
-            // Nothing to do here.
+            /**
+             * @todo
+             */
         }
         return $response;
     }
@@ -64,17 +66,19 @@ class TaoControllerExecution extends AbstractTaoMiddleware
      * @param $controller
      * @param $implicitContent
      * @param ResponseInterface $response
+     * @return ResponseInterface
      */
     protected function response($controller, $implicitContent ,ResponseInterface $response) {
         /**
          * @var $executor ActionExecutor
          */
-        $executor = $this->get('taoService')->get(ActionExecutor::SERVICE_ID);
+        $executor = $this->getContainer()->get('taoService')->get(ActionExecutor::SERVICE_ID);
         /**
          * @todo ActionExecutor::execute must return a PSR7 response
          */
         $executor->execute($controller , $response);
         echo $implicitContent;
+        return $response;
     }
 
 }
