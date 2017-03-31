@@ -30,7 +30,6 @@ class MaintenanceState
     const LIVE_MODE = 'on';
     const OFFLINE_MODE = 'off';
 
-    const DATETIME_FORMAT = 'Ymdhis';
     const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
 
     protected static $availableStatus = array(self::LIVE_MODE, self::OFFLINE_MODE);
