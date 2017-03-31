@@ -37,4 +37,13 @@ trait ContextAwareTrait
         return $this->context;
     }
 
+    /**
+     * @param Context $context
+     * @return $this
+     */
+    protected function setContext(Context $context) {
+        $this->context = $context;
+        return $this;
+    }
+
 }

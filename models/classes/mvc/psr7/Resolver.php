@@ -18,6 +18,7 @@
  */
 namespace oat\tao\model\mvc\psr7;
 
+use common_http_Request;
 use oat\tao\model\routing\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use oat\tao\model\routing\Resolver as TaoResolver;
@@ -40,9 +41,16 @@ class Resolver extends TaoResolver
 
     /**
      * Resolver constructor.
+     * declared to remove required request from contructor
+     */
+    public function __construct() {
+    }
+
+    /**
+     * Resolver set PSR7 request.
      * @param ServerRequestInterface $request
      */
-    public function __construct(ServerRequestInterface $request) {
+    public function setRequest(ServerRequestInterface $request) {
         $this->request = $request;
     }
 

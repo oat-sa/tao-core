@@ -53,6 +53,7 @@ class ActionEnforcer implements IExecutable
     private $parameters;
     
     public function __construct($extensionId, $controller, $action, array $parameters) {
+
         $this->extension = $extensionId;
         $this->controller = $controller;
         $this->action = $action;

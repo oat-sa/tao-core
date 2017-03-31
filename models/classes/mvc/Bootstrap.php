@@ -303,9 +303,8 @@ class Bootstrap {
 	 */
     protected function mvc()
     {
-        $request = ServerRequest::fromGlobals();
-        $fc = new TaoFrontController();
-        $fc->legacy($request);
+        $slim = new SlimLauncher();
+        $slim->launch();
     }
 
 	/**

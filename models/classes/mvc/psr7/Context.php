@@ -38,36 +38,6 @@ class Context {
      */
     protected $resolver;
 
-    /**
-     * Constructor. Please use only getInstance to retrieve the single instance.
-     *
-     * @see Context#getInstance
-     */
-    public function __construct() {
-
-        $this->request			= new Request();
-        $this->response			= new Response();
-
-        $this->viewData			= array();
-        $this->behaviors		= array();
-
-        $request                = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
-        $this->response->setPsrResponse(new \GuzzleHttp\Psr7\Response());
-        $this->request->setPsrRequest($request);
-
-        if (PHP_SAPI != 'cli') {
-            try {
-                $resolver = new Resolver($request);
-                $this->extensionName	= $resolver->getExtensionId();
-                $this->moduleName 		= \Camelizer::firstToUpper($resolver->getControllerClass());
-                $this->actionName 		= \Camelizer::firstToLower($resolver->getMethodName());
-            } catch (\ResolverException $re) {
-                $this->extensionName = 'tao';
-            }
-        }
-
-    }
-
     public function getRequest()
     {
         return $this->request;
