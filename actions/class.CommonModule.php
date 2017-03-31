@@ -139,7 +139,8 @@ abstract class tao_actions_CommonModule extends Module
         } else {
             $this->setData('message', $description);
             $this->setData('returnLink', $returnLink);
-            if(!is_null($httpStatus)){
+
+            if(!is_null($httpStatus) && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
                 $this->setView("error/error${httpStatus}.tpl", 'tao');
             } else {
                 $this->setView('error/user_error.tpl', 'tao');
