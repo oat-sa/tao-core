@@ -40,7 +40,7 @@ class Disable implements Action, ServiceLocatorAwareInterface
     {
         try {
             $state = $this->getMaintenanceService()->getPlatformState();
-            if ($this->getMaintenanceService()->isPlatformOnMaintenance()) {
+            if (! $this->getMaintenanceService()->isPlatformReady()) {
                 return \common_report_Report::createSuccess(
                     __('TAO platform is already on maintenance mode since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
                 );

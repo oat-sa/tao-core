@@ -44,9 +44,7 @@ class Status implements Action, ServiceLocatorAwareInterface
                 return \common_report_Report::createSuccess(
                     __('TAO platform is live since %s.', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
                 );
-            }
-
-            if ($this->getMaintenanceService()->isPlatformOnMaintenance($state)) {
+            } else {
                 return \common_report_Report::createSuccess(
                     __('TAO platform is under maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
                 );

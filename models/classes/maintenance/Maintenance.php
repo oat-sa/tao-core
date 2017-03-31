@@ -58,20 +58,6 @@ class Maintenance extends ConfigurableService
     }
 
     /**
-     * Check if platform is on maintenance, if $state is null, it is retrieved from storage
-     *
-     * @param MaintenanceState|null $state
-     * @return bool
-     */
-    public function isPlatformOnMaintenance(MaintenanceState $state = null)
-    {
-        if (is_null($state)) {
-            $state = $this->getPlatformState();
-        }
-        return ($state->getBooleanStatus() === false);
-    }
-
-    /**
      * Enable the platform by updating storage
      */
     public function enablePlatform()
