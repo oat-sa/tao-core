@@ -174,7 +174,7 @@ define([
                 }
                 else if (request.status === 403) {
 
-                    window.location = context.root_url + 'tao/Main/logout';
+                    window.location = '/tao/Main/logout';
                 }
 
                 feedback().error(errorMessage);

@@ -74,7 +74,7 @@ function ($, __, context, helpers, uiForm, section, actions, treeFactory, versio
                             $actionBar = $('.tree-action-bar-box', section.panel);
 
                         var rootNode = $treeElt.data('rootnode');
-                        var treeUrl = context.root_url;
+                        var treeUrl = '/';
                         var treeActions = {};
                         $.each($treeElt.data('actions'), function (key, val) {
                             if (actions.getBy(val)) {

@@ -245,8 +245,8 @@ define(['util/url', 'context'], function(urlUtil, context){
 
 
     QUnit.module('TAO route URLs', {
-        setup: function setup(){
-            context.root_url = 'http://tao.lu/';
+        setup: function setup() {
+            context.root_url = '';
         }
     });
 

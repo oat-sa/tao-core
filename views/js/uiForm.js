@@ -55,7 +55,7 @@ define([
          */
         function getUrl(action) {
             var conf = module.config();
-            return context.root_url + conf.extension + '/' + conf.module + '/' + action;
+            return '/' + conf.extension + '/' + conf.module + '/' + action;
         }
 
     var UiForm = {
@@ -385,7 +385,7 @@ define([
             });
 
             $('input.editVersionedFile').each(function () {
-                var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';
+                var infoUrl = '/tao/File/getPropertyFileInfo';
                 var data = {
                     'uri': $("#uri").val(),
                     'propertyUri': $(this).siblings('label.form_desc').prop('for')
@@ -582,7 +582,7 @@ define([
                     });
 
                     $dialogElm.bind('dialogopen', function (event, ui) {
-                        var url = context.root_url + 'taoBackOffice/Lists/';
+                        var url = '/taoBackOffice/Lists/';
                         var dataUrl = url + 'getListsData';
                         var renameUrl = url + 'rename';
                         var createUrl = url + 'create';
@@ -774,7 +774,7 @@ define([
                         $this.parent("div").children("div.form-error").remove();
                         //var elt = this;
                         $.ajax({
-                            url: context.root_url + 'taoBackOffice/Lists/getListElements',
+                            url: '/taoBackOffice/Lists/getListElements',
                             type: "POST",
                             data: {listUri: classUri},
                             dataType: 'json',

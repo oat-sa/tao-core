@@ -290,7 +290,7 @@ define([
                 throw new TypeError('All parts are required to build an URL');
             }
 
-            url = context.root_url + extension + '/' + controller + '/' + action;
+            url = '/' + extension + '/' + controller + '/' + action;
 
             if(_.isString(params)) {
                 url += '?' + params;
