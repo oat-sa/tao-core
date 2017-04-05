@@ -18,7 +18,24 @@
  */
 
 /**
- * Creates a promise queue
+ * A promise queue to fil the gap... (to run them in series for example)
+ *
+ * @example Ensure b starts once a is finished
+ * var a = function a (){
+ *   return new Promise(function(resolve){
+ *      setTimeout(resolve, 150);
+ *   });
+ * };
+ * var b = function b (){
+ *   return new Promise(function(resolve){
+ *      setTimeout(resolve, 25);
+ *   });
+ * };
+ *
+ * var queue = promiseQueueFactory();
+ * queue.serie(a);
+ * queue.serie(b);
+ *
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
