@@ -18,19 +18,15 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *               
  */
-use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\messaging\Message;
-use oat\tao\model\messaging\transportStrategy\FileSink;
 use Prophecy\Prediction\CallTimesPrediction;
-
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package tao
  */
-class MessagingServiceTest extends TaoPhpUnitTestRunner
+class MessagingServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * 

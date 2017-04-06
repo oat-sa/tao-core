@@ -19,16 +19,14 @@
  * 
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class NumericHelperTestCase extends TaoPhpUnitTestRunner {
+class NumericHelperTestCase extends \PHPUnit_Framework_TestCase {
 	public function testParseFloat() {
 		$this->assertEquals(10, tao_helpers_Numeric::parseFloat("10"));
 		$this->assertEquals(10, tao_helpers_Numeric::parseFloat("10g"));
-		$this->assertEquals(10.5, tao_helpers_Numeric::parseFloat("10.5"));
+		$this->assertEquals(-10.5, tao_helpers_Numeric::parseFloat("-10.5"));
 		$this->assertEquals(10.5, tao_helpers_Numeric::parseFloat("10,5"));
-		$this->assertEquals(1105.5, tao_helpers_Numeric::parseFloat("1.105,5"));
+		$this->assertEquals(1105.5, tao_helpers_Numeric::parseFloat("1105,5"));
 	}
 }

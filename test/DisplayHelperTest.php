@@ -19,16 +19,13 @@
  */
 
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
  * @package tao
  
  */
-class DisplayHelperTest extends TaoPhpUnitTestRunner {
+class DisplayHelperTest extends \PHPUnit_Framework_TestCase {
     
     /**
      * Data provider for the testTimetoDuration method

@@ -22,11 +22,9 @@
 // THIS FILE MUST BE UTF-8 encoded to get the TestCase working !!!
 // PLEASE BE CAREFULL.
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class AdaptersTestCase extends TaoPhpUnitTestRunner {
+class AdaptersTestCase extends \PHPUnit_Framework_TestCase {
 
 	const CSV_FILE_USERS_HEADER_UNICODE = '/samples/csv/users1-header.csv';
 	const CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE = '/samples/csv/users1-header-multi-field-values.csv';

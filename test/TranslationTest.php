@@ -19,8 +19,6 @@
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-use oat\tao\test\TaoPhpUnitTestRunner;
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * This test case aims at testing the Translation classes of TAO, the reading and
@@ -32,7 +30,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
 
  */
-class TranslationTest extends TaoPhpUnitTestRunner {
+class TranslationTest extends \PHPUnit_Framework_TestCase {
 
 	const RAW_PO = '/samples/sample_raw.po';
 	const RAW_PO_WITH_CONTEXT = '/samples/sample_raw_with_context.po';

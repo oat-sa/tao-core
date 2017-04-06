@@ -44,7 +44,7 @@ class tao_helpers_Duration
         $time = null;
 
         if (!is_null($interval)) {
-            $format = isset($interval->u) ? '%H:%I:%S.%U' : '%H:%I:%S';
+            $format = property_exists(get_class($interval), 'u') ? '%H:%I:%S.%U' : '%H:%I:%S';
             $time = $interval->format($format);
         }
 
