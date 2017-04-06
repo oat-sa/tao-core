@@ -1,5 +1,5 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,12 +16,9 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2017      (update and modification) Open Assessment Technologies SA;
  * 
  */
-
-// THIS FILE MUST BE UTF-8 encoded to get the TestCase working !!!
-// PLEASE BE CAREFULL.
-
 
 
 class AdaptersTestCase extends \PHPUnit_Framework_TestCase {
