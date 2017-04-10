@@ -267,7 +267,7 @@ define([
         }).catch(function(err){
             assert.equal(err.message, 'b');
 
-            //c must be called, it is added after the rejection
+            //d must be called, it is added after the rejection
             queue.serie(function d(){
                 states.d = 'started';
                 return new Promise(function(resolve){
