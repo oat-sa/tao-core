@@ -83,6 +83,7 @@ class Maintenance extends ConfigurableService
         try {
             return $this->getStorage()->getCurrentPlatformState();
         } catch (\common_exception_NotFound $e) {
+            $this->enablePlatform();
             return new MaintenanceState(
                 array(MaintenanceState::STATUS => MaintenanceState::LIVE_MODE)
             );
