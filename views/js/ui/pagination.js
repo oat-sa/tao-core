@@ -149,6 +149,9 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
                 totalPages = validTotalPages(config.totalPages);
 
                 activePage = config.activePage || 1;
+                if (activePage > totalPages) {
+                    activePage = totalPages;
+                }
                 activePage = validActivePage(activePage, totalPages);
 
                 if (totalPages === false || activePage === false) {
