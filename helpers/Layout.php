@@ -263,7 +263,7 @@ class Layout{
             case 'demoA':
             case 'beta':
             case 'demoB':
-                $message = __('Please report bugs, ideas, comments or feedback in the TAO Forum');
+                $message = __('Please report bugs, ideas, comments or feedback on the TAO Forum');
                 break;
         }
         return $message;
