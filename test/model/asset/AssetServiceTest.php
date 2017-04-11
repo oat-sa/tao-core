@@ -61,7 +61,8 @@ class AssetServiceTest extends TaoPhpUnitTestRunner
             ['https://test.taotesting.com/', 'AF034B', 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
             ['https://test.taotesting.com/', 'éHo?/©', 'js/core/eventifier.js', 'tao', 'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'],
             ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster='.TAO_VERSION],
-            ['https://test.taotesting.com', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css']
+            ['https://test.taotesting.com', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css'],
+            ['https://test.taotesting.com', '7654321', 'js/path/to/library/', 'tao', 'https://test.taotesting.com/tao/views/js/path/to/library/']
         ];
     }
 }
