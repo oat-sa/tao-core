@@ -48,16 +48,21 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
     }
 
     /**
-     * Validate active page value
+     * Calculate active page value
      *
      * @param page
      * @param pages
      * @returns {Number|*}
      */
-    function validActivePage(page, pages) {
+    function calculateActivePage(page, pages) {
         page = parseInt(page);
-        if (page < 1 || page > pages) {
-            return false;
+
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (page > pages) {
+            page = pages;
         }
 
         return page;
@@ -86,7 +91,7 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
 
         pagination = {
             setPage: function setPage(page) {
-                page = validActivePage(page, this.getTotal());
+                page = calculateActivePage(page, this.getTotal());
                 if (page === false) {
                     this.trigger('error', __('Undefined amount of the pages for pagination'));
                 } else {
@@ -147,16 +152,11 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
                 }
 
                 totalPages = validTotalPages(config.totalPages);
-
-                activePage = config.activePage || 1;
-                if (activePage > totalPages) {
-                    activePage = totalPages;
-                }
-                activePage = validActivePage(activePage, totalPages);
-
-                if (totalPages === false || activePage === false) {
+                if (totalPages === false) {
                     this.trigger('error', __('Undefined amount of the pages for pagination'));
                 }
+
+                activePage = calculateActivePage(config.activePage || 1, totalPages);
 
                 provider = paginationStrategy(config.mode);
 
