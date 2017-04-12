@@ -48,9 +48,9 @@ class AssetService extends ConfigurableService
     const BUSTER_OPTION_KEY = 'buster';
 
     /**
-     * Get the full URL of an asset
+     * Get the full URL of an asset or a folder
      *
-     * @param string $asset the asset path, relative, from the views folder
+     * @param string $asset the asset or folder path, relative, from the views folder
      * @param string $extensionId  if the asset is relative to an extension base www (optional)
      * @return string the asset URL
      */
