@@ -34,20 +34,10 @@ define([
     'use strict';
 
     var defaultConfig = {
-        type : __('resource')
+        type : __('resource'),
+        multiple : true
     };
 
-    var moveCursorTo = function moveCursorTo($elt, beginning){
-        var selection;
-
-        var range = document.createRange();
-        range.selectNodeContents($elt[0]);
-        range.collapse(beginning);
-
-        selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-    };
 
 
     return function resourceSelectorFactory($container, config, dataProvider){
@@ -113,7 +103,7 @@ define([
                 var self = this;
                 var $component = this.getElement();
 
-                this.classSelector = classesSelectorFactory($('.class-context', $component), this.config, dataProvider);
+                this.classSelector = classesSelectorFactory($('.class-context', $component), this.config);
                 this.classSelector
                     .on('change', function(uri){
                         self.reset();

@@ -8,10 +8,14 @@
         display: inline-block;
         position: relative;
         @include simple-border;
-        border-radius: 3px;
+        @include border-radius(3);
         padding: 3px 10px;
         text-decoration: none;
         width: 100%;
+
+        &.empty{
+            color: $uiClickableActiveBg;
+        }
 
         &:after {
             @include tao-icon-setup;
@@ -33,13 +37,13 @@
         overflow-y: auto;
         z-index: 100;
         max-height: 300px;
-        transition: max-height 300ms ease;
+        @include transition(max-height, 300ms, ease);
 
         &.folded {
             overflow: hidden;
             max-height: 0;
-            transition: max-height 300ms ease;
             border-width: 0;
+            @include transition(max-height, 300ms, ease);
         }
 
         ul {
@@ -55,7 +59,7 @@
                     @include icon-folder;
                     color: $warning;
                     top: 2px;
-                    text-shadow: 1px 1px 0 blacken($warning, .2);
+                    @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
                     margin-right: 5px;
                 }
             }

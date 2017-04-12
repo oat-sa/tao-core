@@ -1,91 +1,40 @@
-
-@keyframes spin { 100% { transform:rotate(360deg); } }
-
 .resource-selector{
-
     position: relative;
     height: 100%;
-    display: flex;
-    flex-flow: column nowrap;
 
+    @include flex-container(nowrap, column);
     opacity: 0;
+
+    background-color : $uiGeneralContentBg;
+
     &.rendered {
         opacity: 1;
-        transition: opacity 300ms linear;
+        @include transition(opacity, 300ms, linear);
     }
 
     nav, footer {
         height: 40px;
+        @include vendor-prefix(flex, 0 1 40px, property, (-ms-, -webkit-, ''));
         border-bottom: solid 1px $uiGeneralContentBorder;
     }
 
-    nav.search {
-
+    .search {
         padding: 5px;
-        background-color: #F3F1EF;
-        .input {
-            box-sizing: border-box;
-            border-radius: 15px;
+        background-color: $uiClickableDefaultBg;
+
+        input {
+            @include border-radius(10);
             max-width: inherit;
             width: 100%;
-            padding: 4px 15px;
-            color: $textColor;
-            background-color : #fff;
-            height: 2em;
-            white-space: nowrap;
-            overflow:hidden;
-
-            br {
-                display: none;
-            }
-
-            span:first-child {
-                color: $warning;
-                padding: 2px;
-                &.closed{
-                    border: solid 1px $warning;
-                    border-radius: 2px;
-                }
-            }
-
-
-            &.placeholder {
-                color: #ddd;
-            }
-        }
-
-        .options {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            top: 40px;
-            background-color: $uiClickableDefaultBg;
-            z-index: 1000;
-            height: auto; 
-            transition: height 200ms linear;
-
-            &.folded {
-                height: 0;
-                overflow: hidden;
-                transition: height 200ms linear;
-            }
-
-            em {
-                padding: 10px;
-            }
-            ul li {
-                padding: 10px;
-            }
+            padding: 4px 10px;
         }
     }
 
-    nav.context {
-
-        display:flex;
-        flex-flow: row nowrap;
+    .context {
+        @include flex-container(nowrap, row);
 
         .class-context {
-            flex : 1;
+            @include simple-flex-box;
 
             .class-selector{
                 position: static;
@@ -100,73 +49,51 @@
 
 
         & > a {
-           display: inline-block;
-           width: 40px;
-           height: 40px;
-           padding: 10px 0 0 12px;
-           background-color: $uiClickableDefaultBg;
-           color: $textColor;
-           border-left: solid 1px #fff;
-           border-bottom: solid 1px #ddd;
-           text-shadow: 0 0 0 transparent;
-           text-decoration: none;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            padding: 10px 0 0 12px;
+            background-color: $uiClickableDefaultBg;
+            color: $textColor;
+            border-left: solid 1px $uiGeneralContentBg;
+            text-shadow: 0 0 0 transparent;
+            text-decoration: none;
 
-           &:hover, &.active {
+            &:hover, &.active {
                 color: $uiClickableHoverBg;
-                transition: color 200ms linear;
-           }
-        }
-    }
-
-    .status { 
-        position: relative;
-        padding: 5px 20px;
-        color: #888;
-        background-color: $uiClickableDefaultBg;
-        display:none;
-        color: $textColor;
-        font-style: italic;
-
-        .matches {
-            text-align:center;
-        }
-
-        a {
-            position: absolute;
-            right: 25px;
+                @include transition(color, 200ms, linear);
+            }
         }
     }
 
     main {
-        flex: 1;
+        @include simple-flex-box;
         overflow-y: auto;
+        min-height: 300px;
 
+        &.list {
 
-
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            z-index: 10;
-
-            li {
-                &.selected, &:hover{
-                    background-color:  $uiClickableHoverBg;
-                    color: $textHighlight;
-                    cursor: pointer;
-                    transition: all 300ms linear;
-                }
-            }
-
-            &.list {
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                z-index: 10;
 
                 li {
+                
                     position: relative;
                     height: 60px;
                     padding: 10px;
                     border-bottom: solid 1px #ddd;
 
                     transition: all 200ms linear;
+
+                    &.selected, &:hover{
+                        background-color:  $uiClickableHoverBg;
+                        color: $textHighlight;
+                        cursor: pointer;
+                        transition: all 300ms linear;
+                    }
 
                     strong:after {
                         @include tao-icon-setup;
@@ -191,27 +118,39 @@
                     }
                 }
             }
-
-            &.grid {
-                display: flex;
-                flex-flow: row wrap;
+        }
+        &.tree {
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
 
                 li {
-                    flex: 0 1 29%;
-                    height: 75px;
-                    border: 1px solid #ddd;
-                    border-radius: 2px;
-                    padding: 5px;
-                    overflow: hidden;
-                    display: block;
-                    margin: 5px;
-                    overflow-wrap: break-word;
+                    padding-top: 5px;
 
-                    transition: all 200ms linear;
+                    &:before {
+                        @include tao-icon-setup;
+                    }
+                    &.node-class:before {
+                        @include icon-folder;
+                        color: $warning;
+                        top: 2px;
+                        @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
+
+                    }
+                    &.node-instance:before {
+                        @include tao-icon-setup;
+                        @include icon-checkbox;
+                        color: $info;
+
+                    }
+
+                    a {
+                        display: inline;
+                    }
                 }
             }
         }
-
         &.loading {
             opacity : .6;
         }
@@ -219,53 +158,7 @@
 
     footer {
         border-top: solid 1px #ddd;
-
         position: relative;
-        display: flex;
-        flex-flow: row nowrap;
-
-        & > a {
-            flex : 1 0 auto;
-            padding: 10px;
-            text-align: center;
-        }
-        & > a:first-child {
-
-            flex : 0 1 40px;
-            background-color: $uiClickableDefaultBg;
-            border-left: solid 1px #ddd;
-            padding: 10px 15px 10px 5px;
-            color: $textColor;
-            text-shadow: 0 0 0 transparent;
-            text-decoration: none;
-            &:hover, &.active {
-                color: $uiClickableHoverBg;
-                transition: color 200ms linear;
-            }
-        }
-        .menu {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            top: -200px;
-            bottom: 40px;
-            background-color: $uiClickableDefaultBg;
-            z-index: 1000;
-            height: auto; 
-            transition: height 200ms linear;
-
-            &.folded {
-                height: 0;
-                overflow: hidden;
-                transition: height 200ms linear;
-            }
-
-            & > a, strong{
-                padding: 10px;
-            }
-        }
+        text-align: center;
     }
-
-
-
 }

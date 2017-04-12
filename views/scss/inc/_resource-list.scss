@@ -1,0 +1,50 @@
+.resource-list{
+    position: relative;
+    height: 100%;
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            position: relative;
+            height: 40px;
+            padding: 10px;
+            border-bottom: solid 1px $uiGeneralContentBorder;
+
+            @include transition(background-color, 200ms, linear);
+
+            a {
+                @include transition(color, 200ms, linear);
+                color: $textColor;
+
+                &:after {
+                    @include tao-icon-setup;
+                    @include icon-checkbox;
+                    color: $info;
+                    position: absolute;
+                    right: 15px;
+                }
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            &.selected, &:hover{
+                background-color: $uiClickableHoverBg;
+                cursor: pointer;
+                @include transition(background-color, 200ms, linear);
+                a {
+                    color: $textHighlight;
+                    @include transition(color, 200ms, linear);
+
+                    &:after {
+                        color: $textHighlight;
+                        @include icon-checkbox-checked;
+                    }
+                }
+            }
+        }
+    }
+}

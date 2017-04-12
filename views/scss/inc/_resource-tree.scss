@@ -1,0 +1,61 @@
+.resource-tree{
+    position: relative;
+    height: 100%;
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0 0 0 10px;
+
+        li {
+            padding-top: 5px;
+
+            &.class {
+                &:before {
+                    @include tao-icon-setup;
+                    @include icon-down;
+                    margin-right: 3px;
+                    @include font-size(12);
+                }
+                & > a {
+                    &:before {
+                        @include tao-icon-setup;
+                        @include icon-folder-open;
+                        color: $warning;
+                        margin-right: 3px;
+                        @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
+                    }
+                }
+                &.closed {
+                    &:before {
+                        @include icon-right;
+                    }
+                    & > a:before {
+                        @include icon-folder;
+                    }
+                    & > ul {
+                        display: none;
+                    }
+                }
+            }
+            &.instance {
+                & > a {
+                    margin-left: 10px;
+                    &:before {
+                        @include tao-icon-setup;
+                        @include icon-checkbox;
+                        color: $info;
+                        margin-right: 2px;
+                    }
+                }
+                &.selected > a:before {
+                    @include icon-checkbox-checked;
+                }
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}

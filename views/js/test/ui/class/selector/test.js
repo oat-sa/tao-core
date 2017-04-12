@@ -20,9 +20,9 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'component/class/selector',
-    'json!test/component/class/selector/classes.json'
-], function(classSelector, classesData) {
+    'ui/class/selector',
+    'json!test/ui/class/selector/classes.json'
+], function(classSelector, classes) {
     'use strict';
 
     var classSelectorApi = [
@@ -60,32 +60,20 @@ define([
         });
 
 
-
     QUnit.module('Visual');
 
-
     QUnit.asyncTest('playground', function(assert) {
-
-
         var container = document.getElementById('visual');
-
-        var resourceProvider = {
-            getAllClasses : function getAllClasses(){
-                return Promise.resolve(classesData);
-            }
-        };
-
-        var config = {
-            type: 'TestTaker',
-            classUri: "http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject",
-        };
 
         QUnit.expect(1);
 
-        classSelector( container, config, resourceProvider)
-            .on('render', function(){
-                assert.ok(true);
-            });
+        classSelector( container, {
+            //classUri: "http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject",
+            classes : classes
+        })
+        .on('render', function(){
+            assert.ok(true);
+        });
     });
 
 });

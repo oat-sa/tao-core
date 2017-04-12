@@ -19,23 +19,26 @@
 class tao_actions_Foo extends tao_actions_CommonModule
 {
 
+    private function returnSuccess($data)
+    {
+        return $this->returnJson([
+            'success' => true,
+            'data'    => $data
+        ], 200);
+    }
+    
     public function getClasses()
     {
 
-        $options = array(
-                'subclasses' => true,
-                'instances' => false,
-                'highlightUri' => '',
-                'chunk' => false,
-                'offset' => 0,
-                'limit' => 0
-        );
-
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('classUri'));
 
-        $result = $this->getSubClasses($clazz->getSubClasses(false));
+        $result = [[
+            'uri' => $clazz->getUri(),
+            'label' => $clazz->getLabel(),
+            'children' => $this->getSubClasses($clazz->getSubClasses(false))
+        ]];
 
-        $this->returnJson($result);
+        $this->returnSuccess($result);
     }
 
     private function getSubClasses($subClasses)

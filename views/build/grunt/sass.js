@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
                     '../css/tao-3.css' : '../scss/tao-3.scss',
                     '../css/layout.css' : '../scss/layout.scss',
-                    '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss',
+                    '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss'
                 }
             },
             ckeditor : {
