@@ -1,21 +1,38 @@
 .resource-tree{
     position: relative;
     height: 100%;
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
 
     ul {
         list-style-type: none;
         padding: 0;
-        margin: 0 0 0 10px;
+        margin: 0;
 
         li {
-            padding-top: 5px;
-
+            position: relative;
+            & > a {
+                height: 40px;
+                padding: 10px;
+                display:block;
+                width: 100%;
+                padding-right: 25px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                border-bottom: solid 1px $uiGeneralContentBorder;
+                color : $textColor;
+            }
             &.class {
                 &:before {
                     @include tao-icon-setup;
                     @include icon-down;
-                    margin-right: 3px;
-                    @include font-size(12);
+                    position: absolute;
+                    right: 20px;
+                    top: 10px;
                 }
                 & > a {
                     &:before {
@@ -40,16 +57,25 @@
             }
             &.instance {
                 & > a {
-                    margin-left: 10px;
                     &:before {
                         @include tao-icon-setup;
                         @include icon-checkbox;
                         color: $info;
-                        margin-right: 2px;
+                        position: absolute;
+                        right: 17px;
                     }
                 }
                 &.selected > a:before {
                     @include icon-checkbox-checked;
+                }
+                &.selected a, &:hover a {
+                    background-color: $uiClickableHoverBg;
+                    color: $textHighlight;
+                    cursor: pointer;
+                    @include transition(all, 200ms, linear);
+                    &:before {
+                        color: $textHighlight;
+                    }
                 }
             }
 

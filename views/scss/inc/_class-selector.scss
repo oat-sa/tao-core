@@ -1,8 +1,13 @@
 
 .class-selector{
-
     padding: 5px;
     position: relative;
+
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
 
     a.selected {
         display: inline-block;
@@ -12,6 +17,8 @@
         padding: 3px 10px;
         text-decoration: none;
         width: 100%;
+
+        background-color: $uiGeneralContentBg;
 
         &.empty{
             color: $uiClickableActiveBg;

@@ -1,6 +1,6 @@
 {{#equal type 'class'}}
 <li data-uri="{{uri}}" class="class {{#equal state 'closed'}}closed{{/equal}}" data-count="{{count}}">
-   <a href="#">{{label}}</a>
+    <a href="#" title="{{label}}">{{label}}</a>
    {{#if count}}
    <ul>
     {{#if childList}}
@@ -13,7 +13,7 @@
 
 {{#equal type 'instance'}}
 <li data-uri="{{uri}}" class="instance">
-   <a href="#">{{label}}</a>
+    <a href="#" title="{{label}}">{{label}}</a>
 </li>
 {{/equal}}
 

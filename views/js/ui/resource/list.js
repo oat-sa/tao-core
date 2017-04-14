@@ -27,89 +27,21 @@ define([
     'lodash',
     'i18n',
     'ui/component',
+    'ui/resource/selectable',
     'tpl!ui/resource/tpl/list',
     'tpl!ui/resource/tpl/listNode'
-], function ($, _, __, component, listTpl, listNodeTpl) {
+], function ($, _, __, component, selectable, listTpl, listNodeTpl) {
     'use strict';
 
     var defaultConfig = {
-
+        multiple: true
     };
 
     return function resourceTreeFactory($container, config){
 
-        return component({
+        var selectableApi = selectable();
 
-            reset : function reset(){
-                this.selected = [];
-
-                this.trigger('reset');
-            },
-
-            getSelected : function getSelected(){
-                return this.selected;
-            },
-
-            select : function select(uris){
-                var $component;
-                var self = this;
-                var changed = false;
-
-                if(this.is('rendered')){
-                    $component = this.getElement();
-
-                    if(!_.isArray(uris)){
-                        uris = [uris];
-                    }
-                    _(uris)
-                        .reject(function(uri){
-                            return _.contains(self.selected, uri);
-                        })
-                        .forEach(function(uri){
-                            var $node = $('[data-uri="' + uri + '"]', $component);
-                            if($node.length){
-                                changed = true;
-                                $node.addClass('selected');
-
-                                self.selected.push(uri);
-                            }
-                        });
-                    if(changed){
-                        this.trigger('change', this.selected);
-                    }
-                }
-            },
-
-            unselect : function unselect(uris){
-                var $component;
-                var self = this;
-                var changed = false;
-
-                if(this.is('rendered')){
-                    $component = this.getElement();
-
-                    if(!_.isArray(uris)){
-                        uris = [uris];
-                    }
-                    _(uris)
-                        .filter(function(uri){
-                            return _.contains(self.selected, uri);
-                        })
-                        .forEach(function(uri){
-                            var $node = $('[data-uri="' + uri + '"]', $component);
-                            if($node.length){
-                                changed = true;
-                                $node.removeClass('selected');
-
-                                self.selected = _.without(self.selected, uri);
-
-                            }
-                        });
-                    if(changed){
-                        this.trigger('change', this.selected);
-                    }
-                }
-            },
+        var resourceListApi = {
 
             query : function query(params){
                 if(!this.is('loading')){
@@ -120,6 +52,7 @@ define([
             },
 
             update: function update(nodes){
+                var self = this;
                 if(this.is('rendered')){
 
                     this.getElement()
@@ -129,15 +62,19 @@ define([
                              return acc;
                          }, ''));
 
+                    _.forEach(nodes, function(node){
+                        self.addNode(node.uri,  node);
+                    });
+
                     this.trigger('update');
                 }
             }
+        };
 
-        }, defaultConfig)
+        return component(_.assign(resourceListApi, selectableApi), defaultConfig)
             .setTemplate(listTpl)
             .on('init', function(){
 
-                this.selected = [];
                 this.classUri = this.config.classUri;
 
                 this.render($container);
@@ -154,6 +91,9 @@ define([
                     if($instance.hasClass('selected')){
                         self.unselect($instance.data('uri'));
                     } else {
+                        if(self.config.multiple !== true){
+                            self.clearSelection();
+                        }
                         self.select($instance.data('uri'));
                     }
                 });

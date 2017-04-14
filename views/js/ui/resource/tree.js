@@ -27,98 +27,43 @@ define([
     'lodash',
     'i18n',
     'ui/component',
+    'ui/resource/selectable',
     'tpl!ui/resource/tpl/tree',
     'tpl!ui/resource/tpl/treeNode'
-], function ($, _, __, component, treeTpl, treeNodeTpl) {
+], function ($, _, __, component, selectable, treeTpl, treeNodeTpl) {
     'use strict';
 
     var defaultConfig = {
-
+        multiple: true
     };
 
-    var reduceNode = function reduceNode(acc , node){
-
-        if(node.children && node.children.length){
-            node.childList = _.reduce(node.children, reduceNode, '');
+    /**
+     * The actual CSS suffers from a limitation,
+     * this function is used to fix the nested indents.
+     * @param {jQueryElement} $list - the list element
+     * @param {Number} level - the nesting level
+     */
+    var indentChildren = function indentChildren($list, level){
+        var indent;
+        if($list.length){
+            indent = level *  10;
+            level++;
+            $list.children('li').each(function(){
+                var $target = $(this);
+                $target.children('a').css('padding-left', indent + 'px');
+                indentChildren($target.children('ul'), level);
+            });
         }
-        acc += treeNodeTpl(node);
-        return acc;
     };
-
 
     return function resourceTreeFactory($container, config){
 
-        return component({
+        var selectableApi = selectable();
+
+        var resourceTreeApi = {
 
             reset : function reset(){
-
-
                 this.trigger('reset');
-            },
-
-            getSelected : function getSelected(){
-                return this.selected;
-            },
-
-            select : function select(uris){
-                var $component;
-                var self = this;
-                var changed = false;
-
-                if(this.is('rendered')){
-                    $component = this.getElement();
-
-                    if(!_.isArray(uris)){
-                        uris = [uris];
-                    }
-                    _(uris)
-                        .reject(function(uri){
-                            return _.contains(self.selected, uri);
-                        })
-                        .forEach(function(uri){
-                            var $node = $('.instance[data-uri="' + uri + '"]', $component);
-                            if($node.length){
-                                changed = true;
-                                $node.addClass('selected');
-
-                                self.selected.push(uri);
-                            }
-                        });
-                    if(changed){
-                        this.trigger('change', this.selected);
-                    }
-                }
-            },
-
-            unselect : function unselect(uris){
-                var $component;
-                var self = this;
-                var changed = false;
-
-                if(this.is('rendered')){
-                    $component = this.getElement();
-
-                    if(!_.isArray(uris)){
-                        uris = [uris];
-                    }
-                    _(uris)
-                        .filter(function(uri){
-                            return _.contains(self.selected, uri);
-                        })
-                        .forEach(function(uri){
-                            var $node = $('.instance[data-uri="' + uri + '"]', $component);
-                            if($node.length){
-                                changed = true;
-                                $node.removeClass('selected');
-
-                                self.selected = _.without(self.selected, uri);
-
-                            }
-                        });
-                    if(changed){
-                        this.trigger('change', this.selected);
-                    }
-                }
             },
 
             query : function query(params){
@@ -130,8 +75,21 @@ define([
             },
 
             update: function update(nodes, params){
+                var self = this;
                 var $root;
                 var $component;
+
+                var reduceNode = function reduceNode(acc , node){
+                    if(node.type === 'instance'){
+                        self.addNode([node.uri],  _.omit(node, ['count', 'state', 'type', 'children']));
+                    }
+                    if(node.children && node.children.length){
+                        node.childList = _.reduce(node.children, reduceNode, '');
+                    }
+                    acc += treeNodeTpl(node);
+                    return acc;
+                };
+
 
                 if(this.is('rendered')){
                     $component = this.getElement();
@@ -149,15 +107,18 @@ define([
                          .children('ul')
                          .append(_.reduce(nodes, reduceNode, ''));
 
+                    indentChildren($component.children('ul'), 1);
+
+
                     this.trigger('update');
                 }
             }
+        };
 
-        }, defaultConfig)
+        return component(_.assign(resourceTreeApi, selectableApi), defaultConfig)
             .setTemplate(treeTpl)
             .on('init', function(){
 
-                this.selected = [];
                 this.classUri = this.config.classUri;
 
                 this.render($container);
@@ -193,6 +154,9 @@ define([
                     if($instance.hasClass('selected')){
                         self.unselect($instance.data('uri'));
                     } else {
+                        if(self.config.multiple !== true){
+                            self.clearSelection();
+                        }
                         self.select($instance.data('uri'));
                     }
                 });

@@ -6,29 +6,20 @@
     opacity: 0;
 
     background-color : $uiGeneralContentBg;
+    @include simple-border;
 
     &.rendered {
         opacity: 1;
         @include transition(opacity, 300ms, linear);
     }
 
-    nav, footer {
+    nav {
         height: 40px;
         @include vendor-prefix(flex, 0 1 40px, property, (-ms-, -webkit-, ''));
-        border-bottom: solid 1px $uiGeneralContentBorder;
-    }
-
-    .search {
-        padding: 5px;
+        border-top: solid 1px $uiGeneralContentBorder;
         background-color: $uiClickableDefaultBg;
-
-        input {
-            @include border-radius(10);
-            max-width: inherit;
-            width: 100%;
-            padding: 4px 10px;
-        }
     }
+
 
     .context {
         @include flex-container(nowrap, row);
@@ -53,7 +44,6 @@
             width: 40px;
             height: 40px;
             padding: 10px 0 0 12px;
-            background-color: $uiClickableDefaultBg;
             color: $textColor;
             border-left: solid 1px $uiGeneralContentBg;
             text-shadow: 0 0 0 transparent;
@@ -66,99 +56,70 @@
         }
     }
 
+    .selection {
+
+
+        @include flex-container(nowrap, row);
+
+        .selection-control {
+
+            @include vendor-prefix(flex, 0 1 80px, property, (-ms-, -webkit-, ''));
+
+            text-align: right;
+            color: $info;
+            padding-top:10px;
+            padding-right: 15px;
+            label {
+                margin: 0;
+                padding: 0;
+            }
+            label [class^="icon-"], label [class*=" icon-"] {
+                color: $info;
+            }
+        }
+
+        .search {
+            @include simple-flex-box;
+            position: relative;
+
+            padding : 5px;
+
+            &:before {
+                @include tao-icon-setup;
+                @include icon-find;
+                position: absolute;
+                right: 12px;
+                top: 12px;
+                opacity: .4;
+            }
+            input {
+                @include border-radius(2);
+                max-width: inherit;
+                width: 100%;
+                padding: 4px;
+            }
+        }
+
+    }
+
     main {
         @include simple-flex-box;
-        overflow-y: auto;
+
         min-height: 300px;
 
-        &.list {
-
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                z-index: 10;
-
-                li {
-                
-                    position: relative;
-                    height: 60px;
-                    padding: 10px;
-                    border-bottom: solid 1px #ddd;
-
-                    transition: all 200ms linear;
-
-                    &.selected, &:hover{
-                        background-color:  $uiClickableHoverBg;
-                        color: $textHighlight;
-                        cursor: pointer;
-                        transition: all 300ms linear;
-                    }
-
-                    strong:after {
-                        @include tao-icon-setup;
-                        @include icon-checkbox;
-                        color: #ddd;
-                        position: absolute;
-                        right: 15px;
-                        top: 25px;
-                    }
-
-                    &.selected strong:after{
-                        @include icon-checkbox-checked;
-                        color: $textHighlight;
-                    }
-
-                    strong, em {
-                        display: block;
-                    }
-
-                    em {
-                        text-transform: capitalize;
-                    }
-                }
-            }
-        }
-        &.tree {
-            ul {
-                list-style-type: none;
-                padding: 0;
-                margin: 0;
-
-                li {
-                    padding-top: 5px;
-
-                    &:before {
-                        @include tao-icon-setup;
-                    }
-                    &.node-class:before {
-                        @include icon-folder;
-                        color: $warning;
-                        top: 2px;
-                        @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
-
-                    }
-                    &.node-instance:before {
-                        @include tao-icon-setup;
-                        @include icon-checkbox;
-                        color: $info;
-
-                    }
-
-                    a {
-                        display: inline;
-                    }
-                }
-            }
-        }
-        &.loading {
-            opacity : .6;
-        }
+        border-top: solid 1px $uiGeneralContentBorder;
+        background-color: $uiGeneralContentBg;
+        height: 100%;
+        overflow-y: auto;
     }
 
     footer {
-        border-top: solid 1px #ddd;
-        position: relative;
+        height: 30px;
+        @include vendor-prefix(flex, 0 1 30px, property, (-ms-, -webkit-, ''));
+        border-top: solid 1px $uiGeneralContentBorder;
+
+        background-color: $uiClickableDefaultBg;
         text-align: center;
+        padding: 5px;
     }
 }

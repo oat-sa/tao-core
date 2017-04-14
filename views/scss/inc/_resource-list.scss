@@ -2,6 +2,12 @@
     position: relative;
     height: 100%;
 
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
     ul {
         list-style-type: none;
         padding: 0;
@@ -18,13 +24,19 @@
             a {
                 @include transition(color, 200ms, linear);
                 color: $textColor;
+                display: inline-block;
+                width: 100%;
+                padding-right: 25px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
 
                 &:after {
                     @include tao-icon-setup;
                     @include icon-checkbox;
                     color: $info;
                     position: absolute;
-                    right: 15px;
+                    right: 17px;
                 }
                 &:hover {
                     text-decoration: none;

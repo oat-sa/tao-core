@@ -1,4 +1,4 @@
 <li data-uri="{{uri}}" {{#if selected}}class="selected"{{/if}}>
-    <a href="#">{{label}}</a>
+    <a href="#" title="{{label}}">{{label}}</a>
 </li>
 
