@@ -46,6 +46,8 @@ class tao_install_Installator{
 
 	private $oatBoxInstall = null;
 
+	protected $generisConfigSample;
+
 	public function __construct($options)
 	{
 		if(!isset($options['root_path'])){
@@ -112,14 +114,14 @@ class tao_install_Installator{
 			 *  1 - Check configuration with checks described in the manifest.
 			 */
 			$configChecker = tao_install_utils_ChecksHelper::getConfigChecker($extensionIDs);
-			
+
 			// Silence checks to have to be escaped.
 			foreach ($configChecker->getComponents() as $c){
 				if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())){
 					$configChecker->silent($c);
 				}
 			}
-			
+
 			$reports = $configChecker->check();
 			foreach ($reports as $r){
 				$msg = $r->getMessage();
@@ -130,11 +132,11 @@ class tao_install_Installator{
 					throw new tao_install_utils_Exception($msg);
 				}
 			}
-			
+
 			/*
 			 *  X - Setup Oatbox
 			 */
-			
+
 			$this->log('d', 'Removing old config', 'INSTALL');
 			$consistentOptions = array_merge($installData, $this->options);
 			$this->oatBoxInstall->setOptions($consistentOptions);
@@ -172,7 +174,7 @@ class tao_install_Installator{
 				$dbConfiguration['fetch_case'] = PDO::CASE_LOWER;
 			
 			}
-				
+
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
 			
 			$this->log('d', "DbCreator spawned", 'INSTALL');
@@ -217,7 +219,7 @@ class tao_install_Installator{
 				}
 
 			}
-			
+
 			// reset db name for mysql
 			if ($installData['db_driver'] == 'pdo_mysql'){
 			    $dbConfiguration['dbname'] = $installData['db_name'];
@@ -226,8 +228,9 @@ class tao_install_Installator{
 			// Create tao tables
 			$dbCreator->initTaoDataBase();	
             $this->log('i', 'Created tables', 'INSTALL');
-            
-			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
+
+            $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
+
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
 				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
 				$dbCreator->loadProc($storedProcedureFile);
@@ -249,8 +252,8 @@ class tao_install_Installator{
 			
 			$this->log('d', 'Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
-				$this->options['root_path'].'generis/config/sample/generis.conf.php',
-				$this->options['root_path'].'config/generis.conf.php'
+				$this->getGenerisConfigSample(),
+                $this->getGenerisConfig()
 			);
 
 			$session_name = (isset($installData['session_name']))?$installData['session_name']:self::generateSessionName();
@@ -264,14 +267,16 @@ class tao_install_Installator{
                 'ROOT_URL'					=> $installData['module_url'],
                 'DEFAULT_LANG'				=> $installData['module_lang'],
                 'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
-                'TIME_ZONE'                  => $installData['timezone']
+                'TIME_ZONE'                 => $installData['timezone']
             );
 
             $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
-
+            $constants['EXTENSION_PATH'] = (isset($installData['extension_path'])) ? $installData['extension_path'] : $installData['root_path'];
+            if (isset($installData['config_path'])) {
+                $constants['CONFIG_PATH'] = $installData['config_path'];
+            }
 
 			$generisConfigWriter->writeConstants($constants);
-
 			/*
 			 * 5b - Prepare the file/cache folder (FILES_PATH) not yet defined)
 			 * @todo solve this more elegantly
@@ -293,16 +298,25 @@ class tao_install_Installator{
 			 * 6 - Run the extensions bootstrap
 			 */
 			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
-			common_Config::load();
-			
+			common_Config::load($this->getGenerisConfig());
+
+            $driver = new \oat\oatbox\service\SimpleConfigDriver();
+            $driver->connect('config', array(
+                'dir' => dirname($this->getGenerisConfig()),
+                'humanReadable' => true
+            ));
+
+			\oat\oatbox\service\ServiceManager::setServiceManager(new \oat\oatbox\service\ServiceManager($driver));
+
 			/*
 			 * 6b - Create cache persistence
 			*/
 			common_persistence_Manager::addPersistence('cache', array(
                 'driver' => 'phpfile'
 			));
+
 			common_persistence_KeyValuePersistence::getPersistence('cache')->purge();
-			
+
 			/*
 			 * 6c - Create generis persistence 
 			 */
@@ -397,7 +411,7 @@ class tao_install_Installator{
 			if ($this->retryInstallation($e)) {
 				return;
 			}
-
+            
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
             $this->log('e', 'Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
@@ -557,5 +571,23 @@ class tao_install_Installator{
     public function getLog()
     {
         return $this->log;
+    }
+
+    protected function getGenerisConfig()
+    {
+        return $this->options['root_path'].'config' . DIRECTORY_SEPARATOR . 'generis.conf.php';
+    }
+
+    public function setGenerisConfigSample($file)
+    {
+        $this->generisConfigSample = rtrim($file, '/\\');
+    }
+
+    protected function getGenerisConfigSample()
+    {
+        if (is_readable($this->generisConfigSample)) {
+            return $this->generisConfigSample;
+        }
+        return $this->options['root_path'] . 'generis/config/sample/generis.conf.php';
     }
 }

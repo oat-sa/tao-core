@@ -51,7 +51,6 @@ class TaoFrontController
      */
     public function legacy(common_http_Request $pRequest) {
         $resolver = new Resolver($pRequest);
-
         // load the responsible extension
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
         \Context::getInstance()->setExtensionName($resolver->getExtensionId());

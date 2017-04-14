@@ -146,7 +146,7 @@ class tao_models_classes_LanguageService
         $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
         // lookup for languages into tao
         $languages = tao_helpers_translation_Utils::getAvailableLanguages();
-        $path = ROOT_PATH . 'tao/views/locales/';
+        $path = EXTENSION_PATH . 'tao/views/locales/';
         $generated = 0;
         $generate = true;
         foreach ($languages as $langCode) {

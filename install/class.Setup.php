@@ -197,12 +197,23 @@ class tao_install_Setup implements Action
             $options['user_email'] = $parameters['email'];
         }
 
-
         // run the actual install
         $installator = new \tao_install_Installator (array(
             'root_path' 	=> $options['root_path'],
             'install_path'	=> $options['root_path'].'tao/install/'
         ));
+
+        if (isset($global['generis_sample'])) {
+            $installator->setGenerisConfigSample($global['generis_sample']);
+        }
+
+        if (isset($global['extension_path'])) {
+            $options['extension_path'] = $global['extension_path'];
+        }
+
+        if (isset($global['config_path'])) {
+            $options['config_path'] = $global['config_path'];
+        }
 
         $serviceManager = $installator->getServiceManager();
 
@@ -218,7 +229,6 @@ class tao_install_Setup implements Action
                 }
             }
         }
-
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
         $installator->install($options);
