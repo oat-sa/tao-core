@@ -411,7 +411,7 @@ class tao_install_Installator{
 			if ($this->retryInstallation($e)) {
 				return;
 			}
-            
+
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
             $this->log('e', 'Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
