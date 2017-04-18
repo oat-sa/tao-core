@@ -19,13 +19,14 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'jquery',
     'ui/component',
     'ui/component/placeable',
     'ui/component/draggable',
     'ui/component/resizable',
     'ui/component/windowed'
-], function ($, componentFactory, makePlaceable, makeDraggable, makeResizable, makeWindowed) {
+], function (_, $, componentFactory, makePlaceable, makeDraggable, makeResizable, makeWindowed) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture';
@@ -66,7 +67,7 @@ define([
         var component = makeWindowed(componentFactory()),
             $container = $(fixtureContainer);
 
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         component
             .on('render', function() {
@@ -80,6 +81,10 @@ define([
                 assert.equal($title.html(), 'test component', 'title has been rendered');
                 assert.equal($controls.find('[data-control="closer"]').length, 1, 'closer element has been rendered');
 
+                component.destroy();
+
+                assert.equal($('.window-component').length, 0, 'component has been destroyed');
+
                 QUnit.start();
             })
             .init({
@@ -89,6 +94,41 @@ define([
     });
 
     QUnit.module('Controls');
+
+    QUnit
+        .cases([
+            { title: 'invalid id',              icon: 'icon',   onclick: _.noop },
+            { title: 'invalid id', id: {},      icon: 'icon',   onclick: _.noop },
+            { title: 'invalid id', id: 69,      icon: 'icon',   onclick: _.noop },
+            { title: 'invalid id', id: _.noop,  icon: 'icon',   onclick: _.noop },
+            { title: 'invalid id', id: '',      icon: 'icon',   onclick: _.noop },
+
+            { title: 'invalid icon', id: 'id',                    onclick: _.noop },
+            { title: 'invalid icon', id: 'id',    icon: {},       onclick: _.noop },
+            { title: 'invalid icon', id: 'id',    icon: 69,       onclick: _.noop },
+            { title: 'invalid icon', id: 'id',    icon: _.noop,   onclick: _.noop },
+            { title: 'invalid icon', id: 'id',    icon: '',       onclick: _.noop },
+
+            { title: 'invalid onclick', id: 'id', icon: 'icon' },
+            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: {} },
+            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: 69 },
+            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: '' },
+            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: 'onclick' }
+        ])
+        .test('add control api', function(data, assert) {
+            var component = makeWindowed(componentFactory()),
+                addControl = function() {
+                    component.addControl({
+                        id: data.id,
+                        icon: data.icon,
+                        onclick: data.onclick
+                    });
+                };
+
+            QUnit.expect(1);
+            assert.throws(addControl, Error);
+        });
+
 
     QUnit.asyncTest('allow to add controls with a specific order', function(assert) {
         var component = makeWindowed(componentFactory()),

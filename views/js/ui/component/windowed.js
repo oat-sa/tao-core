@@ -70,10 +70,10 @@ define([
          * @returns {component}
          */
         addControl: function addControl(controlOptions) {
-            if (!_.isString(controlOptions.id)) {
+            if (!_.isString(controlOptions.id) || _.isEmpty(controlOptions.id)) {
                 throw new Error('control must have an id');
             }
-            if (!_.isString(controlOptions.icon)) {
+            if (!_.isString(controlOptions.icon) || _.isEmpty(controlOptions.icon)) {
                 throw new Error('control must have an icon');
             }
             if (!_.isFunction(controlOptions.onclick)) {
