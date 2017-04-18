@@ -17,13 +17,15 @@
  */
 /**
  * @author Christophe Noël <christophe@taotesting.com>
- * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
     'jquery',
     'ui/component',
+    'ui/component/placeable',
+    'ui/component/draggable',
+    'ui/component/resizable',
     'ui/component/windowed'
-], function ($, componentFactory, makeWindowed) {
+], function ($, componentFactory, makePlaceable, makeDraggable, makeResizable, makeWindowed) {
     'use strict';
 
     var fixtureContainer = '#qunit-fixture';
@@ -38,16 +40,159 @@ define([
 
     QUnit
         .cases([
-            { title: 'getTitleBar' },
-            { title: 'getBody' }
+            { title: '_renderControls' },
+            { title: 'getBody' },
+            { title: 'getControls' },
+            { title: 'getTitle' },
+            { title: 'addControl' },
+            { title: 'addCloser' }
         ])
         .test('component API', function(data, assert) {
             var component = makeWindowed(componentFactory());
 
             QUnit.expect(1);
-            assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.title);
+            assert.equal(typeof component[data.title], 'function', 'The component has the method ' + data.title);
         });
 
+    QUnit.test('auto makes the component placeable', function(assert) {
+        var component = makeWindowed(componentFactory());
+        QUnit.expect(1);
+        assert.ok(makePlaceable.isPlaceable(component), 'created component is placeable');
+    });
+
+    QUnit.module('Windowed component');
+
+    QUnit.asyncTest('Markup', function(assert) {
+        var component = makeWindowed(componentFactory()),
+            $container = $(fixtureContainer);
+
+        QUnit.expect(4);
+
+        component
+            .on('render', function() {
+                var $title      = component.getTitle(),
+                    $controls   = component.getControls(),
+                    $body       = component.getBody();
+
+                assert.equal($controls.length, 1,   'controls element has been found');
+                assert.equal($body.length, 1,       'body element has been found');
+
+                assert.equal($title.html(), 'test component', 'title has been rendered');
+                assert.equal($controls.find('[data-control="closer"]').length, 1, 'closer element has been rendered');
+
+                QUnit.start();
+            })
+            .init({
+                windowTitle: 'test component'
+            })
+            .render($container);
+    });
+
+    QUnit.module('Controls');
+
+    QUnit.asyncTest('allow to add controls with a specific order', function(assert) {
+        var component = makeWindowed(componentFactory()),
+            $container = $(fixtureContainer),
+            state = {
+                crossClicked: false,
+                fullscreenClicked: false,
+                restoreClicked: false
+            };
+
+        QUnit.expect(10);
+
+        component
+            .on('render', function() {
+                var $controls   = component.getControls(),
+                    $renderedControls,
+                    $cross,
+                    $fullscreen,
+                    $restore;
+
+                $renderedControls = $controls.find('button');
+
+                assert.equal($renderedControls.length, 3, '3 buttons have been rendered');
+
+                $fullscreen = $renderedControls.eq(0);
+                $restore = $renderedControls.eq(1);
+                $cross = $renderedControls.eq(2);
+
+                assert.equal($fullscreen.data('control'), 'fullscreen', 'fullscreen control has been rendered first');
+                assert.ok($fullscreen.hasClass('icon-resize'), 'fullscreen control has the correct class');
+
+                assert.ok($restore.data('control'), 'restore', 'restore control has been rendered second');
+                assert.ok($restore.hasClass('icon-undo'), 'restore control has been the correct class');
+
+                assert.ok($cross.data('control'), 'cross', 'cross control has been rendered last');
+                assert.ok($cross.hasClass('icon-result-nok'), 'cross control has the correct class');
+
+                $cross.click();
+                $fullscreen.click();
+                $restore.click();
+
+                assert.ok(state.crossClicked, 'cross listener has been called');
+                assert.ok(state.fullscreenClicked, 'fullscreen listener has been called');
+                assert.ok(state.restoreClicked, 'restore listener has been called');
+
+                QUnit.start();
+            })
+            .init({
+                windowTitle: 'test component',
+                hasCloser: false
+            })
+            .addControl({
+                id: 'cross',
+                order: 300,
+                icon: 'result-nok',
+                onclick: function() {
+                    state.crossClicked = true;
+                }
+            })
+            .addControl({
+                id: 'fullscreen',
+                order: 100,
+                icon: 'resize',
+                onclick: function() {
+                    state.fullscreenClicked = true;
+                }
+            })
+            .addControl({
+                id: 'restore',
+                order: 200,
+                icon: 'undo',
+                onclick: function() {
+                    state.restoreClicked = true;
+                }
+            })
+            .render($container);
+    });
+
+    QUnit.asyncTest('Closer control', function(assert) {
+        var component = makeWindowed(componentFactory()),
+            $container = $(fixtureContainer);
+
+        QUnit.expect(5);
+
+        component
+            .on('render', function() {
+                var $controls = component.getControls(),
+                    $closer = $controls.find('[data-control="closer"]');
+
+                assert.equal(this.is('hidden'), false, 'component is visible');
+                assert.equal($closer.length, 1, 'closer element has been found');
+                assert.ok($closer.hasClass('icon-close'), 'close control has the correct class');
+
+                $closer.click();
+            })
+            .on('close', function() {
+                assert.ok(true, 'close event has been triggered');
+                assert.equal(this.is('hidden'), true, 'component has been hidden');
+
+                QUnit.start();
+            })
+            .init()
+            .render($container);
+    });
 
 
     QUnit.module('Visual test');
@@ -59,21 +204,30 @@ define([
         QUnit.expect(1);
 
         makeWindowed(component);
+        makeDraggable(component);
+        makeResizable(component);
 
         component
             .on('render', function(){
+                var $content = this.getBody();
+
+                $content.append('My content');
+
                 assert.ok(true);
                 QUnit.start();
             })
             .init({
-                minWidth: 300,
+                minWidth: 150,
                 maxWidth: 700,
                 minHeight: 150,
-                maxHeight: 450
+                maxHeight: 450,
+                initialX: 100,
+                initialY: 50,
+                windowTitle: 'My Windowed component',
+                hasCloser: true
             })
             .render($container)
-            .setSize(500, 300)
-            .center();
+            .setSize(500, 300);
     });
 
 });

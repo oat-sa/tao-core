@@ -23,45 +23,161 @@
  */
 define([
     'lodash',
-    'tpl!tpl/window.tpl'
-], function (_, windowTpl) {
+    'jquery',
+    'ui/component/placeable',
+    'tpl!ui/component/tpl/window'
+], function (_, $, makePlaceable, windowTpl) {
     'use strict';
 
-    var cssNs = '.window-component';
+    var eventNs = '.windowed',
+        cssNs = '.window-component',
 
-    var defaultConfig = {
-        // minWidth: 50,
-        // minHeight: 50,
-        // edges: { left: true, right: true, bottom: true, top: true }
-    };
+        defaultConfig = {
+            hasCloser: true
+        };
 
     var windowedComponentAPI = {
-        getTitleBar: function getTitleBar() {
+        /**
+         * @returns {jQuery} - the container where the title bar controls are rendered
+         */
+        getControls: function getControls() {
+            var $component = this.getElement();
+            return $component.find(cssNs + '-controls');
+        },
+
+        /**
+         * @returns {jQuery} - the container where the title is rendered
+         */
+        getTitle: function getTitle() {
             var $component = this.getElement();
             return $component.find(cssNs + '-title');
         },
 
+        /**
+         * @returns {jQuery} - the content area of the window
+         */
         getBody: function getBody() {
             var $component = this.getElement();
             return $component.find(cssNs + '-body');
+        },
+
+        /**
+         * Adds a control to the control area
+         * @param {String} controlOptions.id
+         * @param {Number} controlOptions.order - position relative to the other controls
+         * @param {String} controlOptions.icon
+         * @param {Function} controlOptions.onclick - what to do when the control is clicked
+         * @returns {component}
+         */
+        addControl: function addControl(controlOptions) {
+            if (!_.isString(controlOptions.id)) {
+                throw new Error('control must have an id');
+            }
+            if (!_.isString(controlOptions.icon)) {
+                throw new Error('control must have an icon');
+            }
+            if (!_.isFunction(controlOptions.onclick)) {
+                throw new Error('control must have an onclick listener');
+            }
+            if (!_.isArray(this._windowControls)) {
+                this._windowControls = [];
+            }
+
+            this._windowControls.push(controlOptions);
+            return this;
+        },
+
+        /**
+         * Pre-configured control to close the component
+         * @returns {component}
+         */
+        addCloser: function addCloser() {
+            return this.addControl({
+                id: 'closer',
+                order: 100,
+                icon: 'close',
+                onclick: function onclick() {
+                    this.hide();
+
+                    /**
+                     * Executes extra close tasks
+                     * @event component#close
+                     */
+                    this.trigger('close');
+                }
+            });
+        },
+
+        /**
+         *
+         * @returns {component}
+         * @private
+         */
+        _renderControls: function _renderControls() {
+            var self = this,
+                $controlsArea = this.getControls(),
+                controlsCallbacks = {};
+
+            if (_.isArray(this._windowControls)) {
+                // sort controls
+                this._windowControls.sort(function sortAscending(a, b) {
+                    return (a.order || 0) - (b.order || 0);
+                });
+
+                // render controls
+                this._windowControls.forEach(function(control) {
+                    var $control = $('<button>', {
+                        'class': 'icon-' + control.icon,
+                        'data-control': control.id
+                    });
+                    $controlsArea.append($control);
+
+                    controlsCallbacks[control.id] = control.onclick;
+                });
+
+                // add behavior
+                $controlsArea.on('click.windowed', function(e) {
+                    var controlId = $(e.target).data('control');
+
+                    if (_.isFunction(controlsCallbacks[controlId])) {
+                        controlsCallbacks[controlId].call(self);
+                    }
+                });
+            }
+            return this;
         }
     };
 
     /**
      * @param {Component} component - an instance of ui/component
      * @param {Object} config
-     // * @param {Number} config.minWidth
-     // * @param {Number} config.minHeight
+     * @param {Boolean} hasCloser - auto-add the closer control to the title bar
+     * @param {String} windowTitle - to be rendered in the title bar
      */
-    return function makeResizable(component, config) {
+    return function makeWindowed(component, config) {
 
         _.assign(component, windowedComponentAPI);
 
+        if (! makePlaceable.isPlaceable(component)) {
+            makePlaceable(component);
+        }
+
         return component
             .setTemplate(windowTpl)
-            .off('.windowed')
-            .on('init.windowed', function() {
+            .off(eventNs)
+            .on('init' + eventNs, function() {
                 _.defaults(this.config, config || {}, defaultConfig);
+
+                if (this.config.hasCloser) {
+                    this.addCloser();
+                }
+            })
+            .on('render' + eventNs, function() {
+                this._renderControls();
+            })
+            .on('destroy' + eventNs, function() {
+                var $controlsArea = this.getControls();
+                $controlsArea.off(eventNs);
             });
     };
 
