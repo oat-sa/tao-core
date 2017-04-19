@@ -95,7 +95,7 @@ define([
             return this.addControl({
                 id: 'closer',
                 order: 100,
-                icon: 'close',
+                icon: 'result-nok',
                 onclick: function onclick() {
                     this.hide();
 

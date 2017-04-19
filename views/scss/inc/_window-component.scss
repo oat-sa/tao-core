@@ -1,5 +1,8 @@
 // Structure
 .window-component {
+    display: flex;
+    flex-direction: column;
+
     .window-component-title-bar {
         display: flex;
         padding: 3px 8px;
@@ -21,6 +24,7 @@
     }
 
     .window-component-body {
+        flex: 1;
         padding: 8px;
     }
 }
@@ -33,7 +37,6 @@ $bodyBg: $canvas;
 $border: $titleBarBg;
 
 .window-component {
-    background-color: $bodyBg;
     border: 1px solid $border;
     @include border-radius(5);
 
@@ -53,6 +56,7 @@ $border: $titleBarBg;
     }
 
     .window-component-body {
-
+        background-color: $bodyBg;
+        @include border-radius-bottom(5);
     }
 }
