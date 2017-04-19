@@ -111,7 +111,7 @@ define([
         },
 
         /**
-         *
+         * Render the controls buttons in the title bar
          * @returns {component}
          * @private
          */
@@ -142,8 +142,8 @@ define([
 
                 // add behavior
                 $controlsArea
-                    .off('click.windowed')
-                    .on('click.windowed', function(e) {
+                    .off('click' + eventNs)
+                    .on('click' + eventNs, function(e) {
                         var controlId = $(e.target).data('control');
 
                         if (_.isFunction(controlsCallbacks[controlId])) {
