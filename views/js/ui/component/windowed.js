@@ -66,6 +66,7 @@ define([
          * @param {String} controlOptions.id
          * @param {Number} controlOptions.order - position relative to the other controls
          * @param {String} controlOptions.icon
+         * @param {String} controlOptions.description - link description on mouse over
          * @param {Function} controlOptions.onclick - what to do when the control is clicked
          * @returns {component}
          */
@@ -96,6 +97,7 @@ define([
                 id: 'closer',
                 order: 100,
                 icon: 'result-nok',
+                description: 'Close',
                 onclick: function onclick() {
                     this.hide();
 
@@ -128,7 +130,8 @@ define([
                 this._windowControls.forEach(function(control) {
                     var $control = $('<button>', {
                         'class': 'icon-' + control.icon,
-                        'data-control': control.id
+                        'data-control': control.id,
+                        'title': control.description
                     });
                     $controlsArea.append($control);
 
