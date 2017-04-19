@@ -121,6 +121,8 @@ define([
                 controlsCallbacks = {};
 
             if (_.isArray(this._windowControls)) {
+                $controlsArea.empty();
+
                 // sort controls
                 this._windowControls.sort(function sortAscending(a, b) {
                     return (a.order || 0) - (b.order || 0);
@@ -139,13 +141,15 @@ define([
                 });
 
                 // add behavior
-                $controlsArea.on('click.windowed', function(e) {
-                    var controlId = $(e.target).data('control');
+                $controlsArea
+                    .off('click.windowed')
+                    .on('click.windowed', function(e) {
+                        var controlId = $(e.target).data('control');
 
-                    if (_.isFunction(controlsCallbacks[controlId])) {
-                        controlsCallbacks[controlId].call(self);
-                    }
-                });
+                        if (_.isFunction(controlsCallbacks[controlId])) {
+                            controlsCallbacks[controlId].call(self);
+                        }
+                    });
             }
             return this;
         }
