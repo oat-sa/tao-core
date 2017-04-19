@@ -31,16 +31,20 @@ class NumericTest extends TaoPhpUnitTestRunner
 {
 
     /**
-     * Test the method tao_helpers_Display::sanitizeHtml
+     * Test the method tao_helpers_Display::sanitizeXssHtml
      *
      * @dataProvider dirtyHtmlProvider
      */
-    public function testSanitizeHtml($input, $expected)
+    public function testSanitizeXssHtml($input, $expected)
     {
         $result = tao_helpers_Display::sanitizeXssHtml($input);
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * Data provider for testSanitizeXssHtml
+     * @return array[] in the form of [input, expected]
+     */
     public function dirtyHtmlProvider()
     {
         return [
