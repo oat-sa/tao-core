@@ -1,31 +1,32 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013      (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
+
 
 /**
  * Utility class focusing on display methods.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
+
  */
 class tao_helpers_Display
 {
@@ -46,7 +47,7 @@ class tao_helpers_Display
 		if (mb_strlen($input, TAO_DEFAULT_ENCODING) > $maxLength){
 			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, TAO_DEFAULT_ENCODING)."[...]</span>";
 		}
-		
+
 		$returnValue = $input;
 
         return (string) $returnValue;
@@ -107,20 +108,48 @@ class tao_helpers_Display
 
         return (string) $returnValue;
     }
- /**
+
+
+
+    /**
      *  Convert special characters to HTML entities
      */
     public static function htmlEscape($string) {
         return htmlspecialchars($string);
     }
-    
+
     /**
      * Encode the value of an html attribute
-     * 
+     *
      * @param string $string
      * @return string
      */
     public static function encodeAttrValue($string) {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Sanitize all parts that could be used in XSS (script, style, hijacked links, etc.)
+     * and update some attributes to use a safe behavior.
+     *
+     * @see http://htmlpurifier.org/live/configdoc/plain.html
+     *
+     * @param string $input the input HTML
+     * @return string the sanitized HTML
+     */
+    public static function sanitizeXssHtml($input)
+    {
+        $config = HTMLPurifier_Config::createDefault();
+
+        //we don't use HTMLPurifier cache
+        //because it writes serialized files inside it's own folder
+        //so this won't work in a multi server env
+        $config->set('Cache.DefinitionImpl', null);
+
+        //allow target=_blank on links
+        $config->set('Attr.AllowedFrameTargets', ['_blank']);
+
+        $purifier = new HTMLPurifier($config);
+        return  $purifier->purify( $input );
     }
 }
