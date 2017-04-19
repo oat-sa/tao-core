@@ -220,7 +220,7 @@ define([
 
                 assert.equal(this.is('hidden'), false, 'component is visible');
                 assert.equal($closer.length, 1, 'closer element has been found');
-                assert.ok($closer.hasClass('icon-close'), 'close control has the correct class');
+                assert.ok($closer.hasClass('icon-result-nok'), 'close control has the correct class');
 
                 $closer.click();
             })
