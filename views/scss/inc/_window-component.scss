@@ -38,7 +38,6 @@ $border: $titleBarBg;
 
 .window-component {
     border: 1px solid $border;
-    @include border-radius(5);
 
     .window-component-title-bar {
         background-color: $titleBarBg;
@@ -57,6 +56,5 @@ $border: $titleBarBg;
 
     .window-component-body {
         background-color: $bodyBg;
-        @include border-radius-bottom(5);
     }
 }
