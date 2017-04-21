@@ -152,13 +152,13 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
      */
     private function getResolver()
     {
-        $url = [
-            $this->hasRequestParameter('extension') ? $this->getRequestParameter('extension') : \Context::getInstance()->getExtensionName(),
+        $url = tao_helpers_Uri::url(
+            $this->getRequestParameter('action'),
             $this->getRequestParameter('module'),
-            $this->getRequestParameter('action')
-        ];
+            $this->hasRequestParameter('extension') ? $this->getRequestParameter('extension') : \Context::getInstance()->getExtensionName()
+        );
         try {
-            $route = new Resolver(new common_http_Request('/' . implode('/', $url)));
+            $route = new Resolver(new common_http_Request($url));
         } catch (ResolverException $re){
             throw new Exception(__('Wrong or missing parameter extension, module or action'), $re);
         }
