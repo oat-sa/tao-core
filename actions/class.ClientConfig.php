@@ -118,8 +118,11 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
     private function getShownExtension()
     {
         if($this->hasRequestParameter('shownExtension')){
-            $extension = $this->getExtension($this->getRequestParameter('shownExtension'));
-            return $extension->getName();
+            $shownExtension = $this->getRequestParameter('shownExtension');
+            if(strlen(trim($shownExtension)) > 0){
+                $extension = $this->getExtension($shownExtension);
+                return $extension->getName();
+            }
         }
         return null;
     }
