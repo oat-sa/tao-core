@@ -120,7 +120,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         if($this->hasRequestParameter('shownExtension')){
             $shownExtension = $this->getRequestParameter('shownExtension');
             if(strlen(trim($shownExtension)) > 0){
-                $extension = $this->getExtension($this->getRequestParameter('shownExtension'));
+                $extension = $this->getExtension($shownExtension);
                 return $extension->getName();
             }
         }
