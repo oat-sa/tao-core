@@ -12,12 +12,12 @@
 <script>
 require(['jquery', 'generis.tree.select'], function($, GenerisTreeSelectClass) {
 
-        new GenerisTreeSelectClass('#<?=get_data('id')?>-tree', '<?=get_data('dataUrl')?>', {
-                actionId: '<?=get_data('id')?>',
-                saveUrl: '<?=get_data('saveUrl')?>',
+        new GenerisTreeSelectClass('#<?=get_data('id')?>-tree', <?=json_encode(get_data('dataUrl'))?>, {
+                actionId: <?=json_encode(get_data('id'))?>,
+                saveUrl: <?=json_encode(get_data('saveUrl'))?>,
                 saveData: {
-                        resourceUri: '<?=get_data('resourceUri')?>',
-                        propertyUri: '<?=get_data('propertyUri')?>'
+                        resourceUri: <?=json_encode(get_data('resourceUri'))?>,
+                        propertyUri: <?=json_encode(get_data('propertyUri'))?>
                 },
                 checkedNodes: <?=json_encode(tao_helpers_Uri::encodeArray(get_data('values')))?>,
                 hiddenNodes: <?=json_encode(get_data('hiddenNodes'))?>,
