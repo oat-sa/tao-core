@@ -135,7 +135,10 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      */
     public function registerClientLib()
     {
-        ClientLibRegistry::getRegistry()->register($this->extension->getId(), Template::js('', $this->extension->getId()));
-        ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css', Template::css('', $this->extension->getId()));
+        $jsPath = trim(Template::js('', $this->extension->getId()), '/');
+        ClientLibRegistry::getRegistry()->register($this->extension->getId(), $jsPath);
+
+        $cssPath = trim(Template::css('', $this->extension->getId()), '/');
+        ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css', $cssPath);
     }
 }

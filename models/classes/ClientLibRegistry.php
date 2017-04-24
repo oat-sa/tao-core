@@ -101,7 +101,7 @@ class ClientLibRegistry extends AbstractRegistry
                 $found = true;
                 self::getRegistry()->set($id, array(
                     'extId' => $ext->getId(),
-                    'path' => trim( substr($fullPath, strlen( $assetService->getJsBaseWww($ext->getId()) )) , '/')
+                    'path' => substr($fullPath, strlen( $assetService->getJsBaseWww($ext->getId()) ))
                 ));
                 break;
             }
