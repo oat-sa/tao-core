@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 use common_Exception;
 use common_ext_ExtensionsManager;
 use oat\oatbox\event\EventManager;
+use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -137,13 +138,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('2.7.2')) {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
-                $extManifestConsts = $extension->getConstants();
-                if (isset($extManifestConsts['BASE_WWW'])) {
-
-                    ClientLibRegistry::getRegistry()->register($extension->getId(), $extManifestConsts['BASE_WWW'] . 'js');
-                    ClientLibRegistry::getRegistry()->register($extension->getId() . 'Css', $extManifestConsts['BASE_WWW'] . 'css');
-
-                }
+                ClientLibRegistry::getRegistry()->register($extension->getId(), Template::js('', $extension->getId()));
+                ClientLibRegistry::getRegistry()->register($extension->getId().'Css', Template::css('', $extension->getId()));
             }
              $this->setVersion('2.7.3');
         }
