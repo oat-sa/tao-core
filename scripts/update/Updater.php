@@ -138,8 +138,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('2.7.2')) {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
-                ClientLibRegistry::getRegistry()->register($extension->getId(), Template::js('', $extension->getId()));
-                ClientLibRegistry::getRegistry()->register($extension->getId().'Css', Template::css('', $extension->getId()));
+                $jsPath = trim(Template::js('', $extension->getId()), '/');
+                ClientLibRegistry::getRegistry()->register($extension->getId(), $jsPath);
+
+                $cssPath = trim(Template::css('', $extension->getId()), '/');
+                ClientLibRegistry::getRegistry()->register($extension->getId().'Css', $cssPath);
             }
              $this->setVersion('2.7.3');
         }
