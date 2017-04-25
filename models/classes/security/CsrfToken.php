@@ -21,7 +21,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 
-namespace oat\tao\models\security;
+namespace oat\tao\model\security;
 
 /**
  * Interface CsrfToken
@@ -36,18 +36,18 @@ interface CsrfToken
      * Generates and returns the CSRF token
      * @return string
      */
-    public function getCsrfToken();
+    public function getToken();
 
     /**
      * Validates a given token with the current CSRF token
      * @param string $token The given token to validate
      * @return bool
      */
-    public function checkCsrfToken($token);
+    public function checkToken($token);
 
     /**
      * Revokes the current CSRF token
      * @return void
      */
-    public function revokeCsrfToken();
+    public function revokeToken($token);
 }
