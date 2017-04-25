@@ -63,7 +63,7 @@ class MessagingServiceTest extends TaoPhpUnitTestRunner
     
     public function testIsAvailable()
     {
-        $transportMock = $this->getMock('oat\tao\model\messaging\Transport');
+        $transportMock = $this->getMockBuilder('oat\tao\model\messaging\Transport');
         $messagingService = $this->getMessagingService($transportMock);
         
         $this->assertTrue($messagingService->isAvailable());
