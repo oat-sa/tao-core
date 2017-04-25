@@ -78,6 +78,7 @@ require.config({
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
+        'c3'                    : { deps : ['css!lib/c3js/c3.css']},
         'mathJax' : {
             exports : "MathJax",
             init : function(){
