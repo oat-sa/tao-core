@@ -28,7 +28,6 @@ use oat\tao\model\messaging\Transport;
 use oat\tao\model\messaging\transportStrategy\AbstractAdapter;
 use oat\tao\model\messaging\Message;
 use oat\oatbox\user\User;
-use oat\oatbox\service\ConfigurableService;
 
 /**
  * MailAdapter sends email messages using PHPMailer. 
