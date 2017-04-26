@@ -67,7 +67,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
     
         if($this->hasRequestParameter('index')){
-            $index = $this->getRequestParameter('index');
+            $index = intval($this->getRequestParameter('index'));
         }
         else{
             $index = count($clazz->getProperties(false)) + 1;

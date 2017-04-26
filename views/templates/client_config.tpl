@@ -8,42 +8,22 @@ require.config({
 <?php endif; ?>
 
     config : {
-        'context': {
-            root_url                : '<?=ROOT_URL?>',
-            base_url                : '<?=BASE_URL?>',
-            taobase_www             : '<?=get_data('tao_base_www')?>',
-            base_www                : '<?=get_data('base_www')?>',
-            base_lang               : '<?=get_data('lang')?>',
-            locale                  : '<?=get_data('locale')?>',
-            extension               : '<?=get_data('extension')?>',
-            module                  : '<?=get_data('module')?>',
-            action                  : '<?=get_data('action')?>',
-            shownExtension          : '<?=get_data('shownExtension')?>',
-            shownStructure          : '<?=get_data('shownStructure')?>',
-            extensionsLocales       : <?=json_encode(get_data('extensionsLocales'))?>,
-            timeout                 : <?=get_data('client_timeout')?>,
-        },
+        context : <?=get_data('context')?>,
         text: {
-            useXhr: function(){
-                return true;
-            }
+            useXhr: function(){ return true; },
         },
-
         'ui/themes' : <?= get_data('themesAvailable') ?>,
 //dynamic lib config
     <?php foreach (get_data('libConfigs') as $name => $config) :?>
         '<?=$name?>'        : <?=json_encode($config)?>,
     <?php endforeach?>
     },
-
     paths : {
-
 //require-js plugins
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
         'css'               : 'lib/require-css/css',
         'tpl'               : 'tpl',
-
 //jquery and plugins
         'jquery'            : 'lib/jquery-1.8.0.min',
         'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
@@ -57,22 +37,18 @@ require.config({
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
         'qtip'              : 'lib/jquery.qtip/jquery.qtip',
-
 //polyfills
         'polyfill'          : 'lib/polyfill',
-
 //libs
         'lodash'            : 'lib/lodash.min',
         'async'             : 'lib/async',
         'moment'            : 'lib/moment-with-locales.min',
         'handlebars'        : 'lib/handlebars',
-
         'class'             : 'lib/class',
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
         'html5-history-api'           : 'lib/history/history',
-
         'pdfjs-dist/build/pdf'        : 'lib/pdfjs/build/pdf',
         'pdfjs-dist/build/pdf.worker' : 'lib/pdfjs/build/pdf.worker',
         'mathJax'           : [
@@ -83,10 +59,8 @@ require.config({
         'interact'          : 'lib/interact',
         'd3'                : 'lib/d3js/d3.min',
         'c3'                : 'lib/c3js/c3.min',
-
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
-
 //extension aliases, and controller loading in prod mode
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
@@ -99,19 +73,17 @@ require.config({
         <?php endif?>
     <?php endforeach?>
    },
-
    shim : {
-        'wfEngine/wfApi/wfApi.min' : ['jquery'],
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
-
+        'c3'                    : { deps : ['css!lib/c3js/c3.css']},
         'mathJax' : {
             exports : "MathJax",
             init : function(){
                 if(window.MathJax){
-                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});//add mathJax config here
+                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});
                     MathJax.Hub.Startup.onload();
                     return MathJax;
                 }

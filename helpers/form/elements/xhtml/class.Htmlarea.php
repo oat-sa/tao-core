@@ -71,6 +71,6 @@ class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements
      */
     public function getEvaluatedValue()
     {
-        return tao_helpers_Display::sanitizeHtml($this->getRawValue());
+        return tao_helpers_Display::sanitizeXssHtml($this->getRawValue());
     }
 }
