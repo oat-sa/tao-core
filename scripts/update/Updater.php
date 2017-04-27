@@ -37,7 +37,8 @@ use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\security\SessionCsrfTokenService;
+use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
@@ -777,9 +778,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('8.2.0', '8.5.5');
 
         if($this->isVersion('8.5.5')){
-            if (! $this->getServiceManager()->has(SessionCsrfTokenService::SERVICE_ID)) {
-                 $this->getServiceManager()->register(SessionCsrfTokenService::SERVICE_ID, new SessionCsrfTokenService());
-            }
+            $this->getServiceManager()->register(TokenService::SERVICE_ID, new TokenService([
+                'store' => new TokenStoreSession(),
+                'poolSize' => 10,
+                'timeLimit' => 0
+            ]));
             $this->setVersion('8.6.0');
         }
     }
