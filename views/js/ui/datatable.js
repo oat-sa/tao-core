@@ -24,8 +24,10 @@ define([
     'tpl!ui/datatable/tpl/layout',
     'tpl!ui/datatable/tpl/button',
     'ui/datatable/filterStrategy/filterStrategy',
-    'ui/pagination'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent){
+    'ui/pagination',
+    'ui/feedback',
+    'layout/logout-event'
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent){
 
     'use strict';
 
@@ -191,8 +193,17 @@ define([
                 $elt.find('.loading').removeClass(hiddenCls);
             }
 
-            $.ajax(ajaxConfig).done(function(response) {
+            $.ajax(ajaxConfig).done(function (response) {
                 self._render($elt, response);
+            }).fail(function (response) {
+                var errorDetails = JSON.parse(response.responseText);
+
+                if (response.status === 403) {
+                    logoutEvent();
+                } else {
+                    feedback().error(response.status + ': ' + errorDetails.message);
+                }
+                self._render($elt, {});
             });
         },
 
