@@ -1,41 +1,40 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
 use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\service\ServiceManager;
 
 /**
- * Short description of class tao_helpers_form_elements_xhtml_Hidden
+ * Special form element to handle tokens.
+ * The posted value isn't kept, but a new token is generated.
  *
- * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
+ * @author Bertrand Chevrier, <bertrand@taotesting.com>
  */
 class tao_helpers_form_elements_xhtml_Token extends tao_helpers_form_elements_xhtml_Hidden
 {
-
     public function render()
     {
         $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
+
+        //always add a new token
         $this->setValue($tokenService->createToken());
 
-       return parent::render(); 
+       return parent::render();
     }
 }

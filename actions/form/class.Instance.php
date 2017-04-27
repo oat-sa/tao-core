@@ -16,14 +16,11 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2017
+ *               2017      (update and modification) Open Assessment Technologies SA ;
  * 
  */
 
-use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\validators\XsrfTokenValidator;
-use oat\tao\model\security\xsrf\TokenService;
-
 
 /**
  * Create a form from a  resource of your ontology. 
@@ -71,6 +68,7 @@ class tao_actions_form_Instance
 		$instanceElt->setValue('1');
                 $this->form->addElement($instanceElt);
 
+                //add a token to protect against xsrf
                 $tokenElt = tao_helpers_form_FormFactory::getElement('token', 'Token');
                 $tokenElt->addValidator(new XsrfTokenValidator());
                 $this->form->addElement($tokenElt);
@@ -203,13 +201,7 @@ class tao_actions_form_Instance
 			$hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
 			$hiddenId->setValue($instance->getUri());
                         $this->form->addElement($hiddenId);
-
-                      
-
-
 		}
-        
-        
     }
 
 }

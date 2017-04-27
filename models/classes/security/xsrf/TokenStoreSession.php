@@ -23,13 +23,17 @@ use oat\oatbox\Configurable;
 
 /**
  * TokenStore into the PHP session
- * 
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 class TokenStoreSession extends Configurable implements TokenStore
 {
     const TOKEN_KEY = 'XSRF_TOKEN';
 
+    /**
+     * Retrieve the pool of tokens
+     * @return array the tokens
+     */
     public function getTokens()
     {
         $pool = null;
@@ -44,12 +48,19 @@ class TokenStoreSession extends Configurable implements TokenStore
         return $pool;
     }
 
+    /**
+     * Set the pool of tokens
+     * @param array $tokens the poll
+     */
     public function setTokens(array $tokens = [])
     {
         $session = \PHPSession::singleton();
         $session->setAttribute(self::TOKEN_KEY, $tokens);
     }
 
+    /**
+     * Remove all tokens
+     */
     public function removeTokens()
     {
         $session = \PHPSession::singleton();

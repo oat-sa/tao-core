@@ -19,9 +19,8 @@
 
 namespace oat\tao\model\security\xsrf;
 
-
 /**
- * Interface of  tokens' pool storage
+ * Tokens' pool storage
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */

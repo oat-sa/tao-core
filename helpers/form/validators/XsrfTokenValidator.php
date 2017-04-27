@@ -24,40 +24,34 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\service\ServiceManager;
 
 /**
+ * Validate a token
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 class XsrfTokenValidator extends \tao_helpers_form_Validator
 {
-    /**
-     * Overrides parent default message
-     *
-     * @return string
-     */
-    protected function getDefaultMessage()
-    {
-        return __('This is not a valid email address.');
-    }
 
     /**
-     * Validates a value to see if it is a valid email.
+     * Validate an active XSRF token.
      *
-     * @access public
-     * @author Aleh Hutnikau <hutnikau@1pt.com>
-     * @param string $values the value to be validated
-     * @return boolean whether the value is a valid email
+     * @param string $values should be the token
+     * @return boolean true only if valid
+     * @throws \common_exception_Unauthorized if the token is not valid
      */
     public function evaluate($values)
     {
-        $valid = false;
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
 
-        $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
         if($tokenService->checkToken($values)){
             $tokenService->revokeToken($values);
-            $valid = true;
-        } else {
-            throw new \Exception('Invalid token '. $values);
+            return true;
         }
 
-        return $valid;
+        throw new \common_exception_Unauthorized('Invalid token '. $values);
     }
 
+    private function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
+    }
 }

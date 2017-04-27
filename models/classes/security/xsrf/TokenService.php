@@ -24,6 +24,13 @@ use oat\tao\model\security\TokenGenerator;
 use oat\oatbox\service\exception\InvalidService;
 
 /**
+ * This service let's you manage tokens to protect against XSRF.
+ * The protection works using this workflow :
+ *  1. Generate a new token `TokenService::createToken()`
+ *  2. Send this token to the client, it will then send it along the HTTP request to protect
+ *  3. Verify if the received token is valid `TokenService::checkToken`, and revoke it accordingly
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 class TokenService extends ConfigurableService
 {
@@ -32,18 +39,26 @@ class TokenService extends ConfigurableService
 
     const SERVICE_ID = 'tao/security-xsrf-token';
 
-    const POOL_SIZE_OPT = 'poolSize';
+    //options keys
+    const POOL_SIZE_OPT  = 'poolSize';
     const TIME_LIMIT_OPT = 'timeLimit';
-    const STORE_OPT = 'store';
+    const STORE_OPT      = 'store';
 
     /**
+     * Create a new TokenService
+     *
+     * @param array $options the configurations options
+     *              - `poolSize` to limit the number of active tokens (0 means unlimited - default to 10)
+     *              - `timeLimit` to limit the validity of tokens, in seconds (0 means unlimited - default 0)
+     *              - `store` the TokenStore were the tokens are stored
+     * @throws InvalidService
      */
     public function __construct($options = [])
     {
         parent::__construct($options);
 
         if($this->getPoolSize() <= 0 && $this->getTimeLimit() <= 0){
-            \common_Logger::w('the pool size and the time limit are both unlimited. Tokens won\'t be invalidated. The store will just grow');
+            \common_Logger::w('The pool size and the time limit are both unlimited. Tokens won\'t be invalidated. The store will just grow.');
         }
         $store = $this->getStore();
         if(is_null($store) || !$store instanceof TokenStore){
@@ -52,8 +67,10 @@ class TokenService extends ConfigurableService
     }
 
     /**
-     * Generates and returns the CSRF token
-     * @return string
+     * Generates, stores and return a brand new token
+     * Triggers the pool invalidation.
+     *
+     * @return string the token
      */
     public function createToken()
     {
@@ -63,8 +80,6 @@ class TokenService extends ConfigurableService
         $store = $this->getStore();
 
         $pool = $this->invalidate($store->getTokens());
-
-        \common_Logger::w('CREATE TOKEN ' . $token);
 
         $pool[] = [
             'ts' => $time,
@@ -77,15 +92,14 @@ class TokenService extends ConfigurableService
     }
 
     /**
-     * Validates a given token with the current CSRF token
+     * Check if the given token is valid
+     * (does not revoke)
+     *
      * @param string $token The given token to validate
-     * @param int $lifetime A max life time for the current token, default to infinite
-     * @return bool
+     * @return boolean
      */
     public function checkToken($token)
     {
-        \common_Logger::d('CHECK TOKEN ' . $token);
-
         $actualTime = microtime(true);
         $timeLimit  = $this->getTimeLimit();
 
@@ -101,17 +115,15 @@ class TokenService extends ConfigurableService
                 }
             }
         }
-
         return false;
     }
 
     /**
-     * Revokes the current CSRF token
-     * @return void
+     * Revokes the given token
+     * @return true if the revokation succeed (if the token was found)
      */
     public function revokeToken($token)
     {
-        \common_Logger::d('REVOKE TOKEN ' . $token);
         $revoked = false;
         $store = $this->getStore();
         $pool = $store->getTokens();
@@ -129,6 +141,12 @@ class TokenService extends ConfigurableService
         return $revoked;
     }
 
+    /**
+     * Invalidate the tokens in the pool :
+     *  - remove the oldest if the pool raises it's size limit
+     *  - remove the expired tokens
+     * @return array the invalidated pool
+     */
     protected function invalidate($pool)
     {
         $actualTime = microtime(true);
@@ -159,6 +177,10 @@ class TokenService extends ConfigurableService
         return $reduced;
     }
 
+    /**
+     * Get the configured pool size
+     * @return int the pool size, 10 by default
+     */
     protected function getPoolSize()
     {
         $poolSize = 10;
@@ -168,6 +190,10 @@ class TokenService extends ConfigurableService
         return $poolSize;
     }
 
+    /**
+     * Get the configured time limit in seconds
+     * @return int the limit
+     */
     protected function getTimeLimit()
     {
         $timeLimit = 0;
@@ -177,6 +203,10 @@ class TokenService extends ConfigurableService
         return $timeLimit;
     }
 
+    /**
+     * Get the configured store
+     * @return TokenStore the store
+     */
     protected function getStore()
     {
         $store = null;
