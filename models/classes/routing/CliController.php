@@ -25,6 +25,8 @@ use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
 use oat\oatbox\action\Help;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -33,9 +35,9 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\routing
  */
-class CliController implements ServiceLocatorAwareInterface
+class CliController implements ServiceManagerAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceManagerAwareTrait;
 
     /**
      * @var ActionService
@@ -47,7 +49,6 @@ class CliController implements ServiceLocatorAwareInterface
      */
     public function __construct()
     {
-        $this->setServiceLocator(ServiceManager::getServiceManager());
         $this->actionService = $this->getServiceLocator()->get(ActionService::SERVICE_ID);
     }
 
@@ -67,9 +68,7 @@ class CliController implements ServiceLocatorAwareInterface
             $action = new Help($extId);
         }
 
-        if ($action instanceof ServiceLocatorAwareInterface) {
-            $action->setServiceLocator($this->getServiceLocator());
-        }
+        $this->getServiceLocator()->propagate($action);
 
         try {
             $report = call_user_func($action, $params);

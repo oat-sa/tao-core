@@ -19,10 +19,10 @@
  */
 namespace oat\tao\model\routing;
 
-use Context;
 use InterruptedActionException;
-use common_ext_ExtensionsManager;
 use common_http_Request;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -31,8 +31,9 @@ use Psr\Http\Message\ServerRequestInterface;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class TaoFrontController
+class TaoFrontController implements ServiceManagerAwareInterface
 {
+    use ServiceManagerAwareTrait;
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
         $request->getUri();
@@ -49,15 +50,20 @@ class TaoFrontController
      * @throws \common_exception_Error
      * @throws \common_ext_ExtensionException
      */
-    public function legacy(common_http_Request $pRequest) {
+    public function legacy(common_http_Request $pRequest)
+    {
         $resolver = new Resolver($pRequest);
         // load the responsible extension
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
+        $ext = $this->getServiceLocator()
+            ->get(\common_ext_ExtensionsManager::SERVICE_ID)
+            ->getExtensionById($resolver->getExtensionId());
+
         \Context::getInstance()->setExtensionName($resolver->getExtensionId());
 
         // load translations
         $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
         \tao_helpers_I18n::init($ext, $uiLang);
+
 
         //if the controller is a rest controller we try to authenticate the user
         $controllerClass = $resolver->getControllerClass();
@@ -81,14 +87,11 @@ class TaoFrontController
             }
         }
 
-
-        try
-        {
+        try {
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
+            $this->getServiceLocator()->propagate($enforcer);
             $enforcer->execute();
-        }
-        catch (InterruptedActionException $iE)
-        {
+        } catch (InterruptedActionException $iE) {
             // Nothing to do here.
         }
     }

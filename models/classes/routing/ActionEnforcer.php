@@ -22,6 +22,8 @@ namespace oat\tao\model\routing;
 
 use IExecutable;
 use ActionEnforcingException;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use ReflectionMethod;
 use common_Logger;
 
@@ -42,8 +44,10 @@ use oat\tao\model\event\BeforeAction;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
  */
-class ActionEnforcer implements IExecutable
-{	
+class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface
+{
+    use ServiceManagerAwareTrait;
+
     private $extension;
     
     private $controller;
@@ -79,7 +83,8 @@ class ActionEnforcer implements IExecutable
     {
         $controllerClass = $this->getControllerClass();
         if(class_exists($controllerClass)) {
-            return new $controllerClass();
+            $controller = new $controllerClass();
+            return $this->getServiceLocator()->propagate($controller);
         } else {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
         }
@@ -139,7 +144,7 @@ class ActionEnforcer implements IExecutable
 	        $user = common_session_SessionManager::getSession()->getUser();
 	        common_Logger::d('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
 
-            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new BeforeAction());
 
 	        call_user_func_array(array($controller, $action), $tabParam);

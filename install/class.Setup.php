@@ -23,8 +23,9 @@
 use oat\oatbox\action\Action;
 use common_report_Report as Report;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\oatbox\extension\AbstractAction;
 
-class tao_install_Setup implements Action
+class tao_install_Setup extends AbstractAction
 {
     public function __invoke($params)
     {
@@ -197,22 +198,20 @@ class tao_install_Setup implements Action
             $options['user_email'] = $parameters['email'];
         }
 
-        // run the actual install
-        $installator = new \tao_install_Installator (array(
+        $installOptions = array(
             'root_path' 	=> $options['root_path'],
-            'install_path'	=> $options['root_path'].'tao/install/'
-        ));
+            'install_path'	=> $options['root_path'].'tao/install/',
+        );
 
-        if (isset($global['generis_sample'])) {
-            $installator->setGenerisConfigSample($global['generis_sample']);
+        if (isset($global['installation_config_path'])) {
+            $installOptions['installation_config_path'] = $global['installation_config_path'];
         }
 
-        if (isset($global['extension_path'])) {
-            $options['extension_path'] = $global['extension_path'];
-        }
+        // run the actual install
+        $installator = new \tao_install_Installator ($installOptions);
 
-        if (isset($global['config_path'])) {
-            $options['config_path'] = $global['config_path'];
+        if (isset($global['installation_config_path'])) {
+            $options['installation_config_path'] = $global['installation_config_path'];
         }
 
         $serviceManager = $installator->getServiceManager();

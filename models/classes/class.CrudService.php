@@ -32,7 +32,6 @@
  */
 abstract class tao_models_classes_CrudService extends tao_models_classes_Service
 {
-
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com

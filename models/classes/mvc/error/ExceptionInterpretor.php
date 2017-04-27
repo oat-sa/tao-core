@@ -77,7 +77,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
                 $this->trace = 'User not authorized (session expired?)';
                 $this->responseClassName = 'RedirectResponse';
                 break;
-            case 'ResolverException':   
+            case 'ResolverException':
                 $this->returnHttpCode    = 403;
                 $this->trace = 'Extension or controller not found';
                 $this->responseClassName = 'RedirectResponse';
