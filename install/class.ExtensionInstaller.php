@@ -19,6 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\ClientLibRegistry;
@@ -133,12 +134,11 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function registerClientLib()
-    {        
-        $extManifestConsts = $this->extension->getConstants();
-        if(isset($extManifestConsts['BASE_WWW'])){
-            ClientLibRegistry::getRegistry()->register($this->extension->getId(),$extManifestConsts['BASE_WWW']. 'js');
-            ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css',$extManifestConsts['BASE_WWW']. 'css');
-            
-        }
+    {
+        $jsPath = trim(Template::js('', $this->extension->getId()), '/');
+        ClientLibRegistry::getRegistry()->register($this->extension->getId(), $jsPath);
+
+        $cssPath = trim(Template::css('', $this->extension->getId()), '/');
+        ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css', $cssPath);
     }
 }

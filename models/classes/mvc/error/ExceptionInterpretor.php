@@ -79,7 +79,6 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
                 break;
             case 'ResolverException':
                 $this->returnHttpCode    = 403;
-                $this->trace = 'Extension or controller not found';
                 $this->responseClassName = 'RedirectResponse';
             break;
             case 'tao_models_classes_UserException': 

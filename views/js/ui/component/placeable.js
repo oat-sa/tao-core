@@ -33,9 +33,8 @@
  */
 define([
     'lodash',
-    'ui/component',
     'ui/transformer'
-], function (_, componentFactory, transformer) {
+], function (_, transformer) {
     'use strict';
 
     var defaultConfig = {
