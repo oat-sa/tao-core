@@ -97,7 +97,6 @@ class Resolver
      */
     protected function resolve() {
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
-
         foreach ($this->getRouteMap() as $entry) {
             $route = $entry['route'];
             $called = $route->resolve($relativeUrl);

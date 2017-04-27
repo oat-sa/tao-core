@@ -210,10 +210,6 @@ class tao_install_Setup extends AbstractAction
         // run the actual install
         $installator = new \tao_install_Installator ($installOptions);
 
-        if (isset($global['installation_config_path'])) {
-            $options['installation_config_path'] = $global['installation_config_path'];
-        }
-
         $serviceManager = $installator->getServiceManager();
 
         foreach($parameters['configuration'] as $extension => $configs){

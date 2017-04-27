@@ -165,7 +165,6 @@ class tao_install_Installator
 				$dbConfiguration['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
 				$dbConfiguration['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
 				$dbConfiguration['fetch_case'] = PDO::CASE_LOWER;
-			
 			}
 
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
@@ -264,10 +263,6 @@ class tao_install_Installator
             );
 
             $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
-//            $constants['EXTENSION_PATH'] = (isset($installData['extension_path'])) ? $installData['extension_path'] : $installData['root_path'];
-//            if (isset($installData['config_path'])) {
-//                $constants['CONFIG_PATH'] = $installData['config_path'];
-//            }
 
 			$generisConfigWriter->writeConstants($constants);
 			/*
@@ -292,14 +287,6 @@ class tao_install_Installator
 			 */
 			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
 			common_Config::load($this->getGenerisConfig());
-
-
-//            $driver = new \oat\oatbox\service\SimpleConfigDriver();
-//            $persistence = $driver->connect('config', array(
-//                'dir' => $this->getConfigPath(),
-//                'humanReadable' => true
-//            ));
-//			ServiceManager::setServiceManager(new ServiceManager($persistence));
 
 			/*
 			 * 6b - Create cache persistence
@@ -404,8 +391,6 @@ class tao_install_Installator
 			if ($this->retryInstallation($e)) {
 				return;
 			}
-
-			var_dump($e->getTraceAsString());
 
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
@@ -568,24 +553,22 @@ class tao_install_Installator
         return $this->log;
     }
 
+    /**
+     * Get the config file platform e.q. generis.conf.php
+     *
+     * @return string
+     */
     protected function getGenerisConfig()
     {
         return $this->getConfigPath() . 'generis.conf.php';
     }
 
-//    public function setGenerisConfigSample($file)
-//    {
-//        $this->generisConfigSample = rtrim($file, '/\\');
-//    }
-
-//    protected function getGenerisConfigSample()
-//    {
-//        if (is_readable($this->generisConfigSample)) {
-//            return $this->generisConfigSample;
-//        }
-//        return $this->options['root_path'] . 'generis/config/sample/generis.conf.php';
-//    }
-
+    /**
+     * Get the config path for installation
+     * If options have installation_config_path, it's taken otherwise it's root_path
+     *
+     * @return mixed|string
+     */
     protected function getConfigPath()
     {
         if (isset($this->options['installation_config_path'])) {
