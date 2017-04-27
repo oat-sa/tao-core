@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 use common_Exception;
 use common_ext_ExtensionsManager;
 use oat\oatbox\event\EventManager;
+use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -139,13 +140,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('2.7.2')) {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
-                $extManifestConsts = $extension->getConstants();
-                if (isset($extManifestConsts['BASE_WWW'])) {
+                $jsPath = trim(Template::js('', $extension->getId()), '/');
+                ClientLibRegistry::getRegistry()->register($extension->getId(), $jsPath);
 
-                    ClientLibRegistry::getRegistry()->register($extension->getId(), $extManifestConsts['BASE_WWW'] . 'js');
-                    ClientLibRegistry::getRegistry()->register($extension->getId() . 'Css', $extManifestConsts['BASE_WWW'] . 'css');
-
-                }
+                $cssPath = trim(Template::css('', $extension->getId()), '/');
+                ClientLibRegistry::getRegistry()->register($extension->getId().'Css', $cssPath);
             }
              $this->setVersion('2.7.3');
         }
@@ -775,15 +774,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('8.2.0');
         }
 
-        $this->skip('8.2.0', '8.5.5');
+        $this->skip('8.2.0', '9.0.2');
 
-        if($this->isVersion('8.5.5')){
+        if($this->isVersion('9.0.2')){
             $this->getServiceManager()->register(TokenService::SERVICE_ID, new TokenService([
                 'store' => new TokenStoreSession(),
                 'poolSize' => 10,
                 'timeLimit' => 0
             ]));
-            $this->setVersion('8.6.0');
+            $this->setVersion('9.1.0');
         }
     }
 

@@ -27,7 +27,7 @@ use \tao_helpers_Display;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class NumericTest extends TaoPhpUnitTestRunner
+class DisplayTest extends TaoPhpUnitTestRunner
 {
 
     /**
