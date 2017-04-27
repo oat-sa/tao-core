@@ -22,14 +22,13 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-define(['jquery', 'i18n', 'helpers', 'ui/dialog/alert'],
-    function ($, __, helpers, alert) {
+define(['jquery', 'i18n', 'util/url', 'ui/dialog/alert'],
+    function ($, __, url, alert) {
         'use strict';
 
         return function logoutEvent() {
-            
             alert(__('You have been logged out. Please login again'), function () {
-                window.location = helpers._url('logout', 'Main', 'tao');
+                window.location = url.route('logout', 'Main', 'tao');
             });
         };
     });
