@@ -14,40 +14,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
+namespace oat\tao\model\security\xsrf;
+
+
 /**
- * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ * Interface of  tokens' pool storage
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-
-namespace oat\tao\model\security;
-
-/**
- * Interface CsrfToken
- *
- * Provides the API to handle CSRF tokens
- *
- * @package oat\taoTests\models\runner
- */
-interface CsrfToken
+interface TokenStore
 {
-    /**
-     * Generates and returns the CSRF token
-     * @return string
-     */
-    public function getToken();
 
     /**
-     * Validates a given token with the current CSRF token
-     * @param string $token The given token to validate
-     * @return bool
+     * Retrieve the pool of tokens
+     * @return array the tokens
      */
-    public function checkToken($token);
+    public function getTokens();
 
     /**
-     * Revokes the current CSRF token
-     * @return void
+     * Set the pool of tokens
+     * @param array $tokens the poll
      */
-    public function revokeToken($token);
+    public function setTokens(array $tokens = []);
+
+    /**
+     * Remove all tokens
+     */
+    public function removeTokens();
 }
