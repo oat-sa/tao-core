@@ -16,21 +16,21 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
  */
-/**
- * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- */
 
 namespace oat\tao\model\security;
 
 /**
+ * This traits let's you generate a randome token
+ *
+ * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 trait TokenGenerator
 {
-
     /**
      * Generates a security token
-     * @return string
+     * @param int $length the expected token length
+     * @return string the token
      * @throws \common_Exception
      */
     protected function generate($length = 40)

@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\tao\test\security;
+namespace oat\tao\test\model\security;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\security\TokenGenerator;
@@ -58,5 +58,4 @@ class TokenGeneratorTest extends TaoPhpUnitTestRunner
         $distribution = array_count_values($tokens);
         $this->assertEquals(count($tokens), count($distribution), "The tokens are uniques");
     }
-
 }
