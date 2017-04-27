@@ -47,6 +47,7 @@ class XsrfTokenValidator extends \tao_helpers_form_Validator
             return true;
         }
 
+        \common_Logger::e('Attempt to post a form with the incorrect token');
         throw new \common_exception_Unauthorized('Invalid token '. $values);
     }
 
