@@ -26,8 +26,9 @@ define([
     'ui/datatable/filterStrategy/filterStrategy',
     'ui/pagination',
     'ui/feedback',
-    'layout/logout-event'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent){
+    'layout/logout-event',
+    'core/logger'
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loggerFactory){
 
     'use strict';
 
@@ -44,6 +45,8 @@ define([
         paginationStrategyTop: 'none',
         paginationStrategyBottom: 'simple'
     };
+
+    var logger = loggerFactory('ui/datatable');
 
     /**
      * The CSS class used to hide an element
@@ -197,12 +200,15 @@ define([
                 self._render($elt, response);
             }).fail(function (response) {
                 var errorDetails = JSON.parse(response.responseText);
+                logger.error(errorDetails);
 
                 if (response.status === 403) {
                     logoutEvent();
                 } else {
                     feedback().error(response.status + ': ' + errorDetails.message);
                 }
+                $elt.trigger('error.' + ns, [errorDetails]);
+
                 self._render($elt, {});
             });
         },
