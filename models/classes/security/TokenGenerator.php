@@ -20,7 +20,7 @@
 namespace oat\tao\model\security;
 
 /**
- * This traits let's you generate a randome token
+ * This traits let's you generate a random token
  *
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
