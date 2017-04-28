@@ -45,16 +45,16 @@ class tao_helpers_form_validators_DateTime
 			$dateTime = new DateTime($value);
 			
     		// if no date given no need to go further. To check if not empty, use the NotEmpty validator
-			if(!empty($value) && !empty($this->options['comparator']) && $this->options['datetime2_ref'] instanceof tao_helpers_form_FormElement){
+			if(!empty($value) && !empty($this->getOption('comparator')) && $this->getOption('datetime2_ref') instanceof tao_helpers_form_FormElement){
                 
 			    //try comparison:
 				try{
-					$dateTime2 = new DateTime($this->options['datetime2_ref']->getRawValue());
+					$dateTime2 = new DateTime($this->getOption('datetime2_ref')->getRawValue());
 				}catch(Exception $e){}
 				
 				if($dateTime2 instanceof DateTime){
 					
-					switch ($this->options['comparator']){
+					switch ($this->getOption('comparator')){
 						case 'after':
 						case 'later':
 						case 'sup':
@@ -94,7 +94,7 @@ class tao_helpers_form_validators_DateTime
                             break;
                         }
 						default:
-							throw new common_Exception('Usuported comparator in DateTime Validator: '.$this->options['comparator']);
+							throw new common_Exception('Usuported comparator in DateTime Validator: '.$this->getOption('comparator'));
 					}
 				}
 			

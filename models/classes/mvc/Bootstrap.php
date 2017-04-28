@@ -24,6 +24,7 @@ namespace oat\tao\model\mvc;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
 use common_Profiler;
@@ -35,6 +36,7 @@ use tao_helpers_Request;
 use tao_helpers_Uri;
 use Request;
 use Exception;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -111,12 +113,13 @@ class Bootstrap {
 	}
 
     /**
-     * Check if the application is ready
-     * @return {boolean} Return true if the application is ready
+     * Check if the platform is ready
+     *
+     * @return boolean Return true if the application is ready
      */
     protected function isReady()
     {
-        return defined('SYS_READY') ? SYS_READY : true;
+        return $this->getMaintenanceService()->isPlatformReady();
     }
 
 	/**
@@ -176,6 +179,7 @@ class Bootstrap {
 	    session_write_close();
 	}
 	
+        
 	protected function dispatchCli()
 	{
 	    $params = $_SERVER['argv'];
@@ -220,8 +224,9 @@ class Bootstrap {
      */
     protected function catchError(Exception $exception)
     {
-        $Interpretor = new error\ExceptionInterpretor();
-        $Interpretor->setException($exception)->getResponse()->send();
+        $exceptionInterpreterService = $this->getServiceManager()->get(ExceptionInterpreterService::SERVICE_ID);
+        $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
+        $interpretor->getResponse()->send();
     }
 
     /**
@@ -257,7 +262,7 @@ class Bootstrap {
                 setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
             }
         }
-	}
+    }
 	
     private function configureSessionHandler() {
         $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
@@ -304,27 +309,37 @@ class Bootstrap {
         $fc->legacy($re);
     }
 
-	/**
-	 * Load external resources for the current context
-	 * @see tao_helpers_Scriptloader
-	 */
-	protected function scripts()
-	{
-	    $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-        $cssFiles = array(
-			$assetService->getJsBaseWww('tao') . 'css/layout.css',
-			$assetService->getJsBaseWww('tao') . 'css/tao-main-style.css',
-			$assetService->getJsBaseWww('tao') . 'css/tao-3.css'
-        );
+    /**
+     * Load external resources for the current context
+     * @see tao_helpers_Scriptloader
+     */
+    protected function scripts()
+    {
+        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+        $cssFiles = [
+            $assetService->getAsset('css/layout.css', 'tao'),
+            $assetService->getAsset('css/tao-main-style.css', 'tao'),
+            $assetService->getAsset('css/tao-3.css', 'tao')
+        ];
 
         //stylesheets to load
         \tao_helpers_Scriptloader::addCssFiles($cssFiles);
 
         if(\common_session_SessionManager::isAnonymous()) {
             \tao_helpers_Scriptloader::addCssFile(
-				$assetService->getJsBaseWww('tao') . 'css/portal.css'
+                $assetService->getAsset('css/portal.css', 'tao')
             );
         }
+    }
+
+    /**
+     * Get the maintenance service to handle maintenance status
+     *
+     * @return Maintenance
+     */
+    protected function getMaintenanceService()
+    {
+        return $this->getServiceManager()->get(Maintenance::SERVICE_ID);
     }
 
 	private function getServiceManager()

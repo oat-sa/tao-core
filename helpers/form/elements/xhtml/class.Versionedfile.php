@@ -18,22 +18,19 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
- * Short description of class tao_helpers_form_elements_xhtml_Versionedfile
+ * Old widget to display file properties
  *
  * @access public
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
- 
+ * @deprecated
  */
-class tao_helpers_form_elements_xhtml_Versionedfile
-    extends tao_helpers_form_elements_Versionedfile
+class tao_helpers_form_elements_xhtml_Versionedfile extends tao_helpers_form_elements_Versionedfile
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
+    use XhtmlRenderingTrait;
 
     /**
      * Short description of attribute CSS_CLASS
@@ -42,9 +39,7 @@ class tao_helpers_form_elements_xhtml_Versionedfile
      * @var string
      */
     const CSS_CLASS = 'editVersionedFile';
-
-    // --- OPERATIONS ---
-
+    
     /**
      * Short description of method render
      *
@@ -54,31 +49,22 @@ class tao_helpers_form_elements_xhtml_Versionedfile
      */
     public function render()
     {
-        $returnValue = (string) '';
-
         
-		
-		if(array_key_exists('class', $this->attributes)){
-			if(strstr($this->attributes['class'], self::CSS_CLASS) !== false){
-				$this->attributes['class'] .= ' ' . self::CSS_CLASS;
-			}
-		}
-		else{
-			$this->attributes['class'] = self::CSS_CLASS;
-		}
-		
-		$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
-		
-		$returnValue .= "<input type='button' for='{$this->name}' value='".__('Manage Versioned File')."' ";
-		$returnValue .= $this->renderAttributes();
-		$returnValue .= " />";
-		$returnValue .= "<span for='{$this->name}' ".$this->renderAttributes()."></span>";
-		
+        if (array_key_exists('class', $this->attributes)) {
+            if (strstr($this->attributes['class'], self::CSS_CLASS) !== false) {
+                $this->attributes['class'] .= ' ' . self::CSS_CLASS;
+            }
+        } else {
+            $this->attributes['class'] = self::CSS_CLASS;
+        }
         
-
+        $returnValue = $this->renderLabel();
+        
+        $returnValue .= "<input type='button' for='{$this->name}' value='" . __('Manage Versioned File') . "' ";
+        $returnValue .= $this->renderAttributes();
+        $returnValue .= " />";
+        $returnValue .= "<span for='{$this->name}' " . $this->renderAttributes() . "></span>";
+        
         return (string) $returnValue;
     }
-
 }
-
-?>

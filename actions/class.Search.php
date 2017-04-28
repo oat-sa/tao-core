@@ -21,6 +21,7 @@
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SyntaxException;
 use oat\tao\model\search\IndexService;
+use oat\tao\model\search\ResultSet;
 
 /**
  * Controller for indexed searches
@@ -68,9 +69,22 @@ class tao_actions_Search extends tao_actions_CommonModule {
         $rows = $this->hasRequestParameter('rows') ? (int)$this->getRequestParameter('rows') : null;
         $page = $this->hasRequestParameter('page') ? (int)$this->getRequestParameter('page') : 1;
         $startRow = is_null($rows) ? 0 : $rows * ($page - 1);
-        
+
         try {
-            $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
+            $results = [];
+
+            // if it is an URI
+            if (strpos($query, LOCAL_NAMESPACE) === 0) {
+                $resource = new core_kernel_classes_Resource($query);
+                if ($resource->exists() && $resource->isInstanceOf($class)) {
+                    $results = new ResultSet([$resource->getUri()], 1);
+                }
+            }
+
+            //  if there is no results based on considering the query as URI
+            if (empty($results)) {
+                $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
+            }
 
             $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
 

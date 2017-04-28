@@ -39,7 +39,11 @@ define([
 
             _.forEach($('.filter', $table), function (filter) {
                 var $filter = $(filter);
-                var $filterInput = $('select, input', $filter);
+                var filterSelector = options.filterSelector || 'select, input';
+                var $filterInput = $(filterSelector, $filter);
+                if ($filterInput.length === 0) {
+                    return;
+                }
                 var name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
                 if ($filterInput.val()) {
                     data.filtercolumns[name] = $filterInput.val();
@@ -52,7 +56,11 @@ define([
             _.forEach($('.filter', $table), function (filter) {
                 var $filter = $(filter);
                 var column = $filter.data('column');
-                var $filterInput = $('select, input', $filter);
+                var filterSelector = options.filterSelector || 'select, input';
+                var $filterInput = $(filterSelector, $filter);
+                if ($filterInput.length === 0) {
+                    return;
+                }
                 var model = _.find(options.model, function (o) {
                     return o.id === column;
                 });

@@ -292,7 +292,7 @@ msgid "Confirm"
 msgstr "確認"
 
 msgid "Connect to the TAO platform"
-msgstr "TAO プラットホームへ接続"
+msgstr "CBT プラットホームへ接続"
 
 msgid "Continue"
 msgstr "次へ"
@@ -650,7 +650,7 @@ msgid "Loading"
 msgstr "読み込み中"
 
 msgid "Log in"
-msgstr "ログイン"
+msgstr "ログインID"
 
 msgid "Log Out"
 msgstr "ログアウト"

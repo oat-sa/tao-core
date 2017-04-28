@@ -80,8 +80,12 @@ class SimpleAccess extends ConfigurableService
             $mask = $rule->getMask();
             
             if (is_string($mask)) {
-                list($controller, $action) = explode('@', $mask, 2);
-                $this->whiteListAction($controller, $action);
+                if (strpos($mask, '@') == false) {
+                    $this->whiteListController($mask);
+                } else {
+                    list($controller, $action) = explode('@', $mask, 2);
+                    $this->whiteListAction($controller, $action);
+                }
             } else {
             
                 if (isset($mask['ext']) && !isset($mask['mod'])) {

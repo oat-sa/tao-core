@@ -1,0 +1,61 @@
+{
+    "offset": 0,
+    "amount": 2,
+    "total": 1,
+    "page": 1,
+    "rows": 25,
+    "data": [
+        {
+            "id": "task#123456xyz",
+            "label": "My Task XYZ",
+            "creationDate": 1485442088,
+            "status": "created",
+            "report" : null
+        },
+        {
+            "id": "task#65480abc",
+            "label": "Mass import ABC",
+            "creationDate": 1485358061,
+            "status": "running",
+            "report" : null
+        },
+        {
+            "id": "task#65480abc",
+            "label": "Mass import DDD",
+            "creationDate": 1485350061,
+            "status": "finished",
+            "report" : {
+                "type": "warning",
+                "message": "Data not imported. All records are invalid.",
+                "data": null,
+                "children": [{
+                    "type": "error",
+                    "message": "Row 1 Student Number Identifier: Duplicated student \"92001\"",
+                    "data": null,
+                    "children": [{
+                        "type": "error",
+                        "message": "This is but a sub-report Z",
+                        "data": null,
+                        "children": []
+                    }]
+                },{
+                    "type": "success",
+                    "message": "Row 2 Student Number Identifier OK",
+                    "data": null,
+                    "children": [{
+                        "type": "success",
+                        "message": "This is but a sub-report A",
+                        "data": null,
+                        "children": []
+                    },{
+                        "type": "info",
+                        "message": "This is but a sub-report B",
+                        "data": null,
+                        "children": []
+                    }]
+                }]
+            }
+        }
+    ],
+    "length": 3
+}

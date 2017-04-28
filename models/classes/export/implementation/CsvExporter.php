@@ -21,6 +21,7 @@
 namespace oat\tao\model\export\implementation;
 
 use SPLTempFileObject;
+use Traversable;
 
 /**
  * Class CsvExporter
@@ -40,12 +41,17 @@ class CsvExporter extends AbstractFileExporter
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
      * @return string
+     * @throws \common_exception_InvalidArgumentType
      */
     public function export($columnNames = false, $download = false, $delimiter = ",", $enclosure = '"')
     {
         $data = $this->data;
 
-        if ($columnNames) {
+        if( !is_array( $data ) && !$data instanceof Traversable ){
+             throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
+        }
+
+        if ($columnNames && $data) {
             array_unshift($data, array_keys($data[0]));
         }
         $file = new SPLTempFileObject();

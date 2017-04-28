@@ -25,6 +25,11 @@ module.exports = function(grunt) {
                     '../js/lib/ckeditor/skins/tao/editor.css' : '../js/lib/ckeditor/skins/tao/scss/editor.scss',
                     '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss',
                 }
+            },
+            mediaplayer : {
+                files : {
+                    '../js/ui/mediaplayer/css/player.css' : '../js/ui/mediaplayer/scss/player.scss',
+                }
             }
         },
 

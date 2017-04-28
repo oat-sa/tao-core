@@ -44,11 +44,11 @@ class tao_helpers_form_validators_Equals
     {
         parent::setOptions($options);
 
-        if(!isset($this->options['reference']) || !$this->options['reference'] instanceof tao_helpers_form_FormElement){
+        if(!$this->hasOption('reference') || !$this->getOption('reference') instanceof tao_helpers_form_FormElement){
             throw new common_Exception("No FormElement provided as reference for Equals validator");
         }
-        $reference = $this->options['reference'];
-        if (isset($this->options['invert']) && $this->options['invert']) {
+        $reference = $this->getOption('reference');
+        if ($this->hasOption('invert') && $this->getOption('invert')) {
             $this->setMessage(__('This should not equal %s',$reference->getDescription()));
         } else {
             $this->setMessage(__('This should equal %s',$reference->getDescription()));
@@ -69,8 +69,8 @@ class tao_helpers_form_validators_Equals
         $returnValue = (bool) false;
 
         
-        $invert = isset($this->options['invert']) ? $this->options['invert'] : false;
-        $reference = $this->options['reference'];
+        $invert = $this->hasOption('invert') ? $this->getOption('invert') : false;
+        $reference = $this->getOption('reference');
 		$equals = ($values == $reference->getRawValue());
 		$returnValue = $invert ? !$equals : $equals;
         

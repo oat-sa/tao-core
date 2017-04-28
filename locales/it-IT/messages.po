@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint20\n"
-"PO-Revision-Date: 2016-02-19T17:54:53\n"
+"Project-Id-Version: TAO 3.2.0-sprint41\n"
+"PO-Revision-Date: 2017-01-03T10:38:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -127,9 +127,6 @@ msgstr "Accesso negato. Si prega di procedere a una nuova identificazione!"
 msgid "Action"
 msgstr "Azione"
 
-msgid "Action \"%s\" not found."
-msgstr "Azione \"%s\" non trovata."
-
 msgid "Actions"
 msgstr "Azioni"
 
@@ -176,8 +173,11 @@ msgstr "Una email è stata inviata."
 msgid "An error occured during user deletion"
 msgstr "Si è verificato un errore durante l'eliminazione"
 
-msgid "An error occured while running \"%s\", please check your error log."
-msgstr "Si è verificato un errore \"%s\", si prega di verificare il tipo di errore."
+msgid "An error occurred!"
+msgstr ""
+
+msgid "An exception occured while running \"%s"
+msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
@@ -214,29 +214,35 @@ msgstr "Indietro per ascolto"
 msgid "Beta version"
 msgstr "Versione Beta"
 
-msgid "Browse"
-msgstr "Sfoglia"
-
 msgid "Browse folders:"
 msgstr "Sfoglia le cartelle"
 
 msgid "Browse..."
 msgstr "Sfoglia..."
 
+msgid "Calculator"
+msgstr ""
+
 msgid "Calendar"
 msgstr "Calendario"
 
 msgid "cancel"
-msgstr "annulla"
+msgstr "no"
 
 msgid "Cancel"
-msgstr "Cancella"
+msgstr "No"
 
 msgid "cancel the action"
 msgstr "annulla operazione"
 
 msgid "Cannot be edited"
 msgstr "Non può essere editato"
+
+msgid "Cannot divide by zero"
+msgstr ""
+
+msgid "Case sensitive"
+msgstr ""
 
 #, tao-public
 msgid "Change password"
@@ -262,6 +268,12 @@ msgstr "Scegli il formato di importazione"
 
 msgid "class selected"
 msgstr "classe selezionata"
+
+msgid "Close"
+msgstr ""
+
+msgid "Close message"
+msgstr ""
 
 msgid "Close tab"
 msgstr "Chiudi scheda"
@@ -305,6 +317,9 @@ msgstr "Opzioni CSV"
 msgid "Current language"
 msgstr "Lingua corrente"
 
+msgid "Current playback position"
+msgstr ""
+
 msgid "Data imported"
 msgstr "Importazione di dati"
 
@@ -331,9 +346,6 @@ msgstr "Data"
 
 msgid "Default search"
 msgstr "Ricerca di default"
-
-msgid "Default user cannot be deleted"
-msgstr "L'utilizzatore di default non può essere eliminato"
 
 msgid "Define the default values"
 msgstr "Definisci i valori di default"
@@ -401,6 +413,9 @@ msgstr "Elemento eliminato"
 msgid "Email"
 msgstr "Email"
 
+msgid "End of document reached. Continuing from the beginning."
+msgstr ""
+
 msgid "Enter"
 msgstr "Invio"
 
@@ -409,6 +424,9 @@ msgstr "Errore"
 
 msgid "Error during file import"
 msgstr "Errore durante il file di importazione"
+
+msgid "Error(s) has occurred during export."
+msgstr ""
 
 msgid "Exclusive (OR)"
 msgstr "Esclusivo (OR)"
@@ -476,14 +494,23 @@ msgstr "Modalità di filtraggio"
 msgid "First Name"
 msgstr "Nome"
 
+msgid "First page"
+msgstr ""
+
 msgid "First row column names"
 msgstr "Nomi prima riga colonna"
+
+msgid "Fit to width"
+msgstr "Adatta"
 
 msgid "Force Release"
 msgstr "Forza il rilascio"
 
 msgid "Forgot your password?"
 msgstr "Password dimenticata?"
+
+msgid "From"
+msgstr ""
 
 msgid "Fuzzy Matching"
 msgstr "Accoppiamento sfocato"
@@ -500,11 +527,11 @@ msgstr "Salve, %s<br>hai indicato che hai dimenticato la password per TAO"
 msgid "Hide detailed report"
 msgstr "Nascondi una notifica dettagliata"
 
+msgid "Highlight all"
+msgstr "Evidenzia tutto"
+
 msgid "hours"
 msgstr "ore"
-
-msgid "However, the action will not be applied to the following"
-msgstr "Tuttavia, l'azione non verrà applicata al seguente"
 
 msgid "Identifier"
 msgstr "Identificatore"
@@ -524,11 +551,26 @@ msgstr "Importa Metadata dal file CSV"
 msgid "Import Metadata from RDF file"
 msgstr "Importa Metadata dal file RDF "
 
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr ""
+
+msgid "Imported %d resources"
+msgstr ""
+
+msgid "Imported resource \"%s"
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr "Inclusivo (e)"
 
 msgid "Indexing has been run"
 msgstr "L'indicizzazione è stata richiamata"
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr ""
+
+msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
 
 msgid "Install"
 msgstr "Installa"
@@ -584,6 +626,9 @@ msgstr "Misura di file non valida (minimum %1$s bytes, maximum %2$s bytes)"
 msgid "Invalid file type!"
 msgstr "Tipo di file non valido"
 
+msgid "Invalid input for function"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Password di login non valida. Riprovare"
 
@@ -593,14 +638,14 @@ msgstr "espressione regolare non valida"
 msgid "Label"
 msgstr "Etichetta"
 
-msgid "Label *"
-msgstr "Etichetta: *"
-
 msgid "Language"
 msgstr "Lingua"
 
 msgid "Last Name"
 msgstr "Cognome"
+
+msgid "Last page"
+msgstr ""
 
 msgid "less than a minute"
 msgstr "meno di un minuto"
@@ -658,8 +703,14 @@ msgstr "Gestisci le versioni del file"
 msgid "Map the properties to the CSV columns"
 msgstr "Mappa le proprietà alle colonne CSV"
 
+msgid "Maximum selection reached"
+msgstr ""
+
 msgid "Message"
 msgstr "Messaggio"
+
+msgid "Metadata export is not available for the selected resource."
+msgstr ""
 
 msgid "minutes"
 msgstr "minuti"
@@ -686,6 +737,9 @@ msgstr "Valori multipli delimitati"
 msgid "must be numeric"
 msgstr "deve essere numerico"
 
+msgid "Mute"
+msgstr ""
+
 #, tao-public
 msgid "My settings"
 msgstr "Impostazioni personali "
@@ -705,6 +759,12 @@ msgstr "Nuovo ruolo"
 
 msgid "Next"
 msgstr "Successivo"
+
+msgid "Next match"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
 
 msgid "No"
 msgstr "No"
@@ -757,14 +817,17 @@ msgstr "Numero di elementi"
 msgid "of"
 msgstr "di"
 
-msgid "Ok"
-msgstr "Ok"
-
 msgid "OK"
-msgstr "OK"
+msgstr "SI"
+
+msgid "Ok"
+msgstr "Sì"
 
 msgid "Old Password"
 msgstr "Vecchia password"
+
+msgid "on"
+msgstr ""
 
 msgid "Option instanceUri is not an option !!"
 msgstr "Optione"
@@ -784,9 +847,6 @@ msgstr "Pagina"
 msgid "Password"
 msgstr "Password"
 
-msgid "Password *"
-msgstr "Password *"
-
 msgid "Password changed"
 msgstr "Password modificata"
 
@@ -798,6 +858,15 @@ msgstr "Cambio Password eseguito con esito positivo!"
 
 msgid "Passwords are not matching"
 msgstr "Le password non corrispondono"
+
+msgid "Pause"
+msgstr ""
+
+msgid "platform"
+msgstr ""
+
+msgid "Play"
+msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Prego, conferma l'eliminazione"
@@ -813,6 +882,12 @@ msgstr "Prego conferma l'eliminazione dell'user"
 
 msgid "Please contact %s or an administrator to release it"
 msgstr "Prego contatta l'amministratore per rilasciarlo"
+
+msgid "Please download the track and listen offline."
+msgstr ""
+
+msgid "Please download the video and view offline."
+msgstr ""
 
 msgid "Please give a message to your commit"
 msgstr "Prego dare un messaggio alla tua consegna"
@@ -835,6 +910,12 @@ msgstr "Anteprima"
 msgid "Previous"
 msgstr "Precedente"
 
+msgid "Previous match"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
 #, tao-public
 msgid "Properties"
 msgstr "Proprietà"
@@ -844,6 +925,9 @@ msgstr "Proprietà\\'s è richiesto il campo etichetta"
 
 msgid "Provided URL is not valid"
 msgstr "URL fornito non valido"
+
+msgid "Range field is required"
+msgstr ""
 
 msgid "RDF"
 msgstr "RDF"
@@ -872,8 +956,8 @@ msgstr "Rinomina"
 msgid "Repeat new password"
 msgstr "Ripeti la nuova password"
 
-msgid "Repeat password *"
-msgstr "Ripeti la password *"
+msgid "Repeat password"
+msgstr ""
 
 msgid "Request a password reset via Email."
 msgstr "Richiesta via Email di reset della password"
@@ -886,6 +970,9 @@ msgstr "Richiesti"
 
 msgid "Reset"
 msgstr "Reimposta"
+
+msgid "Reset the original size"
+msgstr ""
 
 msgid "Resource"
 msgstr "Risorsa"
@@ -901,6 +988,9 @@ msgstr "Risorsa salvata"
 
 msgid "Responsive mode"
 msgstr "Modalità di risposta"
+
+msgid "Restore sound"
+msgstr ""
 
 msgid "Return to sign in page"
 msgstr "Riaccedi alla pagina"
@@ -940,11 +1030,11 @@ msgstr "Cerca sotto-classi"
 msgid "seconds"
 msgstr "secondi"
 
-msgid "Select"
-msgstr "Seleziona"
-
 msgid "select"
 msgstr "seleziona"
+
+msgid "Select"
+msgstr "Seleziona"
 
 msgid "Select a language"
 msgstr "Scegli una lingua"
@@ -983,6 +1073,9 @@ msgstr "Modalità semplice"
 msgid "Size"
 msgstr "Dimensione"
 
+msgid "Start of document reached. Continuing from the end."
+msgstr ""
+
 msgid "Success"
 msgstr "Riuscito"
 
@@ -1010,6 +1103,9 @@ msgstr "TAO Home"
 msgid "TAO Login"
 msgstr "Accesso TAO"
 
+msgid "Task not found"
+msgstr ""
+
 msgid "Text - Long - Box"
 msgstr "Testo - Lunghezza - Box"
 
@@ -1024,6 +1120,12 @@ msgstr "L'azione verrà applicata per"
 
 msgid "The action will be applied to the following"
 msgstr "L' azione verrà applicata al seguente"
+
+msgid "The action will not be applied to "
+msgstr ""
+
+msgid "The action will not be applied to the following"
+msgstr ""
 
 msgid "The column "
 msgstr "La colonna "
@@ -1082,6 +1184,9 @@ msgstr "questo è richiesto"
 msgid "This Login is already in use"
 msgstr "Questo login è già in uso"
 
+msgid "This media cannot be played!"
+msgstr ""
+
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "Il collegamento al link di modifica password non è più valido. Se vuoi ancora modificare la tua password, prego richiedi un nuovo link"
 
@@ -1100,6 +1205,9 @@ msgstr "Questo non deve eguagliare %s"
 msgid "Time zone"
 msgstr "Fuso orario"
 
+msgid "to"
+msgstr ""
+
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "Per resettare la password, clicca sul link seguente, oppure incollalo nel tuo browser. Potrai poi creare una nuova password."
 
@@ -1111,6 +1219,9 @@ msgstr "Tokenizer"
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "La tua richiesta contiene troppe proposte. Solo alcune sono elencate"
+
+msgid "Total duration"
+msgstr ""
 
 msgid "Translate"
 msgstr "Traduci"
@@ -1132,6 +1243,9 @@ msgstr "Vero"
 
 msgid "Type"
 msgstr "Tipo"
+
+msgid "Type your search"
+msgstr "Digita"
 
 msgid "UI Lang."
 msgstr "Ul lingua"
@@ -1166,14 +1280,23 @@ msgstr "Impossibile caricare il file"
 msgid "Unable to upload file %s : %s"
 msgstr "Impossibile caricare il file %s : %s"
 
-msgid "Uncheck all"
-msgstr "Deseleziona tutto"
-
 msgid "Uncheck All"
 msgstr "Deseleziona tutto"
 
+msgid "Uncheck all"
+msgstr "Deseleziona tutto"
+
+msgid "Undefined amount of the pages for pagination"
+msgstr ""
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr ""
+
 msgid "Undo"
 msgstr "Annulla"
+
+msgid "Unexpected error. Please contact administrator"
+msgstr ""
 
 msgid "Uninstall of %s failed"
 msgstr "Disinstallazione di %s fallita"
@@ -1195,9 +1318,6 @@ msgstr "Carica"
 
 msgid "Upload a new content"
 msgstr "Carica un nuovo contenuto"
-
-msgid "Upload File"
-msgstr "Carica file"
 
 msgid "Upload into:"
 msgstr "Carica in:"
@@ -1233,6 +1353,9 @@ msgstr "Utente salvato"
 msgid "User Settings"
 msgstr "Impostazioni utente"
 
+msgid "userAgent"
+msgstr ""
+
 #, tao-public
 msgid "Users"
 msgstr "Utenti"
@@ -1266,6 +1389,15 @@ msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr "Devi attivare JavaScript nel tuo browser per utilizzare questa applicazione"
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr ""
+
+msgid "Your browser doesn’t support the audio player."
+msgstr ""
+
+msgid "Your browser doesn’t support the video player."
+msgstr ""
 
 msgid "Your mail"
 msgstr "La tua mail"

@@ -362,7 +362,7 @@ abstract class tao_helpers_form_FormElement
     public function addValidator( tao_helpers_form_Validator $validator)
     {
         if ($validator instanceof tao_helpers_form_validators_NotEmpty) {
-            $this->addClass('required');
+            $this->addAttribute('required', true);
         }
         $this->validators[] = $validator;
     }
