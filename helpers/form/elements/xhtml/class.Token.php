@@ -30,11 +30,16 @@ class tao_helpers_form_elements_xhtml_Token extends tao_helpers_form_elements_xh
 {
     public function render()
     {
-        $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
 
         //always add a new token
         $this->setValue($tokenService->createToken());
 
        return parent::render();
+    }
+
+    protected function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }

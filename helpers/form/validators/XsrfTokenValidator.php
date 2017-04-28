@@ -51,7 +51,7 @@ class XsrfTokenValidator extends \tao_helpers_form_Validator
         throw new \common_exception_Unauthorized('Invalid token '. $values);
     }
 
-    private function getServiceManager()
+    protected function getServiceManager()
     {
         return ServiceManager::getServiceManager();
     }
