@@ -24,8 +24,11 @@ define([
     'tpl!ui/datatable/tpl/layout',
     'tpl!ui/datatable/tpl/button',
     'ui/datatable/filterStrategy/filterStrategy',
-    'ui/pagination'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent){
+    'ui/pagination',
+    'ui/feedback',
+    'layout/logout-event',
+    'core/logger'
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loggerFactory){
 
     'use strict';
 
@@ -42,6 +45,8 @@ define([
         paginationStrategyTop: 'none',
         paginationStrategyBottom: 'simple'
     };
+
+    var logger = loggerFactory('ui/datatable');
 
     /**
      * The CSS class used to hide an element
@@ -191,8 +196,20 @@ define([
                 $elt.find('.loading').removeClass(hiddenCls);
             }
 
-            $.ajax(ajaxConfig).done(function(response) {
+            $.ajax(ajaxConfig).done(function (response) {
                 self._render($elt, response);
+            }).fail(function (response) {
+                var errorDetails = JSON.parse(response.responseText);
+                logger.error(errorDetails);
+
+                if (response.status === 403) {
+                    logoutEvent();
+                } else {
+                    feedback().error(response.status + ': ' + errorDetails.message);
+                }
+                $elt.trigger('error.' + ns, [errorDetails]);
+
+                self._render($elt, {});
             });
         },
 
