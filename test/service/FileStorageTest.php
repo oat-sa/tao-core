@@ -21,10 +21,9 @@
 namespace oat\tao\test\service;
 
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\test\TaoPhpUnitTestRunner;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class FileStorageTest extends TaoPhpUnitTestRunner
+class FileStorageTest extends \PHPUnit_Framework_TestCase
 {
     protected $privateDir;
     protected $adapterFixture;

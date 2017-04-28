@@ -30,7 +30,7 @@ use Slim\Http\Request;
  * @package oat\tao\test\datatable
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class DatatableRequestTest extends TaoPhpUnitTestRunner
+class DatatableRequestTest extends \PHPUnit_Framework_TestCase
 {
 
     public function setUp()

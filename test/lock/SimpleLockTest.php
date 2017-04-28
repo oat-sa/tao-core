@@ -20,10 +20,9 @@
 
 namespace  oat\tao\test\lock;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\lock\implementation\SimpleLock;
 
-class SimpleLockTest extends TaoPhpUnitTestRunner
+class SimpleLockTest extends \PHPUnit_Framework_TestCase
 {
     
     /**
