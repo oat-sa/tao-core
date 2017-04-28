@@ -31,12 +31,19 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
 {
 
     /**
+     * Unit test library
+     * @var string
+     */
+    private $libId = 'OAT/test';
+
+    /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function setUp()
     {
         TaoPhpUnitTestRunner::initTest();
+        ClientLibRegistry::getRegistry()->remove($this->libId);
     }
 
 
@@ -47,29 +54,26 @@ class ClientLibRegistryTest extends TaoPhpUnitTestRunner
      */
     public function testRegister()
     {
-        $libId = 'OAT/test';
-        
         // verify test lib does not exist
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
-        $this->assertFalse(isset($map[$libId]));
+        $this->assertFalse(isset($map[$this->libId]));
         
-        ClientLibRegistry::getRegistry()->register($libId, Template::js('fakePath/views/js/', 'tao'));
+        ClientLibRegistry::getRegistry()->register($this->libId, Template::js('fakePath/views/js/', 'tao'));
         
         $map = ClientLibRegistry::getRegistry()->getMap();
         $this->assertInternalType('array', $map);
-        $this->assertTrue(isset($map[$libId]));
+        $this->assertTrue(isset($map[$this->libId]));
         
-        $this->assertEquals('js/fakePath/views/js/', $map[$libId]['path']);
-        
-        return $libId;
-        
+        $this->assertEquals('js/fakePath/views/js/', $map[$this->libId]['path']);
+
+        return $this->libId;
     }
     
     /**
      * Test:
      *  - {@link ClientLibRegistry::remove}
-     *  
+     *
      * @depends testRegister
      */
     public function testRemove($libId)

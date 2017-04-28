@@ -59,7 +59,7 @@ class MessagingServiceTest extends \PHPUnit_Framework_TestCase
     
     public function testIsAvailable()
     {
-        $transportMock = $this->getMock('oat\tao\model\messaging\Transport');
+        $transportMock = $this->getMockBuilder('oat\tao\model\messaging\Transport');
         $messagingService = $this->getMessagingService($transportMock);
         
         $this->assertTrue($messagingService->isAvailable());
