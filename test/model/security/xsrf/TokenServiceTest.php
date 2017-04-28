@@ -51,8 +51,6 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
         ]);
     }
 
-    /**
-     */
     public function testCreateToken()
     {
         $store = $this->getStoreMock();
@@ -65,8 +63,19 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
         $token = $service->createToken();
         $this->assertEquals(40, strlen($token), 'The token has the expected length');
         $this->assertRegExp('/^[0-9a-f]{40}$/', $token, 'The token is correctly formatted');
+        $this->assertEquals($store->getTokens()[0]['token'], $token, 'The store contains the correct token');
 
         $this->assertEquals(1, count($store->getTokens()), 'The store contains now one token');
+
+        $token2 = $service->createToken();
+
+        $this->assertEquals(40, strlen($token2), 'The token has the expected length');
+        $this->assertRegExp('/^[0-9a-f]{40}$/', $token2, 'The token is correctly formatted');
+        $this->assertEquals($store->getTokens()[1]['token'], $token2, 'The store contains the correct token');
+
+        $this->assertEquals(2, count($store->getTokens()), 'The store contains now two tokens');
+
+        $this->assertFalse($token == $token2, 'The tokens are differents');
     }
 
     public function testPoolSize()
@@ -169,7 +178,7 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
         $this->assertFalse($service->checkToken($token2), 'This token is not valid anymore');
     }
 
-    public function tesTimeLimit()
+    public function testTimeLimit()
     {
         $store = $this->getStoreMock();
         $service = new TokenService([
@@ -187,14 +196,19 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
         sleep(1);
 
         $token2 = $service->createToken();
-        $this->assertEquals(2, count($store->getTokens()), 'The store contains only one token, the 1st has been invalidated');
+        $this->assertEquals(2, count($store->getTokens()), 'The store contains the two tokens');
         $this->assertTrue($service->checkToken($token1), 'This first token is valid');
         $this->assertTrue($service->checkToken($token2), 'This second token is also valid');
 
         sleep(1);
 
         $this->assertFalse($service->checkToken($token1), 'This first token is not valid anymore');
-        $this->assertFalse($service->checkToken($token2), 'This second token is not valid anymore');
+        $this->assertTrue($service->checkToken($token2), 'This second token is still valid');
+
+        sleep(1);
+
+        $this->assertFalse($service->checkToken($token1), 'This first token is not valid');
+        $this->assertFalse($service->checkToken($token2), 'This second token is not valid');
     }
 
     protected function getStoreMock()
