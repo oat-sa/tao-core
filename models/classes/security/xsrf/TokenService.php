@@ -44,13 +44,16 @@ class TokenService extends ConfigurableService
     const TIME_LIMIT_OPT = 'timeLimit';
     const STORE_OPT      = 'store';
 
+    const DEFAULT_POOL_SIZE = 10;
+    const DEFAULT_TIME_LIMIT = 0;
+
     /**
      * Create a new TokenService
      *
      * @param array $options the configurations options
      *              - `poolSize` to limit the number of active tokens (0 means unlimited - default to 10)
      *              - `timeLimit` to limit the validity of tokens, in seconds (0 means unlimited - default 0)
-     *              - `store` the TokenStore were the tokens are stored
+     *              - `store` the TokenStore where the tokens are stored
      * @throws InvalidService
      */
     public function __construct($options = [])
@@ -170,9 +173,10 @@ class TokenService extends ConfigurableService
                 return $a['ts'] < $b['ts'] ? -1 : 1;
             });
 
+            //remove the elements at the begining to fit the pool size
             while(count($reduced) >= $this->getPoolSize()){
                 array_shift($reduced);
-            }
+           }
         }
         return $reduced;
     }
@@ -183,7 +187,7 @@ class TokenService extends ConfigurableService
      */
     protected function getPoolSize()
     {
-        $poolSize = 10;
+        $poolSize = self::DEFAULT_POOL_SIZE;
         if($this->hasOption(self::POOL_SIZE_OPT)){
             $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
         }
@@ -196,7 +200,7 @@ class TokenService extends ConfigurableService
      */
     protected function getTimeLimit()
     {
-        $timeLimit = 0;
+        $timeLimit = self::DEFAULT_TIME_LIMIT;
         if($this->hasOption(self::TIME_LIMIT_OPT)){
             $timeLimit = (int)$this->getOption(self::TIME_LIMIT_OPT);
         }
