@@ -35,10 +35,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '8.5.2',
+    'version' => '9.2.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=3.17.0',
+        'generis' => '>=3.27.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -147,14 +147,8 @@ return array(
         #BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL.'tao/',
 
-        #BASE WWW the web resources path
-        'BASE_WWW' => ROOT_URL . 'tao/views/',
-
          #TPL PATH the path to the templates
          'TPL_PATH' => $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
-
-        #STUFF that belongs in TAO
-        'TAOBASE_WWW' => ROOT_URL . 'tao/views/'
     ),
     'extra' => array(
         'structures' => $extpath.'actions'.DIRECTORY_SEPARATOR.'structures.xml',

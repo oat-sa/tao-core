@@ -4,9 +4,8 @@ namespace oat\tao\test\model\metadata\import;
 
 use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\writer\ontologyWriter\PropertyWriter;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-class PropertyWriterTest extends TaoPhpUnitTestRunner
+class PropertyWriterTest extends \PHPUnit_Framework_TestCase
 {
     public function testWrite()
     {

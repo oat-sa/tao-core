@@ -21,9 +21,8 @@
 namespace oat\tao\test\model\textConverter;
 
 use oat\tao\model\textConverter\TextConverterService;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-class textConverterServiceTest extends TaoPhpUnitTestRunner
+class textConverterServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGet()
     {
