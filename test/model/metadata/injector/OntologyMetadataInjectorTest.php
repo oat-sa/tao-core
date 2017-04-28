@@ -10,9 +10,8 @@ use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\injector\OntologyMetadataInjector;
 use oat\tao\model\metadata\reader\Reader;
 use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-class OntologyMetadataInjectorTest extends TaoPhpUnitTestRunner
+class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
 {
     protected function getOntologyMetadataInjectorMock($methods=[])
     {
