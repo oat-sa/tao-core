@@ -71,7 +71,10 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		} else {
 		    $sourceForm->getElement('source')->feed();
     		$fileInfo = $sourceForm->getValue('source');
-    	    $file = $fileInfo['uploaded_file'];
+
+            /** @var UploadService $uploadService */
+            $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
+            $file = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
 	    }
 	    
 		$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
@@ -124,7 +127,7 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
         $options = $form->getValues();
 
         /** @var UploadService $uploadService */
-        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+        $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
         $options['file'] = $uploadService->getUploadedFile($options['importFile']);
 
 		// Clean "csv_select" values from form view.
@@ -158,5 +161,13 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
         $result = parent::importFile($class, $options);
 
         return $result;
+    }
+
+    /**
+     * @return ServiceManager
+     */
+    private function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }
