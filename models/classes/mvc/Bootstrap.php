@@ -109,9 +109,9 @@ class Bootstrap implements ServiceManagerAwareInterface
         // To be removed when getServiceManager will disappear
         ServiceManager::setServiceManager($serviceManager);
 
-//        common_Profiler::singleton()->register();
+        common_Profiler::singleton()->register();
 
-		if(PHP_SAPI == 'cli'){
+		if (PHP_SAPI == 'cli'){
 			tao_helpers_Context::load('SCRIPT_MODE');
 		} else{
 			tao_helpers_Context::load('APP_MODE');

@@ -774,9 +774,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('8.2.0');
         }
 
-        $this->skip('8.2.0', '10.0.0');
+        $this->skip('8.2.0', '9.1.1');
 
-        if($this->isVersion('10.1.0')){
+        if($this->isVersion('9.1.1')){
             $this->getServiceManager()->register(TokenService::SERVICE_ID, new TokenService([
                 'store' => new TokenStoreSession(),
                 'poolSize' => 10,
@@ -785,6 +785,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
+        $this->skip('9.2.0', '10.0.0');
     }
 
     private function migrateFsAccess() {
