@@ -18,9 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -28,7 +26,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  
  */
-class EventsServiceTestCase extends TaoPhpUnitTestRunner {
+class EventsServiceTestCase extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * @var tao_models_classes_EventsService
@@ -44,7 +42,6 @@ class EventsServiceTestCase extends TaoPhpUnitTestRunner {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		TaoPhpUnitTestRunner::initTest();
 		$this->eventsService = tao_models_classes_EventsService::singleton();
 		$this->eventFile = dirname(__FILE__).'/samples/events.xml';
 	}
@@ -56,8 +53,8 @@ class EventsServiceTestCase extends TaoPhpUnitTestRunner {
 	public function testService(){
 		
 		
-		$this->assertIsA($this->eventsService , 'tao_models_classes_Service');
-		$this->assertIsA($this->eventsService , 'tao_models_classes_EventsService');	
+		$this->assertInstanceOf('tao_models_classes_Service', $this->eventsService );
+		$this->assertInstanceOf('tao_models_classes_EventsService', $this->eventsService);
 		$this->assertTrue(file_exists($this->eventFile));
 	}
 	
