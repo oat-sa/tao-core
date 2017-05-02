@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\mvc\psr7\executor;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
@@ -37,6 +39,6 @@ interface ExecutorInterface {
      * @param object $controller
      * @param object $response
      */
-    public function render($controller , $response = null);
+    public function render($controller, $implicitContent , ResponseInterface $response = null);
     
 }

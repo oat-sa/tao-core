@@ -58,6 +58,7 @@ class ActionEnforcer implements IExecutable
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
+
     }
     
     protected function getExtensionId() {
@@ -125,7 +126,7 @@ class ActionEnforcer implements IExecutable
 	        // search parameters method
 	        $reflect	= new ReflectionMethod($controller, $action);
 	        $parameters	= $this->getParameters();
-                $parameters['request'] =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+            $parameters['request'] =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 	        $tabParam 	= array();
 	        foreach($reflect->getParameters() as $param) {
 	            if (isset($parameters[$param->getName()])) {

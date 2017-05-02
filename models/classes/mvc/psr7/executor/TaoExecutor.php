@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\mvc\psr7\executor;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  *
  * @author Christophe GARCIA <christopheg@taotesting.com>
@@ -29,12 +31,20 @@ class TaoExecutor implements ExecutorInterface {
         return is_a($controller, \tao_actions_CommonModule::class);
     }
 
-    public function render($controller, $response = null) {
+    public function render($controller, $implicitContent , ResponseInterface $response = null) {
+
+        $content = $implicitContent;
+
         if ($controller->hasView()) {
+
             $renderer = $controller->getRenderer();
-            echo $renderer->render();
+            $content .= $renderer->render();
+
         }
-        return $controller;
+
+        $response->getBody()->write($content);
+
+        return $response;
     }
 
 }

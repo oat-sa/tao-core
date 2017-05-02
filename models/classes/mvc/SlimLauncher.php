@@ -19,10 +19,12 @@
 
 namespace oat\tao\model\mvc;
 
+use Interop\Container\ContainerInterface;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\middleware\TaoAuthenticate;
 use oat\tao\model\mvc\middleware\TaoControllerExecution;
 use oat\tao\model\mvc\middleware\TaoResolver;
+use oat\tao\model\mvc\middleware\TaoRestAuthenticate;
 use oat\tao\model\mvc\psr7\Context;
 use oat\tao\model\mvc\psr7\Resolver;
 use Slim\App;
@@ -35,23 +37,23 @@ class SlimLauncher {
 
     /**
      * configure slim Container
-     * @return Container
+     * @return ContainerInterface
      */
     protected function configureContainer() {
+
         $container = new Container();
-        /**
-         * @todo change factory to invokables
-         * Actually, a new instance is return each time
-         */
-        $container['resolver'] = function () {
-            return new Resolver();
+
+        $container['context'] = function ($container) {
+            $context = new Context();
+            return $context;
         };
 
-        $container['context'] = function () {
-            return new Context();
+        $container['resolver'] = function ($container) {
+            $resolver = new Resolver();
+            return $resolver;
         };
 
-        $container['taoService'] = function () {
+        $container['taoService'] = function ($container) {
             return ServiceManager::getServiceManager();
         };
 
@@ -66,9 +68,12 @@ class SlimLauncher {
         /**
          * @todo use configurable route prefix to support subdirectory install
          */
-        $slimApplication->map(['GET', 'POST'] , '/[{relativeUri}]' , TaoResolver::class)
-            ->add( TaoAuthenticate::class );
-        //->add( TaoControllerExecution::class);
+
+        $slimApplication->map(['GET', 'POST'] , '/[{relativeUrl:.*}]' , TaoResolver::class)
+            ->add( TaoRestAuthenticate::class )
+            ->add( TaoAuthenticate::class )
+            ->add( TaoControllerExecution::class);
+
         return $slimApplication->run();
 
     }

@@ -32,17 +32,21 @@ class ActionExecutor
     implements ActionExecutorInterface
 {
     
-    public function execute($controller, $response = null) {
-        
+    public function execute($controller , $implicitContent, $response = null) {
+
         $executorList = $this->getOption('executor');
         
         foreach ($executorList as $executorClass) {
             /* @var $executor ExecutorInterface  */
             $executor = new $executorClass();
+
             if($executor->isExecutable($controller)) {
-                return $executor->render($controller, $response);
+                $response =  $executor->render($controller , $implicitContent, $response);
+
             }
         }
+
+        return $response;
     }
     
 }

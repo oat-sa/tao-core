@@ -112,10 +112,12 @@ class FlowController
 
         header(\HTTPToolkit::statusCodeHeader($statusCode));
         header(\HTTPToolkit::locationHeader($url));
-
+        /**
         throw new InterruptedActionException('Interrupted action after a redirection',
             $context->getModuleName(),
             $context->getActionName());
+         */
+        exit;
     }
 
     /**

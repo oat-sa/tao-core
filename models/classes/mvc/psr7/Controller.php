@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\mvc\psr7;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * psr7 request controller
  * @author Christophe GARCIA <christopheg@taotesting.com>
@@ -82,7 +84,7 @@ class Controller extends \tao_actions_CommonModule {
     }
     
     /**
-     * @return clearfw\Response
+     * @return ResponseInterface
      */
     public function sendResponse($response = null) {
         if($this->hasView()) {
@@ -97,7 +99,7 @@ class Controller extends \tao_actions_CommonModule {
         $body     = \GuzzleHttp\Psr7\stream_for($view);
         $response = $response->withBody($body);
         
-        return $this->getResponse()->send($response);
+        return $response;
     }
     
 }

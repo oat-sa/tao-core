@@ -25,6 +25,9 @@ use oat\tao\model\mvc\psr7\Resolver;
 
 class Context {
 
+    protected $extensionName;
+    protected $moduleName;
+    protected $actionName;
     /**
      * @var Request
      */

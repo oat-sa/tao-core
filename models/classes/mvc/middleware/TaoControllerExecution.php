@@ -20,11 +20,13 @@
 
 namespace oat\tao\model\mvc\middleware;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\psr7\ActionExecutor;
 use oat\tao\model\mvc\psr7\InterruptedActionException;
 use oat\tao\model\mvc\psr7\Resolver;
 use oat\tao\model\routing\ActionEnforcer;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
 
 /**
  * execute tao controller
@@ -39,30 +41,53 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         /**
          * @var $resolver Resolver
          */
+
+
         $resolver = $this->container->get('resolver');
         $resolver->setRequest($request);
 
         try {
-            ob_start();
-            $params   = array_merge($request->getParsedBody() , $request->getQueryParams());
-            /**
-             * @todo report usable part of ActionEnforcer
-             */
-            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-            $controller = $enforcer->execute();
-            $implicitContent = ob_get_clean();
-            return $this->response( $controller , $implicitContent , $response);
+            $post = $request->getParsedBody();
+            if(is_null($post)) {
+                $post = [];
+            }
 
-        } catch (InterruptedActionException $iE) {
-            /**
-             * @todo
-             */
+            $params   = array_merge($request->getQueryParams() , $post);
+            $params['request'] = $request;
+            $params['response'] = $response;
+
+            $controllerClass = $resolver->getControllerClass();
+            $action = $resolver->getMethodName();
+
+            ob_start();
+            $controller = new $controllerClass();
+            call_user_func_array(array($controller, $action), $params);
+            $implicitContent = ob_get_contents();
+            ob_clean();
+            $response = $this->response( $controller , $implicitContent , $response);
+
+        } catch (\Exception $iE) {
+
         }
+
+        return  $this->convertHeaders($response);
+    }
+
+    protected function convertHeaders(ResponseInterface $response) {
+
+        $headers = headers_list();
+
+        foreach ($headers as $header) {
+            list($name , $value) = explode(':' , $header);
+            $response = $response->withHeader($name , trim($value));
+
+        }
+
+        header_remove();
         return $response;
     }
 
     /**
-     * @todo this must return a PSR7 response
      * @param $controller
      * @param $implicitContent
      * @param ResponseInterface $response
@@ -73,11 +98,8 @@ class TaoControllerExecution extends AbstractTaoMiddleware
          * @var $executor ActionExecutor
          */
         $executor = $this->getContainer()->get('taoService')->get(ActionExecutor::SERVICE_ID);
-        /**
-         * @todo ActionExecutor::execute must return a PSR7 response
-         */
-        $executor->execute($controller , $response);
-        echo $implicitContent;
+        $response = $executor->execute($controller , $implicitContent , $response);
+
         return $response;
     }
 

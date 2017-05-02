@@ -1,66 +1,101 @@
 <?php
-/*
- * This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU General Public License
- *  as published by the Free Software Foundation; under version 2
- *  of the License (non-upgradable).
- *
- * This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- *  Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+/**
+ * Created by PhpStorm.
+ * User: christophe
+ * Date: 28/04/17
+ * Time: 10:00
  */
 
 namespace oat\tao\model\mvc\middleware;
 
+
+use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\accessControl\data\PermissionException;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\mvc\psr7\Resolver;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Middleware to resolve route to controller
- * Class TaoResolver
- * @package oat\tao\model\mvc\middleware
- */
-class TaoAuthenticate extends AbstractTaoMiddleware
-{
+class TaoAuthenticate extends AbstractTaoMiddleware {
 
-    public function __invoke( $request,  $response,  $arg)
+    protected $extension;
+
+    protected $controller;
+
+    protected $action;
+
+    protected $parameters;
+
+    protected function getExtensionId() {
+        return $this->extension;
+    }
+
+    protected function getControllerClass() {
+        return $this->controller;
+    }
+
+    protected function getAction() {
+        return $this->action;
+    }
+
+    protected function getParameters() {
+        return $this->parameters;
+    }
+
+    protected function getController()
     {
+        $controllerClass = $this->getControllerClass();
+        if(class_exists($controllerClass)) {
+            return new $controllerClass();
+        } else {
+            throw new \ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
+        }
+    }
+
+    protected function init($request) {
         /**
          * @var $resolver Resolver
          */
         $resolver = $this->container->get('resolver');
         $resolver->setRequest($request);
-        //if the controller is a rest controller we try to authenticate the user
-        $controllerClass = $resolver->getControllerClass();
 
-        if (is_subclass_of($controllerClass, \tao_actions_RestController::class)) {
-            $authAdapter = new \tao_models_classes_HttpBasicAuthAdapter(\common_http_Request::currentRequest());
-            try {
-                $user = $authAdapter->authenticate();
-                $session = new \common_session_RestSession($user);
-                \common_session_SessionManager::startSession($session);
-            } catch (\common_user_auth_AuthFailedException $e) {
-                /**
-                 * @todo change for prs7 response
-                 */
-                $data['success'] = false;
-                $data['errorCode'] = '401';
-                $data['errorMsg'] = 'You are not authorized to access this functionality.';
-                $data['version'] = TAO_VERSION;
+        $this->extension = $resolver->getExtensionId();
+        $this->controller = $resolver->getControllerClass();
+        $this->action = $resolver->getMethodName();
 
-                header('HTTP/1.0 401 Unauthorized');
-                header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
-                echo json_encode($data);
-                exit(0);
+        $post = $request->getParsedBody();
+        if(is_null($post)) {
+            $post = [];
+        }
+
+        $params   = array_merge($request->getQueryParams() , $post);
+
+        $this->parameters = $params;
+    }
+
+    protected function verifyAuthorization() {
+        $user = \common_session_SessionManager::getSession()->getUser();
+        if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
+            $func  = new FuncProxy();
+            $data  = new DataAccessControl();
+            //now go into details to see which kind of permissions are not correct
+            if($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) &&
+                !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())){
+
+                throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
             }
+
+            throw new \tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+        }
+    }
+
+    public function __invoke( $request,  $response,  $args) {
+
+        $this->init($request);
+        // Are we authorized to execute this action?
+        try {
+            $this->verifyAuthorization();
+        } catch(PermissionException $pe){
+            return $response->withStatus(403)->withHeader('Location' , '/tao/Permission/denied');
         }
 
         return $response;

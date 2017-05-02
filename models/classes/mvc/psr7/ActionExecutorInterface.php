@@ -26,6 +26,6 @@ interface ActionExecutorInterface {
     
     const SERVICE_ID = 'tao/action';
     
-    public function execute($controller , $response); 
+    public function execute($controller , $implicitContent , $response);
     
 }

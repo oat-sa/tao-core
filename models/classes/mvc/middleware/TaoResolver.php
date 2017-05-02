@@ -39,6 +39,7 @@ class TaoResolver extends AbstractTaoMiddleware
         $resolver = $this->container->get('resolver');
         $resolver->setRequest($request);
         $extId = $resolver->getExtensionId();
+
         // load the responsible extension
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
         $this->container->get('context')->setExtensionName($resolver->getExtensionId());
@@ -46,7 +47,6 @@ class TaoResolver extends AbstractTaoMiddleware
         $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
         \tao_helpers_I18n::init($ext, $uiLang);
         return $response;
-
     }
 
 }

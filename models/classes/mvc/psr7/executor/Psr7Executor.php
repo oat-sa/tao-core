@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\mvc\psr7\executor;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Description of psr7Render
  *
@@ -30,10 +32,9 @@ class Psr7Executor implements ExecutorInterface {
         return is_a($controller, \oat\tao\model\mvc\psr7\Controller::class);
     }
 
-    public function render($controller, $response = null) {
+    public function render($controller, $implicitContent , ResponseInterface $response = null) {
         /* @var $controller \oat\tao\model\mvc\psr7\Controller */
         return $controller->sendResponse($response);
     }
 
-//put your code here
 }
