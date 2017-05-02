@@ -89,20 +89,19 @@ class Bootstrap implements ServiceManagerAwareInterface
 	{
 	    if ($configuration instanceof ServiceManager) {
             $serviceManager = $configuration;
-        } elseif (is_string($configuration) && is_readable($configuration)) {
-            require_once $configuration;
-            $persistence = (new ServiceConfigDriver())->connect('config', array(
-                'dir' => ROOT_PATH . 'config/',
-                'humanReadable' => true
-            ));
-            $serviceManager = new ServiceManager($persistence);
         } else {
-            try{
-                $this->putPlatformOnMaintenance();
-            } catch(Exception $e){
-                $this->catchError($e);
+            $serviceManager = $this->getDefaultServiceManager();
+            if (is_string($configuration) && is_readable($configuration)) {
+                require_once $configuration;
+            } else {
+                $this->setServiceLocator($serviceManager);
+                try{
+                    $this->putPlatformOnMaintenance();
+                } catch(Exception $e){
+                    $this->catchError($e);
+                }
+                return;
             }
-            return;
         }
 
         $this->setServiceLocator($serviceManager);
@@ -111,7 +110,7 @@ class Bootstrap implements ServiceManagerAwareInterface
 
         common_Profiler::singleton()->register();
 
-		if (PHP_SAPI == 'cli'){
+		if(PHP_SAPI == 'cli'){
 			tao_helpers_Context::load('SCRIPT_MODE');
 		} else{
 			tao_helpers_Context::load('APP_MODE');
@@ -378,5 +377,25 @@ class Bootstrap implements ServiceManagerAwareInterface
     protected function getMaintenanceService()
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
+    }
+
+    /**
+     * Get the default service manager with default root config folder
+     *
+     * @return ServiceManager
+     */
+    protected function getDefaultServiceManager()
+    {
+        return new ServiceManager(
+            (new ServiceConfigDriver())->connect('config', array(
+                'dir' => __DIR__ . DIRECTORY_SEPARATOR .
+                    '..' . DIRECTORY_SEPARATOR .
+                    '..' . DIRECTORY_SEPARATOR .
+                    '..' . DIRECTORY_SEPARATOR .
+                    '..' . DIRECTORY_SEPARATOR .
+                    'config' . DIRECTORY_SEPARATOR,
+                'humanReadable' => true
+            ))
+        );
     }
 }
