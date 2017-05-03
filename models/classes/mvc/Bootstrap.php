@@ -87,7 +87,6 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
 	public function __construct($configuration, $options = array())
 	{
-	    echo $configuration;
 	    if ($configuration instanceof ServiceManager) {
             $serviceManager = $configuration;
         } else {
