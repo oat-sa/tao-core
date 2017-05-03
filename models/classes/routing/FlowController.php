@@ -29,6 +29,7 @@ use HTTPToolkit;
 use InterruptedActionException;
 use Context;
 use FlowController as ClearFwFlowController;
+use oat\oatbox\service\ServiceManager;
 use tao_helpers_Uri;
 
 /**
@@ -90,6 +91,7 @@ class FlowController extends ClearFwFlowController
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
+        $enforcer->setServiceLocator(ServiceManager::getServiceManager());
         $enforcer->execute();
 
         //should not be reached
