@@ -87,14 +87,20 @@ class Bootstrap implements ServiceManagerAwareInterface
      */
 	public function __construct($configuration, $options = array())
 	{
+	    echo $configuration;
 	    if ($configuration instanceof ServiceManager) {
             $serviceManager = $configuration;
         } else {
-            $serviceManager = $this->getDefaultServiceManager();
             if (is_string($configuration) && is_readable($configuration)) {
                 require_once $configuration;
+                $serviceManager = new ServiceManager(
+                    (new ServiceConfigDriver())->connect('config', array(
+                        'dir' => dirname($configuration),
+                        'humanReadable' => true
+                    ))
+                );
             } else {
-                $this->setServiceLocator($serviceManager);
+                // Should never occurred
                 try{
                     $this->putPlatformOnMaintenance();
                 } catch(Exception $e){
@@ -377,25 +383,5 @@ class Bootstrap implements ServiceManagerAwareInterface
     protected function getMaintenanceService()
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
-    }
-
-    /**
-     * Get the default service manager with default root config folder
-     *
-     * @return ServiceManager
-     */
-    protected function getDefaultServiceManager()
-    {
-        return new ServiceManager(
-            (new ServiceConfigDriver())->connect('config', array(
-                'dir' => __DIR__ . DIRECTORY_SEPARATOR .
-                    '..' . DIRECTORY_SEPARATOR .
-                    '..' . DIRECTORY_SEPARATOR .
-                    '..' . DIRECTORY_SEPARATOR .
-                    '..' . DIRECTORY_SEPARATOR .
-                    'config' . DIRECTORY_SEPARATOR,
-                'humanReadable' => true
-            ))
-        );
     }
 }
