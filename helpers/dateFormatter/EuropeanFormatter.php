@@ -26,6 +26,8 @@ use DateTime;
 use DateTimeZone;
 use common_Logger;
 use common_session_SessionManager;
+use oat\oatbox\service\ConfigurableService;
+
 /**
  * Utility to display dates.
  *
@@ -33,7 +35,7 @@ use common_session_SessionManager;
  * @package tao
  *         
  */
-class EuropeanFormatter extends Configurable implements Formatter
+class EuropeanFormatter extends ConfigurableService implements Formatter
 {
 
     public function format($timestamp, $format, DateTimeZone $timeZone = null)

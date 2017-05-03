@@ -22,6 +22,9 @@
 namespace oat\tao\model\mvc;
 
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceConfigDriver;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
@@ -34,7 +37,6 @@ use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Request;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 
@@ -59,8 +61,10 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap {
-    
+class Bootstrap implements ServiceManagerAwareInterface
+{
+    use ServiceManagerAwareTrait;
+
     const CONFIG_SESSION_HANDLER = 'session';
 
 	/**
@@ -73,22 +77,47 @@ class Bootstrap {
 	 */
 	protected static $isDispatched = false;
 
-	/**
-	 * Initialize the context
-	 * @param string $configFile
-	 * @param array $options
-	 */
-	public function __construct($configFile, $options = array())
+    /**
+     * Bootstrap constructor.
+     *
+     * Initialize the context
+     *
+     * @param $configuration
+     * @param array $options
+     */
+	public function __construct($configuration, $options = array())
 	{
-	    
-	    require_once $configFile;
-	    
-	    common_Profiler::singleton()->register();
+	    if ($configuration instanceof ServiceManager) {
+            $serviceManager = $configuration;
+        } else {
+            if (is_string($configuration) && is_readable($configuration)) {
+                require_once $configuration;
+                $serviceManager = new ServiceManager(
+                    (new ServiceConfigDriver())->connect('config', array(
+                        'dir' => dirname($configuration),
+                        'humanReadable' => true
+                    ))
+                );
+            } else {
+                // Should never occurred
+                try{
+                    $this->putPlatformOnMaintenance();
+                } catch(Exception $e){
+                    $this->catchError($e);
+                }
+                return;
+            }
+        }
+
+        $this->setServiceLocator($serviceManager);
+        // To be removed when getServiceManager will disappear
+        ServiceManager::setServiceManager($serviceManager);
+
+        common_Profiler::singleton()->register();
 
 		if(PHP_SAPI == 'cli'){
 			tao_helpers_Context::load('SCRIPT_MODE');
-		}
-		else{
+		} else{
 			tao_helpers_Context::load('APP_MODE');
 		}
 
@@ -151,33 +180,43 @@ class Bootstrap {
 	            $this->scripts();
 	        }
 	    }
-	    
+
 	    //Catch all exceptions
 	    try{
-	        //the app is ready
+	        //the app is ready, process mvc
 	        if($this->isReady()){
 	            $this->mvc();
 	        }
-	        //the app is not ready
-	        else{
-	            //the request is not an ajax request, redirect the user to the maintenance page
-	            if(!$isAjax){
-	                require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-	                //else throw an exception, this exception will be send to the client properly
-	            }
-	            else{
-	    
-	                throw new \common_exception_SystemUnderMaintenance();
-	            }
+	        //the app is not ready, put platform on maintenance
+	        else {
+	            $this->putPlatformOnMaintenance();
 	        }
 	    }
 	    catch(Exception $e){
-	        $this->catchError($e);
+            $this->catchError($e);
 	    }
 	    
 	    // explicitly close session
 	    session_write_close();
 	}
+
+    /**
+     * Put the platform on maintenance
+     * Redirect to maintenance page if http call is not ajax
+     * Otherwise throw common_exception_SystemUnderMaintenance
+     *
+     * @throws \common_exception_SystemUnderMaintenance
+     */
+	protected function putPlatformOnMaintenance()
+    {
+        //the request is not an ajax request, redirect the user to the maintenance page
+        if (! tao_helpers_Request::isAjax()) {
+            require_once Template::getTemplate('error/maintenance.tpl', 'tao');
+            //else throw an exception, this exception will be send to the client properly
+        } else{
+            throw new \common_exception_SystemUnderMaintenance();
+        }
+    }
 	
         
 	protected function dispatchCli()
@@ -190,6 +229,7 @@ class Bootstrap {
 	    } else {
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
+            $this->getServiceLocator()->propagate($cliController);
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
@@ -224,7 +264,7 @@ class Bootstrap {
      */
     protected function catchError(Exception $exception)
     {
-        $exceptionInterpreterService = $this->getServiceManager()->get(ExceptionInterpreterService::SERVICE_ID);
+        $exceptionInterpreterService = $this->getServiceLocator()->get(ExceptionInterpreterService::SERVICE_ID);
         $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
         $interpretor->getResponse()->send();
     }
@@ -299,13 +339,15 @@ class Bootstrap {
 
 	/**
 	 *  Start the MVC Loop from the ClearFW
-	 *  @throws ActionEnforcingException in case of wrong module or action
-	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
+     *
+	 *  @throws \ActionEnforcingException in case of wrong module or action
+	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
 	 */
     protected function mvc()
     {
         $re = \common_http_Request::currentRequest();
         $fc = new TaoFrontController();
+        $this->getServiceLocator()->propagate($fc);
         $fc->legacy($re);
     }
 
@@ -315,7 +357,7 @@ class Bootstrap {
      */
     protected function scripts()
     {
-        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+        $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
         $cssFiles = [
             $assetService->getAsset('css/layout.css', 'tao'),
             $assetService->getAsset('css/tao-main-style.css', 'tao'),
@@ -339,11 +381,6 @@ class Bootstrap {
      */
     protected function getMaintenanceService()
     {
-        return $this->getServiceManager()->get(Maintenance::SERVICE_ID);
+        return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
-
-	private function getServiceManager()
-	{
-	    return ServiceManager::getServiceManager();
-	}
 }

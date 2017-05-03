@@ -23,8 +23,9 @@
 use oat\oatbox\action\Action;
 use common_report_Report as Report;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\oatbox\extension\AbstractAction;
 
-class tao_install_Setup implements Action
+class tao_install_Setup extends AbstractAction
 {
     public function __invoke($params)
     {
@@ -197,12 +198,17 @@ class tao_install_Setup implements Action
             $options['user_email'] = $parameters['email'];
         }
 
+        $installOptions = array(
+            'root_path' 	=> $options['root_path'],
+            'install_path'	=> $options['root_path'].'tao/install/',
+        );
+
+        if (isset($global['installation_config_path'])) {
+            $installOptions['installation_config_path'] = $global['installation_config_path'];
+        }
 
         // run the actual install
-        $installator = new \tao_install_Installator (array(
-            'root_path' 	=> $options['root_path'],
-            'install_path'	=> $options['root_path'].'tao/install/'
-        ));
+        $installator = new \tao_install_Installator ($installOptions);
 
         $serviceManager = $installator->getServiceManager();
 
@@ -218,7 +224,6 @@ class tao_install_Setup implements Action
                 }
             }
         }
-
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
         $installator->install($options);

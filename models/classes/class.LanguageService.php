@@ -35,20 +35,13 @@ use oat\tao\helpers\translation\rdf\RdfPack;
 class tao_models_classes_LanguageService
     extends tao_models_classes_GenerisService
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
      * Short description of method createLanguage
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string code
-     * @return core_kernel_classes_Resource
+     * @param  string $code
+     * @throws common_exception_Error
      */
     public function createLanguage($code)
     {
@@ -89,12 +82,11 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource language
+     * @param  core_kernel_classes_Resource $language
      * @return string
      */
     public function getCode( core_kernel_classes_Resource $language)
     {
-        $returnValue = (string) '';
         $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
         $returnValue = $language->getUniquePropertyValue($valueProperty);
         return (string) $returnValue;
@@ -105,12 +97,11 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource usage
+     * @param  core_kernel_classes_Resource $usage
      * @return array
      */
     public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
     {
-        $returnValue = array();
     	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 	    $returnValue = $langClass->searchInstances(array(
 	    	PROPERTY_LANGUAGE_USAGES => $usage->getUri()
@@ -179,7 +170,7 @@ class tao_models_classes_LanguageService
                         common_Logger::d('Actual File is more recent, skip ' . $langCode);
                     }
                 }
-            } catch (common_excpetion_Error $e) {
+            } catch (common_exception_Error $e) {
                 
                 common_Logger::e('Failure: ' . $e->getMessage());
             }
@@ -194,8 +185,8 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource usage
-     * @return core_kernel_classes_Resource
+     * @param  core_kernel_classes_Resource $usage
+     * @throws common_exception_Error
      */
     public function getDefaultLanguageByUsage( core_kernel_classes_Resource $usage)
     {

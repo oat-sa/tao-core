@@ -108,7 +108,6 @@ class tao_scripts_TaoInstall
     public function run()
     {
         
-        
     	$this->outVerbose("TAO is being installed. Please wait...");
     	try{
 	        $rootDir = dir(dirname(__FILE__) . '/../../');
