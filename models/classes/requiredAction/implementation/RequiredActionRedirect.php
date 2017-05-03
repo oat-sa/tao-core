@@ -25,6 +25,7 @@ use oat\tao\model\requiredAction\RequiredActionAbstract;
 use \Exception;
 use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\routing\FlowController;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * @deprecated use \oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart instead
@@ -88,6 +89,8 @@ class RequiredActionRedirect extends RequiredActionAbstract
             $url = $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . 'return_url=' . urlencode($currentUrl);
 
             $flowController = new FlowController();
+            // dirty quickfix
+            $flowController->setServiceLocator(ServiceManager::getServiceManager());
             $flowController->redirect($url);
         }
     }

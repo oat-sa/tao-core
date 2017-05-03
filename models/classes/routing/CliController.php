@@ -40,16 +40,11 @@ class CliController implements ServiceManagerAwareInterface
     use ServiceManagerAwareTrait;
 
     /**
-     * @var ActionService
-     */
-    protected $actionService;
-
-    /**
      * CliController constructor.
      */
-    public function __construct()
+    public function getActionService()
     {
-        $this->actionService = $this->getServiceLocator()->get(ActionService::SERVICE_ID);
+        return $this->getServiceLocator()->get(ActionService::SERVICE_ID);
     }
 
     /**
@@ -59,7 +54,7 @@ class CliController implements ServiceManagerAwareInterface
      */
     public function runAction($actionIdentifier, array $params = []) {
         try {
-            $action = $this->actionService->resolve($actionIdentifier);
+            $action = $this->getActionService()->resolve($actionIdentifier);
         } catch (\common_ext_ManifestNotFoundException $e) {
             $action = new Help(null);
         } catch (ResolutionException $e) {

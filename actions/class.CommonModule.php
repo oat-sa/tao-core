@@ -228,8 +228,7 @@ abstract class tao_actions_CommonModule extends Module
      */
 	public function forward($action, $controller = null, $extension = null, $params = array())
     {
-        $flow = new FlowController();
-        $flow->forward($action, $controller, $extension, $params);
+        $this->getFlowController()->forward($action, $controller, $extension, $params);
     }
 
     /**
@@ -238,8 +237,7 @@ abstract class tao_actions_CommonModule extends Module
      */
     public function forwardUrl($url)
     {
-        $flow = new FlowController();
-        $flow->forwardUrl($url);
+        $this->getFlowController()->forwardUrl($url);
     }
 
     /**
@@ -248,8 +246,17 @@ abstract class tao_actions_CommonModule extends Module
      */
 	public function redirect($url, $statusCode = 302)
     {
-        $flow = new FlowController();
-        $flow->redirect($url, $statusCode);
+        $this->getFlowController()->redirect($url, $statusCode);
+    }
+
+    /**
+     * @return \oat\tao\model\routing\FlowController
+     */
+    protected function getFlowController()
+    {
+        $controller = new FlowController();
+        $controller->setServiceLocator($this->getServiceManager());
+        return $controller;
     }
     
     /**

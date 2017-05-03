@@ -29,8 +29,9 @@ use HTTPToolkit;
 use InterruptedActionException;
 use Context;
 use FlowController as ClearFwFlowController;
-use oat\oatbox\service\ServiceManager;
 use tao_helpers_Uri;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 
 /**
  * The FlowController helps you to navigate through MVC actions.
@@ -38,8 +39,9 @@ use tao_helpers_Uri;
  * @author Jérôme Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
  * @author Bertrand Chevrier <Bertrand@taotestin.com>
  */
-class FlowController extends ClearFwFlowController
+class FlowController extends ClearFwFlowController implements ServiceManagerAwareInterface
 {
+    use ServiceManagerAwareTrait;
 
     /**
      * This header is added to the response to inform the client a forward occurs
@@ -91,7 +93,7 @@ class FlowController extends ClearFwFlowController
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-        $enforcer->setServiceLocator(ServiceManager::getServiceManager());
+        $enforcer->setServiceLocator($this->getServiceLocator());
         $enforcer->execute();
 
         //should not be reached
