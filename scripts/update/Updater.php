@@ -786,9 +786,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-        $this->skip('9.2.0', '9.3.1');
+        $this->skip('9.2.0', '9.3.2');
 
-        if($this->isVersion('9.3.1')) {
+        if($this->isVersion('9.3.2')) {
             $service = new \oat\tao\model\mvc\psr7\ActionExecutor(
                 [
                     'executor' =>
