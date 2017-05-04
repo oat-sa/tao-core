@@ -272,7 +272,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 */
 	protected function addPermissions($tree)
 	{
-	    $user = \common_Session_SessionManager::getSession()->getUser();
+	    $user = \common_session_SessionManager::getSession()->getUser();
 	     
 	    $section = MenuService::getSection(
 	        $this->getRequestParameter('extension'),
