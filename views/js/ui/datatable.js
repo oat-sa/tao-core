@@ -43,7 +43,14 @@ define([
         sortby: 'id',
         sortorder: 'asc',
         paginationStrategyTop: 'none',
-        paginationStrategyBottom: 'simple'
+        paginationStrategyBottom: 'simple',
+        labels: {
+            filter: __('Filter'),
+            empty: __('Nothing to list!'),
+            available: __('Available'),
+            loading: __('Loading'),
+            actions: __('Actions')
+        }
     };
 
     var logger = loggerFactory('ui/datatable');
@@ -106,6 +113,7 @@ define([
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
          * @param {String} options.paginationStrategyTop  - 'none' | 'pages' | 'simple' -- 'none' by default (next/prev), 'pages' show pages and extended control for pagination
          * @param {String} options.paginationStrategyBottom  - 'none' | 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
+         * @param {Object} options.labels - list of labels in datatable interface, that can be overridden by incoming options
          * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
