@@ -23,25 +23,20 @@ use Interop\Container\ContainerInterface;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\middleware\TaoAuthenticate;
 use oat\tao\model\mvc\middleware\TaoControllerExecution;
+use oat\tao\model\mvc\middleware\TaoErrorHandler;
 use oat\tao\model\mvc\middleware\TaoResolver;
 use oat\tao\model\mvc\middleware\TaoRestAuthenticate;
 use oat\tao\model\mvc\psr7\Context;
 use oat\tao\model\mvc\psr7\Resolver;
 use Slim\App;
-use Slim\Container;
 
-/**
- * @todo change for a service with options container and routes
- */
 class SlimLauncher {
 
     /**
      * configure slim Container
      * @return ContainerInterface
      */
-    protected function configureContainer() {
-
-        $container = new Container();
+    protected function configureContainer($container) {
 
         $container['context'] = function ($container) {
             $context = new Context();
@@ -57,14 +52,24 @@ class SlimLauncher {
             return ServiceManager::getServiceManager();
         };
 
+        $container['errorHandler'] = function ($container) {
+            return new TaoErrorHandler($container);
+        };
+
+        $container['phpErrorHandler'] = function ($container) {
+            return new TaoErrorHandler($container);
+        };
+
         return $container;
 
     }
 
     public function launch() {
 
-        $container = $this->configureContainer();
-        $slimApplication = new App($container);
+        $slimApplication = new App();
+
+        $this->configureContainer($slimApplication->getContainer());
+
         /**
          * @todo use configurable route prefix to support subdirectory install
          */

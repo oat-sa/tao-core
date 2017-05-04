@@ -46,9 +46,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @var tao_models_classes_Service
      */
     protected $service = null;
-    
+
     /**
-     * @return tao_models_classes_ClassService
+     * @return tao_models_classes_Service
+     * @throws common_exception_Error
      */
     protected function getClassService()
     {

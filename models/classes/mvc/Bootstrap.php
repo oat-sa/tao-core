@@ -21,12 +21,10 @@
  */
 namespace oat\tao\model\mvc;
 
-use GuzzleHttp\Psr7\ServerRequest;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
-use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
 use common_Profiler;
 use common_Logger;
@@ -35,7 +33,6 @@ use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Request;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 
