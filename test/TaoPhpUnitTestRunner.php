@@ -36,7 +36,7 @@ use Prophecy\Argument;
 /**
  * Help you to run the test into the TAO Context
  * @package tao
- 
+ * @deprecated
  */
 abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements ServiceLocatorAwareInterface
 {

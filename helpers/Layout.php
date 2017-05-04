@@ -150,7 +150,7 @@ class Layout{
         $bundleMode   = \tao_helpers_Mode::is('production');
         $configUrl    = get_data('client_config_url');
         $requireJsUrl = Template::js('lib/require.js', 'tao');
-        $bootstrapUrl = Template::js('loader/bootstrap', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 
@@ -248,7 +248,7 @@ class Layout{
             case 'demoA':
             case 'beta':
             case 'demoB':
-                $link = 'http://forge.taotesting.com/projects/tao';
+                $link = 'https://forum.taocloud.org/';
                 break;
         }
 
@@ -263,7 +263,7 @@ class Layout{
             case 'demoA':
             case 'beta':
             case 'demoB':
-                $message = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
+                $message = __('Please report bugs, ideas, comments or feedback on the TAO Forum');
                 break;
         }
         return $message;

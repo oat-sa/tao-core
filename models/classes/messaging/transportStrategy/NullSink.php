@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,19 +16,22 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\messaging\transportStrategy;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
-
-class NumericHelperTestCase extends TaoPhpUnitTestRunner {
-	public function testParseFloat() {
-		$this->assertEquals(10, tao_helpers_Numeric::parseFloat("10"));
-		$this->assertEquals(10, tao_helpers_Numeric::parseFloat("10g"));
-		$this->assertEquals(10.5, tao_helpers_Numeric::parseFloat("10.5"));
-		$this->assertEquals(10.5, tao_helpers_Numeric::parseFloat("10,5"));
-		$this->assertEquals(1105.5, tao_helpers_Numeric::parseFloat("1.105,5"));
-	}
+use oat\tao\model\messaging\Transport;
+use oat\tao\model\messaging\Message;
+use oat\oatbox\service\ConfigurableService;
+/**
+ * An implementation that drops messages
+ */
+class NullSink extends ConfigurableService implements Transport
+{
+    public function send(Message $message)
+    {
+        \common_Logger::i('Discarded message "'.$message->getTitle().'"');
+        return false;
+    }
 }

@@ -18,16 +18,14 @@
  * 
  */
 use oat\tao\helpers\DateIntervalMS;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
  * @package tao
  
  */
-class DurationHelperTest extends TaoPhpUnitTestRunner {
+class DurationHelperTest extends \PHPUnit_Framework_TestCase {
     
     /**
      * Data provider for the testTimetoDuration method

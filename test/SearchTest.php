@@ -23,13 +23,12 @@ use oat\tao\model\search\SearchService;
 use oat\tao\model\search\IndexService;
 use oat\tao\model\search\tokenizer\RawValue;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class SearchTestCase extends TaoPhpUnitTestRunner {
+class SearchTestCase extends \PHPUnit_Framework_TestCase {
     
     private $class;
     
@@ -41,7 +40,6 @@ class SearchTestCase extends TaoPhpUnitTestRunner {
     public function setUp()
     {		
         parent::setUp();
-		TaoPhpUnitTestRunner::initTest();
 		$rdfClass = new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
 		$this->class = $rdfClass->createSubClass('test class');
 		$this->property = $this->class->createProperty('test property');

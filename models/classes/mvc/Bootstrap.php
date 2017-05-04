@@ -25,6 +25,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
 use common_Profiler;
@@ -114,12 +115,13 @@ class Bootstrap {
 	}
 
     /**
-     * Check if the application is ready
-     * @return {boolean} Return true if the application is ready
+     * Check if the platform is ready
+     *
+     * @return boolean Return true if the application is ready
      */
     protected function isReady()
     {
-        return defined('SYS_READY') ? SYS_READY : true;
+        return $this->getMaintenanceService()->isPlatformReady();
     }
 
 	/**
@@ -321,28 +323,37 @@ class Bootstrap {
         $slim->launch();
     }
 
-	/**
-	 * Load external resources for the current context
-	 * @see tao_helpers_Scriptloader
-     * @todo transform as middleware
-	 */
-	protected function scripts()
-	{
-	    $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-            $cssFiles = array(
-			$assetService->getJsBaseWww('tao') . 'css/layout.css',
-			$assetService->getJsBaseWww('tao') . 'css/tao-main-style.css',
-			$assetService->getJsBaseWww('tao') . 'css/tao-3.css'
-        );
+    /**
+     * Load external resources for the current context
+     * @see tao_helpers_Scriptloader
+     */
+    protected function scripts()
+    {
+        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+        $cssFiles = [
+            $assetService->getAsset('css/layout.css', 'tao'),
+            $assetService->getAsset('css/tao-main-style.css', 'tao'),
+            $assetService->getAsset('css/tao-3.css', 'tao')
+        ];
 
         //stylesheets to load
         \tao_helpers_Scriptloader::addCssFiles($cssFiles);
 
         if(\common_session_SessionManager::isAnonymous()) {
             \tao_helpers_Scriptloader::addCssFile(
-				$assetService->getJsBaseWww('tao') . 'css/portal.css'
+                $assetService->getAsset('css/portal.css', 'tao')
             );
         }
+    }
+
+    /**
+     * Get the maintenance service to handle maintenance status
+     *
+     * @return Maintenance
+     */
+    protected function getMaintenanceService()
+    {
+        return $this->getServiceManager()->get(Maintenance::SERVICE_ID);
     }
 
 	private function getServiceManager()

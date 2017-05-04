@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 use common_Exception;
 use common_ext_ExtensionsManager;
 use oat\oatbox\event\EventManager;
+use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -33,9 +34,12 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
@@ -136,13 +140,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('2.7.2')) {
             foreach ($extensionManager->getInstalledExtensions() as $extension) {
-                $extManifestConsts = $extension->getConstants();
-                if (isset($extManifestConsts['BASE_WWW'])) {
+                $jsPath = trim(Template::js('', $extension->getId()), '/');
+                ClientLibRegistry::getRegistry()->register($extension->getId(), $jsPath);
 
-                    ClientLibRegistry::getRegistry()->register($extension->getId(), $extManifestConsts['BASE_WWW'] . 'js');
-                    ClientLibRegistry::getRegistry()->register($extension->getId() . 'Css', $extManifestConsts['BASE_WWW'] . 'css');
-
-                }
+                $cssPath = trim(Template::css('', $extension->getId()), '/');
+                ClientLibRegistry::getRegistry()->register($extension->getId().'Css', $cssPath);
             }
              $this->setVersion('2.7.3');
         }
@@ -745,9 +747,48 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.89.0');
         }
 
-        $this->skip('7.89.0', '7.89.5');
+        $this->skip('7.89.0', '7.91.2');
 
-        if($this->isVersion('7.89.5')) {
+        if ($this->isVersion('7.91.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('7.91.3');
+        }
+        $this->skip('7.91.3', '8.1.0');
+
+        if ($this->isVersion('8.1.0')) {
+            if (! $this->getServiceManager()->has(Maintenance::SERVICE_ID)) {
+
+                $maintenancePersistence = 'maintenance';
+
+                try {
+                    \common_persistence_Manager::getPersistence($maintenancePersistence);
+                } catch (\common_Exception $e) {
+                    \common_persistence_Manager::addPersistence($maintenancePersistence,  array('driver' => 'phpfile'));
+                }
+
+                $service = new Maintenance();
+                $service->setOption(Maintenance::OPTION_PERSISTENCE, $maintenancePersistence);
+                $this->getServiceManager()->register(Maintenance::SERVICE_ID, $service);
+
+                $this->getServiceManager()->get(Maintenance::SERVICE_ID)->enablePlatform();
+            }
+            $this->setVersion('8.2.0');
+        }
+
+        $this->skip('8.2.0', '9.1.1');
+
+        if($this->isVersion('9.1.1')){
+            $this->getServiceManager()->register(TokenService::SERVICE_ID, new TokenService([
+                'store' => new TokenStoreSession(),
+                'poolSize' => 10,
+                'timeLimit' => 0
+            ]));
+            $this->setVersion('9.2.0');
+        }
+
+        $this->skip('9.2.0', '9.3.1');
+
+        if($this->isVersion('9.3.1')) {
             $service = new \oat\tao\model\mvc\psr7\ActionExecutor(
                 [
                     'executor' =>
@@ -758,7 +799,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ]
             );
             $this->getServiceManager()->register(\oat\tao\model\mvc\psr7\ActionExecutor::SERVICE_ID, $service);
-            $this->setVersion('8.0.0');
+            $this->setVersion('10.0.0');
         }
 
     }

@@ -24,8 +24,11 @@ define([
     'tpl!ui/datatable/tpl/layout',
     'tpl!ui/datatable/tpl/button',
     'ui/datatable/filterStrategy/filterStrategy',
-    'ui/pagination'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent){
+    'ui/pagination',
+    'ui/feedback',
+    'layout/logout-event',
+    'core/logger'
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loggerFactory){
 
     'use strict';
 
@@ -40,8 +43,17 @@ define([
         sortby: 'id',
         sortorder: 'asc',
         paginationStrategyTop: 'none',
-        paginationStrategyBottom: 'simple'
+        paginationStrategyBottom: 'simple',
+        labels: {
+            filter: __('Filter'),
+            empty: __('Nothing to list!'),
+            available: __('Available'),
+            loading: __('Loading'),
+            actions: __('Actions')
+        }
     };
+
+    var logger = loggerFactory('ui/datatable');
 
     /**
      * The CSS class used to hide an element
@@ -101,6 +113,7 @@ define([
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
          * @param {String} options.paginationStrategyTop  - 'none' | 'pages' | 'simple' -- 'none' by default (next/prev), 'pages' show pages and extended control for pagination
          * @param {String} options.paginationStrategyBottom  - 'none' | 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
+         * @param {Object} options.labels - list of labels in datatable interface, that can be overridden by incoming options
          * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
@@ -191,8 +204,20 @@ define([
                 $elt.find('.loading').removeClass(hiddenCls);
             }
 
-            $.ajax(ajaxConfig).done(function(response) {
+            $.ajax(ajaxConfig).done(function (response) {
                 self._render($elt, response);
+            }).fail(function (response) {
+                var errorDetails = JSON.parse(response.responseText);
+                logger.error(errorDetails);
+
+                if (response.status === 403) {
+                    logoutEvent();
+                } else {
+                    feedback().error(response.status + ': ' + errorDetails.message);
+                }
+                $elt.trigger('error.' + ns, [errorDetails]);
+
+                self._render($elt, {});
             });
         },
 

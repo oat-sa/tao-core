@@ -26,6 +26,7 @@ define(function(){
         'Main': {
             'actions' : {
                 'index' : 'controller/main',
+                'entry' : 'controller/entry',
                 'getSectionActions' : 'controller/main/actions',
                 'getSectionTrees' : 'controller/main/trees',
                 'login' : 'controller/login'
