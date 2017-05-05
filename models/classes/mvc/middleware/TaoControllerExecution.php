@@ -20,13 +20,13 @@
 
 namespace oat\tao\model\mvc\middleware;
 
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\psr7\ActionExecutor;
-use oat\tao\model\mvc\psr7\InterruptedActionException;
 use oat\tao\model\mvc\psr7\Resolver;
-use oat\tao\model\routing\ActionEnforcer;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Response;
+use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\accessControl\data\PermissionException;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 
 /**
  * execute tao controller
@@ -36,43 +36,128 @@ use Slim\Http\Response;
 class TaoControllerExecution extends AbstractTaoMiddleware
 {
 
+    protected $extension;
+
+    protected $controller;
+
+    protected $action;
+
+    protected $parameters;
+
+    protected function getExtensionId() {
+        return $this->extension;
+    }
+
+    protected function getControllerClass() {
+        return $this->controller;
+    }
+
+    protected function getAction() {
+        return $this->action;
+    }
+
+    protected function getParameters() {
+        return $this->parameters;
+    }
+
+    protected function getController()
+    {
+        $controllerClass = $this->getControllerClass();
+        if(class_exists($controllerClass)) {
+            return new $controllerClass();
+        } else {
+            throw new \ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
+        }
+    }
+
+    protected function init($request) {
+        /**
+         * @var $resolver Resolver
+         */
+        $resolver = $this->container->get('resolver');
+        $resolver->setRequest($request);
+
+        $this->extension = $resolver->getExtensionId();
+        $this->controller = $resolver->getControllerClass();
+        $this->action = $resolver->getMethodName();
+
+        $post = $request->getParsedBody();
+        if(is_null($post)) {
+            $post = [];
+        }
+
+        $params   = array_merge($request->getQueryParams() , $post);
+
+        $this->parameters = $params;
+    }
+
+    protected function verifyAuthorization() {
+        $user = \common_session_SessionManager::getSession()->getUser();
+        if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
+            $func  = new FuncProxy();
+            $data  = new DataAccessControl();
+            //now go into details to see which kind of permissions are not correct
+            if($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) &&
+                !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())){
+
+                throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+            }
+
+            throw new \tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+        }
+    }
+
     public function __invoke( $request,  $response,  $args)
     {
         /**
          * @var $resolver Resolver
          */
 
+        $this->init($request);
 
         $resolver = $this->container->get('resolver');
         $resolver->setRequest($request);
 
-        try {
-            $post = $request->getParsedBody();
-            if(is_null($post)) {
-                $post = [];
-            }
-
-            $params   = array_merge($request->getQueryParams() , $post);
-            $params['request'] = $request;
-            $params['response'] = $response;
-
-            $controllerClass = $resolver->getControllerClass();
-            $action = $resolver->getMethodName();
-            if (method_exists($controllerClass, $action)) {
-                ob_start();
-                $controller = new $controllerClass();
-                call_user_func_array(array($controller, $action), $params);
-                $implicitContent = ob_get_contents();
-                ob_clean();
-                $response = $this->response( $controller , $implicitContent , $response);
-            } else {
-                throw new \ActionEnforcingException("Unable to find the action '" . $action . "' in '" . $controllerClass . "'.",
-                    $controllerClass,
-                    $action);
-            }
-        } catch (\InterruptedActionException $iE) {
-
+        $post = $request->getParsedBody();
+        if(is_null($post)) {
+            $post = [];
         }
+        $params   = array_merge($request->getQueryParams() , $post);
+
+        // Are we authorized to execute this action?
+        try {
+
+            $this->verifyAuthorization();
+
+        } catch(\Exception $pe){
+
+            $urlRouteService = $this->getContainer()->get('taoService')->get('tao/urlroute');
+            return $response
+                ->withStatus(302)
+                ->withHeader('Location', $urlRouteService->getLoginUrl($params));
+        }
+
+        $params['request'] = $request;
+        $params['response'] = $response;
+        $controllerClass = $resolver->getControllerClass();
+        $action = $resolver->getMethodName();
+        if (method_exists($controllerClass, $action)) {
+            ob_start();
+            $controller = new $controllerClass();
+            try {
+                call_user_func_array(array($controller, $action), $params);
+            } catch (\Exception $e) {
+                var_dump($e);die();
+            }
+            $implicitContent = ob_get_contents();
+            ob_clean();
+            $response = $this->response( $controller , $implicitContent , $response);
+        } else {
+            throw new \ActionEnforcingException("Unable to find the action '" . $action . "' in '" . $controllerClass . "'.",
+                $controllerClass,
+                $action);
+        }
+
 
         return  $this->convertHeaders($response);
     }
