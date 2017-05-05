@@ -52,13 +52,9 @@ class SlimLauncher {
             return ServiceManager::getServiceManager();
         };
 
-        $container['errorHandler'] = function ($container) {
-            return new TaoErrorHandler($container);
-        };
-
-        $container['phpErrorHandler'] = function ($container) {
-            return new TaoErrorHandler($container);
-        };
+       $container['phpErrorHandler'] = function ($container) {
+           return new TaoErrorHandler($container);
+       };
 
         return $container;
 

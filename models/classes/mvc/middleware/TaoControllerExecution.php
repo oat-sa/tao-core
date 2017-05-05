@@ -144,11 +144,7 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         if (method_exists($controllerClass, $action)) {
             ob_start();
             $controller = new $controllerClass();
-            try {
-                call_user_func_array(array($controller, $action), $params);
-            } catch (\Exception $e) {
-                var_dump($e);die();
-            }
+            call_user_func_array(array($controller, $action), $params);
             $implicitContent = ob_get_contents();
             ob_clean();
             $response = $this->response( $controller , $implicitContent , $response);

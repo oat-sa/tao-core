@@ -231,7 +231,7 @@ abstract class tao_actions_CommonModule extends Module
 	public function forward($action, $controller = null, $extension = null, $params = array())
     {
         $flow = new FlowController();
-        $flow->forward($action, $controller, $extension, $params);
+        return $flow->forward($action, $controller, $extension, $params);
     }
 
     /**
@@ -241,7 +241,7 @@ abstract class tao_actions_CommonModule extends Module
     public function forwardUrl($url)
     {
         $flow = new FlowController();
-        $flow->forwardUrl($url);
+        return $flow->forwardUrl($url);
     }
 
     /**

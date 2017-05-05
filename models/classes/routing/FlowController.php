@@ -90,13 +90,13 @@ class FlowController
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-        $enforcer->execute();
-
-        //should not be reached
-        throw new InterruptedActionException('Interrupted action after a forward',
-                                             $context->getModuleName(),
-                                             $context->getActionName());
-                
+        $controller = $enforcer->execute();
+        if ($controller->hasView())
+        {
+            $renderer = $controller->getRenderer();
+            echo $renderer->render();
+        }
+        die();
     }
 
     public function forwardRequest(ServerRequestInterface $request ) {
@@ -131,7 +131,7 @@ class FlowController
 	public function forward($action, $controller = null, $extension = null, $params = array())
 	{
         //as we use a route resolver, it's easier to rebuild the URL to resolve it 
-        $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
+        return $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
 	}
 	
 }

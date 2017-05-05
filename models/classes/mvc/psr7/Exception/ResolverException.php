@@ -17,7 +17,7 @@
  *  Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\mvc\psr7;
+namespace oat\tao\model\mvc\psr7\Exception;
 
 
 class ResolverException extends \Exception

@@ -19,6 +19,7 @@
 namespace oat\tao\model\mvc\psr7;
 
 use common_http_Request;
+use oat\tao\model\mvc\psr7\Exception\ResolverException;
 use oat\tao\model\routing\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use oat\tao\model\routing\Resolver as TaoResolver;
