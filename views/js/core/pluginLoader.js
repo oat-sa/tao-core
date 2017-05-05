@@ -65,6 +65,12 @@ define([
          */
         var loader = {
 
+            addList : function addList(pluginList){
+                _.forEach(pluginList, this.add, this);
+                return this;
+            },
+
+
             /**
              * Add a new dynamic plugin
              * @param {String} module - AMD module name of the plugin
@@ -73,25 +79,28 @@ define([
              * @returns {loader} chains
              * @throws {TypeError} misuse
              */
-            add: function add(module, category, position) {
-                if(!_.isString(module)){
+            add: function add(plugin) {
+                if(!_.isString(plugin.module)){
                     throw new TypeError('An AMD module must be defined');
                 }
-                if(!_.isString(category)){
+                if(!_.isString(plugin.category)){
                     throw new TypeError('Plugins must belong to a category');
                 }
 
-                modules[category] = modules[category] || [];
+                modules[plugin.category] = modules[plugin.category] || [];
 
-                if(_.isNumber(position)){
-                    modules[category][position] = module;
+                if(_.isNumber(plugin.position)){
+                    modules[plugin.category][plugin.position] = plugin.module;
                 }
-                else if(position === 'prepend' || position === 'before'){
-                    modules[category].unshift(module);
+                else if(plugin.position === 'prepend' || plugin.position === 'before'){
+                    modules[plugin.category].unshift(plugin.module);
                 } else {
-                    modules[category].push(module);
+                    modules[plugin.category].push(plugin.module);
                 }
 
+                if(plugin.bundle && !_.contains(bundles, plugin.bundle)){
+                    bundles.push(plugin.bundle);
+                }
                 return this;
             },
 
@@ -163,7 +172,8 @@ define([
              * Loads the dynamic plugins : trigger the dependency resolution
              * @returns {Promise}
              */
-            load: function load() {
+            load: function load(loadBundles) {
+                var self = this;
 
                 //compute the plugins depencies
                 var dependencies = _(modules).values().flatten().uniq().difference(excludes).value();
@@ -188,7 +198,7 @@ define([
                 // 1. load bundles
                 // 2. load dependencies
                 // 3. add them to the plugins list
-                return loadModules(bundles)
+                return loadModules( loadBundles ? bundles : [])
                     .then(function(){
                         return loadModules(dependencies);
                     })
@@ -203,7 +213,8 @@ define([
                                 plugins[category].push(plugin);
                             }
                         });
-                });
+                        return self.getPlugins();
+                    });
             },
 
             /**
