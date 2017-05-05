@@ -58,15 +58,19 @@ class TaoControllerExecution extends AbstractTaoMiddleware
 
             $controllerClass = $resolver->getControllerClass();
             $action = $resolver->getMethodName();
-
-            ob_start();
-            $controller = new $controllerClass();
-            call_user_func_array(array($controller, $action), $params);
-            $implicitContent = ob_get_contents();
-            ob_clean();
-            $response = $this->response( $controller , $implicitContent , $response);
-
-        } catch (\Exception $iE) {
+            if (method_exists($controllerClass, $action)) {
+                ob_start();
+                $controller = new $controllerClass();
+                call_user_func_array(array($controller, $action), $params);
+                $implicitContent = ob_get_contents();
+                ob_clean();
+                $response = $this->response( $controller , $implicitContent , $response);
+            } else {
+                throw new \ActionEnforcingException("Unable to find the action '" . $action . "' in '" . $controllerClass . "'.",
+                    $controllerClass,
+                    $action);
+            }
+        } catch (\InterruptedActionException $iE) {
 
         }
 

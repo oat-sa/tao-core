@@ -24,6 +24,7 @@ use Context;
 use Exception;
 use HTTPToolkit;
 use oat\tao\model\mvc\psr7\ContextAwareTrait;
+use Slim\Http\Response;
 use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -36,7 +37,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface {
     
     use ServiceLocatorAwareTrait;
-    use ContextAwareTrait;
     /**
      * http response code
      * @var integer 
@@ -47,7 +47,9 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @var string 
      */
     protected $contentType = '';
-    
+
+    protected $response;
+
     /**
      * @var Exception
      */
@@ -62,6 +64,15 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
                 'ajax' => 'AjaxResponse',
             ];
 
+    /**
+     * @param Response $response
+     * @return $this
+     */
+    public function setResponse(Response $response)
+    {
+        $this->response = $response;
+        return $this;
+    }
 
     /**
      * search rendering method in function of request accept header
@@ -96,16 +107,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
         
         return $renderer->setServiceLocator($this->getServiceLocator());
     }
-    /**
-     * send headers
-     * @return $this
-     */
-    protected function sendHeaders() {
-        $context = $this->getContext();
-        $context->getResponse()->setContentHeader($this->contentType);
-        header(HTTPToolkit::statusCodeHeader($this->httpCode));
-        return $this;
-    }
+
     /**
      * set response http status code
      * @param int $code
@@ -124,7 +126,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
         $accept = array_key_exists('HTTP_ACCEPT', $_SERVER) ? explode(',' , $_SERVER['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
 
-        return $renderer->setException($this->exception)->setHttpCode($this->httpCode)->sendHeaders()->send();
+        return $renderer->setResponse($this->response)->setException($this->exception)->setHttpCode($this->httpCode)->send();
     }
     
     /**
@@ -142,7 +144,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @param Exception $exception
      * @return $this
      */
-    public function setException(Exception $exception) {
+    public function setException(\Exception $exception) {
         $this->exception = $exception;
         return $this;
     }

@@ -9,16 +9,17 @@
 namespace oat\tao\model\mvc\middleware;
 
 
+use oat\tao\model\mvc\error\ExceptionInterpretor;
+
 class TaoErrorHandler extends AbstractTaoMiddleware
 {
 
     public function __invoke($request, $response, $args)
     {
 
-        return $response
-            ->withStatus(501)
-            ->withHeader('Content-Type', 'text/html')
-            ->write('<head><title>toto error</title></head><body>test error handler</body>');
+        $Interpretor = new ExceptionInterpretor();
+        $Interpretor->setServiceLocator($this->getContainer()->get('taoService'));
+        return $Interpretor->setResponse($response)->setException($args)->getResponse()->send();
     }
 
 }

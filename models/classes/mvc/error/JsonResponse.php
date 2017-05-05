@@ -37,8 +37,12 @@ class JsonResponse extends ResponseAbstract {
             'errorMsg'  => '',
         ];
 
-        //write the response
-        echo json_encode($response);
+        $this->response
+            ->withStatus($this->httpCode)
+            ->withHeader('Content-Type', $this->contentType)
+            ->write(json_encode($response));
+
+        return $this->response;
     }
     
 }

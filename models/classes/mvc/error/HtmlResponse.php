@@ -32,8 +32,18 @@ class HtmlResponse extends ResponseAbstract {
         if (DEBUG_MODE) {
             $message = $this->exception->getMessage();
             $trace = $this->exception->getTraceAsString();
-	}
+	    }
+
+	    ob_start();
         require Template::getTemplate('error/error' . $this->httpCode . '.tpl', 'tao');
+        $htmlContent = ob_get_clean();
+
+        $this->response
+            ->withStatus($this->httpCode)
+            ->withHeader('Content-Type', $this->contentType)
+            ->write($htmlContent);
+
+        return $this->response;
     }
     
 }

@@ -17,6 +17,9 @@
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 namespace oat\tao\model\mvc\error;
+
+use Slim\Http\Response;
+
 /**
  * generate a http error response
  *
@@ -30,9 +33,16 @@ interface ResponseInterface {
      * @return $this
      */
     public function setHttpCode($code);
-    
+
+    /**
+     * @param Response $response
+     * @return $this
+     */
+    public function setResponse(Response $response);
+
     /**
      * use to send error message
+     * return Response
      */
     public function send();
     

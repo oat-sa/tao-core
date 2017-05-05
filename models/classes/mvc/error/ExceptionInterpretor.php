@@ -20,6 +20,7 @@
 namespace oat\tao\model\mvc\error;
 
 use Exception;
+use Slim\Http\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -48,7 +49,12 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * @var string 
      */
     protected $responseClassName;
-    
+
+    /**
+     * @var Response
+     */
+    protected $response;
+
     /**
      * 
      * @var string 
@@ -60,7 +66,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * @param Exception $exception
      * @return ExceptionInterpretor
      */
-    public function setException(Exception $exception){
+    public function setException(\Exception $exception){
         $this->exception = $exception;
         $this->interpretError();
         return $this;    
@@ -99,7 +105,12 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
         return $this->trace;
     }
 
-        /**
+    public function setResponse(Response $response) {
+        $this->response = $response;
+        return $this;
+    }
+
+    /**
      * @return integer
      */
     public function getHttpCode(){
@@ -117,12 +128,15 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      */
     public function getResponse() {
         $class = $this->getResponseClassName();
+
         /*@var $response ResponseAbstract */
         $response = new $class;
+
         $response->setServiceLocator($this->getServiceLocator())
+                ->setResponse($this->response)
                 ->setException($this->exception)
-                ->setHttpCode($this->returnHttpCode)
-                ->trace($this->trace);
+                ->setHttpCode($this->returnHttpCode);
+
         return $response;
     }
     
