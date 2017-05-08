@@ -35,7 +35,6 @@ class TaoRestAuthenticate extends AbstractTaoMiddleware
          * @var $resolver Resolver
          */
         $resolver = $this->container->get('resolver');
-        $resolver->setRequest($request);
 
         //if the controller is a rest controller we try to authenticate the user
         $controllerClass = $resolver->getControllerClass();

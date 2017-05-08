@@ -316,8 +316,8 @@ class Bootstrap {
         /**
          * @todo invoke as service
          */
-        $slim = new SlimLauncher();
-        $slim->launch();
+        $app = ServiceManager::getServiceManager()->get(SlimLauncher::SERVICE_ID);
+        $app->launch();
     }
 
     /**

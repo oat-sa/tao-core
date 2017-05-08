@@ -23,6 +23,7 @@ namespace oat\tao\model\mvc\middleware;
 use oat\tao\model\mvc\psr7\ActionExecutor;
 use oat\tao\model\mvc\psr7\Controller;
 use oat\tao\model\mvc\psr7\Resolver;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
@@ -108,6 +109,45 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         }
     }
 
+    /**
+     * @param Resolver $resolver
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface $response
+     * @throws \ActionEnforcingException
+     */
+    protected function getControllerResponse(Resolver $resolver , RequestInterface $request, ResponseInterface $response) {
+        $params['request'] = $request;
+        $params['response'] = $response;
+        $controllerClass = $resolver->getControllerClass();
+        $action = $resolver->getMethodName();
+
+        if (method_exists($controllerClass, $action)) {
+            ob_start();
+            $controller = new $controllerClass();
+
+            if($controller instanceof Controller) {
+                $controller->setPsr7($request,  $response);
+            }
+            $controller->setServiceLocator($this->getContainer()->get('taoService'));
+            $controllerResponse = call_user_func_array(array($controller, $action), $params);
+
+            if($controllerResponse instanceof ResponseInterface) {
+                $response = $controllerResponse;
+            }
+
+            $implicitContent = ob_get_contents();
+            ob_clean();
+            $response = $this->response( $controller , $implicitContent , $response);
+        } else {
+            throw new \ActionEnforcingException("Unable to find the action '" . $action . "' in '" . $controllerClass . "'.",
+                $controllerClass,
+                $action);
+        }
+        return $response;
+    }
+
+
     public function __invoke( $request,  $response,  $args)
     {
         /**
@@ -117,7 +157,6 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         $this->init($request);
 
         $resolver = $this->container->get('resolver');
-        $resolver->setRequest($request);
 
         $post = $request->getParsedBody();
         if(is_null($post)) {
@@ -144,33 +183,7 @@ class TaoControllerExecution extends AbstractTaoMiddleware
 
         }
 
-        $params['request'] = $request;
-        $params['response'] = $response;
-        $controllerClass = $resolver->getControllerClass();
-        $action = $resolver->getMethodName();
-        if (method_exists($controllerClass, $action)) {
-            ob_start();
-            $controller = new $controllerClass();
-
-            if($controller instanceof Controller) {
-                $controller->setPsr7($request,  $response);
-            }
-            $controller->setServiceLocator($this->getContainer()->get('taoService'));
-            $controllerResponse = call_user_func_array(array($controller, $action), $params);
-
-            if($controllerResponse instanceof ResponseInterface) {
-                $response = $controllerResponse;
-            }
-
-            $implicitContent = ob_get_contents();
-            ob_clean();
-            $response = $this->response( $controller , $implicitContent , $response);
-        } else {
-            throw new \ActionEnforcingException("Unable to find the action '" . $action . "' in '" . $controllerClass . "'.",
-                $controllerClass,
-                $action);
-        }
-
+        $response = $this->getControllerResponse($resolver , $request , $response);
         return  $this->convertHeaders($response);
     }
 

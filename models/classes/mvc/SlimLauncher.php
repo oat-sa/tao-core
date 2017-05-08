@@ -20,15 +20,17 @@
 namespace oat\tao\model\mvc;
 
 use Interop\Container\ContainerInterface;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\mvc\middleware\TaoAuthenticate;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\mvc\middleware\TaoControllerExecution;
 use oat\tao\model\mvc\middleware\TaoErrorHandler;
 use oat\tao\model\mvc\middleware\TaoResolver;
 use oat\tao\model\mvc\middleware\TaoRestAuthenticate;
+use oat\tao\model\mvc\psr7\slimContainerFactory;
 use Slim\App;
 
-class SlimLauncher {
+class SlimLauncher extends ConfigurableService {
+
+    const SERVICE_ID = 'tao/applicationLauncher';
 
     /**
      * configure slim Container
@@ -36,7 +38,7 @@ class SlimLauncher {
      */
     protected function configureContainer($container) {
 
-       $containerFactory = ServiceManager::getServiceManager()->get('tao/slimContainer');
+       $containerFactory = $this->getServiceManager()->get(slimContainerFactory::SERVICE_ID);
 
         $container = $containerFactory->configure($container)->getContainer();
 
@@ -58,9 +60,8 @@ class SlimLauncher {
          * @todo use configurable route prefix to support subdirectory install
          */
 
-        $slimApplication->map(['GET', 'POST'] , '/[{relativeUrl:.*}]' , TaoResolver::class)
+        $slimApplication->map(['GET', 'POST'] , $this->getOption('prefix') . '[{relativeUrl:.*}]' , TaoResolver::class)
             ->add( TaoRestAuthenticate::class )
-            ->add( TaoAuthenticate::class )
             ->add( TaoControllerExecution::class);
 
         return $slimApplication->run();

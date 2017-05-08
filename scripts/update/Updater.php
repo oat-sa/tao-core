@@ -41,6 +41,7 @@ use oat\tao\model\mvc\psr7\executor\Psr7Executor;
 use oat\tao\model\mvc\psr7\executor\TaoExecutor;
 use oat\tao\model\mvc\psr7\Resolver;
 use oat\tao\model\mvc\psr7\slimContainerFactory;
+use oat\tao\model\mvc\SlimLauncher;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
@@ -811,8 +812,15 @@ class Updater extends \common_ext_ExtensionUpdater {
                     'resolver' => Resolver::class,
                 ]);
 
+            $app = new SlimLauncher(
+                [
+                    'prefix' => '/',
+                ]
+            );
+
             $this->getServiceManager()->register(ActionExecutor::SERVICE_ID, $service);
             $this->getServiceManager()->register(slimContainerFactory::SERVICE_ID, $container);
+            $this->getServiceManager()->register(SlimLauncher::SERVICE_ID, $app);
 
             $this->setVersion('10.0.0');
         }
