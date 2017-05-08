@@ -56,11 +56,8 @@ class SlimLauncher extends ConfigurableService {
             return new TaoErrorHandler($container);
         };
 
-        /**
-         * @todo use configurable route prefix to support subdirectory install
-         */
 
-        $slimApplication->map(['GET', 'POST'] , $this->getOption('prefix') . '[{relativeUrl:.*}]' , TaoResolver::class)
+        $slimApplication->map(['GET', 'POST'] , '/' . $this->getOption('prefix') .  '[{relativeUrl:.*}]' , TaoResolver::class)
             ->add( TaoRestAuthenticate::class )
             ->add( TaoControllerExecution::class);
 

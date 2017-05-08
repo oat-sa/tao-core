@@ -174,6 +174,26 @@ class tao_helpers_Uri
         return (string) $returnValue;
     }
 
+    public static function relativeUrl($action = null, $module = null, $extension = null)
+    {
+        $returnValue = (string) '';
+
+        if(is_null($module)){
+            $module = Context::getInstance()->getModuleName();
+        }
+        if(is_null($action)){
+            $action = Context::getInstance()->getActionName();
+        }
+        if(is_null($extension)){
+            $extension = Context::getInstance()->getExtensionName();
+        }
+
+
+        $returnValue = $extension . '/'. $module . '/' . $action;
+
+        return (string) $returnValue;
+    }
+
     /**
      * format propertly an ol style url
      *

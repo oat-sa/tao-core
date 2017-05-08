@@ -34,7 +34,11 @@ class TaoRestAuthenticate extends AbstractTaoMiddleware
         /**
          * @var $resolver Resolver
          */
+        $relativeUrl = $request->getAttribute('route')->getArgument('relativeUrl');
+
         $resolver = $this->container->get('resolver');
+        $resolver->setRelativeUrl($relativeUrl);
+
 
         //if the controller is a rest controller we try to authenticate the user
         $controllerClass = $resolver->getControllerClass();

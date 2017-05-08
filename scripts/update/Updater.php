@@ -814,7 +814,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $app = new SlimLauncher(
                 [
-                    'prefix' => '/',
+                    'prefix' => '',
                 ]
             );
 

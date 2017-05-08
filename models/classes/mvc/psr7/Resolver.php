@@ -33,6 +33,10 @@ class Resolver extends TaoResolver
      * @var ServerRequestInterface
      */
     protected $request;
+    /**
+     * @var string
+     */
+    protected $relativeUrl;
 
     protected $extensionId;
 
@@ -45,7 +49,28 @@ class Resolver extends TaoResolver
      * declared to remove required request from contructor
      */
     public function __construct() {
+
     }
+
+    /**
+     * @return string
+     */
+    public function getRelativeUrl()
+    {
+        return trim($this->relativeUrl, '/');
+    }
+
+    /**
+     * @param string $relativeUrl
+     * @return $this
+     */
+    public function setRelativeUrl($relativeUrl)
+    {
+
+        $this->relativeUrl = $relativeUrl;
+        return $this;
+    }
+
 
     /**
      * Resolver set PSR7 request.
@@ -81,8 +106,8 @@ class Resolver extends TaoResolver
      * @return string the name
      */
     public function getControllerShortName() {
-        $relativeUrl = $this->request->getUri()->getPath();
-        $parts = explode('/', trim($relativeUrl, '/'));
+
+        $parts = explode('/', $this->getRelativeUrl());
         if(count($parts) == 3){
             return $parts[1];
         }
@@ -92,25 +117,30 @@ class Resolver extends TaoResolver
     /**
      * Tries to resolve the current request using the routes first
      * and then falls back to the legacy controllers
+     * @return bool
+     * @throws ResolverException
      */
     protected function resolve() {
-        $relativeUrl =  trim($this->request->getUri()->getPath(), '/');
-        foreach ($this->getRouteMap() as $entry) {
-            /**
-             * @var Route $called
-             */
-            $route = $entry['route'];
-            $called = $route->resolve($relativeUrl);
-            if (!is_null($called)) {
-                list($controller, $action) = explode('@', $called);
-                $this->controller = $controller;
-                $this->action = $action;
-                $this->extensionId = $entry['extId'];
-                return true;
-            }
-        }
+        $relativeUrl =  $this->getRelativeUrl();
 
-        throw new ResolverException('Unable to resolve '.$this->request->getUri());
+        if(!empty($relativeUrl)) {
+            foreach ($this->getRouteMap() as $entry) {
+                /**
+                 * @var Route $called
+                 */
+                $route = $entry['route'];
+                $called = $route->resolve($relativeUrl);
+                if (!is_null($called)) {
+                    list($controller, $action) = explode('@', $called);
+                    $this->controller = $controller;
+                    $this->action = $action;
+                    $this->extensionId = $entry['extId'];
+                    return true;
+                }
+            }
+
+            throw new ResolverException('Unable to resolve '.$this->request->getUri());
+        }
     }
 
 }

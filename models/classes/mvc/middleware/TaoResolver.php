@@ -31,13 +31,14 @@ class TaoResolver extends AbstractTaoMiddleware
 
     public function __invoke($request, $response, $args)
     {
-
         /**
          * @var $resolver Resolver
-         * @todo use relativeUri extract from route to resolve tao action in this case, use request isn't necessary
          */
+        $relativeUrl = $request->getAttribute('route')->getArgument('relativeUrl');
+
         $resolver = $this->container->get('resolver');
-        $resolver->setRequest($request);
+        $resolver->setRelativeUrl($relativeUrl);
+
         $extId = $resolver->getExtensionId();
 
         // load the responsible extension

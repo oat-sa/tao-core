@@ -22,9 +22,11 @@ namespace oat\tao\model\mvc\psr7;
 use oat\tao\model\mvc\middleware\TaoControllerExecution;
 use oat\tao\model\mvc\psr7\clearfw\Request;
 use oat\tao\model\mvc\psr7\clearfw\Response;
+use oat\tao\model\mvc\psr7\Exception\DeprecatedMethod;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\Uri;
+use Slim\Route;
 
 /**
  * psr7 request controller
@@ -76,7 +78,7 @@ class Controller extends \tao_actions_CommonModule {
 
     /**
      * 
-     * @return \GuzzleHttp\Psr7\Request
+     * @return ServerRequestInterface
      */
     public function getPsrRequest() {
         return $this->getRequest()->getPsrRequest();
@@ -84,7 +86,7 @@ class Controller extends \tao_actions_CommonModule {
     
     /**
      * 
-     * @return \GuzzleHttp\Psr7\Response
+     * @return ResponseInterface
      */
     public function getPsrResponse() {
         return $this->getResponse()->getPsrResponse();
@@ -124,24 +126,35 @@ class Controller extends \tao_actions_CommonModule {
      */
     public function forward($action, $controller = null, $extension = null, $params = array())
     {
-        $uriString = \tao_helpers_Uri::url($action, $controller, $extension, $params);
-        return $this->forwardUrl($uriString);
+        /**
+         * @var Route $route
+         */
+        $route = $this->getPsrRequest()->getAttribute('route');
+        $url = \tao_helpers_Uri::relativeUrl($action, $controller , $extension );
+        $route = $route->setArgument('relativeUrl' , $url);
+
+        $request = $this->getPsrRequest()->withQueryParams($params)->withAttribute('route' ,$route );
+
+        return $this->executeForward($request);
     }
 
     /**
      * Forward using the TAO FlowController implementation
+     * @deprecated since 10.0.0
      */
     public function forwardUrl($url)
     {
-        $Uri = Uri::createFromString($url);
-        $newRequest = $this->getPsrRequest()->withUri($Uri);
+        throw new DeprecatedMethod(__METHOD__);
+
+    }
+
+    protected function executeForward(ServerRequestInterface $request) {
         $container = $this->getServiceManager()->get('tao/slimContainer')->configure()->getContainer();
         $middleWare = new TaoControllerExecution($container);
 
-        $this->updateResponse($middleWare($newRequest , $this->getPsrResponse() , []));
+        $this->updateResponse($middleWare($request , $this->getPsrResponse() , []));
 
         return $this->getPsrResponse();
-
     }
 
     /**

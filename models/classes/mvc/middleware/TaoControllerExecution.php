@@ -29,6 +29,7 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\accessControl\data\PermissionException;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * execute tao controller
@@ -77,7 +78,6 @@ class TaoControllerExecution extends AbstractTaoMiddleware
          * @var $resolver Resolver
          */
         $resolver = $this->container->get('resolver');
-        $resolver->setRequest($request);
 
         $this->extension = $resolver->getExtensionId();
         $this->controller = $resolver->getControllerClass();
@@ -116,7 +116,7 @@ class TaoControllerExecution extends AbstractTaoMiddleware
      * @return ResponseInterface $response
      * @throws \ActionEnforcingException
      */
-    protected function getControllerResponse(Resolver $resolver , RequestInterface $request, ResponseInterface $response) {
+    protected function getControllerResponse(Resolver $resolver , ServerRequestInterface $request, ResponseInterface $response) {
         $params['request'] = $request;
         $params['response'] = $response;
         $controllerClass = $resolver->getControllerClass();
@@ -154,10 +154,13 @@ class TaoControllerExecution extends AbstractTaoMiddleware
          * @var $resolver Resolver
          */
 
-        $this->init($request);
+        $relativeUrl = $request->getAttribute('route')->getArgument('relativeUrl');
 
         $resolver = $this->container->get('resolver');
 
+        $resolver->setRequest($request);
+        $resolver->setRelativeUrl($relativeUrl);
+        $this->init($request);
         $post = $request->getParsedBody();
         if(is_null($post)) {
             $post = [];
