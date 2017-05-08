@@ -21,6 +21,7 @@
 namespace oat\tao\model\mvc\middleware;
 
 use oat\tao\model\mvc\psr7\ActionExecutor;
+use oat\tao\model\mvc\psr7\Controller;
 use oat\tao\model\mvc\psr7\Resolver;
 use Psr\Http\Message\ResponseInterface;
 use oat\tao\model\accessControl\AclProxy;
@@ -132,9 +133,15 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         } catch(\Exception $pe){
 
             $urlRouteService = $this->getContainer()->get('taoService')->get('tao/urlroute');
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', $urlRouteService->getLoginUrl($params));
+            if($request->hasHeader('X-Requested-With')) {
+                return $response
+                ->withStatus(403);
+            } else {
+                return $response
+                    ->withStatus(302)
+                    ->withHeader('Location', $urlRouteService->getLoginUrl($params));
+            }
+
         }
 
         $params['request'] = $request;
@@ -144,7 +151,17 @@ class TaoControllerExecution extends AbstractTaoMiddleware
         if (method_exists($controllerClass, $action)) {
             ob_start();
             $controller = new $controllerClass();
-            call_user_func_array(array($controller, $action), $params);
+
+            if($controller instanceof Controller) {
+                $controller->setPsr7($request,  $response);
+            }
+            $controller->setServiceLocator($this->getContainer()->get('taoService'));
+            $controllerResponse = call_user_func_array(array($controller, $action), $params);
+
+            if($controllerResponse instanceof ResponseInterface) {
+                $response = $controllerResponse;
+            }
+
             $implicitContent = ob_get_contents();
             ob_clean();
             $response = $this->response( $controller , $implicitContent , $response);
@@ -153,7 +170,6 @@ class TaoControllerExecution extends AbstractTaoMiddleware
                 $controllerClass,
                 $action);
         }
-
 
         return  $this->convertHeaders($response);
     }
@@ -164,7 +180,7 @@ class TaoControllerExecution extends AbstractTaoMiddleware
 
         foreach ($headers as $header) {
             list($name , $value) = explode(':' , $header);
-            $response = $response->withHeader($name , trim($value));
+            $response = $response->withAddedHeader($name , trim($value));
 
         }
 

@@ -37,8 +37,10 @@ use oat\tao\model\accessControl\AclProxy;
  * @deprecated since version v7.31.0
  *         
  */
-abstract class tao_actions_CommonModule extends Module
+abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceManager\ServiceLocatorAwareInterface
 {
+
+    use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 
     /**
      * The Modules access the models throught the service instance

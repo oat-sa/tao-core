@@ -19,7 +19,12 @@
 
 namespace oat\tao\model\mvc\psr7;
 
+use oat\tao\model\mvc\middleware\TaoControllerExecution;
+use oat\tao\model\mvc\psr7\clearfw\Request;
+use oat\tao\model\mvc\psr7\clearfw\Response;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Uri;
 
 /**
  * psr7 request controller
@@ -28,17 +33,17 @@ use Psr\Http\Message\ResponseInterface;
 class Controller extends \tao_actions_CommonModule {
     
     /**
-     * @var oat\tao\model\mvc\psr7\clearfw\Request
+     * @var Request
      */
     protected $request;
     
     /**
-     * @var oat\tao\model\mvc\psr7\clearfw\Response
+     * @var Response
      */
     protected $response;
 
     /**
-     * @var oat\tao\model\mvc\psr7\clearfw\Request
+     * @return Request
      */
     public function getRequest() {
         if(is_null($this->request)) {
@@ -49,7 +54,7 @@ class Controller extends \tao_actions_CommonModule {
     }
     
     /**
-     * @return oat\tao\model\mvc\psr7\clearfw\Response
+     * @return Response
      */
     public function getResponse() {
         if(is_null($this->response)) {
@@ -58,6 +63,17 @@ class Controller extends \tao_actions_CommonModule {
         }
         return $this->response;
     }
+
+    public function setPsr7(ServerRequestInterface $request, ResponseInterface $response) {
+        $this->request = new \oat\tao\model\mvc\psr7\clearfw\Request();
+        $this->request->setPsrRequest($request);
+
+        $this->response = new \oat\tao\model\mvc\psr7\clearfw\Response();
+        $this->response->setPsrResponse($response);
+
+        return $this;
+    }
+
     /**
      * 
      * @return \GuzzleHttp\Psr7\Request
@@ -78,7 +94,7 @@ class Controller extends \tao_actions_CommonModule {
      * @param $response \GuzzleHttp\Psr7\Response
      * @return $this
      */
-    public function updateResponse(\GuzzleHttp\Psr7\Response $response) {
+    public function updateResponse(ResponseInterface $response) {
         $this->getResponse()->setPsrResponse($response);
         return $this;
     }
@@ -99,6 +115,48 @@ class Controller extends \tao_actions_CommonModule {
         $body     = \GuzzleHttp\Psr7\stream_for($view);
         $response = $response->withBody($body);
         
+        return $response;
+    }
+
+    /**
+     * Forward using the TAO FlowController implementation
+     * @see {@link oat\model\routing\FlowController}
+     */
+    public function forward($action, $controller = null, $extension = null, $params = array())
+    {
+        $uriString = \tao_helpers_Uri::url($action, $controller, $extension, $params);
+        return $this->forwardUrl($uriString);
+    }
+
+    /**
+     * Forward using the TAO FlowController implementation
+     */
+    public function forwardUrl($url)
+    {
+        $Uri = Uri::createFromString($url);
+        $newRequest = $this->getPsrRequest()->withUri($Uri);
+        $container = $this->getServiceManager()->get('tao/slimContainer')->configure()->getContainer();
+        $middleWare = new TaoControllerExecution($container);
+
+        $this->updateResponse($middleWare($newRequest , $this->getPsrResponse() , []));
+
+        return $this->getPsrResponse();
+
+    }
+
+    /**
+     * Redirect using the TAO FlowController implementation
+     * @param $url
+     * @param int $statusCode
+     * @return ResponseInterface
+     */
+    public function redirect($url, $statusCode = 302)
+    {
+        $response = $this->getPsrResponse()
+
+            ->withStatus($statusCode)->withAddedHeader('Location' , $url);
+
+        $this->updateResponse($response);
         return $response;
     }
     

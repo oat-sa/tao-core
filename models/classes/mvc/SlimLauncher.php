@@ -26,8 +26,6 @@ use oat\tao\model\mvc\middleware\TaoControllerExecution;
 use oat\tao\model\mvc\middleware\TaoErrorHandler;
 use oat\tao\model\mvc\middleware\TaoResolver;
 use oat\tao\model\mvc\middleware\TaoRestAuthenticate;
-use oat\tao\model\mvc\psr7\Context;
-use oat\tao\model\mvc\psr7\Resolver;
 use Slim\App;
 
 class SlimLauncher {
@@ -38,23 +36,9 @@ class SlimLauncher {
      */
     protected function configureContainer($container) {
 
-        $container['context'] = function ($container) {
-            $context = new Context();
-            return $context;
-        };
+       $containerFactory = ServiceManager::getServiceManager()->get('tao/slimContainer');
 
-        $container['resolver'] = function ($container) {
-            $resolver = new Resolver();
-            return $resolver;
-        };
-
-        $container['taoService'] = function ($container) {
-            return ServiceManager::getServiceManager();
-        };
-
-       $container['phpErrorHandler'] = function ($container) {
-           return new TaoErrorHandler($container);
-       };
+        $container = $containerFactory->configure($container)->getContainer();
 
         return $container;
 
@@ -64,7 +48,11 @@ class SlimLauncher {
 
         $slimApplication = new App();
 
-        $this->configureContainer($slimApplication->getContainer());
+        $container = $this->configureContainer($slimApplication->getContainer());
+
+        $container['phpErrorHandler'] = function ($container) {
+            return new TaoErrorHandler($container);
+        };
 
         /**
          * @todo use configurable route prefix to support subdirectory install

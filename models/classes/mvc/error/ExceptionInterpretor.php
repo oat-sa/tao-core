@@ -79,12 +79,12 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
         $this->trace = $this->exception->getMessage();
         switch (get_class($this->exception)) {
             case 'tao_models_classes_AccessDeniedException':
-            case 'ResolverException':   
+            case 'ResolverException':
                 $this->returnHttpCode    = 403;
                 $this->responseClassName = 'RedirectResponse';
             break;
             case 'tao_models_classes_UserException': 
-                $this->returnHttpCode    = 403;
+                $this->returnHttpCode    = 401;
                 $this->responseClassName = 'MainResponse';
             break;
             case 'ActionEnforcingException':

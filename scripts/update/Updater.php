@@ -35,6 +35,12 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\mvc\psr7\ActionExecutor;
+use oat\tao\model\mvc\psr7\Context;
+use oat\tao\model\mvc\psr7\executor\Psr7Executor;
+use oat\tao\model\mvc\psr7\executor\TaoExecutor;
+use oat\tao\model\mvc\psr7\Resolver;
+use oat\tao\model\mvc\psr7\slimContainerFactory;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
@@ -789,16 +795,25 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('9.2.0', '9.3.2');
 
         if($this->isVersion('9.3.2')) {
-            $service = new \oat\tao\model\mvc\psr7\ActionExecutor(
+            $service = new ActionExecutor(
                 [
                     'executor' =>
                         [
-                            \oat\tao\model\mvc\psr7\executor\TaoExecutor::class,
-                            \oat\tao\model\mvc\psr7\executor\Psr7Executor::class,
+                            TaoExecutor::class,
+                            Psr7Executor::class,
                         ]
                 ]
             );
-            $this->getServiceManager()->register(\oat\tao\model\mvc\psr7\ActionExecutor::SERVICE_ID, $service);
+
+            $container = new slimContainerFactory(
+                [
+                    'context'  => Context::class,
+                    'resolver' => Resolver::class,
+                ]);
+
+            $this->getServiceManager()->register(ActionExecutor::SERVICE_ID, $service);
+            $this->getServiceManager()->register(slimContainerFactory::SERVICE_ID, $container);
+
             $this->setVersion('10.0.0');
         }
 

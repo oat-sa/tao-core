@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\mvc\psr7\clearfw;
 
+use \Psr\Http\Message\ResponseInterface;
+
 /**
  * mapping between clear fw response and psr7 response
  *
@@ -27,15 +29,22 @@ namespace oat\tao\model\mvc\psr7\clearfw;
 class Response {
     
     /**
-     * @var \GuzzleHttp\Psr7\Response
+     * @var ResponseInterface
      */
     protected $psrResponse;
 
-    public function setPsrResponse($response) {
+    /**
+     * @param ResponseInterface $response
+     * @return $this
+     */
+    public function setPsrResponse(ResponseInterface $response) {
         $this->psrResponse = $response;
         return $this;
     }
-    
+
+    /**
+     * @return ResponseInterface
+     */
     public function getPsrResponse() {
         return $this->psrResponse;
     }

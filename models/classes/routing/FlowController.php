@@ -99,11 +99,6 @@ class FlowController
         die();
     }
 
-    public function forwardRequest(ServerRequestInterface $request ) {
-
-
-
-    }
 
     // HTTP 303 : The response to the request can be found under a different URI
     public function redirect($url, $statusCode = 302)

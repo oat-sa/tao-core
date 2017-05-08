@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -19,6 +18,8 @@
  */
 
 namespace oat\tao\model\mvc\psr7\clearfw;
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * mapping between clear fw request and psr7 request
@@ -43,7 +44,7 @@ class Request {
      * @param \GuzzleHttp\Psr7\ServerRequest $request
      * @return $this
      */
-    public function setPsrRequest(\GuzzleHttp\Psr7\ServerRequest $request) {
+    public function setPsrRequest(ServerRequestInterface $request) {
         $this->psrRequest = $request;
         return $this;
     }
