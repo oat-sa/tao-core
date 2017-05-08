@@ -22,6 +22,7 @@
 namespace oat\tao\model\mvc;
 
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\SimpleConfigDriver;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
@@ -37,6 +38,8 @@ use tao_helpers_Uri;
 use Request;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -59,8 +62,10 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap {
-    
+class Bootstrap implements ServiceLocatorAwareInterface
+{
+    use ServiceLocatorAwareTrait;
+
     const CONFIG_SESSION_HANDLER = 'session';
 
 	/**
@@ -73,26 +78,47 @@ class Bootstrap {
 	 */
 	protected static $isDispatched = false;
 
-	/**
-	 * Initialize the context
-	 * @param string $configFile
-	 * @param array $options
-	 */
-	public function __construct($configFile, $options = array())
-	{
-	    
-	    require_once $configFile;
-	    
-	    common_Profiler::singleton()->register();
-
-		if(PHP_SAPI == 'cli'){
-			tao_helpers_Context::load('SCRIPT_MODE');
-		}
-		else{
-			tao_helpers_Context::load('APP_MODE');
-		}
-
-	}
+    /**
+     * Bootstrap constructor.
+     *
+     * Initialize the context
+     *
+     * @param $configuration
+     * @param array $options
+     */
+    public function __construct($configuration, $options = array())
+    {
+        if ($configuration instanceof ServiceManager) {
+            $serviceManager = $configuration;
+        } else {
+            if (is_string($configuration) && is_readable($configuration)) {
+                require_once $configuration;
+                $serviceManager = new ServiceManager(
+                    (new SimpleConfigDriver())->connect('config', array(
+                        'dir' => dirname($configuration),
+                        'humanReadable' => true
+                    ))
+                );
+            } else {
+                // Should never occurred
+                try{
+                    $this->putPlatformOnMaintenance();
+                } catch(Exception $e){
+                    $this->catchError($e);
+                }
+                return;
+            }
+        }
+        $this->setServiceLocator($serviceManager);
+        // To be removed when getServiceManager will disappear
+        ServiceManager::setServiceManager($serviceManager);
+        common_Profiler::singleton()->register();
+        if(PHP_SAPI == 'cli'){
+            tao_helpers_Context::load('SCRIPT_MODE');
+        } else{
+            tao_helpers_Context::load('APP_MODE');
+        }
+    }
 
 	/**
 	 * Check if the current context has been started
@@ -151,33 +177,42 @@ class Bootstrap {
 	            $this->scripts();
 	        }
 	    }
-	    
-	    //Catch all exceptions
-	    try{
-	        //the app is ready
-	        if($this->isReady()){
-	            $this->mvc();
-	        }
-	        //the app is not ready
-	        else{
-	            //the request is not an ajax request, redirect the user to the maintenance page
-	            if(!$isAjax){
-	                require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-	                //else throw an exception, this exception will be send to the client properly
-	            }
-	            else{
-	    
-	                throw new \common_exception_SystemUnderMaintenance();
-	            }
-	        }
-	    }
-	    catch(Exception $e){
-	        $this->catchError($e);
-	    }
+
+        //Catch all exceptions
+        try {
+            //the app is ready, process mvc
+            if($this->isReady()){
+                $this->mvc();
+            }
+            //the app is not ready, put platform on maintenance
+            else {
+                $this->putPlatformOnMaintenance();
+            }
+        } catch(Exception $e){
+            $this->catchError($e);
+        }
 	    
 	    // explicitly close session
 	    session_write_close();
 	}
+
+    /**
+     * Put the platform on maintenance
+     * Redirect to maintenance page if http call is not ajax
+     * Otherwise throw common_exception_SystemUnderMaintenance
+     *
+     * @throws \common_exception_SystemUnderMaintenance
+     */
+    protected function putPlatformOnMaintenance()
+    {
+        //the request is not an ajax request, redirect the user to the maintenance page
+        if (! tao_helpers_Request::isAjax()) {
+            require_once Template::getTemplate('error/maintenance.tpl', 'tao');
+            //else throw an exception, this exception will be send to the client properly
+        } else{
+            throw new \common_exception_SystemUnderMaintenance();
+        }
+    }
 	
         
 	protected function dispatchCli()
@@ -299,8 +334,8 @@ class Bootstrap {
 
 	/**
 	 *  Start the MVC Loop from the ClearFW
-	 *  @throws ActionEnforcingException in case of wrong module or action
-	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
+	 *  @throws \ActionEnforcingException in case of wrong module or action
+	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
 	 */
     protected function mvc()
     {
