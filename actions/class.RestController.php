@@ -20,7 +20,7 @@ use oat\tao\helpers\RestExceptionHandler;
  *
  */
 
-abstract class tao_actions_RestController extends \tao_actions_CommonModule
+abstract class tao_actions_RestController extends \oat\tao\model\mvc\psr7\Controller
 {
     /**
      * @var array

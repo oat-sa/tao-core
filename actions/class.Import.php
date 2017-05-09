@@ -30,7 +30,7 @@ use oat\oatbox\event\EventManagerAwareTrait;
  
  *
  */
-class tao_actions_Import extends tao_actions_CommonModule {
+class tao_actions_Import extends \oat\tao\model\mvc\psr7\Controller {
 
     use EventManagerAwareTrait;
 	/**

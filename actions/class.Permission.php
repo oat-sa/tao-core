@@ -25,7 +25,7 @@
  
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class tao_actions_Permission extends tao_actions_CommonModule {
+class tao_actions_Permission extends \oat\tao\model\mvc\psr7\Controller {
 
     /**
      * Access to resource id denied

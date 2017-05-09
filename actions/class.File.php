@@ -34,7 +34,7 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
  * @package tao
  
  */
-class tao_actions_File extends tao_actions_CommonModule{
+class tao_actions_File extends \oat\tao\model\mvc\psr7\Controller {
 
     /**
 	 * constructor. Initialize the context

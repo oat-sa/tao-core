@@ -32,6 +32,8 @@ class SlimLauncher extends ConfigurableService {
 
     const SERVICE_ID = 'tao/applicationLauncher';
 
+    protected $application;
+
     /**
      * configure slim Container
      * @return ContainerInterface
@@ -46,22 +48,26 @@ class SlimLauncher extends ConfigurableService {
 
     }
 
+    protected function getApplication() {
+        return $this->application;
+    }
+
     public function launch() {
 
-        $slimApplication = new App();
+        $this->application = new App();
 
-        $container = $this->configureContainer($slimApplication->getContainer());
+        $container = $this->configureContainer($this->application->getContainer());
 
         $container['phpErrorHandler'] = function ($container) {
             return new TaoErrorHandler($container);
         };
 
 
-        $slimApplication->map(['GET', 'POST'] , '/' . $this->getOption('prefix') .  '[{relativeUrl:.*}]' , TaoResolver::class)
+        $this->application->map(['GET', 'POST'] , '/' . $this->getOption('prefix') .  '[{relativeUrl:.*}]' , TaoResolver::class)
             ->add( TaoRestAuthenticate::class )
             ->add( TaoControllerExecution::class);
 
-        return $slimApplication->run();
+        return $this->application->run();
 
     }
 

@@ -37,7 +37,7 @@ use oat\tao\model\mvc\Breadcrumbs;
  * @package oat\tao\actions
  *
  */
-class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Breadcrumbs
+class tao_actions_Breadcrumbs extends \oat\tao\model\mvc\psr7\Controller implements Breadcrumbs
 {
     /**
      * Parses the provided context route

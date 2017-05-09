@@ -24,7 +24,7 @@
  * @package oat\tao\actions
  *
  */
-abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
+abstract class tao_actions_SinglePageModule extends \oat\tao\model\mvc\psr7\Controller
 {
     /**
      * This header is added to the response to inform the client a forward occurs

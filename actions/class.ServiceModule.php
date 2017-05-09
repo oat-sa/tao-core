@@ -27,7 +27,7 @@
  
  *
  */
-class tao_actions_ServiceModule extends tao_actions_CommonModule {
+class tao_actions_ServiceModule extends \oat\tao\model\mvc\psr7\Controller {
 
     /**
      * Returns the serviceCallId for the current service call

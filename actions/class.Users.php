@@ -30,7 +30,7 @@ use oat\tao\model\event\UserUpdatedEvent;
  * @package tao
  *
  */
-class tao_actions_Users extends tao_actions_CommonModule
+class tao_actions_Users extends \oat\tao\model\mvc\psr7\Controller
 {
     use EventManagerAwareTrait;
     /**

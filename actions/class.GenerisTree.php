@@ -32,7 +32,7 @@
 use oat\tao\model\GenerisTreeFactory;
 use oat\tao\helpers\TreeHelper;
 
-class tao_actions_GenerisTree extends tao_actions_CommonModule {
+class tao_actions_GenerisTree extends \oat\tao\model\mvc\psr7\Controller {
 	
 	const DEFAULT_LIMIT = 10;
 	

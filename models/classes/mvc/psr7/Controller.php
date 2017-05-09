@@ -23,9 +23,13 @@ use oat\tao\model\mvc\middleware\TaoControllerExecution;
 use oat\tao\model\mvc\psr7\clearfw\Request;
 use oat\tao\model\mvc\psr7\clearfw\Response;
 use oat\tao\model\mvc\psr7\Exception\DeprecatedMethod;
+use oat\tao\model\mvc\SlimLauncher;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\App;
+use Slim\Http\Uri;
 use Slim\Route;
+use Slim\Router;
 
 /**
  * psr7 request controller
@@ -142,8 +146,7 @@ class Controller extends \tao_actions_CommonModule {
      */
     public function forwardUrl($url)
     {
-        throw new DeprecatedMethod(__METHOD__);
-
+       parent::forwardUrl($url);
     }
 
     protected function executeForward(ServerRequestInterface $request) {

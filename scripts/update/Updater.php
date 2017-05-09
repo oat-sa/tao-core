@@ -16,7 +16,6 @@
  *
  * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
- *
  */
 
 namespace oat\tao\scripts\update;

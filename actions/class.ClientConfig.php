@@ -33,7 +33,7 @@ use oat\tao\model\routing\Resolver;
 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class tao_actions_ClientConfig extends tao_actions_CommonModule {
+class tao_actions_ClientConfig extends \oat\tao\model\mvc\psr7\Controller {
 
     /**
      * Get the require.js' config file

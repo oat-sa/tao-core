@@ -22,7 +22,7 @@ use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\exception\NotListedNotification;
 
-class tao_actions_Notification extends \tao_actions_CommonModule
+class tao_actions_Notification extends \oat\tao\model\mvc\psr7\Controller
 {
 
     public function getCount() {

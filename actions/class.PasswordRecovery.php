@@ -25,7 +25,7 @@ use oat\tao\model\passwordRecovery\PasswordRecoveryService;
  * 
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class tao_actions_PasswordRecovery extends tao_actions_CommonModule
+class tao_actions_PasswordRecovery extends \oat\tao\model\mvc\psr7\Controller
 {
     /**
      * @var oat\tao\model\passwordRecovery\PasswordRecoveryService 
