@@ -24,7 +24,6 @@ use oat\tao\model\ThemeRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
-use tao_helpers_Mode;
 
 /**
  * Generates client side configuration.
