@@ -124,7 +124,7 @@ implements Websource
         $mimeType = $this->getFileSystem()->getMimetype($filePath);
         //for css files mimetype can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
         $pathParts = pathinfo($filePath);
-        if ($mimeType === 'text/plain' && isset($pathParts['extension']) && $pathParts['extension'] === 'css') {
+        if (($mimeType === 'text/plain'|| $mimeType === 'text/x-asm') && isset($pathParts['extension']) && $pathParts['extension'] === 'css') {
             $mimeType = 'text/css';
         }
         return $mimeType;
