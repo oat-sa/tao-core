@@ -84,16 +84,11 @@ class Bootstrap implements ServiceLocatorAwareInterface
      * Initialize the context
      *
      * @param $configuration
-     * @param array $options
      */
-    public function __construct($configuration, $options = array())
+    public function __construct($configuration)
     {
         if (! is_string($configuration) || ! is_readable($configuration)) {
-            try {
-                $this->displayMaintenancePage();
-            } catch (Exception $e) {
-                $this->catchError($e);
-            }
+            // throws new UnrecoverableException
             return;
         }
 
