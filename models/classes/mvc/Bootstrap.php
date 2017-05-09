@@ -90,7 +90,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
     {
         if (! is_string($configuration) || ! is_readable($configuration)) {
             try {
-                $this->putPlatformOnMaintenance();
+                $this->displayMaintenancePage();
             } catch (Exception $e) {
                 $this->catchError($e);
             }
@@ -182,7 +182,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
             }
             //the app is not ready, put platform on maintenance
             else {
-                $this->putPlatformOnMaintenance();
+                $this->displayMaintenancePage();
             }
         } catch(Exception $e){
             $this->catchError($e);
@@ -199,7 +199,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
      *
      * @throws \common_exception_SystemUnderMaintenance
      */
-    protected function putPlatformOnMaintenance()
+    protected function displayMaintenancePage()
     {
         //the request is not an ajax request, redirect the user to the maintenance page
         if (! tao_helpers_Request::isAjax()) {
