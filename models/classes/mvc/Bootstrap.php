@@ -88,27 +88,23 @@ class Bootstrap implements ServiceLocatorAwareInterface
      */
     public function __construct($configuration, $options = array())
     {
-        if ($configuration instanceof ServiceManager) {
-            $serviceManager = $configuration;
-        } else {
-            if (is_string($configuration) && is_readable($configuration)) {
-                require_once $configuration;
-                $serviceManager = new ServiceManager(
-                    (new SimpleConfigDriver())->connect('config', array(
-                        'dir' => dirname($configuration),
-                        'humanReadable' => true
-                    ))
-                );
-            } else {
-                // Should never occurred
-                try{
-                    $this->putPlatformOnMaintenance();
-                } catch(Exception $e){
-                    $this->catchError($e);
-                }
-                return;
+        if (! is_string($configuration) || ! is_readable($configuration)) {
+            try {
+                $this->putPlatformOnMaintenance();
+            } catch (Exception $e) {
+                $this->catchError($e);
             }
+            return;
         }
+
+        require_once $configuration;
+        $serviceManager = new ServiceManager(
+            (new SimpleConfigDriver())->connect('config', array(
+                'dir' => dirname($configuration),
+                'humanReadable' => true
+            ))
+        );
+
         $this->setServiceLocator($serviceManager);
         // To be removed when getServiceManager will disappear
         ServiceManager::setServiceManager($serviceManager);
