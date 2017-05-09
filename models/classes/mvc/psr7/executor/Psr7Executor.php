@@ -34,7 +34,8 @@ class Psr7Executor implements ExecutorInterface {
 
     public function render($controller, $implicitContent , ResponseInterface $response = null) {
         /* @var $controller \oat\tao\model\mvc\psr7\Controller */
-        return $controller->sendResponse($response);
+        $response = $controller->sendResponse($response);
+        return $response;
     }
 
 }

@@ -38,7 +38,7 @@ use oat\tao\helpers\ControllerHelper;
  * @package tao
  
  */
-abstract class tao_actions_RdfController extends tao_actions_CommonModule {
+abstract class tao_actions_RdfController extends \oat\tao\model\mvc\psr7\Controller {
     
     /**
      * The Modules access the models throught the service instance
@@ -193,7 +193,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * * subclasses:
 	 * * classUri:
 	 * 
-	 * @return void
+	 * @return \Slim\Http\Response
 	 * @requiresRight classUri READ
 	 */
 	public function getOntologyData()
@@ -260,9 +260,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         } elseif(array_values($tree) === $tree) {//is indexed array
             usort($tree, 'sortTreeNodes');
         }
-        
-        //expose the tree
-        $this->returnJson($tree);
+        $response = $this->returnJson($tree);
+
+        return $response;
 	}
 
 	/**

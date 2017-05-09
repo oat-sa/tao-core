@@ -215,6 +215,7 @@ class TaoControllerExecution extends AbstractTaoMiddleware
          * @var $executor ActionExecutor
          */
         $executor = $this->getContainer()->get('taoService')->get(ActionExecutor::SERVICE_ID);
+
         $response = $executor->execute($controller , $implicitContent , $response);
 
         return $response;

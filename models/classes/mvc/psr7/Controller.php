@@ -25,7 +25,6 @@ use oat\tao\model\mvc\psr7\clearfw\Response;
 use oat\tao\model\mvc\psr7\Exception\DeprecatedMethod;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Http\Uri;
 use Slim\Route;
 
 /**
@@ -105,18 +104,17 @@ class Controller extends \tao_actions_CommonModule {
      * @return ResponseInterface
      */
     public function sendResponse($response = null) {
+        if($response !== $this->getPsrResponse()) {
+            /* @var $response \GuzzleHttp\Psr7\Response */
+            $response = $this->getPsrResponse();
+
+        }
         if($this->hasView()) {
             $view = $this->getRenderer()->render();
-        } else {
-            $view = '';
+            $body     = \GuzzleHttp\Psr7\stream_for($view);
+            $response = $response->withBody($body);
         }
-        if(!is_a($response, \GuzzleHttp\Psr7\Response::class )) {
-            /* @var $response \GuzzleHttp\Psr7\Response */
-            $response = $this->getResponse()->getPsrResponse();
-        }
-        $body     = \GuzzleHttp\Psr7\stream_for($view);
-        $response = $response->withBody($body);
-        
+        $this->updateResponse($response);
         return $response;
     }
 
@@ -172,5 +170,29 @@ class Controller extends \tao_actions_CommonModule {
         $this->updateResponse($response);
         return $response;
     }
-    
+
+    protected function returnJson($data, $httpStatus = 200)
+    {
+        /**
+         * @var $response \Slim\Http\Response
+         */
+        $response = $this->getPsrResponse();
+        $response =  $response->withJson($data , $httpStatus);
+        $this->updateResponse($response);
+        return $response;
+    }
+
+    /**
+     * @deprecated since 10.0.0
+     * @param string $description
+     * @param bool $returnLink
+     * @param null $httpStatus
+     * @throws DeprecatedMethod
+     */
+    protected function returnError($description, $returnLink = true, $httpStatus = null)
+    {
+        throw new DeprecatedMethod(__METHOD__);
+    }
+
+
 }
