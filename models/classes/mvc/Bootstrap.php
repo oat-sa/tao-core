@@ -87,7 +87,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
     public function __construct($configuration)
     {
         if (! is_string($configuration) || ! is_readable($configuration)) {
-            throw new \common_Exception('TAO platform seems to be not installed.');
+            throw new \common_exception_PreConditionFailure('TAO platform seems to be not installed.');
         }
 
         require_once $configuration;
