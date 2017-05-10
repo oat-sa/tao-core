@@ -22,21 +22,22 @@
 namespace oat\tao\model\mvc;
 
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\SimpleConfigDriver;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
-use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Request;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -59,8 +60,10 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap {
-    
+class Bootstrap implements ServiceLocatorAwareInterface
+{
+    use ServiceLocatorAwareTrait;
+
     const CONFIG_SESSION_HANDLER = 'session';
 
 	/**
@@ -73,26 +76,37 @@ class Bootstrap {
 	 */
 	protected static $isDispatched = false;
 
-	/**
-	 * Initialize the context
-	 * @param string $configFile
-	 * @param array $options
-	 */
-	public function __construct($configFile, $options = array())
-	{
-	    
-	    require_once $configFile;
-	    
-	    common_Profiler::singleton()->register();
+    /**
+     * Bootstrap constructor.
+     *
+     * Initialize the context
+     *
+     * @param $configuration
+     * @throws \common_Exception If config file is not readable
+     */
+    public function __construct($configuration)
+    {
+        if (! is_string($configuration) || ! is_readable($configuration)) {
+            throw new \common_exception_PreConditionFailure('TAO platform seems to be not installed.');
+        }
 
-		if(PHP_SAPI == 'cli'){
-			tao_helpers_Context::load('SCRIPT_MODE');
-		}
-		else{
-			tao_helpers_Context::load('APP_MODE');
-		}
+        require_once $configuration;
+        $serviceManager = new ServiceManager(
+            (new SimpleConfigDriver())->connect('config', array(
+                'dir' => dirname($configuration),
+                'humanReadable' => true
+            ))
+        );
 
-	}
+        $this->setServiceLocator($serviceManager);
+        // To be removed when getServiceManager will disappear
+        ServiceManager::setServiceManager($serviceManager);
+        if(PHP_SAPI == 'cli'){
+            tao_helpers_Context::load('SCRIPT_MODE');
+        } else{
+            tao_helpers_Context::load('APP_MODE');
+        }
+    }
 
 	/**
 	 * Check if the current context has been started
@@ -139,7 +153,6 @@ class Bootstrap {
 			$this->registerErrorhandler();
 			self::$isStarted = true;
 		}
-		common_Profiler::stop('start');
 	}
 	
 	protected function dispatchHttp()
@@ -151,33 +164,42 @@ class Bootstrap {
 	            $this->scripts();
 	        }
 	    }
-	    
-	    //Catch all exceptions
-	    try{
-	        //the app is ready
-	        if($this->isReady()){
-	            $this->mvc();
-	        }
-	        //the app is not ready
-	        else{
-	            //the request is not an ajax request, redirect the user to the maintenance page
-	            if(!$isAjax){
-	                require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-	                //else throw an exception, this exception will be send to the client properly
-	            }
-	            else{
-	    
-	                throw new \common_exception_SystemUnderMaintenance();
-	            }
-	        }
-	    }
-	    catch(Exception $e){
-	        $this->catchError($e);
-	    }
+
+        //Catch all exceptions
+        try {
+            //the app is ready, process mvc
+            if($this->isReady()){
+                $this->mvc();
+            }
+            //the app is not ready, put platform on maintenance
+            else {
+                $this->displayMaintenancePage();
+            }
+        } catch(Exception $e){
+            $this->catchError($e);
+        }
 	    
 	    // explicitly close session
 	    session_write_close();
 	}
+
+    /**
+     * Put the platform on maintenance
+     * Redirect to maintenance page if http call is not ajax
+     * Otherwise throw common_exception_SystemUnderMaintenance
+     *
+     * @throws \common_exception_SystemUnderMaintenance
+     */
+    protected function displayMaintenancePage()
+    {
+        //the request is not an ajax request, redirect the user to the maintenance page
+        if (! tao_helpers_Request::isAjax()) {
+            require_once Template::getTemplate('error/maintenance.tpl', 'tao');
+            //else throw an exception, this exception will be send to the client properly
+        } else {
+            throw new \common_exception_SystemUnderMaintenance();
+        }
+    }
 	
         
 	protected function dispatchCli()
@@ -204,7 +226,6 @@ class Bootstrap {
 	 */
 	public function dispatch()
 	{
-		common_Profiler::start('dispatch');
 		if(!self::$isDispatched){
 		    if (PHP_SAPI == 'cli') {
 		        $this->dispatchCli();
@@ -213,7 +234,6 @@ class Bootstrap {
 		    }
             self::$isDispatched = true;
         }
-        common_Profiler::stop('dispatch');
     }
     
     /**
@@ -224,7 +244,7 @@ class Bootstrap {
      */
     protected function catchError(Exception $exception)
     {
-        $exceptionInterpreterService = $this->getServiceManager()->get(ExceptionInterpreterService::SERVICE_ID);
+        $exceptionInterpreterService = $this->getServiceLocator()->get(ExceptionInterpreterService::SERVICE_ID);
         $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
         $interpretor->getResponse()->send();
     }
@@ -299,8 +319,8 @@ class Bootstrap {
 
 	/**
 	 *  Start the MVC Loop from the ClearFW
-	 *  @throws ActionEnforcingException in case of wrong module or action
-	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
+	 *  @throws \ActionEnforcingException in case of wrong module or action
+	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
 	 */
     protected function mvc()
     {
@@ -315,7 +335,7 @@ class Bootstrap {
      */
     protected function scripts()
     {
-        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+        $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
         $cssFiles = [
             $assetService->getAsset('css/layout.css', 'tao'),
             $assetService->getAsset('css/tao-main-style.css', 'tao'),
@@ -339,11 +359,6 @@ class Bootstrap {
      */
     protected function getMaintenanceService()
     {
-        return $this->getServiceManager()->get(Maintenance::SERVICE_ID);
+        return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
-
-	private function getServiceManager()
-	{
-	    return ServiceManager::getServiceManager();
-	}
 }
