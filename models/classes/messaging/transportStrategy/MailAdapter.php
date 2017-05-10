@@ -23,11 +23,11 @@
 
 namespace oat\tao\model\messaging\transportStrategy;
 
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\messaging\Transport;
 use oat\tao\model\messaging\transportStrategy\AbstractAdapter;
 use oat\tao\model\messaging\Message;
 use oat\oatbox\user\User;
-use oat\oatbox\Configurable;
 
 /**
  * MailAdapter sends email messages using PHPMailer. 
@@ -36,7 +36,7 @@ use oat\oatbox\Configurable;
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  */
-class MailAdapter extends Configurable implements Transport
+class MailAdapter extends ConfigurableService implements Transport
 {
     const CONFIG_SMTP_CONFIG = 'SMTPConfig';
     

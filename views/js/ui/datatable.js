@@ -22,9 +22,13 @@ define([
     'i18n',
     'core/pluginifier',
     'tpl!ui/datatable/tpl/layout',
+    'tpl!ui/datatable/tpl/button',
     'ui/datatable/filterStrategy/filterStrategy',
-    'ui/pagination'
-], function($, _, __, Pluginifier, layout, filterStrategyFactory, paginationComponent){
+    'ui/pagination',
+    'ui/feedback',
+    'layout/logout-event',
+    'core/logger'
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loggerFactory){
 
     'use strict';
 
@@ -39,8 +43,17 @@ define([
         sortby: 'id',
         sortorder: 'asc',
         paginationStrategyTop: 'none',
-        paginationStrategyBottom: 'simple'
+        paginationStrategyBottom: 'simple',
+        labels: {
+            filter: __('Filter'),
+            empty: __('Nothing to list!'),
+            available: __('Available'),
+            loading: __('Loading'),
+            actions: __('Actions')
+        }
     };
+
+    var logger = loggerFactory('ui/datatable');
 
     /**
      * The CSS class used to hide an element
@@ -94,18 +107,18 @@ define([
          * @param {Object|Boolean} options.status - allow to display a status bar.
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
          * @param {String} options.filterStrategy - 'multiple' | 'single'  -- filtered by all filters together or filtering allowed only by one field at the moment (default 'single'),
+         * @param {String} options.filterSelector - css selector for search of filter inputs, by defaul 'select, input'
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
          * @param {String} options.filterquery - a query string for filtering, using only in runtime.
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
          * @param {String} options.paginationStrategyTop  - 'none' | 'pages' | 'simple' -- 'none' by default (next/prev), 'pages' show pages and extended control for pagination
          * @param {String} options.paginationStrategyBottom  - 'none' | 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
+         * @param {Object} options.labels - list of labels in datatable interface, that can be overridden by incoming options
          * @param {Object} [data] - inject predefined data to avoid the first query.
          * @fires dataTable#create.datatable
          * @returns {jQueryElement} for chaining
          */
         init: function(options, data) {
-
-            var self = dataTable;
             options = _.defaults(options, defaults);
 
             return this.each(function() {
@@ -124,9 +137,9 @@ define([
                     });
 
                     if (data) {
-                        self._render($elt, data);
+                        dataTable._render($elt, data);
                     } else {
-                        self._query($elt);
+                        dataTable._query($elt);
                     }
                 } else {
                     // update existing options
@@ -134,7 +147,7 @@ define([
                         $elt.data(dataNs, _.merge(currentOptions, options));
                     }
 
-                    self._refresh($elt, data);
+                    dataTable._refresh($elt, data);
                 }
 
             });
@@ -191,8 +204,20 @@ define([
                 $elt.find('.loading').removeClass(hiddenCls);
             }
 
-            $.ajax(ajaxConfig).done(function(response) {
+            $.ajax(ajaxConfig).done(function (response) {
                 self._render($elt, response);
+            }).fail(function (response) {
+                var errorDetails = JSON.parse(response.responseText);
+                logger.error(errorDetails);
+
+                if (response.status === 403) {
+                    logoutEvent();
+                } else {
+                    feedback().error(response.status + ': ' + errorDetails.message);
+                }
+                $elt.trigger('error.' + ns, [errorDetails]);
+
+                self._render($elt, {});
             });
         },
 
@@ -219,6 +244,7 @@ define([
             var $massActionBtns = $();
             var $rows;
             var amount;
+            var transforms;
 
             var join = function join(input) {
                 return typeof input !== 'object' ? input : input.join(', ');
@@ -253,7 +279,7 @@ define([
 
             // process data by model rules
             if (_.some(options.model, 'transform')) {
-                var transforms = _.where(options.model, 'transform');
+                transforms = _.where(options.model, 'transform');
                 _.forEach(dataset.data, function (row, index) {
                     _.forEach(transforms, function (field) {
                         row[field.id] = field.transform(row[field.id], row, field, index, dataset.data);
@@ -286,27 +312,43 @@ define([
                 }
             });
 
-            // Attach a listener to every action button created
-            _.forEach(options.actions, function(action, name){
-                var css;
+            var attachActionListeners = function (actions) {
+                // Attach a listener to every action button created
+                _.forEach(actions, function(action, name){
+                    var css;
 
-                if (!_.isFunction(action)) {
-                    name = action.id || name;
-                    action = action.action || function() {};
-                }
+                    if (!_.isFunction(action)) {
+                        name = action.id || name;
+                        action = action.action || function() {};
+                    }
 
-                css = '.' + name;
+                    css = '.' + name;
 
-                $rendering
-                    .off('click', css)
-                    .on('click', css, function(e) {
-                        var $btn = $(this);
-                        e.preventDefault();
-                        if (!$btn.hasClass('disabled')) {
-                            action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
-                        }
-                    });
-            });
+                    $rendering
+                        .off('click', css)
+                        .on('click', css, function(e) {
+                            var $btn = $(this);
+                            e.preventDefault();
+                            if (!$btn.hasClass('disabled')) {
+                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
+                            }
+                        });
+                });
+            };
+
+            if (options.actions) {
+                attachActionListeners(options.actions);
+            }
+
+            // Attach listeners to model.type = action
+            if (_.some(options.model, 'type')) {
+                var types = _.where(options.model, 'type');
+                _.forEach(types, function (field) {
+                    if (field.type === 'actions' && field.actions) {
+                        attachActionListeners(field.actions);
+                    }
+                });
+            }
 
             // Attach a listener to every tool button created
             _.forEach(options.tools, function(action, name) {
@@ -404,8 +446,14 @@ define([
                 });
             }
 
-            $sortBy.click(function() {
-                var column = $(this).data('sort-by');
+            $sortBy.on('click keyup', function(e) {
+                var column;
+                if(e.type === 'keyup' && e.keyCode !== 13){
+                    return;
+                }
+                e.preventDefault();
+                column = $(this).data('sort-by');
+
                 self._sort($elt, column);
             });
 

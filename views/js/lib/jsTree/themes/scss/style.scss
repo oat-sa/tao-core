@@ -265,6 +265,10 @@
     @include icon-tree;
 }
 
+.taotree-blueprint .node-instance ins:before {
+    @include icon-map-o;
+}
+
 .taotree-default{
     @include icon-new-page;
 }

@@ -1,5 +1,5 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,12 +17,12 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-use oat\tao\helpers\translation\TranslationBundle;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
+use oat\oatbox\service\ServiceManager;
 
 /**
  *
@@ -38,11 +38,11 @@ class tao_install_Installator{
 
     protected $options = array();
 
-	private $toInstall = array();
-    
 	private $log = array();
 
 	private $escapedChecks = array();
+
+	private $oatBoxInstall = null;
 
 	public function __construct($options)
 	{
@@ -55,12 +55,10 @@ class tao_install_Installator{
 
 		$this->options = $options;
 
-		if(substr($this->options['root_path'], -1) != DIRECTORY_SEPARATOR){
-			$this->options['root_path'] .= DIRECTORY_SEPARATOR;
-		}
-		if(substr($this->options['install_path'], -1) != DIRECTORY_SEPARATOR){
-			$this->options['install_path'] .= DIRECTORY_SEPARATOR;
-		}
+        $this->options['root_path'] = rtrim($this->options['root_path'], '/\\') . DIRECTORY_SEPARATOR;
+        $this->options['install_path'] = rtrim($this->options['install_path'], '/\\') . DIRECTORY_SEPARATOR;
+
+		$this->oatBoxInstall = new Installer();
 		
 	}
 
@@ -133,9 +131,12 @@ class tao_install_Installator{
 			
 			$this->log('d', 'Removing old config', 'INSTALL');
 			$consistentOptions = array_merge($installData, $this->options);
-			$oatBoxInstall = new Installer($consistentOptions);
-			$oatBoxInstall->install();
-			
+            $consistentOptions['config_path'] = $this->getConfigPath();
+			$this->oatBoxInstall->setOptions($consistentOptions);
+			$this->oatBoxInstall->install();
+
+            ServiceManager::setServiceManager($this->getServiceManager());
+
 			/*
 			 *  2 - Test DB connection (done by the constructor)
 			 */
@@ -223,7 +224,7 @@ class tao_install_Installator{
 			$dbCreator->initTaoDataBase();	
             $this->log('i', 'Created tables', 'INSTALL');
             
-			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
+            $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
 				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
 				$dbCreator->loadProc($storedProcedureFile);
@@ -246,21 +247,27 @@ class tao_install_Installator{
 			$this->log('d', 'Writing generis config', 'INSTALL');
 			$generisConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'].'generis/config/sample/generis.conf.php',
-				$this->options['root_path'].'config/generis.conf.php'
+                $this->getGenerisConfig()
 			);
 
+			$session_name = (isset($installData['session_name']))?$installData['session_name']:self::generateSessionName();
 			$generisConfigWriter->createConfig();
-			$generisConfigWriter->writeConstants(array(
-				'LOCAL_NAMESPACE'			=> $installData['module_namespace'],
-				'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'],
-				'GENERIS_SESSION_NAME'		=> self::generateSessionName(),
-				'ROOT_PATH'					=> $this->options['root_path'],
+			$constants = array(
+                'LOCAL_NAMESPACE'			=> $installData['module_namespace'],
+                'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'],
+                'GENERIS_SESSION_NAME'		=> $session_name,
+                'ROOT_PATH'					=> $this->options['root_path'],
                 'FILES_PATH'                => $installData['file_path'],
-				'ROOT_URL'					=> $installData['module_url'],
-				'DEFAULT_LANG'				=> $installData['module_lang'],
-				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
-			    'TIME_ZONE'                  => $installData['timezone']
-			));
+                'ROOT_URL'					=> $installData['module_url'],
+                'DEFAULT_LANG'				=> $installData['module_lang'],
+                'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
+                'TIME_ZONE'                  => $installData['timezone']
+            );
+
+            $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
+
+
+			$generisConfigWriter->writeConstants($constants);
 
 			/*
 			 * 5b - Prepare the file/cache folder (FILES_PATH) not yet defined)
@@ -269,13 +276,13 @@ class tao_install_Installator{
 			$file_path = $installData['file_path'];
 			if (is_dir($file_path)) {
 			    $this->log('i', 'Data from previous install found and will be removed');
-                if (!helpers_File::emptyDirectory($installData['file_path'], true)) {
-                    throw new common_exception_Error('Unable to empty ' . $installData['file_path'] . ' folder.');
+                if (!helpers_File::emptyDirectory($file_path, true)) {
+                    throw new common_exception_Error('Unable to empty ' . $file_path . ' folder.');
                 }
 			} else {
-			    mkdir($installData['file_path'] , 0700, true);
+			    mkdir($file_path , 0700, true);
 		 	}
-		 	$cachePath = $installData['file_path'] . 'generis' . DIRECTORY_SEPARATOR . 'cache';
+		 	$cachePath = $file_path . 'generis' . DIRECTORY_SEPARATOR . 'cache';
             mkdir($cachePath, 0700, true);
 				
 			
@@ -283,7 +290,7 @@ class tao_install_Installator{
 			 * 6 - Run the extensions bootstrap
 			 */
 			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
-			common_Config::load();
+			common_Config::load($this->getGenerisConfig());
 			
 			/*
 			 * 6b - Create cache persistence
@@ -393,6 +400,11 @@ class tao_install_Installator{
             $this->log('e', 'Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
+	}
+
+	public function getServiceManager()
+    {
+		return $this->oatBoxInstall->setupServiceManager($this->getConfigPath());
 	}
 
 	private function retryInstallation($exception) {
@@ -542,5 +554,30 @@ class tao_install_Installator{
     public function getLog()
     {
         return $this->log;
+    }
+
+    /**
+     * Get the config file platform e.q. generis.conf.php
+     *
+     * @return string
+     */
+    protected function getGenerisConfig()
+     {
+         return $this->getConfigPath() . 'generis.conf.php';
+     }
+
+    /**
+     * Get the config path for installation
+     * If options have installation_config_path, it's taken otherwise it's root_path
+     *
+     * @return string
+     */
+    protected function getConfigPath()
+    {
+        if (isset($this->options['installation_config_path'])) {
+            return $this->options['installation_config_path'];
+        } else {
+            return $this->options['root_path'] . 'config' . DIRECTORY_SEPARATOR;
+        }
     }
 }

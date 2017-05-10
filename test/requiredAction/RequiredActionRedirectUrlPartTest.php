@@ -23,7 +23,7 @@ use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use Prophecy\Argument;
 
-class RequiredActionRedirectUrlPartTest extends TaoPhpUnitTestRunner
+class RequiredActionRedirectUrlPartTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -71,7 +71,7 @@ class RequiredActionRedirectUrlPartTest extends TaoPhpUnitTestRunner
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
         $ruleMock->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))->willReturn(null);
-        $ruleMock->check()->willReturn(true);
+        $ruleMock->check(null)->willReturn(true);
 
         return $ruleMock->reveal();
     }
@@ -80,7 +80,7 @@ class RequiredActionRedirectUrlPartTest extends TaoPhpUnitTestRunner
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
         $ruleMock->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))->willReturn(null);
-        $ruleMock->check()->willReturn(false);
+        $ruleMock->check(null)->willReturn(false);
 
         return $ruleMock->reveal();
     }

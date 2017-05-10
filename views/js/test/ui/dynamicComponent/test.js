@@ -93,22 +93,50 @@ define([
         instance.destroy();
     });
 
-    QUnit.test('render', function (assert){
+    QUnit.asyncTest('render', function (assert){
         var $dummy1 = $('<div class="dummy" />');
         var $content1 = $('<div class="my-custom-content">BBB</div>');
         var $container1 = $('#fixture-1').append($dummy1);
-        var instance;
+
+        QUnit.expect(19);
 
         // auto render at init
         assert.equal($container1.children().length, 1, 'The container1 already contains an element');
         assert.equal($container1.children().get(0), $dummy1.get(0), 'The container1 contains the dummy element');
         assert.equal($container1.find('.dummy').length, 1, 'The container1 contains an element of the class dummy');
 
-        instance = dynamicComponent({}, {
+        dynamicComponent({}, {
             title : 'AAA'
         }).on('rendercontent', function ($content){
             //init the calculator
             $content.append($content1);
+
+            assert.equal($container1.find('.dummy').length, 0, 'The container1 does not contain an element of the class dummy');
+            assert.equal(this.is('rendered'), true, 'The component instance must be rendered');
+            assert.equal(typeof this.getElement(), 'object', 'The component instance returns the rendered content as an object');
+            assert.equal(this.getElement().length, 1, 'The component instance returns the rendered content');
+            assert.equal(this.getElement().parent().get(0), $container1.get(0), 'The component instance is rendered inside the right container');
+
+            assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), 'BBB', 'content ok');
+
+            //check configured size
+            assert.equal($container1.find('.dynamic-component-container').outerWidth(), 300, 'width ok');
+            assert.equal($container1.find('.dynamic-component-container').outerHeight(), 200, 'height ok');
+
+            //check configured position
+            assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
+            assert.equal($container1.find('.dynamic-component-container').offset().left, 10, 'position top left');
+
+            //manual reset
+            $('#fixture-1').empty().attr('style', '');
+
+            QUnit.start();
         }).init({
             renderTo : $container1,
             replace : true,
@@ -117,31 +145,6 @@ define([
             height : 200,
             width : 300
         });
-
-        assert.equal($container1.find('.dummy').length, 0, 'The container1 does not contain an element of the class dummy');
-        assert.equal(instance.is('rendered'), true, 'The component instance must be rendered');
-        assert.equal(typeof instance.getElement(), 'object', 'The component instance returns the rendered content as an object');
-        assert.equal(instance.getElement().length, 1, 'The component instance returns the rendered content');
-        assert.equal(instance.getElement().parent().get(0), $container1.get(0), 'The component instance is rendered inside the right container');
-
-        assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), 'BBB', 'content ok');
-
-        //check configured size
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').width(), 300, 'width ok');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').height(), 200, 'height ok');
-
-        //check configured position
-        assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
-        assert.equal($container1.find('.dynamic-component-container').offset().left, 10, 'position top left');
-
-        //manual reset
-        $('#fixture-1').empty().attr('style', '');
     });
 
     QUnit.asyncTest('reset', function (assert){
@@ -171,8 +174,8 @@ define([
         assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), 'BBB', 'Dynamic component has content');
 
         //check configured size
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').width(), 300, 'width ok');
-        assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').height(), 200, 'height ok');
+        assert.equal($container1.find('.dynamic-component-container').outerWidth(), 300, 'width ok');
+        assert.equal($container1.find('.dynamic-component-container').outerHeight(), 200, 'height ok');
 
         //check configured position
         assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
@@ -187,14 +190,14 @@ define([
             assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), '', 'Dynamic component has emptied content');
 
             //check reset size
-            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').width(), 300, 'width ok');
-            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').height(), 200, 'height ok');
+            assert.equal($container1.find('.dynamic-component-container').outerWidth(), 300, 'width ok');
+            assert.equal($container1.find('.dynamic-component-container').outerHeight(), 200, 'height ok');
 
             //check reset position
             assert.equal($container1.find('.dynamic-component-container').offset().top, 10, 'position top ok');
             assert.equal($container1.find('.dynamic-component-container').offset().left, 10, 'position top left');
-
             QUnit.start();
+
         });
 
         $container1.find('.dynamic-component-container').css({top : 100, left : 100});
@@ -205,61 +208,65 @@ define([
         //manual reset
         $('#fixture-1').empty().attr('style', '');
     });
-    
-    QUnit.asyncTest('draggableContainer config', function (assert){
-        
-        var $container1 = $('#fixture-0');
-        var instance = dynamicComponent()
-            .on('error', function(){
-                assert.ok(false, 'error event should not be fired');
-            }).init({
-                renderTo : $container1,
-                replace : true,
-                draggableContainer : $container1 
-            });
-        
-        instance = dynamicComponent()
-            .on('error', function(){
-                assert.ok(false, 'error event should not be fired');
-            }).init({
-                renderTo : $container1,
-                replace : true,
-                draggableContainer : $container1[0] 
-            });
-            
-        instance = dynamicComponent()
-            .on('error', function(){
-                assert.ok(true, 'error event fired because of invalid draggableContainer configuration');
-            }).init({
-                renderTo : $('.no-existing-element'),
-                replace : true,
-                draggableContainer : 1324 
-            });
-            
-        instance = dynamicComponent()
-            .on('error', function(){
-                assert.ok(true, 'error event fired because of invalid draggableContainer configuration');
-                QUnit.start();
-            }).init({
-                renderTo : $container1,
-                replace : true,
-                draggableContainer : 1324 
-            });
-        
-    });
-    
+
+
     QUnit.asyncTest('close', function (assert){
-        
+
         var $container1 = $('#fixture-0');
-        var instance = dynamicComponent().init({
+        dynamicComponent().init({
             renderTo : $container1
         }).on('hide', function(){
             assert.ok('dynamic component hidden with the closer');
             QUnit.start();
         });
-       
+
         assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
-        
+
         $container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').click();
+    });
+
+    QUnit.asyncTest('reset control', function (assert){
+        var $container1 = $('#fixture-0');
+
+        QUnit.expect(2);
+
+        dynamicComponent()
+        .on('rendercontent', function(){
+            var self = this;
+            var $resetControl = $('.dynamic-component-container .dynamic-component-title-bar .reset', $container1);
+            assert.equal($resetControl.length, 1, 'Dynamic component title has a reset control');
+
+            //ensure initial resize aren't taken into account
+            _.delay(function(){
+                self.on('resize', function(){
+                    assert.ok('dynamic component reset using the control');
+                    QUnit.start();
+                });
+
+                $resetControl.trigger('click');
+            }, 100);
+        })
+        .init({
+            renderTo : $container1,
+            resizable : true
+        });
+    });
+
+    QUnit.asyncTest('reset control config', function (assert){
+        var $container1 = $('#fixture-0');
+
+        QUnit.expect(1);
+
+        dynamicComponent()
+        .on('rendercontent', function(){
+            var $resetControl = $('.dynamic-component-container .dynamic-component-title-bar .reset', $container1);
+            assert.equal($resetControl.length, 0, 'The reset control is there only on resizable components');
+
+            QUnit.start();
+        })
+        .init({
+            renderTo : $container1,
+            resizable : false
+        });
     });
 });

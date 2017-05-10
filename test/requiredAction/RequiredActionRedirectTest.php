@@ -31,6 +31,7 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  *
  * @author Aleh Hutnilau <hutnikau@1pt.com>
  * @package tao
+ * @deprecated
  */
 class RequiredActionRedirectTest extends TaoPhpUnitTestRunner
 {

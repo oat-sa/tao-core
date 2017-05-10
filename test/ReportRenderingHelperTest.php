@@ -19,11 +19,9 @@
  * 
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class ReportRenderingHelperTest extends TaoPhpUnitTestRunner {
+class ReportRenderingHelperTest extends \PHPUnit_Framework_TestCase {
 	
     public function testRenderSingle() {
        

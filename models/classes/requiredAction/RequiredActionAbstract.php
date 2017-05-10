@@ -66,24 +66,26 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
 
     /**
      * Whether the action must be executed.
+     * @param null $context
      * @return boolean
      */
-    public function mustBeExecuted()
+    public function mustBeExecuted($context = null)
     {
-        $result = $this->checkRules();
+        $result = $this->checkRules($context);
 
         return $result;
     }
 
     /**
      * Mark action as completed.
+     * @param null $context
      * @return mixed
      */
-    public function completed()
+    public function completed($context = null)
     {
         $rules = $this->getRules();
         foreach ($rules as $rule) {
-            $rule->completed();
+            $rule->completed($context);
         }
     }
 
@@ -134,15 +136,16 @@ abstract class RequiredActionAbstract implements RequiredActionInterface
      * Check rules whether action must be performed.
      * If at least one rule returns true the action will be performed.
      * If result is `true` then action must be performed.
+     * @param null $context
      * @return bool
      */
-    protected function checkRules()
+    protected function checkRules($context = null)
     {
         $rules = $this->getRules();
         $result = false;
 
         foreach ($rules as $rule) {
-            if ($rule->check()) {
+            if ($rule->check($context)) {
                 $result = true;
                 break;
             }

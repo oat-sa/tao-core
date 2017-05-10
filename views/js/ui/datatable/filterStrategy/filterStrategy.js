@@ -26,7 +26,7 @@ define([
     'i18n',
     'core/providerRegistry',
     'ui/datatable/filterStrategy/multiple',
-    'ui/datatable/filterStrategy/single',
+    'ui/datatable/filterStrategy/single'
 ], function ($, _, __, providerRegistry, multipleStrategy, singleStrategy) {
     'use strict';
 

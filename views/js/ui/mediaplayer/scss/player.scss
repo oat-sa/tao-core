@@ -212,8 +212,9 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
             .volume {
                 cursor: default;
                 position: absolute;
-                padding: 10px 10px 5px 10px;
+                z-index: 3;
                 background-color: $playerBackground;
+                padding: 0 10px 0 10px;
                 height: 0;
                 top: 0;
                 left: -1px;
@@ -221,17 +222,23 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
                 border: solid 1px $playerBorder;
                 @include vendor-prefix(transition, 'height 300ms ease-out, top 300ms ease-out, opacity 50ms linear 250ms', property);
 
-                &.up {
+                &.up, &.down {
                     height: 120px;
-                    top: -125px;
+                    padding: 10px 10px 5px 10px;
                     opacity : 1;
-                     @include vendor-prefix(transition, 'height 300ms ease-out 50ms, top 300ms ease-out 50ms, opacity 50ms linear', property);
-
                     .slider {
                         opacity : 1;
                         transition: opacity 50ms linear 200ms;
                         @include vendor-prefix(transition, 'opacity 50ms linear 200ms', property);
                     }
+                }
+                &.up {
+                    top: -125px;
+                     @include vendor-prefix(transition, 'height 300ms ease-out 50ms, top 300ms ease-out 50ms, opacity 50ms linear', property);
+                }
+                &.down {
+                    top: 29px;
+                     @include vendor-prefix(transition, 'height 300ms ease-out 50ms, opacity 50ms linear', property);
                 }
             }
 
@@ -389,5 +396,25 @@ $playerSliderHightlight: whiten($playerSliderColor, .2);
                 vertical-align: middle;
             }
         }
+    }
+
+    &.loading::before {
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        margin-top: -15px;
+        margin-left: -15px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        border-top-color: #07d;
+        animation: spinner .6s linear infinite;
     }
 }

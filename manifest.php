@@ -21,8 +21,12 @@
  *
  */
 use oat\tao\scripts\install\AddLogFs;
+use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
+use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\SetupMaintenanceService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -31,10 +35,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '7.25.0',
+    'version' => '9.5.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=3.6.0',
+        'generis' => '>=3.27.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -85,7 +89,11 @@ return array(
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
             AddLogFs::class,
-            RegisterValidationRules::class
+            AddTmpFsHandlers::class,
+            RegisterValidationRules::class,
+            SetClientLoggerConfig::class,
+            InstallNotificationTable::class,
+            SetupMaintenanceService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -97,6 +105,7 @@ return array(
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'ServiceModule')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'Notification')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',      array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'File', 'act' => 'upload')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
@@ -138,14 +147,8 @@ return array(
         #BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL.'tao/',
 
-        #BASE WWW the web resources path
-        'BASE_WWW' => ROOT_URL . 'tao/views/',
-
          #TPL PATH the path to the templates
          'TPL_PATH' => $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
-
-        #STUFF that belongs in TAO
-        'TAOBASE_WWW' => ROOT_URL . 'tao/views/'
     ),
     'extra' => array(
         'structures' => $extpath.'actions'.DIRECTORY_SEPARATOR.'structures.xml',

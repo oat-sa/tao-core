@@ -31,63 +31,63 @@ define([
 
         var $container = $('#fixture-1');
         var combo =  cascadingComboBox({
-                categoriesDefinitions: [
-                    {
-                        id: 'reason1',
-                        placeholder: 'Reason 1'
-                    },
-                    {
-                        id: 'reason2',
-                        placeholder: 'Reason 2'
-                    },
-                    {
-                        id: 'reason3',
-                        placeholder: 'Reason 3'
-                    }
-                ],
-                categories : [
-                    {
-                        id : 'optionA',
-                        label : 'option A',
-                        categories : [
-                            {
-                                id : 'optionA1',
-                                label : 'option A-1',
-                                categories : [
-                                    {id : 'option A1a', label : 'option A-1-a'},
-                                    {id : 'option A1b', label : 'option A-1-b'},
-                                    {id : 'option A1c', label : 'option A-1-c'}
-                                ]
-                            },
-                            {
-                                id : 'optionA2',
-                                label : 'option A-2',
-                                categories : [
-                                    {id : 'option A2a', label : 'option A-2-a'},
-                                    {id : 'option A2b', label : 'option A-2-b'}
-                                ]
-                            },
-                            {
-                                label : 'option A-3'
-                            }
-                        ]
-                    },
-                    {
-                        id : 'optionB',
-                        label : 'option B',
-                        categories : [
-                            {id : 'option B1', label : 'option B-1'},
-                            {id : 'option B2', label : 'option B-2'},
-                            {id : 'option B3', label : 'option B-3'},
-                            {id : 'option B4', label : 'option B-4'}
-                        ]
-                    },
-                    {
-                        id : 'option_C',
-                        label : 'option C'
-                    }
-                ]
-            });
+            categoriesDefinitions: [
+                {
+                    id: 'reason1',
+                    placeholder: 'Reason 1'
+                },
+                {
+                    id: 'reason2',
+                    placeholder: 'Reason 2'
+                },
+                {
+                    id: 'reason3',
+                    placeholder: 'Reason 3'
+                }
+            ],
+            categories : [
+                {
+                    id : 'optionA',
+                    label : 'option A',
+                    categories : [
+                        {
+                            id : 'optionA1',
+                            label : 'option A-1',
+                            categories : [
+                                {id : 'option A1a', label : 'option A-1-a'},
+                                {id : 'option A1b', label : 'option A-1-b'},
+                                {id : 'option A1c', label : 'option A-1-c'}
+                            ]
+                        },
+                        {
+                            id : 'optionA2',
+                            label : 'option A-2',
+                            categories : [
+                                {id : 'option A2a', label : 'option A-2-a'},
+                                {id : 'option A2b', label : 'option A-2-b'}
+                            ]
+                        },
+                        {
+                            label : 'option A-3'
+                        }
+                    ]
+                },
+                {
+                    id : 'optionB',
+                    label : 'option B',
+                    categories : [
+                        {id : 'option B1', label : 'option B-1'},
+                        {id : 'option B2', label : 'option B-2'},
+                        {id : 'option B3', label : 'option B-3'},
+                        {id : 'option B4', label : 'option B-4'}
+                    ]
+                },
+                {
+                    id : 'option_C',
+                    label : 'option C'
+                }
+            ]
+        });
 
         var instance = combo.render($container);
 
@@ -112,8 +112,22 @@ define([
         assert.equal($container.find("option[value='optionA1']").length, 1, 'option added to DOM');
         assert.equal($container.find('.cascading-combo-box').length, 3, 'cascading OK');
 
+        $container.on('selected.cascading-combobox',function(x,val){
+            assert.equal(_.size(val), 3, 'obtaining values OK');
+        });
+
+        $container.find('select').eq(2).find('option[value="option A1a"]').prop('selected', 'selected');
+        $container.find('select').eq(2).trigger('change');
+
+        $container
+            .off('selected.cascading-combobox')
+            .on('selected.cascading-combobox',function(x,val){
+                assert.equal(_.size(val), 2, 'obtaining values OK');
+            });
+
         $container.find('select').eq(0).find('option[value=optionB]').prop('selected', 'selected');
         $container.find('select').eq(0).trigger('change');
+
         assert.equal($container.find('.cascading-combo-box').length, 2, 'removing cascading OK');
         assert.equal($container.find("option[value='optionA1']").length, 0, 'removing cascading OK');
     });

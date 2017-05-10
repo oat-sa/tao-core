@@ -3,11 +3,16 @@
 /* tooltip */
 .resourcemgr {
 
-    $activeColor:  whiten($uiClickableHoverBg, 0.5);
+    $activeColor:  whiten($uiClickableHoverBg, 0.9);
+    $rmBrowserWidth: 260;
+    $rmPreviewWidth: 300;
+    $rmMaxContainerWidth: 1400;
+    $rmSideMargin: 40;
 
     position: relative;
-    width: 100%;
+    width: 90%;
     height: 100%;
+    max-width: $rmMaxContainerWidth * 1px;
 
     #mediaManager &.modal {
         max-height: 700px;
@@ -24,16 +29,28 @@
 
     .file-wrapper {
         overflow-y: auto;
-        padding: 0 40px;
+        margin: 0 #{$rmSideMargin * 1px};
         height: calc(100% - 40px - 30px - 40px); // full height - h2.padding - h2.height - modal.bottom-padding
+        @include flex-container();
+    }
+
+    .file-browser {
+        @include simple-flex-box($rmBrowserWidth * 1px);
+    }
+
+    .file-preview {
+        @include simple-flex-box($rmPreviewWidth * 1px);
+    }
+
+    .file-selector {
+        @include simple-flex-box(auto);
+        max-width: calc(100% - #{($rmBrowserWidth + $rmPreviewWidth) *1px});
     }
 
    .file-browser, .file-selector, .file-preview {
         position: relative;
-        display: table-cell;
         vertical-align: top;
         height: 100% !important;
-
         color: $textColor;
 
         h1 {
@@ -69,14 +86,11 @@
     .file-browser{
         background-color: $uiClickableDefaultBg;
         & > h1 {
-            width: 260px;
             background-color: $uiHeaderBg;
         }
 
         & .file-browser-wrapper {
-            width: 260px;
             overflow: auto;
-
             height: calc(100% - 50px);
         }
 
@@ -112,10 +126,8 @@
     }
 
     .file-preview{
-        max-width: 300px;
         background-color: $uiClickableDefaultBg;
         & > h1 {
-            width: 300px;
             background-color: $uiHeaderBg;
         }
 
@@ -136,7 +148,6 @@
 
     .file-selector{
         position: relative;
-        width: 100%;
         border: solid 1px #fff;
         border-top: none;
         border-bottom: none;
@@ -161,7 +172,6 @@
         }
 
         .empty {
-            width: 100%;
             color: #666;
             font-style: italic;
             @include font-size(18);
@@ -174,38 +184,30 @@
             padding: 0;
             list-style-type: none;
             max-height: 550px;
-            overflow-y: auto;
             li {
                 height: 35px;
                 line-height: 35px;
                 margin-bottom: 0;
                 padding: 0 0 0 5px;
-                overflow-y: hidden;
+                position: relative;
 
                 &:before {
                     @include tao-icon-setup;
                     @include icon-document;
-                    margin: 0 4px;
                     @include font-size(16);
                     vertical-align: top;
+                    line-height: 2.2;
+                    position: absolute;
+                    left: 8px;
                 }
                 &[data-type='image']:before{
-                    @include tao-icon-setup;
                     @include icon-image;
-                    margin: 0 2px 0 0;
-                    line-height: 2.2;
                 }
                 &[data-type='audio']:before{
-                    @include tao-icon-setup;
                     @include icon-media;
-                    margin: 0 2px 0 0;
-                    line-height: 2.2;
                 }
                 &[data-type='video']:before{
-                    @include tao-icon-setup;
                     @include icon-video;
-                    margin: 0 2px 0 0;
-                    line-height: 2.2;
                 }
 
                 &.active, &:hover {
@@ -215,13 +217,14 @@
 
                 .desc {
                     display: inline-block;
-                    min-width:150px;
-                    max-width:250px;
+                    max-width: calc(100% - 130px);// 130 = icon left + toolbar right + some air
+                    margin-left: 25px;
                 }
 
                 .actions {
-                    float: right;
-                    position: relative;
+                    top: 0;
+                    right: 0;
+                    position: absolute;
                     height: 35px;
                     width: 100px;
                     .tlb {

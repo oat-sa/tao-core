@@ -19,6 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 
@@ -62,11 +63,11 @@ class tao_models_classes_TaoService
     /**
      * Store an uploaded file in the persistant storage and return a serial id
      *
-     * @param string $tmpFile
+     * @param File $tmpFile
      * @param string $name
      * @return string
      */
-    public function storeUploadedFile($tmpFile, $name = '')
+    public function storeUploadedFile(File $tmpFile, $name = '')
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $fsId = $ext->getConfig(self::CONFIG_UPLOAD_FILESOURCE);
@@ -77,9 +78,7 @@ class tao_models_classes_TaoService
             $dir = implode('/',str_split(substr($unique, 0, 3))).'/'.substr($unique, 3);
             $file = $baseDir->getFile($dir.'/'.$name);
         } while ($file->exists());
-        $fh = fopen($tmpFile, 'r');
-        $file->write($fh);
-        fclose($fh);
+        $file->write($tmpFile->read());
         $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
         $serial = $referencer->serialize($file);
         return $serial;

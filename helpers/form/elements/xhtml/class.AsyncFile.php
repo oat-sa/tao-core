@@ -107,7 +107,6 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
 				require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
 					 $("#' . $widgetName . '_container").uploader({
 							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
-							inputName: "' . $widgetName . '",
 							autoUpload: "' . $auto . '"  ,
 							showResetButton: "' . ! $auto . '" ,
 							showUploadButton: "' . ! $auto . '" ,

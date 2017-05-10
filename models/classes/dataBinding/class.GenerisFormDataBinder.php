@@ -35,6 +35,7 @@
 
 use oat\oatbox\service\ServiceManager;
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\tao\model\upload\UploadService;
 
 class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_classes_dataBinding_GenerisInstanceDataBinder
 {
@@ -92,6 +93,8 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
      * @param  core_kernel_classes_Property $property The property to bind the data.
      * @param  tao_helpers_form_data_UploadFileDescription $desc the upload file description.
      * @return void
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
     protected function bindUploadFileDescription(
         core_kernel_classes_Property $property,
@@ -117,7 +120,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
                 // Move the file at the right place.
                 $source = $desc->getTmpPath();
                 $serial = tao_models_classes_TaoService::singleton()->storeUploadedFile($source, $name);
-                tao_helpers_File::remove($source);
+                $this->getServiceLocator()->get(UploadService::SERVICE_ID)->remove($source);
 
                 // Create association between item & file, database side
                 $instance->editPropertyValues($property, $serial);

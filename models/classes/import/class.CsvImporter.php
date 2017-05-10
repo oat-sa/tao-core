@@ -18,6 +18,8 @@
  *               
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * Basic import of csv files
@@ -29,6 +31,7 @@
  */
 class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbstractImporter implements tao_models_classes_import_ImportHandler
 {
+
 	const OPTION_POSTFIX = '_O';
 
     /**
@@ -68,7 +71,10 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		} else {
 		    $sourceForm->getElement('source')->feed();
     		$fileInfo = $sourceForm->getValue('source');
-    	    $file = $fileInfo['uploaded_file'];
+
+            /** @var UploadService $uploadService */
+            $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
+            $file = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
 	    }
 	    
 		$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
@@ -105,15 +111,24 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		));
 		return $myFormContainer;
 	}
-	
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
+     * @param core_kernel_classes_Class $class
+     * @param tao_helpers_form_Form $form
+     * @return common_report_Report
+     * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
-    public function import($class, $form) {
+    public function import($class, $form)
+    {
 
-		$options = $form->getValues();
-		$options['file'] = $options['importFile'];
+        $options = $form->getValues();
+
+        /** @var UploadService $uploadService */
+        $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
+        $options['file'] = $uploadService->getUploadedFile($options['importFile']);
 
 		// Clean "csv_select" values from form view.
 		// Transform any "csv_select" in "csv_null" in order to
@@ -143,6 +158,16 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		}
 		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 
-        return parent::importFile($class, $options);
+        $result = parent::importFile($class, $options);
+
+        return $result;
+    }
+
+    /**
+     * @return ServiceManager
+     */
+    private function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }
