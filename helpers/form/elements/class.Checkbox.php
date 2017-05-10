@@ -72,7 +72,9 @@ abstract class tao_helpers_form_elements_Checkbox  extends tao_helpers_form_elem
     }
 
     /**
-     * @param array $readOnly
+     * Set the options to be readonly
+     *
+     * @param array $readOnly - the associative array [optionId => reason] of options to be disabled
      */
     public function setReadOnly( array $readOnly )
     {
@@ -80,12 +82,14 @@ abstract class tao_helpers_form_elements_Checkbox  extends tao_helpers_form_elem
     }
 
     /**
+     * Set an option as readonly
      *
-     * @param $option
+     * @param string $optionId - the optionId to be marked as disabled
+     * @param string $reason - the reason the option is disabled
      */
-    public function addReadOnly( $option )
+    public function addReadOnly($optionId, $reason)
     {
-        $this->readOnly[] = $option;
+        $this->readOnly[$optionId] = $reason;
     }
 
 

@@ -66,32 +66,45 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
         }
         $i = 0;
         $checked = 0;
-        $returnValue .= '<div class="form_radlst form_checklst">';
+        $returnValue .= '<ul class="form_radlst form_checklst plain">';
+        $readOnlyOptions = $this->getReadOnly();
         foreach ($this->options as $optionId => $optionLabel) {
+            $readOnly = isset($readOnlyOptions[$optionId]);
+            if($readOnly){
+                $returnValue .= '<li class="disabled">';
+            }else{
+                $returnValue .= '<li>';
+            }
+
             $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
             $returnValue .= $this->renderAttributes();
             
-            $readOnly = in_array($optionId, $this->getReadOnly());
+
             if ($readOnly) {
                 $returnValue .= "disabled='disabled' readonly='readonly' ";
             }
-            
+
             if (in_array($optionId, $this->values)) {
                 $returnValue .= " checked='checked' ";
                 $checked ++;
             }
-            $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
+            $returnValue .= " /><label style=\"max-width: calc(100% - 35px);vertical-align: top;padding: 0;margin-left: 2px;\" class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label>";
             
             if ($readOnly) {
                 $returnValue .= "<input type='hidden' name='{$this->name}_{$i}' value='$optionId'>";
+                $readOnlyReason = $readOnlyOptions[$optionId];
+                if(!empty($readOnlyReason)){
+                    $returnValue .= '<span class="icon-info"/>';
+                }
             }
+            $returnValue .= '</li>';
             $i ++;
         }
-        $returnValue .= "</div>";
+        $returnValue .= "</ul>";
         
         // add a small link
         if ($checkAll) {
-            if ($checked == count($this->options)) {
+            if ($checked == (count($this->options) - count($readOnlyOptions))) {
                 $returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker box-checker-uncheck' href='#'>" . __('Uncheck All') . "</a></span>";
             } else {
                 $returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker' href='#'>" . __('Check All') . "</a></span>";
