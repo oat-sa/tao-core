@@ -23,13 +23,9 @@ use oat\tao\model\mvc\middleware\TaoControllerExecution;
 use oat\tao\model\mvc\psr7\clearfw\Request;
 use oat\tao\model\mvc\psr7\clearfw\Response;
 use oat\tao\model\mvc\psr7\Exception\DeprecatedMethod;
-use oat\tao\model\mvc\SlimLauncher;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\App;
-use Slim\Http\Uri;
 use Slim\Route;
-use Slim\Router;
 
 /**
  * psr7 request controller
@@ -96,7 +92,7 @@ class Controller extends \tao_actions_CommonModule {
     }
 
      /**
-     * @param $response \GuzzleHttp\Psr7\Response
+     * @param $response ResponseInterface
      * @return $this
      */
     public function updateResponse(ResponseInterface $response) {
@@ -123,8 +119,12 @@ class Controller extends \tao_actions_CommonModule {
     }
 
     /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
+     * Forward create new request params and forward
+     * @param $action
+     * @param null $controller
+     * @param null $extension
+     * @param array $params
+     * @return ResponseInterface
      */
     public function forward($action, $controller = null, $extension = null, $params = array())
     {
@@ -149,6 +149,11 @@ class Controller extends \tao_actions_CommonModule {
        parent::forwardUrl($url);
     }
 
+    /**
+     * execute forward using controller execution middleware
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     protected function executeForward(ServerRequestInterface $request) {
         $container = $this->getServiceManager()->get('tao/slimContainer')->configure()->getContainer();
         $middleWare = new TaoControllerExecution($container);
