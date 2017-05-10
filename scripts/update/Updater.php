@@ -641,9 +641,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('7.34.0')) {
             OntologyUpdater::syncModels();
-            $taskQueueManagerRole = new \core_kernel_classes_Resource(TaskService::TASK_QUEUE_MANAGER_ROLE);
-            $accessService = \funcAcl_models_classes_AccessService::singleton();
-            $accessService->grantModuleAccess($taskQueueManagerRole, 'tao', 'TaskQueue');
+            AclProxy::applyRule(new AccessRule(
+               AccessRule::GRANT,
+               TaskService::TASK_QUEUE_MANAGER_ROLE,
+               ['ext' => 'tao', 'mod' => 'TaskQueue']
+            ));
             $this->setVersion('7.35.0');
         }
 
@@ -785,8 +787,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-        $this->skip('9.2.0', '9.4.0');
-
+        $this->skip('9.2.0', '9.5.0');
     }
 
     private function migrateFsAccess() {
