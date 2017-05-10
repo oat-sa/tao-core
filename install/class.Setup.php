@@ -198,11 +198,17 @@ class tao_install_Setup implements Action
         }
 
 
-        // run the actual install
-        $installator = new \tao_install_Installator (array(
+        $installOptions = array(
             'root_path' 	=> $options['root_path'],
-            'install_path'	=> $options['root_path'].'tao/install/'
-        ));
+            'install_path'	=> $options['root_path'].'tao/install/',
+        );
+
+        if (isset($global['installation_config_path'])) {
+            $installOptions['installation_config_path'] = $global['installation_config_path'];
+        }
+
+        // run the actual install
+        $installator = new \tao_install_Installator($installOptions);
 
         $serviceManager = $installator->getServiceManager();
 
