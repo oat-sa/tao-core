@@ -63,7 +63,7 @@ class ClassServiceTest extends \oat\tao\test\TaoPhpUnitTestRunner {
                 false, 
                 false, 
                 true,
-                ['getRootClass' , 'deleteClassProperty' ]
+                ['getRootClass' , 'deleteClassProperty' , 'deleteResource']
                 );
         
         $instance->expects($this->exactly(2))->method('getRootClass')
@@ -75,6 +75,12 @@ class ClassServiceTest extends \oat\tao\test\TaoPhpUnitTestRunner {
                     $this->prophesize(\core_kernel_classes_Property::class)->reveal(),
                     $this->prophesize(\core_kernel_classes_Property::class)->reveal(),
                     $this->prophesize(\core_kernel_classes_Property::class)->reveal(),
+                ];
+        
+        $instances = 
+                [
+                    $this->prophesize(\core_kernel_classes_Resource::class)->reveal(),
+                    $this->prophesize(\core_kernel_classes_Resource::class)->reveal(),
                 ];
         
         $subClasses = 
@@ -91,8 +97,17 @@ class ClassServiceTest extends \oat\tao\test\TaoPhpUnitTestRunner {
                         )
                 ->willReturn(true);
         
+        $instance->expects($this->exactly(2))
+                ->method('deleteResource')
+                ->withConsecutive(
+                        [$instances[0]],
+                        [$instances[1]]
+                        )
+                ->willReturn(true);
+        
         $classProphet  = $this->prophesize(\core_kernel_classes_Class::class);
         $classProphet->isSubClassOf($fixtureRootClass)->willReturn(true);
+        $classProphet->getInstances()->willReturn($instances);
         $classProphet->equals($fixtureRootClass)->willReturn(false);
         $classProphet->getSubClasses(false)->willReturn($subClasses);
         $classProphet->getProperties()->willReturn($properties);
