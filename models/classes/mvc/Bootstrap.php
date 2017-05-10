@@ -28,14 +28,12 @@ use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\routing\TaoFrontController;
 use oat\tao\model\routing\CliController;
-use common_Profiler;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Request;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -84,12 +82,12 @@ class Bootstrap implements ServiceLocatorAwareInterface
      * Initialize the context
      *
      * @param $configuration
+     * @throws \common_Exception If config file is not readable
      */
     public function __construct($configuration)
     {
         if (! is_string($configuration) || ! is_readable($configuration)) {
-            // throws new UnrecoverableException
-            return;
+            throw new \common_Exception('TAO platform seems to be not installed.');
         }
 
         require_once $configuration;
@@ -103,7 +101,6 @@ class Bootstrap implements ServiceLocatorAwareInterface
         $this->setServiceLocator($serviceManager);
         // To be removed when getServiceManager will disappear
         ServiceManager::setServiceManager($serviceManager);
-        common_Profiler::singleton()->register();
         if(PHP_SAPI == 'cli'){
             tao_helpers_Context::load('SCRIPT_MODE');
         } else{
@@ -156,7 +153,6 @@ class Bootstrap implements ServiceLocatorAwareInterface
 			$this->registerErrorhandler();
 			self::$isStarted = true;
 		}
-		common_Profiler::stop('start');
 	}
 	
 	protected function dispatchHttp()
@@ -200,7 +196,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
         if (! tao_helpers_Request::isAjax()) {
             require_once Template::getTemplate('error/maintenance.tpl', 'tao');
             //else throw an exception, this exception will be send to the client properly
-        } else{
+        } else {
             throw new \common_exception_SystemUnderMaintenance();
         }
     }
@@ -230,7 +226,6 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	 */
 	public function dispatch()
 	{
-		common_Profiler::start('dispatch');
 		if(!self::$isDispatched){
 		    if (PHP_SAPI == 'cli') {
 		        $this->dispatchCli();
@@ -239,7 +234,6 @@ class Bootstrap implements ServiceLocatorAwareInterface
 		    }
             self::$isDispatched = true;
         }
-        common_Profiler::stop('dispatch');
     }
     
     /**
@@ -250,7 +244,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
      */
     protected function catchError(Exception $exception)
     {
-        $exceptionInterpreterService = $this->getServiceManager()->get(ExceptionInterpreterService::SERVICE_ID);
+        $exceptionInterpreterService = $this->getServiceLocator()->get(ExceptionInterpreterService::SERVICE_ID);
         $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
         $interpretor->getResponse()->send();
     }
@@ -341,7 +335,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
      */
     protected function scripts()
     {
-        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+        $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
         $cssFiles = [
             $assetService->getAsset('css/layout.css', 'tao'),
             $assetService->getAsset('css/tao-main-style.css', 'tao'),
@@ -365,11 +359,6 @@ class Bootstrap implements ServiceLocatorAwareInterface
      */
     protected function getMaintenanceService()
     {
-        return $this->getServiceManager()->get(Maintenance::SERVICE_ID);
+        return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
-
-	private function getServiceManager()
-	{
-	    return ServiceManager::getServiceManager();
-	}
 }
