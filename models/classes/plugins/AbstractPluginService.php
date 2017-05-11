@@ -130,4 +130,43 @@ abstract class AbstractPluginService extends ConfigurableService
             $this->registry->register($plugin);
         }
     }
+
+
+
+    /**
+     * Register a list of plugins
+     * @param array $plugins
+     * @return int The number of registered plugins
+     */
+    public function registerPlugins(array $plugins)
+    {
+        $count = 0;
+        foreach($plugins as $plugin) {
+            if (is_array($plugin)) {
+                $plugin = $this->createFromArray($plugin);
+            }
+            $this->registry->register($plugin);
+            $count ++;
+        }
+        return $count;
+    }
+
+    /**
+     * Register a list of plugins gathered by categories
+     * @param array $plugins
+     * @return int The number of registered plugins
+     * @throws \common_exception_InvalidArgumentType
+     */
+    public function registerPluginsByCategories(array $plugins)
+    {
+        $count = 0;
+        foreach($plugins as $categoryPlugins) {
+            if (is_array($categoryPlugins)) {
+                $count += $this->registerPlugins($categoryPlugins);
+            } else {
+                throw new \common_exception_InvalidArgumentType(self::class, __FUNCTION__, 0, 'array', $categoryPlugins);
+            }
+        }
+        return $count;
+    }
 }
