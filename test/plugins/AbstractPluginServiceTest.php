@@ -21,7 +21,7 @@ namespace oat\tao\test\plugins;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\plugins\AbstractPluginRegistry;
-use oat\tao\model\plugins\PluginService;
+use oat\tao\model\plugins\AbstractPluginService;
 use oat\tao\model\plugins\PluginModule;
 use Prophecy\Prophet;
 
@@ -53,12 +53,21 @@ class PluginRegistry extends AbstractPluginRegistry
 }
 
 /**
+ * Concrete class PluginService
+ * @package oat\tao\test\plugins
+ */
+class PluginService extends AbstractPluginService
+{
+
+}
+
+/**
  * Test the AbstractPluginService
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class PluginServiceTest extends \PHPUnit_Framework_TestCase
+class AbstractPluginServiceTest extends \PHPUnit_Framework_TestCase
 {
     //data to stub the registry content
     private static $pluginData = [
@@ -89,7 +98,7 @@ class PluginServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get the service with the stubbed registry
-     * @return PluginService
+     * @return AbstractPluginService
      */
     protected function getPluginService()
     {
@@ -110,7 +119,7 @@ class PluginServiceTest extends \PHPUnit_Framework_TestCase
     public function testApi()
     {
         $pluginService = $this->getPluginService();
-        $this->assertInstanceOf(PluginService::class, $pluginService);
+        $this->assertInstanceOf(AbstractPluginService::class, $pluginService);
         $this->assertInstanceOf(ConfigurableService::class, $pluginService);
     }
 

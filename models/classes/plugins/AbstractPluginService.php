@@ -27,7 +27,7 @@ use oat\oatbox\service\ConfigurableService;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class PluginService extends ConfigurableService
+abstract class AbstractPluginService extends ConfigurableService
 {
     /**
      * @var AbstractPluginRegistry
