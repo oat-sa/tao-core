@@ -129,18 +129,30 @@ class UploadService extends ConfigurableService
 
     /**
      * @param string $serial
+     *
+     * @throws \common_exception_NotAcceptable   When the uploaded file url contains a wrong system id.
+     *
      * @return File
      */
     public function getUploadedFlyFile($serial)
     {
-\common_Logger::w($serial);
         if (filter_var($serial, FILTER_VALIDATE_URL)) {
             if (is_string($serial)) {
                 $fileParts = explode('/', $serial);
                 $fileName = array_pop($fileParts);
                 $serial = implode('/', $fileParts) . '/' . tao_helpers_File::getUserDirectoryHash() . '/' . $fileName;
             }
-            return $this->getSerializer()->unserializeFile($serial);
+            $file = $this->getSerializer()->unserializeFile($serial);
+
+            // Filesystem hack check.
+            if ($file->getFileSystemId() !== $this->getUploadFSid()) {
+                throw new \common_exception_NotAcceptable(
+                    'The uploaded file url contains a wrong filesystem id!' .
+                    '(Expected: `' . $this->getUploadFSid() . '` Actual: `' . $file->getFileSystemId() . '`)'
+                );
+            }
+
+            return $file;
         }
         return null;
     }
