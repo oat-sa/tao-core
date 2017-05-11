@@ -622,15 +622,36 @@ label {
         float: right;
     }
 
-
+    .form_checklst{
+        .grid-row {
+            [class*=" col-"], [class^="col-"] {
+                margin: 0;
+                .elt_desc {
+                    padding: 0 10px;
+                }
+                .tooltip-trigger{
+                    position: relative;
+                    top: 2px;
+                    color: $danger;
+                }
+            }
+            &.readonly{
+                .elt_desc, input[type="checkbox"]{
+                    cursor: not-allowed;
+                }
+                .elt_desc{
+                    opacity : 0.45;
+                }
+            }
+        }
+    }
 }
 
 
 input {
     &[type="checkbox"], &[type="radio"] {
         position: relative;
-        top: 1px;
-        margin-right: 3px;
+        margin-right: 4px;
     }
 }
 

@@ -66,19 +66,19 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
         }
         $i = 0;
         $checked = 0;
-        $returnValue .= '<ul class="form_radlst form_checklst plain">';
+        $returnValue .= '<div class="form_radlst form_checklst plain">';
         $readOnlyOptions = $this->getReadOnly();
         foreach ($this->options as $optionId => $optionLabel) {
             $readOnly = isset($readOnlyOptions[$optionId]);
             if($readOnly){
-                $returnValue .= '<li class="disabled">';
+                $returnValue .= '<div class="grid-row readonly">';
             }else{
-                $returnValue .= '<li>';
+                $returnValue .= '<div class="grid-row">';
             }
 
+            $returnValue .= '<div class="col-1">';
             $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
             $returnValue .= $this->renderAttributes();
-            
 
             if ($readOnly) {
                 $returnValue .= "disabled='disabled' readonly='readonly' ";
@@ -88,19 +88,21 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
                 $returnValue .= " checked='checked' ";
                 $checked ++;
             }
-            $returnValue .= " /><label style=\"max-width: calc(100% - 35px);vertical-align: top;padding: 0;margin-left: 2px;\" class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label>";
-            
+            $returnValue .= ' />';
+            $returnValue .= '</div><div class="col-10">';
+            $returnValue .= "<label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label>";
+            $returnValue .= '</div><div class="col-1">';
             if ($readOnly) {
-                $returnValue .= "<input type='hidden' name='{$this->name}_{$i}' value='$optionId'>";
+//                $returnValue .= "<input type='hidden' name='{$this->name}_{$i}' value='$optionId'>";
                 $readOnlyReason = $readOnlyOptions[$optionId];
                 if(!empty($readOnlyReason)){
-                    $returnValue .= '<span class="icon-info"/>';
+                    $returnValue .= '<span class="tooltip-trigger icon-warning" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span><div class="tooltip-content">'._dh($readOnlyReason).'</div>';
                 }
             }
-            $returnValue .= '</li>';
+            $returnValue .= '</div></div>';
             $i ++;
         }
-        $returnValue .= "</ul>";
+        $returnValue .= "</div>";
         
         // add a small link
         if ($checkAll) {
