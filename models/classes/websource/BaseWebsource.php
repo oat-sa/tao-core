@@ -121,6 +121,25 @@ implements Websource
      */
     public function getMimetype($filePath)
     {
-        return \tao_helpers_File::getMimeType($filePath);
+		$mimeType = $this->getFileSystem()->getMimetype($filePath);
+
+		$pathParts = pathinfo($filePath);
+		if(isset($pathParts['extension'])){
+			//manage bugs in finfo
+			switch($pathParts['extension']){
+				case 'css':
+					//for css files mimetype can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
+					if($mimeType === 'text/plain'|| $mimeType === 'text/x-asm'){
+						return $mimeType = 'text/css';
+					}
+					break;
+				case 'svg':
+					if($mimeType === 'text/plain'){
+						return $mimeType = 'image/svg+xml';
+					}
+					break;
+			}
+		}
+		return $mimeType;
     }
 }
