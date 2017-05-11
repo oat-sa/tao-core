@@ -67,6 +67,24 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 
 		$factory = new GenerisTreeFactory($showInst, $openNodes, $limit, $offset);
 		$array = $factory->buildTree($class);
+
+        //sort items by name
+        function sortTreeNodes($a, $b) {
+            if (isset($a['data']) && isset($b['data'])) {
+                if ($a['type'] != $b['type']) {
+                    return ($a['type'] == 'class') ? -1 : 1;
+                } else {
+                    return strcasecmp($a['data'], $b['data']);
+                }
+            }
+        }
+
+        if (isset($array['children'])) {
+            usort($array['children'], 'sortTreeNodes');
+        } elseif(array_values($array) === $array) {//is indexed array
+            usort($array, 'sortTreeNodes');
+        }
+
 		if ($hideNode) {
 			$array = isset($array['children']) ? $array['children'] : array();
 		}

@@ -4,9 +4,8 @@ namespace oat\tao\test\model\metadata\import;
 
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 use oat\tao\model\metadata\reader\KeyReader;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-class KeyReaderTest extends TaoPhpUnitTestRunner
+class KeyReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {

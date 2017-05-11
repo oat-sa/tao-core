@@ -21,8 +21,8 @@
  */
 namespace oat\tao\model\messaging\transportStrategy;
 
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\messaging\Transport;
-use oat\oatbox\Configurable;
 use oat\tao\model\messaging\Message;
 use oat\oatbox\user\User;
 /**
@@ -32,7 +32,7 @@ use oat\oatbox\user\User;
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  */
-class FileSink extends Configurable implements Transport
+class FileSink extends ConfigurableService implements Transport
 {
     const CONFIG_FILEPATH = 'path';
 

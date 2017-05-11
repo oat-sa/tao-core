@@ -73,13 +73,8 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
         $this->trace = $this->exception->getMessage();
         switch (get_class($this->exception)) {
             case 'tao_models_classes_AccessDeniedException':
-                $this->returnHttpCode    = 403;
-                $this->trace = 'User not authorized (session expired?)';
-                $this->responseClassName = 'RedirectResponse';
-                break;
             case 'ResolverException':   
                 $this->returnHttpCode    = 403;
-                $this->trace = 'Extension or controller not found';
                 $this->responseClassName = 'RedirectResponse';
             break;
             case 'tao_models_classes_UserException': 
