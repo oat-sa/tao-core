@@ -41,32 +41,18 @@ define([
         expected : '&lt;script type=&quot;javascript&quot;&gt;alert(&apos;Hello!&apos;);&lt;/script&gt;'
     }];
 
-    var encodeBase64DataProvider = [{
+    var base64DataProvider = [{
         title : 'ASCII string',
-        source : 'This is a test',
-        expected : 'VGhpcyBpcyBhIHRlc3Q='
+        string : 'This is a test',
+        base64 : 'VGhpcyBpcyBhIHRlc3Q='
     }, {
         title : 'Unicode string',
-        source : '✓ à la mode',
-        expected : '4pyTIMOgIGxhIG1vZGU='
+        string : '✓ à la mode',
+        base64 : '4pyTIMOgIGxhIG1vZGU='
     }, {
         title : 'Control char',
-        source : '\n',
-        expected : 'Cg=='
-    }];
-
-    var decodeBase64DataProvider = [{
-        title : 'ASCII string',
-        source : 'VGhpcyBpcyBhIHRlc3Q=',
-        expected : 'This is a test'
-    }, {
-        title : 'Unicode string',
-        source : '4pyTIMOgIGxhIG1vZGU=',
-        expected : '✓ à la mode'
-    }, {
-        title : 'Control char',
-        source : 'Cg==',
-        expected : '\n'
+        string : '\n',
+        base64 : 'Cg=='
     }];
 
     QUnit.module('API');
@@ -88,19 +74,19 @@ define([
         });
 
     QUnit
-        .cases(encodeBase64DataProvider)
+        .cases(base64DataProvider)
         .test('encode base64 ', function(data, assert){
-            var result = encode.encodeBase64(data.source);
+            var result = encode.encodeBase64(data.string);
             assert.ok(typeof result === 'string', 'The result is a string');
-            assert.equal(result, data.expected, 'The result is equal to the expected value');
+            assert.equal(result, data.base64, 'The result is equal to the expected value');
         });
 
     QUnit
-        .cases(decodeBase64DataProvider)
+        .cases(base64DataProvider)
         .test('decode base64 ', function(data, assert){
-            var result = encode.decodeBase64(data.source);
+            var result = encode.decodeBase64(data.base64);
             assert.ok(typeof result === 'string', 'The result is a string');
-            assert.equal(result, data.expected, 'The result is equal to the expected value');
+            assert.equal(result, data.string, 'The result is equal to the expected value');
         });
 });
 
