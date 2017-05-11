@@ -160,18 +160,6 @@ define([
 
             // modify properties
             postRenderProps.init();
-
-            return;
-            $('body').off('submit','.xhtml_form form').on('submit', '.xhtml_form form', function (e) {
-                var $form = $(this),
-                    formData = self.getFormData($form);
-                e.preventDefault();
-                return self.submitForm($form, formData);
-            }).off('click', '.form-submitter').on('click', '.form-submitter:not(.disabled)', function(e){
-                console.log('SUBMIT');
-                e.preventDefault();
-                $(e.target).closest('.xhtml_form form').trigger('submit');
-            });
         },
 
         /**

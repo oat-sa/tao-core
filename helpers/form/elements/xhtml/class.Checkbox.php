@@ -93,7 +93,6 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
             $returnValue .= "<label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label>";
             $returnValue .= '</div><div class="col-1">';
             if ($readOnly) {
-//                $returnValue .= "<input type='hidden' name='{$this->name}_{$i}' value='$optionId'>";
                 $readOnlyReason = $readOnlyOptions[$optionId];
                 if(!empty($readOnlyReason)){
                     $returnValue .= '<span class="tooltip-trigger icon-warning" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span><div class="tooltip-content">'._dh($readOnlyReason).'</div>';
