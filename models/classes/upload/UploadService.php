@@ -53,19 +53,26 @@ class UploadService extends ConfigurableService
         }
         $name = array_key_exists('name', $postedFile) ? $postedFile['name'] : uniqid('unknown_', false);
 
-        $targetLocation = tao_helpers_File::concat([$folder, uniqid('tmp', true) . $name]);
-        $file = new File(self::$tmpFilesystemId, $targetLocation);
-        $file->setServiceLocator($this->getServiceManager());
+        $targetName     = uniqid('tmp', true) . $name;
+        $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
-        $returnValue['uploaded'] = $file->put(fopen($tmp_name, 'rb'));
-        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($file));
+        $fakeFile = new File(self::$tmpFilesystemId, $targetLocation);
+        $fakeFile->setServiceLocator($this->getServiceManager());
+
+        $realFile = new File(
+            self::$tmpFilesystemId,
+            tao_helpers_File::getUserDirectoryHash() . '/' . $targetLocation
+        );
+        $realFile->setServiceLocator($this->getServiceManager());
+
+        $returnValue['uploaded'] = $realFile->put(fopen($tmp_name, 'rb'));
+        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($realFile));
         tao_helpers_File::remove($tmp_name);
 
-
-        $data['type'] = $file->getMimetype();
-        $data['uploaded_file'] = $this->getSerializer()->serialize($file);
+        $data['type'] = $realFile->getMimetype();
+        $data['uploaded_file'] = $this->getSerializer()->serialize($fakeFile);
         $data['name'] = $name;
-        $data['size'] = array_key_exists('size', $postedFile) ? $postedFile['size'] : $file->getSize();
+        $data['size'] = array_key_exists('size', $postedFile) ? $postedFile['size'] : $realFile->getSize();
         $returnValue['name'] = $name;
         $returnValue['uploaded_file'] = $data['uploaded_file'];
         $returnValue['data'] = json_encode($data);
@@ -100,10 +107,6 @@ class UploadService extends ConfigurableService
      */
     public function universalizeUpload($file)
     {
-        if (is_string($file) && is_file($file)) {
-            return $file;
-        }
-
         return $this->getUploadedFlyFile($file);
     }
 
@@ -130,7 +133,13 @@ class UploadService extends ConfigurableService
      */
     public function getUploadedFlyFile($serial)
     {
+\common_Logger::w($serial);
         if (filter_var($serial, FILTER_VALIDATE_URL)) {
+            if (is_string($serial)) {
+                $fileParts = explode('/', $serial);
+                $fileName = array_pop($fileParts);
+                $serial = implode('/', $fileParts) . '/' . tao_helpers_File::getUserDirectoryHash() . '/' . $fileName;
+            }
             return $this->getSerializer()->unserializeFile($serial);
         }
         return null;
@@ -144,7 +153,7 @@ class UploadService extends ConfigurableService
      */
     private function getLocalCopy(File $file)
     {
-        $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getPrefix()]);
+        $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getBasename()]);
         if (($resource = fopen($tmpName, 'wb')) !== false) {
             stream_copy_to_stream($file->readStream(), $resource);
             fclose($resource);
