@@ -88,6 +88,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
             'action'         => $resolver->getMethodName(),
             'shownExtension' => $this->getShownExtension(),
             'shownStructure' => $this->getShownStructure(),
+            'bundle'         => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION) 
         ]));
 
         $this->setView('client_config.tpl');
