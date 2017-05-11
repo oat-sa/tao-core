@@ -137,11 +137,12 @@ class UploadService extends ConfigurableService
     public function getUploadedFlyFile($serial)
     {
         if (filter_var($serial, FILTER_VALIDATE_URL)) {
-            if (is_string($serial)) {
-                $fileParts = explode('/', $serial);
-                $fileName = array_pop($fileParts);
-                $serial = implode('/', $fileParts) . '/' . tao_helpers_File::getUserDirectoryHash() . '/' . $fileName;
-            }
+            // Adding the user directory hash.
+            $fileParts = explode('/', $serial);
+            $fileName = array_pop($fileParts);
+            $serial = implode('/', $fileParts) . '/' . tao_helpers_File::getUserDirectoryHash() . '/' . $fileName;
+
+            // Getting the File instance of the file url.
             $file = $this->getSerializer()->unserializeFile($serial);
 
             // Filesystem hack check.
