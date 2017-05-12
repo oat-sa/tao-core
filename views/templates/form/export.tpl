@@ -15,9 +15,10 @@
                 'i18n',
                 'helpers',
                 'uiForm',
+                'ui/tooltip',
                 'jquery.fileDownload'
             ],
-            function($, _, __, helpers, uiForm){
+            function($, _, __, helpers, uiForm, tooltip){
                 'use strict';
 
                 var $form = $('#exportChooser'),
@@ -48,6 +49,9 @@
                     updateSubmitter();
                     $form.on('change', ':checkbox', updateSubmitter);
                 }
+
+                //manually init the tooltip
+                tooltip($form);
 
                 //overwrite the submit behaviour
                 $submitter.off('click').on('click', function(e){
