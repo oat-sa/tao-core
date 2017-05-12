@@ -27,6 +27,7 @@ use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use tao_helpers_File;
@@ -59,7 +60,7 @@ class UploadService extends ConfigurableService
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
         $fakeFile = $this->getUploadDir()->getFile($targetLocation);
-        $realFile = $this->getUploadDir()->getFile(tao_helpers_File::getUserDirectoryHash() . $targetLocation);
+        $realFile = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
 
         $returnValue['uploaded'] = $realFile->put(fopen($tmp_name, 'rb'));
         $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($realFile));
@@ -156,7 +157,7 @@ class UploadService extends ConfigurableService
 
             // Adding the user directory hash.
             $realFile = $this->getUploadDir()->getFile(
-                tao_helpers_File::getUserDirectoryHash() . '/' . $fakeFile->getBasename()
+                $this->getUserDirectoryHash() . '/' . $fakeFile->getBasename()
             );
 
             return $realFile;
@@ -217,4 +218,16 @@ class UploadService extends ConfigurableService
         }
     }
 
+    /**
+     * Returns the username directory hash.
+     *
+     * @return string
+     */
+    public function getUserDirectoryHash()
+    {
+        return hash(
+            'crc32b',
+            \common_session_SessionManager::getSession()->getUser()->getIdentifier()
+        );
+    }
 }

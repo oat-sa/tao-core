@@ -572,14 +572,4 @@ class tao_helpers_File
         $path = self::concat(array($directory, '*'));
         return (count(glob($path, GLOB_NOSORT)) === 0 );
     }
-
-    /**
-     * Returns the username directory hash.
-     *
-     * @return string
-     */
-    public static function getUserDirectoryHash()
-    {
-        return hash('crc32b', common_session_SessionManager::getSession()->getUser()->getIdentifier());
-    }
 }
