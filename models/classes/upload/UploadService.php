@@ -23,7 +23,9 @@ namespace oat\tao\model\upload;
 
 use oat\generis\model\fileReference\UrlFileSerializer;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\UploadLocalCopyCreatedEvent;
@@ -56,14 +58,8 @@ class UploadService extends ConfigurableService
         $targetName     = uniqid('tmp', true) . $name;
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
-        $fakeFile = new File(self::$tmpFilesystemId, $targetLocation);
-        $fakeFile->setServiceLocator($this->getServiceManager());
-
-        $realFile = new File(
-            self::$tmpFilesystemId,
-            tao_helpers_File::getUserDirectoryHash() . '/' . $targetLocation
-        );
-        $realFile->setServiceLocator($this->getServiceManager());
+        $fakeFile = $this->getUploadDir()->getFile($targetLocation);
+        $realFile = $this->getUploadDir()->getFile(tao_helpers_File::getUserDirectoryHash() . $targetLocation);
 
         $returnValue['uploaded'] = $realFile->put(fopen($tmp_name, 'rb'));
         $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($realFile));
@@ -80,11 +76,25 @@ class UploadService extends ConfigurableService
         return $returnValue;
     }
 
+    /**
+     * Returns the file system identifier.
+     *
+     * @return string
+     */
     public function getUploadFSid()
     {
         return self::$tmpFilesystemId;
     }
 
+    /**
+     * Returns the current file system directory instance.
+     *
+     * @return Directory
+     */
+    public function getUploadDir()
+    {
+        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getDirectory($this->getUploadFSid());
+    }
     /**
      *
      * @return \oat\generis\model\fileReference\UrlFileSerializer
@@ -107,6 +117,10 @@ class UploadService extends ConfigurableService
      */
     public function universalizeUpload($file)
     {
+        if (is_string($file) && is_file($file)) {
+            return $file;
+        }
+
         return $this->getUploadedFlyFile($file);
     }
 
@@ -137,24 +151,17 @@ class UploadService extends ConfigurableService
     public function getUploadedFlyFile($serial)
     {
         if (filter_var($serial, FILTER_VALIDATE_URL)) {
-            // Adding the user directory hash.
-            $fileParts = explode('/', $serial);
-            $fileName = array_pop($fileParts);
-            $serial = implode('/', $fileParts) . '/' . tao_helpers_File::getUserDirectoryHash() . '/' . $fileName;
-
             // Getting the File instance of the file url.
-            $file = $this->getSerializer()->unserializeFile($serial);
+            $fakeFile = $this->getSerializer()->unserializeFile($serial);
 
-            // Filesystem hack check.
-            if ($file->getFileSystemId() !== $this->getUploadFSid()) {
-                throw new \common_exception_NotAcceptable(
-                    'The uploaded file url contains a wrong filesystem id!' .
-                    '(Expected: `' . $this->getUploadFSid() . '` Actual: `' . $file->getFileSystemId() . '`)'
-                );
-            }
+            // Adding the user directory hash.
+            $realFile = $this->getUploadDir()->getFile(
+                tao_helpers_File::getUserDirectoryHash() . '/' . $fakeFile->getBasename()
+            );
 
-            return $file;
+            return $realFile;
         }
+
         return null;
     }
 
