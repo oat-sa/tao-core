@@ -54,8 +54,9 @@ class UploadService extends ConfigurableService
             throw  new \InvalidArgumentException('Upload filename is missing');
         }
         $name = array_key_exists('name', $postedFile) ? $postedFile['name'] : uniqid('unknown_', false);
+        $extension = pathinfo($name, PATHINFO_EXTENSION);
 
-        $targetName     = uniqid('tmp', true) . $name;
+        $targetName     = uniqid('tmp', true) . '.' . $extension;
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
         $fakeFile = $this->getUploadDir()->getFile($targetLocation);
