@@ -21,8 +21,6 @@ define([
     'jquery'
 ], function(encode, _, $){
 
-    QUnit.module('API');
-
     var htmlDataProvider = [{
         title : 'HTML content',
         html : '<div class="tao-content">Lorem ipsum <i>dummy</i>i> <strong>blabla</strong> <span id="fragment">text</span> <a href="http://www.tao.com/lorem-ipsum#tatata">with a link</a></div>',
@@ -32,14 +30,6 @@ define([
         html : '<script type="javascript">alert(\'Hello!\');</script>',
         expected : '&lt;script type="javascript"&gt;alert(\'Hello!\');&lt;/script&gt;'
     }];
-
-    QUnit
-        .cases(htmlDataProvider)
-        .test('encode HTML ', function(data, assert){
-            var result = encode.html(data.html);
-            assert.ok(typeof result === 'string', 'The result is a string');
-            assert.equal(result, data.expected, 'The result is equal to the expected value');
-        });
 
     var attributeDataProvider = [{
         title : 'HTML content',
@@ -51,6 +41,30 @@ define([
         expected : '&lt;script type=&quot;javascript&quot;&gt;alert(&apos;Hello!&apos;);&lt;/script&gt;'
     }];
 
+    var base64DataProvider = [{
+        title : 'ASCII string',
+        string : 'This is a test',
+        base64 : 'VGhpcyBpcyBhIHRlc3Q='
+    }, {
+        title : 'Unicode string',
+        string : '✓ à la mode',
+        base64 : '4pyTIMOgIGxhIG1vZGU='
+    }, {
+        title : 'Control char',
+        string : '\n',
+        base64 : 'Cg=='
+    }];
+
+    QUnit.module('API');
+
+    QUnit
+        .cases(htmlDataProvider)
+        .test('encode HTML ', function(data, assert){
+            var result = encode.html(data.html);
+            assert.ok(typeof result === 'string', 'The result is a string');
+            assert.equal(result, data.expected, 'The result is equal to the expected value');
+        });
+
     QUnit
         .cases(attributeDataProvider)
         .test('encode Attribute ', function(data, assert){
@@ -59,6 +73,21 @@ define([
             assert.equal(result, data.expected, 'The result is equal to the expected value');
         });
 
+    QUnit
+        .cases(base64DataProvider)
+        .test('encode base64 ', function(data, assert){
+            var result = encode.encodeBase64(data.string);
+            assert.ok(typeof result === 'string', 'The result is a string');
+            assert.equal(result, data.base64, 'The result is equal to the expected value');
+        });
+
+    QUnit
+        .cases(base64DataProvider)
+        .test('decode base64 ', function(data, assert){
+            var result = encode.decodeBase64(data.base64);
+            assert.ok(typeof result === 'string', 'The result is a string');
+            assert.equal(result, data.string, 'The result is equal to the expected value');
+        });
 });
 
 
