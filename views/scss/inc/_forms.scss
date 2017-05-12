@@ -308,6 +308,9 @@ label {
         &:checked ~ .icon-checkbox:before {
             @extend .icon-checkbox-checked:before;
         }
+        &:indeterminate ~ .icon-checkbox:before {
+            @extend .icon-checkbox-indeterminate:before;
+        }
         &:checked ~ .icon-radio:before {
             @extend .icon-radio-checked:before;
         }
