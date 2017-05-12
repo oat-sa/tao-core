@@ -57,12 +57,10 @@ class tao_helpers_form_elements_xhtml_File extends tao_helpers_form_elements_Fil
     {
         if (! empty($this->value)) {
             if (common_Utils::isUri($this->value)) {
-                $file = new core_kernel_file_File($this->value);
-                if ($file->fileExists()) {
-                    $fileInfo = $file->getFileInfo();
-                    $fileInfo->getFilename();
-                } else {
-                    $file->delete();
+                $referencer = $this->getServiceLocator()->get(\oat\generis\model\fileReference\FileReferenceSerializer::SERVICE_ID);
+                $file = $referencer->unserialize($this->value);
+                if (!$file->exists()) {
+                    $referencer->cleanup($this->value);
                 }
             }
         }
@@ -86,5 +84,10 @@ class tao_helpers_form_elements_xhtml_File extends tao_helpers_form_elements_Fil
     public function getEvaluatedValue()
     {
         return $this->getRawValue();
+    }
+
+    public function getServiceLocator()
+    {
+        return \oat\oatbox\service\ServiceManager::getServiceManager();
     }
 }
