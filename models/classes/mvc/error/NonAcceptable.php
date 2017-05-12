@@ -36,8 +36,8 @@ class NonAcceptable extends ResponseAbstract {
     public function send() {
         $this->response
             ->withStatus($this->httpCode)
-            ->withHeader('Content-Type', $this->contentType)
-            ->write('');
+            ->withHeader('Content-Type', $this->contentType);
+        $this->response->getBody()->write('');
 
         return $this->response;
 

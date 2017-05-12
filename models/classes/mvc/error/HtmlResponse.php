@@ -40,8 +40,8 @@ class HtmlResponse extends ResponseAbstract {
 
         $this->response
             ->withStatus($this->httpCode)
-            ->withHeader('Content-Type', $this->contentType)
-            ->write($htmlContent);
+            ->withHeader('Content-Type', $this->contentType);
+        $this->response->getBody()->write($htmlContent);
 
         return $this->response;
     }

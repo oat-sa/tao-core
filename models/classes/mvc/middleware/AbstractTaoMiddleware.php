@@ -33,25 +33,6 @@ abstract class AbstractTaoMiddleware implements ServiceLocatorAwareInterface
 {
 
     use ServiceLocatorAwareTrait;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * AbstractTaoMiddleware constructor.
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container) {
-        $this->container = $container;
-    }
-
-    /**
-     * @return ContainerInterface
-     */
-    protected function getContainer() {
-        return $this->container;
-    }
 
     /**
      * @param ServerRequestInterface $request

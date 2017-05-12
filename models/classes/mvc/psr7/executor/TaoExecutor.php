@@ -31,18 +31,19 @@ class TaoExecutor implements ExecutorInterface {
         return is_a($controller, \tao_actions_CommonModule::class);
     }
 
-    public function render($controller, $implicitContent , ResponseInterface $response = null) {
-
-        $content = $implicitContent;
+    /**
+     * @param object $controller
+     * @param ResponseInterface|null $response
+     * @return ResponseInterface
+     */
+    public function render($controller , ResponseInterface $response = null) {
 
         if ($controller->hasView()) {
 
             $renderer = $controller->getRenderer();
-            $content .= $renderer->render();
+            $response->getBody()->write($renderer->render());
 
         }
-
-        $response->getBody()->write($content);
 
         return $response;
     }

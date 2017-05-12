@@ -18,7 +18,7 @@
  */
 namespace oat\tao\model\mvc\error;
 
-use Slim\Http\Response;
+use \Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 /**
  * generate a http error response
@@ -35,10 +35,10 @@ interface ResponseInterface {
     public function setHttpCode($code);
 
     /**
-     * @param Response $response
+     * @param PsrResponseInterface $response
      * @return $this
      */
-    public function setResponse(Response $response);
+    public function setResponse(PsrResponseInterface $response);
 
     /**
      * use to send error message

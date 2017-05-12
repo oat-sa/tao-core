@@ -17,33 +17,23 @@
  *  Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\mvc\psr7;
+namespace oat\tao\model\mvc\Application\Exception;
 
 
-trait ContextAwareTrait
+use Exception;
+
+class InvalidResponse extends \common_exception_Error implements \common_exception_UserReadableException
 {
-    /**
-     * @var Context
-     */
-    protected $context;
 
-    /**
-     * @return Context
-     */
-    protected function getContext() {
-        if(is_null($this->context)) {
-            $this->context = new Context();
-        }
-        return $this->context;
+    public function __construct( $middleware , $message = '' , $code = 0, Exception $previous = null)
+    {
+        parent::__construct($middleware . ' doesn\'t return a valid ResponseInterface ' . $message, $code, $previous);
     }
 
-    /**
-     * @param Context $context
-     * @return $this
-     */
-    protected function setContext(Context $context) {
-        $this->context = $context;
-        return $this;
+    public function getUserMessage()
+    {
+        return __('invalid response object');
     }
+
 
 }

@@ -16,17 +16,9 @@
  *
  *  Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+namespace oat\tao\model\mvc\Application\Exception;
 
-namespace oat\tao\model\mvc\psr7;
-
-
-class InterruptedActionException extends \Exception
+class RouteNotFound extends \tao_models_classes_FileNotFoundException
 {
-
-    public function __construct($message)
-    {
-        parent::__construct($message);
-
-    }
 
 }

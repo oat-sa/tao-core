@@ -29,10 +29,11 @@ use Psr\Http\Message\ResponseInterface;
 class Psr7Executor implements ExecutorInterface {
     
     public function isExecutable($controller) {
-        return is_a($controller, \oat\tao\model\mvc\psr7\Controller::class);
+        return is_a($controller, \tao_actions_CommonModule::class);
     }
 
-    public function render($controller, $implicitContent , ResponseInterface $response = null) {
+    public function render($controller , ResponseInterface $response = null) {
+
         /* @var $controller \oat\tao\model\mvc\psr7\Controller */
         $response = $controller->sendResponse($response);
         return $response;

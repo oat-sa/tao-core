@@ -17,16 +17,39 @@
  *  Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\mvc\psr7;
+namespace oat\tao\model\mvc\Application;
 
 
-class InterruptedActionException extends \Exception
+interface ApplicationInterface
 {
 
-    public function __construct($message)
-    {
-        parent::__construct($message);
+    const SERVICE_ID = 'tao/application';
 
-    }
+    /**
+     * @param $path
+     * @return array route
+     */
+    public function resolve($path);
+
+    /**
+     * @return Resolution
+     */
+    public function getResolution();
+
+    /**
+     * @param $url
+     * @return void
+     */
+    public function forward($url);
+
+    /**
+     * @return void
+     */
+    public function run();
+
+    /**
+     * @return void
+     */
+    public function end();
 
 }

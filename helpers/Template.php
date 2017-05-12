@@ -23,8 +23,18 @@ namespace oat\tao\helpers;
 
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\mvc\Application\ApplicationInterface;
+use oat\tao\model\mvc\Application\TaoApplication;
 
 class Template {
+
+    protected static function getExtensionId() {
+        /**
+         * @var $app TaoApplication
+         */
+        $app = ServiceManager::getServiceManager()->get(ApplicationInterface::SERVICE_ID);
+        return $app->getResolution()->getExtensionId();
+    }
 
     /**
      * Expects a relative url to the image as path
@@ -36,7 +46,7 @@ class Template {
      */
     public static function img($path, $extensionId = null) {
         if (is_null($extensionId)) {
-            $extensionId = \Context::getInstance()->getExtensionName();
+            $extensionId = self::getExtensionId();
         }
 
         return self::getAssetService()->getAsset('img/'.$path, $extensionId);
@@ -52,7 +62,7 @@ class Template {
      */
     public static function css($path, $extensionId = null) {
         if (is_null($extensionId)) {
-            $extensionId = \Context::getInstance()->getExtensionName();
+            $extensionId = self::getExtensionId();
         }
         return self::getAssetService()->getAsset('css/'.$path, $extensionId);
     }
@@ -67,7 +77,7 @@ class Template {
      */
     public static function js($path, $extensionId = null) {
         if (is_null($extensionId)) {
-            $extensionId = \Context::getInstance()->getExtensionName();
+            $extensionId = self::getExtensionId();
         }
         return self::getAssetService()->getAsset('js/'.$path, $extensionId);
     }
@@ -82,11 +92,10 @@ class Template {
      * @return string
      */
     public static function inc($path, $extensionId = null, $data = array()) {
-        $context = \Context::getInstance();
-        if (!is_null($extensionId) && $extensionId != $context->getExtensionName()) {
+
+        if (!is_null($extensionId)) {
             // template is within different extension, change context
-            $formerContext = $context->getExtensionName();
-            $context->setExtensionName($extensionId);
+            $formerContext = self::getExtensionId();
         }
 
         if(count($data) > 0){
@@ -99,10 +108,7 @@ class Template {
         } else {
             \common_Logger::w('Failed to include "'.$absPath.'" in template');
         }
-        // restore context
-        if (isset($formerContext)) {
-            $context->setExtensionName($formerContext);
-        }
+
     }
 
     /**
@@ -111,7 +117,7 @@ class Template {
      * @return string
      */
     public static function getTemplate($path, $extensionId = null) {
-        $extensionId = is_null($extensionId) ? \Context::getInstance()->getExtensionName() : $extensionId;
+        $extensionId = is_null($extensionId) ? self::getExtensionId() : $extensionId;
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
         return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$path;
     }

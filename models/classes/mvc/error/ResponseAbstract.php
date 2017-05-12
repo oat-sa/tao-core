@@ -20,11 +20,8 @@
 namespace oat\tao\model\mvc\error;
 
 use common_Logger;
-use Context;
 use Exception;
-use HTTPToolkit;
-use oat\tao\model\mvc\psr7\ContextAwareTrait;
-use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -65,10 +62,10 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
             ];
 
     /**
-     * @param Response $response
+     * @param PsrResponseInterface $response
      * @return $this
      */
-    public function setResponse(Response $response)
+    public function setResponse(PsrResponseInterface $response)
     {
         $this->response = $response;
         return $this;

@@ -25,6 +25,8 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\mvc\Application\ApplicationInterface;
+use oat\tao\model\mvc\Application\TaoApplication;
 use oat\tao\model\routing\CliController;
 use common_Profiler;
 use common_Logger;
@@ -149,13 +151,8 @@ class Bootstrap {
 	    $isAjax = tao_helpers_Request::isAjax();
 	    
 	    if(tao_helpers_Context::check('APP_MODE')){
-	        if(!$isAjax){
-	            $this->scripts();
-	        }
 	    }
-	    
-	    //Catch all exceptions
-	    try{
+
 	        //the app is ready
 	        if($this->isReady()){
 	            $this->mvc();
@@ -172,10 +169,7 @@ class Bootstrap {
 	                throw new \common_exception_SystemUnderMaintenance();
 	            }
 	        }
-	    }
-	    catch(Exception $e){
-	        $this->catchError($e);
-	    }
+
 	    
 	    // explicitly close session
 	    session_write_close();
@@ -219,19 +213,7 @@ class Bootstrap {
         }
         common_Profiler::stop('dispatch');
     }
-    
-    /**
-     * Catch any errors
-     * return a http response in function of client accepted mime type 
-     * @todo use Slim error handling
-     * @param Exception $exception
-     */
-    protected function catchError(Exception $exception)
-    {
-        $exceptionInterpreterService = $this->getServiceManager()->get(ExceptionInterpreterService::SERVICE_ID);
-        $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
-        $interpretor->getResponse()->send();
-    }
+
 
     /**
      * Start the session
@@ -316,32 +298,11 @@ class Bootstrap {
         /**
          * @todo invoke as service
          */
-        $app = ServiceManager::getServiceManager()->get(SlimLauncher::SERVICE_ID);
-        $app->launch();
+        $app = ServiceManager::getServiceManager()->get(ApplicationInterface::SERVICE_ID);
+        $app->run();
     }
 
-    /**
-     * Load external resources for the current context
-     * @see tao_helpers_Scriptloader
-     */
-    protected function scripts()
-    {
-        $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
-        $cssFiles = [
-            $assetService->getAsset('css/layout.css', 'tao'),
-            $assetService->getAsset('css/tao-main-style.css', 'tao'),
-            $assetService->getAsset('css/tao-3.css', 'tao')
-        ];
 
-        //stylesheets to load
-        \tao_helpers_Scriptloader::addCssFiles($cssFiles);
-
-        if(\common_session_SessionManager::isAnonymous()) {
-            \tao_helpers_Scriptloader::addCssFile(
-                $assetService->getAsset('css/portal.css', 'tao')
-            );
-        }
-    }
 
     /**
      * Get the maintenance service to handle maintenance status

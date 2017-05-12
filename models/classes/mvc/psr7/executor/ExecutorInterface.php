@@ -37,8 +37,8 @@ interface ExecutorInterface {
     /**
      * 
      * @param object $controller
-     * @param object $response
+     * @param ResponseInterface $response
      */
-    public function render($controller, $implicitContent , ResponseInterface $response = null);
+    public function render($controller , ResponseInterface $response = null);
     
 }

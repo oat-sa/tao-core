@@ -32,7 +32,7 @@ class ActionExecutor
     implements ActionExecutorInterface
 {
     
-    public function execute($controller , $implicitContent, $response = null) {
+    public function execute($controller , $response = null) {
 
         $executorList = $this->getOption('executor');
         
@@ -41,7 +41,7 @@ class ActionExecutor
             $executor = new $executorClass();
 
             if($executor->isExecutable($controller)) {
-                $response =  $executor->render($controller , $implicitContent, $response);
+                return  $executor->render($controller , $response);
 
             }
         }

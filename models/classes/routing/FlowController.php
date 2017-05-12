@@ -23,10 +23,7 @@ namespace oat\tao\model\routing;
 
 use common_http_Request;
 use common_ext_ExtensionsManager;
-use InterruptedActionException;
 use Context;
-use oat\tao\model\mvc\psr7\ContextAwareTrait;
-use Psr\Http\Message\ServerRequestInterface;
 
 
 /**
@@ -37,9 +34,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class FlowController
 {
-
-    use ContextAwareTrait;
-
     /**
      * This header is added to the response to inform the client a forward occurs
      */
@@ -103,15 +97,8 @@ class FlowController
     // HTTP 303 : The response to the request can be found under a different URI
     public function redirect($url, $statusCode = 302)
     {
-        $context = $this->getContext();
-
         header(\HTTPToolkit::statusCodeHeader($statusCode));
         header(\HTTPToolkit::locationHeader($url));
-        /**
-        throw new InterruptedActionException('Interrupted action after a redirection',
-            $context->getModuleName(),
-            $context->getActionName());
-         */
         exit;
     }
 

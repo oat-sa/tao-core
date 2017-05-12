@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\mvc\middleware;
 
+use oat\tao\model\mvc\Application\Resolution;
 use oat\tao\model\mvc\psr7\Resolver;
 
 /**
@@ -26,25 +27,18 @@ use oat\tao\model\mvc\psr7\Resolver;
  * Class TaoResolver
  * @package oat\tao\model\mvc\middleware
  */
-class TaoResolver extends AbstractTaoMiddleware
+class TaoInitUser extends AbstractTaoMiddleware
 {
 
     public function __invoke($request, $response, $args)
     {
-        /**
-         * @var $resolver Resolver
-         */
-        $relativeUrl = $request->getAttribute('route')->getArgument('relativeUrl');
-
-        $resolver = $this->container->get('resolver');
-        $resolver->setRelativeUrl($relativeUrl);
-
-        $extId = $resolver->getExtensionId();
-
         // load the responsible extension
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extId);
-        $this->container->get('context')->setExtensionName($resolver->getExtensionId());
-        // load translations
+        /**
+         * @var $route Resolution
+          */
+        $route = $args['resolution'];
+
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($route->getExtensionId());
         $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
         \tao_helpers_I18n::init($ext, $uiLang);
         return $response;

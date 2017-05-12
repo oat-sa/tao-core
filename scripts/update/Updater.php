@@ -34,6 +34,8 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\mvc\Application\ApplicationInterface;
+use oat\tao\model\mvc\Application\TaoApplication;
 use oat\tao\model\mvc\psr7\ActionExecutor;
 use oat\tao\model\mvc\psr7\Context;
 use oat\tao\model\mvc\psr7\executor\Psr7Executor;
@@ -44,6 +46,8 @@ use oat\tao\model\mvc\SlimLauncher;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\routing\NamespaceRoute;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -799,27 +803,65 @@ class Updater extends \common_ext_ExtensionUpdater {
                 [
                     'executor' =>
                         [
-                            TaoExecutor::class,
                             Psr7Executor::class,
                         ]
                 ]
             );
 
-            $container = new slimContainerFactory(
-                [
-                    'context'  => Context::class,
-                    'resolver' => Resolver::class,
-                ]);
+            $routes = [];
+            foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 
-            $app = new SlimLauncher(
+                $extRoute = $extension->getManifest()->getRoutes();
+                foreach ($extRoute as $routeId => $routeData) {
+
+                    $route = [
+                        'ext'          => $extension->getId(),
+                        'className'    => '',
+                        'preProcess'   => [],
+                        'process'      => [],
+                        'postProcess'  => [],
+                        'errorHandler' => '',
+                        'options'      => [],
+
+                    ];
+
+                    if (is_string($routeData)) {
+
+                        $route['className'] = NamespaceRoute::class;
+                        $route['options']   = [NamespaceRoute::OPTION_NAMESPACE => $routeData];
+
+                    } else {
+                        if (!isset($routeData['class']) || !is_subclass_of($routeData['class'], 'oat\tao\model\routing\Route')) {
+                            throw new \common_exception_InconsistentData('Invalid route '.$routeId);
+                        }
+                        $route['className'] = $routeData['class'];
+                        $route['options']   = array_key_exists( 'options' , $routeData )? $routeData['options']: [];
+                    }
+                    $routes[] = $route;
+                }
+                if (empty($extRoute)) {
+                    $routes[] = [
+                        'ext'          => $extension->getId(),
+                        'className'    => LegacyRoute::class,
+                        'preProcess'   => [],
+                        'process'      => [],
+                        'postProcess'  => [],
+                        'errorHandler' => '',
+                        'options'      => [],
+
+                    ];
+                }
+
+            }
+
+            $app = new TaoApplication(
                 [
-                    'prefix' => '',
+                    'routes'    => $routes,
                 ]
             );
 
             $this->getServiceManager()->register(ActionExecutor::SERVICE_ID, $service);
-            $this->getServiceManager()->register(slimContainerFactory::SERVICE_ID, $container);
-            $this->getServiceManager()->register(SlimLauncher::SERVICE_ID, $app);
+            $this->getServiceManager()->register(ApplicationInterface::SERVICE_ID, $app);
 
             $this->setVersion('10.0.0');
         }

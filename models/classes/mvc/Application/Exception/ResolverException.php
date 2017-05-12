@@ -17,10 +17,15 @@
  *  Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\mvc\psr7\Exception;
+namespace oat\tao\model\mvc\Application\Exception;
 
 
-class ResolverException extends \Exception
+class ResolverException extends \common_exception_Error implements \common_exception_UserReadableException
 {
+
+    public function getUserMessage()
+    {
+        return __('this page doesn\'t exists');
+    }
 
 }

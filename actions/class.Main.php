@@ -80,7 +80,7 @@ class tao_actions_Main extends \oat\tao\model\mvc\psr7\Controller
 	        if (common_session_SessionManager::isAnonymous()) {
                 /* @var $urlRouteService DefaultUrlService */
                 $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
-                $this->redirect($urlRouteService->getLoginUrl());
+                return $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
                 return $this->returnError(__('You currently have no access to the platform'), true, 403);
@@ -220,7 +220,7 @@ class tao_actions_Main extends \oat\tao\model\mvc\psr7\Controller
 		common_session_SessionManager::endSession();
                 /* @var $urlRouteService DefaultUrlService */
                 $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
-		$this->redirect($urlRouteService->getRedirectUrl('logout'));
+		return  $this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
 	/**

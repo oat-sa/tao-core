@@ -18,8 +18,8 @@ class TaoErrorHandler extends AbstractTaoMiddleware
     {
 
         $Interpretor = new ExceptionInterpretor();
-        $Interpretor->setServiceLocator($this->getContainer()->get('taoService'));
-        return $Interpretor->setResponse($response)->setException($args)->getResponse()->send();
+        $Interpretor->setServiceLocator($this->getServiceLocator());
+        return $Interpretor->setResponse($response)->setException($args['exception'])->getResponse()->send();
     }
 
 }

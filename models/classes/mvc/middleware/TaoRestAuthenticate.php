@@ -19,8 +19,6 @@
 
 namespace oat\tao\model\mvc\middleware;
 
-use oat\tao\model\mvc\psr7\Resolver;
-
 /**
  * Middleware to resolve route to controller
  * Class TaoResolver
@@ -32,16 +30,10 @@ class TaoRestAuthenticate extends AbstractTaoMiddleware
     public function __invoke( $request,  $response,  $args)
     {
         /**
-         * @var $resolver Resolver
-         */
-        $relativeUrl = $request->getAttribute('route')->getArgument('relativeUrl');
+        * @var $controllerClass \tao_actions_CommonModule
+        */
+        $controllerClass = $args['controller'];
 
-        $resolver = $this->container->get('resolver');
-        $resolver->setRelativeUrl($relativeUrl);
-
-
-        //if the controller is a rest controller we try to authenticate the user
-        $controllerClass = $resolver->getControllerClass();
 
         if (is_subclass_of($controllerClass, \tao_actions_RestController::class)) {
             $authAdapter = new \tao_models_classes_HttpBasicAuthAdapter(\common_http_Request::currentRequest());
@@ -50,9 +42,7 @@ class TaoRestAuthenticate extends AbstractTaoMiddleware
                 $session = new \common_session_RestSession($user);
                 \common_session_SessionManager::startSession($session);
             } catch (\common_user_auth_AuthFailedException $e) {
-                /**
-                 * @todo change for prs7 response
-                 */
+
                 $data['success'] = false;
                 $data['errorCode'] = '401';
                 $data['errorMsg'] = 'You are not authorized to access this functionality.';

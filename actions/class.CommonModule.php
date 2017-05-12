@@ -22,9 +22,14 @@
 
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
-use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\mvc\Application\ApplicationInterface;
+use oat\tao\model\mvc\Application\TaoApplication;
+use oat\tao\model\mvc\psr7\clearfw\Request;
+use oat\tao\model\mvc\psr7\clearfw\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Top level controller
@@ -50,11 +55,35 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
     protected $service = null;
 
     /**
+     * @var \oat\tao\model\mvc\Application\Resolution
+     */
+    protected $resolution;
+
+    /**
      * empty constuctor
      */
     public function __construct()
     {
     }
+
+    /**
+     * @return \oat\tao\model\mvc\Application\Resolution
+     */
+    public function getResolution()
+    {
+        return $this->resolution;
+    }
+
+    /**
+     * @param \oat\tao\model\mvc\Application\Resolution $resolution
+     */
+    public function setResolution($resolution)
+    {
+        $this->resolution = $resolution;
+        return $this;
+    }
+
+
 
     /**
      * Whenever or not the current user has access to a specific action
@@ -81,6 +110,9 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
      */
     public function setView($path, $extensionID = null)
     {
+        if(is_null($extensionID)) {
+            $extensionID = $this->getResolution()->getExtensionId();
+        }
         parent::setView(Template::getTemplate($path, $extensionID));
     }
 
@@ -127,30 +159,7 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
         $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('client_config_url', $this->getClientConfigUrl());
     }
-	
-    /**
-     * Function to return an user readable error
-     * Does not work with ajax Requests yet
-     * 
-     * @param string $description error to show
-     * @param boolean $returnLink whenever or not to add a return link
-     * @param int $httpStatus
-     */
-    protected function returnError($description, $returnLink = true, $httpStatus = null) {
-        if (tao_helpers_Request::isAjax()) {
-            common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
-            throw new common_Exception($description); 
-        } else {
-            $this->setData('message', $description);
-            $this->setData('returnLink', $returnLink);
 
-            if(!is_null($httpStatus) && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
-                $this->setView("error/error${httpStatus}.tpl", 'tao');
-            } else {
-                $this->setView('error/user_error.tpl', 'tao');
-            }
-        }
-    }
 
     /**
      * Returns the absolute path to the specified template
@@ -197,13 +206,7 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
         } 
         return 30;
     }
-    
-    protected function returnJson($data, $httpStatus = 200) {
-        header(HTTPToolkit::statusCodeHeader($httpStatus));
-        Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
-    }
-    
+
     /**
      * Returns a report
      * 
@@ -225,37 +228,170 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
         $this->setView('report.tpl', 'tao');
     }
 
+    /**
+     * @var Request
+     */
+    protected $request;
 
     /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
+     * @var Response
      */
-	public function forward($action, $controller = null, $extension = null, $params = array())
+    protected $response;
+
+    /**
+     * @return Request
+     */
+    public function getRequest() {
+        if(is_null($this->request)) {
+            $this->request = new \oat\tao\model\mvc\psr7\clearfw\Request();
+            $this->request->setPsrRequest(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
+        }
+        return $this->request;
+    }
+
+    /**
+     * @return Response
+     */
+    public function getResponse() {
+        if(is_null($this->response)) {
+            $this->response = new \oat\tao\model\mvc\psr7\clearfw\Response();
+            $this->response->setPsrResponse(new \GuzzleHttp\Psr7\Response());
+        }
+        return $this->response;
+    }
+
+    public function setPsr7(ServerRequestInterface $request, ResponseInterface $response) {
+        $this->request = new \oat\tao\model\mvc\psr7\clearfw\Request();
+        $this->request->setPsrRequest($request);
+
+        $this->response = new \oat\tao\model\mvc\psr7\clearfw\Response();
+        $this->response->setPsrResponse($response);
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return ServerRequestInterface
+     */
+    public function getPsrRequest() {
+        return $this->getRequest()->getPsrRequest();
+    }
+
+    /**
+     *
+     * @return ResponseInterface
+     */
+    public function getPsrResponse() {
+        return $this->getResponse()->getPsrResponse();
+    }
+
+    /**
+     * @param $response ResponseInterface
+     * @return $this
+     */
+    public function updateResponse(ResponseInterface $response) {
+        $this->getResponse()->setPsrResponse($response);
+        return $this;
+    }
+
+    /**
+     * write
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function sendResponse(ResponseInterface $response = null) {
+
+        if($this->hasView()) {
+            $view = $this->getRenderer()->render();
+            $response->getBody()->write($view);
+        }
+        $this->updateResponse($response);
+        return $response;
+    }
+
+    /**
+     * Forward create new request params and forward
+     * @param $action
+     * @param null $controller
+     * @param null $extension
+     * @param array $params
+     * @return ResponseInterface
+     */
+    public function forward($action, $controller = null, $extension = null, $params = array())
     {
-        $flow = new FlowController();
-        $flow->forward($action, $controller, $extension, $params);
+
+        $url = \tao_helpers_Uri::url($action, $controller , $extension );
+
+        return $this->forwardUrl($url);
     }
 
     /**
      * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
+     * @param string $url
+     * @return ResponseInterface
      */
     public function forwardUrl($url)
     {
-        $flow = new FlowController();
-        $flow->forwardUrl($url);
+        return $this->executeForward($url);
+    }
+
+    /**
+     * execute forward using controller execution middleware
+     * @param string $url
+     * @return ResponseInterface
+     */
+    protected function executeForward($url) {
+        /**
+         * @var $application TaoApplication
+         */
+        $application = $this->getServiceManager()->get(ApplicationInterface::SERVICE_ID);
+        $response = $application->forward($url);
+        $this->updateResponse($response);
+        return $this->getPsrResponse();
     }
 
     /**
      * Redirect using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
+     * @param $url
+     * @param int $statusCode
+     * @return void
      */
-	public function redirect($url, $statusCode = 302)
+    public function redirect($url, $statusCode = 302)
     {
-        $flow = new FlowController();
-        $flow->redirect($url, $statusCode);
+        \common_Logger::i(__METHOD__);
+        $response = $this->getPsrResponse()->withStatus($statusCode)->withAddedHeader('Location' , $url);
+        $this->updateResponse($response);
+        \common_Logger::i('redirect = ' . $url);
+        /**
+         * @var $application TaoApplication
+         */
+        $application = $this->getServiceManager()->get(ApplicationInterface::SERVICE_ID);
+        $application->finalise($response)->end();
     }
-    
+
+    protected function returnJson($data, $httpStatus = 200)
+    {
+        $response = $this->getPsrResponse();
+        $response =  $response->withStatus($httpStatus)->withAddedHeader('Content-Type' , 'application/json');
+        $response->getBody()->write(json_encode($data));
+        $this->updateResponse($response);
+        return $response;
+    }
+
+    /**
+     * @deprecated since 10.0.0
+     * @param string $description
+     * @param bool $returnLink
+     * @param null $httpStatus
+     * @throws \common_exception_Error
+     */
+    protected function returnError($description, $returnLink = true, $httpStatus = null)
+    {
+        throw new \common_exception_Error($description);
+    }
+
+
     /**
      * Placeholder function until controllers properly support service manager
      * 
