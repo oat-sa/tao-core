@@ -37,10 +37,8 @@
                  */
                 updateSubmitter = function updateSubmitter(){
                     if($form.find('.form-group :checkbox:checked').length > 0){
-                        console.log('enab');
                         $submitter.removeClass('disabled');
                     }else{
-                        console.log('dis');
                         $submitter.addClass('disabled');
                     }
                 };
