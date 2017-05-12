@@ -153,10 +153,14 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
     }
 
     protected function getPrefix() {
-        $docRoot = $_SERVER['DOCUMENT_ROOT'];
-        $appPath = dirname($_SERVER['SCRIPT_FILENAME']);
-
-        return trim(str_replace($docRoot , '' , $appPath) , '/');
+        if(array_key_exists('CONTEXT_PREFIX' , $_SERVER) && !empty($_SERVER['CONTEXT_PREFIX'])) {
+            $prefix =   $_SERVER['CONTEXT_PREFIX'];
+        } else {
+            $docRoot = $_SERVER['DOCUMENT_ROOT'];
+            $appPath = dirname($_SERVER['SCRIPT_FILENAME']);
+            $prefix  = str_replace($docRoot , '' , $appPath);
+        }
+        return trim($prefix , '/');
 
     }
 
@@ -182,6 +186,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      * @param ResponseInterface $response
      * @param array $args
      * @return ResponseInterface
+     * @throws InvalidResponse
      */
     protected function executeProcess($className , ServerRequestInterface $request , ResponseInterface $response , array $args = []) {
 
@@ -283,7 +288,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         $body = $response->getBody();
         $body->rewind();
         echo $body->getContents();
-
+        return $this;
     }
 
     public function end() {

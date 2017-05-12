@@ -163,29 +163,8 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	protected function dispatchHttp()
 	{
 	    $isAjax = tao_helpers_Request::isAjax();
-	    
-	    if(tao_helpers_Context::check('APP_MODE')){
-	    }
 
-	        //the app is ready
-	        if($this->isReady()){
-	            $this->mvc();
-	        }
-	        //the app is not ready
-	        else{
-	            //the request is not an ajax request, redirect the user to the maintenance page
-	            if(!$isAjax){
-	                require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-	                //else throw an exception, this exception will be send to the client properly
-	            }
-	            else{
-	    
-	                throw new \common_exception_SystemUnderMaintenance();
-	            }
-	        }
 
-        //Catch all exceptions
-        try {
             //the app is ready, process mvc
             if($this->isReady()){
                 $this->mvc();
@@ -194,9 +173,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
             else {
                 $this->displayMaintenancePage();
             }
-        } catch(Exception $e){
-            $this->catchError($e);
-        }
+
 
 	    
 	    // explicitly close session
@@ -337,13 +314,10 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	 */
     protected function mvc()
     {
-        /**
-         * @todo invoke as service
-         */
-        $app = ServiceManager::getServiceManager()->get(ApplicationInterface::SERVICE_ID);
+        $app = $this->getServiceLocator()->get(ApplicationInterface::SERVICE_ID);
         $app->run();
     }
-    
+
 
 
     /**

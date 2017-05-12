@@ -245,25 +245,27 @@ abstract class tao_actions_RdfController extends \oat\tao\model\mvc\psr7\Control
         $tree = $this->addPermissions($tree);
         
         //sort items by name
-        function sortTreeNodes($a, $b) {
-            if (isset($a['data']) && isset($b['data'])) {
-                if ($a['type'] != $b['type']) {
-                    return ($a['type'] == 'class') ? -1 : 1;
-                } else {
-                    return strcasecmp($a['data'], $b['data']);
-                }
-            }
-        }
+
         
         if (isset($tree['children'])) {
-            usort($tree['children'], 'sortTreeNodes');
+            usort($tree['children'], 'self::sortTreeNodes');
         } elseif(array_values($tree) === $tree) {//is indexed array
-            usort($tree, 'sortTreeNodes');
+            usort($tree, 'self::sortTreeNodes');
         }
         $response = $this->returnJson($tree);
 
         return $response;
 	}
+
+	protected static function sortTreeNodes($a, $b) {
+        if (isset($a['data']) && isset($b['data'])) {
+            if ($a['type'] != $b['type']) {
+                return ($a['type'] == 'class') ? -1 : 1;
+            } else {
+                return strcasecmp($a['data'], $b['data']);
+            }
+        }
+    }
 
 	/**
 	 * Add permission information to the tree structure

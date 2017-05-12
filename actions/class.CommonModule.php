@@ -360,7 +360,7 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
     public function redirect($url, $statusCode = 302)
     {
         \common_Logger::i(__METHOD__);
-        $response = $this->getPsrResponse()->withStatus($statusCode)->withAddedHeader('Location' , $url);
+        $response = $this->getPsrResponse()->withStatus($statusCode)->withHeader('Location' , $url);
         $this->updateResponse($response);
         \common_Logger::i('redirect = ' . $url);
         /**
@@ -373,7 +373,7 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
     protected function returnJson($data, $httpStatus = 200)
     {
         $response = $this->getPsrResponse();
-        $response =  $response->withStatus($httpStatus)->withAddedHeader('Content-Type' , 'application/json');
+        $response =  $response->withStatus($httpStatus)->withHeader('Content-Type' , 'application/json');
         $response->getBody()->write(json_encode($data));
         $this->updateResponse($response);
         return $response;
