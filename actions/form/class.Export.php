@@ -101,7 +101,7 @@ class tao_actions_form_Export
 			}
 	
 	    	$this->form->addElement($formatElt);
-	    	$this->form->createGroup('formats', __('Supported export formats'), array('exportHandler'));
+	    	$this->form->createGroup('formats', '<h3>'.__('Supported export formats').'</h3>', array('exportHandler'));
     	}
 
     	if(isset($this->data['instance'])){

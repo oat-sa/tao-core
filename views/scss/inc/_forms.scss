@@ -426,6 +426,9 @@ label {
             }
 
         }
+        h3 {
+            margin: 0px 0px 12px;
+        }
     }
 
 
@@ -596,6 +599,7 @@ label {
     .form-group {
         & > div > div {
             position: relative;
+            margin-bottom: 12px;
             .has-unit {
                 padding-right: 45px
             }
