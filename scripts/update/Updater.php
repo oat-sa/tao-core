@@ -652,9 +652,11 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('7.34.0')) {
             OntologyUpdater::syncModels();
-            $taskQueueManagerRole = new \core_kernel_classes_Resource(TaskService::TASK_QUEUE_MANAGER_ROLE);
-            $accessService = \funcAcl_models_classes_AccessService::singleton();
-            $accessService->grantModuleAccess($taskQueueManagerRole, 'tao', 'TaskQueue');
+            AclProxy::applyRule(new AccessRule(
+               AccessRule::GRANT,
+               TaskService::TASK_QUEUE_MANAGER_ROLE,
+               ['ext' => 'tao', 'mod' => 'TaskQueue']
+            ));
             $this->setVersion('7.35.0');
         }
 
@@ -796,9 +798,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-        $this->skip('9.2.0', '9.3.3');
+        $this->skip('9.2.0', '10.3.0');
 
-        if($this->isVersion('9.3.3')) {
+        if($this->isVersion('10.3.0')) {
             $service = new ActionExecutor(
                 [
                     'executor' =>
@@ -863,7 +865,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(ActionExecutor::SERVICE_ID, $service);
             $this->getServiceManager()->register(ApplicationInterface::SERVICE_ID, $app);
 
-            $this->setVersion('10.0.0');
+            $this->setVersion('11.0.0');
         }
 
     }
