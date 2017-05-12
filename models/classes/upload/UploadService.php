@@ -27,7 +27,6 @@ use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use tao_helpers_File;
@@ -154,6 +153,14 @@ class UploadService extends ConfigurableService
         if (filter_var($serial, FILTER_VALIDATE_URL)) {
             // Getting the File instance of the file url.
             $fakeFile = $this->getSerializer()->unserializeFile($serial);
+
+            // Filesystem hack check.
+            if ($fakeFile->getFileSystemId() !== $this->getUploadFSid()) {
+                throw new \common_exception_NotAcceptable(
+                    'The uploaded file url contains a wrong filesystem id!' .
+                    '(Expected: `' . $this->getUploadFSid() . '` Actual: `' . $file->getFileSystemId() . '`)'
+                );
+            }
 
             // Adding the user directory hash.
             $realFile = $this->getUploadDir()->getFile(
