@@ -37,7 +37,7 @@ define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'],
          * @param {String} [options.redirectUrl] - Target URI
          */
         return function logoutEvent(options) {
-            options = _.defaults(options, defaults);
+            options = _.defaults(options || {}, defaults);
             alert(options.message, function () {
                 window.location = options.redirectUrl;
             });
