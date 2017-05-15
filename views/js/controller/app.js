@@ -19,14 +19,16 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+    'lodash',
     'jquery',
     'core/historyRouter',
     'core/logger',
     'core/eventifier',
     'core/statifier',
     'util/url',
-    'ui/feedback'
-], function ($, historyRouterFactory, loggerFactory, eventifier, statifier, urlUtil, feedback) {
+    'ui/feedback',
+    'layout/logout-event'
+], function (_, $, historyRouterFactory, loggerFactory, eventifier, statifier, urlUtil, feedback, logoutEvent) {
     'use strict';
 
     /**
@@ -34,6 +36,11 @@ define([
      * @type {historyRouter}
      */
     var historyRouter;
+
+    /**
+     *
+     */
+    var redirectUrl;
 
     /**
      * Creates a logger for the app
@@ -80,6 +87,7 @@ define([
          * App controller entry point: set up the router.
          * @param {Object} options
          * @param {String} [options.forwardTo] - an optional route of a client controller to forward
+         * @param {String} [options.redirectUrl] - an optional url to redirect client on authorisation errors
          */
         start: function start(options){
             var currentRoute;
@@ -93,7 +101,7 @@ define([
             } else {
                 currentRoute = window.location + '';
             }
-
+            redirectUrl = options.redirectUrl || {};
             historyRouter.forward(currentRoute);
         },
 
@@ -156,8 +164,15 @@ define([
          */
         onError: function onError(err) {
             var message = err && err.message || err;
+            var options = {message: message};
+
             appLogger.error(err);
-            feedback().error(message);
+            if (err.code === 403){
+                options = _.defaults(options, redirectUrl ||  {});
+                logoutEvent(options);
+            }else{
+                feedback().error(message);
+            }
             return this;
         }
     }));
