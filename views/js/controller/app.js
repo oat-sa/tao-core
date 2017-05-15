@@ -172,7 +172,6 @@ define([
             appLogger.error(err);
             if (err.code === 403){
                 options = _.defaults(options, redirectUrl ||  {});
-                debugger;
                 logoutEvent(options);
             }else{
                 feedback().error(message);
