@@ -308,6 +308,9 @@ label {
         &:checked ~ .icon-checkbox:before {
             @extend .icon-checkbox-checked:before;
         }
+        &:indeterminate ~ .icon-checkbox:before {
+            @extend .icon-checkbox-indeterminate:before;
+        }
         &:checked ~ .icon-radio:before {
             @extend .icon-radio-checked:before;
         }
@@ -428,6 +431,9 @@ label {
                 }
             }
 
+        }
+        h3 {
+            margin: 0px 0px 12px;
         }
     }
 
@@ -599,6 +605,7 @@ label {
     .form-group {
         & > div > div {
             position: relative;
+            margin-bottom: 12px;
             .has-unit {
                 padding-right: 45px
             }
@@ -625,15 +632,36 @@ label {
         float: right;
     }
 
-
+    .form_checklst{
+        .grid-row {
+            [class*=" col-"], [class^="col-"] {
+                margin: 0;
+                .elt_desc {
+                    padding: 0 10px;
+                }
+                .tooltip-trigger{
+                    position: relative;
+                    top: 2px;
+                    color: $danger;
+                }
+            }
+            &.readonly{
+                .elt_desc, input[type="checkbox"]{
+                    cursor: not-allowed;
+                }
+                .elt_desc{
+                    opacity : 0.45;
+                }
+            }
+        }
+    }
 }
 
 
 input {
     &[type="checkbox"], &[type="radio"] {
         position: relative;
-        top: 1px;
-        margin-right: 3px;
+        margin-right: 4px;
     }
 }
 
