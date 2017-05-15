@@ -38,9 +38,14 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
     protected $routes = [];
 
     /**
-     * @var ServerRequest
+     * @var ServerRequestInterface
      */
     protected $request;
+
+    /**
+     * @var ResponseInterface
+     */
+    protected $response;
     /**
      * @var string
      */
@@ -75,21 +80,25 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      * @param Resolution $resolution
      * @return $this
      */
-    public function setResolution($resolution)
+    protected function setResolution($resolution)
     {
         $this->resolution = $resolution;
         return $this;
     }
 
-
-
+    public function getResponse()  {
+        if(is_null($this->response)) {
+            $this->response   = new Response();
+        }
+        return $this->response;
+    }
     /**
-     * @return ServerRequest
+     * @return ServerRequestInterface
      */
     public function getRequest()
     {
         if(is_null($this->request)) {
-            $this->request = $request  = ServerRequest::fromGlobals();
+            $this->request  = ServerRequest::fromGlobals();
         }
         return $this->request;
     }
@@ -251,7 +260,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      */
     public function run()
     {
-        $response = new Response();
+        $response = $this->getResponse();
         $request  = $this->getRequest();
         try {
             $response = $this->process($request , $response);
@@ -267,7 +276,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
             'GET',
             $newUri
         );
-
+        $this->response = $this->getResponse()->withHeader('X-Tao-Forward' , $this->getPath($newRequest));
         parse_str(parse_url($newUri , PHP_URL_QUERY) , $queryParams);
 
         $newUri = $newRequest->getUri();
