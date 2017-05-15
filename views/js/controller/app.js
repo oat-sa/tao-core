@@ -101,7 +101,10 @@ define([
             } else {
                 currentRoute = window.location + '';
             }
-            redirectUrl = options.redirectUrl || {};
+
+            if (options && options.redirectUrl) {
+                redirectUrl = options.redirectUrl || {};
+            }
             historyRouter.forward(currentRoute);
         },
 
@@ -169,6 +172,7 @@ define([
             appLogger.error(err);
             if (err.code === 403){
                 options = _.defaults(options, redirectUrl ||  {});
+                debugger;
                 logoutEvent(options);
             }else{
                 feedback().error(message);
