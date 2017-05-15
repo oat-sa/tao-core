@@ -45,6 +45,9 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      */
     protected $contentType = '';
 
+    /**
+     * @var PsrResponseInterface
+     */
     protected $response;
 
     /**
@@ -122,8 +125,9 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
     {
         $accept = array_key_exists('HTTP_ACCEPT', $_SERVER) ? explode(',' , $_SERVER['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
+        $response  = $renderer->setResponse($this->response)->setException($this->exception)->setHttpCode($this->httpCode)->send();
 
-        return $renderer->setResponse($this->response)->setException($this->exception)->setHttpCode($this->httpCode)->send();
+        return $response;
     }
     
     /**

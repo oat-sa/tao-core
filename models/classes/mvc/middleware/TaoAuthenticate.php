@@ -38,6 +38,17 @@ class TaoAuthenticate extends AbstractTaoMiddleware
 
     protected function verifyAuthorization(ServerRequestInterface $request , Resolution $resolution) {
 
+
+    }
+
+
+    public function __invoke( $request,  $response,  $args)
+    {
+        /**
+         * @var $resolution Resolution
+         */
+        $resolution = $args['resolution'];
+
         $post = $request->getParsedBody();
         if(is_null($post)) {
             $post = [];
@@ -56,28 +67,6 @@ class TaoAuthenticate extends AbstractTaoMiddleware
             }
 
             throw new \tao_models_classes_AccessDeniedException($user->getIdentifier(), $resolution->getMethodName() , $resolution->getControllerClass(), $resolution->getExtensionId());
-        }
-    }
-
-
-    public function __invoke( $request,  $response,  $args)
-    {
-        // Are we authorized to execute this action?
-        try {
-
-            $this->verifyAuthorization($request , $args['resolution']);
-
-        } catch(\Exception $pe){
-            $urlRouteService = $this->getServiceLocator()->get('tao/urlroute');
-            if($request->hasHeader('X-Requested-With')) {
-                return $response
-                    ->withStatus(403);
-            } else {
-                return $response
-                    ->withStatus(302)
-                    ->withHeader('Location', $urlRouteService->getLoginUrl($request->getQueryParams()));
-            }
-
         }
 
         return $response;
