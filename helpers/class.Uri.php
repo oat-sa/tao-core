@@ -75,6 +75,25 @@ class tao_helpers_Uri
     // --- OPERATIONS ---
 
     /**
+     * @var \oat\tao\model\mvc\Application\TaoApplication
+     */
+    protected static $application;
+
+    protected static function getApplication() {
+        if(is_null(self::$application)) {
+            self::$application = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\tao\model\mvc\Application\ApplicationInterface::SERVICE_ID);
+        }
+        return self::$application;
+    }
+
+    /**
+     * @return \oat\tao\model\mvc\Application\Resolution
+     */
+    protected static function getResolution() {
+        return self::getApplication()->getResolution();
+    }
+
+    /**
      * get the project base url
      *
      * @access public
@@ -142,16 +161,14 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        
-
 		if(is_null($module)){
-			$module = Context::getInstance()->getModuleName();
+			$module = self::getResolution()->getModuleName();
 		}
 		if(is_null($action)){
-			$action = Context::getInstance()->getActionName();
+			$action = self::getResolution()->getMethodName();
 		}
 		if(is_null($extension)){
-		    $extension = Context::getInstance()->getExtensionName();
+		    $extension = self::getResolution()->getExtensionId();
 		}
 		
 
@@ -179,13 +196,13 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         if(is_null($module)){
-            $module = Context::getInstance()->getModuleName();
+            $module = self::getResolution()->getModuleName();
         }
         if(is_null($action)){
-            $action = Context::getInstance()->getActionName();
+            $action = self::getResolution()->getMethodName();
         }
         if(is_null($extension)){
-            $extension = Context::getInstance()->getExtensionName();
+            $extension = self::getResolution()->getExtensionId();
         }
 
 

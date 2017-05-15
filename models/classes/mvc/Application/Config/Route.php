@@ -195,7 +195,7 @@ class Route
         if(is_null($routeResult)) {
             return null;
         }
-        return new Resolution($this->getExtension() , $routeResult , $this);
+        return new Resolution($this->getExtension() , $routeResult , $relativeUrl , $this);
     }
 
 }
