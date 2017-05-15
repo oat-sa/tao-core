@@ -384,6 +384,7 @@ class tao_helpers_Http
                     }
                 }
             }
+            exit();
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
