@@ -59,6 +59,8 @@ class TaoControllerExecution extends AbstractTaoMiddleware
 
             if($controllerResponse instanceof ResponseInterface) {
                 $response = $controllerResponse;
+            } else {
+                $response = $controller->getPsrResponse();
             }
 
             $implicitContent = trim(ob_get_contents());
