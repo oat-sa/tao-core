@@ -22,14 +22,14 @@
 
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\mvc\Application\ApplicationInterface;
 use oat\tao\model\mvc\Application\TaoApplication;
-use oat\tao\model\mvc\psr7\clearfw\Request;
-use oat\tao\model\mvc\psr7\clearfw\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use \oat\tao\model\mvc\psr7\Controller\LegacyRequestTrait;
+use \Zend\ServiceManager\ServiceLocatorAwareInterface;
+use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Top level controller
@@ -42,10 +42,11 @@ use Psr\Http\Message\ServerRequestInterface;
  * @deprecated since version v7.31.0
  *         
  */
-abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceManager\ServiceLocatorAwareInterface
+abstract class tao_actions_CommonModule implements ServiceLocatorAwareInterface
 {
 
-    use \Zend\ServiceManager\ServiceLocatorAwareTrait;
+    use LegacyRequestTrait;
+    use ServiceLocatorAwareTrait;
 
     /**
      * The Modules access the models throught the service instance
@@ -107,13 +108,15 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
      *            view identifier
      * @param string $extensionID
      *            use the views in the specified extension instead of the current extension
+     * @return $this
      */
     public function setView($path, $extensionID = null)
     {
         if(is_null($extensionID)) {
             $extensionID = $this->getResolution()->getExtensionId();
         }
-        parent::setView(Template::getTemplate($path, $extensionID));
+        $this->getRenderer()->setTemplate(Template::getTemplate($path, $extensionID));
+        return $this;
     }
 
     /**
@@ -226,38 +229,6 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
         
         $this->setData('report', $report);
         $this->setView('report.tpl', 'tao');
-    }
-
-    /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * @var Response
-     */
-    protected $response;
-
-    /**
-     * @return Request
-     */
-    public function getRequest() {
-        if(is_null($this->request)) {
-            $this->request = new \oat\tao\model\mvc\psr7\clearfw\Request();
-            $this->request->setPsrRequest(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
-        }
-        return $this->request;
-    }
-
-    /**
-     * @return Response
-     */
-    public function getResponse() {
-        if(is_null($this->response)) {
-            $this->response = new \oat\tao\model\mvc\psr7\clearfw\Response();
-            $this->response->setPsrResponse(new \GuzzleHttp\Psr7\Response());
-        }
-        return $this->response;
     }
 
     public function setPsr7(ServerRequestInterface $request, ResponseInterface $response) {
@@ -379,6 +350,13 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
         return $response;
     }
 
+    public function getRenderer() {
+        if (!isset($this->renderer)) {
+            $this->renderer = new Renderer();
+        }
+        return $this->renderer;
+    }
+
     /**
      * @deprecated since 10.0.0
      * @param string $description
@@ -391,14 +369,17 @@ abstract class tao_actions_CommonModule extends Module implements \Zend\ServiceM
         throw new \common_exception_Error($description);
     }
 
+    public function setData($key, $value)
+    {
+        $this->getRenderer()->setData($key, $value);
+    }
 
-    /**
-     * Placeholder function until controllers properly support service manager
-     * 
-     * @return \oat\oatbox\service\ServiceManager
-     */
+    public function hasView() {
+        return isset($this->renderer) && $this->renderer->hasTemplate();
+    }
+
     protected function getServiceManager()
     {
-        return ServiceManager::getServiceManager();
+        return $this->getServiceLocator();
     }
 }

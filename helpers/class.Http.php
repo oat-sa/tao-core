@@ -334,6 +334,7 @@ class tao_helpers_Http
                 }
                 header("HTTP/1.0 404 Not Found");
             }
+            exit();
         } else {
             throw new common_exception_Error('Security exception for path ' . $filename);
         }
