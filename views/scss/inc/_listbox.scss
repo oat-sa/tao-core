@@ -59,6 +59,10 @@ $entryArrowHeight: 150;
       height: $entryArrowHeight * 1px;
       padding-left: 40px;
 
+      .action {
+        cursor: pointer;
+      }
+
       &:before, &:after {
         content: '';
         height: ($entryArrowHeight / 4) * 1px;
