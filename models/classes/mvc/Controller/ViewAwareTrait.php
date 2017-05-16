@@ -21,6 +21,8 @@
 namespace oat\tao\model\mvc\Controller;
 
 
+use oat\tao\helpers\Template;
+
 trait ViewAwareTrait
 {
     /**
@@ -35,6 +37,19 @@ trait ViewAwareTrait
     public function setData($key, $value)
     {
         $this->getRenderer()->setData($key, $value);
+    }
+
+    /**
+     *
+     * @see Module::setView()
+     * @param string $path
+     *            view identifier
+     * @param string $extensionID
+     *            use the views in the specified extension instead of the current extension
+     */
+    public function setView($path, $extensionID = null)
+    {
+        $this->getRenderer()->setTemplate(Template::getTemplate($path, $extensionID));
     }
 
     /**

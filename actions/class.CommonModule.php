@@ -39,7 +39,7 @@ use oat\tao\model\mvc\Controller\ViewAwareTrait;
  * @package tao
  *         
  */
-abstract class tao_actions_CommonModule extends Module implements ServiceLocatorAwareInterface
+abstract class tao_actions_CommonModule  implements ServiceLocatorAwareInterface
 {
 
     use ServiceLocatorAwareTrait;
@@ -75,18 +75,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceLocator
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
     }
 
-    /**
-     *
-     * @see Module::setView()
-     * @param string $path
-     *            view identifier
-     * @param string $extensionID
-     *            use the views in the specified extension instead of the current extension
-     */
-    public function setView($path, $extensionID = null)
-    {
-        parent::setView(Template::getTemplate($path, $extensionID));
-    }
+
 
     /**
      * Retrieve the data from the url and make the base initialization
