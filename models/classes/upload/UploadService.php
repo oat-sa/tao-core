@@ -59,7 +59,7 @@ class UploadService extends ConfigurableService
         $targetName     = uniqid('tmp', true) . '.' . $extension;
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
-        $fakeFile = $this->getUploadDir()->getFile($targetLocation);
+//        $fakeFile = $this->getUploadDir()->getFile($targetLocation);
         $realFile = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
 
         $returnValue['uploaded'] = $realFile->put(fopen($tmp_name, 'rb'));
@@ -67,7 +67,8 @@ class UploadService extends ConfigurableService
         tao_helpers_File::remove($tmp_name);
 
         $data['type'] = $realFile->getMimetype();
-        $data['uploaded_file'] = $this->getSerializer()->serialize($fakeFile);
+//        $data['uploaded_file'] = $this->getSerializer()->serialize($fakeFile);
+        $data['uploaded_file'] = $realFile->getBasename();
         $data['name'] = $name;
         $data['size'] = array_key_exists('size', $postedFile) ? $postedFile['size'] : $realFile->getSize();
         $returnValue['name'] = $name;
@@ -151,6 +152,7 @@ class UploadService extends ConfigurableService
      */
     public function getUploadedFlyFile($serial)
     {
+        $path = $this->getUserDirectoryHash() . '/';
         if (filter_var($serial, FILTER_VALIDATE_URL)) {
             // Getting the File instance of the file url.
             $fakeFile = $this->getSerializer()->unserializeFile($serial);
@@ -159,15 +161,18 @@ class UploadService extends ConfigurableService
             if ($fakeFile->getFileSystemId() !== $this->getUploadFSid()) {
                 throw new \common_exception_NotAcceptable(
                     'The uploaded file url contains a wrong filesystem id!' .
-                    '(Expected: `' . $this->getUploadFSid() . '` Actual: `' . $file->getFileSystemId() . '`)'
+                    '(Expected: `' . $this->getUploadFSid() . '` Actual: `' . $fakeFile->getFileSystemId() . '`)'
                 );
             }
 
-            // Adding the user directory hash.
-            $realFile = $this->getUploadDir()->getFile(
-                $this->getUserDirectoryHash() . '/' . $fakeFile->getBasename()
-            );
+            $path .= $fakeFile->getBasename();
+        }
+        else {
+            $path .= $serial;
+        }
 
+        $realFile = $this->getUploadDir()->getFile($path);
+        if ($realFile->exists()) {
             return $realFile;
         }
 
@@ -238,4 +243,28 @@ class UploadService extends ConfigurableService
             \common_session_SessionManager::getSession()->getUser()->getIdentifier()
         );
     }
+
+    /**
+     * Is the uploaded filename looks as an uploaded file.
+     *
+     * @param $filePath
+     *
+     * @return bool
+     */
+    public function isUploadedFile($filePath)
+    {
+        // If it's a serialized one.
+        if (filter_var($filePath, FILTER_VALIDATE_URL)) {
+            return true;
+        }
+
+        // If it's a normal filename.
+        $file = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . '/' . $filePath);
+        if ($file->exists()) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
