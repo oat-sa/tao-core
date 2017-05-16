@@ -132,7 +132,7 @@ define([
             assert.ok(true, 'The historyRouter has forwarded the route');
             assert.equal(url, window.location.href, 'The right url has been forwarded');
             QUnit.start();
-        })
+        });
 
         appController.start();
     });

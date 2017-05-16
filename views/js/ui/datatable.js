@@ -208,14 +208,10 @@ define([
                 self._render($elt, response);
             }).fail(function (response) {
                 var errorDetails = JSON.parse(response.responseText);
+                var requestErr = new Error(errorDetails.message);
                 logger.error(errorDetails);
-
-                if (response.status === 403) {
-                    logoutEvent();
-                } else {
-                    feedback().error(response.status + ': ' + errorDetails.message);
-                }
-                $elt.trigger('error.' + ns, [errorDetails]);
+                requestErr.code = response.status;
+                $elt.trigger('error.' + ns, [requestErr]);
 
                 self._render($elt, {});
             });
