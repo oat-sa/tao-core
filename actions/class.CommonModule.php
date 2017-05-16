@@ -25,6 +25,10 @@ use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use oat\tao\model\mvc\Controller\RequestAwareTrait;
+use oat\tao\model\mvc\Controller\ViewAwareTrait;
 
 /**
  * Top level controller
@@ -35,8 +39,12 @@ use oat\tao\model\accessControl\AclProxy;
  * @package tao
  *         
  */
-abstract class tao_actions_CommonModule extends Module
+abstract class tao_actions_CommonModule extends Module implements ServiceLocatorAwareInterface
 {
+
+    use ServiceLocatorAwareTrait;
+    use RequestAwareTrait;
+    use ViewAwareTrait;
 
     /**
      * The Modules access the models throught the service instance
