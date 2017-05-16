@@ -59,18 +59,16 @@ class UploadService extends ConfigurableService
         $targetName     = uniqid('tmp', true) . '.' . $extension;
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
-//        $fakeFile = $this->getUploadDir()->getFile($targetLocation);
-        $realFile = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
+        $file = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
 
-        $returnValue['uploaded'] = $realFile->put(fopen($tmp_name, 'rb'));
-        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($realFile));
+        $returnValue['uploaded'] = $file->put(fopen($tmp_name, 'rb'));
+        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($file));
         tao_helpers_File::remove($tmp_name);
 
-        $data['type'] = $realFile->getMimetype();
-//        $data['uploaded_file'] = $this->getSerializer()->serialize($fakeFile);
-        $data['uploaded_file'] = $realFile->getBasename();
+        $data['type'] = $file->getMimetype();
+        $data['uploaded_file'] = $file->getBasename();
         $data['name'] = $name;
-        $data['size'] = array_key_exists('size', $postedFile) ? $postedFile['size'] : $realFile->getSize();
+        $data['size'] = array_key_exists('size', $postedFile) ? $postedFile['size'] : $file->getSize();
         $returnValue['name'] = $name;
         $returnValue['uploaded_file'] = $data['uploaded_file'];
         $returnValue['data'] = json_encode($data);
