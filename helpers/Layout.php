@@ -23,6 +23,8 @@ namespace oat\tao\helpers;
 
 use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
+use oat\tao\model\theme\ConfigurableTheme;
+use oat\tao\model\theme\Theme;
 use oat\tao\model\ThemeRegistry;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
@@ -199,10 +201,21 @@ class Layout{
     
     /**
      * Get the logo URL.
-     * 
+     *
+     * In case of non configurable theme, logo can be changed following on platform readiness
+     *
      * @return string The absolute URL to the logo image.
      */
-    public static function getLogoUrl() {
+    public static function getLogoUrl()
+    {
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurableTheme) {
+            $logoFile = $theme->getLogoUrl();
+            if (! empty($logoFile)) {
+                return $logoFile;
+            }
+        }
+
         $logoFile = Template::img('tao-logo.png', 'tao');
 
         switch (TAO_RELEASE_STATUS) {
@@ -239,8 +252,25 @@ class Layout{
         return '';
     }
 
-    public static function getLinkUrl() {
-        
+    /**
+     * Get the url link of current theme
+     * Url is used into header, to provide link to logo
+     * Url is used into footer, to provide link to footer message
+     *
+     * In case of non configurable theme, link can be changed following on platform readiness
+     *
+     * @return string
+     */
+    public static function getLinkUrl()
+    {
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurableTheme) {
+            $link = $theme->getLink();
+            if (! empty($link)) {
+                return $link;
+            }
+        }
+
         $link = 'http://taotesting.com';
         //move this into the standard template setData()
         switch (TAO_RELEASE_STATUS) {
@@ -255,8 +285,25 @@ class Layout{
         return $link;
     }
 
-    public static function getMessage() {
-        
+    /**
+     * Get the message of current theme
+     * Message is used into header, to provide title to logo
+     * Message is used into footer, as footer message
+     *
+     * In case of non configurable theme, message can be changed following on platform readiness
+     *
+     * @return string
+     */
+    public static function getMessage()
+    {
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurableTheme) {
+            $message = $theme->getMessage();
+            if (! empty($message)) {
+                return $message;
+            }
+        }
+
         $message = '';
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
@@ -336,27 +383,37 @@ class Layout{
         }
         return '';
     }
-    
+
     /**
      * Returns the absolute path of the template to be rendered considering the given context
      *
-     * @param string target
-     * @param string $templateId
+     * @param $target
+     * @param $templateId
+     * @return string
      */
     public static function getThemeTemplate($target, $templateId)
     {
-        $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
-        return $service->getTheme()->getTemplate($templateId, $target);
+        return self::getCurrentTheme()->getTemplate($templateId, $target);
     }
 
     /**
      * Returns the absolute path of the theme css that overwrites the base css
-     * 
-     * @param string target
+     *
+     * @param $target
+     * @return string
      */
-    public static function getThemeStylesheet($target){
-        $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
-        return $service->getTheme()->getStylesheet($target);
+    public static function getThemeStylesheet($target)
+    {
+        return self::getCurrentTheme()->getStylesheet($target);
+    }
 
+    /**
+     * Get the current theme configured into tao/theming config
+     *
+     * @return Theme
+     */
+    protected static function getCurrentTheme()
+    {
+        return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID)->getTheme();
     }
 }
