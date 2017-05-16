@@ -586,22 +586,17 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('7.17.0', '7.23.0');
 
         if ($this->isVersion('7.23.0')) {
-            $service = new \oat\tao\model\mvc\DefaultUrlService(
-                [
-                    'default' =>
-                    [
-                        'ext'        => 'tao',
-                        'controller' => 'Main',
-                        'action'     => 'index',
-                    ],
-                    'login' =>
-                    [
-                        'ext'        => 'tao',
-                        'controller' => 'Main',
-                        'action'     => 'login',
-                    ]
-                ]
-            );
+            $service = new \oat\tao\model\mvc\DefaultUrlService();
+            $service->setRoute('default', array(
+                'ext'        => 'tao',
+                'controller' => 'Main',
+                'action'     => 'index',
+            ));
+            $service->setRoute('login', array(
+                'ext'        => 'tao',
+                'controller' => 'Main',
+                'action'     => 'login',
+            ));
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID, $service);
             $this->setVersion('7.24.0');
         }
@@ -617,7 +612,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('7.30.1')) {
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
-            $routeService->setOption('logout',
+            $routeService->setRoute('logout',
                         [
                             'ext'        => 'tao',
                             'controller' => 'Main',
