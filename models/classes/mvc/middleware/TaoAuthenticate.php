@@ -24,7 +24,6 @@ use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\accessControl\data\PermissionException;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\mvc\Application\Resolution;
-use oat\tao\model\mvc\psr7\Resolver;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -59,7 +58,9 @@ class TaoAuthenticate extends AbstractTaoMiddleware
         if (!AclProxy::hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params)) {
             $func  = new FuncProxy();
             $data  = new DataAccessControl();
-            //now go into details to see which kind of permissions are not correct
+            print_r('func access = ' . $func->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params));
+            print_r('data access = ' . $data->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params));
+            die();
             if($func->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params) &&
                 !$data->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params)){
 
