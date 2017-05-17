@@ -55,11 +55,13 @@ $entryArrowHeight: 150;
           margin-right: 10px;
       }
     }
-    a {
-      height: $entryArrowHeight * 1px;
-    }
     .box {
+      height: $entryArrowHeight * 1px;
       padding-left: 40px;
+
+      .action {
+        cursor: pointer;
+      }
 
       &:before, &:after {
         content: '';
