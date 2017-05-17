@@ -32,8 +32,8 @@ use oat\tao\helpers\Template;
  * return new oat\tao\model\theme\ThemeService(array(
  * 'available' => array(
  *    [...],
- *    'test' => new \oat\tao\model\theme\UrlSourceTheme(),
- *    'testConfigured' => new \oat\tao\model\theme\UrlSourceTheme(array(
+ *    'test' => new \oat\tao\model\theme\ConfigurableTheme(),
+ *    'testConfigured' => new \oat\tao\model\theme\ConfigurableTheme(array(
  *       'data' => array(
  *          'logo-url' => 'http://lorempixel.com/400/200,
  *          'link' => 'http://taotesting.com',
