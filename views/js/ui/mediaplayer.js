@@ -486,6 +486,7 @@ define([
         var player;
         var interval;
         var destroyed;
+        var initWidth, initHeight;
 
         function loopEvents(callback) {
             _.forEach(['onStateChange', 'onPlaybackQualityChange', 'onPlaybackRateChange', 'onError', 'onApiChange'], callback);
@@ -522,6 +523,10 @@ define([
                                     window.console.log(ev, e);
                                 });
                             });
+                        }
+
+                        if (initWidth && initHeight) {
+                            this.setSize(initWidth, initHeight);
                         }
 
                         mediaplayer._onReady();
@@ -625,6 +630,9 @@ define([
                     }
                     if (media) {
                         media.setSize(width, height);
+                    } else {
+                        initWidth = width;
+                        initHeight = height;
                     }
                 },
 
