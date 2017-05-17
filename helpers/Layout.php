@@ -21,17 +21,15 @@
 
 namespace oat\tao\helpers;
 
-use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
-use oat\tao\model\ThemeRegistry;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
 
-class Layout{
-
+class Layout
+{
 
     /**
      * Compute the parameters for the release message
