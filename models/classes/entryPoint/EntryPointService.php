@@ -19,13 +19,7 @@
  */
 namespace oat\tao\model\entryPoint;
 
-use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
-use oat\tao\helpers\Template;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\menu\MenuService;
-use oat\tao\model\entryPoint\Entrypoint;
 use oat\oatbox\service\ServiceManager;
 
 /**
@@ -125,7 +119,29 @@ class EntryPointService extends ConfigurableService
             $this->activateEntryPoint($e->getId(), $target);
         }
     }
-    
+
+    /**
+     * Remove entrypoint
+     *
+     * @param $entryId
+     * @param null $target
+     * @throws \common_exception_InconsistentData
+     */
+    public function removeEntryPoint($entryId, $target = null)
+    {
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        if (!isset($entryPoints[$entryId])) {
+            throw new \common_exception_InconsistentData('Unknown entrypoint ' . $entryId);
+        }
+
+        if (!is_null($target)) {
+            $this->deactivateEntryPoint($entryId, $target);
+        }
+
+        unset($entryPoints[$entryId]);
+        $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
+    }
+
     /**
      * Get all entrypoints for a designated target
      * 
