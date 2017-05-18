@@ -37,7 +37,7 @@ class EntryPointService extends ConfigurableService
     const OPTION_PRELOGIN = 'prelogin';
     
     const OPTION_POSTLOGIN = 'postlogin';
-    
+
     /**
      * Replace the entrypoint with the id provided
      * 
@@ -124,22 +124,35 @@ class EntryPointService extends ConfigurableService
      * Remove entrypoint
      *
      * @param $entryId
-     * @param null $target
      * @throws \common_exception_InconsistentData
      */
-    public function removeEntryPoint($entryId, $target = null)
+    public function removeEntryPoint($entryId)
     {
         $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
         if (!isset($entryPoints[$entryId])) {
             throw new \common_exception_InconsistentData('Unknown entrypoint ' . $entryId);
         }
 
-        if (!is_null($target)) {
-            $this->deactivateEntryPoint($entryId, $target);
+        // delete entrypoint from all options entries
+        $options = $this->getOptions();
+        foreach ($options as $section => $option) {
+            $sectionIsArray = false;
+            foreach ($option as $key => $val) {
+                if (($key === $entryId && $key == $entryId) || $val == $entryId) {
+                    unset($options[$section][$key]);
+                }
+
+                if ($val == $entryId) {
+                    $sectionIsArray = true;
+                }
+            }
+
+            if ($sectionIsArray) {
+                $options[$section] = array_values($options[$section]);
+            }
         }
 
-        unset($entryPoints[$entryId]);
-        $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
+        $this->setOptions($options);
     }
 
     /**
