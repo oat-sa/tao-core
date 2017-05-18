@@ -80,6 +80,16 @@ class DefaultUrlService extends ConfigurableService
     }
 
     /**
+     * Get all routes from the configuration
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->getOptions();
+    }
+
+    /**
      * Set the config associated to given $name
      *
      * @param $name
