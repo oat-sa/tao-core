@@ -42,7 +42,7 @@ class EntryPointServiceTest extends \PHPUnit_Framework_TestCase
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","nccerInstructorEntryPoint","nccerBillingEntryPoint","nccerAssignmentEntryPoint","nccerResultManagementEntryPoint","nccerAdminBillingReportsEntryPoint","nccerAdminLookUpSponsorOrganizationEntryPoint","nccerAdminLookUpChildOrganizationEntryPoint","nccerAdminTestEligibilitiesEntryPoint","nccerAdminHomeEntryPoint","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
+        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
             $json);
 
         $this->service->removeEntryPoint('proctoringDelivery');
@@ -50,7 +50,7 @@ class EntryPointServiceTest extends \PHPUnit_Framework_TestCase
         $options = $this->service->getOptions();
         $json = json_encode($options);
 
-        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","nccerInstructorEntryPoint","nccerBillingEntryPoint","nccerAssignmentEntryPoint","nccerResultManagementEntryPoint","nccerAdminBillingReportsEntryPoint","nccerAdminLookUpSponsorOrganizationEntryPoint","nccerAdminLookUpChildOrganizationEntryPoint","nccerAdminTestEligibilitiesEntryPoint","nccerAdminHomeEntryPoint","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
+        self::assertEquals('{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
             $json);
     }
 }
