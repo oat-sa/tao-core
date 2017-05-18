@@ -24,12 +24,6 @@ interface Theme
     const CONTEXT_BACKOFFICE = 'backOffice';
     
     const CONTEXT_FRONTOFFICE = 'frontOffice';
-
-    /**
-     * Returns a human readable title of the theme
-     * @return string
-     */
-    public function getLabel();
     
     /**
      * Returns the path to the template file on the fs
