@@ -58,9 +58,6 @@ class TaoAuthenticate extends AbstractTaoMiddleware
         if (!AclProxy::hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params)) {
             $func  = new FuncProxy();
             $data  = new DataAccessControl();
-            print_r('func access = ' . $func->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params));
-            print_r('data access = ' . $data->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params));
-            die();
             if($func->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params) &&
                 !$data->hasAccess($user, $resolution->getControllerClass(), $resolution->getMethodName(), $params)){
 
