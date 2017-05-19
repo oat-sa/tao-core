@@ -102,7 +102,7 @@ define([
                 if(!$group.is(':visible')){
                     return false;
                 }
-                _.each(keyNavigator.getNavigables(), function(nav){
+                _.forEach(keyNavigator.getNavigables(), function(nav){
                     if(nav.isVisible()){
                         hasVisibleNavigable = true;
                         return false;
@@ -120,7 +120,7 @@ define([
                 if($group.is(':disabled')){
                     return false;
                 }
-                _.each(keyNavigator.getNavigables(), function(nav){
+                _.forEach(keyNavigator.getNavigables(), function(nav){
                     if(nav.isEnabled()){
                         hasEnabledNavigable = true;
                         return false;
