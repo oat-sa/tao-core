@@ -59,7 +59,8 @@ class Layout
 
             case 'demoS':
                 $params['version-type'] = __('Demo Sandbox');
-                $params['is-sandbox']    = true;
+                $params['is-sandbox']   = true;
+                $params['msg']          = self::getSandboxExpiration();
                 break;
         }
 
