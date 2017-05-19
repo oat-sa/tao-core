@@ -116,7 +116,17 @@ define([
              * @returns {boolean}
              */
             isEnabled : function isEnabled() {
-                return !$group.is(':disabled');
+                var hasEnabledNavigable = false;
+                if($group.is(':disabled')){
+                    return false;
+                }
+                _.each(keyNavigator.getNavigables(), function(nav){
+                    if(nav.isEnabled()){
+                        hasEnabledNavigable = true;
+                        return false;
+                    }
+                });
+                return hasEnabledNavigable;
             },
 
             /**
