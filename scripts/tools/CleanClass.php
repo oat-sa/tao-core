@@ -42,7 +42,6 @@ class CleanClass extends AbstractAction
 
     public function __invoke($params)
     {
-
         $report = $this->verifyParams($params);
 
         if($report->getType() === \common_report_Report::TYPE_ERROR){
