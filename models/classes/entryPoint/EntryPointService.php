@@ -138,7 +138,7 @@ class EntryPointService extends ConfigurableService
         foreach ($options as $section => $option) {
             $sectionIsArray = false;
             foreach ($option as $key => $val) {
-                if (($key === $entryId && $key == $entryId) || $val == $entryId) {
+                if ($key === $entryId || $val == $entryId) {
                     unset($options[$section][$key]);
                 }
 
