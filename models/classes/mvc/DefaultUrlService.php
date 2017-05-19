@@ -22,7 +22,6 @@ use oat\oatbox\service\ConfigurableService;
 
 class DefaultUrlService extends ConfigurableService 
 {
-    
     const SERVICE_ID = 'tao/urlroute';
 
     /**
@@ -62,7 +61,43 @@ class DefaultUrlService extends ConfigurableService
     public function getDefaultUrl(array $params = array()) {
         return $this->getUrl('default' , $params);
     }
-    
+
+    /**
+     * Get the config associated to given $name
+     *
+     * @param $name
+     * @return mixed
+     * @throws \common_Exception
+     */
+    public function getRoute($name)
+    {
+        if (! $this->hasOption($name)) {
+            throw new \common_Exception('Route ' . $name . ' not found into UrlService config');
+        }
+        return $this->getOption($name);
+    }
+
+    /**
+     * Get all routes from the configuration
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->getOptions();
+    }
+
+    /**
+     * Set the config associated to given $name
+     *
+     * @param $name
+     * @param array $value
+     */
+    public function setRoute($name, array $value)
+    {
+        $this->setOption($name, $value);
+    }
+
     /**
      * @param string $name
      * @return string
