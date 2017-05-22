@@ -72,5 +72,12 @@ interface ApplicationInterface
      */
     public function getResponse();
 
+    /**
+     * send headers and body content
+     * @param ResponseInterface $response
+     * @return $this
+     */
+    public function finalise(ResponseInterface $response);
+
 
 }

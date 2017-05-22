@@ -285,7 +285,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         $this->run()->end();
     }
 
-    protected function finalise(Response $response) {
+    public function finalise(ResponseInterface $response) {
 
         header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() , $response->getStatusCode());
 

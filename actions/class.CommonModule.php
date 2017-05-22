@@ -330,10 +330,8 @@ abstract class tao_actions_CommonModule implements ServiceLocatorAwareInterface
      */
     public function redirect($url, $statusCode = 302)
     {
-        \common_Logger::i(__METHOD__);
         $response = $this->getPsrResponse()->withStatus($statusCode)->withHeader('Location' , $url);
         $this->updateResponse($response);
-        \common_Logger::i('redirect = ' . $url);
         /**
          * @var $application TaoApplication
          */
