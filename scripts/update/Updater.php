@@ -793,9 +793,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-        $this->skip('9.2.0', '10.5.1');
+        $this->skip('9.2.0', '10.6.0');
 
-        if($this->isVersion('10.5.1')) {
+        if($this->isVersion('10.6.0')) {
             $service = new ActionExecutor(
                 [
                     'executor' =>
