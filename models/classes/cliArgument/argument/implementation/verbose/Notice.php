@@ -33,8 +33,7 @@ class Notice extends Verbose
      */
     public function isApplicable(array $params)
     {
-        return in_array('-vv', $params)
-            || (in_array('--verbose', $params) && ($params[array_search('--verbose', $params)+1] == 2));
+        return $this->hasParameter($params, '-vv') || $this->hasParameter($params, '--verbose', 2);
     }
 
     /**

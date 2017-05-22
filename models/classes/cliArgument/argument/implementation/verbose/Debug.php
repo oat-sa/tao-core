@@ -33,8 +33,7 @@ class Debug extends Verbose
      */
     public function isApplicable(array $params)
     {
-        return in_array('-vvv', $params)
-            || (in_array('--verbose', $params) && ($params[array_search('--verbose', $params)+1] == 3));
+        return $this->hasParameter($params, '-vvv') || $this->hasParameter($params, '--verbose', 3);
     }
 
     /**

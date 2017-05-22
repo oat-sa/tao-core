@@ -36,8 +36,7 @@ class Error extends Verbose
      */
     public function isApplicable(array $params)
     {
-        return in_array('-v', $params)
-            || (in_array('--verbose', $params) && ($params[array_search('--verbose', $params)+1] == 1));
+        return $this->hasParameter($params, '-v') || $this->hasParameter($params, '--verbose', 1);
     }
 
     /**

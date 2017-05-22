@@ -58,4 +58,23 @@ abstract class Verbose implements Argument, ServiceLocatorAwareInterface, PhpSer
             );
         }
     }
+
+    /**
+     * Find a parameter $name into $params arguments
+     * If $value is defined, check if following parameter equals to given $value
+     *
+     * @param array $params
+     * @param $name
+     * @param null $value
+     * @return bool
+     */
+    protected function hasParameter(array $params, $name, $value = null)
+    {
+        $found = in_array($name, $params);
+        if (is_null($value) || !$found) {
+            return $found;
+        }
+        $paramValueIndex = array_search($name, $params) + 1;
+        return isset($params[$paramValueIndex]) && ($params[$paramValueIndex] == $value);
+    }
 }
