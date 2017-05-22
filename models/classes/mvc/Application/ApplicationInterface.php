@@ -20,6 +20,7 @@
 namespace oat\tao\model\mvc\Application;
 
 
+use oat\oatbox\Configurable;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
