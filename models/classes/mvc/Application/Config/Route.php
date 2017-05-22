@@ -20,6 +20,7 @@ namespace oat\tao\model\mvc\Application\Config;
 
 use oat\tao\model\mvc\Application\Resolution;
 use oat\tao\model\mvc\middleware\ControllerRendering;
+use oat\tao\model\mvc\middleware\LoadExtensionConstant;
 use oat\tao\model\mvc\middleware\TaoAssetConfiguration;
 use oat\tao\model\mvc\middleware\TaoAuthenticate;
 use oat\tao\model\mvc\middleware\TaoControllerExecution;
@@ -35,6 +36,7 @@ class Route
             'preProcess' =>
                 [
                     TaoInitUser::class,
+                    LoadExtensionConstant::class,
                     TaoRestAuthenticate::class,
                     TaoAuthenticate::class,
                     TaoAssetConfiguration::class,
