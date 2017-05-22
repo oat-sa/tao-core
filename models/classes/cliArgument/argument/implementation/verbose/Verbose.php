@@ -23,14 +23,17 @@ namespace oat\tao\model\cliArgument\argument\implementation\verbose;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\log\VerboseLogger;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\PhpSerializeStateless;
 use oat\tao\model\cliArgument\argument\Argument;
 use Psr\Log\LoggerAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-abstract class Verbose implements Argument, ServiceLocatorAwareInterface
+abstract class Verbose implements Argument, ServiceLocatorAwareInterface, PhpSerializable
 {
     use ServiceLocatorAwareTrait;
+    use PhpSerializeStateless;
 
     /**
      * Return the Psr3 logger level minimum to send log to logger

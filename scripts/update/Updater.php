@@ -27,6 +27,11 @@ use oat\oatbox\event\EventManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\cliArgument\argument\implementation\Group;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
+use oat\tao\model\cliArgument\ArgumentService;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
@@ -783,6 +788,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('9.2.0', '10.6.1');
+
+        if ($this->isVersion('10.6.1')) {
+            $this->getServiceManager()->register(ArgumentService::SERVICE_ID, new ArgumentService(array(
+                'arguments' => array(
+                    new Group(array(new Debug(), new Notice(), new Error(),))
+                )
+            )));
+            $this->setVersion('10.7.0');
+        }
     }
 
     private function migrateFsAccess() {
