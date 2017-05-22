@@ -104,10 +104,10 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
     }
 
     /**
-     * @param ServerRequest $request
+     * @param ServerRequestInterface $request
      * @return $this
      */
-    public function setRequest($request)
+    public function setRequest(ServerRequestInterface $request)
     {
         $this->request = $request;
         return $this;
@@ -143,7 +143,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      * @return null|Route
      * @throws RouteNotFound
      */
-    public function resolve($path)
+    protected function resolve($path)
     {
         $selectRoute = null;
         /**
@@ -173,7 +173,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
 
     }
 
-    public function getPath(ServerRequestInterface $request) {
+    protected function getPath(ServerRequestInterface $request) {
         $prefix = $this->getPrefix();
         \common_Logger::i('prefix : ' . $prefix);
         $path = preg_replace('#^' . $prefix . '#u' , '' ,$request->getUri()->getPath());
@@ -212,7 +212,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
     }
 
 
-    public function process(ServerRequestInterface $request , ResponseInterface $response) {
+    protected function process(ServerRequestInterface $request , ResponseInterface $response) {
         $path     = $this->getPath($request);
 
         $args     = [];
@@ -247,7 +247,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      * @param $Exception
      * @return ResponseInterface
      */
-    public function error($request  , $Exception) {
+    protected function error($request  , $Exception) {
         $args = [
             'exception' => $Exception
         ];
@@ -285,7 +285,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         $this->run()->end();
     }
 
-    public function finalise(Response $response) {
+    protected function finalise(Response $response) {
 
         header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() , $response->getStatusCode());
 

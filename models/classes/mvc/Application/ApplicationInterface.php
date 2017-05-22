@@ -20,6 +20,9 @@
 namespace oat\tao\model\mvc\Application;
 
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 interface ApplicationInterface
 {
 
@@ -29,7 +32,7 @@ interface ApplicationInterface
      * @param $path
      * @return array route
      */
-    public function resolve($path);
+    public function getRoute($path);
 
     /**
      * @return Resolution
@@ -48,8 +51,26 @@ interface ApplicationInterface
     public function run();
 
     /**
+     * stop process
      * @return void
      */
     public function end();
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return $this
+     */
+    public function setRequest(ServerRequestInterface $request);
+
+    /**
+     * @return ServerRequestInterface
+     */
+    public function getRequest();
+
+    /**
+     * @return ResponseInterface
+     */
+    public function getResponse();
+
 
 }
