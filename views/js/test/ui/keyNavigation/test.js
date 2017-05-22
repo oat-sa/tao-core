@@ -369,6 +369,56 @@ define([
 
     QUnit.module('Group navigable element');
 
+    QUnit.test('isVisible', function(assert){
+        var $container = $('#qunit-fixture .inputable');
+        var domNavigable = keyNavigator({
+            id : 'A',
+            replace : true,
+            elements : navigableDomElement.createFromDoms($container.find('input')),
+            group : $container
+        });
+        var groupNavigable = navigableGroupElement(domNavigable);
+
+        assert.ok(groupNavigable.isVisible(), 'group element is visible');
+
+        $container.find('input[data-id=A]').hide();
+        assert.ok(groupNavigable.isVisible(), 'group element is still visible');
+
+        $container.find('input[data-id=B]').hide();
+        assert.ok(groupNavigable.isVisible(), 'group element is still visible');
+
+        $container.find('input[data-id=C]').hide();
+        assert.ok(!groupNavigable.isVisible(), 'group element is hidden');
+
+        $container.find('input[data-id=C]').show();
+        assert.ok(groupNavigable.isVisible(), 'group element is visible again');
+    });
+
+    QUnit.test('isEnabled', function(assert){
+        var $container = $('#qunit-fixture .inputable');
+        var domNavigable = keyNavigator({
+            id : 'A',
+            replace : true,
+            elements : navigableDomElement.createFromDoms($container.find('input')),
+            group : $container
+        });
+        var groupNavigable = navigableGroupElement(domNavigable);
+
+        assert.ok(groupNavigable.isEnabled(), 'group element is enabled');
+
+        $container.find('input[data-id=A]').attr('disabled', 'disabled');
+        assert.ok(groupNavigable.isEnabled(), 'group element is still enabled');
+
+        $container.find('input[data-id=B]').attr('disabled', 'disabled');
+        assert.ok(groupNavigable.isEnabled(), 'group element is still enabled');
+
+        $container.find('input[data-id=C]').attr('disabled', 'disabled');
+        assert.ok(!groupNavigable.isEnabled(), 'group element is disabled');
+
+        $container.find('input[data-id=C]').removeAttr('disabled');
+        assert.ok(groupNavigable.isEnabled(), 'group element is enabled again');
+    });
+
     QUnit.asyncTest('navigate between navigable areas', function(assert){
         var knavigator;
         var $container = $('#qunit-fixture');
