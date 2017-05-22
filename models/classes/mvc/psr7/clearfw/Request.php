@@ -125,15 +125,18 @@ class Request {
     }
 
     public function getUserAgent() {
-        return $this->psrRequest->getHeader('USER_AGENT');
+        $servers = $this->psrRequest->getServerParams();
+        return $servers['USER_AGENT'];
     }
 
     public function getQueryString() {
-        return $this->psrRequest->getHeader('QUERY_STRING');
+        $servers = $this->psrRequest->getServerParams();
+        return $servers['QUERY_STRING'];
     }
 
     public function getRequestURI() {
-        return $this->psrRequest->getHeader('REQUEST_URI');
+        $servers = $this->psrRequest->getServerParams();
+        return $servers['REQUEST_URI'];
     }
 
     public function getRawParameters() {
@@ -142,13 +145,16 @@ class Request {
 
     public function accept($mime) {
         //extract the mime-types
+
+        $servers = $this->psrRequest->getServerParams();
+
         $accepts = array_map(function($value) {
             if (strpos($value, ';')) {
                 //remove the priority ie. q=0.3
                 $value = substr($value, 0, strrpos($value, ';'));
             }
             return trim($value);
-        }, explode(',', $this->psrRequest->getHeader('HTTP_ACCEPT')));
+        }, explode(',', $servers['HTTP_ACCEPT']));
 
         foreach ($accepts as $accept) {
             if ($accept == $mime) {
