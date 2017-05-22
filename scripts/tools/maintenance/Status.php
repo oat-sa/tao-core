@@ -21,14 +21,18 @@
 namespace oat\tao\scripts\tools\maintenance;
 
 use oat\oatbox\action\Action;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\maintenance\MaintenanceState;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LogLevel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Status implements Action, ServiceLocatorAwareInterface
+class Status implements Action, ServiceLocatorAwareInterface, LoggerAwareInterface
 {
     use ServiceLocatorAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * Get the status of platform
@@ -38,6 +42,15 @@ class Status implements Action, ServiceLocatorAwareInterface
      */
     public function __invoke($params)
     {
+        $this->logEmergency(LogLevel::EMERGENCY);
+        $this->logAlert(LogLevel::ALERT);
+        $this->logCritical(LogLevel::CRITICAL);
+        $this->logError(LogLevel::ERROR);
+        $this->logWarning(LogLevel::WARNING);
+        $this->logNotice(LogLevel::NOTICE);
+        $this->logInfo(LogLevel::INFO);
+        $this->logDebug(LogLevel::DEBUG);
+
         try {
             $state = $this->getMaintenanceService()->getPlatformState();
             if ($this->getMaintenanceService()->isPlatformReady($state)) {
