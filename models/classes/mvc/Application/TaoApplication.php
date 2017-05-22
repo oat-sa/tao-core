@@ -243,7 +243,6 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
 
     /**
      * @param $request
-     * @param $response
      * @param $Exception
      * @return ResponseInterface
      */
@@ -271,6 +270,9 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         return $this;
     }
 
+    /**
+     * @param $newUri
+     */
     public function forward($newUri) {
         $newRequest = new ServerRequest(
             'GET',
@@ -285,6 +287,10 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         $this->run()->end();
     }
 
+    /**
+     * @param ResponseInterface $response
+     * @return $this
+     */
     public function finalise(ResponseInterface $response) {
 
         header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() , $response->getStatusCode());
