@@ -28,8 +28,6 @@ define([
 
     var scrollHelper;
 
-
-
     scrollHelper = {
         /**
          * Keep a component element visible inside a container.
@@ -46,9 +44,10 @@ define([
          * Scroll the container so the given element is put at the top of the visible area
          * @param {String|jQuery|HTMLElement} element
          * @param {String|jQuery|HTMLElement} container
+         * @param {Number} speed - in milliseconds
          * @returns {Promise} Returns a Promise that will always be resolved when the scroll is done
          */
-        scrollTo: function scrollTo(element, container) {
+        scrollTo: function scrollTo(element, container, speed) {
             return new Promise(function(resolve) {
                 var $element = $(element),
                     $container = $(container || $element.parent()),
@@ -60,7 +59,10 @@ define([
                     scrollTop = $element.offset().top - $container.offset().top + currentScrollTop;
 
                     if (scrollTop !== currentScrollTop) {
-                        $container.animate({scrollTop:scrollTop}).promise().done(resolve);
+                        $container
+                            .animate({ scrollTop: scrollTop }, speed)
+                            .promise()
+                            .done(resolve);
                     } else {
                         resolve();
                     }
