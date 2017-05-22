@@ -21,11 +21,8 @@
 namespace oat\tao\scripts\tools\maintenance;
 
 use oat\oatbox\action\Action;
-use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\maintenance\MaintenanceState;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LogLevel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
