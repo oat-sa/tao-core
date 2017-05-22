@@ -28,6 +28,13 @@ class ArgumentService extends ArgumentLoader
 
     const ARGUMENT_OPTION = 'arguments';
 
+    /**
+     * Get arguments from config and check if there are applicable
+     * In case of yes, proccess them
+     *
+     * @param Action $action
+     * @param array $params
+     */
     public function load(Action $action, array $params)
     {
         /** @var Argument $argument */
@@ -39,6 +46,11 @@ class ArgumentService extends ArgumentLoader
         }
     }
 
+    /**
+     * Get list of serialized arguments from options
+     *
+     * @return array
+     */
     protected function getOptionArguments()
     {
         return $this->hasOption(self::ARGUMENT_OPTION) ? $this->getOption(self::ARGUMENT_OPTION) : [];

@@ -32,8 +32,20 @@ abstract class Verbose implements Argument, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * Return the Psr3 logger level minimum to send log to logger
+     *
+     * @return string
+     */
     abstract protected function getMinimumLogLevel();
 
+    /**
+     * Propagate the argument process to Action
+     * To load a verbose logger, a check is done Action interfaces to find LoggerInterface
+     * The verbose logger is loaded with the minimum level requires
+     *
+     * @param Action $action
+     */
     public function load(Action $action)
     {
         if ($action instanceof LoggerAwareInterface) {

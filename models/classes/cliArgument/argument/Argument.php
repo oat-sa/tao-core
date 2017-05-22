@@ -23,7 +23,18 @@ use oat\oatbox\action\Action;
 
 interface Argument
 {
+    /**
+     * Propagate the argument process to Action
+     *
+     * @param Action $action
+     */
     public function load(Action $action);
 
+    /**
+     * Check if current Argument can be applicable following params array content
+     *
+     * @param array $params
+     * @return bool
+     */
     public function isApplicable(array $params);
 }

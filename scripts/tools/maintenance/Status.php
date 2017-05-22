@@ -29,10 +29,9 @@ use Psr\Log\LogLevel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class Status implements Action, ServiceLocatorAwareInterface, LoggerAwareInterface
+class Status implements Action, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
-    use LoggerAwareTrait;
 
     /**
      * Get the status of platform
@@ -42,15 +41,6 @@ class Status implements Action, ServiceLocatorAwareInterface, LoggerAwareInterfa
      */
     public function __invoke($params)
     {
-        $this->logEmergency(LogLevel::EMERGENCY);
-        $this->logAlert(LogLevel::ALERT);
-        $this->logCritical(LogLevel::CRITICAL);
-        $this->logError(LogLevel::ERROR);
-        $this->logWarning(LogLevel::WARNING);
-        $this->logNotice(LogLevel::NOTICE);
-        $this->logInfo(LogLevel::INFO);
-        $this->logDebug(LogLevel::DEBUG);
-
         try {
             $state = $this->getMaintenanceService()->getPlatformState();
             if ($this->getMaintenanceService()->isPlatformReady($state)) {

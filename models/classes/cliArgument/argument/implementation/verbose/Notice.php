@@ -24,12 +24,24 @@ use Psr\Log\LogLevel;
 
 class Notice extends Verbose
 {
+    /**
+     * Check if params array contains targeted arguments, Short and Long
+     * In case of Long, check is done is following param argument
+     *
+     * @param array $params
+     * @return bool
+     */
     public function isApplicable(array $params)
     {
         return in_array('-vv', $params)
             || (in_array('--verbose', $params) && ($params[array_search('--verbose', $params)+1] == 2));
     }
 
+    /**
+     * Return the Psr3 logger level minimum to send log to logger
+     *
+     * @return string
+     */
     protected function getMinimumLogLevel()
     {
         return LogLevel::NOTICE;

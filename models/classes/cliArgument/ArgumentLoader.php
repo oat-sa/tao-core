@@ -25,6 +25,11 @@ use oat\tao\model\cliArgument\argument\Argument;
 
 abstract class ArgumentLoader extends ConfigurableService
 {
+    /**
+     * Get list of serialized arguments
+     *
+     * @return array
+     */
     abstract protected function getOptionArguments();
 
     /**

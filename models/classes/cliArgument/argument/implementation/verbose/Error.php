@@ -27,12 +27,24 @@ class Error extends Verbose
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * Check if params array contains targeted arguments, Short and Long
+     * In case of Long, check is done is following param argument
+     *
+     * @param array $params
+     * @return bool
+     */
     public function isApplicable(array $params)
     {
         return in_array('-v', $params)
             || (in_array('--verbose', $params) && ($params[array_search('--verbose', $params)+1] == 1));
     }
 
+    /**
+     * Return the Psr3 logger level minimum to send log to logger
+     *
+     * @return string
+     */
     public function getMinimumLogLevel()
     {
         return LogLevel::ERROR;
