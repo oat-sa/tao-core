@@ -77,6 +77,7 @@ abstract class tao_actions_CommonModule implements ServiceLocatorAwareInterface
 
     /**
      * @param \oat\tao\model\mvc\Application\Resolution $resolution
+     * @return $this
      */
     public function setResolution($resolution)
     {
@@ -376,8 +377,11 @@ abstract class tao_actions_CommonModule implements ServiceLocatorAwareInterface
         return isset($this->renderer) && $this->renderer->hasTemplate();
     }
 
+    /**
+     * @return \oat\oatbox\service\ServiceManager
+     */
     protected function getServiceManager()
     {
-        return $this->getServiceLocator();
+        return \oat\oatbox\service\ServiceManager::getServiceManager();
     }
 }
