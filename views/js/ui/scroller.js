@@ -16,6 +16,8 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
+ * Helper to manage scrolling
+ *
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -65,6 +67,9 @@ define([
             });
         },
 
+        /**
+         * Disable default behavior of scrolling related events (mouse and keyboard)
+         */
         disableScrolling: function disableScrolling() {
             ['MouseScrollUp', 'MouseScrollDown', 'ArrowUp', 'ArrowDown']
                 .forEach(function(shortcutName) {
@@ -79,6 +84,9 @@ define([
                 });
         },
 
+        /**
+         * Renable scrolling events behavior
+         */
         enableScrolling: function enableScrolling() {
             shortcuts.remove(ns);
         }
