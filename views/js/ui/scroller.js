@@ -20,13 +20,17 @@
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
+    'lodash',
     'jquery',
     'core/promise',
-    'ui/autoscroll'
-], function ($, Promise, autoscroll) {
+    'ui/autoscroll',
+    'util/shortcut'
+], function (_, $, Promise, autoscroll, shortcuts) {
     'use strict';
 
     var scrollHelper;
+
+    var ns = '.scroller';
 
     scrollHelper = {
         /**
@@ -56,7 +60,7 @@ define([
 
                 if ($element.length && $container.length) {
                     currentScrollTop = $container.scrollTop();
-                    scrollTop = $element.offset().top - $container.offset().top + currentScrollTop;
+                    scrollTop = $element.offset().top - $container.offset().top + currentScrollTop; //todo: really?
 
                     if (scrollTop !== currentScrollTop) {
                         $container
@@ -70,8 +74,27 @@ define([
                     resolve();
                 }
             });
+        },
+
+        disableScrolling: function disableScrolling() {
+            ['MouseScrollUp', 'MouseScrollDown', 'ArrowUp', 'ArrowDown']
+                .forEach(function(shortcutName) {
+                    shortcuts.add(shortcutName + ns, function(e) {
+                        e.preventDefault();
+                    }, {
+                        // This is weird. If not specified, scrolling won't be re-enabled, as this specific shortcut
+                        // registry instance has { prevent: true } as a default setting. And it seems that it keeps preventing
+                        // default behavior event when all handlers have been unregistered.
+                        prevent: false
+                    });
+                });
+        },
+
+        enableScrolling: function enableScrolling() {
+            shortcuts.remove(ns);
         }
     };
+
 
     return scrollHelper;
 });
