@@ -34,17 +34,6 @@ define([
 
     scrollHelper = {
         /**
-         * Keep a component element visible inside a container.
-         * If the element is outside the container viewport, scroll to display it.
-         * @param {String|jQuery|HTMLElement} element
-         * @param {String|jQuery|HTMLElement} container
-         * @returns {Promise} Returns a Promise that will always be resolved when the scroll is done
-         */
-        ensureVisible: function ensureVisible(element, container) {
-            autoscroll(element, container);
-        },
-
-        /**
          * Scroll the container so the given element is put at the top of the visible area
          * @param {String|jQuery|HTMLElement} element
          * @param {String|jQuery|HTMLElement} container
