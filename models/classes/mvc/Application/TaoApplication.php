@@ -65,7 +65,6 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         if($this->hasOption('errorHandler')) {
             $this->errorHandler = $this->getOption('errorHandler');
         }
-
     }
 
     /**
@@ -175,7 +174,6 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
 
     protected function getPath(ServerRequestInterface $request) {
         $prefix = $this->getPrefix();
-        \common_Logger::i('prefix : ' . $prefix);
         $path = preg_replace('#^' . $prefix . '#u' , '' ,$request->getUri()->getPath());
         return trim($path , '/');
     }
@@ -261,11 +259,13 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
     {
         $response = $this->getResponse();
         $request  = $this->getRequest();
+
         try {
             $response = $this->process($request , $response);
         } catch (\Exception $e) {
             $response = $this->error($request  , $e);
         }
+
         $this->finalise($response);
         return $this;
     }
@@ -293,18 +293,23 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      */
     public function finalise(ResponseInterface $response) {
 
-        header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() , $response->getStatusCode());
 
-        foreach ($response->getHeaders() as $name => $value) {
+        if(!headers_sent()) {
+            header_remove();
+            header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() , $response->getStatusCode());
 
-           header($name . ': ' . $response->getHeaderLine($name) );
+            foreach ($response->getHeaders() as $name => $value) {
+                header($name . ': ' . $response->getHeaderLine($name) );
+            }
         }
 
         $body = $response->getBody();
         $body->rewind();
         echo $body->getContents();
+
         return $this;
     }
+
 
     public function end() {
         exit();

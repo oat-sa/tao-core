@@ -51,7 +51,7 @@ class TaoControllerExecution extends AbstractTaoMiddleware
 
         if (method_exists($controller, $action)) {
             ob_start();
-
+            ob_implicit_flush(false);
             $controller->setPsr7($request,  $response);
             $controller->setResolution($resolution);
             $controller->setServiceLocator($this->getServiceLocator());
@@ -64,7 +64,6 @@ class TaoControllerExecution extends AbstractTaoMiddleware
             }
 
             $implicitContent = trim(ob_get_contents());
-            ob_clean();
             if(!empty($implicitContent)) {
                 $response->getBody()->write($implicitContent);
             }

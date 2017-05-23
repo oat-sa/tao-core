@@ -20,29 +20,12 @@
 namespace oat\tao\model\mvc\middleware;
 
 
+use oat\tao\model\mvc\Application\Handler\ImplicitHeaders;
 use oat\tao\model\mvc\psr7\ActionExecutor;
 use Psr\Http\Message\ResponseInterface;
 
 class ControllerRendering extends AbstractTaoMiddleware
 {
-    /**
-     * convert explicit header on Response header
-     * @param ResponseInterface $response
-     * @return ResponseInterface
-     */
-    protected function convertHeaders(ResponseInterface $response) {
-
-        $headers = headers_list();
-
-        foreach ($headers as $header) {
-            list($name , $value) = explode(':' , $header);
-            $response = $response->withAddedHeader($name , trim($value));
-
-        }
-
-        header_remove();
-        return $response;
-    }
 
     /**
      * @param $controller
@@ -64,7 +47,11 @@ class ControllerRendering extends AbstractTaoMiddleware
     {
         $controller = $args['controller'];
         $response = $this->response($controller , $response);
-        return $this->convertHeaders($response);
+
+        $implicitHeadersHandler = new ImplicitHeaders();
+        $response = $implicitHeadersHandler->catchHeaders()->setUpResponse($response);
+
+        return $response;
     }
 
 }
