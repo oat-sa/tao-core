@@ -45,6 +45,7 @@ use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\NamespaceRoute;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\scripts\install\ExtensionRouteInstallation;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
@@ -799,61 +800,15 @@ class Updater extends \common_ext_ExtensionUpdater {
                         ]
                 ]
             );
+            $this->getServiceManager()->register(ActionExecutor::SERVICE_ID, $service);
 
-            $routes = [];
+            $extensionRouteInstaller = new ExtensionRouteInstallation();
+            $extensionRouteInstaller->setServiceLocator($this->getServiceManager());
             foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 
-                $extRoute = $extension->getManifest()->getRoutes();
-                foreach ($extRoute as $routeId => $routeData) {
-
-                    $route = [
-                        'ext'          => $extension->getId(),
-                        'className'    => '',
-                        'preProcess'   => [],
-                        'process'      => [],
-                        'postProcess'  => [],
-                        'errorHandler' => '',
-                        'options'      => [],
-
-                    ];
-
-                    if (is_string($routeData)) {
-
-                        $route['className'] = NamespaceRoute::class;
-                        $route['options']   = [NamespaceRoute::OPTION_NAMESPACE => $routeData];
-
-                    } else {
-                        if (!isset($routeData['class']) || !is_subclass_of($routeData['class'], 'oat\tao\model\routing\Route')) {
-                            throw new \common_exception_InconsistentData('Invalid route '.$routeId);
-                        }
-                        $route['className'] = $routeData['class'];
-                        $route['options']   = array_key_exists( 'options' , $routeData )? $routeData['options']: [];
-                    }
-                    $routes[] = $route;
-                }
-                if (empty($extRoute)) {
-                    $routes[] = [
-                        'ext'          => $extension->getId(),
-                        'className'    => LegacyRoute::class,
-                        'preProcess'   => [],
-                        'process'      => [],
-                        'postProcess'  => [],
-                        'errorHandler' => '',
-                        'options'      => [],
-
-                    ];
-                }
+                $extensionRouteInstaller([ 'ext' => $extension]);
 
             }
-
-            $app = new TaoApplication(
-                [
-                    'routes'    => $routes,
-                ]
-            );
-
-            $this->getServiceManager()->register(ActionExecutor::SERVICE_ID, $service);
-            $this->getServiceManager()->register(ApplicationInterface::SERVICE_ID, $app);
 
             $this->setVersion('11.0.0');
         }

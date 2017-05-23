@@ -23,6 +23,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\mvc\Application\Config\Route;
+use oat\tao\model\mvc\Application\Exception\GlobalApplicationError;
 use oat\tao\model\mvc\Application\Exception\InvalidResponse;
 use oat\tao\model\mvc\Application\Exception\RouteNotFound;
 use oat\tao\model\mvc\middleware\AbstractTaoMiddleware;
@@ -59,8 +60,24 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
     public function __construct(array $options = array())
     {
         parent::__construct($options);
+
+        $templates = $this->getOption('templates');
+
+        if(!array_key_exists('tao' , $templates)) {
+            throw new GlobalApplicationError('invalid application config. you can\'t remove tao process template');
+        }
+
         foreach ($options['routes'] as $routeOption) {
-            $this->addRoute($routeOption['ext'] , $routeOption['className'] , $routeOption['preProcess'] , $routeOption['process'], $routeOption['postProcess']  , $routeOption['options']);
+
+            $defaultProcess = $templates['tao'];
+
+
+            if(array_key_exists('template' , $routeOption ) && !empty($routeOption['template'])) {
+
+                $defaultProcess = $templates[$routeOption['template']];
+            }
+
+            $this->addRoute($routeOption['ext'] , $routeOption['className'] , $routeOption['preProcess'] , $routeOption['process'], $routeOption['postProcess']  , $routeOption['options'] , $defaultProcess);
         }
         if($this->hasOption('errorHandler')) {
             $this->errorHandler = $this->getOption('errorHandler');
@@ -120,10 +137,11 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      * @param array $process
      * @param array $postProcess
      * @param $errorHandler
-     * @param $routeOptions
+     * @param array $routeOptions
+     * @param array $default
      * @return $this
      */
-    protected function addRoute($extension , $routeClassName , $preProcess = [] , $process = [] , $postProcess = []  , $routeOptions) {
+    protected function addRoute($extension , $routeClassName , $preProcess = [] , $process = [] , $postProcess = []  , $routeOptions , array $default = []) {
 
         $newRoute = new Route();
 
@@ -132,7 +150,8 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
             ->setPreProcess($preProcess)
             ->setProcess($process)
             ->setPostProcess($postProcess)
-            ->setRouteOptions($routeOptions);
+            ->setRouteOptions($routeOptions)
+            ->setDefaultProcess($default);
 
         return $this;
     }

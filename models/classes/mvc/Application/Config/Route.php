@@ -170,7 +170,12 @@ class Route
         return $this;
     }
 
-
+    public function setDefaultProcess(array $defaultProcess) {
+        if(empty($this->defaultProcess)) {
+            $this->defaultProcess = $defaultProcess;
+        }
+        return $this;
+    }
 
     /**
      * @param $relativeUrl
