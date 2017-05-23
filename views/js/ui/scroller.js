@@ -37,10 +37,10 @@ define([
          * Scroll the container so the given element is put at the top of the visible area
          * @param {String|jQuery|HTMLElement} element
          * @param {String|jQuery|HTMLElement} container
-         * @param {Number} speed - in milliseconds
+         * @param {Number} scrollSpeed - in milliseconds
          * @returns {Promise} Returns a Promise that will always be resolved when the scroll is done
          */
-        scrollTo: function scrollTo(element, container, speed) {
+        scrollTo: function scrollTo(element, container, scrollSpeed) {
             return new Promise(function(resolve) {
                 var $element = $(element),
                     $container = $(container || $element.parent()),
@@ -49,11 +49,11 @@ define([
 
                 if ($element.length && $container.length) {
                     currentScrollTop = $container.scrollTop();
-                    scrollTop = $element.offset().top - $container.offset().top + currentScrollTop; //todo: really?
+                    scrollTop = $element.offset().top - $container.offset().top + currentScrollTop;
 
                     if (scrollTop !== currentScrollTop) {
                         $container
-                            .animate({ scrollTop: scrollTop }, speed)
+                            .animate({ scrollTop: scrollTop }, scrollSpeed)
                             .promise()
                             .done(resolve);
                     } else {
