@@ -231,7 +231,6 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
 
     protected function process(ServerRequestInterface $request , ResponseInterface $response) {
         $path     = $this->getPath($request);
-
         $args     = [];
 
         if(($route = $this->getRoute($path)) !== null) {
@@ -314,7 +313,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
 
 
         if(!headers_sent()) {
-            header_remove();
+
             header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() , $response->getStatusCode());
 
             foreach ($response->getHeaders() as $name => $value) {

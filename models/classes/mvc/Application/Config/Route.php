@@ -31,26 +31,7 @@ use oat\tao\model\mvc\middleware\TaoRestAuthenticate;
 class Route
 {
 
-    protected $defaultProcess =
-        [
-            'preProcess' =>
-                [
-                    TaoInitUser::class,
-                    LoadExtensionConstant::class,
-                    TaoRestAuthenticate::class,
-                    TaoAuthenticate::class,
-                    TaoAssetConfiguration::class,
-                ],
-            'process' =>
-                [
-                    TaoControllerExecution::class,
-
-                ],
-            'postProcess' =>
-                [
-                    ControllerRendering::class,
-                ],
-        ];
+    protected $defaultProcess;
 
     protected $extension;
 
