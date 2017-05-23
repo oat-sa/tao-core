@@ -131,7 +131,15 @@ class tao_install_Setup implements Action
                     $options['db_pass'] = $persistence['connection']['master']['password'];
                 }
             } else {
-                return Report::createFailure('The wrapperClass of the connection should be an instanceof MasterSlaveConnection');
+                $options['db_driver'] = $persistence['connection']['driver'];
+                $options['db_host'] = $persistence['connection']['host'];
+                $options['db_name'] = $persistence['connection']['dbname'];
+                if(isset($persistence['connection']['user'])){
+                    $options['db_user'] = $persistence['connection']['user'];
+                }
+                if(isset($persistence['connection']['password'])){
+                    $options['db_pass'] = $persistence['connection']['password'];
+                }
             }
         } else {
             $options['db_driver'] = $persistence['driver'];
