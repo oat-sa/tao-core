@@ -64,7 +64,15 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
 			$report->add($parser->getReport());
 			return $report;
 		} else{
-            return $this->flatImport($parser->getContent(), $class);
+            $report = $this->flatImport($parser->getContent(), $class);
+
+            if (!$report->containsError()) {
+                \oat\oatbox\service\ServiceManager::getServiceManager()
+                    ->get(\oat\tao\model\upload\UploadService::SERVICE_ID)
+                        ->remove($parser->getSource());
+            }
+
+            return $report;
 		}
     }
     
@@ -99,6 +107,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             $subreport = $this->importProperties($resource, $propertiesValues, $map, $class);
             $report->add($subreport);
         }
+
         return $report;
     }
     
