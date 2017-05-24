@@ -782,7 +782,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-        $this->skip('9.2.0', '10.8.0');
+        $this->skip('9.2.0', '10.9.0');
     }
 
     private function migrateFsAccess() {
