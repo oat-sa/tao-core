@@ -69,7 +69,7 @@ define([
             e.preventDefault();
 
             // todo - enable progress bar
-            // todo - submit form
+            // todo - submit form and handle success/error
 
             return false;
         })

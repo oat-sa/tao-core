@@ -1,12 +1,41 @@
-## ui/generis/field is a ui/form/field
-
+### ui/generis/field/checkBox is a ui/form/field
 ```
-generisFieldFactory({
-    uri: string (required),
+checkBoxFactory({
     label: string (required),
-    widget: string (required),
-    range: string (optional),
-    value: string (optional),
     required: boolean (optional)
+    value: string (optional),
+    values: array (required),
+    uri: string (required)
+});
+```
+
+### ui/generis/field/comboBox is a ui/form/field
+```
+comboBoxFactory({
+    label: string (required),
+    required: boolean (optional)
+    value: string (optional),
+    values: array (required),
+    uri: string (required)
+});
+```
+
+### ui/generis/field/hiddenBox is a ui/form/field
+```
+hiddenBox({
+    label: string (required),
+    required: boolean (optional)
+    value: string (optional),
+    uri: string (required)
+});
+```
+
+### ui/generis/field/textBox is a ui/form/field
+```
+textBox({
+    label: string (required),
+    required: boolean (optional)
+    value: string (optional),
+    uri: string (required)
 });
 ```
