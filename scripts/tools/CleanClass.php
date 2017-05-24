@@ -19,9 +19,6 @@
  */
 namespace oat\tao\scripts\tools;
 
-use oat\generis\model\OntologyAwareTrait;
-use oat\taoDeliveryRdf\scripts\cleanDeliveryExecutions;
-use oat\taoNccer\model\ontology\ItemMetaData;
 use oat\oatbox\extension\AbstractAction;
 
 /**
@@ -48,8 +45,9 @@ class CleanClass extends AbstractAction
             return $report;
         }
 
+        $resourceDeleted = $this->class->countInstances();
 
-        if($this->class->equals($this->service->getRootClass())){
+        if ($this->class->equals($this->service->getRootClass())) {
             foreach ($this->service->getRootClass()->getSubClasses() as $subClass){
                 if(!$this->service->deleteClass($subClass)){
                     return \common_report_Report::createFailure('Error occured during deletion of class : '.$subClass->getUri());
@@ -69,8 +67,10 @@ class CleanClass extends AbstractAction
             }
         }
 
-        $report->setMessage('All classes and instances under : ' . $this->class->getUri() . ' have been removed');
-
+        $report->setMessage(
+            'All classes and instances under : ' . $this->class->getUri() . ' have been removed. ' .
+            $resourceDeleted . ' resource(s) removed'
+        );
         return $report;
     }
 
