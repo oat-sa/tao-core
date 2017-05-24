@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Scroller helper</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking"
+            data-cover-only="/tao/views/js/ui/scroller.js"></script>
+    <script type="text/javascript">
+        QUnit.config.autostart = false;
+        require(['/tao/ClientConfig/config'], function () {
+            require(['tao/test/ui/scroller/test'], function () {
+                QUnit.start();
+            });
+        });
+    </script>
+    <style>
+        .container {
+            overflow: scroll;
+            height: 60px;
+        }
+
+        .element {
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture">
+    <div class="container">
+        <div class="element el-1">1</div>
+        <div class="element el-2">2</div>
+        <div class="element el-3">3</div>
+        <div class="element el-4">4</div>
+        <div class="element el-5">5</div>
+        <div class="element el-6">6</div>
+        <div class="element el-7">7</div>
+        <div class="element el-8">8</div>
+        <div class="element el-9">9</div>
+        <div class="element el-10">10</div>
+    </div>
+</div>
+</body>
+</html>
