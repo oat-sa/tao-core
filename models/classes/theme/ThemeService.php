@@ -19,6 +19,7 @@
  */
 namespace oat\tao\model\theme;
 
+use oat\oatbox\Configurable;
 use oat\oatbox\service\ConfigurableService;
 /**
  *
@@ -65,7 +66,10 @@ class ThemeService extends ConfigurableService {
         while (isset($themes[$baseId.$nr])) {
             $nr++;
         }
-        $themes[$baseId.$nr] = $theme;
+        $themes[$baseId.$nr] = [
+            'class' => get_class($theme),
+            'options' => ($theme instanceof Configurable) ? $theme->getOptions() : []
+        ];
         $this->setOption(self::OPTION_AVAILABLE, $themes);
         return $baseId.$nr;
     }
@@ -112,7 +116,12 @@ class ThemeService extends ConfigurableService {
     {
         $themes = $this->getOption(self::OPTION_AVAILABLE);
         if (isset($themes[$id])) {
-            return $themes[$id];
+            $theme = $themes[$id];
+            if (is_array($theme) && isset($theme['class'])) {
+                $options = isset($theme['options']) ? $theme['options'] : [];
+                $theme = $this->getServiceManager()->build($theme['class'], $options);
+            }
+            return $theme;
         } else {
             throw new \common_exception_InconsistentData('Theme '.$id.' not found');
         }
