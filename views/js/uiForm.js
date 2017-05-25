@@ -317,19 +317,21 @@ define([
                 var regexpId = new RegExp('^' + $checker.prop('id').replace('_checker', ''), 'i');
 
                 if ($checker.hasClass('box-checker-uncheck')) {
-                    $(":checkbox").each(function () {
+                    $(":checkbox:not(:disabled)").each(function () {
                         if (regexpId.test(this.id)) {
                             //noinspection JSPotentiallyInvalidUsageOfThis,JSPotentiallyInvalidUsageOfThis
                             this.checked = false;
+                            $(this).change();
                         }
                     });
                     $checker.removeClass('box-checker-uncheck');
                     $checker.text(__('Check all'));
                 }
                 else {
-                    $(":checkbox").each(function () {
+                    $(":checkbox:not(:disabled)").each(function () {
                         if (regexpId.test(this.id)) {
                             this.checked = true;
+                            $(this).change();
                         }
                     });
                     $checker.addClass('box-checker-uncheck');
