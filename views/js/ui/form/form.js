@@ -18,8 +18,8 @@
 
 define([
     'jquery',
-    'i18n',
     'lodash',
+    'i18n',
     'ui/component',
     'core/dataProvider/request',
     'tpl!tao/ui/form/form',
