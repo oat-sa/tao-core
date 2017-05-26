@@ -22,7 +22,8 @@ define([
         minimumResultsForSearch: 10,
         minimumInputLength: 3,
         enable: true,
-        quietMillis: 2000
+        quietMillis: 2000,
+        label: false,
     };
 
     /**
@@ -55,7 +56,7 @@ define([
             render: function render(format) {
                 var self = this;
 
-                var $component = $(filterTpl());
+                var $component = $(filterTpl(options));
                 var $list = $('.item-filter', $component);
 
                 $list.select2({
