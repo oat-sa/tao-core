@@ -11,7 +11,7 @@ define([
     'lodash',
     'i18n',
     'core/eventifier',
-    'tpl!tao/ui/filter/template',
+    'tpl!ui/filter/template',
     'ui/selecter'
 ], function($, _, __, eventifier, filterTpl){
     'use strict';
