@@ -788,15 +788,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-        $this->skip('9.2.0', '10.6.1');
+        $this->skip('9.2.0', '10.8.0');
 
-        if ($this->isVersion('10.6.1')) {
+        if ($this->isVersion('10.8.0')) {
             $this->getServiceManager()->register(ArgumentService::SERVICE_ID, new ArgumentService(array(
                 'arguments' => array(
                     new Group(array(new Debug(), new Info(), new Notice(), new Error(),))
                 )
             )));
-            $this->setVersion('10.7.0');
+            $this->setVersion('10.9.0');
         }
     }
 

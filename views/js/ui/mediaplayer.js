@@ -120,6 +120,7 @@ define([
             maxPlays :      0,
             replayTimeout : 0,
             canPause :      true,
+            canSeek :       true,
             loop :          false,
             autoStart :     false
         }
@@ -934,6 +935,7 @@ define([
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
          * @param {Boolean} [config.loop] - The media will be played continuously
          * @param {Boolean} [config.canPause] - The play can be paused
+         * @param {Boolean} [config.canSeek] - The player allows to reach an arbitrary position within the media using the duration bar
          * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
          * @param {Number} [config.autoStartAt] - The time position at which the player should start
@@ -1813,6 +1815,7 @@ define([
 
             if (value && isFinite(value)) {
                 this.$seekSlider = this._renderSlider(this.$seek, 0, 0, value);
+                this.$seekSlider.attr('disabled', !this.config.canSeek);
             }
         },
 
@@ -1851,6 +1854,7 @@ define([
             this._setState('ready', true);
             this._setState('canplay', true);
             this._setState('canpause', this.config.canPause);
+            this._setState('canseek', this.config.canSeek);
             this._setState('loading', false);
 
             /**
@@ -2025,6 +2029,15 @@ define([
          */
         _canPause : function _canPause() {
             return !!this.config.canPause;
+        },
+
+        /**
+         * Checks if the media can be sought
+         * @returns {Boolean}
+         * @private
+         */
+        _canSeek : function _canSeek() {
+            return !!this.config.canSeek;
         },
 
         /**
