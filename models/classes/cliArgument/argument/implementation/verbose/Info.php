@@ -22,7 +22,7 @@ namespace oat\tao\model\cliArgument\argument\implementation\verbose;
 
 use Psr\Log\LogLevel;
 
-class Debug extends Verbose
+class Info extends Verbose
 {
     /**
      * Check if params array contains targeted arguments, Short and Long
@@ -33,7 +33,7 @@ class Debug extends Verbose
      */
     public function isApplicable(array $params)
     {
-        return $this->hasParameter($params, '-vvvv') || $this->hasParameter($params, '--verbose', 4);
+        return $this->hasParameter($params, '-vvv') || $this->hasParameter($params, '--verbose', 3);
     }
 
     /**
@@ -41,8 +41,8 @@ class Debug extends Verbose
      *
      * @return string
      */
-    public function getMinimumLogLevel()
+    protected function getMinimumLogLevel()
     {
-        return LogLevel::DEBUG;
+        return LogLevel::INFO;
     }
 }

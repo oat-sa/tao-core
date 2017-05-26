@@ -30,6 +30,7 @@ use oat\tao\model\asset\AssetService;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -792,7 +793,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('10.6.1')) {
             $this->getServiceManager()->register(ArgumentService::SERVICE_ID, new ArgumentService(array(
                 'arguments' => array(
-                    new Group(array(new Debug(), new Notice(), new Error(),))
+                    new Group(array(new Debug(), new Info(), new Notice(), new Error(),))
                 )
             )));
             $this->setVersion('10.7.0');
