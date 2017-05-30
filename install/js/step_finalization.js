@@ -61,7 +61,9 @@ require(['config'], function() {
                     'db_driver': install.getData('database_driver'),
                     'db_name': install.getData('database_name'),
                     'extensions': install.getData('extensions'),
-                    'timezone': install.getData('timezone')
+                    'timezone': install.getData('timezone'),
+                    'operated_by_name': install.getData('operated_by_name'),
+                    'operated_by_email': install.getData('operated_by_email')
                 };
 
                 install.install(inputs, function(status, data) {
