@@ -27,6 +27,12 @@ use oat\oatbox\event\EventManager;
 use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\cliArgument\argument\implementation\Group;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
+use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
+use oat\tao\model\cliArgument\ArgumentService;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
@@ -79,6 +85,7 @@ use oat\tao\model\i18n\ExtraPoService;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
+use oat\tao\model\OperatedByService;
 
 /**
  *
@@ -591,7 +598,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 'ext'        => 'tao',
                 'controller' => 'Main',
                 'action'     => 'index',
-            ));
+                ));
             $service->setRoute('login', array(
                 'ext'        => 'tao',
                 'controller' => 'Main',
@@ -782,7 +789,34 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-        $this->skip('9.2.0', '10.6.1');
+
+        $this->skip('9.2.0', '10.10.0');
+
+        if ($this->isVersion('10.10.0')) {
+            $this->getServiceManager()->register(ArgumentService::SERVICE_ID, new ArgumentService(array(
+                'arguments' => array(
+                    new Group(array(new Debug(), new Info(), new Notice(), new Error(),))
+                )
+            )));
+            $this->setVersion('10.11.0');
+        }
+
+        $this->skip('10.11.0', '10.12.0');
+        
+        if ($this->isVersion('10.12.0')) {
+
+            $this->getServiceManager()->register(
+                OperatedByService::SERVICE_ID,
+                new OperatedByService([
+                    'operatedByName' => 'Open Assessment Technologies S.A.',
+                    'operatedByEmail' => 'contact@taotesting.com'
+                ])
+            );
+
+            $this->setVersion('10.13.0');
+        }
+        
+        $this->skip('10.13.0', '10.14.0');
     }
 
     private function migrateFsAccess() {
