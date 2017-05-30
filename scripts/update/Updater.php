@@ -801,6 +801,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.11.0', '10.11.2');
+        
+        if ($this->isVersion('10.11.2')) {
+            common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('operatedby', [
+                'operatedByName' => 'Open Assessment Technologies S.A.',
+                'operatedByEmail' => 'contact@taotesting.com'
+            ]);
+            
+            $this->setVersion('10.12.0');
+        }
     }
 
     private function migrateFsAccess() {
