@@ -115,6 +115,24 @@ require(['config'], function() {
                         return true;
                     };
                     break;
+                    
+                case 'operated_by_name':
+                    install.getValidator(this, {
+                        dataType: 'string',
+                        min: 0,
+                        max: 50,
+                        mandatory: false
+                    });
+                    validifyNotMandatory(this);
+                    break;
+                    
+                case 'operated_by_email':
+                    install.getValidator(this, {
+                        dataType: 'email',
+                        mandatory: false
+                    });
+                    validifyNotMandatory(this);
+                    break;
 
                 default:
                     install.getValidator(this);
