@@ -21,7 +21,6 @@
 namespace oat\tao\model\cliArgument\argument\implementation\verbose;
 
 use Psr\Log\LogLevel;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class Error extends Verbose
 {
