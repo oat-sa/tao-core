@@ -254,7 +254,7 @@ class tao_install_Installator{
                 'ROOT_URL'					=> $installData['module_url'],
                 'DEFAULT_LANG'				=> $installData['module_lang'],
                 'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
-                'TIME_ZONE'                  => $installData['timezone']
+                'TIME_ZONE'                 => $installData['timezone']
             );
 
             $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
