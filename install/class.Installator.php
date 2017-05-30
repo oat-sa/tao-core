@@ -381,6 +381,13 @@ class tao_install_Installator{
 			 */
 			$this->log('d', 'Creating TAO version file', 'INSTALL');
 			file_put_contents($installData['file_path'].'version', TAO_VERSION);
+            
+            /*
+             * 12 - Register Information about organization operating the system
+             */
+             $this->log('t', 'Registering information about the organization operating the system', 'INSTALL');
+            $operatedByConfig = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getconfig('operatedby');
+            
 		}
 		catch(Exception $e){
 			if ($this->retryInstallation($e)) {
