@@ -21,11 +21,9 @@
 namespace oat\tao\model\cliArgument\argument\implementation\verbose;
 
 use Psr\Log\LogLevel;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class Error extends Verbose
 {
-    use ServiceLocatorAwareTrait;
 
     /**
      * Check if params array contains targeted arguments, Short and Long
