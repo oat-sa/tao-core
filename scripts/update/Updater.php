@@ -806,7 +806,8 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('10.12.0')) {
 
             $this->getServiceManager()->register(
-                new oat\tao\model\OperatedByService([
+                OperatedByService::SERVICE_ID,
+                new OperatedByService([
                     'operatedByName' => 'Open Assessment Technologies S.A.',
                     'operatedByEmail' => 'contact@taotesting.com'
                 ])
