@@ -21,17 +21,15 @@
 
 namespace oat\tao\helpers;
 
-use oat\tao\helpers\Template;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
-use oat\tao\model\ThemeRegistry;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
 
-class Layout{
-
+class Layout
+{
 
     /**
      * Compute the parameters for the release message
@@ -61,7 +59,8 @@ class Layout{
 
             case 'demoS':
                 $params['version-type'] = __('Demo Sandbox');
-                $params['is-sandbox']    = true;
+                $params['is-sandbox']   = true;
+                $params['msg']          = self::getSandboxExpiration();
                 break;
         }
 
@@ -216,8 +215,6 @@ class Layout{
             }
         }
 
-        $logoFile = Template::img('tao-logo.png', 'tao');
-
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
@@ -226,6 +223,9 @@ class Layout{
             case 'beta':
             case 'demoB':
                 $logoFile = Template::img('tao-logo-beta.png', 'tao');
+                break;
+            default:
+                $logoFile = Template::img('tao-logo.png', 'tao');
                 break;
         }
         
@@ -271,7 +271,7 @@ class Layout{
             }
         }
 
-        $link = 'http://taotesting.com';
+
         //move this into the standard template setData()
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
@@ -279,6 +279,9 @@ class Layout{
             case 'beta':
             case 'demoB':
                 $link = 'https://forum.taocloud.org/';
+                break;
+            default:
+                $link = 'http://taotesting.com';
                 break;
         }
 
@@ -304,7 +307,6 @@ class Layout{
             }
         }
 
-        $message = '';
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
@@ -312,7 +314,11 @@ class Layout{
             case 'demoB':
                 $message = __('Please report bugs, ideas, comments or feedback on the TAO Forum');
                 break;
+            default:
+                $message = '';
+                break;
         }
+
         return $message;
     }
     
