@@ -1,0 +1,18 @@
+{
+    "success": true,
+    "data": [
+        {
+            "uri": "http://taoplatform#field-one",
+            "label": "field-one"
+        },
+        {
+            "uri": "http://taoplatform#field-two",
+            "label": "field-two",
+            "value": "two"
+        },
+        {
+            "uri": "http://taoplatform#field-three",
+            "label": "field-three"
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+    "success": true,
+    "data": [
+        {
+            "hello": "world"
+        }
+    ]
+}

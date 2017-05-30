@@ -6,7 +6,6 @@
         <base href="../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
-        <script type="text/javascript" src="js/lib/es5-shim.min.js"></script>
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
@@ -27,6 +26,13 @@
                 });
             });
         </script>
+
+        <style>
+            #display-and-play {
+                border: 1px solid blue;
+                margin: 20px 10px;
+            }
+        </style>
     </head>
     <body>
         <div id="qunit"></div>
@@ -38,5 +44,7 @@
             <div id="fixture-5"></div>
             <div id="fixture-6"></div>
         </div>
+        <div id="feedback-box"></div>
+        <div id="display-and-play"></div>
     </body>
 </html>

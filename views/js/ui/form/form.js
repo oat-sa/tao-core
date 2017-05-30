@@ -20,65 +20,163 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'ui/component',
     'core/dataProvider/request',
+    'ui/component',
+    'ui/form/field',
     'tpl!tao/ui/form/form',
     'css!tao/ui/form/form'
 ], function(
     $,
     _,
     __,
-    componentFactory,
     request,
+    componentFactory,
+    fieldFactory,
     tpl
 ) {
     'use strict';
 
+    var _fieldContainer = '.field-container';
+
     /**
      * The form factory
-     * @param {Object} [options.action] - form action with url, method, and parameters
-     * @param {Array} [options.fields] - form fields (ui/form/field/field)
-     * @param {jQuery} options.container - form container
-     * @param {Function} options.success - form submission success callback
-     * @param {Function} options.error - form submission error callback
+     * @param {String} options.action - Url to submit form
+     * @param {JSON} [options.json] - Json data to initialize form (overrides options.request)
+     * @param {String} [options.method] - Http method to submit form
+     * @param {String} [options.name] - Form or resource name
+     * @param {String} [options.request.method] - Request method to load form data
+     * @param {Object} [options.request.parameters] - Request parameters for form data
+     * @param {String} [options.reques.url] - Request url to load form data
+     * @param {Object} [options.templateVars.submit.value] - Submit button value
+     * @event error - Fires on unsuccessful form submission
+     * @event load - Fires on successful loading of form data
+     * @event success - Fires on successful form submission
      * @returns {ui/component}
      */
     function formFactory(options) {
+        var _fields = {};
 
-        var config = _.assign({
-            action: null,
-            fields: [],
-            container: null,
-            success: null,
-            error: null
-        }, options);
+        options = options || {};
+        options.name = options.name || __('Form');
 
-        var specs = {
+        return componentFactory({
             /**
-             * @param {ui/form/field/field} field
+             * Retrieves a field on the form
+             * @param {String} name - Name of the field
+             * @returns {ui/form/field}
              */
-            addField: function addField(fieldOptions) {
-                // todo - create ui/form/field/field
-                // todo - if state is rendered then render field
+            getField: function getField(name) {
+                return _fields[name];
+            },
+
+            /**
+             * Add a field to the form
+             * @param {Object} fieldOptions
+             * @returns {ui/form}
+             */
+            addField: function addField(name, fieldOptions) {
+                // Create ui/form/field
+                var field = fieldFactory(fieldOptions);
+
+                // Add field to fields
+                _fields[name] = field;
+
+                // Render field (if appropriate)
+                if (this.is('rendered')) {
+                    field.render(_fieldContainer);
+                }
+
+                return this;
+            },
+
+            /**
+             * Remove a field from to the form
+             * @param {String} name - Name of the field
+             * @returns {ui/form}
+             */
+            removeField: function removeField(name) {
+                if (_fields.hasOwnProperty(name)) {
+                    _fields[name].destroy();
+                    delete _fields[name];
+                }
+
+                return this;
+            },
+
+            /**
+             * Checks form validity
+             * @returns {boolean}
+             */
+            validate: function validate() {
+                return _.reduce(_fields, function(field) {
+                    return true;
+                }, true);
             }
-        };
 
-        return componentFactory(specs, config)
+        }, {
+            submit: {
+                value: __('Save')
+            }
+        })
+
         .setTemplate(tpl)
-        .on('submit', function (e) {
-            e.preventDefault();
 
-            // todo - enable progress bar
-            // todo - submit form and handle success/error
+        .on('init', function () {
+            var self = this;
 
-            return false;
+            if (options.json) {
+                setTimeout(function () { // force async with setTimeout (because this triggers an event)
+                    _.each(options.json, function (field) {
+                        self.addField(field.uri, field);
+                    });
+                    self.trigger('load', options.json);
+                });
+            } else if (options.request) {
+                request(options.request.url, options.request.parameters, options.request.method)
+                .then(function (data) {
+                    _.each(data, function (field) {
+                        self.addField(field.uri, field);
+                    });
+                    self.trigger('load', data);
+                })
+                .catch(function (error) {
+                    self.trigger('error', error);
+                });
+            }
         })
+
         .on('render', function () {
-            // todo - render fields
+            var $form = this.getElement().find('form');
+            var self = this;
+
+            // Render fields
+            _.each(_fields, function (field) {
+                if (!field.is('rendered')) {
+                    field.render(_fieldContainer);
+                }
+            });
+
+            // Handle submit
+            $form.on('submit', function (e) {
+                var $this = $(this);
+
+                e.preventDefault();
+
+                if (self.validate()) {
+                    request(options.action, $this.serializeArray(), options.method)
+                    .then(function (data) {
+                        self.trigger('success', data);
+                    })
+                    .catch(function (error) {
+                        self.trigger('error', error);
+                    });
+                }
+
+                return false;
+            });
         })
-        .on('destroy', function() {
-            // todo - destroy fields
-        });
+
+        .init(options.templateVars);
     }
 
     return formFactory;

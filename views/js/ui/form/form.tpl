@@ -7,7 +7,7 @@
                 class="btn-submit btn-success small"
                 type="submit"
                 name="ui-form-submit">
-                <span class="icon-save"/> Save
+                <span class="icon-save"/> {{submit.value}}
             </button>
         </div>
     </form>

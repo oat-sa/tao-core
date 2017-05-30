@@ -20,7 +20,11 @@ define([
     'jquery',
     'lodash',
     'ui/form/form'
-], function($, _, generisFormFactory) {
+], function(
+    $,
+    _,
+    generisFormFactory
+) {
     'use strict';
 
     var formApi;
@@ -41,10 +45,29 @@ define([
     ];
 
     QUnit
-        .cases(formApi)
-        .test('API ', function(data, assert) {
-            var instance = generisFormFactory();
-            assert.equal(typeof instance[data.name], 'function', 'The form instance exposes a "' + data.title + '" function');
-        });
+    .cases(formApi)
+    .test('API ', function(data, assert) {
+        var instance = generisFormFactory();
+        assert.equal(typeof instance[data.name], 'function', 'The form instance exposes a "' + data.title + '" function');
+    });
+
+
+    QUnit.asyncTest('show', function (assert){
+        var $container = $('#fixture-1');
+        var config = {
+            renderTo : $container,
+            replace : true
+        };
+
+        calculator(config)
+        .after('show', function (){
+            _.delay(function (){
+                //check focus
+                assert.ok($container.find('.calcDisplay')[0] === document.activeElement, 'calculator display on focus');
+                QUnit.start();
+            }, 100);
+        })
+        .show();
+    });
 
 });

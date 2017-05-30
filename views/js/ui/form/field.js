@@ -18,8 +18,8 @@
 
 define([
     'jquery',
-    'i18n',
     'lodash',
+    'i18n',
     'ui/component',
     'css!tao/ui/form/field'
 ], function(
@@ -32,32 +32,18 @@ define([
 
     /**
      * The field factory
-     * @param {String} options.label - Field's label
-     * @param {Boolean} [options.hidden] - Flag to hide/show field
-     * @param {Boolean} [options.required] - Flag to require field
+     * @param {Object} [options.templateVars] - Contains the variables for the template/widget
      * @param {Array[Object]} [options.validations] - Validations to run on field's value
-     * @param {String} [options.value] - Field's value
-     * @param {String} options.widget - Widget definition
-     * @param {String} options.uri - Resource's ontology uri for field's name
+     * @param {Function} options.widget - Widget html as a handlebar's template
      * @returns {ui/component}
      */
     function fieldFactory(options) {
+        return componentFactory()
 
-        var config = _.assign({
-            label: null,
-            hidden: false,
-            required: false,
-            validations: [],
-            value: '',
-            widget: null,
-            uri: null
-        }, options);
+        .setTemplate(options.widget)
 
-        var specs = {};
-
-        return componentFactory(specs, config)
         .on('change', function () {
-            // todo - run validations
+            // todo - run validations from options.validations
         })
         .on('render', function () {
             // todo - render field
@@ -65,7 +51,9 @@ define([
         })
         .on('destroy', function() {
             // todo - destroy field
-        });
+        })
+
+        .init(options.templateVars);
     }
 
     return fieldFactory;
