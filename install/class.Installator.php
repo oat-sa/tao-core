@@ -385,8 +385,18 @@ class tao_install_Installator{
             /*
              * 12 - Register Information about organization operating the system
              */
-             $this->log('t', 'Registering information about the organization operating the system', 'INSTALL');
+            $this->log('t', 'Registering information about the organization operating the system', 'INSTALL');
             $operatedByConfig = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getconfig('operatedby');
+            
+            if (!empty($installData['operated_by_name'])) {
+                $operatedByConfig['operatedByName'] = $installData['operated_by_name'];
+            }
+            
+            if (!empty($installData['operated_by_email'])) {
+                $operatedByConfig['operatedByEmail'] = $installData['operated_by_email'];
+            }
+            
+            common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setconfig('operatedby', $operatedByConfig);
             
 		}
 		catch(Exception $e){
