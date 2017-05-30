@@ -802,7 +802,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('10.11.0', '10.11.3');
         
-        if ($this->isVersion('10.11.2')) {
+        if ($this->isVersion('10.11.3')) {
             common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('operatedby', [
                 'operatedByName' => 'Open Assessment Technologies S.A.',
                 'operatedByEmail' => 'contact@taotesting.com'
