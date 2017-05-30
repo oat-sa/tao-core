@@ -25,6 +25,7 @@ use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
 use oat\oatbox\action\Help;
+use oat\tao\model\cliArgument\ArgumentService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -56,7 +57,8 @@ class CliController implements ServiceLocatorAwareInterface
      * @param array $params Params to be passed to action's __invoke method
      * @return Report
      */
-    public function runAction($actionIdentifier, array $params = []) {
+    public function runAction($actionIdentifier, array $params = [])
+    {
         try {
             $action = $this->actionService->resolve($actionIdentifier);
         } catch (\common_ext_ManifestNotFoundException $e) {
@@ -70,6 +72,8 @@ class CliController implements ServiceLocatorAwareInterface
         if ($action instanceof ServiceLocatorAwareInterface) {
             $action->setServiceLocator($this->getServiceLocator());
         }
+
+        $this->getServiceLocator()->get(ArgumentService::SERVICE_ID)->load($action, $params);
 
         try {
             $report = call_user_func($action, $params);
