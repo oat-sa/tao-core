@@ -800,7 +800,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.11.0');
         }
 
-        $this->skip('10.11.0', '10.11.2');
+        $this->skip('10.11.0', '10.11.3');
         
         if ($this->isVersion('10.11.2')) {
             common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('operatedby', [
