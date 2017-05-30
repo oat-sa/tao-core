@@ -23,6 +23,7 @@
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\OperatedByService;
 
 /**
  *
@@ -386,17 +387,17 @@ class tao_install_Installator{
              * 12 - Register Information about organization operating the system
              */
             $this->log('t', 'Registering information about the organization operating the system', 'INSTALL');
-            $operatedByConfig = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getconfig('operatedby');
+            $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
             
             if (!empty($installData['operated_by_name'])) {
-                $operatedByConfig['operatedByName'] = $installData['operated_by_name'];
+                $operatedByService->setName($installData['operated_by_name']);
             }
             
             if (!empty($installData['operated_by_email'])) {
-                $operatedByConfig['operatedByEmail'] = $installData['operated_by_email'];
+                $operatedByService->setEmail($installData['operated_by_email']);
             }
             
-            common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setconfig('operatedby', $operatedByConfig);
+            $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             
 		}
 		catch(Exception $e){

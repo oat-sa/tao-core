@@ -85,6 +85,7 @@ use oat\tao\model\i18n\ExtraPoService;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
+use oat\tao\model\OperatedByService;
 
 /**
  *
@@ -803,11 +804,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('10.11.0', '10.11.3');
         
         if ($this->isVersion('10.11.3')) {
-            common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('operatedby', [
-                'operatedByName' => 'Open Assessment Technologies S.A.',
-                'operatedByEmail' => 'contact@taotesting.com'
-            ]);
+            $operatedByService = 
             
+            $this->getServiceManager()->register(
+                new oat\tao\model\OperatedByService([
+                    'operatedByName' => 'Open Assessment Technologies S.A.',
+                    'operatedByEmail' => 'contact@taotesting.com'
+                ])
+            );
+
             $this->setVersion('10.12.0');
         }
     }
