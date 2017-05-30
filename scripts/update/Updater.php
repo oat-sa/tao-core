@@ -598,7 +598,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 'ext'        => 'tao',
                 'controller' => 'Main',
                 'action'     => 'index',
-            ));
+                ));
             $service->setRoute('login', array(
                 'ext'        => 'tao',
                 'controller' => 'Main',
@@ -801,11 +801,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.11.0');
         }
 
-        $this->skip('10.11.0', '10.11.3');
+        $this->skip('10.11.0', '10.12.0');
         
-        if ($this->isVersion('10.11.3')) {
-            $operatedByService = 
-            
+        if ($this->isVersion('10.12.0')) {
+
             $this->getServiceManager()->register(
                 new oat\tao\model\OperatedByService([
                     'operatedByName' => 'Open Assessment Technologies S.A.',
@@ -813,7 +812,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ])
             );
 
-            $this->setVersion('10.12.0');
+            $this->setVersion('10.13.0');
         }
     }
 
