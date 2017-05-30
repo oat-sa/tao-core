@@ -31,18 +31,20 @@ form.on('success', function (data) {});
 ### ui/form/field (is a ui/component)
 ```
 // Initialization
-fieldFactory({
-    label: string (required),
-    hidden: boolean (optional),
-    required: boolean (optional),
-    validations: array[Object] (optional), // { predicate: msg }
-    value: string (optional),
-    widget: string (optional),
-    uri: string (required)
+var field = fieldFactory({
+    templateVars: object (optional),
+    validations: array (optional),
+    widget: function (required)
 });
 
 
 // Methods
+var name = field.getName();
+var value = field.getValue();
+field = field.addValidation(/.{1,}/, 'Must contain value');
+field = field.clearValidations();
+var isValid = field.isValid();
+var isValid = field.validate();
 
 
 // Events

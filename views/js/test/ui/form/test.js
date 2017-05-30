@@ -120,6 +120,43 @@ define([
 
 
     // validations
+    QUnit.test('validates form', function (assert) {
+        var form = formFactory().render();
+
+        form.addField('valid', {
+            templateVars: {
+                label: 'Hello',
+                value: 'World',
+                uri: 'http://taoplatform#field-one'
+            },
+            widget: template,
+            validations: [
+                {
+                    predicate: /^World$/i,
+                    message: 'Must be "World"'
+                }
+            ]
+        });
+
+        assert.ok(form.validate(), 'Form validated successfully');
+
+        form.addField('invalid', {
+            templateVars: {
+                label: 'Foo',
+                value: 'Bar',
+                uri: 'http://taoplatform#field-two'
+            },
+            widget: template,
+            validations: [
+                {
+                    predicate: /.{4,}/,
+                    message: 'Must contain at least 4 characters'
+                }
+            ]
+        });
+
+        assert.ok(!form.validate(), 'Form invalidated successfully');
+    });
 
 
     // submits
@@ -184,7 +221,13 @@ define([
                 value: 'World',
                 uri: 'http://taoplatform#field-one'
             },
-            widget: template
+            widget: template,
+            validations: [
+                {
+                    predicate: /^World$/i,
+                    message: 'Must be "World"'
+                }
+            ]
         })
 
         .addField('field-two', {
@@ -193,7 +236,13 @@ define([
                 value: 'Bar',
                 uri: 'http://taoplatform#field-two'
             },
-            widget: template
+            widget: template,
+            validations: [
+                {
+                    predicate: /.{4,}/,
+                    message: 'Must contain at least 4 characters'
+                }
+            ]
         })
 
         .render('#display-and-play');

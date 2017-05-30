@@ -28,7 +28,7 @@ define([
     /**
      * The validation factory
      * @param {jQuery} options.container - Validation's container
-     * @returns {ui/component}
+     * @returns {Object}
      */
     function validationFactory(options) {
 

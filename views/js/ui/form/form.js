@@ -105,11 +105,11 @@ define([
 
             /**
              * Checks form validity
-             * @returns {boolean}
+             * @returns {Boolean}
              */
             validate: function validate() {
-                return _.reduce(_fields, function(field) {
-                    return true;
+                return _.reduce(_fields, function(acc, field) {
+                    return field.validate() && acc;
                 }, true);
             }
 
