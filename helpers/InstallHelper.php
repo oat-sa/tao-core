@@ -42,7 +42,7 @@ class InstallHelper extends \helpers_InstallHelper
         try {
             return parent::installRecursively($extensionIDs, $installData);
         } catch (\common_ext_ExtensionException $e) {
-            common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$e->getExtensionId().'"');
+            static::log('w', 'Exception('.$e->getMessage().') during install for extension "'.$e->getExtensionId().'"');
             throw new \tao_install_utils_Exception("An error occured during the installation of extension '" . $e->getExtensionId() . "'.");
         }
     }

@@ -25,8 +25,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class Error extends Verbose
 {
-    use ServiceLocatorAwareTrait;
-
     /**
      * Check if params array contains targeted arguments, Short and Long
      * In case of Long, check is done is following param argument

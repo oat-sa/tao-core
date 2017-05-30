@@ -31,12 +31,19 @@
  */
 abstract class tao_scripts_Runner
 {
+    // Adding container.
+    use \oat\oatbox\PimpleContainerTrait;
+
+    // Adding logger.
+    use \oat\oatbox\log\LoggerAwareTrait;
+
     // --- ASSOCIATIONS ---
 
 
     // --- ATTRIBUTES ---
     private $isCli;
     private $logOny;
+
     /**
      * Short description of attribute parameters
      *
@@ -60,13 +67,21 @@ abstract class tao_scripts_Runner
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @param  array inputFormat
-     * @param  array options
+     * @param  \Pimple\Container|array $inputFormat
+     * @param  array $options
      * @return mixed
      */
     public function __construct($inputFormat = array(), $options = array())
     {
-        
+        // If we got a container we're initializing.
+        if ($inputFormat instanceof \Pimple\Container) {
+            $this->setContainer($inputFormat);
+            $this->setLogger(
+                $this->getContainer()->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)->getLogger()
+            );
+            $inputFormat = $this->getContainer()->offsetGet(static::CONTAINER_INDEX);
+        }
+
         if(PHP_SAPI == 'cli' && !isset($options['argv'])){
             $this->argv = $_SERVER['argv'];
             $this->isCli = true;
@@ -432,20 +447,30 @@ abstract class tao_scripts_Runner
      */
     protected function err($message, $stopExec = false)
     {
-        
         common_Logger::e($message);
         echo $this->out($message, array('color' => 'light_red'));
         
         if($stopExec == true){
-                    if($this->isCli){
-        	   exit(1);	//exit the program with an error
-            }
-            else {
-                throw new Exception($message);
-            }
+            $this->handleError(new Exception($message, 1));
         }
-        
-        
+    }
+
+    /**
+     * Handles a fatal error situation.
+     *
+     * @param Exception $e
+     *
+     * @throws Exception
+     */
+    protected function handleError(Exception $e)
+    {
+        if($this->isCli){
+            $errorCode = $e->getCode();
+            exit((empty($errorCode)) ? 1 : $errorCode);	//exit the program with an error
+        }
+        else {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**

@@ -31,6 +31,8 @@
 class tao_scripts_TaoInstall
     extends tao_scripts_Runner
 {
+	const CONTAINER_INDEX = 'taoScriptsInstall';
+
     // --- ASSOCIATIONS ---
 
 
@@ -47,7 +49,6 @@ class tao_scripts_TaoInstall
      */
     public function preRun()
     {
-        
         $root_path = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR;
         
     	$this->options = array (
@@ -95,7 +96,7 @@ class tao_scripts_TaoInstall
     		$this->options['module_url'] = 'http://' . $this->options['module_host'];
     	}
     	
-        
+        $this->logDebug('Install was started with the given parameters: ' . PHP_EOL . var_export($this->options, true));
     }
 
     /**
@@ -107,29 +108,32 @@ class tao_scripts_TaoInstall
      */
     public function run()
     {
-        
-        
-    	$this->outVerbose("TAO is being installed. Please wait...");
+    	$this->logNotice("TAO is being installed. Please wait...");
     	try{
 	        $rootDir = dir(dirname(__FILE__) . '/../../');
 			$root = isset($this->parameters["root_path"])
                 ? $this->parameters["root_path"]
                 : realpath($rootDir->path) . DIRECTORY_SEPARATOR;
-			
-	        $installator = new tao_install_Installator (array(
-				'root_path' 	=> $root,
-				'install_path'	=> $root.'tao/install/'
-			));
-			
+
+			// Setting the installator dependencies.
+			$this->getContainer()->offsetSet(
+				tao_install_Installator::CONTAINER_INDEX,
+                array(
+                    'root_path' 	=> $root,
+                    'install_path'	=> $root.'tao/install/'
+                )
+			);
+
+	        $installator = new tao_install_Installator ($this->getContainer());
+
 			// mod rewrite cannot be detected in CLI Mode.
 			$installator->escapeCheck('custom_tao_ModRewrite');
 			$installator->install($this->options);
     	}
     	catch (Exception $e){
-    		$this->err("A fatal error occured during installation: " . $e->getMessage(), true);
+    		$this->logError("A fatal error occured during installation: " . $e->getMessage());
+    		$this->handleError($e);
     	}
-		
-        
     }
 
     /**
@@ -141,9 +145,7 @@ class tao_scripts_TaoInstall
      */
     public function postRun()
     {
-        
-        $this->outVerbose("Installation successful.");
-        
+        $this->logNotice("Installation successful.");
     }
 
 }
