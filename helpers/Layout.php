@@ -354,6 +354,34 @@ class Layout
     }
 
     /**
+     * Turn TAO_VERSION in a more verbose form.
+     * If TAO_VERSION diverges too much from the usual patterns TAO_VERSION will be returned unaltered.
+     *
+     * Examples (TAO_VERSION => return value): 
+     * 3.2.0-sprint52      => Sprint52 rev 3.2.0
+     * v3.2.0-sprint52     => Sprint52 rev 3.2.0
+     * 3.2.0sprint52       => Sprint52 rev 3.2.0
+     * 3.2.0               => 3.2.0
+     * 3.2                 => 3.2
+     * 3.2 0               => 3.2
+     * pattern w/o numbers => pattern w/o numbers
+     *
+     * @return string
+     */
+    public static function getVerboseVersionName() {
+        preg_match('~(?<revision>([\d\.]+))([\W_]?(?<specifics>(.*)?))~', trim(TAO_VERSION), $components);
+        if(empty($components['revision'])) {
+            return TAO_VERSION;
+        }
+        $version = '';
+        if(!empty($components['specifics'])) {
+            $version .= ucwords($components['specifics']) . ' rev ';
+        }
+        $version .= ucwords($components['revision']);
+        return $version;
+    }
+
+    /**
      *
      * @deprecated use custom template instead
      * @return type
