@@ -41,15 +41,7 @@ list ($subPath, $file) = $parts;
 
 $bootStrap = new oat\tao\model\mvc\Bootstrap('../config/generis.conf.php');
 $config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('websource_' . $ap);
-/*
-$configPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $ap . '.conf.php';
-if (!file_exists($configPath)) {
-    header('HTTP/1.0 403 Forbidden');
-    die();
-}
 
-$config = include $configPath;
-*/
 $compiledPath = $config['options']['path'];
 $secretPassphrase = $config['options']['secret'];
 $ttl = $config['options']['ttl'];
