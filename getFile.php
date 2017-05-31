@@ -21,9 +21,7 @@ use oat\tao\model\websource\WebsourceManager;
  *
  */
 
-require_once '../generis/helpers/class.File.php';
-require_once '../tao/helpers/class.File.php';
-require_once '../tao/helpers/class.Http.php';
+require_once '../vendor/autoload.php';
 
 $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '/getFile.php/') + strlen('/getFile.php/'));
 $parts = explode('/', $rel, 4);
@@ -41,7 +39,9 @@ if (count($parts) < 2) {
 }
 list ($subPath, $file) = $parts;
 
-
+$bootStrap = new oat\tao\model\mvc\Bootstrap('../config/generis.conf.php');
+$config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('websource_' . $ap);
+/*
 $configPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $ap . '.conf.php';
 if (!file_exists($configPath)) {
     header('HTTP/1.0 403 Forbidden');
@@ -49,6 +49,7 @@ if (!file_exists($configPath)) {
 }
 
 $config = include $configPath;
+*/
 $compiledPath = $config['options']['path'];
 $secretPassphrase = $config['options']['secret'];
 $ttl = $config['options']['ttl'];
