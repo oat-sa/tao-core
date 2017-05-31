@@ -335,6 +335,21 @@ class Layout
     }
 
     /**
+     * Turn TAO_VERSION in a more verbose form
+     *
+     * @return string
+     */
+    public static function getVerboseVersionName() {
+        preg_match('~(?<revision>([\d\.]+))(-?(?<specifics>(.*)?))~', TAO_VERSION, $components);
+        $version = '';
+        if(!empty($components['specifics'])) {
+            $version .= ucwords($components['specifics']) . ' ';
+        }
+        $version .= 'rev ' . ucwords($components['revision']);
+        return $version;
+    }
+
+    /**
      *
      * @deprecated use custom template instead
      * @return type
