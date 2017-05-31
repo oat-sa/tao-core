@@ -22,6 +22,13 @@ namespace oat\tao\model\theme;
 use oat\tao\helpers\Template;
 use oat\oatbox\Configurable;
 
+/**
+ * Class DefaultTheme
+ *
+ * @deprecated use ConfigurableTheme instead
+ *
+ * @package oat\tao\model\theme
+ */
 class DefaultTheme extends Configurable implements Theme
 {
     public function getId()

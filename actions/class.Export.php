@@ -112,7 +112,6 @@ class tao_actions_Export extends tao_actions_CommonModule
             try {
                 $report = $exporter->export($exportData, tao_helpers_Export::getExportPath());
                 $file = $report;
-
             } catch (common_exception_UserReadableException $e) {
                 $report = common_report_Report::createFailure($e->getUserMessage());
             }

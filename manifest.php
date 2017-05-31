@@ -35,7 +35,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '10.2.0',
+    'version' => '10.15.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=3.33.0',
