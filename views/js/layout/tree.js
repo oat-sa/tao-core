@@ -19,7 +19,7 @@ define([
     var pageRange = 30;
 
     /**
-     * The tree factory helps you to intantiate a new tree from the TAO ontology
+     * The tree factory helps you to instantiate a new tree from the TAO ontology
      * @exports layout/tree
      *
      * @param {jQueryElement} $elt - that will contain the tree
@@ -157,7 +157,7 @@ define([
                         params.classUri = $node.data('uri');
                     }
                     if(lastSelected){
-                    	params.selected = lastSelected;
+                        params.selected = lastSelected;
                     }
 
                     //check for additionnal parameters in tree state
@@ -189,7 +189,7 @@ define([
                  * @param {Object} tree - the tree instance
                  * @returns {Object} data the modified data
                  */
-                ondata: function(data, tree) {
+                ondata: function(data) {
 
                     if(data.error){
                         feedback().error(data.error);
@@ -386,6 +386,11 @@ define([
                         refNode = tree.parent(refNode);
                     }
 
+                    if (! (refNode instanceof $)) {
+                        $.tree.rollback(rollback);
+                        return false;
+                    }
+
                     //set the rollback data
                     $elt.data('tree-state', _.merge($elt.data('tree-state'), {rollback : rollback}));
 
@@ -479,7 +484,7 @@ define([
             'addnode' : function (data) {
 
                 var tree =  $.tree.reference($elt);
-            	var parentNode = tree.get_node($('#' + uri.encode(data.parent), $elt).get(0));
+                var parentNode = tree.get_node($('#' + uri.encode(data.parent), $elt).get(0));
 
                 var params = _.clone(serverParams);
 
@@ -520,7 +525,7 @@ define([
                 var tree =  $.tree.reference($elt);
                 var node = tree.get_node($('#' + data.id, $elt).get(0));
                 tree.remove(node);
-           },
+            },
 
             /**
              * Select a node
@@ -609,9 +614,9 @@ define([
 				containsFalse = _.contains(values, false);
 
 			if (containsTrue && !containsFalse) {
-			   return 'permissions-full';
+				return 'permissions-full';
 			} else if (containsTrue && containsFalse) {
-			   return 'permissions-partial';
+				return 'permissions-partial';
 			}
 			return 'permissions-none';
 		}
