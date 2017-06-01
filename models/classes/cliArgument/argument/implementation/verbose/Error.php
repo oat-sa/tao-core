@@ -33,6 +33,8 @@ class Error extends Verbose
      */
     public function isApplicable(array $params)
     {
+        $this->setOutputColorVisibility($params);
+
         return $this->hasParameter($params, '-v') || $this->hasParameter($params, '--verbose', 1);
     }
 

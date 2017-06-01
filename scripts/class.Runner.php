@@ -31,11 +31,14 @@
  */
 abstract class tao_scripts_Runner
 {
-    // Adding container.
-    use \oat\oatbox\PimpleContainerTrait;
+    // Adding container and logger.
+    use \oat\oatbox\log\ContainerLoggerTrait;
 
-    // Adding logger.
-    use \oat\oatbox\log\LoggerAwareTrait;
+    /**
+     * Runner related dependencies will be reached under this offset.
+     * (use different indexes for every single child!!!)
+     */
+    const CONTAINER_INDEX = 'taoScriptsRunner';
 
     // --- ASSOCIATIONS ---
 
@@ -73,14 +76,8 @@ abstract class tao_scripts_Runner
      */
     public function __construct($inputFormat = array(), $options = array())
     {
-        // If we got a container we're initializing.
-        if ($inputFormat instanceof \Pimple\Container) {
-            $this->setContainer($inputFormat);
-            $this->setLogger(
-                $this->getContainer()->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)->getLogger()
-            );
-            $inputFormat = $this->getContainer()->offsetGet(static::CONTAINER_INDEX);
-        }
+        // Using the container if it's necessary with automatic dependency returning.
+        $inputFormat = $this->initContainer($inputFormat, static::CONTAINER_INDEX);
 
         if(PHP_SAPI == 'cli' && !isset($options['argv'])){
             $this->argv = $_SERVER['argv'];
@@ -533,5 +530,3 @@ abstract class tao_scripts_Runner
     }
 
 } /* end of abstract class tao_scripts_Runner */
-
-?>

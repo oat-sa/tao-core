@@ -22,12 +22,6 @@
 
 require_once dirname(__FILE__) . '/../install/init.php';
 
-// Logger service initialization.
-$loggerService = new \oat\oatbox\log\LoggerService();
-$loggerService->addLogger(
-    new \oat\oatbox\log\VerboseLogger(\Psr\Log\LogLevel::DEBUG)
-);
-
 // Setting install details.
 $installDetails = array(
     'min'		=> 5,
@@ -140,9 +134,5 @@ $installDetails = array(
 );
 
 // Running the service.
-new tao_scripts_TaoInstall(new \Pimple\Container(
-    array(
-        \oat\oatbox\log\LoggerService::SERVICE_ID => $loggerService,
-        tao_scripts_TaoInstall::CONTAINER_INDEX   => $installDetails
-	)
-));
+$container->offsetSet(tao_scripts_TaoInstall::CONTAINER_INDEX, $installDetails);
+new tao_scripts_TaoInstall($container);

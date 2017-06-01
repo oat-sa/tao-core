@@ -35,11 +35,8 @@ use oat\oatbox\service\ServiceManager;
  */
 
 class tao_install_Installator {
-    // Adding container.
-    use \oat\oatbox\PimpleContainerTrait;
-
-    // Adding logger.
-    use \oat\oatbox\log\LoggerAwareTrait;
+    // Adding container and logger.
+    use \oat\oatbox\log\ContainerLoggerTrait;
 
     /**
      * Installator related dependencies will be reached under this offset.
@@ -56,13 +53,8 @@ class tao_install_Installator {
 
 	public function __construct($options)
 	{
-        if ($options instanceof \Pimple\Container) {
-            $this->setContainer($options);
-            $this->setLogger(
-                $this->getContainer()->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)->getLogger()
-            );
-            $options = $this->getContainer()->offsetGet(static::CONTAINER_INDEX);
-        }
+	    // Using the container if it's necessary with automatic dependency returning.
+	    $options = $this->initContainer($options, static::CONTAINER_INDEX);
 
         if(!isset($options['root_path'])){
 			throw new tao_install_utils_Exception("root_path option must be defined to perform installation.");

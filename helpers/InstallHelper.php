@@ -48,7 +48,10 @@ class InstallHelper extends \helpers_InstallHelper
     }
     
     protected static function getInstaller($extension, $importLocalData) {
-        return new \tao_install_ExtensionInstaller($extension, $importLocalData);
+        $instance = new \tao_install_ExtensionInstaller($extension, $importLocalData);
+        $instance->initContainer(static::$container);
+
+        return $instance;
     }
 
 }
