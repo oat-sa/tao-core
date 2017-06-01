@@ -7,8 +7,6 @@ use oat\tao\helpers\Layout;
         <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
         · <?= __('All rights reserved.') ?>
         <?php $releaseMsgData = Layout::getReleaseMsgData();
-        $releaseMsgData['msg'] = 'houla';
-        $releaseMsgData['is-unstable'] = true;
         if ($releaseMsgData['msg'] && ($releaseMsgData['is-unstable'] || $releaseMsgData['is-sandbox'])): ?>
             <span class="rgt">
                 <?php if ($releaseMsgData['is-unstable']): ?>
