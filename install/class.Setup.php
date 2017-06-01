@@ -23,6 +23,7 @@
 use oat\oatbox\action\Action;
 use common_report_Report as Report;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\oatbox\service\ConfigurableService;
 
 class tao_install_Setup implements Action
 {
@@ -243,14 +244,16 @@ class tao_install_Setup implements Action
             \common_persistence_Manager::addPersistence($key, $persistence);
         }
 
-        foreach($parameters['configuration'] as $extension => $configs){
-            foreach($configs as $key => $config){
-                if(!(isset($config['type']) && $config['type'] === 'configurableService')){
-                    if (!is_null(\common_ext_ExtensionsManager::singleton()->getInstalledVersion($extension))) {
-                        if( !$serviceManager->has($extension . '/' . $key) ||
-                            !$serviceManager->get($extension . '/' . $key) instanceof \oat\oatbox\service\ConfigurableService){
-                            if(!\common_ext_ExtensionsManager::singleton()->getExtensionById($extension)->setConfig($key, $config)){
-                                return Report::createInfo('Your config ' . $extension . '/' . $key . ' cannot be set');
+        /** @var common_ext_ExtensionsManager $extensionManager */
+        $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
+        foreach($parameters['configuration'] as $ext => $configs) {
+            foreach($configs as $key => $config) {
+                if(! (isset($config['type']) && $config['type'] === 'configurableService')) {
+                    if (! is_null($extensionManager->getInstalledVersion($ext))) {
+                        $extension = $extensionManager->getExtensionById($ext);
+                        if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
+                            if(! $extension->setConfig($key, $config)){
+                                return Report::createInfo('Your config ' . $ext . '/' . $key . ' cannot be set');
                             }
                         }
                     }
