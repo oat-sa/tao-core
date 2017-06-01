@@ -802,7 +802,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.11.0', '10.12.0');
-        
+
         if ($this->isVersion('10.12.0')) {
 
             $this->getServiceManager()->register(
@@ -815,8 +815,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('10.13.0');
         }
-        
-        $this->skip('10.13.0', '10.14.4');
+
+        $this->skip('10.13.0', '10.15.0');
     }
 
     private function migrateFsAccess() {
