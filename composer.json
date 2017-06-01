@@ -53,6 +53,7 @@
 		"slim/slim" : "^3.0",
 		"guzzlehttp/guzzle" : "~6.0",
 		"ezyang/htmlpurifier": "^4.9",
+		"justinrainbow/json-schema": "5.2.1",
 		"pimple/pimple": "^3.0"
 	},
 	"minimum-stability" : "dev",

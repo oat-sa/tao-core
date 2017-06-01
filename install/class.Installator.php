@@ -23,6 +23,7 @@
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\OperatedByService;
 
 /**
  *
@@ -246,14 +247,7 @@ class tao_install_Installator {
 			}
 			
 			/*
-			 *  4 - Create the local namespace
-			 */
-// 			$this->log('i', 'Creating local namespace', 'INSTALL');
-// 			$dbCreator->addLocalModel('8',$installData['module_namespace']);
-// 			$dbCreator->addModels();
-			
-			/*
-			 *  5 - Create the generis config files
+			 *  4 - Create the generis config files
 			 */
 			
 			$this->log('d', 'Writing generis config', 'INSTALL');
@@ -273,7 +267,7 @@ class tao_install_Installator {
                 'ROOT_URL'					=> $installData['module_url'],
                 'DEFAULT_LANG'				=> $installData['module_lang'],
                 'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
-                'TIME_ZONE'                  => $installData['timezone']
+                'TIME_ZONE'                 => $installData['timezone']
             );
 
             $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
@@ -283,7 +277,7 @@ class tao_install_Installator {
             $this->log('d', 'The following constants were written in generis config:' . PHP_EOL . var_export($constants, true));
 
 			/*
-			 * 5b - Prepare the file/cache folder (FILES_PATH) not yet defined)
+			 * 4b - Prepare the file/cache folder (FILES_PATH) not yet defined)
 			 * @todo solve this more elegantly
 			 */
 			$file_path = $installData['file_path'];
@@ -308,13 +302,13 @@ class tao_install_Installator {
 				
 			
 			/*
-			 * 6 - Run the extensions bootstrap
+			 * 5 - Run the extensions bootstrap
 			 */
 			$this->log('d', 'Running the extensions bootstrap', 'INSTALL');
 			common_Config::load($this->getGenerisConfig());
 			
 			/*
-			 * 6b - Create cache persistence
+			 * 5b - Create cache persistence
 			*/
 			$this->log('d', 'Creating cache persistence..');
 			common_persistence_Manager::addPersistence('cache', array(
@@ -323,13 +317,13 @@ class tao_install_Installator {
 			common_persistence_KeyValuePersistence::getPersistence('cache')->purge();
 			
 			/*
-			 * 6c - Create generis persistence 
+			 * 5c - Create generis persistence 
 			 */
             $this->log('d', 'Creating generis persistence..');
 			common_persistence_Manager::addPersistence('default', $dbConfiguration);
 
 			/*
-			 * 6d - Create generis user
+			 * 5d - Create generis user
 			*/
 					
 			// Init model creator and create the Generis User.
@@ -338,7 +332,7 @@ class tao_install_Installator {
 			$modelCreator->insertGenerisUser(helpers_Random::generateString(8));
 
 			/*
-			 * 7 - Add languages
+			 * 6 - Add languages
 			 */
             $this->log('d', 'Adding languages..');
 			$models = $modelCreator->getLanguageModels();
@@ -350,7 +344,7 @@ class tao_install_Installator {
                         }
 
 			/*
-			 * 8 - Finish Generis Install
+			 * 7 - Finish Generis Install
 			 */
 
             $this->log('d', 'Finishing generis install..');
@@ -361,21 +355,21 @@ class tao_install_Installator {
 			$generisInstaller->install();
 
 	        /*
-			 * 9 - Install the extensions
+			 * 8 - Install the extensions
 			 */
 	        InstallHelper::initContainer($this->container);
 			$installed = InstallHelper::installRecursively($extensionIDs, $installData);
 			$this->log('ext', $installed);
 
             /*
-             *  9bis - Generates client side translation bundles (depends on extension install)
+             *  8b - Generates client side translation bundles (depends on extension install)
              */
 			$this->log('i', 'Generates client side translation bundles', 'INSTALL');
             
 			$files = tao_models_classes_LanguageService::singleton()->generateClientBundles();
 
 			/*
-			 *  10 - Insert Super User
+			 *  9 - Insert Super User
 			 */
 			$this->log('i', 'Spawning SuperUser '.$installData['user_login'], 'INSTALL');
 			$modelCreator->insertSuperUser(array(
@@ -390,9 +384,8 @@ class tao_install_Installator {
 			));
 
 
-	
 			/*
-			 *  11 - Secure the install for production mode
+			 *  10 - Secure the install for production mode
 			 */
 			if($installData['module_mode'] == 'production'){
 				$extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
@@ -413,10 +406,27 @@ class tao_install_Installator {
 			}
 
 			/*
-			 *  12 - Create the version file
+			 *  11 - Create the version file
 			 */
 			$this->log('d', 'Creating TAO version file', 'INSTALL');
 			file_put_contents($installData['file_path'].'version', TAO_VERSION);
+            
+            /*
+             * 12 - Register Information about organization operating the system
+             */
+            $this->log('t', 'Registering information about the organization operating the system', 'INSTALL');
+            $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
+            
+            if (!empty($installData['operated_by_name'])) {
+                $operatedByService->setName($installData['operated_by_name']);
+            }
+            
+            if (!empty($installData['operated_by_email'])) {
+                $operatedByService->setEmail($installData['operated_by_email']);
+            }
+            
+            $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
+            
 		}
 		catch(Exception $e){
 			if ($this->retryInstallation($e)) {

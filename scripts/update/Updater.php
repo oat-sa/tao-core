@@ -85,6 +85,7 @@ use oat\tao\model\i18n\ExtraPoService;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
+use oat\tao\model\OperatedByService;
 
 /**
  *
@@ -597,7 +598,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 'ext'        => 'tao',
                 'controller' => 'Main',
                 'action'     => 'index',
-            ));
+                ));
             $service->setRoute('login', array(
                 'ext'        => 'tao',
                 'controller' => 'Main',
@@ -800,7 +801,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.11.0');
         }
 
-        $this->skip('10.11.0', '10.11.3');
+        $this->skip('10.11.0', '10.12.0');
+        
+        if ($this->isVersion('10.12.0')) {
+
+            $this->getServiceManager()->register(
+                OperatedByService::SERVICE_ID,
+                new OperatedByService([
+                    'operatedByName' => 'Open Assessment Technologies S.A.',
+                    'operatedByEmail' => 'contact@taotesting.com'
+                ])
+            );
+
+            $this->setVersion('10.13.0');
+        }
+        
+        $this->skip('10.13.0', '10.14.4');
     }
 
     private function migrateFsAccess() {
