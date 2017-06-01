@@ -274,7 +274,7 @@ class tao_install_Setup implements Action
                         $extension = $extensionManager->getExtensionById($ext);
                         if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
                             if(! $extension->setConfig($key, $config)){
-                                throw new ErrorException('Your config ' . $extension . '/' . $key . ' cannot be set');
+                                throw new ErrorException('Your config ' . $ext . '/' . $key . ' cannot be set');
                             }
                         }
                     }

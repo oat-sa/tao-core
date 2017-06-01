@@ -151,5 +151,3 @@ class tao_scripts_TaoInstall
     }
 
 }
-
-?>
