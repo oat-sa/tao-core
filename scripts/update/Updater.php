@@ -817,6 +817,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.13.0', '10.15.0');
+
+        if ($this->isVersion('10.15.0')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
+            );
+            $this->setVersion('10.16.0');
+        }
     }
 
     private function migrateFsAccess() {
