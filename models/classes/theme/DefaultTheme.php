@@ -35,7 +35,7 @@ class DefaultTheme extends Configurable implements Theme
     {
         return 'default';
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\theme\Theme::getLabel()
@@ -44,7 +44,7 @@ class DefaultTheme extends Configurable implements Theme
     {
         return __('Tao Default Theme');
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\theme\Theme::getTemplate()
@@ -67,7 +67,7 @@ class DefaultTheme extends Configurable implements Theme
     	}
     	return $template;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\theme\Theme::getStylesheet()
@@ -75,5 +75,26 @@ class DefaultTheme extends Configurable implements Theme
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
         return Template::css('tao-3.css', 'tao');
+    }
+
+    /**
+     * allow to set a custom translatable string for a given key
+     * @param $key
+     * @return string
+     */
+    public function getText($key) {
+        switch ($key) {
+            default: return __(''); break;
+        }
+    }
+
+    public function getTextFromArray($allKeys) {
+        $allValues = [];
+        if (is_array($allKeys) && ! empty($allKeys)) {
+            forEach ($allKeys as $key) {
+                $allValues[$key] = $this->getText($key);
+            }
+        }
+        return $allValues;
     }
 }
