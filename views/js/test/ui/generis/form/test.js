@@ -19,32 +19,23 @@
 define([
     'jquery',
     'lodash',
-    'handlebars',
-    'ui/form/form'
+    'ui/generis/form'
 ], function(
     $,
     _,
-    Handlebars,
-    formFactory
+    generisFormFactory
 ) {
     'use strict';
 
     var formApi;
-    var template = Handlebars.compile(
-        `<div id='ahh'>
-            <label for="{{uri}}">{{label}}</label>
-            <input name="{{uri}}" value="{{value}}">
-        </div>`
-    );
-
 
     QUnit.module('Api');
 
     // factory
     QUnit.test('module', 3, function (assert) {
-        assert.equal(typeof formFactory, 'function', "The form module exposes a function");
-        assert.equal(typeof formFactory(), 'object', "The form factory produces an object");
-        assert.notStrictEqual(formFactory(), formFactory(), "The form factory provides a different object on each call");
+        assert.equal(typeof generisFormFactory, 'function', "The module exposes a function");
+        assert.equal(typeof generisFormFactory(), 'object', "The factory produces an object");
+        assert.notStrictEqual(generisFormFactory(), generisFormFactory(), "The factory provides a different object on each call");
     });
 
 
@@ -59,7 +50,7 @@ define([
     QUnit
     .cases(formApi)
     .test('instance', function (data, assert) {
-        var instance = formFactory();
+        var instance = generisFormFactory();
         assert.equal(typeof instance[data.name], 'function', 'The form instance exposes a "' + data.title + '" function');
     });
 
@@ -68,7 +59,7 @@ define([
 
     // can get, add, and remove fields
     QUnit.test('get, add, and remove fields', function (assert) {
-        var form = formFactory();
+        var form = generisFormFactory();
 
         form.addField('field-one', {});
         form.addField('field-two', {});
@@ -84,7 +75,7 @@ define([
     QUnit.asyncTest('loads form data from url', function (assert) {
         QUnit.expect(1);
 
-        formFactory({
+        generisFormFactory({
             request: {
                 url: '/tao/views/js/test/ui/form/form.json'
             }
@@ -104,7 +95,7 @@ define([
 
         $.ajax('/tao/views/js/test/ui/form/form.json')
         .success(function (res) {
-            var form = formFactory({
+            var form = generisFormFactory({
                 json: res.data
             });
             form.on('load', function () {
@@ -121,7 +112,7 @@ define([
 
     // validations
     QUnit.test('validates form', function (assert) {
-        var form = formFactory().render();
+        var form = generisFormFactory().render();
 
         form.addField('valid', {
             templateVars: {
@@ -129,7 +120,7 @@ define([
                 value: 'World',
                 uri: 'http://taoplatform#field-one'
             },
-            widget: template,
+            widget: templates[0],
             validations: [
                 {
                     predicate: /^World$/i,
@@ -146,7 +137,7 @@ define([
                 value: 'Bar',
                 uri: 'http://taoplatform#field-two'
             },
-            widget: template,
+            widget: templates[0],
             validations: [
                 {
                     predicate: /.{4,}/,
@@ -164,7 +155,7 @@ define([
         QUnit.expect(2);
 
         // success
-        formFactory({
+        generisFormFactory({
             action: '/tao/views/js/test/ui/form/success.json'
         })
         .on('success', function (data) {
@@ -174,7 +165,7 @@ define([
         .getElement().find('form').trigger('submit');
 
         // error
-        formFactory({
+        generisFormFactory({
             action: '/tao/views/js/test/ui/form/error.json'
         })
         .on('error', function (error) {
@@ -193,7 +184,7 @@ define([
     QUnit.test('Display and play', function (assert) {
         QUnit.expect(1);
 
-        formFactory({
+        generisFormFactory({
             action: '/tao/views/js/test/ui/form/success.json',
             name: 'Test form',
             templateVars: {
@@ -221,7 +212,7 @@ define([
                 value: 'World',
                 uri: 'http://taoplatform#field-one'
             },
-            widget: template,
+            widget: templates[0],
             validations: [
                 {
                     predicate: /^World$/i,
@@ -236,7 +227,7 @@ define([
                 value: 'Bar',
                 uri: 'http://taoplatform#field-two'
             },
-            widget: template,
+            widget: templates[1],
             validations: [
                 {
                     predicate: /.{4,}/,
@@ -245,7 +236,32 @@ define([
             ]
         })
 
+        .addField('field-three', {
+            required: true,
+            templateVars: {
+                label: 'Label',
+                uri: 'http://taoplatform#field-three'
+            },
+            widget: templates[2]
+        })
+
+        .addField('field-four', {
+            required: true,
+            templateVars: {
+                label: 'Password',
+                uri: 'http://taoplatform#field-four'
+            },
+            widget: templates[1],
+            validations: [
+                {
+                    predicate: /.{6,8}/,
+                    message: 'Must contain 6 to 8 characters'
+                }
+            ]
+        })
+
         .render('#display-and-play');
     });
 
 });
+

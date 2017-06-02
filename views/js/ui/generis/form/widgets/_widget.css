@@ -1,0 +1,39 @@
+.ui-generis-form-widgets {
+    margin: 10px 0px;
+}
+
+.ui-generis-form-widgets label {
+    width: 34%;
+}
+
+.ui-generis-form-widgets input,
+.ui-generis-form-widgets select,
+.ui-generis-form-widgets textarea {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    color: #222;
+    font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
+    min-width: 150px;
+    padding: 4px;
+    width: 65%;
+}
+
+.ui-generis-form-widgets input,
+.ui-generis-form-widgets select {
+    font: inherit;
+    height: 36px;
+}
+
+.ui-generis-form-widgets input.error,
+.ui-generis-form-widgets select.error,
+.ui-generis-form-widgets textarea.error {
+    border-color: #ba122b;
+    color: #ba122b;
+}
+
+.ui-generis-form-widgets .validation-container {
+    color: #ba122b;
+    text-align: right;
+    width: 99%;
+}

@@ -1,18 +1,19 @@
-## ui/generis/form is a ui/form/form
-
+### ui/generis/form (is a ui/component)
 ```
-generisFormFactory({
-    action: {
-        method: string (optional),
-        url: string (optional),
-        parameters: object (optional)
-    },
-    container: string|jQuery (required),
-    data: {
-        method: string (optional),
-        url: string (optional),
-        parameters: object (optional)
-    },
-    title: string (optional)
+// Initialization
+var generisForm = generisFormFactory({
+    uri: string (optional)
+    class.uri: string (required)
 });
+
+
+// Methods
+{string|this} generisForm.get(fieldUri, [cb]);
+{boolean|this} generisForm.set(fieldUri, value, [cb]);
+{boolean|this} generisForm.validate([cb]);
+{object|this} generisForm.submit([cb]);
+
+
+// Events
+generisForm.on('submit', function (event) {});
 ```

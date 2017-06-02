@@ -1,0 +1,34 @@
+.ui-form {
+    margin: 20px;
+    width: 500px;
+}
+
+.ui-form form {
+    background-color: #f3f1ef;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 30px;
+}
+
+.ui-form .field-container > * {
+    margin-bottom: 10px;
+}
+
+.ui-form .field-container > * > *{
+    display: inline-block;
+}
+
+.ui-form .field-container label {
+    width: 34%;
+}
+
+.ui-form .field-container input,
+.ui-form .field-container select,
+.ui-form .field-container textarea {
+    width: 64%;
+}
+
+.ui-form .toolbar {
+    margin-top: 30px;
+    text-align: right;
+}

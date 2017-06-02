@@ -1,0 +1,6 @@
+{
+    "success" : false,
+    "errorCode" : 201,
+    "errorMsg" : "No user matches the URI http://foo/tao.rdf#i1489048120705064",
+    "version" : "TAO-3.2.0-sprint46"
+}
