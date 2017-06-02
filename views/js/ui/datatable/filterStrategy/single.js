@@ -37,6 +37,29 @@ define([
         getQueryData : function getQueryData($table, $filter, options) {
             var data = {};
             var column = $filter.data('column');
+            var model = _.find(options.model, function (o) {
+                return o.id === column;
+            });
+
+            data.filterquery = $filter.find(':input').filter(function () {
+                return $(this).val();
+            }).val();
+
+            if (model && 'function' === typeof model.filterTransform) {
+                data.filterquery = model.filterTransform(data.filterquery);
+            }
+            data.filtercolumns = column ? column.split(',') : options.filter.columns;
+
+            return data;
+        },
+        /**
+         * @param {jQuery} $table - table element
+         * @param {jQuery} $filter - filter input
+         * @param {object} options - datatable options
+         */
+        getFiltersData : function getFiltersData($table, $filter, options) {
+            var data = {};
+            var column = $filter.data('column');
 
             data.filterquery = $filter.find(':input').filter(function () {
                 return $(this).val();
