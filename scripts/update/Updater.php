@@ -802,7 +802,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.11.0', '10.12.0');
-        
+
         if ($this->isVersion('10.12.0')) {
 
             $this->getServiceManager()->register(
@@ -815,14 +815,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('10.13.0');
         }
-        
-        $this->skip('10.13.0', '10.14.4');
 
-        if ($this->isVersion('10.14.4')) {
+        $this->skip('10.13.0', '10.15.0');
+
+        if ($this->isVersion('10.15.0')) {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/locale', ['dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
             );
-            $this->setVersion('10.15.0');
+            $this->setVersion('10.16.0');
         }
     }
 
