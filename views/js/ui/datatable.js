@@ -108,6 +108,7 @@ define([
          * @param {Object|Boolean} options.filter - allow to display a filter bar.
          * @param {String} options.filterStrategy - 'multiple' | 'single'  -- filtered by all filters together or filtering allowed only by one field at the moment (default 'single'),
          * @param {String} options.filterSelector - css selector for search of filter inputs, by defaul 'select, input'
+         * @param {String} options.filterTransform - transform filter value before send to server.
          * @param {String[]} options.filter.columns - a list of columns that will be used for default filter. Can be overridden by column filter.
          * @param {String} options.filterquery - a query string for filtering, using only in runtime.
          * @param {String[]} options.filtercolumns - a list of columns, in that should be done search, using only in runtime.
@@ -178,15 +179,22 @@ define([
          * @param {jQueryElement} $elt - plugin's element
          * @fires dataTable#query.datatable
          */
-        _query: function($elt) {
+        _query: function($elt, $filter) {
             var self = this;
             var options = $elt.data(dataNs);
-            var parameters = _.merge(
+            var parameters;
+            var ajaxConfig;
+
+            if (!$filter) {
+                $filter = $('.filter', $elt);
+            }
+            options = _.assign({}, options, this._getFilterStrategy($elt).getQueryData($elt, $filter, options));
+            parameters = _.merge(
                 {},
                 _.pick(options, ['rows', 'page', 'sortby', 'sortorder', 'filterquery', 'filtercolumns']),
                 options.params || {}
             );
-            var ajaxConfig = {
+            ajaxConfig = {
                 url: options.url,
                 data: parameters,
                 dataType : 'json',
@@ -599,9 +607,9 @@ define([
          */
         _filter: function _filter($elt, $filter) {
             var options = $elt.data(dataNs);
-            var data = this._getFilterStrategy($elt).getQueryData($elt, $filter, options);
+            var filtersData = this._getFilterStrategy($elt).getFiltersData($elt, $filter, options);
             options.page = 1;
-            $elt.data(dataNs, _.assign(options, data));
+            $elt.data(dataNs, _.assign(options, filtersData));
 
             /**
              * @event dataTable#filter.datatable
@@ -610,7 +618,7 @@ define([
             $elt.trigger('filter.' + ns, [options]);
 
             // Call the query
-            this._query($elt);
+            this._query($elt, $filter);
         },
 
         _getFilterStrategy: function _getFilterStrategy($elt) {
