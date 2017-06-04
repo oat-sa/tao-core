@@ -2,14 +2,16 @@
 ```
 // Initialization
 var generisForm = generisFormFactory({
+    class.uri: string (required),
+    class.label: string (optional),
+    request.url: string (required),
     uri: string (optional)
-    class.uri: string (required)
 });
 
 
 // Methods
 {string|this} generisForm.get(fieldUri, [cb]);
-{boolean|this} generisForm.set(fieldUri, value, [cb]);
+{string|this} generisForm.set(fieldUri, value, [cb]);
 {boolean|this} generisForm.validate([cb]);
 {object|this} generisForm.submit([cb]);
 

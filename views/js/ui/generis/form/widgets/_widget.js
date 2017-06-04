@@ -32,8 +32,8 @@ define([
 
     /**
      * The factory
-     * @param {Boolean} [options.hidden]
-     * @param {Boolean} [options.required]
+     * @param {Boolean} [options.hidden = false]
+     * @param {Boolean} [options.required = false]
      * @returns {ui/component}
      */
     function factory(options) {
@@ -122,6 +122,8 @@ define([
                 return ret;
             }
         }, {
+            hidden: false,
+            required: false,
             validationContainer: '.validation-container',
             validations: []
         })
