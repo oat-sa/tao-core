@@ -35,12 +35,12 @@ define([
 
     QUnit.test('module', 3, function (assert) {
         var obj1 = generisFormFactory({
-            request: {
+            resource: {
                 url: 'js/test/ui/generis/form/data/desc/success.json'
             }
         });
         var obj2 = generisFormFactory({
-            request: {
+            resource: {
                 url: 'js/test/ui/generis/form/data/desc/success.json'
             }
         });
@@ -57,7 +57,7 @@ define([
     ])
     .test('instance', function (data, assert) {
         var instance = generisFormFactory({
-            request: {
+            resource: {
                 url: 'js/test/ui/generis/form/data/desc/success.json'
             }
         });
@@ -72,42 +72,61 @@ define([
 
     QUnit.test('initialization', function (assert) {
         generisFormFactory({
-            request: {
+            resource: {
                 url: 'js/test/ui/generis/form/data/desc/success.json'
             }
         })
-        .on('render', function () {
-            assert.ok(true);
+        .on('init', function () {
+            assert.ok(true, 'form is successfully initialized');
         })
-        .render();
+        .init();
     });
 
-    QUnit.test('get', function (assert) {
+    QUnit.asyncTest('get', function (assert) {
         generisFormFactory({
-            request: {
+            resource: {
                 url: 'js/test/ui/generis/form/data/desc/success.json'
             }
         })
-        .on('render', function () {
-            assert.ok(true);
+        .on('load', function () {
+            assert.equal(
+                this.get('http://www.tao.lu/Ontologies/generis.rdf#userFirstName'),
+                'Bertrand',
+                'gets correct field value'
+            );
+            QUnit.start();
         })
-        .render();
+        .init();
     });
 
+    QUnit.asyncTest('set', function (assert) {
+        generisFormFactory({
+            resource: {
+                url: 'js/test/ui/generis/form/data/desc/success.json'
+            }
+        })
+        .on('load', function () {
+            assert.equal(
+                this.set('http://www.tao.lu/Ontologies/generis.rdf#userFirstName', 'Foo'),
+                'Foo',
+                'sets correct field value'
+            );
+            assert.equal(
+                this.get('http://www.tao.lu/Ontologies/generis.rdf#userFirstName'),
+                'Foo',
+                'gets correct field value'
+            );
+            QUnit.start();
+        })
+        .init();
+    });
 
-    /**
-     * Events
-     */
-    QUnit.module('Events');
+    QUnit.test('validate', function (assert) {
+        assert.ok(true);
+    });
 
     QUnit.test('submit', function (assert) {
-        var instance = generisFormFactory({
-            request: {
-                url: 'js/test/ui/generis/form/data/desc/success.json'
-            }
-        });
-
-        assert.ok(true, 'on(\'change blur\')');
+        assert.ok(true);
     });
 
 
@@ -122,7 +141,7 @@ define([
                 uri: 'http://www.tao.lu/Ontologies/generis.rdf#User',
                 label: 'User'
             },
-            request: {
+            resource: {
                 url: 'js/test/ui/generis/form/data/desc/success.json'
             },
             uri: 'http://taoplatform/data.rdf#i1489048120705064'
@@ -130,10 +149,10 @@ define([
         .on('render', function () {
             assert.ok(true);
         })
-        .on('submit', function (e) {
-            e.preventDefault();
-            console.log(this.validate());
-            return false;
+        .init({
+            form: {
+                action: 'js/test/ui/generis/form/data/edit/success.json'
+            }
         })
         .render('#display-and-play');
     });

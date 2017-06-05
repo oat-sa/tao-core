@@ -32,8 +32,8 @@ define([
 
     /**
      * The factory
-     * @param {Boolean} [options.hidden = false]
-     * @param {Boolean} [options.required = false]
+     * @param {String} [validationContainer = '.validation-container']
+     * @param {Array} [validations = []]
      * @returns {ui/component}
      */
     function factory(options) {
@@ -45,7 +45,7 @@ define([
              * @returns {String|this}
              */
             get: function (callback) {
-                var ret = this.getElement().find('[name]').val();
+                var ret = this.config.value || '';
 
                 if (typeof callback === 'function') {
                     callback.apply(this, [ret]);
@@ -60,7 +60,13 @@ define([
              * @returns {String|this}
              */
             set: function (value, callback) {
-                this.getElement().find('[name]').val(value);
+                this.config.value = value;
+
+                if (this.is('rendered')) {
+                    this.getElement()
+                    .find('[name=' + this.config.uri + ']')
+                    .val(value);
+                }
 
                 if (typeof callback === 'function') {
                     callback.apply(this, [value]);
@@ -80,13 +86,13 @@ define([
                 var value = this.get();
 
                 if ($el) {
-                    $el.find(this.config.validationContainer).empty();
+                    $el.find(this.validationContainer).empty();
 
                     $input = $el.find('[name]');
                     $input.removeClass('error');
                 }
 
-                ret = _(this.config.validations)
+                ret = _(this.validations)
                 // run validations
                 .reject(function (validation) {
                     if (validation.predicate instanceof RegExp) {
@@ -99,7 +105,8 @@ define([
                 // display validations' message
                 .each(function (validation) {
                     if ($el) {
-                        $el.find(this.config.validationContainer).append(
+                        $el.find(this.validationContainer)
+                        .append(
                             $('<div>', {
                                 class: 'error',
                                 text: validation.message
@@ -123,14 +130,12 @@ define([
             }
         }, {
             hidden: false,
-            required: false,
-            validationContainer: '.validation-container',
-            validations: []
+            required: false
         })
 
         .on('init', function () {
-            this.config.hidden = options.hidden;
-            this.config.required = options.required;
+            this.validationContainer = options.validationContainer || '.validation-container';
+            this.validations = options.validations || [];
         })
 
         .on('render', function () {
@@ -149,7 +154,7 @@ define([
                         text: '*'
                     })
                 );
-                this.config.validations.unshift({
+                this.validations.unshift({
                     predicate: /\S+/,
                     message: 'This field is required'
                 });
@@ -158,7 +163,7 @@ define([
             // Add error container
             $el.append(
                 $('<div>', {
-                    class: this.config.validationContainer.substring(1)
+                    class: this.validationContainer.substring(1)
                 })
             );
         });

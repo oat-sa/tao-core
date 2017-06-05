@@ -83,16 +83,16 @@ define([
     QUnit.module('Methods');
 
     QUnit.test('initialization', function (assert) {
-        generisFormWidgetFactory({
+        generisFormWidgetFactory()
+        .on('render', function () {
+            assert.ok(this.getElement().attr('hidden'), 'Widget is successfully hidden');
+            assert.ok(this.validations[0], 'Required validation exists');
+        })
+        .setTemplate(textTpl)
+        .init({
             hidden: true,
             required: true
         })
-        .on('render', function () {
-            assert.ok(this.getElement().attr('hidden'), 'Widget is successfully hidden');
-            assert.ok(this.config.validations[0], 'Required validation exists');
-        })
-        .setTemplate(textTpl)
-        .init()
         .render();
     });
 
@@ -160,7 +160,7 @@ define([
         })
         .setTemplate(textTpl)
         .on('init', function () {
-            this.config.validations.push({
+            this.validations.push({
                 predicate: /Bar/,
                 message: 'Make it "Bar"'
             });

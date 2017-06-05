@@ -1,4 +1,4 @@
-<form class="ui-form">
+<form class="ui-form" action="{{form.action}}" method="{{form.method}}">
     <fieldset></fieldset>
 
     <div class="toolbar">

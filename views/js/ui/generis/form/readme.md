@@ -2,20 +2,26 @@
 ```
 // Initialization
 var generisForm = generisFormFactory({
-    class.uri: string (required),
+    class.uri: string (optional),
     class.label: string (optional),
-    request.url: string (required),
+    data.json: string (optional), // if given, data.url is optional
+    data.url: string (required),
     uri: string (optional)
+})
+.init({
+    form.action: string (optional),
+    form.method: string (optional),
+    submit.text: string (optional)
 });
 
 
 // Methods
 {string|this} generisForm.get(fieldUri, [cb]);
+{boolean|this} generisForm.load(data, [cb]);
 {string|this} generisForm.set(fieldUri, value, [cb]);
 {boolean|this} generisForm.validate([cb]);
-{object|this} generisForm.submit([cb]);
 
 
 // Events
-generisForm.on('submit', function (event) {});
+generisForm.on('load');
 ```

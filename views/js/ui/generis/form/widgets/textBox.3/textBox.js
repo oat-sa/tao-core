@@ -34,11 +34,20 @@ define([
 
     /**
      * The factory
+     * @param {Boolean} [options.hidden = false]
+     * @param {String} options.label
+     * @param {Boolean} [options.required = false]
+     * @param {String} options.uri
+     * @param {String} [options.value]
      * @returns {ui/component}
      */
-    function factory() {
-        return widgetFactory()
-        .setTemplate(tpl);
+    function factory(options) {
+        return widgetFactory({
+            hidden: options.hidden || false,
+            required: options.required || false
+        })
+        .setTemplate(tpl)
+        .init(options);
     }
 
     return factory;

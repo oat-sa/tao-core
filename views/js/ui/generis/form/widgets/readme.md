@@ -2,7 +2,13 @@
 ```
 // Initialization
 var generisFormWidget = generisFormWidgetFactory({
-    uri: string (required)
+    validationContainer: string (optional),
+    validations: array (optional)
+})
+.init({
+    hidden: boolean (optional),
+    required: boolean (optional)
+    // other template variables
 });
 
 
