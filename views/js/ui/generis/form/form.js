@@ -161,6 +161,11 @@ define([
                     data.properties,
                     function (acc, property) {
                         var factory = _widgetFactories[property.widget];
+
+                        if (property.range) {
+                            property.range = data.values[property.range];
+                        }
+
                         this.fields[property.uri] = factory ?
                             factory().init(property) :
                             null;

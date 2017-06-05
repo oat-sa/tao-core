@@ -21,7 +21,7 @@ define([
     'lodash',
     'i18n',
     'ui/generis/form/widgets/_widget',
-    'tpl!ui/generis/form/widgets/textBox/textBox',
+    'tpl!ui/generis/form/widgets/comboBox/comboBox',
     'css!tao/ui/generis/form/widgets/_widget'
 ], function(
     $,
@@ -38,7 +38,16 @@ define([
      */
     function factory() {
         return widgetFactory()
-        .setTemplate(tpl);
+        .setTemplate(tpl)
+        .on('render', function () {
+            var $el = this.getElement();
+
+            if (this.config.value) {
+                $el
+                .find('select option[value="' + this.config.value + '"]')
+                .attr({ selected: 'selected' });
+            }
+        });
     }
 
     return factory;

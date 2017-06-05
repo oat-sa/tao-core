@@ -47,6 +47,12 @@ define([
             get: function (callback) {
                 var ret = this.config.value || '';
 
+                if (this.is('rendered')) {
+                    ret = this.getElement()
+                    .find('[name="' + this.config.uri + '"]')
+                    .val();
+                }
+
                 if (typeof callback === 'function') {
                     callback.apply(this, [ret]);
                     return this;
