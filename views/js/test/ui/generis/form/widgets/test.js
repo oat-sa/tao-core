@@ -99,15 +99,16 @@ define([
     QUnit.test('get', function (assert) {
         generisFormWidgetFactory()
         .on('render', function () {
-            assert.equal(this.get(), 'foobar', 'returns value');
+            assert.equal(this.get(), 'bar', 'returns value');
             assert.equal(this.get(function () {}), this, 'returns this when callback passed');
             this.get(function (value) {
-                assert.equal(value, 'foobar', 'passes value to callback');
+                assert.equal(value, 'bar', 'passes value to callback');
             });
         })
         .setTemplate(textTpl)
         .init({
-            value: 'foobar'
+            uri: 'foo',
+            value: 'bar'
         })
         .render();
     });
@@ -115,15 +116,17 @@ define([
     QUnit.test('set', function (assert) {
         generisFormWidgetFactory()
         .on('render', function () {
-            assert.equal(this.set('foo'), 'foo', 'updates value');
-            assert.equal(this.set('bar', function () {}), this, 'returns this when callback passed')
+            assert.equal(this.set('baz'), 'baz', 'returns updated value');
+            assert.equal(this.get(), 'baz', 'updates value');
+            assert.equal(this.set('bar', console.log), this, 'returns this when callback passed')
             this.set('baz', function (value) {
-                assert.equal(value, 'baz', 'passes value to callback');
+                assert.equal(value, 'baz', 'passes updated value to callback');
             });
         })
         .setTemplate(textTpl)
         .init({
-            value: 'foobar'
+            uri: 'foo',
+            value: 'bar'
         })
         .render();
     });
