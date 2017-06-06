@@ -31,11 +31,13 @@
         } catch(e){}
 
         require([controllerPath], function(controller) {
-            controller.start(controllerOptions);
+            if (controller) {
+                controller.start(controllerOptions);
+            }
         });
     };
     require([configUrl], function() {
-       if(bundle){
+        if(bundle){
             require([bundle], loadController);
         } else {
             loadController();
