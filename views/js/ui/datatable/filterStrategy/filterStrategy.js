@@ -55,6 +55,9 @@ define([
             getQueryData : function getQueryData($table, $filter, options) {
                 return strategy.getQueryData($table, $filter, options);
             },
+            getFiltersData : function getFiltersData($table, $filter, options) {
+                return strategy.getFiltersData($table, $filter, options);
+            },
             render : function render($table, options) {
                 return strategy.render($table, options);
             }
