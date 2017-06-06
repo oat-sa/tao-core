@@ -78,8 +78,8 @@ class DefaultTheme extends Configurable implements Theme
     }
 
     /**
-     * allow to set a custom translatable string for a given key
-     * @param $key
+     * Allow to set a custom translatable string for a given key
+     * @param String $key
      * @return string
      */
     public function getText($key) {
@@ -88,6 +88,11 @@ class DefaultTheme extends Configurable implements Theme
         }
     }
 
+    /**
+     * Retrieve all custom strings for the given keys
+     * @param String[] $allKeys
+     * @return array
+     */
     public function getTextFromArray($allKeys) {
         $allValues = [];
         if (is_array($allKeys) && ! empty($allKeys)) {
