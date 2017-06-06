@@ -39,6 +39,16 @@
           "required" : true,
           "value"  : "bertrand"
         },{
+          "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userRoles",
+          "label" : "Roles",
+          "range" : "http://www.tao.lu/Ontologies/TAO.rdf#UserRole",
+          "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox",
+          "required" : true,
+          "values" : [
+              "http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole",
+              "http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole"
+          ]
+        }, {
           "uri" : "http://www.tao.lu/Ontologies/generis.rdf#password",
           "label" : "Password",
           "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox",
@@ -57,6 +67,19 @@
             },{
                 "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#Langde-DE",
                 "label" : "German"
+            }],
+            "http://www.tao.lu/Ontologies/TAO.rdf#UserRole" : [{
+                "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole",
+                "label" : "Global Manager Role"
+            }, {
+                "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole",
+                "label" : "System Administrator"
+            }, {
+                "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor",
+                "label" : "Test Author"
+            }, {
+                "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole",
+                "label" : "Test Taker"
             }]
         }
     },

@@ -2,13 +2,15 @@
     margin: 10px 0px;
 }
 
-.ui-generis-form-widgets label {
+.ui-generis-form-widgets > label {
+    margin-top: 8px;
     width: 34%;
+    vertical-align: top;
 }
 
-.ui-generis-form-widgets input,
-.ui-generis-form-widgets select,
-.ui-generis-form-widgets textarea {
+.ui-generis-form-widgets > input,
+.ui-generis-form-widgets > select,
+.ui-generis-form-widgets > textarea {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 2px;
@@ -19,10 +21,22 @@
     width: 65%;
 }
 
-.ui-generis-form-widgets input,
-.ui-generis-form-widgets select {
+.ui-generis-form-widgets > input,
+.ui-generis-form-widgets > select {
     font: inherit;
     height: 36px;
+}
+
+.ui-generis-form-widgets > .checkbox {
+    color: #222;
+    display: inline-block;
+    font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
+    padding-top: 4px;
+    width: 65%;
+}
+
+.ui-generis-form-widgets > .checkbox > .option {
+    padding-top: 4px;
 }
 
 .ui-generis-form-widgets input.error,

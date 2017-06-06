@@ -133,6 +133,25 @@ define([
                 }
 
                 return ret;
+            },
+
+            /**
+             * Serializes widget into a name/value object for form submission
+             * @param {Function} [callback]
+             * @returns {Object|this}
+             */
+            serialize: function serialize(callback) {
+                var ret = {
+                    name: this.config.uri,
+                    value: this.get()
+                };
+
+                if (typeof callback === 'function') {
+                    callback.apply(this, [ret]);
+                    return this;
+                }
+
+                return ret;
             }
         }, {
             hidden: false,
@@ -154,7 +173,7 @@ define([
 
             // Configure required option
             if (this.config.required) {
-                $el.find('label').append(
+                $el.find('label[for="' + this.config.uri + '"]').append(
                     $('<abbr>', {
                         title: __('This field is required'),
                         text: '*'

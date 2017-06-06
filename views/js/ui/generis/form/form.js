@@ -22,6 +22,7 @@ define([
     'i18n',
     'core/dataProvider/request',
     'ui/component',
+    'ui/generis/form/widgets/checkBox/checkBox',
     'ui/generis/form/widgets/comboBox/comboBox',
     'ui/generis/form/widgets/hiddenBox/hiddenBox',
     'ui/generis/form/widgets/textBox/textBox',
@@ -34,6 +35,7 @@ define([
     __,
     request,
     componentFactory,
+    checkBoxFactory,
     comboBoxFactory,
     hiddenBoxFactory,
     textBoxFactory,
@@ -44,6 +46,7 @@ define([
 
 
     var _widgetFactories = {
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox': checkBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox': comboBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox': hiddenBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox': textBoxFactory
@@ -88,6 +91,24 @@ define([
             },
 
             /**
+             * Serialize form data into array of objects
+             * @param {Function} [callback]
+             * @returns {Array|this}
+             */
+            serialize: function serialize(callback) {
+                var ret = _.map(_.values(this.fields), function (field) {
+                    return field.serialize();
+                });
+
+                if (typeof callback === 'function') {
+                    callback.apply(this, [ret]);
+                    return this;
+                }
+
+                return ret;
+            },
+
+            /**
              * Sets a field value on the form
              * @param {String} uri
              * @param {String} value
@@ -111,6 +132,24 @@ define([
             },
 
             /**
+             * Submit form
+             * @returns {Promise}
+             */
+            submit: function submit(callback) {
+                var promise = request(
+                    this.config.form.action,
+                    this.serialize(),
+                    this.config.form.method
+                );
+
+                if (typeof callback === 'function') {
+                    callback.apply(this, [promise]);
+                }
+
+                return promise;
+            },
+
+            /**
              * Validate form
              * @param {Function} [callback]
              * @returns {Boolean}
@@ -130,24 +169,6 @@ define([
                 }
 
                 return isValid;
-            },
-
-            /**
-             * Submit form
-             * @returns {Promise}
-             */
-            submit: function submit(callback) {
-                var promise = request(
-                    this.config.form.action,
-                    $(this.getElement()).serializeArray(),
-                    this.config.form.method
-                );
-
-                if (typeof callback === 'function') {
-                    callback.apply(this, [promise]);
-                }
-
-                return promise;
             },
 
             /**
@@ -252,8 +273,6 @@ define([
 
             // Handle submit
             $form.on('submit', function (e) {
-                var $this = $(this);
-
                 e.preventDefault();
 
                 if (self.validate()) {

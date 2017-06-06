@@ -21,7 +21,7 @@ define([
     'lodash',
     'i18n',
     'ui/generis/form/widgets/_widget',
-    'tpl!ui/generis/form/widgets/hiddenBox/hiddenBox',
+    'tpl!ui/generis/form/widgets/checkBox/checkBox',
     'css!tao/ui/generis/form/widgets/_widget'
 ], function(
     $,
@@ -40,22 +40,19 @@ define([
         return widgetFactory()
         .setTemplate(tpl)
         .on('init', function () {
-            // Initialization
-            this.config.confirmation = this.config.value;
-
-            // Override get function
+            // Overrides get
             this.get = function (callback) {
-                var ret = [this.config.value || '', this.config.confirmation || ''];
+                var ret = this.config.values;
 
                 if (this.is('rendered')) {
-                    ret = [
-                        this.getElement()
-                        .find('[name="' + this.config.uri + '"]')
-                        .val(),
-                        this.getElement()
-                        .find('[name="' + this.config.uri + '_confirmation"]')
-                        .val()
-                    ];
+                    ret = _(this.getElement().find('.checkbox > .option > input'))
+                    .filter(function (input) {
+                        return $(input).is(':checked');
+                    })
+                    .map(function (input) {
+                        return $(input).val();
+                    })
+                    .value();
                 }
 
                 if (typeof callback === 'function') {
@@ -65,46 +62,24 @@ define([
 
                 return ret;
             };
-
-            // Override serialize function
-            this.serialize = function (callback) {
-                var ret = {
-                    name: this.config.uri,
-                    value: this.get()[0]
-                };
-
-                if (typeof callback === 'function') {
-                    callback.apply(this, [ret]);
-                    return this;
-                }
-
-                return ret;
-            };
-
-            this.validations.push({
-                predicate: function (values) {
-                    return values[0] === values[1];
-                },
-                message: 'Passwords must match'
-            });
         })
         .on('render', function () {
-            var $el = this.getElement();
+            var $options = this.getElement().find('.checkbox > .option');
+
+            // Mark all applicable options as checked
+            _.each(this.config.values, function (value) {
+                $options.find('[name="' + value + '"]').prop('checked', true);
+            });
 
             // Override required validation
             if (this.config.required) {
                 this.validations.shift();
-
-                if (this.config.value) {
-                    $el.find('label > abbr').remove();
-                } else {
-                    this.validations.unshift({
-                        predicate: function (values) {
-                            return /\S+/.test(values[0]);
-                        },
-                        message: 'This field is required'
-                    });
-                }
+                this.validations.unshift({
+                    predicate: function (values) {
+                        return !!values.length;
+                    },
+                    message: 'This field is required'
+                });
             }
         });
     }
