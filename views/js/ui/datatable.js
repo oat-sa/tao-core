@@ -177,6 +177,7 @@ define([
          *
          * @private
          * @param {jQueryElement} $elt - plugin's element
+         * @param $filter
          * @fires dataTable#query.datatable
          */
         _query: function($elt, $filter) {

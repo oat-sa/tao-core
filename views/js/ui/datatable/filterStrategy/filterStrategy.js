@@ -30,14 +30,16 @@ define([
 ], function ($, _, __, providerRegistry, multipleStrategy, singleStrategy) {
     'use strict';
 
+    var filter;
+
     /**
      * Datatable filter strategy
-     * @param {Object} options
+     * @param {Object} datatableOptions
      */
     function filterStrategy(datatableOptions) {
         var strategy;
 
-        var filter = {
+        var filterElement = {
             /**
              * Init filter strategy
              */
@@ -63,11 +65,10 @@ define([
             }
         };
 
-        return filter.init();
+        return filterElement.init();
     }
 
-    var filter = providerRegistry(filterStrategy);
-
+    filter = providerRegistry(filterStrategy);
     filter.registerProvider('single', singleStrategy);
     filter.registerProvider('multiple', multipleStrategy);
 
