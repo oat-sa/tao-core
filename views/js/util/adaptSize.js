@@ -37,6 +37,14 @@ define([
          */
         var _resize = function ($elements, dimensions) {
 
+            function calculateDimensions() {
+                for (var dimension in dimensions) {
+                    if (dimensions.hasOwnProperty(dimension)) {
+                        dimensions[dimension] = Math.max(Math.floor(dimensions[dimension] || 0), $(this)['outer' + capitalize(dimension)]());
+                    }
+                }
+            }
+
             // This whole function is based on calculating the largest height/width.
             // Therefor the elements need to have style.height/width to be removed
             // otherwise we could never track when something is actually getting smaller than before.
@@ -49,11 +57,10 @@ define([
             });
 
             $elements.each(function () {
-                for (var dimension in dimensions) {
-                    if (dimensions.hasOwnProperty(dimension)) {
-                        dimensions[dimension] = Math.max(Math.floor(dimensions[dimension] || 0), $(this)['outer' + capitalize(dimension)]());
-                    }
-                }
+                var images = $('img', this);
+                images.bind('load', function() {
+                    calculateDimensions();
+                });
             });
 
             $elements.css(dimensions);
