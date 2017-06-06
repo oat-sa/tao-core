@@ -22,9 +22,8 @@
  */
 define([
     'jquery',
-    'lodash',
-    'i18n'
-], function ($, _, __) {
+    'lodash'
+], function ($, _) {
     'use strict';
 
     var filter = {
@@ -40,6 +39,10 @@ define([
             var model = _.find(options.model, function (o) {
                 return o.id === column;
             });
+
+            if ($filter.length === 0) {
+                return;
+            }
 
             data.filterquery = $filter.find(':input').filter(function () {
                 return $(this).val();
@@ -60,6 +63,10 @@ define([
         getFiltersData : function getFiltersData($table, $filter, options) {
             var data = {};
             var column = $filter.data('column');
+
+            if ($filter.length === 0) {
+                return;
+            }
 
             data.filterquery = $filter.find(':input').filter(function () {
                 return $(this).val();
