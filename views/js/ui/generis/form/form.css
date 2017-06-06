@@ -3,6 +3,7 @@
     border: 1px solid #ddd;
     border-radius: 2px;
     padding: 20px;
+    position: relative;
     margin: 20px;
     width: 500px;
 }
@@ -18,4 +19,24 @@
     height: 30px;
     margin: 0 4px;
     text-shadow: 1px 1px 0 #0b4a74;
+}
+
+.ui-form.loading::before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90px;
+    height: 90px;
+    margin-top: -45px;
+    margin-left: -45px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    border-top-color: #07d;
+    animation: spinner .6s linear infinite;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
 }

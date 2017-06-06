@@ -267,21 +267,26 @@ define([
             var self = this;
 
             // Render fields
+            this.setState('loading', true).setState('disabled', true);
             _.each(this.fields, function (field) {
                 field.render($form.find('fieldset'));
             });
+            this.setState('loading', false).setState('disabled', false);
 
             // Handle submit
             $form.on('submit', function (e) {
                 e.preventDefault();
 
                 if (self.validate()) {
+                    self.setState('loading', true).setState('disabled', true);
                     self.submit()
                     .then(function (data) {
                         console.log('success', data);
+                        self.setState('loading', false).setState('disabled', false);
                     })
                     .catch(function (error) {
                         console.log('error', error);
+                        self.setState('loading', false).setState('disabled', false);
                     });
                 }
 
