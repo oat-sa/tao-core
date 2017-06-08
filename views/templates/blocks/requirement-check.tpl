@@ -1,6 +1,7 @@
 <?php
 use oat\tao\helpers\Template;
 ?>
+<?php Template::inc('blocks/careers.tpl', 'tao'); ?>
 <div id="js-check" class="feedback-error check-msg">
     <span class="icon-error"></span><?=__('You must activate JavaScript in your browser to run this application.')?>
 </div>
