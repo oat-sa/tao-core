@@ -336,7 +336,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      * @return $this
      */
     public function finalise(ResponseInterface $response) {
-        $this->getEventTrigger()->forward($this->getRequest() , $response);
+        $this->getEventTrigger()->finalise($this->getRequest() , $response);
 
         if(!headers_sent()) {
 
