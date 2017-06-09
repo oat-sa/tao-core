@@ -22,7 +22,8 @@
 
 require_once dirname(__FILE__) . '/../install/init.php';
 
-new tao_scripts_TaoInstall([
+// Setting install details.
+$installDetails = [
 	'min'		=> 5,
 	'parameters' => [
 		[
@@ -139,7 +140,10 @@ new tao_scripts_TaoInstall([
         	'name'			=> 'operated_by_email',
         	'type'			=> 'string',
         	'description'	=> 'Email of the organization operating the system.'
-        ]
-	]
-]);
-?>
+        ],
+	],
+];
+
+// Running the service.
+$container->offsetSet(tao_scripts_TaoInstall::CONTAINER_INDEX, $installDetails);
+new tao_scripts_TaoInstall($container);

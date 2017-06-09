@@ -24,7 +24,6 @@ use Psr\Log\LogLevel;
 
 class Error extends Verbose
 {
-
     /**
      * Check if params array contains targeted arguments, Short and Long
      * In case of Long, check is done is following param argument
@@ -34,6 +33,8 @@ class Error extends Verbose
      */
     public function isApplicable(array $params)
     {
+        $this->setOutputColorVisibility($params);
+
         return $this->hasParameter($params, '-v') || $this->hasParameter($params, '--verbose', 1);
     }
 
