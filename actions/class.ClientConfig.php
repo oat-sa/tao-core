@@ -60,6 +60,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         /** @var AssetService $assetService */
         $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         $tao_base_www = $assetService->getJsBaseWww('tao');
+        $this->setData('buster', $assetService->getCacheBuster());
 
         $base_www = $assetService->getJsBaseWww($resolver->getExtensionId());
         $base_url = $this->getExtension($resolver->getExtensionId())->getConstant('BASE_URL');
@@ -88,7 +89,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
             'action'         => $resolver->getMethodName(),
             'shownExtension' => $this->getShownExtension(),
             'shownStructure' => $this->getShownStructure(),
-            'bundle'         => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION) 
+            'bundle'         => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION)
         ]));
 
         $this->setView('client_config.tpl');
