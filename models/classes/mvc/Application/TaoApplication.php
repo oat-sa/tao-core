@@ -57,6 +57,11 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      */
     protected $resolution;
 
+    /**
+     * @var ApplicationEventTrigger
+     */
+    protected $eventTrigger;
+
     public function __construct(array $options = array())
     {
         parent::__construct($options);
@@ -82,6 +87,17 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         if($this->hasOption('errorHandler')) {
             $this->errorHandler = $this->getOption('errorHandler');
         }
+    }
+
+    /**
+     * @return ApplicationEventTrigger
+     */
+    protected function getEventTrigger() {
+        if(is_null($this->eventTrigger)) {
+            $this->eventTrigger = new ApplicationEventTrigger();
+            $this->eventTrigger->setServiceLocator($this->getServiceLocator());
+        }
+        return $this->eventTrigger;
     }
 
     /**
@@ -230,6 +246,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
 
 
     protected function process(ServerRequestInterface $request , ResponseInterface $response) {
+        $this->getEventTrigger()->run($request , $response);
         $path     = $this->getPath($request);
         $args     = [];
 
@@ -237,6 +254,8 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
             $args['route'] = $route;
 
             $resolution         = $route->resolve($path);
+            $this->getEventTrigger()->routing($request , $response);
+
 
             $args['resolution'] = $resolution;
             $args['controller'] = $resolution->getController();
@@ -267,6 +286,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
             'exception' => $Exception
         ];
         $response = new Response();
+        $this->getEventTrigger()->error($request , $response);
         return $this->executeProcess($this->errorHandler , $request , $response , $args);
     }
 
@@ -275,8 +295,11 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      */
     public function run()
     {
+
         $response = $this->getResponse();
         $request  = $this->getRequest();
+
+        $this->getEventTrigger()->boot($request , $response);
 
         try {
             $response = $this->process($request , $response);
@@ -302,6 +325,9 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         $newUri = $newRequest->getUri();
         $request = $this->getRequest()->withUri($newUri)->withQueryParams($queryParams);
         $this->setRequest($request);
+
+        $this->getEventTrigger()->forward($request , $this->response);
+
         $this->run()->end();
     }
 
@@ -310,7 +336,7 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
      * @return $this
      */
     public function finalise(ResponseInterface $response) {
-
+        $this->getEventTrigger()->forward($this->getRequest() , $response);
 
         if(!headers_sent()) {
 
@@ -324,12 +350,13 @@ class TaoApplication extends ConfigurableService implements ApplicationInterface
         $body = $response->getBody();
         $body->rewind();
         echo $body->getContents();
-
+        $this->getEventTrigger()->render($this->getRequest() , $response);
         return $this;
     }
 
 
     public function end() {
+        $this->getEventTrigger()->end($this->getRequest() , $this->getResponse());
         exit();
     }
 
