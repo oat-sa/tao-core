@@ -21,6 +21,7 @@
 namespace oat\tao\model\cliArgument\argument\implementation\verbose;
 
 use oat\oatbox\action\Action;
+use oat\oatbox\log\ColoredVerboseLogger;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\log\VerboseLogger;
 use oat\oatbox\PhpSerializable;
@@ -34,6 +35,23 @@ abstract class Verbose implements Argument, ServiceLocatorAwareInterface, PhpSer
 {
     use ServiceLocatorAwareTrait;
     use PhpSerializeStateless;
+
+    /**
+     * @var bool
+     */
+    protected $hideColors = false;
+
+    /**
+     * Sets the output color's visibility.
+     *
+     * @param array $params
+     */
+    protected function setOutputColorVisibility(array $params)
+    {
+        if ($this->hasParameter($params, '-nc') || $this->hasParameter($params, '--no-color')) {
+            $this->hideColors = true;
+        }
+    }
 
     /**
      * Return the Psr3 logger level minimum to send log to logger
@@ -54,7 +72,11 @@ abstract class Verbose implements Argument, ServiceLocatorAwareInterface, PhpSer
         if ($action instanceof LoggerAwareInterface) {
             $action->setLogger(
                 $this->getServiceLocator()->get(LoggerService::SERVICE_ID)
-                    ->addLogger(new VerboseLogger($this->getMinimumLogLevel()))
+                    ->addLogger(
+                        $this->hideColors
+                            ? new VerboseLogger($this->getMinimumLogLevel())
+                            : new ColoredVerboseLogger($this->getMinimumLogLevel())
+                    )
             );
         }
     }
