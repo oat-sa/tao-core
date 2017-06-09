@@ -19,22 +19,38 @@
  *
  */
 
-require_once dirname(__FILE__) .'/../install/init.php';
+$params = $argv;
+array_shift($params);
+$filePath = array_shift($params);
 
-$parms = $argv;
-array_shift($parms);
-
-if (count($parms) != 1) {
-    echo 'Usage: '.__FILE__.' CONFIG_FILE_PATH '.PHP_EOL;
-    die(1);
+if (empty($filePath) || ($filePath !== ltrim($filePath, '-'))) {
+    echo 'Usage: '.__FILE__.' [CONFIG_FILE_PATH] [OPTION]' . PHP_EOL;
+    echo '   -v    | --verbose 1   verbose mode(error level)' . PHP_EOL;
+    echo '   -vv   | --verbose 2   verbose mode(error & notice levels)' . PHP_EOL;
+    echo '   -vvv  | --verbose 3   verbose mode(error & notice & info levels)' . PHP_EOL;
+    echo '   -vvvv | --verbose 4   verbose mode(all levels)' . PHP_EOL;
+    echo '   -nc   | --no-color    removing colors from the output' . PHP_EOL;
+    echo 'Example:' . PHP_EOL;
+    echo '   ' . __FILE__ . ' taoConfig.json -vv' . PHP_EOL;
+    echo '   ' . __FILE__ . ' taoConfig.json -vvvv -nc' . PHP_EOL;
+    exit(1);
 }
 
-$filepath = array_shift($parms);
+try {
+    require_once dirname(__FILE__) .'/../install/init.php';
 
-$script = new tao_install_Setup();
+    // Adding file path to the dependency container.
+    $container->offsetSet(tao_install_Setup::CONTAINER_INDEX, array($filePath));
 
-/** @var common_report_Report $report */
-$report = call_user_func($script, array($filepath));
+    $script = new tao_install_Setup();
+    call_user_func($script, $container);
+}
+catch (Exception $e) {
+    $container->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)
+        ->getLogger()
+        ->error($e->getMessage());
 
-echo helpers_Report::renderToCommandLine($report);
-
+    if (PHP_SAPI == 'cli') {
+        exit($e->getCode() == 0 ? 1 : $e->getCode());
+    }
+}

@@ -17,7 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 /**
@@ -31,6 +31,8 @@
 class tao_scripts_TaoInstall
     extends tao_scripts_Runner
 {
+	const CONTAINER_INDEX = 'taoScriptsInstall';
+
     // --- ASSOCIATIONS ---
 
 
@@ -47,33 +49,34 @@ class tao_scripts_TaoInstall
      */
     public function preRun()
     {
-        
         $root_path = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR;
         
     	$this->options = array (
-			"db_driver"	=>			"mysql"
-			, "db_host"	=>			"localhost"
-			, "db_name"	=>			null
-			, "db_pass"	=>			""
-			, "db_user"	=>			"tao"
-			, "install_sent"	=>	"1"
-			, "module_host"	=>		"tao.local"
-			, "module_lang"	=>		"en-US"
-			, "module_mode"	=>		"debug"
-			, "module_name"	=>		"mytao"
-			, "module_namespace" =>	""
-			, "module_url"	=>		""
-			, "submit"	=>			"Install"
-			, "user_email"	=>		""
-			, "user_firstname"	=>	""	
-			, "user_lastname"	=>	""
-			, "user_login"	=>		""
-			, "user_pass"	=>		""
-			, "import_local" => 	true
-			, "instance_name" =>	null
-			, "extensions" =>		null
-    	    , 'timezone'   =>      date_default_timezone_get()
-    	    , "file_path" =>        $root_path.'data'.DIRECTORY_SEPARATOR
+			'db_driver'	=> 'mysql',
+            'db_host' => 'localhost',
+            'db_name' => null,
+            'db_pass' => '',
+            'db_user' => 'tao',
+            'install_sent'	=> '1',
+            'module_host'	=> 'tao.local',
+            'module_lang'	=> 'en-US', 
+            'module_mode'	=> 'debug',
+            'module_name'	=> 'mytao',
+            'module_namespace' => '', 
+            'module_url'	=> '',
+            'submit'	=> 'Install',
+            'user_email'	=> '', 
+            'user_firstname'	=> '',
+            'user_lastname'	=> '',
+            'user_login'	=> '',
+            'user_pass'	=> '', 
+            'import_local' => true,
+            'instance_name' => null,
+            'extensions' => null, 
+            'timezone'   => date_default_timezone_get(),
+            'file_path' => $root_path . 'data' . DIRECTORY_SEPARATOR,
+            'operated_by_name' => null,
+            'operated_by_email' => null
 		);
     	
     	$this->options = array_merge($this->options, $this->parameters);
@@ -95,7 +98,7 @@ class tao_scripts_TaoInstall
     		$this->options['module_url'] = 'http://' . $this->options['module_host'];
     	}
     	
-        
+        $this->logDebug('Install was started with the given parameters: ' . PHP_EOL . var_export($this->options, true));
     }
 
     /**
@@ -107,29 +110,32 @@ class tao_scripts_TaoInstall
      */
     public function run()
     {
-        
-        
-    	$this->outVerbose("TAO is being installed. Please wait...");
+    	$this->logNotice("TAO is being installed. Please wait...");
     	try{
 	        $rootDir = dir(dirname(__FILE__) . '/../../');
 			$root = isset($this->parameters["root_path"])
                 ? $this->parameters["root_path"]
                 : realpath($rootDir->path) . DIRECTORY_SEPARATOR;
-			
-	        $installator = new tao_install_Installator (array(
-				'root_path' 	=> $root,
-				'install_path'	=> $root.'tao/install/'
-			));
-			
+
+			// Setting the installator dependencies.
+			$this->getContainer()->offsetSet(
+				tao_install_Installator::CONTAINER_INDEX,
+                array(
+                    'root_path' 	=> $root,
+                    'install_path'	=> $root.'tao/install/'
+                )
+			);
+
+	        $installator = new tao_install_Installator ($this->getContainer());
+
 			// mod rewrite cannot be detected in CLI Mode.
 			$installator->escapeCheck('custom_tao_ModRewrite');
 			$installator->install($this->options);
     	}
     	catch (Exception $e){
-    		$this->err("A fatal error occured during installation: " . $e->getMessage(), true);
+    		$this->logError("A fatal error occured during installation: " . $e->getMessage());
+    		$this->handleError($e);
     	}
-		
-        
     }
 
     /**
@@ -141,11 +147,7 @@ class tao_scripts_TaoInstall
      */
     public function postRun()
     {
-        
-        $this->outVerbose("Installation successful.");
-        
+        $this->logNotice("Installation successful.");
     }
 
 }
-
-?>

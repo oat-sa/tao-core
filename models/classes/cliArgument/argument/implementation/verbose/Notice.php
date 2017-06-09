@@ -33,6 +33,8 @@ class Notice extends Verbose
      */
     public function isApplicable(array $params)
     {
+        $this->setOutputColorVisibility($params);
+
         return $this->hasParameter($params, '-vv') || $this->hasParameter($params, '--verbose', 2);
     }
 

@@ -33,6 +33,8 @@ class Debug extends Verbose
      */
     public function isApplicable(array $params)
     {
+        $this->setOutputColorVisibility($params);
+
         return $this->hasParameter($params, '-vvvv') || $this->hasParameter($params, '--verbose', 4);
     }
 

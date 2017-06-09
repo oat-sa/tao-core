@@ -30,7 +30,7 @@ class ArgumentService extends ArgumentLoader
 
     /**
      * Get arguments from config and check if there are applicable
-     * In case of yes, proccess them
+     * In case of yes, process them
      *
      * @param Action $action
      * @param array $params
