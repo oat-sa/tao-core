@@ -789,7 +789,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-
         $this->skip('9.2.0', '10.10.0');
 
         if ($this->isVersion('10.10.0')) {
@@ -802,7 +801,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.11.0', '10.12.0');
-        
+
         if ($this->isVersion('10.12.0')) {
 
             $this->getServiceManager()->register(
@@ -815,8 +814,17 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('10.13.0');
         }
-        
-        $this->skip('10.13.0', '10.14.0');
+
+        $this->skip('10.13.0', '10.15.0');
+
+        if ($this->isVersion('10.15.0')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
+            );
+            $this->setVersion('10.16.0');
+        }
+
+        $this->skip('10.16.0', '10.19.1');
     }
 
     private function migrateFsAccess() {

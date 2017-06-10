@@ -23,9 +23,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use oat\tao\model\websource\FlyTokenWebSource;
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\SimpleConfigDriver;
+use oat\tao\model\mvc\Bootstrap;
 
 $url = $_SERVER['REQUEST_URI'];
 $rel = substr($url, strpos($url, FlyTokenWebSource::ENTRY_POINT) + strlen(FlyTokenWebSource::ENTRY_POINT));
@@ -34,25 +33,18 @@ list ($webSourceId) = $parts;
 $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
 
 $root = dirname(__DIR__);
-$driver = new SimpleConfigDriver();
-$configService = $driver->connect('config', array(
-    'dir' => $root .DIRECTORY_SEPARATOR. 'config' .DIRECTORY_SEPARATOR,
-    'humanReadable' => true
-));
-$serviceManager = new ServiceManager($configService);
+$bootstrap = new Bootstrap($root .DIRECTORY_SEPARATOR. 'config' .DIRECTORY_SEPARATOR . 'generis.conf.php');
 
-$configPath = $root . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'tao' . DIRECTORY_SEPARATOR . 'websource_' . $webSourceId . '.conf.php';
-
-if (!file_exists($configPath)) {
-    header('HTTP/1.0 403 Forbidden');
-    die();
-}
-
-$config = include $configPath;
+$serviceManager = $bootstrap->getServiceLocator();
+/** @var common_ext_ExtensionsManager $e */
+$e =  $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
+$config = $e->getExtensionById('tao')->getConfig('websource_' . $webSourceId);
+//$config = include $configPath;
 if (!is_array($config) || !isset($config['className'])) {
     header('HTTP/1.0 403 Forbidden');
     die();
 }
+
 $className = $config['className'];
 $options = isset($config['options']) ? $config['options'] : array();
 $source = new $className($options);
