@@ -807,8 +807,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(
                 OperatedByService::SERVICE_ID,
                 new OperatedByService([
-                    'operatedByName' => 'Open Assessment Technologies S.A.',
-                    'operatedByEmail' => 'contact@taotesting.com'
+                    'operatedByName' => '',
+                    'operatedByEmail' => ''
                 ])
             );
 
