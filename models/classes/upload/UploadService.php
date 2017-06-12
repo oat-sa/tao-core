@@ -117,7 +117,7 @@ class UploadService extends ConfigurableService
      */
     public function universalizeUpload($file)
     {
-        if (is_string($file) && is_file($file)) {
+        if ((is_string($file) && is_file($file)) || $file instanceof File) {
             return $file;
         }
 
@@ -236,9 +236,13 @@ class UploadService extends ConfigurableService
      */
     public function getUserDirectoryHash()
     {
+        $userId = \common_session_SessionManager::getSession()->getUser()->getIdentifier();
+        if ($userId === null) {
+            $userId = 'cli';
+        }
         return hash(
             'crc32b',
-            \common_session_SessionManager::getSession()->getUser()->getIdentifier()
+            $userId
         );
     }
 
