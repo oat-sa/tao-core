@@ -117,7 +117,7 @@ class UploadService extends ConfigurableService
      */
     public function universalizeUpload($file)
     {
-        if (is_string($file) && is_file($file)) {
+        if ((is_string($file) && is_file($file)) || $file instanceof File) {
             return $file;
         }
 
