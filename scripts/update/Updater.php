@@ -840,9 +840,9 @@ class Updater extends \common_ext_ExtensionUpdater {
                         $action->getName(),
                         $action->getRules(),
                         array(
-                            $request->getExtensionId(),
-                            $request->getControllerShortName(),
                             $request->getMethodName(),
+                            $request->getControllerShortName(),
+                            $request->getExtensionId(),
                         )
                     );
                     $updated = true;
@@ -853,7 +853,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $requiredActionService->setOption(RequiredActionService::OPTION_REQUIRED_ACTIONS, $actions);
                 $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
             }
-            $this->setVersion('10.9.4');
+            $this->setVersion('10.19.4');
         }
     }
 
