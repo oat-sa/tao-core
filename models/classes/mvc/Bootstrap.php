@@ -21,8 +21,8 @@
  */
 namespace oat\tao\model\mvc;
 
+use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
-use oat\oatbox\service\SimpleConfigDriver;
 use oat\tao\helpers\Template;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\mvc\Application\ApplicationInterface;
@@ -90,7 +90,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
 
         require_once $configuration;
         $serviceManager = new ServiceManager(
-            (new SimpleConfigDriver())->connect('config', array(
+            (new ServiceConfigDriver())->connect('config', array(
                 'dir' => dirname($configuration),
                 'humanReadable' => true
             ))

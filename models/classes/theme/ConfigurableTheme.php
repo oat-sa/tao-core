@@ -160,5 +160,4 @@ class ConfigurableTheme extends Configurable implements Theme
             return '';
         }
     }
-
 }
