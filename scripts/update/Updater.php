@@ -807,8 +807,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(
                 OperatedByService::SERVICE_ID,
                 new OperatedByService([
-                    'operatedByName' => '',
-                    'operatedByEmail' => ''
+                    'operatedByName' => 'Open Assessment Technologies S.A.',
+                    'operatedByEmail' => 'contact@taotesting.com'
                 ])
             );
 
@@ -824,7 +824,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.16.0');
         }
 
-        $this->skip('10.16.0', '10.19.4');
+        $this->skip('10.16.0', '10.19.3');
+        
+        if ($this->isVersion('10.19.3')) {
+            $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
+            $operatedByService->setName('');
+            $operatedByService->setEmail('');
+            
+            $this->setVersion('10.19.4');
+        }
     }
 
     private function migrateFsAccess() {
