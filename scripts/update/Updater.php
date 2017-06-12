@@ -828,9 +828,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         
         if ($this->isVersion('10.19.3')) {
             $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
+            
             $operatedByService->setName('');
             $operatedByService->setEmail('');
             
+            this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             $this->setVersion('10.19.4');
         }
     }
