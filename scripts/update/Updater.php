@@ -44,6 +44,9 @@ use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
+use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -825,6 +828,33 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.16.0', '10.19.3');
+
+        if ($this->isVersion('10.19.3')) {
+            $requiredActionService = $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
+            $actions = $requiredActionService->getOption(RequiredActionService::OPTION_REQUIRED_ACTIONS);
+            $updated = false;
+            foreach ($actions as $key => $action) {
+                if (is_a($action, 'oat\tao\model\requiredAction\implementation\RequiredActionRedirect')) {
+                    $request = new Resolver(new \common_http_Request($action->getUrl()));
+                    $actions[$key] = new RequiredActionRedirectUrlPart(
+                        $action->getName(),
+                        $action->getRules(),
+                        array(
+                            $request->getExtensionId(),
+                            $request->getControllerShortName(),
+                            $request->getMethodName(),
+                        )
+                    );
+                    $updated = true;
+                }
+            }
+
+            if ($updated) {
+                $requiredActionService->setOption(RequiredActionService::OPTION_REQUIRED_ACTIONS, $actions);
+                $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
+            }
+            $this->setVersion('10.9.4');
+        }
     }
 
     private function migrateFsAccess() {
