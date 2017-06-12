@@ -236,13 +236,9 @@ class UploadService extends ConfigurableService
      */
     public function getUserDirectoryHash()
     {
-        $userId = \common_session_SessionManager::getSession()->getUser()->getIdentifier();
-        if ($userId === null) {
-            $userId = 'cli';
-        }
         return hash(
             'crc32b',
-            $userId
+            \common_session_SessionManager::getSession()->getUser()->getIdentifier()
         );
     }
 
