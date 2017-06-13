@@ -856,7 +856,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $urlService->setRoute('logout' , $route);
             $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
-            $this->setVersion('10.19.5');
+            $this->setVersion('10.20.0');
         }
 
     }
