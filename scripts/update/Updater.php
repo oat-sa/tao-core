@@ -41,9 +41,13 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
+use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -836,7 +840,55 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.19.4');
         }
 
-        $this->skip('10.19.4', '10.20.0');
+        if ($this->isVersion('10.19.4')) {
+            /**
+             * @var $urlService DefaultUrlService
+             */
+            $urlService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+
+            $route = $urlService->getRoute('logout');
+
+            $route['redirect'] =  [
+                'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                'options' => [
+                    'action' => 'entry',
+                    'controller' => 'Main',
+                    'ext' => 'tao'
+                ]
+            ];
+
+            $urlService->setRoute('logout' , $route);
+            $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
+            $this->setVersion('10.20.0');
+        }
+        
+        if ($this->isVersion('10.20.0')) {
+            $requiredActionService = $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
+            $actions = $requiredActionService->getOption(RequiredActionService::OPTION_REQUIRED_ACTIONS);
+            $updated = false;
+            foreach ($actions as $key => $action) {
+                if (is_a($action, 'oat\tao\model\requiredAction\implementation\RequiredActionRedirect')) {
+                    $request = new Resolver(new \common_http_Request($action->getUrl()));
+                    $actions[$key] = new RequiredActionRedirectUrlPart(
+                        $action->getName(),
+                        $action->getRules(),
+                        array(
+                            $request->getMethodName(),
+                            $request->getControllerShortName(),
+                            $request->getExtensionId(),
+                        )
+                    );
+                    $updated = true;
+                }
+            }
+
+            if ($updated) {
+                $requiredActionService->setOption(RequiredActionService::OPTION_REQUIRED_ACTIONS, $actions);
+                $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
+            }
+            $this->setVersion('10.21.0');
+        }
+        $this->skip('10.21.0', '10.22.0');
     }
 
     private function migrateFsAccess() {
