@@ -57,7 +57,7 @@ $entryArrowHeight: 150;
         }
     }
     a {
-        height: $entryArrowHeight * 1px;
+        min-height: $entryArrowHeight * 1px;
     }
     .entry-point {
 
@@ -71,7 +71,7 @@ $entryArrowHeight: 150;
             border-bottom-width: (($entryArrowHeight / 4) / 2) * 1px;
             position: absolute;
             left: -1px;
-            bottom: 54px;
+            top: 54px;
             z-index: 2;
         }
 

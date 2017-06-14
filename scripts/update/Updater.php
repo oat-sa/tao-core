@@ -835,6 +835,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             $this->setVersion('10.19.4');
         }
+
+        $this->skip('10.19.4', '10.19.5');
     }
 
     private function migrateFsAccess() {
