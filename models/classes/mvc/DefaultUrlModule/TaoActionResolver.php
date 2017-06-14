@@ -37,7 +37,9 @@ class TaoActionResolver implements RedirectResolveInterface
      */
     public function resolve(array $options)
     {
-        return _url($options['action'], $options['controller'], $options['ext'], $options['params']);
+        $params = (isset($options['params'])) ? $options['params'] : [];
+        
+        return _url($options['action'], $options['controller'], $options['ext'], $params);
     }
 
 
