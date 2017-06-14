@@ -107,6 +107,9 @@ class DefaultUrlService extends ConfigurableService
         if($this->hasOption($name)) {
             $options = $this->getOption($name);
             if(array_key_exists('redirect', $options)) {
+                if(is_string($options['redirect']) && filter_var($options['redirect'] ,FILTER_VALIDATE_URL )) {
+                    return $options['redirect'];
+                }
                 return $this->resolveRedirect($options['redirect']);
             }
         }

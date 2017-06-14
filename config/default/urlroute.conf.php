@@ -14,7 +14,7 @@ return new \oat\tao\model\mvc\DefaultUrlService(
                     'controller' => 'Main',
                     'action'     => 'login',
                 ],
-                'logout' => 
+                'logout' =>
                 [
                     'ext'        => 'tao',
                     'controller' => 'Main',
