@@ -826,13 +826,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.16.0', '10.19.3');
-        
+
         if ($this->isVersion('10.19.3')) {
             $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
-            
+
             $operatedByService->setName('');
             $operatedByService->setEmail('');
-            
+
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             $this->setVersion('10.19.4');
         }
@@ -858,6 +858,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
             $this->setVersion('10.20.0');
         }
+
+        $this->skip('10.20.0', '10.21.0');
 
     }
 
