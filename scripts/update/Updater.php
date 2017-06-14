@@ -41,6 +41,7 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
@@ -828,8 +829,40 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.16.0', '10.19.3');
-
+        
         if ($this->isVersion('10.19.3')) {
+            $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
+            
+            $operatedByService->setName('');
+            $operatedByService->setEmail('');
+            
+            $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
+            $this->setVersion('10.19.4');
+        }
+
+        if ($this->isVersion('10.19.4')) {
+            /**
+             * @var $urlService DefaultUrlService
+             */
+            $urlService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+
+            $route = $urlService->getRoute('logout');
+
+            $route['redirect'] =  [
+                'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                'options' => [
+                    'action' => 'entry',
+                    'controller' => 'Main',
+                    'ext' => 'tao'
+                ]
+            ];
+
+            $urlService->setRoute('logout' , $route);
+            $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
+            $this->setVersion('10.20.0');
+        }
+        
+        if ($this->isVersion('10.20.0')) {
             $requiredActionService = $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
             $actions = $requiredActionService->getOption(RequiredActionService::OPTION_REQUIRED_ACTIONS);
             $updated = false;
@@ -853,7 +886,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $requiredActionService->setOption(RequiredActionService::OPTION_REQUIRED_ACTIONS, $actions);
                 $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
             }
-            $this->setVersion('10.19.4');
+            $this->setVersion('10.21.0');
         }
     }
 
