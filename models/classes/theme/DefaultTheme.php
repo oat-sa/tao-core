@@ -31,6 +31,8 @@ use oat\oatbox\Configurable;
  */
 class DefaultTheme extends Configurable implements Theme
 {
+    private $allTexts;
+
     public function getId()
     {
         return 'default';
@@ -78,14 +80,29 @@ class DefaultTheme extends Configurable implements Theme
     }
 
     /**
+     * Define all custom text
+     * return [
+     *  'myCustomTextId' => __('My custom text translation');
+     * ];
+     * @return array
+     */
+    protected function initializeTexts()
+    {
+        return [];
+    }
+
+    /**
      * Allow to set a custom translatable string for a given key
      * @param String $key
      * @return string
      */
     public function getText($key) {
-        switch ($key) {
-            default: return __(''); break;
+        if (empty($this->allTexts)) {
+            $this->allTexts = $this->initializeTexts();
         }
+        return (array_key_exists($key, $this->allTexts))
+            ? $this->allTexts[$key]
+            : '';
     }
 
     /**
@@ -102,4 +119,16 @@ class DefaultTheme extends Configurable implements Theme
         }
         return $allValues;
     }
+
+    /**
+     * Retrieve all existing strings
+     * @return array
+     */
+    public function getAllTexts() {
+        if (empty($this->allTexts)) {
+            $this->allTexts = $this->initializeTexts();
+        }
+        return $this->allTexts;
+    }
+
 }
