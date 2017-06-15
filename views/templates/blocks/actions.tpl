@@ -1,5 +1,7 @@
 <?php
 use oat\tao\helpers\Layout;
+
+$token = get_data('token');
 ?>
 
     <?php foreach (get_data('actions') as $action): ?>
@@ -7,7 +9,8 @@ use oat\tao\helpers\Layout;
         id="<?=$action->getId()?>"
         title="<?= __($action->getName()) ?>"
         data-context="<?= $action->getContext() ?>"
-        data-action="<?= $action->getBinding() ?>">
+        data-action="<?= $action->getBinding() ?>"
+        data-token="<?= $token ?>">
         <a class="li-inner" href="<?= $action->getUrl(); ?>">
             <?= Layout::renderIcon( $action->getIcon(), ' icon-magicwand'); ?> <?= __($action->getName()) ?>
         </a>

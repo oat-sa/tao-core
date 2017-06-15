@@ -304,7 +304,16 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('shownStructure', $structure);
 
         $this->setData('current-section', $this->getRequestParameter('section'));
-		                
+
+        // Replace
+        // $tokenElt = tao_helpers_form_FormFactory::getElement('token', 'Token');
+        // $tokenElt->addValidator(new XsrfTokenValidator());
+        // $this->form->addElement($tokenElt);
+
+        // Add csrf token
+        // $token = ...
+        // $this->setData('token', $token);
+
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(
             'shownExtension' => $extension,
