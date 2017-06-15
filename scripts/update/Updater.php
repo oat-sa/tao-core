@@ -52,6 +52,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -863,32 +864,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         if ($this->isVersion('10.20.0')) {
-            $requiredActionService = $this->getServiceManager()->get(RequiredActionService::CONFIG_ID);
-            $actions = $requiredActionService->getOption(RequiredActionService::OPTION_REQUIRED_ACTIONS);
-            $updated = false;
-            foreach ($actions as $key => $action) {
-                if (is_a($action, 'oat\tao\model\requiredAction\implementation\RequiredActionRedirect')) {
-                    $request = new Resolver(new \common_http_Request($action->getUrl()));
-                    $actions[$key] = new RequiredActionRedirectUrlPart(
-                        $action->getName(),
-                        $action->getRules(),
-                        array(
-                            $request->getMethodName(),
-                            $request->getControllerShortName(),
-                            $request->getExtensionId(),
-                        )
-                    );
-                    $updated = true;
-                }
-            }
-
-            if ($updated) {
-                $requiredActionService->setOption(RequiredActionService::OPTION_REQUIRED_ACTIONS, $actions);
-                $this->getServiceManager()->register(RequiredActionService::CONFIG_ID, $requiredActionService);
-            }
+            call_user_func(new UpdateRequiredActionUrl(), []);
             $this->setVersion('10.21.0');
         }
-        $this->skip('10.21.0', '10.22.0');
+
+        $this->skip('10.21.0', '10.22.1');
     }
 
     private function migrateFsAccess() {
