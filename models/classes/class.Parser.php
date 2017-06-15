@@ -124,21 +124,31 @@ class tao_models_classes_Parser
      */
     public function __construct($source, $options = array())
     {
-        $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
-        if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
-            $this->sourceType = self::SOURCE_FLYFILE;
-            $source = $uploadFile;
-        } elseif ($source instanceof \oat\oatbox\filesystem\File) {
-            $this->sourceType = self::SOURCE_FLYFILE;
-        } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {
-            $this->sourceType = self::SOURCE_STRING;
-        } else if(preg_match("/^http/", $source)) {
-            $this->sourceType = self::SOURCE_URL;
-        } else if(is_file($source)) {
-            $this->sourceType = self::SOURCE_FILE;
-        } else {
+        $sourceType = false;
+
+        if ($source instanceof \oat\oatbox\filesystem\File) {
+            $sourceType = self::SOURCE_FLYFILE;
+        } elseif (is_string($source)) {
+            if (preg_match("/^<\?xml(.*)?/m", trim($source))) {
+                $sourceType = self::SOURCE_STRING;
+            } elseif(preg_match("/^http/", $source)) {
+                $sourceType = self::SOURCE_URL;
+            } elseif(is_file($source)) {
+                $sourceType = self::SOURCE_FILE;
+            } else {
+                $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
+                if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
+                    $sourceType = self::SOURCE_FLYFILE;
+                    $source = $uploadFile;
+                }
+            }
+        }
+
+        if ($sourceType === false) {
             throw new common_exception_Error("Denied content in the source parameter! ".get_class($this)." accepts either XML content, a URL to an XML Content or the path to a file but got ".substr($source, 0, 500));
         }
+
+        $this->sourceType = $sourceType;
         $this->source = $source;
 
         if(isset($options['extension'])){
