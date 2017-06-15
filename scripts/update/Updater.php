@@ -864,11 +864,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($this->isVersion('10.20.0')) {
-            call_user_func(new UpdateRequiredActionUrl(), []);
+            $this->runExtensionScript(UpdateRequiredActionUrl::class);
             $this->setVersion('10.21.0');
         }
 
-        $this->skip('10.21.0', '10.22.2');
+        $this->skip('10.21.0', '10.22.3');
     }
 
     private function migrateFsAccess() {
