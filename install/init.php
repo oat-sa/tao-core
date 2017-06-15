@@ -32,7 +32,11 @@ require_once ($root . 'vendor/autoload.php');
 // Logger service initialization.
 $loggerService = new \oat\oatbox\log\LoggerService();
 $loggerService->addLogger(
-    \oat\oatbox\log\VerboseLoggerFactory::getInstance($argv)
+    \oat\oatbox\log\VerboseLoggerFactory::getInstance(
+        empty($argv)
+            ? ['-nc', '-vv'] // For no color visualization but showing the notices.
+            : $argv
+    )
 );
 
 // Initializing the dependency container.
