@@ -862,7 +862,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
             $this->setVersion('10.20.0');
         }
-        
+
         if ($this->isVersion('10.20.0')) {
             call_user_func(new UpdateRequiredActionUrl(), []);
             $this->setVersion('10.21.0');
