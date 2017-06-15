@@ -45,10 +45,14 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
+use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -859,7 +863,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.20.0');
         }
 
-        $this->skip('10.20.0', '10.21.0');
+        if ($this->isVersion('10.20.0')) {
+            $this->runExtensionScript(UpdateRequiredActionUrl::class);
+            $this->setVersion('10.21.0');
+        }
+
+        $this->skip('10.21.0', '10.23.0');
 
     }
 
