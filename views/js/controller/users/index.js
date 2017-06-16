@@ -26,7 +26,10 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
         if (window.confirm(__('Please confirm user deletion'))) {
             $.ajax({
                 url : helpers._url('delete', 'Users', 'tao'),
-                data:  {uri : uri},
+                data:  {
+                    uri: uri,
+                    token: $.cookie('token')
+                },
                 type : 'POST'
             }).done(function(response){
                 if(response.deleted){

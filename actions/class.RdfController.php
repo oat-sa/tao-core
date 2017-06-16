@@ -27,6 +27,7 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\ControllerHelper;
+use oat\tao\model\security\xsrf\TokenService;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -631,7 +632,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
+
+        // Csrf token validation
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $token = $this->getRequestParameter('token');
+        if (! $tokenService->checkToken($token)) {
+            throw new Exception('Not authorized to perform action');
+        } else {
+            $tokenService->revokeToken($token);
+        }
+
         if($this->hasRequestParameter('uri')) {
             return $this->forward('deleteResource', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('uri')))));
         } elseif ($this->hasRequestParameter('classUri')) {

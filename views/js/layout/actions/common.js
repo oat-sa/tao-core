@@ -154,7 +154,8 @@ define([
             var data = {
                 uri: uri.decode(actionContext.uri),
                 classUri: uri.decode(actionContext.classUri),
-                id: actionContext.id
+                id: actionContext.id,
+                token: $.cookie('token')
             };
             //TODO replace by a nice popup
             if (window.confirm(__("Please confirm deletion"))) {
