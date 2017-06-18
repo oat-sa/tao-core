@@ -310,7 +310,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         // Add csrf token
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
         $token = $tokenService->createToken();
-        setcookie('token', $token);
+        $this->setCookie('token', $token);
 
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(
