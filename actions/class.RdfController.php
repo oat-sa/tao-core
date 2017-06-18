@@ -623,46 +623,40 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		echo json_encode($data);
 	}
 
-	/**
-	 * delete an instance or a class
-	 * called via ajax
-	 */
-	public function delete()
-	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-
-        // Csrf token validation
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
-        $token = $this->getRequestParameter('token');
-        if (! $tokenService->checkToken($token)) {
-            \common_Logger::w('Csrf validation failed');
-            throw new \common_exception_Unauthorized();
-        } else {
-            $tokenService->revokeToken($token);
+    /**
+    * delete an instance or a class
+    * called via ajax
+    */
+    public function delete()
+    {
+        if (!tao_helpers_Request::isAjax()) {
+            throw new Exception("wrong request mode");
         }
 
-        if($this->hasRequestParameter('uri')) {
+        if ($this->hasRequestParameter('uri')) {
             return $this->forward('deleteResource', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('uri')))));
         } elseif ($this->hasRequestParameter('classUri')) {
             return $this->forward('deleteClass', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri')))));
         } else {
             throw new common_exception_MissingParameter();
         }
-	}
-	
+    }
+
     /**
      * Generic resource deletion action
-     * 
+     *
      * @throws Exception
      * @requiresRight id WRITE
      */
     public function deleteResource()
     {
-        if(!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')){
+        if (!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')) {
             throw new Exception("wrong request mode");
         }
+
+        // Csrf token validation
+        $this->validateCsrf($this->getRequestParameter('token'));
+
         $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
         $deleted = $this->getClassService()->deleteResource($resource);
         return $this->returnJson(array(
@@ -670,31 +664,35 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         ));
     }
 
-	/**
-	 * Generic class deletion action
-	 * 
-	 * @throws Exception
+    /**
+     * Generic class deletion action
+     *
+     * @throws Exception
      * @requiresRight id WRITE
-	 */
-	public function deleteClass()
-	{
-	    if(!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')){
-	        throw new Exception("wrong request mode");
-	    }
-	    $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
-	    if ($this->getRootClass()->equals($clazz)) {
-	        $success = false;
-	        $msg = __('You cannot delete the root node');
-	    } else {
-	        $label = $clazz->getLabel();
+     */
+    public function deleteClass()
+    {
+        if (!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')) {
+            throw new Exception("wrong request mode");
+        }
+
+        // Csrf token validation
+        $this->validateCsrf($this->getRequestParameter('token'));
+
+        $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
+        if ($this->getRootClass()->equals($clazz)) {
+            $success = false;
+            $msg = __('You cannot delete the root node');
+        } else {
+            $label = $clazz->getLabel();
             $success = $this->getClassService()->deleteClass($clazz);
             $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
-	    }
-	    return $this->returnJson(array(
-	        'deleted' => $success,
-	        'msg' => $msg
-	    ));
-	}
+        }
+        return $this->returnJson(array(
+            'deleted' => $success,
+            'msg' => $msg
+        ));
+    }
 
 	/**
 	 * Test whenever the current user has "WRITE" access to the specified id
@@ -706,4 +704,24 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	    $user = common_session_SessionManager::getSession()->getUser();
 	    return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
 	}
+
+    /**
+     * Validates csrf token and revokes token on success
+     *
+     * @param $token - Csrf token to validate
+     * @return {Boolean}
+     * @throws common_exception_Unauthorized
+     */
+    public function validateCsrf($token)
+    {
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+
+        if ( $tokenService->checkToken($token) ) {
+            $tokenService->revokeToken($token);
+            return true;
+        }
+
+        \common_Logger::w('Csrf validation failed');
+        throw new \common_exception_Unauthorized();
+    }
 }
