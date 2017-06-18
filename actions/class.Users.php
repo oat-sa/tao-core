@@ -191,7 +191,11 @@ class tao_actions_Users extends tao_actions_CommonModule
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
         $token = $this->getRequestParameter('token');
         if (! $tokenService->checkToken($token)) {
-            throw new Exception('Not authorized to perform action');
+            \common_Logger::w('Csrf validation failed');
+            return $this->returnJson([
+                'deleted' => false,
+                'message' => 'Not authorized to perform action'
+            ]);
         } else {
             $tokenService->revokeToken($token);
         }
