@@ -637,7 +637,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
         $token = $this->getRequestParameter('token');
         if (! $tokenService->checkToken($token)) {
-            throw new Exception('Not authorized to perform action');
+            \common_Logger::w('Csrf validation failed');
+            throw new \common_exception_Unauthorized();
         } else {
             $tokenService->revokeToken($token);
         }
