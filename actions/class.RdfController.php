@@ -655,7 +655,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         }
 
         // Csrf token validation
-        $this->validateCsrf($this->getRequestParameter('token'));
+        $this->validateCsrf();
 
         $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
         $deleted = $this->getClassService()->deleteResource($resource);
@@ -677,7 +677,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         }
 
         // Csrf token validation
-        $this->validateCsrf($this->getRequestParameter('token'));
+        $this->validateCsrf();
 
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
         if ($this->getRootClass()->equals($clazz)) {
@@ -708,13 +708,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     /**
      * Validates csrf token and revokes token on success
      *
-     * @param $token - Csrf token to validate
      * @return {Boolean}
      * @throws common_exception_Unauthorized
      */
-    public function validateCsrf($token)
+    public function validateCsrf()
     {
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+
+        $tokenName = \common_session_SessionManager::getSession()->getXsrfTokenName();
+        $token = $this->getRequestParameter($tokenName);
 
         if ( $tokenService->checkToken($token) ) {
             $tokenService->revokeToken($token);

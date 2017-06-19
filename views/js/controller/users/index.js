@@ -2,7 +2,7 @@
  * @author Jérôme Bogaert <jerome@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datatable'], function($, __, helpers, section, feedback) {
+define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datatable'], function(module, $, __, helpers, section, feedback) {
     'use strict';
 
     /**
@@ -21,15 +21,18 @@ define(['jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datata
      * Removes a user
      * @param {String} uri - the user uri
      */
-	var removeUser = function removeUser(uri){
+    var removeUser = function removeUser(uri){
+        var tokenName = module.config().xsrfTokenName;
+        var data = {};
+
+        data.uri = uri;
+        data[tokenName] = $.cookie(tokenName);
+
         //TODO use a confirm component
         if (window.confirm(__('Please confirm user deletion'))) {
             $.ajax({
                 url : helpers._url('delete', 'Users', 'tao'),
-                data:  {
-                    uri: uri,
-                    token: $.cookie('token')
-                },
+                data : data,
                 type : 'POST'
             }).done(function(response){
                 if(response.deleted){
