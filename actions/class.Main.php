@@ -309,7 +309,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         // Add csrf token
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
-        $tokenName = $_SESSION['xsrfTokenName'] = $_SESSION['xsrfTokenName'] ?: 'tao_' . substr(md5(microtime()), rand(0, 26), 7);
+        $tokenName = $tokenService->getTokenName();
         $token = $tokenService->createToken();
         $this->setCookie($tokenName, $token);
         $this->setData('xsrf-token-name', $tokenName);

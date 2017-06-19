@@ -715,7 +715,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     {
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
 
-        $tokenName = $_SESSION['xsrfTokenName'];
+        $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
 
         if ( $tokenService->checkToken($token) ) {
