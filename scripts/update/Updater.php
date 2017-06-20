@@ -46,6 +46,7 @@ use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use tao_helpers_data_GenerisAdapterRdf;
@@ -834,6 +835,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             $this->setVersion('10.19.4');
+        }
+
+        if($this->isVersion('10.19.4')){
+            $this->runExtensionScript(AddArchiveService::class);
+
+            $this->setVersion('10.20.0');
         }
     }
 

@@ -1,22 +1,23 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
+
 namespace oat\tao\model\state;
 
 use oat\oatbox\filesystem\FileSystem;
@@ -35,7 +36,7 @@ class StateMigration
     extends ConfigurableService
 {
     const SERVICE_ID = 'tao/migrationState';
-    
+
     const OPTION_FILESYSTEM = 'fileSystem';
 
     /**
@@ -45,33 +46,34 @@ class StateMigration
 
     public function __construct(array $options = array())
     {
-        if(!isset($options[self::OPTION_FILESYSTEM])){
+        if (!isset($options[self::OPTION_FILESYSTEM])) {
             throw new InvalidService(__("missing config %s for the service %s", self::OPTION_FILESYSTEM, self::class));
         }
         parent::__construct($options);
     }
 
     /**
-	 * Store the state of the service call
-	 *
-	 * @param string $userId
-	 * @param string $callId
-	 * @return boolean
-	 */
-  	public function archive($userId, $callId) {
+     * Store the state of the service call
+     *
+     * @param string $userId
+     * @param string $callId
+     * @return boolean
+     */
+    public function archive($userId, $callId)
+    {
 
         /** @var StateStorage $stateStorage */
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         $state = $stateStorage->get($userId, $callId);
 
-        return (!is_null($state)) ? $this->getFileSystem()->write($this->generateSerial($userId,$callId), $state) : false;
-  	}
+        return (!is_null($state)) ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state) : false;
+    }
 
-  	public function restore($userId, $callId)
+    public function restore($userId, $callId)
     {
 
-        $state = $this->getFileSystem()->read($this->generateSerial($userId,$callId));
+        $state = $this->getFileSystem()->read($this->generateSerial($userId, $callId));
 
         /** @var StateStorage $stateStorage */
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
@@ -92,12 +94,12 @@ class StateMigration
     public function removeBackup($userId, $callId)
     {
 
-        return $this->getFileSystem()->delete($this->generateSerial($userId,$callId));
+        return $this->getFileSystem()->delete($this->generateSerial($userId, $callId));
     }
 
     private function generateSerial($userId, $callId)
     {
-        return md5($userId.$callId);
+        return md5($userId . $callId);
     }
 
     /**
@@ -106,7 +108,7 @@ class StateMigration
      */
     private function getFileSystem()
     {
-        if(is_null($this->fileSystem)){
+        if (is_null($this->fileSystem)) {
             /** @var FileSystemService $fileSystemService */
             $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
             $this->fileSystem = $fileSystemService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM));
