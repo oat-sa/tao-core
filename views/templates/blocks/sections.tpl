@@ -2,7 +2,8 @@
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
 
-$sections = get_data('sections');
+$sections    = get_data('sections');
+$help        = get_data('help');
 ?>
 
 <?php if ($sections): ?>
@@ -75,7 +76,8 @@ $sections = get_data('sections');
                             if (!is_null($tree->get('rootNode'))) {
                                 Template::inc('blocks/search.tpl', 'tao', array(
                                     'rootNode' => $tree->get('rootNode'),
-                                    'searchLabel' => __('Search %s', $tree->get('className'))
+                                    'searchLabel' => __('Search %s', $tree->get('className')),
+                                    'help'        => $help
                                 ));
                             }
                         }
