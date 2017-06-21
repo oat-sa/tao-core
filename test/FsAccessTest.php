@@ -20,6 +20,7 @@
  */
 
 
+use oat\tao\model\asset\AssetService;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
@@ -61,7 +62,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         parent::setUp();
     }
     
-    protected function tearDown() {
+    public function tearDown() {
         $this->restoreCache();
         parent::tearDown();
         if($this->testUser instanceof core_kernel_classes_Resource){
@@ -83,6 +84,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
      */
     public function fileAccessProviders() {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         
         if (is_null(self::$fileSystem )) {
             $serviceManager = ServiceManager::getServiceManager();
@@ -93,10 +95,10 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             self::$fileSystem = new core_kernel_fileSystem_FileSystem($fsId);
         }
         return array(
-            array(DirectWebSource::spawnWebsource(self::$fileSystem->getUri(), $ext->getConstant('BASE_WWW'))),
+            array(DirectWebSource::spawnWebsource(self::$fileSystem->getUri(), $assetService->getJsBaseWww( $ext->getId() ))),
             array(TokenWebSource::spawnWebsource(self::$fileSystem->getUri(), self::$fileSystem->getPath())),
             array(ActionWebSource::spawnWebsource(self::$fileSystem->getUri())),
-            array(FlyTokenWebSource::spawnWebsource(self::$fileSystem->getUri(), 'unused')),
+            // doesn't work without manual modification array(FlyTokenWebSource::spawnWebsource(self::$fileSystem->getUri(), 'unused')),
         );
     }
     
@@ -208,6 +210,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $output = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $r = curl_getinfo($ch);
         curl_close($ch);
         
         $this->assertEquals($expectedCode, $httpCode, 'Incorrect response for '.$url);

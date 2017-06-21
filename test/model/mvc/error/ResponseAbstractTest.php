@@ -25,6 +25,7 @@ class ResponseAbstractTest extends TaoPhpUnitTestRunner  {
     
     public function setUp() {
         $this->instance = $this->getMockForAbstractClass('oat\tao\model\mvc\error\ResponseAbstract');
+        $this->instance->setServiceLocator($this->getServiceManagerProphecy());
     }
     
     public function testSetHttpCode() {

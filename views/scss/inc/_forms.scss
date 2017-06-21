@@ -1,11 +1,22 @@
-label {
+label, .form_desc {
     display: inline-block;
     cursor: pointer;
     padding-right: 10px;
     margin-bottom: 5px;
     abbr {
-        border: none;
         color: $info;
+        border-bottom: none;
+        cursor: inherit;
+        text-decoration: none;
+        padding-left: 2px;
+    }
+}
+
+#loginForm {
+    label {
+        abbr {
+            display:none;
+        }
     }
 }
 
@@ -237,6 +248,8 @@ option {
     color: $textColor;
 }
 
+
+
 label {
     position: relative;
     [class^="icon-checkbox"],
@@ -295,6 +308,9 @@ label {
         &:checked ~ .icon-checkbox:before {
             @extend .icon-checkbox-checked:before;
         }
+        &:indeterminate ~ .icon-checkbox:before {
+            @extend .icon-checkbox-indeterminate:before;
+        }
         &:checked ~ .icon-radio:before {
             @extend .icon-radio-checked:before;
         }
@@ -307,6 +323,23 @@ label {
                 cursor: not-allowed !important;
                 opacity: .4 !important;
                 color: #555;
+            }
+        }
+    }
+}
+
+// Edge styles go here, they cannot be include in the rule set below :-(
+@supports (-ms-ime-align:auto) {
+    label {
+        [class^="icon-radio"],
+        [class*=" icon-radio"],
+        [class^="icon-checkbox"],
+        [class*=" icon-checkbox"] {
+            &:after {
+                left:auto !important;
+                top: 0 !important;
+                z-index: 2;
+                position: absolute;
             }
         }
     }
@@ -395,6 +428,9 @@ label {
                 }
             }
 
+        }
+        h3 {
+            margin: 0px 0px 12px;
         }
     }
 
@@ -566,6 +602,7 @@ label {
     .form-group {
         & > div > div {
             position: relative;
+            margin-bottom: 12px;
             .has-unit {
                 padding-right: 45px
             }
@@ -592,15 +629,36 @@ label {
         float: right;
     }
 
-
+    .form_checklst{
+        .grid-row {
+            [class*=" col-"], [class^="col-"] {
+                margin: 0;
+                .elt_desc {
+                    padding: 0 10px;
+                }
+                .tooltip-trigger{
+                    position: relative;
+                    top: 2px;
+                    color: $danger;
+                }
+            }
+            &.readonly{
+                .elt_desc, input[type="checkbox"]{
+                    cursor: not-allowed;
+                }
+                .elt_desc{
+                    opacity : 0.45;
+                }
+            }
+        }
+    }
 }
 
 
 input {
     &[type="checkbox"], &[type="radio"] {
         position: relative;
-        top: 1px;
-        margin-right: 3px;
+        margin-right: 4px;
     }
 }
 

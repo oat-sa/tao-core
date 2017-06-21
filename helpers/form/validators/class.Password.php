@@ -54,8 +54,8 @@ class tao_helpers_form_validators_Password
         	list($first, $second) = $values;
         	$returnValue = $first == $second;
 
-        } elseif (isset($this->options['password2_ref'])) {
-			$secondElement = $this->options['password2_ref'];
+        } elseif ($this->hasOption('password2_ref')) {
+			$secondElement = $this->getOption('password2_ref');
 			if (is_null($secondElement) || ! $secondElement instanceof tao_helpers_form_FormElement) {
 				throw new common_Exception("Please set the reference of the second password element");
 			}

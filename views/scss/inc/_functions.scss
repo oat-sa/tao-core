@@ -171,6 +171,24 @@ Usage:
   border-top-left-radius: $radius * 1px;
 }
 
+@mixin border-radius-top-right($radius: 2) {
+  -webkit-border-top-right-radius: $radius * 1px;
+  -moz-border-radius-topright: $radius * 1px;
+  border-top-right-radius: $radius * 1px;
+}
+
+@mixin border-radius-bottom-right($radius: 2) {
+  -webkit-border-bottom-right-radius: $radius * 1px;
+  -moz-border-radius-bottomright: $radius * 1px;
+  border-bottom-right-radius: $radius * 1px;
+}
+
+@mixin border-radius-bottom-left($radius: 2) {
+    -webkit-border-bottom-left-radius: $radius * 1px;
+    -moz-border-radius-bottomleft: $radius * 1px;
+    border-bottom-left-radius: $radius * 1px;
+}
+
 @mixin border-box() {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -229,8 +247,14 @@ Usage:
     @include vendor-prefix($animation, $value, property);
 }
 
+/// CSS transition mixin to the current selection (apply also vendor prefixes).
+/// See <https://developer.mozilla.org/en-US/docs/Web/CSS/transition> for the values
+///
+/// @param {property} [$type = all] the CSS property to apply the transition to
+/// @param {time} [$duration = .5s] the transition property
+/// @param {timing-function} [$effect = ease-out] the transition property
 @mixin transition($type : all, $duration : 0.5s, $effect : ease-out){
-    @include vendor-prefix($type, $duration, $effect);
+    @include vendor-prefix(transition, $type + ', ' + $duration + ', ' + $effect, property);
 }
 
 @mixin fade($duration: 1s){

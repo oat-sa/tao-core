@@ -22,6 +22,9 @@ use oat\tao\helpers\RestExceptionHandler;
 
 abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
+    const CLASS_URI_PARAM = 'class-uri';
+    const CLASS_LABEL_PARAM = 'class-label';
+
     /**
      * @var array
      * @deprecated since 4.3.0
@@ -132,6 +135,40 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             default:
                 return json_encode($data);
         }
+    }
+
+    /**
+     * Get class instance from request parameters
+     * If more than one class with given label exists the first open will be picked up.
+     * @param core_kernel_classes_Class $rootClass
+     * @return core_kernel_classes_Class|null
+     * @throws common_exception_RestApi
+     */
+    protected function getClassFromRequest(\core_kernel_classes_Class $rootClass)
+    {
+        $class = null;
+        if ($this->hasRequestParameter(self::CLASS_URI_PARAM) && $this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+            throw new \common_exception_RestApi(
+                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM . ' parameters do not supposed to be used simultaneously.'
+            );
+        }
+
+        if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
+            $class = new \core_kernel_classes_Class($this->getRequestParameter(self::CLASS_URI_PARAM));
+        }
+        if ($this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+            $label = $this->getRequestParameter(self::CLASS_LABEL_PARAM);
+            foreach ($rootClass->getSubClasses(true) as $subClass) {
+                if ($subClass->getLabel() === $label) {
+                    $class = $subClass;
+                    break;
+                }
+            }
+        }
+        if ($class === null || !$class->exists()) {
+            $class = $rootClass;
+        }
+        return $class;
     }
 
     /**

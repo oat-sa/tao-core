@@ -9,9 +9,10 @@
  * - Code refactoring to fit AMD modules
  * - replaced custom selector with JQuery selectors
  * - added focus listener, decimal calculation fix, button highlight
- *  -i18n
+ * - i18n
+ * - added support of alternative template
  */
-define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], function ($, templateTpl, __, gamp){
+define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], function ($, _, templateTpl, __, gamp){
 
     'use strict';
 
@@ -24,16 +25,22 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
         calculators = {}, // an object containing all the calculators created
         nextID = 0;
 
+    var _defaults = {
+        template : templateTpl
+    };
+
     /**
      * Creates a new calculator in the specified container element (module).
      *
-     * @param  {Element}    calcMod  the element to contain the calculator
-     * @return {Calculator}          a Calculator object
+     * @param  {DOMElement} calcMod - the element to contain the calculator
+     * @param  {Object} [config] - optional configuration
+     * @param  {Function} [config.template] - an alternative handlebars template
+     * @return {Calculator} a Calculator object
      *
      * @ignore
      */
-    function createCalc(calcMod){
-        var calcTemplate = templateTpl(),
+    function createCalc(calcMod, config){
+        var calcTemplate,
             forms,
             form,
             display,
@@ -47,6 +54,21 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
             operationPressed = false, // whether an operation was the last key pressed
             calcObj = {},
             id = nextID;
+
+        config = _.defaults(config || {}, _defaults);
+
+        if(_.isFunction(config.template)){
+            calcTemplate = config.template.call(null);
+        }else{
+            throw new TypeError('invalid template in configuration');
+        }
+
+        /**
+         * Gives the focus to the input
+         */
+        function setFocus() {
+            display.focus();
+        }
 
         /**
          * Performs the basic mathematical operations (addition, subtraction,
@@ -268,8 +290,12 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
                     break;
             }
             operationPressed = isOperation;
-            display.focus();
-            _initButtonHighlight(form, key, operation);
+            setFocus();
+            if (!isOperation) {
+                $(display).trigger('change');
+            }
+
+            _initButtonHighlight(form, key);
             return false;
         }
 
@@ -287,8 +313,6 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
         display.value = '0';
         display.onkeydown = display.onkeypress = form.onclick = handleInput;
 
-        _addFocusListener(form);
-
         /**
          * Calculates the value of the last entered operation and displays the result.
          *
@@ -303,7 +327,8 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
             }
             calculate(lastNum);
             clearNext = true;
-            display.focus();
+            setFocus();
+            $(display).trigger('change');
             _initButtonHighlight(form, '=');
             return false;
         };
@@ -316,7 +341,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
          * @memberOf Calculator.prototype
          */
         calcObj.focus = function (){
-            display.focus();
+            setFocus();
         };
 
         /**
@@ -444,7 +469,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
      *                                           null is returned. If no arguments are specified, an
      *                                           array of Calculator objects is returned.
      */
-    JSCALC.init = function (elem){
+    JSCALC.init = function (elem, config){
         var calcMods = [],
             args = false,
             calcMod,
@@ -496,7 +521,7 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
                 // check to ensure a calculator does not already exist in the
                 // specified element
                 if(!JSCALC.get(calcMod)){
-                    newCalcs[newCalcs.length] = createCalc(calcMod);
+                    newCalcs[newCalcs.length] = createCalc(calcMod, config);
                 }
             }
         }
@@ -523,28 +548,12 @@ define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], funct
     };
 
     /**
-     * Add focus listener to enable activating the calculator instance for keyboard input when clicked
-     *
-     * @param {HTMLElement} form
-     */
-    function _addFocusListener(form){
-        var $form = $(form);
-        var $display = $form.find('.calcDisplay');
-        $form.on('click', '[type=button]', function (){
-            var strLength = $display.val().length + 1;
-            $display.focus();
-            $display[0].setSelectionRange(strLength, strLength);
-        });
-    }
-
-    /**
      * Adding visual feedback when an input is registered
      *
      * @param {HTMLElement} form
      * @param {string} key
-     * @param {string} operationPressed
      */
-    function _initButtonHighlight(form, key, operationPressed){
+    function _initButtonHighlight(form, key){
         var $btn = $(form).find('[data-key="'+key+'"]');
         $btn.addClass('triggered');
         setTimeout(function(){

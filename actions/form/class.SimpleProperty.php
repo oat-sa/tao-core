@@ -19,6 +19,7 @@
  * 
  */
 use oat\taoBackOffice\model\tree\TreeService;
+use oat\tao\helpers\form\ValidationRuleRegistry;
 
 /**
  * Enable you to edit a property
@@ -47,7 +48,9 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 	    $propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
 			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
-				  new core_kernel_classes_Property(TAO_GUIORDER_PROP))
+                new core_kernel_classes_Property(TAO_GUIORDER_PROP),
+                $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
+			)
 		);
 	    $values = $property->getPropertiesValues($propertyProperties);
     	

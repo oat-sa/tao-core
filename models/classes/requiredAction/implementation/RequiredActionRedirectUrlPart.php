@@ -22,8 +22,6 @@
 namespace oat\tao\model\requiredAction\implementation;
 
 use oat\tao\model\requiredAction\RequiredActionAbstract;
-use \Exception;
-use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\routing\FlowController;
 
 /**
@@ -86,7 +84,7 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
         if (! in_array($currentRoute, $excludedRoutes)) {
             $currentUrl = \common_http_Request::currentRequest()->getUrl();
 
-            $transformedUrl = $this->getTransformedUrl();
+            $transformedUrl = $this->getTransformedUrl($params);
             $url = $transformedUrl . (parse_url($transformedUrl, PHP_URL_QUERY) ? '&' : '?') . 'return_url=' . urlencode($currentUrl);
 
             $flowController = new FlowController();
@@ -113,11 +111,12 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
     /**
      * Get url string from $this->url
      *
+     * @param array $params
      * @return string
      */
-    protected function getTransformedUrl()
+    protected function getTransformedUrl(array $params = [])
     {
-        return call_user_func_array('_url', $this->url);
+        return call_user_func_array('_url', array_merge($this->url, [$params]));
     }
 
     /**

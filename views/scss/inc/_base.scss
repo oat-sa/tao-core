@@ -159,10 +159,6 @@ body {
         }
     }
 
-    abbr[title] {
-        border-bottom: 1px dotted;
-    }
-
     b, .b, strong, .strong {
         font-weight: bold;
     }
@@ -406,6 +402,12 @@ body {
         font-size : inherit;
     }
 
+    .txt-highlight {
+        padding: 0 5px;
+        background: #FF6416;
+        color: white;
+    }
+
     ::-moz-selection {
         background: #b3d4fc;
         text-shadow: none;
@@ -471,5 +473,8 @@ body {
 
     // everything svg
     @import 'base/svg';
+
+    // everything user highlight
+    @import 'base/highlight';
 
 }

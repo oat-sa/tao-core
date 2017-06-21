@@ -18,6 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Checkbox
@@ -25,18 +26,12 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
  */
 class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements_Checkbox
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
-	/**
+    use XhtmlRenderingTrait;
+        
+    /**
      * Short description of method feed
      *
      * @access public
@@ -44,15 +39,13 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
      */
     public function feed()
     {
-        
-		$expression = "/^".preg_quote($this->name, "/")."(.)*[0-9]+$/";
-    	$this->setValues(array());
-		foreach($_POST as $key => $value){
-			if(preg_match($expression, $key)){
-				$this->addValue(tao_helpers_Uri::decode($value));
-			}
-		}
-        
+        $expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
+        $this->setValues(array());
+        foreach ($_POST as $key => $value) {
+            if (preg_match($expression, $key)) {
+                $this->addValue(tao_helpers_Uri::decode($value));
+            }
+        }
     }
 
     /**
@@ -64,58 +57,61 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
      */
     public function render()
     {
-        $returnValue = (string) '';
-
+        $returnValue = $this->renderLabel();
         
-		
-		$i = 0;
-		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<span class='form_desc'>"._dh($this->getDescription())."</span>";
-		}
-		else{
-			unset($this->attributes['noLabel']);
-		}
-		$checkAll = false;
-		if(isset($this->attributes['checkAll'])){
-			$checkAll = (bool)$this->attributes['checkAll'];
-			unset($this->attributes['checkAll']);
-		}
-		$checked = 0;
-		$returnValue .= '<div class="form_radlst form_checklst">';
-		foreach($this->options as $optionId => $optionLabel){
-			 $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
-			 $returnValue .= $this->renderAttributes();
+        $checkAll = false;
+        if (isset($this->attributes['checkAll'])) {
+            $checkAll = (bool) $this->attributes['checkAll'];
+            unset($this->attributes['checkAll']);
+        }
+        $i = 0;
+        $checked = 0;
+        $returnValue .= '<div class="form_radlst form_checklst plain">';
+        $readOnlyOptions = $this->getReadOnly();
+        foreach ($this->options as $optionId => $optionLabel) {
+            $readOnly = isset($readOnlyOptions[$optionId]);
+            if($readOnly){
+                $returnValue .= '<div class="grid-row readonly">';
+            }else{
+                $returnValue .= '<div class="grid-row">';
+            }
 
-			 $readOnly = in_array( $optionId, $this->getReadOnly() );
-			 if ($readOnly){
-				 $returnValue .="disabled='disabled' readonly='readonly' ";
-			 }
-			
-			 if(in_array($optionId, $this->values)){
-			 	$returnValue .= " checked='checked' ";	
-			 	$checked++;
-			 }
-			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
+            $returnValue .= '<div class="col-1">';
+            $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
+            $returnValue .= $this->renderAttributes();
 
-			 if ($readOnly) {
-				$returnValue .= "<input type='hidden' name='{$this->name}_{$i}' value='$optionId'>";
-			 }
-				$i++;
-		}
-		$returnValue .= "</div>";
-		
-		//add a small link 
-		if($checkAll){
-			if($checked == count($this->options)){
-				$returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker box-checker-uncheck' href='#'>".__('Uncheck All')."</a></span>";
-			}
-			else{
-				$returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker' href='#'>".__('Check All')."</a></span>";
-			}
-		}
-		
+            if ($readOnly) {
+                $returnValue .= "disabled='disabled' readonly='readonly' ";
+            }
+
+            if (in_array($optionId, $this->values)) {
+                $returnValue .= " checked='checked' ";
+                $checked ++;
+            }
+            $returnValue .= ' />';
+            $returnValue .= '</div><div class="col-10">';
+            $returnValue .= "<label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label>";
+            $returnValue .= '</div><div class="col-1">';
+            if ($readOnly) {
+                $readOnlyReason = $readOnlyOptions[$optionId];
+                if(!empty($readOnlyReason)){
+                    $returnValue .= '<span class="tooltip-trigger icon-warning" data-tooltip="~ .tooltip-content" data-tooltip-theme="info"></span><div class="tooltip-content">'._dh($readOnlyReason).'</div>';
+                }
+            }
+            $returnValue .= '</div></div>';
+            $i ++;
+        }
+        $returnValue .= "</div>";
         
-
+        // add a small link
+        if ($checkAll) {
+            if ($checked == (count($this->options) - count($readOnlyOptions))) {
+                $returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker box-checker-uncheck' href='#'>" . __('Uncheck All') . "</a></span>";
+            } else {
+                $returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker' href='#'>" . __('Check All') . "</a></span>";
+            }
+        }
+        
         return (string) $returnValue;
     }
 
@@ -124,14 +120,12 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string $value
+     * @param string $value
      * @return mixed
      */
     public function setValue($value)
     {
-        
-		$this->addValue($value);
-        
+        $this->addValue($value);
     }
 
     /**
@@ -143,10 +137,7 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
      */
     public function getEvaluatedValue()
     {
-        
         return array_map("tao_helpers_Uri::decode", $this->getValues());
-        //return array_map("tao_helpers_Uri::decode", $this->getRawValue());
-        
+        // return array_map("tao_helpers_Uri::decode", $this->getRawValue());
     }
-
 }

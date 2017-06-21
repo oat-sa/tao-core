@@ -1,23 +1,23 @@
 <?php
 /**
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 namespace oat\tao\model\websource;
 
@@ -122,10 +122,23 @@ implements Websource
     public function getMimetype($filePath)
     {
         $mimeType = $this->getFileSystem()->getMimetype($filePath);
-        //for css files mimetype can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
+
         $pathParts = pathinfo($filePath);
-        if ($mimeType === 'text/plain' && isset($pathParts['extension']) && $pathParts['extension'] === 'css') {
-            $mimeType = 'text/css';
+        if (isset($pathParts['extension'])) {
+            //manage bugs in finfo
+            switch ($pathParts['extension']) {
+                case 'css':
+                    //for css files mimetype can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
+                    if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
+                        return $mimeType = 'text/css';
+                    }
+                    break;
+                case 'svg':
+                    if ($mimeType === 'text/plain') {
+                        return $mimeType = 'image/svg+xml';
+                    }
+                    break;
+            }
         }
         return $mimeType;
     }

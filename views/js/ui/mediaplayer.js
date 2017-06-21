@@ -61,13 +61,6 @@ define([
     var _reAppleMobiles = /ip(hone|od)/i;
 
     /**
-     * A Regex to detect Apple device browsers
-     * @type {RegExp}
-     * @private
-     */
-    var _reAppleDevices = /ip(hone|od|ad)/i;
-
-    /**
      * Array slice method needed to slice arguments
      * @type {Function}
      * @private
@@ -96,6 +89,13 @@ define([
     var _volumeRange = _volumeMax - _volumeMin;
 
     /**
+     * Threshold (minium requires space above the player) to display the volume
+     * above the bar.
+     * @type {Number}
+     */
+    var volumePositionThreshold = 200;
+
+    /**
      * Some default values
      * @type {Object}
      * @private
@@ -103,24 +103,26 @@ define([
     var _defaults = {
         type : 'video/mp4',
         video : {
-            width : 480,
-            height : 270,
-            minWidth: 200,
-            minHeight: 200
+            width :     480,
+            height :    270,
+            minWidth:   200,
+            minHeight:  200
         },
         audio : {
-            width : 400,
-            height : 30,
-            minWidth: 200,
-            minHeight: 36
+            width :     400,
+            height :    30,
+            minWidth:   200,
+            minHeight:  36
         },
         options : {
-            volume : Math.floor(_volumeRange * .8),
-            startMuted : false,
-            maxPlays : 0,
-            canPause : true,
-            loop : false,
-            autoStart : false
+            volume :        Math.floor(_volumeRange * .8),
+            startMuted :    false,
+            maxPlays :      0,
+            replayTimeout : 0,
+            canPause :      true,
+            canSeek :       true,
+            loop :          false,
+            autoStart :     false
         }
     };
 
@@ -401,7 +403,7 @@ define([
 
             $elem = $(elem);
 
-            new YT.Player($elem.get(0), {
+            new window.YT.Player($elem.get(0), {
                 height: $elem.width(),
                 width: $elem.height(),
                 videoId: $elem.data('videoId'),
@@ -447,7 +449,7 @@ define([
          * @returns {Boolean}
          */
         isApiReady : function isApiReady() {
-            var apiReady = (undefined !== window.YT && undefined !== window.YT.Player);
+            var apiReady = (typeof(window.YT) !== 'undefined' && typeof(window.YT.Player) !== 'undefined');
             if (apiReady && !this.ready) {
                 _youtubeManager.apiReady();
             }
@@ -485,6 +487,7 @@ define([
         var player;
         var interval;
         var destroyed;
+        var initWidth, initHeight;
 
         function loopEvents(callback) {
             _.forEach(['onStateChange', 'onPlaybackQualityChange', 'onPlaybackRateChange', 'onError', 'onApiChange'], callback);
@@ -518,9 +521,13 @@ define([
                             // install debug logger
                             loopEvents(function(ev) {
                                 media.addEventListener(ev, function(e) {
-                                    console.log(ev, e);
+                                    window.console.log(ev, e);
                                 });
                             });
+                        }
+
+                        if (initWidth && initHeight) {
+                            this.setSize(initWidth, initHeight);
                         }
 
                         mediaplayer._onReady();
@@ -624,6 +631,9 @@ define([
                     }
                     if (media) {
                         media.setSize(width, height);
+                    } else {
+                        initWidth = width;
+                        initHeight = height;
                     }
                 },
 
@@ -778,7 +788,7 @@ define([
                             // install debug logger
                             _.forEach(['abort', 'canplay', 'canplaythrough', 'canshowcurrentframe', 'dataunavailable', 'durationchange', 'emptied', 'empty', 'ended', 'error', 'loadedfirstframe', 'loadedmetadata', 'loadstart', 'pause', 'play', 'progress', 'ratechange', 'seeked', 'seeking', 'suspend', 'timeupdate', 'volumechange', 'waiting'], function(ev) {
                                 $media.on(ev + _ns, function(e) {
-                                    console.log(e.type, $media && $media.find('source').attr('src'), media && media.networkState);
+                                    window.console.log(e.type, $media && $media.find('source').attr('src'), media && media.networkState);
                                 });
                             });
                         }
@@ -925,10 +935,12 @@ define([
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
          * @param {Boolean} [config.loop] - The media will be played continuously
          * @param {Boolean} [config.canPause] - The play can be paused
+         * @param {Boolean} [config.canSeek] - The player allows to reach an arbitrary position within the media using the duration bar
          * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
          * @param {Number} [config.autoStartAt] - The time position at which the player should start
          * @param {Number} [config.maxPlays] - Sets a few number of plays (default: infinite)
+         * @param {Number} [config.replayTimeout] - disable the possibility to replay a media after this timeout, in seconds (default: 0)
          * @param {Number} [config.volume] - Sets the sound volume (default: 80)
          * @param {Number} [config.width] - Sets the width of the player (default: depends on media type)
          * @param {Number} [config.height] - Sets the height of the player (default: depends on media type)
@@ -939,7 +951,7 @@ define([
 
             // load the config set, discard null values in order to allow defaults to be set
             this.config = _.omit(config || {}, function(value) {
-                return value === undefined || value === null;
+                return typeof(value) === 'undefined' || value === null;
             });
             _.defaults(this.config, _defaults.options);
             this._setType(this.config.type || _defaults.type);
@@ -1059,7 +1071,7 @@ define([
          */
         play : function play(time) {
             if (this._canPlay()) {
-                if (undefined !== time) {
+                if (typeof(time) !== 'undefined') {
                     this.seek(time);
                 }
 
@@ -1070,6 +1082,10 @@ define([
                 }
 
                 this.loop = !!this.config.loop;
+
+                if (this.timerId) {
+                    cancelAnimationFrame(this.timerId);
+                }
             }
 
             return this;
@@ -1082,7 +1098,7 @@ define([
          */
         pause : function pause(time) {
             if (this._canPause()) {
-                if (undefined !== time) {
+                if (typeof(time) !== 'undefined') {
                     this.seek(time);
                 }
 
@@ -1149,7 +1165,7 @@ define([
          * @returns {mediaplayer}
          */
         mute : function mute(state) {
-            if (undefined === state) {
+            if (typeof(state) === 'undefined') {
                 state = true;
             }
             this.execute('mute', state);
@@ -1358,6 +1374,7 @@ define([
          */
         disable : function disable() {
             this._toState('disabled');
+            this.trigger('disabled');
 
             return this;
         },
@@ -1465,9 +1482,9 @@ define([
 
             this.config.sources = [];
 
-            async.each(sources, function(source, callback) {
-                self.addSource(source, function(source) {
-                    callback(null, source);
+            async.each(sources, function(source, cb) {
+                self.addSource(source, function(src) {
+                    cb(null, src);
                 });
             }, callback);
         },
@@ -1526,6 +1543,7 @@ define([
 
             this._setState('error', error);
             this._setState('nogui', !_support.canControl());
+            this._setState('loading', true);
         },
 
         /**
@@ -1538,12 +1556,8 @@ define([
 
             if (!this.is('youtube')) {
                 page = new UrlParser(window.location);
-                _.forEach(this.config.sources, function(source) {
-                    var url = new UrlParser(source.src);
-                    if (!url.checkCORS(page)) {
-                        isCORS = true;
-                        return false;
-                    }
+                isCORS = _.some(this.config.sources, function(source) {
+                    return !page.sameDomain(source.src);
                 });
             }
 
@@ -1559,18 +1573,20 @@ define([
             this.config.is = {};
             this._initType();
 
-            this.$component = null;
-            this.$container = null;
-            this.$player = null;
-            this.$media = null;
-            this.$controls = null;
-            this.$seek = null;
-            this.$seekSlider = null;
-            this.$volume = null;
-            this.$volumeSlider = null;
-            this.$position = null;
-            this.$duration = null;
-            this.player = null;
+            this.$component     = null;
+            this.$container     = null;
+            this.$player        = null;
+            this.$media         = null;
+            this.$controls      = null;
+            this.$seek          = null;
+            this.$seekSlider    = null;
+            this.$sound         = null;
+            this.$volume        = null;
+            this.$volumeControl = null;
+            this.$volumeSlider  = null;
+            this.$position      = null;
+            this.$duration      = null;
+            this.player         = null;
 
             this.duration = 0;
             this.position = 0;
@@ -1592,12 +1608,14 @@ define([
             this.$media = this.$component.find('.media');
             this.$controls = this.$component.find('.controls');
 
-            this.$seek = this.$controls.find('.seek .slider');
-            this.$volume = this.$controls.find('.volume .slider');
-            this.$position = this.$controls.find('[data-control="time-cur"]');
-            this.$duration = this.$controls.find('[data-control="time-end"]');
+            this.$seek          = this.$controls.find('.seek .slider');
+            this.$sound         = this.$controls.find('.sound');
+            this.$volumeControl = this.$controls.find('.volume');
+            this.$volume        = this.$controls.find('.volume .slider');
+            this.$position      = this.$controls.find('[data-control="time-cur"]');
+            this.$duration      = this.$controls.find('[data-control="time-end"]');
 
-            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, this.is('video'));
+            this.$volumeSlider = this._renderSlider(this.$volume, this.volume, _volumeMin, _volumeMax, true);
         },
 
         /**
@@ -1632,7 +1650,7 @@ define([
                     min: _ensureNumber(min) || 0,
                     max : _ensureNumber(max) || 0
                 }
-            })
+            });
         },
 
         /**
@@ -1652,6 +1670,7 @@ define([
          */
         _bindEvents : function _bindEvents() {
             var self = this;
+            var overing = false;
 
             this.$component.on('contextmenu' + _ns, function(event) {
                 event.preventDefault();
@@ -1683,6 +1702,29 @@ define([
                 self.unmute();
                 self.setVolume(value, true);
             });
+            this.$sound.on('mouseover' + _ns, 'a', function(){
+                var position;
+
+                if(!overing && !self.$volumeControl.hasClass('up') && !self.$volumeControl.hasClass('down')) {
+                    overing = true;
+                    position = self.$controls[0].getBoundingClientRect();
+                    if(position && position.top && position.top < volumePositionThreshold){
+                        self.$volumeControl.addClass('down');
+                    } else {
+                        self.$volumeControl.addClass('up');
+                    }
+
+                    //close the volume control after 15s
+                    _.delay(function(){
+                        self.$volumeControl.removeClass('up down');
+                        overing = false;
+                    }, 15000);
+                    self.$volumeControl.one('mouseleave' + _ns, function(){
+                        self.$volumeControl.removeClass('up down');
+                        overing = false;
+                    });
+                }
+            });
         },
 
         /**
@@ -1696,6 +1738,7 @@ define([
             this.$seek.off(_ns);
             this.$volume.off(_ns);
         },
+
 
         /**
          * Updates the volume slider
@@ -1772,6 +1815,7 @@ define([
 
             if (value && isFinite(value)) {
                 this.$seekSlider = this._renderSlider(this.$seek, 0, 0, value);
+                this.$seekSlider.attr('disabled', !this.config.canSeek);
             }
         },
 
@@ -1810,6 +1854,8 @@ define([
             this._setState('ready', true);
             this._setState('canplay', true);
             this._setState('canpause', this.config.canPause);
+            this._setState('canseek', this.config.canSeek);
+            this._setState('loading', false);
 
             /**
              * Triggers a media ready event
@@ -1833,6 +1879,7 @@ define([
          */
         _onError : function _onError() {
             this._setState('error', true);
+            this._setState('loading', false);
 
             /**
              * Triggers an unrecoverable media error event
@@ -1892,27 +1939,29 @@ define([
             this._playingState(false, true);
             this._updatePosition(0);
 
-            /**
-             * Triggers a media ended event
-             * @event mediaplayer#ended
-             */
-            this.trigger('ended');
-
             // disable GUI when the play limit is reached
             if (this._playLimitReached()) {
-                this._setState('ready', false);
-                this._setState('canplay', false);
+                this._disableGUI();
 
                 /**
                  * Triggers a play limit reached event
                  * @event mediaplayer#limitreached
                  */
                 this.trigger('limitreached');
-            } else {
-                if (this.loop) {
-                    this.restart();
-                }
+
+            } else if (this.loop) {
+                this.restart();
+
+            } else if (parseInt(this.config.replayTimeout, 10) > 0) {
+                this.replayTimeoutStartMs = new window.Date().getTime();
+                this._replayTimeout();
             }
+
+            /**
+             * Triggers a media ended event
+             * @event mediaplayer#ended
+             */
+            this.trigger('ended');
         },
 
         /**
@@ -1927,6 +1976,32 @@ define([
              * @event mediaplayer#update
              */
             this.trigger('update');
+        },
+
+        /**
+         * Run a timer to disable the possibility of replaying a media
+         * @private
+         */
+        _replayTimeout : function _replayTimeout() {
+            var nowMs = new window.Date().getTime(),
+                elapsedSeconds = Math.floor((nowMs - this.replayTimeoutStartMs) / 1000);
+
+            this.timerId = requestAnimationFrame(this._replayTimeout.bind(this));
+
+            if (elapsedSeconds >= parseInt(this.config.replayTimeout, 10)) {
+                this._disableGUI();
+                this.disable();
+                cancelAnimationFrame(this.timerId);
+            }
+        },
+
+        /**
+         * Disable the player GUI
+         * @private
+         */
+        _disableGUI : function disableGUI() {
+            this._setState('ready', false);
+            this._setState('canplay', false);
         },
 
         /**
@@ -1954,6 +2029,15 @@ define([
          */
         _canPause : function _canPause() {
             return !!this.config.canPause;
+        },
+
+        /**
+         * Checks if the media can be sought
+         * @returns {Boolean}
+         * @private
+         */
+        _canSeek : function _canSeek() {
+            return !!this.config.canSeek;
         },
 
         /**

@@ -32,6 +32,17 @@ define([
     'use strict';
 
     /**
+     * The data required by the plugin loader
+     *
+     * @typedef {Object} plugindata
+     * @property {String} module - AMD module name of the plugin
+     * @property {String} bundle - AMD module name of the plugin's bundle
+     * @property {String} category - the plugin category
+     * @property {String} name - the plugin name
+     * @property {String|Number} [plugin.position = 'append'] - append, prepend or plugin position within the category
+     */
+
+    /**
      * Creates a loader with the list of required plugins
      * @param {String: Function[]} requiredPlugins - where the key is the category and the value are an array of plugins
      * @returns {loader} the plugin loader
@@ -66,91 +77,71 @@ define([
         var loader = {
 
             /**
-             * Add a new dynamic plugin
-             * @param {String} module - AMD module name of the plugin
-             * @param {String} category - the plugin category
-             * @param {String|Number} [position = 'append'] - append, prepend or plugin position within the category
+             * Add a a list of dynamic plugins to load
+             * @param {plugindata[]} pluginList - the plugins to add
              * @returns {loader} chains
              * @throws {TypeError} misuse
              */
-            add: function add(module, category, position) {
-                if(!_.isString(module)){
+            addList : function addList(pluginList){
+                _.forEach(pluginList, this.add, this);
+                return this;
+            },
+
+
+            /**
+             * Add a new dynamic plugin to load
+             * @param {plugindata} plugin - the plugin to add
+             * @returns {loader} chains
+             * @throws {TypeError} misuse
+             */
+            add: function add(plugin) {
+                if(!_.isString(plugin.module)){
                     throw new TypeError('An AMD module must be defined');
                 }
-                if(!_.isString(category)){
+                if(!_.isString(plugin.category)){
                     throw new TypeError('Plugins must belong to a category');
                 }
 
-                modules[category] = modules[category] || [];
+                modules[plugin.category] = modules[plugin.category] || [];
 
-                if(_.isNumber(position)){
-                    modules[category][position] = module;
+                if(_.isNumber(plugin.position)){
+                    modules[plugin.category][plugin.position] = plugin.module;
                 }
-                else if(position === 'prepend' || position === 'before'){
-                    modules[category].unshift(module);
+                else if(plugin.position === 'prepend' || plugin.position === 'before'){
+                    modules[plugin.category].unshift(plugin.module);
                 } else {
-                    modules[category].push(module);
+                    modules[plugin.category].push(plugin.module);
                 }
 
+                if(plugin.bundle && !_.contains(bundles, plugin.bundle)){
+                    bundles.push(plugin.bundle);
+                }
                 return this;
             },
 
             /**
-             * Add plugins from a bundle
-             * @param {String} bundle - name of the AMD bundle to load
-             * @param {String[]} bundledModules - list of the modules contained into the bundle
-             * @param {String} category - the plugin category
-             * @param {String|Number} [position = 'append'] - append, prepend or plugin position within the category
+             * Append a new dynamic plugin
+             * @param {plugindata} plugin - the plugin to add
              * @returns {loader} chains
              * @throws {TypeError} misuse
              */
-            addBundle: function addBundle(bundle, bundledModules, category, position) {
-                var self = this;
-
-                if(!_.isString(bundle) || _.isEmpty(bundle)){
-                    throw new TypeError('A bundle module must be defined');
-                }
-                if(!_.isArray(bundledModules)){
-                    throw new TypeError('The modules within the bundle must be defined ');
-                }
-                if(!_.isString(category)){
-                    throw new TypeError('Plugins must belong to a category');
-                }
-
-                bundles.push(bundle);
-
-                _.forEach(bundledModules, function(module){
-                    self.add(module, category, position);
-                });
-
-                return this;
-            },
-
-            /**
-             * Append a new dynamic plugin to a category
-             * @param {String} module - AMD module name of the plugin
-             * @param {String} category - the plugin category
-             * @returns {loader} chains
-             * @throws {TypeError} misuse
-             */
-            append: function append(module, category) {
-                return this.add(module, category);
+            append: function append(plugin){
+                return this.add(_.merge({position : 'append'}, plugin));
             },
 
             /**
              * Prepend a new dynamic plugin to a category
-             * @param {String} module - AMD module name of the plugin
-             * @param {String} category - the plugin category
+             * @param {plugindata} plugin - the plugin to add
              * @returns {loader} chains
              * @throws {TypeError} misuse
              */
-            prepend: function prepend(module, category) {
-                return this.add(module, category, 'before');
+            prepend: function prepend(plugin) {
+                return this.add(_.merge({position : 'prepend'}, plugin));
             },
 
             /**
              * Remove a plugin from the loading stack
-             * @param {String} name - the plugin's module
+             * @param {String} module - the plugin's module
              * @returns {loader} chains
              * @throws {TypeError} misuse
              */
@@ -161,9 +152,11 @@ define([
 
             /**
              * Loads the dynamic plugins : trigger the dependency resolution
+             * @param {Boolean} [loadBundles = false] - does load the bundles
              * @returns {Promise}
              */
-            load: function load() {
+            load: function load(loadBundles) {
+                var self = this;
 
                 //compute the plugins depencies
                 var dependencies = _(modules).values().flatten().uniq().difference(excludes).value();
@@ -188,7 +181,7 @@ define([
                 // 1. load bundles
                 // 2. load dependencies
                 // 3. add them to the plugins list
-                return loadModules(bundles)
+                return loadModules( loadBundles ? bundles : [])
                     .then(function(){
                         return loadModules(dependencies);
                     })
@@ -203,7 +196,8 @@ define([
                                 plugins[category].push(plugin);
                             }
                         });
-                });
+                        return self.getPlugins();
+                    });
             },
 
             /**

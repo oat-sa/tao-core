@@ -54,13 +54,13 @@ class tao_helpers_form_validators_Unique
     protected function getProperty()
     {
         if( !isset($this->property) || empty($this->property) ){
-            if (!array_key_exists('property', $this->options)) {
+            if (!$this->hasOption('property')) {
                 throw new common_exception_Error('Property not set');
             }
 
-            $this->property = ($this->options['property'] instanceof core_kernel_classes_Property)
-                ? $this->options['property']
-                : new core_kernel_classes_Property($this->options['property']);
+            $this->property = ($this->getOption('property') instanceof core_kernel_classes_Property)
+                ? $this->getOption('property')
+                : new core_kernel_classes_Property($this->getOption('property'));
         }
 
         return $this->property;

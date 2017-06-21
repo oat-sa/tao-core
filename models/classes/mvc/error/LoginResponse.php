@@ -42,7 +42,9 @@ class LoginResponse extends ResponseAbstract {
                 'msg' => $this->exception->getUserMessage()
             ];
         }
-        header(\HTTPToolkit::locationHeader(_url('login', 'Main', 'tao', $params)));
+        /* @var $urlRouteService \oat\tao\model\mvc\DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get('tao/urlroute');
+        header(\HTTPToolkit::locationHeader($urlRouteService->getLoginUrl($params)));
         return;
     }
     

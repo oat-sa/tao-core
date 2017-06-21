@@ -26,6 +26,15 @@ class tao_install_checks_AllowOverride extends common_configuration_Component {
     public function check (){
         $report = null;
         
+        if (php_sapi_name() === 'cli') {
+            // @todo find a way to detect this in CLI.
+            return new common_configuration_Report(
+                common_configuration_Report::VALID,
+                'The AllowOverride directive cannot be checked in CLI mode.',
+                $this
+            );
+        }
+        
         $server =
             ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https' : 'http')
             ."://".$_SERVER['SERVER_NAME']

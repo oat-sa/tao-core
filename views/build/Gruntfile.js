@@ -7,28 +7,19 @@ module.exports = function(grunt) {
      * in taoQtiItem/views/build/grunt/sass.js for extension specific configuration.
      */
 
-    //track build time
-    require('time-grunt')(grunt);
-
-    // load all grunt tasks matching the `grunt-*` pattern
-    require('load-grunt-tasks')(grunt);
-
-     // Load local tasks.
-    grunt.loadTasks('tasks');
-
-
     //set up contextual config
     var root                = require('path').resolve('../../../').replace(/\\/g, '/'); //tao dist root
-    var ext                 = require('./tasks/helpers/extensions')(grunt, root);   //extension helper
-    var currentExtension    = grunt.option('extension') || 'tao';                   //target extension, add "--extension name" to CLI if needed
-    var reportOutput        = grunt.option('reports') || 'reports';                 //where reports are saved
-    var testPort            = grunt.option('testPort') || 8082;                     //the port to run test web server, override with "--testPort value" to CLI if needed
+    var ext                 = require('./tasks/helpers/extensions')(grunt, root);       //extension helper
+    var currentExtension    = grunt.option('extension') || 'tao';                       //target extension, add "--extension name" to CLI if needed
+    var reportOutput        = grunt.option('reports') || 'reports';                     //where reports are saved
+    var testUrl             = grunt.option('testUrl') || '127.0.0.1';                   //the port to run test web server, override with "--testPort value" to CLI if needed
+    var testPort            = grunt.option('testPort') || 8082;                         //the port to run test web server, override with "--testPort value" to CLI if needed
+    var livereloadPort      = parseInt(grunt.option('livereloadPort'), 10) || true;     //the livereload port, override with "--livereloadPort 35729" to CLI if needed
 
-    //make the options avialable in sub tasks definitions
-    grunt.option('root', root);
-    grunt.option('currentExtension', currentExtension);
-    grunt.option('testPort', testPort);
-    grunt.option('reports', reportOutput);
+    var sassTasks   = [];
+    var bundleTasks = [];
+    var testTasks   = [];
+
 
     //Resolve some shared AMD modules
     var libsPattern =  ['views/js/*.js', 'views/js/core/**/*.js', 'views/js/ui/**/*.js', 'views/js/layout/**/*.js', 'views/js/util/**/*.js', '!views/js/main.*', '!views/js/*.min*', '!views/js/test/**/*.js'];
@@ -52,13 +43,26 @@ module.exports = function(grunt) {
         'html5-history-api']);
 
     grunt.option('mainlibs', libs);
+    grunt.option('root', root);
+    grunt.option('currentExtension', currentExtension);
+    grunt.option('testPort', testPort);
+    grunt.option('testUrl', testUrl);
+    grunt.option('reports', reportOutput);
+    grunt.option('livereloadPort', livereloadPort);
+
+    //track build time
+    require('time-grunt')(grunt);
+
+    // load all grunt tasks matching the `grunt-*` pattern
+    require('load-grunt-tasks')(grunt);
+
+     // Load local tasks.
+    grunt.loadTasks('tasks');
 
     /*
      * Load separated configs into each extension
      */
-    var sassTasks   = [];
-    var bundleTasks = [];
-    var testTasks   = [];
+
     ext.getExtensions().forEach(function(extension){
 
         var extensionKey = extension.toLowerCase();

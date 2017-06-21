@@ -329,8 +329,9 @@ define([
 
     QUnit.asyncTest('destroy', function (assert) {
         var viewer = documentViewer();
+        var count = 0;
 
-        QUnit.expect(4);
+        QUnit.expect(7);
 
         documentViewer.registerProvider('pdf', {init: _.noop, load: _.noop});
 
@@ -341,14 +342,20 @@ define([
             .on('loaded', function() {
                 assert.ok(true, 'The document has been loaded');
 
-                viewer.destroy();
+                if (count ++) {
+                    viewer.destroy();
+                } else {
+                    this.load('/test.pdf', 'pdf');
+                }
             })
             .on('unload', function() {
                 assert.ok(true, 'The document is unloading');
             })
             .on('unloaded', function() {
                 assert.ok(true, 'The document has been unloaded');
-                QUnit.start();
+                if (count > 1) {
+                    QUnit.start();
+                }
             })
             .render()
             .load('/test.pdf', 'pdf');

@@ -67,10 +67,14 @@ define([
         /**
          * Toggle (show if hidden / hide if shown) the given element
          * @param {jQueryElement|HTMLElement|String} element - the element/node/selector
+         * @param {Boolean} [state] - An optional flag that tells if the element must be shown (true) or hidden (false)
          * @returns {jQueryElement} the element
          */
-        toggle : function toggle(element){
-            return jqWrap(element).toggleClass(hiddenClass);
+        toggle : function toggle(element, state){
+            if ('undefined' !== typeof state) {
+                state = !state;
+            }
+            return jqWrap(element).toggleClass(hiddenClass, state);
         },
 
 

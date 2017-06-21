@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test - Key Navigation</title>
+        <base href="../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="ui/keyNavigation/navi"></script>
+
+        <script  type="text/javascript">
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function(){
+                require(['test/ui/keyNavigation/test'], function(){
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <nav class="nav-1">
+                <div class="nav" data-id="A">A</div>
+                <div class="nav" data-id="B">B</div>
+                <div class="nav" data-id="C">C</div>
+            </nav>
+            <nav class="nav-2">
+                <div class="nav" data-id="A">A</div>
+                <div class="nav" data-id="B">B</div>
+                <div class="nav" data-id="C">C
+                    <div><textarea></textarea></div>
+                </div>
+            </nav>
+            <div class="inputable">
+                <input type="text" data-id="A"/>
+                <input type="text" data-id="B"/>
+                <input type="text" data-id="C"/>
+            </div>
+        </div>
+    </body>
+</html>

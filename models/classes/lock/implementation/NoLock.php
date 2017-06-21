@@ -22,9 +22,9 @@
 namespace oat\tao\model\lock\implementation;
 
 use \oat\tao\model\lock\LockSystem;
-use oat\oatbox\Configurable;
 use core_kernel_classes_Resource;
 use common_exception_InconsistentData;
+use oat\oatbox\service\ConfigurableService;
 
 /**
  * Implements a non locking Lock
@@ -32,7 +32,7 @@ use common_exception_InconsistentData;
  * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
-class NoLock extends Configurable
+class NoLock extends ConfigurableService
     implements LockSystem
 {
 

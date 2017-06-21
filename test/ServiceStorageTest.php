@@ -19,17 +19,14 @@
  * 
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-class ServiceStorageTestCase extends TaoPhpUnitTestRunner {
+class ServiceStorageTestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * tests initialization
 	 */
 	public function setUp(){
-		TaoPhpUnitTestRunner::initTest();
 	}
 	
 	public function tearDown() {

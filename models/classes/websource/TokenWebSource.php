@@ -46,18 +46,18 @@ class TokenWebSource extends BaseWebsource
         ));
         return $provider;
     }
-    
-	public function getAccessUrl($relativePath) {
-	    $path = array();
-	    foreach (explode(DIRECTORY_SEPARATOR, ltrim($relativePath, DIRECTORY_SEPARATOR)) as $ele) {
-	        $path[] = rawurlencode($ele);
-	    }
-	    $relUrl = implode('/', $path);
-	    $relPath = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $relativePath));
-	    $token = $this->generateToken($relUrl);
-	    $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-	    return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
-	}
+
+    public function getAccessUrl($relativePath) {
+        $path = array();
+        foreach (preg_split('/[\/\\\]/', ltrim($relativePath, '/\\')) as $ele) {
+            $path[] = rawurlencode($ele);
+        }
+        $relUrl = implode('/', $path);
+        $relPath = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $relativePath));
+        $token = $this->generateToken($relUrl);
+        $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
+    }
 	// helpers
 	
 	/**

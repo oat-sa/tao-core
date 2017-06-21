@@ -1,4 +1,6 @@
-<? include 'layout_header.tpl' ?>
+<? use oat\tao\helpers\Template;
+
+include 'layout_header.tpl' ?>
 
   <div class="content-wrap">
 	<div id="main-menu" class="ui-state-default" >
@@ -19,27 +21,27 @@
 		<div class="right-menu">
 			<span>
 				<a href="<?=_url('index', 'Main', 'index')?>" title="<?=__('Home')?>">
-					<img src="<?=BASE_WWW?>img/home.png" alt="<?=__('Home')?>" />
+					<img src="<?=Template::img('home.png')?>" alt="<?=__('Home')?>" />
 				</a>
 			</span>
 		  	<span>
 		  		<a href="<?=_url('index', null, null, array('structure' => 'users'))?>" title="<?=__('Users')?>">
-		  			<img src="<?=BASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
+		  			<img src="<?=Template::img('users.png')?>" alt="<?=__('Users')?>" />
 		  		</a>
 		  	</span>
 		  	<span>
 		  		<a href="<?=_url('index', 'Settings')?>" class="settings-loader" title="<?=__('Settings')?>">
-		  			<img src="<?=BASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
+		  			<img src="<?=Template::img('settings.png')?>" alt="<?=__('Settings')?>" />
 		  		</a>
 		  	</span>
 			<span>
 				<a href="#" class="file-manager" title="<?=__('Media manager')?>">
-					<img src="<?=BASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
+					<img src="<?=Template::img('mediamanager.png')?>" alt="<?=__('Media manager')?>" />
 				</a>
 			</span>
 		  	<span>
 		  		<a href="<?=_url('logout')?>" title="<?=__('Logout')?>">
-		  			<img src="<?=BASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
+		  			<img src="<?=Template::img('logout.png')?>" alt="<?=__('Logout')?>" />
 		  		</a>
 		  	</span>
 		</div>

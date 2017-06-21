@@ -150,19 +150,22 @@ define([
                                 tokenHandler.setToken(response.token);
                             }
 
+
                             // resolve each message promises
                             _.forEach(promises, function (promise, idx) {
                                 promise.resolve(response.responses && response.responses[idx]);
                             });
 
-                            // receive server messages
-                            _.forEach(response.messages, function (msg) {
-                                if (msg.channel) {
-                                    self.trigger('message', msg.channel, msg.message);
-                                } else {
-                                    self.trigger('message', 'malformed', msg);
-                                }
-                            });
+                            if (!self.polling.is('stopped')) {
+                                // receive server messages
+                                _.forEach(response.messages, function (msg) {
+                                    if (msg.channel) {
+                                        self.trigger('message', msg.channel, msg.message);
+                                    } else {
+                                        self.trigger('message', 'malformed', msg);
+                                    }
+                                });
+                            }
 
                             self.trigger('receive', response);
 

@@ -386,7 +386,8 @@ require(['config'], function(){
         install.addHelp('hlp_fs_taoResults_views_genpics', "The 'taoResults/views/genpics' directory of your installation must be readable and writable by the user running your web server.");
         install.addHelp('hlp_fs_wfEngine_includes', "The 'wfEngine/includes' directory of your installation must be readable by the user running your web server.");
         install.addHelp('hlp_taoQtiItem_custom_mathjax', 'The procedure to install MathJax on your TAO Platform can be found on the <a href="http://forge.taotesting.com/projects/tao/wiki/Enable_math" target="_blank">TAO Wiki</a>.');
-            install.addHelp('hlp_taoForge_connection', 'The installer could not reach TAO Forge, and registration or link to your support account won\'t be possible');
+        install.addHelp('hlp_taoForge_connection', 'The installer could not reach TAO Forge, and registration or link to your support account won\'t be possible');
+        install.addHelp('hlp_tao_extension_php_finfo', 'The functions in this module try to guess the content type and encoding of a file by looking for certain magic byte sequences at specific positions within the file.<br>http://php.net/manual/en/book.fileinfo.php');
     }
 
     function getExpectedRightsAsString(expectedRights){
