@@ -1,5 +1,1 @@
-<div class="{{container}}">
-    {{#each errors}}
-    <div>{{this}}</div>
-    {{/errors}}
-</div>
+<div class="{{container}}"></div>

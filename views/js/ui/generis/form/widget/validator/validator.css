@@ -1,0 +1,12 @@
+.ui-generis-form-widget-validator input.error,
+.ui-generis-form-widget-validator select.error,
+.ui-generis-form-widget-validator textarea.error {
+    border-color: #ba122b;
+    color: #ba122b;
+}
+
+.ui-generis-form-widget-validator {
+    color: #ba122b;
+    text-align: right;
+    width: 99%;
+}

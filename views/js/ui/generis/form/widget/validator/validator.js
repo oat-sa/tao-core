@@ -21,49 +21,120 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'css!tao/ui/generis/form/widgets/validation/validation'
+    'tpl!tao/ui/generis/form/widget/validator/validator',
+    'css!tao/ui/generis/form/widget/validator/validator'
 ], function(
     $,
     _,
     __,
-    componentFactory
+    componentFactory,
+    tpl
 ) {
     'use strict';
 
     /**
      * The factory
-     * @param {(string|function|RegExp)} options.predicate - Expression to be run
-     * @param {string} options.message - Message for failed validation
+     * @param {Object[]} [options.validations]
+     * @return {ui/component}
      */
     function factory(options) {
+        var validator;
+
         options = options || {};
 
-        return componentFactory({
+        validator = componentFactory({
+            /**
+             * Run all validations (i.e. populate errors property)
+             * @param {String} value
+             * @return {this}
+             */
             run: function (value) {
-                var predicate = options.predicate;
-                var ret;
+                this.errors = _(this.validations)
+                // run validations
+                .reject(function (validation) {
+                    if (validation.predicate instanceof RegExp) {
+                        return validation.predicate.test(value);
+                    }
+                    else if (typeof validation.predicate === 'function') {
+                        return validation.predicate(value);
+                    }
+                }, this)
+                // sort validations by precedence
+                .sortBy('precedence')
+                // return validations' message
+                .map(function (validation) {
+                    return validation.message;
+                })
+                .value();
 
-                if (predicate instanceof RegExp) {
-                    ret = predicate(value);
-                } else if (typeof predicate === 'function') {
-                    ret = predicate.test(value);
+                return this;
+            },
+
+            /**
+             * Clears validation errors from dom
+             * @return {this}
+             */
+            clear: function () {
+                this.errors = [];
+
+                if (this.is('rendered')) {
+                    this.getElement().empty();
                 }
 
-                return ret;
+                return this;
             },
-            clear: function () {
 
+            /**
+             * Displays validation errors in dom
+             * @return {this}
+             */
+            display: function () {
+                var $this = this.getElement();
+
+                if (this.is('rendered')) {
+                    $this.empty();
+                    _.each(this.errors, function (error) {
+                        $this.append(
+                            $('<div>', {
+                                class: 'validation-error'
+                            })
+                            .text(error)
+                        );
+                    });
+                }
+
+                return this;
             },
-            show: function () {
 
+            /**
+             * Adds validation
+             * @param {Object} validation
+             * @return {this}
+             */
+            addValidation: function (validation) {
+                this.validations.push(validation);
+
+                return this;
             },
-            hide: function () {
 
+            /**
+             * Removes all validations
+             * @return {this}
+             */
+            clearValidations: function () {
+                this.validations = [];
+
+                return this;
             }
         }, {
-            container: '.validation-container',
-            errors: []
-        });
+            container: 'ui-generis-form-widget-validator'
+        })
+        .setTemplate(tpl);
+
+        validator.errors = [];
+        validator.validations = options.validations || [];
+
+        return validator;
     }
 
     return factory;

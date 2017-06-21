@@ -9,19 +9,16 @@ var validator = generisFormWidgetValidatorFactory({
 })
 .init()
 .render('.ui-generis-form-widget-validator-container')
-.addValidation('alphaNumeric')
-.removeValidation('required')
-.addValidation('foobar', {
+.addValidation('alphaNumeric') // todo
+.clearValidations()
+.addValidation({
     predicate: /foobar/i,
     message: 'Must be foobar',
     precedence: 99
 })
 .run()
-.show()
-.hide()
+.display()
 .clear();
-
-return validator.errors;
 
 
 /**
@@ -41,10 +38,9 @@ validator.errors;
 validator.validations;
 
 @returns this
-validator.show();
-validator.hide();
 validator.run();
+validator.display();
 validator.clear();
-validator.addValidation(string name, object options (optional));
-validator.removeValidation(name);
+validator.addValidation(object validationOptions);
+validator.clearValidations();
 ```
