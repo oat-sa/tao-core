@@ -13,7 +13,8 @@ use oat\tao\helpers\Template;
                         <tr>
                             <th class="bordered"></th>
                             <th class="bordered author"><?= __('Author'); ?></th>
-                            <th class="version"><?= __('Version'); ?></th>
+                            <th class="version"><?= __('Installed Version'); ?></th>
+                            <th class="version"><?= __('Code Version'); ?></th>
                             <!-- <th><?= __('Loaded'); ?></th>  -->
                             <!-- <th><?= __('Loaded at Startup'); ?></th> -->
                         </tr>
@@ -21,9 +22,10 @@ use oat\tao\helpers\Template;
                     <tbody>
                     <?php foreach(get_data('installedExtArray') as $extensionObj): ?>
                     <?php if($extensionObj->getId() !=null): ?>
-                        <tr>
+                        <tr <?=(common_ext_ExtensionsManager::singleton()->getInstalledVersion($extensionObj->getId()) !== $extensionObj->getVersion())?'class="txt-error"':'';?>>
                             <td class="ext-id bordered"><?= $extensionObj->getName(); ?></td>
                             <td class="author"><?= str_replace(',', '<br />', $extensionObj->getAuthor()) ; ?></td>
+                            <td class="version"><?= common_ext_ExtensionsManager::singleton()->getInstalledVersion($extensionObj->getId()); ?></td>
                             <td class="version"><?= $extensionObj->getVersion(); ?></td>
                         </tr>
                     <?php endif; ?>
