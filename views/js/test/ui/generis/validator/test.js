@@ -19,7 +19,7 @@
 define([
     'jquery',
     'lodash',
-    'ui/generis/form/widget/validator/validator'
+    'ui/generis/validator/validator'
 ], function(
     $,
     _,

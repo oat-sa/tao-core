@@ -21,8 +21,8 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'tpl!tao/ui/generis/form/widget/validator/validator',
-    'css!tao/ui/generis/form/widget/validator/validator'
+    'tpl!tao/ui/generis/validator/validator',
+    'css!tao/ui/generis/validator/validator'
 ], function(
     $,
     _,
@@ -127,7 +127,7 @@ define([
                 return this;
             }
         }, {
-            container: 'ui-generis-form-widget-validator'
+            container: 'ui-generis-validator'
         })
         .setTemplate(tpl);
 

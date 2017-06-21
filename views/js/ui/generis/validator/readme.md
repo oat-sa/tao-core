@@ -1,14 +1,14 @@
-### ui/generis/form/widget/validator/validator (is a ui/component)
+### ui/generis/validator/validator (is a ui/component)
 ```
 /**
  * Examples
  */
 
-var validator = generisFormWidgetValidatorFactory({
+var validator = generisValidatorFactory({
     validations: ['required']
 })
 .init()
-.render('.ui-generis-form-widget-validator-container')
+.render('.ui-generis-validator-container')
 .addValidation('alphaNumeric') // todo
 .clearValidations()
 .addValidation({
@@ -26,7 +26,7 @@ var validator = generisFormWidgetValidatorFactory({
  */
 
 @return ui/component
-var validator = generisFormWidgetValidatorFactory({
+var validator = generisValidatorFactory({
     validations: [ ... ]
 })
 .init();
