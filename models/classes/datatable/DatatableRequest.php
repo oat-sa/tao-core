@@ -30,6 +30,7 @@ interface DatatableRequest
     const PARAM_PAGE = 'page';
     const PARAM_SORT_BY = 'sortby';
     const PARAM_SORT_ORDER = 'sortorder';
+    const PARAM_SORT_TYPE = 'sorttype';
     const PARAM_FILTERS = 'filtercolumns';
 
     /**
@@ -55,6 +56,12 @@ interface DatatableRequest
      * @return string
      */
     public function getSortOrder();
+
+    /**
+     * Get sorting type
+     * @return string
+     */
+    public function getSortType();
 
     /**
      * Get filters
