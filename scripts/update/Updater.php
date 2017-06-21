@@ -50,6 +50,7 @@ use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
@@ -869,6 +870,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.21.0', '10.24.0');
+
+        if($this->isVersion('10.24.0')){
+            $this->runExtensionScript(AddArchiveService::class);
+
+            $this->setVersion('10.25.0');
+        }
 
     }
 
