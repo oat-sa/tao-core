@@ -337,7 +337,7 @@ define([
                             var $btn = $(this);
                             e.preventDefault();
                             if (!$btn.hasClass('disabled')) {
-                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
+                                action.apply($btn, [$btn.closest('[data-item-identifier]').attr('data-item-identifier')]);
                             }
                         });
                 });
@@ -448,7 +448,7 @@ define([
                     currentRow.toggleClass('selected');
 
                     $elt.trigger('selected.' + ns,
-                        _.where(dataset.data, {id: currentRow.data('item-identifier')})
+                        _.where(dataset.data, {id: currentRow.attr('data-item-identifier')})
                     );
                 });
             }
@@ -704,7 +704,7 @@ define([
             var selection = [];
 
             $selected.each(function() {
-                selection.push($(this).data('item-identifier'));
+                selection.push($(this).attr('data-item-identifier'));
             });
 
             return selection;
