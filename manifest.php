@@ -27,6 +27,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetupMaintenanceService;
+use oat\tao\scripts\install\AddArchiveService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -35,7 +36,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '10.24.1',
+    'version' => '10.25.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=3.34.0',
@@ -93,7 +94,8 @@ return array(
             RegisterValidationRules::class,
             SetClientLoggerConfig::class,
             InstallNotificationTable::class,
-            SetupMaintenanceService::class
+            SetupMaintenanceService::class,
+            AddArchiveService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
