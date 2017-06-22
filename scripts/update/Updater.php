@@ -869,7 +869,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.21.0');
         }
 
-        $this->skip('10.21.0', '10.24.0');
+        $this->skip('10.21.0', '10.24.1');
 
         if($this->isVersion('10.24.0')){
             $this->runExtensionScript(AddArchiveService::class);
@@ -877,6 +877,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.25.0');
         }
 
+        $this->skip('10.25.0', '10.25.1');
     }
 
     private function migrateFsAccess() {
