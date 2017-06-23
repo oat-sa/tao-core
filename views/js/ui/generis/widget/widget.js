@@ -21,30 +21,33 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'css!tao/ui/generis/form/widgets/_widget'
+    'tpl!tao/ui/generis/widget/widget',
+    'css!tao/ui/generis/widget/widget'
 ], function(
     $,
     _,
     __,
-    componentFactory
+    componentFactory,
+    tpl
 ) {
     'use strict';
 
     /**
      * The factory
-     * @param {String} [validationContainer = '.validation-container']
-     * @param {Array} [validations = []]
+     * @param {ui/generis/validator} [options.validator]
      * @returns {ui/component}
      */
     function factory(options) {
+        var widget;
+
         options = options || {};
 
-        return componentFactory({
+        widget = componentFactory({
             /**
              * Gets widget value
-             * @returns {String|this}
+             * @returns {String}
              */
-            get: function (callback) {
+            get: function () {
                 var ret = this.config.value || '';
 
                 if (this.is('rendered')) {
@@ -53,19 +56,14 @@ define([
                     .val();
                 }
 
-                if (typeof callback === 'function') {
-                    callback.apply(this, [ret]);
-                    return this;
-                }
-
                 return ret;
             },
 
             /**
              * Sets widget value
-             * @returns {String|this}
+             * @returns {String}
              */
-            set: function (value, callback) {
+            set: function (value) {
                 this.config.value = value;
 
                 if (this.is('rendered')) {
@@ -74,124 +72,38 @@ define([
                     .val(value);
                 }
 
-                if (typeof callback === 'function') {
-                    callback.apply(this, [value]);
-                    return this;
-                }
-
-                return value;
+                return this.config.value;
             },
 
             /**
              * Validates widget
+             * @returns {this}
              */
-            validate: function (callback) {
-                var $el = this.getElement();
-                var $input;
-                var ret;
-                var value = this.get();
-
-                if ($el) {
-                    $el.find(this.validationContainer).empty();
-
-                    $input = $el.find('[name]');
-                    $input.removeClass('error');
-                }
-
-                ret = _(this.validations)
-                // run validations
-                .reject(function (validation) {
-                    if (validation.predicate instanceof RegExp) {
-                        return validation.predicate.test(value);
-                    }
-                    else if (typeof validation.predicate === 'function') {
-                        return validation.predicate(value);
-                    }
-                }, this)
-                // display validations' message
-                .each(function (validation) {
-                    if ($el) {
-                        $el.find(this.validationContainer)
-                        .append(
-                            $('<div>', {
-                                class: 'error',
-                                text: validation.message
-                            })
-                        );
-                        $input.addClass('error');
-                    }
-                }, this)
-                // return validations' message
-                .map(function (validation) {
-                    return validation.message;
-                })
-                .value();
-
-                if (typeof callback === 'function') {
-                    callback.apply(this, [ret]);
-                    return this;
-                }
-
-                return ret;
+            validate: function validate() {
+                this.validator.run(this.get());
+                this.validator.display();
+                return this;
             },
 
             /**
              * Serializes widget into a name/value object for form submission
-             * @param {Function} [callback]
-             * @returns {Object|this}
+             * @returns {Object}
              */
-            serialize: function serialize(callback) {
-                var ret = {
+            serialize: function serialize() {
+                return {
                     name: this.config.uri,
                     value: this.get()
                 };
-
-                if (typeof callback === 'function') {
-                    callback.apply(this, [ret]);
-                    return this;
-                }
-
-                return ret;
             }
         }, {
             hidden: false,
-            required: false
+            validator: null
         })
+        .setTemplate(tpl);
 
-        .on('init', function () {
-            this.validationContainer = options.validationContainer || '.validation-container';
-            this.validations = options.validations || [];
-        })
+        widget.validator = options.validator || null;
 
-        .on('render', function () {
-            var $el = this.getElement();
-
-            // Configure hidden option
-            if (this.config.hidden) {
-                $el.attr('hidden', 'hidden');
-            }
-
-            // Configure required option
-            if (this.config.required) {
-                $el.find('label[for="' + this.config.uri + '"]').append(
-                    $('<abbr>', {
-                        title: __('This field is required'),
-                        text: '*'
-                    })
-                );
-                this.validations.unshift({
-                    predicate: /\S+/,
-                    message: 'This field is required'
-                });
-            }
-
-            // Add error container
-            $el.append(
-                $('<div>', {
-                    class: this.validationContainer.substring(1)
-                })
-            );
-        });
+        return widget;
     }
 
     return factory;

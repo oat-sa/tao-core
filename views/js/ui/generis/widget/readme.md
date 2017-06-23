@@ -1,13 +1,12 @@
-### ui/generis/form/widget/widget (is a ui/component)
+### ui/generis/widget/widget (is a ui/component)
 ```
 /**
  * Examples
  */
 
-var widget = generisFormWidgetFactory({
-    hidden: false,
+var widget = generisWidgetFactory({
     partial: hiddenBoxPtl,
-    validator: generisFormWidgetValidatorFactory({ ... })
+    validator: generisValidatorFactory({ ... })
 })
 .setPartial(checkBoxPtl)
 .init({
@@ -16,11 +15,10 @@ var widget = generisFormWidgetFactory({
     value: 'FooBar',
     uri: 'tao.lu#label',
 })
-.render('.ui-generis-form-widget-container')
-.hide()
-.show()
+.render('.ui-generis-widget-container')
 .removeValidator()
 .addValidator({ ... })
+.validate()
 .on('change blur', function (e) {
     this.validator.run;
     if (this.validator.errors.length) {
@@ -37,10 +35,9 @@ var widget = generisFormWidgetFactory({
  */
 
 @returns ui/component
-var widget = generisFormWidgetFactory({
-    hidden: boolean (optional),
+var widget = generisWidgetFactory({
     partial: function (optional),
-    validator: ui/generis/form/widget/validator (optional)
+    validator: ui/generis/validator/validator (optional)
 })
 .init({
     label: string (required),
@@ -49,15 +46,14 @@ var widget = generisFormWidgetFactory({
     ...
 });
 
-@type ui/generis/form/widget/validator
+@type ui/generis/validator/validator
 widget.validator;
 
 @returns this
 widget.setPartial(function partial);
-widget.show();
-widget.hide();
 widget.addValidator(object options);
 widget.removeValidator();
+widget.validate();
 
 @returns string || array<string>
 widget.get();

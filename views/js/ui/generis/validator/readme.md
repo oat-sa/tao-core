@@ -16,7 +16,7 @@ var validator = generisValidatorFactory({
     message: 'Must be foobar',
     precedence: 99
 })
-.run()
+.run('foobar')
 .display()
 .clear();
 
@@ -38,7 +38,7 @@ validator.errors;
 validator.validations;
 
 @returns this
-validator.run();
+validator.run(string value);
 validator.display();
 validator.clear();
 validator.addValidation(object validationOptions);

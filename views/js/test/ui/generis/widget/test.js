@@ -20,12 +20,12 @@ define([
     'jquery',
     'lodash',
     'handlebars',
-    'ui/generis/form/widgets/_widget'
+    'ui/generis/widget/widget'
 ], function(
     $,
     _,
     Handlebars,
-    generisFormWidgetFactory
+    generisWidgetFactory
 ) {
     'use strict';
 
@@ -60,19 +60,24 @@ define([
     QUnit.module('Api');
 
     QUnit.test('module', 3, function (assert) {
-        assert.equal(typeof generisFormWidgetFactory, 'function', 'The module exposes a function');
-        assert.equal(typeof generisFormWidgetFactory(), 'object', 'The factory produces an object');
-        assert.notStrictEqual(generisFormWidgetFactory(), generisFormWidgetFactory(), 'The factory provides a different object on each call');
+        assert.equal(typeof generisWidgetFactory, 'function', 'The module exposes a function');
+        assert.equal(typeof generisWidgetFactory(), 'object', 'The factory produces an object');
+        assert.notStrictEqual(generisWidgetFactory(), generisWidgetFactory(), 'The factory provides a different object on each call');
     });
 
     QUnit
     .cases([
-        { name : 'get', title : 'get' },
-        { name : 'set', title : 'set' },
-        { name : 'validate', title : 'validate' }
+        { name: 'setPartial',      title: 'setPartial',      type: 'function' },
+        { name: 'get',             title: 'get',             type: 'function' },
+        { name: 'set',             title: 'set',             type: 'function' },
+        { name: 'validator',       title: 'validator',       type: 'object' },
+        { name: 'addValidator',    title: 'addValidator',    type: 'function' },
+        { name: 'removeValidator', title: 'removeValidator', type: 'function' },
+        { name: 'validate',        title: 'validate',        type: 'function' },
+        { name: 'serialize',       title: 'serialize',       type: 'function' }
     ])
     .test('instance', function (data, assert) {
-        var instance = generisFormWidgetFactory();
+        var instance = generisWidgetFactory();
         assert.equal(typeof instance[data.name], 'function', 'The instance exposes a "' + data.title + '" function');
     });
 
@@ -83,7 +88,7 @@ define([
     QUnit.module('Methods');
 
     QUnit.test('initialization', function (assert) {
-        generisFormWidgetFactory()
+        generisWidgetFactory()
         .on('render', function () {
             assert.ok(this.getElement().attr('hidden'), 'Widget is successfully hidden');
             assert.ok(this.validations[0], 'Required validation exists');
@@ -97,7 +102,7 @@ define([
     });
 
     QUnit.test('get', function (assert) {
-        generisFormWidgetFactory()
+        generisWidgetFactory()
         .on('render', function () {
             assert.equal(this.get(), 'bar', 'returns value');
             assert.equal(this.get(function () {}), this, 'returns this when callback passed');
@@ -114,7 +119,7 @@ define([
     });
 
     QUnit.test('set', function (assert) {
-        generisFormWidgetFactory()
+        generisWidgetFactory()
         .on('render', function () {
             assert.equal(this.set('baz'), 'baz', 'returns updated value');
             assert.equal(this.get(), 'baz', 'updates value');
@@ -132,7 +137,7 @@ define([
     });
 
     QUnit.test('validate', function (assert) {
-        var instance = generisFormWidgetFactory();
+        var instance = generisWidgetFactory();
 
         // returns boolean or this
 
@@ -146,7 +151,7 @@ define([
     QUnit.module('Events');
 
     QUnit.test('change & blur', function (assert) {
-        var instance = generisFormWidgetFactory();
+        var instance = generisWidgetFactory();
 
         assert.ok(true, 'on(\'change blur\')');
     });
@@ -158,46 +163,52 @@ define([
     QUnit.module('Visual Test');
 
     QUnit.test('Display and play', function (assert) {
-        var textWidget = generisFormWidgetFactory({
-            required: true
+        var textBox = generisWidgetFactory({
+            hidden: false,
         })
-        .setTemplate(textTpl)
-        .on('init', function () {
-            this.validations.push({
-                predicate: /Bar/,
-                message: 'Make it "Bar"'
-            });
+        .setPartial('textBox')
+        .addValidator({
+            validations: [{
+                predicate: /world/i,
+                message: 'It is \'WORLD\''
+            }]
         })
         .on('render', function () {
             assert.ok(true);
         })
         .init({
-            uri: 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
-            label: 'First Name',
-            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
-            value: 'Foo'
+            label: 'Hello',
+            required: true,
+            value: 'World',
+            uri: 'taoplatform#helloWorld'
         })
         .render('#display-and-play > form > fieldset');
 
-        var selectWidget = generisFormWidgetFactory({
-            required: true
+        var checkBox = generisWidgetFactory({
+            hidden: false
         })
-        .setTemplate(selectTpl)
+        .setPartial('checkBox')
+        .addValidator({
+            validations: [{
+                predicate: /\S+/,
+                message: 'Must contain something...'
+            }]
+        })
         .on('render', function () {
             assert.ok(true);
         })
         .init({
-            uri: 'http://www.tao.lu/Ontologies/generis.rdf#select',
-            label: 'Select Box',
-            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SelectBox',
-            value: '3'
+            label: 'Select a foo...',
+            required: true,
+            value: 'bar',
+            uri: 'taoplatform#fooList'
         })
         .render('#display-and-play > form > fieldset');
 
         $('#validate').on('click', function (e) {
             e.preventDefault();
 
-            console.log(textWidget.validate(), selectWidget.validate());
+            console.log(textBox.serialize(), checkBox.serialize());
 
             return false;
         });
