@@ -14,12 +14,20 @@ return new \oat\tao\model\mvc\DefaultUrlService(
                     'controller' => 'Main',
                     'action'     => 'login',
                 ],
-                'logout' => 
+                'logout' =>
                 [
                     'ext'        => 'tao',
                     'controller' => 'Main',
                     'action'     => 'logout',
-                    'redirect'   => _url('entry', 'Main', 'tao'),
+                    'redirect'   =>
+                        [
+                            'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                            'options' => [
+                                'action' => 'entry',
+                                'controller' => 'Main',
+                                'ext' => 'tao'
+                            ]
+                        ],
                 ]
             ]
         );
