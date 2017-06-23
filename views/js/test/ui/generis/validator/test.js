@@ -62,14 +62,14 @@ define([
 
     QUnit
     .cases([
-        { name: 'errors',           title: 'errors',           type: 'object' },
-        { name: 'validations',      title: 'validations',      type: 'object' },
-        { name: 'show',             title: 'show',             type: 'function' },
-        { name: 'hide',             title: 'hide',             type: 'function' },
-        { name: 'run',              title: 'run',              type: 'function' },
-        { name: 'clear',            title: 'clear',            type: 'function' },
-        { name: 'addValidation',    title: 'addValidation',    type: 'function' },
-        { name: 'clearValidations', title: 'clearValidations', type: 'function' },
+        { name: 'errors',            title: 'errors',            type: 'object' },
+        { name: 'validations',       title: 'validations',       type: 'object' },
+        { name: 'show',              title: 'show',              type: 'function' },
+        { name: 'hide',              title: 'hide',              type: 'function' },
+        { name: 'run',               title: 'run',               type: 'function' },
+        { name: 'clear',             title: 'clear',             type: 'function' },
+        { name: 'addValidation',     title: 'addValidation',     type: 'function' },
+        { name: 'removeValidations', title: 'removeValidations', type: 'function' },
     ])
     .test('instance', function (data, assert) {
         var instance = generisValidatorFactory();
@@ -135,12 +135,12 @@ define([
         .init();
     });
 
-    QUnit.test('clearValidations', function (assert) {
+    QUnit.test('removeValidations', function (assert) {
         generisValidatorFactory({
             validations: validations
         })
         .on('init', function () {
-            this.clearValidations();
+            this.removeValidations();
             assert.equal(this.validations.length, 0, 'cleared validations');
         })
         .init();

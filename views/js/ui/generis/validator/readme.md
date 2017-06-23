@@ -10,7 +10,7 @@ var validator = generisValidatorFactory({
 .init()
 .render('.ui-generis-validator-container')
 .addValidation('alphaNumeric') // todo
-.clearValidations()
+.removeValidations()
 .addValidation({
     predicate: /foobar/i,
     message: 'Must be foobar',
@@ -42,5 +42,5 @@ validator.run();
 validator.display();
 validator.clear();
 validator.addValidation(object validationOptions);
-validator.clearValidations();
+validator.removeValidations();
 ```

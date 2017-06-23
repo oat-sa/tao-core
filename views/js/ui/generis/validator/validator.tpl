@@ -1,1 +1,1 @@
-<div class="{{container}}"></div>
+<div class="ui-generis-validator"></div>

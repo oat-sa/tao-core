@@ -121,13 +121,12 @@ define([
              * Removes all validations
              * @return {this}
              */
-            clearValidations: function () {
+            removeValidations: function () {
                 this.validations = [];
 
                 return this;
             }
         }, {
-            container: 'ui-generis-validator'
         })
         .setTemplate(tpl);
 
