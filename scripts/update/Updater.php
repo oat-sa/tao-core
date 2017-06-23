@@ -871,7 +871,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('10.21.0', '10.24.1');
 
-        if($this->isVersion('10.24.0')){
+        if($this->isVersion('10.24.1')){
             $this->runExtensionScript(AddArchiveService::class);
 
             $this->setVersion('10.25.0');
