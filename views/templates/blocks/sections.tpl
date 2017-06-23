@@ -2,6 +2,7 @@
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
 
+$xsrfTokenName = get_data('xsrf-token-name');
 $sections = get_data('sections');
 ?>
 
@@ -94,3 +95,16 @@ $sections = get_data('sections');
         </aside>
     </div>
 <?php endif; ?>
+
+<script>
+    requirejs.config({
+        config: {
+            'layout/actions/common': {
+                xsrfTokenName: "<?= $xsrfTokenName ?>"
+            },
+            'controller/users/index': {
+                xsrfTokenName: "<?= $xsrfTokenName ?>"
+            }
+        }
+    });
+</script>

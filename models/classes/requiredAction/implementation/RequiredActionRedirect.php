@@ -109,6 +109,15 @@ class RequiredActionRedirect extends RequiredActionAbstract
     }
 
     /**
+     * Return the redirect url
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
      * Some actions should not be redirected (such as retrieving requireJs config)
      * @return array
      */

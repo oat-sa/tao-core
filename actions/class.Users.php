@@ -21,6 +21,7 @@
  */
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\security\xsrf\TokenService;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -186,6 +187,20 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
+        // Csrf token validation
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenName = $tokenService->getTokenName();
+        $token = $this->getRequestParameter($tokenName);
+        if (! $tokenService->checkToken($token)) {
+            \common_Logger::w('Xsrf validation failed');
+            return $this->returnJson([
+                'deleted' => false,
+                'message' => 'Not authorized to perform action'
+            ]);
+        } else {
+            $tokenService->revokeToken($token);
+        }
+
         $deleted = false;
         $message = __('An error occured during user deletion');
         if (helpers_PlatformInstance::isDemo()) {
