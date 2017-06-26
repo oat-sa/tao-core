@@ -20,6 +20,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'handlebars',
     'ui/component',
     'tpl!tao/ui/generis/widget/widget',
     'css!tao/ui/generis/widget/widget'
@@ -27,22 +28,26 @@ define([
     $,
     _,
     __,
+    Handlebars,
     componentFactory,
-    tpl
+    ptl
 ) {
     'use strict';
 
+    Handlebars.registerPartial('ui-generis-widget-label', ptl);
+
     /**
      * The factory
-     * @param {ui/generis/validator} [options.validator]
+     * @param {Object} [options.validator]
+     * @param {Object} [spec]
      * @returns {ui/component}
      */
-    function factory(options) {
+    function factory(options, spec) {
         var widget;
 
         options = options || {};
 
-        widget = componentFactory({
+        widget = componentFactory(_.assign({
             /**
              * Gets widget value
              * @returns {String}
@@ -76,12 +81,25 @@ define([
             },
 
             /**
-             * Validates widget
+             * Add a validator
+             * @param {ui/generis/validator/validator} validator
+             * @returns {this}
+             */
+            setValidator: function (validator) {
+                this.validator = validator || null;
+                return this;
+            },
+
+            /**
+             * Validates widget (if validator is not null)
              * @returns {this}
              */
             validate: function validate() {
-                this.validator.run(this.get());
-                this.validator.display();
+                if (this.validator) {
+                    this.validator.run(this.get());
+                    this.validator.display();
+                }
+
                 return this;
             },
 
@@ -95,11 +113,10 @@ define([
                     value: this.get()
                 };
             }
-        }, {
-            hidden: false,
-            validator: null
-        })
-        .setTemplate(tpl);
+        }, spec), {
+            label: 'Label',
+            required: false
+        });
 
         widget.validator = options.validator || null;
 

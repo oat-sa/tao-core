@@ -5,28 +5,21 @@
  */
 
 var widget = generisWidgetFactory({
-    partial: hiddenBoxPtl,
     validator: generisValidatorFactory({ ... })
 })
-.setPartial(checkBoxPtl)
 .init({
     label: 'Label',
     required: true
     value: 'FooBar',
     uri: 'tao.lu#label',
+    ...
 })
 .render('.ui-generis-widget-container')
-.removeValidator()
-.addValidator({ ... })
+.setValidator(validator)
 .validate()
 .on('change blur', function (e) {
-    this.validator.run;
-    if (this.validator.errors.length) {
-        console.log(this.get());
-        this.set('ummm...');
-    } else {
-        console.log(this.serialize());
-    }
+    this.validator.run();
+    console.log(this.serialize());
 });
 
 
@@ -50,9 +43,7 @@ var widget = generisWidgetFactory({
 widget.validator;
 
 @returns this
-widget.setPartial(function partial);
-widget.addValidator(object options);
-widget.removeValidator();
+widget.setValidator(object validator);
 widget.validate();
 
 @returns string || array<string>

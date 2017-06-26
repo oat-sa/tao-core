@@ -1,52 +1,57 @@
-.ui-generis-form-widgets {
+.ui-generis-widget {
     margin: 10px 0px;
 }
 
-.ui-generis-form-widgets > label {
+.ui-generis-widget > .left {
+    display: inline-block;
     margin-top: 8px;
     width: 34%;
-    vertical-align: top;
 }
 
-.ui-generis-form-widgets > input,
-.ui-generis-form-widgets > select,
-.ui-generis-form-widgets > textarea {
+.ui-generis-widget > .right {
+    display: inline-block;
+    min-width: 150px;
+    width: 65%;
+}
+
+.ui-generis-widget > .right > input,
+.ui-generis-widget > .right > select,
+.ui-generis-widget > .right > textarea {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 2px;
     color: #222;
     font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
-    min-width: 150px;
     padding: 4px;
-    width: 65%;
+    width: 100%;
 }
 
-.ui-generis-form-widgets > input,
-.ui-generis-form-widgets > select {
+.ui-generis-widget > .right > input,
+.ui-generis-widget > .right > select {
     font: inherit;
     height: 36px;
 }
 
-.ui-generis-form-widgets > .checkbox {
+.ui-generis-widget > .right > .checkbox {
     color: #222;
     display: inline-block;
     font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
-    padding-top: 4px;
-    width: 65%;
+    padding: 4px;
+    width: 100%;
 }
 
-.ui-generis-form-widgets > .checkbox > .option {
+.ui-generis-widget > .right > .checkbox > .option {
     padding-top: 4px;
 }
 
-.ui-generis-form-widgets input.error,
-.ui-generis-form-widgets select.error,
-.ui-generis-form-widgets textarea.error {
+.ui-generis-widget > .right input.error,
+.ui-generis-widget > .right select.error,
+.ui-generis-widget > .right textarea.error {
     border-color: #ba122b;
     color: #ba122b;
 }
 
-.ui-generis-form-widgets .validation-container {
+.ui-generis-widget .validation-container {
     color: #ba122b;
     text-align: right;
     width: 99%;

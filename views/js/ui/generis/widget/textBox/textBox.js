@@ -20,9 +20,9 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'ui/generis/form/widgets/_widget',
-    'tpl!ui/generis/form/widgets/textBox/textBox',
-    'css!tao/ui/generis/form/widgets/_widget'
+    'ui/generis/widget/widget',
+    'tpl!ui/generis/widget/textBox/textBox',
+    'css!tao/ui/generis/widget/textBox/textBox'
 ], function(
     $,
     _,
@@ -37,8 +37,14 @@ define([
      * @returns {ui/component}
      */
     function factory() {
-        return widgetFactory()
+        var widget = widgetFactory({
+            // options
+        }, {
+            // no overrides
+        })
         .setTemplate(tpl);
+
+        return widget;
     }
 
     return factory;
