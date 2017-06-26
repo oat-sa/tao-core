@@ -21,8 +21,7 @@ define([
     'lodash',
     'i18n',
     'ui/generis/widget/widget',
-    'tpl!ui/generis/widget/textBox/textBox',
-    'css!tao/ui/generis/widget/textBox/textBox'
+    'tpl!ui/generis/widget/textBox/textBox'
 ], function(
     $,
     _,
@@ -34,15 +33,31 @@ define([
 
     /**
      * The factory
+     * @param {Object[]} [options.validator]
+     * @param {String} config.label
+     * @param {String} [confgi.required = false]
+     * @param {String} config.uri
+     * @param {String} [config.value = '']
      * @returns {ui/component}
      */
-    function factory() {
-        var widget = widgetFactory({
-            // options
+    function factory(options, config) {
+        var validator = options.validator || [];
+        var widget;
+
+        // todo - handle required fields
+
+        widget = widgetFactory({
+            validator: validator
         }, {
-            // no overrides
+            // no spec overrides
         })
-        .setTemplate(tpl);
+        .setTemplate(tpl)
+        .init({
+            label: config.label,
+            required: config.required || false,
+            uri: config.uri,
+            value: config.value || ''
+        });
 
         return widget;
     }

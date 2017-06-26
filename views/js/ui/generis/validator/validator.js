@@ -128,7 +128,8 @@ define([
             }
         }, {
         })
-        .setTemplate(tpl);
+        .setTemplate(tpl)
+        .init();
 
         validator.errors = [];
         validator.validations = options.validations || [];

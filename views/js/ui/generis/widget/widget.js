@@ -22,6 +22,7 @@ define([
     'i18n',
     'handlebars',
     'ui/component',
+    'ui/generis/validator/validator',
     'tpl!tao/ui/generis/widget/widget',
     'css!tao/ui/generis/widget/widget'
 ], function(
@@ -30,6 +31,7 @@ define([
     __,
     Handlebars,
     componentFactory,
+    generisValidatorFactory,
     ptl
 ) {
     'use strict';
@@ -86,7 +88,25 @@ define([
              * @returns {this}
              */
             setValidator: function (validator) {
-                this.validator = validator || null;
+                validator = validator || [];
+
+                if (typeof validator.is === 'function') { // is a ui/component
+                    this.validator = validator;
+                } else {
+                    this.validator = generisValidatorFactory({
+                        validations: validator
+                    });
+                }
+
+                if (this.is('rendered')) {
+                    this.validator.render(this.getElement());
+                } else {
+                    this.on('render.setValidator', function () {
+                        this.validator.render(this.getElement());
+                        this.off('render.setValidator');
+                    });
+                }
+
                 return this;
             },
 
@@ -95,9 +115,20 @@ define([
              * @returns {this}
              */
             validate: function validate() {
+                var input;
+
                 if (this.validator) {
                     this.validator.run(this.get());
                     this.validator.display();
+
+                    if (this.is('rendered')) {
+                        input = this.getElement().find('.right > input');
+                        if (this.validator.errors.length) {
+                            input.addClass('error');
+                        } else {
+                            input.removeClass('error');
+                        }
+                    }
                 }
 
                 return this;
@@ -118,7 +149,7 @@ define([
             required: false
         });
 
-        widget.validator = options.validator || null;
+        widget.setValidator(options.validator);
 
         return widget;
     }

@@ -19,13 +19,40 @@
 define([
     'jquery',
     'lodash',
+    'ui/generis/validator/validator',
     'ui/generis/widget/textBox/textBox',
 ], function(
     $,
     _,
+    generisValidatorFactory,
     generisWidgetTextBoxFactory
 ) {
     'use strict';
+
+
+    var fields = [{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userFirstName",
+        "label" : "First Name",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox",
+        "value"  : "99Bertrand"
+    }, {
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#login",
+        "label" : "Login",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox",
+        "required" : true,
+        "value"  : "bertrand"
+    }];
+
+    var validations = {
+        beginWithAlpha: {
+            message: 'Must begin with an alpha character or _ and contain only alphanumeric, _, -, and + characters',
+            predicate: /^[a-zA-Z_]+[a-zA-Z\d_+\-]/
+        },
+        threeLetters: {
+            message: 'Must contain at least nine letters',
+            predicate: /^[a-zA-Z]{9,}/,
+        }
+    };
 
 
     /**
@@ -35,8 +62,8 @@ define([
 
     QUnit.test('module', 3, function (assert) {
         assert.equal(typeof generisWidgetTextBoxFactory, 'function', 'The module exposes a function');
-        assert.equal(typeof generisWidgetTextBoxFactory(), 'object', 'The factory produces an object');
-        assert.notStrictEqual(generisWidgetTextBoxFactory(), generisWidgetTextBoxFactory(), 'The factory provides a different object on each call');
+        assert.equal(typeof generisWidgetTextBoxFactory({}, {}), 'object', 'The factory produces an object');
+        assert.notStrictEqual(generisWidgetTextBoxFactory({}, {}), generisWidgetTextBoxFactory({}, {}), 'The factory provides a different object on each call');
     });
 
     QUnit
@@ -49,7 +76,7 @@ define([
         { name: 'serialize',    title: 'serialize',    type: 'function' }
     ])
     .test('instance', function (data, assert) {
-        var instance = generisWidgetTextBoxFactory();
+        var instance = generisWidgetTextBoxFactory({}, {});
         assert.equal(typeof instance[data.name], data.type, 'The instance exposes a(n) "' + data.title + '" ' + data.type);
     });
 
@@ -59,43 +86,45 @@ define([
      */
     QUnit.module('Methods');
 
-    QUnit.test('initialization', function (assert) {
-        generisWidgetTextBoxFactory()
-        .on('init', function () {
-            assert.ok(true);
-        })
-        .init();
-    });
-
     QUnit.test('get', function (assert) {
-        generisWidgetTextBoxFactory()
-        .on('init', function () {
-            assert.equal(this.get(), 'foobar', 'returns correct value');
-        })
-        .init({
+        var widget = generisWidgetTextBoxFactory({}, {
             uri: 'foo#bar',
             value: 'foobar'
         });
+
+        assert.equal(widget.get(), 'foobar', 'returns correct value');
     });
 
     QUnit.test('set', function (assert) {
-        generisWidgetTextBoxFactory()
-        .on('init', function () {
-            assert.equal(this.set('baz'), 'baz', 'returns updated value');
-            assert.equal(this.get(), 'baz', 'updates value');
-        })
-        .init({
+        var widget = generisWidgetTextBoxFactory({}, {
             uri: 'foo#bar',
             value: 'foobar'
         });
+
+        assert.equal(widget.set('baz'), 'baz', 'returns updated value');
+        assert.equal(widget.get(), 'baz', 'updates value');
     });
 
     QUnit.test('setValidator', function (assert) {
-        assert.ok(true);
+        var oldValidator;
+        var widget = generisWidgetTextBoxFactory({}, {});
+
+        oldValidator = widget.validator;
+        widget.setValidator({});
+
+        assert.notEqual(widget.validator, oldValidator, 'validator is replaced');
     });
 
     QUnit.test('validate', function (assert) {
-        assert.ok(true);
+        var widget = generisWidgetTextBoxFactory({
+            validator: [{
+                predicate: /test/,
+                message: 'Must be "test"'
+            }]
+        }, {})
+        .validate();
+
+        assert.equal(widget.validator.errors.length, 1, 'validate properly generated errors');
     });
 
     QUnit.test('serialize', function (assert) {
@@ -103,14 +132,12 @@ define([
             uri: 'foo#bar',
             value: 'foobar'
         };
+        var serialized;
 
-        generisWidgetTextBoxFactory()
-        .on('init', function () {
-            var serialized = this.serialize();
-            assert.equal(serialized.name, obj.uri, 'name property is correct');
-            assert.equal(serialized.value, obj.value, 'value property is correct');
-        })
-        .init(obj);
+        serialized = generisWidgetTextBoxFactory({}, obj).serialize();
+
+        assert.equal(serialized.name, obj.uri, 'name property is correct');
+        assert.equal(serialized.value, obj.value, 'value property is correct');
     });
 
 
@@ -130,46 +157,28 @@ define([
     QUnit.module('Visual Test');
 
     QUnit.test('Display and play', function (assert) {
-        var tb1 = generisWidgetTextBoxFactory()
-        .setValidator({
-            validations: [{
-                predicate: /world/i,
-                message: 'It is \'WORLD\''
-            }]
-        })
+        var tb1 = generisWidgetTextBoxFactory({}, fields[0])
+        .setValidator([ validations.beginWithAlpha ])
         .on('render', function () {
             assert.ok(true);
-        })
-        .init({
-            label: 'Hello',
-            required: true,
-            value: 'World',
-            uri: 'taoplatform#helloWorld'
         })
         .render('#display-and-play > form > fieldset');
 
-        var tb2 = generisWidgetTextBoxFactory()
-        .setValidator({
-            validations: [{
-                predicate: /\S+/,
-                message: 'Must contain something...'
-            }]
-        })
+        var tb2 = generisWidgetTextBoxFactory({}, fields[1])
+        .setValidator([ validations.threeLetters ])
         .on('render', function () {
             assert.ok(true);
-        })
-        .init({
-            label: 'Select a foo...',
-            required: true,
-            value: 'bar',
-            uri: 'taoplatform#fooList'
         })
         .render('#display-and-play > form > fieldset');
 
         $('#validate').on('click', function (e) {
             e.preventDefault();
 
-            console.log(tb1.serialize(), tb2.serialize());
+            tb1.validate();
+            console.log(tb1.serialize());
+
+            tb2.validate();
+            console.log(tb2.serialize());
 
             return false;
         });
