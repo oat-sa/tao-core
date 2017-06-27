@@ -122,7 +122,7 @@ define([
                     this.validator.display();
 
                     if (this.is('rendered')) {
-                        input = this.getElement().find('.right > input');
+                        input = this.getElement().find('.right > :input');
                         if (this.validator.errors.length) {
                             input.addClass('error');
                         } else {

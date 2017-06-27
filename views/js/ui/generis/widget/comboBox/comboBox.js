@@ -20,9 +20,8 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'ui/generis/form/widgets/_widget',
-    'tpl!ui/generis/form/widgets/comboBox/comboBox',
-    'css!tao/ui/generis/form/widgets/_widget'
+    'ui/generis/widget/widget',
+    'tpl!ui/generis/widget/comboBox/comboBox'
 ], function(
     $,
     _,
@@ -34,20 +33,35 @@ define([
 
     /**
      * The factory
+     * @param {Object[]} [options.validator]
+     * @param {String} config.label
+     * @param {String[]} config.range
+     * @param {String} [confgi.required = false]
+     * @param {String} config.uri
+     * @param {String} [config.value]
      * @returns {ui/component}
      */
-    function factory() {
-        return widgetFactory()
-        .setTemplate(tpl)
-        .on('render', function () {
-            var $el = this.getElement();
+    function factory(options, config) {
+        var validator = options.validator || [];
+        var widget;
 
-            if (this.config.value) {
-                $el
-                .find('select option[value="' + this.config.value + '"]')
-                .attr({ selected: 'selected' });
-            }
+        // todo - handle required fields
+
+        widget = widgetFactory({
+            validator: validator
+        }, {
+            // no overrides
+        })
+        .setTemplate(tpl)
+        .init({
+            label: config.label,
+            range: config.range || [],
+            required: config.required || false,
+            uri: config.uri,
+            value: config.value || ''
         });
+
+        return widget;
     }
 
     return factory;
