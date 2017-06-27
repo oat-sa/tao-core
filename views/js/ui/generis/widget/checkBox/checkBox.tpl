@@ -1,12 +1,21 @@
 <div class="ui-generis-widget check-box">
-    <label for="{{uri}}">{{label}}</label>
-
-    <div class="checkbox">
-        {{#each range}}
-        <div class="option">
-            <input type="checkbox" name="{{uri}}" value="{{uri}}">
-            <label for="{{uri}}">{{label}}</label>
+    <div class="left">
+        {{> ui-generis-widget-label }}
+    </div>
+    <div class="right">
+        <div class="check-box-input">
+            {{#each range}}
+            <div class="option">
+                <input
+                    type="checkbox"
+                    name="{{this.uri}}"
+                    value="{{this.uri}}"
+                    {{#includes ../values this.uri}}
+                    checked="true"
+                    {{/includes}}>
+                <label for="{{this.uri}}">{{this.label}}</label>
+            </div>
+            {{/each}}
         </div>
-        {{/each}}
     </div>
 </div>

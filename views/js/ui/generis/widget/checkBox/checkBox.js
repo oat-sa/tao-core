@@ -20,9 +20,8 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'ui/generis/form/widgets/_widget',
-    'tpl!ui/generis/form/widgets/checkBox/checkBox',
-    'css!tao/ui/generis/form/widgets/_widget'
+    'ui/generis/widget/widget',
+    'tpl!ui/generis/widget/checkBox/checkBox'
 ], function(
     $,
     _,
@@ -34,54 +33,65 @@ define([
 
     /**
      * The factory
+     * @param {Object[]} [options.validator]
+     * @param {String} config.label
+     * @param {String[]} config.range
+     * @param {String} [confgi.required = false]
+     * @param {String} config.uri
+     * @param {String[]} [config.values]
      * @returns {ui/component}
      */
-    function factory() {
-        return widgetFactory()
-        .setTemplate(tpl)
-        .on('init', function () {
-            // Overrides get
-            this.get = function (callback) {
-                var ret = this.config.values;
+    function factory(options, config) {
+        var validator = options.validator || [];
+        var widget;
+
+        // todo - handle required fields
+
+        widget = widgetFactory({
+            validator: validator
+        }, {
+            get: function () {
+                var ret = this.config.values || [];
 
                 if (this.is('rendered')) {
-                    ret = _(this.getElement().find('.checkbox > .option > input'))
-                    .filter(function (input) {
-                        return $(input).is(':checked');
-                    })
-                    .map(function (input) {
-                        return $(input).val();
-                    })
-                    .value();
-                }
-
-                if (typeof callback === 'function') {
-                    callback.apply(this, [ret]);
-                    return this;
+                    ret = this.getElement()
+                    .find('.option > input:checked')
+                    .map(function () {
+                        return $(this).val();
+                    });
                 }
 
                 return ret;
-            };
-        })
-        .on('render', function () {
-            var $options = this.getElement().find('.checkbox > .option');
+            },
 
-            // Mark all applicable options as checked
-            _.each(this.config.values, function (value) {
-                $options.find('[name="' + value + '"]').prop('checked', true);
-            });
+            set: function (values) {
+                if (Array.isArray(values)) {
+                    this.config.values = values;
+                } else {
+                    this.config.values.push(values);
+                }
 
-            // Override required validation
-            if (this.config.required) {
-                this.validations.shift();
-                this.validations.unshift({
-                    predicate: function (values) {
-                        return !!values.length;
-                    },
-                    message: 'This field is required'
-                });
+                if (this.is('rendered')) {
+                    _.each(this.config.values, function (value) {
+                        this.getElement()
+                        .find('input[name=' + value + ']')
+                        .prop('checked', true);
+                    });
+                }
+
+                return this.config.values;
             }
+        })
+        .setTemplate(tpl)
+        .init({
+            label: config.label,
+            range: config.range || [],
+            required: config.required || false,
+            uri: config.uri,
+            values: config.values || []
         });
+
+        return widget;
     }
 
     return factory;

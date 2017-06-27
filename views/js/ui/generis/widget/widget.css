@@ -6,6 +6,7 @@
     display: inline-block;
     margin-top: 8px;
     width: 34%;
+    vertical-align: top;
 }
 
 .ui-generis-widget > .right {
@@ -32,7 +33,7 @@
     height: 36px;
 }
 
-.ui-generis-widget > .right > .checkbox {
+.ui-generis-widget > .right > .check-box-input {
     color: #222;
     display: inline-block;
     font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
@@ -40,7 +41,7 @@
     width: 100%;
 }
 
-.ui-generis-widget > .right > .checkbox > .option {
+.ui-generis-widget > .right > .check-box-input > .option {
     padding-top: 4px;
 }
 
