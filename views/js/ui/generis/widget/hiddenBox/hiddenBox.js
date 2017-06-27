@@ -20,9 +20,8 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'ui/generis/form/widgets/_widget',
-    'tpl!ui/generis/form/widgets/hiddenBox/hiddenBox',
-    'css!tao/ui/generis/form/widgets/_widget'
+    'ui/generis/widget/widget',
+    'tpl!ui/generis/widget/hiddenBox/hiddenBox'
 ], function(
     $,
     _,
@@ -34,79 +33,90 @@ define([
 
     /**
      * The factory
+     * @param {Object[]} [options.validator]
+     * @param {Object} [config.confirmation]
+     * @param {String} config.label
+     * @param {String} [confgi.required = false]
+     * @param {String} config.uri
+     * @param {String} [config.value]
      * @returns {ui/component}
      */
-    function factory() {
-        return widgetFactory()
-        .setTemplate(tpl)
-        .on('init', function () {
-            // Initialization
-            this.config.confirmation = this.config.value;
+    function factory(options, config) {
+        var validator = options.validator || [];
+        var widget;
 
-            // Override get function
-            this.get = function (callback) {
-                var ret = [this.config.value || '', this.config.confirmation || ''];
+        // todo - handle required fields
 
-                if (this.is('rendered')) {
-                    ret = [
-                        this.getElement()
-                        .find('[name="' + this.config.uri + '"]')
-                        .val(),
-                        this.getElement()
-                        .find('[name="' + this.config.uri + '_confirmation"]')
-                        .val()
-                    ];
-                }
-
-                if (typeof callback === 'function') {
-                    callback.apply(this, [ret]);
-                    return this;
-                }
-
-                return ret;
-            };
-
-            // Override serialize function
-            this.serialize = function (callback) {
+        widget = widgetFactory({
+            validator: validator
+        }, {
+            /**
+             * Overrides get method
+             * @returns {Object}
+             */
+            get: function () {
+                var $el;
                 var ret = {
-                    name: this.config.uri,
-                    value: this.get()[0]
+                    value: this.config.value,
+                    confirmation: this.config.confirmation.value
                 };
 
-                if (typeof callback === 'function') {
-                    callback.apply(this, [ret]);
-                    return this;
+                if (this.is('rendered')) {
+                    $el = this.getElement();
+                    ret.value = $el.find('[name="' + this.config.uri + '"]').val();
+                    ret.confirmation = $el.find('[name="' + this.config.confirmation.uri + '"]').val();
                 }
 
                 return ret;
-            };
+            },
 
-            this.validations.push({
-                predicate: function (values) {
-                    return values[0] === values[1];
-                },
-                message: 'Passwords must match'
-            });
-        })
-        .on('render', function () {
-            var $el = this.getElement();
+            /**
+             * Overrides set method
+             * @param {String} value
+             * @returns {Object}
+             */
+            set: function (value) {
+                var $el;
 
-            // Override required validation
-            if (this.config.required) {
-                this.validations.shift();
+                this.config.value = this.config.confirmation.value = value;
 
-                if (this.config.value) {
-                    $el.find('label > abbr').remove();
-                } else {
-                    this.validations.unshift({
-                        predicate: function (values) {
-                            return /\S+/.test(values[0]);
-                        },
-                        message: 'This field is required'
-                    });
+                if (this.is('rendered')) {
+                    $el = this.getElement();
+                    $el.find('[name="' + this.config.uri + '"]').val(value);
+                    $el.find('[name="' + this.config.confirmation.uri + '"]').val(value);
                 }
+
+                return {
+                    value: this.config.value,
+                    confirmation: this.config.confirmation.value
+                };
+            },
+
+            /**
+             * Overrides serialize method
+             * @returns {Object}
+             */
+            serialize: function serialize() {
+                return {
+                    name: this.config.uri,
+                    value: this.get().value
+                };
             }
+        })
+        .setTemplate(tpl)
+        .init({
+            confirmation: {
+                label: config.label + ' Confirmation',
+                uri: config.uri + '_confirmation',
+                value: config.value || ''
+            },
+            label: config.label,
+            required: config.required || false,
+            uri: config.uri,
+            value: config.value || ''
         });
+
+        return widget;
     }
 
     return factory;

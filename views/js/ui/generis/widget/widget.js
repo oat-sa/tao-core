@@ -76,7 +76,7 @@ define([
 
                 if (this.is('rendered')) {
                     this.getElement()
-                    .find('[name=' + this.config.uri + ']')
+                    .find('[name="' + this.config.uri + '"]')
                     .val(value);
                 }
 

@@ -1,8 +1,17 @@
 <div class="ui-generis-widget hidden-box">
-    <label for="{{uri}}">{{label}}</label>
-    <input name="{{uri}}" type="password">
+    <div class="left">
+        {{> ui-generis-widget-label }}
+    </div>
+    <div class="right">
+        <input name="{{uri}}" type="password">
+    </div>
 </div>
-<div class="ui-generis-widget hidden-box">
-    <label for="{{uri}}_confirmation">{{label}} {{__ 'Confirmation'}}</label>
-    <input name="{{uri}}_confirmation" type="password">
+
+<div class="ui-generis-widget hidden-box confirmation">
+    <div class="left">
+        {{> ui-generis-widget-label confirmation }}
+    </div>
+    <div class="right">
+        <input name="{{confirmation.uri}}" type="password">
+    </div>
 </div>
