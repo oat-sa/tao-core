@@ -68,6 +68,7 @@ define([
 
             /**
              * Sets widget value
+             * @param {String} value
              * @returns {String}
              */
             set: function (value) {

@@ -50,6 +50,10 @@ define([
         widget = widgetFactory({
             validator: validator
         }, {
+            /**
+             * Overrides get method
+             * @returns {String[]}
+             */
             get: function () {
                 var ret = this.config.values || [];
 
@@ -64,6 +68,11 @@ define([
                 return ret;
             },
 
+            /**
+             * Overrides set method
+             * @param {String[]} values
+             * @returns {String[]}
+             */
             set: function (values) {
                 if (Array.isArray(values)) {
                     this.config.values = values;
