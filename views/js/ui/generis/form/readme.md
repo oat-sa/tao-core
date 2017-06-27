@@ -5,39 +5,36 @@
  */
 
 var form = generisFormFactory({
-    widgets: [
-        widgetFactory(...),
-        widgetFactory(...)
-    ]
+    data: generisData
+}, {
+    title: 'Form Title',
+    submitText: 'Save'
 })
-.init({
-    title: 'Form',
-    submit: {
-        text: 'Save'
-    }
-})
-.addWidget({ ... })
-.render('.ui-generis-form-container')
-.addWidget([
-    { ... },
-    { ... }
-])
-.removeWidget('widgetUri')
-.on('submit', function (e) {
+.addWidget(widgetData)
+.removeWidget(widgetData.uri)
+.render('.container')
+.on('submit', function () {
+    var self = this;
+
     e.preventDefault();
 
-    if ( this.validate() ) {
-        request('http://tao.lu/tao/users/add', 'get', this.serializeArray())
+    this.validate();
+
+    if (!this.errors.length) {
+        this.setState('thinking');
+        request(endpoint, method, this.serializeArray())
         .then(function () {
-            feedback().success();
+            self.setState('thinking', false);
+            feedback().success('Submit successful');
         })
         .error(function (err) {
+            self.setState('thinking', false);
             feedback().error(err);
-        });
+        })
     }
 
     return false;
-});
+})
 
 
 /**
@@ -45,27 +42,22 @@ var form = generisFormFactory({
  */
 
 @returns ui/component
-var form = generisFormFactory({
-    widgets: array<ui/generis/form/widget> (optional)
-})
-.init({
-    title: string (optional),
-    submit.text: string (optional)
-});
+var form = generisFormFactory(object options, object config);
 
-@type array<ui/generis/form/widget>
+@type ui/generis/widget[]
 form.widgets;
 
+@type string[]
+form.errors;
+
 @returns this
-form.addWidget(object options || array<object> options);
+form.addWidget(object widgetData);
 form.removeWidget(string name);
-
-@returns array<object>
-form.serializeArray();
-
-@returns boolean
 form.validate();
 
+@returns object[]
+form.serializeArray();
+
 @event submit
-form.on('submit', function (event) {});
+form.on('submit', function () {});
 ```
