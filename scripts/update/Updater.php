@@ -842,7 +842,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.19.4');
         }
 
-        if ($this->isVersion('10.19.4')) {
+        $this->skip('10.19.4', '10.19.6');
+
+        if ($this->isVersion('10.19.6')) {
             /**
              * @var $urlService DefaultUrlService
              */
@@ -877,7 +879,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.25.0');
         }
 
-        $this->skip('10.25.0', '10.25.2');
+        $this->skip('10.25.0', '10.25.3');
     }
 
     private function migrateFsAccess() {
