@@ -44,11 +44,14 @@ var form = generisFormFactory({
 @returns ui/component
 var form = generisFormFactory(object options, object config);
 
-@type ui/generis/widget[]
-form.widgets;
+@type object
+form.class
 
 @type string[]
 form.errors;
+
+@type ui/generis/widget[]
+form.widgets;
 
 @returns this
 form.addWidget(object widgetData);
