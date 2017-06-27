@@ -386,7 +386,7 @@ define([
                         refNode = tree.parent(refNode);
                     }
 
-                    if (! (refNode instanceof $)) {
+                    if (!(refNode instanceof $) && !(refNode instanceof window.HTMLElement)) {
                         $.tree.rollback(rollback);
                         return false;
                     }
