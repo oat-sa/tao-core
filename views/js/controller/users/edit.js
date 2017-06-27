@@ -32,9 +32,9 @@ define([
             var conf = module.config();
 
             userForm({
-                action : '/tao/users/add',
+                action : '/tao/users/edit',
                 container : conf.formContainer,
-                method : 'post'
+                method : 'patch'
             }, conf.user);
         }
 
@@ -42,7 +42,7 @@ define([
 
 
     /**
-     * @exports {Object} controller/users/add
+     * @exports {Object} controller/users/edit
      */
     return controller;
 });

@@ -51,7 +51,8 @@ define(function(){
             'deps' : 'controller/users/disable-edit',
             'actions' : {
                 'index' : 'controller/users/index',
-                'add'   : 'controller/users/add'
+                'add'   : 'controller/users/add',
+                'edit'  : 'controller/users/edit'
             }
         }
     };
