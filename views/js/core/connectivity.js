@@ -15,7 +15,11 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
 /**
+ * Track connectivity,
+ * intentionally global.
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -23,33 +27,71 @@ define([
 ], function(eventifier){
     'use strict';
 
+    /**
+     * @type {Boolean} the current status, true means online
+     */
     var status = navigator.onLine;
 
+    /**
+     * The connectivity module
+     * @typedef {connectivity}
+     */
     var connectivity = eventifier({
 
+        /**
+         * Set manually as online
+         * @returns {connectivity} chains
+         * @fires {connectivity#online}
+         * @fires {connectivity#change}
+         */
+        setOnline : function setOnline(){
+            if(this.isOffline()){
+                status = true;
+                this.trigger('online')
+                    .trigger('change', status);
+            }
+            return this;
+        },
+
+        /**
+         * Set manually as offline
+         * @returns {connectivity} chains
+         * @fires {connectivity#offline}
+         * @fires {connectivity#change}
+         */
+        setOffline : function setOffline(){
+            if(this.isOnline()){
+                status = false;
+                this.trigger('offline')
+                    .trigger('change', status);
+            }
+            return this;
+        },
+
+        /**
+         * Are we online ?
+         * @returns {Boolean}
+         */
         isOnline : function isOnline(){
             return status;
         },
+
+        /**
+         * Are we offline
+         * @returns {Boolean}
+         */
         isOffline : function isOffline(){
             return !status;
         }
 
     });
 
+    //DOM Events : online/offline
     window.addEventListener('online',  function(){
-        if(connectivity.isOffline()){
-            status = true;
-            connectivity.trigger('online')
-                        .trigger('change', status);
-        }
-
+        connectivity.setOnline();
     });
     window.addEventListener('offline', function(){
-        if(connectivity.isOnline()){
-            status = false;
-            connectivity.trigger('offline')
-                        .trigger('change', status);
-        }
+        connectivity.setOffline();
     });
 
     return connectivity;
