@@ -126,7 +126,6 @@ define([
 
                 return this;
             }
-        }, {
         })
         .setTemplate(tpl)
         .init();

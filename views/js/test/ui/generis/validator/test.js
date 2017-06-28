@@ -64,10 +64,9 @@ define([
     .cases([
         { name: 'errors',            title: 'errors',            type: 'object' },
         { name: 'validations',       title: 'validations',       type: 'object' },
-        { name: 'show',              title: 'show',              type: 'function' },
-        { name: 'hide',              title: 'hide',              type: 'function' },
         { name: 'run',               title: 'run',               type: 'function' },
         { name: 'clear',             title: 'clear',             type: 'function' },
+        { name: 'display',           title: 'display',           type: 'function' },
         { name: 'addValidation',     title: 'addValidation',     type: 'function' },
         { name: 'removeValidations', title: 'removeValidations', type: 'function' },
     ])
@@ -82,68 +81,50 @@ define([
      */
     QUnit.module('Methods');
 
-    QUnit.test('initialization', function (assert) {
-        generisValidatorFactory()
-        .on('init', function () {
-            assert.ok(true, 'validator is successfully initialized');
-        })
-        .init();
-    });
-
     QUnit.test('run', function (assert) {
-        generisValidatorFactory({
+        var validator = generisValidatorFactory({
             validations: validations
-        })
-        .on('init', function () {
-            this.run('');
-            assert.ok(this.errors.length, 'can find errors');
+        });
 
-            assert.deepEqual(this.errors, ['one', 'two', 'three'], 'errors will be sorted by precedence');
+        validator.run('');
+        assert.deepEqual(validator.errors, ['one', 'two', 'three'], 'errors will be sorted by precedence');
 
-            this.run('one two three');
-            assert.ok(!this.errors.length, 'can find no errors');
-        })
-        .init();
+        validator.run('one two three');
+        assert.ok(!validator.errors.length, 'can find no errors');
     });
 
     QUnit.test('clear', function (assert) {
-        generisValidatorFactory({
+        var validator = generisValidatorFactory({
             validations: validations
-        })
-        .on('init', function () {
-            this.run('');
-            assert.ok(this.errors.length, 'first populate with errors');
+        });
 
-            this.clear();
-            assert.ok(!this.errors.length, 'then show clear removes all errors');
-        })
-        .init();
+        validator.run('');
+        assert.ok(validator.errors.length, 'first populate with errors');
+
+        validator.clear();
+        assert.ok(!validator.errors.length, 'then show clear removes all errors');
     });
 
     QUnit.test('display', function (assert) {
-        assert.ok(true, 'todo');
+        assert.ok(true, 'display is a visual test');
     });
 
     QUnit.test('addValidation', function (assert) {
-        generisValidatorFactory({
+        var validator = generisValidatorFactory({
             validations: validations
-        })
-        .on('init', function () {
-            this.addValidation({});
-            assert.equal(this.validations.length, 4, 'added validation');
-        })
-        .init();
+        });
+
+        validator.addValidation({});
+        assert.equal(validator.validations.length, 4, 'added validation');
     });
 
     QUnit.test('removeValidations', function (assert) {
-        generisValidatorFactory({
+        var validator = generisValidatorFactory({
             validations: validations
-        })
-        .on('init', function () {
-            this.removeValidations();
-            assert.equal(this.validations.length, 0, 'cleared validations');
-        })
-        .init();
+        });
+
+        validator.removeValidations();
+        assert.equal(validator.validations.length, 0, 'cleared validations');
     });
 
     /**
@@ -160,7 +141,6 @@ define([
         validationOne = generisValidatorFactory({
             validations: validations
         })
-        .init()
         .render('#field-1');
 
         selectTwo = $('#field-2').find('select');
@@ -168,7 +148,6 @@ define([
         validationTwo = generisValidatorFactory({
             validations: validations
         })
-        .init()
         .render('#field-2');
 
         $('form')
