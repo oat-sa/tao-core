@@ -45,8 +45,6 @@ define([
         var validator = options.validator || [];
         var widget;
 
-        // todo - handle required fields
-
         widget = widgetFactory({
             validator: validator
         }, {
@@ -114,6 +112,26 @@ define([
             required: config.required || false,
             uri: config.uri,
             value: config.value || ''
+        });
+
+        // Validations
+        if (widget.config.required) {
+            widget.validator
+            .addValidation({
+                message: 'This field is required',
+                predicate: function (value) {
+                    return /\S+/.test(value.value);
+                },
+                precedence: 1
+            });
+        }
+
+        widget.validator.addValidation({
+            message: 'Fields must match',
+            predicate: function (value) {
+                return value.value === value.confirmation;
+            },
+            precedence: 2
         });
 
         return widget;

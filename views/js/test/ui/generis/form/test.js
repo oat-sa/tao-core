@@ -86,7 +86,18 @@ define([
     });
 
     QUnit.test('validate', function (assert) {
-        assert.ok(true);
+        var form = generisFormFactory();
+
+        form.addWidget({
+            required: true,
+            uri: 'foo#bar',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+        });
+
+
+        assert.equal(form.errors.length, 0, 'no errors yet');
+        form.validate();
+        assert.equal(form.errors.length, 1, 'successfully validated form');
     });
 
     QUnit.test('serializeArray', function (assert) {

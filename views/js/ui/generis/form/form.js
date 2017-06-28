@@ -95,7 +95,7 @@ define([
                     widget.validate();
                     return {
                         uri: widget.config.uri,
-                        errors: widget.errors
+                        errors: widget.validator.errors
                     };
                 })
                 .reject(function (data) {

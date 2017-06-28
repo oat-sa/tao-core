@@ -47,7 +47,8 @@
 
 .ui-generis-widget > .right input.error,
 .ui-generis-widget > .right select.error,
-.ui-generis-widget > .right textarea.error {
+.ui-generis-widget > .right textarea.error,
+.ui-generis-widget > .right .check-box-input.error {
     border-color: #ba122b;
     color: #ba122b;
 }

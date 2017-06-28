@@ -100,6 +100,18 @@ define([
             values: config.values || []
         });
 
+        // Validations
+        if (widget.config.required) {
+            widget.validator
+            .addValidation({
+                message: 'This field is required',
+                predicate: function (value) {
+                    return value.length > 0;
+                },
+                precedence: 1
+            });
+        }
+
         return widget;
     }
 

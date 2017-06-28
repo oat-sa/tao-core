@@ -158,18 +158,19 @@ define([
 
     QUnit.test('Display and play', function (assert) {
         var tb1 = generisWidgetTextBoxFactory({}, fields[0])
-        .setValidator([ validations.beginWithAlpha ])
         .on('render', function () {
             assert.ok(true);
         })
         .render('#display-and-play > form > fieldset');
 
         var tb2 = generisWidgetTextBoxFactory({}, fields[1])
-        .setValidator([ validations.threeLetters ])
         .on('render', function () {
             assert.ok(true);
         })
         .render('#display-and-play > form > fieldset');
+
+        tb1.validator.addValidation(validations.beginWithAlpha);
+        tb2.validator.addValidation(validations.threeLetters);
 
         $('#validate').on('click', function (e) {
             e.preventDefault();
