@@ -1,5 +1,5 @@
 <div class="ui-generis-form">
-    <h1>{{title}}</h1>
+    <h2>{{title}}</h2>
     <form action="{{formAction}}" method="{{formMethod}}">
         <fieldset></fieldset>
         <div class="toolbar">
