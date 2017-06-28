@@ -21,6 +21,7 @@ define([
     'lodash',
     'i18n',
     'ui/component',
+    'ui/generis/widget/loader',
     'ui/generis/widget/checkBox/checkBox',
     'ui/generis/widget/comboBox/comboBox',
     'ui/generis/widget/hiddenBox/hiddenBox',
@@ -32,6 +33,7 @@ define([
     _,
     __,
     componentFactory,
+    widgetLoader,
     checkBoxFactory,
     comboBoxFactory,
     hiddenBoxFactory,
@@ -39,13 +41,6 @@ define([
     tpl
 ) {
     'use strict';
-
-    var _widgetFactories = {
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox': checkBoxFactory,
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox': comboBoxFactory,
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox': hiddenBoxFactory,
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox': textBoxFactory
-    };
 
     /**
      * The factory
@@ -71,7 +66,7 @@ define([
              * @returns {this}
              */
             addWidget: function (widgetOptions) {
-                var widget = _widgetFactories[widgetOptions.widget]({}, widgetOptions);
+                var widget = widgetLoader(widgetOptions.widget)({}, widgetOptions);
 
                 this.widgets.push(widget);
 
