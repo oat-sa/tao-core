@@ -63,11 +63,26 @@ define([
     QUnit.module('Methods');
 
     QUnit.test('addWidget', function (assert) {
-        assert.ok(true);
+        var form = generisFormFactory();
+        assert.equal(form.widgets.length, 0, 'no widgets yet');
+
+        form.addWidget({
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+        });
+        assert.equal(form.widgets.length, 1, 'successfully added widget');
     });
 
     QUnit.test('removeWidget', function (assert) {
-        assert.ok(true);
+        var form = generisFormFactory();
+
+        form.addWidget({
+            uri: 'foo#bar',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+        });
+        assert.equal(form.widgets.length, 1, 'has a widget');
+
+        form.removeWidget('foo#bar');
+        assert.equal(form.widgets.length, 0, 'successfully removed widget');
     });
 
     QUnit.test('validate', function (assert) {
@@ -75,7 +90,30 @@ define([
     });
 
     QUnit.test('serializeArray', function (assert) {
-        assert.ok(true);
+        var form = generisFormFactory();
+        var serialized;
+
+        form
+        .addWidget({
+            uri: 'foo#bar',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+            value: 'foobar'
+        })
+        .addWidget({
+            uri: 'bar#foo',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+            value: 'baz'
+        });
+
+        serialized = form.serializeArray();
+
+        assert.deepEqual(serialized, [{
+            name: 'foo#bar',
+            value: 'foobar'
+        }, {
+            name: 'bar#foo',
+            value: 'baz'
+        }], 'properly serializes form');
     });
 
 
@@ -95,9 +133,18 @@ define([
     QUnit.module('Visual Test');
 
     QUnit.test('Display and play', function (assert) {
-        generisFormFactory({ data: generisData })
+        generisFormFactory(generisData)
         .on('render', function () {
             assert.ok(true);
+        })
+        .on('submit', function () {
+            this.validate();
+
+            if (!this.errors.length) {
+                console.log('serialized form data', this.serializeArray());
+            } else {
+                console.log('errors in form', this.errors);
+            }
         })
         .render('#display-and-play');
     });

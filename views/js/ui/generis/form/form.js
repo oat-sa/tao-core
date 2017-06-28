@@ -53,17 +53,16 @@ define([
              * @returns {this}
              */
             addWidget: function (widgetOptions) {
-                var $fieldset = this.getElement().find('form > fieldset');
                 var widget = _widgetFactories[widgetOptions.widget]({}, widgetOptions);
 
                 this.widgets.push(widget);
 
                 if (this.is('rendered')) {
-                    widget.render($fieldset);
+                    widget.render(this.getElement().find('form > fieldset'));
                 } else {
                     this.on('render.' + widget.config.uri, function () {
-                        widget.render($fieldset);
-                        this.off('render.' + widget.config.uri);
+                        widget.render(this.getElement().find('form > fieldset'));
+                        this.off('render.' + this.config.uri);
                     });
                 }
 
@@ -91,13 +90,18 @@ define([
              * @returns {this}
              */
             validate: function () {
-                this.errors = _.map(this.widgets, function (widget) {
+                this.errors = _(this.widgets)
+                .map(function (widget) {
                     widget.validate();
                     return {
                         uri: widget.config.uri,
                         errors: widget.errors
                     };
-                });
+                })
+                .reject(function (data) {
+                    return data.errors ? data.errors.length === 0 : true;
+                })
+                .value();
 
                 return this;
             },
@@ -112,17 +116,23 @@ define([
                 });
             }
         }, {
-            form: {
-                action: '#',
-                method: 'get'
-            },
-            submit: {
-                text: 'Save'
-            },
+            formAction: '#',
+            formMethod: 'get',
+            submitText: 'Save',
             title: 'Generis Form'
         })
         .setTemplate(tpl)
-        .init(config);
+        .init(config)
+        .on('render', function () {
+            var $form = this.getElement().find('form');
+            var self = this;
+
+            $form.on('submit', function (e) {
+                e.preventDefault();
+                self.trigger('submit');
+                return false;
+            });
+        });
 
         form.data = options;
         form.errors = [];

@@ -1,10 +1,10 @@
 <div class="ui-generis-form">
     <h1>{{title}}</h1>
-    <form action="{{form.action}}" method="{{form.method}}">
+    <form action="{{formAction}}" method="{{formMethod}}">
         <fieldset></fieldset>
         <div class="toolbar">
             <button type="submit">
-                <span class="icon-save"/> {{submit.text}}
+                <span class="icon-save"/> {{submitText}}
             </button>
         </div>
     </form>

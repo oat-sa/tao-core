@@ -9,14 +9,10 @@ var form = generisFormFactory({
     properties: [],
     values: {}
 }, {
-    form: {
-        action: '#',
-        method: 'get'
-    },
-    submit: {
-        text: 'Save'
-    },
-    title: 'Generis Form',
+    formAction: '#',
+    formMethod: 'get',
+    submitText: 'Save',
+    title: 'Generis Form'
 })
 .addWidget(widgetData)
 .removeWidget(widgetData.uri)
