@@ -148,6 +148,14 @@ define([
         }, spec), {
             label: 'Label',
             required: false
+        })
+        .on('render', function () {
+            var $input = this.getElement().find('.right :input');
+            var self = this;
+
+            $input.on('change blur', function (e) {
+                self.trigger(e.type);
+            });
         });
 
         widget.setValidator(options.validator);
