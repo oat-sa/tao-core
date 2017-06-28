@@ -103,6 +103,14 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
         return context[name] || '';
     });
 
+    // register an 'includes' helper
+    // it checks if value is in array
+    hb.registerHelper('includes', function (haystack, needle, options) {
+        if (_.contains(haystack, needle)) {
+            return options.fn(this);
+        }
+    });
+
     return {
         load : function(name, req, onload, config){
             extension = extension || config.extension;

@@ -1,0 +1,12 @@
+.ui-generis-validator {
+    color: #ba122b;
+    text-align: right;
+    width: 99%;
+
+    input.error,
+    select.error,
+    textarea.error {
+        border-color: #ba122b;
+        color: #ba122b;
+    }
+}
