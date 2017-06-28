@@ -149,13 +149,21 @@ define([
             assert.ok(true);
         })
         .on('submit', function () {
-            this.validate();
+            var self = this;
 
-            if (!this.errors.length) {
-                console.log('serialized form data', this.serializeArray());
-            } else {
-                console.log('errors in form', this.errors);
-            }
+
+            this
+            .toggleLoading(true)
+            .validate();
+
+            setTimeout(function () {
+                self.toggleLoading(false);
+                if (! self.errors.length) {
+                    console.log('serialized form data', self.serializeArray());
+                } else {
+                    console.log('errors in form', self.errors);
+                }
+            }, 3000);
         })
         .render('#display-and-play');
     });

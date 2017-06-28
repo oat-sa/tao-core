@@ -114,6 +114,27 @@ define([
                 return _.map(this.widgets, function (widget) {
                     return widget.serialize();
                 });
+            },
+
+            /**
+             * Toggles loading state
+             * @param {Boolean} [isLoading = null]
+             * @returns {this}
+             */
+            toggleLoading: function (isLoading) {
+                if (typeof isLoading === 'undefined') {
+                    isLoading = !this.is('loading');
+                }
+
+                if (isLoading) {
+                    this.disable();
+                } else {
+                    this.enable();
+                }
+
+                this.setState('loading', isLoading);
+
+                return this;
             }
         }, {
             formAction: '#',
