@@ -31,7 +31,7 @@ define([
 
     /**
      * The factory
-     * @param {Object} [options.data]
+     * @param {Object} [options]
      * @param {String} [config.form.action = '#']
      * @param {String} [config.form.method = 'get']
      * @param {String} [config.submit.text = 'Save']
@@ -41,7 +41,6 @@ define([
         var form;
 
         options = options || {};
-        options.data = options.data || {};
 
         config = config || {};
         config.form = config.form || {};
@@ -125,14 +124,14 @@ define([
         .setTemplate(tpl)
         .init(config);
 
-        form.class = options.class || {};
+        form.data = options;
         form.errors = [];
         form.widgets = [];
 
         // Add widgets to form
-        _.each(options.data.properties || [], function (property) {
+        _.each(options.properties || [], function (property) {
             if (property.range && typeof property.range === 'string') {
-                property.range = options.data.values[property.range];
+                property.range = options.values[property.range];
             }
             form.addWidget(property);
         });

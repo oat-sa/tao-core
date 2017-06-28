@@ -5,10 +5,18 @@
  */
 
 var form = generisFormFactory({
-    data: generisData
+    class: {},
+    properties: [],
+    values: {}
 }, {
-    title: 'Form Title',
-    submitText: 'Save'
+    form: {
+        action: '#',
+        method: 'get'
+    },
+    submit: {
+        text: 'Save'
+    },
+    title: 'Generis Form',
 })
 .addWidget(widgetData)
 .removeWidget(widgetData.uri)
@@ -45,7 +53,7 @@ var form = generisFormFactory({
 var form = generisFormFactory(object options, object config);
 
 @type object
-form.class
+form.data
 
 @type string[]
 form.errors;
