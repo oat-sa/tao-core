@@ -30,6 +30,13 @@ module.exports = function(grunt) {
                 files : {
                     '../js/ui/mediaplayer/css/player.css' : '../js/ui/mediaplayer/scss/player.scss',
                 }
+            },
+            generis : {
+                files : {
+                    '../js/ui/generis/form/form.css' : '../js/ui/generis/form/form.scss',
+                    '../js/ui/generis/widget/widget.css' : '../js/ui/generis/widget/widget.scss',
+                    '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss'
+                }
             }
         },
 
