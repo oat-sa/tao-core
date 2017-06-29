@@ -13,10 +13,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 /**
- * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['core/connectivity'], function(connectivity) {
     'use strict';
@@ -126,6 +126,40 @@ define(['core/connectivity'], function(connectivity) {
         connectivity.setOffline();
     });
 
+    QUnit.asyncTest('native offline event', function(assert){
+        QUnit.expect(4);
+
+        assert.ok(connectivity.isOnline(), 'We start online');
+        assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+
+        connectivity.on('offline', function(){
+            assert.ok(connectivity.isOffline(), 'We are offline');
+            assert.ok(!connectivity.isOnline(), 'If we are offline, we are not online');
+            QUnit.start();
+        });
+
+        window.dispatchEvent(new Event('offline'));
+    });
+
+    QUnit.asyncTest('native online event', function(assert){
+        QUnit.expect(6);
+
+        assert.ok(connectivity.isOnline(), 'We start online');
+        assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+
+        window.dispatchEvent(new Event('offline'));
+
+        assert.ok(connectivity.isOffline(), 'We are offline');
+        assert.ok(!connectivity.isOnline(), 'If we are offline, we are not online');
+
+        connectivity.on('online', function(){
+            assert.ok(connectivity.isOnline(), 'We are online');
+            assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+            QUnit.start();
+        });
+
+        window.dispatchEvent(new Event('online'));
+    });
 
     QUnit.module('Manual');
 
