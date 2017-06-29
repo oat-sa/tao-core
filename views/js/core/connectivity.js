@@ -47,6 +47,7 @@ define([
         setOnline : function setOnline(){
             if(this.isOffline()){
                 status = true;
+
                 this.trigger('online')
                     .trigger('change', status);
             }
@@ -62,6 +63,7 @@ define([
         setOffline : function setOffline(){
             if(this.isOnline()){
                 status = false;
+
                 this.trigger('offline')
                     .trigger('change', status);
             }

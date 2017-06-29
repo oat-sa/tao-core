@@ -49,7 +49,83 @@ define(['core/connectivity'], function(connectivity) {
         assert.equal(typeof connectivity[data.title], 'function', 'The tokenHandler instanceexposes a "' + data.name + '" function');
     });
 
-    QUnit.module('Behavior');
+    QUnit.module('Behavior', {
+        setup: function setup(){
+            connectivity.setOnline();
+        },
+        teardown : function teardown(){
+            connectivity.off('online offline change');
+        }
+    });
+
+    QUnit.test('set / get status', function(assert){
+        QUnit.expect(6);
+
+        assert.ok(connectivity.isOnline(), 'We start online');
+        assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+
+        connectivity.setOffline();
+
+        assert.ok(connectivity.isOffline(), 'We are offline');
+        assert.ok(!connectivity.isOnline(), 'If we are offline, we are not online');
+
+        connectivity.setOnline();
+
+        assert.ok(connectivity.isOnline(), 'We are online');
+        assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+    });
+
+    QUnit.asyncTest('offline event', function(assert){
+        QUnit.expect(4);
+
+        assert.ok(connectivity.isOnline(), 'We start online');
+        assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+
+        connectivity.on('offline', function(){
+            assert.ok(connectivity.isOffline(), 'We are offline');
+            assert.ok(!connectivity.isOnline(), 'If we are offline, we are not online');
+            QUnit.start();
+        });
+
+        connectivity.setOffline();
+    });
+
+    QUnit.asyncTest('online event', function(assert){
+        QUnit.expect(6);
+
+        assert.ok(connectivity.isOnline(), 'We start online');
+        assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+
+        connectivity.setOffline();
+
+        assert.ok(connectivity.isOffline(), 'We are offline');
+        assert.ok(!connectivity.isOnline(), 'If we are offline, we are not online');
+
+        connectivity.on('online', function(){
+            assert.ok(connectivity.isOnline(), 'We are online');
+            assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+            QUnit.start();
+        });
+
+        connectivity.setOnline();
+    });
+
+    QUnit.asyncTest('change event', function(assert){
+        QUnit.expect(5);
+
+        assert.ok(connectivity.isOnline(), 'We start online');
+        assert.ok(!connectivity.isOffline(), 'If we are online, we are not offline');
+
+        connectivity.on('change', function(online){
+            assert.equal(online, false,  'We are offline');
+            assert.ok(connectivity.isOffline(), 'We are offline');
+            assert.ok(!connectivity.isOnline(), 'If we are offline, we are not online');
+            QUnit.start();
+        });
+
+        connectivity.setOffline();
+    });
+
 
     QUnit.module('Manual');
 
