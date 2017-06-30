@@ -210,7 +210,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         /** @var \core_kernel_classes_Class $subClass */
         foreach ($rootClass->getSubClasses() as $subClass) {
             if ($subClass->getLabel() === $label) {
-                throw new \common_exception_InconsistentData(__('Class already exists. Class uri: '.$subClass->getUri()));
+                throw new \common_exception_ClassAlreadyExists($subClass);
             }
         }
 
