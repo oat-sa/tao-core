@@ -42,6 +42,7 @@ define([
         page: 1,
         sortby: 'id',
         sortorder: 'asc',
+        sorttype: 'string',
         paginationStrategyTop: 'none',
         paginationStrategyBottom: 'simple',
         labels: {
@@ -74,6 +75,7 @@ define([
      * Sorting
      * @param {String} sortby - name of column
      * @param {String} sortorder - order of sorting, can be 'asc' or 'desc' for ascending sorting and descending sorting respectively.
+     * @param {String} sorttype - type of sorting, can be 'string' or 'numeric' for proper sorting numeric and string values.
      *
      * Filtering
      * @param {String} filterstrategy - filtering strategy. Default is single (see ui/datatable/filterStrategy/single.js).
@@ -192,7 +194,7 @@ define([
             options = _.assign({}, options, this._getFilterStrategy($elt).getQueryData($elt, $filter, options));
             parameters = _.merge(
                 {},
-                _.pick(options, ['rows', 'page', 'sortby', 'sortorder', 'filterquery', 'filtercolumns']),
+                _.pick(options, ['rows', 'page', 'sortby', 'sortorder', 'sorttype', 'filterquery', 'filtercolumns']),
                 options.params || {}
             );
             ajaxConfig = {
@@ -279,7 +281,7 @@ define([
             });
 
             if (options.sortby) {
-                options = this._sortOptions($elt, options.sortby, options.sortorder);
+                options = this._sortOptions($elt, options.sortby, options.sortorder, options.sorttype);
             }
 
             // process data by model rules
@@ -452,14 +454,15 @@ define([
             }
 
             $sortBy.on('click keyup', function(e) {
-                var column;
+                var column, type;
                 if(e.type === 'keyup' && e.keyCode !== 13){
                     return;
                 }
                 e.preventDefault();
                 column = $(this).data('sort-by');
+                type = $(this).data('sort-type');
 
-                self._sort($elt, column);
+                self._sort($elt, column, undefined, type);
             });
 
             // Add the filter behavior
@@ -636,17 +639,18 @@ define([
          * @param {jQueryElement} $elt - plugin's element
          * @param {String} sortBy - the model id of the col to sort
          * @param {Boolean} [asc] - sort direction true for asc of deduced
+         * @param {String} sortType - type of sorting, numeric or string
          * @fires dataTable#sort.datatable
          */
-        _sort: function($elt, sortBy, asc) {
+        _sort: function($elt, sortBy, asc, sortType) {
             /**
              * @event dataTable#sort.dataTable
              * @param {String} column - The name of the column to sort
              * @param {String} direction - The sort direction
              */
-            $elt.trigger('sort.' + ns, [sortBy, asc]);
+            $elt.trigger('sort.' + ns, [sortBy, asc, sortType]);
 
-            this._sortOptions($elt, sortBy, asc);
+            this._sortOptions($elt, sortBy, asc, sortType);
             this._query($elt);
         },
 
@@ -656,10 +660,11 @@ define([
          * @param {jQueryElement} $elt - plugin's element
          * @param {String} sortBy - the model id of the col to sort
          * @param {Boolean|String} [asc] - sort direction true for asc of deduced
+         * @param {String} sortType - sorting type, numeric or string sorting
          * @returns {Object} - returns the options
          * @private
          */
-        _sortOptions: function($elt, sortBy, asc) {
+        _sortOptions: function($elt, sortBy, asc, sortType) {
             var options = $elt.data(dataNs);
 
             if (typeof asc !== 'undefined') {
@@ -678,6 +683,9 @@ define([
 
             // Change the sorting element anyway.
             options.sortby = sortBy;
+
+            // define sorting type
+            options.sorttype = sortType;
 
             //rebind options to the elt
             $elt.data(dataNs, options);

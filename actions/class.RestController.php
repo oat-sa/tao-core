@@ -20,10 +20,16 @@ use oat\tao\helpers\RestExceptionHandler;
  *
  */
 
+use oat\generis\model\OntologyAwareTrait;
+
 abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
+
     const CLASS_URI_PARAM = 'class-uri';
     const CLASS_LABEL_PARAM = 'class-label';
+    const CLASS_COMMENT_PARAM = 'class-comment';
+    const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
 
     /**
      * @var array
@@ -168,6 +174,50 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         if ($class === null || !$class->exists()) {
             $class = $rootClass;
         }
+        return $class;
+    }
+
+    /**
+     * Create sub class of given root class.
+     *
+     * @param core_kernel_classes_Class $rootClass
+     * @throws \common_exception_MissingParameter
+     * @throws \common_Exception
+     * @throws \common_exception_InconsistentData
+     * @return \core_kernel_classes_Class
+     */
+    protected function createSubClass(\core_kernel_classes_Class $rootClass)
+    {
+        if (!$this->hasRequestParameter(static::CLASS_LABEL_PARAM)) {
+            throw new \common_exception_MissingParameter(static::CLASS_LABEL_PARAM, $this->getRequestURI());
+        }
+        $label = $this->getRequestParameter(static::CLASS_LABEL_PARAM);
+
+        if ($this->hasRequestParameter(static::PARENT_CLASS_URI_PARAM)) {
+            $parentClass = $this->getClass($this->getRequestParameter(static::PARENT_CLASS_URI_PARAM));
+            if ($parentClass->getUri() !== $rootClass->getUri() && !$parentClass->isSubClassOf($rootClass)) {
+                throw new \common_Exception(__('Class uri provided is not a valid class.'));
+            }
+            $rootClass = $parentClass;
+        }
+
+        $comment = $this->hasRequestParameter(static::CLASS_COMMENT_PARAM)
+            ? $this->getRequestParameter(static::CLASS_COMMENT_PARAM)
+            : '';
+
+        $class = null;
+
+        /** @var \core_kernel_classes_Class $subClass */
+        foreach ($rootClass->getSubClasses() as $subClass) {
+            if ($subClass->getLabel() === $label) {
+                throw new \common_exception_ClassAlreadyExists($subClass);
+            }
+        }
+
+        if (!$class) {
+            $class = $rootClass->createSubClass($label, $comment);
+        }
+
         return $class;
     }
 

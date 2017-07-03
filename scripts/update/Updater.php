@@ -50,6 +50,7 @@ use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
@@ -841,7 +842,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.19.4');
         }
 
-        if ($this->isVersion('10.19.4')) {
+        $this->skip('10.19.4', '10.19.6');
+
+        if ($this->isVersion('10.19.6')) {
             /**
              * @var $urlService DefaultUrlService
              */
@@ -868,8 +871,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.21.0');
         }
 
-        $this->skip('10.21.0', '10.23.2');
+        $this->skip('10.21.0', '10.24.1');
 
+        if($this->isVersion('10.24.1')){
+            $this->runExtensionScript(AddArchiveService::class);
+
+            $this->setVersion('10.25.0');
+        }
+
+        $this->skip('10.25.0', '10.26.1');
     }
 
     private function migrateFsAccess() {
