@@ -78,7 +78,7 @@ class tao_install_services_SyncService extends tao_install_services_Service{
      */
     private static function getRootUrl(){
     	// Returns TAO ROOT url based on a call to the API.
-    	$isHTTPS = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']);
+    	$isHTTPS = common_http_Request::isHttps();
     	$host = $_SERVER['HTTP_HOST'];
     	$uri = $_SERVER['REQUEST_URI'];
     	$currentUrl = ($isHTTPS ? 'https' : 'http' ). '://' . $host . $uri;
