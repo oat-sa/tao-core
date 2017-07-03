@@ -19,6 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
@@ -35,29 +36,18 @@ use oat\tao\model\TaoOntology;
 class tao_actions_Users extends tao_actions_CommonModule
 {
     use EventManagerAwareTrait;
-    /**
-     * @var tao_models_classes_UserService
-     */
+
+    /** @var tao_models_classes_UserService */
     protected $userService = null;
 
     /**
-     * Role User Management should not take into account
-     */
-
-    private $filteredRoles = array();
-
-    /**
      * Constructor performs initializations actions
-     * @return void
      */
     public function __construct()
     {
         parent::__construct();
-
         $this->userService = tao_models_classes_UserService::singleton();
         $this->defaultData();
-
-        $extManager = common_ext_ExtensionsManager::singleton();
     }
 
     /**
@@ -72,6 +62,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * Provide the user list data via json
      * @return string|json
+     * @todo Use datatable class instead of custom implementation
      */
     public function data()
     {
@@ -188,16 +179,17 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
-        // Csrf token validation
+        // CSRF token validation
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
         if (! $tokenService->checkToken($token)) {
-            \common_Logger::w('Xsrf validation failed');
-            return $this->returnJson([
+            \common_Logger::w('CSRF validation failed');
+            $this->returnJson([
                 'deleted' => false,
-                'message' => 'Not authorized to perform action'
+                'message' => __('Not authorized to perform action')
             ]);
+            return;
         } else {
             $tokenService->revokeToken($token);
             $newToken = $tokenService->createToken();
@@ -205,9 +197,9 @@ class tao_actions_Users extends tao_actions_CommonModule
         }
 
         $deleted = false;
-        $message = __('An error occured during user deletion');
+        $message = __('An error occurred during user deletion');
         if (helpers_PlatformInstance::isDemo()) {
-            $message = __('User deletion not permited on a demo instance');
+            $message = __('User deletion not permitted on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
             $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             $this->checkUser($user->getUri());
@@ -224,7 +216,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     }
 
     /**
-     * form to add a user
+     * Form to add a user
      * @return void
      */
     public function add()
@@ -254,6 +246,10 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->setView('user/form.tpl');
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     public function addInstanceForm()
     {
         if (!tao_helpers_Request::isAjax()) {
@@ -271,7 +267,6 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $instance = $this->createInstance(array($clazz), $properties);
 
                 $this->setData('message', __($instance->getLabel() . ' created'));
-                //$this->setData('reload', true);
                 $this->setData('selectTreeNode', $instance->getUri());
             }
         }
@@ -285,6 +280,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * action used to check if a login can be used
      * @return void
+     * @throws Exception
      */
     public function checkLogin()
     {
@@ -304,6 +300,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      * Form to edit a user
      * User login must be set in parameter
      * @return void
+     * @throws Exception
      */
     public function edit()
     {
