@@ -311,7 +311,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $tokenService->createToken();
-        $this->setCookie($tokenName, $token);
+        $this->setCookie($tokenName, $token, null, '/');
         $this->setData('xsrf-token-name', $tokenName);
 
         //creates the URL of the action used to configure the client side
