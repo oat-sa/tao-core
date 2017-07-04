@@ -65,7 +65,9 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
                 filter: true,
                 actions: {
                     'edit': editUser,
-                    'remove': removeUser
+                    'remove': removeUser,
+                    'block': function () {},
+                    'reset': function () {}
                 },
                 'model': [
                     {
@@ -96,6 +98,10 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
                         id: 'guiLg',
                         label : __('Interface Language'),
                         sortable : true
+                    }, {
+                        id: 'status',
+                        label: __('User status'),
+                        sortable: true
                     }
                 ]
             });
