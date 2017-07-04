@@ -14,11 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ *
  */
+
 
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
-use oat\oatbox\task\TaskPayload;
 use oat\oatbox\task\Task;
 use oat\oatbox\filesystem\FileSystemService;
 
@@ -40,12 +42,11 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 
         $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
 
-        if($taskQueue instanceof TaskPayload) {
-            $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
+        $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
 
-            $this->returnJson($dataPayLoad);
-            return;
-        }
+        $this->returnJson($dataPayLoad);
+        return;
+
     }
 
     public function getStatus(){
@@ -107,7 +108,7 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         }
     }
 
-    public function download(){
+    public function downloadTask(){
         if($this->hasRequestParameter('taskId')){
             /**
              * @var $task \oat\Taskqueue\JsonTask
@@ -128,6 +129,12 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
                 $fileSystem = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
                 $directory = $fileSystem->getDirectory('taskQueueStorage');
                 $file = $directory->getFile($filename);
+                header('Set-Cookie: fileDownload=true');
+                setcookie('fileDownload', 'true', 0, '/');
+
+                //file meta
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+                header('Content-Type: text/csv');
                 tao_helpers_Http::returnStream($file->readPsrStream());
                 return;
             }
