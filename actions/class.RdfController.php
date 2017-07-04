@@ -720,6 +720,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
         if ( $tokenService->checkToken($token) ) {
             $tokenService->revokeToken($token);
+            $newToken = $tokenService->createToken();
+            $this->setCookie($tokenName, $newToken, null, '/');
             return true;
         }
 
