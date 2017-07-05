@@ -178,15 +178,6 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	}
 
     /**
-     * Serialize the current serivceCall object to a JSON
-     *
-     * @return string representation of the JSON
-     */
-    public function serializeToJSON() {
-        return serialize(json_encode($this->jsonSerialize()));
-    }
-
-    /**
      * Unserialize the JSON to a serivceCall object
      *
      * @param string $json
@@ -194,7 +185,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
      */
     public static function fromJSON($json) {
 
-        $data = json_decode(unserialize($json));
+        $data = json_decode($json);
         $sc = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource($data->serviceDefinition->uriResource));
 
         foreach ($data->inParameters as $inparam) {
