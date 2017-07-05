@@ -45,6 +45,20 @@ extends tao_models_classes_service_Parameter
 	    parent::__construct($definition);
 	    $this->value = is_object($value) && $value instanceof core_kernel_classes_Resource ? $value->getUri() : (string)$value;
 	}
+
+    /**
+     * Unserialize the JSON to a parameter object
+     *
+     * @param string $json
+     * @return tao_models_classes_service_ConstantParameter
+     */
+    public static function fromJSON($json) {
+
+        $data = json_decode($json);
+        $cp = new tao_models_classes_service_ConstantParameter(
+            new core_kernel_classes_Resource($data->definition->uriResource), $data->value);
+        return $cp;
+    }
 	
 	/**
 	 * Returns the actual value associated to this parameter
@@ -67,4 +81,18 @@ extends tao_models_classes_service_Parameter
 	    ));
 	    return $resource;
 	}
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        $gov = get_object_vars($this);
+        $gov["definition"] = $this->getDefinition();
+        return $gov;
+    }
 }

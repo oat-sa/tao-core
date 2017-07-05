@@ -26,7 +26,7 @@
  * @package tao
  
  */
-abstract class tao_models_classes_service_Parameter
+abstract class tao_models_classes_service_Parameter implements JsonSerializable
 {
     /**
      * @var core_kernel_classes_Resource
@@ -88,4 +88,21 @@ abstract class tao_models_classes_service_Parameter
 	    }
 	    return $param;
 	}
+
+    /**
+     * Unserialize the JSON to a parameter object
+     *
+     * @param string $json
+     * @return tao_models_classes_service_Parameter
+     */
+    public abstract static function fromJSON($json);
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    abstract function jsonSerialize();
 }
