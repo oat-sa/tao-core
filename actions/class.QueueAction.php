@@ -23,7 +23,7 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\task\Task;
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
-use oat\Taskqueue\Persistence\RdsQueue;
+use oat\oatbox\task\implementation\SyncQueue;
 
 class tao_actions_QueueAction extends \tao_actions_SaSModule
 {
@@ -54,7 +54,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     protected function isAsyncQueue()
     {
         $queue = $this->getQueueService();
-        return $queue instanceof RdsQueue;
+        return !($queue instanceof SyncQueue);
     }
 
     /**
@@ -67,7 +67,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
         if ($status === Task::STATUS_FINISHED || $status === Task::STATUS_ARCHIVED) {
             $report = $task->getReport();
         } else {
-            $report = \common_report_Report::createInfo(__('Booklet task created'));
+            $report = \common_report_Report::createInfo(__('task created'));
         }
         return $report;
     }
