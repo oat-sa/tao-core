@@ -61,6 +61,38 @@ class tao_install_utils_System{
 		$config = dirname(__FILE__).'/../../../config/generis.conf.php';
 		return file_exists($config);
 	}
+
+    /**
+     * Check if TAO is already installed.
+     *
+     * @return boolean
+     */
+    public static function isTAOUpToDate()
+    {
+        $installationConf = dirname(__FILE__) . '/../../../config/generis/installation.conf.php';
+
+        if (!file_exists($installationConf)) {
+            return false;
+        }
+
+        $conf = include($installationConf);
+
+        foreach ($conf->getConfig() as $extName => $ext) {
+            $manifestPath = dirname(__FILE__) . '/../../../' . $extName . '/manifest.php';
+
+            if (!file_exists($manifestPath)) {
+                return false;
+            } else {
+                $manifest = include($manifestPath);
+
+                if ((!isset($ext["installed"])) || (!isset($manifest["version"])) || ($ext["installed"] !== $manifest["version"])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
     
     /**
      * Returns the availables locales (languages or cultures) of the tao platform
