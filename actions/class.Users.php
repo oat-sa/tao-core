@@ -199,6 +199,8 @@ class tao_actions_Users extends tao_actions_CommonModule
             ]);
         } else {
             $tokenService->revokeToken($token);
+            $newToken = $tokenService->createToken();
+            $this->setCookie($tokenName, $newToken, null, '/');
         }
 
         $deleted = false;
