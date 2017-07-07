@@ -29,7 +29,7 @@ use oat\oatbox\filesystem\FileSystemService;
  *
  * Class tao_actions_TaskQueue
  * @package oat\tao\controller\api
- * @author Aleh Hutnikau, <hutnikau@1pt.com>
+ * @author GARCIA Christophe <christophe.garcia@taotesting.com>
  */
 class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 {
