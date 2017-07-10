@@ -117,7 +117,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     {
         /* @var \oat\oatbox\filesystem\FileSystemService $fileSystemService */
         $fileSystemService     = $this->getServiceManager()->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
-        $storageService        = $fileSystemService->getFileSystem('taskQueueStorage');
+        $storageService        = $fileSystemService->getFileSystem(Queue::FILE_SYSTEM_ID);
         
         return $storageService->readStream($fileUri);
     }
