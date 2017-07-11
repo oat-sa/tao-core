@@ -63,27 +63,35 @@ class tao_install_utils_System{
 	}
 
     /**
-     * Check if TAO is already installed.
+     * Check if TAO is already up to date.
      *
      * @return boolean
      */
     public static function isTAOUpToDate()
     {
-        $installationConf = dirname(__FILE__) . '/../../../config/generis/installation.conf.php';
+        $generisConf = dirname(__FILE__).'/../../../config/generis.conf.php';
+
+        if (!file_exists($generisConf)) {
+            return false;
+        }
+
+        include_once($generisConf);
+        $installationConf = dirname(__FILE__).'/../../../config/generis/installation.conf.php';
 
         if (!file_exists($installationConf)) {
             return false;
         }
 
-        $conf = include($installationConf);
+        $conf = include_once($installationConf);
+        $extIterator = is_array($conf) ? $conf : $conf->getConfig();
 
-        foreach ($conf->getConfig() as $extName => $ext) {
-            $manifestPath = dirname(__FILE__) . '/../../../' . $extName . '/manifest.php';
+        foreach ($extIterator as $extName => $ext) {
+            $manifestPath = dirname(__FILE__).'/../../../' . $extName . '/manifest.php';
 
             if (!file_exists($manifestPath)) {
                 return false;
             } else {
-                $manifest = include($manifestPath);
+                $manifest = include_once($manifestPath);
 
                 if ((!isset($ext["installed"])) || (!isset($manifest["version"])) || ($ext["installed"] !== $manifest["version"])) {
                     return false;
