@@ -71,14 +71,14 @@ class tao_install_utils_System{
     {
         $generisConf = dirname(__FILE__).'/../../../config/generis.conf.php';
 
-        if (!file_exists($generisConf)) {
+        if (!is_readable($generisConf)) {
             return false;
         }
 
         include_once($generisConf);
         $installationConf = dirname(__FILE__).'/../../../config/generis/installation.conf.php';
 
-        if (!file_exists($installationConf)) {
+        if (!is_readable($installationConf)) {
             return false;
         }
 
@@ -88,7 +88,7 @@ class tao_install_utils_System{
         foreach ($extIterator as $extName => $ext) {
             $manifestPath = dirname(__FILE__).'/../../../' . $extName . '/manifest.php';
 
-            if (!file_exists($manifestPath)) {
+            if (!is_readable($manifestPath)) {
                 return false;
             } else {
                 $manifest = include_once($manifestPath);
