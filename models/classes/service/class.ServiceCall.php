@@ -32,7 +32,6 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
     /**
      * @var core_kernel_classes_Resource
      */
-	private $serviceDefinition = null;
 	
 	private $serviceDefinitionId = null;
 
@@ -84,8 +83,8 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	 * 
 	 * @return core_kernel_classes_Resource
 	 */
-	public function getServiceDefinition() {
-	    return $this->serviceDefinition;
+	public function getServiceDefinitionId() {
+	    return $this->serviceDefinitionId;
 	}
 	
 	/**

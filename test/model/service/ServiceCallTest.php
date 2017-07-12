@@ -24,12 +24,38 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  * @author Joel Bout <joel@taotesting.com>
  */
 class ServiceCallTest extends TaoPhpUnitTestRunner {
+
+    public function setUp()
+    {
+        parent::setUp();
+    }
     
     public function testJson() {
 
         $serviceCall = new \tao_models_classes_service_ServiceCall('http://testcase/test#123');
         $json = json_encode($serviceCall);
         $serviceCall2 = \tao_models_classes_service_ServiceCall::fromJson(json_decode($json, true));
+        $this->assertIsA($serviceCall2, \tao_models_classes_service_ServiceCall::class);
+        $this->assertEquals($serviceCall, $serviceCall2);
+
+        $serviceCall3 = new \tao_models_classes_service_ServiceCall('http://testcase/test#123');
+        $serviceCall3->addInParameter(new \tao_models_classes_service_ConstantParameter
+        (new \core_kernel_classes_Resource('http://testcase/test#123'), "v1"));
+        $serviceCall3->addInParameter(new \tao_models_classes_service_ConstantParameter
+        (new \core_kernel_classes_Resource('http://testcase/test#123'), "v2"));
+        $serviceCall3->setOutParameter(new \tao_models_classes_service_VariableParameter(
+            new \core_kernel_classes_Resource('http://testcase/test#123'), new \core_kernel_classes_Resource('http://testcase/test#123')));
+
+        $json = json_encode($serviceCall3);
+        $serviceCall4 = \tao_models_classes_service_ServiceCall::fromJson(json_decode($json, true));
+        $this->assertIsA($serviceCall4, \tao_models_classes_service_ServiceCall::class);
+        $this->assertEquals($serviceCall3, $serviceCall4);
+    }
+
+    public function testOntology() {
+        $serviceCall = new \tao_models_classes_service_ServiceCall('http://testcase/test#123');
+        $resource = $serviceCall->toOntology();
+        $serviceCall2 = \tao_models_classes_service_ServiceCall::fromResource($resource);
         $this->assertIsA($serviceCall2, \tao_models_classes_service_ServiceCall::class);
         $this->assertEquals($serviceCall, $serviceCall2);
     }
