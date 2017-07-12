@@ -28,6 +28,7 @@ class ServiceCallTest extends TaoPhpUnitTestRunner {
     public function setUp()
     {
         parent::setUp();
+        \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
     }
     
     public function testJson() {
