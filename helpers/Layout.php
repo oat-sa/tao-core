@@ -21,7 +21,9 @@
 
 namespace oat\tao\helpers;
 
+use Jig\Utils\StringUtils;
 use oat\tao\model\menu\Icon;
+use oat\tao\model\OperatedByService;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
@@ -197,7 +199,7 @@ class Layout
         $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
         return $contentTemplate;
     }
-    
+
     /**
      * Get the logo URL.
      *
@@ -228,7 +230,7 @@ class Layout
                 $logoFile = Template::img('tao-logo.png', 'tao');
                 break;
         }
-        
+
         return $logoFile;
     }
 
@@ -244,7 +246,7 @@ class Layout
 
     /**
      * Deprecated way to insert a theming css, use custom template instead
-     * 
+     *
      * @deprecated
      * @return string
      */
@@ -321,7 +323,24 @@ class Layout
 
         return $message;
     }
-    
+
+    /**
+     * Get the currently registered OperatedBy data
+     * @return array
+     */
+    public static function getOperatedByData() {
+        $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
+
+        $name = $operatedByService->getName();
+        $email = $operatedByService->getEmail();
+
+        $data = [
+            'name' => $name,
+            'email' => (empty($email)) ? '' : StringUtils::encodeText('mailto:' . $email)
+        ];
+        return $data;
+    }
+
     public static function isUnstable() {
 
         $isUnstable = true;
@@ -397,16 +416,16 @@ class Layout
     public static function getCopyrightNotice() {
         return '';
     }
-    
+
     /**
      * Render a themable template identified by its id
-     * 
+     *
      * @param string $templateId
      * @param array $data
      * @return string
      */
     public static function renderThemeTemplate($target, $templateId, $data = array()){
-        
+
         //search in the registry to get the custom template to render
         $tpl = self::getThemeTemplate($target, $templateId);
 

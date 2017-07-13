@@ -35,7 +35,14 @@ use oat\tao\model\OperatedByService;
  * @package tao
  */
 
-class tao_install_Installator{
+class tao_install_Installator {
+    // Adding container and logger.
+    use \oat\oatbox\log\ContainerLoggerTrait;
+
+    /**
+     * Installator related dependencies will be reached under this offset.
+     */
+    const CONTAINER_INDEX = 'taoInstallInstallator';
 
     protected $options = array();
 
@@ -47,7 +54,10 @@ class tao_install_Installator{
 
 	public function __construct($options)
 	{
-		if(!isset($options['root_path'])){
+	    // Using the container if it's necessary with automatic dependency returning.
+	    $options = $this->initContainer($options, static::CONTAINER_INDEX);
+
+        if(!isset($options['root_path'])){
 			throw new tao_install_utils_Exception("root_path option must be defined to perform installation.");
 		}
 		if(!isset($options['install_path'])){
@@ -101,6 +111,8 @@ class tao_install_Installator{
 			    $extensionIDs = array('taoCe');
 			}
 
+			$this->log('d', 'Extensions to be installed: ' . var_export($extensionIDs, true));
+
             $installData['file_path'] = rtrim($installData['file_path'], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 	
 			/*
@@ -135,6 +147,7 @@ class tao_install_Installator{
             $consistentOptions['config_path'] = $this->getConfigPath();
 			$this->oatBoxInstall->setOptions($consistentOptions);
 			$this->oatBoxInstall->install();
+            $this->log('d', 'Oatbox was installed!');
 
             ServiceManager::setServiceManager($this->getServiceManager());
 
@@ -168,7 +181,6 @@ class tao_install_Installator{
 				$dbConfiguration['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
 				$dbConfiguration['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
 				$dbConfiguration['fetch_case'] = PDO::CASE_LOWER;
-			
 			}
 				
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
@@ -227,7 +239,7 @@ class tao_install_Installator{
             
             $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
+				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'] . ' from file: ' . $storedProcedureFile, 'INSTALL');
 				$dbCreator->loadProc($storedProcedureFile);
 			}
 			else {
@@ -262,6 +274,7 @@ class tao_install_Installator{
 
 
 			$generisConfigWriter->writeConstants($constants);
+            $this->log('d', 'The following constants were written in generis config:' . PHP_EOL . var_export($constants, true));
 
 			/*
 			 * 4b - Prepare the file/cache folder (FILES_PATH) not yet defined)
@@ -274,10 +287,18 @@ class tao_install_Installator{
                     throw new common_exception_Error('Unable to empty ' . $file_path . ' folder.');
                 }
 			} else {
-			    mkdir($file_path , 0700, true);
+                if (mkdir($file_path, 0700, true)) {
+                    $this->log('d', $file_path . ' directory was created!');
+                } else {
+                    throw new Exception($file_path . ' directory creation was failed!');
+                }
 		 	}
 		 	$cachePath = $file_path . 'generis' . DIRECTORY_SEPARATOR . 'cache';
-            mkdir($cachePath, 0700, true);
+            if (mkdir($cachePath, 0700, true)) {
+                $this->log('d', $cachePath . ' directory was created!');
+            } else {
+                throw new Exception($cachePath . ' directory creation was failed!');
+            }
 				
 			
 			/*
@@ -289,6 +310,7 @@ class tao_install_Installator{
 			/*
 			 * 5b - Create cache persistence
 			*/
+			$this->log('d', 'Creating cache persistence..');
 			common_persistence_Manager::addPersistence('cache', array(
                 'driver' => 'phpfile'
 			));
@@ -297,6 +319,7 @@ class tao_install_Installator{
 			/*
 			 * 5c - Create generis persistence 
 			 */
+            $this->log('d', 'Creating generis persistence..');
 			common_persistence_Manager::addPersistence('default', $dbConfiguration);
 
 			/*
@@ -304,12 +327,14 @@ class tao_install_Installator{
 			*/
 					
 			// Init model creator and create the Generis User.
+            $this->log('d', 'Creating generis user..');
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
 			$modelCreator->insertGenerisUser(helpers_Random::generateString(8));
 
 			/*
 			 * 6 - Add languages
 			 */
+            $this->log('d', 'Adding languages..');
 			$models = $modelCreator->getLanguageModels();
                         foreach ($models as $ns => $modelFiles){
                             foreach ($modelFiles as $file){
@@ -321,15 +346,18 @@ class tao_install_Installator{
 			/*
 			 * 7 - Finish Generis Install
 			 */
-	        
+
+            $this->log('d', 'Finishing generis install..');
 			$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
 
-			$generisInstaller = new common_ext_GenerisInstaller($generis);
+			$generisInstaller = new common_ext_GenerisInstaller($generis, true);
+			$generisInstaller->initContainer($this->getContainer());
 			$generisInstaller->install();
 
 	        /*
 			 * 8 - Install the extensions
-			 */			
+			 */
+	        InstallHelper::initContainer($this->container);
 			$installed = InstallHelper::installRecursively($extensionIDs, $installData);
 			$this->log('ext', $installed);
 
@@ -407,7 +435,7 @@ class tao_install_Installator{
 
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
-            $this->log('e', 'Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
+            $this->log('e', 'Error Occurs : ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
 	}
@@ -431,7 +459,7 @@ class tao_install_Installator{
 			 * '192K' on 32bit windows
 			 */
 
-            $this->log('e', 'Error Occurs : ' . $err . $exception->getTraceAsString(), 'INSTALL');
+            $this->log('e', 'Error Occurs : ' . $err . PHP_EOL . $exception->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception("Error in mysql system variable 'thread_stack':<br>It is required to change its value in my.ini as following<br>'192K' on 32bit windows<br>'256K' on 64bit windows.<br><br>Note that such configuration changes will only take effect after server restart.<br><br>", 0, $exception);
 		}
 
@@ -546,6 +574,17 @@ class tao_install_Installator{
      */
     public function log($logLevel, $message, $tags = array())
     {
+        if ($this->getLogger() instanceof \Psr\Log\LoggerInterface) {
+            if ($logLevel === 'ext') {
+                $this->logNotice('Installed extensions: ' . implode(', ', $message));
+            }
+            else {
+                $this->getLogger()->log(
+                    common_log_Logger2Psr::getPsrLevelFromCommon($logLevel),
+                    $message
+                );
+            }
+        }
         if (method_exists('common_Logger', $logLevel)) {
             call_user_func('common_Logger::' . $logLevel, $message, $tags);
         }
@@ -556,7 +595,7 @@ class tao_install_Installator{
 			$this->log[$logLevel][] = $message;
 		}
     }
-    
+
     /**
      * Get array of log messages
      * @return array

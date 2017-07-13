@@ -44,13 +44,19 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
+use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -792,7 +798,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('9.2.0');
         }
 
-
         $this->skip('9.2.0', '10.10.0');
 
         if ($this->isVersion('10.10.0')) {
@@ -819,7 +824,72 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.13.0');
         }
 
-        $this->skip('10.13.0', '11.0.0');
+        $this->skip('10.13.0', '10.15.0');
+
+        if ($this->isVersion('10.15.0')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/locale', ['dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
+            );
+            $this->setVersion('10.16.0');
+        }
+
+        $this->skip('10.16.0', '10.19.3');
+
+        if ($this->isVersion('10.19.3')) {
+            $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
+
+            $operatedByService->setName('');
+            $operatedByService->setEmail('');
+
+            $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
+            $this->setVersion('10.19.4');
+        }
+
+        $this->skip('10.19.4', '10.19.6');
+
+        if ($this->isVersion('10.19.6')) {
+            /**
+             * @var $urlService DefaultUrlService
+             */
+            $urlService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+
+            $route = $urlService->getRoute('logout');
+
+            $route['redirect'] =  [
+                'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                'options' => [
+                    'action' => 'entry',
+                    'controller' => 'Main',
+                    'ext' => 'tao'
+                ]
+            ];
+
+            $urlService->setRoute('logout' , $route);
+            $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
+            $this->setVersion('10.20.0');
+        }
+
+        if ($this->isVersion('10.20.0')) {
+            $this->runExtensionScript(UpdateRequiredActionUrl::class);
+            $this->setVersion('10.21.0');
+        }
+
+        $this->skip('10.21.0', '10.24.1');
+
+        if($this->isVersion('10.24.1')){
+            $this->runExtensionScript(AddArchiveService::class);
+
+            $this->setVersion('10.25.0');
+        }
+
+        $this->skip('10.25.0', '10.27.0');
+
+        if($this->isVersion('10.27.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
+            $this->setVersion('10.28.0');
+        }
+
+        $this->skip('10.28.0', '10.11.0');
     }
 
     private function migrateFsAccess() {

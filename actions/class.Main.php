@@ -34,6 +34,8 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\security\xsrf\TokenService;
+
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -304,7 +306,14 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('shownStructure', $structure);
 
         $this->setData('current-section', $this->getRequestParameter('section'));
-		                
+
+        // Add csrf token
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenName = $tokenService->getTokenName();
+        $token = $tokenService->createToken();
+        $this->setCookie($tokenName, $token, null, '/');
+        $this->setData('xsrf-token-name', $tokenName);
+
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(
             'shownExtension' => $extension,
