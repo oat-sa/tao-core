@@ -64,6 +64,8 @@ if (strpos($filename, '?')) {
     $filename = $parts[0];
 }
 
+header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $ttl));
+
 tao_helpers_Http::returnFile($filename);
 
 exit();

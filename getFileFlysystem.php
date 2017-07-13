@@ -60,6 +60,7 @@ $source->setFileSystem($fileSystem);
 try {
     $path = $source->getFilePathFromUrl($url);
     $stream = $source->getFileStream($path);
+    header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + (30 * 60))); //30 minutes
     tao_helpers_Http::returnStream($stream, $source->getMimetype($path));
     $stream->detach();
 } catch (\tao_models_classes_FileNotFoundException $e) {
