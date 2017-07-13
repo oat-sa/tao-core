@@ -885,6 +885,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
             $this->setVersion('10.28.0');
         }
+
+        $this->skip('10.28.0', '10.28.1');
     }
 
     private function migrateFsAccess() {
