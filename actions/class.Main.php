@@ -129,6 +129,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         $config = $extension->getConfig('login');
         $disableAutocomplete = !empty($config['disableAutocomplete']);
 
+        $enableIframeProtection = !empty($config['block_iframe_usage']) && $config['block_iframe_usage'];
+        if ($enableIframeProtection) {
+            \oat\tao\model\security\IFrameBlocker::setHeader();
+        }
+
 		$params = array(
             'disableAutocomplete' => $disableAutocomplete,
         );
