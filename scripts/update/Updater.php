@@ -886,7 +886,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.28.0');
         }
 
-        if($this->isVersion('10.28.0')) {
+        $this->skip('10.28.0', '10.28.1');
+
+        if($this->isVersion('10.28.1')) {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $config = $extension->getConfig('login');
 
