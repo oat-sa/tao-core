@@ -880,6 +880,25 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.25.0', '10.27.0');
+
+        if($this->isVersion('10.27.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
+            $this->setVersion('10.28.0');
+        }
+
+        $this->skip('10.28.0', '10.28.1');
+
+        if($this->isVersion('10.28.1')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+
+            if (!array_key_exists('block_iframe_usage', $config)) {
+                $config['block_iframe_usage'] = false;
+            }
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('10.29.0');
+        }
     }
 
     private function migrateFsAccess() {
