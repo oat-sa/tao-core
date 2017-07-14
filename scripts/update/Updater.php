@@ -885,6 +885,18 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
             $this->setVersion('10.28.0');
         }
+
+        if($this->isVersion('10.28.0')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+
+            if (!array_key_exists('blockIframeUsage', $config)) {
+                $config['blockIframeUsage'] = false;
+            }
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('10.29.0');
+        }
     }
 
     private function migrateFsAccess() {
