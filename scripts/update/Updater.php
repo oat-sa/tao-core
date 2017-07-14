@@ -892,8 +892,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $config = $extension->getConfig('login');
 
-            if (!array_key_exists('blockIframeUsage', $config)) {
-                $config['blockIframeUsage'] = false;
+            if (!array_key_exists('block_iframe_usage', $config)) {
+                $config['block_iframe_usage'] = false;
             }
             $extension->setConfig('login', $config);
 
