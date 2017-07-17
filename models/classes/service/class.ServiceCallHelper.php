@@ -30,26 +30,25 @@ class tao_models_classes_service_ServiceCallHelper
     
     const CACHE_PREFIX_PARAM_NAME = 'tao_service_param_';
     
-    public static function getBaseUrl( core_kernel_classes_Resource $serviceDefinition) {
+    public static function getBaseUrl( string $serviceDefinitionId) {
         
         try {
-            $url = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_URL.urlencode($serviceDefinition->getUri()));
+            $url = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_URL.urlencode($serviceDefinitionId));
         } catch (common_cache_NotFoundException $e) {
-            
+
+            $serviceDefinition = new core_kernel_classes_Resource($serviceDefinitionId);
             $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
-            if($serviceDefinitionUrl instanceof core_kernel_classes_Literal){
-                $serviceUrl = $serviceDefinitionUrl->literal;
-            }else if($serviceDefinitionUrl instanceof core_kernel_classes_Resource){
+
+            $serviceUrl = ($serviceDefinitionUrl instanceof core_kernel_classes_Resource) ?
                 // hack nescessary since fully qualified urls are considered to be resources
-                $serviceUrl = $serviceDefinitionUrl->getUri();
-            } else {
-                throw new common_exception_InconsistentData('Invalid service definition url for '.$serviceDefinition->getUri());
-            }
+                $serviceUrl = $serviceDefinitionUrl->getUri():
+                $serviceUrl = $serviceDefinitionUrl->literal; // instanceof Literal
+
             // Remove the parameters because they are only for show, and they are actualy encoded in the variables
             $urlPart = explode('?',$serviceUrl);
             $url = $urlPart[0];
 
-            common_cache_FileCache::singleton()->put($url, self::CACHE_PREFIX_URL.urlencode($serviceDefinition->getUri()));
+            common_cache_FileCache::singleton()->put($url, self::CACHE_PREFIX_URL.urlencode($serviceDefinitionId));
         }
         if ($url[0] == '/') {
             //create absolute url (prevent issue when TAO installed on a subfolder
