@@ -32,6 +32,5 @@
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
     "time-grunt": "^1.0.0"
-  },
-  "license": "ISC"
+  }
 }
