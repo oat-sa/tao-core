@@ -20,6 +20,7 @@
  */
 
 
+use oat\oatbox\filesystem\FileSystem;
 use oat\tao\model\asset\AssetService;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\websource\WebsourceManager;
@@ -43,7 +44,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     private $credentials = array();
     
     /**
-     * @var \core_kernel_fileSystem_FileSystem
+     * @var FileSystem
      */
     private static $fileSystem = null;
     
@@ -92,13 +93,12 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             $fsId = core_kernel_uri_UriService::singleton()->generateUri();
             $fsm->registerLocalFileSystem($fsId, $ext->getConstant('DIR_VIEWS'));
             $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
-            self::$fileSystem = new core_kernel_fileSystem_FileSystem($fsId);
+            self::$fileSystem = $fsm->getFileSystem($fsId);
         }
         return array(
-            array(DirectWebSource::spawnWebsource(self::$fileSystem->getUri(), $assetService->getJsBaseWww( $ext->getId() ))),
-            array(TokenWebSource::spawnWebsource(self::$fileSystem->getUri(), self::$fileSystem->getPath())),
-            array(ActionWebSource::spawnWebsource(self::$fileSystem->getUri())),
-            // doesn't work without manual modification array(FlyTokenWebSource::spawnWebsource(self::$fileSystem->getUri(), 'unused')),
+            array(DirectWebSource::spawnWebsource(self::$fileSystem->getId(), $assetService->getJsBaseWww( $ext->getId() ))),
+            array(TokenWebSource::spawnWebsource(self::$fileSystem->getId(), self::$fileSystem->getAdapter()->getPathPrefix())),
+            array(ActionWebSource::spawnWebsource(self::$fileSystem->getId())),
         );
     }
     
