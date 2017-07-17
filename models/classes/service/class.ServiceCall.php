@@ -26,7 +26,7 @@
  * @package tao
  
  */
-class tao_models_classes_service_ServiceCall
+class tao_models_classes_service_ServiceCall implements JsonSerializable
 {
     /**
      * @var core_kernel_classes_Resource
@@ -176,5 +176,42 @@ class tao_models_classes_service_ServiceCall
 	public static function fromString($string) {
 	    return unserialize($string);
 	}
-	
+
+    /**
+     * Unserialize the JSON to a serivceCall object
+     *
+     * @param string $json
+     * @return tao_models_classes_service_ServiceCall
+     */
+    public static function fromJSON($json) {
+
+        $data = json_decode($json);
+        $sc = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource($data->serviceDefinition->uriResource));
+
+        foreach ($data->inParameters as $inparam) {
+            if (isset($inparam->variable)) {
+                $sc->addInParameter(tao_models_classes_service_VariableParameter::fromJSON(json_encode($inparam)));
+            } elseif (isset($inparam->value)) {
+                $sc->addInParameter(tao_models_classes_service_ConstantParameter::fromJSON(json_encode($inparam)));
+            }
+        }
+
+        if (isset($data->outParameter)) {
+            $sc->setOutParameter(tao_models_classes_service_VariableParameter::fromJSON(json_encode($data->outParameter)));
+        }
+
+        return $sc;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }
