@@ -39,7 +39,7 @@ use oat\oatbox\filesystem\FileSystemService;
  
  */
 class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
-    
+
     private $testUser;
     private $credentials = array();
     
@@ -74,8 +74,9 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     public static function tearDownAfterClass() {
         parent::tearDownAfterClass();
         $serviceManager = ServiceManager::getServiceManager();
+        /** @var FileSystemService $fsm */
         $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
-        $fsm->unregisterFileSystem(self::$fileSystem->getUri());
+        $fsm->unregisterFileSystem(self::$fileSystem->getId());
         $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
     }
     
