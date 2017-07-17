@@ -26,7 +26,7 @@
  * @package tao
  
  */
-abstract class tao_models_classes_service_Parameter
+abstract class tao_models_classes_service_Parameter implements JsonSerializable
 {
     /**
      * @var core_kernel_classes_Resource
@@ -54,6 +54,24 @@ abstract class tao_models_classes_service_Parameter
 	 * @return core_kernel_classes_Resource
 	 */
 	public abstract function toOntology();
+
+	public abstract function jsonSerialize();
+
+	public static function fromJson($data)
+	{
+	    if (isset($data['const'])) {
+	        $param = new tao_models_classes_service_ConstantParameter(
+	            new core_kernel_classes_Resource($data['def'])
+	            ,$data['const']
+            );
+	    } else {
+	        $param = new tao_models_classes_service_VariableParameter(
+	            new core_kernel_classes_Resource($data['def']),
+	            new core_kernel_classes_Resource($data['proc'])
+            );
+	    }
+	    return $param;
+	}
 	
 	/**
 	 * Builds a service call parameter from it's serialized form

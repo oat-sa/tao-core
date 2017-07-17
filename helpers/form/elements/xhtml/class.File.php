@@ -18,6 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\oatbox\filesystem\File;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
@@ -57,12 +60,11 @@ class tao_helpers_form_elements_xhtml_File extends tao_helpers_form_elements_Fil
     {
         if (! empty($this->value)) {
             if (common_Utils::isUri($this->value)) {
-                $file = new core_kernel_file_File($this->value);
-                if ($file->fileExists()) {
-                    $fileInfo = $file->getFileInfo();
-                    $fileInfo->getFilename();
-                } else {
-                    $file->delete();
+                $referencer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+                /** @var File $file */
+                $file = $referencer->unserialize($this->value);
+                if (!$file->exists()) {
+                    $referencer->cleanup($this->value);
                 }
             }
         }
@@ -86,5 +88,10 @@ class tao_helpers_form_elements_xhtml_File extends tao_helpers_form_elements_Fil
     public function getEvaluatedValue()
     {
         return $this->getRawValue();
+    }
+
+    public function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
     }
 }
