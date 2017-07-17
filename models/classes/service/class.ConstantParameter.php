@@ -67,4 +67,12 @@ extends tao_models_classes_service_Parameter
 	    ));
 	    return $resource;
 	}
+
+	public function jsonSerialize()
+	{
+	    return [
+	        'def' => $this->getDefinition()->getUri(),
+	        'const' => $this->getValue()
+	    ];
+	}
 }
