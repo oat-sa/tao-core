@@ -23,7 +23,10 @@ namespace oat\tao\scripts\update;
 
 use common_Exception;
 use common_ext_ExtensionsManager;
+use League\Flysystem\Adapter\Local;
+use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\filesystem\Directory;
 use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
@@ -885,6 +888,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
             $this->setVersion('10.28.0');
         }
+
+        $this->skip('10.28.0', '10.28.1');
+
+        if($this->isVersion('10.28.1')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+
+            if (!array_key_exists('block_iframe_usage', $config)) {
+                $config['block_iframe_usage'] = false;
+            }
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('10.29.0');
+        }
+
+        $this->skip('10.29.0', '11.2.0');
     }
 
     private function migrateFsAccess() {
@@ -900,8 +919,15 @@ class Updater extends \common_ext_ExtensionUpdater {
                 );
                 switch ($class) {
                 	case 'tao_models_classes_fsAccess_TokenAccessProvider' :
-                	    $fs = new \core_kernel_fileSystem_FileSystem($fsUri);
-                        $options[TokenWebSource::OPTION_PATH] = $fs->getPath();
+                	    /** @var Directory $dir */
+                        $dir = $this->getServiceManager()->get(ResourceFileSerializer::SERVICE_ID)->unserializeDirectory($fsUri);
+                        // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
+                        $adapter = $dir->getFileSystem()->getAdapter();
+                        if (!$adapter instanceof Local) {
+                            throw new \Exception(__CLASS__.' can only handle local files');
+                        }
+
+                        $options[TokenWebSource::OPTION_PATH] = $adapter->getPathPrefix();
                 	    $options[TokenWebSource::OPTION_SECRET] = $config['secret'];
                 	    $options[TokenWebSource::OPTION_TTL] = (int) ini_get('session.gc_maxlifetime');
                 	    $websource = new TokenWebSource($options);
