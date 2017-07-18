@@ -63,8 +63,8 @@ if (strpos($filename, '?')) {
     $parts = explode('?', $filename);
     $filename = $parts[0];
 }
-
-header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $ttl));
+$cacheTtl = $ttl ? $ttl : (30 * 60); //30 min default
+header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', $timestamp + $cacheTtl));
 
 tao_helpers_Http::returnFile($filename);
 
