@@ -30,7 +30,7 @@ class tao_models_classes_service_ServiceCallHelper
     
     const CACHE_PREFIX_PARAM_NAME = 'tao_service_param_';
     
-    public static function getBaseUrl( string $serviceDefinitionId) {
+    public static function getBaseUrl($serviceDefinitionId) {
         
         try {
             $url = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_URL.urlencode($serviceDefinitionId));
