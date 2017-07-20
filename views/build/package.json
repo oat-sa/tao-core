@@ -1,5 +1,6 @@
 {
   "name": "tao-build",
+  "version": "1.0.0",
   "description": "Client side build tool chain for TAO",
   "scripts": {
     "build": "grunt build --no-color",
@@ -9,6 +10,7 @@
     "lint": "grunt eslint:extensionreport --no-color --force",
     "lintfile": "grunt eslint:file --no-color --force"
   },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.0",
     "grunt-aws-s3": "^0.14.0",
@@ -19,13 +21,13 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-qunit": "^1.0.0",
     "grunt-contrib-requirejs": "^1.0.0",
-    "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "grunt-notify": "^0.4.3",
     "grunt-qunit-junit": "^0.3.0",
     "grunt-replace": "^0.11.0",
+    "grunt-sass": "^2.0.0",
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
     "time-grunt": "^1.0.0"
