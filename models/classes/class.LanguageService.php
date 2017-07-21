@@ -132,12 +132,13 @@ class tao_models_classes_LanguageService
     public function isLanguageAvailable($code, core_kernel_classes_Resource $usage)
     {
         $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
-        $result = $langClass->searchInstances(array(
-            RDF_VALUE => $code,
-            PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
-        ), array(
-            'like' => false
-        ));
+        $result = $langClass->searchInstances(
+            array(
+                RDF_VALUE => $code,
+                PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
+            ),
+            array('like' => false)
+        );
 
         return !empty($result);
     }
