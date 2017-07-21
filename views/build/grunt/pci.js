@@ -3,7 +3,6 @@ module.exports = function (grunt) {
 
     var Promise = require('pinkie-promise');
     var requirejs = require('requirejs');
-    var _ = require('lodash');
     var root = grunt.option('root');
 
     grunt.config.merge({
@@ -32,7 +31,6 @@ module.exports = function (grunt) {
                 exclude: ['qtiCustomInteractionContext'],
                 paths: {
                     'taoQtiItem': root + '/taoQtiItem/views/js',
-                    'taoQtiItemCss': root + '/taoQtiItem/views/css',
                     'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
                 }
             }
@@ -74,6 +72,7 @@ module.exports = function (grunt) {
 
         var done = this.async();//async mode because requirejs optimization is an async process
         var extension = grunt.option('e');
+        var selectedId = grunt.option('i');
         var manifests = grunt.file.expand(root + '/' + extension + '/views/js/pciCreator/**/pciCreator.json');
         var self = this;
         var compileTasks;
@@ -85,6 +84,10 @@ module.exports = function (grunt) {
 
         grunt.log.writeln('Started optimizing PCIs in extension "' + extension + '"');
 
+        if(selectedId){
+            grunt.log.writeln('Looking for PCI "' + selectedId + '" only');
+        }
+
         compileTasks = manifests.map(function(file){
             return new Promise(function (resolve, reject) {
                 var dir = file.replace('/pciCreator.json', '');
@@ -94,6 +97,11 @@ module.exports = function (grunt) {
                 var config;
                 var runtimeHook = getHookFileName(manifest.runtime, id);
                 var minRuntimeFile = getMinHookFile(manifest.runtime);
+
+                if(selectedId && selectedId !== id){
+                    //not the targeted one
+                    return resolve(report);
+                }
 
                 report.push(grunt.log.subhead.bind(null, 'PCI "' + id + '" found in manifest "' + file + '" ...'));
 
