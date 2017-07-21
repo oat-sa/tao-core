@@ -274,6 +274,7 @@ define([
                     .datatable({
                         url: this.config.dataUrl,
                         rows : this.config.rows,
+                        sortorder: 'desc',
                         filtercolumns: {type: this.config.context},
                         status: {
                             empty: __('No Task yet'),

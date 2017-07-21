@@ -20,7 +20,11 @@
  * 
  * 
  */
+use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\filesystem\File;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\helpers\TreeHelper;
 use oat\tao\model\GenerisTreeFactory;
 use oat\generis\model\OntologyAwareTrait;
@@ -224,9 +228,26 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
         if ($property->getUri() != RDF_TYPE){
             foreach($source->getPropertyValuesCollection($property)->getIterator() as $propertyValue){
                 if(!is_null($range) && $range->getUri() == CLASS_GENERIS_FILE){
-                    $file = new core_kernel_versioning_File($propertyValue->getUri());
-                    $newFile = $file->getRepository()->spawnFile($file->getAbsolutePath(), $file->getLabel());
-                    $destination->setPropertyValue($property, $newFile);
+                    /** @var FileReferenceSerializer $fileRefSerializer */
+                    $fileRefSerializer = $this->getServiceLocator()
+                        ->get(ResourceFileSerializer::SERVICE_ID);
+
+                    /** @var File $oldFile */
+                    $oldFile = $fileRefSerializer->unserializeFile($propertyValue->getUri());
+
+                    $newFileName = \helpers_File::createFileName($oldFile->getBasename());
+
+                    /** @var File $newFile */
+                    $newFile = $this->getServiceLocator()
+                        ->get(FileSystemService::SERVICE_ID)
+                        ->getDirectory($oldFile->getFileSystemId())
+                        ->getFile($newFileName);
+
+                    $newFile->write($oldFile->readStream());
+
+                    $newFileUri = $fileRefSerializer->serialize($newFile);
+
+                    $destination->setPropertyValue($property, new core_kernel_classes_Resource($newFileUri));
                 } else {
                     $destination->setPropertyValue($property, $propertyValue);
                 }
