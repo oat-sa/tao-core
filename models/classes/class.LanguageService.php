@@ -131,15 +131,15 @@ class tao_models_classes_LanguageService
      */
     public function isLanguageAvailable($code, core_kernel_classes_Resource $usage)
     {
-        $languages =$this->getAvailableLanguagesByUsage($usage);
-        /** @var core_kernel_classes_Resource $resource */
-        foreach ($languages as $key => $resource) {
-            if ($this->getCode($resource) == $code) {
-                return true;
-            }
-        }
+        $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+        $result = $langClass->searchInstances(array(
+            RDF_VALUE => $code,
+            PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
+        ), array(
+            'like' => false
+        ));
 
-        return false;
+        return !empty($result);
     }
 
     public function addTranslationsForLanguage(core_kernel_classes_Resource $language)
