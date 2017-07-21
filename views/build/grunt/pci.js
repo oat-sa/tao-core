@@ -10,10 +10,29 @@ module.exports = function(grunt) {
     grunt.config.merge({
         compilepci : {
             options: {
-                options: {
-                    ext : 'qtiItemPci'
+                optimize: 'uglify2',
+                uglify2: {
+                    mangle : false,
+                    output: {
+                        'max_line_len': 666
+                    }
                 },
-                src : ['../scss/*.scss', '../scss/**/*.scss', '../js/lib/jsTree/**/*.scss']
+                preserveLicenseComments: false,
+                optimizeAllPluginResources: true,
+                findNestedDependencies : true,
+                skipDirOptimize: true,
+                optimizeCss : 'none',
+                buildCss : false,
+                inlineText: true,
+                skipPragmas : true,
+                generateSourceMaps : true,
+                removeCombined : true,
+                baseUrl : '../js',
+                mainConfigFile : './config/requirejs.build.js',
+                extension : 'qtiItemPci',
+                src : ['../scss/*.scss', '../scss/**/*.scss', '../js/lib/jsTree/**/*.scss'],
+                excludeShallow : ['mathJax'],
+                exclude : ['qtiCustomInteractionContext'],
             }
         }
     });
@@ -24,21 +43,20 @@ module.exports = function(grunt) {
 
         var extension = 'qtiItemPci';
 
-        var options = this.options({
-            punctuation: '.',
-            separator: ', '
-        });
+        //var options = this.options({
+        //    punctuation: '.',
+        //    separator: ', '
+        //});
 
         var manifests = grunt.file.expand(root + '/' + extension + '/views/js/pciCreator/**/pciCreator.json');
 
         console.log(root);
-        console.log(options);
         console.log(manifests);
 
         manifests.forEach(function (file) {
-            console.log(file);
-
             grunt.log.writeln('Compiling PCI from manifest "' + file);
+
+
             return;
             // Concat specified files.
             var src = file.src.filter(function (filepath) {
@@ -77,48 +95,23 @@ module.exports = function(grunt) {
         };
         var runtimeHook = 'likertScaleInteraction/runtime/likertScaleInteraction';
         var id = 'likertScaleInteraction';
-        var out         = 'output';
+        var out = 'output';
         var config = {
-            optimize: 'uglify2',
-            uglify2: {
-                mangle : false,
-                output: {
-                    'max_line_len': 666
-                }
-            },
-            preserveLicenseComments: false,
-            optimizeAllPluginResources: true,
-            findNestedDependencies : true,
-            skipDirOptimize: true,
-            optimizeCss : 'none',
-            buildCss : false,
-            inlineText: true,
-            skipPragmas : true,
-            generateSourceMaps : true,
-            removeCombined : true,
-            baseUrl : '../js',
-            mainConfigFile : './config/requirejs.build.js',
-
             paths : paths,
             name: runtimeHook,
-            excludeShallow : ['mathJax'],
-            exclude : ['qtiCustomInteractionContext'],
+            out: out  + '/' + id + '/' + 'likert' + '.js',
             wrap : {
                 start : '',
                 end : "define(['" + runtimeHook +"'],function(pci){return pci;});"
             },
-            out: out  + '/' + id + '/' + 'likert' + '.js'
         };
 
-        console.log(config);
+        var options = this.options(config);
 
-        //grunt.tasks(['mytask', 'jshint'], {}, function() {
-        //    grunt.log.ok('Done running tasks.');
-        //});
-        //return;
+        console.log(options);
 
         var done = this.async();
-        requirejs.optimize(config, function (buildResponse) {
+        requirejs.optimize(options, function (buildResponse) {
             //buildResponse is just a text output of the modules
             //included. Load the built file for the contents.
             //Use config.out to get the optimized file contents.
