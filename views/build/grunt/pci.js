@@ -1,7 +1,10 @@
 module.exports = function(grunt) {
     'use strict';
 
+    var requirejs = require('requirejs');
+    var fs = require('fs');
     var _ = require('lodash');
+
     var root        = grunt.option('root');
     var libs        = grunt.option('mainlibs');
     var out         = 'output';
@@ -30,34 +33,93 @@ module.exports = function(grunt) {
                 baseUrl : '../js',
                 mainConfigFile : './config/requirejs.build.js',
                 extension : 'qtiItemPci',
-                src : ['../scss/*.scss', '../scss/**/*.scss', '../js/lib/jsTree/**/*.scss'],
                 excludeShallow : ['mathJax'],
                 exclude : ['qtiCustomInteractionContext'],
+                paths : {
+                    'taoQtiItem':                  root + '/taoQtiItem/views/js',
+                    'taoQtiItemCss':               root + '/taoQtiItem/views/css',
+                    'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
+                }
             }
         }
     });
 
+    function getHookFileName(pciRuntimeData, prefix){
+        var runtimeHook;
+        if(Array.isArray(pciRuntimeData.src) && pciRuntimeData.src.length > 0){
+            //by convention the first module is the hook file
+            runtimeHook = pciRuntimeData.src[0];
+            runtimeHook = runtimeHook.replace(/\.js$/i, '');
+            runtimeHook = runtimeHook.replace(/^\.\//, prefix + '/');
+            return runtimeHook;
+        }
+    }
+
+    function getMinHookFileName(pciRuntimeData){
+        if(pciRuntimeData.hook){
+            return pciRuntimeData.hook;
+        }
+        if(Array.isArray(pciRuntimeData.libraries) && pciRuntimeData.libraries.length > 0){
+            //by convention the first module is the min file
+            return pciRuntimeData.libraries[0];
+        }
+    }
+
     grunt.registerTask('compilepci', 'Compile PCIs', function(){
 
-        grunt.log.writeln('Compiling PCIs...');
-
+        var done = this.async();//async mode because requirejs optimization is an async process
         var extension = 'qtiItemPci';
-
-        //var options = this.options({
-        //    punctuation: '.',
-        //    separator: ', '
-        //});
-
         var manifests = grunt.file.expand(root + '/' + extension + '/views/js/pciCreator/**/pciCreator.json');
+        var self = this;
+
+        grunt.log.writeln('Compiling PCIs...');
 
         console.log(root);
         console.log(manifests);
 
-        manifests.forEach(function (file) {
-            grunt.log.writeln('Compiling PCI from manifest "' + file);
+        _.forEach(manifests, function (file) {
 
+            file = root + '/qtiItemPci/views/js/pciCreator/dev/likertScaleInteraction/pciCreator.json';
+            var dir = file.replace('/pciCreator.json', '');
 
-            return;
+            grunt.log.writeln('Compiling PCI from manifest "' + file + '" ...');
+
+            var manifest = grunt.file.readJSON(file);
+            var id = manifest.typeIdentifier;
+            var runtimeHook = getHookFileName(manifest.runtime, id);
+            var config = self.options({
+                name: runtimeHook,
+                out: dir + '/' + getMinHookFileName(manifest.runtime),
+                wrap : {
+                    start : '',
+                    end : "define(['" + runtimeHook +"'],function(pci){return pci;});"
+                },
+            });
+            config.paths[id] = dir;
+
+            console.log(config);
+            console.log(dir + '/' + getMinHookFileName(manifest.runtime) + '.js');
+
+            requirejs.optimize(config, function (buildResponse) {
+                ////buildResponse is just a text output of the modules
+                ////included. Load the built file for the contents.
+                ////Use config.out to get the optimized file contents.
+                //var contents = fs.readFileSync(config.out, 'utf8');
+                //console.log(contents);
+                grunt.log.write('PCI "' + id + '" compiled');
+                console.log(buildResponse);
+
+                //grunt.file.copy(srcpath, destpath [, options])
+                done();
+            }, function(err) {
+                //optimization err callback
+                console.log('failssss');
+                console.log(err);
+                done();
+            });
+
+            return false;
+
             // Concat specified files.
             var src = file.src.filter(function (filepath) {
                 // Warn on and remove invalid source files (if nonull was set).
@@ -83,19 +145,10 @@ module.exports = function(grunt) {
         });
 
 
-        var requirejs = require('requirejs');
-        var fs = require('fs');
+        return;
 
-        var paths = {
-            'likertScaleInteraction':      root + '/qtiItemPci/views/js/pciCreator/dev/likertScaleInteraction',
-            'liquidsInteraction':      root + '/qtiItemPci/views/js/pciCreator/dev/liquidsInteraction',
-            'taoQtiItem':                  root + '/taoQtiItem/views/js',
-            'taoQtiItemCss':               root + '/taoQtiItem/views/css',
-            'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
-        };
         var runtimeHook = 'likertScaleInteraction/runtime/likertScaleInteraction';
         var id = 'likertScaleInteraction';
-        var out = 'output';
         var config = {
             paths : paths,
             name: runtimeHook,
@@ -106,12 +159,14 @@ module.exports = function(grunt) {
             },
         };
 
-        var options = this.options(config);
+        config = this.options(config);
 
-        console.log(options);
+        config.paths[id] = root + '/qtiItemPci/views/js/pciCreator/dev/likertScaleInteraction';
 
-        var done = this.async();
-        requirejs.optimize(options, function (buildResponse) {
+        console.log(config);
+
+
+        requirejs.optimize(config, function (buildResponse) {
             //buildResponse is just a text output of the modules
             //included. Load the built file for the contents.
             //Use config.out to get the optimized file contents.
@@ -120,7 +175,8 @@ module.exports = function(grunt) {
             done();
         }, function(err) {
             //optimization err callback
-            console.error('failssss');
+            console.log('failssss');
+            console.log(err);
             done();
         });
 
