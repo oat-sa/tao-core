@@ -28,7 +28,6 @@ module.exports = function (grunt) {
                 removeCombined: true,
                 baseUrl: '../js',
                 mainConfigFile: './config/requirejs.build.js',
-                extension: 'qtiItemPci',
                 excludeShallow: ['mathJax'],
                 exclude: ['qtiCustomInteractionContext'],
                 paths: {
@@ -41,23 +40,25 @@ module.exports = function (grunt) {
     });
 
     function getHookFileName(pciRuntimeData, prefix) {
-        var runtimeHook;
         if (Array.isArray(pciRuntimeData.src) && pciRuntimeData.src.length > 0) {
             //by convention the first module is the hook file
-            runtimeHook = pciRuntimeData.src[0];
-            runtimeHook = runtimeHook.replace(/\.js$/i, '');
-            runtimeHook = runtimeHook.replace(/^\.\//, prefix + '/');
-            return runtimeHook;
+            return pciRuntimeData.src[0]
+                .replace(/\.js$/i, '')
+                .replace(/^\.\//, prefix + '/');
         }
     }
 
-    function getMinHookFileName(pciRuntimeData) {
+    function getMinHookFile(pciRuntimeData) {
+        var minHookFile;
         if (pciRuntimeData.hook) {
-            return pciRuntimeData.hook;
+            minHookFile = pciRuntimeData.hook;
         }
         if (Array.isArray(pciRuntimeData.libraries) && pciRuntimeData.libraries.length > 0) {
             //by convention the first module is the min file
-            return pciRuntimeData.libraries[0];
+            minHookFile = pciRuntimeData.libraries[0];
+        }
+        if(minHookFile){
+            return minHookFile.replace(/^\.\//, '');
         }
     }
 
@@ -72,23 +73,27 @@ module.exports = function (grunt) {
     grunt.registerTask('compilepci', 'Compile PCIs', function () {
 
         var done = this.async();//async mode because requirejs optimization is an async process
-        var extension = 'qtiItemPci';
+        var extension = grunt.option('e');
         var manifests = grunt.file.expand(root + '/' + extension + '/views/js/pciCreator/**/pciCreator.json');
         var self = this;
-        var compileTasks = [];
+        var compileTasks;
 
-        grunt.log.writeln('Compiling PCIs...');
+        if(!extension){
+            grunt.log.error('Missing the extension in param, e.g. "grunt compilepci -e=qtiItemPci"');
+            return done();
+        }
 
-        _.forEach(manifests, function (file) {
+        grunt.log.writeln('Started optimizing PCIs in extension "' + extension + '"');
 
-            compileTasks.push(new Promise(function (resolve, reject) {
+        compileTasks = manifests.map(function(file){
+            return new Promise(function (resolve, reject) {
                 var dir = file.replace('/pciCreator.json', '');
                 var report = [];
                 var manifest = grunt.file.readJSON(file);
                 var id = manifest.typeIdentifier;
                 var config;
                 var runtimeHook = getHookFileName(manifest.runtime, id);
-                var minRuntimeFile = getMinHookFileName(manifest.runtime);
+                var minRuntimeFile = getMinHookFile(manifest.runtime);
 
                 report.push(grunt.log.subhead.bind(null, 'PCI "' + id + '" found in manifest "' + file + '" ...'));
 
@@ -116,9 +121,8 @@ module.exports = function (grunt) {
                     report.push(grunt.log.error.bind(null, err));
                     reject(report);
                 });
-            }));
+            });
         });
-
 
         if (compileTasks.length) {
             Promise.all(compileTasks).then(function (report) {
@@ -129,7 +133,8 @@ module.exports = function (grunt) {
                 done();
             });
         } else {
-            grunt.log.writeln('no PCI to be compiled');
+            grunt.log.writeln('no PCI to be compiled in extension "'+extension+'"');
+            done();
         }
     });
 };
