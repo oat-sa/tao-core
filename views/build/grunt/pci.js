@@ -61,11 +61,13 @@ module.exports = function (grunt) {
     }
 
     function printReport(report) {
-        report.forEach(function (r) {
-            r.forEach(function (fn) {
-                fn.call();
+        if(Array.isArray(report)){
+            report.forEach(function (r) {
+                printReport(r);
             });
-        });
+        }else if(typeof report === 'function'){
+            report.call();
+        }
     }
 
     grunt.registerTask('compilepci', 'Compile PCIs', function () {
