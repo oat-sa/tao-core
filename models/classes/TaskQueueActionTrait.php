@@ -56,7 +56,7 @@ trait TaskQueueActionTrait
     {
         if (!isset($this->tasks[$taskId])) {
             /** @var Queue $taskQueue */
-            $taskQueue = $this->getServiceManager()->get(Queue::CONFIG_ID);
+            $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
             $task = $taskQueue->getTask($taskId);
             if ($task === null) {
                 throw new \common_exception_NotFound(__('Task not found'));

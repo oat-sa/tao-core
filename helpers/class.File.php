@@ -36,8 +36,8 @@ class tao_helpers_File
      * Use it when the path may be build from a user variable
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string path The path to check.
-     * @param  boolean traversalSafe (optional, default is false) Check if the path is traversal safe.
+     * @param  string $path The path to check.
+     * @param  boolean $traversalSafe (optional, default is false) Check if the path is traversal safe.
      * @return boolean States if the path is secure or not.
      */
     public static function securityCheck($path, $traversalSafe = false)
@@ -70,7 +70,7 @@ class tao_helpers_File
      * Use this method to cleanly concat components of a path. It will remove extra slashes/backslashes.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  array paths The path components to concatenate.
+     * @param  array $paths The path components to concatenate.
      * @return string The concatenated path.
      */
     public static function concat($paths)
@@ -93,8 +93,8 @@ class tao_helpers_File
      * can be a directory that contains data.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string path The path to the file you want to remove.
-     * @param  boolean recursive (optional, default is false) Remove file content recursively (only if the path points to a directory).
+     * @param  string $path The path to the file you want to remove.
+     * @param  boolean $recursive (optional, default is false) Remove file content recursively (only if the path points to a directory).
      * @return boolean Return true if the file is correctly removed, false otherwise.
      */
     public static function remove($path, $recursive = false)
@@ -115,8 +115,8 @@ class tao_helpers_File
      * Move file from source to destination.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string source A path to the source file.
-     * @param  string destination A path to the destination file.
+     * @param  string $source A path to the source file.
+     * @param  string $destination A path to the destination file.
      * @return boolean Returns true if the file was successfully moved, false otherwise.
      */
     public static function move($source, $destination)
@@ -248,7 +248,7 @@ class tao_helpers_File
      * Retrieve file extensions usually associated to a given mime-type.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string mimeType A mime-type which is recognized by the platform.
+     * @param  string $mimeType A mime-type which is recognized by the platform.
      * @return string The extension usually associated to the mime-type. If it could not be retrieved, an empty string is returned.
      */
     public static function getExtention($mimeType)
@@ -290,8 +290,8 @@ class tao_helpers_File
      * different methods are used regarding the configuration of the server.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string path
-     * @param  boolean ext If set to true, the extension of the file will be used to retrieve the mime-type. If now extension can be found, 'text/plain' is returned by the method.
+     * @param  string $path
+     * @param  boolean $ext If set to true, the extension of the file will be used to retrieve the mime-type. If now extension can be found, 'text/plain' is returned by the method.
      * @return string The associated mime-type.
      */
     public static function getMimeType($path, $ext = false)
@@ -507,6 +507,8 @@ class tao_helpers_File
      * 
      * @param string $fileName
      * @param string $directory
+     *
+     * @return string
      */
     public static function getSafeFileName($fileName, $directory = null) {
         $lastDot = strrpos($fileName, '.');
@@ -536,6 +538,8 @@ class tao_helpers_File
      * @param string $string
      * @param string $repl
      * @param string $lower
+     *
+     * @return string
      */
     private static function removeSpecChars($string, $repl='-', $lower=true) {
         $spec_chars = array (
