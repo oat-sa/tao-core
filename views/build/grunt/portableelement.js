@@ -1,10 +1,10 @@
 /**
- * Register the portable element compilation task by extension
+ * Register the portable element compilation task for a given TAO extension
  *
  * @example compile all portable element in the extension qtiItemPci
  * grunt portableelement -e=qtiItemPci
  *
- * @example compile only the likertScaleInteraction PCI in the extension qtiItemPci
+ * @example compile only the likertScaleInteraction in the extension qtiItemPci
  * grunt portableelement -e=qtiItemPci -i=likertScaleInteraction
  */
 module.exports = function (grunt) {
@@ -49,10 +49,11 @@ module.exports = function (grunt) {
                 baseUrl: '../js',
                 mainConfigFile: './config/requirejs.build.js',
                 excludeShallow: ['mathJax'],
-                exclude: ['qtiCustomInteractionContext'],
+                exclude: ['qtiCustomInteractionContext', 'qtiInfoControlContext'],
                 paths: {
                     'taoQtiItem': root + '/taoQtiItem/views/js',
-                    'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext'
+                    'qtiCustomInteractionContext': root + '/taoQtiItem/views/js/runtime/qtiCustomInteractionContext',
+                    'qtiInfoControlContext': root + '/taoQtiItem/views/js/runtime/qtiInfoControlContext'
                 }
             }
         }
@@ -74,7 +75,7 @@ module.exports = function (grunt) {
     }
 
     /**
-     * Get the name of the min file fo rthe portable element
+     * Get the name of the min file for the portable element
      * @param {Object} pciRuntimeData - the runtime object from the portable element manifest
      * @returns {String}
      */
@@ -82,8 +83,7 @@ module.exports = function (grunt) {
         var minHookFile;
         if (pciRuntimeData.hook) {
             minHookFile = pciRuntimeData.hook;
-        }
-        if (Array.isArray(pciRuntimeData.libraries) && pciRuntimeData.libraries.length > 0) {
+        } else if (Array.isArray(pciRuntimeData.libraries) && pciRuntimeData.libraries.length > 0) {
             //by convention the first module is the min file
             minHookFile = pciRuntimeData.libraries[0];
         }
@@ -166,22 +166,25 @@ module.exports = function (grunt) {
                     return resolve(report);
                 }
 
-                report.push(grunt.log.subhead.bind(null, 'PCI "' + model.id + '" found in manifest "' + file + '" ...'));
+                report.push(grunt.log.subhead.bind(null, model.type + ' "' + model.id + '" found in manifest "' + file + '" ...'));
 
                 if (!model.runtimeHook) {
-                    report.push(grunt.log.ok.bind(null, 'No source file for PCI "' + model.id + '"'));
+                    //when no source file has been found, skip the compilation
+                    report.push(grunt.log.ok.bind(null, 'No source file for ' + model.type +' "' + model.id + '"'));
                     return resolve(report);
                 }
 
+                //extends the default configuration with portable element sepecific build config
                 config = self.options({
                     name: model.runtimeHook,
                     out: model.basePath + '/' + model.minRuntimeFile,
-                    //required to allow self loading portable element module.
-                    //(note: the option "insertRequire" does not work because it is resolved asynchronously)
+
+                    //this wrapping is required to allow self loading portable element module.
                     wrap: {
                         start: '',
                         end: "define(['" + model.runtimeHook + "'],function(" + model.type + '){return ' + model.type + '});'
                     }
+                    //(note: the option "insertRequire" does not work because it is resolved asynchronously)
                 });
 
                 config.paths[model.id] = model.basePath;
@@ -207,7 +210,7 @@ module.exports = function (grunt) {
                 done();
             });
         } else {
-            grunt.log.writeln('no PCI to be compiled in extension "'+extension+'"');
+            grunt.log.writeln('no portable element to be compiled in extension "'+extension+'"');
             done();
         }
     });
