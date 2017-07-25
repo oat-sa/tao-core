@@ -825,18 +825,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.16.0', '10.19.3');
-        
+
         if ($this->isVersion('10.19.3')) {
             $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
-            
+
             $operatedByService->setName('');
             $operatedByService->setEmail('');
-            
+
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             $this->setVersion('10.19.4');
         }
 
-        $this->skip('10.19.4', '10.19.6');
+        $this->skip('10.19.4', '10.19.7');
     }
 
     private function migrateFsAccess() {
