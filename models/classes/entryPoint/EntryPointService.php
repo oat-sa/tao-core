@@ -19,13 +19,7 @@
  */
 namespace oat\tao\model\entryPoint;
 
-use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
-use oat\tao\helpers\Template;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\menu\MenuService;
-use oat\tao\model\entryPoint\Entrypoint;
 use oat\oatbox\service\ServiceManager;
 
 /**
@@ -43,7 +37,7 @@ class EntryPointService extends ConfigurableService
     const OPTION_PRELOGIN = 'prelogin';
     
     const OPTION_POSTLOGIN = 'postlogin';
-    
+
     /**
      * Replace the entrypoint with the id provided
      * 
@@ -125,7 +119,42 @@ class EntryPointService extends ConfigurableService
             $this->activateEntryPoint($e->getId(), $target);
         }
     }
-    
+
+    /**
+     * Remove entrypoint
+     *
+     * @param $entryId
+     * @throws \common_exception_InconsistentData
+     */
+    public function removeEntryPoint($entryId)
+    {
+        $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
+        if (!isset($entryPoints[$entryId])) {
+            throw new \common_exception_InconsistentData('Unknown entrypoint ' . $entryId);
+        }
+
+        // delete entrypoint from all options entries
+        $options = $this->getOptions();
+        foreach ($options as $section => $option) {
+            $sectionIsArray = false;
+            foreach ($option as $key => $val) {
+                if ($key === $entryId || $val == $entryId) {
+                    unset($options[$section][$key]);
+                }
+
+                if ($val == $entryId) {
+                    $sectionIsArray = true;
+                }
+            }
+
+            if ($sectionIsArray) {
+                $options[$section] = array_values($options[$section]);
+            }
+        }
+
+        $this->setOptions($options);
+    }
+
     /**
      * Get all entrypoints for a designated target
      * 

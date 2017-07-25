@@ -13,6 +13,5 @@ $GLOBALS['__l10n']["%i minutes"]="%d λεπτά";
 $GLOBALS['__l10n']["%m month"]="%d μήνας";
 $GLOBALS['__l10n']["%m months"]="%m μήνες";
 $GLOBALS['__l10n']["%s extension(s) to install."]="%s επέκταση(ς) για να εγκατασταθούν.";
-$GLOBALS['__l10n']["Deliveries"]="Διανομές";
 
 ?>

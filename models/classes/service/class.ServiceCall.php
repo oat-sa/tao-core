@@ -18,21 +18,23 @@
  * 
  */
 
+use oat\generis\model\OntologyAwareTrait;
 /**
  * Represents a call of an interactive tao service
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
-class tao_models_classes_service_ServiceCall
+class tao_models_classes_service_ServiceCall implements JsonSerializable
 {
+    use OntologyAwareTrait;
     /**
      * @var core_kernel_classes_Resource
      */
-	private $serviceDefinition = null;
 	
+	private $serviceDefinitionId = null;
+
 	/**
 	 * Input Parameters used to call this service 
 	 * 
@@ -52,8 +54,10 @@ class tao_models_classes_service_ServiceCall
 	 * 
 	 * @param core_kernel_classes_Resource $serviceDefinition
 	 */
-	public function __construct(core_kernel_classes_Resource $serviceDefinition) {
-	    $this->serviceDefinition = $serviceDefinition;
+	public function __construct($serviceDefinition) {
+	    $this->serviceDefinitionId = is_object($serviceDefinition)
+	       ? $serviceDefinition->getUri()
+	       : $serviceDefinition;
 	}
 	
 	/**
@@ -79,8 +83,8 @@ class tao_models_classes_service_ServiceCall
 	 * 
 	 * @return core_kernel_classes_Resource
 	 */
-	public function getServiceDefinition() {
-	    return $this->serviceDefinition;
+	public function getServiceDefinitionId() {
+	    return $this->serviceDefinitionId;
 	}
 	
 	/**
@@ -120,10 +124,10 @@ class tao_models_classes_service_ServiceCall
 	    foreach ($this->inParameters as $param) {
 	        $inResources[] = $param->toOntology();
 	    }
-	    $serviceCallClass = new core_kernel_classes_Class(CLASS_CALLOFSERVICES);
+	    $serviceCallClass = $this->getClass(CLASS_CALLOFSERVICES);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
 	        RDFS_LABEL => 'serviceCall',
-            PROPERTY_CALLOFSERVICES_SERVICEDEFINITION    => $this->serviceDefinition,
+            PROPERTY_CALLOFSERVICES_SERVICEDEFINITION    => $this->serviceDefinitionId,
             PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN    => $inResources,
             PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT   => $outResources,
 	        PROPERTY_CALLOFSERVICES_WIDTH                => '100',
@@ -146,7 +150,7 @@ class tao_models_classes_service_ServiceCall
 	        PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT
 	    ));
 	    $serviceDefUri = current($values[PROPERTY_CALLOFSERVICES_SERVICEDEFINITION]);
-	    $serviceCall = new self(new core_kernel_classes_Resource($serviceDefUri));
+	    $serviceCall = new self($serviceDefUri);
 	    foreach ($values[PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN] as $inRes) {
 	        $param = tao_models_classes_service_Parameter::fromResource($inRes);
 	        $serviceCall->addInParameter($param);
@@ -177,4 +181,23 @@ class tao_models_classes_service_ServiceCall
 	    return unserialize($string);
 	}
 	
+	public function jsonSerialize()
+	{
+	    return array(
+	        'service' => $this->serviceDefinitionId,
+	        'in' => $this->inParameters,
+	        'out' => $this->outParameter
+	    );
+	}
+
+	public static function fromJson($data) {
+	    $call = new self($data['service']);
+	    if (!empty($data['out'])) {
+	       $call->setOutParameter(tao_models_classes_service_Parameter::fromJson($data['out']));
+	    }
+	    foreach ($data['in'] as $in) {
+	        $call->addInParameter(tao_models_classes_service_Parameter::fromJson($in));
+	    }
+	    return $call;
+	}
 }

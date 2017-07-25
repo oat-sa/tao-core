@@ -47,8 +47,9 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string code
+     * @param  string $code
      * @return core_kernel_classes_Resource
+     * @throws common_exception_Error   Not implemented in this class yet.
      */
     public function createLanguage($code)
     {
@@ -60,7 +61,7 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string code
+     * @param  string $code
      * @return core_kernel_classes_Resource
      */
     public function getLanguageByCode($code)
@@ -89,7 +90,7 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource language
+     * @param  core_kernel_classes_Resource $language
      * @return string
      */
     public function getCode( core_kernel_classes_Resource $language)
@@ -105,7 +106,7 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource usage
+     * @param  core_kernel_classes_Resource $usage
      * @return array
      */
     public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
@@ -119,7 +120,29 @@ class tao_models_classes_LanguageService
 	    ));
         return (array) $returnValue;
     }
-    
+
+    /**
+     * Checks the language availability in the given context(usage).
+     *
+     * @param string                       $code    The language code to check. (for example: en-US)
+     * @param core_kernel_classes_Resource $usage   The context of the availability.
+     *
+     * @return bool
+     */
+    public function isLanguageAvailable($code, core_kernel_classes_Resource $usage)
+    {
+        $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+        $result = $langClass->searchInstances(
+            array(
+                RDF_VALUE => $code,
+                PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
+            ),
+            array('like' => false)
+        );
+
+        return !empty($result);
+    }
+
     public function addTranslationsForLanguage(core_kernel_classes_Resource $language)
     {
         $langCode = $this->getCode($language);
@@ -138,8 +161,12 @@ class tao_models_classes_LanguageService
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
+     *
+     * @param bool $checkPreviousBundle
+     *
+     * @return array
      */
-    public function generateClientBundles($checkPreviousBundlue = false)
+    public function generateClientBundles($checkPreviousBundle = false)
     {
         $returnValue = array();
         
@@ -155,10 +182,10 @@ class tao_models_classes_LanguageService
                 
                 $bundle = new TranslationBundle($langCode, $extensions);
                 
-                if ($checkPreviousBundlue) {
-                    $currenBundle = $path . $langCode . '.json';
-                    if (file_exists($currenBundle)) {
-                        $bundleData = json_decode(file_get_contents($currenBundle), true);
+                if ($checkPreviousBundle) {
+                    $currentBundle = $path . $langCode . '.json';
+                    if (file_exists($currentBundle)) {
+                        $bundleData = json_decode(file_get_contents($currentBundle), true);
                         if ($bundleData['serial'] === $bundle->getSerial()) {
                             $generate = false;
                         }
@@ -179,7 +206,7 @@ class tao_models_classes_LanguageService
                         common_Logger::d('Actual File is more recent, skip ' . $langCode);
                     }
                 }
-            } catch (common_excpetion_Error $e) {
+            } catch (common_exception_Error $e) {
                 
                 common_Logger::e('Failure: ' . $e->getMessage());
             }
@@ -194,8 +221,9 @@ class tao_models_classes_LanguageService
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource usage
+     * @param  core_kernel_classes_Resource $usage
      * @return core_kernel_classes_Resource
+     * @throws common_exception_Error   Not implemented in this class yet.
      */
     public function getDefaultLanguageByUsage( core_kernel_classes_Resource $usage)
     {

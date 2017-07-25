@@ -21,8 +21,8 @@
  */
 namespace oat\tao\model\mvc;
 
+use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
-use oat\oatbox\service\SimpleConfigDriver;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
@@ -92,7 +92,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
 
         require_once $configuration;
         $serviceManager = new ServiceManager(
-            (new SimpleConfigDriver())->connect('config', array(
+            (new ServiceConfigDriver())->connect('config', array(
                 'dir' => dirname($configuration),
                 'humanReadable' => true
             ))
@@ -265,10 +265,11 @@ class Bootstrap implements ServiceLocatorAwareInterface
         // set the session cookie to HTTP only.
         
         $this->configureSessionHandler();
-  
+
         $sessionParams = session_get_cookie_params();
         $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
-        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
+        $isSecureFlag = \common_http_Request::isHttps();
+        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, TRUE);
         session_name(GENERIS_SESSION_NAME);
         
         if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
@@ -279,7 +280,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
             //cookie keep alive, if lifetime is not 0
             if ($sessionParams['lifetime'] !== 0) {
                 $expiryTime = $sessionParams['lifetime'] + time();
-                setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], true);
+                setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, true);
             }
         }
     }
