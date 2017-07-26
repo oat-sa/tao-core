@@ -904,6 +904,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('10.29.0', '12.2.1');
+
+        if($this->isVersion('12.2.1')) {
+            try {
+                $session = $this->getServiceManager()->get('tao/session');
+            } catch (ServiceNotFoundException $e) {
+                \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('session', false);
+            }
+            $this->setVersion('12.2.2');
+        }
     }
 
     private function migrateFsAccess() {
