@@ -2,15 +2,17 @@
  * Register the portable element compilation task for a given TAO extension
  *
  * @example compile all portable element in the extension qtiItemPci
- * grunt portableelement -e=qtiItemPci
+ * grunt portableelement --extension=qtiItemPci
  *
  * @example compile only the likertScaleInteraction in the extension qtiItemPci
+ * grunt portableelement --extension=qtiItemPci --identifier=likertScaleInteraction
+ *
+ * @example compile only the likertScaleInteraction in the extension qtiItemPci using short param
  * grunt portableelement -e=qtiItemPci -i=likertScaleInteraction
  */
 module.exports = function (grunt) {
     'use strict';
 
-    var Promise = require('pinkie-promise');
     var requirejs = require('requirejs');
     var root = grunt.option('root');
     var portableModels = [
@@ -130,8 +132,8 @@ module.exports = function (grunt) {
     grunt.registerTask('portableelement', 'Compile Portable Elements', function () {
 
         var done = this.async();//async mode because requirejs optimization is an async process
-        var extension = grunt.option('e');
-        var selectedId = grunt.option('i');
+        var extension = grunt.option('extension') || grunt.option('e');
+        var selectedId = grunt.option('identifier') || grunt.option('i');
         var manifests, compileTasks;
         var self = this;
 
