@@ -24,11 +24,14 @@ module.exports = function(grunt) {
                     '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss',
                 }
             },
-            mediaplayer : {
+            component : {
                 files : {
                     '../js/ui/mediaplayer/css/player.css' : '../js/ui/mediaplayer/scss/player.scss',
+                    '../js/ui/class/selector.css' : '../js/ui/class/selector.scss',
+                    '../js/ui/resource/selector.css' : '../js/ui/resource/selector.scss'
                 }
-            }
+            },
+
         },
 
         watch: {
@@ -38,6 +41,13 @@ module.exports = function(grunt) {
             taosass : {
                 files : ['../scss/*.scss', '../scss/**/*.scss', '../js/lib/jsTree/**/*.scss'],
                 tasks : ['sass:tao', 'notify:taosass'],
+                options : {
+                    debounceDelay : 1000
+                }
+            },
+            componentsass : {
+                files : ['../js/ui/**/*.scss'],
+                tasks : ['sass:component'],
                 options : {
                     debounceDelay : 1000
                 }

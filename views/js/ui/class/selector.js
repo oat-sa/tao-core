@@ -27,7 +27,8 @@ define([
     'i18n',
     'ui/component',
     'tpl!ui/class/selector',
-    'tpl!ui/class/listItem'
+    'tpl!ui/class/listItem',
+    'css!ui/class/selector.css'
 ], function ($, _, __, component, selectorTpl, listItemTpl) {
     'use strict';
 
