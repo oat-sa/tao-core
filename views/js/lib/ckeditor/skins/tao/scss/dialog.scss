@@ -40,6 +40,7 @@ Comments in this file will give more details about each of the above blocks.
 @import "inc/bootstrap";
 /* Tao specific stuff */
 @import 'inc/tao';
+@import 'inc/buttons';
 
 /* The outer container of the dialog. */
 .cke_dialog {
@@ -53,7 +54,7 @@ Comments in this file will give more details about each of the above blocks.
   z-index: 1;
   @include simple-border();
   @include border-radius(1);
-  @include box-shadow();
+  border-color: $darkBar;
 }
 
 /* This one is required by Firefox 3.6. Without it,
@@ -74,17 +75,18 @@ Comments in this file will give more details about each of the above blocks.
   font-size: 13px;
   cursor: move;
   position: relative;
+  color: white(1);
 
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $darkBar;
   padding: 6px 10px;
 
-  background: #fff
+  background: $darkBar;
 }
 
 /* The outer part of the dialog contants, which contains the contents body
    and the footer. */
 .cke_dialog_contents {
-  background-color: #fff;
+  background-color: $canvas;
   overflow: auto;
   padding: 15px 10px 5px 10px;
   margin-top: 30px;
@@ -109,7 +111,7 @@ Comments in this file will give more details about each of the above blocks.
   position: relative;
 
   border-top: 1px solid #ddd;
-  background: #fff;
+  background: $canvas;
 }
 
 .cke_rtl .cke_dialog_footer {
@@ -263,6 +265,7 @@ a.cke_dialog_tab_disabled {
   background-position: 0 0;
   position: absolute;
   cursor: pointer;
+  color: white;
   text-align: center;
   height: 20px;
   width: 20px;
@@ -486,52 +489,44 @@ The buttons used in the dialog footer or inside the contents.
 
 /* The outer part of the button. */
 a.cke_dialog_ui_button {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
+  @extend %generic-btn-code;
 
-  padding: 3px 0;
-  margin: 0;
+  // as we don't control the css output, we replicate here the small & info rules
+  line-height: 1.8;
+  height: 25px;
 
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-
-  @include simple-border();
-  @include border-radius(1);
-
-  background: #fff;
-
+  background-color: whiten($info, .1);
+  text-shadow: 1px 1px 0 blacken($info, .2);
 }
 
-span.cke_dialog_ui_button {
-  padding: 0 12px;
-}
+//span.cke_dialog_ui_button {
+//  padding: 0 12px;
+//}
 
-a.cke_dialog_ui_button:hover {
-  background-color: mix(#fff, $info, 80%);
-}
+//a.cke_dialog_ui_button:hover {
+//    opacity: .85;
+//}
 
 /* 	:focus/:active styles for dialog buttons: regular and footer. */
-a.cke_dialog_ui_button:focus,
-a.cke_dialog_ui_button:active {
+//a.cke_dialog_ui_button:focus,
+//a.cke_dialog_ui_button:active {
+//
+//}
 
-}
+//.cke_hc a.cke_dialog_ui_button:hover,
+//.cke_hc a.cke_dialog_ui_button:focus,
+//.cke_hc a.cke_dialog_ui_button:active {
+//  border: 3px solid;
+//  padding-top: 1px;
+//  padding-bottom: 1px;
+//}
 
-.cke_hc a.cke_dialog_ui_button:hover,
-.cke_hc a.cke_dialog_ui_button:focus,
-.cke_hc a.cke_dialog_ui_button:active {
-  border: 3px solid;
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-
-.cke_hc a.cke_dialog_ui_button:hover span,
-.cke_hc a.cke_dialog_ui_button:focus span,
-.cke_hc a.cke_dialog_ui_button:active span {
-  padding-left: 10px;
-  padding-right: 10px;
-}
+//.cke_hc a.cke_dialog_ui_button:hover span,
+//.cke_hc a.cke_dialog_ui_button:focus span,
+//.cke_hc a.cke_dialog_ui_button:active span {
+//  padding-left: 10px;
+//  padding-right: 10px;
+//}
 
 /*
 a.cke_dialog_ui_button[style*="width"]
@@ -541,10 +536,10 @@ a.cke_dialog_ui_button[style*="width"]
 }
 */
 /* The inner part of the button (both in dialog tabs and dialog footer). */
-.cke_dialog_footer_buttons a.cke_dialog_ui_button span {
-  color: inherit;
-  line-height: 20px;
-}
+//.cke_dialog_footer_buttons a.cke_dialog_ui_button span {
+//  color: inherit;
+//  line-height: 20px;
+//}
 
 /* Special class appended to the Ok button. */
 a.cke_dialog_ui_button_ok {
@@ -556,40 +551,40 @@ a.cke_dialog_ui_button_ok:hover {
 }
 
 /* Default text shadow used for inner parts of all dialog buttons (both in dialog tabs and dialog footer). */
-a.cke_dialog_ui_button span {
-  text-shadow: 0 1px 0 #fff;
-}
+//a.cke_dialog_ui_button span {
+//  text-shadow: 0 1px 0 #fff;
+//}
 
 /* Text shadow used for inner part of OK dialog button in footer. */
-a.cke_dialog_ui_button_ok span {
-  text-shadow: 0 -1px 0 #55830c;
-}
+//a.cke_dialog_ui_button_ok span {
+//  text-shadow: 0 -1px 0 #55830c;
+//}
 
-span.cke_dialog_ui_button {
-  cursor: pointer;
-}
+//span.cke_dialog_ui_button {
+//  cursor: pointer;
+//}
 
 /* 	:focus/:active styles for dialog footer buttons (ok & cancel) */
-a.cke_dialog_ui_button_ok:focus,
-a.cke_dialog_ui_button_ok:active,
-a.cke_dialog_ui_button_cancel:focus,
-a.cke_dialog_ui_button_cancel:active {
-  border-width: 2px;
-  padding: 2px 0;
-}
+//a.cke_dialog_ui_button_ok:focus,
+//a.cke_dialog_ui_button_ok:active,
+//a.cke_dialog_ui_button_cancel:focus,
+//a.cke_dialog_ui_button_cancel:active {
+//  border-width: 2px;
+//  padding: 2px 0;
+//}
 
-a.cke_dialog_ui_button_ok:focus,
-a.cke_dialog_ui_button_ok:active {
-  border-color: #568C0A;
-}
+//a.cke_dialog_ui_button_ok:focus,
+//a.cke_dialog_ui_button_ok:active {
+//  border-color: #568C0A;
+//}
 
 /* 	:focus/:active styles for dialog footer buttons (ok & cancel) spans */
-a.cke_dialog_ui_button_ok:focus span,
-a.cke_dialog_ui_button_ok:active span,
-a.cke_dialog_ui_button_cancel:focus span,
-a.cke_dialog_ui_button_cancel:active span {
-  padding: 0 11px; /* Thick button border must be compensated. */
-}
+//a.cke_dialog_ui_button_ok:focus span,
+//a.cke_dialog_ui_button_ok:active span,
+//a.cke_dialog_ui_button_cancel:focus span,
+//a.cke_dialog_ui_button_cancel:active span {
+//  padding: 0 11px; /* Thick button border must be compensated. */
+//}
 
 /* A special container that holds the footer buttons. */
 .cke_dialog_footer_buttons {
