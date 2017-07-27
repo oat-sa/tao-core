@@ -107,6 +107,70 @@ define([
         },
 
         /**
+         * Place the component using another element as a reference position
+         * @param {Jquery} $element - the reference element
+         * @param {left|center|right} options.hPos - horizontal position relative to the reference element
+         * @param {top|center|bottom} options.vPos - vertical position relative to the reference element
+         */
+        alignWith: function alignWith($element, options) {
+            var componentOuterSize,
+                containerOffset,
+                elementOffset,
+                elementWidth,
+                elementHeight,
+                x,
+                y;
+
+            if (this.is('rendered')) {
+                options = _.defaults(options || {}, {
+                    hPos: 'center',
+                    vPos: 'center'
+                });
+
+                componentOuterSize = this.getOuterSize();
+                containerOffset    = this.getContainer().offset();
+                elementOffset      = $element.offset();
+                elementWidth       = $element.outerWidth();
+                elementHeight      = $element.outerHeight();
+
+                switch(options.hPos) {
+                    case 'left': {
+                        x = (elementOffset.left - containerOffset.left) - componentOuterSize.width;
+                        break;
+                    }
+                    case 'right': {
+                        x = (elementOffset.left - containerOffset.left) + elementWidth;
+                        break;
+                    }
+                    default:
+                    case 'center': {
+                        x = (elementOffset.left - containerOffset.left) + (elementWidth / 2) - (componentOuterSize.width / 2);
+                        break;
+                    }
+                }
+
+                switch(options.vPos) {
+                    case 'top': {
+                        y = (elementOffset.top - containerOffset.top) - componentOuterSize.height;
+                        break;
+                    }
+                    case 'bottom': {
+                        y = (elementOffset.top - containerOffset.top) + elementHeight;
+                        break;
+                    }
+                    default:
+                    case 'center': {
+                        y = (elementOffset.top - containerOffset.top) + (elementHeight / 2) - (componentOuterSize.height / 2);
+                        break;
+                    }
+                }
+            }
+
+            this.moveTo(x, y);
+        },
+
+
+        /**
          * Moves the component by the given offset, which is relative to the current position
          * @param {Number} xOffsetRelative
          * @param {Number} yOffsetRelative
