@@ -48,6 +48,9 @@
         }, {
           "uri": "http:\/\/bertao\/tao.rdf#i14727195846290297",
           "label": "Project team"
+        }, {
+          "uri": "http:\/\/bertao\/tao.rdf#i14727195846290297",
+          "label": "Analyze, research and development team"
         }]
       }, {
         "uri": "http:\/\/bertao\/tao.rdf#i14727195956668298",
@@ -113,6 +116,6 @@
     "label": "Advisor Board"
   }, {
     "uri": "http:\/\/bertao\/tao.rdf#i14727380063820347",
-    "label": "Trainnee"
+    "label": "Trainee"
   }]
 }]

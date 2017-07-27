@@ -1,5 +1,5 @@
 <li>
-    <a href="#" data-uri="{{uri}}">{{label}}</a>
+    <a href="#" data-uri="{{uri}}" title="{{label}}">{{label}}</a>
     {{#if childList}}
         <ul>
             {{{childList}}}
