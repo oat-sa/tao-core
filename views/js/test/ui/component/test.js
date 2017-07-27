@@ -325,9 +325,11 @@ define([
                 outerWidth: 120, outerHeight: 120
             }
         ])
-        .asyncTest('getOuterSize', function(data, assert) {
+        .asyncTest('getOuterSize()', function(data, assert) {
             var template = '<div>TEST</div>',
                 $container1 = $('#fixture-1');
+
+            QUnit.expect(2);
 
             componentFactory()
                 .setTemplate(template)
