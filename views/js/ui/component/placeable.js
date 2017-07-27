@@ -83,37 +83,32 @@ define([
          * @fires Component#center
          */
         center: function center() {
-            var $container = this.getContainer(),
-                $element = this.getElement(),
-                centerX,
-                centerY;
+            var $container = this.getContainer();
 
             if (this.is('rendered') && !this.is('disabled')) {
-                if ($container.length) {
-                    centerX = $container.width() / 2 - $element.width() / 2;
-                    centerY = $container.height() / 2 - $element.height() / 2;
+                this.alignWith($container);
 
-                    this.moveTo(centerX, centerY);
-
-                    /**
-                     * @event Component#center the component has been centered
-                     * @param {Number} centerX
-                     * @param {Number} centerY
-                     */
-                    this.trigger('center', centerX, centerY);
-                }
+                /**
+                 * @event Component#center the component has been centered
+                 * @param {Number} centerX
+                 * @param {Number} centerY
+                 */
+                this.trigger('center', this._x, this._y);
             }
             return this;
         },
 
         /**
          * Place the component using another element as a reference position
-         * @param {Jquery} $element - the reference element
+         * @param {jQuery} $element - the reference element
+         * @param {Object} [options]
          * @param {left|center|right} options.hPos - horizontal position relative to the reference element
          * @param {top|center|bottom} options.vPos - vertical position relative to the reference element
+         * @returns {Component} chains
          */
         alignWith: function alignWith($element, options) {
-            var componentOuterSize,
+            var $container = this.getContainer(),
+                componentOuterSize,
                 containerOffset,
                 elementOffset,
                 elementWidth,
@@ -121,14 +116,14 @@ define([
                 x,
                 y;
 
-            if (this.is('rendered')) {
+            if (this.is('rendered') && !this.is('disabled') && $container.length) {
                 options = _.defaults(options || {}, {
                     hPos: 'center',
                     vPos: 'center'
                 });
 
                 componentOuterSize = this.getOuterSize();
-                containerOffset    = this.getContainer().offset();
+                containerOffset    = $container.offset();
                 elementOffset      = $element.offset();
                 elementWidth       = $element.outerWidth();
                 elementHeight      = $element.outerHeight();
@@ -165,8 +160,9 @@ define([
                     }
                 }
             }
-
             this.moveTo(x, y);
+
+            return this;
         },
 
 
