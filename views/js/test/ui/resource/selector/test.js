@@ -24,8 +24,9 @@ define([
     'lodash',
     'ui/resource/selector',
     'json!test/ui/resource/selector/classes.json',
-    'json!test/ui/resource/selector/search.json'
-], function($, _, resourceSelector, classesData, searchData) {
+    'json!test/ui/resource/selector/tree.json',
+    'json!test/ui/resource/selector/list.json',
+], function($, _, resourceSelector, classesData, treeData, listData) {
     'use strict';
 
     //var resourceSelectorApi = [
@@ -72,28 +73,24 @@ define([
         var container = document.getElementById('visual');
         var config = {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-            classes : []
+            classes : classesData
         };
 
-        $.ajax({
-            url : '/tao/Foo/getClasses',
-            method: 'post',
-            data : {
-                classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+
+        resourceSelector(container, config)
+        .on('render', function(){
+            assert.ok(true);
+        })
+        .on('query', function(params){
+            if(params.format === 'tree'){
+                this.update(treeData, params);
             }
-        }).done(function(response){
-
-            config.classes = response.data;
-
-            resourceSelector(container, config)
-                .on('render', function(){
-                    assert.ok(true);
-                });
-
-
-        }).fail(function(){
-            console.log(arguments);
+            if(params.format === 'list'){
+                this.update(listData, params);
+            }
         });
+
+
 
 
         //var resourceProvider = {
