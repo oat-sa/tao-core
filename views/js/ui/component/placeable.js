@@ -102,8 +102,8 @@ define([
          * Place the component using another element as a reference position
          * @param {jQuery} $element - the reference element
          * @param {Object} [options]
-         * @param {left|center|right} options.hPos - horizontal position relative to the reference element
-         * @param {top|center|bottom} options.vPos - vertical position relative to the reference element
+         * @param {('left'|'center'|'right')} options.hPos - horizontal position relative to the reference element
+         * @param {('top'|'center'|'bottom')} options.vPos - vertical position relative to the reference element
          * @returns {Component} chains
          */
         alignWith: function alignWith($element, options) {
@@ -114,7 +114,7 @@ define([
         /**
          * Place the component so it is horizontally aligned with a reference element
          * @param {jQuery} $element - the reference element
-         * @param {left|center|right} hPos - horizontal position relative to the reference element
+         * @param {('left'|'center'|'right')} hPos - horizontal position relative to the reference element
          * @returns {Component} chains
          */
         hAlignWith: function hAlignWith($element, hPos) {
@@ -125,7 +125,7 @@ define([
         /**
          * Place the component so it is vertically aligned with a reference element
          * @param {jQuery} $element - the reference element
-         * @param {top|center|bottom} vPos - vertical position relative to the reference element
+         * @param {('top'|'center'|'bottom')} vPos - vertical position relative to the reference element
          * @returns {Component} chains
          */
         vAlignWith: function vAlignWith($element, vPos) {
@@ -137,8 +137,8 @@ define([
          * Get the coordinates of the component so it is aligned with a reference element
          * @param {jQuery} $element - the reference element
          * @param {Object} [options]
-         * @param {left|center|right} options.hPos - horizontal position relative to the reference element
-         * @param {top|center|bottom} options.vPos - vertical position relative to the reference element
+         * @param {('left'|'center'|'right')} [options.hPos] - horizontal position relative to the reference element
+         * @param {('top'|'center'|'bottom')} [options.vPos] - vertical position relative to the reference element
          * @returns {x,y} - the aligned coordinates
          * @private
          */
