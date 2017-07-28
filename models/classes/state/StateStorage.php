@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\tao\model\service;
+namespace oat\tao\model\state;
 
 /**
  * Persistence for the item delivery service

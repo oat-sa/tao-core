@@ -427,7 +427,7 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
 
 
     QUnit.asyncTest('send failed #network', function (assert) {
-        QUnit.expect(19);
+        QUnit.expect(25);
 
         var config = {
             service: 'service.url',
@@ -467,6 +467,9 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             .on('error', function(error) {
                 assert.ok(true, 'An error event is triggered');
                 assert.equal(typeof error, 'object', 'An error object is provided');
+                assert.equal(typeof error.sent, 'boolean', 'The error object contains the sent value');
+                assert.equal(error.sent, false, 'The request was never sent');
+                assert.equal(error.source, 'network', 'The error object contains the error source');
             });
 
         $.ajax = ajaxMock(function (promise) {

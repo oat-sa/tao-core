@@ -22,7 +22,10 @@ namespace oat\tao\scripts\update;
 
 use common_Exception;
 use common_ext_ExtensionsManager;
+use League\Flysystem\Adapter\Local;
+use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\filesystem\Directory;
 use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
@@ -52,8 +55,14 @@ use oat\tao\model\routing\NamespaceRoute;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\ExtensionRouteInstallation;
+use oat\tao\model\mvc\DefaultUrlService;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
+use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
+use oat\tao\model\routing\Resolver;
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -831,9 +840,90 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('10.16.0');
         }
 
-        $this->skip('10.16.0', '10.19.2');
+        $this->skip('10.16.0', '10.19.3');
 
-        if($this->isVersion('10.19.2')) {
+        if ($this->isVersion('10.19.3')) {
+            $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
+
+            $operatedByService->setName('');
+            $operatedByService->setEmail('');
+
+            $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
+            $this->setVersion('10.19.4');
+        }
+
+        $this->skip('10.19.4', '10.19.6');
+
+        if ($this->isVersion('10.19.6')) {
+            /**
+             * @var $urlService DefaultUrlService
+             */
+            $urlService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+
+            $route = $urlService->getRoute('logout');
+
+            $route['redirect'] =  [
+                'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                'options' => [
+                    'action' => 'entry',
+                    'controller' => 'Main',
+                    'ext' => 'tao'
+                ]
+            ];
+
+            $urlService->setRoute('logout' , $route);
+            $this->getServiceManager()->register(DefaultUrlService::SERVICE_ID , $urlService);
+            $this->setVersion('10.20.0');
+        }
+
+        if ($this->isVersion('10.20.0')) {
+            $this->runExtensionScript(UpdateRequiredActionUrl::class);
+            $this->setVersion('10.21.0');
+        }
+
+        $this->skip('10.21.0', '10.24.1');
+
+        if($this->isVersion('10.24.1')){
+            $this->runExtensionScript(AddArchiveService::class);
+
+            $this->setVersion('10.25.0');
+        }
+
+        $this->skip('10.25.0', '10.27.0');
+
+        if($this->isVersion('10.27.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
+            $this->setVersion('10.28.0');
+        }
+
+        $this->skip('10.28.0', '10.28.1');
+
+        if($this->isVersion('10.28.1')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+
+            if (!array_key_exists('block_iframe_usage', $config)) {
+                $config['block_iframe_usage'] = false;
+            }
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('10.29.0');
+        }
+
+        $this->skip('10.29.0', '12.2.1');
+
+        if($this->isVersion('12.2.1')) {
+            try {
+                $session = $this->getServiceManager()->get('tao/session');
+            } catch (ServiceNotFoundException $e) {
+                \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('session', false);
+            }
+            $this->setVersion('12.2.2');
+        }
+
+        $this->skip('12.2.2', '12.3.0');
+
+                if($this->isVersion('12.3.0')) {
             $service = new ActionExecutor(
                 [
                     'executor' =>
@@ -852,7 +942,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             }
 
-            $this->setVersion('11.0.0');
+            $this->setVersion('13.0.0');
         }
 
     }
@@ -870,8 +960,15 @@ class Updater extends \common_ext_ExtensionUpdater {
                 );
                 switch ($class) {
                 	case 'tao_models_classes_fsAccess_TokenAccessProvider' :
-                	    $fs = new \core_kernel_fileSystem_FileSystem($fsUri);
-                        $options[TokenWebSource::OPTION_PATH] = $fs->getPath();
+                	    /** @var Directory $dir */
+                        $dir = $this->getServiceManager()->get(ResourceFileSerializer::SERVICE_ID)->unserializeDirectory($fsUri);
+                        // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
+                        $adapter = $dir->getFileSystem()->getAdapter();
+                        if (!$adapter instanceof Local) {
+                            throw new \Exception(__CLASS__.' can only handle local files');
+                        }
+
+                        $options[TokenWebSource::OPTION_PATH] = $adapter->getPathPrefix();
                 	    $options[TokenWebSource::OPTION_SECRET] = $config['secret'];
                 	    $options[TokenWebSource::OPTION_TTL] = (int) ini_get('session.gc_maxlifetime');
                 	    $websource = new TokenWebSource($options);

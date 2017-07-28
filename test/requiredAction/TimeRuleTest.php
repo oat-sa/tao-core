@@ -92,8 +92,8 @@ class TimeRuleTest extends TaoPhpUnitTestRunner
 
     private function getRequiredAction()
     {
-        $actionMock = $this->prophesize('oat\tao\model\requiredAction\implementation\RequiredActionRedirect');
-        $actionMock->getName()->willReturn('RequiredActionRedirect');
+        $actionMock = $this->prophesize('oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart');
+        $actionMock->getName()->willReturn('RequiredActionRedirectUrlPart');
 
         return $actionMock->reveal();
     }

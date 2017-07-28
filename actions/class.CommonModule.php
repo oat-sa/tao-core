@@ -378,6 +378,24 @@ abstract class tao_actions_CommonModule implements ServiceLocatorAwareInterface
     }
 
     /**
+     * Returns a requestparameter unencoded
+     *
+     * @param string $paramName
+     * @throws common_exception_MissingParameter
+     * @return string
+     */
+    public function getRawParameter($paramName)
+    {
+        $raw = $this->getRequest()->getRawParameters();
+        if (!isset($raw[$paramName])) {
+            throw new common_exception_MissingParameter($paramName);
+        }
+        return $raw[$paramName];
+    }
+
+    /**
+     * Placeholder function until controllers properly support service manager
+     *
      * @return \oat\oatbox\service\ServiceManager
      */
     protected function getServiceManager()
