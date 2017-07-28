@@ -107,6 +107,42 @@ define([
          * @returns {Component} chains
          */
         alignWith: function alignWith($element, options) {
+            var alignedCoords = this._getAlignedCoords($element, options);
+            return this.moveTo(alignedCoords.x, alignedCoords.y);
+        },
+
+        /**
+         * Place the component so it is horizontally aligned with a reference element
+         * @param {jQuery} $element - the reference element
+         * @param {left|center|right} hPos - horizontal position relative to the reference element
+         * @returns {Component} chains
+         */
+        hAlignWith: function hAlignWith($element, hPos) {
+            var alignedCoords = this._getAlignedCoords($element, { hPos: hPos });
+            return this.moveToX(alignedCoords.x);
+        },
+
+        /**
+         * Place the component so it is vertically aligned with a reference element
+         * @param {jQuery} $element - the reference element
+         * @param {top|center|bottom} vPos - vertical position relative to the reference element
+         * @returns {Component} chains
+         */
+        vAlignWith: function vAlignWith($element, vPos) {
+            var alignedCoords = this._getAlignedCoords($element, { vPos: vPos });
+            return this.moveToY(alignedCoords.y);
+        },
+
+        /**
+         * Get the coordinates of the component so it is aligned with a reference element
+         * @param {jQuery} $element - the reference element
+         * @param {Object} [options]
+         * @param {left|center|right} options.hPos - horizontal position relative to the reference element
+         * @param {top|center|bottom} options.vPos - vertical position relative to the reference element
+         * @returns {x,y} - the aligned coordinates
+         * @private
+         */
+        _getAlignedCoords: function _getAlignedCoords($element, options) {
             var $container = this.getContainer(),
                 componentOuterSize,
                 containerOffset,
@@ -116,55 +152,51 @@ define([
                 x,
                 y;
 
-            if (this.is('rendered') && !this.is('disabled') && $container.length) {
-                options = _.defaults(options || {}, {
-                    hPos: 'center',
-                    vPos: 'center'
-                });
+            options = options || {};
 
-                componentOuterSize = this.getOuterSize();
-                containerOffset    = $container.offset();
-                elementOffset      = $element.offset();
-                elementWidth       = $element.outerWidth();
-                elementHeight      = $element.outerHeight();
+            componentOuterSize = this.getOuterSize();
+            containerOffset    = $container.offset();
+            elementOffset      = $element.offset();
+            elementWidth       = $element.outerWidth();
+            elementHeight      = $element.outerHeight();
 
-                switch(options.hPos) {
-                    case 'left': {
-                        x = (elementOffset.left - containerOffset.left) - componentOuterSize.width;
-                        break;
-                    }
-                    case 'right': {
-                        x = (elementOffset.left - containerOffset.left) + elementWidth;
-                        break;
-                    }
-                    default:
-                    case 'center': {
-                        x = (elementOffset.left - containerOffset.left) + (elementWidth / 2) - (componentOuterSize.width / 2);
-                        break;
-                    }
+            switch(options.hPos) {
+                case 'left': {
+                    x = (elementOffset.left - containerOffset.left) - componentOuterSize.width;
+                    break;
                 }
-
-                switch(options.vPos) {
-                    case 'top': {
-                        y = (elementOffset.top - containerOffset.top) - componentOuterSize.height;
-                        break;
-                    }
-                    case 'bottom': {
-                        y = (elementOffset.top - containerOffset.top) + elementHeight;
-                        break;
-                    }
-                    default:
-                    case 'center': {
-                        y = (elementOffset.top - containerOffset.top) + (elementHeight / 2) - (componentOuterSize.height / 2);
-                        break;
-                    }
+                case 'right': {
+                    x = (elementOffset.left - containerOffset.left) + elementWidth;
+                    break;
+                }
+                default:
+                case 'center': {
+                    x = (elementOffset.left - containerOffset.left) + (elementWidth / 2) - (componentOuterSize.width / 2);
+                    break;
                 }
             }
-            this.moveTo(x, y);
 
-            return this;
+            switch(options.vPos) {
+                case 'top': {
+                    y = (elementOffset.top - containerOffset.top) - componentOuterSize.height;
+                    break;
+                }
+                case 'bottom': {
+                    y = (elementOffset.top - containerOffset.top) + elementHeight;
+                    break;
+                }
+                default:
+                case 'center': {
+                    y = (elementOffset.top - containerOffset.top) + (elementHeight / 2) - (componentOuterSize.height / 2);
+                    break;
+                }
+            }
+
+            return {
+                x: x,
+                y: y
+            };
         },
-
 
         /**
          * Moves the component by the given offset, which is relative to the current position
@@ -202,6 +234,24 @@ define([
                 this._translate(xOffsetAbsolute, yOffsetAbsolute);
             }
             return this;
+        },
+
+        /**
+         * Moves the component to the given X position
+         * @param {Number} x
+         * @returns {Component} chains
+         */
+        moveToX: function moveToX(x) {
+            return this.moveTo(x, this._y);
+        },
+
+        /**
+         * Moves the component to the given Y position
+         * @param {Number} y
+         * @returns {Component} chains
+         */
+        moveToY: function moveToY(y) {
+            return this.moveTo(this._x, y);
         },
 
         /**

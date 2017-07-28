@@ -508,6 +508,51 @@ define([
         assert.equal(transformer.getTransformation($element).obj.translateY, -125, 'component\'s element has the the right y translation');
     });
 
+    QUnit.asyncTest('.moveToX(), .moveToY', function (assert) {
+        var component = makePlaceable(componentFactory()),
+            $container = $(fixtureContainer),
+            moveCounter = 0,
+            componentPosition;
+
+        QUnit.expect(8);
+
+        component
+            .on('render', function() {
+                componentPosition = this.getPosition();
+                assert.equal(componentPosition.x, 0, 'component has been rendered at x = 0');
+                assert.equal(componentPosition.y, 0, 'component has been rendered at y = 0');
+
+                this.moveToX(200);
+            })
+            .on('move', function() {
+                moveCounter++;
+
+                if (moveCounter === 2) {
+                    componentPosition = this.getPosition();
+
+                    assert.ok(true, 'move event has been triggered');
+                    assert.equal(componentPosition.x, 200, 'component has the correct x position');
+                    assert.equal(componentPosition.y, 0, 'component y position has not moved');
+
+                    this.moveToY(100);
+
+                } else if(moveCounter === 3) {
+                    componentPosition = this.getPosition();
+
+                    assert.ok(true, 'move event has been triggered');
+                    assert.equal(componentPosition.x, 200, 'component x position has not moved');
+                    assert.equal(componentPosition.y, 100, 'component has the correct y position');
+
+                    QUnit.start();
+                }
+            })
+            .init({
+                width: 100,
+                height: 50
+            })
+            .render($container);
+    });
+
     QUnit.asyncTest('.resetPosition() - no default position', function (assert) {
         var component = makePlaceable(componentFactory()),
             $container = $(fixtureContainer).width(800).height(600),
@@ -613,13 +658,13 @@ define([
             { title: 'centerH, topV',       hPos: 'center', vPos: 'top',    expectedX: 350, expectedY: 250 },
             { title: 'centerH, bottomV',    hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400 }
         ])
-        .asyncTest('.alignWith()', function (data, assert) {
+        .asyncTest('.alignWith(), .hAlignWith(), .vAlignWith()', function (data, assert) {
             var component = makePlaceable(componentFactory()),
                 $container = $(fixtureContainer),
                 $refElement = ($('<div>REFERENCE</div>')),
                 moveCounter = 0;
 
-            QUnit.expect(3);
+            QUnit.expect(13);
 
             $container.append($refElement);
 
@@ -639,13 +684,46 @@ define([
                     });
                 })
                 .on('move', function() {
-                    var componentPosition = this.getPosition();
+                    var componentPosition;
 
                     moveCounter++;
 
+                    // .alignWith() result
                     if (moveCounter === 2) {
+                        componentPosition = this.getPosition();
+
                         assert.ok(true, 'move event has been triggered');
                         assert.equal(componentPosition.x, data.expectedX, 'component has the correct x position');
+                        assert.equal(componentPosition.y, data.expectedY, 'component has the correct y position');
+
+                        this.resetPosition();
+                        componentPosition = this.getPosition();
+                        assert.equal(componentPosition.x, 0, 'component x position has been reset');
+                        assert.equal(componentPosition.y, 0, 'component y position has been reset');
+
+                        this.hAlignWith($refElement, data.hPos);
+
+                    // .hAlignWith() result
+                    } else if(moveCounter === 4) {
+                        componentPosition = this.getPosition();
+
+                        assert.ok(true, 'move event has been triggered');
+                        assert.equal(componentPosition.x, data.expectedX, 'component has the correct x position');
+                        assert.equal(componentPosition.y, 0, 'component has the correct y position');
+
+                        this.resetPosition();
+                        componentPosition = this.getPosition();
+                        assert.equal(componentPosition.x, 0, 'component x position has been reset');
+                        assert.equal(componentPosition.y, 0, 'component y position has been reset');
+
+                        this.vAlignWith($refElement, data.vPos);
+
+                    // .vAlignWith() result
+                    } else if(moveCounter === 6) {
+                        componentPosition = this.getPosition();
+
+                        assert.ok(true, 'move event has been triggered');
+                        assert.equal(componentPosition.x, 0, 'component has the correct x position');
                         assert.equal(componentPosition.y, data.expectedY, 'component has the correct y position');
 
                         QUnit.start();
