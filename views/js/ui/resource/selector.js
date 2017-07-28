@@ -31,7 +31,7 @@ define([
     'ui/resource/tree',
     'ui/resource/list',
     'tpl!ui/resource/tpl/selector',
-    'css!ui/resource/selector.css',
+    'css!ui/resource/css/selector.css',
 ], function ($, _, __, component, classesSelectorFactory, treeFactory, listFactory, selectorTpl) {
     'use strict';
 

@@ -26,9 +26,9 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'tpl!ui/class/selector',
-    'tpl!ui/class/listItem',
-    'css!ui/class/selector.css'
+    'tpl!ui/class/tpl/selector',
+    'tpl!ui/class/tpl/listItem',
+    'css!ui/class/css/selector.css'
 ], function ($, _, __, component, selectorTpl, listItemTpl) {
     'use strict';
 

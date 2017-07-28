@@ -27,8 +27,8 @@ module.exports = function(grunt) {
             component : {
                 files : {
                     '../js/ui/mediaplayer/css/player.css' : '../js/ui/mediaplayer/scss/player.scss',
-                    '../js/ui/class/selector.css' : '../js/ui/class/selector.scss',
-                    '../js/ui/resource/selector.css' : '../js/ui/resource/selector.scss'
+                    '../js/ui/class/css/selector.css' : '../js/ui/class/scss/selector.scss',
+                    '../js/ui/resource/css/selector.css' : '../js/ui/resource/scss/selector.scss'
                 }
             },
 
