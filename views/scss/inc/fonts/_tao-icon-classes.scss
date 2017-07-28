@@ -18,6 +18,8 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-disconnect:before { @include icon-disconnect; }
+.icon-connect:before { @include icon-connect; }
 .icon-eliminate:before { @include icon-eliminate; }
 .icon-wheelchair:before { @include icon-wheelchair; }
 .icon-text-marker:before { @include icon-text-marker; }
