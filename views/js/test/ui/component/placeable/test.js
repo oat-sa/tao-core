@@ -44,7 +44,11 @@ define([
             { title: 'moveTo',          method: 'moveTo' },
             { title: 'moveBy',          method: 'moveBy' },
             { title: 'resetPosition',   method: 'resetPosition' },
-            { title: 'alignWith',       method: 'alignWith' }
+            { title: 'alignWith',       method: 'alignWith' },
+            { title: 'vAlignWith',      method: 'vAlignWith' },
+            { title: 'hAlignWith',      method: 'hAlignWith' },
+            { title: 'moveToX',         method: 'moveToX' },
+            { title: 'moveToY',         method: 'moveToY' }
         ])
         .test('component API', function(data, assert) {
             var component = makePlaceable(componentFactory());
