@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Table Model</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking"
+            data-cover-only="/tao/views/js/ui/tableModel.js"></script>
+    <script type="text/javascript">
+        QUnit.config.autostart = false;
+        require(['/tao/ClientConfig/config'], function () {
+            require(['tao/test/ui/TableModel/test'], function () {
+                QUnit.start();
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture">
+    <table>
+        <thead>
+        <tr>
+            <th>header r1.c1</th>
+            <th>header r1.c2</th>
+            <td>header r1.c3</td>
+            <td>header r1.c4</td>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>footer r1.c1</th>
+            <td>footer r1.c2</td>
+            <th>footer r1.c3</th>
+            <td>footer r1.c4</td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr>
+            <th>body r1.c1</th>
+            <td>body r1.c2</td>
+            <td>body r1.c3</td>
+            <td>body r1.c4</td>
+        </tr>
+        <tr>
+            <th>body r2.c1</th>
+            <th>body r2.c2</th>
+            <td>body r2.c3</td>
+            <td>body r2.c4</td>
+        </tr>
+        <tr>
+            <th>body r3.c1</th>
+            <td>body r3.c2</td>
+            <th>body r3.c3</th>
+            <td>body r3.c4</td>
+        </tr>
+        <tr>
+            <th>body r4.c1</th>
+            <td>body r4.c2</td>
+            <td>body r4.c3</td>
+            <th>body r4.c4</th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="outside-container">
+    <table>
+        <thead>
+        <tr>
+            <th>header r1.c1</th>
+            <th>header r1.c2</th>
+            <td>header r1.c3</td>
+            <td>header r1.c4</td>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>footer r1.c1</th>
+            <td>footer r1.c2</td>
+            <th>footer r1.c3</th>
+            <td>footer r1.c4</td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr>
+            <th>body r1.c1</th>
+            <td>body r1.c2</td>
+            <td>body r1.c3</td>
+            <td>body r1.c4</td>
+        </tr>
+        <tr>
+            <th>body r2.c1</th>
+            <th>body r2.c2</th>
+            <td>body r2.c3</td>
+            <td>body r2.c4</td>
+        </tr>
+        <tr>
+            <th>body r3.c1</th>
+            <td>body r3.c2</td>
+            <th>body r3.c3</th>
+            <td>body r3.c4</td>
+        </tr>
+        <tr>
+            <th>body r4.c1</th>
+            <td>body r4.c2</td>
+            <td>body r4.c3</td>
+            <th>body r4.c4</th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
