@@ -35,6 +35,7 @@ class DefaultUrlService extends ConfigurableService
     }
 
     public function getUrl($name , array $params = array()) {
+
         $route = $this->getOption($name);
         return _url($route['action'], $route['controller'], $route['ext'], $params);
     }

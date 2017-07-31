@@ -34,11 +34,15 @@ class JsonResponse extends ResponseAbstract {
             'success'   => false,
             'version'   => \TAO_VERSION,
             'errorCode' => $this->httpCode,
-            'errorMsg'  => '',
+            'errorMsg'  => ($this->exception instanceof \common_exception_UserReadableException)? $this->exception->getUserMessage() : '',
         ];
 
-        //write the response
-        echo json_encode($response);
+        $this->response->getBody()->write(json_encode($response));
+        $this->response = $this->response
+            ->withStatus($this->httpCode)
+            ->withHeader('Content-Type', $this->contentType);
+
+        return $this->response;
     }
     
 }

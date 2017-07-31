@@ -29,7 +29,7 @@
  
  *
  */
-class tao_actions_UserSettings extends tao_actions_CommonModule {
+class tao_actions_UserSettings extends \oat\tao\model\mvc\psr7\Controller {
 
 	/**
 	 * @access protected

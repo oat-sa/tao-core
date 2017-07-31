@@ -67,9 +67,6 @@ abstract class AbstractFileExporter implements Exporter
             $fileName = time();
         }
 
-        while (ob_get_level() > 0) {
-            ob_end_flush();
-        }
 
         header('Content-Type: ' . $this->contentType);
         header('Content-Disposition: attachment; fileName="' . $fileName .'"');

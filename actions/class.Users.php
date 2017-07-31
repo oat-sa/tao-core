@@ -31,7 +31,7 @@ use oat\tao\model\security\xsrf\TokenService;
  * @package tao
  *
  */
-class tao_actions_Users extends tao_actions_CommonModule
+class tao_actions_Users extends \oat\tao\model\mvc\psr7\Controller
 {
     use EventManagerAwareTrait;
     /**

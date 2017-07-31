@@ -16,20 +16,15 @@
  * 
  * Copyright (c) 2006-2009 (original work) Public Research Centre Henri Tudor (under the project FP6-IST-PALETTE);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2014      (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2014-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\routing;
 
-use ActionEnforcingException;
-use common_Logger;
 use common_http_Request;
 use common_ext_ExtensionsManager;
-use HTTPToolkit;
-use InterruptedActionException;
 use Context;
-use FlowController as ClearFwFlowController;
-use tao_helpers_Uri;
+
 
 /**
  * The FlowController helps you to navigate through MVC actions.
@@ -37,9 +32,8 @@ use tao_helpers_Uri;
  * @author Jérôme Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
  * @author Bertrand Chevrier <Bertrand@taotestin.com>
  */
-class FlowController extends ClearFwFlowController
+class FlowController
 {
-
     /**
      * This header is added to the response to inform the client a forward occurs
      */
@@ -90,13 +84,22 @@ class FlowController extends ClearFwFlowController
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-        $enforcer->execute();
+        $controller = $enforcer->execute();
+        if ($controller->hasView())
+        {
+            $renderer = $controller->getRenderer();
+            echo $renderer->render();
+        }
+        die();
+    }
 
-        //should not be reached
-        throw new InterruptedActionException('Interrupted action after a forward',
-                                             $context->getModuleName(),
-                                             $context->getActionName());
-                
+
+    // HTTP 303 : The response to the request can be found under a different URI
+    public function redirect($url, $statusCode = 302)
+    {
+        header(\HTTPToolkit::statusCodeHeader($statusCode));
+        header(\HTTPToolkit::locationHeader($url));
+        exit;
     }
 
     /**
@@ -110,7 +113,7 @@ class FlowController extends ClearFwFlowController
 	public function forward($action, $controller = null, $extension = null, $params = array())
 	{
         //as we use a route resolver, it's easier to rebuild the URL to resolve it 
-        $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
+        return $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
 	}
 	
 }

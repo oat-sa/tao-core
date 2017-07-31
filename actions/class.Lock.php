@@ -29,7 +29,7 @@ use oat\tao\model\accessControl\AclProxy;
  * @package taoGroups
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class tao_actions_Lock extends tao_actions_CommonModule {
+class tao_actions_Lock extends \oat\tao\model\mvc\psr7\Controller {
 
 	public function __construct()
 	{

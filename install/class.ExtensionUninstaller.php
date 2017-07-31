@@ -36,7 +36,7 @@ use oat\tao\model\accessControl\func\AclProxy;
 class tao_install_ExtensionUninstaller
     extends common_ext_ExtensionUninstaller
 {
-    
+
     /**
      * Uninstall all access rules
      *
@@ -50,6 +50,26 @@ class tao_install_ExtensionUninstaller
             $rule = new AccessRule($tableEntry[0], $tableEntry[1], $tableEntry[2]);
             AclProxy::revokeRule($rule);
         }
+        $this->removeRoutes();
+
+    }
+
+    protected function removeRoutes() {
+
+        /**
+         * @var $serviceApp \oat\tao\model\mvc\Application\TaoApplication
+         */
+        $serviceApp = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\tao\model\mvc\Application\ApplicationInterface::SERVICE_ID);
+
+        $routes = $serviceApp->getOption('routes');
+        foreach ($routes as $id => $route) {
+            if($route['ext'] === $this->getExtension()->getId()) {
+                unset($routes[$id]);
+            }
+        }
+        $serviceApp->setOption('routes' , $routes);
+
+        \oat\oatbox\service\ServiceManager::getServiceManager()->register(\oat\tao\model\mvc\Application\ApplicationInterface::SERVICE_ID , $serviceApp);
     }
 
 }

@@ -24,9 +24,8 @@ namespace oat\tao\model\mvc;
 use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\Template;
-use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
-use oat\tao\model\routing\TaoFrontController;
+use oat\tao\model\mvc\Application\ApplicationInterface;
 use oat\tao\model\routing\CliController;
 use common_Logger;
 use common_ext_ExtensionsManager;
@@ -34,8 +33,6 @@ use common_report_Report as Report;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
-use Exception;
-use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -75,6 +72,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	 * @var boolean if the context has been dispatched
 	 */
 	protected static $isDispatched = false;
+
 
     /**
      * Bootstrap constructor.
@@ -137,6 +135,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
     }
 
 	/**
+     * @todo clean this
 	 * Start all the services:
 	 *  1. Start the session
 	 *  2. Update the include path
@@ -154,19 +153,14 @@ class Bootstrap implements ServiceLocatorAwareInterface
 			self::$isStarted = true;
 		}
 	}
-	
+    /**
+     * @todo clean this
+     */
 	protected function dispatchHttp()
 	{
 	    $isAjax = tao_helpers_Request::isAjax();
-	    
-	    if(tao_helpers_Context::check('APP_MODE')){
-	        if(!$isAjax){
-	            $this->scripts();
-	        }
-	    }
 
-        //Catch all exceptions
-        try {
+
             //the app is ready, process mvc
             if($this->isReady()){
                 $this->mvc();
@@ -175,9 +169,8 @@ class Bootstrap implements ServiceLocatorAwareInterface
             else {
                 $this->displayMaintenancePage();
             }
-        } catch(Exception $e){
-            $this->catchError($e);
-        }
+
+
 	    
 	    // explicitly close session
 	    session_write_close();
@@ -202,6 +195,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
     }
 	
         
+
 	protected function dispatchCli()
 	{
 	    $params = $_SERVER['argv'];
@@ -235,22 +229,10 @@ class Bootstrap implements ServiceLocatorAwareInterface
             self::$isDispatched = true;
         }
     }
-    
-    /**
-     * Catch any errors
-     * return a http response in function of client accepted mime type 
-     *
-     * @param Exception $exception
-     */
-    protected function catchError(Exception $exception)
-    {
-        $exceptionInterpreterService = $this->getServiceLocator()->get(ExceptionInterpreterService::SERVICE_ID);
-        $interpretor = $exceptionInterpreterService->getExceptionInterpreter($exception);
-        $interpretor->getResponse()->send();
-    }
 
     /**
      * Start the session
+     * @todo transform as middleware
      */
     protected function session()
     {
@@ -284,7 +266,10 @@ class Bootstrap implements ServiceLocatorAwareInterface
             }
         }
     }
-	
+
+    /**
+     * @todo transform as middleware
+     */
     private function configureSessionHandler() {
         $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
         if ($sessionHandler !== false) {
@@ -310,6 +295,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
 
 	/**
 	 * Set Timezone quickfix
+     * @todo transform as middleware
 	 */
 	protected function setDefaultTimezone()
 	{
@@ -325,33 +311,11 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	 */
     protected function mvc()
     {
-        $re = \common_http_Request::currentRequest();
-        $fc = new TaoFrontController();
-        $fc->legacy($re);
+        $app = $this->getServiceLocator()->get(ApplicationInterface::SERVICE_ID);
+        $app->run();
     }
 
-    /**
-     * Load external resources for the current context
-     * @see tao_helpers_Scriptloader
-     */
-    protected function scripts()
-    {
-        $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
-        $cssFiles = [
-            $assetService->getAsset('css/layout.css', 'tao'),
-            $assetService->getAsset('css/tao-main-style.css', 'tao'),
-            $assetService->getAsset('css/tao-3.css', 'tao')
-        ];
 
-        //stylesheets to load
-        \tao_helpers_Scriptloader::addCssFiles($cssFiles);
-
-        if(\common_session_SessionManager::isAnonymous()) {
-            \tao_helpers_Scriptloader::addCssFile(
-                $assetService->getAsset('css/portal.css', 'tao')
-            );
-        }
-    }
 
     /**
      * Get the maintenance service to handle maintenance status

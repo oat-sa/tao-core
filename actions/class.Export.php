@@ -29,7 +29,7 @@
  * @package tao
  *
  */
-class tao_actions_Export extends tao_actions_CommonModule
+class tao_actions_Export extends \oat\tao\model\mvc\psr7\Controller
 {
 
     /**

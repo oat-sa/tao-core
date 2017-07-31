@@ -23,7 +23,7 @@ use oat\tao\helpers\form\ValidationRuleRegistry;
  * Regrouping all actions related to authoring
  * of properties
  */
-class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
+class tao_actions_PropertiesAuthoring extends \oat\tao\model\mvc\psr7\Controller {
 
     /**
      * @requiresRight id READ

@@ -39,7 +39,7 @@ use oat\tao\model\security\xsrf\TokenService;
  * @package tao
  
  */
-abstract class tao_actions_RdfController extends tao_actions_CommonModule {
+abstract class tao_actions_RdfController extends \oat\tao\model\mvc\psr7\Controller {
     
     /**
      * The Modules access the models throught the service instance
@@ -47,9 +47,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @var tao_models_classes_Service
      */
     protected $service = null;
-    
+
     /**
-     * @return tao_models_classes_ClassService
+     * @return tao_models_classes_Service
+     * @throws common_exception_Error
      */
     protected function getClassService()
     {
@@ -193,7 +194,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	 * * subclasses:
 	 * * classUri:
 	 * 
-	 * @return void
+	 * @return \Slim\Http\Response
 	 * @requiresRight classUri READ
 	 */
 	public function getOntologyData()
@@ -245,25 +246,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $tree = $this->addPermissions($tree);
         
         //sort items by name
-        function sortTreeNodes($a, $b) {
-            if (isset($a['data']) && isset($b['data'])) {
-                if ($a['type'] != $b['type']) {
-                    return ($a['type'] == 'class') ? -1 : 1;
-                } else {
-                    return strcasecmp($a['data'], $b['data']);
-                }
-            }
-        }
+
         
         if (isset($tree['children'])) {
-            usort($tree['children'], 'sortTreeNodes');
+            usort($tree['children'], 'self::sortTreeNodes');
         } elseif(array_values($tree) === $tree) {//is indexed array
-            usort($tree, 'sortTreeNodes');
+            usort($tree, 'self::sortTreeNodes');
         }
-        
-        //expose the tree
-        $this->returnJson($tree);
+        $response = $this->returnJson($tree);
+
+        return $response;
 	}
+
+	protected static function sortTreeNodes($a, $b) {
+        if (isset($a['data']) && isset($b['data'])) {
+            if ($a['type'] != $b['type']) {
+                return ($a['type'] == 'class') ? -1 : 1;
+            } else {
+                return strcasecmp($a['data'], $b['data']);
+            }
+        }
+    }
 
 	/**
 	 * Add permission information to the tree structure

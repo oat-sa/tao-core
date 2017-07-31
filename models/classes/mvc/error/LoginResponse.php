@@ -44,8 +44,12 @@ class LoginResponse extends ResponseAbstract {
         }
         /* @var $urlRouteService \oat\tao\model\mvc\DefaultUrlService */
         $urlRouteService = $this->getServiceLocator()->get('tao/urlroute');
-        header(\HTTPToolkit::locationHeader($urlRouteService->getLoginUrl($params)));
-        return;
+
+        $response = $this->response
+            ->withStatus($this->httpCode)
+            ->withHeader('Location', $urlRouteService->getLoginUrl($params));
+
+        return $response;
     }
     
 }

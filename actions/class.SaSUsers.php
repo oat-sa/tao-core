@@ -29,7 +29,7 @@
  
  *
  */
-class tao_actions_SaSUsers extends tao_actions_SaSModule{
+class tao_actions_SaSUsers extends tao_actions_SaSModule {
 
 	/**
 	 * @var tao_models_classes_UserService

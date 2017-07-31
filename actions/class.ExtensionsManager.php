@@ -33,7 +33,7 @@ use oat\tao\helpers\translation\TranslationBundle;
  
  *
  */
-class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
+class tao_actions_ExtensionsManager extends \oat\tao\model\mvc\psr7\Controller {
 
 	/**
 	 * Index page

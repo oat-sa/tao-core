@@ -20,9 +20,8 @@
 namespace oat\tao\model\mvc\error;
 
 use common_Logger;
-use Context;
 use Exception;
-use HTTPToolkit;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -35,7 +34,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwareInterface {
     
     use ServiceLocatorAwareTrait;
-    
     /**
      * http response code
      * @var integer 
@@ -46,7 +44,12 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @var string 
      */
     protected $contentType = '';
-    
+
+    /**
+     * @var PsrResponseInterface
+     */
+    protected $response;
+
     /**
      * @var Exception
      */
@@ -61,6 +64,15 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
                 'ajax' => 'AjaxResponse',
             ];
 
+    /**
+     * @param PsrResponseInterface $response
+     * @return $this
+     */
+    public function setResponse(PsrResponseInterface $response)
+    {
+        $this->response = $response;
+        return $this;
+    }
 
     /**
      * search rendering method in function of request accept header
@@ -95,16 +107,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
         
         return $renderer->setServiceLocator($this->getServiceLocator());
     }
-    /**
-     * send headers
-     * @return $this
-     */
-    protected function sendHeaders() {
-        $context = Context::getInstance();
-        $context->getResponse()->setContentHeader($this->contentType);
-        header(HTTPToolkit::statusCodeHeader($this->httpCode));
-        return $this;
-    }
+
     /**
      * set response http status code
      * @param int $code
@@ -122,8 +125,9 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
     {
         $accept = array_key_exists('HTTP_ACCEPT', $_SERVER) ? explode(',' , $_SERVER['HTTP_ACCEPT']) : [];
         $renderer = $this->chooseRenderer($accept);
+        $response  = $renderer->setResponse($this->response)->setException($this->exception)->setHttpCode($this->httpCode)->send();
 
-        return $renderer->setException($this->exception)->setHttpCode($this->httpCode)->sendHeaders()->send();
+        return $response;
     }
     
     /**
@@ -141,7 +145,7 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
      * @param Exception $exception
      * @return $this
      */
-    public function setException(Exception $exception) {
+    public function setException(\Exception $exception) {
         $this->exception = $exception;
         return $this;
     }

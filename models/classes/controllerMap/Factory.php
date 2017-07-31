@@ -149,7 +149,7 @@ class Factory
         if (!class_exists($controllerClassName)) {
             common_Logger::w($controllerClassName.' not found');
             $returnValue = false;
-        } elseif (!is_subclass_of($controllerClassName, 'Module')) {
+        } elseif (!is_subclass_of($controllerClassName, \tao_actions_CommonModule::class)) {
             common_Logger::w($controllerClassName.' does not inherit Module');
             $returnValue = false;
         } else {

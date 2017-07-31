@@ -20,7 +20,7 @@
  * 
  */
 
-class tao_actions_WebService extends tao_actions_CommonModule{
+class tao_actions_WebService extends \oat\tao\model\mvc\psr7\Controller{
 	
 	public function index(){
 		$url = urldecode($this->getRequestParameter('url'));

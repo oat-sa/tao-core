@@ -43,7 +43,7 @@ use oat\tao\model\security\xsrf\TokenService;
  
  *
  */
-class tao_actions_Main extends tao_actions_CommonModule
+class tao_actions_Main extends \oat\tao\model\mvc\psr7\Controller
 {
 
     /**
@@ -59,9 +59,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 	public function __construct()
 	{
 		//initialize service
-		$this->service = tao_models_classes_TaoService::singleton();
-        $this->userService = \tao_models_classes_UserService::singleton();
-		$this->defaultData();
+            $this->service = tao_models_classes_TaoService::singleton();
+            $this->userService = \tao_models_classes_UserService::singleton();
+            $this->defaultData();
 	}
 
 	/**
@@ -82,7 +82,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	        if (common_session_SessionManager::isAnonymous()) {
                 /* @var $urlRouteService DefaultUrlService */
                 $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
-                $this->redirect($urlRouteService->getLoginUrl());
+                return $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
                 return $this->returnError(__('You currently have no access to the platform'), true, 403);
@@ -108,7 +108,9 @@ class tao_actions_Main extends tao_actions_CommonModule
             if ($this->hasRequestParameter('errorMessage')){
                 $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
             }
+
             $this->setData('logout', $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
+
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
@@ -135,8 +137,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
 
 		$params = array(
-            'disableAutocomplete' => $disableAutocomplete,
-        );
+                    'disableAutocomplete' => $disableAutocomplete,
+                );
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
 				
@@ -225,12 +227,12 @@ class tao_actions_Main extends tao_actions_CommonModule
 		common_session_SessionManager::endSession();
                 /* @var $urlRouteService DefaultUrlService */
                 $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
-		$this->redirect($urlRouteService->getRedirectUrl('logout'));
+		return  $this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
 	/**
 	 * The main action, load the layout
-     *
+         *
 	 * @return void
 	 */
     public function index()
@@ -240,13 +242,13 @@ class tao_actions_Main extends tao_actions_CommonModule
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
         
-		if($this->hasRequestParameter('structure')) {
+	if($this->hasRequestParameter('structure')) {
             
-			// structured mode
-			// @todo stop using session to manage uri/classUri
-			$this->removeSessionAttribute('uri');
-			$this->removeSessionAttribute('classUri');
-			$this->removeSessionAttribute('showNodeUri');
+            // structured mode
+            // @todo stop using session to manage uri/classUri
+            $this->removeSessionAttribute('uri');
+            $this->removeSessionAttribute('classUri');
+            $this->removeSessionAttribute('showNodeUri');
             
             TaoCe::setLastVisitedUrl(
                 _url(
@@ -277,7 +279,6 @@ class tao_actions_Main extends tao_actions_CommonModule
                }
             }
         }
-
 
         $perspectiveTypes = array(Perspective::GROUP_DEFAULT, 'settings');
         foreach ($perspectiveTypes as $perspectiveType) {
@@ -327,7 +328,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
         $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
 
-		$this->setView('layout.tpl', 'tao');
+	$this->setView('layout.tpl', 'tao');
+        
 	}
     
     /**

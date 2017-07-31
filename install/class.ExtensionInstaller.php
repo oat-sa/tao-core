@@ -65,9 +65,16 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      */
     public function extendedInstall()
     {
+        $this->installRoutes();
         $this->installManagementRole();
         $this->applyAccessRules();
         $this->registerClientLib();
+    }
+
+
+    public function installRoutes() {
+
+
     }
 
     /**

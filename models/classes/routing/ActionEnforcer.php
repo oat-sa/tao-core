@@ -53,10 +53,12 @@ class ActionEnforcer implements IExecutable
     private $parameters;
     
     public function __construct($extensionId, $controller, $action, array $parameters) {
+
         $this->extension = $extensionId;
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
+
     }
     
     protected function getExtensionId() {
@@ -124,7 +126,7 @@ class ActionEnforcer implements IExecutable
 	        // search parameters method
 	        $reflect	= new ReflectionMethod($controller, $action);
 	        $parameters	= $this->getParameters();
-	
+            $parameters['request'] =  \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 	        $tabParam 	= array();
 	        foreach($reflect->getParameters() as $param) {
 	            if (isset($parameters[$param->getName()])) {
@@ -139,17 +141,11 @@ class ActionEnforcer implements IExecutable
 	        $user = common_session_SessionManager::getSession()->getUser();
 	        common_Logger::d('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
 
-            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-            $eventManager->trigger(new BeforeAction());
+                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+                $eventManager->trigger(new BeforeAction());
 
-	        call_user_func_array(array($controller, $action), $tabParam);
-	
-	        // Render the view if selected.
-	        if ($controller->hasView())
-	        {
-	            $renderer = $controller->getRenderer();
-	            echo $renderer->render();
-	        }
+                call_user_func_array(array($controller, $action), $tabParam);
+                return $controller;
 	    }
 	    else {
 	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",

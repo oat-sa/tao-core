@@ -29,7 +29,7 @@ use oat\tao\model\search\ResultSet;
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
  */
-class tao_actions_Search extends tao_actions_CommonModule {
+class tao_actions_Search extends \oat\tao\model\mvc\psr7\Controller {
 	
 	/**
      * Search parameters endpoints.

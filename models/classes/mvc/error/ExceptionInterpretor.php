@@ -20,6 +20,9 @@
 namespace oat\tao\model\mvc\error;
 
 use Exception;
+use oat\tao\model\mvc\Application\Exception\ResolverException;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -48,7 +51,12 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * @var string 
      */
     protected $responseClassName;
-    
+
+    /**
+     * @var Response
+     */
+    protected $response;
+
     /**
      * 
      * @var string 
@@ -60,7 +68,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * @param Exception $exception
      * @return ExceptionInterpretor
      */
-    public function setException(Exception $exception){
+    public function setException(\Exception $exception){
         $this->exception = $exception;
         $this->interpretError();
         return $this;    
@@ -72,17 +80,19 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
     protected function interpretError() {
         $this->trace = $this->exception->getMessage();
         switch (get_class($this->exception)) {
-            case 'tao_models_classes_AccessDeniedException':
-            case 'ResolverException':   
+
+
+            case \tao_models_classes_AccessDeniedException::class:
                 $this->returnHttpCode    = 403;
                 $this->responseClassName = 'RedirectResponse';
             break;
-            case 'tao_models_classes_UserException': 
+            case \tao_models_classes_UserException::class:
+            case 'ActionEnforcingException':
                 $this->returnHttpCode    = 403;
                 $this->responseClassName = 'MainResponse';
-            break;
-            case 'ActionEnforcingException':
-            case 'tao_models_classes_FileNotFoundException':   
+                break;
+            case 'tao_models_classes_FileNotFoundException':
+            case ResolverException::class :
                 $this->returnHttpCode    = 404;
                 $this->responseClassName = 'MainResponse';
             break;
@@ -99,7 +109,12 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
         return $this->trace;
     }
 
-        /**
+    public function setResponse(ResponseInterface $response) {
+        $this->response = $response;
+        return $this;
+    }
+
+    /**
      * @return integer
      */
     public function getHttpCode(){
@@ -113,16 +128,19 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
     }
     /**
      *  return an instance of ResponseInterface
-     * @return \oat\tao\model\mvc\error\class
+     * @return \oat\tao\model\mvc\error\ResponseAbstract
      */
     public function getResponse() {
         $class = $this->getResponseClassName();
+
         /*@var $response ResponseAbstract */
         $response = new $class;
+
         $response->setServiceLocator($this->getServiceLocator())
+                ->setResponse($this->response)
                 ->setException($this->exception)
-                ->setHttpCode($this->returnHttpCode)
-                ->trace($this->trace);
+                ->setHttpCode($this->returnHttpCode);
+
         return $response;
     }
     

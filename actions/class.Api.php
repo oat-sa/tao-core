@@ -28,7 +28,7 @@
  
  *
  */
-class tao_actions_Api extends tao_actions_CommonModule {
+class tao_actions_Api extends \oat\tao\model\mvc\psr7\Controller {
 
 	/**
 	 * @var tao_models_classes_UserService

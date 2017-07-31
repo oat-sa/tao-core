@@ -16,7 +16,6 @@
  *
  * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
- *
  */
 
 namespace oat\tao\scripts\update;
@@ -44,15 +43,22 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
-use oat\tao\model\mvc\DefaultUrlService;
+use oat\tao\model\mvc\Application\ApplicationInterface;
+use oat\tao\model\mvc\Application\TaoApplication;
+use oat\tao\model\mvc\psr7\ActionExecutor;
+use oat\tao\model\mvc\psr7\executor\Psr7Executor;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\routing\NamespaceRoute;
+use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\scripts\install\ExtensionRouteInstallation;
+use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\routing\Resolver;
-use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -642,6 +648,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('7.31.0', '7.31.1');
+
         // add validation widget
         if ($this->isVersion('7.31.1')) {
             OntologyUpdater::syncModels();
@@ -915,6 +922,29 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('12.2.2', '12.3.0');
+
+                if($this->isVersion('12.3.0')) {
+            $service = new ActionExecutor(
+                [
+                    'executor' =>
+                        [
+                            Psr7Executor::class,
+                        ]
+                ]
+            );
+            $this->getServiceManager()->register(ActionExecutor::SERVICE_ID, $service);
+
+            $extensionRouteInstaller = new ExtensionRouteInstallation();
+            $extensionRouteInstaller->setServiceLocator($this->getServiceManager());
+            foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+
+                $extensionRouteInstaller([ 'ext' => $extension]);
+
+            }
+
+            $this->setVersion('13.0.0');
+        }
+
     }
 
     private function migrateFsAccess() {

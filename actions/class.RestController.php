@@ -22,7 +22,7 @@ use oat\tao\helpers\RestExceptionHandler;
 
 use oat\generis\model\OntologyAwareTrait;
 
-abstract class tao_actions_RestController extends \tao_actions_CommonModule
+abstract class tao_actions_RestController extends \oat\tao\model\mvc\psr7\Controller
 {
     use OntologyAwareTrait;
 

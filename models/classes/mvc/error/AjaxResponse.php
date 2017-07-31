@@ -11,7 +11,7 @@ namespace oat\tao\model\mvc\error;
 
 class AjaxResponse extends ResponseAbstract
 {
-    protected $contentType = 'application/json';
+    protected $contentType = 'application/json; charset=UTF-8';
 
     public function send()
     {
@@ -25,11 +25,18 @@ class AjaxResponse extends ResponseAbstract
             "success" => false,
             "type" => 'Exception',
             "data" => array(
-                'ExceptionType' => get_class($this->exception)
+                'ExceptionType' => get_class($this->exception),
+                "message" => $message,
             ),
             "message" => $message,
         ];
-        new \common_AjaxResponse($response);
+
+        $this->response->getBody()->write(json_encode($response));
+
+        $this->response =  $this->response->withStatus($this->httpCode)
+            ->withHeader('Content-Type', $this->contentType);
+
+        return $this->response;
 
     }
 }

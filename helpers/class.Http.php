@@ -334,6 +334,7 @@ class tao_helpers_Http
                 }
                 header("HTTP/1.0 404 Not Found");
             }
+            exit();
         } else {
             throw new common_exception_Error('Security exception for path ' . $filename);
         }
@@ -383,6 +384,7 @@ class tao_helpers_Http
                     }
                 }
             }
+            exit();
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
