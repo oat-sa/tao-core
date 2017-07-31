@@ -296,7 +296,7 @@ class tao_actions_form_RestForm
      */
     protected function getTopClass()
     {
-        return new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+        return $this->getClass(TAO_OBJECT_CLASS);
     }
 
     /**
@@ -376,7 +376,7 @@ class tao_actions_form_RestForm
                 continue;
             }
 
-            if ($value instanceof core_kernel_classes_Resource){
+            if ($value instanceof core_kernel_classes_Resource) {
                 if (!is_null($range)) {
                     $propertyValues[] = $value->getUri();
                 } else {
