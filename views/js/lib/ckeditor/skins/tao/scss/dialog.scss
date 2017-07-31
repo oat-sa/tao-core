@@ -499,48 +499,6 @@ a.cke_dialog_ui_button {
   text-shadow: 1px 1px 0 blacken($info, .2);
 }
 
-//span.cke_dialog_ui_button {
-//  padding: 0 12px;
-//}
-
-//a.cke_dialog_ui_button:hover {
-//    opacity: .85;
-//}
-
-/* 	:focus/:active styles for dialog buttons: regular and footer. */
-//a.cke_dialog_ui_button:focus,
-//a.cke_dialog_ui_button:active {
-//
-//}
-
-//.cke_hc a.cke_dialog_ui_button:hover,
-//.cke_hc a.cke_dialog_ui_button:focus,
-//.cke_hc a.cke_dialog_ui_button:active {
-//  border: 3px solid;
-//  padding-top: 1px;
-//  padding-bottom: 1px;
-//}
-
-//.cke_hc a.cke_dialog_ui_button:hover span,
-//.cke_hc a.cke_dialog_ui_button:focus span,
-//.cke_hc a.cke_dialog_ui_button:active span {
-//  padding-left: 10px;
-//  padding-right: 10px;
-//}
-
-/*
-a.cke_dialog_ui_button[style*="width"]
-{
-	display: block !important;
-	width: auto !important;
-}
-*/
-/* The inner part of the button (both in dialog tabs and dialog footer). */
-//.cke_dialog_footer_buttons a.cke_dialog_ui_button span {
-//  color: inherit;
-//  line-height: 20px;
-//}
-
 /* Special class appended to the Ok button. */
 a.cke_dialog_ui_button_ok {
 
@@ -549,42 +507,6 @@ a.cke_dialog_ui_button_ok {
 a.cke_dialog_ui_button_ok:hover {
 
 }
-
-/* Default text shadow used for inner parts of all dialog buttons (both in dialog tabs and dialog footer). */
-//a.cke_dialog_ui_button span {
-//  text-shadow: 0 1px 0 #fff;
-//}
-
-/* Text shadow used for inner part of OK dialog button in footer. */
-//a.cke_dialog_ui_button_ok span {
-//  text-shadow: 0 -1px 0 #55830c;
-//}
-
-//span.cke_dialog_ui_button {
-//  cursor: pointer;
-//}
-
-/* 	:focus/:active styles for dialog footer buttons (ok & cancel) */
-//a.cke_dialog_ui_button_ok:focus,
-//a.cke_dialog_ui_button_ok:active,
-//a.cke_dialog_ui_button_cancel:focus,
-//a.cke_dialog_ui_button_cancel:active {
-//  border-width: 2px;
-//  padding: 2px 0;
-//}
-
-//a.cke_dialog_ui_button_ok:focus,
-//a.cke_dialog_ui_button_ok:active {
-//  border-color: #568C0A;
-//}
-
-/* 	:focus/:active styles for dialog footer buttons (ok & cancel) spans */
-//a.cke_dialog_ui_button_ok:focus span,
-//a.cke_dialog_ui_button_ok:active span,
-//a.cke_dialog_ui_button_cancel:focus span,
-//a.cke_dialog_ui_button_cancel:active span {
-//  padding: 0 11px; /* Thick button border must be compensated. */
-//}
 
 /* A special container that holds the footer buttons. */
 .cke_dialog_footer_buttons {
