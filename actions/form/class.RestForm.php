@@ -20,6 +20,7 @@
 
 use \oat\generis\model\OntologyAwareTrait;
 use \oat\tao\helpers\form\ValidationRuleRegistry;
+use \oat\oatbox\validator\ValidatorInterface;
 
 /**
  * Class tao_actions_form_RestForm
@@ -123,7 +124,7 @@ class tao_actions_form_RestForm
 
             // Existing values
             if (
-                !is_null($this->resource)
+                $this->isEdition()
                 && !is_null($value = $this->getFieldValue($property, isset($propertyData['range']) ? $propertyData['range'] : null))
             ) {
                 $propertyData['value'] = $value;
@@ -200,12 +201,12 @@ class tao_actions_form_RestForm
 
             if (isset($property['validators'])) {
                 foreach ($property['validators'] as $validatorName) {
-                    if (!class_exists('tao_helpers_form_validators_' . $validatorName)) {
+                    $validatorClass = 'tao_helpers_form_validators_' . $validatorName;
+                    if (!class_exists($validatorClass)) {
                         throw new common_Exception('Validator is not correctly set (unknown)');
                     }
-                    $validatorClass = 'tao_helpers_form_validators_' . $validatorName;
+                    /** @var ValidatorInterface $validator */
                     $validator = new $validatorClass();
-                    var_dump($validator);
                     if (!$validator->evaluate($value)) {
                         throw new tao_helpers_form_Exception($property['label'] . ' : ' . $validator->getMessage());
                     }
@@ -260,12 +261,9 @@ class tao_actions_form_RestForm
      */
     public function save()
     {
-        $values = [];
-        foreach ($this->formProperties as $property) {
-            $values[$property['uri']] = $property['formValue'];
-        }
+        $values = $this->prepareValuesToSave();
 
-        if (is_null($this->resource)) {
+        if ($this->isCreation()) {
             if (!$resource = $this->class->createInstanceWithProperties($values)) {
                 throw new tao_helpers_form_Exception('Unable to save resource.');
             }
@@ -298,7 +296,7 @@ class tao_actions_form_RestForm
      */
     protected function getTopClass()
     {
-        new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+        return new core_kernel_classes_Class(TAO_OBJECT_CLASS);
     }
 
     /**
@@ -321,7 +319,7 @@ class tao_actions_form_RestForm
     protected function getPropertyValidators(core_kernel_classes_Property $property)
     {
         $validators = [];
-        /** @var tao_helpers_form_Validator $validator */
+        /** @var ValidatorInterface $validator */
         foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
             $validators[] = $validator->getName();
         }
@@ -399,5 +397,40 @@ class tao_actions_form_RestForm
         }
 
         return null;
+    }
+
+    /**
+     * Check if current form is for edition by checking if resource is not null
+     *
+     * @return bool
+     */
+    protected function isEdition()
+    {
+        return !is_null($this->resource);
+    }
+
+    /**
+     * Check if current form is for creation by checking if resource is null
+     *
+     * @return bool
+     */
+    protected function isCreation()
+    {
+        return is_null($this->resource);
+    }
+
+
+    /**
+     * Format the form properties to save them
+     *
+     * @return array
+     */
+    protected function prepareValuesToSave()
+    {
+        $values = [];
+        foreach ($this->formProperties as $property) {
+            $values[$property['uri']] = $property['formValue'];
+        }
+        return $values;
     }
 }

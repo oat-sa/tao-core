@@ -117,6 +117,7 @@ class tao_actions_RestResourceController extends tao_actions_RestController
 
     /**
      * Get the form object to manage
+     * The $instance should be a class for creation or resource in case of edit
      *
      * @param $instance
      * @return tao_actions_form_RestForm
