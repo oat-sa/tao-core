@@ -32,7 +32,7 @@ class tao_actions_RestResourceController extends tao_actions_RestController
      * Create a resource for class found into http request parameters
      *
      * If http method is GET, return the form data
-     * If http method is POST, bind the post data to form, validate, and save
+     * If http method is POST, process form
      *
      * The POST request has to follow this structure:
      * array (
@@ -57,12 +57,7 @@ class tao_actions_RestResourceController extends tao_actions_RestController
 
         if ($this->isRequestPost()) {
             try {
-                $parameters = $this->getRequestParameters();
-                $resource = $this->getForm($this->getClassParameter())
-                    ->bind($parameters)
-                    ->validate()
-                    ->save();
-                $this->returnSuccess(['uri' => $resource->getUri()]);
+                $this->processForm($this->getClassParameter());
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
@@ -75,7 +70,7 @@ class tao_actions_RestResourceController extends tao_actions_RestController
      * Edit a resource found into http request parameters
      *
      * If http method is GET, return the form data
-     * If http method is PUT, bind the post data to form, validate, and save
+     * If http method is PUT, process form
      *
      * The PUT request has to follow this structure:
      * array (
@@ -101,18 +96,32 @@ class tao_actions_RestResourceController extends tao_actions_RestController
 
         if ($this->isRequestPut()) {
             try {
-                $parameters = $this->getRequestParameters();
-                $resource = $this->getForm($this->getResourceParameter())
-                    ->bind($parameters)
-                    ->validate()
-                    ->save();
-                $this->returnSuccess(['uri' => $resource->getUri()]);
+                $this->processForm($this->getResourceParameter());
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
         }
 
         $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or PUT method'));
+    }
+
+    /**
+     * Process the form submission
+     * Bind the http data to form, validate, and save
+     *
+     * @param $instance
+     */
+    protected function processForm($instance)
+    {
+        $parameters = $this->getRequestParameters();
+        $form = $this->getForm($instance)->bind($parameters);
+        $report = $form->validate();
+        if ($report->containsError()) {
+            $this->returnValidationFailure($report);
+        } else {
+            $resource = $form->save();
+            $this->returnSuccess(['uri' => $resource->getUri()]);
+        }
     }
 
     /**
@@ -167,6 +176,31 @@ class tao_actions_RestResourceController extends tao_actions_RestController
         }
 
         return $this->getClass($uri);
+    }
+
+    /**
+     * Transform a report to http response with 422 code and report error messages
+     *
+     * @param common_report_Report $report
+     * @param bool $withMessage
+     */
+    protected function returnValidationFailure(common_report_Report $report, $withMessage=true)
+    {
+        $data = ['data' => []];
+        /** @var common_report_Report $error */
+        foreach ($report->getErrors() as $error) {
+            $data['data'][$error->getData()] = $error->getMessage();
+        }
+
+        if ($withMessage) {
+            $data['success'] = false;
+            $data['errorCode'] = 422;
+            $data['errorMsg'] = 'Some fields are invalids';
+            $data['version'] = TAO_VERSION;
+        }
+
+        echo $this->encode($data);
+        exit(0);
     }
 
 }

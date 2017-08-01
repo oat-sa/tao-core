@@ -57,7 +57,7 @@ class tao_actions_form_RestForm
      *
      * @param $instance
      * @throws common_exception_NotFound
-     * @throws tao_helpers_form_Exception
+     * @throws common_Exception
      */
     public function __construct($instance)
     {
@@ -75,7 +75,7 @@ class tao_actions_form_RestForm
         }
 
         if (is_null($this->class)) {
-            throw new \tao_helpers_form_Exception(__METHOD__ . ' requires a valid class');
+            throw new common_Exception(__METHOD__ . ' requires a valid class');
         }
 
         $this->initFormProperties($this->getClassProperties());
@@ -188,67 +188,76 @@ class tao_actions_form_RestForm
     /**
      * Validate the form against the property validators.
      * In case of range, check if value belong to associated ranges list
+     * Return failure report if one or more field is invalid
      *
-     * @return $this
-     * @throws common_Exception
-     * @throws tao_helpers_form_Exception
+     * @return common_report_Report
+     * @throws common_Exception In case of runtime error
      */
     public function validate()
     {
+        $report = common_report_Report::createInfo();
+
         foreach ($this->formProperties as $property) {
 
-            $value = $property['formValue'];
+            try {
+                $value = $property['formValue'];
 
-            if (isset($property['validators'])) {
-                foreach ($property['validators'] as $validatorName) {
-                    $validatorClass = 'tao_helpers_form_validators_' . $validatorName;
-                    if (!class_exists($validatorClass)) {
-                        throw new common_Exception('Validator is not correctly set (unknown)');
-                    }
-                    /** @var ValidatorInterface $validator */
-                    $validator = new $validatorClass();
-                    if (!$validator->evaluate($value)) {
-                        throw new tao_helpers_form_Exception($property['label'] . ' : ' . $validator->getMessage());
+                if (isset($property['validators'])) {
+                    foreach ($property['validators'] as $validatorName) {
+                        $validatorClass = 'tao_helpers_form_validators_' . $validatorName;
+                        if (!class_exists($validatorClass)) {
+                            throw new common_Exception('Validator is not correctly set (unknown)');
+                        }
+                        /** @var ValidatorInterface $validator */
+                        $validator = new $validatorClass();
+                        if (!$validator->evaluate($value)) {
+                            throw new common_exception_ValidationFailed(
+                                $property['uri'], $property['label'] . ' : ' . $validator->getMessage()
+                            );
+                        }
                     }
                 }
-            }
 
-            if (isset($property['range'])) {
-                if (!isset($this->ranges[$property['range']])) {
-                    throw new tao_helpers_form_Exception($property['label'] . ' : Range is unknown');
-                }
-                $rangeValidated = false;
-                foreach ($this->ranges[$property['range']] as $rangeData) {
+                if (isset($property['range'])) {
+                    if (!isset($this->ranges[$property['range']])) {
+                        throw new common_Exception($property['label'] . ' : Range is unknown');
+                    }
+                    $rangeValidated = false;
+                    foreach ($this->ranges[$property['range']] as $rangeData) {
 
-                    if (is_array($value)) {
-                        foreach ($value as $k => $v) {
-                            if ($rangeData['uri'] == $v) {
-                                unset($value[$k]);
+                        if (is_array($value)) {
+                            foreach ($value as $k => $v) {
+                                if ($rangeData['uri'] == $v) {
+                                    unset($value[$k]);
+                                }
+                            }
+                            if (empty($value)) {
+                                $rangeValidated = true;
+                                break;
+                            }
+                        } else {
+                            if ($rangeData['uri'] == $value) {
+                                $rangeValidated = true;
+                                break;
                             }
                         }
-                        if (empty($value)) {
-                            $rangeValidated = true;
-                            break;
-                        }
-                    } else {
-                        if ($rangeData['uri'] == $value) {
-                            $rangeValidated = true;
-                            break;
-                        }
+
+                    }
+                    if (!$rangeValidated) {
+                        throw new common_exception_ValidationFailed(
+                            $property['uri'], 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
+                        );
                     }
 
                 }
-                if (!$rangeValidated) {
-                    throw new tao_helpers_form_Exception(
-                        'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
-                    );
-                }
-
+            } catch (common_exception_ValidationFailed $e) {
+                $subReport = common_report_Report::createFailure($e->getMessage());
+                $subReport->setData($property['uri']);
+                $report->add($subReport);
             }
-
         }
 
-        return $this;
+        return $report;
     }
 
     /**
@@ -257,7 +266,7 @@ class tao_actions_form_RestForm
      * If only $class is set, create a new resource under it
      *
      * @return core_kernel_classes_Resource|null
-     * @throws tao_helpers_form_Exception
+     * @throws common_Exception
      */
     public function save()
     {
@@ -265,7 +274,7 @@ class tao_actions_form_RestForm
 
         if ($this->isCreation()) {
             if (!$resource = $this->class->createInstanceWithProperties($values)) {
-                throw new tao_helpers_form_Exception('Unable to save resource.');
+                throw new common_Exception(__('Unable to save resource.'));
             }
             $this->resource = $resource;
         } else {

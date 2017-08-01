@@ -69,25 +69,25 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         if ($this->isCreation()) {
             $properties[] = [
                 'uri' => 'password1',
-                'label' => 'Password',
+                'label' => __('Password'),
                 'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
             ];
 
             $properties[] = [
                 'uri' => 'password2',
-                'label' => 'Repeat password',
+                'label' => __('Repeat password'),
                 'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
             ];
         } else {
             $properties[] = [
                 'uri' => 'password1',
-                'label' => 'New password',
+                'label' => __('New password'),
                 'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
             ];
 
             $properties[] = [
                 'uri' => 'password2',
-                'label' => 'Repeat new password',
+                'label' => __('Repeat new password'),
                 'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
             ];
         }
@@ -126,12 +126,11 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
      * Validate the form against the property validators.
      * In case of range, check if value belong to associated ranges list
      *
-     * @return $this
-     * @throws tao_helpers_form_Exception If invalid
+     * @return common_report_Report
      */
     public function validate()
     {
-        parent::validate();
+        $report = parent::validate();
 
         // Validate passwords
         $password1 = isset($this->formProperties['password1']['formValue'])
@@ -144,21 +143,15 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         if (!is_null($password1) || !is_null($password2)) {
             try {
                 $this->validatePassword($password1);
-            } catch (tao_helpers_form_Exception $e) {
-                throw new tao_helpers_form_Exception('Password1 : ' . $e->getMessage(), 0, $e);
+                if ($password1 != $password2) {
+                    throw new common_exception_ValidationFailed('password', __('Passwords do not match'));
+                }
+                $this->changePassword = true;
+            } catch (common_exception_ValidationFailed $e) {
+                $subReport = common_report_Report::createFailure('Password: ' . $e->getMessage());
+                $subReport->setData('password');
+                $report->add($subReport);
             }
-
-            try {
-                $this->validatePassword($password2);
-            } catch (tao_helpers_form_Exception $e) {
-                throw new tao_helpers_form_Exception('Password2 : ' . $e->getMessage(), 0, $e);
-            }
-
-            if ($password1 != $password2) {
-                throw new tao_helpers_form_Exception(__('Passwords do not match'));
-            }
-
-            $this->changePassword = true;
         }
 
         // Validate new login availability
@@ -168,12 +161,14 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
                     $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login'
                     && !$this->isLoginAvailable($property['formValue'])
                 ) {
-                    throw new tao_helpers_form_Exception(__('Login is already in use.'));
+                    $subReport = common_report_Report::createFailure(__('Login is already in use.'));
+                    $subReport->setData($property['uri']);
+                    $report->add($subReport);
                 }
             }
         }
 
-        return $this;
+        return $report;
     }
 
     /**
@@ -202,18 +197,18 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
      * Validate password by evaluate it against PasswordConstraintService and NotEmpty validators
      *
      * @param $password
-     * @throws tao_helpers_form_Exception If invalid
+     * @throws common_exception_ValidationFailed If invalid
      */
     protected function validatePassword($password)
     {
         if (!(new tao_helpers_form_validators_NotEmpty())->evaluate($password)) {
-            throw new tao_helpers_form_Exception(__('Password is empty.'));
+            throw new common_exception_ValidationFailed('password', __('Password is empty.'));
         }
 
         /** @var ValidatorInterface $validator */
         foreach (PasswordConstraintsService::singleton()->getValidators() as $validator) {
             if (!$validator->evaluate($password)) {
-                throw new tao_helpers_form_Exception($validator->getMessage());
+                throw new common_exception_ValidationFailed('password', $validator->getMessage());
             }
         }
     }
