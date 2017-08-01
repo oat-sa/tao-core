@@ -28,10 +28,13 @@ define([
     'i18n',
     'ui/component',
     'ui/resource/selectable',
+    'ui/hider',
     'tpl!ui/resource/tpl/tree',
     'tpl!ui/resource/tpl/treeNode'
-], function ($, _, __, component, selectable, treeTpl, treeNodeTpl) {
+], function ($, _, __, component, selectable, hider, treeTpl, treeNodeTpl) {
     'use strict';
+
+    var indentStep = 10;
 
     var defaultConfig = {
         multiple: true
@@ -46,21 +49,27 @@ define([
     var indentChildren = function indentChildren($list, level){
         var indent;
         if($list.length){
-            indent = level *  10;
+            indent = level *  indentStep;
             level++;
             $list.children('li').each(function(){
                 var $target = $(this);
                 $target.children('a').css('padding-left', indent + 'px');
                 indentChildren($target.children('ul'), level);
             });
+            $list.siblings('.more').css('padding-left',  indent + 'px');
         }
+    };
+
+
+    var needMore = function needMore($node){
+        var totalCount = $node.data('count');
+        var instancesCount =  $node.children('ul').children('.instance').length;
+        return totalCount > 0 && instancesCount > 0 && instancesCount < totalCount;
     };
 
     return function resourceTreeFactory($container, config){
 
-        var selectableApi = selectable();
-
-        var resourceTreeApi = {
+        var resourceTree = selectable(component({
 
             reset : function reset(){
                 this.trigger('reset');
@@ -79,23 +88,32 @@ define([
                 var $root;
                 var $component;
 
+
                 var reduceNode = function reduceNode(acc , node){
+
+                    //filter already added nodes or classes when loading "more"
+                    if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ){
+                        return acc;
+                    }
                     if(node.type === 'instance'){
                         self.addNode([node.uri],  _.omit(node, ['count', 'state', 'type', 'children']));
+                        node.icon = config.icon;
                     }
                     if(node.children && node.children.length){
                         node.childList = _.reduce(node.children, reduceNode, '');
                     }
+
                     acc += treeNodeTpl(node);
                     return acc;
                 };
+
 
 
                 if(this.is('rendered')){
                     $component = this.getElement();
 
                     if(params && params.classUri){
-                        $root = $('.class.closed[data-uri="' + params.classUri + '"]', $component);
+                        $root = $('.class[data-uri="' + params.classUri + '"]', $component);
                     }
                     if(!$root || !$root.length){
                         $root = $component;
@@ -103,19 +121,23 @@ define([
                     if(nodes[0].uri === $root.data('uri')){
                         nodes = nodes[0].children || [];
                     }
-                    $root.removeClass('closed')
-                         .children('ul')
-                         .append(_.reduce(nodes, reduceNode, ''));
+                    $root.children('ul').append(_.reduce(nodes, reduceNode, ''));
+                    if(needMore($root)){
+                        hider.show($root.children('.more'));
+                    } else {
+                        hider.hide($root.children('.more'));
+                    }
 
                     indentChildren($component.children('ul'), 1);
 
+                    $root.removeClass('closed');
 
                     this.trigger('update');
                 }
             }
-        };
+        }, defaultConfig));
 
-        return component(_.assign(resourceTreeApi, selectableApi), defaultConfig)
+        return resourceTree
             .setTemplate(treeTpl)
             .on('init', function(){
 
@@ -127,25 +149,24 @@ define([
                 var self = this;
                 var $component = this.getElement();
 
-                $component.on('click', '.class', function(e){
+                //browser hierarchy
+                $component.on('click', '.class:not(.empty)', function(e){
                     var $class = $(e.currentTarget);
-                    var count;
                     e.preventDefault();
                     e.stopPropagation();
 
                     if(!$class.hasClass('closed')){
                         $class.addClass('closed');
                     } else {
-                        count = parseInt($class.data('count'), 10);
-                        if(count > 0){
-                            if(!$class.children('ul').children('li').length){
-                                self.query({classUri : $class.data('uri') });
-                            }  else {
-                                $class.removeClass('closed');
-                            }
+                        if(!$class.children('ul').children('li').length){
+                            self.query({ classUri : $class.data('uri') });
+                        }  else {
+                            $class.removeClass('closed');
                         }
                     }
                 });
+
+                //selection
                 $component.on('click', '.instance', function(e){
                     var $instance = $(e.currentTarget);
                     e.preventDefault();
@@ -159,6 +180,17 @@ define([
                         }
                         self.select($instance.data('uri'));
                     }
+                });
+
+                $component.on('click', '.more', function(e){
+                    var $root = $(e.currentTarget).parent('.class');
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    self.query({
+                        classUri:   $root.data('uri') ,
+                        offset:     $root.children('ul').children('.instance').length
+                    });
                 });
 
                 //initial data loading

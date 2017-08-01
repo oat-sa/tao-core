@@ -71,14 +71,15 @@
 
             text-align: right;
             color: $info;
-            padding-top:10px;
-            padding-right: 15px;
+            margin: 0;
+            padding: 0;
             label {
-                margin: 0;
-                padding: 0;
+                margin: 0 17px 0 0;
+                padding: 10px 2px 0 0;
             }
             label [class^="icon-"], label [class*=" icon-"] {
                 color: $info;
+                @include font-size(14);
             }
         }
 
@@ -109,12 +110,12 @@
     main {
         @include simple-flex-box;
 
-        min-height: 300px;
+        min-height: 250px;
 
         border-top: solid 1px $uiGeneralContentBorder;
         background-color: $uiGeneralContentBg;
         height: 100%;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
 
     footer {

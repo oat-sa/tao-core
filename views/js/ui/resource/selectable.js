@@ -13,12 +13,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
 /**
- * A resource selector component
+ * Selectable API : to make a group of nodes selectable.
+ * This module is intented to be assigned to ui/component.
  *
- *
+ * The list of nodes is mandatory to maintain the match between the DOM and the nodes.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -28,25 +30,111 @@ define([
 ], function ($, _) {
     'use strict';
 
-    return function selectable(){
+    /**
+     * The CSS class to distinguish selected elements
+     */
+    var selectedClass = 'selected';
+
+    /**
+     * Creates a selectable context
+     *
+     * @param {component} component - the component instance to make selectable
+     * @returns {selectable} the augmented component
+     * @throws {TypeError} without a propert component
+     */
+    return function selectableFactory(component){
 
         var selection = {};
         var nodes     = {};
 
-        return {
+        //validate the component in parameter
+        var isAComponent = _.all(['on', 'trigger', 'init', 'render', 'is', 'getElement'], function(method){
+            return _.isFunction(component[method]);
+        });
+
+        if(!_.isObject(component) || !isAComponent){
+            throw  new TypeError('Selectable expects a component');
+        }
+
+        /**
+         * @typedef {Object} selectable
+         */
+        return _.assign(component, {
+
+            /**
+             * Get all selectable nodes
+             * @returns {Object[]} nodes
+             */
+            getNodes : function getNodes(){
+                return nodes;
+            },
+
+            /**
+             * Set the selectable nodes
+             * @param {Object[]} nodes
+             */
+            setNodes : function setNodes(newNodes){
+                if(_.isArray(newNodes)){
+                    nodes = _.reduce(newNodes, function(acc, node){
+                        if(node.uri){
+                            acc[node.uri] = node;
+                        }
+                        return acc;
+                    }, {});
+                }
+                else if (_.isObject(newNodes)){
+                    nodes = newNodes;
+                }
+            },
+
+            /**
+             * Add a node
+             * @param {String} uri - the key
+             * @param {Object} node - the node to add
+             */
+            addNode : function addNode(uri, node){
+                nodes[uri] = node;
+            },
+
+            /**
+             * Check if the given node exists
+             * @param {String} uri - the node's URI
+             * @returns {Boolean} true if the node exists
+             */
+            hasNode : function hasNode(uri){
+                return typeof nodes[uri] !== 'undefined';
+            },
+
+            /**
+             * Retrieve the current selection
+             * @returns {Object} the selection
+             */
             getSelection : function getSelection(){
                 return selection;
             },
 
+            /**
+             * Clear the current selection
+             * @returns {selectable} chains
+             * @fires selectable#change
+             */
             clearSelection : function clearSelection(){
-                if(this.is('rendered') && _.size(selection) > 0){
+                if(_.size(selection) > 0){
                     selection = {};
-                    $('.selected', this.getElement()).removeClass('selected');
+                }
+                if(this.is('rendered')){
+                    $('.' + selectedClass, this.getElement()).removeClass(selectedClass);
                     this.trigger('change', selection);
                 }
                 return this;
             },
 
+            /**
+             * Apply the selection to the given URIs.
+             * @param {String[]} uris - the list of URIs to select
+             * @returns {selectable} chains
+             * @fires selectable#change
+             */
             select : function select(uris){
                 var $component;
                 var changed = false;
@@ -65,7 +153,7 @@ define([
                             var $node = $('[data-uri="' + uri + '"]', $component);
                             if($node.length){
                                 changed = true;
-                                $node.addClass('selected');
+                                $node.addClass(selectedClass);
 
                                 selection[uri] = nodes[uri];
                             }
@@ -74,8 +162,15 @@ define([
                         this.trigger('change', selection);
                     }
                 }
+                return this;
             },
 
+            /**
+             * Removes the given URIs from the selection.
+             * @param {String[]} uris - the list of URIs to select
+             * @returns {selectable} chains
+             * @fires selectable#change
+             */
             unselect : function unselect(uris){
                 var $component;
                 var changed = false;
@@ -94,34 +189,26 @@ define([
                             var $node = $('[data-uri="' + uri + '"]', $component);
                             if($node.length){
                                 changed = true;
-                                $node.removeClass('selected');
+                                $node.removeClass(selectedClass);
 
                                 selection = _.omit(selection, uri);
-
                             }
                         });
                     if(changed){
                         this.trigger('change', selection);
                     }
                 }
+                return this;
             },
 
+            /**
+             * Select all nodes.
+             * @returns {selectable} chains
+             * @fires selectable#change
+             */
             selectAll : function selectAll(){
                 return this.select(_.keys(nodes));
             },
-
-
-            getNodes : function getNodes(){
-                return nodes;
-            },
-
-            setNodes : function setNodes(newNodes){
-                nodes = newNodes;
-            },
-
-            addNode : function add(uri, node){
-                nodes[uri] = node;
-            }
-        };
+        });
     };
 });

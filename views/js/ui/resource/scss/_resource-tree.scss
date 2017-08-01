@@ -26,20 +26,24 @@
                 border-bottom: solid 1px $uiGeneralContentBorder;
                 color : $textColor;
             }
+            &:before {
+                @include tao-icon-setup;
+                position: absolute;
+                right: 10px;
+                top: 12px;
+                width: 14px;
+                text-align:center;
+            }
             &.class {
                 &:before {
-                    @include tao-icon-setup;
                     @include icon-down;
-                    position: absolute;
-                    right: 20px;
-                    top: 10px;
                 }
                 & > a {
                     &:before {
                         @include tao-icon-setup;
                         @include icon-folder-open;
                         color: $warning;
-                        margin-right: 3px;
+                        margin-right: 4px;
                         @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
                     }
                 }
@@ -54,29 +58,37 @@
                         display: none;
                     }
                 }
+                &.empty:before {
+                    content: inherit;
+                }
             }
             &.instance {
-                & > a {
-                    &:before {
-                        @include tao-icon-setup;
-                        @include icon-checkbox;
-                        color: $info;
-                        position: absolute;
-                        right: 17px;
-                    }
+                &:before {
+                    @include icon-checkbox;
+                    color: $info;
                 }
-                &.selected > a:before {
+                &.selected:before {
                     @include icon-checkbox-checked;
                 }
-                &.selected a, &:hover a {
-                    background-color: $uiClickableHoverBg;
-                    color: $textHighlight;
+                & > a > span  {
+                    color: $info;
+                    margin-right: 4px;
+                    @include font-size(16);
+                    vertical-align: top;
+                }
+                &.selected, &:hover {
                     cursor: pointer;
-                    @include transition(all, 200ms, linear);
-                    &:before {
+                    background-color: $uiClickableHoverBg;
+                    &:before{
                         color: $textHighlight;
                     }
+                    & > a, & > a > span {
+                        color: $textHighlight;
+                    }
+                    @include transition(all, 200ms, linear);
                 }
+
+
             }
 
             a:hover {

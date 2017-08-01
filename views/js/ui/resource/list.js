@@ -28,20 +28,21 @@ define([
     'i18n',
     'ui/component',
     'ui/resource/selectable',
+    'ui/hider',
     'tpl!ui/resource/tpl/list',
     'tpl!ui/resource/tpl/listNode'
-], function ($, _, __, component, selectable, listTpl, listNodeTpl) {
+], function ($, _, __, component, selectable, hider, listTpl, listNodeTpl) {
     'use strict';
 
     var defaultConfig = {
         multiple: true
     };
 
-    return function resourceTreeFactory($container, config){
+    return function resourceListFactory($container, config){
+        var $list;
+        var $loadMore;
 
-        var selectableApi = selectable();
-
-        var resourceListApi = {
+        var resourceList = selectable(component({
 
             query : function query(params){
                 if(!this.is('loading')){
@@ -51,27 +52,33 @@ define([
                 }
             },
 
-            update: function update(nodes){
+            update: function update(resources){
                 var self = this;
+
                 if(this.is('rendered')){
 
-                    this.getElement()
-                         .children('ul')
-                         .append(_.reduce(nodes, function(acc, node){
-                             acc += listNodeTpl(node);
-                             return acc;
-                         }, ''));
+                    $list.append(_.reduce(resources.nodes, function(acc, node){
+                        node.icon = self.config.icon;
+                        acc += listNodeTpl(node);
+                        return acc;
+                    }, ''));
 
-                    _.forEach(nodes, function(node){
+                    _.forEach(resources.nodes, function(node){
                         self.addNode(node.uri,  node);
                     });
+
+                    if(resources.total > _.size(self.getNodes())){
+                        hider.show($loadMore);
+                    } else {
+                        hider.hide($loadMore);
+                    }
 
                     this.trigger('update');
                 }
             }
-        };
+        }, defaultConfig));
 
-        return component(_.assign(resourceListApi, selectableApi), defaultConfig)
+        return resourceList
             .setTemplate(listTpl)
             .on('init', function(){
 
@@ -81,7 +88,10 @@ define([
             })
             .on('render', function(){
                 var self = this;
+
                 var $component = this.getElement();
+                $list     = $component.children('ul');
+                $loadMore = $('.more', $component);
 
                 $component.on('click', 'li', function(e){
                     var $instance = $(e.currentTarget);
@@ -97,6 +107,14 @@ define([
                         self.select($instance.data('uri'));
                     }
                 });
+                $loadMore.on('click', function(e){
+                    e.preventDefault();
+
+                    self.query({
+                        offset: _.size(self.getNodes())
+                    });
+                });
+
 
                 //initial data loading
                 if(this.config.nodes){
@@ -112,5 +130,6 @@ define([
                 this.setState('loading', false);
             })
             .init(config);
+
     };
 });

@@ -1,4 +1,4 @@
-.resource-list{
+.resource-list {
     position: relative;
     height: 100%;
 
@@ -41,6 +41,13 @@
                 &:hover {
                     text-decoration: none;
                 }
+
+                & > span {
+                    color: $info;
+                    margin-right: 4px;
+                    @include font-size(16);
+                    vertical-align: top;
+                }
             }
 
             &.selected, &:hover{
@@ -55,8 +62,22 @@
                         color: $textHighlight;
                         @include icon-checkbox-checked;
                     }
+                    & > span {
+                        color: $textHighlight;
+                    }
                 }
             }
         }
+    }
+
+    .more {
+        height: 45px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    &.loading .more {
+        opacity: 0.65;
+        cursor : inherit;
     }
 }

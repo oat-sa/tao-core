@@ -36,7 +36,8 @@ define([
     'use strict';
 
     var defaultConfig = {
-        type : __('resource'),
+        type : __('resources'),
+        icon : 'item',
         multiple : true,
         formats : {
             list : {
@@ -50,7 +51,8 @@ define([
                 componentFactory : treeFactory,
                 active : true
             }
-        }
+        },
+        limit: 25
     };
 
 
@@ -98,7 +100,8 @@ define([
                     this.trigger('query', _.defaults(params || {}, {
                         classUri: this.classUri,
                         format:   this.format,
-                        pattern:  $searchField.val()
+                        pattern:  $searchField.val(),
+                        limit  : this.config.limit
                     }));
                 }
                 return this;
@@ -141,10 +144,10 @@ define([
 
                     if(!this.selectionComponent || params.new){
 
-                        this.selectionComponent = componentFactory($resultArea, {
+                        this.selectionComponent = componentFactory($resultArea, _.defaults({
                             classUri : this.classUri,
                             nodes    : resources
-                        })
+                        }, this.config))
                         .on('query', function(queryParams){
                             self.query(queryParams);
                         })
