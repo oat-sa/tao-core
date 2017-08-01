@@ -25,10 +25,9 @@ use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 use \Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
- * Class tao_actions_form_RestForm
+ * Class tao_actions_form_RestUserForm
  *
- * Form object to handle rdf resource
- * It manages data to create and edit a resource into a given class
+ * Implementation of tao_actions_form_RestForm to manage generis user forms for edit and create
  */
 class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements ServiceLocatorAwareInterface
 {
