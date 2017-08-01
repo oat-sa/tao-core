@@ -18,13 +18,18 @@
  *
  */
 
+use \oat\generis\model\OntologyAwareTrait;
+use \oat\tao\helpers\RestExceptionHandler;
+
 /**
  * Class tao_actions_RestResourceController
  *
  * The rest controller to manage resource APIs
  */
-class tao_actions_RestResourceController extends tao_actions_RestController
+class tao_actions_RestResourceController extends tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
+
     const CLASS_PARAMETER = 'classUri';
     const RESOURCE_PARAMETER = 'uri';
 
@@ -199,7 +204,58 @@ class tao_actions_RestResourceController extends tao_actions_RestController
             $data['version'] = TAO_VERSION;
         }
 
-        echo $this->encode($data);
+        $this->returnJson($data, 422);
+        exit(0);
+    }
+
+    /**
+     * Return an error reponse following the given exception
+     * An exception handler manages http code, avoid to use returnJson to add unneeded header
+     *
+     * @param Exception $exception
+     * @param bool $withMessage
+     */
+    protected function returnFailure(Exception $exception, $withMessage=true)
+    {
+        $handler = new RestExceptionHandler();
+        $handler->sendHeader($exception);
+
+        $data = array();
+        if ($withMessage) {
+            $data['success'] = false;
+            $data['errorCode'] = $exception->getCode();
+            $data['version'] = TAO_VERSION;
+            if ($exception instanceof common_exception_UserReadableException) {
+                $data['errorMsg'] = $exception->getUserMessage();
+            } else {
+                common_Logger::w(__CLASS__ . ' : ' . $exception->getMessage());
+                $data['errorMsg'] = __('Unexpected error. Please contact administrator');
+            }
+        }
+
+        Context::getInstance()->getResponse()->setContentHeader('application/json');
+        echo json_encode($data);
+        exit(0);
+    }
+
+    /**
+     * Return a successful http response
+     *
+     * @param array $rawData
+     * @param bool $withMessage
+     */
+    protected function returnSuccess($rawData = array(), $withMessage=true)
+    {
+        $data = array();
+        if ($withMessage) {
+            $data['success'] = true;
+            $data['data'] = $rawData;
+            $data['version'] = TAO_VERSION;
+        } else {
+            $data = $rawData;
+        }
+
+        $this->returnJson($data);
         exit(0);
     }
 
