@@ -4,12 +4,6 @@
   "uri": "http:\/\/bertao\/tao.rdf#i1491898694361191",
   "state": "open",
   "children": [{
-    "label": "Algebra",
-    "uri": "http:\/\/bertao\/tao.rdf#i1491898712953392",
-    "type": "class",
-    "state": "closed",
-    "count": 3
-  }, {
     "label": "Geometry",
     "type": "class",
     "uri": "http:\/\/bertao\/tao.rdf#i1491898712953393",

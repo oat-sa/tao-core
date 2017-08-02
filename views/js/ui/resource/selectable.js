@@ -18,7 +18,7 @@
 
 /**
  * Selectable API : to make a group of nodes selectable.
- * This module is intented to be assigned to ui/component.
+ * This module is intended to be assigned to ui/component.
  *
  * The list of nodes is mandatory to maintain the match between the DOM and the nodes.
  *

@@ -13,12 +13,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
 /**
- * A resource selector component
- *
- *
+ * A tree component mostly used as a data viewer/selector for the resource selector.
+ * The data flow works on the query/update model:
+ * @example
+ * resourceTreeFactory(container, config)
+ *     .on('query', function(params){
+ *            fectch('someUrl', params).then(nodes){
+ *               this.update(nodeData, params);
+ *            }
+ *     });
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -34,6 +41,7 @@ define([
 ], function ($, _, __, component, selectable, hider, treeTpl, treeNodeTpl) {
     'use strict';
 
+    //yes indent isn't handle by css
     var indentStep = 10;
 
     var defaultConfig = {
@@ -60,29 +68,67 @@ define([
         }
     };
 
-
+    /**
+     * Has the given node all it's children ?
+     * @param {jQueryElement} $node
+     * @returns {Boolean} true if the node needs more children
+     */
     var needMore = function needMore($node){
         var totalCount = $node.data('count');
         var instancesCount =  $node.children('ul').children('.instance').length;
         return totalCount > 0 && instancesCount > 0 && instancesCount < totalCount;
     };
 
+    /**
+     * The factory that creates the resource tree component
+     *
+     * @param {jQueryElement} $container - where to append the component
+     * @param {Object} config - the component config
+     * @param {String} config.classUri - the root Class URI
+     * @param {Objet[]} [config.nodes] - the nodes to preload
+     * @param {String} [config.icon] - the icon class to show close to the resources
+     * @param {Boolean} [config.multiple = true] - multiple vs unique selection
+     * @param {Boolean} [config.multiple = true] - multiple vs unique selection
+     * @returns {resourceTree} the component
+     */
     return function resourceTreeFactory($container, config){
 
+        /**
+         * @typedef {Object} resourceTree
+         */
         var resourceTree = selectable(component({
 
-            reset : function reset(){
-                this.trigger('reset');
-            },
-
+            /**
+             * Ask for a query (forward the event)
+             * @param {Object} params - the query parameters
+             * @param {String} [params.classUri] - the current node class URI
+             * @param {Number} [params.offset = 0] - for paging
+             * @param {Number} [params.limit] - for paging
+             * @returns {resourceTree} chains
+             * @fires resourceTree#query
+             */
             query : function query(params){
                 if(!this.is('loading')){
+
+                    /**
+                     * Formulate the query
+                     * @event resourceTree#query
+                     * @param {Object} params
+                     */
                     this.trigger('query', _.defaults(params || {}, {
                         classUri : this.classUri
                     }));
                 }
+                return this;
             },
 
+            /**
+             * Update the component with the given nodes
+             * @param {Object[]} nodes - the tree nodes, with at least a URI as key and as property
+             * @param {Object} params - the query parameters
+             * @returns {resourceTree} chains
+             * @fires resourceTree#update
+             */
             update: function update(nodes, params){
                 var self = this;
                 var $root;
@@ -132,12 +178,17 @@ define([
 
                     $root.removeClass('closed');
 
+                    /**
+                     * The tree has been updated
+                     * @event resourceTree#update
+                     */
                     this.trigger('update');
                 }
+                return this;
             }
         }, defaultConfig));
 
-        return resourceTree
+        resourceTree
             .setTemplate(treeTpl)
             .on('init', function(){
 
@@ -182,10 +233,12 @@ define([
                     }
                 });
 
+                //need more data
                 $component.on('click', '.more', function(e){
                     var $root = $(e.currentTarget).parent('.class');
                     e.preventDefault();
                     e.stopPropagation();
+
 
                     self.query({
                         classUri:   $root.data('uri') ,
@@ -205,7 +258,11 @@ define([
             })
             .on('update', function(){
                 this.setState('loading', false);
-            })
-            .init(config);
+            });
+
+        _.defer(function(){
+            resourceTree.init(config);
+        });
+        return resourceTree;
     };
 });
