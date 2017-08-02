@@ -210,6 +210,24 @@ define([
                 }
             },
 
+            /**
+             * Get the component rendered size
+             * @param {Boolean} includeMargin - include the margins in the returned size
+             * @returns {{width: number, height: number}}
+             */
+            getOuterSize: function getOuterSize(includeMargin) {
+                var $component;
+                if (this.is('rendered')) {
+                    $component = this.getElement();
+                    includeMargin = includeMargin || false;
+
+                    return {
+                        width: Math.round($component.outerWidth(includeMargin)),
+                        height: Math.round($component.outerHeight(includeMargin))
+                    };
+                }
+            },
+
 
             /**
              * Shows the component
