@@ -17,7 +17,22 @@
  */
 
 /**
- * A resource selector component
+ * The resource selector component
+ * Handles multiple view/selection formats (now tree and list).
+ *
+ * Let's you change the root class and filter by labels.
+ *
+ * The data flow is based on the query/update model :
+ *
+ * @example
+ * resourceSelectorFactory(container, config)
+ *     .on('query', function(params){
+ *         var self = this;
+ *         fetch('someurl', params).then(nodes){
+ *             self.update(nodedata, params);
+ *         });
+ *     });
+ *
  *
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -34,6 +49,7 @@ define([
     'css!ui/resource/css/selector.css',
 ], function ($, _, __, component, classesSelectorFactory, treeFactory, listFactory, selectorTpl) {
     'use strict';
+
 
     var defaultConfig = {
         type : __('resources'),
@@ -52,10 +68,23 @@ define([
                 active : true
             }
         },
-        limit: 25
+        limit: 30
     };
 
-
+    /**
+     * The factory that creates the resource selector component
+     *
+     * @param {jQueryElement} $container - where to append the component
+     * @param {Object} config - the component config
+     * @param {String} config.classUri - the root Class URI
+     * @param {Object[]} config.formats - the definition of the supported viewer/selector component
+     * @param {Objet[]} [config.nodes] - the nodes to preload, the format is up to the formatComponent
+     * @param {String} [config.icon] - the icon class that represents a resource
+     * @param {String} [config.type] - describes the resource type
+     * @param {Boolean} [config.multiple = true] - multiple vs unique selection
+     * @param {Number} [config.limit = 30] - the default page size for data paging
+     * @returns {resourceSelector} the component
+     */
     return function resourceSelectorFactory($container, config){
         var $classContainer;
         var $resultArea;
@@ -69,6 +98,8 @@ define([
 
             /**
              * Reset the component
+             * @returns {resourceSelector} chains
+             * @fires resourceSelector#reset
              */
             reset : function reset(){
                 if(this.is('rendered')){
@@ -76,10 +107,14 @@ define([
                         this.selectionComponent.destroy();
                         this.selectionComponent = null;
                     }
-                    this.trigger('reset');
                 }
+                return this.trigger('reset');
             },
 
+            /**
+             * Get the selected nodes
+             * @returns {Object?} the selection
+             */
             getSelection : function getSelection(){
                 if(this.selectionComponent){
                     this.selectionComponent.getSelection();
@@ -87,6 +122,10 @@ define([
                 return null;
             },
 
+            /**
+             * Clear the current selection
+             * @returns {resourceSelector} chains
+             */
             clearSelection : function clearSelection(){
                 this.selected = [];
                 if(this.selectionComponent){
@@ -95,8 +134,25 @@ define([
                 return this;
             },
 
+            /**
+             * Ask for a query (forward the event)
+             * @param {Object} [params] - the query parameters
+             * @param {String} [params.classUri] - the current node class URI
+             * @param {String} [params.format] - the selected format
+             * @param {String} [params.pattern] - label filtering pattern
+             * @param {Number} [params.offset = 0] - for paging
+             * @param {Number} [params.limit] - for paging
+             * @returns {resourceSelector} chains
+             * @fires resourceSelector#query
+             */
             query : function query(params){
                 if(this.is('rendered')){
+
+                    /**
+                     * Formulate the query
+                     * @event resourceSelector#query
+                     * @param {Object} params - see format above
+                     */
                     this.trigger('query', _.defaults(params || {}, {
                         classUri: this.classUri,
                         format:   this.format,
@@ -107,6 +163,12 @@ define([
                 return this;
             },
 
+            /**
+             * Switch the format, so the viewer/selector component
+             * @param {String} format - the new format
+             * @returns {resourceSelector} chains
+             * @fires resourceSelector#formatchange
+             */
             changeFormat : function changeFormat(format){
                 var $viewFormat;
                 if(this.is('rendered')){
@@ -119,12 +181,26 @@ define([
 
                         this.format = format;
 
+                        /**
+                         * The view format has changed
+                         * @event resourceSelector#formatchange
+                         * @param {String} format - the new format name
+                         */
                         this.trigger('formatchange', format);
                     }
                 }
                 return this;
             },
 
+            /**
+             * Update the component with the given resources
+             * @param {Object[]} resources - the data, with at least a URI as key and as property
+             * @param {Object} params - the query parameters
+             * @returns {resourceSelector} chains
+             * @fires resourceSelector#update
+             * @fires resourceSelector#change
+             * @fires resourceSelector#error
+             */
             update: function update(resources, params){
                 var self = this;
 
@@ -151,8 +227,14 @@ define([
                         .on('query', function(queryParams){
                             self.query(queryParams);
                         })
+                        .on('update', function(){
+                            self.trigger('update');
+                        })
                         .on('change', function(selected){
                             self.trigger('change', selected);
+                        })
+                        .on('error', function(err){
+                            self.trigger('error', err);
                         });
 
                     } else {
@@ -162,6 +244,10 @@ define([
             }
         };
 
+        /**
+         * The resource selector component
+         * @typedef {ui/component} resourceSelector
+         */
         var resourceSelector = component(resourceSelectorApi, defaultConfig)
             .setTemplate(selectorTpl)
             .on('init', function(){

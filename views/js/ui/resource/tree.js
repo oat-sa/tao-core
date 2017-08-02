@@ -22,9 +22,10 @@
  * @example
  * resourceTreeFactory(container, config)
  *     .on('query', function(params){
- *            fectch('someUrl', params).then(nodes){
- *               this.update(nodeData, params);
- *            }
+ *         var self = this;
+ *         fetch('someurl', params).then(nodes){
+ *             self.update(nodedata, params);
+ *         });
  *     });
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
@@ -113,7 +114,7 @@ define([
                     /**
                      * Formulate the query
                      * @event resourceTree#query
-                     * @param {Object} params
+                     * @param {Object} params - see format above
                      */
                     this.trigger('query', _.defaults(params || {}, {
                         classUri : this.classUri

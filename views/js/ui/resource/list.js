@@ -22,9 +22,10 @@
  * @example
  * resourceListFactory(container, config)
  *     .on('query', function(params){
- *            fectch('someUrl', params).then(nodes){
- *               this.update(nodeData, params);
- *            }
+ *         var self = this;
+ *         fetch('someurl', params).then(nodes){
+ *             self.update(nodedata, params);
+ *         });
  *     });
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
