@@ -65,7 +65,7 @@ define([
              * @param {Object} widgetOptions
              * @returns {this}
              */
-            addWidget: function (widgetOptions) {
+            addWidget: function addWidget(widgetOptions) {
                 var widget = widgetLoader(widgetOptions.widget)({}, widgetOptions);
 
                 this.widgets.push(widget);
@@ -87,7 +87,7 @@ define([
              * @param {String} widgetUri
              * @returns {this}
              */
-            removeWidget: function (widgetUri) {
+            removeWidget: function removeWidget(widgetUri) {
                 _.remove(this.widgets, function (widget) {
                     if (widget.config.uri === widgetUri) {
                         widget.destroy();
@@ -102,7 +102,7 @@ define([
              * Validates form and populates errors array
              * @returns {this}
              */
-            validate: function () {
+            validate: function validate() {
                 this.errors = _(this.widgets)
                 .map(function (widget) {
                     widget.validate();
@@ -123,7 +123,7 @@ define([
              * Serializes form values to an array of name/value objects
              * @returns {Object[]}
              */
-            serializeArray: function () {
+            serializeArray: function serializeArray() {
                 return _.map(this.widgets, function (widget) {
                     return widget.serialize();
                 });
@@ -134,7 +134,7 @@ define([
              * @param {Boolean} [isLoading = null]
              * @returns {this}
              */
-            toggleLoading: function (isLoading) {
+            toggleLoading: function toggleLoading(isLoading) {
                 if (typeof isLoading === 'undefined') {
                     isLoading = !this.is('loading');
                 }

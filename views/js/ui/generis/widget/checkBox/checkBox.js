@@ -22,7 +22,7 @@ define([
     'i18n',
     'ui/generis/widget/widget',
     'tpl!ui/generis/widget/checkBox/checkBox'
-], function(
+], function (
     $,
     _,
     __,
@@ -54,7 +54,7 @@ define([
              * Overrides get method
              * @returns {String[]}
              */
-            get: function () {
+            get: function get() {
                 var ret = this.config.values || [];
 
                 if (this.is('rendered')) {
@@ -73,7 +73,7 @@ define([
              * @param {String[]} values
              * @returns {String[]}
              */
-            set: function (values) {
+            set: function set(values) {
                 if (Array.isArray(values)) {
                     this.config.values = values;
                 } else {

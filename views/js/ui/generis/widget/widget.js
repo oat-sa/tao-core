@@ -25,7 +25,7 @@ define([
     'ui/generis/validator/validator',
     'tpl!tao/ui/generis/widget/widget',
     'css!tao/ui/generis/widget/widget'
-], function(
+], function (
     $,
     _,
     __,
@@ -54,7 +54,7 @@ define([
              * Gets widget value
              * @returns {String}
              */
-            get: function () {
+            get: function get() {
                 var ret = this.config.value || '';
 
                 if (this.is('rendered')) {
@@ -71,7 +71,7 @@ define([
              * @param {String} value
              * @returns {String}
              */
-            set: function (value) {
+            set: function set(value) {
                 this.config.value = value;
 
                 if (this.is('rendered')) {
@@ -88,7 +88,7 @@ define([
              * @param {ui/generis/validator/validator} validator
              * @returns {this}
              */
-            setValidator: function (validator) {
+            setValidator: function setValidator(validator) {
                 validator = validator || [];
 
                 if (typeof validator.is === 'function') { // is a ui/component

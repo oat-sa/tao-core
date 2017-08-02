@@ -23,7 +23,7 @@ define([
     'ui/component',
     'tpl!tao/ui/generis/validator/validator',
     'css!tao/ui/generis/validator/validator'
-], function(
+], function (
     $,
     _,
     __,
@@ -48,7 +48,7 @@ define([
              * @param {String} value
              * @return {this}
              */
-            run: function (value) {
+            run: function run(value) {
                 this.errors = _(this.validations)
                 // run validations
                 .reject(function (validation) {
@@ -74,7 +74,7 @@ define([
              * Clears validation errors from dom
              * @return {this}
              */
-            clear: function () {
+            clear: function clear() {
                 this.errors = [];
 
                 if (this.is('rendered')) {
@@ -88,7 +88,7 @@ define([
              * Displays validation errors in dom
              * @return {this}
              */
-            display: function () {
+            display: function display() {
                 var $this = this.getElement();
 
                 if (this.is('rendered')) {
@@ -111,7 +111,7 @@ define([
              * @param {Object} validation
              * @return {this}
              */
-            addValidation: function (validation) {
+            addValidation: function addValidation(validation) {
                 this.validations.push(validation);
 
                 return this;
@@ -121,7 +121,7 @@ define([
              * Removes all validations
              * @return {this}
              */
-            removeValidations: function () {
+            removeValidations: function removeValidations() {
                 this.validations = [];
 
                 return this;

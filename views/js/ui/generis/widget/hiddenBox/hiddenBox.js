@@ -22,7 +22,7 @@ define([
     'i18n',
     'ui/generis/widget/widget',
     'tpl!ui/generis/widget/hiddenBox/hiddenBox'
-], function(
+], function (
     $,
     _,
     __,
@@ -52,7 +52,7 @@ define([
              * Overrides get method
              * @returns {Object}
              */
-            get: function () {
+            get: function get() {
                 var $el;
                 var ret = {
                     value: this.config.value,
@@ -73,7 +73,7 @@ define([
              * @param {String} value
              * @returns {Object}
              */
-            set: function (value) {
+            set: function set(value) {
                 var $el;
 
                 this.config.value = this.config.confirmation.value = value;

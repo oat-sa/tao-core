@@ -22,7 +22,7 @@ define([
     'i18n',
     'ui/generis/widget/widget',
     'tpl!ui/generis/widget/comboBox/comboBox'
-], function(
+], function (
     $,
     _,
     __,
