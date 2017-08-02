@@ -152,8 +152,8 @@ define([
         }, {
             formAction: '#',
             formMethod: 'get',
-            submitText: 'Save',
-            title: 'Generis Form'
+            submitText: __('Save'),
+            title: __('Generis Form')
         })
         .setTemplate(tpl)
         .init(config)

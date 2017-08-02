@@ -146,7 +146,7 @@ define([
                 };
             }
         }, spec), {
-            label: 'Label',
+            label: __('Label'),
             required: false
         })
         .on('render', function () {

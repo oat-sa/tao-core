@@ -63,7 +63,7 @@ define([
         if (widget.config.required) {
             widget.validator
             .addValidation({
-                message: 'This field is required',
+                message: __('This field is required'),
                 predicate: /\S+/,
                 precedence: 1
             });

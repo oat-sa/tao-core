@@ -104,7 +104,7 @@ define([
         .setTemplate(tpl)
         .init({
             confirmation: {
-                label: config.label + ' Confirmation',
+                label: __('%s Confirmation', config.label),
                 uri: config.uri + '_confirmation',
                 value: config.value || ''
             },
@@ -118,7 +118,7 @@ define([
         if (widget.config.required) {
             widget.validator
             .addValidation({
-                message: 'This field is required',
+                message: __('This field is required'),
                 predicate: function (value) {
                     return /\S+/.test(value.value);
                 },
@@ -127,7 +127,7 @@ define([
         }
 
         widget.validator.addValidation({
-            message: 'Fields must match',
+            message: __('Fields must match'),
             predicate: function (value) {
                 return value.value === value.confirmation;
             },
