@@ -41,13 +41,14 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'core/promise',
     'ui/component',
     'ui/class/selector',
     'ui/resource/tree',
     'ui/resource/list',
     'tpl!ui/resource/tpl/selector',
     'css!ui/resource/css/selector.css',
-], function ($, _, __, component, classesSelectorFactory, treeFactory, listFactory, selectorTpl) {
+], function ($, _, __, Promise, component, classesSelectorFactory, treeFactory, listFactory, selectorTpl) {
     'use strict';
 
 
@@ -117,7 +118,7 @@ define([
              */
             getSelection : function getSelection(){
                 if(this.selectionComponent){
-                    this.selectionComponent.getSelection();
+                    return this.selectionComponent.getSelection();
                 }
                 return null;
             },
@@ -127,7 +128,6 @@ define([
              * @returns {resourceSelector} chains
              */
             clearSelection : function clearSelection(){
-                this.selected = [];
                 if(this.selectionComponent){
                     this.selectionComponent.clearSelection();
                 }
@@ -253,63 +253,67 @@ define([
             .on('init', function(){
 
                 this.classUri = this.config.classUri;
-                this.format   = _.findKey(this.config.formats, { active : true });
+                this.format   = this.config.format || _.findKey(this.config.formats, { active : true });
 
                 this.render($container);
             })
             .on('render', function(){
                 var self = this;
 
-                var $component   = this.getElement();
+                //we ensure the subcomponents are rendered
+                return new Promise(function(resolve){
+                    var $component = self.getElement();
 
-                $classContainer  = $('.class-context', $component);
-                $resultArea      = $('main', $component);
-                $searchField     = $('.search input', $component);
-                $viewFormats     = $('.context > a', $component);
-                $selectNum       = $('.selected-num', $component);
-                $selectCtrl      = $('.selection-control input', $component);
-                $selectCtrlLabel = $('.selection-control label', $component);
+                    $classContainer  = $('.class-context', $component);
+                    $resultArea      = $('main', $component);
+                    $searchField     = $('.search input', $component);
+                    $viewFormats     = $('.context > a', $component);
+                    $selectNum       = $('.selected-num', $component);
+                    $selectCtrl      = $('.selection-control input', $component);
+                    $selectCtrlLabel = $('.selection-control label', $component);
 
-                //initialize the class selector
-                this.classSelector = classesSelectorFactory($classContainer, this.config);
-                this.classSelector.on('change', function(uri){
-                    if(uri && uri !== self.classUri){
-                        self.classUri = uri;
-                        self.query({ 'new' : true });
-                    }
+                    //the search field
+                    $searchField.on('keydown', function(e){
+                        var value = $(this).val().trim();
+                        if(value.length > 2 || e.which === 13){
+                            self.query({ 'new' : true });
+                        }
+                    });
+
+                    //the format switcher
+                    $viewFormats.on('click', function(e) {
+                        var $target = $(this);
+                        var format = $target.data('view-format');
+                        e.preventDefault();
+
+                        self.changeFormat(format);
+                    });
+
+                    //the select all control
+                    $selectCtrl.on('change', function(){
+                        if($(this).prop('checked') === false){
+                            self.selectionComponent.clearSelection();
+                        } else {
+                            self.selectionComponent.selectAll();
+                        }
+                    });
+
+                    //initialize the class selector
+                    self.classSelector = classesSelectorFactory($classContainer, self.config);
+                    self.classSelector
+                        .on('render', resolve)
+                        .on('change', function(uri){
+                            if(uri && uri !== self.classUri){
+                                self.classUri = uri;
+                                self.query({ 'new' : true });
+                            }
+                        });
+                    self.query();
                 });
-
-                //the search field
-                $searchField.on('keydown', function(e){
-                    var value = $(this).val().trim();
-                    if(value.length > 2 || e.which === 13){
-                        self.query({ 'new' : true });
-                    }
-                });
-
-                //the format switcher
-                $viewFormats.on('click', function(e) {
-                    var $target = $(this);
-                    var format = $target.data('view-format');
-                    e.preventDefault();
-
-                    self.changeFormat(format);
-                });
-
-                //the select all control
-                $selectCtrl.on('change', function(){
-                    if($(this).prop('checked') === false){
-                        self.selectionComponent.clearSelection();
-                    } else {
-                        self.selectionComponent.selectAll();
-                    }
-                });
-
-                this.query();
             })
             .on('formatchange', function(){
                 this.trigger('change', {});
-                this.query({ new : true});
+                this.query({ 'new' : true});
             })
             .on('change', function(selected){
 
