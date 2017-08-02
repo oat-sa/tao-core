@@ -13,12 +13,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
 /**
- * A resource selector component
- *
- *
+ * A list component mostly used as a data viewer/selector for the resource selector.
+ * The data flow works on the query/update model:
+ * @example
+ * resourceListFactory(container, config)
+ *     .on('query', function(params){
+ *            fectch('someUrl', params).then(nodes){
+ *               this.update(nodeData, params);
+ *            }
+ *     });
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -38,20 +45,57 @@ define([
         multiple: true
     };
 
+    /**
+     * The factory that creates the resource list component
+     *
+     * @param {jQueryElement} $container - where to append the component
+     * @param {Object} config - the component config
+     * @param {String} config.classUri - the root Class URI
+     * @param {Objet[]} [config.nodes] - the nodes to preload
+     * @param {String} [config.icon] - the icon class to show close to the resources
+     * @param {Boolean} [config.multiple = true] - multiple vs unique selection
+     * @returns {resourceList} the component
+     */
     return function resourceListFactory($container, config){
         var $list;
         var $loadMore;
 
+        /**
+         * A selectable component
+         * @typedef {ui/component} resourceList
+         */
         var resourceList = selectable(component({
 
+            /**
+             * Ask for a query (forward the event)
+             * @param {Object} [params] - the query parameters
+             * @param {String} [params.classUri] - the class URI
+             * @param {Number} [params.offset = 0] - for paging
+             * @param {Number} [params.limit] - for paging
+             * @returns {resourceList} chains
+             * @fires resourceList#query
+             */
             query : function query(params){
                 if(!this.is('loading')){
+
+                    /**
+                     * Formulate the query
+                     * @event resourceList#query
+                     * @param {Object} params
+                     */
                     this.trigger('query', _.defaults(params || {}, {
                         classUri : this.classUri
                     }));
                 }
             },
 
+            /**
+             * Update the component with the given nodes
+             * @param {Object[]} nodes - the tree nodes, with at least a URI as key and as property
+             * @param {Object} params - the query parameters
+             * @returns {resourceList} chains
+             * @fires resourceList#update
+             */
             update: function update(resources){
                 var self = this;
 
@@ -73,12 +117,16 @@ define([
                         hider.hide($loadMore);
                     }
 
+                    /**
+                     * The list has been updated
+                     * @event resourceList#update
+                     */
                     this.trigger('update');
                 }
             }
         }, defaultConfig));
 
-        return resourceList
+        resourceList
             .setTemplate(listTpl)
             .on('init', function(){
 
@@ -93,6 +141,7 @@ define([
                 $list     = $component.children('ul');
                 $loadMore = $('.more', $component);
 
+                //selection
                 $component.on('click', 'li', function(e){
                     var $instance = $(e.currentTarget);
                     e.preventDefault();
@@ -107,6 +156,8 @@ define([
                         self.select($instance.data('uri'));
                     }
                 });
+
+                //load next page
                 $loadMore.on('click', function(e){
                     e.preventDefault();
 
@@ -114,7 +165,6 @@ define([
                         offset: _.size(self.getNodes())
                     });
                 });
-
 
                 //initial data loading
                 if(this.config.nodes){
@@ -128,8 +178,13 @@ define([
             })
             .on('update', function(){
                 this.setState('loading', false);
-            })
-            .init(config);
+            });
 
+        //always defer the initialization to let consumers listen for init and render events.
+        _.defer(function(){
+            resourceList.init(config);
+        });
+
+        return resourceList;
     };
 });

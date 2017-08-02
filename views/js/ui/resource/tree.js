@@ -88,19 +88,19 @@ define([
      * @param {Objet[]} [config.nodes] - the nodes to preload
      * @param {String} [config.icon] - the icon class to show close to the resources
      * @param {Boolean} [config.multiple = true] - multiple vs unique selection
-     * @param {Boolean} [config.multiple = true] - multiple vs unique selection
      * @returns {resourceTree} the component
      */
     return function resourceTreeFactory($container, config){
 
         /**
-         * @typedef {Object} resourceTree
+         * A selectable component
+         * @typedef {ui/component} resourceTree
          */
         var resourceTree = selectable(component({
 
             /**
              * Ask for a query (forward the event)
-             * @param {Object} params - the query parameters
+             * @param {Object} [params] - the query parameters
              * @param {String} [params.classUri] - the current node class URI
              * @param {Number} [params.offset = 0] - for paging
              * @param {Number} [params.limit] - for paging
@@ -152,8 +152,6 @@ define([
                     acc += treeNodeTpl(node);
                     return acc;
                 };
-
-
 
                 if(this.is('rendered')){
                     $component = this.getElement();
@@ -260,6 +258,7 @@ define([
                 this.setState('loading', false);
             });
 
+        //always defer the initialization to let consumers listen for init and render events.
         _.defer(function(){
             resourceTree.init(config);
         });

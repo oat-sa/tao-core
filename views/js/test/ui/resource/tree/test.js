@@ -13,10 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
 /**
+ * Test the module ui/resource/tree
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -107,7 +109,7 @@ define([
 
         QUnit.expect(10);
 
-        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+        assert.equal($('.resource-tree', $container).length, 0, 'No resource tree in the container');
 
         resourceTreeFactory($container, {
             classUri : 'http://bertao/tao.rdf#i1491898694361191',
