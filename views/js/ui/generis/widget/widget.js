@@ -153,8 +153,12 @@ define([
             var $input = this.getElement().find('.right :input');
             var self = this;
 
-            $input.on('change blur', function (e) {
-                self.trigger(e.type);
+            $input.on('change blur', function () {
+                /**
+                 * @event widget#change
+                 * @param {Object} widgetData
+                 */
+                self.trigger('change', self.serialize());
             });
         });
 

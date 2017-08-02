@@ -133,6 +133,8 @@ define([
              * Toggles loading state
              * @param {Boolean} [isLoading = undefined]
              * @returns {this}
+             * @fires loading
+             * @fires loaded
              */
             toggleLoading: function toggleLoading(isLoading) {
                 if (typeof isLoading === 'undefined') {
@@ -141,13 +143,13 @@ define([
 
                 if (isLoading) {
                     /**
-                     * @event ui/generis/form#loading
+                     * @event form#loading
                      */
                     this.trigger('loading');
                     this.disable();
                 } else {
                     /**
-                     * @event ui/generis/form#loaded
+                     * @event form#loaded
                      */
                     this.trigger('loaded');
                     this.enable();
@@ -171,7 +173,11 @@ define([
 
             $form.on('submit', function (e) {
                 e.preventDefault();
-                self.trigger('submit');
+                /**
+                 * @event form#submit
+                 * @param {Object[]} formData
+                 */
+                self.trigger('submit', self.serializeArray());
                 return false;
             });
         });
