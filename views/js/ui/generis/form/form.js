@@ -131,7 +131,7 @@ define([
 
             /**
              * Toggles loading state
-             * @param {Boolean} [isLoading = null]
+             * @param {Boolean} [isLoading = undefined]
              * @returns {this}
              */
             toggleLoading: function toggleLoading(isLoading) {
@@ -140,8 +140,16 @@ define([
                 }
 
                 if (isLoading) {
+                    /**
+                     * @event ui/generis/form#loading
+                     */
+                    this.trigger('loading');
                     this.disable();
                 } else {
+                    /**
+                     * @event ui/generis/form#loaded
+                     */
+                    this.trigger('loaded');
                     this.enable();
                 }
 

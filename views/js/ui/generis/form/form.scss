@@ -24,22 +24,6 @@
             text-shadow: 1px 1px 0 #0b4a74;
         }
     }
-
-    &.loading::before {
-        content: '';
-        @include border-box();
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 90px;
-        height: 90px;
-        margin-top: -45px;
-        margin-left: -45px;
-        border-radius: 50%;
-        border: 3px solid #ccc;
-        border-top-color: #07d;
-        animation: spinner .6s linear infinite;
-    }
 }
 
 @include keyframes('spinner') {
