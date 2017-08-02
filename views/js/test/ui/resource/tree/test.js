@@ -80,7 +80,6 @@ define([
 
     QUnit.module('Behavior');
 
-
     QUnit.asyncTest('Lifecycle', function(assert) {
         var $container = $('#qunit-fixture');
 
@@ -276,6 +275,7 @@ define([
             QUnit.start();
         });
     });
+
 
     QUnit.module('Visual');
 

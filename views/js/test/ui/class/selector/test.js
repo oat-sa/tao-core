@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -76,7 +76,6 @@ define([
 
 
     QUnit.module('Behavior');
-
 
     QUnit.asyncTest('Lifecycle', function(assert) {
         var $container = $('#qunit-fixture');
@@ -225,7 +224,6 @@ define([
         });
     });
 
-
     QUnit.asyncTest('default value not in the classes', function(assert) {
 
         var $container = $('#qunit-fixture');
@@ -291,5 +289,4 @@ define([
             QUnit.start();
         });
     });
-
 });

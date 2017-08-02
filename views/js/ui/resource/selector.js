@@ -260,7 +260,7 @@ define([
             .on('render', function(){
                 var self = this;
 
-                //we ensure the subcomponents are rendered
+                //we ensure the sub-components are rendered
                 return new Promise(function(resolve){
                     var $component = self.getElement();
 

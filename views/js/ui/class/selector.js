@@ -98,9 +98,9 @@ define([
                             .removeClass('empty');
 
                         /**
-                        * @event classSelector#change
-                        * @param {String} uri - the selected class URI
-                        */
+                         * @event classSelector#change
+                         * @param {String} uri - the selected class URI
+                         */
                         this.trigger('change', uri);
                     }
                 }
@@ -159,6 +159,5 @@ define([
         });
 
         return classSelector;
-
     };
 });

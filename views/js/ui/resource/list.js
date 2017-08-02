@@ -47,7 +47,7 @@ define([
     };
 
     /**
-     * The factory that creates the resource list component
+     * Builds the resource list component
      *
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config

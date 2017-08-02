@@ -13,10 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
 /**
+ * Test the ui/resource/selector module
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -136,7 +138,6 @@ define([
             assert.equal($('.selection .search input', $element).length, 1, 'The component has the pattern input');
             assert.equal($('.selection .selection-control input', $element).length, 1, 'The component has the selection control');
 
-
             assert.equal($('main', $element).length, 1, 'The component has the viewer container');
             assert.equal($('footer .get-selection', $element).length, 1, 'The component has the selection indicator');
 
@@ -186,7 +187,6 @@ define([
                 });
 
                 $listSwitch.click();
-
             })
             .on('query', function(params){
                 if(params.format === 'tree'){
@@ -248,7 +248,6 @@ define([
                 assert.ok($node2.hasClass('selected'), 'The node2 is now selected');
                 assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'object', 'The selection contains the node2');
 
-
                 this.clearSelection();
                 selection = this.getSelection();
 
@@ -274,7 +273,6 @@ define([
                 assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'object', 'The selection contains the node2');
 
                 QUnit.start();
-
             })
             .on('query', function(params){
                 this.update(listData, params);
@@ -341,13 +339,13 @@ define([
                 });
 
                 $subClass.click();
-
             })
             .on('query.bar', function(params){
                 this.update(listData, params);
                 this.off('query.bar');
             });
     });
+
 
     QUnit.module('Visual');
 

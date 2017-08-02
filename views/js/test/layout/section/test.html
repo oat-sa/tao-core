@@ -9,16 +9,16 @@
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
         <script  type="text/javascript">
-
+            
             //don't start the test now
             QUnit.config.autostart = false;
-
+            
             //load the config
             require(['/tao/ClientConfig/config'], function(){
-
+                
                 //load the test
                 require(['test/layout/section/test'], function(){
-
+                    
                     //Tests loaded, run tests
                     QUnit.start();
                 });
@@ -56,7 +56,7 @@
                     <div class="content-wrapper content-panel" id="panel-manage_acl"></div>
                 </div>
             </div>
-
+ 
             <div class="single">
                 <div class="section-container">
                     <ul class="tab-container">
@@ -64,9 +64,11 @@
                             <a href="#panel-manage_items" data-url="http://tao.localdomain/taoItems/Items/index" title="Manage items">Manage items</a>
                         </li>
                     </ul>
+
                     <div class="content-wrapper content-panel" id="panel-manage_items"></div>
                 </div>
             </div>
-        </div>
+ 
+        </div>  
     </body>
 </html>
