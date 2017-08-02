@@ -50,6 +50,13 @@ module.exports = function(grunt) {
                 options : {
                     debounceDelay : 1000
                 }
+            },
+            generissass : {
+                files : [ '../js/ui/generis/**/*.scss' ],
+                tasks : [ 'sass:generis', 'notify:taosass' ],
+                options : {
+                    debounceDelay : 1000
+                }
             }
         },
 
