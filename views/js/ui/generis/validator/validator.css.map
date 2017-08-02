@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAAA,qBAAsB,CAClB,KAAK,CAAE,OAAO,CACd,UAAU,CAAE,KAAK,CACjB,KAAK,CAAE,GAAG,CAEV,yGAEe,CACX,YAAY,CAAE,OAAO,CACrB,KAAK,CAAE,OAAO",
-"sources": ["validator.scss"],
+"mappings": "AAEA,qBAAsB,CAClB,KAAK,CCED,OAAgB,CDDpB,UAAU,CAAE,KAAK,CACjB,KAAK,CAAE,GAAG,CAEV,yGAEe,CACX,YAAY,CCLZ,OAAgB,CDMhB,KAAK,CCNL,OAAgB",
+"sources": ["validator.scss","../../../../scss/inc/_colors.scss"],
 "names": [],
 "file": "validator.css"
 }

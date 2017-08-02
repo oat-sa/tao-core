@@ -1,7 +1,8 @@
+@import 'inc/bootstrap';
+
 .ui-generis-form {
-    background-color: #f3f1ef;
-    border: 1px solid #ddd;
-    border-radius: 2px;
+    @include simple-border($uiGeneralContentBorder);
+    background-color: $uiClickableDefaultBg;
     padding: 20px;
     position: relative;
     margin: 20px;
@@ -16,7 +17,7 @@
         text-align: right;
 
         button {
-            background-color: #266d9c;
+            background-color: $info;
             border-radius: 3px;
             height: 30px;
             margin: 0 4px;
@@ -26,7 +27,7 @@
 
     &.loading::before {
         content: '';
-        box-sizing: border-box;
+        @include border-box();
         position: absolute;
         top: 50%;
         left: 50%;
@@ -41,6 +42,6 @@
     }
 }
 
-@keyframes spinner {
+@include keyframes('spinner') {
     to { transform: rotate(360deg); }
 }

@@ -1,3 +1,5 @@
+@import 'inc/bootstrap';
+
 .ui-generis-widget {
     margin: 10px 0px;
 
@@ -17,10 +19,9 @@
         > select,
         > textarea {
             background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 2px;
-            color: #222;
-            font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
+            @include simple-border();
+            color: $textColor;
+            font-family: $regularFont;
             padding: 8px;
             width: 100%;
         }
@@ -32,9 +33,9 @@
         }
 
         > .check-box-input {
-            color: #222;
+            color: $textColor;
             display: inline-block;
-            font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
+            font-family: $regularFont;
             padding: 4px;
             width: 100%;
 
@@ -47,13 +48,13 @@
         select.error,
         textarea.error,
         .check-box-input.error {
-            border-color: #ba122b;
-            color: #ba122b;
+            border-color: $error;
+            color: $error;
         }
     }
 
     .validation-container {
-        color: #ba122b;
+        color: $error;
         text-align: right;
         width: 99%;
     }
