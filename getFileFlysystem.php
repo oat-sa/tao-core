@@ -58,8 +58,10 @@ $fileSystem = $fsService->getFileSystem($source->getOption($source::OPTION_FILES
 $source->setFileSystem($fileSystem);
 
 try {
+    $ttl = isset($options['ttl']) && $options['ttl'] ? $options['ttl'] : (30 * 60); //30 min default
     $path = $source->getFilePathFromUrl($url);
     $stream = $source->getFileStream($path);
+    header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + $ttl));
     tao_helpers_Http::returnStream($stream, $source->getMimetype($path));
     $stream->detach();
 } catch (\tao_models_classes_FileNotFoundException $e) {

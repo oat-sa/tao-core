@@ -39,7 +39,7 @@ define([
                 mode = 'html';
             }
             if (!_.contains(['html', 'qti'], mode)) {
-                throw new Error('Unknown mode ' + mode)
+                throw new Error('Unknown mode ' + mode);
             }
             dtdMode = mode;
             return this;
@@ -152,7 +152,7 @@ define([
          * @returns {*}
          * @private
          */
-        var _normalizeElement = function (element) {
+        function _normalizeElement (element) {
 
             // jQuery or DOM element
             if (_.isObject(element) && !_.isArray(element)) {
@@ -171,7 +171,7 @@ define([
             }
             // invalid input
             throw new Error('Unknown element ' + element);
-        };
+        }
 
 
         /**
@@ -181,14 +181,15 @@ define([
          * For licensing, see LICENSE.md or http://ckeditor.com/license
          */
         dtds.html = (function () {
-            'use strict';
-
             var X = _.extend,
                 Y = function (source, removed) {
-                    var substracted = _.cloneDeep(source);
-                    for (var i = 1; i < arguments.length; i++) {
+                    var substracted = _.cloneDeep(source),
+                        i,
+                        name;
+
+                    for (i = 1; i < arguments.length; i++) {
                         removed = arguments[i];
-                        for (var name in removed)
+                        for (name in removed)
                             delete substracted[name];
                     }
                     return substracted;
@@ -215,7 +216,7 @@ define([
             // Flow elements set consists of phrasing elements set.
             // X( F, P );
 
-            var P = {}, F = {},
+            var dtd, P = {}, F = {},
             // Intersection of flow elements set and phrasing elements set.
                 PF = {
                     a: 1,
@@ -340,7 +341,7 @@ define([
             // Flow elements := FO + P + DFO
             X(F, FO, P, DFO);
 
-            var dtd = {
+            dtd = {
                 a: Y(P, {
                     a: 1,
                     button: 1
@@ -645,7 +646,8 @@ define([
                     nav: 1,
                     p: 1,
                     pre: 1,
-                    section: 1
+                    section: 1,
+                    table: 1
                 },
 
                 /**
@@ -958,7 +960,7 @@ define([
             isParentOf: isParentOf,
             getMode: getMode,
             setMode: setMode
-        }
+        };
     }());
 
     return dtdHandler;

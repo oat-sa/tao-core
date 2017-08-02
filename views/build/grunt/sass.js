@@ -5,12 +5,10 @@ module.exports = function(grunt) {
 
     grunt.config.merge({
         sass : {
-            options : {
-                noCache: true,
-                unixNewlines : true,
-                loadPath : ['../scss/', '../js/lib/'],
-                lineNumbers : false,
-                style : 'compressed'
+            options: {
+                includePaths : [ '../scss/', '../js/lib/' ],
+                outputStyle : 'compressed',
+                sourceMap : true
             },
             tao: {
                 files : {
