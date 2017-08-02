@@ -914,7 +914,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('12.2.2');
         }
 
-        $this->skip('12.2.2', '12.5.0');
+        $this->skip('12.2.2', '12.5.1');
     }
 
     private function migrateFsAccess() {
