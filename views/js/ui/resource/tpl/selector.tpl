@@ -10,6 +10,9 @@
     <nav class="selection">
         <div class="search">
             <input type="text" placeholder="{{__ 'Search'}}" />
+            {{# if filters }}
+            <a href="#" class="filters-opener" title="{{__ 'Advanced search, add filters'}}"><span class="icon-add"></span></a>
+            {{/if}}
         </div>
         <div class="selection-control">
             <label>
@@ -17,6 +20,9 @@
                 <span class="icon-checkbox"></span>
             </label>
         </div>
+        {{# if filters }}
+        <div class="filters-container folded"></div>
+        {{/if}}
     </nav>
 
     <main></main>

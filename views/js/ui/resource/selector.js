@@ -46,9 +46,10 @@ define([
     'ui/class/selector',
     'ui/resource/tree',
     'ui/resource/list',
+    'ui/resource/filters',
     'tpl!ui/resource/tpl/selector',
     'css!ui/resource/css/selector.css',
-], function ($, _, __, Promise, component, classesSelectorFactory, treeFactory, listFactory, selectorTpl) {
+], function ($, _, __, Promise, component, classesSelectorFactory, treeFactory, listFactory, filtersFactory, selectorTpl) {
     'use strict';
 
 
@@ -56,6 +57,7 @@ define([
         type : __('resources'),
         icon : 'item',
         multiple : true,
+        filters: false,
         formats : {
             list : {
                 icon  : 'icon-ul',
@@ -94,6 +96,8 @@ define([
         var $selectNum;
         var $selectCtrl;
         var $selectCtrlLabel;
+        var $filterToggle;
+        var $filterContainer;
 
         var resourceSelectorApi = {
 
@@ -134,6 +138,19 @@ define([
                 return this;
             },
 
+            getSearch : function getSearch(){
+                var search = '';
+
+                if(this.is('rendered')){
+                    if(this.filterValues){
+                        search = this.filterValues;
+                    } else {
+                        search = $searchField.val();
+                    }
+                }
+                return search;
+            },
+
             /**
              * Ask for a query (forward the event)
              * @param {Object} [params] - the query parameters
@@ -146,19 +163,23 @@ define([
              * @fires resourceSelector#query
              */
             query : function query(params){
+                var defaultParams;
                 if(this.is('rendered')){
+
+                    params = params || {};
+                    defaultParams = {
+                        classUri: this.classUri,
+                        format:   this.format,
+                        limit  : this.config.limit,
+                        search : JSON.stringify(this.getSearch())
+                    };
 
                     /**
                      * Formulate the query
                      * @event resourceSelector#query
                      * @param {Object} params - see format above
                      */
-                    this.trigger('query', _.defaults(params || {}, {
-                        classUri: this.classUri,
-                        format:   this.format,
-                        pattern:  $searchField.val(),
-                        limit  : this.config.limit
-                    }));
+                    this.trigger('query', _.defaults(params, defaultParams));
                 }
                 return this;
             },
@@ -267,6 +288,8 @@ define([
                     $classContainer  = $('.class-context', $component);
                     $resultArea      = $('main', $component);
                     $searchField     = $('.search input', $component);
+                    $filterToggle    = $('.filters-opener', $component);
+                    $filterContainer = $('.filters-container', $component);
                     $viewFormats     = $('.context > a', $component);
                     $selectNum       = $('.selected-num', $component);
                     $selectCtrl      = $('.selection-control input', $component);
@@ -297,6 +320,31 @@ define([
                             self.selectionComponent.selectAll();
                         }
                     });
+
+                    if(self.config.filters !== false){
+                        $filterToggle.on('click', function(e){
+                            e.preventDefault();
+                            $filterContainer.toggleClass('folded');
+                        });
+                        filtersFactory($filterContainer, {
+                            classUri : self.classUri,
+                            data     : self.config.filters
+                        })
+                        .on('apply', function(values){
+                            $filterContainer.addClass('folded');
+
+                            self.filterValues = _.reduce(values, function(acc, value){
+                                if(!_.isEmpty(value.name) && !_.isEmpty(value.value)){
+                                    acc[value.name] = value.value;
+                                }
+                                return acc;
+                            }, {});
+
+                            self.query({
+                                'new' : true
+                            });
+                        });
+                    }
 
                     //initialize the class selector
                     self.classSelector = classesSelectorFactory($classContainer, self.config);

@@ -1,0 +1,26 @@
+.filters {
+    position: relative;
+    height: 100%;
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
+    .ui-generis-form {
+        margin: 0;
+        padding: 10px;
+        width: 100%;
+        background-color: $uiClickableDefaultBg;
+        border: none;
+        h2 {
+            margin: 0;
+        }
+        .left {
+            width: 100%;
+        }
+        .toolbar {
+            margin: 0;
+        }
+    }
+}

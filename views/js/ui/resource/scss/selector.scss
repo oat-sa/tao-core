@@ -1,6 +1,7 @@
 @import "inc/bootstrap";
 @import "resource-list";
 @import "resource-tree";
+@import "filters";
 
 .resource-selector{
     position: relative;
@@ -62,7 +63,6 @@
 
     .selection {
 
-
         @include flex-container(nowrap, row);
 
         .selection-control {
@@ -93,7 +93,7 @@
                 @include tao-icon-setup;
                 @include icon-find;
                 position: absolute;
-                right: 12px;
+                left: 12px;
                 top: 12px;
                 opacity: .4;
             }
@@ -102,9 +102,39 @@
                 max-width: inherit;
                 width: 100%;
                 padding: 4px;
+                padding-left: 25px;
+            }
+
+            & > a.filters-opener {
+                position: absolute;
+                right: 12px;
+                top: 10px;
+
+                @include font-size(16);
+                text-decoration: none;
             }
         }
+        .filters-container {
+            position: absolute;
+            width: 100%;
+            background-color: $uiClickableDefaultBg;
+            border: solid 1px $uiGeneralContentBorder;
+            @include border-radius-bottom(3);
+            @include box-shadow;
+            left: 0;
+            top: 80px;
+            overflow-y: auto;
+            z-index: 100;
+            max-height: 400px;
+            @include transition(max-height, 300ms, ease);
 
+            &.folded {
+                overflow: hidden;
+                max-height: 0;
+                border-width: 0;
+                @include transition(max-height, 300ms, ease);
+            }
+        }
     }
 
     main {
