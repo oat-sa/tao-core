@@ -47,7 +47,7 @@ define([
     return function (uri) {
         var factory;
 
-        if (!uri || !_.contains(_widgetFactories, uri)) {
+        if (!uri || !_.contains(Object.keys(_widgetFactories), uri)) {
             factory = _widgetFactories[_default];
         } else {
             factory = _widgetFactories[uri];
