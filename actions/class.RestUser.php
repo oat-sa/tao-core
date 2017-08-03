@@ -40,7 +40,7 @@
  *       'password2' => 'ctl789@CTL789@',
  * ]
  */
-class tao_actions_RestUser extends tao_actions_RestResourceController
+class tao_actions_RestUser extends tao_actions_RestResource
 {
     /**
      * Return the form object to manage user edition or creation

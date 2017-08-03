@@ -26,7 +26,7 @@ use \oat\tao\helpers\RestExceptionHandler;
  *
  * The rest controller to manage resource APIs
  */
-class tao_actions_RestResourceController extends tao_actions_CommonModule
+class tao_actions_RestResource extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
 
@@ -204,7 +204,9 @@ class tao_actions_RestResourceController extends tao_actions_CommonModule
             $data['version'] = TAO_VERSION;
         }
 
-        $this->returnJson($data, 422);
+        header('HTTP/1.1 422 Unprocessable Entity');
+        Context::getInstance()->getResponse()->setContentHeader('application/json');
+        echo json_encode($data);
         exit(0);
     }
 
