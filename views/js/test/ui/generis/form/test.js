@@ -20,7 +20,7 @@ define([
     'jquery',
     'lodash',
     'ui/generis/form/form',
-    'json!test/ui/generis/data'
+    'json!test/ui/generis/data.json'
 ], function(
     $,
     _,
