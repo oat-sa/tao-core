@@ -23,8 +23,8 @@ define([
     'handlebars',
     'ui/component',
     'ui/generis/validator/validator',
-    'tpl!tao/ui/generis/widget/widget',
-    'css!tao/ui/generis/widget/widget'
+    'tpl!ui/generis/widget/widget',
+    'css!ui/generis/widget/widget'
 ], function (
     $,
     _,

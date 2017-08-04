@@ -21,8 +21,8 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'tpl!tao/ui/generis/validator/validator',
-    'css!tao/ui/generis/validator/validator'
+    'tpl!ui/generis/validator/validator',
+    'css!ui/generis/validator/validator'
 ], function (
     $,
     _,
