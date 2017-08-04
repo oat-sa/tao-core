@@ -86,6 +86,7 @@ define([
      * @param {String} [config.type] - describes the resource type
      * @param {Boolean} [config.multiple = true] - multiple vs unique selection
      * @param {Number} [config.limit = 30] - the default page size for data paging
+     * @param {Object|Boolean} [config.filters = false] - if not false the filters configuration
      * @returns {resourceSelector} the component
      */
     return function resourceSelectorFactory($container, config){
@@ -262,6 +263,13 @@ define([
                         this.selectionComponent.update(resources, params);
                     }
                 }
+            },
+
+            updateFilters : function updateFilters(filterConfig){
+                if(this.is('rendered') && filterConfig !== false && this.filtersComponent){
+                    this.filtersComponent.update(filterConfig);
+                }
+                return this;
             }
         };
 
@@ -322,11 +330,12 @@ define([
                     });
 
                     if(self.config.filters !== false){
+
                         $filterToggle.on('click', function(e){
                             e.preventDefault();
                             $filterContainer.toggleClass('folded');
                         });
-                        filtersFactory($filterContainer, {
+                        self.filtersComponent = filtersFactory($filterContainer, {
                             classUri : self.classUri,
                             data     : self.config.filters
                         })
@@ -353,6 +362,13 @@ define([
                         .on('change', function(uri){
                             if(uri && uri !== self.classUri){
                                 self.classUri = uri;
+
+                                if($filterContainer.length){
+                                    $filterContainer.addClass('folded');
+                                }
+
+                                self.trigger('classchange', uri);
+
                                 self.query({ 'new' : true });
                             }
                         });

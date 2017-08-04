@@ -17,6 +17,8 @@
  */
 
 /**
+ * A filter form to select the properties you want to filter
+ *
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -31,16 +33,18 @@ define([
     'use strict';
 
     var defaultConfig = {
-
+        title     : __('Filter by propety'),
+        applyLabel: __('Apply'),
     };
 
     /**
-     * Builds the resource list component
+     * Builds the filter component
      *
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
      * @param {String} config.classUri - the root Class URI
-     * @returns {} the component
+     * @param {String} config.data - the root Class URI
+     * @returns {filter} the component
      */
     return function filtersFactory($container, config){
 
@@ -48,37 +52,64 @@ define([
          * @typedef {ui/component}
          */
         var filters = component({
+
+            /**
+             * Get the filte values
+             * @returns {Object[]} the form values
+             */
             getValues : function getValues(){
                 if(this.is('rendered') && this.form){
                     return this.form.serializeArray();
                 }
                 return null;
+            },
+
+            /**
+             * Update the filter form
+             * @param {Object} data - the filtering data
+             * @param {Object} data.properties - the list of propeties used to filter
+             * @param {Object} data.ranges - the property ranges
+             * @return {filter} chains
+             * @fires filter#apply when the user wants to apply the filter
+             */
+            update : function update(data){
+                var self = this;
+                if(this.is('rendered')){
+
+                    this.getElement().empty();
+
+                    this.form = generisFormFactory({
+                        properties : data.properties,
+                        values     : data.ranges
+                    }, {
+                        submitText : this.config.applyLabel,
+                        title      : this.config.title
+                    }).on('submit', function(values){
+
+                        /**
+                         * Apply the filter values
+                         * @event filter#apply
+                         * @param {Object} values - the filter values
+                         */
+                        self.trigger('apply', values);
+                    })
+                    .render(this.getElement());
+                }
+                return this;
             }
         }, defaultConfig);
 
         filters
             .setTemplate(filtersTpl)
             .on('init', function(){
-                this.form = generisFormFactory({
-                    properties : this.config.data.properties,
-                    values     : this.config.data.ranges
-                }, {
-                    submitText: __('Apply'),
-                    title: __('Filtering')
-                });
 
                 this.render($container);
             })
             .on('render', function(){
-                var self = this;
 
-                var $element = this.getElement();
-
-                this.form
-                    .on('submit', function(values){
-                        self.trigger('apply', values);
-                    })
-                    .render($element);
+                if(this.config.data){
+                    this.update(this.config.data);
+                }
             });
 
         //always defer the initialization to let consumers listen for init and render events.
