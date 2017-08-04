@@ -142,7 +142,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             $parameters = parent::getRequestParameters();
         }
 
-        return$parameters;
+        return $parameters;
     }
 
     /**
