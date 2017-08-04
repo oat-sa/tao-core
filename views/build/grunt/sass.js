@@ -14,8 +14,7 @@ module.exports = function(grunt) {
                 files : {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
                     '../css/tao-3.css' : '../scss/tao-3.scss',
-                    '../css/layout.css' : '../scss/layout.scss',
-                    '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss'
+                    '../css/layout.css' : '../scss/layout.scss'
                 }
             },
             ckeditor : {
@@ -28,10 +27,12 @@ module.exports = function(grunt) {
                 files : {
                     '../js/ui/mediaplayer/css/player.css' : '../js/ui/mediaplayer/scss/player.scss',
                     '../js/ui/class/css/selector.css' : '../js/ui/class/scss/selector.scss',
-                    '../js/ui/resource/css/selector.css' : '../js/ui/resource/scss/selector.scss'
+                    '../js/ui/resource/css/selector.css' : '../js/ui/resource/scss/selector.scss',
+                    '../js/ui/generis/form/form.css' : '../js/ui/generis/form/form.scss',
+                    '../js/ui/generis/widget/widget.css' : '../js/ui/generis/widget/widget.scss',
+                    '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss'
                 }
-            },
-
+            }
         },
 
         watch: {
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
             },
             componentsass : {
                 files : ['../js/ui/**/*.scss'],
-                tasks : ['sass:component'],
+                tasks : ['sass:component', 'notify:taosass' ],
                 options : {
                     debounceDelay : 1000
                 }
