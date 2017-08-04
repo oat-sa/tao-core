@@ -69,9 +69,11 @@ define([
     });
 
     QUnit.cases([
+        { title : 'getValues' },
+        { title : 'update' }
     ]).test('Instance API ', function(data, assert) {
         var instance = filtersFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the method "' + data.title);
+        assert.equal(typeof instance[data.title], 'function', 'The filters exposes the method "' + data.title);
     });
 
 
@@ -100,35 +102,89 @@ define([
             QUnit.start();
         });
     });
-/*
+
     QUnit.asyncTest('Rendering', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(8);
+        QUnit.expect(11);
 
-        assert.equal($('.resource-list', $container).length, 0, 'No resource list in the container');
+        assert.equal($('.filters', $container).length, 0, 'No resource list in the container');
 
         filtersFactory($container, {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-            data : propertiesData
+            data : propertiesData,
+            title : 'Foo',
+            applyLabel : 'Bar'
         })
         .on('render', function(){
 
             var $element = this.getElement();
 
-            assert.equal($('.resource-list', $container).length, 1, 'The component has been inserted');
-            assert.equal($('.resource-list', $container)[0], $element[0], 'The component element is correct');
+            assert.equal($('.filters', $container).length, 1, 'The component has been inserted');
+            assert.equal($('.filters', $container)[0], $element[0], 'The component element is correct');
 
-            assert.equal($('li', $element).length, 25, 'The list has 25 nodes');
-            assert.equal($('li:first-child', $element).data('uri'), 'http://bertao/tao.rdf#i1491898771637894', 'The 1st list item has the correct URI');
-            assert.equal($('li:first-child', $element).text().trim(), 'Maths test 1', 'The 1st list item has the correct text content');
-            assert.equal($('li:last-child', $element).data('uri'), 'http://bertao/tao.rdf#i14918990131344188', 'The last list item has the correct URI');
-            assert.equal($('li:last-child', $element).text().trim(), 'Demo item 1', 'The last list item has the correct text content');
+            assert.equal($('form', $element).length, 1, 'The component contains a form');
+            assert.equal($('fieldset :input', $element).length, 3, 'The component contains 3 input fields');
+
+            assert.equal($('[name="http:\/\/www.w3.org\/2000\/01\/rdf-schema#label"]', $element).length, 1, 'The component contains the label field');
+            assert.equal($('[name="http:\/\/bertaodev\/tao.rdf#i15012259849560117""]', $element).length, 1, 'The component contains the lang field');
+
+            assert.equal($('h2', $element).length, 1, 'The component contains a title');
+            assert.equal($('h2', $element).text().trim(), 'Foo', 'The component has the correct title');
+            assert.equal($('.toolbar :submit', $element).length, 1, 'The component contains the apply button');
+            assert.equal($('.toolbar :submit', $element).text().trim(), 'Bar', 'The apply label is correct');
 
             QUnit.start();
         });
-    }); */
+    });
 
+    QUnit.asyncTest('getValues', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(10);
+
+        assert.equal($('.filters', $container).length, 0, 'No resource list in the container');
+
+        filtersFactory($container, {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            data : propertiesData,
+        })
+        .on('render', function(){
+
+            var $element = this.getElement();
+            var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
+            var $label   = $('[name="' + labelUri + '"]', $element);
+            var $apply   = $('.toolbar :submit', $element);
+            var values;
+
+            assert.equal($label.length, 1, 'The component has the label field');
+            assert.equal($apply.length, 1, 'The component has the apply button');
+
+            assert.equal($label.val(), '', 'The label value is empty');
+
+            values = this.getValues();
+
+            assert.equal(values[0].name, labelUri, 'The label has an entry');
+            assert.equal(values[0].value, '', 'The label is empty');
+
+            $label.val('a label');
+
+            values = this.getValues();
+
+            assert.equal(values[0].name, labelUri, 'The label has an entry');
+            assert.equal(values[0].value, 'a label', 'The label has the correct value');
+
+            this.on('apply', function(newValues){
+
+                assert.deepEqual(newValues, this.getValues(), 'The apply values are the component values');
+                assert.equal(values[0].name, labelUri, 'The label has an entry');
+                assert.equal(values[0].value, 'a label', 'The label has the correct value');
+                QUnit.start();
+            });
+
+            $apply.trigger('click');
+        });
+    });
 
 
     QUnit.module('Visual');

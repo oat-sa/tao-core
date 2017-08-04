@@ -1,5 +1,10 @@
 {
   "properties": [{
+    "uri": "http:\/\/www.w3.org\/2000\/01\/rdf-schema#label",
+    "label": "Label",
+    "widget": "http:\/\/www.tao.lu\/datatypes\/WidgetDefinitions.rdf#TextBox",
+    "validators": ["NotEmpty"]
+  }, {
     "uri": "http:\/\/bertaodev\/tao.rdf#i15016905057070224",
     "label": "Foo",
     "widget": "http:\/\/www.tao.lu\/datatypes\/WidgetDefinitions.rdf#TextBox",
@@ -10,12 +15,7 @@
     "widget": "http:\/\/www.tao.lu\/datatypes\/WidgetDefinitions.rdf#ComboBox",
     "range": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Languages",
     "position": 100
-  }, {
-    "uri": "http:\/\/www.w3.org\/2000\/01\/rdf-schema#label",
-    "label": "Label",
-    "widget": "http:\/\/www.tao.lu\/datatypes\/WidgetDefinitions.rdf#TextBox",
-    "validators": ["NotEmpty"]
-  }],
+zsh:1: command not found: q
   "ranges": {
     "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Languages": [{
       "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langda-DK",
