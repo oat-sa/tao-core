@@ -37,18 +37,6 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     protected $changePassword = false;
 
     /**
-     * Get class properties, remove password field to not expose it.
-     *
-     * @return array
-     */
-    protected function getClassProperties()
-    {
-        $properties = parent::getClassProperties();
-        unset($properties[PROPERTY_USER_PASSWORD]);
-        return $properties;
-    }
-
-    /**
      * Get the form data.
      * Set readOnly to login in case of edition.
      * Add password and password confirmation with different label depending creation or edition
@@ -66,62 +54,14 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
             }
         }
 
-        if ($this->isCreation()) {
-            $properties[] = [
-                'uri' => 'password1',
-                'label' => __('Password'),
-                'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
-            ];
-
-            $properties[] = [
-                'uri' => 'password2',
-                'label' => __('Repeat password'),
-                'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
-            ];
-        } else {
-            $properties[] = [
-                'uri' => 'password1',
-                'label' => __('New password'),
-                'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
-            ];
-
-            $properties[] = [
-                'uri' => 'password2',
-                'label' => __('Repeat new password'),
-                'widget' => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
-            ];
+        if ($this->isEdition()) {
+            $property[PROPERTY_USER_PASSWORD]['formValue'] = '';
         }
 
         return [
-            self::PROPERTIES => $this->formatProperties($properties),
-            self::RANGES => $this->formatRanges($this->ranges),
+            self::PROPERTIES => $properties,
+            self::RANGES => $this->ranges,
         ];
-    }
-
-    /**
-     * Bind data from parameters to form. Extract password and confirmation.
-     *
-     * @param array $parameters
-     * @return $this
-     */
-    public function bind(array $parameters = [])
-    {
-        parent::bind($parameters);
-
-        if (isset($parameters['password1'])) {
-            $this->formProperties['password1'] = [
-                'uri' => 'password1',
-                'formValue' => $parameters['password1'],
-            ];
-        }
-        if (isset($parameters['password2'])) {
-            $this->formProperties['password2'] = [
-                'uri' => 'password2',
-                'formValue' => $parameters['password2'],
-            ];
-        }
-
-        return $this;
     }
 
     /**
@@ -135,23 +75,17 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $report = parent::validate();
 
         // Validate passwords
-        $password1 = isset($this->formProperties['password1']['formValue'])
-            ? $this->formProperties['password1']['formValue']
-            : null;
-        $password2 = isset($this->formProperties['password2']['formValue'])
-            ? $this->formProperties['password2']['formValue']
+        $password = isset($this->formProperties[PROPERTY_USER_PASSWORD]['formValue'])
+            ? $this->formProperties[PROPERTY_USER_PASSWORD]['formValue']
             : null;
 
-        if (!is_null($password1) || !is_null($password2)) {
+        if (!is_null($password)) {
             try {
-                $this->validatePassword($password1);
-                if ($password1 != $password2) {
-                    throw new common_exception_ValidationFailed('password', __('Passwords do not match'));
-                }
+                $this->validatePassword($password);
                 $this->changePassword = true;
             } catch (common_exception_ValidationFailed $e) {
                 $subReport = common_report_Report::createFailure('Password: ' . $e->getMessage());
-                $subReport->setData('password');
+                $subReport->setData(PROPERTY_USER_PASSWORD);
                 $report->add($subReport);
             }
         }
@@ -204,13 +138,13 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     protected function validatePassword($password)
     {
         if (!(new tao_helpers_form_validators_NotEmpty())->evaluate($password)) {
-            throw new common_exception_ValidationFailed('password', __('Password is empty.'));
+            throw new common_exception_ValidationFailed(PROPERTY_USER_PASSWORD, __('Password is empty.'));
         }
 
         /** @var ValidatorInterface $validator */
         foreach (PasswordConstraintsService::singleton()->getValidators() as $validator) {
             if (!$validator->evaluate($password)) {
-                throw new common_exception_ValidationFailed('password', $validator->getMessage());
+                throw new common_exception_ValidationFailed(PROPERTY_USER_PASSWORD, $validator->getMessage());
             }
         }
     }
@@ -226,10 +160,8 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $values = parent::prepareValuesToSave();
         if ($this->changePassword) {
             $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()
-                ->encrypt($this->formProperties['password2']['formValue']);
+                ->encrypt($this->formProperties[PROPERTY_USER_PASSWORD]['formValue']);
         }
-        unset($values['password1']);
-        unset($values['password2']);
 
         return $values;
     }
@@ -242,17 +174,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
      */
     protected function isLoginAvailable($login)
     {
-        /** @var ComplexSearchService $search */
-        $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
-        $queryBuilder = $search->query();
-        $query = $search->searchType($queryBuilder , $this->getUserClass() , true)
-            ->add('http://www.tao.lu/Ontologies/generis.rdf#login')->equals($login)
-        ;
-
-        $queryBuilder->setCriteria($query);
-        $result = $search->getGateway()->search($queryBuilder);
-
-        return $result->count() > 0;
+        return \tao_models_classes_UserService::singleton()->loginAvailable($login);
     }
 
     /**

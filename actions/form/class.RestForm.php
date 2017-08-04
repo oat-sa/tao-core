@@ -174,9 +174,7 @@ class tao_actions_form_RestForm
     public function bind(array $parameters = [])
     {
         foreach ($this->formProperties as $key => $property) {
-            //$uri = tao_helpers_Uri::encode($property['uri']);
             if (isset($parameters[$property['uri']])) {
-                //$value = tao_helpers_Uri::decode($parameters[$property['uri']]);
                 $value = $parameters[$property['uri']];
             } else {
                 $value = '';

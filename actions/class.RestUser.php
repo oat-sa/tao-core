@@ -54,4 +54,41 @@ class tao_actions_RestUser extends tao_actions_RestResource
         $form->setServiceLocator($this->getServiceManager());
         return $form;
     }
+
+    /**
+     * Return the resource parameter
+     *
+     * @return core_kernel_classes_Resource
+     * @InvalidArgumentException If resource does not belong to CLASS_GENERIS_USER
+     */
+    protected function getResourceParameter()
+    {
+        $resource = parent::getResourceParameter();
+        if ($resource->isInstanceOf($this->getClass(CLASS_GENERIS_USER))) {
+            return $resource;
+        }
+
+        throw new InvalidArgumentException('Only user resource are allowed.');
+    }
+
+    /**
+     * Return the class parameter
+     *
+     * @return core_kernel_classes_Resource
+     * @InvalidArgumentException If class is not an instance CLASS_GENERIS_USER
+     */
+    protected function getClassParameter()
+    {
+        $class = parent::getClassParameter();
+        /** @var core_kernel_classes_Class $instance */
+        foreach ($this->getClass(CLASS_GENERIS_USER)->getSubClasses(true) as $instance) {
+            if ($instance->getUri() == $class->getUri()) {
+                return $class;
+            }
+        }
+
+        throw new InvalidArgumentException('Only user classes are allowed as classUri.');
+    }
+
+
 }
