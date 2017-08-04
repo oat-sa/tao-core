@@ -1,0 +1,99 @@
+.resource-tree{
+    position: relative;
+    height: 100%;
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            position: relative;
+            & > a {
+                height: 40px;
+                padding: 10px;
+                display:block;
+                width: 100%;
+                padding-right: 25px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                border-bottom: solid 1px $uiGeneralContentBorder;
+                color : $textColor;
+            }
+            &:before {
+                @include tao-icon-setup;
+                position: absolute;
+                right: 17px;
+                top: 12px;
+                width: 14px;
+                text-align:center;
+            }
+            &.class {
+                &:before {
+                    @include icon-down;
+                }
+                & > a {
+                    &:before {
+                        @include tao-icon-setup;
+                        @include icon-folder-open;
+                        color: $warning;
+                        margin-right: 4px;
+                        @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
+                    }
+                }
+                &.closed {
+                    &:before {
+                        @include icon-right;
+                    }
+                    & > a:before {
+                        @include icon-folder;
+                    }
+                    & > ul {
+                        display: none;
+                    }
+                }
+                &.empty:before {
+                    content: inherit;
+                }
+            }
+            &.instance {
+                &:before {
+                    @include icon-checkbox;
+                    color: $info;
+                }
+                &.selected:before {
+                    @include icon-checkbox-checked;
+                }
+                & > a > span  {
+                    color: $info;
+                    margin-right: 4px;
+                    @include font-size(16);
+                    vertical-align: top;
+                }
+                &.selected, &:hover {
+                    cursor: pointer;
+                    background-color: $uiClickableHoverBg;
+                    &:before{
+                        color: $textHighlight;
+                    }
+                    & > a, & > a > span {
+                        color: $textHighlight;
+                    }
+                    @include transition(all, 200ms, linear);
+                }
+
+
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}
