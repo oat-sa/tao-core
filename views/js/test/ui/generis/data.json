@@ -1,0 +1,83 @@
+{
+    "class" : {
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#User",
+        "label" : "User"
+    },
+    "properties" : [{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userFirstName",
+        "label" : "First Name",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox",
+        "value"  : "Bertrand"
+    },{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userLastName",
+        "label" : "Last Name",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox",
+        "value"  : "Chevrier"
+    },{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userMail",
+        "label" : "Mail",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox",
+        "value"  : "bertrand@taotesting.com"
+    },{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userDefLg",
+        "label" : "Data Language",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox",
+        "range" : "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
+        "value"  : "http://www.tao.lu/Ontologies/TAO.rdf#Langen-US"
+    },{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userUILg",
+        "label" : "Interface Language",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox",
+        "range" : "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
+        "value"  : "http://www.tao.lu/Ontologies/TAO.rdf#Langen-US"
+    },{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#login",
+        "label" : "Login",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox",
+        "required" : true,
+        "value"  : "bertrand"
+    },{
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userRoles",
+        "label" : "Roles",
+        "range" : "http://www.tao.lu/Ontologies/TAO.rdf#UserRole",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox",
+        "required" : true,
+        "values" : [
+            "http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole",
+            "http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole"
+        ]
+    }, {
+        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#password",
+        "label" : "Password",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox",
+        "required" : true
+    }],
+    "values" : {
+        "http://www.tao.lu/Ontologies/TAO.rdf#Languages" : [{
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#Langda-DK",
+            "label" : "Dansih"
+        },{
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#Langen-US",
+            "label" : "English"
+        },{
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR",
+            "label" : "French"
+        },{
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#Langde-DE",
+            "label" : "German"
+        }],
+        "http://www.tao.lu/Ontologies/TAO.rdf#UserRole" : [{
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole",
+            "label" : "Global Manager Role"
+        }, {
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole",
+            "label" : "System Administrator"
+        }, {
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor",
+            "label" : "Test Author"
+        }, {
+            "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole",
+            "label" : "Test Taker"
+        }]
+    }
+}

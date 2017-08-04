@@ -1,0 +1,86 @@
+.resource-list {
+    position: relative;
+    height: 100%;
+
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            position: relative;
+            height: 40px;
+            padding: 10px;
+            border-bottom: solid 1px $uiGeneralContentBorder;
+
+            @include transition(background-color, 200ms, linear);
+
+            a {
+                @include transition(color, 200ms, linear);
+                color: $textColor;
+                display: inline-block;
+                width: 100%;
+                padding-right: 25px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+
+                &:after {
+                    @include tao-icon-setup;
+                    @include icon-checkbox;
+                    color: $info;
+                    position: absolute;
+                    right: 17px;
+                    top: 12px;
+                }
+                &:hover {
+                    text-decoration: none;
+                }
+
+                & > span {
+                    color: $info;
+                    margin-right: 4px;
+                    @include font-size(16);
+                    vertical-align: top;
+                }
+            }
+
+            &.selected, &:hover {
+                background-color: $uiClickableHoverBg;
+                cursor: pointer;
+                @include transition(background-color, 200ms, linear);
+                a {
+                    color: $textHighlight;
+                    @include transition(color, 200ms, linear);
+
+                    &:after {
+                        color: $textHighlight;
+                    }
+                    & > span {
+                        color: $textHighlight;
+                    }
+                }
+            }
+            &.selected a:after {
+                @include icon-checkbox-checked;
+            }
+        }
+    }
+
+    .more {
+        height: 45px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    &.loading .more {
+        opacity: 0.65;
+        cursor : inherit;
+    }
+}
