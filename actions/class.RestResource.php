@@ -48,6 +48,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      *      'value', 'value2',
      *    )
      * )
+     *
      * @requiresRight classUri WRITE
      */
     public function create()
@@ -155,6 +156,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         }
 
         $uri = $this->getRequestParameter(self::RESOURCE_PARAMETER);
+        $uri = tao_helpers_Uri::decode($uri);
         if (empty($uri) || !common_Utils::isUri($uri)) {
             throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, __CLASS__);
         }
@@ -176,8 +178,9 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         }
 
         $uri = $this->getRequestParameter(self::CLASS_PARAMETER);
+        $uri = tao_helpers_Uri::decode($uri);
         if (empty($uri) || !common_Utils::isUri($uri)) {
-            throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, __CLASS__);
+            throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, __CLASS__);
         }
 
         return $this->getClass($uri);

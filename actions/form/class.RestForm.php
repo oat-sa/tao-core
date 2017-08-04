@@ -153,15 +153,15 @@ class tao_actions_form_RestForm
     }
 
     /**
-     * Get the form data, properties and ranges
+     * Get the form data, properties and ranges formatted to escape uri
      *
      * @return array
      */
     public function getData()
     {
         return [
-            self::PROPERTIES => $this->formProperties,
-            self::RANGES => $this->ranges,
+            self::PROPERTIES => $this->formatProperties($this->formProperties),
+            self::RANGES => $this->formatRanges($this->ranges),
         ];
     }
 
@@ -174,14 +174,14 @@ class tao_actions_form_RestForm
     public function bind(array $parameters = [])
     {
         foreach ($this->formProperties as $key => $property) {
-            if (isset($parameters[$property['uri']])) {
-                $value = $parameters[$property['uri']];
+            $uri = tao_helpers_Uri::encode($property['uri']);
+            if (isset($parameters[$uri])) {
+                $value = tao_helpers_Uri::decode($parameters[$uri]);
             } else {
                 $value = '';
             }
             $this->formProperties[$key]['formValue'] = $value;
         }
-        
         return $this;
     }
 
@@ -212,7 +212,7 @@ class tao_actions_form_RestForm
                         $validator = new $validatorClass();
                         if (!$validator->evaluate($value)) {
                             throw new common_exception_ValidationFailed(
-                                $property['uri'], $property['label'] . ' : ' . $validator->getMessage()
+                                tao_helpers_Uri::encode($property['uri']), $property['label'] . ' : ' . $validator->getMessage()
                             );
                         }
                     }
@@ -245,7 +245,7 @@ class tao_actions_form_RestForm
                     }
                     if (!$rangeValidated) {
                         throw new common_exception_ValidationFailed(
-                            $property['uri'], 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
+                            tao_helpers_Uri::encode($property['uri']), 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
                         );
                     }
 
@@ -352,7 +352,7 @@ class tao_actions_form_RestForm
         /** @var core_kernel_classes_Resource $rangeInstance */
         foreach ($range->getInstances(true) as $rangeInstance) {
             $options[] = [
-                'uri' => $rangeInstance->getUri(),
+                'uri' => tao_helpers_Uri::encode($rangeInstance->getUri()),
                 'label' => $rangeInstance->getLabel(),
             ];
         }
@@ -387,7 +387,7 @@ class tao_actions_form_RestForm
 
             if ($value instanceof core_kernel_classes_Resource) {
                 if (!is_null($range)) {
-                    $propertyValues[] = $value->getUri();
+                    $propertyValues[] = tao_helpers_Uri::encode($value->getUri());
                 } else {
                     $propertyValues[] = $value->getLabel();
                 }
@@ -441,5 +441,42 @@ class tao_actions_form_RestForm
             $values[$property['uri']] = $property['formValue'];
         }
         return $values;
+    }
+
+    /**
+     * Format an array of properties by escaping uris
+     *
+     * @param array $properties
+     * @return array
+     */
+    protected function formatProperties(array $properties)
+    {
+        foreach ($properties as &$property) {
+            $property['uri'] = tao_helpers_Uri::encode($property['uri']);
+            $property['widget'] = tao_helpers_Uri::encode($property['widget']);
+            $property['range'] = tao_helpers_Uri::encode($property['range']);
+        }
+        return $properties;
+    }
+
+    /**
+     * Format an array of ranges by escaping uris
+     *
+     * @param array $ranges
+     * @return array
+     */
+    protected function formatRanges(array $ranges)
+    {
+        $formattedRanges = [];
+        foreach ($ranges as $key => $range) {
+            $formattedKey = tao_helpers_Uri::encode($key);
+            $formattedRanges[$formattedKey] = [];
+            foreach ($range as $k => $r) {
+                $r['uri'] = tao_helpers_Uri::encode($r['uri']);
+                $formattedRanges[$formattedKey][$k] = $r;
+            }
+        }
+
+        return $formattedRanges;
     }
 }

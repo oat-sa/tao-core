@@ -57,12 +57,12 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
      */
     public function getData()
     {
-        $data = parent::getData();
-        $properties = $data[self::PROPERTIES];
+        $properties = $this->formProperties;
 
         foreach ($properties as $property) {
             if ($this->isEdition() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
                 $property['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
+                break;
             }
         }
 
@@ -92,8 +92,10 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
             ];
         }
 
-        $data[self::PROPERTIES] = $properties;
-        return $data;
+        return [
+            self::PROPERTIES => $this->formatProperties($properties),
+            self::RANGES => $this->formatRanges($this->ranges),
+        ];
     }
 
     /**
