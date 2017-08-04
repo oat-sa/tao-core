@@ -70,14 +70,24 @@ define([
     };
 
     /**
-     * Has the given node all it's children ?
-     * @param {jQueryElement} $node
-     * @returns {Boolean} true if the node needs more children
+     * Toggle the "more" button if the node is incomplete.
+     * Parse the whole tree from the given node.
+     * @param {jQueryElement} $node - the class node
      */
     var needMore = function needMore($node){
+        var $more  = $node.children('.more');
         var totalCount = $node.data('count');
         var instancesCount =  $node.children('ul').children('.instance').length;
-        return totalCount > 0 && instancesCount > 0 && instancesCount < totalCount;
+
+        if(totalCount > 0 && instancesCount > 0 && instancesCount < totalCount){
+            hider.show($more);
+        } else {
+            hider.hide($more);
+        }
+
+        $node.children('ul').find('.class').each(function(){
+            needMore($(this));
+        });
     };
 
     /**
@@ -167,12 +177,8 @@ define([
                         nodes = nodes[0].children || [];
                     }
                     $root.children('ul').append(_.reduce(nodes, reduceNode, ''));
-                    if(needMore($root)){
-                        hider.show($root.children('.more'));
-                    } else {
-                        hider.hide($root.children('.more'));
-                    }
 
+                    needMore($root);
                     indentChildren($component.children('ul'), 1);
 
                     $root.removeClass('closed');

@@ -37,6 +37,7 @@
                     color: $info;
                     position: absolute;
                     right: 17px;
+                    top: 12px;
                 }
                 &:hover {
                     text-decoration: none;
@@ -50,7 +51,7 @@
                 }
             }
 
-            &.selected, &:hover{
+            &.selected, &:hover {
                 background-color: $uiClickableHoverBg;
                 cursor: pointer;
                 @include transition(background-color, 200ms, linear);
@@ -60,12 +61,14 @@
 
                     &:after {
                         color: $textHighlight;
-                        @include icon-checkbox-checked;
                     }
                     & > span {
                         color: $textHighlight;
                     }
                 }
+            }
+            &.selected a:after {
+                @include icon-checkbox-checked;
             }
         }
     }

@@ -301,7 +301,7 @@ define([
                     assert.equal(params.pattern, 'foo', 'The pattern is contains the updated value');
                     QUnit.start();
                 });
-                $search.val('foo').trigger('keydown');
+                $search.val('foo').trigger('keyup');
             })
             .on('query.bar', function(params){
                 this.update(listData, params);

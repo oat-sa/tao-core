@@ -165,7 +165,9 @@ define([
              */
             query : function query(params){
                 var defaultParams;
-                if(this.is('rendered')){
+                if(this.is('rendered') && ! this.is('loading')){
+
+                    this.setState('loading', true);
 
                     params = params || {};
                     defaultParams = {
@@ -262,14 +264,17 @@ define([
                     } else {
                         this.selectionComponent.update(resources, params);
                     }
-                }
-            },
 
-            updateFilters : function updateFilters(filterConfig){
-                if(this.is('rendered') && filterConfig !== false && this.filtersComponent){
-                    this.filtersComponent.update(filterConfig);
+
+                    this.setState('loading', false);
+                },
+
+                updateFilters : function updateFilters(filterConfig){
+                    if(this.is('rendered') && filterConfig !== false && this.filtersComponent){
+                        this.filtersComponent.update(filterConfig);
+                    }
+                    return this;
                 }
-                return this;
             }
         };
 
@@ -304,12 +309,12 @@ define([
                     $selectCtrlLabel = $('.selection-control label', $component);
 
                     //the search field
-                    $searchField.on('keydown', function(e){
+                    $searchField.on('keyup', _.debounce(function(e){
                         var value = $(this).val().trim();
-                        if(value.length > 2 || e.which === 13){
+                        if(value.length > 2 || value.length === 0 || e.which === 13){
                             self.query({ 'new' : true });
                         }
-                    });
+                    }, 300));
 
                     //the format switcher
                     $viewFormats.on('click', function(e) {
