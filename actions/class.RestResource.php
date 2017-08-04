@@ -126,8 +126,8 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             $arguments = explode('&', $input);
             foreach ($arguments as $argument) {
                 $argumentSplited = explode('=', $argument);
-                $key = rawurldecode($argumentSplited[0]);
-                $value = rawurldecode($argumentSplited[1]);
+                $key = urldecode($argumentSplited[0]);
+                $value = urldecode($argumentSplited[1]);
                 if (substr($key, -2) == '[]') {
                     $key = substr($key, 0, strlen($key)-2);
                     if (!isset($parameters[$key])) {
