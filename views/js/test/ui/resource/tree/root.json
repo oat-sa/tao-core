@@ -1,0 +1,26 @@
+[{
+  "label": "Maths",
+  "type": "class",
+  "uri": "http:\/\/bertao\/tao.rdf#i1491898694361191",
+  "state": "open",
+  "children": [{
+    "label": "Geometry",
+    "type": "class",
+    "uri": "http:\/\/bertao\/tao.rdf#i1491898712953393",
+    "state": "closed",
+    "count": 3
+  }, {
+    "label": "Maths test 1",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i1491898771637894"
+  }, {
+    "label": "Maths test 2",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i1491898801542197"
+  }, {
+    "label": "Maths test 3",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918988061562101"
+  }],
+  "count": 5
+}]
