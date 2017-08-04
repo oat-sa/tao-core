@@ -146,7 +146,9 @@ define([
              * @fires resourceSelector#query
              */
             query : function query(params){
-                if(this.is('rendered')){
+                if(this.is('rendered') && ! this.is('loading')){
+
+                    this.setState('loading', true);
 
                     /**
                      * Formulate the query
@@ -240,6 +242,9 @@ define([
                     } else {
                         this.selectionComponent.update(resources, params);
                     }
+
+
+                    this.setState('loading', false);
                 }
             }
         };
@@ -273,12 +278,12 @@ define([
                     $selectCtrlLabel = $('.selection-control label', $component);
 
                     //the search field
-                    $searchField.on('keydown', function(e){
+                    $searchField.on('keyup', _.debounce(function(e){
                         var value = $(this).val().trim();
-                        if(value.length > 2 || e.which === 13){
+                        if(value.length > 2 || value.length === 0 || e.which === 13){
                             self.query({ 'new' : true });
                         }
-                    });
+                    }, 300));
 
                     //the format switcher
                     $viewFormats.on('click', function(e) {
