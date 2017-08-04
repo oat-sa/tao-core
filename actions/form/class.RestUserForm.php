@@ -55,9 +55,9 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         }
 
         if ($this->isEdition()) {
-            foreach ($this->formProperties as $key => $property) {
-                if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['value'])) {
-                    $this->formProperties[$key]['value'] = '';
+            foreach ($properties as $key => $property) {
+                if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($property['value'])) {
+                    $properties[$key]['value'] = '';
                     break;
                 }
             }
