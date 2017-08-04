@@ -74,12 +74,15 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     {
         $report = parent::validate();
 
-        // Validate passwords
-        $password = isset($this->formProperties[PROPERTY_USER_PASSWORD]['formValue'])
-            ? $this->formProperties[PROPERTY_USER_PASSWORD]['formValue']
-            : null;
+        $password = null;
+        foreach ($this->formProperties as $key => $property) {
+            if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
+                $password = $this->formProperties[$key]['formValue'];
+                break;
+            }
+        }
 
-        if (!is_null($password)) {
+        if ($this->isCreation() || ($this->isEdition() && !is_null($password))) {
             try {
                 $this->validatePassword($password);
                 $this->changePassword = true;
@@ -159,8 +162,15 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     {
         $values = parent::prepareValuesToSave();
         if ($this->changePassword) {
-            $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()
-                ->encrypt($this->formProperties[PROPERTY_USER_PASSWORD]['formValue']);
+            $password = null;
+            foreach ($this->formProperties as $key => $property) {
+                if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
+                    $password = $this->formProperties[$key]['formValue'];
+                    break;
+                }
+            }
+
+            $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($password);
         }
 
         return $values;
