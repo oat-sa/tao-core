@@ -98,11 +98,11 @@ class tao_actions_form_RestForm
             $property->feed();
             $widget = $this->getWidgetProperty($property);
 
-            if(is_null($widget) || $widget instanceof core_kernel_classes_Literal) {
+            if (is_null($widget) || $widget instanceof core_kernel_classes_Literal) {
                 continue;
             }
 
-            $propertyData =[
+            $propertyData = [
                 'uri' => $property->getUri(),
                 'label' => $property->getLabel(),
                 'widget' => $widget->getUri(),
@@ -117,7 +117,7 @@ class tao_actions_form_RestForm
             // Range values
             /** @var core_kernel_classes_Class $range */
             $range = $property->getRange();
-            if(!is_null($range) && $range->getUri() != 'http://www.w3.org/2000/01/rdf-schema#Literal') {
+            if (!is_null($range) && $range->getUri() != 'http://www.w3.org/2000/01/rdf-schema#Literal') {
                 $propertyData['range'] = $range->getUri();
                 $this->ranges[$range->getUri()] = $this->getRangeData($range);
             }
@@ -134,7 +134,7 @@ class tao_actions_form_RestForm
             $guiPropertyOrder = $property->getOnePropertyValue($this->getProperty(TAO_GUIORDER_PROP));
             if (!is_null($guiPropertyOrder)) {
 
-                $position = intval((string) $guiPropertyOrder);
+                $position = intval((string)$guiPropertyOrder);
                 $propertyData['position'] = $position;
                 $i = 0;
                 while (
@@ -160,8 +160,8 @@ class tao_actions_form_RestForm
     public function getData()
     {
         return [
-            self::PROPERTIES => $this->formatProperties($this->formProperties),
-            self::RANGES => $this->formatRanges($this->ranges),
+            self::PROPERTIES => $this->formProperties,
+            self::RANGES => $this->ranges,
         ];
     }
 
@@ -174,9 +174,10 @@ class tao_actions_form_RestForm
     public function bind(array $parameters = [])
     {
         foreach ($this->formProperties as $key => $property) {
-            $uri = tao_helpers_Uri::encode($property['uri']);
-            if (isset($parameters[$uri])) {
-                $value = tao_helpers_Uri::decode($parameters[$uri]);
+            //$uri = tao_helpers_Uri::encode($property['uri']);
+            if (isset($parameters[$property['uri']])) {
+                //$value = tao_helpers_Uri::decode($parameters[$property['uri']]);
+                $value = $parameters[$property['uri']];
             } else {
                 $value = '';
             }
@@ -343,7 +344,7 @@ class tao_actions_form_RestForm
      */
     protected function getRangeData(core_kernel_classes_Class $range)
     {
-        if(is_null($range) || $range instanceof core_kernel_classes_Literal) {
+        if (is_null($range) || $range instanceof core_kernel_classes_Literal) {
             return [];
         }
 
@@ -352,7 +353,7 @@ class tao_actions_form_RestForm
         /** @var core_kernel_classes_Resource $rangeInstance */
         foreach ($range->getInstances(true) as $rangeInstance) {
             $options[] = [
-                'uri' => tao_helpers_Uri::encode($rangeInstance->getUri()),
+                'uri' => $rangeInstance->getUri(),
                 'label' => $rangeInstance->getLabel(),
             ];
         }
@@ -387,12 +388,12 @@ class tao_actions_form_RestForm
 
             if ($value instanceof core_kernel_classes_Resource) {
                 if (!is_null($range)) {
-                    $propertyValues[] = tao_helpers_Uri::encode($value->getUri());
+                    $propertyValues[] = $value->getUri();
                 } else {
                     $propertyValues[] = $value->getLabel();
                 }
-            } elseif($value instanceof core_kernel_classes_Literal) {
-                $propertyValues[] = (string) $value;
+            } elseif ($value instanceof core_kernel_classes_Literal) {
+                $propertyValues[] = (string)$value;
             }
 
         }
@@ -443,40 +444,4 @@ class tao_actions_form_RestForm
         return $values;
     }
 
-    /**
-     * Format an array of properties by escaping uris
-     *
-     * @param array $properties
-     * @return array
-     */
-    protected function formatProperties(array $properties)
-    {
-        foreach ($properties as &$property) {
-            $property['uri'] = tao_helpers_Uri::encode($property['uri']);
-            $property['widget'] = tao_helpers_Uri::encode($property['widget']);
-            $property['range'] = tao_helpers_Uri::encode($property['range']);
-        }
-        return $properties;
-    }
-
-    /**
-     * Format an array of ranges by escaping uris
-     *
-     * @param array $ranges
-     * @return array
-     */
-    protected function formatRanges(array $ranges)
-    {
-        $formattedRanges = [];
-        foreach ($ranges as $key => $range) {
-            $formattedKey = tao_helpers_Uri::encode($key);
-            $formattedRanges[$formattedKey] = [];
-            foreach ($range as $k => $r) {
-                $r['uri'] = tao_helpers_Uri::encode($r['uri']);
-                $formattedRanges[$formattedKey][$k] = $r;
-            }
-        }
-
-        return $formattedRanges;
-    }
 }

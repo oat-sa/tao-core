@@ -19,7 +19,6 @@
  */
 
 use \oat\generis\model\OntologyAwareTrait;
-use \oat\tao\helpers\RestExceptionHandler;
 
 /**
  * Class tao_actions_RestResourceController
@@ -112,6 +111,33 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     }
 
     /**
+     * Get the request parameters
+     * If http method is POST read stream from php://input
+     * Otherwise call parent method
+     *
+     * @return array
+     */
+    public function getRequestParameters()
+    {
+        $parameters = [];
+
+        if ($this->isRequestPost()) {
+            $input = file_get_contents("php://input");
+            $arguments = explode('&', $input);
+            foreach ($arguments as $argument) {
+                $argumentSplited = explode('=', $argument);
+                $key = urldecode($argumentSplited[0]);
+                $value = urldecode($argumentSplited[1]);
+                $parameters[$key] = $value;
+            }
+        } else {
+            $parameters = parent::getRequestParameters();
+        }
+
+        return$parameters;
+    }
+
+    /**
      * Process the form submission
      * Bind the http data to form, validate, and save
      *
@@ -156,7 +182,6 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         }
 
         $uri = $this->getRequestParameter(self::RESOURCE_PARAMETER);
-        $uri = tao_helpers_Uri::decode($uri);
         if (empty($uri) || !common_Utils::isUri($uri)) {
             throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, __CLASS__);
         }
@@ -178,7 +203,6 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         }
 
         $uri = $this->getRequestParameter(self::CLASS_PARAMETER);
-        $uri = tao_helpers_Uri::decode($uri);
         if (empty($uri) || !common_Utils::isUri($uri)) {
             throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, __CLASS__);
         }
@@ -202,14 +226,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
 
         if ($withMessage) {
             $data['success'] = false;
-            $data['errorCode'] = 422;
-            $data['errorMsg'] = 'Some fields are invalids';
+            $data['errorCode'] = 400;
+            $data['errorMsg'] = 'Some fields are invalid';
             $data['version'] = TAO_VERSION;
         }
 
-        header('HTTP/1.1 422 Unprocessable Entity');
-        Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
+        $this->returnJson($data, 400);
         exit(0);
     }
 
@@ -222,13 +244,10 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     protected function returnFailure(Exception $exception, $withMessage=true)
     {
-        $handler = new RestExceptionHandler();
-        $handler->sendHeader($exception);
-
         $data = array();
         if ($withMessage) {
             $data['success'] = false;
-            $data['errorCode'] = $exception->getCode();
+            $data['errorCode'] = 500;
             $data['version'] = TAO_VERSION;
             if ($exception instanceof common_exception_UserReadableException) {
                 $data['errorMsg'] = $exception->getUserMessage();
@@ -238,8 +257,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             }
         }
 
-        Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
+        $this->returnJson($data, 500);
         exit(0);
     }
 
