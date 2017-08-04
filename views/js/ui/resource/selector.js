@@ -139,7 +139,11 @@ define([
                 return this;
             },
 
-            getSearch : function getSearch(){
+            /**
+             * Clear the search query to submit
+             * @returns {Object|String} the query
+             */
+            getSearchQuery : function getSearchQuery(){
                 var search = '';
 
                 if(this.is('rendered')){
@@ -157,7 +161,7 @@ define([
              * @param {Object} [params] - the query parameters
              * @param {String} [params.classUri] - the current node class URI
              * @param {String} [params.format] - the selected format
-             * @param {String} [params.pattern] - label filtering pattern
+             * @param {String} [params.search] - the search query
              * @param {Number} [params.offset = 0] - for paging
              * @param {Number} [params.limit] - for paging
              * @returns {resourceSelector} chains
@@ -165,16 +169,18 @@ define([
              */
             query : function query(params){
                 var defaultParams;
+                var search;
                 if(this.is('rendered') && ! this.is('loading')){
 
                     this.setState('loading', true);
 
                     params = params || {};
+                    search = this.getSearchQuery();
                     defaultParams = {
                         classUri: this.classUri,
                         format:   this.format,
                         limit  : this.config.limit,
-                        search : JSON.stringify(this.getSearch())
+                        search : _.isObject(search) || _.isArray(search) ? JSON.stringify(search) : search
                     };
 
                     /**
@@ -265,16 +271,21 @@ define([
                         this.selectionComponent.update(resources, params);
                     }
 
-
                     this.setState('loading', false);
-                },
-
-                updateFilters : function updateFilters(filterConfig){
-                    if(this.is('rendered') && filterConfig !== false && this.filtersComponent){
-                        this.filtersComponent.update(filterConfig);
-                    }
-                    return this;
                 }
+                return this;
+            },
+
+            /**
+             * Update the filters component
+             * @param {Object?} filterConfig - the new filter configuration
+             * @returns {resourceSelector} chains
+             */
+            updateFilters : function updateFilters(filterConfig){
+                if(this.is('rendered') && filterConfig !== false && this.filtersComponent){
+                    this.filtersComponent.update(filterConfig);
+                }
+                return this;
             }
         };
 

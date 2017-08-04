@@ -28,6 +28,8 @@ define([
 ], function($, filtersFactory, propertiesData) {
     'use strict';
 
+    var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
+
     QUnit.module('API');
 
     QUnit.test('module', function(assert) {
@@ -126,8 +128,8 @@ define([
             assert.equal($('form', $element).length, 1, 'The component contains a form');
             assert.equal($('fieldset :input', $element).length, 3, 'The component contains 3 input fields');
 
-            assert.equal($('[name="http:\/\/www.w3.org\/2000\/01\/rdf-schema#label"]', $element).length, 1, 'The component contains the label field');
-            assert.equal($('[name="http:\/\/bertaodev\/tao.rdf#i15012259849560117""]', $element).length, 1, 'The component contains the lang field');
+            assert.equal($('[name="' + labelUri + '"]', $element).length, 1, 'The component contains the label field');
+            assert.equal($('[name="http://bertaodev/tao.rdf#i15012259849560117"]', $element).length, 1, 'The component contains the lang field');
 
             assert.equal($('h2', $element).length, 1, 'The component contains a title');
             assert.equal($('h2', $element).text().trim(), 'Foo', 'The component has the correct title');
@@ -141,7 +143,7 @@ define([
     QUnit.asyncTest('getValues', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(10);
+        QUnit.expect(11);
 
         assert.equal($('.filters', $container).length, 0, 'No resource list in the container');
 
