@@ -46,9 +46,10 @@ define([
     'ui/class/selector',
     'ui/resource/tree',
     'ui/resource/list',
+    'ui/resource/filters',
     'tpl!ui/resource/tpl/selector',
     'css!ui/resource/css/selector.css',
-], function ($, _, __, Promise, component, classesSelectorFactory, treeFactory, listFactory, selectorTpl) {
+], function ($, _, __, Promise, component, classesSelectorFactory, treeFactory, listFactory, filtersFactory, selectorTpl) {
     'use strict';
 
 
@@ -56,6 +57,7 @@ define([
         type : __('resources'),
         icon : 'item',
         multiple : true,
+        filters: false,
         formats : {
             list : {
                 icon  : 'icon-ul',
@@ -84,6 +86,7 @@ define([
      * @param {String} [config.type] - describes the resource type
      * @param {Boolean} [config.multiple = true] - multiple vs unique selection
      * @param {Number} [config.limit = 30] - the default page size for data paging
+     * @param {Object|Boolean} [config.filters = false] - false or filters config, see ui/resource/filters
      * @returns {resourceSelector} the component
      */
     return function resourceSelectorFactory($container, config){
@@ -94,6 +97,8 @@ define([
         var $selectNum;
         var $selectCtrl;
         var $selectCtrlLabel;
+        var $filterToggle;
+        var $filterContainer;
 
         var resourceSelectorApi = {
 
@@ -135,32 +140,55 @@ define([
             },
 
             /**
+             * Clear the search query to submit
+             * @returns {Object|String} the query
+             */
+            getSearchQuery : function getSearchQuery(){
+                var search = '';
+
+                if(this.is('rendered')){
+                    if(this.filterValues){
+                        search = this.filterValues;
+                    } else {
+                        search = $searchField.val();
+                    }
+                }
+                return search;
+            },
+
+            /**
              * Ask for a query (forward the event)
              * @param {Object} [params] - the query parameters
              * @param {String} [params.classUri] - the current node class URI
              * @param {String} [params.format] - the selected format
-             * @param {String} [params.pattern] - label filtering pattern
+             * @param {String} [params.search] - the search query
              * @param {Number} [params.offset = 0] - for paging
              * @param {Number} [params.limit] - for paging
              * @returns {resourceSelector} chains
              * @fires resourceSelector#query
              */
             query : function query(params){
+                var defaultParams;
+                var search;
                 if(this.is('rendered') && ! this.is('loading')){
 
                     this.setState('loading', true);
+
+                    params = params || {};
+                    search = this.getSearchQuery();
+                    defaultParams = {
+                        classUri: this.classUri,
+                        format:   this.format,
+                        limit  : this.config.limit,
+                        search : _.isObject(search) || _.isArray(search) ? JSON.stringify(search) : search
+                    };
 
                     /**
                      * Formulate the query
                      * @event resourceSelector#query
                      * @param {Object} params - see format above
                      */
-                    this.trigger('query', _.defaults(params || {}, {
-                        classUri: this.classUri,
-                        format:   this.format,
-                        pattern:  $searchField.val(),
-                        limit  : this.config.limit
-                    }));
+                    this.trigger('query', _.defaults(params, defaultParams));
                 }
                 return this;
             },
@@ -243,9 +271,21 @@ define([
                         this.selectionComponent.update(resources, params);
                     }
 
-
                     this.setState('loading', false);
                 }
+                return this;
+            },
+
+            /**
+             * Update the filters component
+             * @param {Object?} filterConfig - the new filter configuration
+             * @returns {resourceSelector} chains
+             */
+            updateFilters : function updateFilters(filterConfig){
+                if(this.is('rendered') && filterConfig !== false && this.filtersComponent){
+                    this.filtersComponent.update(filterConfig);
+                }
+                return this;
             }
         };
 
@@ -272,6 +312,8 @@ define([
                     $classContainer  = $('.class-context', $component);
                     $resultArea      = $('main', $component);
                     $searchField     = $('.search input', $component);
+                    $filterToggle    = $('.filters-opener', $component);
+                    $filterContainer = $('.filters-container', $component);
                     $viewFormats     = $('.context > a', $component);
                     $selectNum       = $('.selected-num', $component);
                     $selectCtrl      = $('.selection-control input', $component);
@@ -303,6 +345,40 @@ define([
                         }
                     });
 
+                    //the advanced filters
+                    if(self.config.filters !== false){
+
+                        $filterToggle.on('click', function(e){
+                            e.preventDefault();
+                            $filterContainer.toggleClass('folded');
+                        });
+                        self.filtersComponent = filtersFactory($filterContainer, {
+                            classUri : self.classUri,
+                            data     : self.config.filters
+                        })
+                        .on('apply', function(values){
+                            $filterContainer.addClass('folded');
+
+                            //reformat the filter values as key/value
+                            self.filterValues = _.reduce(values, function(acc, value){
+                                if(!_.isEmpty(value.name) && !_.isEmpty(value.value)){
+                                    acc[value.name] = value.value;
+                                }
+                                return acc;
+                            }, {});
+
+                            //support only list for now
+                            //FIXME paging issue with filtered tree
+                            if(self.format !== 'list'){
+                                self.changeFormat('list');
+                            } else {
+                                self.query({
+                                    'new' : true
+                                });
+                            }
+                        });
+                    }
+
                     //initialize the class selector
                     self.classSelector = classesSelectorFactory($classContainer, self.config);
                     self.classSelector
@@ -310,6 +386,19 @@ define([
                         .on('change', function(uri){
                             if(uri && uri !== self.classUri){
                                 self.classUri = uri;
+
+                                //close the filters
+                                if($filterContainer.length){
+                                    $filterContainer.addClass('folded');
+                                }
+
+                                /**
+                                 * When the component's root class URI changes
+                                 * @event resourceSelector#classchange
+                                 * @param {String} classUri - the new class URI
+                                 */
+                                self.trigger('classchange', uri);
+
                                 self.query({ 'new' : true });
                             }
                         });

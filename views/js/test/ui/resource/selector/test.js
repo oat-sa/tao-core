@@ -298,14 +298,14 @@ define([
                 assert.equal($search.length, 1, 'The search field exists');
 
                 this.on('query', function(params){
-                    assert.equal(params.pattern, 'foo', 'The pattern is contains the updated value');
+                    assert.equal(params.search, 'foo', 'The pattern is contains the updated value');
                     QUnit.start();
                 });
                 $search.val('foo').trigger('keyup');
             })
             .on('query.bar', function(params){
                 this.update(listData, params);
-                assert.equal(params.pattern, '', 'The pattern is empty');
+                assert.equal(params.search, '', 'The pattern is empty');
                 this.off('query.bar');
             });
     });
