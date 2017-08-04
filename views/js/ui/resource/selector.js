@@ -367,9 +367,15 @@ define([
                                 return acc;
                             }, {});
 
-                            self.query({
-                                'new' : true
-                            });
+                            //support only list for now
+                            //FIXME paging issue with filtered tree
+                            if(self.format !== 'list'){
+                                self.changeFormat('list');
+                            } else {
+                                self.query({
+                                    'new' : true
+                                });
+                            }
                         });
                     }
 
