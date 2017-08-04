@@ -17,7 +17,7 @@
  */
 
 /**
- * Test the module ui/resource/list
+ * Test the module ui/resource/filters
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */

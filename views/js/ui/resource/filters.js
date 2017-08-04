@@ -44,6 +44,10 @@ define([
      * @param {Object} config - the component config
      * @param {String} config.classUri - the root Class URI
      * @param {String} config.data - the root Class URI
+     * @param {Object} config.data.properties - the list of properties used to filter
+     * @param {Object} config.data.ranges - the property ranges
+     * @param {String} [config.title] - the form title
+     * @param {String} [config.applyLabel] - the label of the apply button
      * @returns {filter} the component
      */
     return function filtersFactory($container, config){
@@ -54,7 +58,7 @@ define([
         var filters = component({
 
             /**
-             * Get the filte values
+             * Get the filter values
              * @returns {Object[]} the form values
              */
             getValues : function getValues(){
@@ -67,7 +71,7 @@ define([
             /**
              * Update the filter form
              * @param {Object} data - the filtering data
-             * @param {Object} data.properties - the list of propeties used to filter
+             * @param {Object} data.properties - the list of properties used to filter
              * @param {Object} data.ranges - the property ranges
              * @return {filter} chains
              * @fires filter#apply when the user wants to apply the filter
@@ -102,7 +106,6 @@ define([
         filters
             .setTemplate(filtersTpl)
             .on('init', function(){
-
                 this.render($container);
             })
             .on('render', function(){

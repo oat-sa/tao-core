@@ -86,7 +86,7 @@ define([
      * @param {String} [config.type] - describes the resource type
      * @param {Boolean} [config.multiple = true] - multiple vs unique selection
      * @param {Number} [config.limit = 30] - the default page size for data paging
-     * @param {Object|Boolean} [config.filters = false] - if not false the filters configuration
+     * @param {Object|Boolean} [config.filters = false] - false or filters config, see ui/resource/filters
      * @returns {resourceSelector} the component
      */
     return function resourceSelectorFactory($container, config){
@@ -345,6 +345,7 @@ define([
                         }
                     });
 
+                    //the advanced filters
                     if(self.config.filters !== false){
 
                         $filterToggle.on('click', function(e){
@@ -358,6 +359,7 @@ define([
                         .on('apply', function(values){
                             $filterContainer.addClass('folded');
 
+                            //reformat the filter values as key/value
                             self.filterValues = _.reduce(values, function(acc, value){
                                 if(!_.isEmpty(value.name) && !_.isEmpty(value.value)){
                                     acc[value.name] = value.value;
@@ -379,10 +381,16 @@ define([
                             if(uri && uri !== self.classUri){
                                 self.classUri = uri;
 
+                                //close the filters
                                 if($filterContainer.length){
                                     $filterContainer.addClass('folded');
                                 }
 
+                                /**
+                                 * When the component's root class URI changes
+                                 * @event resourceSelector#classchange
+                                 * @param {String} classUri - the new class URI
+                                 */
                                 self.trigger('classchange', uri);
 
                                 self.query({ 'new' : true });
