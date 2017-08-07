@@ -31,10 +31,10 @@ var validator = generisValidatorFactory({
 })
 .init();
 
-@type array<string>
+@type string[]
 validator.errors;
 
-@type array<object>
+@type object[]
 validator.validations;
 
 @returns this

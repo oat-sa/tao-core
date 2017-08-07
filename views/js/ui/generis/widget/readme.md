@@ -54,5 +54,5 @@ widget.set(string value);
 widget.serialize();
 
 @event change | blur
-widget.on('change blur', function (event) {});
+widget.on('change blur', function (widgetData) {});
 ```
