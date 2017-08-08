@@ -26,11 +26,12 @@ define(['lodash', 'ui/dialog'], function (_, dialog) {
      * @param {String} message - The displayed message
      * @param {Function} accept - An action called when the message is accepted
      * @param {Function} refuse - An action called when the message is refused
+     * @param {Object} options - Dialog options
      * @returns {dialog} - Returns the dialog instance
      */
-    return function dialogConfirm(message, accept, refuse) {
+    return function dialogConfirm(message, accept, refuse, options) {
         var accepted = false;
-        var dlg = dialog({
+        var _defaults = {
             message: message,
             buttons: 'cancel,ok',
             autoRender: true,
@@ -41,7 +42,9 @@ define(['lodash', 'ui/dialog'], function (_, dialog) {
                     accept.call(this);
                 }
             }
-        });
+        };
+        var dialogOptions = _.defaults(options || {}, _defaults);
+        var dlg = dialog(dialogOptions);
 
         if (_.isFunction(refuse)) {
             dlg.on('closed.modal', function() {
