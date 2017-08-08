@@ -214,13 +214,12 @@ define([
         modal.getDom().find('button[data-control="ok"]').click();
         modal.getDom().find('button[data-control="cancel"]').click();
 
-
-        modal.setButtons({
+        modal.setButtons([{
             id: 'test',
             type: 'info',
             icon: 'test',
             label: 'test'
-        }).on('testbtn.modal', function(event, btn) {
+        }]).on('testbtn.modal', function(event, btn) {
             assert.ok('true', '[test button] The button has been activated');
             assert.equal(typeof btn, 'object', '[test button] The button descriptor is provided');
             assert.equal(btn.id, 'test', '[test button] The right button descriptor is provided');
