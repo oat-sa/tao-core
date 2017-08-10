@@ -180,10 +180,85 @@ define([
     /**
      * Events
      */
-    QUnit.module('Events');
+    QUnit.module('Behavior');
 
-    QUnit.test('change & blur', function (assert) {
-        assert.ok(true, 'on(\'change blur\')');
+    QUnit.asyncTest('DOM', function (assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(10);
+
+        assert.equal($('.check-box', $container).length, 0, 'The checkbox is not rendered');
+
+        generisWidgetCheckBoxFactory({}, {
+            uri: 'http://foo#bar',
+            label : 'Foo',
+            range : [{
+                uri :  'http://foo#v1',
+                label : 'v1'
+            }, {
+                uri :  'http://foo#v2',
+                label : 'v2'
+            }]
+        }).on('render', function(){
+
+            var $element  = this.getElement();
+            assert.equal($('.check-box', $container).length, 1, 'The checkbox is rendered');
+            assert.deepEqual($('.check-box', $container)[0], $element[0], 'The rendered element is the component element');
+            assert.ok($element.hasClass('rendered'));
+
+            assert.equal($('.left > label', $element).text().trim(), 'Foo', 'The element label is correct');
+
+            assert.equal($('.option', $element).length, 2, 'The element hsa 2 options');
+            assert.equal($('.option:nth-child(1) label', $element).text().trim(), 'v1', '1st option label is correct');
+            assert.equal($('.option:nth-child(1) input', $element).val(), 'http://foo#v1', '1st option value is correct');
+
+            assert.equal($('.option:nth-child(2) label', $element).text().trim(), 'v2', '2nd option label is correct');
+            assert.equal($('.option:nth-child(2) input', $element).val(), 'http://foo#v2', '2nd option value is correct');
+            QUnit.start();
+        })
+        .render($container);
+    });
+
+
+    QUnit.asyncTest('change value', function (assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(6);
+
+        generisWidgetCheckBoxFactory({}, {
+            uri: 'http://foo#bar',
+            label : 'Foo',
+            range : [{
+                uri :  'http://foo#v1',
+                label : 'v1'
+            }, {
+                uri :  'http://foo#v2',
+                label : 'v2'
+            }]
+        })
+        .on('change', function(values){
+
+            assert.equal(values.name, 'http://foo#bar', 'The field name is correct');
+            assert.deepEqual(values.value, ['http://foo#v1'], 'The field value contains the option');
+            QUnit.start();
+        })
+        .on('render', function(){
+
+            var values;
+            var $element  = this.getElement();
+            var $1stOpt   = $('.option:nth-child(1) input', $element);
+
+            assert.ok($element.hasClass('rendered'));
+            assert.equal($1stOpt.length, 1, 'The option exists');
+
+            values = this.serialize();
+
+            assert.equal(values.name, 'http://foo#bar', 'The field name is correct');
+            assert.deepEqual(values.value, [], 'The field value is empty');
+
+            $1stOpt.click();
+        })
+        .render($container);
     });
 
 
@@ -216,10 +291,8 @@ define([
             e.preventDefault();
 
             tb1.validate();
-            console.log(tb1.serialize());
 
             tb2.validate();
-            console.log(tb2.serialize());
 
             return false;
         });
