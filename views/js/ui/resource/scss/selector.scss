@@ -125,7 +125,7 @@
             top: 80px;
             overflow-y: auto;
             z-index: 100;
-            max-height: 400px;
+            max-height: calc(100% - 110px);
             @include transition(max-height, 300ms, ease);
 
             &.folded {
@@ -146,6 +146,14 @@
         background-color: $uiGeneralContentBg;
         height: 100%;
         overflow-y: scroll;
+
+        .no-results {
+            display:inline-block;
+            width: 100%;
+            text-align:center;
+            margin: 10px auto;
+            opacity: .75;
+        }
     }
 
     footer {

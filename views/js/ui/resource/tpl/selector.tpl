@@ -25,7 +25,10 @@
         {{/if}}
     </nav>
 
-    <main></main>
+    <main>
+
+        <span class="hidden no-results">{{noResultsText}}</span>
+    </main>
     <footer>
         <div class="get-selection">
            <span>{{__ 'Selected'}} {{type}} : </span><span class="selected-num">0</span>
