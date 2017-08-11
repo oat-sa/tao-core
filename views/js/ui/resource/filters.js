@@ -74,7 +74,7 @@ define([
              * @param {String|String[]} value - the field value
              * @return {filter} chains
              */
-            setValue : function(uri, value){
+            setValue : function setValue(uri, value){
                 var widget;
                 if(this.is('rendered') && this.form){
                     widget = this.form.getWidget(uri);
@@ -84,6 +84,14 @@ define([
                 }
 
                 return this;
+            },
+
+            /**
+             * Reset the filter form
+             * @return {filter} chains
+             */
+            reset : function reset(){
+                return  this.update(this.config.data);
             },
 
             /**
@@ -110,7 +118,7 @@ define([
 
                         /**
                          * Apply the filter values
-                         * @event filter#apply
+                         * @event filter#change
                          * @param {Object} values - the filter values
                          */
                         self.trigger('change', this.getValues());
@@ -118,6 +126,43 @@ define([
                     .render(this.getElement());
                 }
                 return this;
+            },
+
+            /**
+             * Get a text that represents the actual query
+             * @returns {String} the query
+             */
+            getTextualQuery : function getTextualQuery(){
+                var self = this;
+                var result;
+                if(this.is('rendered')){
+                    result = _.reduce(this.form.getValues(), function(acc, value, uri){
+                        var widget =  self.form.getWidget(uri);
+                        var displayValue;
+                        if(widget){
+                            if(!_.isEmpty(acc)){
+                                acc += __(' AND ');
+                            }
+                            acc += widget.config.label + __(' is ');
+                            if(widget.config.range){
+                                displayValue = _.map(value, function(val){
+                                    var selectedValue = _.find(widget.config.range, { uri : val });
+                                    return selectedValue && selectedValue.label;
+                                });
+                            } else {
+                                displayValue = value;
+                            }
+                            if(_.isString(displayValue)){
+                                acc += displayValue;
+                            }
+                            if(_.isArray(displayValue)){
+                                acc += displayValue.join(', ');
+                            }
+                        }
+                        return acc;
+                    }, '');
+                }
+                return result;
             }
         }, defaultConfig);
 

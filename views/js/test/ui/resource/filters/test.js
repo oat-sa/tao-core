@@ -72,6 +72,9 @@ define([
 
     QUnit.cases([
         { title : 'getValues' },
+        { title : 'setValue' },
+        { title : 'reset' },
+        { title : 'getTextualQuery' },
         { title : 'update' }
     ]).test('Instance API ', function(data, assert) {
         var instance = filtersFactory();
@@ -143,7 +146,7 @@ define([
     QUnit.asyncTest('getValues', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(11);
+        QUnit.expect(10);
 
         assert.equal($('.filters', $container).length, 0, 'No resource list in the container');
 
@@ -154,7 +157,6 @@ define([
         .on('render', function(){
 
             var $element = this.getElement();
-            var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
             var $label   = $('[name="' + labelUri + '"]', $element);
             var $apply   = $('.toolbar :submit', $element);
             var values;
@@ -166,25 +168,59 @@ define([
 
             values = this.getValues();
 
-            assert.equal(values[0].name, labelUri, 'The label has an entry');
-            assert.equal(values[0].value, '', 'The label is empty');
+            assert.deepEqual(values, {}, 'values is an empty object');
 
             $label.val('a label');
 
             values = this.getValues();
 
-            assert.equal(values[0].name, labelUri, 'The label has an entry');
-            assert.equal(values[0].value, 'a label', 'The label has the correct value');
+            assert.equal(typeof values[labelUri], 'string', 'The label has an entry');
+            assert.equal(values[labelUri], 'a label', 'The label has the correct value');
 
-            this.on('apply', function(newValues){
+            this.on('change', function(newValues){
 
                 assert.deepEqual(newValues, this.getValues(), 'The apply values are the component values');
-                assert.equal(values[0].name, labelUri, 'The label has an entry');
-                assert.equal(values[0].value, 'a label', 'The label has the correct value');
+                assert.equal(typeof values[labelUri], 'string', 'The label has an entry');
+                assert.equal(values[labelUri], 'a label', 'The label has the correct value');
                 QUnit.start();
             });
 
             $apply.trigger('click');
+        });
+    });
+
+    QUnit.asyncTest('setValue', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(6);
+
+        filtersFactory($container, {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            data : propertiesData,
+        })
+        .on('render', function(){
+
+            var $element = this.getElement();
+            var $label   = $('[name="' + labelUri + '"]', $element);
+            var values;
+
+            assert.equal($label.length, 1, 'The component has the label field');
+            assert.equal($label.val(), '', 'The label value is empty');
+
+            values = this.getValues();
+
+            assert.deepEqual(values, {}, 'values is an empty object');
+
+            this.setValue(labelUri, 'Foo Bar');
+
+            assert.equal($label.val(), 'Foo Bar', 'The label field has now a value');
+
+            values = this.getValues();
+
+            assert.equal(typeof values[labelUri], 'string', 'The label has an entry');
+            assert.equal(values[labelUri], 'Foo Bar', 'The label has the correct value');
+
+            QUnit.start();
         });
     });
 
