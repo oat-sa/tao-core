@@ -6,14 +6,17 @@
         <div class="check-box-input">
             {{#each range}}
             <div class="option">
-                <input
-                    type="checkbox"
-                    name="{{this.uri}}"
-                    value="{{this.uri}}"
-                    {{#includes ../values this.uri}}
-                    checked="true"
-                    {{/includes}}>
-                <label for="{{this.uri}}">{{this.label}}</label>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="{{this.uri}}"
+                        value="{{this.uri}}"
+                        {{#includes ../values this.uri}}
+                        checked="true"
+                        {{/includes}}>
+                    <span class="icon-checkbox"></span>
+                    {{this.label}}
+                </label>
             </div>
             {{/each}}
         </div>
