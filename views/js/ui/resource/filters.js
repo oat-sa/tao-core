@@ -33,7 +33,7 @@ define([
     'use strict';
 
     var defaultConfig = {
-        title     : __('Filter by propety'),
+        title     : __('Search by properties'),
         applyLabel: __('Apply'),
     };
 
@@ -63,9 +63,27 @@ define([
              */
             getValues : function getValues(){
                 if(this.is('rendered') && this.form){
-                    return this.form.serializeArray();
+                    return this.form.getValues();
                 }
                 return null;
+            },
+
+            /**
+             * Set the value for a given field
+             * @param {String} uri - the property URI
+             * @param {String|String[]} value - the field value
+             * @return {filter} chains
+             */
+            setValue : function(uri, value){
+                var widget;
+                if(this.is('rendered') && this.form){
+                    widget = this.form.getWidget(uri);
+                    if(widget){
+                        widget.set(value);
+                    }
+                }
+
+                return this;
             },
 
             /**
@@ -74,7 +92,7 @@ define([
              * @param {Object} data.properties - the list of properties used to filter
              * @param {Object} data.ranges - the property ranges
              * @return {filter} chains
-             * @fires filter#apply when the user wants to apply the filter
+             * @fires filter#change when the user wants to apply the filter
              */
             update : function update(data){
                 var self = this;
@@ -88,14 +106,14 @@ define([
                     }, {
                         submitText : this.config.applyLabel,
                         title      : this.config.title
-                    }).on('submit', function(values){
+                    }).on('change', function(){
 
                         /**
                          * Apply the filter values
                          * @event filter#apply
                          * @param {Object} values - the filter values
                          */
-                        self.trigger('apply', values);
+                        self.trigger('change', this.getValues());
                     })
                     .render(this.getElement());
                 }
