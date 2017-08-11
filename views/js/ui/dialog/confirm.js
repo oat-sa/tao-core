@@ -18,7 +18,7 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['lodash', 'ui/dialog'], function (_, dialog) {
+define(['lodash', 'i18n', 'ui/dialog'], function (_, __, dialog) {
     'use strict';
 
     /**
@@ -27,13 +27,27 @@ define(['lodash', 'ui/dialog'], function (_, dialog) {
      * @param {Function} accept - An action called when the message is accepted
      * @param {Function} refuse - An action called when the message is refused
      * @param {Object} options - Dialog options
+     * @param {Object} options.buttons - Dialog button options
+     * @param {Object} options.buttons.labels - Dialog button labels
+     * @param {String} options.buttons.labels.ok - "OK" button label
+     * @param {String} options.buttons.labels.cancel - "Cancel" button label
      * @returns {dialog} - Returns the dialog instance
      */
     return function dialogConfirm(message, accept, refuse, options) {
         var accepted = false;
-        var _defaults = {
+        var _options = {
+            buttons: {
+                labels: {
+                    ok: __('Ok'),
+                    cancel: __('Cancel')
+                }
+            }
+        };
+        var dialogOptions;
+        var dlg;
+        options = _.defaults(options || {}, _options);
+        dialogOptions = {
             message: message,
-            buttons: 'cancel,ok',
             autoRender: true,
             autoDestroy: true,
             onOkBtn: function() {
@@ -41,10 +55,23 @@ define(['lodash', 'ui/dialog'], function (_, dialog) {
                 if (_.isFunction(accept)) {
                     accept.call(this);
                 }
+            },
+            buttons: {
+                ok: {
+                    id : 'ok',
+                    type : 'info',
+                    label : options.buttons.labels.ok || __('Ok'),
+                    close: true
+                },
+                cancel: {
+                    id : 'cancel',
+                    type : 'regular',
+                    label : options.buttons.labels.cancel || __('Cancel'),
+                    close: true
+                }
             }
         };
-        var dialogOptions = _.defaults(options || {}, _defaults);
-        var dlg = dialog(dialogOptions);
+        dlg = dialog(dialogOptions);
 
         if (_.isFunction(refuse)) {
             dlg.on('closed.modal', function() {
