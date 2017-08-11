@@ -171,8 +171,40 @@ define([
      */
     QUnit.module('Events');
 
-    QUnit.test('submit', function (assert) {
-        assert.ok(true);
+    QUnit.asyncTest('submit', function (assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(5);
+
+        generisFormFactory(generisData)
+            .on('render', function(){
+                var self = this;
+                //wait for widgets to be rendered...
+                setTimeout(function(){
+                    var $element   = self.getElement();
+                    var $firstName = $('[name="http://www.tao.lu/Ontologies/generis.rdf#userFirstName"]', $element);
+                    var $lastName  = $('[name="http://www.tao.lu/Ontologies/generis.rdf#userLastName"]', $element);
+                    var $submitBtn = $(':submit', $element);
+
+                    assert.equal($firstName.length, 1, 'The firstname field is rendered');
+                    assert.equal($lastName.length, 1, 'The lastname field is rendered');
+                    assert.equal($submitBtn.length, 1, 'The submit button is rendered');
+
+                    $firstName.val('John');
+                    $lastName.val('Doe');
+
+                    $submitBtn.click();
+                }, 300);
+            })
+            .on('submit', function(){
+                var values = this.getValues();
+
+                assert.equal(values["http://www.tao.lu/Ontologies/generis.rdf#userFirstName"], 'John');
+                assert.equal(values["http://www.tao.lu/Ontologies/generis.rdf#userLastName"], 'Doe');
+
+                QUnit.start();
+            })
+            .render($container);
     });
 
 

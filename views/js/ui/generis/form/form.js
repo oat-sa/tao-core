@@ -152,7 +152,10 @@ define([
              */
             getValues : function getValues(){
                 return _.reduce(this.serializeArray(), function(acc, field){
-                    if(_.isString(field.name) && !_.isEmpty(field.name) && field.value){
+                    if( _.isString(field.name) && !_.isEmpty(field.name) &&
+                       (_.isString(field.value) && !_.isEmpty(field.value)) ||
+                       (_.isArray(field.value) && field.value.length > 0) ){
+
                         acc[field.name] = field.value;
                     }
                     return acc;
