@@ -33,7 +33,9 @@
  *         });
  *     });
  *
- *
+ * FIXME search and advanced search switch to the list format
+ * because backend implementation doesn't support well the
+ * tree behavior.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -332,6 +334,7 @@ define([
                         var value = $(this).val().trim();
                         if(value.length > 2 || value.length === 0 || e.which === 13){
                             self.reset()
+                                .changeFormat('list')
                                 .query();
                         }
                     }, 300));
@@ -363,14 +366,20 @@ define([
                             data     : self.config.filters
                         })
                         .on('change', function(values){
-                            $filterContainer.addClass('folded');
+                            var textualQuery = this.getTextualQuery();
+
+                            $searchField.val('')
+                                        .attr('title', textualQuery)
+                                        .attr('placeholder', textualQuery);
 
                             //reformat the filter values as key/value
-                            self.filterValues =  values;
+                            self.filterValues = values;
 
                             self.reset()
                                 .changeFormat('list')
                                 .query();
+
+                            $filterContainer.addClass('folded');
                         });
 
                         $filterToggle.on('click', function(e){

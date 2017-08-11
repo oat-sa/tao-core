@@ -101,8 +101,7 @@
                 @include border-radius(2);
                 max-width: inherit;
                 width: 100%;
-                padding: 4px;
-                padding-left: 25px;
+                padding: 4px 25px;
             }
 
             & > a.filters-opener {
