@@ -47,9 +47,11 @@ define([
         { name: 'errors',         title: 'errors',         type: 'object' },
         { name: 'widgets',        title: 'widgets',        type: 'object' },
         { name: 'addWidget',      title: 'addWidget',      type: 'function' },
+        { name: 'getWidget',      title: 'getWidget',      type: 'function' },
         { name: 'removeWidget',   title: 'removeWidget',   type: 'function' },
         { name: 'validate',       title: 'validate',       type: 'function' },
-        { name: 'serializeArray', title: 'serializeArray', type: 'function' }
+        { name: 'serializeArray', title: 'serializeArray', type: 'function' },
+        { name: 'getValues',      title: 'getValues',      type: 'function' },
     ])
     .test('instance', function (data, assert) {
         var instance = generisFormFactory();
@@ -70,6 +72,19 @@ define([
             widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
         });
         assert.equal(form.widgets.length, 1, 'successfully added widget');
+    });
+
+    QUnit.test('getWidget', function (assert) {
+        var form = generisFormFactory(generisData);
+
+        var firstName = form.getWidget('http://www.tao.lu/Ontologies/generis.rdf#userFirstName');
+        var missing   = form.getWidget('http://jdoe.com#missing');
+
+        assert.equal(missing, null, 'A missing widget returns null');
+        assert.equal(typeof firstName, 'object', 'The firstName widget is found');
+        assert.equal(firstName.config.uri, 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName', 'The property URI is correct');
+        assert.equal(firstName.config.label, 'First Name', 'The property label is correct');
+        assert.equal(firstName.config.value, 'Bertrand', 'The property value is correct');
     });
 
     QUnit.test('removeWidget', function (assert) {
@@ -93,7 +108,6 @@ define([
             uri: 'foo#bar',
             widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
         });
-
 
         assert.equal(form.errors.length, 0, 'no errors yet');
         form.validate();
@@ -125,6 +139,30 @@ define([
             name: 'bar#foo',
             value: 'baz'
         }], 'properly serializes form');
+    });
+
+    QUnit.test('getValues', function (assert) {
+        var form = generisFormFactory();
+        var values;
+
+        form
+        .addWidget({
+            uri: 'foo#bar',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+            value: 'foobar'
+        })
+        .addWidget({
+            uri: 'bar#foo',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+            value: 'baz'
+        });
+
+        values = form.getValues();
+
+        assert.deepEqual(values, {
+            'foo#bar' : 'foobar',
+            'bar#foo' : 'baz'
+        }, 'The form values are correct');
     });
 
 

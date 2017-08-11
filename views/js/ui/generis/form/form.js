@@ -60,9 +60,14 @@ define([
         config.submit = config.submit || {};
 
         form = componentFactory({
+
             /**
              * Add a widget/field to form
              * @param {Object} widgetOptions
+             * @param {String} widgetOptions.uri - the property URI
+             * @param {String} [widgetOptions.widget] - the widget URI
+             * @param {String|String[]} [widgetOptions.value] - the default value
+             * @param {Boolean} [widgetOptions.required = false] - is the field required
              * @returns {this}
              */
             addWidget: function addWidget(widgetOptions) {
@@ -83,13 +88,24 @@ define([
             },
 
             /**
+             * Get a widget
+             * @param {String} uri - the property URI
+             * @returns {Object} the widget
+             */
+            getWidget : function getWidget(uri){
+                return _.find(this.widgets, function(widget){
+                    return widget.config.uri === uri;
+                });
+            },
+
+            /**
              * Remove a widget/field from form
-             * @param {String} widgetUri
+             * @param {String} uri - the property URI
              * @returns {this}
              */
-            removeWidget: function removeWidget(widgetUri) {
+            removeWidget: function removeWidget(uri) {
                 _.remove(this.widgets, function (widget) {
-                    if (widget.config.uri === widgetUri) {
+                    if (widget.config.uri === uri) {
                         widget.destroy();
                         return true;
                     }
@@ -130,6 +146,20 @@ define([
             },
 
             /**
+             * Convenience method to retrieve the form values
+             * as name : value
+             * @returns {Object} the values object
+             */
+            getValues : function getValues(){
+                return _.reduce(this.serializeArray(), function(acc, field){
+                    if(_.isString(field.name) && !_.isEmpty(field.name) && field.value){
+                        acc[field.name] = field.value;
+                    }
+                    return acc;
+                }, {});
+            },
+
+            /**
              * Toggles loading state
              * @param {Boolean} [isLoading = undefined]
              * @returns {this}
@@ -163,7 +193,9 @@ define([
             formAction: '#',
             formMethod: 'get',
             submitText: __('Save'),
-            title: __('Generis Form')
+            title: __('Generis Form'),
+            reset: true,
+            resetText: __('Reset')
         })
         .setTemplate(tpl)
         .init(config)
@@ -173,13 +205,25 @@ define([
 
             $form.on('submit', function (e) {
                 e.preventDefault();
+
                 /**
                  * @event form#submit
                  * @param {Object[]} formData
                  */
-                self.trigger('submit', self.serializeArray());
+                self.trigger('submit change', self.serializeArray());
+
                 return false;
             });
+
+            $form.on('reset', function(){
+
+                /**
+                 * @event form#reset
+                 * @param {Object[]} formData
+                 */
+                self.trigger('reset change', self.serializeArray());
+            });
+
         });
 
         form.data = options;
