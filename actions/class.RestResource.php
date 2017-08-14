@@ -50,7 +50,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      *
      * @requiresRight classUri WRITE
      */
-    public function create()
+    public final function create()
     {
         if ($this->isRequestGet()) {
             try {
