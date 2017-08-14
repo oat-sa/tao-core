@@ -76,13 +76,19 @@ define([
              * @returns {String[]}
              */
             set: function set(values) {
-                if (Array.isArray(values)) {
+                if (values === null) {
+                    this.config.values = [];
+                } else if (Array.isArray(values)) {
                     this.config.values = values;
                 } else {
                     this.config.values.push(values);
                 }
 
                 if (this.is('rendered')) {
+                    this.getElement()
+                    .find('input[type=checkbox]')
+                    .prop('checked', false);
+
                     _.each(this.config.values, function (value) {
                         this.getElement()
                         .find('input[name=' + value + ']')

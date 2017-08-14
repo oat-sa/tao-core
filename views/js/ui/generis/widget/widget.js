@@ -89,7 +89,8 @@ define([
              */
             clear: function clear() {
                 this.validator.clear();
-                this.set('');
+                this.set(null);
+                this.displayErrors();
                 return this;
             },
 
