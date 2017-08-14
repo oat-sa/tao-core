@@ -228,7 +228,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function add()
     {
-        $this->setView('user/add.tpl');
+        $this->setView('user/form.tpl');
     }
 
     // public function add()
@@ -311,7 +311,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function edit()
     {
-        $this->setView('user/edit.tpl');
+        $this->setView('user/form.tpl');
     }
 
     // public function edit()
