@@ -41,7 +41,7 @@ define([
      */
     return {
         start: function() {
-            var route = url.route('create', 'RestResource', 'tao');
+            var route = url.route('create', 'RestUser', 'tao');
             var classUriParam = { classUri: 'http://www.tao.lu/Ontologies/generis.rdf#User' };
 
             request(route, classUriParam, 'get')
