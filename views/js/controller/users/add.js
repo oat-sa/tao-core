@@ -18,14 +18,20 @@
 
 define([
     'jquery',
-    'module',
-    'helpers',
-    'users'
+    'lodash',
+    'i18n',
+    'util/url',
+    'core/dataProvider/request',
+    'ui/feedback',
+    'ui/generis/form/form'
 ], function(
     $,
-    module,
-    helpers,
-    users
+    _,
+    __,
+    url,
+    request,
+    feedback,
+    generisFormFactory
 ) {
     'use strict';
 
@@ -35,17 +41,45 @@ define([
      */
     return {
         start: function() {
-            var conf = module.config();
-            var url  = helpers._url('checkLogin', 'Users', 'tao');
-            users.checkLogin(conf.loginId, url);
+            var route = url.route('create', 'RestResource', 'tao');
+            var classUriParam = { classUri: 'http://www.tao.lu/Ontologies/generis.rdf#User' };
 
-            if(conf.exit === true){
+            request(route, classUriParam, 'get')
+            .then(function (data) {
+                generisFormFactory(
+                    data,
+                    { title: __('Add a user') }
+                )
+                .render($('.form-container'))
+                .on('submit', function (formData) {
+                    var self = this;
 
-                setTimeout(function(){
-                    //TODO would be better to clean up the form and switch the section
-                    window.location = helpers._url('index', 'Main', 'tao', {structure: 'users', ext : 'tao', section : 'list_users'});
-                }, 1000);
-            }
+                    formData.push({ name: 'classUri', value: classUriParam.classUri });
+
+                    this.toggleLoading();
+
+                    request(route, formData, 'post')
+                    .then(function () {
+                        setTimeout(function () {
+                            self.clearWidgets();
+                            self.toggleLoading();
+                        }, 1000);
+
+                        feedback().success(__('User added'));
+                    })
+                    .catch(function (err) {
+                        self.toggleLoading();
+
+                        _.each(err.response.data, function (message, widgetUri) {
+                            var widget = self.getWidget(widgetUri);
+
+                            widget.addErrors(message);
+                        });
+
+                        feedback().error(err);
+                    });
+                });
+            });
         }
     };
 });
