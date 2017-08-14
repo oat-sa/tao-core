@@ -52,7 +52,7 @@
         "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox",
         "required" : true
     }],
-    "values" : {
+    "ranges" : {
         "http://www.tao.lu/Ontologies/TAO.rdf#Languages" : [{
             "uri" : "http://www.tao.lu/Ontologies/TAO.rdf#Langda-DK",
             "label" : "Dansih"

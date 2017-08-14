@@ -189,7 +189,7 @@ define([
         // Add widgets to form
         _.each(options.properties || [], function (property) {
             if (property.range && typeof property.range === 'string') {
-                property.range = options.values[property.range];
+                property.range = options.ranges[property.range];
             }
             form.addWidget(property);
         });
