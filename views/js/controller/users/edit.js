@@ -20,6 +20,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'module',
     'util/url',
     'core/dataProvider/request',
     'ui/feedback',
@@ -28,6 +29,7 @@ define([
     $,
     _,
     __,
+    module,
     url,
     request,
     feedback,
@@ -41,33 +43,37 @@ define([
      */
     return {
         start: function() {
-            var route = url.route('create', 'RestUser', 'tao');
+            var route = url.route('edit', 'RestUser', 'tao');
             var classUri = 'http://www.tao.lu/Ontologies/generis.rdf#User';
+            var uri = module.config().uri;
 
             request(route, {
-                classUri: classUri
+                classUri: classUri,
+                uri: uri
             }, 'get')
             .then(function (data) {
                 generisFormFactory(
                     data,
-                    { title: __('Add a user') }
+                    { title: __('Edit a user') }
                 )
                 .render($('.form-container'))
                 .on('submit', function (formData) {
                     var self = this;
 
-                    formData.push({ name: 'classUri', value: classUri });
+                    formData
+                    .push({ name: 'uri', value: uri })
+                    .push({ name: 'classUri', value: classUri });
 
                     this.toggleLoading();
 
-                    request(route, formData, 'post')
+                    request(route, formData, 'put')
                     .then(function () {
                         setTimeout(function () {
                             self.clearWidgets();
                             self.toggleLoading();
                         }, 1000);
 
-                        feedback().success(__('User added'));
+                        feedback().success(__('User saved'));
                     })
                     .catch(function (err) {
                         self.toggleLoading();
