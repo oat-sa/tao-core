@@ -55,16 +55,16 @@ define([
              * @returns {String[]}
              */
             get: function get() {
-                var ret = this.config.values || [];
+                var ret = [];
 
                 if (this.is('rendered')) {
-                    ret = [];
                     this.getElement()
-                        .find('.option input:checked')
-                        .map(function () {
-
-                            ret.push($(this).val());
-                        });
+                    .find('.option input:checked')
+                    .each(function () {
+                        ret.push($(this).val());
+                    });
+                } else {
+                    ret = this.config.values || ret;
                 }
 
                 return ret;
@@ -87,7 +87,7 @@ define([
                         this.getElement()
                         .find('input[name=' + value + ']')
                         .prop('checked', true);
-                    });
+                    }, this);
                 }
 
                 return this.config.values;
