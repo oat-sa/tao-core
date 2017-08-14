@@ -83,6 +83,17 @@ define([
             },
 
             /**
+             * Gets a widget/field from form
+             * @param {String} widgetUri
+             * @returns {ui/generis/widget/widget}
+             */
+            getWidget: function getWidget(widgetUri) {
+                return _.find(this.widgets, function (widget) {
+                    return widget.config.uri === widgetUri;
+                });
+            },
+
+            /**
              * Remove a widget/field from form
              * @param {String} widgetUri
              * @returns {this}
@@ -157,6 +168,17 @@ define([
 
                 this.setState('loading', isLoading);
 
+                return this;
+            },
+
+            /**
+             * Clears all form data
+             * @returns {this}
+             */
+            clearWidgets: function clearWidgets() {
+                _.each(this.widgets, function (widget) {
+                    widget.clear();
+                });
                 return this;
             }
         }, {

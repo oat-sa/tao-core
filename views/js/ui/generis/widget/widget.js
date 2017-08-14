@@ -84,6 +84,16 @@ define([
             },
 
             /**
+             * Clears widget value
+             * @returns {this}
+             */
+            clear: function clear() {
+                this.validator.clear();
+                this.set('');
+                return this;
+            },
+
+            /**
              * Add a validator
              * @param {ui/generis/validator/validator} validator
              * @returns {this}
@@ -112,23 +122,41 @@ define([
             },
 
             /**
-             * Validates widget (if validator is not null)
+             * Validates widget
              * @returns {this}
              */
             validate: function validate() {
+                this.validator.run(this.get());
+                this.displayErrors();
+                return this;
+            },
+
+            /**
+             * Adds errors to validator (manually adds errors)
+             * @param {String[]} errors
+             * @returns {this}
+             */
+            addErrors: function addErrors(errors) {
+                this.validator.errors = Array.isArray(errors) ? errors : [errors];
+                this.displayErrors();
+                return this;
+            },
+
+            /**
+             * Displays passed errors as validation errors
+             * @returns {this}
+             */
+            displayErrors: function displayErrors() {
                 var input;
 
-                if (this.validator) {
-                    this.validator.run(this.get());
-                    this.validator.display();
+                this.validator.display();
 
-                    if (this.is('rendered')) {
-                        input = this.getElement().find('.right > :input, .right > .check-box-input');
-                        if (this.validator.errors.length) {
-                            input.addClass('error');
-                        } else {
-                            input.removeClass('error');
-                        }
+                if (this.is('rendered')) {
+                    input = this.getElement().find('.right > :input, .right > .check-box-input');
+                    if (this.validator.errors.length) {
+                        input.addClass('error');
+                    } else {
+                        input.removeClass('error');
                     }
                 }
 
