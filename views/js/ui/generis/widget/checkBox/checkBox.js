@@ -58,11 +58,13 @@ define([
                 var ret = this.config.values || [];
 
                 if (this.is('rendered')) {
-                    ret = this.getElement()
-                    .find('.option > input:checked')
-                    .map(function () {
-                        return $(this).val();
-                    });
+                    ret = [];
+                    this.getElement()
+                        .find('.option input:checked')
+                        .map(function () {
+
+                            ret.push($(this).val());
+                        });
                 }
 
                 return ret;
