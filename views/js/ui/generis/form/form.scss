@@ -1,15 +1,18 @@
 @import 'inc/bootstrap';
 
 .ui-generis-form {
-    @include simple-border($uiGeneralContentBorder);
-    background-color: $uiClickableDefaultBg;
-    padding: 20px;
     position: relative;
     margin: 20px;
     width: 500px;
 
     h2 {
         margin-top: 0;
+    }
+
+    form {
+        @include simple-border($uiGeneralContentBorder);
+        background-color: $uiClickableDefaultBg;
+        padding: 20px;
     }
 
     .toolbar {
