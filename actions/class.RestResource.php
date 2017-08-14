@@ -89,7 +89,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      *
      * @requiresRight uri WRITE
      */
-    public function edit()
+    public final function edit()
     {
         if ($this->isRequestGet()) {
             try {
