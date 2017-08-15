@@ -99,7 +99,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             }
         }
 
-        if ($this->isRequestPut()) {
+        if ($this->isRequestPost()) {
             try {
                 $this->processForm($this->getResourceParameter());
             } catch (common_Exception $e) {
