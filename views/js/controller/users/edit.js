@@ -54,7 +54,7 @@ define([
                     data,
                     { title: __('Edit a user') }
                 )
-                .render($('.form-container'))
+                .render($('.edit-user.form-container'))
                 .on('submit', function (formData) {
                     var self = this;
 
