@@ -135,9 +135,12 @@ define([
              * @returns {Object[]}
              */
             serializeArray: function serializeArray() {
-                return _.map(this.widgets, function (widget) {
+                return _(this.widgets)
+                .map(function (widget) {
                     return widget.serialize();
-                });
+                })
+                .flatten()
+                .value();
             },
 
             /**
@@ -178,6 +181,17 @@ define([
             clearWidgets: function clearWidgets() {
                 _.each(this.widgets, function (widget) {
                     widget.clear();
+                });
+                return this;
+            },
+
+            /**
+             * Displays all widget errors
+             * @returns {this}
+             */
+            displayErrors: function displayErrors() {
+                _.each(this.widgets, function (widget) {
+                    widget.addErrors([]);
                 });
                 return this;
             }

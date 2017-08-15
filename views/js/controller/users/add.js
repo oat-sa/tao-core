@@ -72,7 +72,7 @@ define([
                     .catch(function (err) {
                         self.toggleLoading();
 
-                        _.each(err.response.data, function (message, widgetUri) {
+                        _.each(err.response.data || [], function (message, widgetUri) {
                             var widget = self.getWidget(widgetUri);
 
                             widget.addErrors(message);

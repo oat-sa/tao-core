@@ -97,6 +97,19 @@ define([
                 }
 
                 return this.config.values;
+            },
+
+            /**
+             * Serializes checkBox widget into a name/value object array for form submission
+             * @returns {Object[]}
+             */
+            serialize: function serialize() {
+                return _.map(this.get(), function (value) {
+                    return {
+                        name: this.config.uri,
+                        value: value
+                    };
+                }, this);
             }
         })
         .setTemplate(tpl)
@@ -105,7 +118,7 @@ define([
             range: config.range || [],
             required: config.required || false,
             uri: config.uri,
-            values: config.values || []
+            values: config.value || []
         });
 
         // Validations

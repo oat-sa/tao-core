@@ -44,11 +44,9 @@ define([
     return {
         start: function() {
             var route = url.route('edit', 'RestUser', 'tao');
-            var classUri = 'http://www.tao.lu/Ontologies/generis.rdf#User';
             var uri = module.config().uri;
 
             request(route, {
-                classUri: classUri,
                 uri: uri
             }, 'get')
             .then(function (data) {
@@ -60,16 +58,14 @@ define([
                 .on('submit', function (formData) {
                     var self = this;
 
-                    formData
-                    .push({ name: 'uri', value: uri })
-                    .push({ name: 'classUri', value: classUri });
+                    formData.push({ name: 'uri', value: uri });
 
                     this.toggleLoading();
 
-                    request(route, formData, 'put')
+                    request(route, formData, 'post')
                     .then(function () {
                         setTimeout(function () {
-                            self.clearWidgets();
+                            self.displayErrors();
                             self.toggleLoading();
                         }, 1000);
 
@@ -78,7 +74,7 @@ define([
                     .catch(function (err) {
                         self.toggleLoading();
 
-                        _.each(err.response.data, function (message, widgetUri) {
+                        _.each(err.response.data || [], function (message, widgetUri) {
                             var widget = self.getWidget(widgetUri);
 
                             widget.addErrors(message);
