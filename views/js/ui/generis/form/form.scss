@@ -13,6 +13,10 @@
         @include simple-border($uiGeneralContentBorder);
         background-color: $uiClickableDefaultBg;
         padding: 20px;
+
+        fieldset {
+            min-width: 0;
+        }
     }
 
     .toolbar {
