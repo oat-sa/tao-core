@@ -68,12 +68,15 @@ define([
 
     QUnit
     .cases([
-        { name: 'get',          title: 'get',          type: 'function' },
-        { name: 'set',          title: 'set',          type: 'function' },
-        { name: 'validator',    title: 'validator',    type: 'object'   },
-        { name: 'setValidator', title: 'setValidator', type: 'function' },
-        { name: 'validate',     title: 'validate',     type: 'function' },
-        { name: 'serialize',    title: 'serialize',    type: 'function' }
+        { name: 'get',           title: 'get',           type: 'function' },
+        { name: 'set',           title: 'set',           type: 'function' },
+        { name: 'clear',         title: 'clear',         type: 'function' },
+        { name: 'validator',     title: 'validator',     type: 'object'   },
+        { name: 'setValidator',  title: 'setValidator',  type: 'function' },
+        { name: 'validate',      title: 'validate',      type: 'function' },
+        { name: 'serialize',     title: 'serialize',     type: 'function' },
+        { name: 'addErrors',     title: 'addErrors',     type: 'function' },
+        { name: 'displayErrors', title: 'displayErrors', type: 'function' }
     ])
     .test('instance', function (data, assert) {
         var instance = generisWidgetTextBoxFactory({}, {});
@@ -103,6 +106,17 @@ define([
 
         assert.equal(widget.set('baz'), 'baz', 'returns updated value');
         assert.equal(widget.get(), 'baz', 'updates value');
+    });
+
+    QUnit.test('clear', function (assert) {
+        var widget = generisWidgetTextBoxFactory({}, {
+            uri: 'foo#bar',
+            value: 'foobar'
+        });
+        assert.equal(widget.get(), 'foobar', 'returns correct value');
+
+        widget.clear();
+        assert.equal(widget.get(), '', 'successfully clears widget\'s value');
     });
 
     QUnit.test('setValidator', function (assert) {
@@ -138,6 +152,20 @@ define([
 
         assert.equal(serialized.name, obj.uri, 'name property is correct');
         assert.equal(serialized.value, obj.value, 'value property is correct');
+    });
+
+    QUnit.test('addErrors', function (assert) {
+        var obj = {
+            uri: 'foo#bar',
+            value: 'foobar'
+        };
+        var widget;
+
+        widget = generisWidgetTextBoxFactory({}, obj);
+        assert.equal(widget.validator.errors.length, 0, 'initialized with no errors');
+
+        widget.addErrors(['error 1', 'error 2']);
+        assert.equal(widget.validator.errors.length, 2, 'successfully added errors');
     });
 
 

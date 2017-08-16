@@ -45,6 +45,9 @@ widget.validator;
 @returns this
 widget.setValidator(object validator);
 widget.validate();
+widget.clear();
+widget.addErrors();
+widget.displayErrors();
 
 @returns string || array<string>
 widget.get();
