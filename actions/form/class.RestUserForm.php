@@ -48,13 +48,13 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $properties = $this->formProperties;
 
         foreach ($properties as $property) {
-            if ($this->isEdition() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
+            if ($this->doesExist() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
                 $property['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
                 break;
             }
         }
 
-        if ($this->isEdition()) {
+        if ($this->doesExist()) {
             foreach ($properties as $key => $property) {
                 if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($property['value'])) {
                     $properties[$key]['value'] = '';
@@ -87,7 +87,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
             }
         }
 
-        if ($this->isCreation() || ($this->isEdition() && !is_null($password))) {
+        if ($this->isEmpty() || ($this->doesExist() && !is_null($password))) {
             try {
                 $this->validatePassword($password);
                 $this->changePassword = true;
@@ -99,7 +99,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         }
 
         // Validate new login availability
-        if ($this->isCreation()) {
+        if ($this->isEmpty()) {
             foreach($this->formProperties as $property) {
                 if (
                     $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login'
