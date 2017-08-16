@@ -60,6 +60,7 @@ define([
     var defaultConfig = {
         type : __('resources'),
         noResultsText : _('No resources found'),
+        searchPlaceholder : __('Search'),
         icon : 'item',
         multiple : true,
         filters: false,
@@ -109,19 +110,44 @@ define([
         var resourceSelectorApi = {
 
             /**
-             * Reset the component
+             * Empty the selection component
              * @returns {resourceSelector} chains
-             * @fires resourceSelector#reset
+             * @fires resourceSelector#empty
              */
-            reset : function reset(){
+            empty : function empty(){
                 if(this.is('rendered')){
                     if(this.selectionComponent){
                         this.selectionComponent.destroy();
                         this.selectionComponent = null;
                     }
                 }
+                return this.trigger('empty');
+            },
+
+            /**
+             * Reset the component
+             * @returns {resourceSelector} chains
+             * @fires resourceSelector#reset
+             */
+            reset : function reset(){
+                if(this.is('rendered')){
+                    this.empty();
+
+                    this.searchQuery = {};
+
+                    if(this.config.filters){
+                        if(this.filtersComponent){
+                            this.filtersComponent.reset();
+                        }
+                        $searchField
+                            .val('')
+                            .attr('title', null)
+                            .attr('placeholder', this.config.searchPlaceholder);
+                    }
+                }
                 return this.trigger('reset');
             },
+
 
             /**
              * Get the selected nodes
@@ -146,20 +172,32 @@ define([
             },
 
             /**
+             * Set the search query
+             * @param {String|Object} query - label query if string or property filters
+             * @returns {resourceSelector} chains
+             */
+            setSearchQuery : function setSearchQuery(query){
+                this.searchQuery = {};
+                this.searchQuery[labelUri] = '';
+
+                if(_.isString(query) && !_.isEmpty(query)){
+                    this.searchQuery[labelUri] = query;
+                }
+                if(_.isPlainObject(query)){
+                    this.searchQuery = query;
+                }
+                return this;
+            },
+
+            /**
              * Clear the search query to submit
              * @returns {Object} the query
              */
             getSearchQuery : function getSearchQuery(){
-                var search = {};
-
-                if(this.is('rendered')){
-                    if(this.filterValues){
-                        search = this.filterValues;
-                    } else {
-                        search[labelUri] = $searchField.val();
-                    }
+                if(_.size(this.searchQuery) === 0){
+                    this.searchQuery[labelUri] = '';
                 }
-                return search;
+                return this.searchQuery;
             },
 
             /**
@@ -215,8 +253,7 @@ define([
                         $viewFormats.removeClass('active');
                         $viewFormat.addClass('active');
 
-                        //reset the current selection component
-                        this.reset();
+                        this.empty();
 
                         this.format = format;
 
@@ -306,8 +343,9 @@ define([
             .setTemplate(selectorTpl)
             .on('init', function(){
 
-                this.classUri = this.config.classUri;
-                this.format   = this.config.format || _.findKey(this.config.formats, { active : true });
+                this.searchQuery = {};
+                this.classUri    = this.config.classUri;
+                this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
 
                 this.render($container);
             })
@@ -333,8 +371,14 @@ define([
                     $searchField.on('keyup', _.debounce(function(e){
                         var value = $(this).val().trim();
                         if(value.length > 2 || value.length === 0 || e.which === 13){
-                            self.reset()
+                            if(self.config.filters){
+                                //reset the placeholder
+                                $(this).attr('title', null)
+                                       .attr('placeholder', self.config.searchPlaceholder);
+                            }
+                            self.empty()
                                 .changeFormat('list')
+                                .setSearchQuery(value)
                                 .query();
                         }
                     }, 300));
@@ -345,7 +389,8 @@ define([
                         var format = $target.data('view-format');
                         e.preventDefault();
 
-                        self.changeFormat(format)
+                        self.reset()
+                            .changeFormat(format)
                             .query();
                     });
 
@@ -372,11 +417,9 @@ define([
                                         .attr('title', textualQuery)
                                         .attr('placeholder', textualQuery);
 
-                            //reformat the filter values as key/value
-                            self.filterValues = values;
-
-                            self.reset()
+                            self.empty()
                                 .changeFormat('list')
+                                .setSearchQuery(values)
                                 .query();
 
                             $filterContainer.addClass('folded');

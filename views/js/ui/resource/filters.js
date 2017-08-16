@@ -32,6 +32,18 @@ define([
 ], function ($, _, __, component, generisFormFactory, filtersTpl) {
     'use strict';
 
+    /**
+     * The list of supported properties
+     *
+     * FIXME add radio as soon as supported
+     */
+    var supportedWidgets = [
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea'
+    ];
+
     var defaultConfig = {
         title     : __('Search by properties'),
         applyLabel: __('Apply'),
@@ -104,12 +116,17 @@ define([
              */
             update : function update(data){
                 var self = this;
+                var properties;
                 if(this.is('rendered')){
 
                     this.getElement().empty();
 
+                    properties = _.filter(data.properties, function(property){
+                        return _.contains(supportedWidgets, property.widget);
+                    });
+
                     this.form = generisFormFactory({
-                        properties : data.properties,
+                        properties : properties,
                         values     : data.ranges
                     }, {
                         submitText : this.config.applyLabel,
