@@ -81,7 +81,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         $password = null;
         foreach ($this->formProperties as $key => $property) {
-            if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
+            if ($property['uri'] == PROPERTY_USER_PASSWORD && !empty($this->formProperties[$key]['formValue'])) {
                 $password = $this->formProperties[$key]['formValue'];
                 break;
             }
