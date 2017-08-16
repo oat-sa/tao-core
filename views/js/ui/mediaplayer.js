@@ -1885,16 +1885,11 @@ define([
 
         /**
          * Update volume in DBIndex store
-         * @param volume
+         * @param {Number} volume
          * @private
          */
         _storeVolume: function _storeVolume(volume) {
             return store('mediaVolume')
-                .then(function(volumeStore) {
-                    return volumeStore.clear().then(function() {
-                        return volumeStore;
-                    });
-                })
                 .then(function(volumeStore){
                     volumeStore.setItem('volume', volume);
                 });
@@ -1910,8 +1905,8 @@ define([
                 .then(function(volumeStore) {
                     return volumeStore.getItem('volume')
                         .then(function(volume) {
-                            if (typeof(volume) !== 'undefined' && jQuery.type !== 'object') {
-                                self.volume = volume;
+                            if(_.isNumber(volume)){
+                                self.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(volume)));
                             }
                         });
                 });
