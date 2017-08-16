@@ -274,8 +274,6 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function add()
     {
-        // ???
-        // $this->setData('loginUri', tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
         $this->setView('user/add.tpl');
     }
 
