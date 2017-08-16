@@ -186,7 +186,7 @@ define([
              * Displays all widget errors
              * @returns {this}
              */
-            displayErrors: function displayErrors() {
+            clearWidgetErrors: function clearWidgetErrors() {
                 _.each(this.widgets, function (widget) {
                     widget.addErrors([]);
                 });

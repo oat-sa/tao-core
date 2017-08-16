@@ -60,8 +60,13 @@ form.widgets;
 @returns this
 form.addWidget(object widgetOptions);
 form.removeWidget(string widgetUri);
+form.clearWidgets();
+form.clearWidgetErrors();
 form.validate();
 form.toggleLoading(boolean isLoading);
+
+@returns ui/generis/widget
+form.getWidget(string widgetUri);
 
 @returns object[]
 form.serializeArray();

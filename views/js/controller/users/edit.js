@@ -65,7 +65,7 @@ define([
                     request(route, formData, 'post')
                     .then(function () {
                         setTimeout(function () {
-                            self.displayErrors();
+                            self.clearWidgetErrors();
                             self.toggleLoading();
                         }, 1000);
 
