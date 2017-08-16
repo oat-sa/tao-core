@@ -64,7 +64,7 @@ define([
                         ret.push($(this).val());
                     });
                 } else {
-                    ret = this.config.values || ret;
+                    ret = this.config.value || ret;
                 }
 
                 return ret;
@@ -77,11 +77,11 @@ define([
              */
             set: function set(values) {
                 if (values === null) {
-                    this.config.values = [];
+                    this.config.value = [];
                 } else if (Array.isArray(values)) {
-                    this.config.values = values;
+                    this.config.value = values;
                 } else {
-                    this.config.values.push(values);
+                    this.config.value.push(values);
                 }
 
                 if (this.is('rendered')) {
@@ -96,7 +96,7 @@ define([
                     }, this);
                 }
 
-                return this.config.values;
+                return this.config.value;
             }
         })
         .setTemplate(tpl)
@@ -105,7 +105,7 @@ define([
             range: config.range || [],
             required: config.required || false,
             uri: config.uri,
-            values: config.value || []
+            value: Array.isArray(config.value) ? config.value : [ config.value ]
         });
 
         // Validations
