@@ -36,7 +36,7 @@ define([
      * @param {Object[]} [options.validator]
      * @param {String} config.label
      * @param {String[]} config.range
-     * @param {String} [confgi.required = false]
+     * @param {String} [config.required = false]
      * @param {String} config.uri
      * @param {String[]} [config.values]
      * @returns {ui/component}

@@ -66,7 +66,13 @@ define([
              * @returns {this}
              */
             addWidget: function addWidget(widgetOptions) {
-                var widget = widgetLoader(widgetOptions.widget)({}, widgetOptions);
+                var widget;
+
+                if (widgetOptions.validators && widgetOptions.validators.includes('notEmpty')) {
+                    widgetOptions.required = true;
+                }
+
+                widget = widgetLoader(widgetOptions.widget)({}, widgetOptions);
 
                 this.widgets.push(widget);
 

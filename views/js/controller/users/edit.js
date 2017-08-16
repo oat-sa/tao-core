@@ -74,6 +74,7 @@ define([
                     .catch(function (err) {
                         self.toggleLoading();
 
+                        self.clearWidgetErrors();
                         _.each(err.response.data || [], function (message, widgetUri) {
                             var widget = self.getWidget(widgetUri);
 
