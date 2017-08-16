@@ -135,12 +135,9 @@ define([
              * @returns {Object[]}
              */
             serializeArray: function serializeArray() {
-                return _(this.widgets)
-                .map(function (widget) {
+                return _.map(this.widgets, function (widget) {
                     return widget.serialize();
-                })
-                .flatten()
-                .value();
+                });
             },
 
             /**

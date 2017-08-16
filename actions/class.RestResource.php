@@ -128,6 +128,10 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 $argumentSplited = explode('=', $argument);
                 $key = urldecode($argumentSplited[0]);
                 $value = urldecode($argumentSplited[1]);
+                // for multiple values
+                if (strpos($value, ',')) {
+                    $value = explode(',', $value);
+                }
                 if (substr($key, -2) == '[]') {
                     $key = substr($key, 0, strlen($key)-2);
                     if (!isset($parameters[$key])) {
