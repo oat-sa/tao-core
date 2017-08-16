@@ -22,7 +22,6 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'core/promise',
     'async',
     'urlParser',
     'core/eventifier',
@@ -31,7 +30,7 @@ define([
     'tpl!ui/mediaplayer/tpl/player',
     'css!ui/mediaplayer/css/player',
     'nouislider'
-], function ($, _, __, Promise, async, UrlParser, eventifier, mimetype, store, playerTpl) {
+], function ($, _, __, async, UrlParser, eventifier, mimetype, store, playerTpl) {
     'use strict';
 
     /**
@@ -1884,8 +1883,12 @@ define([
             }
         },
 
+        /**
+         * Update volume in DBIndex store
+         * @param volume
+         * @private
+         */
         _storeVolume: function _storeVolume(volume) {
-
             return store('mediaVolume')
                 .then(function(volumeStore) {
                     return volumeStore.clear().then(function() {
@@ -1894,10 +1897,13 @@ define([
                 })
                 .then(function(volumeStore){
                     volumeStore.setItem('volume', volume);
-
                 });
         },
 
+        /**
+         * Get volume from DBIndex store
+         * @private
+         */
         _getStoredVolume: function _getStoredVolume() {
             var self = this;
             return store('mediaVolume')
