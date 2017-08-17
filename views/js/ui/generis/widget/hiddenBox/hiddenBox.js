@@ -36,7 +36,8 @@ define([
      * @param {Object[]} [options.validator]
      * @param {Object} [config.confirmation]
      * @param {String} config.label
-     * @param {String} [confgi.required = false]
+     * @param {Boolean} [config.match = true]
+     * @param {String} [config.required = false]
      * @param {String} config.uri
      * @param {String} [config.value]
      * @returns {ui/component}
@@ -109,6 +110,7 @@ define([
                 value: config.value || ''
             },
             label: config.label,
+            match: config.match || true,
             required: config.required || false,
             uri: config.uri,
             value: config.value || ''

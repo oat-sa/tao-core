@@ -59,28 +59,34 @@ define([
                     formData.push({ name: 'classUri', value: classUri });
 
                     this.toggleLoading();
+                    this.validate();
 
-                    request(route, formData, 'post')
-                    .then(function () {
-                        setTimeout(function () {
-                            self.clearWidgets();
+                    if (!this.errors.length) {
+                        request(route, formData, 'post')
+                        .then(function () {
+                            setTimeout(function () {
+                                self.clearWidgets();
+                                self.toggleLoading();
+                            }, 1000);
+
+                            feedback().success(__('User added'));
+                        })
+                        .catch(function (err) {
                             self.toggleLoading();
-                        }, 1000);
 
-                        feedback().success(__('User added'));
-                    })
-                    .catch(function (err) {
-                        self.toggleLoading();
+                            self.clearWidgetErrors();
+                            _.each(err.response.data || [], function (message, widgetUri) {
+                                var widget = self.getWidget(widgetUri);
 
-                        self.clearWidgetErrors();
-                        _.each(err.response.data || [], function (message, widgetUri) {
-                            var widget = self.getWidget(widgetUri);
+                                widget.addErrors(message);
+                            });
 
-                            widget.addErrors(message);
+                            feedback().error(err);
                         });
-
-                        feedback().error(err);
-                    });
+                    } else {
+                        this.toggleLoading();
+                        feedback().error(__('Some fields are invalid'));
+                    }
                 });
             });
         }
