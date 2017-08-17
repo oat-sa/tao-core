@@ -3,7 +3,12 @@
     <form action="{{formAction}}" method="{{formMethod}}">
         <fieldset></fieldset>
         <div class="toolbar">
-            <button type="submit">
+            {{#if reset}}
+            <button type="reset" class="btn-neutral small">
+                <span class="icon-reset"/> {{resetText}}
+            </button>
+            {{/if}}
+            <button type="submit" class="btn-info small">
                 <span class="icon-save"/> {{submitText}}
             </button>
         </div>
