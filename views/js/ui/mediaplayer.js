@@ -958,6 +958,7 @@ define([
             this._setType(this.config.type || _defaults.type);
 
             this._reset();
+            this._updateVolumeFromStore();
             this._initEvents();
             this._initSources(function() {
                 if (!self.is('youtube')) {
@@ -1598,7 +1599,6 @@ define([
             this.autoStartAt = this.config.autoStartAt;
             this.startMuted = this.config.startMuted;
 
-            this._getStoredVolume();
 
         },
 
@@ -1702,13 +1702,13 @@ define([
                 self.seek(value, true);
             });
 
-            $(document).on('updateVolume', function(event, value) {
+            $(document).on('updateVolume' + _ns, function(event, value) {
                 self.setVolume(value);
             });
 
             this.$volume.on('change' + _ns, function(event, value) {
                 self.unmute();
-                $(document).trigger('updateVolume', value);
+                $(document).trigger('updateVolume' + _ns, value);
                 self.setVolume(value, true);
             });
 
@@ -1747,6 +1747,8 @@ define([
             this.$controls.off(_ns);
             this.$seek.off(_ns);
             this.$volume.off(_ns);
+
+            $(document).off(_ns);
         },
 
 
@@ -1899,16 +1901,16 @@ define([
          * Get volume from DBIndex store
          * @private
          */
-        _getStoredVolume: function _getStoredVolume() {
+        _updateVolumeFromStore: function _updateVolumeFromStore() {
             var self = this;
             return store('mediaVolume')
-                .then(function(volumeStore) {
-                    return volumeStore.getItem('volume')
-                        .then(function(volume) {
-                            if(_.isNumber(volume)){
-                                self.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(volume)));
-                            }
-                        });
+                .then(function (volumeStore) {
+                    return volumeStore.getItem('volume');
+                })
+                .then(function (volume) {
+                    if(_.isNumber(volume)){
+                        self.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(volume)));
+                    }
                 });
         },
 
