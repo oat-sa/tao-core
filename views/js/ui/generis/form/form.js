@@ -213,7 +213,7 @@ define([
                  * @event form#submit
                  * @param {Object[]} formData
                  */
-                self.trigger('submit change', self.serializeArray());
+                self.trigger('submit', self.serializeArray());
 
                 return false;
             });
@@ -224,7 +224,7 @@ define([
                  * @event form#reset
                  * @param {Object[]} formData
                  */
-                self.trigger('reset change', self.serializeArray());
+                self.trigger('reset', self.serializeArray());
             });
 
         });
