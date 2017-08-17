@@ -4,7 +4,7 @@
         <fieldset></fieldset>
         <div class="toolbar">
             {{#if reset}}
-            <button type="reset" class="btn-neutrali small">
+            <button type="reset" class="btn-neutral small">
                 <span class="icon-reset"/> {{resetText}}
             </button>
             {{/if}}

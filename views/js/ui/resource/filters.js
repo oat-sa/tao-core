@@ -131,7 +131,7 @@ define([
                     }, {
                         submitText : this.config.applyLabel,
                         title      : this.config.title
-                    }).on('change', function(){
+                    }).on('submit reset', function(){
 
                         /**
                          * Apply the filter values
