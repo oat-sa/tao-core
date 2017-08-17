@@ -9,7 +9,7 @@
 
     <nav class="selection">
         <div class="search">
-            <input type="text" placeholder="{{__ 'Search'}}" />
+            <input type="text" placeholder="{{searchPlaceholder}}" />
             {{# if filters }}
             <a href="#" class="filters-opener" title="{{__ 'Advanced search, add filters'}}"><span class="icon-add"></span></a>
             {{/if}}
@@ -25,7 +25,10 @@
         {{/if}}
     </nav>
 
-    <main></main>
+    <main>
+
+        <span class="hidden no-results">{{noResultsText}}</span>
+    </main>
     <footer>
         <div class="get-selection">
            <span>{{__ 'Selected'}} {{type}} : </span><span class="selected-num">0</span>

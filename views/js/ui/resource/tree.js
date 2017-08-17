@@ -145,8 +145,7 @@ define([
                 var $root;
                 var $component;
 
-
-                var reduceNode = function reduceNode(acc , node){
+                function reduceNode(acc , node){
 
                     //filter already added nodes or classes when loading "more"
                     if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ){
@@ -157,12 +156,18 @@ define([
                         node.icon = config.icon;
                     }
                     if(node.children && node.children.length){
-                        node.childList = _.reduce(node.children, reduceNode, '');
+                        node.childList = reduceNodes(node.children);
                     }
 
                     acc += treeNodeTpl(node);
                     return acc;
-                };
+                }
+
+                function reduceNodes(nodeList){
+                    return _.sortBy(nodeList, function(a, b){
+                        return b.label - a.label;
+                    }).reduce(reduceNode, '');
+                }
 
                 if(this.is('rendered')){
                     $component = this.getElement();
@@ -176,7 +181,7 @@ define([
                     if(nodes[0].uri === $root.data('uri')){
                         nodes = nodes[0].children || [];
                     }
-                    $root.children('ul').append(_.reduce(nodes, reduceNode, ''));
+                    $root.children('ul').append(reduceNodes(nodes));
 
                     needMore($root);
                     indentChildren($component.children('ul'), 1);

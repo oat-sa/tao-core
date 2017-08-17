@@ -32,6 +32,8 @@ define([
 ], function($, _, resourceSelectorFactory, classesData, treeRootData, treeNodeData, listData) {
     'use strict';
 
+    var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
+
     QUnit.module('API');
 
     QUnit.test('module', function(assert) {
@@ -76,9 +78,12 @@ define([
         { title : 'query' },
         { title : 'update' },
         { title : 'reset' },
+        { title : 'empty' },
         { title : 'getSelection' },
         { title : 'clearSelection' },
         { title : 'changeFormat' },
+        { title : 'getSearchQuery' },
+        { title : 'setSearchQuery' },
     ]).test('Instance API ', function(data, assert) {
         var instance = resourceSelectorFactory();
         assert.equal(typeof instance[data.title], 'function', 'The resourceSelector exposes the method "' + data.title);
@@ -279,7 +284,7 @@ define([
             });
     });
 
-    QUnit.asyncTest('pattern', function(assert) {
+    QUnit.asyncTest('search', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
@@ -287,7 +292,7 @@ define([
             format : 'list'
         };
 
-        QUnit.expect(3);
+        QUnit.expect(6);
 
         resourceSelectorFactory($container, config)
             .on('update.foo', function(){
@@ -298,15 +303,62 @@ define([
                 assert.equal($search.length, 1, 'The search field exists');
 
                 this.on('query', function(params){
-                    assert.equal(params.search, 'foo', 'The pattern is contains the updated value');
+                    var search = JSON.parse(params.search);
+                    assert.equal(search[labelUri], 'foo', 'The pattern is contains now the search value');
                     QUnit.start();
                 });
                 $search.val('foo').trigger('keyup');
             })
             .on('query.bar', function(params){
+                var search;
+
+                assert.equal(typeof params.search, 'string', 'The search parameter is an JSON encoded string ');
+                search = JSON.parse(params.search);
+
+                assert.equal(typeof search, 'object', 'The search is an object');
+                assert.equal(typeof search[labelUri], 'string', 'The search contains a label');
+                assert.equal(search[labelUri], '', 'The pattern is empty');
+
                 this.update(listData, params);
-                assert.equal(params.search, '', 'The pattern is empty');
                 this.off('query.bar');
+            });
+    });
+
+    QUnit.asyncTest('search query', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            classes : classesData,
+            format : 'list'
+        };
+
+        QUnit.expect(9);
+
+        resourceSelectorFactory($container, config)
+            .on('render', function(){
+                var searchQuery = this.getSearchQuery();
+
+                assert.equal(typeof searchQuery, 'object', 'The search is an object');
+                assert.equal(typeof searchQuery[labelUri], 'string', 'The search the label by default');
+                assert.equal(searchQuery[labelUri], '', 'The label is empty');
+
+                this.setSearchQuery('plop');
+                searchQuery = this.getSearchQuery();
+
+                assert.equal(typeof searchQuery, 'object', 'The search is an object');
+                assert.equal(typeof searchQuery[labelUri], 'string', 'The search the label by default');
+                assert.equal(searchQuery[labelUri], 'plop', 'The label contains the correct search pattern');
+
+                this.setSearchQuery({
+                    'http://foo#bar' : 'noz'
+                });
+                searchQuery = this.getSearchQuery();
+
+                assert.equal(typeof searchQuery, 'object', 'The search is still an object');
+                assert.equal(typeof searchQuery[labelUri], 'undefined', 'No label anymore');
+                assert.equal(searchQuery['http://foo#bar'], 'noz', 'The search contains the correct filters');
+
+                QUnit.start();
             });
     });
 

@@ -26,10 +26,11 @@ define([
     'urlParser',
     'core/eventifier',
     'core/mimetype',
+    'core/store',
     'tpl!ui/mediaplayer/tpl/player',
     'css!ui/mediaplayer/css/player',
     'nouislider'
-], function ($, _, __, async, UrlParser, eventifier, mimetype, playerTpl) {
+], function ($, _, __, async, UrlParser, eventifier, mimetype, store, playerTpl) {
     'use strict';
 
     /**
@@ -957,6 +958,7 @@ define([
             this._setType(this.config.type || _defaults.type);
 
             this._reset();
+            this._updateVolumeFromStore();
             this._initEvents();
             this._initSources(function() {
                 if (!self.is('youtube')) {
@@ -1596,6 +1598,8 @@ define([
             this.autoStart = this.config.autoStart;
             this.autoStartAt = this.config.autoStartAt;
             this.startMuted = this.config.startMuted;
+
+
         },
 
         /**
@@ -1698,10 +1702,16 @@ define([
                 self.seek(value, true);
             });
 
+            $(document).on('updateVolume' + _ns, function(event, value) {
+                self.setVolume(value);
+            });
+
             this.$volume.on('change' + _ns, function(event, value) {
                 self.unmute();
+                $(document).trigger('updateVolume' + _ns, value);
                 self.setVolume(value, true);
             });
+
             this.$sound.on('mouseover' + _ns, 'a', function(){
                 var position;
 
@@ -1737,6 +1747,8 @@ define([
             this.$controls.off(_ns);
             this.$seek.off(_ns);
             this.$volume.off(_ns);
+
+            $(document).off(_ns);
         },
 
 
@@ -1759,7 +1771,7 @@ define([
          */
         _updateVolume : function _updateVolume(value, internal) {
             this.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(value)));
-
+            this._storeVolume(this.volume);
             if (!internal) {
                 this._updateVolumeSlider(value);
             }
@@ -1871,6 +1883,35 @@ define([
             } else if (this.autoStart) {
                 this.play();
             }
+        },
+
+        /**
+         * Update volume in DBIndex store
+         * @param {Number} volume
+         * @private
+         */
+        _storeVolume: function _storeVolume(volume) {
+            return store('mediaVolume')
+                .then(function(volumeStore){
+                    volumeStore.setItem('volume', volume);
+                });
+        },
+
+        /**
+         * Get volume from DBIndex store
+         * @private
+         */
+        _updateVolumeFromStore: function _updateVolumeFromStore() {
+            var self = this;
+            return store('mediaVolume')
+                .then(function (volumeStore) {
+                    return volumeStore.getItem('volume');
+                })
+                .then(function (volume) {
+                    if(_.isNumber(volume)){
+                        self.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(volume)));
+                    }
+                });
         },
 
         /**
