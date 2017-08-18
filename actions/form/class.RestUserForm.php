@@ -92,7 +92,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
                 $this->validatePassword($password);
                 $this->changePassword = true;
             } catch (common_exception_ValidationFailed $e) {
-                $subReport = common_report_Report::createFailure('Password: ' . $e->getMessage());
+                $subReport = common_report_Report::createFailure($e->getMessage());
                 $subReport->setData(PROPERTY_USER_PASSWORD);
                 $report->add($subReport);
             }
@@ -101,11 +101,12 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         // Validate new login availability
         if ($this->isEmpty()) {
             foreach($this->formProperties as $property) {
-                if (
-                    $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login'
-                    && !$this->isLoginAvailable($property['formValue'])
-                ) {
-                    $subReport = common_report_Report::createFailure(__('Login is already in use.'));
+                if ( $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
+                    if ( empty($property['formValue']) ) {
+                        $subReport = common_report_Report::createFailure(__('Login is empty.'));
+                    } else if ( ! $this->isLoginAvailable($property['formValue']) ) {
+                        $subReport = common_report_Report::createFailure(__('Login is already in use.'));
+                    }
                     $subReport->setData($property['uri']);
                     $report->add($subReport);
                 }

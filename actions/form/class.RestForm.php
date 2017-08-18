@@ -211,7 +211,7 @@ class tao_actions_form_RestForm
                         $validator = new $validatorClass();
                         if (!$validator->evaluate($value)) {
                             throw new common_exception_ValidationFailed(
-                                tao_helpers_Uri::encode($property['uri']), $property['label'] . ' : ' . $validator->getMessage()
+                                tao_helpers_Uri::encode($property['uri']), $validator->getMessage()
                             );
                         }
                     }
