@@ -1,4 +1,5 @@
 {{#equal type 'class'}}
+{{#if state}}
 <li data-uri="{{uri}}" class="class {{state}}" data-count="{{count}}">
     <a href="#" title="{{label}}">{{label}}</a>
    <ul>
@@ -10,6 +11,7 @@
         <a href="#" class="btn-info small"><span class="icon-download"></span> {{__ 'Load more'}}</a>
     </div>
 </li>
+{{/if}}
 {{/equal}}
 
 {{#equal type 'instance'}}
