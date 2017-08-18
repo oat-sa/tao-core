@@ -47,9 +47,9 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     {
         $properties = $this->formProperties;
 
-        foreach ($properties as $property) {
+        foreach ($properties as $index => $property) {
             if ($this->doesExist() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
-                $property['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
+                $properties[$index]['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
                 break;
             }
         }

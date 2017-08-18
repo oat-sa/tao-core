@@ -21,13 +21,15 @@ define([
     'ui/generis/widget/checkBox/checkBox',
     'ui/generis/widget/comboBox/comboBox',
     'ui/generis/widget/hiddenBox/hiddenBox',
-    'ui/generis/widget/textBox/textBox'
+    'ui/generis/widget/textBox/textBox',
+    'ui/generis/widget/readonly/readonly'
 ], function (
     _,
     checkBoxFactory,
     comboBoxFactory,
     hiddenBoxFactory,
-    textBoxFactory
+    textBoxFactory,
+    readonlyFactory
 ) {
     'use strict';
 
@@ -36,7 +38,8 @@ define([
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox': checkBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox': comboBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox': hiddenBoxFactory,
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox': textBoxFactory
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox': textBoxFactory,
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly': readonlyFactory
     };
 
     /**
