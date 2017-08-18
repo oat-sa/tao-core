@@ -27,8 +27,6 @@ use Psr\Http\Message\UriInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Psr7\Request;
-use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class ApiClientConnector
@@ -71,14 +69,7 @@ class ApiClientConnector extends Configurable implements ClientInterface
      */
     public function request($method, $uri, array $options = [])
     {
-        $request = new Request($method, $uri);
-        if (!empty($options)) {
-            $body = stream_for(json_encode($options));
-            $request = $request->withBody($body)->withAddedHeader('Content-Type', 'application/json');
-        }
-
-        $response = $this->send($request);
-        return $response;
+        return $this->getClient()->request($method, $uri, $options);
     }
 
     /**
@@ -93,7 +84,7 @@ class ApiClientConnector extends Configurable implements ClientInterface
 
     /**
      * Get the options as client options
-     * 
+     *
      * @return array
      */
     protected function getClientOptions()
