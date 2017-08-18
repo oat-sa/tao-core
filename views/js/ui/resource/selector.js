@@ -33,7 +33,9 @@
  *         });
  *     });
  *
- *
+ * FIXME search and advanced search switch to the list format
+ * because backend implementation doesn't support well the
+ * tree behavior.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -43,30 +45,34 @@ define([
     'i18n',
     'core/promise',
     'ui/component',
+    'ui/hider',
     'ui/class/selector',
     'ui/resource/tree',
     'ui/resource/list',
     'ui/resource/filters',
     'tpl!ui/resource/tpl/selector',
     'css!ui/resource/css/selector.css',
-], function ($, _, __, Promise, component, classesSelectorFactory, treeFactory, listFactory, filtersFactory, selectorTpl) {
+], function ($, _, __, Promise, component, hider, classesSelectorFactory, treeFactory, listFactory, filtersFactory, selectorTpl) {
     'use strict';
 
+    var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
 
     var defaultConfig = {
         type : __('resources'),
+        noResultsText : _('No resources found'),
+        searchPlaceholder : __('Search'),
         icon : 'item',
         multiple : true,
         filters: false,
         formats : {
             list : {
                 icon  : 'icon-ul',
-                title : __('View results as a list'),
+                title : __('View resources as a list'),
                 componentFactory : listFactory
             },
             tree : {
                 icon  : 'icon-tree',
-                title : __('View results as a tree'),
+                title : __('View resources as a tree'),
                 componentFactory : treeFactory,
                 active : true
             }
@@ -92,6 +98,7 @@ define([
     return function resourceSelectorFactory($container, config){
         var $classContainer;
         var $resultArea;
+        var $noResults;
         var $searchField;
         var $viewFormats;
         var $selectNum;
@@ -103,19 +110,44 @@ define([
         var resourceSelectorApi = {
 
             /**
-             * Reset the component
+             * Empty the selection component
              * @returns {resourceSelector} chains
-             * @fires resourceSelector#reset
+             * @fires resourceSelector#empty
              */
-            reset : function reset(){
+            empty : function empty(){
                 if(this.is('rendered')){
                     if(this.selectionComponent){
                         this.selectionComponent.destroy();
                         this.selectionComponent = null;
                     }
                 }
+                return this.trigger('empty');
+            },
+
+            /**
+             * Reset the component
+             * @returns {resourceSelector} chains
+             * @fires resourceSelector#reset
+             */
+            reset : function reset(){
+                if(this.is('rendered')){
+                    this.empty();
+
+                    this.searchQuery = {};
+
+                    if(this.config.filters){
+                        if(this.filtersComponent){
+                            this.filtersComponent.reset();
+                        }
+                        $searchField
+                            .val('')
+                            .attr('title', null)
+                            .attr('placeholder', this.config.searchPlaceholder);
+                    }
+                }
                 return this.trigger('reset');
             },
+
 
             /**
              * Get the selected nodes
@@ -140,20 +172,32 @@ define([
             },
 
             /**
+             * Set the search query
+             * @param {String|Object} query - label query if string or property filters
+             * @returns {resourceSelector} chains
+             */
+            setSearchQuery : function setSearchQuery(query){
+                this.searchQuery = {};
+                this.searchQuery[labelUri] = '';
+
+                if(_.isString(query) && !_.isEmpty(query)){
+                    this.searchQuery[labelUri] = query;
+                }
+                if(_.isPlainObject(query)){
+                    this.searchQuery = query;
+                }
+                return this;
+            },
+
+            /**
              * Clear the search query to submit
-             * @returns {Object|String} the query
+             * @returns {Object} the query
              */
             getSearchQuery : function getSearchQuery(){
-                var search = '';
-
-                if(this.is('rendered')){
-                    if(this.filterValues){
-                        search = this.filterValues;
-                    } else {
-                        search = $searchField.val();
-                    }
+                if(_.size(this.searchQuery) === 0){
+                    this.searchQuery[labelUri] = '';
                 }
-                return search;
+                return this.searchQuery;
             },
 
             /**
@@ -180,7 +224,7 @@ define([
                         classUri: this.classUri,
                         format:   this.format,
                         limit  : this.config.limit,
-                        search : _.isObject(search) || _.isArray(search) ? JSON.stringify(search) : search
+                        search : _.isObject(search) ? JSON.stringify(search) : ''
                     };
 
                     /**
@@ -201,13 +245,15 @@ define([
              */
             changeFormat : function changeFormat(format){
                 var $viewFormat;
-                if(this.is('rendered')){
+                if(this.is('rendered') && this.format !== format){
 
                     $viewFormat = $viewFormats.filter('[data-view-format="' + format + '"]');
                     if($viewFormat.length === 1 && !$viewFormat.hasClass('active')){
 
                         $viewFormats.removeClass('active');
                         $viewFormat.addClass('active');
+
+                        this.empty();
 
                         this.format = format;
 
@@ -243,12 +289,9 @@ define([
                         return this.trigger('error', new TypeError('Unable to load the component for the format ' + this.format));
                     }
 
-                    if(params.new && this.selectionComponent){
-                        this.selectionComponent.destroy();
-                        this.selectionComponent = null;
-                    }
+                    hider.hide($noResults);
 
-                    if(!this.selectionComponent || params.new){
+                    if(!this.selectionComponent){
 
                         this.selectionComponent = componentFactory($resultArea, _.defaults({
                             classUri : this.classUri,
@@ -258,6 +301,9 @@ define([
                             self.query(queryParams);
                         })
                         .on('update', function(){
+                            if(_.size(this.getNodes()) === 0 && $('li', $resultArea).length === 0){
+                                hider.show($noResults);
+                            }
                             self.trigger('update');
                         })
                         .on('change', function(selected){
@@ -297,8 +343,9 @@ define([
             .setTemplate(selectorTpl)
             .on('init', function(){
 
-                this.classUri = this.config.classUri;
-                this.format   = this.config.format || _.findKey(this.config.formats, { active : true });
+                this.searchQuery = {};
+                this.classUri    = this.config.classUri;
+                this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
 
                 this.render($container);
             })
@@ -311,6 +358,7 @@ define([
 
                     $classContainer  = $('.class-context', $component);
                     $resultArea      = $('main', $component);
+                    $noResults       = $('.no-results', $resultArea);
                     $searchField     = $('.search input', $component);
                     $filterToggle    = $('.filters-opener', $component);
                     $filterContainer = $('.filters-container', $component);
@@ -323,7 +371,15 @@ define([
                     $searchField.on('keyup', _.debounce(function(e){
                         var value = $(this).val().trim();
                         if(value.length > 2 || value.length === 0 || e.which === 13){
-                            self.query({ 'new' : true });
+                            if(self.config.filters){
+                                //reset the placeholder
+                                $(this).attr('title', null)
+                                       .attr('placeholder', self.config.searchPlaceholder);
+                            }
+                            self.empty()
+                                .changeFormat('list')
+                                .setSearchQuery(value)
+                                .query();
                         }
                     }, 300));
 
@@ -333,7 +389,9 @@ define([
                         var format = $target.data('view-format');
                         e.preventDefault();
 
-                        self.changeFormat(format);
+                        self.reset()
+                            .changeFormat(format)
+                            .query();
                     });
 
                     //the select all control
@@ -348,33 +406,40 @@ define([
                     //the advanced filters
                     if(self.config.filters !== false){
 
-                        $filterToggle.on('click', function(e){
-                            e.preventDefault();
-                            $filterContainer.toggleClass('folded');
-                        });
                         self.filtersComponent = filtersFactory($filterContainer, {
                             classUri : self.classUri,
                             data     : self.config.filters
                         })
-                        .on('apply', function(values){
+                        .on('change', function(values){
+                            var textualQuery = this.getTextualQuery();
+
+                            $searchField.val('')
+                                        .attr('title', textualQuery)
+                                        .attr('placeholder', textualQuery);
+
+                            self.empty()
+                                .changeFormat('list')
+                                .setSearchQuery(values)
+                                .query();
+
                             $filterContainer.addClass('folded');
+                        });
 
-                            //reformat the filter values as key/value
-                            self.filterValues = _.reduce(values, function(acc, value){
-                                if(!_.isEmpty(value.name) && !_.isEmpty(value.value)){
-                                    acc[value.name] = value.value;
+                        $filterToggle.on('click', function(e){
+                            var searchVal;
+                            e.preventDefault();
+
+                            if($filterContainer.hasClass('folded')){
+
+                                //if a value is in the search field, we add it to the label
+                                searchVal = $searchField.val().trim();
+                                if(!_.isEmpty(searchVal)){
+                                    self.filtersComponent.setValue(labelUri, searchVal);
                                 }
-                                return acc;
-                            }, {});
+                                $filterContainer.removeClass('folded');
 
-                            //support only list for now
-                            //FIXME paging issue with filtered tree
-                            if(self.format !== 'list'){
-                                self.changeFormat('list');
                             } else {
-                                self.query({
-                                    'new' : true
-                                });
+                                $filterContainer.addClass('folded');
                             }
                         });
                     }
@@ -399,23 +464,23 @@ define([
                                  */
                                 self.trigger('classchange', uri);
 
-                                self.query({ 'new' : true });
+                                self.reset()
+                                    .query();
                             }
                         });
+
                     self.query();
                 });
-            })
-            .on('formatchange', function(){
-                this.trigger('change', {});
-                this.query({ 'new' : true});
             })
             .on('change', function(selected){
 
                 var nodesCount = _.size(this.selectionComponent.getNodes());
                 var selectedCount = _.size(selected);
 
+                //the number selected at the bottom
                 $selectNum.text(selectedCount);
 
+                //update the state of the "Select All" checkbox
                 if(selectedCount === 0 ){
                     $selectCtrlLabel.attr('title', __('Select loaded %s', this.config.type));
                     $selectCtrl.prop('checked', false)

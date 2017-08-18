@@ -116,7 +116,7 @@ class GenerisTreeFactory
         $label = empty($label) ? __('no label') : $label;
         $returnValue = $this->buildClassNode($class, $parent);
 
-        $instancesCount = (int) $class->countInstances();
+        $instancesCount = (int) $class->countInstances($this->propertyFilter);
 
         // allow the class to be opened if it contains either instances or subclasses
         if ($instancesCount > 0 || count($class->getSubClasses(false)) > 0) {
