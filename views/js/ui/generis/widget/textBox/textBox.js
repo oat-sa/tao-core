@@ -35,7 +35,7 @@ define([
      * The factory
      * @param {Object[]} [options.validator]
      * @param {String} config.label
-     * @param {String} [confgi.required = false]
+     * @param {Boolean} [config.required = false]
      * @param {String} config.uri
      * @param {String} [config.value = '']
      * @returns {ui/component}
@@ -59,8 +59,7 @@ define([
 
         // Validations
         if (widget.config.required) {
-            widget.validator
-            .addValidation({
+            widget.validator.addValidation({
                 message: __('This field is required'),
                 predicate: /\S+/,
                 precedence: 1
