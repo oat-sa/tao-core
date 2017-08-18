@@ -32,8 +32,20 @@ define([
 ], function ($, _, __, component, generisFormFactory, filtersTpl) {
     'use strict';
 
+    /**
+     * The list of supported properties
+     *
+     * FIXME add radio as soon as supported
+     */
+    var supportedWidgets = [
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea'
+    ];
+
     var defaultConfig = {
-        title     : __('Filter by propety'),
+        title     : __('Search by properties'),
         applyLabel: __('Apply'),
     };
 
@@ -63,9 +75,35 @@ define([
              */
             getValues : function getValues(){
                 if(this.is('rendered') && this.form){
-                    return this.form.serializeArray();
+                    return this.form.getValues();
                 }
                 return null;
+            },
+
+            /**
+             * Set the value for a given field
+             * @param {String} uri - the property URI
+             * @param {String|String[]} value - the field value
+             * @return {filter} chains
+             */
+            setValue : function setValue(uri, value){
+                var widget;
+                if(this.is('rendered') && this.form){
+                    widget = this.form.getWidget(uri);
+                    if(widget){
+                        widget.set(value);
+                    }
+                }
+
+                return this;
+            },
+
+            /**
+             * Reset the filter form
+             * @return {filter} chains
+             */
+            reset : function reset(){
+                return  this.update(this.config.data);
             },
 
             /**
@@ -74,32 +112,74 @@ define([
              * @param {Object} data.properties - the list of properties used to filter
              * @param {Object} data.ranges - the property ranges
              * @return {filter} chains
-             * @fires filter#apply when the user wants to apply the filter
+             * @fires filter#change when the user wants to apply the filter
              */
             update : function update(data){
                 var self = this;
+                var properties;
                 if(this.is('rendered')){
 
                     this.getElement().empty();
 
+                    properties = _.filter(data.properties, function(property){
+                        return _.contains(supportedWidgets, property.widget);
+                    });
+
                     this.form = generisFormFactory({
-                        properties : data.properties,
+                        properties : properties,
                         values     : data.ranges
                     }, {
                         submitText : this.config.applyLabel,
                         title      : this.config.title
-                    }).on('submit', function(values){
+                    }).on('submit reset', function(){
 
                         /**
                          * Apply the filter values
-                         * @event filter#apply
+                         * @event filter#change
                          * @param {Object} values - the filter values
                          */
-                        self.trigger('apply', values);
+                        self.trigger('change', this.getValues());
                     })
                     .render(this.getElement());
                 }
                 return this;
+            },
+
+            /**
+             * Get a text that represents the actual query
+             * @returns {String} the query
+             */
+            getTextualQuery : function getTextualQuery(){
+                var self = this;
+                var result;
+                if(this.is('rendered')){
+                    result = _.reduce(this.form.getValues(), function(acc, value, uri){
+                        var widget =  self.form.getWidget(uri);
+                        var displayValue;
+                        if(widget){
+                            if(!_.isEmpty(acc)){
+                                acc += __(' AND ');
+                            }
+                            acc += widget.config.label + __(' is ');
+                            if(widget.config.range){
+                                displayValue = _.map(value, function(val){
+                                    var selectedValue = _.find(widget.config.range, { uri : val });
+                                    return selectedValue && selectedValue.label;
+                                });
+                            } else {
+                                displayValue = value;
+                            }
+                            if(_.isString(displayValue)){
+                                acc += displayValue;
+                            }
+                            if(_.isArray(displayValue)){
+                                acc += displayValue.join(', ');
+                            }
+                        }
+                        return acc;
+                    }, '');
+                }
+                return result;
             }
         }, defaultConfig);
 
