@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\api;
 
+use oat\oatbox\Configurable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -35,8 +36,10 @@ use function GuzzleHttp\Psr7\stream_for;
  * Class to handle a http connection.
  *
  */
-class ApiClientConnector implements ClientInterface
+class ApiClientConnector extends Configurable implements ClientInterface
 {
+    const OPTION_BASE_URI = 'base_uri';
+
     /**
      * Send an HTTP request.
      *
@@ -69,8 +72,8 @@ class ApiClientConnector implements ClientInterface
     public function request($method, $uri, array $options = [])
     {
         $request = new Request($method, $uri);
-        if (!empty($data)) {
-            $body = stream_for(json_encode($data));
+        if (!empty($options)) {
+            $body = stream_for(json_encode($options));
             $request = $request->withBody($body)->withAddedHeader('Content-Type', 'application/json');
         }
 
@@ -85,7 +88,17 @@ class ApiClientConnector implements ClientInterface
      */
     protected function getClient()
     {
-        return new Client();
+        return new Client($this->getClientOptions());
+    }
+
+    /**
+     * Get the options as client options
+     * 
+     * @return array
+     */
+    protected function getClientOptions()
+    {
+        return $this->getOptions();
     }
 
     public function sendAsync(RequestInterface $request, array $options = [])
