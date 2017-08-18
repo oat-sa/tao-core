@@ -127,6 +127,11 @@ define([
                 return this;
             },
 
+            /**
+             * Destroys the component's dialog
+             * @returns {waitingDialog} the component itself
+             * @fires waitingDialog#destroy
+             */
             destroy : function  destroy(){
                 if(this.dialog){
                     this.dialog.destroy();
