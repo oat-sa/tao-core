@@ -36,6 +36,32 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     /** @var bool If password is change, set it to true to save new one */
     protected $changePassword = false;
 
+    public function initFormProperties(array $properties) {
+        parent::initFormProperties($properties);
+
+        // reorder label property
+        foreach ($this->formProperties as $index => $property) {
+            if ($property['uri'] === 'http://www.w3.org/2000/01/rdf-schema#label') {
+                $labelIndex = $index;
+            }
+        }
+        if ( isset($labelIndex) ) {
+            $out = array_splice($this->formProperties, $labelIndex, 1);
+            array_splice($this->formProperties, 0, 0, $out);
+        }
+
+        // reorder roles property
+        foreach ($this->formProperties as $index => $property) {
+            if ($property['uri'] === PROPERTY_USER_ROLES) {
+                $rolesIndex = $index;
+            }
+        }
+        if ( isset($rolesIndex) ) {
+            $out = array_splice($this->formProperties, $rolesIndex, 1);
+            array_splice($this->formProperties, -1, 0, $out);
+        }
+    }
+
     /**
      * Get the form data.
      * Set readOnly to login in case of edition.
