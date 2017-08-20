@@ -82,6 +82,10 @@ class tao_actions_RestUser extends tao_actions_RestResource
         $class = parent::getClassParameter();
         $rootUserClass = $this->getClass(CLASS_GENERIS_USER);
 
+        if ($class->getUri() == $rootUserClass->getUri()) {
+            return $class;
+        }
+
         /** @var core_kernel_classes_Class $instance */
         foreach ($rootUserClass->getSubClasses(true) as $instance) {
             if ($instance->getUri() == $class->getUri()) {
