@@ -64,10 +64,8 @@ define([
                     if (!this.errors.length) {
                         request(route, formData, 'post')
                         .then(function () {
-                            setTimeout(function () {
-                                self.clearWidgets();
-                                self.toggleLoading();
-                            }, 1000);
+                            self.clearWidgets();
+                            self.toggleLoading();
 
                             feedback().success(__('User added'));
                         })

@@ -66,10 +66,8 @@ define([
                     if (!this.errors.length) {
                         request(route, formData, 'post')
                         .then(function () {
-                            setTimeout(function () {
-                                self.clearWidgetErrors();
-                                self.toggleLoading();
-                            }, 1000);
+                            self.clearWidgetErrors();
+                            self.toggleLoading();
 
                             feedback().success(__('User saved'));
                         })
