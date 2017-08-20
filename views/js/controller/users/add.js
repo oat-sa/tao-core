@@ -48,6 +48,23 @@ define([
                 classUri: classUri
             }, 'get')
             .then(function (data) {
+                var labels, passwords;
+
+                // Reorder widgets (i.e. #label comes first and #password goes last)
+                labels = _.remove(data.properties, function (property) {
+                    return property.uri === 'http://www.w3.org/2000/01/rdf-schema#label';
+                });
+                if (labels.length) {
+                    data.properties.unshift(labels[0]);
+                }
+
+                passwords = _.remove(data.properties, function (property) {
+                    return property.uri === 'http://www.tao.lu/Ontologies/generis.rdf#password';
+                });
+                if (passwords.length) {
+                    data.properties.push(passwords[0]);
+                }
+
                 generisFormFactory(
                     data,
                     { title: __('Add a user') }
