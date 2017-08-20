@@ -50,7 +50,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      *
      * @requiresRight classUri WRITE
      */
-    public final function create()
+    public function create()
     {
         if ($this->isRequestGet()) {
             try {
@@ -89,7 +89,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      *
      * @requiresRight uri WRITE
      */
-    public final function edit()
+    public function edit()
     {
         if ($this->isRequestGet()) {
             try {
@@ -99,7 +99,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             }
         }
 
-        if ($this->isRequestPost()) {
+        if ($this->isRequestPut()) {
             try {
                 $this->processForm($this->getResourceParameter());
             } catch (common_Exception $e) {
@@ -128,10 +128,6 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 $argumentSplited = explode('=', $argument);
                 $key = urldecode($argumentSplited[0]);
                 $value = urldecode($argumentSplited[1]);
-                // for multiple values
-                if (strpos($value, ',')) {
-                    $value = explode(',', $value);
-                }
                 if (substr($key, -2) == '[]') {
                     $key = substr($key, 0, strlen($key)-2);
                     if (!isset($parameters[$key])) {
