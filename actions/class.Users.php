@@ -151,7 +151,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $labels[] = $r->getLabel();
             }
 
-            $id = tao_helpers_Uri::encode($user->getUri());
+            $id = $user->getUri();
             $firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
             $lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
             $uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
@@ -208,7 +208,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         if (helpers_PlatformInstance::isDemo()) {
             $message = __('User deletion not permited on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
-            $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $user = new core_kernel_classes_Resource($this->getRequestParameter('uri'));
             $this->checkUser($user->getUri());
 
             if ($this->userService->removeUser($user)) {
@@ -284,7 +284,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function edit()
     {
-        $this->setData('uri', tao_helpers_URI::decode($this->getRequestParameter('uri')));
+        $this->setData('uri', $this->getRequestParameter('uri'));
         $this->setView('user/edit.tpl');
     }
 
