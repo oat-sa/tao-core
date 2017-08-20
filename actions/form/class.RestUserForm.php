@@ -133,8 +133,11 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
                     } else if ( ! $this->isLoginAvailable($property['formValue']) ) {
                         $subReport = common_report_Report::createFailure(__('Login is already in use.'));
                     }
-                    $subReport->setData($property['uri']);
-                    $report->add($subReport);
+
+                    if ( isset($subReport) ) {
+                        $subReport->setData($property['uri']);
+                        $report->add($subReport);
+                    }
                 }
             }
         }
