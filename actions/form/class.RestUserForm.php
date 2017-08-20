@@ -36,32 +36,6 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     /** @var bool If password is change, set it to true to save new one */
     protected $changePassword = false;
 
-    public function initFormProperties(array $properties) {
-        parent::initFormProperties($properties);
-
-        // reorder label property
-        foreach ($this->formProperties as $index => $property) {
-            if ($property['uri'] === 'http://www.w3.org/2000/01/rdf-schema#label') {
-                $labelIndex = $index;
-            }
-        }
-        if ( isset($labelIndex) ) {
-            $out = array_splice($this->formProperties, $labelIndex, 1);
-            array_splice($this->formProperties, 0, 0, $out);
-        }
-
-        // reorder roles property
-        foreach ($this->formProperties as $index => $property) {
-            if ($property['uri'] === PROPERTY_USER_ROLES) {
-                $rolesIndex = $index;
-            }
-        }
-        if ( isset($rolesIndex) ) {
-            $out = array_splice($this->formProperties, $rolesIndex, 1);
-            array_splice($this->formProperties, -1, 0, $out);
-        }
-    }
-
     /**
      * Get the form data.
      * Set readOnly to login in case of edition.
@@ -73,14 +47,14 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     {
         $properties = $this->formProperties;
 
-        foreach ($properties as $index => $property) {
-            if ($this->doesExist() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
-                $properties[$index]['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
+        foreach ($properties as $property) {
+            if ($this->isEdition() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
+                $property['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
                 break;
             }
         }
 
-        if ($this->doesExist()) {
+        if ($this->isEdition()) {
             foreach ($properties as $key => $property) {
                 if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($property['value'])) {
                     $properties[$key]['value'] = '';
@@ -107,32 +81,31 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         $password = null;
         foreach ($this->formProperties as $key => $property) {
-            if ($property['uri'] == PROPERTY_USER_PASSWORD && !empty($this->formProperties[$key]['formValue'])) {
+            if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
                 $password = $this->formProperties[$key]['formValue'];
                 break;
             }
         }
 
-        if ($this->isEmpty() || ($this->doesExist() && !is_null($password))) {
+        if ($this->isCreation() || ($this->isEdition() && !is_null($password))) {
             try {
                 $this->validatePassword($password);
                 $this->changePassword = true;
             } catch (common_exception_ValidationFailed $e) {
-                $subReport = common_report_Report::createFailure($e->getMessage());
+                $subReport = common_report_Report::createFailure('Password: ' . $e->getMessage());
                 $subReport->setData(PROPERTY_USER_PASSWORD);
                 $report->add($subReport);
             }
         }
 
         // Validate new login availability
-        if ($this->isEmpty()) {
+        if ($this->isCreation()) {
             foreach($this->formProperties as $property) {
-                if ( $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
-                    if ( empty($property['formValue']) ) {
-                        $subReport = common_report_Report::createFailure(__('Login is empty.'));
-                    } else if ( ! $this->isLoginAvailable($property['formValue']) ) {
-                        $subReport = common_report_Report::createFailure(__('Login is already in use.'));
-                    }
+                if (
+                    $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login'
+                    && !$this->isLoginAvailable($property['formValue'])
+                ) {
+                    $subReport = common_report_Report::createFailure(__('Login is already in use.'));
                     $subReport->setData($property['uri']);
                     $report->add($subReport);
                 }
@@ -154,16 +127,8 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $validators = parent::getPropertyValidators($property);
 
         $notEmptyProperties = [
-            PROPERTY_USER_DEFLG,
-            PROPERTY_USER_UILG,
-            PROPERTY_USER_ROLES,
-            'http://www.w3.org/2000/01/rdf-schema#label',
+            PROPERTY_USER_DEFLG, PROPERTY_USER_UILG, PROPERTY_USER_ROLES
         ];
-
-        if ($this->isEmpty()) {
-            $notEmptyProperties[] = PROPERTY_USER_PASSWORD;
-            $notEmptyProperties[] = 'http://www.tao.lu/Ontologies/generis.rdf#login';
-        }
 
         if (in_array($property->getUri(), $notEmptyProperties)) {
             $validators[] = 'notEmpty';
