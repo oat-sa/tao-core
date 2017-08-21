@@ -87,7 +87,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
             }
         }
 
-        if ($this->isEmpty() || ($this->doesExist() && !is_null($password))) {
+        if ($this->isNew() || ($this->doesExist() && !is_null($password))) {
             try {
                 $this->validatePassword($password);
                 $this->changePassword = true;
@@ -99,7 +99,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         }
 
         // Validate new login availability
-        if ($this->isEmpty()) {
+        if ($this->isNew()) {
             foreach($this->formProperties as $property) {
                 if ( $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
                     if ( empty($property['formValue']) ) {
@@ -134,10 +134,10 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
             PROPERTY_USER_DEFLG,
             PROPERTY_USER_UILG,
             PROPERTY_USER_ROLES,
-            'http://www.w3.org/2000/01/rdf-schema#label',
+            RDFS_LABEL,
         ];
 
-        if ($this->isEmpty()) {
+        if ($this->isNew()) {
             $notEmptyProperties[] = PROPERTY_USER_PASSWORD;
             $notEmptyProperties[] = 'http://www.tao.lu/Ontologies/generis.rdf#login';
         }

@@ -211,7 +211,7 @@ class tao_actions_form_RestForm
                         $validator = new $validatorClass();
                         if (!$validator->evaluate($value)) {
                             throw new common_exception_ValidationFailed(
-                                tao_helpers_Uri::encode($property['uri']), $validator->getMessage()
+                                $property['uri'], $validator->getMessage()
                             );
                         }
                     }
@@ -244,7 +244,7 @@ class tao_actions_form_RestForm
                     }
                     if (!$rangeValidated) {
                         throw new common_exception_ValidationFailed(
-                            tao_helpers_Uri::encode($property['uri']), 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
+                            $property['uri'], 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
                         );
                     }
 
@@ -271,7 +271,7 @@ class tao_actions_form_RestForm
     {
         $values = $this->prepareValuesToSave();
 
-        if ($this->isEmpty()) {
+        if ($this->isNew()) {
             if (!$resource = $this->class->createInstanceWithProperties($values)) {
                 throw new common_Exception(__('Unable to save resource.'));
             }
@@ -422,7 +422,7 @@ class tao_actions_form_RestForm
      *
      * @return bool
      */
-    protected function isEmpty()
+    protected function isNew()
     {
         return is_null($this->resource);
     }
