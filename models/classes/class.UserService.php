@@ -311,7 +311,7 @@ class tao_models_classes_UserService
      */
     public function getAllUsers($options = [], $filters = [PROPERTY_USER_LOGIN => '*'])
     {
-        $userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+        $userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
 		$options = array_merge(['recursive' => true, 'like' => true], $options);
 
 		return (array) $userClass->searchInstances($filters, $options);
@@ -327,7 +327,7 @@ class tao_models_classes_UserService
      */
 	public function getCountUsers($options = [], $filters = [])
 	{
-		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
 
 		return $userClass->countInstances($filters, $options);
 	}
@@ -524,7 +524,7 @@ class tao_models_classes_UserService
 	 */
 	public function getRootClass()
 	{
-		return new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		return new core_kernel_classes_Class(CLASS_TAO_USER);
 	}
 
     /**
