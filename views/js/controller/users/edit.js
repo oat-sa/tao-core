@@ -95,7 +95,9 @@ define([
                             if (err.response) {
                                 _.each(err.response.data || [], function (message, widgetUri) {
                                     var widget = self.getWidget(widgetUri);
-                                    widget.addErrors(message);
+                                    if (widget) {
+                                        widget.addErrors(message);
+                                    }
                                 });
                             }
 

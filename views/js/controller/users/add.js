@@ -42,7 +42,7 @@ define([
     return {
         start: function() {
             var route = url.route('create', 'RestUser', 'tao');
-            var classUri = 'http://www.tao.lu/Ontologies/generis.rdf#User';
+            var classUri = 'http://www.tao.lu/Ontologies/TAO.rdf#User';
 
             request(route, {
                 classUri: classUri
@@ -93,7 +93,9 @@ define([
                             if (err.response) {
                                 _.each(err.response.data || [], function (message, widgetUri) {
                                     var widget = self.getWidget(widgetUri);
-                                    widget.addErrors(message);
+                                    if (widget) {
+                                        widget.addErrors(message);
+                                    }
                                 });
                             }
 
