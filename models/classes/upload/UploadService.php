@@ -62,7 +62,7 @@ class UploadService extends ConfigurableService
         $file = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
 
         $returnValue['uploaded'] = $file->put(fopen($tmp_name, 'rb'));
-        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($file));
+        $this->getServiceManager()->get(EventManager::SERVICE_ID)->trigger(new FileUploadedEvent($file));
         tao_helpers_File::remove($tmp_name);
 
         $data['type'] = $file->getMimetype();
@@ -155,6 +155,7 @@ class UploadService extends ConfigurableService
             // Getting the File instance of the file url.
             $fakeFile = $this->getSerializer()->unserializeFile($serial);
 
+            \common_Logger::i($serial);
             // Filesystem hack check.
             if ($fakeFile->getFileSystemId() !== $this->getUploadFSid()) {
                 throw new \common_exception_NotAcceptable(

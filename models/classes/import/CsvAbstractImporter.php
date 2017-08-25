@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\import;
 
+use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 
@@ -32,9 +33,7 @@ use oat\tao\model\upload\UploadService;
  */
 abstract class CsvAbstractImporter
 {
-
     protected $validators = array();
-
 
     /**
      * Returns an array of the Uris of the properties
@@ -45,7 +44,8 @@ abstract class CsvAbstractImporter
      *
      * @return array
      */
-    protected function getExludedProperties() {
+    protected function getExludedProperties()
+    {
         return array();
     }
 
@@ -58,7 +58,8 @@ abstract class CsvAbstractImporter
      *
      * @return array
      */
-    protected function getStaticData() {
+    protected function getStaticData()
+    {
         return array();
     }
 
@@ -72,7 +73,8 @@ abstract class CsvAbstractImporter
      * @see tao_helpers_data_GenerisAdapterCsv
      * @return array
      */
-    protected function getAdditionAdapterOptions() {
+    protected function getAdditionAdapterOptions()
+    {
         return array();
     }
 
@@ -141,7 +143,7 @@ abstract class CsvAbstractImporter
      * Additional mapping values but that comes from another source than the CSV file.
      * It enables you to define a mapping that will to work along with the CSV mapping.
      *
-     * @return the mapping in the same form than the staticData (uri -> val/uri)
+     * @return array the mapping in the same form than the staticData (uri -> val/uri)
      */
     public function getStaticMap()
     {
@@ -152,44 +154,65 @@ abstract class CsvAbstractImporter
     /**
      * @param \core_kernel_classes_Class $class where data will be imported
      * @param array $options contains parameters under key => value format
-     *	file => required
-     *	map => required
-     *	callbacks => optional
-     *	field_delimiter => optional
+     *    file => required
+     *    map => required
+     *    callbacks => optional
+     *    field_delimiter => optional
      *  field_encloser => optional
      *  first_row_column_names => optional
      *  multi_values_delimiter => optional
      *  onResourceImported => optional
-     *	staticMap => optional
+     *    staticMap => optional
      * @return \common_report_Report
      */
-    public function importFile($class, $options) {
-
-        if(!isset($options['staticMap']) || !is_array($options['staticMap'])){
+    public function importFile($class, $options)
+    {
+        if (!isset($options['staticMap']) || !is_array($options['staticMap'])) {
             $options['staticMap'] = $this->getStaticData();
         } else {
             $options['staticMap'] = array_merge($options['staticMap'], $this->getStaticData());
         }
         $options = array_merge($options, $this->getAdditionAdapterOptions());
 
-        // Check if we have a proper UTF-8 file.
-        if (@preg_match('//u', file_get_contents($options['file'])) === false) {
-            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
+        $file = $options['file'];
+        if ($file instanceof File) {
+            $content = $file->read();
+        }
+        /**
+         * @deprecated
+         */
+        elseif (is_file($file) && is_readable($file)) {
+            $content = file_get_contents($file);
+        } else {
+            return \common_report_Report::createFailure(__("Import file has to be a valid path or a file object."));
         }
 
+        // Check if we have a proper UTF-8 file.
+        if (@preg_match('//u', $content) === false) {
+            return \common_report_Report::createFailure(__("The imported file is not properly UTF-8 encoded."));
+        }
 
         $adapter = new \tao_helpers_data_GenerisAdapterCsv($options);
         $adapter->setValidators($this->getValidators());
 
         //import it!
-        $report = $adapter->import($options['file'], $class);
+        $report = $adapter->import($file, $class);
 
 
         if ($report->getType() == \common_report_Report::TYPE_SUCCESS) {
-            ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->remove($options['file']);
             $report->setData($adapter->getOptions());
         }
+
+        /** @var UploadService $uploadService */
+        $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
+        $uploadService->remove($file);
+
         return $report;
+    }
+
+    protected function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
     }
 
 }

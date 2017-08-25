@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -14,10 +14,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  */
+
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 
@@ -29,16 +29,17 @@ use oat\tao\model\upload\UploadService;
  * @package tao
  
  */
-class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbstractImporter implements tao_models_classes_import_ImportHandler
+class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbstractImporter
+    implements tao_models_classes_import_ImportHandler
 {
-
 	const OPTION_POSTFIX = '_O';
 
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getLabel()
      */
-    public function getLabel() {
+    public function getLabel()
+    {
     	return __('CSV');
     }
     
@@ -46,7 +47,8 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::getForm()
      */
-    public function getForm() {
+    public function getForm()
+    {
     	$form = empty($_POST['source']) && empty($_POST['importFile'])
     	    ? new tao_models_classes_import_CsvUploadForm()
     	    : $this->createImportFormContainer();
@@ -58,39 +60,47 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
      * In need of a major refactoring, which will
      * probably involve refactoring the Form engine as well
      */
-	private function createImportFormContainer(){
-	    
+	private function createImportFormContainer()
+    {
 	    $sourceContainer = new tao_models_classes_import_CsvUploadForm();
 	    $sourceForm = $sourceContainer->getForm();
+	    /** @var tao_helpers_form_FormElement $element */
 	    foreach($sourceForm->getElements() as $element) {
 	        $element->feed();
 	    }
-	    
-	    if (isset($_POST['importFile'])) {
-        	$file = $_POST['importFile'];
-		} else {
-		    $sourceForm->getElement('source')->feed();
-    		$fileInfo = $sourceForm->getValue('source');
 
-            /** @var UploadService $uploadService */
-            $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
-            $file = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
-	    }
-	    
-		$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
+        $sourceForm->getElement('source')->feed();
+        $fileInfo = $sourceForm->getValue('source');
+
+        if (isset($_POST['importFile'])) {
+            $serial = $_POST['importFile'];
+        } else {
+            $serial = $fileInfo['uploaded_file'];
+        }
+
+        if (!is_string($serial)) {
+            throw new InvalidArgumentException('Import file has to be a valid file serial.');
+        }
+
+        /** @var UploadService $uploadService */
+        $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
+        $file = $uploadService->getUploadedFlyFile($serial);
+
+        $properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
 		$rangedProperties = array();
 
 		$classUri = \tao_helpers_Uri::decode($_POST['classUri']);
 		$class = new core_kernel_classes_Class($classUri);
 		$classProperties = $this->getClassProperties($class);
 
-		foreach($classProperties as $property){
-			if(!in_array($property->getUri(), $this->getExludedProperties())){
+		/** @var core_kernel_classes_Property $property */
+		foreach($classProperties as $property) {
+			if (!in_array($property->getUri(), $this->getExludedProperties())) {
 				//@todo manage the properties with range
 				$range = $property->getRange();
 				$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 				
-				if($range instanceof core_kernel_classes_Resource && $range->getUri() != RDFS_LITERAL){
+				if ($range instanceof core_kernel_classes_Resource && $range->getUri() != RDFS_LITERAL) {
 					$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 				}
 			}
@@ -100,15 +110,19 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		$csv_data = new tao_helpers_data_CsvFile($sourceForm->getValues());
 		$csv_data->load($file);
 
+		$csvColumns = $this->getColumnMapping($csv_data, $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES));
+		$firstRowColumn = $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES);
 		$values = $sourceForm->getValues();
 		$values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = !empty($values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]);
-		$values['importFile'] = $file;
+		$values['importFile'] = $serial;
+
 	    $myFormContainer = new tao_models_classes_import_CSVMappingForm($values, array(
-			'class_properties'  		=> $properties,
-			'ranged_properties'			=> $rangedProperties,
-			'csv_column'				=> $this->getColumnMapping($csv_data, $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES)),
-			tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES	=> $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES),
+            'class_properties' => $properties,
+            'ranged_properties' => $rangedProperties,
+            'csv_column' => $csvColumns,
+            tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => $firstRowColumn,
 		));
+
 		return $myFormContainer;
 	}
 
@@ -123,12 +137,15 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
      */
     public function import($class, $form)
     {
-
         $options = $form->getValues();
+
+        if (!is_string($options['importFile'])) {
+            throw new InvalidArgumentException('Import file has to be a valid file serial.');
+        }
 
         /** @var UploadService $uploadService */
         $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
-        $options['file'] = $uploadService->getUploadedFile($options['importFile']);
+        $options['file'] = $uploadService->getUploadedFlyFile($options['importFile']);
 
 		// Clean "csv_select" values from form view.
 		// Transform any "csv_select" in "csv_null" in order to
@@ -158,9 +175,7 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 		}
 		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 
-        $result = parent::importFile($class, $options);
-
-        return $result;
+        return parent::importFile($class, $options);
     }
 
     /**

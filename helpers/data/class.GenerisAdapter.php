@@ -1,26 +1,28 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\oatbox\filesystem\File;
+
 /**
- * This class enables you to manage interfaces with data. 
+ * This class enables you to manage interfaces with data.
  * It provides the default prototype to adapt the data import/export from/to any
  * format.
  *
@@ -28,7 +30,6 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
 abstract class tao_helpers_data_GenerisAdapter
 {
@@ -43,6 +44,7 @@ abstract class tao_helpers_data_GenerisAdapter
 
     /**
      * List of validators applied during importing to data
+     *
      * @var array
      */
     protected $validators = array();
@@ -52,20 +54,16 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     protected $errorMessages = array();
 
-    // --- OPERATIONS ---
-
     /**
      * Short description of method __construct
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array $options
-     * @return mixed
      */
     public function __construct($options = array())
     {
-
-    	$this->options = $options;
+        $this->options = $options;
     }
 
     /**
@@ -77,15 +75,7 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     public function getOptions()
     {
-        $returnValue = array();
-
-        
-        
-        $returnValue = $this->options;
-        
-        
-
-        return (array) $returnValue;
+        return (array) $this->options;
     }
 
     /**
@@ -94,13 +84,10 @@ abstract class tao_helpers_data_GenerisAdapter
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array $options
-     * @return mixed
      */
     public function setOptions($options = array())
     {
-        
-    	$this->options = $options;
-
+        $this->options = $options;
     }
 
     /**
@@ -110,13 +97,10 @@ abstract class tao_helpers_data_GenerisAdapter
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string $name
      * @param  mixed $value
-     * @return mixed
      */
     public function addOption($name, $value)
     {
-        
-    	$this->options[$name] = $value;
-
+        $this->options[$name] = $value;
     }
 
     /**
@@ -125,11 +109,11 @@ abstract class tao_helpers_data_GenerisAdapter
      * @abstract
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string $source
+     * @param  File $source
      * @param  core_kernel_classes_Class $destination
      * @return boolean
      */
-    public abstract function import($source,  core_kernel_classes_Class $destination = null);
+    public abstract function import(File $source, core_kernel_classes_Class $destination = null);
 
     /**
      * export prototype: export the source class
@@ -140,7 +124,7 @@ abstract class tao_helpers_data_GenerisAdapter
      * @param  core_kernel_classes_Class $source
      * @return string
      */
-    public abstract function export( core_kernel_classes_Class $source = null);
+    public abstract function export(core_kernel_classes_Class $source = null);
 
     /**
      * @return array
@@ -181,7 +165,7 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     public function addErrorMessage($target, $message)
     {
-        if (is_string($target)){
+        if (is_string($target)) {
             $this->errorMessages[$target][] = $message;
         }
     }
@@ -189,7 +173,8 @@ abstract class tao_helpers_data_GenerisAdapter
     /**
      * @return boolean
      */
-    public function hasErrors(){
+    public function hasErrors()
+    {
         return count($this->getErrorMessages()) > 0;
     }
 
