@@ -27,7 +27,7 @@
     },{
         "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userUILg",
         "label" : "Interface Language",
-        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox",
+        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboSearchBox",
         "range" : "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
         "value"  : "http://www.tao.lu/Ontologies/TAO.rdf#Langen-US"
     },{
