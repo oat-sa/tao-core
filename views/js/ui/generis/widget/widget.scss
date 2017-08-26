@@ -58,4 +58,99 @@
         text-align: right;
         width: 99%;
     }
+
+    &.combo-search-box {
+        position: relative;
+
+        > .right {
+            > .input {
+                position: relative;
+                width: 438px;
+
+                > input {
+                    background-color: white;
+                    @include simple-border();
+                    color: $textColor;
+                    font-family: $regularFont;
+                    font-size: 18px;
+                    height: 36px;
+                    padding: 8px;
+                    width: 100%;
+                }
+
+                > span {
+                    padding: 10px;
+                    position: absolute;
+                    right: 1px;
+                    top: 1px;
+                }
+            }
+
+            > .dropdown {
+                display: none;
+                background-color: white;
+                @include simple-border();
+                color: $textColor;
+                font-family: $regularFont;
+                font-size: 18px;
+                position: absolute;
+                width: 100%;
+                z-index: 1;
+
+                > .search {
+                    margin: 10px;
+                    position: relative;
+
+                    > input {
+                        font-size: 14px;
+                        height: 30px;
+                        padding-right: 24px;
+                        width: 100%;
+                    }
+
+                    > span {
+                        font-size: 16px;
+                        opacity: 0.5;
+                        position: absolute;
+                        right: 6px;
+                        top: 6px;
+                    }
+                }
+
+                > .divider {
+                    border-top: 1px solid $uiGeneralContentBorder;
+                    margin: 10px 2px -2px;
+                }
+
+                > .menu {
+                    max-height: 300px;
+                    overflow: scroll;
+                    padding: 2px;
+
+                    > .no-results {
+                        cursor: default;
+                        display: none;
+                        padding: 10px;
+                    }
+
+                    > .item {
+                        cursor: pointer;
+                        font-size: 16px;
+                        padding: 10px;
+
+                        border-bottom: 1px solid $uiGeneralContentBorder;
+
+                        > span {
+                            color: $uiClickableHoverBg;
+                            margin-right: 8px;
+                        }
+
+                        &.focused {
+                            background-color: $uiClickableDefaultBg;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -35,8 +35,9 @@ define([
      * The factory
      * @param {Object[]} [options.validator]
      * @param {String} config.label
+     * @param {String} [config.placeholder]
      * @param {String[]} config.range
-     * @param {String} [confgi.required = false]
+     * @param {String} [config.required = false]
      * @param {String} config.uri
      * @param {String} [config.value]
      * @returns {ui/component}
@@ -53,10 +54,106 @@ define([
         .setTemplate(tpl)
         .init({
             label: config.label,
+            placeholder: config.placeholder || __('Select an option...'),
             range: config.range || [],
             required: config.required || false,
             uri: config.uri,
             value: config.value || ''
+        })
+        .on('render', function () {
+            var $document, $el, $input, $dropdown, $dropdownSearch, $dropdownMenuItem;
+
+            $el = this.getElement();
+
+            $document = $(document);
+            $dropdown = $el.find('> .right > .dropdown');
+            $dropdownSearch = $el.find('> .right > .dropdown > .search > input');
+            $dropdownMenuItem = $el.find('> .right > .dropdown > .menu > .item');
+            $input = $el.find('> .right > .input');
+
+            // Document event handlers
+            function outsideWizardClickHandler(e) {
+                if (!$(e.target).closest($el).length) {
+                    if ($dropdown.is(':visible')) {
+                        $dropdown.hide();
+                        $document.off('click', outsideWizardClickHandler);
+                    }
+                }
+            }
+
+            // Wizard element events
+
+            // Input element events
+            $input
+                .on('click', function () {
+                    $dropdown.show();
+                    $dropdownSearch.focus();
+                    $document.on('click', outsideWizardClickHandler);
+                });
+
+            // Dropdown element events
+
+            // Dropdown search element events
+            $dropdownSearch
+                .on('keyup', _.debounce(function (e) {
+                    var $focused = $dropdownMenuItem.filter('.focused');
+                    var $this = $(this);
+                    var hasFocus = false;
+
+                    if (e.key === 'Escape') {
+                        $dropdown.hide();
+                    }
+
+                    if (e.key === 'Enter') {
+                        if ($focused.length) {
+                            $focused.first().trigger('click');
+                        } else {
+                            $dropdown.hide();
+                        }
+                    }
+
+                    $dropdownMenuItem.removeClass('focused');
+                    $dropdownMenuItem.each(function (i, item) {
+                        var $item = $(item);
+                        var haystack;
+                        var needle;
+
+                        haystack = $item.data('text').toUpperCase();
+                        needle = $this.val().trim().toUpperCase();
+
+                        if (!needle || haystack.includes(needle)) {
+                            if (!hasFocus) {
+                                hasFocus = true;
+                                $item.addClass('focused');
+                            }
+                            $item.show();
+                        } else {
+                            $item.hide();
+                        }
+                    });
+
+                    if ($dropdownMenuItem.is(':visible')) {
+                        $dropdown.find('> .menu > .no-results').hide();
+                    } else {
+                        $dropdown.find('> .menu > .no-results').show();
+                    }
+                }, 100));
+
+            // Dropdown menu item element events
+            $dropdownMenuItem
+                .on('click', function () {
+                    var $this = $(this);
+
+                    $input.find('input')
+                        .val($this.data('text'))
+                        .data('value', ($this.data('value')));
+
+                    $dropdown.hide();
+                })
+                .on('hover', function () {
+                    $dropdownMenuItem.removeClass('focused');
+                    $(this).addClass('focused');
+                });
         });
 
         // Validations
