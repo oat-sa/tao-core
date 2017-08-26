@@ -113,6 +113,7 @@ $fontSize: 14px;
                     > input {
                         font-size: calc(#{$fontSize} - 2px);
                         height: 30px;
+                        max-width: none;
                         padding-right: 24px;
                         width: 100%;
                     }
@@ -121,8 +122,8 @@ $fontSize: 14px;
                         font-size: inherit;
                         opacity: 0.5;
                         position: absolute;
-                        right: 6px;
-                        top: 6px;
+                        right: 8px;
+                        top: 8px;
                     }
                 }
 
