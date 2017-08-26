@@ -77,7 +77,7 @@ $widgetHeight: 36px;
                     font-family: $regularFont;
                     font-size: inherit;
                     height: $widgetHeight;
-                    padding: 8px;
+                    padding: 8px 24px 8px 8px;
                     width: 100%;
                 }
 
@@ -139,7 +139,9 @@ $widgetHeight: 36px;
                     > .item {
                         cursor: pointer;
                         font-size: inherit;
+                        overflow: hidden;
                         padding: 10px;
+                        white-space: nowrap;
 
                         border-bottom: 1px solid $uiGeneralContentBorder;
 

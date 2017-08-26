@@ -6,7 +6,7 @@
     },
     "properties" : [{
         "uri" : "http://www.tao.lu/Ontologies/generis.rdf#test",
-        "placeholder": "Select the test you would like to publish",
+        "placeholder": "Select the test you would like to publish...................................................................................................",
         "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboSearchBox",
         "range" : "tests"
     }],
@@ -14,7 +14,7 @@
         "tests": [
             {
                 "uri": "https://taoplatform/data.rdf#i150370654069865970",
-                "label": "A black apprehension"
+                "label": "A black apprehension.............................................................................................."
             },
             {
                 "uri": "https://taoplatform/data.rdf#i150370648391025898",
