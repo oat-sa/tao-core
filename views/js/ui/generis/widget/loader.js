@@ -20,12 +20,14 @@ define([
     'lodash',
     'ui/generis/widget/checkBox/checkBox',
     'ui/generis/widget/comboBox/comboBox',
+    'ui/generis/widget/comboSearchBox/comboSearchBox',
     'ui/generis/widget/hiddenBox/hiddenBox',
     'ui/generis/widget/textBox/textBox'
 ], function (
     _,
     checkBoxFactory,
     comboBoxFactory,
+    comboSearchBoxFactory,
     hiddenBoxFactory,
     textBoxFactory
 ) {
@@ -35,6 +37,7 @@ define([
     var _widgetFactories = {
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox': checkBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox': comboBoxFactory,
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboSearchBox': comboSearchBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox': hiddenBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox': textBoxFactory
     };

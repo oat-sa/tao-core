@@ -1,9 +1,11 @@
 <div class="ui-generis-widget combo-search-box">
+    {{#if label}}
     <div class="left">
         {{> ui-generis-widget-label }}
     </div>
+    {{/if}}
 
-    <div class="right">
+    <div class="right {{#unless label}}full{{/unless}}">
         <!-- input -->
         <div class="input">
             <input name="delivery" placeholder="{{placeholder}}" value="" data-value="" readonly="readonly">
