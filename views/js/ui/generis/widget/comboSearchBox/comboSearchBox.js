@@ -144,6 +144,9 @@ define([
                 .on('click', function () {
                     var $this = $(this);
 
+                    $dropdownMenuItem.removeClass('selected');
+                    $this.addClass('selected');
+
                     $input.find('input')
                         .val($this.data('text'))
                         .data('value', ($this.data('value')));

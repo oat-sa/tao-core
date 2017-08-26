@@ -1,5 +1,7 @@
 @import 'inc/bootstrap';
 
+$widgetHeight: 36px;
+
 .ui-generis-widget {
     margin: 10px 0px;
 
@@ -13,6 +15,7 @@
     > .right {
         display: inline-block;
         min-width: 150px;
+        position: relative;
         width: 65%;
 
         > input,
@@ -29,7 +32,7 @@
         > input,
         > select {
             font: inherit;
-            height: 36px;
+            height: $widgetHeight;
         }
 
         > .check-box-input {
@@ -65,15 +68,15 @@
         > .right {
             > .input {
                 position: relative;
-                width: 438px;
+                width: 100%;
 
                 > input {
                     background-color: white;
                     @include simple-border();
                     color: $textColor;
                     font-family: $regularFont;
-                    font-size: 18px;
-                    height: 36px;
+                    font-size: inherit;
+                    height: $widgetHeight;
                     padding: 8px;
                     width: 100%;
                 }
@@ -92,7 +95,7 @@
                 @include simple-border();
                 color: $textColor;
                 font-family: $regularFont;
-                font-size: 18px;
+                font-size: inherit;
                 position: absolute;
                 width: 100%;
                 z-index: 1;
@@ -102,14 +105,14 @@
                     position: relative;
 
                     > input {
-                        font-size: 14px;
+                        font-size: calc(inherit - 2px);
                         height: 30px;
                         padding-right: 24px;
                         width: 100%;
                     }
 
                     > span {
-                        font-size: 16px;
+                        font-size: inherit;
                         opacity: 0.5;
                         position: absolute;
                         right: 6px;
@@ -135,10 +138,22 @@
 
                     > .item {
                         cursor: pointer;
-                        font-size: 16px;
+                        font-size: inherit;
                         padding: 10px;
 
                         border-bottom: 1px solid $uiGeneralContentBorder;
+
+                        &.selected {
+                            > span.not-selected {
+                                display: none;
+                            }
+                        }
+
+                        &:not(.selected) {
+                            > span.selected {
+                                display: none;
+                            }
+                        }
 
                         > span {
                             color: $uiClickableHoverBg;

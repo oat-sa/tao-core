@@ -21,7 +21,9 @@
                 <div class="no-results">{{__ 'No results...'}}</div>
                 {{#each range}}
                 <div class="item" data-value="{{this.uri}}" data-text="{{this.label}}">
-                    <span class="icon-test"></span> {{this.label}}
+                    <span class="icon-radio not-selected"></span>
+                    <span class="icon-radio-bg selected"></span>
+                    {{this.label}}
                 </div>
                 {{/each}}
             </div>
