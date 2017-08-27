@@ -77,109 +77,6 @@ define([
 
 
     /**
-     * Methods
-     */
-    // QUnit.module('Methods');
-
-    // QUnit
-    // .cases(widgetUris)
-    // .test('get', function (widgetUri, assert) {
-    //     var factory = generisWidgetLoader(widgetUri);
-    //     var widget;
-
-    //     widget = factory({}, {
-    //         uri: 'foo#bar',
-    //         value: 'foobar',
-    //         values: [ 'foobar' ]
-    //     });
-
-    //     assert.ok(_.contains(widget.get(), 'foobar'), widgetUri + ' returns correct value');
-    // });
-
-    // QUnit
-    // .cases(widgetUris)
-    // .test('set', function (widgetUri, assert) {
-    //     var factory = generisWidgetLoader(widgetUri);
-    //     var widget;
-
-    //     widget = factory({}, {
-    //         uri: 'foo#bar',
-    //         value: 'foobar',
-    //         values: [ 'foobar' ]
-    //     });
-
-    //     assert.ok(_.contains(widget.set('baz'), 'baz'), widgetUri + ' returns updated value');
-    //     assert.ok(_.contains(widget.get(), 'baz'), widgetUri + ' updates value');
-    // });
-
-    // QUnit
-    // .cases(widgetUris)
-    // .test('setValidator', function (widgetUri, assert) {
-    //     var factory = generisWidgetLoader(widgetUri);
-    //     var oldValidator;
-    //     var widget;
-
-    //     widget = factory({}, {});
-    //     oldValidator = widget.validator;
-    //     widget.setValidator({});
-
-    //     assert.notEqual(widget.validator, oldValidator, widgetUri + ' validator is replaced');
-    // });
-
-    // QUnit
-    // .cases(widgetUris)
-    // .test('validate', function (widgetUri, assert) {
-    //     var factory = generisWidgetLoader(widgetUri);
-    //     var widget;
-
-    //     widget = factory({
-    //         validator: [{
-    //             predicate: function (value) {
-    //                 if (Array.isArray(value)) {
-    //                     return value.length === 1 &&
-    //                         value[0] === 'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor';
-    //                 } else {
-    //                     return value === 'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor';
-    //                 }
-    //             }
-    //         }]
-    //     }, {
-    //         value: 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
-    //         values: [
-    //             'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
-    //             'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor'
-    //         ]
-    //     })
-    //     .validate();
-
-    //     assert.equal(widget.validator.errors.length, 1, widgetUri + ' validate properly generated errors');
-    // });
-
-    // QUnit
-    // .cases(widgetUris)
-    // .test('serialize', function (widgetUri, assert) {
-    //     var factory = generisWidgetLoader(widgetUri);
-    //     var obj = {
-    //         uri: 'foo#bar',
-    //         value: 'foobar',
-    //         values: [ 'foobar' ]
-    //     };
-    //     var serialized;
-
-    //     serialized = factory({}, obj).serialize();
-
-    //     assert.equal(serialized.name, obj.uri, widgetUri + ' name property is correct');
-    //     assert.deepEqual(serialized.value, obj.value, widgetUri + ' value property is correct');
-    // });
-
-
-    /**
-     * Events
-     */
-    // QUnit.module('Events');
-
-
-    /**
      * Visual Test
      */
     QUnit.module('Visual Test');
@@ -203,7 +100,6 @@ define([
             e.preventDefault();
 
             _.each(widgets, function (widget) {
-                widget.validate();
                 console.log(widget.serialize());
             });
 
