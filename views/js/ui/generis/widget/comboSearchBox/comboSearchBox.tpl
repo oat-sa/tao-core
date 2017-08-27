@@ -8,7 +8,7 @@
     <div class="right {{#unless label}}full{{/unless}}">
         <!-- input -->
         <div class="input">
-            <input name="delivery" placeholder="{{placeholder}}" value="" data-value="" readonly="readonly">
+            <input name="{{uri}}" placeholder="{{placeholder}}" value="" data-value="" readonly="readonly">
             <span class="icon-spinner"></span>
         </div>
 

@@ -49,7 +49,21 @@ define([
         widget = widgetFactory({
             validator: validator
         }, {
-            // no overrides
+            /**
+             * Gets widget value
+             * @returns {String}
+             */
+            get: function get() {
+                var ret = this.config.value || '';
+
+                if (this.is('rendered')) {
+                    ret = this.getElement()
+                    .find('[name="' + this.config.uri + '"]')
+                    .data('value');
+                }
+
+                return ret;
+            },
         })
         .setTemplate(tpl)
         .init({
