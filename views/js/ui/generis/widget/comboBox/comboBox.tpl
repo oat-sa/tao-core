@@ -6,7 +6,13 @@
         <select name="{{uri}}">
             <option value="">{{__ 'Choose a value...'}}</option>
             {{#each range}}
-            <option value="{{this.uri}}">{{this.label}}</option>
+            <option
+                {{#equal ../value this.uri}}
+                selected="true"
+                {{/equal}}
+                value="{{this.uri}}">
+                {{this.label}}
+            </option>
             {{/each}}
         </select>
     </div>
