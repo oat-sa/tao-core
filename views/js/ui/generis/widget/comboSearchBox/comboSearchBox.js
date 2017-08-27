@@ -145,6 +145,7 @@ define([
 
                     if (e.key === 'Escape') {
                         $dropdown.hide();
+                        return;
                     }
 
                     if (e.key === 'Enter') {
@@ -153,6 +154,7 @@ define([
                         } else {
                             $dropdown.hide();
                         }
+                        return;
                     }
 
                     $dropdownMenuItem.removeClass('focused');
@@ -161,7 +163,7 @@ define([
                         var haystack;
                         var needle;
 
-                        haystack = $item.data('text').toUpperCase();
+                        haystack = $item.data('label').toUpperCase();
                         needle = $this.val().trim().toUpperCase();
 
                         if (!needle || haystack.includes(needle)) {
