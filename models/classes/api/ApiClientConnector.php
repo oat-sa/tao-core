@@ -139,7 +139,15 @@ class ApiClientConnector extends Configurable implements ClientInterface
      */
     protected function getClientOptions()
     {
-        return $this->getOptions();
+        $options = $this->getOptions();
+        if (!isset($options['headers']) || !isset($options['headers']['Content-Type'])) {
+            $options['headers']['Content-Type'] = ['application/json'];
+        } else {
+            if (!in_array('application/json', $options['headers']['Content-Type'])) {
+                $options['headers']['Content-Type'][] = ['application/json'];
+            }
+        }
+        return $options;
     }
 
 }
