@@ -32,25 +32,6 @@ define([
     'use strict';
 
 
-    var validations = {
-        oneOrOther: {
-            message: 'Cannot be both test taker and test author',
-            predicate: function (values) {
-                var testAuthor = 'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor';
-                var testTaker = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
-
-                return ! (_.contains(values, testAuthor) && _.contains(values, testTaker));
-            }
-        },
-        sysAdminOnly: {
-            message: 'A Systems Administrator cannot have other roles',
-            predicate: function (values) {
-                var sysAdmin = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
-
-                return _.contains(values, sysAdmin) ? values.length === 1 : true;
-            }
-        }
-    };
     var widgetProperties = [
         { name: 'get',          type: 'function' },
         { name: 'set',          type: 'function' },
@@ -104,39 +85,66 @@ define([
     .cases(widgetUris)
     .test('get', function (widgetUri, assert) {
         var factory = generisWidgetLoader(widgetUri);
+        var widget;
 
-        var widget = factory({}, {
+        widget = factory({}, {
             uri: 'foo#bar',
-            value: [ 'foobar' ]
+            value: 'foobar',
+            values: [ 'foobar' ]
         });
 
         assert.ok(_.contains(widget.get(), 'foobar'), widgetUri + ' returns correct value');
     });
 
-    QUnit.test('set', function (assert) {
-        var widget = generisWidgetCheckBoxFactory({}, {
+    QUnit
+    .cases(widgetUris)
+    .test('set', function (widgetUri, assert) {
+        var factory = generisWidgetLoader(widgetUri);
+        var widget;
+
+        widget = factory({}, {
             uri: 'foo#bar',
-            value: 'foobar'
+            value: 'foobar',
+            values: [ 'foobar' ]
         });
 
-        assert.ok(_.contains(widget.set('baz'), 'baz'), 'returns updated value');
-        assert.ok(_.contains(widget.get(), 'baz'), 'updates value');
+        assert.ok(_.contains(widget.set('baz'), 'baz'), widgetUri + ' returns updated value');
+        assert.ok(_.contains(widget.get(), 'baz'), widgetUri + ' updates value');
     });
 
-    QUnit.test('setValidator', function (assert) {
+    QUnit
+    .cases(widgetUris)
+    .test('setValidator', function (widgetUri, assert) {
+        var factory = generisWidgetLoader(widgetUri);
         var oldValidator;
-        var widget = generisWidgetCheckBoxFactory({}, {});
+        var widget;
 
+        widget = factory({}, {});
         oldValidator = widget.validator;
         widget.setValidator({});
 
-        assert.notEqual(widget.validator, oldValidator, 'validator is replaced');
+        assert.notEqual(widget.validator, oldValidator, widgetUri + ' validator is replaced');
     });
 
-    QUnit.test('validate', function (assert) {
-        var widget = generisWidgetCheckBoxFactory({
-            validator: [ validations.sysAdminOnly ]
+    QUnit
+    .cases(widgetUris)
+    .test('validate', function (widgetUri, assert) {
+        var factory = generisWidgetLoader(widgetUri);
+        var widget;
+
+        widget = factory({
+            validator: [{
+                predicate: function (value) {
+                    if (Array.isArray(value)) {
+                        return value.length === 1 &&
+                            value[0] === 'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor';
+                    } else {
+                        return value === 'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor';
+                    }
+                }
+            }]
         }, {
+            value: 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
             values: [
                 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
                 'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor'
@@ -144,106 +152,31 @@ define([
         })
         .validate();
 
-        assert.equal(widget.validator.errors.length, 1, 'validate properly generated errors');
+        assert.equal(widget.validator.errors.length, 1, widgetUri + ' validate properly generated errors');
     });
 
-    QUnit.test('serialize', function (assert) {
+    QUnit
+    .cases(widgetUris)
+    .test('serialize', function (widgetUri, assert) {
+        var factory = generisWidgetLoader(widgetUri);
         var obj = {
             uri: 'foo#bar',
+            value: 'foobar',
             values: [ 'foobar' ]
         };
         var serialized;
 
-        serialized = generisWidgetCheckBoxFactory({}, obj).serialize();
+        serialized = factory({}, obj).serialize();
 
-        assert.equal(serialized.name, obj.uri, 'name property is correct');
-        assert.deepEqual(serialized.value, obj.values, 'value property is correct');
+        assert.equal(serialized.name, obj.uri, widgetUri + ' name property is correct');
+        assert.deepEqual(serialized.value, obj.value, widgetUri + ' value property is correct');
     });
 
 
     /**
      * Events
      */
-    QUnit.module('Behavior');
-
-    QUnit.asyncTest('DOM', function (assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(10);
-
-        assert.equal($('.check-box', $container).length, 0, 'The checkbox is not rendered');
-
-        generisWidgetCheckBoxFactory({}, {
-            uri: 'http://foo#bar',
-            label : 'Foo',
-            range : [{
-                uri :  'http://foo#v1',
-                label : 'v1'
-            }, {
-                uri :  'http://foo#v2',
-                label : 'v2'
-            }]
-        }).on('render', function(){
-
-            var $element  = this.getElement();
-            assert.equal($('.check-box', $container).length, 1, 'The checkbox is rendered');
-            assert.deepEqual($('.check-box', $container)[0], $element[0], 'The rendered element is the component element');
-            assert.ok($element.hasClass('rendered'));
-
-            assert.equal($('.left > label', $element).text().trim(), 'Foo', 'The element label is correct');
-
-            assert.equal($('.option', $element).length, 2, 'The element hsa 2 options');
-            assert.equal($('.option:nth-child(1) label', $element).text().trim(), 'v1', '1st option label is correct');
-            assert.equal($('.option:nth-child(1) input', $element).val(), 'http://foo#v1', '1st option value is correct');
-
-            assert.equal($('.option:nth-child(2) label', $element).text().trim(), 'v2', '2nd option label is correct');
-            assert.equal($('.option:nth-child(2) input', $element).val(), 'http://foo#v2', '2nd option value is correct');
-            QUnit.start();
-        })
-        .render($container);
-    });
-
-
-    QUnit.asyncTest('change value', function (assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(6);
-
-        generisWidgetCheckBoxFactory({}, {
-            uri: 'http://foo#bar',
-            label : 'Foo',
-            range : [{
-                uri :  'http://foo#v1',
-                label : 'v1'
-            }, {
-                uri :  'http://foo#v2',
-                label : 'v2'
-            }]
-        })
-        .on('change', function(values){
-
-            assert.equal(values.name, 'http://foo#bar', 'The field name is correct');
-            assert.deepEqual(values.value, ['http://foo#v1'], 'The field value contains the option');
-            QUnit.start();
-        })
-        .on('render', function(){
-
-            var values;
-            var $element  = this.getElement();
-            var $1stOpt   = $('.option:nth-child(1) input', $element);
-
-            assert.ok($element.hasClass('rendered'));
-            assert.equal($1stOpt.length, 1, 'The option exists');
-
-            values = this.serialize();
-
-            assert.equal(values.name, 'http://foo#bar', 'The field name is correct');
-            assert.deepEqual(values.value, [], 'The field value is empty');
-
-            $1stOpt.click();
-        })
-        .render($container);
-    });
+    QUnit.module('Events');
 
 
     /**
@@ -252,34 +185,32 @@ define([
     QUnit.module('Visual Test');
 
     QUnit.test('Display and play', function (assert) {
-        var tb1, tb2;
+        var widgets = [];
 
-        fields[0].range = ranges[fields[0].range];
-        fields[1].range = ranges[fields[1].range];
+        _.each(data.properties, function (property) {
+            var factory = generisWidgetLoader(property.widget);
+            var widget;
 
-        tb1 = generisWidgetCheckBoxFactory({}, fields[0])
-        .setValidator([ validations.sysAdminOnly ])
-        .on('render', function () {
-            assert.ok(true);
-        })
-        .render('#display-and-play > form > fieldset');
+            property.range = data.values[property.range];
+            property.required = true;
+            widget = factory({}, property)
+                .render('#display-and-play > form > fieldset');
 
-        tb2 = generisWidgetCheckBoxFactory({}, fields[1])
-        .setValidator([ validations.oneOrOther ])
-        .on('render', function () {
-            assert.ok(true);
-        })
-        .render('#display-and-play > form > fieldset');
+            widgets.push(widget);
+        });
 
         $('#validate').on('click', function (e) {
             e.preventDefault();
 
-            tb1.validate();
-
-            tb2.validate();
+            _.each(widgets, function (widget) {
+                widget.validate();
+                console.log(widget.serialize());
+            });
 
             return false;
         });
+
+        assert.ok(true);
     });
 });
 
