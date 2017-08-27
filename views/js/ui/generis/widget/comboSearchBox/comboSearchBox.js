@@ -98,13 +98,13 @@ define([
             range: config.range || [],
             required: config.required || false,
             uri: config.uri,
-            value: config.value || ''
+            value: config.value || '',
+            valueObj: _.find(config.range, function (option) {
+                return option.uri === config.value;
+            })
         })
         .on('render', function () {
             var $document, $el, $input, $dropdown, $dropdownSearch, $dropdownMenuItem;
-
-            // Set the value in the dom
-            this.set(this.config.value);
 
             $el = this.getElement();
 
@@ -191,7 +191,7 @@ define([
                     $this.addClass('selected');
 
                     $input.find('input')
-                        .val($this.data('text'))
+                        .val($this.data('label'))
                         .data('value', ($this.data('value')));
 
                     $dropdown.hide();

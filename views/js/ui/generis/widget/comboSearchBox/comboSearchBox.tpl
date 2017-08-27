@@ -8,7 +8,13 @@
     <div class="right {{#unless label}}full{{/unless}}">
         <!-- input -->
         <div class="input">
-            <input name="{{uri}}" placeholder="{{placeholder}}" value="" data-value="" readonly="readonly">
+            <input
+                name="{{uri}}"
+                placeholder="{{placeholder}}"
+                value="{{#if valueObj}}{{valueObj.label}}{{/if}}"
+                data-label="{{#if valueObj}}{{valueObj.label}}{{/if}}"
+                data-value="{{value}}"
+                readonly="readonly">
             <span class="icon-spinner"></span>
         </div>
 
@@ -24,8 +30,8 @@
                 {{#each range}}
                 <div
                     class="item {{#equal ../value this.uri}}selected{{/equal}}"
-                    data-value="{{this.uri}}"
-                    data-text="{{this.label}}">
+                    data-label="{{this.label}}"
+                    data-value="{{this.uri}}">
                     <span class="icon-radio not-selected"></span>
                     <span class="icon-radio-bg selected"></span>
                     {{this.label}}
