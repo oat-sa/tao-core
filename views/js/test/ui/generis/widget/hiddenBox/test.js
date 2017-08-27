@@ -59,32 +59,6 @@ define([
 
 
     /**
-     * Api
-     */
-    QUnit.module('Api');
-
-    QUnit.test('module', 3, function (assert) {
-        assert.equal(typeof generisWidgetHiddenBoxFactory, 'function', 'The module exposes a function');
-        assert.equal(typeof generisWidgetHiddenBoxFactory({}, {}), 'object', 'The factory produces an object');
-        assert.notStrictEqual(generisWidgetHiddenBoxFactory({}, {}), generisWidgetHiddenBoxFactory({}, {}), 'The factory provides a different object on each call');
-    });
-
-    QUnit
-    .cases([
-        { name: 'get',          title: 'get',          type: 'function' },
-        { name: 'set',          title: 'set',          type: 'function' },
-        { name: 'validator',    title: 'validator',    type: 'object'   },
-        { name: 'setValidator', title: 'setValidator', type: 'function' },
-        { name: 'validate',     title: 'validate',     type: 'function' },
-        { name: 'serialize',    title: 'serialize',    type: 'function' }
-    ])
-    .test('instance', function (data, assert) {
-        var instance = generisWidgetHiddenBoxFactory({}, {});
-        assert.equal(typeof instance[data.name], data.type, 'The instance exposes a(n) "' + data.title + '" ' + data.type);
-    });
-
-
-    /**
      * Methods
      */
     QUnit.module('Methods');
