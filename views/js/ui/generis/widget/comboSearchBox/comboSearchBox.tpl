@@ -22,7 +22,10 @@
             <div class="menu">
                 <div class="no-results">{{__ 'No results...'}}</div>
                 {{#each range}}
-                <div class="item" data-value="{{this.uri}}" data-text="{{this.label}}">
+                <div
+                    class="item {{#equal ../value this.uri}}selected{{/equal}}"
+                    data-value="{{this.uri}}"
+                    data-text="{{this.label}}">
                     <span class="icon-radio not-selected"></span>
                     <span class="icon-radio-bg selected"></span>
                     {{this.label}}

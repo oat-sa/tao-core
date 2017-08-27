@@ -64,6 +64,32 @@ define([
 
                 return ret;
             },
+
+            /**
+             * Sets widget value
+             * @param {String} value
+             * @returns {String}
+             */
+            set: function set(value) {
+                var range;
+
+                this.config.value = value;
+
+                if (this.is('rendered')) {
+                    range = _.find(this.config.range, function (option) {
+                        return option.uri === this.config.value;
+                    }, this);
+
+                    if (range) {
+                        this.getElement()
+                        .find('> .right > .input > input')
+                        .val(range.label)
+                        .data('value', this.config.value);
+                    }
+                }
+
+                return this.config.value;
+            },
         })
         .setTemplate(tpl)
         .init({
@@ -76,6 +102,9 @@ define([
         })
         .on('render', function () {
             var $document, $el, $input, $dropdown, $dropdownSearch, $dropdownMenuItem;
+
+            // Set the value in the dom
+            this.set(this.config.value);
 
             $el = this.getElement();
 
