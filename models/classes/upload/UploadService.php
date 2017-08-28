@@ -155,7 +155,6 @@ class UploadService extends ConfigurableService
             // Getting the File instance of the file url.
             $fakeFile = $this->getSerializer()->unserializeFile($serial);
 
-            \common_Logger::i($serial);
             // Filesystem hack check.
             if ($fakeFile->getFileSystemId() !== $this->getUploadFSid()) {
                 throw new \common_exception_NotAcceptable(
