@@ -31,7 +31,9 @@
 (function () {
     'use strict';
 
-    var jsFeedback = document.getElementById('js-check');
+    var noscript = document.getElementsByTagName("noscript")[0];
+    var jsFeedback = noscript.textContent||noscript.innerHTML;
+
     var reqFeedback = document.getElementById('browser-check');
 
     var tests = [{
@@ -64,7 +66,6 @@
 
     //if we run js (basically if we are here), we hide the warning
     if(jsFeedback){
-        jsFeedback.style.display = 'none';
         document.documentElement.className = document.documentElement.className.replace('no-js', '');
     }
 
