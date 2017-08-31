@@ -36,7 +36,12 @@ class tao_install_Setup implements Action
     const CONTAINER_INDEX = 'taoInstallSetup';
 
     /**
-     * @param $params   The setup params.
+     * The setup json content offset in the container.
+     */
+    const SETUP_JSON_CONTENT_OFFSET = 'setupJsonContentOffset';
+
+    /**
+     * @param mixed $params   The setup params.
      *
      * @throws InvalidArgumentException   When a presented parameter is invalid or malformed.
      * @throws FileNotFoundException   When the presented config file does not exist.
@@ -49,8 +54,8 @@ class tao_install_Setup implements Action
 
         $this->logNotice('Installing TAO...');
 
-        if (!empty($params['setupJson'])) {
-            $parameters = json_decode($params['setupJson'], true);
+        if ($this->getContainer() !== null && $this->getContainer()->offsetExists(static::SETUP_JSON_CONTENT_OFFSET)) {
+            $parameters = json_decode($this->getContainer()->offsetGet(static::SETUP_JSON_CONTENT_OFFSET), true);
             if (is_null($parameters)) {
                 throw new InvalidArgumentException('Your Setup JSON seed is malformed');
             }
