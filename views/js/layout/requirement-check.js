@@ -31,7 +31,6 @@
 (function () {
     'use strict';
 
-    var jsFeedback = document.getElementById('js-check');
     var reqFeedback = document.getElementById('browser-check');
 
     var tests = [{
@@ -62,11 +61,7 @@
     }];
     var testCounter = 0;
 
-    //if we run js (basically if we are here), we hide the warning
-    if(jsFeedback){
-        jsFeedback.style.display = 'none';
-        document.documentElement.className = document.documentElement.className.replace('no-js', '');
-    }
+    document.documentElement.className = document.documentElement.className.replace('no-js', '');
 
     //if one of the test fail, we show the warning
     if(reqFeedback){
