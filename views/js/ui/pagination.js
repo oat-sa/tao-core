@@ -158,7 +158,7 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
 
                 activePage = calculateActivePage(config.activePage || 1, totalPages);
 
-                provider = paginationStrategy(config.mode);
+                provider = paginationStrategy(config.mode).init();
 
                 provider.render(this.getContainer());
                 this.setPage(this.getActivePage());
