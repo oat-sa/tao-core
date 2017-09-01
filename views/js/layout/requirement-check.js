@@ -31,8 +31,11 @@
 (function () {
     'use strict';
 
-    var noscript = document.getElementsByTagName("noscript")[0];
-    var jsFeedback = noscript.textContent||noscript.innerHTML;
+    var noscript = document.getElementsByTagName("noscript");
+    var jsFeedback = '';
+    if (noscript) {
+        jsFeedback = noscript[0] ? (noscript[0].textContent||noscript[0].innerHTML) : '';
+    }
 
     var reqFeedback = document.getElementById('browser-check');
 
