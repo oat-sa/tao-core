@@ -31,12 +31,6 @@
 (function () {
     'use strict';
 
-    var noscript = document.getElementsByTagName("noscript");
-    var jsFeedback = '';
-    if (noscript) {
-        jsFeedback = noscript[0] ? (noscript[0].textContent||noscript[0].innerHTML) : '';
-    }
-
     var reqFeedback = document.getElementById('browser-check');
 
     var tests = [{
@@ -67,10 +61,7 @@
     }];
     var testCounter = 0;
 
-    //if we run js (basically if we are here), we hide the warning
-    if(jsFeedback){
-        document.documentElement.className = document.documentElement.className.replace('no-js', '');
-    }
+    document.documentElement.className = document.documentElement.className.replace('no-js', '');
 
     //if one of the test fail, we show the warning
     if(reqFeedback){
