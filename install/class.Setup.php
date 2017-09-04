@@ -250,6 +250,9 @@ class tao_install_Setup implements Action
                     if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
                         $service = new $className($params);
                         $serviceManager->register($extension.'/'.$key, $service);
+                    } else{
+                        $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
+                        $this->logWarning('Make sure your configuration is correct and all required libraries are installed');
                     }
                 }
             }

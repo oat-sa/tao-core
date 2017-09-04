@@ -317,6 +317,9 @@ label {
         &:checked ~ .icon-checkbox.cross:before {
             @extend .icon-checkbox-crossed:before;
         }
+        &:indeterminate ~ .icon-checkbox:before {
+            @extend .icon-checkbox-indeterminate:before;
+        }
         &.disabled, &[disabled], &[readonly] {
             & ~[class^="icon-"],
             & ~[class*=" icon-"]{

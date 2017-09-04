@@ -1,0 +1,23 @@
+@import 'inc/bootstrap';
+
+.ui-generis-form {
+    @include simple-border($uiGeneralContentBorder);
+    background-color: $uiClickableDefaultBg;
+    padding: 20px;
+    position: relative;
+    margin: 20px;
+    width: 500px;
+
+    h2 {
+        margin-top: 0;
+    }
+
+    .toolbar {
+        margin-top: 30px;
+        text-align: right;
+    }
+}
+
+@include keyframes('spinner') {
+    to { transform: rotate(360deg); }
+}

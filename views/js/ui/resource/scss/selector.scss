@@ -1,0 +1,167 @@
+@import "inc/bootstrap";
+@import "resource-list";
+@import "resource-tree";
+@import "filters";
+
+.resource-selector{
+    position: relative;
+    height: 100%;
+
+    @include flex-container(nowrap, column);
+    opacity: 0;
+
+    background-color : $uiGeneralContentBg;
+    @include simple-border;
+
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
+    nav {
+        height: 40px;
+        @include vendor-prefix(flex, 0 1 40px, property, (-ms-, -webkit-, ''));
+        border-top: solid 1px $uiGeneralContentBorder;
+        background-color: $uiClickableDefaultBg;
+    }
+
+
+    .context {
+        @include flex-container(nowrap, row);
+
+        .class-context {
+            @include simple-flex-box;
+
+            .class-selector{
+                position: static;
+                .options {
+                    max-height: calc(100% - 120px);
+                    &.folded {
+                        max-height: 0;
+                    }
+                }
+            }
+        }
+
+
+        & > a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            padding: 10px 0 0 12px;
+            color: $textColor;
+            border-left: solid 1px $uiGeneralContentBg;
+            text-shadow: 0 0 0 transparent;
+            text-decoration: none;
+
+            &:hover, &.active {
+                color: $uiClickableHoverBg;
+                @include transition(color, 200ms, linear);
+            }
+        }
+    }
+
+    .selection {
+
+        @include flex-container(nowrap, row);
+
+        .selection-control {
+
+            @include vendor-prefix(flex, 0 1 80px, property, (-ms-, -webkit-, ''));
+
+            text-align: right;
+            color: $info;
+            margin: 0;
+            padding: 0;
+            label {
+                margin: 0 24px 0 0;
+                padding: 10px 2px 0 0;
+            }
+            label [class^="icon-"], label [class*=" icon-"] {
+                color: $info;
+                @include font-size(14);
+            }
+        }
+
+        .search {
+            @include simple-flex-box;
+            position: relative;
+
+            padding : 5px;
+
+            &:before {
+                @include tao-icon-setup;
+                @include icon-find;
+                position: absolute;
+                left: 12px;
+                top: 12px;
+                opacity: .4;
+            }
+            input {
+                @include border-radius(2);
+                max-width: inherit;
+                width: 100%;
+                padding: 4px 25px;
+            }
+
+            & > a.filters-opener {
+                position: absolute;
+                right: 12px;
+                top: 10px;
+
+                @include font-size(16);
+                text-decoration: none;
+            }
+        }
+        .filters-container {
+            position: absolute;
+            width: 100%;
+            background-color: $uiClickableDefaultBg;
+            border: solid 1px $uiGeneralContentBorder;
+            @include border-radius-bottom(3);
+            @include box-shadow;
+            left: 0;
+            top: 80px;
+            overflow-y: auto;
+            z-index: 100;
+            max-height: calc(100% - 110px);
+            @include transition(max-height, 300ms, ease);
+
+            &.folded {
+                overflow: hidden;
+                max-height: 0;
+                border-width: 0;
+                @include transition(max-height, 300ms, ease);
+            }
+        }
+    }
+
+    main {
+        @include simple-flex-box;
+
+        min-height: 250px;
+
+        border-top: solid 1px $uiGeneralContentBorder;
+        background-color: $uiGeneralContentBg;
+        height: 100%;
+        overflow-y: scroll;
+
+        .no-results {
+            display:inline-block;
+            width: 100%;
+            text-align:center;
+            margin: 10px auto;
+            opacity: .75;
+        }
+    }
+
+    footer {
+        height: 30px;
+        @include vendor-prefix(flex, 0 1 30px, property, (-ms-, -webkit-, ''));
+        border-top: solid 1px $uiGeneralContentBorder;
+
+        background-color: $uiClickableDefaultBg;
+        text-align: center;
+        padding: 5px;
+    }
+}

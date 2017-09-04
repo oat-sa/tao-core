@@ -30,7 +30,7 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '3.2.0-sprint56');
+define('TAO_VERSION', '3.2.0-sprint59');
 
 $version = TAO_VERSION;
 
@@ -86,6 +86,7 @@ $todefine = array(
 	'PROPERTY_WIDGET_CHECKBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
 	'PROPERTY_WIDGET_FILE'				=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
 	'PROPERTY_WIDGET_VERSIONEDFILE'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile',
+    'PROPERTY_WIDGET_JSONOBJECT'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject',
 	'PROPERTY_TAO_PROPERTY'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty',
 	'PROPERTY_LANGUAGE_USAGES'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages',
     'PROPERTY_LANGUAGE_ORIENTATION'     => 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation',
