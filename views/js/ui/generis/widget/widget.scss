@@ -7,10 +7,30 @@ $fontSize: 14px;
     font-size: $fontSize;
     margin: 10px 0px;
 
+    /**
+     * Placement option 1
+     * [ label.left  widget.right ] - places label to left and widget to right
+     */
+    > .left {
+        width: 34%;
+    }
+
+    > .right {
+        width: 65%;
+    }
+
+    /**
+     * Placement option 2 (overrides #1 through specificity)
+     * [ widget.right.full ] - no label with widget filling complete space
+     */
+     > .right.full {
+         width: 100%;
+     }
+
+
     > .left {
         display: inline-block;
         margin-top: 8px;
-        width: 34%;
         vertical-align: top;
     }
 
@@ -18,11 +38,6 @@ $fontSize: 14px;
         display: inline-block;
         min-width: 150px;
         position: relative;
-        width: 65%;
-
-        &.full {
-            width: 100%;
-        }
 
         > input,
         > select,
