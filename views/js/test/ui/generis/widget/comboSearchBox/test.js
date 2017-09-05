@@ -143,7 +143,7 @@ define([
     QUnit.module('Visual Test');
 
     QUnit.test('Display and play', function (assert) {
-        var prop, tb1, tb2;
+        var prop, tb1, tb2, tb3;
 
         prop = data.properties[0];
         prop.range = data.values[prop.range];
@@ -160,14 +160,20 @@ define([
         })
         .render('#display-and-play > form > fieldset');
 
+        tb3 = comboSearchBox({}, _.merge({}, prop, { label: 'Label...' }))
+        .on('render', function () {
+            assert.ok(true);
+        })
+        .render('#display-and-play > form > fieldset');
+
         $('#validate').on('click', function (e) {
             e.preventDefault();
 
             tb1.validate();
-            console.log(tb1.serialize());
 
             tb2.validate();
-            console.log(tb2.serialize());
+
+            tb3.validate();
 
             return false;
         });
