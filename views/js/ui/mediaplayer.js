@@ -1910,6 +1910,7 @@ define([
                 .then(function (volume) {
                     if(_.isNumber(volume)){
                         self.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(volume)));
+                        self.setVolume(self.volume);
                     }
                 });
         },

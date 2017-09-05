@@ -12,12 +12,12 @@ use oat\tao\helpers\Template;
 <script>
     requirejs.config({
         config : {
-            'tao/controller/users/add' : {
+            'controller/users/add' : {
                 loginId : <?=json_encode(get_data('loginUri'))?>,
                 exit    : <?=json_encode(get_data('exit'))?>
             }
         } 
-    });		
+    });
 </script>
 
 

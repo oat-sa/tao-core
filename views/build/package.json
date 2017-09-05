@@ -10,6 +10,9 @@
     "lint": "grunt eslint:extensionreport --no-color --force",
     "lintfile": "grunt eslint:file --no-color --force"
   },
+  "engines": {
+    "node": ">=0.12.8"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.0",
