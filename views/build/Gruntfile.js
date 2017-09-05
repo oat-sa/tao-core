@@ -49,6 +49,7 @@ module.exports = function(grunt) {
     grunt.option('testUrl', testUrl);
     grunt.option('reports', reportOutput);
     grunt.option('livereloadPort', livereloadPort);
+    grunt.option('requirejsModule', require('requirejs'));
 
     //track build time
     require('time-grunt')(grunt);
