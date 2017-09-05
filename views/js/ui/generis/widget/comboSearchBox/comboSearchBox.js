@@ -82,7 +82,7 @@ define([
 
                     if (range) {
                         this.getElement()
-                        .find('> .right > .input > input')
+                        .find('> .widget > .input > input')
                         .val(range.label)
                         .data('value', this.config.value);
                     }
@@ -109,10 +109,10 @@ define([
             $el = this.getElement();
 
             $document = $(document);
-            $dropdown = $el.find('> .right > .dropdown');
-            $dropdownSearch = $el.find('> .right > .dropdown > .search > input');
-            $dropdownMenuItem = $el.find('> .right > .dropdown > .menu > .item');
-            $input = $el.find('> .right > .input');
+            $dropdown = $el.find('> .widget > .dropdown');
+            $dropdownSearch = $el.find('> .widget > .dropdown > .search > input');
+            $dropdownMenuItem = $el.find('> .widget > .dropdown > .menu > .item');
+            $input = $el.find('> .widget > .input');
 
             // Document event handlers
             function outsideWizardClickHandler(e) {

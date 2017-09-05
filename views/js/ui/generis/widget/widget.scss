@@ -28,13 +28,15 @@ $fontSize: 14px;
      }
 
 
-    > .left {
+    > .left,
+    > .label {
         display: inline-block;
         margin-top: 8px;
         vertical-align: top;
     }
 
-    > .right {
+    > .right,
+    > .widget {
         display: inline-block;
         min-width: 150px;
         position: relative;
@@ -86,7 +88,7 @@ $fontSize: 14px;
     &.combo-search-box {
         position: relative;
 
-        > .right {
+        > .widget {
             > .input {
                 position: relative;
                 width: 100%;
