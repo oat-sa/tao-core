@@ -36,7 +36,12 @@ class tao_install_Setup implements Action
     const CONTAINER_INDEX = 'taoInstallSetup';
 
     /**
-     * @param $params   The setup params.
+     * The setup json content offset in the container.
+     */
+    const SETUP_JSON_CONTENT_OFFSET = 'setupJsonContentOffset';
+
+    /**
+     * @param mixed $params   The setup params.
      *
      * @throws InvalidArgumentException   When a presented parameter is invalid or malformed.
      * @throws FileNotFoundException   When the presented config file does not exist.
@@ -49,39 +54,47 @@ class tao_install_Setup implements Action
 
         $this->logNotice('Installing TAO...');
 
-        if(!isset($params[0])){
-            throw new InvalidArgumentException('You should provide a file path');
+        if ($this->getContainer() !== null && $this->getContainer()->offsetExists(static::SETUP_JSON_CONTENT_OFFSET)) {
+            $parameters = json_decode($this->getContainer()->offsetGet(static::SETUP_JSON_CONTENT_OFFSET), true);
+            if (is_null($parameters)) {
+                throw new InvalidArgumentException('Your Setup JSON seed is malformed');
+            }
         }
+        else {
+            if (!isset($params[0])) {
+                throw new InvalidArgumentException('You should provide a file path');
+            }
 
-        $filePath = $params[0];
+            $filePath = $params[0];
 
-        if (!file_exists($filePath)) {
-            throw new FileNotFoundException('Unable to find '. $filePath);
-        }
+            if (!file_exists($filePath)) {
+                throw new FileNotFoundException('Unable to find ' . $filePath);
+            }
 
-        $info = pathinfo($filePath);
+            $info = pathinfo($filePath);
 
-        switch($info['extension']){
-            case 'json':
-                $parameters = json_decode(file_get_contents($filePath), true);
-                if(is_null($parameters)){
-                    throw new InvalidArgumentException('Your JSON file is malformed');
-                }
-                break;
-            case 'yml':
-                if(extension_loaded('yaml')){
-                    $parameters = \yaml_parse_file($filePath);
-                    if($parameters === false){
-                        throw new InvalidArgumentException('Your YAML file is malformed');
+            switch ($info['extension']) {
+                case 'json':
+                    $parameters = json_decode(file_get_contents($filePath), true);
+                    if (is_null($parameters)) {
+                        throw new InvalidArgumentException('Your JSON file is malformed');
                     }
-                } else {
-                    throw new ErrorException('Extension yaml should be installed');
-                }
-                break;
-            default:
-                throw new InvalidArgumentException('Please provide a JSON or YAML file');
+                    break;
+                case 'yml':
+                    if (extension_loaded('yaml')) {
+                        $parameters = \yaml_parse_file($filePath);
+                        if ($parameters === false) {
+                            throw new InvalidArgumentException('Your YAML file is malformed');
+                        }
+                    } else {
+                        throw new ErrorException('Extension yaml should be installed');
+                    }
+                    break;
+                default:
+                    throw new InvalidArgumentException('Please provide a JSON or YAML file');
+            }
         }
-        
+
         // override logging during install
         if (isset($parameters['configuration']['generis']['log'])) {
             common_log_Dispatcher::singleton()->init($parameters['configuration']['generis']['log']);
@@ -92,7 +105,7 @@ class tao_install_Setup implements Action
             );
             common_log_Dispatcher::singleton()->addAppender($installLog);
         }
-        
+
         $options = array (
             "db_driver"	=>			"mysql"
             , "db_host"	=>			"localhost"
