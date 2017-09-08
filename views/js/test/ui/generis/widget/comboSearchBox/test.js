@@ -21,28 +21,18 @@ define([
     'lodash',
     'ui/generis/validator/validator',
     'ui/generis/widget/comboBox/comboBox',
+    'ui/generis/widget/comboSearchBox/comboSearchBox',
+    'json!test/ui/generis/widget/comboSearchBox/data.json'
 ], function(
     $,
     _,
-    generisValidatorFactory,
-    generisWidgetComboBoxFactory
+    validator,
+    comboBox,
+    comboSearchBox,
+    data
 ) {
     'use strict';
 
-
-    var fields = [{
-        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userDefLg",
-        "label" : "Data Language",
-        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox",
-        "range" : "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
-        "value"  : "http://www.tao.lu/Ontologies/TAO.rdf#Langen-US"
-    },{
-        "uri" : "http://www.tao.lu/Ontologies/generis.rdf#userUILg",
-        "label" : "Interface Language",
-        "widget" : "http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox",
-        "range" : "http://www.tao.lu/Ontologies/TAO.rdf#Languages",
-        "value"  : "http://www.tao.lu/Ontologies/TAO.rdf#Langen-US"
-    }];
 
     var ranges = {
         "http://www.tao.lu/Ontologies/TAO.rdf#Languages" : [{
@@ -83,7 +73,7 @@ define([
     QUnit.module('Methods');
 
     QUnit.test('get', function (assert) {
-        var widget = generisWidgetComboBoxFactory({}, {
+        var widget = comboSearchBox({}, {
             uri: 'foo#bar',
             value: 'foobar'
         });
@@ -92,7 +82,7 @@ define([
     });
 
     QUnit.test('set', function (assert) {
-        var widget = generisWidgetComboBoxFactory({}, {
+        var widget = comboSearchBox({}, {
             uri: 'foo#bar',
             value: 'foobar'
         });
@@ -103,7 +93,7 @@ define([
 
     QUnit.test('setValidator', function (assert) {
         var oldValidator;
-        var widget = generisWidgetComboBoxFactory({}, {});
+        var widget = comboSearchBox({}, {});
 
         oldValidator = widget.validator;
         widget.setValidator({});
@@ -112,7 +102,7 @@ define([
     });
 
     QUnit.test('validate', function (assert) {
-        var widget = generisWidgetComboBoxFactory({
+        var widget = comboSearchBox({
             validator: [ validations.notGerman ]
         }, {
             value: 'http://www.tao.lu/Ontologies/TAO.rdf#Langde-DE',
@@ -130,7 +120,7 @@ define([
         };
         var serialized;
 
-        serialized = generisWidgetComboBoxFactory({}, obj).serialize();
+        serialized = comboSearchBox({}, obj).serialize();
 
         assert.equal(serialized.name, obj.uri, 'name property is correct');
         assert.deepEqual(serialized.value, obj.value, 'value property is correct');
@@ -153,20 +143,30 @@ define([
     QUnit.module('Visual Test');
 
     QUnit.test('Display and play', function (assert) {
-        var tb1, tb2;
+        var prop, tb1, tb2, tb3, tb4;
 
-        fields[0].range = ranges[fields[0].range];
-        fields[1].range = ranges[fields[1].range];
+        prop = data.properties[0];
+        prop.range = data.values[prop.range];
 
-        tb1 = generisWidgetComboBoxFactory({}, fields[0])
-        .setValidator([ validations.required ])
+        tb1 = comboBox({}, prop)
         .on('render', function () {
             assert.ok(true);
         })
         .render('#display-and-play > form > fieldset');
 
-        tb2 = generisWidgetComboBoxFactory({}, fields[1])
-        .setValidator([ validations.notGerman ])
+        tb2 = comboSearchBox({}, prop)
+        .on('render', function () {
+            assert.ok(true);
+        })
+        .render('#display-and-play > form > fieldset');
+
+        tb3 = comboSearchBox({}, _.merge({}, prop, { label: 'Label...' }))
+        .on('render', function () {
+            assert.ok(true);
+        })
+        .render('#display-and-play > form > fieldset');
+
+        tb4 = comboBox({}, _.merge({}, prop, { label: 'Label...' }))
         .on('render', function () {
             assert.ok(true);
         })
@@ -176,10 +176,9 @@ define([
             e.preventDefault();
 
             tb1.validate();
-            console.log(tb1.serialize());
-
             tb2.validate();
-            console.log(tb2.serialize());
+            tb3.validate();
+            tb4.validate();
 
             return false;
         });

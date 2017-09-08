@@ -1,19 +1,45 @@
 @import 'inc/bootstrap';
 
+$widgetHeight: 36px;
+$fontSize: 14px;
+
 .ui-generis-widget {
+    font-size: $fontSize;
     margin: 10px 0px;
 
+    /**
+     * Placement option 1
+     * [ label.left  widget.right ] - places label to left and widget to right
+     */
     > .left {
-        display: inline-block;
-        margin-top: 8px;
         width: 34%;
-        vertical-align: top;
     }
 
     > .right {
+        width: 65%;
+    }
+
+    /**
+     * Placement option 2 (overrides #1 through specificity)
+     * [ widget.right.full ] - no label with widget filling complete space
+     */
+     > .right.full {
+         width: 100%;
+     }
+
+
+    > .left,
+    > .label {
+        display: inline-block;
+        margin-top: 8px;
+        vertical-align: top;
+    }
+
+    > .right,
+    > .widget {
         display: inline-block;
         min-width: 150px;
-        width: 65%;
+        position: relative;
 
         > input,
         > select,
@@ -29,7 +55,7 @@
         > input,
         > select {
             font: inherit;
-            height: 36px;
+            height: $widgetHeight;
         }
 
         > .check-box-input {
@@ -57,5 +83,115 @@
         color: $error;
         text-align: right;
         width: 99%;
+    }
+
+    &.combo-search-box {
+        position: relative;
+
+        > .widget {
+            > .input {
+                position: relative;
+                width: 100%;
+
+                > input {
+                    background-color: white;
+                    @include simple-border();
+                    color: $textColor;
+                    font-family: $regularFont;
+                    font-size: inherit;
+                    height: $widgetHeight;
+                    padding: 8px 24px 8px 8px;
+                    width: 100%;
+                }
+
+                > span {
+                    padding: 10px;
+                    position: absolute;
+                    right: 1px;
+                    top: 1px;
+                }
+            }
+
+            > .dropdown {
+                display: none;
+                background-color: white;
+                @include simple-border();
+                color: $textColor;
+                font-family: $regularFont;
+                font-size: inherit;
+                position: absolute;
+                width: 100%;
+                z-index: 4;
+
+                > .search {
+                    margin: 10px;
+                    position: relative;
+
+                    > input {
+                        font-size: calc(#{$fontSize} - 2px);
+                        height: 30px;
+                        max-width: none;
+                        padding-right: 24px;
+                        width: 100%;
+                    }
+
+                    > span {
+                        font-size: inherit;
+                        opacity: 0.5;
+                        position: absolute;
+                        right: 8px;
+                        top: 8px;
+                    }
+                }
+
+                > .divider {
+                    border-top: 1px solid $uiGeneralContentBorder;
+                    margin: 10px 2px -2px;
+                }
+
+                > .menu {
+                    max-height: 300px;
+                    overflow: scroll;
+                    padding: 2px;
+
+                    > .no-results {
+                        cursor: default;
+                        display: none;
+                        padding: 10px;
+                    }
+
+                    > .item {
+                        cursor: pointer;
+                        font-size: inherit;
+                        overflow: hidden;
+                        padding: 10px;
+                        white-space: nowrap;
+
+                        border-bottom: 1px solid $uiGeneralContentBorder;
+
+                        &.selected {
+                            > span.not-selected {
+                                display: none;
+                            }
+                        }
+
+                        &:not(.selected) {
+                            > span.selected {
+                                display: none;
+                            }
+                        }
+
+                        > span {
+                            color: $uiClickableHoverBg;
+                            margin-right: 8px;
+                        }
+
+                        &.focused {
+                            background-color: $uiClickableDefaultBg;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
