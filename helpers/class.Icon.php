@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2017-09-14 16:25:13
+ * @date   2017-09-15 14:18:42
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,10 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_CLICK_TO_SPEAK = 'icon-click-to-speak';
+    const CLASS_SPEECH_BUBBLE = 'icon-speech-bubble';
+    const CLASS_MICROPHONE = 'icon-microphone';
+    const CLASS_MICROPHONE_OFF = 'icon-microphone-off';
     const CLASS_DISCONNECT = 'icon-disconnect';
     const CLASS_CONNECT = 'icon-connect';
     const CLASS_ELIMINATE = 'icon-eliminate';
@@ -281,6 +285,22 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconClickToSpeak($options=array()){
+        return self::buildIcon(self::CLASS_CLICK_TO_SPEAK, $options);
+    }
+
+    public static function iconSpeechBubble($options=array()){
+        return self::buildIcon(self::CLASS_SPEECH_BUBBLE, $options);
+    }
+
+    public static function iconMicrophone($options=array()){
+        return self::buildIcon(self::CLASS_MICROPHONE, $options);
+    }
+
+    public static function iconMicrophoneOff($options=array()){
+        return self::buildIcon(self::CLASS_MICROPHONE_OFF, $options);
+    }
 
     public static function iconDisconnect($options=array()){
         return self::buildIcon(self::CLASS_DISCONNECT, $options);

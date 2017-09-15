@@ -32,6 +32,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-click-to-speak { content: "\e907"; }
+@mixin icon-speech-bubble { content: "\f0e5"; }
+@mixin icon-microphone { content: "\f130"; }
+@mixin icon-microphone-off { content: "\f131"; }
 @mixin icon-disconnect { content: "\e905"; }
 @mixin icon-connect { content: "\e906"; }
 @mixin icon-eliminate { content: "\e904"; }
