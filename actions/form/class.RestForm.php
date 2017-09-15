@@ -21,6 +21,7 @@
 use \oat\generis\model\OntologyAwareTrait;
 use \oat\tao\helpers\form\ValidationRuleRegistry;
 use \oat\oatbox\validator\ValidatorInterface;
+use oat\tao\model\TaoOntology;
 
 /**
  * Class tao_actions_form_RestForm
@@ -131,7 +132,7 @@ class tao_actions_form_RestForm
             }
 
             // Field position in the form
-            $guiPropertyOrder = $property->getOnePropertyValue($this->getProperty(TAO_GUIORDER_PROP));
+            $guiPropertyOrder = $property->getOnePropertyValue($this->getProperty(TaoOntology::GUI_ORDER_PROP));
             if (!is_null($guiPropertyOrder)) {
 
                 $position = intval((string)$guiPropertyOrder);
@@ -304,7 +305,7 @@ class tao_actions_form_RestForm
      */
     protected function getTopClass()
     {
-        return $this->getClass(TAO_OBJECT_CLASS);
+        return $this->getClass(TaoOntology::OBJECT_CLASS );
     }
 
     /**

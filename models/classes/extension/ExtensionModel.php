@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\extension;
 
+use oat\tao\model\TaoOntology;
 use tao_models_classes_LanguageService;
 use common_ext_Extension;
 use core_kernel_classes_Resource;
@@ -36,7 +37,7 @@ class ExtensionModel extends \common_ext_ExtensionModel
     
     protected function addLanguages($extension) {
         $langService = tao_models_classes_LanguageService::singleton();
-        $dataUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
+        $dataUsage = new core_kernel_classes_Resource(TaoOntology::INSTANCE_LANGUAGE_USAGE_DATA);
         $dataOptions = array();
 
         $model = ModelManager::getModel();

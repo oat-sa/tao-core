@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\tao\model\TaoOntology;
+
 /**
  * Internationalization helper.
  *
@@ -120,8 +122,8 @@ class tao_helpers_I18n
     {
         $orientation = null;
         $langs = self::getAvailableLangs();
-        $orientation = isset($langs[$code]) ? $langs[$code][PROPERTY_LANGUAGE_ORIENTATION] : null; 
-        return $orientation == INSTANCE_ORIENTATION_RTL;
+        $orientation = isset($langs[$code]) ? $langs[$code][TaoOntology::PROPERTY_LANGUAGE_ORIENTATION ] : null;
+        return $orientation == TaoOntology::INSTANCE_ORIENTATION_RTL;
     }
 
     /**
@@ -140,32 +142,32 @@ class tao_helpers_I18n
         	try {
         		self::$availableLangs = common_cache_FileCache::singleton()->get(self::AVAILABLE_LANGS_CACHEKEY);
         	} catch (common_cache_NotFoundException $e) {
-	        	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+	        	$langClass = new core_kernel_classes_Class(TaoOntology::CLASS_LANGUAGES);
 	        	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
 	        	foreach($langClass->getInstances() as $lang){
 	        	    $values = $lang->getPropertiesValues(array(
 	        	    	RDF_VALUE,
-	        	        PROPERTY_LANGUAGE_USAGES,
-	        	        PROPERTY_LANGUAGE_ORIENTATION
-	        	    ));
+						TaoOntology::PROPERTY_LANGUAGE_USAGES,
+						TaoOntology::PROPERTY_LANGUAGE_ORIENTATION
+					));
 	        	    if (count($values[RDF_VALUE]) != 1) {
 	        	        throw new common_exception_InconsistentData('Error with value of language '.$lang->getUri());
 	        	    }
 	        	    $value = current($values[RDF_VALUE])->__toString();
 	        	    $usages = array();
-	        	    foreach ($values[PROPERTY_LANGUAGE_USAGES] as $usage) {
+	        	    foreach ($values[TaoOntology::PROPERTY_LANGUAGE_USAGES] as $usage) {
 	        	        $usages[] = $usage->getUri();
 	        	    }
 	        	    if (count($values[PROPERTY_LANGUAGE_ORIENTATION]) != 1) {
 	        	        common_Logger::w('Error with orientation of language '.$lang->getUri());
-	        	        $orientation = INSTANCE_ORIENTATION_LTR;
+	        	        $orientation = TaoOntology::INSTANCE_ORIENTATION_LTR;
 	        	    } else {
-                        $orientation = current($values[PROPERTY_LANGUAGE_ORIENTATION])->getUri();
+                        $orientation = current($values[TaoOntology::PROPERTY_LANGUAGE_ORIENTATION ])->getUri();
 	        	    }
 	        	    self::$availableLangs[$value] = array(
-	        	        'uri'                         => $lang->getUri(), 
-	        	        PROPERTY_LANGUAGE_USAGES      => $usages,
-	        	        PROPERTY_LANGUAGE_ORIENTATION => $orientation
+	        	        'uri'                         => $lang->getUri(),
+						TaoOntology::PROPERTY_LANGUAGE_USAGES      => $usages,
+						TaoOntology::PROPERTY_LANGUAGE_ORIENTATION  => $orientation
 	        	    );
 	        	}
 	        	common_cache_FileCache::singleton()->put(self::$availableLangs, self::AVAILABLE_LANGS_CACHEKEY);
@@ -192,7 +194,7 @@ class tao_helpers_I18n
         $returnValue = array();
         
         foreach (self::getAvailableLangs() as $code => $langData) {
-            if (in_array($usage->getUri(), $langData[PROPERTY_LANGUAGE_USAGES])) {
+            if (in_array($usage->getUri(), $langData[TaoOntology::PROPERTY_LANGUAGE_USAGES])) {
                 $lang = new core_kernel_classes_Resource($langData['uri']);
                 $returnValue[$code] = $lang->getLabel();
             }

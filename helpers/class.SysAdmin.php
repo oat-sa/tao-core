@@ -1,4 +1,7 @@
 <?php
+
+use oat\tao\model\TaoOntology;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +29,7 @@ class tao_helpers_SysAdmin{
     public static function isSysAdmin(){
         $userService = tao_models_classes_UserService::singleton();
         $currentUser = $userService->getCurrentUser();
-        $sysAdminRole =  new core_kernel_classes_Resource(INSTANCE_ROLE_SYSADMIN) ;
+        $sysAdminRole =  new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_SYSADMIN) ;
         $returnValues = $currentUser != null ? $userService->userHasRoles($currentUser,$sysAdminRole) : false;
         return $returnValues;
     }

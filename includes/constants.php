@@ -51,6 +51,9 @@ define('TAO_RELEASE_STATUS', 'stable');
 #TAO default character encoding (mainly used with multi-byte string functions).
 define('TAO_DEFAULT_ENCODING', 'UTF-8');
 
+/**
+ * @deprecated
+ */
 $todefine = array(
 	'TAO_OBJECT_CLASS' 					=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',
 	'TAO_GROUP_CLASS' 					=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group',
@@ -101,52 +104,82 @@ $todefine = array(
 	'CLASS_TAO_USER'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#User',
 	'DEFAULT_USER_URI_SUFFIX'			=> '#superUser',
 
-	'CLASS_OAUTH_CONSUMER' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
-	'PROPERTY_OAUTH_KEY'			    => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
-	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
-    'PROPERTY_OAUTH_CALLBACK'           => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
+//	'PROPERTY_WIDGET_CALENDAR'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
+//	'PROPERTY_WIDGET_TEXTBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+//	'PROPERTY_WIDGET_TREEBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox',
+//	'PROPERTY_WIDGET_TEXTAREA'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
+//	'PROPERTY_WIDGET_HTMLAREA'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
+//	'PROPERTY_WIDGET_PASSWORD'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password',
+//	'PROPERTY_WIDGET_HIDDENBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
+//	'PROPERTY_WIDGET_RADIOBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
+//	'PROPERTY_WIDGET_COMBOBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
+//	'PROPERTY_WIDGET_CHECKBOX'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
+//	'PROPERTY_WIDGET_FILE'				=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
+//	'PROPERTY_WIDGET_VERSIONEDFILE'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile',
+//    'PROPERTY_WIDGET_JSONOBJECT'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject',
 
-    'INDEX_PROPERTY'                    => 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex',
-    'INDEX_PROPERTY_FUZZY_MATCHING'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching',
-    'INDEX_PROPERTY_IDENTIFIER'         => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier',
-    'INDEX_PROPERTY_TOKENIZER'          => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer',
-    'INDEX_PROPERTY_DEFAULT_SEARCH'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch',
+//	'PROPERTY_TAO_PROPERTY'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty',
+//	'PROPERTY_LANGUAGE_USAGES'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages',
+//    'PROPERTY_LANGUAGE_ORIENTATION'     => 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation',
+//    'INSTANCE_ORIENTATION_LTR'          => 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight',
+//    'INSTANCE_ORIENTATION_RTL'          => 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft',
+//    'CLASS_LANGUAGES_USAGES'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages',
+//	'INSTANCE_LANGUAGE_USAGE_GUI'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI',
+//	'INSTANCE_LANGUAGE_USAGE_DATA'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData',
+//	'CLASS_PROCESS_EXECUTIONS'			=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544',
+//	'CLASS_MANAGEMENTROLE'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole',
+//	'CLASS_WORKERROLE'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole',
+//	'CLASS_TAO_USER'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#User',
+
+//	'DEFAULT_USER_URI_SUFFIX'			=> '#superUser',
+
+//	'CLASS_OAUTH_CONSUMER' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
+//	'PROPERTY_OAUTH_KEY'			    => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
+//	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
+//    'PROPERTY_OAUTH_CALLBACK'           => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
+
+//    'INDEX_PROPERTY'                    => 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex',
+//    'INDEX_PROPERTY_FUZZY_MATCHING'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching',
+//    'INDEX_PROPERTY_IDENTIFIER'         => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier',
+//    'INDEX_PROPERTY_TOKENIZER'          => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer',
+//    'INDEX_PROPERTY_DEFAULT_SEARCH'     => 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch',
 
     // @todo properly migrate service and service calls to tao
-    'CLASS_CALLOFSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfServices',
-    'PROPERTY_CALLOFSERVICES_SERVICEDEFINITION'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesServiceDefinition',
-    'PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT'	=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesActualParameterOut',
-    'PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesActualParameterin',
-    'PROPERTY_CALLOFSERVICES_TOP'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesTop',
+//    'CLASS_CALLOFSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfServices',
+//    'PROPERTY_CALLOFSERVICES_SERVICEDEFINITION'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesServiceDefinition',
+//    'PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT'	=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesActualParameterOut',
+//    'PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesActualParameterin',
+//    'PROPERTY_CALLOFSERVICES_TOP'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesTop',
     'PROPERTY_CALLOFSERVICES_LEFT'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesLeft',
-    'PROPERTY_CALLOFSERVICES_WIDTH'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesWidth',
+//    'PROPERTY_CALLOFSERVICES_WIDTH'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesWidth',
     'PROPERTY_CALLOFSERVICES_HEIGHT'				=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyCallOfServicesHeight',
 
-    'CLASS_ACTUALPARAMETER'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassActualParameters',
-    'PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable',
-    'PROPERTY_ACTUALPARAMETER_CONSTANTVALUE'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersConstantValue',
-    'PROPERTY_ACTUALPARAMETER_FORMALPARAMETER'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersFormalParameter',
+//    'CLASS_ACTUALPARAMETER'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassActualParameters',
+//    'PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable',
+//    'PROPERTY_ACTUALPARAMETER_CONSTANTVALUE'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersConstantValue',
+//    'PROPERTY_ACTUALPARAMETER_FORMALPARAMETER'		=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersFormalParameter',
 
     'CLASS_SERVICESDEFINITION'						=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions',
     'PROPERTY_SERVICESDEFINITION_FORMALPARAMOUT'	=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyServiceDefinitionsFormalParameterOut',
     'PROPERTY_SERVICESDEFINITION_FORMALPARAMIN' 	=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyServiceDefinitionsFormalParameterIn',
 
     'CLASS_SUPPORTSERVICES'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices',
-    'PROPERTY_SUPPORTSERVICES_URL'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl',
+//    'PROPERTY_SUPPORTSERVICES_URL'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl',
 
     'CLASS_WEBSERVICES'								=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices',
 
     'CLASS_FORMALPARAMETER'							=> 'http://www.tao.lu/middleware/wfEngine.rdf#ClassFormalParameters',
     'PROPERTY_FORMALPARAMETER_DEFAULTCONSTANTVALUE' => 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersDefaultConstantValue',
     'PROPERTY_FORMALPARAMETER_DEFAULTPROCESSVARIABLE'=>'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersDefaultProcessVariable',
-    'PROPERTY_FORMALPARAMETER_NAME'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersName',
-    'PROPERTY_LOCK'                                 => 'http://www.tao.lu/Ontologies/TAO.rdf#Lock',
+//    'PROPERTY_FORMALPARAMETER_NAME'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersName',
 
-    'INSTANCE_ROLE_BASEUSER'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',
+//    'PROPERTY_LOCK'                                 => 'http://www.tao.lu/Ontologies/TAO.rdf#Lock',
 
-    'PROPERTY_USER_FIRSTTIME'                       => 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao',
-    'PROPERTY_USER_LASTEXTENSION'                   => 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed',
+//    'INSTANCE_ROLE_BASEUSER'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',
+
+//    'PROPERTY_USER_FIRSTTIME'                       => 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao',
+//    'PROPERTY_USER_LASTEXTENSION'                   => 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed',
 
     // models
-	'PROPERTY_ABSTRACTMODEL_STATUS'                 => 'http://www.tao.lu/Ontologies/TAO.rdf#AbstractModelStatus'
+//	'PROPERTY_ABSTRACTMODEL_STATUS'                 => 'http://www.tao.lu/Ontologies/TAO.rdf#AbstractModelStatus'
 );

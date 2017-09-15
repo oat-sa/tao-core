@@ -26,6 +26,7 @@ use oat\tao\model\ClientLibRegistry;
 use oat\tao\helpers\translation\rdf\RdfPack;
 use oat\generis\model\data\ModelManager;
 use oat\tao\model\extension\ExtensionModel;
+use oat\tao\model\TaoOntology;
 
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
@@ -91,16 +92,16 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
             $roleService = tao_models_classes_RoleService::singleton();
             if (! $role->exists()) {
                 // Management role does not exist yet, so we create it
-                $roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
+                $roleClass = new core_kernel_classes_Class(TaoOntology::CLASS_MANAGEMENT_ROLE);
                 $roleLabel = $this->extension->getId() . ' Manager';
                 $role = $roleClass->createInstance($roleLabel, $roleLabel . ' Role', $role->getUri());
-                $roleService->includeRole($role, new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
+                $roleService->includeRole($role, new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_BACKOFFICE));
             }
             
             // Take the Global Manager role and make it include
             // the Management role of the currently installed extension.
-            if ($role->getUri() !== INSTANCE_ROLE_GLOBALMANAGER) {
-                $globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_GLOBALMANAGER);
+            if ($role->getUri() !== TaoOntology::INSTANCE_ROLE_GLOBALMANAGER) {
+                $globalManagerRole = new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_GLOBALMANAGER);
                 $roleService->includeRole($globalManagerRole, $role);
             }
             

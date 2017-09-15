@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -39,7 +41,7 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner {
      */
     public function testLanguagesExistence(){
         // Check for lang.rdf in /tao locales and query the KB to see if it exists or not.
-        $languageClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+        $languageClass = new core_kernel_classes_Class(TaoOntology::CLASS_LANGUAGES);
         $taoLocalesDir = ROOT_PATH . '/tao/locales';
         $expectedUriPrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
         if(false !== ($locales = scandir($taoLocalesDir))){
@@ -80,12 +82,12 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner {
     public function testLanguageUsages(){
     	// The default locale should always exists and should
     	// be available in any known language usage.
-    	$lgUsageProperty = new core_kernel_classes_Property(PROPERTY_LANGUAGE_USAGES);
+    	$lgUsageProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_LANGUAGE_USAGES);
     	$this->assertIsA($lgUsageProperty, 'core_kernel_classes_Property');
-    	$this->assertEquals($lgUsageProperty->getUri(), PROPERTY_LANGUAGE_USAGES);
+    	$this->assertEquals($lgUsageProperty->getUri(), TaoOntology::PROPERTY_LANGUAGE_USAGES);
     	$usagePropertyRange = $lgUsageProperty->getRange();
     	$this->assertIsA($usagePropertyRange, 'core_kernel_classes_Class');
-    	$this->assertEquals($usagePropertyRange->getUri(), CLASS_LANGUAGES_USAGES);
+    	$this->assertEquals($usagePropertyRange->getUri(), TaoOntology::CLASS_LANGUAGES_USAGES);
     	
     	$instancePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
     	$targetLanguageCode = DEFAULT_LANG;
@@ -97,7 +99,7 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner {
     	
     	$usages = $defaultLanguage->getPropertyValues($lgUsageProperty);
     	$this->assertTrue(count($usages) >= 2);
-    	$this->assertTrue(in_array(INSTANCE_LANGUAGE_USAGE_GUI, $usages));
-    	$this->assertTrue(in_array(INSTANCE_LANGUAGE_USAGE_DATA, $usages));
+    	$this->assertTrue(in_array(TaoOntology::INSTANCE_LANGUAGE_USAGE_GUI, $usages));
+    	$this->assertTrue(in_array(TaoOntology::INSTANCE_LANGUAGE_USAGE_DATA, $usages));
     }
 }

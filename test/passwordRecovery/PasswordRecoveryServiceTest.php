@@ -18,6 +18,8 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *               
  */
+
+use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\tao\model\messaging\transportStrategy\FileSink;
@@ -80,7 +82,7 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
             PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
             PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
             PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-            PROPERTY_USER_ROLES => INSTANCE_ROLE_BACKOFFICE
+            PROPERTY_USER_ROLES => TaoOntology::INSTANCE_ROLE_BACKOFFICE
         ));
     }
 

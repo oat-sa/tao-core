@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\tao\model\TaoOntology;
+
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
  *
@@ -128,7 +130,7 @@ class tao_actions_SaSUsers extends tao_actions_SaSModule{
                 }
             }
 		}
-		$userClassUri = ($this->hasRequestParameter('userClassUri') && strlen($this->getRequestParameter('userClassUri'))) ? $this->getRequestParameter('userClassUri') : CLASS_TAO_USER;
+		$userClassUri = ($this->hasRequestParameter('userClassUri') && strlen($this->getRequestParameter('userClassUri'))) ? $this->getRequestParameter('userClassUri') : TaoOntology::CLASS_TAO_USER;
 		//get the processes uris
 		$usersUri = $this->hasRequestParameter('usersUri') ? $this->getRequestParameter('usersUri') : null;
 		$users = array();

@@ -23,6 +23,7 @@ namespace oat\tao\test;
 
 use oat\tao\model\menu\MenuService;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use tao_models_classes_GenerisService;
 use \tao_models_classes_TaoService;
 use \tao_models_classes_UserService;
 use \core_kernel_classes_Class;
@@ -107,7 +108,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	public function testAbstractService(){
 		
 		//we create a temp object for the needs of the test
-		$generisResourceClass = new core_kernel_classes_Class(GENERIS_RESOURCE);
+		$generisResourceClass = new core_kernel_classes_Class(tao_models_classes_GenerisService::GENERIS_RESOURCE);
 		$testModelClass = $generisResourceClass->createSubClass('aModel', 'test model');
 		$this->assertIsA($testModelClass, 'core_kernel_classes_Class');
 		

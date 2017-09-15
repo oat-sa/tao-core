@@ -18,6 +18,8 @@
  * 
  */
 
+use oat\tao\model\WfEngineOntology;
+
 /**
  * Represents tao service parameter
  *
@@ -60,10 +62,10 @@ extends tao_models_classes_service_Parameter
 	 * @see tao_models_classes_service_Parameter::serialize()
 	 */
 	public function toOntology() {
-	    $serviceCallClass = new core_kernel_classes_Class(CLASS_ACTUALPARAMETER);
+	    $serviceCallClass = new core_kernel_classes_Class(WfEngineOntology::CLASS_ACTUAL_PARAMETER);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
-	        PROPERTY_ACTUALPARAMETER_FORMALPARAMETER    => $this->getDefinition(),
-	        PROPERTY_ACTUALPARAMETER_CONSTANTVALUE      => $this->value
+			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER    => $this->getDefinition(),
+			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE      => $this->value
 	    ));
 	    return $resource;
 	}

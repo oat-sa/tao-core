@@ -24,6 +24,7 @@ namespace oat\tao\helpers;
 use common_session_SessionManager;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
+use oat\tao\model\TaoOntology;
 
 /**
  * Helper for TaoCe related operations
@@ -41,14 +42,14 @@ class TaoCe {
      * @return boolean true if this is the first time
      */
     public static function isFirstTimeInTao() {
-        $firstTime = common_session_SessionManager::getSession()->getUserPropertyValues(PROPERTY_USER_FIRSTTIME);
+        $firstTime = common_session_SessionManager::getSession()->getUserPropertyValues(TaoOntology::PROPERTY_USER_FIRST_TIME);
 
         //for compatibility purpose we assume previous users are veterans 
         return in_array(GENERIS_TRUE, $firstTime);
 	}
     
     /**
-     * The user knows TAO, he's now a veteran, the PROPERTY_USER_FIRSTTIME property can be false (except if $notYet is true).
+     * The user knows TAO, he's now a veteran, the TaoOntology::PROPERTY_USER_FIRST_TIME property can be false (except if $notYet is true).
      *  
      * @param core_kernel_classes_Resource $user a user or the current user if null/not set
      * @param boolean $notYet our veteran want to be still considered as a noob...
@@ -62,7 +63,7 @@ class TaoCe {
             if ($user->exists()) {
                 // user in ontology
                 $success = $user->editPropertyValues(
-                    new core_kernel_classes_Property(PROPERTY_USER_FIRSTTIME),
+                    new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_FIRST_TIME),
                     new core_kernel_classes_Resource(GENERIS_FALSE)
                 );
             } // else we fail;
@@ -77,7 +78,7 @@ class TaoCe {
 	 * @return string the url or null
 	 */
 	public static function getLastVisitedUrl() {
-	    $urls = common_session_SessionManager::getSession()->getUserPropertyValues(PROPERTY_USER_LASTEXTENSION);
+	    $urls = common_session_SessionManager::getSession()->getUserPropertyValues(TaoOntology::PROPERTY_USER_LAST_EXTENSION);
 	    if (!empty($urls)) {
 	        $lastUrl = current($urls);
 	        return ROOT_URL.$lastUrl;
@@ -107,7 +108,7 @@ class TaoCe {
     	        
     	        //clean up what's stored
     	        $url = str_replace(ROOT_URL, '', $url);
-    	        $success = $user->editPropertyValues(new core_kernel_classes_Property(PROPERTY_USER_LASTEXTENSION), $url);
+    	        $success = $user->editPropertyValues(new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_LAST_EXTENSION), $url);
     	    } // else we fail;
 	    }
 	    return $success;

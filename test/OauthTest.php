@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -38,11 +40,11 @@ class OauthTest extends TaoPhpUnitTestRunner {
     {		
         parent::setUp();
 		TaoPhpUnitTestRunner::initTest();
-		$class = new core_kernel_classes_Class(	CLASS_OAUTH_CONSUMER);
+		$class = new core_kernel_classes_Class(	TaoOntology::CLASS_OAUTH_CONSUMER);
 		$this->credentials = $class->createInstanceWithProperties(array(
 			RDFS_LABEL				=> 'test_credentials',
-			PROPERTY_OAUTH_KEY		=> 'testcase_12345',
-			PROPERTY_OAUTH_SECRET	=> 'secret_12345'
+			TaoOntology::PROPERTY_OAUTH_KEY		=> 'testcase_12345',
+			TaoOntology::PROPERTY_OAUTH_SECRET	=> 'secret_12345'
 		));
 	}
 	
