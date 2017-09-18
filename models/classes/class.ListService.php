@@ -59,7 +59,7 @@ class tao_models_classes_ListService
     {
         
         
-    	$this->parentListClass = new core_kernel_classes_Class(TaoOntology::LIST_CLASS);
+    	$this->parentListClass = new core_kernel_classes_Class(TaoOntology::LIST_CLASS_URI);
         
         
     }

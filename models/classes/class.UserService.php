@@ -275,14 +275,14 @@ class tao_models_classes_UserService
     {
         $returnValue = array();
 
-        $returnValue = array(TaoOntology::INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_BACKOFFICE));
+        $returnValue = array(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE));
 
         return (array) $returnValue;
     }
     
     public function getDefaultRole()
     {
-    	return new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_BACKOFFICE);
+    	return new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE);
     }
 
     /**
@@ -312,7 +312,7 @@ class tao_models_classes_UserService
      */
     public function getAllUsers($options = [], $filters = [PROPERTY_USER_LOGIN => '*'])
     {
-        $userClass = new core_kernel_classes_Class(TaoOntology::CLASS_TAO_USER);
+        $userClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 		$options = array_merge(['recursive' => true, 'like' => true], $options);
 
 		return (array) $userClass->searchInstances($filters, $options);
@@ -328,7 +328,7 @@ class tao_models_classes_UserService
      */
 	public function getCountUsers($options = [], $filters = [])
 	{
-		$userClass = new core_kernel_classes_Class(TaoOntology::CLASS_TAO_USER);
+		$userClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 
 		return $userClass->countInstances($filters, $options);
 	}
@@ -525,7 +525,7 @@ class tao_models_classes_UserService
 	 */
 	public function getRootClass()
 	{
-		return new core_kernel_classes_Class(TaoOntology::CLASS_TAO_USER);
+		return new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 	}
 
     /**

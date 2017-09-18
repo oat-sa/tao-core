@@ -305,7 +305,7 @@ class tao_actions_form_RestForm
      */
     protected function getTopClass()
     {
-        return $this->getClass(TaoOntology::OBJECT_CLASS );
+        return $this->getClass(TaoOntology::OBJECT_CLASS_URI );
     }
 
     /**

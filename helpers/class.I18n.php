@@ -123,7 +123,7 @@ class tao_helpers_I18n
         $orientation = null;
         $langs = self::getAvailableLangs();
         $orientation = isset($langs[$code]) ? $langs[$code][TaoOntology::PROPERTY_LANGUAGE_ORIENTATION ] : null;
-        return $orientation == TaoOntology::INSTANCE_ORIENTATION_RTL;
+        return $orientation == TaoOntology::PROPERTY_INSTANCE_ORIENTATION_RTL;
     }
 
     /**
@@ -142,7 +142,7 @@ class tao_helpers_I18n
         	try {
         		self::$availableLangs = common_cache_FileCache::singleton()->get(self::AVAILABLE_LANGS_CACHEKEY);
         	} catch (common_cache_NotFoundException $e) {
-	        	$langClass = new core_kernel_classes_Class(TaoOntology::CLASS_LANGUAGES);
+	        	$langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
 	        	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
 	        	foreach($langClass->getInstances() as $lang){
 	        	    $values = $lang->getPropertiesValues(array(
@@ -160,7 +160,7 @@ class tao_helpers_I18n
 	        	    }
 	        	    if (count($values[PROPERTY_LANGUAGE_ORIENTATION]) != 1) {
 	        	        common_Logger::w('Error with orientation of language '.$lang->getUri());
-	        	        $orientation = TaoOntology::INSTANCE_ORIENTATION_LTR;
+	        	        $orientation = TaoOntology::PROPERTY_INSTANCE_ORIENTATION_LTR;
 	        	    } else {
                         $orientation = current($values[TaoOntology::PROPERTY_LANGUAGE_ORIENTATION ])->getUri();
 	        	    }

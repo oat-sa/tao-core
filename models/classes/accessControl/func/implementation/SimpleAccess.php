@@ -68,7 +68,7 @@ class SimpleAccess extends ConfigurableService
     public function accessPossible(User $user, $controller, $action) {
         $isUser = false;
         foreach ($user->getRoles() as $role) {
-            if ($role == TaoOntology::INSTANCE_ROLE_BASE_USER) {
+            if ($role == TaoOntology::PROPERTY_INSTANCE_ROLE_BASE_USER) {
                 $isUser = true;
                 break;
             }

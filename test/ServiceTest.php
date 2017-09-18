@@ -108,7 +108,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	public function testAbstractService(){
 		
 		//we create a temp object for the needs of the test
-		$generisResourceClass = new core_kernel_classes_Class(tao_models_classes_GenerisService::GENERIS_RESOURCE);
+		$generisResourceClass = new core_kernel_classes_Class(tao_models_classes_GenerisService::PROPERTY_GENERIS_RESOURCE);
 		$testModelClass = $generisResourceClass->createSubClass('aModel', 'test model');
 		$this->assertIsA($testModelClass, 'core_kernel_classes_Class');
 		

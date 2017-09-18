@@ -54,7 +54,7 @@ class tao_models_classes_oauth_DataStore
 	{
 		$returnValue = null;
 
-		$class = new core_kernel_classes_Class(TaoOntology::CLASS_OAUTH_CONSUMER);
+		$class = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OAUTH_CONSUMER);
 		$instances = $class->searchInstances(array(TaoOntology::PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false, 'recursive' => true));
 		if (count($instances) == 0) {
 			throw new tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);

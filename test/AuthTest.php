@@ -48,7 +48,7 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 		PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-		PROPERTY_USER_ROLES		=>	TaoOntology::INSTANCE_ROLE_BACKOFFICE
+		PROPERTY_USER_ROLES		=>	TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE
 	);
 	
 	/**

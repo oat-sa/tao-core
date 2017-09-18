@@ -29,7 +29,7 @@ class tao_helpers_SysAdmin{
     public static function isSysAdmin(){
         $userService = tao_models_classes_UserService::singleton();
         $currentUser = $userService->getCurrentUser();
-        $sysAdminRole =  new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_SYSADMIN) ;
+        $sysAdminRole =  new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_SYSADMIN) ;
         $returnValues = $currentUser != null ? $userService->userHasRoles($currentUser,$sysAdminRole) : false;
         return $returnValues;
     }

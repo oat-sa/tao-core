@@ -158,7 +158,7 @@ class tao_helpers_form_GenerisFormFactory
 
 
         if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::OBJECT_CLASS );
+			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::OBJECT_CLASS_URI );
 		}
 
 

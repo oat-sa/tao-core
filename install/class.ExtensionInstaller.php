@@ -92,16 +92,16 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
             $roleService = tao_models_classes_RoleService::singleton();
             if (! $role->exists()) {
                 // Management role does not exist yet, so we create it
-                $roleClass = new core_kernel_classes_Class(TaoOntology::CLASS_MANAGEMENT_ROLE);
+                $roleClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_MANAGEMENT_ROLE);
                 $roleLabel = $this->extension->getId() . ' Manager';
                 $role = $roleClass->createInstance($roleLabel, $roleLabel . ' Role', $role->getUri());
-                $roleService->includeRole($role, new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_BACKOFFICE));
+                $roleService->includeRole($role, new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE));
             }
             
             // Take the Global Manager role and make it include
             // the Management role of the currently installed extension.
-            if ($role->getUri() !== TaoOntology::INSTANCE_ROLE_GLOBALMANAGER) {
-                $globalManagerRole = new core_kernel_classes_Resource(TaoOntology::INSTANCE_ROLE_GLOBALMANAGER);
+            if ($role->getUri() !== TaoOntology::PROPERTY_INSTANCE_ROLE_GLOBALMANAGER) {
+                $globalManagerRole = new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_GLOBALMANAGER);
                 $roleService->includeRole($globalManagerRole, $role);
             }
             

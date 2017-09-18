@@ -70,7 +70,7 @@ class tao_models_classes_LanguageService
         $returnValue = null;
 
         
-        $langClass = new core_kernel_classes_Class(TaoOntology::CLASS_LANGUAGES);
+        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
 	    $langs = $langClass->searchInstances(array(
 	    	RDF_VALUE => $code
 	    ), array(
@@ -113,7 +113,7 @@ class tao_models_classes_LanguageService
     public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
     {
         $returnValue = array();
-    	$langClass = new core_kernel_classes_Class(TaoOntology::CLASS_LANGUAGES);
+    	$langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
 	    $returnValue = $langClass->searchInstances(array(
 			TaoOntology::PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
@@ -132,7 +132,7 @@ class tao_models_classes_LanguageService
      */
     public function isLanguageAvailable($code, core_kernel_classes_Resource $usage)
     {
-        $langClass = new core_kernel_classes_Class(TaoOntology::CLASS_LANGUAGES);
+        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
         $result = $langClass->searchInstances(
             array(
                 RDF_VALUE => $code,

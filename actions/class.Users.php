@@ -229,7 +229,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function add()
     {
-        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_TAO_USER));
+        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER));
         $myForm = $myFormContainer->getForm();
 
         if ($myForm->isSubmited()) {
@@ -260,7 +260,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             throw new Exception("wrong request mode");
         }
 
-        $clazz = new core_kernel_classes_Class(TaoOntology::CLASS_TAO_USER);
+        $clazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
         $myForm = $formContainer->getForm();
 

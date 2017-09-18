@@ -94,24 +94,24 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			'token'			=> $this->createToken(),
 			'localNamespace' => rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#'),
 
-			TaoOntology::CLASS_PROCESS_EXECUTIONS => array(
+			TaoOntology::CLASS_URI_PROCESS_EXECUTIONS => array(
 				'uri'		=> $processExecution->getUri(),
 				RDFS_LABEL	=> $processExecution->getLabel()
 			),
 
-			TaoOntology::ITEM_CLASS	=> array(
+			TaoOntology::ITEM_CLASS_URI	=> array(
 				'uri'		=> $item->getUri(),
 				RDFS_LABEL	=> $item->getLabel()
 			),
-			TaoOntology::TEST_CLASS	=> array(
+			TaoOntology::TEST_CLASS_URI	=> array(
 				'uri'		=> $test->getUri(),
 				RDFS_LABEL	=> $test->getLabel()
 			),
-			TaoOntology::DELIVERY_CLASS	=> array(
+			TaoOntology::DELIVERY_CLASS_URI	=> array(
 				'uri'		=> $delivery->getUri(),
 				RDFS_LABEL	=> $delivery->getLabel()
 			),
-            TaoOntology::SUBJECT_CLASS => array(
+            TaoOntology::SUBJECT_CLASS_URI => array(
 				'uri'					=> $user->getUri(),
 				RDFS_LABEL				=> $user->getLabel(),
 				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
@@ -151,18 +151,18 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		$sessionKey = self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->getUri());
 		if($session->hasAttribute($sessionKey)){
 			$executionEnvironment = $session->getAttribute($sessionKey);
-			if(isset($executionEnvironment['token']) && $executionEnvironment[TaoOntology::CLASS_PROCESS_EXECUTIONS]['uri'] == $processExecution->getUri() ){
+			if(isset($executionEnvironment['token']) && $executionEnvironment[TaoOntology::CLASS_URI_PROCESS_EXECUTIONS]['uri'] == $processExecution->getUri() ){
 				return $executionEnvironment;
 			}
 		}
 			
 		$executionEnvironment = array(
 			'token' => self::createToken(),
-			TaoOntology::CLASS_PROCESS_EXECUTIONS => array(
+			TaoOntology::CLASS_URI_PROCESS_EXECUTIONS => array(
 				'uri'		=> $processExecution->getUri(),
 				RDFS_LABEL	=> $processExecution->getLabel()
 			),
-			TaoOntology::SUBJECT_CLASS => array(
+			TaoOntology::SUBJECT_CLASS_URI => array(
 				'uri'					=> $user->getUri(),
 				RDFS_LABEL				=> $user->getLabel(),
 				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
