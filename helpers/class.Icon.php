@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2017-08-23 15:23:30
+ * @date   2017-09-15 14:18:42
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,10 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_CLICK_TO_SPEAK = 'icon-click-to-speak';
+    const CLASS_SPEECH_BUBBLE = 'icon-speech-bubble';
+    const CLASS_MICROPHONE = 'icon-microphone';
+    const CLASS_MICROPHONE_OFF = 'icon-microphone-off';
     const CLASS_DISCONNECT = 'icon-disconnect';
     const CLASS_CONNECT = 'icon-connect';
     const CLASS_ELIMINATE = 'icon-eliminate';
@@ -272,6 +276,8 @@ class tao_helpers_Icon {
     const CLASS_SPEED = 'icon-speed';
     const CLASS_VOLUME = 'icon-volume';
     const CLASS_CONTRAST = 'icon-contrast';
+    const CLASS_HEADPHONES = 'icon-headphones';
+    const CLASS_BUBBLE2 = 'icon-bubble2';
     const CLASS_COMPRESS = 'icon-compress';
     const CLASS_MAP_O = 'icon-map-o';
 
@@ -279,6 +285,22 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconClickToSpeak($options=array()){
+        return self::buildIcon(self::CLASS_CLICK_TO_SPEAK, $options);
+    }
+
+    public static function iconSpeechBubble($options=array()){
+        return self::buildIcon(self::CLASS_SPEECH_BUBBLE, $options);
+    }
+
+    public static function iconMicrophone($options=array()){
+        return self::buildIcon(self::CLASS_MICROPHONE, $options);
+    }
+
+    public static function iconMicrophoneOff($options=array()){
+        return self::buildIcon(self::CLASS_MICROPHONE_OFF, $options);
+    }
 
     public static function iconDisconnect($options=array()){
         return self::buildIcon(self::CLASS_DISCONNECT, $options);
@@ -1066,6 +1088,14 @@ class tao_helpers_Icon {
 
     public static function iconContrast($options=array()){
         return self::buildIcon(self::CLASS_CONTRAST, $options);
+    }
+
+    public static function iconHeadphones($options=array()){
+        return self::buildIcon(self::CLASS_HEADPHONES, $options);
+    }
+
+    public static function iconBubble2($options=array()){
+        return self::buildIcon(self::CLASS_BUBBLE2, $options);
     }
 
     public static function iconCompress($options=array()){
