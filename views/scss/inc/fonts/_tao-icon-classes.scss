@@ -16,8 +16,7 @@
                                  :  : :      :
                                  :__:-:__.;--'
                                 <*_/   <*/
-
-                                     
+                                 
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
 .icon-click-to-speak:before { @include icon-click-to-speak; }
 .icon-speech-bubble:before { @include icon-speech-bubble; }
@@ -221,6 +220,5 @@
 .icon-volume:before { @include icon-volume; }
 .icon-contrast:before { @include icon-contrast; }
 .icon-headphones:before { @include icon-headphones; }
-.icon-bubble2:before { @include icon-bubble2; }
 .icon-compress:before { @include icon-compress; }
 .icon-map-o:before { @include icon-map-o; }
