@@ -148,7 +148,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	public static function fromResource(core_kernel_classes_Resource $resource) {
 	    $values = $resource->getPropertiesValues(array(
 			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_SERVICE_DEFINITION,
-			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_SERVICE_DEFINITION,
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_IN,
 			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT
 	    ));
 	    $serviceDefUri = current($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_SERVICE_DEFINITION]);
