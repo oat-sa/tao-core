@@ -63,8 +63,7 @@ define([
             }, {
                 name : 'links',
                 items : ['Link']
-            },
-            '/', {
+            }, {
                 name : 'styles',
                 items : ['Format']
             }, {
