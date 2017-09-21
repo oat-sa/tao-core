@@ -29,66 +29,20 @@
  * @package tao
  
  */
-use oat\tao\model\GenerisTreeFactory;
-use oat\tao\helpers\TreeHelper;
+use oat\tao\model\Tree\GetTreeRequest;
+use oat\tao\model\Tree\GetTreeModel;
 
 class tao_actions_GenerisTree extends tao_actions_CommonModule {
 	
 	const DEFAULT_LIMIT = 10;
-	
+
 	public function getData()
 	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new common_exception_IsAjaxAction(__FUNCTION__);
-		}
-		
-		if($this->hasRequestParameter('classUri')) {
-			$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
-			$class = new core_kernel_classes_Class($classUri);
-			$hideNode = true; 
-		} elseif ($this->hasRequestParameter('rootNode')) {
-			$class = new core_kernel_classes_Class($this->getRequestParameter('rootNode'));
-			$hideNode = false;
-		} else {
-			throw new common_Exception('Missing node information for '.__FUNCTION__);
-		}
-		
-		$openNodes	= array($class->getUri());
-		if ($this->hasRequestParameter('openNodes') && is_array($this->getRequestParameter('openNodes'))) {
-			$openNodes = array_merge($openNodes, $this->getRequestParameter('openNodes'));
-        }else if($this->hasRequestParameter('openParentNodes') && is_array($this->getRequestParameter('openParentNodes'))) {
-            $childNodes = $this->getRequestParameter('openParentNodes');
-            $openNodes = TreeHelper::getNodesToOpen($childNodes, $class);
-        }
-		
-		$limit		= $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : self::DEFAULT_LIMIT;
-		$offset		= $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
-		$showInst	= $this->hasRequestParameter('hideInstances') ? !$this->getRequestParameter('hideInstances') : true;
-		
-		$factory = new GenerisTreeFactory($showInst, $openNodes, $limit, $offset);
-		$array = $factory->buildTree($class);
+		$service = new GetTreeModel();
 
-        //sort items by name
-        function sortTreeNodes($a, $b) {
-            if (isset($a['data']) && isset($b['data'])) {
-                if ($a['type'] != $b['type']) {
-                    return ($a['type'] == 'class') ? -1 : 1;
-                } else {
-                    return strcasecmp($a['data'], $b['data']);
-                }
-            }
-        }
+		$response = $service->handle(GetTreeRequest::create($this->getRequest()));
 
-        if (isset($array['children'])) {
-            usort($array['children'], 'sortTreeNodes');
-        } elseif(array_values($array) === $array) {//is indexed array
-            usort($array, 'sortTreeNodes');
-        }
-
-		if ($hideNode) {
-			$array = isset($array['children']) ? $array['children'] : array();
-		}
-		echo json_encode($array);
+		return $this->returnJson($response->getTreeArray());
 	}
 	
 	public function setValues()
