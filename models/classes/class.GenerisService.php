@@ -28,6 +28,7 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\helpers\TreeHelper;
 use oat\tao\model\GenerisTreeFactory;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\TaoOntology;
 
 
 /**
@@ -46,7 +47,12 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 
     use OntologyAwareTrait;
 
-    /**
+	const PROPERTY_GENERIS_RESOURCE = 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource';
+
+	const PROPERTY_INSTANCE_BOOLEAN_TRUE ='http://www.tao.lu/Ontologies/generis.rdf#True';
+
+	const PROPERTY_INSTANCE_BOOLEAN_FALSE = 'http://www.tao.lu/Ontologies/generis.rdf#False';
+	/**
      * constructor
      *
      * @access protected
@@ -351,7 +357,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
     {
         $returnValue = array();
        if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::OBJECT_CLASS_URI );
 		}
 
 		if($clazz->getUri() == $topLevelClazz->getUri()){

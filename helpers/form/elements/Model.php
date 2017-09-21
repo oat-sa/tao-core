@@ -20,6 +20,7 @@
 
 namespace oat\tao\helpers\form\elements;
 
+use oat\tao\model\TaoOntology;
 use oat\taoItems\model\ItemModelStatus;
 use tao_helpers_form_elements_MultipleElement;
 use core_kernel_classes_Property;
@@ -49,7 +50,7 @@ abstract class Model
     public function getOptions() {
         $options = parent::getOptions();
         
-        $statusProperty = new core_kernel_classes_Property(PROPERTY_ABSTRACTMODEL_STATUS);
+        $statusProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_ABSTRACT_MODEL_STATUS);
         $current = $this->getEvaluatedValue();
                     
         $options = array();

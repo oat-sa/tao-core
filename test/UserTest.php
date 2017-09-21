@@ -19,6 +19,7 @@
  * 
  */
 use oat\generis\model\user\PasswordConstraintsService;
+use oat\tao\model\TaoOntology;
 
 /**
  * Test the user management 
@@ -100,7 +101,7 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 
 		//insert it
 		$this->assertTrue($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
-		$tmclass = new core_kernel_classes_Class(CLASS_TAO_USER);
+		$tmclass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 		$this->testUser = $tmclass->createInstance();
 		$this->assertNotNull($this->testUser);
 		$this->assertTrue($this->testUser->exists());
@@ -131,7 +132,7 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 	public function testAddUtf8User(){
 		
 		$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
-		$tmclass = new core_kernel_classes_Class(CLASS_TAO_USER);
+		$tmclass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 		$this->testUserUtf8 = $tmclass->createInstance();
 		$this->assertNotNull($this->testUserUtf8);
 		$this->assertTrue($this->testUserUtf8->exists());

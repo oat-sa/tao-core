@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\tao\model\WfEngineOntology;
+
 /**
  * Service to manage services and calls to these services
  * 
@@ -37,7 +39,7 @@ class tao_models_classes_service_ServiceCallHelper
         } catch (common_cache_NotFoundException $e) {
 
             $serviceDefinition = new core_kernel_classes_Resource($serviceDefinitionId);
-            $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_SUPPORTSERVICES_URL));
+            $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(WfEngineOntology::PROPERTY_SUPPORT_SERVICES_URL));
 
             $serviceUrl = ($serviceDefinitionUrl instanceof core_kernel_classes_Resource) ?
                 // hack nescessary since fully qualified urls are considered to be resources
@@ -84,7 +86,7 @@ class tao_models_classes_service_ServiceCallHelper
         try {
             $paramKey = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_PARAM_NAME.urlencode($paramDefinition->getUri()));
         } catch (common_cache_NotFoundException $e) {
-            $paramKey = common_Utils::fullTrim($paramDefinition->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_FORMALPARAMETER_NAME)));
+            $paramKey = common_Utils::fullTrim($paramDefinition->getUniquePropertyValue(new core_kernel_classes_Property(WfEngineOntology::PROPERTY_FORMAL_PARAMETER_NAME)));
             common_cache_FileCache::singleton()->put($paramKey, self::CACHE_PREFIX_PARAM_NAME.urlencode($paramDefinition->getUri()));
         }
         return $paramKey;
