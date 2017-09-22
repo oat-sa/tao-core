@@ -51,7 +51,7 @@ define([
             if (model && 'function' === typeof model.filterTransform) {
                 data.filterquery = model.filterTransform(data.filterquery);
             }
-            data.filtercolumns = column ? column.split(',') : options.filter.columns;
+            data.filtercolumns = column ? column.split(',') : options.filtercolumns;
 
             return data;
         },

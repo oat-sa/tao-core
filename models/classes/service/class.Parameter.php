@@ -18,6 +18,8 @@
  * 
  */
 
+use oat\tao\model\WfEngineOntology;
+
 /**
  * Represents tao service parameter
  *
@@ -81,27 +83,27 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
 	 */
 	public static function fromResource(core_kernel_classes_Resource $resource) {
 	    $values = $resource->getPropertiesValues(array(
-	        PROPERTY_ACTUALPARAMETER_FORMALPARAMETER,
-	        PROPERTY_ACTUALPARAMETER_CONSTANTVALUE,
-	        PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE
+			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER,
+			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE,
+			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE
 	    ));
-	    if (count($values[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]) != 1) {
+	    if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER]) != 1) {
 	        throw new common_exception_InconsistentData('Actual variable '.$resource->getUri().' missing formal parameter');
 	    }
-	    if (count($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE]) + count($values[PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE]) != 1) {
+	    if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) + count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) != 1) {
 	        throw new common_exception_InconsistentData('Actual variable '.$resource->getUri().' invalid, '
-	            .count($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE]).' constant values and '
-                .count($values[PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE]).' process variables');
+	            .count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]).' constant values and '
+                .count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]).' process variables');
 	    }
-	    if (count($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE]) > 0) {
+	    if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) > 0) {
 	        $param = new tao_models_classes_service_ConstantParameter(
-	            current($values[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]),
-	            current($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])
+	            current($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER]),
+	            current($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE])
 	       );
 	    } else {
 	        $param = new tao_models_classes_service_VariableParameter(
-	            current($values[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]),
-	            current($values[PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE])
+	            current($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER]),
+	            current($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE])
 	        );
 	    }
 	    return $param;

@@ -24,6 +24,7 @@ use oat\tao\model\search\Index;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\TaoOntology;
 
 /**
  * Search Token generator to be used in Indexers
@@ -87,7 +88,7 @@ class SearchTokenGenerator
     protected function getIndexes(\core_kernel_classes_Property $property) {
         if (!isset($this->indexMap[$property->getUri()])) {
             $this->indexMap[$property->getUri()] = array();
-            $indexes = $property->getPropertyValues($this->getProperty(INDEX_PROPERTY));
+            $indexes = $property->getPropertyValues($this->getProperty(TaoOntology::INDEX_PROPERTY));
             foreach ($indexes as $indexUri) {
                 $this->indexMap[$property->getUri()][] = new Index($indexUri);
             }
