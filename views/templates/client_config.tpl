@@ -34,7 +34,6 @@ require.config({
         'jquery.timePicker' : 'lib/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
-        'jquery.trunc'		: 'lib/jquery.badonkatrunc',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
         'qtip'              : 'lib/jquery.qtip/jquery.qtip',
 //polyfills
