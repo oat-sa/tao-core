@@ -923,6 +923,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 			$this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
 			$this->setVersion('12.21.6');
 		}
+
+		$this->skip('12.21.6', '12.21.7');
     }
 
     private function migrateFsAccess() {
