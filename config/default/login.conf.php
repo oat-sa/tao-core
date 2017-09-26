@@ -26,4 +26,8 @@ return array(
      * @type bool
      */
     'disableAutocomplete' => false,
+
+    'allowed_failed_attempts' => 5, // amount of failed login attempt before lockout
+    'soft_lockout_period' => 'P15M', // 15 minutes
+    'use_soft_lockout' => true // by default soft lockout will be used
 );
