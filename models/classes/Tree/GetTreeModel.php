@@ -9,10 +9,10 @@ use tao_helpers_Request;
 class GetTreeModel
 {
 	/** @var array */
-	private $filterCollection;
+	protected $filterCollection;
 
 	/** @var array */
-	private $optionsFilter;
+	protected $optionsFilter;
 
 	/**
 	 * @param array $filterCollection

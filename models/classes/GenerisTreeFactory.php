@@ -72,6 +72,8 @@ class GenerisTreeFactory
 	 */
     private $optionsFilter = [];
 
+    /** @var array  */
+    private $extraProperties = [];
 	/**
 	 * @param boolean $showResources
 	 * @param array $openNodes
@@ -80,8 +82,9 @@ class GenerisTreeFactory
 	 * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
 	 * @param array $propertyFilter Additionnal property filters to apply to the tree
 	 * @param array $optionsFilter
+	 * @param array $extraProperties
 	 */
-    public function __construct($showResources, array $openNodes = [], $limit = 10, $offset = 0, array $resourceUrisToShow = [], array $propertyFilter = [], array $optionsFilter = [])
+    public function __construct($showResources, array $openNodes = [], $limit = 10, $offset = 0, array $resourceUrisToShow = [], array $propertyFilter = [], array $optionsFilter = [], array $extraProperties = [])
     {
         $this->limit          = (int) $limit;
         $this->offset         = (int) $offset;
@@ -89,6 +92,7 @@ class GenerisTreeFactory
         $this->showResources  = $showResources;
         $this->propertyFilter = $propertyFilter;
         $this->optionsFilter  = $optionsFilter;
+        $this->extraProperties = $extraProperties;
 
         $types = array();
         foreach ($resourceUrisToShow as $uri) {
@@ -177,7 +181,7 @@ class GenerisTreeFactory
 
 
             foreach ($searchResult as $instance){
-                $childs[] = TreeHelper::buildResourceNode($instance, $class);
+                $childs[] = TreeHelper::buildResourceNode($instance, $class, $this->extraProperties);
             }
         }
         return $childs;

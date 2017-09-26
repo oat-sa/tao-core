@@ -2,6 +2,8 @@
 
 namespace oat\tao\model\Tree;
 
+use oat\generis\model\kernel\persistence\smoothsql\search\filter\FilterOperator;
+
 class TreeWrapper
 {
 	/** @var  array */
@@ -24,7 +26,7 @@ class TreeWrapper
 
 		if (isset($sortedArray['children'])) {
 			usort($sortedArray['children'], array($this, 'sortTreeNodes'));
-		} elseif(array_values($sortedArray) === $sortedArray) {//is indexed array
+		} elseif (array_values($sortedArray) === $sortedArray) {//is indexed array
 			usort($sortedArray, array($this, 'sortTreeNodes'));
 		}
 
@@ -32,13 +34,59 @@ class TreeWrapper
 	}
 
 	/**
+	 * @param []Filter
+	 * @return TreeWrapper
+	 */
+	public function filterTree(array $filters)
+	{
+		$filteredArray = $this->treeArray;
+
+		$childrenMatch = [];
+
+		foreach ($filters as $filter) {
+
+			foreach ($filteredArray['children'] as $node) {
+				$endDate = (int)(string)$node['attributes'][$filter->getKey()];
+
+				if ($filter->getOperator() === FilterOperator::GREATER_THAN_EQUAL
+					&& ($filter->getValue() < $endDate || $endDate === 0)) {
+
+					$childrenMatch[] = $node;
+					continue;
+				}
+			}
+		}
+
+		$filteredArray['children'] = $childrenMatch;
+		$filteredArray['count']  = count($childrenMatch);
+
+		return new self($filteredArray);
+	}
+
+	/**
+	 * @param $limit
+	 * @param $offset
+	 * @return TreeWrapper
+	 */
+	public function applyLimitAndOffset($limit, $offset)
+	{
+		$array = $this->treeArray;
+
+		$array['children'] = array_slice($array['children'], $offset, $limit);
+
+		return new self($array);
+	}
+
+	/**
 	 * @return TreeWrapper
 	 */
 	public function getDefaultChildren()
 	{
-		$treeArray = isset($this->treeArray['children']) ? $this->treeArray['children'] : array();
+		$treeArray = $this->treeArray;
 
-		return new self($treeArray);
+		$treeArray['children'] = isset($treeArray['children']) ? $treeArray['children'] : array();
+
+		return new self($treeArray['children']);
 	}
 
 	/**
@@ -54,7 +102,8 @@ class TreeWrapper
 	 * @param $b
 	 * @return int
 	 */
-	protected function sortTreeNodes($a, $b) {
+	protected function sortTreeNodes($a, $b)
+	{
 		if (isset($a['data']) && isset($b['data'])) {
 			if ($a['type'] != $b['type']) {
 				return ($a['type'] == 'class') ? -1 : 1;
