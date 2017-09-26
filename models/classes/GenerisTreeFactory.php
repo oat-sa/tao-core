@@ -67,21 +67,32 @@ class GenerisTreeFactory
       */
     private $propertyFilter = [];
 
-    /**
-     * @param boolean $showResources
-     * @param array $openNodes
-     * @param int $limit
-     * @param int $offset
-     * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
-     * @param array $propertyFilter Additionnal property filters to apply to the tree
-     */
-    public function __construct($showResources, array $openNodes = [], $limit = 10, $offset = 0, array $resourceUrisToShow = [], array $propertyFilter = [])
+	/**
+	 * @var array
+	 */
+    private $optionsFilter = [];
+
+    /** @var array  */
+    private $extraProperties = [];
+	/**
+	 * @param boolean $showResources
+	 * @param array $openNodes
+	 * @param int $limit
+	 * @param int $offset
+	 * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
+	 * @param array $propertyFilter Additionnal property filters to apply to the tree
+	 * @param array $optionsFilter
+	 * @param array $extraProperties
+	 */
+    public function __construct($showResources, array $openNodes = [], $limit = 10, $offset = 0, array $resourceUrisToShow = [], array $propertyFilter = [], array $optionsFilter = [], array $extraProperties = [])
     {
         $this->limit          = (int) $limit;
         $this->offset         = (int) $offset;
         $this->openNodes      = $openNodes;
         $this->showResources  = $showResources;
         $this->propertyFilter = $propertyFilter;
+        $this->optionsFilter  = $optionsFilter;
+        $this->extraProperties = $extraProperties;
 
         $types = array();
         foreach ($resourceUrisToShow as $uri) {
@@ -116,7 +127,7 @@ class GenerisTreeFactory
         $label = empty($label) ? __('no label') : $label;
         $returnValue = $this->buildClassNode($class, $parent);
 
-        $instancesCount = (int) $class->countInstances($this->propertyFilter);
+        $instancesCount = (int) $class->countInstances($this->propertyFilter, $this->optionsFilter);
 
         // allow the class to be opened if it contains either instances or subclasses
         if ($instancesCount > 0 || count($class->getSubClasses(false)) > 0) {
@@ -161,16 +172,16 @@ class GenerisTreeFactory
                 $limit = 0;
             }
 
-            $searchResult = $class->searchInstances($this->propertyFilter, [
+            $searchResult = $class->searchInstances($this->propertyFilter, array_merge([
                 'limit'     => $limit,
                 'offset'    => $this->offset,
                 'recursive' => false,
                 'order'     => RDFS_LABEL,
-            ]);
+            ], $this->optionsFilter));
 
 
             foreach ($searchResult as $instance){
-                $childs[] = TreeHelper::buildResourceNode($instance, $class);
+                $childs[] = TreeHelper::buildResourceNode($instance, $class, $this->extraProperties);
             }
         }
         return $childs;

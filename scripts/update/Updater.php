@@ -53,6 +53,7 @@ use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -916,6 +917,12 @@ class Updater extends \common_ext_ExtensionUpdater {
 
 
         $this->skip('12.2.2', '12.21.5');
+
+		if ($this->isVersion('12.21.5')) {
+			$service = new GetTreeService();
+			$this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
+			$this->setVersion('12.21.6');
+		}
     }
 
     private function migrateFsAccess() {
