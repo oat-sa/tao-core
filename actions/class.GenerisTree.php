@@ -30,7 +30,7 @@
  
  */
 use oat\tao\model\Tree\GetTreeRequest;
-use oat\tao\model\Tree\GetTreeModel;
+use oat\tao\model\Tree\GetTreeService;
 
 class tao_actions_GenerisTree extends tao_actions_CommonModule {
 	
@@ -38,7 +38,8 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 
 	public function getData()
 	{
-		$service = new GetTreeModel();
+		/** @var GetTreeService $service */
+		$service = $this->getServiceManager()->get(GetTreeService::SERVICE_ID);
 
 		$response = $service->handle(GetTreeRequest::create($this->getRequest()));
 

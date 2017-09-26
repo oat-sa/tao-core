@@ -3,26 +3,13 @@
 namespace oat\tao\model\Tree;
 
 use common_exception_IsAjaxAction;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\GenerisTreeFactory;
 use tao_helpers_Request;
 
-class GetTreeModel
+class GetTreeService extends ConfigurableService
 {
-	/** @var array */
-	protected $filterCollection;
-
-	/** @var array */
-	protected $optionsFilter;
-
-	/**
-	 * @param array $filterCollection
-	 * @param array $optionsFilter
-	 */
-	public function __construct(array $filterCollection = [], array $optionsFilter = [])
-	{
-		$this->filterCollection = $filterCollection;
-		$this->optionsFilter = $optionsFilter;
-	}
+	const SERVICE_ID = 'tao/GetTree';
 
 	/**
 	 * @param GetTreeRequest $request
@@ -42,8 +29,8 @@ class GetTreeModel
 			$request->getLimit(),
 			$request->getOffset(),
 			$request->getResourceUrisToShow(),
-			$this->filterCollection,
-			$this->optionsFilter
+			$request->getFilters(),
+			$request->getFiltersOptions()
 		);
 
 		$treeWrapper = new TreeWrapper($factory->buildTree($request->getClass()));

@@ -33,6 +33,12 @@ class GetTreeRequest
 	/** @var  array */
 	protected $resourceUrisToShow;
 
+	/** @var  array */
+	protected $filters = [];
+
+	/** @var  array */
+	protected $filtersOptions = [];
+
 	/**
 	 * GetTreeRequest constructor.
 	 * @param core_kernel_classes_Class $class
@@ -146,5 +152,37 @@ class GetTreeRequest
 	public function getResourceUrisToShow()
 	{
 		return $this->resourceUrisToShow;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFilters()
+	{
+		return $this->filters;
+	}
+
+	/**
+	 * @param array $filters
+	 */
+	public function setFilters($filters)
+	{
+		$this->filters = $filters;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFiltersOptions()
+	{
+		return $this->filtersOptions;
+	}
+
+	/**
+	 * @param array $filtersOptions
+	 */
+	public function setFiltersOptions($filtersOptions)
+	{
+		$this->filtersOptions = $filtersOptions;
 	}
 }
