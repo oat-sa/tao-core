@@ -915,12 +915,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('12.2.2');
         }
 
-		$this->skip('12.2.2', '12.21.4');
 
-		if ($this->isVersion('12.21.4')) {
+        $this->skip('12.2.2', '12.21.5');
+
+		if ($this->isVersion('12.21.5')) {
 			$service = new GetTreeService();
 			$this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
-			$this->setVersion('12.21.5');
+			$this->setVersion('12.21.6');
 		}
     }
 
