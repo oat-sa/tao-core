@@ -27,7 +27,13 @@ return array(
      */
     'disableAutocomplete' => false,
 
-    'use_soft_lockout' => true, // by default soft lockout will be used
-    'allowed_failed_attempts' => 5, // amount of failed login attempts before lockout
+    'use_captcha' => false,
+    'use_hard_lockout' => false, // by default soft lockout will be used
+
+    'captcha_failed_attempts' => 2, // amount of failed login attempts before captcha showing
+    'lockout_failed_attempts' => 5, // amount of failed login attempts before lockout
+
     'soft_lockout_period' => 'P15M', // 15 minutes
+
+    // todo: 'trusted_terminal_ttl' => 180, // amount of days while TT will be active
 );
