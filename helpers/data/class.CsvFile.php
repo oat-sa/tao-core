@@ -221,7 +221,7 @@ class tao_helpers_data_CsvFile
 				if (trim($row) != ''){
 					$data[$lineNumber] = array();
 
-                    $rowFields = array_map('rtrim', str_getcsv($row, $DELIM, '"'));
+                    $rowFields = array_map('rtrim', str_getcsv($row, $DELIM, $WRAP));
 					for ($i = 0; $i < count($rowFields); $i++){
 						$fieldData = preg_replace("/^$WRAP/", '', $rowFields[$i]);
 						$fieldData = preg_replace("/$WRAP$/", '', $fieldData);
