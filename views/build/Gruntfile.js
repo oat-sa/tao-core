@@ -39,8 +39,7 @@ module.exports = function(grunt) {
         'jquery.cookie',
         'jquery.fileDownload',
         'raphael',
-        'scale.raphael',
-        'html5-history-api']);
+        'scale.raphael']);
 
     grunt.option('mainlibs', libs);
     grunt.option('root', root);
