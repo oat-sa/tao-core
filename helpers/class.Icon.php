@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2017-09-19 13:40:30
+ * @date   2017-09-27 14:10:18
  * @package tao
  * @subpackage helpers
  */
@@ -279,6 +279,7 @@ class tao_helpers_Icon {
     const CLASS_HEADPHONES = 'icon-headphones';
     const CLASS_COMPRESS = 'icon-compress';
     const CLASS_MAP_O = 'icon-map-o';
+    const CLASS_VARIABLE = 'icon-variable';
 
 	
     /**
@@ -1099,6 +1100,10 @@ class tao_helpers_Icon {
 
     public static function iconMapO($options=array()){
         return self::buildIcon(self::CLASS_MAP_O, $options);
+    }
+
+    public static function iconVariable($options=array()){
+        return self::buildIcon(self::CLASS_VARIABLE, $options);
     }
 
 
