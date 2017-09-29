@@ -915,15 +915,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('12.2.2');
         }
 
+        $this->skip('12.2.2', '12.21.5');
 
-		if ($this->isVersion('12.21.5')) {
-			$service = new GetTreeService();
-			$this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
-			$this->setVersion('12.21.6');
-		}
+        if ($this->isVersion('12.21.5')) {
+                $service = new GetTreeService();
+                $this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
+                $this->setVersion('12.21.6');
+        }
 
-		$this->skip('12.21.6', '13.0.0');
-
+        $this->skip('12.21.6', '13.0.0');
     }
 
     private function migrateFsAccess() {
