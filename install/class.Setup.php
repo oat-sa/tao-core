@@ -128,6 +128,7 @@ class tao_install_Setup implements Action
             , "instance_name" =>	null
             , "extensions" =>		null
             , 'timezone'   =>      date_default_timezone_get()
+            , 'extra_persistences' => []
         );
 
         if(!isset($parameters['configuration'])){
@@ -273,11 +274,22 @@ class tao_install_Setup implements Action
 
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
+
+        $persistences = $parameters['configuration']['generis']['persistences'];
+        $serviceSectionId = explode('\\', \oat\generis\model\data\DbWrapper::SERVICE_ID)[1];
+        $dbWrapperPersistenceId = $parameters['configuration']['generis'][$serviceSectionId]['options']['persistence'];
+
+        if ($dbWrapperPersistenceId !== 'default' && !isset($persistences[$dbWrapperPersistenceId])) {
+            throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for '. $serviceSectionId);
+        }
+
+        $options['extra_persistences'] = [$dbWrapperPersistenceId => (array)$persistences[$dbWrapperPersistenceId]];
+
         $installator->install($options);
 
 
         // configure persistences
-        foreach($parameters['configuration']['generis']['persistences'] as $key => $persistence){
+        foreach($persistences as $key => $persistence){
             \common_persistence_Manager::addPersistence($key, $persistence);
         }
 
