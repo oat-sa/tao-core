@@ -166,12 +166,12 @@ class ThemeService extends ConfigurableService {
         foreach ($providers as $provider) {
             if ($provider instanceof ThemeDetailsProviderInterface) {
                 $themeId = $provider->getThemeId();
-                if (!empty($themeId)) {
+                if (!empty($themeId) && $themeId !== ' ') {
                     if ($this->hasTheme($themeId)) {
                         return $themeId;
                     }
 
-                    \common_Logger::w(
+                    \common_Logger::i(
                         'The requested theme ' . $themeId .
                         ' requested by the ' . get_class($provider) . ' provider does not exist!'
                     );
