@@ -276,7 +276,7 @@ class tao_install_Setup implements Action
         $installator->escapeCheck('custom_tao_ModRewrite');
 
         $persistences = $parameters['configuration']['generis']['persistences'];
-        $serviceSectionId = explode('\\', \oat\generis\model\data\DbWrapper::SERVICE_ID)[1];
+        $serviceSectionId = explode('/', \oat\generis\model\data\DbWrapper::SERVICE_ID)[1];
         $dbWrapperPersistenceId = $parameters['configuration']['generis'][$serviceSectionId]['options']['persistence'];
 
         if ($dbWrapperPersistenceId !== 'default' && !isset($persistences[$dbWrapperPersistenceId])) {
