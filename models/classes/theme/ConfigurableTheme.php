@@ -37,7 +37,8 @@ use oat\tao\helpers\Template;
  *       'data' => array(
  *          'logo-url' => 'http://lorempixel.com/400/200,
  *          'link' => 'http://taotesting.com',
- *          'message' => 'Tao Platform'
+ *          'message' => 'Tao Platform',
+ *          'label' => 'Default Theme'
  *        ),
  *        'stylesheet' => 'http://tao.dev/tao/views/css/tao-3.css'
  *     )
@@ -54,6 +55,7 @@ class ConfigurableTheme extends Configurable implements Theme
     const THEME_DATA_LOGO_URL = 'logo-url';
     const THEME_DATA_LINK     = 'link';
     const THEME_DATA_MESSAGE  = 'message';
+    const THEME_DATA_LABEL    = 'label';
 
     /**
      * Get a template associated to given $id
@@ -75,7 +77,7 @@ class ConfigurableTheme extends Configurable implements Theme
                 $template = Template::getTemplate('blocks/login-message.tpl', 'tao');
                 break;
             default:
-                \common_Logger::w('Unkown template '.$id);
+                \common_Logger::w('Unknown template '.$id);
                 $template = null;
         }
         return $template;
@@ -146,8 +148,8 @@ class ConfigurableTheme extends Configurable implements Theme
 
     /**
      * Get the message of current theme
-     * Message is used into header, to provide title to logo
-     * Message is used into footer, as footer message
+     * Message is used in the header as title of the logo
+     * Message is used in the footer as footer message
      *
      * @return string
      */
@@ -156,6 +158,22 @@ class ConfigurableTheme extends Configurable implements Theme
         $data = $this->getThemeData();
         if (isset($data[self::THEME_DATA_MESSAGE])) {
             return $data[self::THEME_DATA_MESSAGE];
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get the label of current theme
+     * Labels are useful in situations where you can choose between multiple themes
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        $data = $this->getThemeData();
+        if (isset($data[self::THEME_DATA_LABEL])) {
+            return $data[self::THEME_DATA_LABEL];
         } else {
             return '';
         }
