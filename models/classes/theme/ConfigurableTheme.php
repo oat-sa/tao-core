@@ -38,7 +38,8 @@ use oat\tao\helpers\Template;
  *          'logo-url' => 'http://lorempixel.com/400/200,
  *          'link' => 'http://taotesting.com',
  *          'message' => 'Tao Platform',
- *          'label' => 'Default Theme'
+ *          'label' => 'Default Theme',
+ *          'id' => 'defaultTheme'
  *        ),
  *        'stylesheet' => 'http://tao.dev/tao/views/css/tao-3.css'
  *     )
@@ -56,6 +57,7 @@ class ConfigurableTheme extends Configurable implements Theme
     const THEME_DATA_LINK     = 'link';
     const THEME_DATA_MESSAGE  = 'message';
     const THEME_DATA_LABEL    = 'label';
+    const THEME_DATA_ID       = 'id';
 
     /**
      * Get a template associated to given $id
@@ -174,6 +176,22 @@ class ConfigurableTheme extends Configurable implements Theme
         $data = $this->getThemeData();
         if (isset($data[self::THEME_DATA_LABEL])) {
             return $data[self::THEME_DATA_LABEL];
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get the id of current theme
+     * IDs are used to register the theme
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        $data = $this->getThemeData();
+        if (isset($data[self::THEME_DATA_ID])) {
+            return $data[self::THEME_DATA_ID];
         } else {
             return '';
         }
