@@ -79,7 +79,12 @@ define([
                     this.validate();
 
                     if (!this.errors.length) {
-                        request(route, formData, 'post')
+                        request(
+                            route,
+                            JSON.stringify(formData),
+                            'post',
+                            {'Content-Type': 'application/json'}
+                        )
                         .then(function () {
                             self.clearWidgets();
                             self.toggleLoading();

@@ -46,6 +46,7 @@ define([
             var route = url.route('edit', 'RestUser', 'tao');
             var uri = module.config().uri;
 
+
             request(route, {
                 uri: uri
             }, 'get')
@@ -81,7 +82,12 @@ define([
                     this.validate();
 
                     if (!this.errors.length) {
-                        request(route, formData, 'post')
+                        request(
+                            route,
+                            JSON.stringify(formData),
+                            'post',
+                            {'Content-Type': 'application/json'}
+                        )
                         .then(function () {
                             self.clearWidgetErrors();
                             self.toggleLoading();
