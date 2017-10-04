@@ -25,5 +25,5 @@
 use oat\tao\model\ClientLibConfigRegistry;
 
 ClientLibConfigRegistry::getRegistry()->register(
-    'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '']
+    'util/locale', ['decimalSeparator' => '.', 'thousandsSeparator' => '', 'dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss']
 );

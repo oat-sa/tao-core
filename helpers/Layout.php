@@ -21,15 +21,17 @@
 
 namespace oat\tao\helpers;
 
-use oat\tao\helpers\Template;
+use Jig\Utils\StringUtils;
 use oat\tao\model\menu\Icon;
-use oat\tao\model\ThemeRegistry;
+use oat\tao\model\OperatedByService;
+use oat\tao\model\theme\ConfigurableTheme;
+use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
 
-class Layout{
-
+class Layout
+{
 
     /**
      * Compute the parameters for the release message
@@ -59,7 +61,8 @@ class Layout{
 
             case 'demoS':
                 $params['version-type'] = __('Demo Sandbox');
-                $params['is-sandbox']    = true;
+                $params['is-sandbox']   = true;
+                $params['msg']          = self::getSandboxExpiration();
                 break;
         }
 
@@ -150,7 +153,7 @@ class Layout{
         $bundleMode   = \tao_helpers_Mode::is('production');
         $configUrl    = get_data('client_config_url');
         $requireJsUrl = Template::js('lib/require.js', 'tao');
-        $bootstrapUrl = Template::js('loader/bootstrap', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 
@@ -196,14 +199,23 @@ class Layout{
         $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
         return $contentTemplate;
     }
-    
+
     /**
      * Get the logo URL.
-     * 
+     *
+     * In case of non configurable theme, logo can be changed following on platform readiness
+     *
      * @return string The absolute URL to the logo image.
      */
-    public static function getLogoUrl() {
-        $logoFile = Template::img('tao-logo.png', 'tao');
+    public static function getLogoUrl()
+    {
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurableTheme) {
+            $logoFile = $theme->getLogoUrl();
+            if (! empty($logoFile)) {
+                return $logoFile;
+            }
+        }
 
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
@@ -214,8 +226,11 @@ class Layout{
             case 'demoB':
                 $logoFile = Template::img('tao-logo-beta.png', 'tao');
                 break;
+            default:
+                $logoFile = Template::img('tao-logo.png', 'tao');
+                break;
         }
-        
+
         return $logoFile;
     }
 
@@ -231,7 +246,7 @@ class Layout{
 
     /**
      * Deprecated way to insert a theming css, use custom template instead
-     * 
+     *
      * @deprecated
      * @return string
      */
@@ -239,36 +254,93 @@ class Layout{
         return '';
     }
 
-    public static function getLinkUrl() {
-        
-        $link = 'http://taotesting.com';
+    /**
+     * Get the url link of current theme
+     * Url is used into header, to provide link to logo
+     * Url is used into footer, to provide link to footer message
+     *
+     * In case of non configurable theme, link can be changed following on platform readiness
+     *
+     * @return string
+     */
+    public static function getLinkUrl()
+    {
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurableTheme) {
+            $link = $theme->getLink();
+            if (! empty($link)) {
+                return $link;
+            }
+        }
+
+
         //move this into the standard template setData()
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
             case 'beta':
             case 'demoB':
-                $link = 'http://forge.taotesting.com/projects/tao';
+                $link = 'https://forum.taocloud.org/';
+                break;
+            default:
+                $link = 'http://taotesting.com';
                 break;
         }
 
         return $link;
     }
 
-    public static function getMessage() {
-        
-        $message = '';
+    /**
+     * Get the message of current theme
+     * Message is used into header, to provide title to logo
+     * Message is used into footer, as footer message
+     *
+     * In case of non configurable theme, message can be changed following on platform readiness
+     *
+     * @return string
+     */
+    public static function getMessage()
+    {
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurableTheme) {
+            $message = $theme->getMessage();
+            if (! empty($message)) {
+                return $message;
+            }
+        }
+
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
             case 'beta':
             case 'demoB':
-                $message = __('Please report bugs, ideas, comments or feedback on the TAO Forge');
+                $message = __('Please report bugs, ideas, comments or feedback on the TAO Forum');
+                break;
+            default:
+                $message = '';
                 break;
         }
+
         return $message;
     }
-    
+
+    /**
+     * Get the currently registered OperatedBy data
+     * @return array
+     */
+    public static function getOperatedByData() {
+        $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
+
+        $name = $operatedByService->getName();
+        $email = $operatedByService->getEmail();
+
+        $data = [
+            'name' => $name,
+            'email' => (empty($email)) ? '' : StringUtils::encodeText('mailto:' . $email)
+        ];
+        return $data;
+    }
+
     public static function isUnstable() {
 
         $isUnstable = true;
@@ -279,6 +351,34 @@ class Layout{
                 break;
         }
         return $isUnstable;
+    }
+
+    /**
+     * Turn TAO_VERSION in a more verbose form.
+     * If TAO_VERSION diverges too much from the usual patterns TAO_VERSION will be returned unaltered.
+     *
+     * Examples (TAO_VERSION => return value): 
+     * 3.2.0-sprint52      => Sprint52 rev 3.2.0
+     * v3.2.0-sprint52     => Sprint52 rev 3.2.0
+     * 3.2.0sprint52       => Sprint52 rev 3.2.0
+     * 3.2.0               => 3.2.0
+     * 3.2                 => 3.2
+     * 3.2 0               => 3.2
+     * pattern w/o numbers => pattern w/o numbers
+     *
+     * @return string
+     */
+    public static function getVerboseVersionName() {
+        preg_match('~(?<revision>([\d\.]+))([\W_]?(?<specifics>(.*)?))~', trim(TAO_VERSION), $components);
+        if(empty($components['revision'])) {
+            return TAO_VERSION;
+        }
+        $version = '';
+        if(!empty($components['specifics'])) {
+            $version .= ucwords($components['specifics']) . ' rev ';
+        }
+        $version .= ucwords($components['revision']);
+        return $version;
     }
 
     /**
@@ -316,16 +416,16 @@ class Layout{
     public static function getCopyrightNotice() {
         return '';
     }
-    
+
     /**
      * Render a themable template identified by its id
-     * 
+     *
      * @param string $templateId
      * @param array $data
      * @return string
      */
     public static function renderThemeTemplate($target, $templateId, $data = array()){
-        
+
         //search in the registry to get the custom template to render
         $tpl = self::getThemeTemplate($target, $templateId);
 
@@ -336,27 +436,37 @@ class Layout{
         }
         return '';
     }
-    
+
     /**
      * Returns the absolute path of the template to be rendered considering the given context
      *
-     * @param string target
-     * @param string $templateId
+     * @param $target
+     * @param $templateId
+     * @return string
      */
     public static function getThemeTemplate($target, $templateId)
     {
-        $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
-        return $service->getTheme()->getTemplate($templateId, $target);
+        return self::getCurrentTheme()->getTemplate($templateId, $target);
     }
 
     /**
      * Returns the absolute path of the theme css that overwrites the base css
-     * 
-     * @param string target
+     *
+     * @param $target
+     * @return string
      */
-    public static function getThemeStylesheet($target){
-        $service = ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
-        return $service->getTheme()->getStylesheet($target);
+    public static function getThemeStylesheet($target)
+    {
+        return self::getCurrentTheme()->getStylesheet($target);
+    }
 
+    /**
+     * Get the current theme configured into tao/theming config
+     *
+     * @return Theme
+     */
+    protected static function getCurrentTheme()
+    {
+        return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID)->getTheme();
     }
 }

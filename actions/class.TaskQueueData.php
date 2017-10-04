@@ -14,11 +14,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
+<<<<<<< HEAD
  */
 
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\TaskPayload;
+=======
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
+use oat\tao\model\TaskQueueActionTrait;
+use oat\oatbox\task\Queue;
+>>>>>>> 931ce6bfe801d6d2b97f6ef4ba535543dc15984d
 use oat\oatbox\task\Task;
 use oat\oatbox\filesystem\FileSystemService;
 
@@ -27,7 +37,11 @@ use oat\oatbox\filesystem\FileSystemService;
  *
  * Class tao_actions_TaskQueue
  * @package oat\tao\controller\api
+<<<<<<< HEAD
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
+=======
+ * @author GARCIA Christophe <christophe.garcia@taotesting.com>
+>>>>>>> 931ce6bfe801d6d2b97f6ef4ba535543dc15984d
  */
 class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 {
@@ -40,12 +54,20 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 
         $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
 
+<<<<<<< HEAD
         if($taskQueue instanceof TaskPayload) {
             $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
 
             $this->returnJson($dataPayLoad);
             return;
         }
+=======
+        $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
+
+        $this->returnJson($dataPayLoad);
+        return;
+
+>>>>>>> 931ce6bfe801d6d2b97f6ef4ba535543dc15984d
     }
 
     public function getStatus(){
@@ -107,7 +129,11 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         }
     }
 
+<<<<<<< HEAD
     public function download(){
+=======
+    public function downloadTask(){
+>>>>>>> 931ce6bfe801d6d2b97f6ef4ba535543dc15984d
         if($this->hasRequestParameter('taskId')){
             /**
              * @var $task \oat\Taskqueue\JsonTask
@@ -128,6 +154,15 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
                 $fileSystem = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
                 $directory = $fileSystem->getDirectory('taskQueueStorage');
                 $file = $directory->getFile($filename);
+<<<<<<< HEAD
+=======
+                header('Set-Cookie: fileDownload=true');
+                setcookie('fileDownload', 'true', 0, '/');
+
+                //file meta
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+                header('Content-Type: text/csv');
+>>>>>>> 931ce6bfe801d6d2b97f6ef4ba535543dc15984d
                 tao_helpers_Http::returnStream($file->readPsrStream());
                 return;
             }
@@ -137,4 +172,8 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         ]);
         return;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 931ce6bfe801d6d2b97f6ef4ba535543dc15984d

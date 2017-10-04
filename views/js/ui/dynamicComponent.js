@@ -217,11 +217,11 @@ define([
 
                 //init controls
                 $titleBar
-                    .on('click', '.closer', function(e) {
+                    .on('click touchstart', '.closer', function(e) {
                         e.preventDefault();
                         self.hide();
                     })
-                    .on('click', '.reset', function(e) {
+                    .on('click touchstart', '.reset', function(e) {
                         e.preventDefault();
                         self.resetSize();
                     });

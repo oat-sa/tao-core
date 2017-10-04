@@ -22,9 +22,6 @@
  *
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  *
@@ -32,7 +29,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
 
  */
-class IconsTest extends TaoPhpUnitTestRunner {
+class IconsTest extends \PHPUnit_Framework_TestCase {
     
     
     /**

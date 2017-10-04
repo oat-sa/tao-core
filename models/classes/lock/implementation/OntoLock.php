@@ -28,6 +28,8 @@ use common_exception_InconsistentData;
 use common_exception_Unauthorized;
 use oat\tao\model\lock\ResourceLockedException;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\TaoOntology;
+
 /**
  * Implements Lock using a basic property in the ontology storing the lock data
  *
@@ -44,7 +46,7 @@ class OntoLock extends ConfigurableService
      */
     private function getLockProperty()
     {
-        return new core_kernel_classes_Property(PROPERTY_LOCK);
+        return new core_kernel_classes_Property(TaoOntology::PROPERTY_LOCK);
     }
 
     /**

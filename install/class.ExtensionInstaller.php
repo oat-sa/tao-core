@@ -19,12 +19,14 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\helpers\translation\rdf\RdfPack;
 use oat\generis\model\data\ModelManager;
 use oat\tao\model\extension\ExtensionModel;
+use oat\tao\model\TaoOntology;
 
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
@@ -90,16 +92,16 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
             $roleService = tao_models_classes_RoleService::singleton();
             if (! $role->exists()) {
                 // Management role does not exist yet, so we create it
-                $roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
+                $roleClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_MANAGEMENT_ROLE);
                 $roleLabel = $this->extension->getId() . ' Manager';
                 $role = $roleClass->createInstance($roleLabel, $roleLabel . ' Role', $role->getUri());
-                $roleService->includeRole($role, new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
+                $roleService->includeRole($role, new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE));
             }
             
             // Take the Global Manager role and make it include
             // the Management role of the currently installed extension.
-            if ($role->getUri() !== INSTANCE_ROLE_GLOBALMANAGER) {
-                $globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_GLOBALMANAGER);
+            if ($role->getUri() !== TaoOntology::PROPERTY_INSTANCE_ROLE_GLOBALMANAGER) {
+                $globalManagerRole = new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_GLOBALMANAGER);
                 $roleService->includeRole($globalManagerRole, $role);
             }
             
@@ -133,12 +135,11 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function registerClientLib()
-    {        
-        $extManifestConsts = $this->extension->getConstants();
-        if(isset($extManifestConsts['BASE_WWW'])){
-            ClientLibRegistry::getRegistry()->register($this->extension->getId(),$extManifestConsts['BASE_WWW']. 'js');
-            ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css',$extManifestConsts['BASE_WWW']. 'css');
-            
-        }
+    {
+        $jsPath = trim(Template::js('', $this->extension->getId()), '/');
+        ClientLibRegistry::getRegistry()->register($this->extension->getId(), $jsPath);
+
+        $cssPath = trim(Template::css('', $this->extension->getId()), '/');
+        ClientLibRegistry::getRegistry()->register($this->extension->getId().'Css', $cssPath);
     }
 }

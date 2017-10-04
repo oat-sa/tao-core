@@ -18,6 +18,8 @@
  * 
  */
 
+use oat\tao\model\WfEngineOntology;
+
 /**
  * Represents a tao service parameter that
  * is linked to a process variable
@@ -61,11 +63,19 @@ extends tao_models_classes_service_Parameter
 	 * @see tao_models_classes_service_Parameter::serialize()
 	 */
 	public function toOntology() {
-	    $serviceCallClass = new core_kernel_classes_Class(CLASS_ACTUALPARAMETER);
+	    $serviceCallClass = new core_kernel_classes_Class(WfEngineOntology::CLASS_URI_ACTUAL_PARAMETER);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
-	        PROPERTY_ACTUALPARAMETER_FORMALPARAMETER    => $this->getDefinition(),
-	        PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE    => $this->variable
+			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER    => $this->getDefinition(),
+			WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE    => $this->variable
 	    ));
 	    return $resource;
+	}
+
+	public function jsonSerialize()
+	{
+	    return [
+	        'def' => $this->getDefinition()->getUri(),
+	        'proc' => $this->getVariable()->getUri()
+	    ];
 	}
 }

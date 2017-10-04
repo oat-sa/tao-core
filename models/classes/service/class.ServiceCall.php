@@ -18,21 +18,25 @@
  * 
  */
 
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\WfEngineOntology;
+
 /**
  * Represents a call of an interactive tao service
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
-class tao_models_classes_service_ServiceCall
+class tao_models_classes_service_ServiceCall implements JsonSerializable
 {
+    use OntologyAwareTrait;
     /**
      * @var core_kernel_classes_Resource
      */
-	private $serviceDefinition = null;
 	
+	private $serviceDefinitionId = null;
+
 	/**
 	 * Input Parameters used to call this service 
 	 * 
@@ -52,8 +56,10 @@ class tao_models_classes_service_ServiceCall
 	 * 
 	 * @param core_kernel_classes_Resource $serviceDefinition
 	 */
-	public function __construct(core_kernel_classes_Resource $serviceDefinition) {
-	    $this->serviceDefinition = $serviceDefinition;
+	public function __construct($serviceDefinition) {
+	    $this->serviceDefinitionId = is_object($serviceDefinition)
+	       ? $serviceDefinition->getUri()
+	       : $serviceDefinition;
 	}
 	
 	/**
@@ -79,8 +85,8 @@ class tao_models_classes_service_ServiceCall
 	 * 
 	 * @return core_kernel_classes_Resource
 	 */
-	public function getServiceDefinition() {
-	    return $this->serviceDefinition;
+	public function getServiceDefinitionId() {
+	    return $this->serviceDefinitionId;
 	}
 	
 	/**
@@ -120,14 +126,14 @@ class tao_models_classes_service_ServiceCall
 	    foreach ($this->inParameters as $param) {
 	        $inResources[] = $param->toOntology();
 	    }
-	    $serviceCallClass = new core_kernel_classes_Class(CLASS_CALLOFSERVICES);
+	    $serviceCallClass = $this->getClass( WfEngineOntology::CLASS_URI_CALL_OF_SERVICES);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
 	        RDFS_LABEL => 'serviceCall',
-            PROPERTY_CALLOFSERVICES_SERVICEDEFINITION    => $this->serviceDefinition,
-            PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN    => $inResources,
-            PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT   => $outResources,
-	        PROPERTY_CALLOFSERVICES_WIDTH                => '100',
-	        PROPERTY_CALLOFSERVICES_HEIGHT               => '100'
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_SERVICE_DEFINITION    => $this->serviceDefinitionId,
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_IN    => $inResources,
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT   => $outResources,
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_WIDTH                => '100',
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_HEIGHT               => '100'
         ));
 	         
 	    return $resource; 
@@ -141,18 +147,18 @@ class tao_models_classes_service_ServiceCall
 	 */
 	public static function fromResource(core_kernel_classes_Resource $resource) {
 	    $values = $resource->getPropertiesValues(array(
-	        PROPERTY_CALLOFSERVICES_SERVICEDEFINITION,
-	        PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN,
-	        PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_SERVICE_DEFINITION,
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_IN,
+			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT
 	    ));
-	    $serviceDefUri = current($values[PROPERTY_CALLOFSERVICES_SERVICEDEFINITION]);
-	    $serviceCall = new self(new core_kernel_classes_Resource($serviceDefUri));
-	    foreach ($values[PROPERTY_CALLOFSERVICES_ACTUALPARAMETERIN] as $inRes) {
+	    $serviceDefUri = current($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_SERVICE_DEFINITION]);
+	    $serviceCall = new self($serviceDefUri);
+	    foreach ($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_IN] as $inRes) {
 	        $param = tao_models_classes_service_Parameter::fromResource($inRes);
 	        $serviceCall->addInParameter($param);
 	    }
-	    if (!empty($values[PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT])) {
-	        $param = tao_models_classes_service_Parameter::fromResource(current($values[PROPERTY_CALLOFSERVICES_ACTUALPARAMETEROUT]));
+	    if (!empty($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT])) {
+	        $param = tao_models_classes_service_Parameter::fromResource(current($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT]));
 	        $serviceCall->setOutParameter($param);
 	    }
 	    return $serviceCall;
@@ -177,4 +183,23 @@ class tao_models_classes_service_ServiceCall
 	    return unserialize($string);
 	}
 	
+	public function jsonSerialize()
+	{
+	    return array(
+	        'service' => $this->serviceDefinitionId,
+	        'in' => $this->inParameters,
+	        'out' => $this->outParameter
+	    );
+	}
+
+	public static function fromJson($data) {
+	    $call = new self($data['service']);
+	    if (!empty($data['out'])) {
+	       $call->setOutParameter(tao_models_classes_service_Parameter::fromJson($data['out']));
+	    }
+	    foreach ($data['in'] as $in) {
+	        $call->addInParameter(tao_models_classes_service_Parameter::fromJson($in));
+	    }
+	    return $call;
+	}
 }

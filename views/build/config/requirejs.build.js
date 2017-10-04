@@ -19,7 +19,6 @@ require.config({
         'jquery.timePicker' : 'lib/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
-        'jquery.trunc'		: 'lib/jquery.badonkatrunc',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
         'qtip'              : 'lib/jquery.qtip/jquery.qtip',
 
@@ -36,7 +35,6 @@ require.config({
         'raphael'           : 'lib/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
-        'html5-history-api' : 'lib/history/history',
 
         'pdfjs-dist/build/pdf'        : 'lib/pdfjs/build/pdf',
         'pdfjs-dist/build/pdf.worker' : 'lib/pdfjs/build/pdf.worker',
@@ -59,5 +57,6 @@ require.config({
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
+        'c3'                    : { deps : ['css!lib/c3js/c3.css']}
     }
 });

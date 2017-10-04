@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ui Test - Generis Validator</title>
+        <base href="../../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="validator.js"></script>
+
+        <script type="text/javascript">
+            //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function () {
+
+                //load the test
+                require(['test/ui/generis/validator/test'], function () {
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+
+        <style>
+            #display-and-play {
+                border: 1px solid blue;
+                margin: 50px 20px;
+                padding: 20px;
+            }
+            form {
+                width: 500px;
+            }
+            form > div > label {
+                width: 33%;
+            }
+            form > div > input,
+            form > div > select {
+                max-width: 100% !important;
+                width: 66%;
+            }
+            #button {
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <div id="fixture-clear"></div>
+            <div id="fixture-display"></div>
+        </div>
+        <div id="display-and-play">
+            <h2>Display & Play</h2>
+            <form>
+                <div id="field-1">
+                    <label for="one">One</label>
+                    <input type="text" name="one">
+                </div>
+                <div id="field-2">
+                    <label for="two">Two</label>
+                    <select name="two">
+                        <option></option>
+                        <option>one</option>
+                        <option>two</option>
+                        <option>three</option>
+                    </select>
+                </div>
+                <div id="button">
+                    <input type="submit" value="Run & Display Validations">
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

@@ -48,15 +48,13 @@ class tao_actions_form_Login
      */
     public function initForm()
     {
-        
-		
-		$this->form = tao_helpers_form_FormFactory::getForm('loginForm');
-		
-		$connectElt = tao_helpers_form_FormFactory::getElement('connect', 'Submit');
-		$connectElt->setValue(__('Log in'));
-		$this->form->setActions(array($connectElt), 'bottom');
-		
-        
+        $this->form = tao_helpers_form_FormFactory::getForm('loginForm');
+
+        $connectElt = tao_helpers_form_FormFactory::getElement('connect', 'Submit');
+        $connectElt->setValue(__('Log in'));
+        $connectElt->setAttributes(array('disabled' => 'disabled'));
+        $connectElt->addClass('disabled');
+        $this->form->setActions(array($connectElt), 'bottom');
     }
 
     /**

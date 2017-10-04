@@ -23,8 +23,7 @@ define([
     'lodash',
     'core/promise',
     'ui/modal',
-    'tpl!tao/test/ui/modal/modal',
-    'lib/polyfill/performance-now'
+    'tpl!tao/test/ui/modal/modal'
 ], function($, _, Promise, modalListener, modalTpl) {
     'use strict';
 

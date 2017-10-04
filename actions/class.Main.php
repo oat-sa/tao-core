@@ -34,6 +34,8 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\security\xsrf\TokenService;
+
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -83,7 +85,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
-                return $this->returnError(__('You currently have no access to the platform'));
+                return $this->returnError(__('You currently have no access to the platform'), true, 403);
 	        }
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
@@ -103,6 +105,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
             }
 
+            if ($this->hasRequestParameter('errorMessage')){
+                $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
+            }
             $this->setData('logout', $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
             $this->setData('settings-menu', $naviElements);
@@ -123,6 +128,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $config = $extension->getConfig('login');
         $disableAutocomplete = !empty($config['disableAutocomplete']);
+
+        $enableIframeProtection = !empty($config['block_iframe_usage']) && $config['block_iframe_usage'];
+        if ($enableIframeProtection) {
+            \oat\tao\model\security\IFrameBlocker::setHeader();
+        }
 
 		$params = array(
             'disableAutocomplete' => $disableAutocomplete,
@@ -301,7 +311,14 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('shownStructure', $structure);
 
         $this->setData('current-section', $this->getRequestParameter('section'));
-		                
+
+        // Add csrf token
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenName = $tokenService->getTokenName();
+        $token = $tokenService->createToken();
+        $this->setCookie($tokenName, $token, null, '/');
+        $this->setData('xsrf-token-name', $tokenName);
+
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(
             'shownExtension' => $extension,

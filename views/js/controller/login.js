@@ -26,8 +26,9 @@ define([
     'i18n',
     'module',
     'ui/feedback',
+    'layout/loading-bar',
     'layout/version-warning'
-], function ($, _, __, module, feedback, versionWarning) {
+], function ($, _, __, module, feedback, loadingBar, versionWarning) {
     'use strict';
 
     /**
@@ -45,6 +46,7 @@ define([
             var $context = $('.entry-point-container');
             var $loginForm = $context.find('#loginForm');
             var $fakeForm = $context.find('.fakeForm');
+            var $loginBtn = $context.find('[name=connect]');
 
             /**
             * Submits the form after a copy of all the inputs the user has made in the fake form
@@ -57,14 +59,14 @@ define([
                 });
 
                 // just submit the real form as if the user did it
+                loadingBar.start();
                 $loginForm.submit();
             }
 
             /**
             * Displays the error/info messages
-            * @param {Object} messages
             */
-            function displayMessages(messages) {
+            function displayMessages() {
                 var $fields = $context.find(':input');
                 var renderer = feedback();
                 _.forEach(messages, function (message, type) {
@@ -85,13 +87,15 @@ define([
             }
 
             // any error/info creates feedback
-            displayMessages(messages);
+            displayMessages();
 
             // submit the form when the user hit the submit button inside the fake form
-            $fakeForm.find('input[type="submit"], button[type="submit"]').off('click').on('click', function (e) {
-                e.preventDefault();
-                submitForm();
-            });
+            $fakeForm
+                .find('input[type="submit"], button[type="submit"]')
+                .off('click').on('click', function (e) {
+                    e.preventDefault();
+                    submitForm();
+                });
 
             // submit the form when the user hit the ENTER key inside the fake form
             $fakeForm.on('keypress', function (e) {
@@ -100,6 +104,11 @@ define([
                     submitForm();
                 }
             });
+
+            $loginBtn.removeAttr('disabled')
+                     .removeClass('disabled');
+
+            loadingBar.stop();
         }
     };
 });

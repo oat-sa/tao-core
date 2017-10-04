@@ -19,16 +19,17 @@
  */
 namespace oat\tao\model;
 
-use oat\oatbox\AbstractRegistry;
 use common_ext_ExtensionsManager;
+use oat\oatbox\AbstractRegistry;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\asset\AssetService;
 use oat\tao\model\websource\WebsourceManager;
-use Jig\Utils\FsUtils;
-
 
 class ThemeRegistry extends AbstractRegistry
 {
 
     const WEBSOURCE = 'websource_';
+
     /**
      *
      * @see \oat\oatbox\AbstractRegistry::getExtension()
@@ -70,17 +71,17 @@ class ThemeRegistry extends AbstractRegistry
             $this->set($target, $array);
         }
     }
-    
+
     /**
      * Get the theme array identified by its target and id
-     * 
+     *
      * @param string $target
      * @param string $themeId
      * @return array
      * @throws \common_Exception
      */
     private function getTheme($target, $themeId){
-        
+
         $returnValue = null;
         if(!$this->isRegistered($target)){
             throw new \common_Exception('Target '.$target.' does not exist');
@@ -100,7 +101,7 @@ class ThemeRegistry extends AbstractRegistry
         }
         return $returnValue;
     }
-    
+
     /**
      * Get the default theme array
      */
@@ -122,7 +123,7 @@ class ThemeRegistry extends AbstractRegistry
         }
         return $defaultTheme;
     }
-    
+
     /**
      * Adds a new target to the System
      *
@@ -168,25 +169,25 @@ class ThemeRegistry extends AbstractRegistry
             if(!$this->isRegistered($target)){
                 throw new \common_Exception('Target '.$target.' does not exist');
             } else {
-                
+
                 $array = $this->get($target);
-                
+
                 foreach ($array['available'] as $theme) {
                     if ($theme['id'] == $id) {
                         throw new \common_Exception('Theme '.$id.' already exists for target '.$target);
                     }
                 }
-                
+
                 $theme = array(
                     'id' => $id,
                     'name' => $name
                 );
-                
+
                 //the path is optional
                 if($path){
                     $theme['path'] = $path;
                 }
-                
+
                 //register templates
                 if(is_array($templates) && count($templates) > 0){
                     $theme['templates'] = array();
@@ -194,7 +195,7 @@ class ThemeRegistry extends AbstractRegistry
                         $theme['templates'][$templateId] = $tpl;
                     }
                 }
-                
+
                 $array['available'][] = $theme;
             }
             $this->set($target, $array);
@@ -238,7 +239,7 @@ class ThemeRegistry extends AbstractRegistry
      * @return mixed
      */
     private function updatePath($theme){
-        
+
         if(isset($theme['path'])){
             if(strpos($theme['path'] , ThemeRegistry::WEBSOURCE) === 0) {
                 $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
@@ -246,18 +247,17 @@ class ThemeRegistry extends AbstractRegistry
                 $theme['path'] = $webUrl;
             }
             else {
-                // normalizing makes sure that whatever\\comes/in gets/out/properly
-                $theme['path'] = ROOT_URL . FsUtils::normalizePath($theme['path']) ;
-
+                $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+                $theme['path'] = $assetService->getAsset($theme['path']);
             }
         }
-        
+
         return $theme;
     }
 
     /**
      * Get the resolved absolute URL for a stylesheet
-     * 
+     *
      * @param string $path
      * @return string
      */
@@ -267,14 +267,14 @@ class ThemeRegistry extends AbstractRegistry
                 return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
         }
         else {
-            // normalizing makes sure that whatever\\comes/in gets/out/properly
-            return ROOT_URL . FsUtils::normalizePath($path);
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+            return $assetService->getAsset($path);
         }
     }
-    
+
     /**
      * Resolve the template absolute path
-     * 
+     *
      * @todo make it support templates as data
      * @param string $tpl
      * @return string
@@ -285,7 +285,7 @@ class ThemeRegistry extends AbstractRegistry
 
     /**
      * Resolve the path and url defined in target "base"
-     * 
+     *
      * @param string $target
      * @return mixed
      * @throws common_Exception
@@ -294,12 +294,12 @@ class ThemeRegistry extends AbstractRegistry
 
         $base = null;
         $array = $this->get($target);
-        
+
         if(is_string($array['base'])){
+            $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
+            $base = $assetService->getAsset($array['base']);
 
-            $base = ROOT_URL . $array['base'];
-
-        }else if(is_array($array['base'])){
+        } else if(is_array($array['base'])){
 
             $base = array(
                 'css' => $this->resolveStylesheetUrl($array['base']['css']),
@@ -310,17 +310,17 @@ class ThemeRegistry extends AbstractRegistry
                 $base['templates'][$id] = $this->resolveTemplatePath($path);
             }
 
-        }else{
+        } else {
             throw new common_Exception('invalid type for theme base');
         }
 
         return $base;
     }
-    
+
     /**
      * Get list of available theme
      * The available themes have their URL and paths resolved
-     * 
+     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function getAvailableThemes()
@@ -348,7 +348,7 @@ class ThemeRegistry extends AbstractRegistry
 
     /**
      * Get the absolute path to a theme template
-     * 
+     *
      * @deprecated use theme\ThemeService instead
      * @param string $target
      * @param string $themeId
@@ -365,7 +365,7 @@ class ThemeRegistry extends AbstractRegistry
 
     /**
      * Get the abosolute url to a stylesheet
-     * 
+     *
      * @deprecated use theme\ThemeService instead
      * @param string $target
      * @param string $themeId
@@ -397,7 +397,7 @@ class ThemeRegistry extends AbstractRegistry
 
     /**
      * Get the absolute url to the base css
-     * 
+     *
      * @deprecated use theme\ThemeService instead
      * @param string $target
      * @return string
@@ -410,5 +410,10 @@ class ThemeRegistry extends AbstractRegistry
             return $base['css'];
         }
         return null;
+    }
+
+    public function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }

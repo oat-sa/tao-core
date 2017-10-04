@@ -14,21 +14,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
 
 
-use oat\tao\test\TaoPhpUnitTestRunner;
-
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
  * @package tao
  
  */
-class DisplayHelperTest extends TaoPhpUnitTestRunner {
+class DisplayHelperTest extends \PHPUnit_Framework_TestCase {
     
     /**
      * Data provider for the testTimetoDuration method

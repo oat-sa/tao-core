@@ -32,6 +32,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-click-to-speak { content: "\e907"; }
+@mixin icon-speech-bubble { content: "\f0e5"; }
+@mixin icon-microphone { content: "\f130"; }
+@mixin icon-microphone-off { content: "\f131"; }
+@mixin icon-disconnect { content: "\e905"; }
+@mixin icon-connect { content: "\e906"; }
 @mixin icon-eliminate { content: "\e904"; }
 @mixin icon-wheelchair { content: "\e903"; }
 @mixin icon-text-marker { content: "\e902"; }
@@ -227,5 +233,6 @@
 @mixin icon-speed { content: "\e9a6"; }
 @mixin icon-volume { content: "\ea27"; }
 @mixin icon-contrast { content: "\e9d5"; }
+@mixin icon-headphones { content: "\e910"; }
 @mixin icon-compress { content: "\f066"; }
 @mixin icon-map-o { content: "\f278"; }

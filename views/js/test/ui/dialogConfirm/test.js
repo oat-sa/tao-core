@@ -60,11 +60,19 @@ define(['ui/dialog/confirm'], function(dialogConfirm) {
     var confirmCases = [{
         message: 'must accept',
         button: 'ok',
-        title: 'accept'
+        title: 'accept',
     }, {
         message: 'must refuse',
         button: 'cancel',
-        title: 'refuse'
+        title: 'refuse',
+        options: {
+            buttons: {
+                labels: {
+                    ok: 'new ok label',
+                    cancel: 'new cancel label'
+                }
+            }
+        }
     }];
 
     QUnit
@@ -78,7 +86,7 @@ define(['ui/dialog/confirm'], function(dialogConfirm) {
                 assert.equal(data.button, 'cancel', 'The dialogConfirm has triggered the refuse callback function when hitting the cancel button!');
                 QUnit.start();
             };
-            var modal = dialogConfirm(data.message, accept, refuse);
+            var modal = dialogConfirm(data.message, accept, refuse, data.options || {});
 
             assert.equal(typeof modal, 'object', "The dialogConfirm instance is an object");
             assert.equal(typeof modal.getDom(), 'object', "The dialogConfirm instance gets a DOM element");
@@ -89,6 +97,11 @@ define(['ui/dialog/confirm'], function(dialogConfirm) {
             assert.equal(modal.getDom().find('button').length, 2, "The dialogConfirm box displays 2 buttons");
             assert.equal(modal.getDom().find('button[data-control="ok"]').length, 1, "The dialogConfirm box displays a 'ok' button");
             assert.equal(modal.getDom().find('button[data-control="cancel"]').length, 1, "The dialogConfirm box displays a 'cancel' button");
+
+            if (data.options && data.options.buttons) {
+                assert.equal(modal.getDom().find('button[data-control="ok"] .label').text(), data.options.buttons.labels.ok, "The dialogConfirm box displays correct label");
+                assert.equal(modal.getDom().find('button[data-control="cancel"] .label').text(), data.options.buttons.labels.cancel, "The dialogConfirm box displays correct label");
+            }
 
             modal.getDom().find('button[data-control="' + data.button + '"]').click();
         });
