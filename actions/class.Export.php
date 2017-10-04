@@ -92,62 +92,10 @@ class tao_actions_Export extends tao_actions_CommonModule
         if ($this->hasRequestParameter('exportChooser_sent') && $this->getRequestParameter('exportChooser_sent') == 1) {
 
             $exportData = $this->getRequestParameters();
-<<<<<<< HEAD
+
             $exportData['exportHandler'] = get_class($exporter);
             $this->returnJson($this->getServiceManager()->get(ExportService::SERVICE_ID)->export($exportData, $selectedResource, $taskContext));
-=======
-
-            if (isset($exportData['instances'])) {
-                $instances = json_decode(urldecode($exportData['instances']));
-                unset($exportData['instances']);
-
-                //allow to export complete classes
-                if(isset($exportData['type']) && $exportData['type'] === 'class'){
-
-                    $children = array();
-                    foreach ($instances as $instance){
-                        $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($instance));
-                        $children = array_merge($children,$class->getInstances());
-                    }
-                    $exportData['instances'] = $children;
-                } else {
-                    foreach ($instances as $instance){
-                        $exportData['instances'][] = tao_helpers_Uri::decode($instance);
-                    }
-                }
-
-            } elseif (isset($exportData['exportInstance'])) {
-                $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
-            }
-
-            $file = null;
-            try {
-                $report = $exporter->export($exportData, tao_helpers_Export::getExportPath());
-                $file = $report;
-            } catch (common_exception_UserReadableException $e) {
-                $report = common_report_Report::createFailure($e->getUserMessage());
-            }
-
-            $html = '';
-            if ($report instanceof common_report_Report) {
-                $file = $report->getData();
-
-                if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
-                    $report->setType(common_report_Report::TYPE_ERROR);
-                    if (! $report->getMessage()) {
-                        $report->setMessage(__('Error(s) has occurred during export.'));
-                    }
-
-                    $html = tao_helpers_report_Rendering::render($report);
-                }
-            }
-
-            if ($html !== '') {
-                echo $html;
-            } elseif (! is_null($file) && file_exists($file)) {
-                $this->sendFileToClient($file, $selectedResource);
-            }
->>>>>>> 931ce6bfe801d6d2b97f6ef4ba535543dc15984d
+            
             return;
 
         }
