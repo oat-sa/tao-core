@@ -76,7 +76,7 @@ class tao_models_classes_service_StateStorage
 	 */
   	public function set($userId, $callId, $data) {
   	    $key = $this->getSerial($userId, $callId);
-  	    return $this->getPersistence()->set($key, $data);
+        return $this->getPersistence()->set($key, $data);
   	}
   	
   	/**

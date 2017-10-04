@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -46,7 +48,7 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 		PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-		PROPERTY_USER_ROLES		=>	INSTANCE_ROLE_BACKOFFICE
+		PROPERTY_USER_ROLES		=>	TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE
 	);
 	
 	/**

@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\tao\model\TaoOntology;
+
 /**
  * include OAuth Classes
  *
@@ -52,8 +54,8 @@ class tao_models_classes_oauth_DataStore
 	{
 		$returnValue = null;
 
-		$class = new core_kernel_classes_Class(CLASS_OAUTH_CONSUMER);
-		$instances = $class->searchInstances(array(PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false, 'recursive' => true));
+		$class = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OAUTH_CONSUMER);
+		$instances = $class->searchInstances(array(TaoOntology::PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false, 'recursive' => true));
 		if (count($instances) == 0) {
 			throw new tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);
 		}
@@ -68,17 +70,17 @@ class tao_models_classes_oauth_DataStore
 	public function getOauthConsumer(core_kernel_classes_Resource $consumer)
 	{
 	    $values = $consumer->getPropertiesValues(array(
-	        PROPERTY_OAUTH_KEY,
-	        PROPERTY_OAUTH_SECRET,
-	        PROPERTY_OAUTH_CALLBACK
+			TaoOntology::PROPERTY_OAUTH_KEY,
+			TaoOntology::PROPERTY_OAUTH_SECRET,
+			TaoOntology::PROPERTY_OAUTH_CALLBACK
 	    ));
-	    if (empty($values[PROPERTY_OAUTH_KEY]) || empty($values[PROPERTY_OAUTH_SECRET])) {
+	    if (empty($values[TaoOntology::PROPERTY_OAUTH_KEY]) || empty($values[TaoOntology::PROPERTY_OAUTH_SECRET])) {
 	        throw new tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for '.$consumer->getUri());
 	    }
-	    $consumer_key = (string)current($values[PROPERTY_OAUTH_KEY]);
-	    $secret = (string)current($values[PROPERTY_OAUTH_SECRET]);
-	    if (!empty($values[PROPERTY_OAUTH_CALLBACK])) {
-	        $callbackUrl = (string)current($values[PROPERTY_OAUTH_CALLBACK]);
+	    $consumer_key = (string)current($values[TaoOntology::PROPERTY_OAUTH_KEY]);
+	    $secret = (string)current($values[TaoOntology::PROPERTY_OAUTH_SECRET]);
+	    if (!empty($values[TaoOntology::PROPERTY_OAUTH_CALLBACK])) {
+	        $callbackUrl = (string)current($values[TaoOntology::PROPERTY_OAUTH_CALLBACK]);
 	        if (empty($callbackUrl)) {
 	            $callbackUrl = null;
 	        }
@@ -102,7 +104,7 @@ class tao_models_classes_oauth_DataStore
 		$returnValue = null;
 
 		$consumer = $this->findOauthConsumerResource($consumer_key);
-		$secret			= (string)$consumer->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_OAUTH_SECRET));
+		$secret			= (string)$consumer->getUniquePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_OAUTH_SECRET));
 		$callbackUrl	= null;
 		
 		$returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);

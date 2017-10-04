@@ -21,6 +21,8 @@
 namespace oat\tao\model\search;
 
 use core_kernel_classes_Class;
+use oat\tao\model\TaoOntology;
+
 /**
  * Index service
  * 
@@ -48,12 +50,12 @@ class IndexService
         // verify identifier is unused
         $resource = $class->createInstanceWithProperties(array(
             RDFS_LABEL => $identifier,
-            INDEX_PROPERTY_IDENTIFIER => $identifier,
-            INDEX_PROPERTY_TOKENIZER => $tokenizer,
-            INDEX_PROPERTY_FUZZY_MATCHING => $isFuzzyMatching ? GENERIS_TRUE : GENERIS_FALSE,
-            INDEX_PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable ? GENERIS_TRUE : GENERIS_FALSE
+			TaoOntology::INDEX_PROPERTY_IDENTIFIER => $identifier,
+			TaoOntology::INDEX_PROPERTY_TOKENIZER => $tokenizer,
+			TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING => $isFuzzyMatching ? GENERIS_TRUE : GENERIS_FALSE,
+			TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable ? GENERIS_TRUE : GENERIS_FALSE
         ));
-        $property->setPropertyValue(new \core_kernel_classes_Property(INDEX_PROPERTY), $resource);
+        $property->setPropertyValue(new \core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY), $resource);
         return new Index($resource);
     }
     
@@ -68,7 +70,7 @@ class IndexService
         
         $indexClass = new core_kernel_classes_Class(Index::RDF_TYPE);
         $resources = $indexClass->searchInstances(array(
-                INDEX_PROPERTY_IDENTIFIER => $identifier
+				TaoOntology::INDEX_PROPERTY_IDENTIFIER => $identifier
             ),array('like' => false)
         );
         if (count($resources) > 1) {
@@ -86,7 +88,7 @@ class IndexService
      * @return multitype:\oat\tao\model\search\Index
      */
     static public function getIndexes(\core_kernel_classes_Property $property) {
-        $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(INDEX_PROPERTY));
+        $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY));
         $indexes = array();
         
         foreach ($indexUris as $indexUri) {

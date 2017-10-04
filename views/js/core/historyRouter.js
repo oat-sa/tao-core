@@ -24,14 +24,12 @@ define([
     'jquery',
     'lodash',
     'router',
-    'html5-history-api',
     'core/eventifier',
     'core/statifier',
     'core/promise'
-], function ($, _, router, history, eventifier, statifier, Promise) {
+], function ($, _, router, eventifier, statifier, Promise) {
     'use strict';
 
-    //start the history polyfill, see https://github.com/devote/HTML5-History-API (a getter should trigger it)
     var historyRouter;
     var location = (window.history.location || window.location) + '';
 
@@ -76,7 +74,7 @@ define([
              */
             forward: function forward(url) {
                 var state = _.isString(url) ? { url : url } : url;
-                history.replaceState(state, '', window.location + '');
+                window.history.replaceState(state, '', window.location + '');
                 return this.dispatch(state, false);
             },
 
@@ -118,7 +116,7 @@ define([
                             .trigger('dispatching', state.url);
 
                         if(replace === true){
-                            history.replaceState(state, '', state.url);
+                            window.history.replaceState(state, '', state.url);
                         }
 
                         router.dispatch(state.url, function(){
@@ -153,17 +151,17 @@ define([
                 if(_.isString(state)){
                     state = { url : state };
                 }
-                history.pushState(state, '', state.url);
+                window.history.pushState(state, '', state.url);
                 return this.dispatch(state);
             }
         }));
 
         // ensure the current route is in the history
-        history.replaceState({url: location}, '', location);
+        window.history.replaceState({url: location}, '', location);
 
         //back & forward button, and push state
         $(window).on('popstate', function () {
-            historyRouter.dispatch(history.state);
+            historyRouter.dispatch(window.history.state);
         });
 
         //listen for dispatch event in order to push a state
