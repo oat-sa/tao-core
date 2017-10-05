@@ -36,7 +36,7 @@ define([
      * @param {Object[]} [options.validator]
      * @param {String} config.label
      * @param {String[]} config.range
-     * @param {String} [confgi.required = false]
+     * @param {String} [config.required = false]
      * @param {String} config.uri
      * @param {String[]} [config.values]
      * @returns {ui/component}
@@ -55,16 +55,16 @@ define([
              * @returns {String[]}
              */
             get: function get() {
-                var ret = this.config.values || [];
+                var ret = [];
 
                 if (this.is('rendered')) {
-                    ret = [];
                     this.getElement()
-                        .find('.option input:checked')
-                        .map(function () {
-
-                            ret.push($(this).val());
-                        });
+                    .find('.option input:checked')
+                    .each(function () {
+                        ret.push($(this).val());
+                    });
+                } else {
+                    ret = this.config.value || ret;
                 }
 
                 return ret;
@@ -76,21 +76,27 @@ define([
              * @returns {String[]}
              */
             set: function set(values) {
-                if (Array.isArray(values)) {
-                    this.config.values = values;
+                if (values === null) {
+                    this.config.value = [];
+                } else if (Array.isArray(values)) {
+                    this.config.value = values;
                 } else {
-                    this.config.values.push(values);
+                    this.config.value.push(values);
                 }
 
                 if (this.is('rendered')) {
+                    this.getElement()
+                    .find('input[type=checkbox]')
+                    .prop('checked', false);
+
                     _.each(this.config.values, function (value) {
                         this.getElement()
                         .find('input[name=' + value + ']')
                         .prop('checked', true);
-                    });
+                    }, this);
                 }
 
-                return this.config.values;
+                return this.config.value;
             }
         })
         .setTemplate(tpl)
@@ -99,7 +105,7 @@ define([
             range: config.range || [],
             required: config.required || false,
             uri: config.uri,
-            values: config.values || []
+            value: Array.isArray(config.value) ? config.value : [ config.value ]
         });
 
         // Validations

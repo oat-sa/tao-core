@@ -71,7 +71,13 @@ define([
              * @returns {this}
              */
             addWidget: function addWidget(widgetOptions) {
-                var widget = widgetLoader(widgetOptions.widget)({}, widgetOptions);
+                var widget;
+
+                if (widgetOptions.validators && widgetOptions.validators.includes('notEmpty')) {
+                    widgetOptions.required = true;
+                }
+
+                widget = widgetLoader(widgetOptions.widget)({}, widgetOptions);
 
                 this.widgets.push(widget);
 
@@ -191,6 +197,28 @@ define([
                 this.setState('loading', isLoading);
 
                 return this;
+            },
+
+            /**
+             * Clears all form data
+             * @returns {this}
+             */
+            clearWidgets: function clearWidgets() {
+                _.each(this.widgets, function (widget) {
+                    widget.clear();
+                });
+                return this;
+            },
+
+            /**
+             * Displays all widget errors
+             * @returns {this}
+             */
+            clearWidgetErrors: function clearWidgetErrors() {
+                _.each(this.widgets, function (widget) {
+                    widget.addErrors([]);
+                });
+                return this;
             }
         }, {
             formAction: '#',
@@ -236,7 +264,7 @@ define([
         // Add widgets to form
         _.each(options.properties || [], function (property) {
             if (property.range && typeof property.range === 'string') {
-                property.range = options.values[property.range];
+                property.range = options.ranges[property.range];
             }
             form.addWidget(property);
         });

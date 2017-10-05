@@ -45,6 +45,9 @@ widget.validator;
 @returns this
 widget.setValidator(object validator);
 widget.validate();
+widget.clear();
+widget.addErrors();
+widget.displayErrors();
 
 @returns string || array<string>
 widget.get();
@@ -54,5 +57,5 @@ widget.set(string value);
 widget.serialize();
 
 @event change | blur
-widget.on('change blur', function (event) {});
+widget.on('change blur', function (widgetData) {});
 ```

@@ -11,7 +11,7 @@
                         type="checkbox"
                         name="{{this.uri}}"
                         value="{{this.uri}}"
-                        {{#includes ../values this.uri}}
+                        {{#includes ../value this.uri}}
                         checked="true"
                         {{/includes}}>
                     <span class="icon-checkbox"></span>

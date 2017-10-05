@@ -18,7 +18,9 @@
  *
  */
 
-use \oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\accessControl\AclProxy;
+use oat\oatbox\user\User;
 
 /**
  * Class tao_actions_RestResourceController
@@ -48,21 +50,28 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      *    )
      * )
      *
-     * @requiresRight classUri WRITE
      */
     public function create()
     {
-        if ($this->isRequestGet()) {
-            try {
-                $this->returnSuccess($this->getForm($this->getClassParameter())->getData());
-            } catch (common_Exception $e) {
-                $this->returnFailure($e);
+        try {
+            $class = $this->getClassParameter();
+            /** @var User $user */
+            $user = common_session_SessionManager::getSession()->getUser();
+            if (!AclProxy::hasAccess($user, get_called_class(), __FUNCTION__, [self::CLASS_PARAMETER => $class->getUri()])) {
+                throw new common_exception_Unauthorized(sprintf('Access refused to resource %s for user %s', $class->getUri(), $user->getIdentifier()));
             }
+        } catch (common_Exception $e) {
+            $this->returnFailure($e);
+            return;
+        }
+
+        if ($this->isRequestGet()) {
+            $this->returnSuccess($this->getForm($class)->getData());
         }
 
         if ($this->isRequestPost()) {
             try {
-                $this->processForm($this->getClassParameter());
+                $this->processForm($class);
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
@@ -87,27 +96,34 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      *    )
      * )
      *
-     * @requiresRight uri WRITE
      */
     public function edit()
     {
-        if ($this->isRequestGet()) {
-            try {
-                $this->returnSuccess($this->getForm($this->getResourceParameter())->getData());
-            } catch (common_Exception $e) {
-                $this->returnFailure($e);
+        try {
+            $resource = $this->getResourceParameter();
+            /** @var User $user */
+            $user = common_session_SessionManager::getSession()->getUser();
+            if (!AclProxy::hasAccess($user, get_called_class(), __FUNCTION__, [self::RESOURCE_PARAMETER => $resource->getUri()])) {
+                throw new common_exception_Unauthorized(sprintf('Access refused to resource %s for user %s', $resource->getUri(), $user->getIdentifier()));
             }
+        } catch (common_Exception $e) {
+            $this->returnFailure($e);
+            return;
+        }
+
+        if ($this->isRequestGet()) {
+            $this->returnSuccess($this->getForm($resource)->getData());
         }
 
         if ($this->isRequestPost()) {
             try {
-                $this->processForm($this->getResourceParameter());
+                $this->processForm($resource);
             } catch (common_Exception $e) {
                 $this->returnFailure($e);
             }
         }
 
-        $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or PUT method'));
+        $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or POST method'));
     }
 
     /**
@@ -120,27 +136,11 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     public function getRequestParameters()
     {
         $parameters = [];
-
         if ($this->isRequestPost()) {
             $input = file_get_contents("php://input");
-            $arguments = explode('&', $input);
-            foreach ($arguments as $argument) {
-                $argumentSplited = explode('=', $argument);
-                $key = urldecode($argumentSplited[0]);
-                $value = urldecode($argumentSplited[1]);
-                // for multiple values
-                if (strpos($value, ',')) {
-                    $value = explode(',', $value);
-                }
-                if (substr($key, -2) == '[]') {
-                    $key = substr($key, 0, strlen($key)-2);
-                    if (!isset($parameters[$key])) {
-                        $parameters[$key] = [];
-                    }
-                    $parameters[$key][] = $value;
-                } else {
-                    $parameters[$key] = $value;
-                }
+            $data = json_decode($input, true);
+            foreach ($data as $entry) {
+                $parameters[$entry['name']] = $entry['value'];
             }
         } else {
             $parameters = parent::getRequestParameters();
@@ -154,6 +154,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      * Bind the http data to form, validate, and save
      *
      * @param $instance
+     * @throws common_Exception In case of runtime error
      */
     protected function processForm($instance)
     {
@@ -189,11 +190,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     protected function getResourceParameter()
     {
-        if (! $this->hasRequestParameter(self::RESOURCE_PARAMETER)) {
+        $parameters = $this->getRequestParameters();
+        if (! isset($parameters[self::RESOURCE_PARAMETER])) {
             throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, __CLASS__);
         }
 
-        $uri = $this->getRequestParameter(self::RESOURCE_PARAMETER);
+        $uri = $parameters[self::RESOURCE_PARAMETER];
         if (empty($uri) || !common_Utils::isUri($uri)) {
             throw new \common_exception_MissingParameter(self::RESOURCE_PARAMETER, __CLASS__);
         }
@@ -210,11 +212,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     protected function getClassParameter()
     {
-        if (! $this->hasRequestParameter(self::CLASS_PARAMETER)) {
+        $parameters = $this->getRequestParameters();
+        if (! isset($parameters[self::CLASS_PARAMETER])) {
             throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, __CLASS__);
         }
 
-        $uri = $this->getRequestParameter(self::CLASS_PARAMETER);
+        $uri = $parameters[self::CLASS_PARAMETER];
         if (empty($uri) || !common_Utils::isUri($uri)) {
             throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, __CLASS__);
         }

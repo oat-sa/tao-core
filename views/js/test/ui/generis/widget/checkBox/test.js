@@ -123,7 +123,7 @@ define([
     QUnit.test('get', function (assert) {
         var widget = generisWidgetCheckBoxFactory({}, {
             uri: 'foo#bar',
-            values: [ 'foobar' ]
+            value: [ 'foobar' ]
         });
 
         assert.ok(_.contains(widget.get(), 'foobar'), 'returns correct value');
@@ -153,7 +153,7 @@ define([
         var widget = generisWidgetCheckBoxFactory({
             validator: [ validations.sysAdminOnly ]
         }, {
-            values: [
+            value: [
                 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
                 'http://www.tao.lu/Ontologies/TAO.rdf#TestAuthor'
             ]
@@ -166,14 +166,14 @@ define([
     QUnit.test('serialize', function (assert) {
         var obj = {
             uri: 'foo#bar',
-            values: [ 'foobar' ]
+            value: [ 'foobar' ]
         };
         var serialized;
 
         serialized = generisWidgetCheckBoxFactory({}, obj).serialize();
 
         assert.equal(serialized.name, obj.uri, 'name property is correct');
-        assert.deepEqual(serialized.value, obj.values, 'value property is correct');
+        assert.deepEqual(serialized.value, obj.value, 'value property is correct');
     });
 
 

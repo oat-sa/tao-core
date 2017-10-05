@@ -43,15 +43,17 @@ define([
 
     QUnit
     .cases([
-        { name: 'data',           title: 'data',           type: 'object' },
-        { name: 'errors',         title: 'errors',         type: 'object' },
-        { name: 'widgets',        title: 'widgets',        type: 'object' },
-        { name: 'addWidget',      title: 'addWidget',      type: 'function' },
-        { name: 'getWidget',      title: 'getWidget',      type: 'function' },
-        { name: 'removeWidget',   title: 'removeWidget',   type: 'function' },
-        { name: 'validate',       title: 'validate',       type: 'function' },
-        { name: 'serializeArray', title: 'serializeArray', type: 'function' },
-        { name: 'getValues',      title: 'getValues',      type: 'function' },
+        { name: 'data',              title: 'data',              type: 'object' },
+        { name: 'errors',            title: 'errors',            type: 'object' },
+        { name: 'widgets',           title: 'widgets',           type: 'object' },
+        { name: 'addWidget',         title: 'addWidget',         type: 'function' },
+        { name: 'removeWidget',      title: 'removeWidget',      type: 'function' },
+        { name: 'getWidget',         title: 'getWidget',         type: 'function' },
+        { name: 'clearWidgets',      title: 'clearWidgets',      type: 'function' },
+        { name: 'clearWidgetErrors', title: 'clearWidgetErrors', type: 'function' },
+        { name: 'validate',          title: 'validate',          type: 'function' },
+        { name: 'serializeArray',    title: 'serializeArray',    type: 'function' },
+        { name: 'getValues',         title: 'getValues',         type: 'function' },
     ])
     .test('instance', function (data, assert) {
         var instance = generisFormFactory();
@@ -98,6 +100,53 @@ define([
 
         form.removeWidget('foo#bar');
         assert.equal(form.widgets.length, 0, 'successfully removed widget');
+    });
+
+    QUnit.test('getWidget', function (assert) {
+        var form = generisFormFactory();
+        var widget;
+
+        form.addWidget({
+            uri: 'foo#bar',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox'
+        });
+        assert.equal(form.widgets.length, 1, 'has a widget');
+
+        widget = form.getWidget('foo#bar');
+        assert.equal(widget.config.uri, 'foo#bar', 'successfully retrieved widget');
+    });
+
+    QUnit.test('clearWidgets', function (assert) {
+        var form = generisFormFactory();
+        var widget;
+
+        form.addWidget({
+            uri: 'foo#bar',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+            value: 'foobar'
+        });
+        widget = form.getWidget('foo#bar');
+        assert.equal(widget.get(), 'foobar', 'has a widget with proper value');
+
+        form.clearWidgets();
+        assert.equal(widget.get(), '', 'successfully cleared widget');
+    });
+
+    QUnit.test('clearWidgetErrors', function (assert) {
+        var form = generisFormFactory();
+        var widget;
+
+        form.addWidget({
+            uri: 'foo#bar',
+            widget: 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+            value: 'foobar'
+        });
+        widget = form.getWidget('foo#bar');
+        widget.addErrors(['error 1', 'error 2']);
+        assert.equal(widget.validator.errors.length, 2, 'has a widget with errors');
+
+        form.clearWidgetErrors();
+        assert.equal(widget.validator.errors.length, 0, 'successfully cleared widget\'s errors');
     });
 
     QUnit.test('validate', function (assert) {

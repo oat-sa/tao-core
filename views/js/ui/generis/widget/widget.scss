@@ -8,12 +8,25 @@
         margin-top: 8px;
         width: 34%;
         vertical-align: top;
+
+        &[readonly] {
+            cursor: not-allowed;
+
+            > label {
+                cursor: inherit;
+            }
+        }
     }
 
     > .right {
         display: inline-block;
         min-width: 150px;
         width: 65%;
+
+        > input[readonly] {
+            cursor: default;
+            opacity: 0.55;
+        }
 
         > input,
         > select,

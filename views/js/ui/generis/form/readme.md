@@ -58,13 +58,25 @@ form.errors;
 form.widgets;
 
 @returns this
-form.addWidget(object widgetData);
-form.removeWidget(string name);
+form.addWidget(object widgetOptions);
+form.removeWidget(string widgetUri);
+form.clearWidgets();
+form.clearWidgetErrors();
 form.validate();
+form.toggleLoading(boolean isLoading);
+
+@returns ui/generis/widget
+form.getWidget(string widgetUri);
 
 @returns object[]
 form.serializeArray();
 
 @event submit
-form.on('submit', function () {});
+form.on('submit', function (formData) {});
+
+@event loading
+form.on('loading', function () {});
+
+@event loaded
+form.on('loaded', function () {});
 ```

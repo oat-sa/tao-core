@@ -59,6 +59,7 @@ class tao_actions_RestUser extends tao_actions_RestResource
      * Return the resource parameter
      *
      * @return core_kernel_classes_Resource
+     * @throws common_exception_MissingParameter
      * @InvalidArgumentException If resource does not belong to CLASS_GENERIS_USER
      */
     protected function getResourceParameter()
@@ -74,8 +75,9 @@ class tao_actions_RestUser extends tao_actions_RestResource
     /**
      * Return the class parameter
      *
-     * @return core_kernel_classes_Resource
-     * @InvalidArgumentException If class is not an instance CLASS_GENERIS_USER
+     * @return core_kernel_classes_Class
+     * @throws common_exception_MissingParameter
+     * @throws InvalidArgumentException If class is not an instance CLASS_GENERIS_USER
      */
     protected function getClassParameter()
     {

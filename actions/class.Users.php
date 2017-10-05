@@ -152,7 +152,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $labels[] = $r->getLabel();
             }
 
-            $id = tao_helpers_Uri::encode($user->getUri());
+            $id = $user->getUri();
             $firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
             $lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
             $uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
@@ -209,7 +209,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         if (helpers_PlatformInstance::isDemo()) {
             $message = __('User deletion not permited on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
-            $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $user = new core_kernel_classes_Resource($this->getRequestParameter('uri'));
             $this->checkUser($user->getUri());
 
             if ($this->userService->removeUser($user)) {
@@ -221,37 +221,6 @@ class tao_actions_Users extends tao_actions_CommonModule
             'deleted' => $deleted,
             'message' => $message
         ));
-    }
-
-    /**
-     * form to add a user
-     * @return void
-     */
-    public function add()
-    {
-        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER));
-        $myForm = $myFormContainer->getForm();
-
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-                $values = $myForm->getValues();
-                $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
-                unset($values['password1']);
-                unset($values['password2']);
-
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
-
-                if ($binder->bind($values)) {
-                    $this->setData('message', __('User added'));
-                    $this->setData('exit', true);
-                }
-            }
-        }
-
-        $this->setData('loginUri', tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
-        $this->setData('formTitle', __('Add a user'));
-        $this->setData('myForm', $myForm->render());
-        $this->setView('user/form.tpl');
     }
 
     public function addInstanceForm()
@@ -301,53 +270,23 @@ class tao_actions_Users extends tao_actions_CommonModule
     }
 
     /**
+     * form to add a user
+     * @return void
+     */
+    public function add()
+    {
+        $this->setView('user/add.tpl');
+    }
+
+    /**
      * Form to edit a user
      * User login must be set in parameter
      * @return void
      */
     public function edit()
     {
-        if (!$this->hasRequestParameter('uri')) {
-            throw new Exception('Please set the user uri in request parameter');
-        }
-
-        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $this->checkUser($user->getUri());
-
-        $types = $user->getTypes();
-        $myFormContainer = new tao_actions_form_Users(reset($types), $user);
-        $myForm = $myFormContainer->getForm();
-
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-                $values = $myForm->getValues();
-
-                if (!empty($values['password2']) && !empty($values['password3'])) {
-                    $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
-                }
-
-                unset($values['password2']);
-                unset($values['password3']);
-
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_UILG]))) {
-                    unset($values[PROPERTY_USER_UILG]);
-                }
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_DEFLG]))) {
-                    unset($values[PROPERTY_USER_DEFLG]);
-                }
-
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
-
-                if ($binder->bind($values)) {
-                    $this->getEventManager()->trigger(new UserUpdatedEvent($user, $values));
-                    $this->setData('message', __('User saved'));
-                }
-            }
-        }
-
-        $this->setData('formTitle', __('Edit a user'));
-        $this->setData('myForm', $myForm->render());
-        $this->setView('user/form.tpl');
+        $this->setData('uri', $this->getRequestParameter('uri'));
+        $this->setView('user/edit.tpl');
     }
 
     /**
