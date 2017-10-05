@@ -923,7 +923,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $this->setVersion('12.21.6');
         }
 
-        $this->skip('12.21.6', '13.1.2');
+        $this->skip('12.21.6', '13.2.0');
     }
 
     private function migrateFsAccess() {
