@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\tao\model\TaoOntology;
+
 /**
  * This class provides the services on the list management
  *
@@ -57,7 +59,7 @@ class tao_models_classes_ListService
     {
         
         
-    	$this->parentListClass = new core_kernel_classes_Class(TAO_LIST_CLASS);
+    	$this->parentListClass = new core_kernel_classes_Class(TaoOntology::LIST_CLASS_URI);
         
         
     }
@@ -158,7 +160,7 @@ class tao_models_classes_ListService
         $returnValue = array();
 
     	if($sort){
-        	$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
+        	$levelProperty = new core_kernel_classes_Property(TaoOntology::LIST_LEVEL_PROP);
         	foreach ($listClass->getInstances(false) as $element) {
         	    $literal = $element->getOnePropertyValue($levelProperty);
         	    $level = is_null($literal) ? 0 : (string) $literal;
@@ -270,7 +272,7 @@ class tao_models_classes_ListService
 	        	$label = __('Element') . ' ' . $level;
 	        }
 	        $returnValue = $this->createInstance($listClass, $label);
-	        $this->bindProperties($returnValue, array(TAO_LIST_LEVEL_PROP => count($this->getListElements($listClass, false))));
+	        $this->bindProperties($returnValue, array(TaoOntology::LIST_LEVEL_PROP => count($this->getListElements($listClass, false))));
         }
         
 

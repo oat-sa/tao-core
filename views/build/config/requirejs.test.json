@@ -14,7 +14,6 @@
         "jquery.timePicker" : "lib/jquery.timePicker",
         "jquery.cookie"     : "lib/jquery.cookie",
         "nouislider"        : "lib/sliders/jquery.nouislider",
-        "jquery.trunc"		: "lib/jquery.badonkatrunc",
         "jquery.fileDownload"  : "lib/jquery.fileDownload",
         "qtip"              : "lib/jquery.qtip/jquery.qtip",
 
@@ -29,7 +28,6 @@
         "raphael"           : "lib/raphael/raphael",
         "scale.raphael"     : "lib/raphael/scale.raphael",
         "spin"              : "lib/spin.min",
-        "html5-history-api" : "lib/history/history",
 
         "pdfjs-dist/build/pdf"        : "lib/pdfjs/build/pdf",
         "pdfjs-dist/build/pdf.worker" : "lib/pdfjs/build/pdf.worker",

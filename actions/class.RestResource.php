@@ -51,7 +51,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      * )
      *
      */
-    public final function create()
+    public function create()
     {
         try {
             $class = $this->getClassParameter();
@@ -97,7 +97,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      * )
      *
      */
-    public final function edit()
+    public function edit()
     {
         try {
             $resource = $this->getResourceParameter();

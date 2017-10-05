@@ -10,8 +10,12 @@
     "lint": "grunt eslint:extensionreport --no-color --force",
     "lintfile": "grunt eslint:file --no-color --force"
   },
+  "engines": {
+    "node": ">=0.12.8"
+  },
   "dependencies": {},
   "devDependencies": {
+    "almond": "^0.3.3",
     "grunt": "^1.0.0",
     "grunt-aws-s3": "^0.14.0",
     "grunt-concurrent": "^2.1.0",
