@@ -46,7 +46,6 @@ define([
             var route = url.route('edit', 'RestUser', 'tao');
             var uri = module.config().uri;
 
-
             request(route, {
                 uri: uri
             }, 'get')
