@@ -81,9 +81,9 @@ define([
                     if (!this.errors.length) {
                         request(
                             route,
-                            JSON.stringify(formData),
+                            this.toJson(),
                             'post',
-                            {'Content-Type': 'application/json'}
+                            { 'Content-Type': 'application/json' }
                         )
                         .then(function () {
                             self.clearWidgets();
