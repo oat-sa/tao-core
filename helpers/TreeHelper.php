@@ -75,27 +75,36 @@ class TreeHelper
         return $toOpen;
     }
 
-    /**
-     * generis tree representation of a resource node
-     *
-     * @param core_kernel_classes_Resource $resource
-     * @param core_kernel_classes_Class $class
-     *
-     * @return array
-     */
-    public static function buildResourceNode(core_kernel_classes_Resource $resource, core_kernel_classes_Class $class) {
+	/**
+	 * generis tree representation of a resource node
+	 *
+	 * @param core_kernel_classes_Resource $resource
+	 * @param core_kernel_classes_Class $class
+	 * @param array $extraProperties
+	 * @return array
+	 */
+    public static function buildResourceNode(core_kernel_classes_Resource $resource, core_kernel_classes_Class $class, array $extraProperties = []) {
         $label = $resource->getLabel();
         $label = empty($label) ? __('no label') : $label;
+
+		$extraValues = [];
+        if (!empty($extraProperties))
+		{
+			foreach ($extraProperties as $key => $value)
+			{
+				$extraValues[$key] =  $resource->getOnePropertyValue($class->getProperty($value));
+			}
+		}
 
         return array(
             'data' 	=> _dh($label),
             'type'	=> 'instance',
-            'attributes' => array(
+            'attributes' => array_merge(array(
                 'id' => tao_helpers_Uri::encode($resource->getUri()),
                 'class' => 'node-instance',
                 'data-uri' => $resource->getUri(),
-                'data-classUri' => $class->getUri()
-            )
+                'data-classUri' => $class->getUri(),
+            ), $extraValues)
         );
     }
 

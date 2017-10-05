@@ -26,6 +26,8 @@ use oat\oatbox\event\Event;
 class UserRemovedEvent implements Event, JsonSerializable
 {
 
+    const EVENT_NAME = __CLASS__;
+
     /** @var  string */
     private $userUri;
 
@@ -44,7 +46,7 @@ class UserRemovedEvent implements Event, JsonSerializable
      */
     public function getName()
     {
-        return get_class($this);
+        return self::EVENT_NAME;
     }
 
     /**

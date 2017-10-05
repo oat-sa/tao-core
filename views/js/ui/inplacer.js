@@ -265,11 +265,11 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
             this.each(function() {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
-                options.removeClass(options.inplaceClass);
+                $elt.removeClass(options.inplaceClass);
                 if(options.bindEvent !== false){
                     $elt.off(options.bindEvent);
                 }
-                
+                $elt.removeData(dataNs);
                 /**
                  * The plugin have been destroyed.
                  * @event InPlacer#destroy.inplacer
