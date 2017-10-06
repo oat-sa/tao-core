@@ -65,7 +65,7 @@ class tao_actions_RestUser extends tao_actions_RestResource
     protected function getResourceParameter()
     {
         $resource = parent::getResourceParameter();
-        if ($resource->isInstanceOf($this->getClass(CLASS_GENERIS_USER))) {
+        if ($resource->isInstanceOf($this->getClass(CLASS_GENERIS_USER))) { // todo: CLASS_TAO_USER???
             return $resource;
         }
 
@@ -81,8 +81,9 @@ class tao_actions_RestUser extends tao_actions_RestResource
      */
     protected function getClassParameter()
     {
+        error_log('This doesn\'t seem to be the place it\'s checking classUri either???');
         $class = parent::getClassParameter();
-        $rootUserClass = $this->getClass(CLASS_GENERIS_USER);
+        $rootUserClass = $this->getClass(CLASS_GENERIS_USER); // todo: Shouldn't this be CLASS_TAO_USER???
 
         if ($class->getUri() == $rootUserClass->getUri()) {
             return $class;

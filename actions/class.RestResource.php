@@ -53,6 +53,8 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     public function create()
     {
+        error_log('Why does a post to this action not print this log??? It says it\'s missing a classUri, but where is it checking that?');
+
         try {
             $class = $this->getClassParameter();
             /** @var User $user */
@@ -208,6 +210,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     protected function getClassParameter()
     {
+        error_log('This doesn\'t seem to be the place where it is checking for classUri???');
         $parameters = $this->getRequestParameters();
         if (! isset($parameters[self::CLASS_PARAMETER])) {
             throw new \common_exception_MissingParameter(self::CLASS_PARAMETER, __CLASS__);
