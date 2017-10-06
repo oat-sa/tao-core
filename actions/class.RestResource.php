@@ -135,13 +135,9 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     public function getRequestParameters()
     {
-        $parameters = [];
         if ($this->isRequestPost()) {
             $input = file_get_contents("php://input");
-            $data = json_decode($input, true);
-            foreach ($data as $entry) {
-                $parameters[$entry['name']] = $entry['value'];
-            }
+            $parameters = json_decode($input, true);
         } else {
             $parameters = parent::getRequestParameters();
         }
