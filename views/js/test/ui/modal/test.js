@@ -195,7 +195,6 @@ define([
             QUnit.start();
         });
 
-        // QUnit.stop(4);
         $modal.modal();
     });
 });

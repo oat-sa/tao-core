@@ -226,7 +226,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 // check scroll if element in the scrolled container
                 $element.parents().map(function () {
                     if (this.tagName !== 'BODY' && this.tagName !== 'HTML') {
-                        topOffset += parseInt($(this).scrollTop());
+                        topOffset += parseInt($(this).scrollTop(), 10);
                     }
                 });
                 to = {
