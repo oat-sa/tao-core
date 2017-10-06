@@ -71,9 +71,15 @@ define([
                 )
                 .render($('.add-user.form-container'))
                 .on('submit', function (formData) {
+                    var jsonData = {};
                     var self = this;
+                    var route = url.route('create', 'RestUser', 'tao', { classUri: classUri }); // todo: remove (or change name if actually needed)
 
-                    formData.push({ name: 'classUri', value: classUri });
+                    _.each(formData, function (val) {
+                        jsonData[val.name] = val.value;
+                    });
+
+                    jsonData['classUri'] = classUri;
 
                     this.toggleLoading();
                     this.validate();
@@ -81,7 +87,7 @@ define([
                     if (!this.errors.length) {
                         request(
                             route,
-                            this.toJson(),
+                            JSON.stringify(jsonData),
                             'post',
                             { 'Content-Type': 'application/json' }
                         )
