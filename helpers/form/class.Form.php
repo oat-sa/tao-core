@@ -171,6 +171,24 @@ abstract class tao_helpers_form_Form
     }
 
     /**
+     * Has an element of the form identified by it's name
+     *
+     * @param  string $name
+     *
+     * @return bool
+     */
+    public function hasElement($name)
+    {
+        foreach($this->elements as $element){
+            if($element->getName() == $name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * get an element of the form identified by it's name
      *
      * @access public

@@ -21,6 +21,7 @@
  */
 
 use oat\tao\helpers\form\validators\XsrfTokenValidator;
+use oat\tao\model\TaoOntology;
 
 /**
  * Create a form from a  resource of your ontology.
@@ -80,7 +81,7 @@ class tao_actions_form_Instance
     {
         $clazz = $this->getClazz();
         $instance = $this->getInstance();
-        $guiOrderProperty = new core_kernel_classes_Property(TAO_GUIORDER_PROP);
+        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::GUI_ORDER_PROP);
 
         //get the list of properties to set in the form
         $propertyCandidates = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
