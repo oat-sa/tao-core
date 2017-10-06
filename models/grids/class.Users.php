@@ -20,6 +20,9 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+
 /**
  * Short description of class tao_models_grids_Users
  *
@@ -60,13 +63,13 @@ class tao_models_grids_Users
 		}
 
 		$userProperties = array(
-			RDFS_LABEL => __('Label'),
-			PROPERTY_USER_LOGIN => __('Login'),
-			PROPERTY_USER_FIRSTNAME => __('First Name'),
-			PROPERTY_USER_LASTNAME => __('Last Name'),
-			PROPERTY_USER_MAIL => __('e-mail'),
-			PROPERTY_USER_UILG => __('UI Lang.'),
-			PROPERTY_USER_DEFLG => __('Data Lang.'),
+            OntologyRdfs::RDFS_LABEL => __('Label'),
+			GenerisRdf::PROPERTY_USER_LOGIN => __('Login'),
+			GenerisRdf::PROPERTY_USER_FIRSTNAME => __('First Name'),
+			GenerisRdf::PROPERTY_USER_LASTNAME => __('Last Name'),
+			GenerisRdf::PROPERTY_USER_MAIL => __('e-mail'),
+			GenerisRdf::PROPERTY_USER_UILG => __('UI Lang.'),
+			GenerisRdf::PROPERTY_USER_DEFLG => __('Data Lang.'),
 			'roles' => __('Roles')
 		);
 		/*foreach ($this->options['customProps'] as $uri => $opts) {

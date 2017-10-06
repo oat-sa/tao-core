@@ -22,6 +22,9 @@
  */
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\model\fileReference\ResourceFileSerializer;
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
@@ -136,7 +139,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 		do{
 			$exist = false;
 			$label =  $labelBase . $count;
-			$result = $clazz->searchInstances(array(RDFS_LABEL => $label), $options);
+			$result = $clazz->searchInstances(array(OntologyRdfs::RDFS_LABEL => $label), $options);
 			if(count($result) > 0){
 				$exist = true;
 				$count ++;
@@ -231,9 +234,9 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
     protected function cloneInstanceProperty( core_kernel_classes_Resource $source, core_kernel_classes_Resource $destination, core_kernel_classes_Property $property) {
         $range = $property->getRange();
 		// Avoid doublons, the RDF TYPE property will be set by the implementation layer
-        if ($property->getUri() != RDF_TYPE){
+        if ($property->getUri() != OntologyRdf::RDF_TYPE){
             foreach($source->getPropertyValuesCollection($property)->getIterator() as $propertyValue){
-                if(!is_null($range) && $range->getUri() == CLASS_GENERIS_FILE){
+                if(!is_null($range) && $range->getUri() == GenerisRdf::CLASS_GENERIS_FILE){
                     /** @var FileReferenceSerializer $fileRefSerializer */
                     $fileRefSerializer = $this->getServiceLocator()
                         ->get(ResourceFileSerializer::SERVICE_ID);
@@ -388,7 +391,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 					$top = true;
 					break;
 				}
-				if($parentClass->getUri() == RDFS_CLASS){
+				if($parentClass->getUri() == OntologyRdfs::RDFS_CLASS){
 					continue;
 				}
 
@@ -451,7 +454,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 			foreach($instance->getTypes() as $clazz){
 				foreach($clazz->getProperties(true) as $property){
 
-					if($property->isLgDependent() || $property->getUri() == RDFS_LABEL){
+					if($property->isLgDependent() || $property->getUri() == OntologyRdfs::RDFS_LABEL){
 						$collection = $instance->getPropertyValuesByLg($property, $lang);
 						if($collection->count() > 0 ){
 

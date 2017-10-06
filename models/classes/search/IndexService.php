@@ -21,6 +21,8 @@
 namespace oat\tao\model\search;
 
 use core_kernel_classes_Class;
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -49,11 +51,11 @@ class IndexService
         }
         // verify identifier is unused
         $resource = $class->createInstanceWithProperties(array(
-            RDFS_LABEL => $identifier,
+            OntologyRdfs::RDFS_LABEL => $identifier,
 			TaoOntology::INDEX_PROPERTY_IDENTIFIER => $identifier,
 			TaoOntology::INDEX_PROPERTY_TOKENIZER => $tokenizer,
-			TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING => $isFuzzyMatching ? GENERIS_TRUE : GENERIS_FALSE,
-			TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable ? GENERIS_TRUE : GENERIS_FALSE
+			TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING => $isFuzzyMatching ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE,
+			TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE
         ));
         $property->setPropertyValue(new \core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY), $resource);
         return new Index($resource);

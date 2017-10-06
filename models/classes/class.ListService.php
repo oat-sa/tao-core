@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -77,7 +78,7 @@ class tao_models_classes_ListService
 
         
         
-        $returnValue[] = new core_kernel_classes_Class(GENERIS_BOOLEAN); 
+        $returnValue[] = new core_kernel_classes_Class(GenerisRdf::GENERIS_BOOLEAN);
         
         foreach($this->parentListClass->getSubClasses(false) as $list){
         	$returnValue[] = $list;

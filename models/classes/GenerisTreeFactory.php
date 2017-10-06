@@ -31,6 +31,7 @@ namespace oat\tao\model;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\TreeHelper;
 use tao_helpers_Uri;
 
@@ -176,7 +177,7 @@ class GenerisTreeFactory
                 'limit'     => $limit,
                 'offset'    => $this->offset,
                 'recursive' => false,
-                'order'     => RDFS_LABEL,
+                'order'     => OntologyRdfs::RDFS_LABEL,
             ], $this->optionsFilter));
 
 

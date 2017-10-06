@@ -26,6 +26,7 @@ use common_cache_NotFoundException;
 use common_Logger;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\generis\model\WidgetRdf;
 
 /**
  * The FormFactory enable you to create ready-to-use instances of the Form
@@ -87,23 +88,23 @@ class WidgetRegistry
      * @return array
      */
     private static function getWidgetsFromOntology() {
-        $class = new core_kernel_classes_Class(CLASS_WIDGET);
-        $rendererClass = new core_kernel_classes_Class(CLASS_WIDGETRENDERER);
+        $class = new core_kernel_classes_Class(WidgetRdf::CLASS_URI_WIDGET);
+        $rendererClass = new core_kernel_classes_Class( WidgetRdf::CLASS_URI_WIDGET_RENDERER);
         $widgets = array();
         foreach ($class->getInstances(true) as $widgetResource) {
-            $id = $widgetResource->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_WIDGET_ID));
+            $id = $widgetResource->getOnePropertyValue(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET_ID));
             if (!is_null($id)) {
                 $renderers = $rendererClass->searchInstances(array(
-                	PROPERTY_WIDGETRENDERER_WIDGET => $widgetResource->getUri()
+                    WidgetRdf::PROPERTY_WIDGET_RENDERER_WIDGET => $widgetResource->getUri()
                 ), array('like' => false));
                 $rendererClasses = array();
                 foreach ($renderers as $renderer) {
                     $props = $renderer->getPropertiesValues(array(
-                        PROPERTY_WIDGETRENDERER_MODE,PROPERTY_WIDGETRENDERER_IMPLEMENTATION
+                        WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE, WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION
                     ));
-                    if (count($props[PROPERTY_WIDGETRENDERER_MODE]) == 1 && count($props[PROPERTY_WIDGETRENDERER_IMPLEMENTATION])) {
-                        $mode = (string)reset($props[PROPERTY_WIDGETRENDERER_MODE]);
-                        $class = (string)reset($props[PROPERTY_WIDGETRENDERER_IMPLEMENTATION]);
+                    if (count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]) == 1 && count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION])) {
+                        $mode = (string)reset($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]);
+                        $class = (string)reset($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION]);
                         $rendererClasses[$mode] = $class;
                     } else {
                         common_Logger::w('Definition of $widget renderer.'.$renderer->getUri().') invalid');

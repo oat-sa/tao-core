@@ -20,6 +20,7 @@
  *
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\form\validators\XsrfTokenValidator;
 use oat\tao\model\TaoOntology;
 
@@ -145,7 +146,7 @@ class tao_actions_form_Instance
 
                     }
 
-                    if ($property->getUri() == RDFS_LABEL){
+                    if ($property->getUri() == OntologyRdfs::RDFS_LABEL){
                         // Label will not be a TAO Property. However, it should
                         // be always first.
                         array_splice($finalElements, 0, 0, array(array($element, 1)));

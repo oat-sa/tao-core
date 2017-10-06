@@ -20,6 +20,8 @@
  */
 namespace oat\tao\model\search;
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 
 class Index extends \core_kernel_classes_Resource {
@@ -72,7 +74,7 @@ class Index extends \core_kernel_classes_Resource {
     public function isFuzzyMatching()
     {
         $res = $this->getOneCached(TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING);
-        return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
+        return !is_null($res) && is_object($res) && $res->getUri() == GenerisRdf::GENERIS_TRUE;
     }
     
     /**
@@ -84,7 +86,7 @@ class Index extends \core_kernel_classes_Resource {
     public function isDefaultSearchable()
     {
         $res = $this->getOneCached(TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH);
-        return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
+        return !is_null($res) && is_object($res) && $res->getUri() == GenerisRdf::GENERIS_TRUE;
     }
     
     
@@ -95,6 +97,6 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isStored()
     {
-        return $this->getUri() === RDFS_LABEL;    
+        return $this->getUri() === OntologyRdfs::RDFS_LABEL;
     }
 }

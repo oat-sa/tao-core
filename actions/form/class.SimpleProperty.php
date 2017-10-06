@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -49,7 +51,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
 	    $propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
-			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
+			array(new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
                 new core_kernel_classes_Property(TaoOntology::GUI_ORDER_PROP),
                 $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
 			)
@@ -83,7 +85,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
                 if ($propertyProperty->getUri() == TaoOntology::GUI_ORDER_PROP){
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('Integer'));
                 }
-                if ($propertyProperty->getUri() == RDFS_LABEL){
+                if ($propertyProperty->getUri() == OntologyRdfs::RDFS_LABEL){
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
                 }
 				$this->form->addElement($element);

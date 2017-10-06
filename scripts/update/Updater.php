@@ -25,6 +25,7 @@ use common_Exception;
 use common_ext_ExtensionsManager;
 use League\Flysystem\Adapter\Local;
 use oat\generis\model\fileReference\ResourceFileSerializer;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\helpers\Template;
@@ -226,7 +227,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
-                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
+                    ."AND predicate IN ('".OntologyRdfs::RDFS_LABEL."','".OntologyRdfs::RDFS_COMMENT."') ";
             foreach ($toCleanup as $subject) {
                 $persistence->exec($query,array($subject));
             }

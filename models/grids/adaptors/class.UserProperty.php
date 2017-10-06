@@ -20,6 +20,9 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+
 /**
  * Short description of class tao_models_grids_adaptors_UserProperty
  *
@@ -70,13 +73,13 @@ class tao_models_grids_adaptors_UserProperty
 				$this->data[$rowId] = array();
 				
 				$fastProperty = array(
-					RDFS_LABEL,
-					PROPERTY_USER_LOGIN,
-					PROPERTY_USER_FIRSTNAME,
-					PROPERTY_USER_LASTNAME,
-					PROPERTY_USER_MAIL,
-					PROPERTY_USER_UILG,
-					PROPERTY_USER_DEFLG
+                    OntologyRdfs::RDFS_LABEL,
+					GenerisRdf::PROPERTY_USER_LOGIN,
+					GenerisRdf::PROPERTY_USER_FIRSTNAME,
+					GenerisRdf::PROPERTY_USER_LASTNAME,
+					GenerisRdf::PROPERTY_USER_MAIL,
+					GenerisRdf::PROPERTY_USER_UILG,
+					GenerisRdf::PROPERTY_USER_DEFLG
 				);
 				
 				$properties = array();
@@ -95,14 +98,14 @@ class tao_models_grids_adaptors_UserProperty
 					}
 					
 					switch($propertyUri){
-						case RDFS_LABEL:
-						case PROPERTY_USER_LOGIN:
-						case PROPERTY_USER_FIRSTNAME:
-						case PROPERTY_USER_LASTNAME:
-						case PROPERTY_USER_MAIL:
-						case PROPERTY_USER_LOGIN:
-						case PROPERTY_USER_UILG:
-						case PROPERTY_USER_DEFLG:{
+						case OntologyRdfs::RDFS_LABEL:
+						case GenerisRdf::PROPERTY_USER_LOGIN:
+						case GenerisRdf::PROPERTY_USER_FIRSTNAME:
+						case GenerisRdf::PROPERTY_USER_LASTNAME:
+						case GenerisRdf::PROPERTY_USER_MAIL:
+						case GenerisRdf::PROPERTY_USER_LOGIN:
+						case GenerisRdf::PROPERTY_USER_UILG:
+						case GenerisRdf::PROPERTY_USER_DEFLG:{
 							$this->data[$rowId][$propertyUri] = ($value instanceof core_kernel_classes_Resource) ? $value->getLabel() : (string) $value;
 							break;
 						}

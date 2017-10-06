@@ -1,4 +1,8 @@
 <?php
+
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\WidgetRdf;
 use oat\tao\model\search\Index;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
@@ -209,7 +213,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         if (is_null($range)) {
             $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer');
         } else {
-            $tokenizer = $range->getUri() === RDFS_LITERAL
+            $tokenizer = $range->getUri() === OntologyRdfs::RDFS_LITERAL
                 ? new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer')
                 : new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer');
         }
@@ -229,11 +233,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         }while($count !== 0);
 
         $indexProperty = $class->createInstanceWithProperties(array(
-                RDFS_LABEL => preg_replace('/_/',' ',ucfirst($indexIdentifier)),
+                OntologyRdfs::RDFS_LABEL => preg_replace('/_/',' ',ucfirst($indexIdentifier)),
 				TaoOntology::INDEX_PROPERTY_IDENTIFIER => $indexIdentifier,
 				TaoOntology::INDEX_PROPERTY_TOKENIZER => $tokenizer,
-				TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
-				TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH  => GENERIS_FALSE,
+				TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING => GenerisRdf::GENERIS_TRUE,
+				TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH  => GenerisRdf::GENERIS_FALSE,
             ));
 
         $property->setPropertyValue(new core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY), $indexProperty);
@@ -295,7 +299,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
     
         $options = array(
             'property_mode' => $propMode,
-            'topClazz' => new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE)
+            'topClazz' => new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE)
         );
         $data = $this->getRequestParameters();
         $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data), $propMode);
@@ -364,8 +368,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         );
 
         if (isset($propertyMap[$type])) {
-            $values[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-            $rangeNotEmpty = ($propertyMap[$type]['range'] === RDFS_RESOURCE);
+            $values[WidgetRdf::PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
+            $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE  );
         }
         
         foreach($propertyValues as $key => $value){
@@ -386,7 +390,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $this->bindProperties($property, $values);
 
         // set the range
-        $property->removePropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
+        $property->removePropertyValues(new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE));
         if(!empty($range)) {
             $property->setRange(new core_kernel_classes_Class($range));
         } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['range'])) {
@@ -395,7 +399,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         
         // set cardinality
         if(isset($propertyMap[$type]['multiple'])) {
-            $property->setMultiple($propertyMap[$type]['multiple'] == GENERIS_TRUE);
+            $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
     }
     
@@ -422,13 +426,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         }
         //if label is empty
         $validator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Property\'s label field is required')));
-        if(!$validator->evaluate($values[RDFS_LABEL])){
+        if(!$validator->evaluate($values[OntologyRdfs::RDFS_LABEL])){
             throw new Exception($validator->getMessage());
         }
 
         $property = new core_kernel_classes_Property($values['uri']);
         unset($values['uri']);
-        $property->removePropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
+        $property->removePropertyValues(new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE));
         if(!empty($range)){
             foreach($range as $r){
                 $property->setRange($r);

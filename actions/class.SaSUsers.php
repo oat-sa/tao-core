@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -55,20 +57,20 @@ class tao_actions_SaSUsers extends tao_actions_SaSModule{
 		$this->userGridOptions = array(
 			'columns' => array(
 				'roles' => array('weight'=>2),
-				PROPERTY_USER_UILG => array('weight'=>0.6),
-				PROPERTY_USER_DEFLG => array('weight'=>0.6)
+				GenerisRdf::PROPERTY_USER_UILG => array('weight'=>0.6),
+				GenerisRdf::PROPERTY_USER_DEFLG => array('weight'=>0.6)
 			),
 			'excludedProperties' => array(
-				PROPERTY_USER_UILG
+				GenerisRdf::PROPERTY_USER_UILG
 			),
 			'customProps' => array()
 		);
 		//Modified state
 		if ($dataset == 'restricted') {
-			$this->userGridOptions['excludedProperties'][] = RDFS_LABEL;
-			$this->userGridOptions['excludedProperties'][] = PROPERTY_USER_LOGIN;
-			$this->userGridOptions['excludedProperties'][] = PROPERTY_USER_DEFLG;
-			$this->userGridOptions['columns'][PROPERTY_USER_LASTNAME] = array('position' => 0);
+			$this->userGridOptions['excludedProperties'][] = OntologyRdfs::RDFS_LABEL;
+			$this->userGridOptions['excludedProperties'][] = GenerisRdf::PROPERTY_USER_LOGIN;
+			$this->userGridOptions['excludedProperties'][] = GenerisRdf::PROPERTY_USER_DEFLG;
+			$this->userGridOptions['columns'][GenerisRdf::PROPERTY_USER_LASTNAME] = array('position' => 0);
 		}
 		//Adding custom properties
 		if ($this->hasRequestParameter('customprops') && strlen($this->getRequestParameter('customprops'))) {
@@ -113,7 +115,7 @@ class tao_actions_SaSUsers extends tao_actions_SaSModule{
 	public function getGridData(){
 
 		$returnValue = array();
-		$filter = array(PROPERTY_USER_LOGIN => '*');
+		$filter = array(GenerisRdf::PROPERTY_USER_LOGIN => '*');
 
 		//get the filter
 		if($this->hasRequestParameter('filter')){

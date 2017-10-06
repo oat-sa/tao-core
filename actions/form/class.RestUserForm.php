@@ -18,6 +18,7 @@
  *
  */
 
+use oat\generis\model\GenerisRdf;
 use \oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use \oat\generis\model\user\PasswordConstraintsService;
 use \oat\oatbox\validator\ValidatorInterface;
@@ -56,7 +57,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         if ($this->isEdition()) {
             foreach ($properties as $key => $property) {
-                if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($property['value'])) {
+                if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && isset($property['value'])) {
                     $properties[$key]['value'] = '';
                     break;
                 }
@@ -81,7 +82,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         $password = null;
         foreach ($this->formProperties as $key => $property) {
-            if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
+            if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
                 $password = $this->formProperties[$key]['formValue'];
                 break;
             }
@@ -93,7 +94,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
                 $this->changePassword = true;
             } catch (common_exception_ValidationFailed $e) {
                 $subReport = common_report_Report::createFailure('Password: ' . $e->getMessage());
-                $subReport->setData(PROPERTY_USER_PASSWORD);
+                $subReport->setData(GenerisRdf::PROPERTY_USER_PASSWORD);
                 $report->add($subReport);
             }
         }
@@ -127,7 +128,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $validators = parent::getPropertyValidators($property);
 
         $notEmptyProperties = [
-            PROPERTY_USER_DEFLG, PROPERTY_USER_UILG, PROPERTY_USER_ROLES
+            GenerisRdf::PROPERTY_USER_DEFLG, GenerisRdf::PROPERTY_USER_UILG, GenerisRdf::PROPERTY_USER_ROLES
         ];
 
         if (in_array($property->getUri(), $notEmptyProperties)) {
@@ -146,13 +147,13 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
     protected function validatePassword($password)
     {
         if (!(new tao_helpers_form_validators_NotEmpty())->evaluate($password)) {
-            throw new common_exception_ValidationFailed(PROPERTY_USER_PASSWORD, __('Password is empty.'));
+            throw new common_exception_ValidationFailed(GenerisRdf::PROPERTY_USER_PASSWORD, __('Password is empty.'));
         }
 
         /** @var ValidatorInterface $validator */
         foreach (PasswordConstraintsService::singleton()->getValidators() as $validator) {
             if (!$validator->evaluate($password)) {
-                throw new common_exception_ValidationFailed(PROPERTY_USER_PASSWORD, $validator->getMessage());
+                throw new common_exception_ValidationFailed(GenerisRdf::PROPERTY_USER_PASSWORD, $validator->getMessage());
             }
         }
     }
@@ -169,13 +170,13 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         if ($this->changePassword) {
             $password = null;
             foreach ($this->formProperties as $key => $property) {
-                if ($property['uri'] == PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
+                if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
                     $password = $this->formProperties[$key]['formValue'];
                     break;
                 }
             }
 
-            $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($password);
+            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($password);
         }
 
         return $values;
@@ -209,6 +210,6 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
      */
     protected function getUserClass()
     {
-        return $this->getClass(CLASS_GENERIS_USER);
+        return $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
     }
 }

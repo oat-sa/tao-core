@@ -19,6 +19,7 @@
  * 
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -114,7 +115,7 @@ class tao_actions_form_Translate
 					   $element instanceof tao_helpers_form_elements_TextArea ||
 					   $element instanceof tao_helpers_form_elements_HtmlArea
 					  ) ) ||
-					$propertyUri == RDFS_LABEL){	
+					$propertyUri == OntologyRdfs::RDFS_LABEL){
 				
 					$translatedElt = clone $element;
 					
@@ -132,7 +133,7 @@ class tao_actions_form_Translate
 					
 					$translatedElt->setDescription(' ');
 					$translatedElt->setValue('');
-					if($propertyUri == RDFS_LABEL){
+					if($propertyUri == OntologyRdfs::RDFS_LABEL){
 						$translatedElt->setForcedValid();
 					}
 				

@@ -19,6 +19,7 @@
  * 
  */
 
+use oat\generis\model\OntologyRdf;
 use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
@@ -55,7 +56,7 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner {
                         $this->assertTrue($lgResource->exists(), '$lgResource Resource does not exist (' . $expectedUriPrefix . $l . ').');
                         
                         // Check for this language in Ontology.
-                        $kbLangs = $lgResource->getPropertyValues(new core_kernel_classes_Property(RDF_VALUE));
+                        $kbLangs = $lgResource->getPropertyValues(new core_kernel_classes_Property(OntologyRdf::RDF_VALUE));
                         if (is_array($kbLangs)){
                         	$this->assertEquals(count($kbLangs), 1, "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'.");
                         	
@@ -91,7 +92,7 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner {
     	
     	$instancePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
     	$targetLanguageCode = DEFAULT_LANG;
-    	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+    	$valueProperty = new core_kernel_classes_Property(OntologyRdf::RDF_VALUE);
     	
     	$defaultLanguage = new core_kernel_classes_Resource($instancePrefix . $targetLanguageCode);
     	$this->assertIsA($defaultLanguage, 'core_kernel_classes_Resource');

@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\generis\model\OntologyRdf;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -143,17 +144,17 @@ class tao_helpers_I18n
         		self::$availableLangs = common_cache_FileCache::singleton()->get(self::AVAILABLE_LANGS_CACHEKEY);
         	} catch (common_cache_NotFoundException $e) {
 	        	$langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
-	        	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+	        	$valueProperty = new core_kernel_classes_Property(OntologyRdf::RDF_VALUE);
 	        	foreach($langClass->getInstances() as $lang){
 	        	    $values = $lang->getPropertiesValues(array(
-	        	    	RDF_VALUE,
+                        OntologyRdf::RDF_VALUE,
 						TaoOntology::PROPERTY_LANGUAGE_USAGES,
 						TaoOntology::PROPERTY_LANGUAGE_ORIENTATION
 					));
-	        	    if (count($values[RDF_VALUE]) != 1) {
+	        	    if (count($values[OntologyRdf::RDF_VALUE]) != 1) {
 	        	        throw new common_exception_InconsistentData('Error with value of language '.$lang->getUri());
 	        	    }
-	        	    $value = current($values[RDF_VALUE])->__toString();
+	        	    $value = current($values[OntologyRdf::RDF_VALUE])->__toString();
 	        	    $usages = array();
 	        	    foreach ($values[TaoOntology::PROPERTY_LANGUAGE_USAGES] as $usage) {
 	        	        $usages[] = $usage->getUri();

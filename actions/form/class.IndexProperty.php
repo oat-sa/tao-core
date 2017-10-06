@@ -18,6 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\Index;
 use oat\tao\model\TaoOntology;
 
@@ -83,7 +86,7 @@ class tao_actions_form_IndexProperty
 
         //get and add Label (Text)
         $label = (!is_null($indexProperty))?$indexProperty->getLabel():'';
-        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_".$this->prefix."_".tao_helpers_Uri::encode(RDFS_LABEL), 'Textbox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement("index_".$this->prefix."_".tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL), 'Textbox');
         $propIndexElt->setDescription(__('Label'));
         $propIndexElt->addAttribute('class', 'index');
         $propIndexElt->addAttribute('data-related-index', $indexUri);
@@ -93,10 +96,10 @@ class tao_actions_form_IndexProperty
 
 
         //get and add Fuzzy matching (Radiobox)
-        $fuzzyMatching = (!is_null($indexProperty))?($indexProperty->isFuzzyMatching())?GENERIS_TRUE:GENERIS_FALSE:'';
+        $fuzzyMatching = (!is_null($indexProperty))?($indexProperty->isFuzzyMatching())?GenerisRdf::GENERIS_TRUE:GenerisRdf::GENERIS_FALSE:'';
         $options = array(
-            tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
-            tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
+            tao_helpers_Uri::encode(GenerisRdf::GENERIS_TRUE)  => __('True'),
+            tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE) => __('False')
         );
         $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING), 'Radiobox');
         $propIndexElt->setOptions($options);
@@ -121,10 +124,10 @@ class tao_actions_form_IndexProperty
 
 
         //get and add Default search
-        $defaultSearch = (!is_null($indexProperty))?($indexProperty->isDefaultSearchable())?GENERIS_TRUE:GENERIS_FALSE:'';
+        $defaultSearch = (!is_null($indexProperty))?($indexProperty->isDefaultSearchable())?GenerisRdf::GENERIS_TRUE:GenerisRdf::GENERIS_FALSE:'';
         $options = array(
-            tao_helpers_Uri::encode(GENERIS_TRUE)  => __('True'),
-            tao_helpers_Uri::encode(GENERIS_FALSE) => __('False')
+            tao_helpers_Uri::encode(GenerisRdf::GENERIS_TRUE)  => __('True'),
+            tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE) => __('False')
         );
         $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode( TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH ), 'Radiobox');
         $propIndexElt->setOptions($options);

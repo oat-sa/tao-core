@@ -19,6 +19,7 @@
  * 
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
@@ -42,7 +43,7 @@ class OauthTest extends TaoPhpUnitTestRunner {
 		TaoPhpUnitTestRunner::initTest();
 		$class = new core_kernel_classes_Class(	TaoOntology::CLASS_URI_OAUTH_CONSUMER);
 		$this->credentials = $class->createInstanceWithProperties(array(
-			RDFS_LABEL				=> 'test_credentials',
+            OntologyRdfs::RDFS_LABEL				=> 'test_credentials',
 			TaoOntology::PROPERTY_OAUTH_KEY		=> 'testcase_12345',
 			TaoOntology::PROPERTY_OAUTH_SECRET	=> 'secret_12345'
 		));
