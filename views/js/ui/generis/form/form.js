@@ -152,20 +152,6 @@ define([
             },
 
             /**
-             * Serializes form values to json
-             * @returns {String}
-             */
-            toJson: function toJson() {
-                var json = {};
-
-                _.each(this.serializeArray(), function (val) {
-                    json[val.name] = val.value;
-                });
-
-                return JSON.stringify(json);
-            },
-
-            /**
              * Convenience method to retrieve the form values
              * as name : value
              * @returns {Object} the values object

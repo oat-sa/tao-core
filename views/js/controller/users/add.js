@@ -74,7 +74,6 @@ define([
                     var jsonData = {};
                     var self = this;
 
-                    var route = url.route('create', 'RestUser', 'tao');
                     _.each(formData, function (val) {
                         jsonData[val.name] = val.value;
                     });
