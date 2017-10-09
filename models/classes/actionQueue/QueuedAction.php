@@ -21,59 +21,41 @@
 
 namespace oat\tao\model\actionQueue;
 
-use oat\tao\model\actionQueue\Action as ActionInterface;
+use oat\oatbox\action\Action as TaoAction;
 
 /**
- * class Action
+ * Interface QueuedAction
+ *
+ * Action to be performed in action queue
+ *
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\actionQueue
  */
-abstract class AbstractAction implements ActionInterface
+interface QueuedAction extends TaoAction
 {
 
     /**
-     * Action execution result
-     * @var mixed
-     */
-    protected $result;
-
-    /**
-     * Whether result has been set or not
-     * @var boolean
-     */
-    protected $resultWasSet = false;
-
-    /**
      * Get action identifier
-     * @return string
+     * @return mixed
      */
-    abstract public function getId();
+    public function getId();
 
     /**
-     * @inheritdoc
+     * Get number of actions in progress.
+     * Based on this value action queue will decide whether action should be performed or not.
+     * @return integer
      */
-    abstract public function getNumberOfActiveActions();
+    public function getNumberOfActiveActions();
 
     /**
      * Return result of action execution
      * @return mixed
-     * @throws ActionQueueException
      */
-    public function getResult()
-    {
-        if (!$this->resultWasSet) {
-            throw new ActionQueueException(__('Action was not executed yet'));
-        }
-        return $this->result;
-    }
+    public function getResult();
 
     /**
      * Set result of action
      * @param mixed $result
      */
-    public function setResult($result)
-    {
-        $this->resultWasSet = true;
-        $this->result = $result;
-    }
+    public function setResult($result);
 }

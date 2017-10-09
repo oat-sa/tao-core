@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\actionQueue;
 
-use oat\tao\model\actionQueue\AbstractAction;
+use oat\tao\model\actionQueue\AbstractQueuedAction;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
@@ -62,7 +62,7 @@ class AbstractActionTest extends TaoPhpUnitTestRunner
 
 }
 
-class ConcreteAction extends AbstractAction
+class ConcreteAction extends AbstractQueuedAction
 {
     public function __invoke($params)
     {

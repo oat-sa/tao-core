@@ -21,6 +21,8 @@
 
 namespace oat\tao\model\actionQueue;
 
+use oat\oatbox\user\User;
+
 /**
  * Interface ActionQueue
  *
@@ -28,6 +30,9 @@ namespace oat\tao\model\actionQueue;
  * ```php
  * new InstantActionQueue([
  *      //persistence to store actions in queue
+ *      InstantActionQueue::OPTION_PERSISTENCE => 'key_value_persistence',
+ *
+ *      //how much seconds should live position in the queue
  *      InstantActionQueue::OPTION_PERSISTENCE => 'key_value_persistence',
  *
  *      //registered actions
@@ -60,21 +65,34 @@ interface ActionQueue
     const OPTION_PERSISTENCE = 'persistence';
 
     /**
+     * Time to live for place in the queue (seconds)
+     */
+    const OPTION_TTL = 'ttl';
+
+    /**
      * Limit of actions in progress.
      * If number of active actions will be more that this value then action will be put into queue
      */
     const ACTION_PARAM_LIMIT = 'limit';
 
     /**
-     * @param Action $action
+     * @param QueuedAction $action
+     * @param User $user user which tries to perform action
      * @return boolean
      */
-    public function perform(Action $action);
+    public function perform(QueuedAction $action, User $user = null);
 
     /**
-     * @param Action $action
+     * @param QueuedAction $action
+     * @param User $user
      * @return integer
      */
-    public function getPosition(Action $action);
+    public function getPosition(QueuedAction $action, User $user = null);
+
+    /**
+     * @param QueuedAction $action
+     * @return integer Number of removed positions
+     */
+    public function clearAbandonedPositions(QueuedAction $action);
 
 }

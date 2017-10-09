@@ -23,10 +23,11 @@ namespace oat\tao\model\actionQueue\implementation;
 
 use oat\tao\model\actionQueue\ActionQueue;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\actionQueue\Action;
+use oat\tao\model\actionQueue\QueuedAction;
 use oat\tao\model\actionQueue\ActionQueueException;
+use oat\oatbox\user\User;
+
 /**
- *
  *
  * Interface InstantActionQueue
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
@@ -36,12 +37,16 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
 
     /**
-     * @param Action $action
+     * @param QueuedAction $action
+     * @param User $user
      * @return boolean
      * @throws
      */
-    public function perform(Action $action)
+    public function perform(QueuedAction $action, User $user = null)
     {
+        if ($user === null) {
+            $user = \common_session_SessionManager::getSession()->getUser()->getIdentifier();
+        }
         $result = false;
         $actionConfig = $this->getActionConfig($action);
         $limit = intval(isset($actionConfig[self::ACTION_PARAM_LIMIT]) ? $actionConfig[self::ACTION_PARAM_LIMIT] : 0);
@@ -49,45 +54,63 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             $actionResult = $action();
             $action->setResult($actionResult);
             $result = true;
-            $this->dequeue($action);
+            $this->dequeue($action, $user);
         } else {
-            $this->queue($action);
+            $this->queue($action, $user);
         }
         return $result;
     }
 
     /**
-     * @param Action $action
+     * Note that this method is not transaction safe so there may be collisions.
+     * This implementation supposed to provide approximate position in the queue
+     * @param QueuedAction $action
+     * @param User $user
      * @return integer
+     * @throws
      */
-    public function getPosition(Action $action)
+    public function getPosition(QueuedAction $action, User $user = null)
     {
-        return intval($this->getPersistence()->get($this->getPositionKey($action)));
+        $positions = unserialize($this->getPersistence()->get($this->getQueueKey($action)));
+        return count($positions);
     }
 
     /**
-     * @param Action $action
+     * @inheritdoc
      */
-    protected function queue(Action $action)
+    public function clearAbandonedPositions(QueuedAction $action)
     {
-        $position = $this->getPersistence()->get($this->getPositionKey($action));
-        if (!$position) {
-            $position = 0;
-        }
-        $position++;
-        $this->getPersistence()->set($this->getPositionKey($action), $position);
+        $key = $this->getQueueKey($action);
+        $positions = unserialize($this->getPersistence()->get($key));
+        $edgeTime = time() - $this->getTtl();
+        $positions = array_filter($positions, function ($val) use ($edgeTime) {
+            return $val > $edgeTime;
+        });
+        $this->getPersistence()->set($key, serialize($positions));
     }
 
     /**
-     * @param Action $action
+     * @param QueuedAction $action
+     * @param User $user
      */
-    protected function dequeue(Action $action)
+    protected function queue(QueuedAction $action, User $user)
     {
-        $position = $this->getPersistence()->get($this->getPositionKey($action));
-        if (is_integer($position) && $position > 0) {
-            $position--;
-            $this->getPersistence()->set($this->getPositionKey($action), $position);
-        }
+        $key = $this->getQueueKey($action, $user);
+        $positions = unserialize($this->getPersistence()->get($key));
+        $positions[$user->getIdentifier()] = time();
+        $this->getPersistence()->set($key, serialize($positions));
+    }
+
+    /**
+     * @param QueuedAction $action
+     * @param User $user
+     */
+    protected function dequeue(QueuedAction $action, User $user)
+    {
+        $key = $this->getQueueKey($action, $user);
+        $positions = unserialize($this->getPersistence()->get($key));
+        unset($positions[$user->getIdentifier()]);
+        $this->getPersistence()->set($key, serialize($positions));
     }
 
     /**
@@ -96,24 +119,33 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function getPersistence()
     {
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
-        return $this->getServiceManager()->get('generis/persistences')->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
+        return $this->getServiceManager()->get('generis/persistences')->getPersistenceById($persistenceId);
     }
 
     /**
-     * @param Action $action
+     * @return integer
+     */
+    protected function getTtl()
+    {
+        $ttl = intval($this->hasOption(self::OPTION_TTL) ? $this->getOption(self::OPTION_TTL) : 0);
+        return $ttl;
+    }
+
+    /**
+     * @param QueuedAction $action
      * @return string
      */
-    protected function getPositionKey(Action $action)
+    protected function getQueueKey(QueuedAction $action)
     {
-        return self::class . '_' . $action->getId() . '_' .'_position';
+        return self::class . '_' . $action->getId();
     }
 
     /**
-     * @param Action $action
+     * @param QueuedAction $action
      * @throws ActionQueueException in action was not registered in the config
      * @return array
      */
-    protected function getActionConfig(Action $action)
+    protected function getActionConfig(QueuedAction $action)
     {
         $actions = $this->getOption(self::OPTION_ACTIONS);
         if (!isset($actions[$action->getId()])) {
