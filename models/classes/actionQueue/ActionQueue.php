@@ -22,8 +22,25 @@
 namespace oat\tao\model\actionQueue;
 
 /**
- *
  * Interface ActionQueue
+ *
+ * configuration example:
+ * ```php
+ * new InstantActionQueue([
+ *      //persistence to store actions in queue
+ *      InstantActionQueue::OPTION_PERSISTENCE => 'key_value_persistence',
+ *
+ *      //registered actions
+ *      InstantActionQueue::OPTION_ACTIONS => [
+ *          SomeAction::class => [
+ *
+ *              //limit of active actions
+ *              InstantActionQueue::ACTION_PARAM_LIMIT => 10
+ *          ]
+ *      ]
+ *  ]);
+ * ```
+ *
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\actionQueue
  */
@@ -31,6 +48,22 @@ interface ActionQueue
 {
 
     const SERVICE_ID = 'tao/ActionQueue';
+
+    /**
+     * List of registered actions to be performed using action queue
+     */
+    const OPTION_ACTIONS = 'actions';
+
+    /**
+     * Persistence identifier
+     */
+    const OPTION_PERSISTENCE = 'persistence';
+
+    /**
+     * Limit of actions in progress.
+     * If number of active actions will be more that this value then action will be put into queue
+     */
+    const ACTION_PARAM_LIMIT = 'limit';
 
     /**
      * @param Action $action

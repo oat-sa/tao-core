@@ -19,63 +19,40 @@
  *
  */
 
-namespace oat\tao\model\actionQueue\implementation;
+namespace oat\tao\model\actionQueue;
 
 use oat\tao\model\actionQueue\Action as ActionInterface;
-use oat\tao\model\actionQueue\ActionQueueException;
 
 /**
  * class Action
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\actionQueue
  */
-class Action implements ActionInterface
+abstract class AbstractAction implements ActionInterface
 {
-    /**
-     * @var callable
-     */
-    private $callable;
 
     /**
      * Action execution result
      * @var mixed
      */
-    private $result;
+    protected $result;
 
     /**
      * Whether result has been set or not
      * @var boolean
      */
-    private $resultWasSet = false;
-
-    /**
-     * Action constructor.
-     * @param callable $callable
-     */
-    public function __construct(callable $callable)
-    {
-        $this->callable = $callable;
-    }
+    protected $resultWasSet = false;
 
     /**
      * Get action identifier
-     * Created based on given callable.
      * @return string
      */
-    public function getId()
-    {
-        if (is_string($this->callable)) {
-            $result = $this->callable;
-        } else if (is_array($this->callable)) {
-            $result = is_object($this->callable[0]) ? get_class($this->callable[0]) : $this->callable[0];
-            if (isset($this->callable[1])) {
-                $result .= '::' . $this->callable[1];
-            }
-        } else if (is_object($this->callable)) {
-            $result = get_class($this->callable) . '::__invoke';
-        }
-        return $result;
-    }
+    abstract public function getId();
+
+    /**
+     * @inheritdoc
+     */
+    abstract public function getNumberOfActiveActions();
 
     /**
      * Return result of action execution
@@ -88,14 +65,6 @@ class Action implements ActionInterface
             throw new ActionQueueException(__('Action was not executed yet'));
         }
         return $this->result;
-    }
-
-    /**
-     * @return callable
-     */
-    public function getCallable()
-    {
-        return $this->callable;
     }
 
     /**

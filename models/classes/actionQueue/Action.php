@@ -21,6 +21,8 @@
 
 namespace oat\tao\model\actionQueue;
 
+use oat\oatbox\action\Action as TaoAction;
+
 /**
  * Interface Action
  *
@@ -29,7 +31,7 @@ namespace oat\tao\model\actionQueue;
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\actionQueue
  */
-interface Action
+interface Action extends TaoAction
 {
 
     /**
@@ -39,9 +41,11 @@ interface Action
     public function getId();
 
     /**
-     * @return callable
+     * Get number of actions in progress.
+     * Based on this value action queue will decide whether action should be performed or not.
+     * @return integer
      */
-    public function getCallable();
+    public function getNumberOfActiveActions();
 
     /**
      * Return result of action execution
