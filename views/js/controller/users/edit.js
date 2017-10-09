@@ -73,15 +73,25 @@ define([
                 )
                 .render($('.edit-user.form-container'))
                 .on('submit', function (formData) {
+                    var jsonData = {};
                     var self = this;
 
-                    formData.push({ name: 'uri', value: uri });
+                    _.each(formData, function (val) {
+                        jsonData[val.name] = val.value;
+                    });
+
+                    jsonData['uri'] = uri;
 
                     this.toggleLoading();
                     this.validate();
 
                     if (!this.errors.length) {
-                        request(route, formData, 'post')
+                        request(
+                            route,
+                            JSON.stringify(jsonData),
+                            'post',
+                            { 'Content-Type': 'application/json' }
+                        )
                         .then(function () {
                             self.clearWidgetErrors();
                             self.toggleLoading();
