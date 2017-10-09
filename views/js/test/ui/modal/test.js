@@ -110,7 +110,6 @@ define([
         assert.equal($modal.find('.modal-close').length, 1, 'The modal appends a close button');
     });
 
-
     QUnit.asyncTest('events', function(assert) {
         var $container = $('#modal-1');
         var $modal = $(modalTpl());
@@ -159,5 +158,43 @@ define([
         assert.equal($modal.children().length, 2, 'The modal displays 2 elements');
         assert.equal($modal.find('.modal-body').length, 1, 'The modal appends a body');
         assert.equal($modal.find('.modal-close').length, 1, 'The modal appends a close button');
+    });
+
+    // Modal position does not depend on the main page scroll (BODY OR HTML)
+    QUnit.asyncTest('mainScroll', function(assert) {
+        QUnit.expect(2);
+
+        var $container = $('#modal-1');
+        var $modal = $(modalTpl());
+        $container.append($modal);
+
+        $modal.on('opened.modal', function() {
+            assert.ok(true, "The modal is visible");
+            assert.equal($modal.css('top'), '40px', 'Default scroll value used for the position');
+            QUnit.start();
+        });
+
+        $modal.modal();
+    });
+
+    // Modal position should be changed when the modal in the container
+    QUnit.asyncTest('innerScroll', function(assert) {
+        QUnit.expect(2);
+        var $container = $('#modal-1');
+        var $modal = $(modalTpl());
+        var $scrolledContainer = $('<div style="height: 200px; overflow: auto;"></div>');
+        var $content = $('<div style="height: 1000px;">Body</div>');
+        $scrolledContainer.append($content);
+        $scrolledContainer.append($modal);
+        $container.append($scrolledContainer);
+        $scrolledContainer.scrollTop(500);
+
+        $modal.on('opened.modal', function() {
+            assert.ok(true, "The modal is visible");
+            assert.equal($modal.css('top'), '540px', 'Modal window opened in the scrolled position');
+            QUnit.start();
+        });
+
+        $modal.modal();
     });
 });
