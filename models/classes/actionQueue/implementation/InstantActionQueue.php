@@ -119,7 +119,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function getPersistence()
     {
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
-        return $this->getServiceManager()->get('generis/persistences')->getPersistenceById($persistenceId);
+        return $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
     }
 
     /**
