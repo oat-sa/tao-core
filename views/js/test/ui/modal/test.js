@@ -162,15 +162,14 @@ define([
 
     // Modal position does not depend on the main page scroll (BODY OR HTML)
     QUnit.asyncTest('mainScroll', function(assert) {
-        QUnit.expect(2);
+        QUnit.expect(1);
 
         var $container = $('#modal-1');
         var $modal = $(modalTpl());
         $container.append($modal);
 
-        $modal.on('opened.modal', function() {
-            assert.ok(true, "The modal is visible");
-            assert.equal($modal.css('top'), '40px', 'Default scroll value used for the position');
+        $modal.on('animate.modal', function(op, to) {
+            assert.equal(to.top, '40px', 'Default scroll value used for the position');
             QUnit.start();
         });
 
@@ -179,7 +178,7 @@ define([
 
     // Modal position should be changed when the modal in the container
     QUnit.asyncTest('innerScroll', function(assert) {
-        QUnit.expect(2);
+        QUnit.expect(1);
         var $container = $('#modal-1');
         var $modal = $(modalTpl());
         var $scrolledContainer = $('<div style="height: 200px; overflow: auto;"></div>');
@@ -189,9 +188,8 @@ define([
         $container.append($scrolledContainer);
         $scrolledContainer.scrollTop(500);
 
-        $modal.on('opened.modal', function() {
-            assert.ok(true, "The modal is visible");
-            assert.equal($modal.css('top'), '540px', 'Modal window opened in the scrolled position');
+        $modal.on('animate.modal', function(op, to) {
+            assert.equal(to.top, '540px', 'Modal window opened in the scrolled position');
             QUnit.start();
         });
 

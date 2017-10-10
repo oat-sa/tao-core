@@ -223,12 +223,14 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
                 //Calculate the top offset
                 topOffset = (options.vCenter || modalHeight > windowHeight) ? 40 : (windowHeight - modalHeight) / 2;
+
                 // check scroll if element in the scrolled container
                 $element.parents().map(function () {
                     if (this.tagName !== 'BODY' && this.tagName !== 'HTML') {
                         topOffset += parseInt($(this).scrollTop(), 10);
                     }
                 });
+
                 to = {
                     'opacity': '1',
                     'top': topOffset + 'px'
@@ -240,6 +242,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
 
                 $element.show();
 
+                $element.trigger('animate.' + pluginName, to);
                 if (options.animate && $element.is(':visible')) {
                     $element.css({
                         'top': '-' + modalHeight + 'px',
