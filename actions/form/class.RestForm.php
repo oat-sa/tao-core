@@ -125,7 +125,7 @@ class tao_actions_form_RestForm
 
             // Existing values
             if (
-                $this->isEdition()
+                $this->doesExist()
                 && !is_null($value = $this->getFieldValue($property, isset($propertyData['range']) ? $propertyData['range'] : null))
             ) {
                 $propertyData['value'] = $value;
@@ -212,7 +212,7 @@ class tao_actions_form_RestForm
                         $validator = new $validatorClass();
                         if (!$validator->evaluate($value)) {
                             throw new common_exception_ValidationFailed(
-                                tao_helpers_Uri::encode($property['uri']), $property['label'] . ' : ' . $validator->getMessage()
+                                $property['uri'], $validator->getMessage()
                             );
                         }
                     }
@@ -245,7 +245,7 @@ class tao_actions_form_RestForm
                     }
                     if (!$rangeValidated) {
                         throw new common_exception_ValidationFailed(
-                            tao_helpers_Uri::encode($property['uri']), 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
+                            $property['uri'], 'Range "' . $value . '" for field "' . $property['label'] . '" is not recognized.'
                         );
                     }
 
@@ -272,7 +272,7 @@ class tao_actions_form_RestForm
     {
         $values = $this->prepareValuesToSave();
 
-        if ($this->isCreation()) {
+        if ($this->isNew()) {
             if (!$resource = $this->class->createInstanceWithProperties($values)) {
                 throw new common_Exception(__('Unable to save resource.'));
             }
@@ -409,21 +409,21 @@ class tao_actions_form_RestForm
     }
 
     /**
-     * Check if current form is for edition by checking if resource is not null
+     * Check if current form exists
      *
      * @return bool
      */
-    protected function isEdition()
+    protected function doesExist()
     {
         return !is_null($this->resource);
     }
 
     /**
-     * Check if current form is for creation by checking if resource is null
+     * Check if current form is does not exist
      *
      * @return bool
      */
-    protected function isCreation()
+    protected function isNew()
     {
         return is_null($this->resource);
     }
