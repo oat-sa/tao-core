@@ -21,8 +21,6 @@
 
 namespace oat\tao\model\actionQueue;
 
-use \Throwable;
-
 /**
  * class ActionQueueException
  *
@@ -41,9 +39,9 @@ class ActionFullException extends \Exception
      * @param string $position
      * @param string $message
      * @param int $code
-     * @param Throwable|null $previous
+     * @param $previous
      */
-    public function __construct($position, $message = "", $code = 0, Throwable $previous = null)
+    public function __construct($position, $message = "", $code = 0, $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->position = $position;
