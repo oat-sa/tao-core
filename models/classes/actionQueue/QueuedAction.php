@@ -22,6 +22,7 @@
 namespace oat\tao\model\actionQueue;
 
 use oat\oatbox\action\Action as TaoAction;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Interface QueuedAction
@@ -31,7 +32,7 @@ use oat\oatbox\action\Action as TaoAction;
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\actionQueue
  */
-interface QueuedAction extends TaoAction
+interface QueuedAction extends TaoAction, ServiceLocatorAwareInterface
 {
 
     /**
