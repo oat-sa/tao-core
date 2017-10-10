@@ -21,12 +21,14 @@
 
 namespace oat\tao\model\actionQueue;
 
+use oat\oatbox\extension\AbstractAction;
+
 /**
  * class Action
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\actionQueue
  */
-abstract class AbstractQueuedAction implements QueuedAction
+abstract class AbstractQueuedAction extends AbstractAction implements QueuedAction
 {
 
     /**

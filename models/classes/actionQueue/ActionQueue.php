@@ -35,7 +35,7 @@ use oat\oatbox\user\User;
  *      //registered actions
  *      InstantActionQueue::OPTION_ACTIONS => [
  *          SomeAction::class => [
- *              //limit of active actions
+ *              //limit of active actions. 0 means that queue is disabled for this action
  *              InstantActionQueue::ACTION_PARAM_LIMIT => 10,
  *              //time to live
  *              InstantActionQueue::ACTION_PARAM_TTL => 30,

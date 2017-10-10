@@ -44,14 +44,15 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     public function perform(QueuedAction $action, User $user = null)
     {
+        $action->setServiceLocator($this->getServiceManager());
         if ($user === null) {
-            $user = \common_session_SessionManager::getSession()->getUser()->getIdentifier();
+            $user = \common_session_SessionManager::getSession()->getUser();
         }
         $result = false;
         $actionConfig = $this->getActionConfig($action);
         $limit = intval(isset($actionConfig[self::ACTION_PARAM_LIMIT]) ? $actionConfig[self::ACTION_PARAM_LIMIT] : 0);
         if ($limit === 0 || $limit > $action->getNumberOfActiveActions()) {
-            $actionResult = $action();
+            $actionResult = $action([]);
             $action->setResult($actionResult);
             $result = true;
             $this->dequeue($action, $user);
@@ -71,6 +72,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     public function getPosition(QueuedAction $action, User $user = null)
     {
+        $action->setServiceLocator($this->getServiceManager());
         $positions = unserialize($this->getPersistence()->get($this->getQueueKey($action)));
         return count($positions);
     }
@@ -80,6 +82,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     public function clearAbandonedPositions(QueuedAction $action)
     {
+        $action->setServiceLocator($this->getServiceManager());
         $key = $this->getQueueKey($action);
         $positions = unserialize($this->getPersistence()->get($key));
         $edgeTime = time() - $this->getTtl($action);
