@@ -69,11 +69,6 @@ class ConcreteAction extends AbstractQueuedAction
         return 'getmypid';
     }
 
-    public function getId()
-    {
-        return self::class;
-    }
-
     public function getNumberOfActiveActions()
     {
         return 10;

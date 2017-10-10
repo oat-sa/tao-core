@@ -82,11 +82,12 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $key = $this->getQueueKey($action);
         $positions = unserialize($this->getPersistence()->get($key));
-        $edgeTime = time() - $this->getTtl();
-        $positions = array_filter($positions, function ($val) use ($edgeTime) {
+        $edgeTime = time() - $this->getTtl($action);
+        $newPositions = array_filter($positions, function ($val) use ($edgeTime) {
             return $val > $edgeTime;
         });
-        $this->getPersistence()->set($key, serialize($positions));
+        $this->getPersistence()->set($key, serialize($newPositions));
+        return count($positions) - count($newPositions);
     }
 
     /**
@@ -123,11 +124,14 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     }
 
     /**
+     * @param QueuedAction $action
+     * @throws
      * @return integer
      */
-    protected function getTtl()
+    protected function getTtl(QueuedAction $action)
     {
-        $ttl = intval($this->hasOption(self::OPTION_TTL) ? $this->getOption(self::OPTION_TTL) : 0);
+        $actionConfig = $this->getActionConfig($action);
+        $ttl = intval(isset($actionConfig[self::ACTION_PARAM_TTL]) ? $actionConfig[self::ACTION_PARAM_TTL] : 0);
         return $ttl;
     }
 

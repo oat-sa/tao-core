@@ -21,8 +21,6 @@
 
 namespace oat\tao\model\actionQueue;
 
-use oat\tao\model\actionQueue\QueuedAction;
-
 /**
  * class Action
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
@@ -44,15 +42,18 @@ abstract class AbstractQueuedAction implements QueuedAction
     protected $resultWasSet = false;
 
     /**
-     * Get action identifier
-     * @return string
-     */
-    abstract public function getId();
-
-    /**
      * @inheritdoc
      */
     abstract public function getNumberOfActiveActions();
+
+    /**
+     * Get action identifier
+     * @return string
+     */
+    public final function getId()
+    {
+        return static::class;
+    }
 
     /**
      * Return result of action execution

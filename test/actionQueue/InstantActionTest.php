@@ -121,11 +121,11 @@ class InstantActionTest extends TaoPhpUnitTestRunner
     protected function getInstance()
     {
         $result = new InstantActionQueue([
-            InstantActionQueue::OPTION_TTL => 1,
             InstantActionQueue::OPTION_PERSISTENCE => 'action_queue',
             InstantActionQueue::OPTION_ACTIONS => [
                 GetmypidAction::class => [
-                    InstantActionQueue::ACTION_PARAM_LIMIT => 10
+                    InstantActionQueue::ACTION_PARAM_LIMIT => 10,
+                    InstantActionQueue::ACTION_PARAM_TTL => 1,
                 ]
             ]
         ]);
@@ -153,11 +153,6 @@ class GetmypidAction extends AbstractQueuedAction
     public function __invoke($params = null)
     {
         return getmypid();
-    }
-
-    public function getId()
-    {
-        return self::class;
     }
 
     public function getNumberOfActiveActions()

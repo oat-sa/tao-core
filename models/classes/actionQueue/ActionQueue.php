@@ -32,15 +32,13 @@ use oat\oatbox\user\User;
  *      //persistence to store actions in queue
  *      InstantActionQueue::OPTION_PERSISTENCE => 'key_value_persistence',
  *
- *      //how much seconds should live position in the queue
- *      InstantActionQueue::OPTION_PERSISTENCE => 'key_value_persistence',
- *
  *      //registered actions
  *      InstantActionQueue::OPTION_ACTIONS => [
  *          SomeAction::class => [
- *
  *              //limit of active actions
- *              InstantActionQueue::ACTION_PARAM_LIMIT => 10
+ *              InstantActionQueue::ACTION_PARAM_LIMIT => 10,
+ *              //time to live
+ *              InstantActionQueue::ACTION_PARAM_TTL => 30,
  *          ]
  *      ]
  *  ]);
@@ -65,15 +63,15 @@ interface ActionQueue
     const OPTION_PERSISTENCE = 'persistence';
 
     /**
-     * Time to live for place in the queue (seconds)
-     */
-    const OPTION_TTL = 'ttl';
-
-    /**
      * Limit of actions in progress.
      * If number of active actions will be more that this value then action will be put into queue
      */
     const ACTION_PARAM_LIMIT = 'limit';
+
+    /**
+     * Time to live for place in the queue (seconds). Configures per actions.
+     */
+    const ACTION_PARAM_TTL = 'ttl';
 
     /**
      * @param QueuedAction $action
