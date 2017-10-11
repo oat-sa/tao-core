@@ -73,7 +73,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     public function getPosition(QueuedAction $action, User $user = null)
     {
         $action->setServiceLocator($this->getServiceManager());
-        $positions = unserialize($this->getPersistence()->get($this->getQueueKey($action)));
+        $positions = json_decode($this->getPersistence()->get($this->getQueueKey($action)), true);
         return count($positions);
     }
 
@@ -84,12 +84,12 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $action->setServiceLocator($this->getServiceManager());
         $key = $this->getQueueKey($action);
-        $positions = unserialize($this->getPersistence()->get($key));
+        $positions = json_decode($this->getPersistence()->get($key), true);
         $edgeTime = time() - $this->getTtl($action);
         $newPositions = array_filter($positions, function ($val) use ($edgeTime) {
             return $val > $edgeTime;
         });
-        $this->getPersistence()->set($key, serialize($newPositions));
+        $this->getPersistence()->set($key, json_encode($newPositions));
         return count($positions) - count($newPositions);
     }
 
@@ -100,9 +100,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function queue(QueuedAction $action, User $user)
     {
         $key = $this->getQueueKey($action, $user);
-        $positions = unserialize($this->getPersistence()->get($key));
+        $positions = json_decode($this->getPersistence()->get($key), true);
         $positions[$user->getIdentifier()] = time();
-        $this->getPersistence()->set($key, serialize($positions));
+        $this->getPersistence()->set($key, json_encode($positions));
     }
 
     /**
@@ -112,9 +112,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function dequeue(QueuedAction $action, User $user)
     {
         $key = $this->getQueueKey($action, $user);
-        $positions = unserialize($this->getPersistence()->get($key));
+        $positions = json_decode($this->getPersistence()->get($key), true);
         unset($positions[$user->getIdentifier()]);
-        $this->getPersistence()->set($key, serialize($positions));
+        $this->getPersistence()->set($key, json_encode($positions));
     }
 
     /**
