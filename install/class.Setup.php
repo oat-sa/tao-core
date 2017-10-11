@@ -283,15 +283,9 @@ class tao_install_Setup implements Action
             throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for '. $serviceSectionId);
         }
 
-        $options['extra_persistences'] = [$dbWrapperPersistenceId => (array)$persistences[$dbWrapperPersistenceId]];
+        $options['extra_persistences'] = $persistences;
 
         $installator->install($options);
-
-
-        // configure persistences
-        foreach($persistences as $key => $persistence){
-            \common_persistence_Manager::addPersistence($key, $persistence);
-        }
 
         /** @var common_ext_ExtensionsManager $extensionManager */
         $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
