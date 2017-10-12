@@ -59,18 +59,29 @@ require.config({
         'c3'                : 'lib/c3js/c3.min',
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
-//extension aliases, and controller loading in prod mode
-    <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
-        '<?=$name?>'        : '<?=$path?>',
-        <?php if(tao_helpers_Mode::is('production')):?>
-            <?php if($name == 'tao'): ?>
-                'controller/routes' : '<?=$path?>/controllers.min',
-            <?php else : ?>
-                '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
-            <?php endif ?>
-        <?php endif?>
-    <?php endforeach?>
+
+// extension paths (in development and production environments)
+        <?php foreach (get_data('extensionsAliases') as $name => $path): ?>
+        '<?= $name ?>' : '<?= $path ?>',
+        <?php endforeach ?>
+
+// extension bundle paths (in production environment)
+        <?php if ( tao_helpers_Mode::is('production') ): ?>
+            <?php foreach (get_data('extensionBundles') as $bundle): ?>
+            '<?= $bundle["name"] ?>' : '<?= $bundle["path"] ?>',
+            <?php endforeach ?>
+        <?php endif ?>
    },
+
+// extension bundles (in production enviroment)
+    <?php if ( tao_helpers_Mode::is('production') ): ?>
+    bundles : {
+        <?php foreach (get_data('extensionBundles') as $bundle): ?>
+        '<?= $bundle["name"] ?>' : <?= json_encode($bundle["modules"], JSON_UNESCAPED_SLASHES) ?>,
+        <?php endforeach ?>
+    },
+    <?php endif ?>
+
    shim : {
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },

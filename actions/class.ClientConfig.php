@@ -45,6 +45,26 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
         $this->setData('extensionsAliases', $extensionsAliases);
 
+
+        /**
+         * Get extension bundles configuration to set up requirejs config dynamically
+         */
+        $extensionBundles = array();
+        $extensions = \common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+
+        foreach ($extensions as $extension) {
+            $bundles = $extension->getConfig('requirejsbundles');
+
+            if ( is_array($bundles) ) {
+                foreach ($bundles as $bundle) {
+                    array_push($extensionBundles, $bundle);
+                }
+            }
+        }
+
+        $this->setData('extensionBundles', $extensionBundles);
+
+
         $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
         $this->setData('libConfigs', $libConfigs);
 
