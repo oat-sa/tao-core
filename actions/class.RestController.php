@@ -20,8 +20,17 @@ use oat\tao\helpers\RestExceptionHandler;
  *
  */
 
+use oat\generis\model\OntologyAwareTrait;
+
 abstract class tao_actions_RestController extends \tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
+
+    const CLASS_URI_PARAM = 'class-uri';
+    const CLASS_LABEL_PARAM = 'class-label';
+    const CLASS_COMMENT_PARAM = 'class-comment';
+    const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
+
     /**
      * @var array
      * @deprecated since 4.3.0
@@ -132,6 +141,84 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             default:
                 return json_encode($data);
         }
+    }
+
+    /**
+     * Get class instance from request parameters
+     * If more than one class with given label exists the first open will be picked up.
+     * @param core_kernel_classes_Class $rootClass
+     * @return core_kernel_classes_Class|null
+     * @throws common_exception_RestApi
+     */
+    protected function getClassFromRequest(\core_kernel_classes_Class $rootClass)
+    {
+        $class = null;
+        if ($this->hasRequestParameter(self::CLASS_URI_PARAM) && $this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+            throw new \common_exception_RestApi(
+                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM . ' parameters do not supposed to be used simultaneously.'
+            );
+        }
+
+        if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
+            $class = new \core_kernel_classes_Class($this->getRequestParameter(self::CLASS_URI_PARAM));
+        }
+        if ($this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+            $label = $this->getRequestParameter(self::CLASS_LABEL_PARAM);
+            foreach ($rootClass->getSubClasses(true) as $subClass) {
+                if ($subClass->getLabel() === $label) {
+                    $class = $subClass;
+                    break;
+                }
+            }
+        }
+        if ($class === null || !$class->exists()) {
+            $class = $rootClass;
+        }
+        return $class;
+    }
+
+    /**
+     * Create sub class of given root class.
+     *
+     * @param core_kernel_classes_Class $rootClass
+     * @throws \common_exception_MissingParameter
+     * @throws \common_Exception
+     * @throws \common_exception_InconsistentData
+     * @return \core_kernel_classes_Class
+     */
+    protected function createSubClass(\core_kernel_classes_Class $rootClass)
+    {
+        if (!$this->hasRequestParameter(static::CLASS_LABEL_PARAM)) {
+            throw new \common_exception_MissingParameter(static::CLASS_LABEL_PARAM, $this->getRequestURI());
+        }
+        $label = $this->getRequestParameter(static::CLASS_LABEL_PARAM);
+
+        if ($this->hasRequestParameter(static::PARENT_CLASS_URI_PARAM)) {
+            $parentClass = $this->getClass($this->getRequestParameter(static::PARENT_CLASS_URI_PARAM));
+            if ($parentClass->getUri() !== $rootClass->getUri() && !$parentClass->isSubClassOf($rootClass)) {
+                throw new \common_Exception(__('Class uri provided is not a valid class.'));
+            }
+            $rootClass = $parentClass;
+        }
+
+        $comment = $this->hasRequestParameter(static::CLASS_COMMENT_PARAM)
+            ? $this->getRequestParameter(static::CLASS_COMMENT_PARAM)
+            : '';
+
+        $class = null;
+
+        /** @var \core_kernel_classes_Class $subClass */
+        foreach ($rootClass->getSubClasses() as $subClass) {
+            if ($subClass->getLabel() === $label) {
+                throw new \common_exception_ClassAlreadyExists($subClass);
+            }
+        }
+
+        if (!$class) {
+            $class = $rootClass->createSubClass($label, $comment);
+        }
+
+        return $class;
     }
 
     /**

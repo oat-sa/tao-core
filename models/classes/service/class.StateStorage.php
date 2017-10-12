@@ -20,7 +20,7 @@
 
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\service\StateStorage;
+use oat\tao\model\state\StateStorage;
 
 /**
  * Persistence for the item delivery service
@@ -46,7 +46,7 @@ class tao_models_classes_service_StateStorage
      * @deprecated
      */
     public static function singleton() {
-        return ServiceManager::getServiceManager()->getServiceManager()->get('tao/stateStorage');
+        return ServiceManager::getServiceManager()->getServiceManager()->get(StateStorage::SERVICE_ID);
     }
     
     /**
@@ -76,7 +76,7 @@ class tao_models_classes_service_StateStorage
 	 */
   	public function set($userId, $callId, $data) {
   	    $key = $this->getSerial($userId, $callId);
-  	    return $this->getPersistence()->set($key, $data);
+        return $this->getPersistence()->set($key, $data);
   	}
   	
   	/**

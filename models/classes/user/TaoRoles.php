@@ -24,7 +24,11 @@ interface TaoRoles
 {
     const ANONYMOUS = 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole';
     
+    const BASE_USER = 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole';
+    
     const BACK_OFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
 
     const SYSTEM_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
+
+    const OPERATIONAL_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator';
 }

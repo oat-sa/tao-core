@@ -115,6 +115,24 @@ require(['config'], function() {
                         return true;
                     };
                     break;
+                    
+                case 'operated_by_name':
+                    install.getValidator(this, {
+                        dataType: 'string',
+                        min: 0,
+                        max: 50,
+                        mandatory: false
+                    });
+                    validifyNotMandatory(this);
+                    break;
+                    
+                case 'operated_by_email':
+                    install.getValidator(this, {
+                        dataType: 'email',
+                        mandatory: false
+                    });
+                    validifyNotMandatory(this);
+                    break;
 
                 default:
                     install.getValidator(this);
@@ -151,6 +169,8 @@ require(['config'], function() {
             install.addHelp('hlp_default_language', "The default language used by TAO to display texts in the graphical user interface.");
             install.addHelp('hlp_timezone', "The desired time zone to be used by your web server to deal with time constraints.");
             install.addHelp('hlp_deployment_mode', "The <em>production</em> deployment mode provides you with a secure installation dedicated to production. On the other hand, the <em>development</em> mode is dedicated to developers where various debug modes are enabled.");
+            install.addHelp('hlp_operated_by_name', "The name of the organization managing this TAO platform installation. This information will appear in the TAO footer.");
+            install.addHelp('hlp_operated_by_email', "The email address of the organization managing this TAO platform installation. This information will appear in the TAO footer.");
         }
 
     });

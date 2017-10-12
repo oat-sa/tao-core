@@ -1,0 +1,53 @@
+[{
+  "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+  "label": "Item",
+  "children": [{
+    "uri": "http:\/\/bertao\/tao.rdf#i1491898694361191",
+    "label": "Maths",
+    "children": [{
+      "uri": "http:\/\/bertao\/tao.rdf#i1491898702297492",
+      "label": "Algebra"
+    }, {
+      "uri": "http:\/\/bertao\/tao.rdf#i1491898712953393",
+      "label": "Geometry",
+      "children": [{
+        "uri": "http:\/\/bertao\/tao.rdf#i14918989026611131",
+        "label": "Trigonometry"
+      }]
+    }, {
+      "uri": "http:\/\/bertao\/tao.rdf#i14921549474546230",
+      "label": "A class with \u00e9 [ &@ and a very long long name",
+      "children": [{
+        "uri": "http:\/\/bertao\/tao.rdf#i14921637875766234",
+        "label": "A class with \u00e9 [ &@ and a very long long name_1",
+        "children": [{
+          "uri": "http:\/\/bertao\/tao.rdf#i14921637918638236",
+          "label": "A class with \u00e9 [ &@ and a very long long name_1_1",
+          "children": [{
+            "uri": "http:\/\/bertao\/tao.rdf#i14921637931292238",
+            "label": "A class with \u00e9 [ &@ and a very long long name_1_1_1"
+          }]
+        }]
+      }]
+    }]
+  }, {
+    "uri": "http:\/\/bertao\/tao.rdf#i14918989726364157",
+    "label": "Biologie test"
+  }, {
+    "uri": "http:\/\/bertao\/tao.rdf#i14918989921558166",
+    "label": "JavaScript puzzlers"
+  }, {
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990023579175",
+    "label": "Stress test"
+  }, {
+    "uri": "http:\/\/bertao\/tao.rdf#i1492615004952240",
+    "label": "Foo",
+    "children": [{
+      "uri": "http:\/\/bertao\/tao.rdf#i14926150124755241",
+      "label": "Bar_1"
+    }, {
+      "uri": "http:\/\/bertao\/tao.rdf#i14926150221434242",
+      "label": "Bar_2"
+    }]
+  }]
+}]

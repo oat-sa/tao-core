@@ -29,7 +29,7 @@ use oat\tao\model\websource\WebsourceManager;
  *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
-class ThemeRegistryTest extends TaoPhpUnitTestRunner
+class ThemeRegistryTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -38,7 +38,6 @@ class ThemeRegistryTest extends TaoPhpUnitTestRunner
      */
     public function setUp()
     {
-        TaoPhpUnitTestRunner::initTest();
     }
 
     public function tearDown()

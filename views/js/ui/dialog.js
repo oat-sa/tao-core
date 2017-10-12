@@ -206,8 +206,6 @@ define([
                     // buttons can be set as a list of names
                     if (_.isString(buttons)) {
                         buttons = buttons.split(',');
-                    } else {
-                        buttons = [buttons];
                     }
                 }
 

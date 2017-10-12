@@ -20,9 +20,8 @@
  */
 define([
     'core/historyRouter',
-    'html5-history-api',
     'test/core/historyRouter/mock/controller'
-], function (historyRouterFactory, history, controller) {
+], function (historyRouterFactory, controller) {
     'use strict';
 
     var location = window.history.location || window.location;
@@ -83,7 +82,7 @@ define([
             controller.removeAllListeners();
         },
         teardown: function() {
-            history.replaceState(null, '', testerUrl);
+            window.history.replaceState(null, '', testerUrl);
         }
     });
 
@@ -111,7 +110,7 @@ define([
             controller.removeAllListeners();
         },
         teardown: function() {
-            history.replaceState(null, '', testerUrl);
+            window.history.replaceState(null, '', testerUrl);
         }
     });
 
@@ -190,13 +189,13 @@ define([
                     .then(function () {
                         assert.equal(location.href, url2, 'The url2 should be reached');
 
-                        history.back();
+                        window.history.back();
 
                         setTimeout(function(){
                             assert.equal(location.href, url1, 'The url1 should be restored');
                             QUnit.start();
                         }, 250);
-                    })
+                    });
             })
             .catch(function() {
                 assert.ok(false, 'Should not be rejected!');
@@ -226,7 +225,7 @@ define([
                             assert.equal(location.href, url1, 'The url1 should be restored');
                             QUnit.start();
                         }, 250);
-                    })
+                    });
             })
             .catch(function() {
                 assert.ok(false, 'Should not be rejected!');
