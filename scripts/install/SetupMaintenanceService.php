@@ -43,9 +43,15 @@ class SetupMaintenanceService extends InstallAction
         $service->setOption(Maintenance::OPTION_PERSISTENCE, $maintenancePersistence);
         $this->getServiceManager()->register(Maintenance::SERVICE_ID, $service);
 
-        $this->getServiceManager()->get(Maintenance::SERVICE_ID)->enablePlatform();
+        if (defined('SYS_READY')) {
+            if (SYS_READY === false) {
+                $this->getServiceManager()->get(Maintenance::SERVICE_ID)->disablePlatform();
+                return \common_report_Report::createSuccess(__('Maintenance service was installed. Platform is disabled.'));
+            }
+        }
 
-        return \common_report_Report::createSuccess(__('Maintenance service was installed.'));
+        $this->getServiceManager()->get(Maintenance::SERVICE_ID)->enablePlatform();
+        return \common_report_Report::createSuccess(__('Maintenance service was installed. Platform is enabled.'));
     }
 
 }

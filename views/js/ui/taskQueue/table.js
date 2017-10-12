@@ -57,7 +57,15 @@ define([
             finished: __('Completed'),
             finishedSuccess: __('Completed'),
             finishedError: __('Completed - Error')
-        }
+        },
+        statusFilter : [
+            "loading",
+            "created",
+            "running",
+            "finished",
+            "finishedSuccess",
+            "finishedError"
+        ]
     };
 
     /**
@@ -153,9 +161,9 @@ define([
                     }],
                     data : data
                 }).on('action-back', function(){
-                        status.destroy();
-                        $dataTable.show();
-                    })
+                    status.destroy();
+                    $dataTable.show();
+                })
                     .render($report)
                     .start();
 
@@ -193,9 +201,9 @@ define([
         }, config)
             .on('init', function(){
                 this.taskQueueApi = taskQueueApi({url:{
-                    status: this.config.serviceUrl,
-                    remove: this.config.removeUrl
-                }});
+                        status: this.config.serviceUrl,
+                        remove: this.config.removeUrl
+                    }});
             })
             .on('render', function () {
                 var self = this;
@@ -275,7 +283,7 @@ define([
                         url: this.config.dataUrl,
                         rows : this.config.rows,
                         sortorder: 'desc',
-                        filtercolumns: {type: this.config.context},
+                        filtercolumns: {type: this.config.context, status: this.config.statusFilter},
                         status: {
                             empty: __('No Task yet'),
                             available: __('Task Listing'),
