@@ -45,6 +45,10 @@ class TreeWrapper
 
 		foreach ($filters as $filter) {
 
+		    if (empty($filteredArray['children'])) {
+		        continue;
+            }
+
 			foreach ($filteredArray['children'] as $node) {
 				$endDate = (int)(string)$node['attributes'][$filter->getKey()];
 
