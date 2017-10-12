@@ -10,11 +10,11 @@ module.exports = function(grunt) {
     var concurrency = grunt.option('s3-concurrency') || 20;                  // run the cli with --s3-concurrency=N
     var ext      = require('../tasks/helpers/extensions')(grunt, root);   //extension helper
     var out      = 'output';
+    var patterns = [];
 
 
     clean.s3 = [out];
 
-    var patterns = [];
     ext.getExtensions().forEach(function(extension){
         patterns.push(extension + '/views/js/**/*');
         patterns.push(extension + '/views/css/**/*');

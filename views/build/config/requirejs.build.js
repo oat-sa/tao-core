@@ -50,9 +50,9 @@ require.config({
 
 //stub
         'i18ntr'            : '../locales/en-US'
-   },
+    },
 
-   shim : {
+    shim : {
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
