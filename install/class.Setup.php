@@ -285,15 +285,13 @@ class tao_install_Setup implements Action
         $installator->escapeCheck('custom_tao_ModRewrite');
 
         $persistences = $parameters['configuration']['generis']['persistences'];
-        $serviceSectionId = explode('/', \oat\generis\model\data\DbWrapper::SERVICE_ID)[1];
-        $dbWrapperPersistenceId = $parameters['configuration']['generis'][$serviceSectionId]['options']['persistence'];
 
-        if ($dbWrapperPersistenceId !== 'default' && !isset($persistences[$dbWrapperPersistenceId])) {
+        if ($persistenceName !== 'default' && !isset($persistences[$persistenceName])) {
             throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for '. $serviceSectionId);
         }
 
         $options['extra_persistences'] = $persistences;
-        $options['ontology_persistence'] = $dbWrapperPersistenceId;
+        $options['ontology_persistence'] = $persistenceName;
 
         $installator->install($options);
 
