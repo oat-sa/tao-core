@@ -166,6 +166,7 @@ define([
 
         var $container = $('#modal-1');
         var $modal = $(modalTpl());
+        $modal.css({position: 'absolute'});
         $container.append($modal);
 
         $modal.on('opened.modal', function() {
@@ -184,6 +185,7 @@ define([
         var $modal = $(modalTpl());
         var $scrolledContainer = $('<div style="height: 200px; overflow: auto;"></div>');
         var $content = $('<div style="height: 1000px;">Body</div>');
+        $modal.css({position: 'absolute'});
         $scrolledContainer.append($content);
         $scrolledContainer.append($modal);
         $container.append($scrolledContainer);

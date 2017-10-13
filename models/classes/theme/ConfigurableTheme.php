@@ -50,14 +50,21 @@ use oat\tao\helpers\Template;
  */
 class ConfigurableTheme extends Configurable implements Theme
 {
-    const THEME_DATA = 'data';
-    const THEME_CSS = 'stylesheet';
+    /** Theme id in the options. */
+    const THEME_ID    = 'id';
+
+    /** Theme label in the options. */
+    const THEME_LABEL = 'label';
+
+    /** Theme data in the options. */
+    const THEME_DATA  = 'data';
+
+    /** Theme css in the options. */
+    const THEME_CSS   = 'stylesheet';
 
     const THEME_DATA_LOGO_URL = 'logo-url';
     const THEME_DATA_LINK     = 'link';
     const THEME_DATA_MESSAGE  = 'message';
-    const THEME_DATA_LABEL    = 'label';
-    const THEME_DATA_ID       = 'id';
 
     /**
      * Get a template associated to given $id
@@ -173,12 +180,11 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getLabel()
     {
-        $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LABEL])) {
-            return $data[self::THEME_DATA_LABEL];
-        } else {
-            return '';
+        if ($this->hasOption(static::THEME_LABEL)) {
+            return $this->getOption(static::THEME_LABEL);
         }
+
+        return '';
     }
 
     /**
@@ -189,11 +195,10 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getId()
     {
-        $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_ID])) {
-            return $data[self::THEME_DATA_ID];
-        } else {
-            return '';
+        if ($this->hasOption(static::THEME_ID)) {
+            return $this->getOption(static::THEME_ID);
         }
+
+        return '';
     }
 }
