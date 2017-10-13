@@ -184,8 +184,8 @@ define([
                 onElt = $('.' + states.on, $component);
                 offElt = $('.' + states.off, $component);
 
-                //switch on click
-                $component.on('click', 'span', function(e){
+                //switch
+                $(':checkbox', $component).on('change', function(e){
                     e.preventDefault();
                     self.toggle();
                 });

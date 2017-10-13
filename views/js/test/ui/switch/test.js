@@ -210,7 +210,7 @@ define([
     QUnit.asyncTest('toggle by clicking', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(7);
+        QUnit.expect(11);
 
         assert.equal($('.switch', $container).length, 0, 'No resource tree in the container');
 
@@ -221,6 +221,8 @@ define([
                 assert.ok(this.isOn(), 'The component is now on');
                 assert.equal(value, 'on', 'The event value matches');
                 assert.equal(this.getValue(), 'on', 'The event value matches');
+                assert.ok( ! $('.off', this.getElement()).hasClass('active'), 'The off button is now inactive');
+                assert.ok($('.on', this.getElement()).hasClass('active'), 'The on button is active');
 
                 QUnit.start();
             })
@@ -228,6 +230,8 @@ define([
 
                 assert.ok(this.isOff(), 'The component starts off');
                 assert.ok( ! this.isOn(), 'The component starts off');
+                assert.ok($('.off', this.getElement()).hasClass('active'), 'The off button starts active');
+                assert.ok( ! $('.on', this.getElement()).hasClass('active'), 'The on button starts inactive');
 
                 this.getElement().find('span:first-child').click();
             });

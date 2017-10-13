@@ -23,12 +23,6 @@
     display: inline-block;
     position: relative;
 
-    border: solid 1px $uiClickableActiveBg;
-    background-color : $uiClickableDefaultBg;
-
-    @include border-radius(2);
-    padding: 1px;
-
     input {
         position: absolute;
         width: 100%;
@@ -38,8 +32,11 @@
         cursor: pointer;
     }
     label {
-        padding: 0;
-        margin: 0;
+        border: solid 1px $uiClickableActiveBg;
+        background-color : $uiClickableDefaultBg;
+
+        @include border-radius(2);
+        padding: 1px;
         span {
             display: inline-block;
             position: relative;
@@ -65,5 +62,8 @@
         .off{
             @include switch-default;
         }
+    }
+    input:focus ~ label {
+        border: solid 1px $info;
     }
 }
