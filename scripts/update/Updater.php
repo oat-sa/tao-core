@@ -96,6 +96,7 @@ use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\OperatedByService;
+use oat\tao\model\actionQueue\implementation\InstantActionQueue;
 
 /**
  *
@@ -924,6 +925,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('12.21.6', '13.1.5');
+
+        if ($this->isVersion('13.1.5')) {
+            $service = new InstantActionQueue([
+                InstantActionQueue::OPTION_PERSISTENCE => 'cache',
+                InstantActionQueue::OPTION_ACTIONS => [],
+            ]);
+            $this->getServiceManager()->register(InstantActionQueue::SERVICE_ID, $service);
+            $this->setVersion('13.2.0');
+        }
+        $this->skip('13.2.0', '13.5.0');
     }
 
     private function migrateFsAccess() {
