@@ -243,7 +243,15 @@ define([
         var container = document.getElementById('outside');
 
         QUnit.expect(1);
-        switchFactory(container)
+        switchFactory(container, {
+            on : {
+                active : true
+            },
+            off : {
+                label : 'night'
+            }
+
+        })
             .on('render', function(){
                 assert.ok(true);
                 QUnit.start();

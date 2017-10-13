@@ -168,6 +168,10 @@ define([
                     this.config.name = 'switch-' + uuid();
                 }
 
+                //keeps defaults values if overridden
+                this.config.on = _.defaults(this.config.on, defaultConfig.on);
+                this.config.off = _.defaults(this.config.off, defaultConfig.off);
+
                 //initial state
                 if(this.config.on.active === true){
                     this.config.off.active = false;
