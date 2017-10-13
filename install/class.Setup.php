@@ -284,8 +284,6 @@ class tao_install_Setup implements Action
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
 
-        $persistences = $parameters['configuration']['generis']['persistences'];
-
         $options['extra_persistences'] = $persistences;
         $options['ontology_persistence'] = $persistenceName;
 
