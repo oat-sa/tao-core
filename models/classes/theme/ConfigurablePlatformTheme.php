@@ -218,6 +218,9 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * @throws \Exception
      */
     protected function setId() {
+        if($this->hasOption(self::THEME_DATA_ID)) {
+            $this->id = $this->getOption(self::THEME_DATA_ID);
+        }
         if(!$this->hasOption(self::THEME_DATA_PREFIX)) {
             throw new \Exception('Missing option "' . self::THEME_DATA_PREFIX . '"');
         }
