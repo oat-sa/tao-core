@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     /**
      * Compile into a bundle
      */
-    requirejs.taoloaderloginbundle = {
+    requirejs.taobundle_login = {
         options: {
             exclude: ['json!i18ntr/messages.json'],
             include: ['controller/login', 'lib/require', 'loader/bootstrap'],
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         }
     };
 
-    requirejs.taoloaderbackofficebundle = {
+    requirejs.taobundle_backoffice = {
         options: {
             exclude: ['json!i18ntr/messages.json', 'mathJax', 'ckeditor'],
             include: ['controller/backoffice', 'lib/require', 'loader/bootstrap'].concat(libs),
@@ -33,7 +33,7 @@ module.exports = function (grunt) {
         }
     };
 
-    requirejs.taoloaderappbundle = {
+    requirejs.taobundle_app = {
         options: {
             exclude: ['json!i18ntr/messages.json'],
             include: ['controller/app', 'lib/require', 'loader/bootstrap'].concat(libs),
@@ -41,10 +41,10 @@ module.exports = function (grunt) {
         }
     };
 
-    requirejs.taocontrollersbundle = {
+    requirejs.taobundle = {
         options: {
-            exclude: ['mathJax', 'controller/login', 'controller/backoffice'].concat(libs),
-            include: ['controller/routes'].concat(ext.getExtensionsControllers(['tao'])),
+            exclude: ['mathJax', 'controller/login', 'controller/backoffice', 'controller/app'].concat(libs),
+            include: ext.getExtensionsControllers(['tao']),
             out: out + '/tao/controllers.min.js'
         }
     };
@@ -52,28 +52,16 @@ module.exports = function (grunt) {
      /**
       * Copy to /dist
       */
-    copy.taoloaderloginbundle = {
+    copy.taobundle = {
         files: [
-            { src: [out + '/tao/loader/login.min.js'],     dest: root + '/tao/views/dist/loader/login.min.js' },
-            { src: [out + '/tao/loader/login.min.js.map'], dest: root + '/tao/views/dist/loader/login.min.js.map' },
-        ],
-    };
-    copy.taoloaderbackofficebundle = {
-        files: [
+            { src: [out + '/tao/loader/login.min.js'],          dest: root + '/tao/views/dist/loader/login.min.js' },
+            { src: [out + '/tao/loader/login.min.js.map'],      dest: root + '/tao/views/dist/loader/login.min.js.map' },
             { src: [out + '/tao/loader/backoffice.min.js'],     dest: root + '/tao/views/dist/loader/backoffice.min.js' },
             { src: [out + '/tao/loader/backoffice.min.js.map'], dest: root + '/tao/views/dist/loader/backoffice.min.js.map' },
-        ],
-    };
-    copy.taoloaderappbundle = {
-        files: [
-            { src: [out + '/tao/loader/app.min.js'],     dest: root + '/tao/views/dist/loader/app.min.js' },
-            { src: [out + '/tao/loader/app.min.js.map'], dest: root + '/tao/views/dist/loader/app.min.js.map' },
-        ],
-    };
-    copy.taocontrollersbundle = {
-        files: [
-            { src: [out + '/tao/controllers.min.js'],     dest: root + '/tao/views/dist/controllers.min.js' },
-            { src: [out + '/tao/controllers.min.js.map'], dest: root + '/tao/views/dist/controllers.min.js.map' }
+            { src: [out + '/tao/loader/app.min.js'],            dest: root + '/tao/views/dist/loader/app.min.js' },
+            { src: [out + '/tao/loader/app.min.js.map'],        dest: root + '/tao/views/dist/loader/app.min.js.map' },
+            { src: [out + '/tao/controllers.min.js'],           dest: root + '/tao/views/dist/controllers.min.js' },
+            { src: [out + '/tao/controllers.min.js.map'],       dest: root + '/tao/views/dist/controllers.min.js.map' }
         ],
     };
 
@@ -81,11 +69,13 @@ module.exports = function (grunt) {
     grunt.config('requirejs', requirejs);
     grunt.config('copy', copy);
 
-    grunt.registerTask('taoloaderloginbundle', [ 'clean:bundle', 'requirejs:taoloaderloginbundle', 'copy:taoloaderloginbundle' ]);
-    grunt.registerTask('taoloaderbackofficebundle', [ 'clean:bundle', 'requirejs:taoloaderbackofficebundle', 'copy:taoloaderbackofficebundle' ]);
-    grunt.registerTask('taoloaderappbundle', [ 'clean:bundle', 'requirejs:taoloaderappbundle', 'copy:taoloaderappbundle' ]);
-    grunt.registerTask('taocontrollersbundle', [ 'clean:bundle', 'requirejs:taocontrollersbundle', 'copy:taocontrollersbundle' ]);
-
     // bundle task
-    grunt.registerTask('taobundle', [ 'taoloaderloginbundle', 'taoloaderbackofficebundle', 'taoloaderappbundle', 'taocontrollersbundle' ]);
+    grunt.registerTask('taobundle', [
+        'clean:bundle',
+        'requirejs:taobundle_login',
+        'requirejs:taobundle_backoffice',
+        'requirejs:taobundle_app',
+        'requirejs:taobundle',
+        'copy:taobundle'
+    ]);
 };
