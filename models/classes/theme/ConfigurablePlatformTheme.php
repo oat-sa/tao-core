@@ -59,20 +59,13 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     const THEME_DATA_MESSAGE  = 'message';
     const THEME_DATA_LABEL    = 'label';
     const THEME_DATA_ID       = 'id';
-
+    const THEME_DATA_PREFIX   = 'prefix';
 
     private $label;
-
     private $id;
-
-    /**
-     * Usually the extension ID of the class calling this on
-     */
-    const THEME_DATA_PREFIX   = 'prefix';
 
 
     public function __construct($options=[]) {
-
         parent::__construct($options);
 
         $this->setLabel();
