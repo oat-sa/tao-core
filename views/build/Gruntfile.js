@@ -94,6 +94,7 @@ module.exports = function(grunt) {
         },
         copy: {
             options: {
+                // note: this is kept as a precaution, but it would be better to ensure correct naming in bundle files
                 process: function (content, srcpath) {
                     //because we change the bundle names during copy
                     if (/routes\.js$/.test(srcpath)) {
