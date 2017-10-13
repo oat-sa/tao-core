@@ -59,6 +59,52 @@ module.exports = function(grunt) {
      // Load local tasks.
     grunt.loadTasks('tasks');
 
+    /**
+     * General options for all clean, requirejs, and copy tasks
+     */
+    grunt.config.merge({
+        clean: {
+            options: {
+                force: true
+            }
+        },
+        requirejs: {
+            options: {
+                optimize: 'uglify2',
+                uglify2: {
+                    mangle: false,
+                    output: {
+                        'max_line_len': 666
+                    }
+                },
+                //optimize : 'none',
+                preserveLicenseComments: false,
+                optimizeAllPluginResources: true,
+                findNestedDependencies: true,
+                skipDirOptimize: true,
+                optimizeCss: 'none',
+                buildCss: false,
+                inlineText: true,
+                skipPragmas: true,
+                generateSourceMaps: true,
+                removeCombined: true,
+                baseUrl: '../js',
+                mainConfigFile: './config/requirejs.build.js'
+            }
+        },
+        copy: {
+            options: {
+                process: function (content, srcpath) {
+                    //because we change the bundle names during copy
+                    if (/routes\.js$/.test(srcpath)) {
+                        return content.replace('routes.js.map', 'controllers.min.js.map');
+                    }
+                    return content;
+                }
+            }
+        }
+    });
+
     /*
      * Load separated configs into each extension
      */
