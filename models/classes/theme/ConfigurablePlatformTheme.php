@@ -40,7 +40,7 @@ use Jig\Utils\StringUtils;
  *          'link' => 'http://taotesting.com',
  *          'message' => 'Tao Platform',
  *          'label' => 'Default Theme',
- *          'id' => 'defaultTheme'
+ *          'extensionId' => 'taoMyExtension'
  *        ),
  *        'stylesheet' => 'http://tao.dev/tao/views/css/tao-3.css'
  *     )
