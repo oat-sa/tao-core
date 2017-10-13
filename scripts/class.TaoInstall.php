@@ -77,7 +77,8 @@ class tao_scripts_TaoInstall
             'file_path' => $root_path . 'data' . DIRECTORY_SEPARATOR,
             'operated_by_name' => null,
             'operated_by_email' => null,
-            'extra_persistences' => []
+            'extra_persistences' => [],
+            'ontology_persistence' => 'default'
 		);
     	
     	$this->options = array_merge($this->options, $this->parameters);

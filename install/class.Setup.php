@@ -14,14 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
 
 
 use oat\oatbox\action\Action;
-use common_report_Report as Report;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 
@@ -129,6 +128,7 @@ class tao_install_Setup implements Action
             , "extensions" =>		null
             , 'timezone'   =>      date_default_timezone_get()
             , 'extra_persistences' => []
+            , 'ontology_persistence' => 'default'
         );
 
         if(!isset($parameters['configuration'])){
@@ -147,7 +147,16 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $persistence = $parameters['configuration']['generis']['persistences']['default'];
+
+        $persistences = $parameters['configuration']['generis']['persistences'];
+        $serviceSectionId = explode('/', \oat\generis\model\data\DbWrapper::SERVICE_ID)[1];
+        $persistenceName = $parameters['configuration']['generis'][$serviceSectionId]['options']['persistence'];
+
+        if ($persistenceName !== 'default' && !isset($persistences[$persistenceName])) {
+            throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for '. $serviceSectionId);
+        }
+
+        $persistence = $parameters['configuration']['generis']['persistences'][$persistenceName];
 
         if(isset($persistence['connection'])){
             if(isset($persistence['connection']['wrapperClass']) && $persistence['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection'){
@@ -284,6 +293,7 @@ class tao_install_Setup implements Action
         }
 
         $options['extra_persistences'] = $persistences;
+        $options['ontology_persistence'] = $dbWrapperPersistenceId;
 
         $installator->install($options);
 
