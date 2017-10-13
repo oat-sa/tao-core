@@ -286,10 +286,6 @@ class tao_install_Setup implements Action
 
         $persistences = $parameters['configuration']['generis']['persistences'];
 
-        if ($persistenceName !== 'default' && !isset($persistences[$persistenceName])) {
-            throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for '. $serviceSectionId);
-        }
-
         $options['extra_persistences'] = $persistences;
         $options['ontology_persistence'] = $persistenceName;
 
