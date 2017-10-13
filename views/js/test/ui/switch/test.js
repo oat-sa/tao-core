@@ -233,7 +233,7 @@ define([
                 assert.ok($('.off', this.getElement()).hasClass('active'), 'The off button starts active');
                 assert.ok( ! $('.on', this.getElement()).hasClass('active'), 'The on button starts inactive');
 
-                this.getElement().find('span:first-child').click();
+                this.getElement().find('input').click();
             });
     });
 
