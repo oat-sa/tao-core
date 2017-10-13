@@ -22,9 +22,10 @@ namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
 use oat\tao\helpers\Template;
+use Jig\Utils\StringUtils;
 
 /**
- * Class UrlSourceTheme
+ * Class ConfigurablePlatformTheme
  *
  * Class to easily configure a theme
  * To use it, declare into tao/theming.conf themes:
@@ -48,7 +49,7 @@ use oat\tao\helpers\Template;
  *
  * @package oat\tao\model\theme
  */
-class ConfigurableTheme extends Configurable implements Theme
+class ConfigurablePlatformTheme extends Configurable implements Theme
 {
     const THEME_DATA = 'data';
     const THEME_CSS = 'stylesheet';
@@ -58,6 +59,25 @@ class ConfigurableTheme extends Configurable implements Theme
     const THEME_DATA_MESSAGE  = 'message';
     const THEME_DATA_LABEL    = 'label';
     const THEME_DATA_ID       = 'id';
+
+
+    private $label;
+
+    private $id;
+
+    /**
+     * Usually the extension ID of the class calling this on
+     */
+    const THEME_DATA_PREFIX   = 'prefix';
+
+
+    public function __construct($options=[]) {
+
+        parent::__construct($options);
+
+        $this->setLabel();
+        $this->setId();
+    }
 
     /**
      * Get a template associated to given $id
@@ -173,12 +193,7 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getLabel()
     {
-        $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LABEL])) {
-            return $data[self::THEME_DATA_LABEL];
-        } else {
-            return '';
-        }
+        return $this->label;
     }
 
     /**
@@ -189,11 +204,37 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getId()
     {
-        $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_ID])) {
-            return $data[self::THEME_DATA_ID];
-        } else {
-            return '';
+        return $this->id;
+    }
+
+    /**
+     * set the theme label
+     *
+     * @throws \Exception
+     */
+    protected function setLabel() {
+        if(!$this->hasOption(self::THEME_DATA_LABEL)) {
+            throw new \Exception('Missing option "' . self::THEME_DATA_LABEL . '"');
         }
+        $this->label = $this->getOption(self::THEME_DATA_LABEL);
+    }
+
+    /**
+     * set the theme id
+     *
+     * @throws \Exception
+     */
+    protected function setId() {
+        if(!$this->hasOption(self::THEME_DATA_PREFIX)) {
+            throw new \Exception('Missing option "' . self::THEME_DATA_PREFIX . '"');
+        }
+        $oldLocale = setlocale(LC_ALL, '0');
+        setlocale(LC_ALL, 'en_US.UTF-8');
+        $id = iconv('UTF-8', 'ASCII//TRANSLIT', $this->getLabel());
+        $id = preg_replace("~[^\w/|+ -]~", '', trim(strtolower($id)));
+        $id = preg_replace("~[\W]+~", ' ', $id);
+        $id = str_replace(' ', '', ucwords($id));
+        $this->id = $this->getOption(self::THEME_DATA_PREFIX) . ucfirst($id);
+        setlocale(LC_ALL, $oldLocale);
     }
 }
