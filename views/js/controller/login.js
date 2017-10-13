@@ -68,13 +68,10 @@ define([
             */
             function displayMessages() {
                 var $fields = $context.find(':input');
-                var renderer = feedback();
-                _.forEach(messages, function (message, type) {
+                _.forEach(messages, function (message, level) {
                     if (message) {
-                        if (_.isFunction(renderer[type])) {
-                            renderer[type](message);
-                        }
-                        $fields.addClass(type);
+                        feedback().message(level, message).open();
+                        $fields.addClass(level);
                     }
                 });
             }
