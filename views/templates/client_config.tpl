@@ -3,9 +3,9 @@ require.config({
     baseUrl : '<?=get_data('tao_base_www')?>js',
     catchError: true,
     waitSeconds: <?=get_data('client_timeout')?>,
-<?php if(get_data('buster')):?>
+    <?php if(get_data('buster')):?>
     urlArgs : "buster=<?=get_data('buster')?>",
-<?php endif; ?>
+    <?php endif; ?>
 
     config : {
         context : <?=get_data('context')?>,
@@ -14,10 +14,11 @@ require.config({
         },
         'ui/themes' : <?= get_data('themesAvailable') ?>,
 //dynamic lib config
-    <?php foreach (get_data('libConfigs') as $name => $config) :?>
+        <?php foreach (get_data('libConfigs') as $name => $config) :?>
         '<?=$name?>'        : <?=json_encode($config)?>,
-    <?php endforeach?>
+        <?php endforeach?>
     },
+
     paths : {
 //require-js plugins
         'text'              : 'lib/text/text',
@@ -57,20 +58,32 @@ require.config({
         'interact'          : 'lib/interact',
         'd3'                : 'lib/d3js/d3.min',
         'c3'                : 'lib/c3js/c3.min',
+        'farbtastic'        : 'lib/farbtastic/farbtastic',
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
-//extension aliases, and controller loading in prod mode
-    <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
-        '<?=$name?>'        : '<?=$path?>',
-        <?php if(tao_helpers_Mode::is('production')):?>
-            <?php if($name == 'tao'): ?>
-                'controller/routes' : '<?=$path?>/controllers.min',
-            <?php else : ?>
-                '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
-            <?php endif ?>
-        <?php endif?>
-    <?php endforeach?>
+
+// extension paths (in development and production environments)
+        <?php foreach (get_data('extensionsAliases') as $name => $path): ?>
+        '<?= $name ?>' : '<?= $path ?>',
+        <?php endforeach ?>
+
+// extension bundle paths (in production environment)
+        <?php if ( tao_helpers_Mode::is('production') ): ?>
+            <?php foreach (get_data('extensionBundles') as $bundle): ?>
+            '<?= $bundle["name"] ?>' : '<?= $bundle["path"] ?>',
+            <?php endforeach ?>
+        <?php endif ?>
    },
+
+// extension bundles (in production enviroment)
+    <?php if ( tao_helpers_Mode::is('production') ): ?>
+    bundles : {
+        <?php foreach (get_data('extensionBundles') as $bundle): ?>
+        '<?= $bundle["name"] ?>' : <?= json_encode($bundle["modules"], JSON_UNESCAPED_SLASHES) ?>,
+        <?php endforeach ?>
+    },
+    <?php endif ?>
+
    shim : {
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },

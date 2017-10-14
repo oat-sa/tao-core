@@ -22,26 +22,39 @@ module.exports = function(grunt) {
 
 
     //Resolve some shared AMD modules
-    var libsPattern =  ['views/js/*.js', 'views/js/core/**/*.js', 'views/js/ui/**/*.js', 'views/js/layout/**/*.js', 'views/js/util/**/*.js', '!views/js/main.*', '!views/js/*.min*', '!views/js/test/**/*.js'];
-    var libs        = ext.getExtensionSources('tao', libsPattern, true).concat([
-        'jquery',
-        'jqueryui',
-        'select2',
-        'lodash',
-        'async',
-        'moment',
-        'handlebars',
-        'ckeditor',
-        'class',
-        'jwysiwyg',
-        'jquery.tree',
-        'jquery.timePicker',
-        'jquery.cookie',
-        'jquery.fileDownload',
-        'raphael',
-        'scale.raphael']);
+    var libsPattern = [
+        'views/js/*.js',
+        'views/js/core/**/*.js',
+        'views/js/layout/**/*.js',
+        'views/js/serviceApi/**/*.js',
+        'views/js/ui/**/*.js',
+        'views/js/util/**/*.js',
+        '!views/js/main.*',
+        '!views/js/*.min*',
+        '!views/js/test/**/*.js'
+    ];
+    var taoLibs     = ext.getExtensionSources('tao', libsPattern, true);
+    // var libs        = [ //todo: only include libs we don't want bundled
+    //     'jquery',
+    //     'jqueryui',
+    //     'select2',
+    //     'lodash',
+    //     'async',
+    //     'moment',
+    //     'handlebars',
+    //     'ckeditor',
+    //     'class',
+    //     'jwysiwyg',
+    //     'jquery.tree',
+    //     'jquery.timePicker',
+    //     'jquery.cookie',
+    //     'jquery.fileDownload',
+    //     'raphael',
+    //     'scale.raphael',
+    //     'farbtastic'
+    // ];
 
-    grunt.option('mainlibs', libs);
+    grunt.option('mainlibs', taoLibs);
     grunt.option('root', root);
     grunt.option('currentExtension', currentExtension);
     grunt.option('testPort', testPort);
@@ -58,6 +71,53 @@ module.exports = function(grunt) {
 
      // Load local tasks.
     grunt.loadTasks('tasks');
+
+    /**
+     * General options for all clean, requirejs, and copy tasks
+     */
+    grunt.config.merge({
+        clean: {
+            options: {
+                force: true
+            }
+        },
+        requirejs: {
+            options: {
+                optimize: 'uglify2',
+                uglify2: {
+                    mangle: false,
+                    output: {
+                        'max_line_len': 666
+                    }
+                },
+                //optimize : 'none',
+                preserveLicenseComments: false,
+                optimizeAllPluginResources: true,
+                findNestedDependencies: true,
+                skipDirOptimize: true,
+                optimizeCss: 'none',
+                buildCss: false,
+                inlineText: true,
+                skipPragmas: true,
+                generateSourceMaps: true,
+                removeCombined: true,
+                baseUrl: '../js',
+                mainConfigFile: './config/requirejs.build.js'
+            }
+        },
+        copy: {
+            options: {
+                // note: this is kept as a precaution, but it would be better to ensure correct naming in bundle files
+                process: function (content, srcpath) {
+                    //because we change the bundle names during copy
+                    if (/routes\.js$/.test(srcpath)) {
+                        return content.replace('routes.js.map', 'controllers.min.js.map');
+                    }
+                    return content;
+                }
+            }
+        }
+    });
 
     /*
      * Load separated configs into each extension

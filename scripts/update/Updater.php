@@ -934,7 +934,52 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(InstantActionQueue::SERVICE_ID, $service);
             $this->setVersion('13.2.0');
         }
+
         $this->skip('13.2.0', '13.5.0');
+
+        if ($this->isVersion('13.5.0')) {
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $ext->setConfig('requirejsbundles', array(
+                array(
+                    'name' => 'taobundle_login',
+                    'path' => ROOT_URL . 'tao/views/dist/loader/login.min',
+                    'modules' => array(
+                        'controller/login',
+                    ),
+                ),
+                array(
+                    'name' => 'taobundle_backoffice',
+                    'path' => ROOT_URL . 'tao/views/dist/loader/backoffice.min',
+                    'modules' => array(
+                        'controller/backoffice',
+                    ),
+                ),
+                array(
+                    'name' => 'taobundle_app',
+                    'path' => ROOT_URL . 'tao/views/dist/loader/app.min',
+                    'modules' => array(
+                        'controller/app',
+                    ),
+                ),
+                array(
+                    'name' => 'taobundle',
+                    'path' => ROOT_URL . 'tao/views/dist/controllers.min',
+                    'modules' => array(
+                        'controller/entry',
+                        'controller/Lock/locked',
+                        'controller/main',
+                        'controller/passwordRecovery',
+                        'controller/routes',
+                        'controller/settings/extensionManager',
+                        'controller/users/add',
+                        'controller/users/disable-edit',
+                        'controller/users/index',
+                    ),
+                ),
+            ));
+
+            $this->setVersion('14.0.0');
+        }
     }
 
     private function migrateFsAccess() {

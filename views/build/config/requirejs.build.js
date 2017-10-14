@@ -43,6 +43,7 @@ require.config({
         'interact'          : 'lib/interact',
         'd3'                : 'lib/d3js/d3.min',
         'c3'                : 'lib/c3js/c3.min',
+        'farbtastic'        : 'lib/farbtastic/farbtastic',
 
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
@@ -50,9 +51,9 @@ require.config({
 
 //stub
         'i18ntr'            : '../locales/en-US'
-   },
+    },
 
-   shim : {
+    shim : {
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
