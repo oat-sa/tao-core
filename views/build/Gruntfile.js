@@ -22,7 +22,17 @@ module.exports = function(grunt) {
 
 
     //Resolve some shared AMD modules
-    var libsPattern = ['views/js/*.js', 'views/js/core/**/*.js', 'views/js/ui/**/*.js', 'views/js/layout/**/*.js', 'views/js/util/**/*.js', '!views/js/main.*', '!views/js/*.min*', '!views/js/test/**/*.js'];
+    var libsPattern = [
+        'views/js/*.js',
+        'views/js/core/**/*.js',
+        'views/js/layout/**/*.js',
+        'views/js/serviceApi/**/*.js',
+        'views/js/ui/**/*.js',
+        'views/js/util/**/*.js',
+        '!views/js/main.*',
+        '!views/js/*.min*',
+        '!views/js/test/**/*.js'
+    ];
     var taoLibs     = ext.getExtensionSources('tao', libsPattern, true);
     // var libs        = [ //todo: only include libs we don't want bundled
     //     'jquery',
