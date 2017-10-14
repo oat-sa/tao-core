@@ -3,9 +3,9 @@ require.config({
     baseUrl : '<?=get_data('tao_base_www')?>js',
     catchError: true,
     waitSeconds: <?=get_data('client_timeout')?>,
-<?php if(get_data('buster')):?>
+    <?php if(get_data('buster')):?>
     urlArgs : "buster=<?=get_data('buster')?>",
-<?php endif; ?>
+    <?php endif; ?>
 
     config : {
         context : <?=get_data('context')?>,
@@ -14,10 +14,11 @@ require.config({
         },
         'ui/themes' : <?= get_data('themesAvailable') ?>,
 //dynamic lib config
-    <?php foreach (get_data('libConfigs') as $name => $config) :?>
+        <?php foreach (get_data('libConfigs') as $name => $config) :?>
         '<?=$name?>'        : <?=json_encode($config)?>,
-    <?php endforeach?>
+        <?php endforeach?>
     },
+
     paths : {
 //require-js plugins
         'text'              : 'lib/text/text',
@@ -57,6 +58,7 @@ require.config({
         'interact'          : 'lib/interact',
         'd3'                : 'lib/d3js/d3.min',
         'c3'                : 'lib/c3js/c3.min',
+        'farbtastic'        : 'lib/farbtastic/farbtastic',
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
 
