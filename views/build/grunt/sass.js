@@ -30,7 +30,8 @@ module.exports = function(grunt) {
                     '../js/ui/resource/css/selector.css' : '../js/ui/resource/scss/selector.scss',
                     '../js/ui/generis/form/form.css' : '../js/ui/generis/form/form.scss',
                     '../js/ui/generis/widget/widget.css' : '../js/ui/generis/widget/widget.scss',
-                    '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss'
+                    '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss',
+                    '../js/ui/switch/css/switch.css' : '../js/ui/switch/scss/switch.scss'
                 }
             }
         },
@@ -66,5 +67,5 @@ module.exports = function(grunt) {
     });
 
     //register an alias for main build
-    grunt.registerTask('taosass', ['sass:tao']);
+    grunt.registerTask('taosass', ['sass:tao', 'sass:component']);
 };

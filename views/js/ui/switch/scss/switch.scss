@@ -1,0 +1,69 @@
+@import 'inc/bootstrap';
+
+@mixin switch-default {
+    color: $textColor;
+    background-color : $uiClickableDefaultBg;
+    transition: background-color .4s ease-out;
+}
+
+@mixin switch-active-on {
+    color: white;
+    background-color: $info;
+    transition: background-color .4s ease-out;
+}
+
+@mixin switch-active-off {
+    color: white;
+    background-color: $uiClickableActiveBg;
+    transition: background-color .4s ease-out;
+}
+
+.switch {
+
+    display: inline-block;
+    position: relative;
+
+    input {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        opacity: 0;
+        cursor: pointer;
+    }
+    label {
+        border: solid 1px $uiClickableActiveBg;
+        background-color : $uiClickableDefaultBg;
+
+        @include border-radius(2);
+        padding: 1px;
+        span {
+            display: inline-block;
+            position: relative;
+
+            min-width: 50px;
+
+            @include border-radius(2);
+            text-align: center;
+        }
+    }
+    input ~ label {
+        .on{
+            @include switch-default;
+        }
+        .off{
+            @include switch-active-off;
+        }
+    }
+    input:checked ~ label {
+        .on{
+            @include switch-active-on;
+        }
+        .off{
+            @include switch-default;
+        }
+    }
+    input:focus ~ label {
+        border: solid 1px $info;
+    }
+}
