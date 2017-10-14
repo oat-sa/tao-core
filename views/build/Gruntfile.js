@@ -22,26 +22,29 @@ module.exports = function(grunt) {
 
 
     //Resolve some shared AMD modules
-    var libsPattern =  ['views/js/*.js', 'views/js/core/**/*.js', 'views/js/ui/**/*.js', 'views/js/layout/**/*.js', 'views/js/util/**/*.js', '!views/js/main.*', '!views/js/*.min*', '!views/js/test/**/*.js'];
-    var libs        = ext.getExtensionSources('tao', libsPattern, true).concat([
-        'jquery',
-        'jqueryui',
-        'select2',
-        'lodash',
-        'async',
-        'moment',
-        'handlebars',
-        'ckeditor',
-        'class',
-        'jwysiwyg',
-        'jquery.tree',
-        'jquery.timePicker',
-        'jquery.cookie',
-        'jquery.fileDownload',
-        'raphael',
-        'scale.raphael']);
+    var libsPattern = ['views/js/*.js', 'views/js/core/**/*.js', 'views/js/ui/**/*.js', 'views/js/layout/**/*.js', 'views/js/util/**/*.js', '!views/js/main.*', '!views/js/*.min*', '!views/js/test/**/*.js'];
+    var taoLibs     = ext.getExtensionSources('tao', libsPattern, true);
+    // var libs        = [ //todo: only include libs we don't want bundled
+    //     'jquery',
+    //     'jqueryui',
+    //     'select2',
+    //     'lodash',
+    //     'async',
+    //     'moment',
+    //     'handlebars',
+    //     'ckeditor',
+    //     'class',
+    //     'jwysiwyg',
+    //     'jquery.tree',
+    //     'jquery.timePicker',
+    //     'jquery.cookie',
+    //     'jquery.fileDownload',
+    //     'raphael',
+    //     'scale.raphael',
+    //     'farbtastic'
+    // ];
 
-    grunt.option('mainlibs', libs);
+    grunt.option('mainlibs', taoLibs);
     grunt.option('root', root);
     grunt.option('currentExtension', currentExtension);
     grunt.option('testPort', testPort);
