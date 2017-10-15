@@ -19,6 +19,7 @@
  */
 
 use \oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\resource\ResourceService;
 
 /**
  * Class tao_actions_RestResourceController
@@ -108,6 +109,33 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         }
 
         $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or PUT method'));
+    }
+
+    public function getAll()
+    {
+        if ($this->isRequestGet()) {
+            try {
+                $format   = $this->getRequestParameter('format');
+                $search   = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';
+                $limit    = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 30;
+                $offset   = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
+
+                if(! empty($search) ){
+                    $decodedSearch = json_decode($search, true);
+                    if(is_array($decodedSearch) && count($decodedSearch) > 0){
+                        $search = $decodedSearch;
+                    }
+                }
+
+                $class = $this->getClassParameter();
+                $data = $this->getResourceService()->getResources($class, $format, $search, $offset, $limit);
+
+                $this->returnSuccess($data);
+
+            } catch (common_Exception $e) {
+                $this->returnFailure($e);
+            }
+        }
     }
 
     /**
@@ -294,4 +322,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
         exit(0);
     }
 
+    /**
+     * Get the resource service
+     * @return ResourceService
+     */
+    protected function getResourceService()
+    {
+        return $this->getServiceManager()->get(ResourceService::SERVICE_ID);
+    }
 }

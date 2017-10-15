@@ -20,15 +20,15 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  *
  */
+use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\RegisterResourceService;
+use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
-use oat\tao\scripts\install\RegisterValidationRules;
-use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetupMaintenanceService;
-use oat\tao\scripts\install\AddArchiveService;
-
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
 return array(
@@ -36,7 +36,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '13.9.0',
+    'version' => '14.0.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=4.0.0',
@@ -95,7 +95,8 @@ return array(
             SetClientLoggerConfig::class,
             InstallNotificationTable::class,
             SetupMaintenanceService::class,
-            AddArchiveService::class
+            AddArchiveService::class,
+            RegisterResourceService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
