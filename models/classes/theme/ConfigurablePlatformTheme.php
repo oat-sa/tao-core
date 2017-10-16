@@ -22,7 +22,6 @@ namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
 use oat\tao\helpers\Template;
-use Jig\Utils\StringUtils;
 
 /**
  * Class ConfigurablePlatformTheme
@@ -40,7 +39,7 @@ use Jig\Utils\StringUtils;
  *          'link' => 'http://taotesting.com',
  *          'message' => 'Tao Platform',
  *          'label' => 'Default Theme',
- *          'extensionId' => 'taoMyExtension'
+ *          'prefix' => 'myPrefix' // optional
  *        ),
  *        'stylesheet' => 'http://tao.dev/tao/views/css/tao-3.css'
  *     )
@@ -214,23 +213,16 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
     /**
      * set the theme id
-     *
-     * @throws \Exception
      */
     protected function setId() {
         if($this->hasOption(self::THEME_DATA_ID)) {
             $this->id = $this->getOption(self::THEME_DATA_ID);
         }
-        if(!$this->hasOption(self::THEME_DATA_PREFIX)) {
-            throw new \Exception('Missing option "' . self::THEME_DATA_PREFIX . '"');
+        $this->id = iconv('UTF-8', 'us-ascii//TRANSLIT', $this->getLabel());
+        $this->id = preg_replace("~[^\w ]+~", '', trim(strtolower($this->id)));
+        $this->id = str_replace(' ', '', ucwords($this->id));
+        if($this->hasOption(self::THEME_DATA_PREFIX)) {
+            $this->id = $this->getOption(self::THEME_DATA_PREFIX) . ucfirst($this->id);
         }
-        $oldLocale = setlocale(LC_ALL, '0');
-        setlocale(LC_ALL, 'en_US.UTF-8');
-        $id = iconv('UTF-8', 'ASCII//TRANSLIT', $this->getLabel());
-        $id = preg_replace("~[^\w/|+ -]~", '', trim(strtolower($id)));
-        $id = preg_replace("~[\W]+~", ' ', $id);
-        $id = str_replace(' ', '', ucwords($id));
-        $this->id = $this->getOption(self::THEME_DATA_PREFIX) . ucfirst($id);
-        setlocale(LC_ALL, $oldLocale);
     }
 }
