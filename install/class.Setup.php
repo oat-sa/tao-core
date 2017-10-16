@@ -14,14 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
 
 
 use oat\oatbox\action\Action;
-use common_report_Report as Report;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 
@@ -128,6 +127,8 @@ class tao_install_Setup implements Action
             , "instance_name" =>	null
             , "extensions" =>		null
             , 'timezone'   =>      date_default_timezone_get()
+            , 'extra_persistences' => []
+            , 'ontology_persistence' => 'default'
         );
 
         if(!isset($parameters['configuration'])){
@@ -146,7 +147,15 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $persistence = $parameters['configuration']['generis']['persistences']['default'];
+
+        $persistences = $parameters['configuration']['generis']['persistences'];
+        $persistenceName = $this->getOntologyPersistenceName($parameters);
+
+        if ($persistenceName !== 'default' && !isset($persistences[$persistenceName])) {
+            throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for ontology');
+        }
+
+        $persistence = $parameters['configuration']['generis']['persistences'][$persistenceName];
 
         if(isset($persistence['connection'])){
             if(isset($persistence['connection']['wrapperClass']) && $persistence['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection'){
@@ -273,13 +282,11 @@ class tao_install_Setup implements Action
 
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
+
+        $options['extra_persistences'] = $persistences;
+        $options['ontology_persistence'] = $persistenceName;
+
         $installator->install($options);
-
-
-        // configure persistences
-        foreach($parameters['configuration']['generis']['persistences'] as $key => $persistence){
-            \common_persistence_Manager::addPersistence($key, $persistence);
-        }
 
         /** @var common_ext_ExtensionsManager $extensionManager */
         $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
@@ -314,4 +321,11 @@ class tao_install_Setup implements Action
 
         $this->logNotice('Installation completed!');
     }
+
+    private function getOntologyPersistenceName($parameters)
+    {
+        $persistenceName = $parameters['configuration']['generis']['ontology']['config']['persistence'];
+        return $persistenceName;
+    }
+
 }

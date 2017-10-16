@@ -200,7 +200,7 @@ class tao_install_Installator {
 				        $dbCreator->setDatabase($installData['db_name']);
 				    }
 					$dbCreator->cleanDb($dbName);
-					
+
 				} catch (Exception $e){
 					$this->log('i', 'Problem cleaning db will try to erase the whole db: '.$e->getMessage());
 					try {
@@ -220,23 +220,23 @@ class tao_install_Installator {
 				} catch (Exception $e){
 					throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
 				}
-				
+
 				//If the target Sgbd is mysql select the database after creating it
 				if ($installData['db_driver'] == 'pdo_mysql'){
 				    $dbCreator->setDatabase($installData['db_name']);
 				}
 
 			}
-			
+
 			// reset db name for mysql
 			if ($installData['db_driver'] == 'pdo_mysql'){
 			    $dbConfiguration['dbname'] = $installData['db_name'];
 			}
-	
+
 			// Create tao tables
-			$dbCreator->initTaoDataBase();	
+			$dbCreator->initTaoDataBase();
             $this->log('i', 'Created tables', 'INSTALL');
-            
+
             $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
 				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'] . ' from file: ' . $storedProcedureFile, 'INSTALL');
@@ -245,7 +245,7 @@ class tao_install_Installator {
 			else {
 			    $this->log('e', 'Could not find storefile : ' . $storedProcedureFile);
 			}
-			
+
 			/*
 			 *  4 - Create the generis config files
 			 */
@@ -300,7 +300,14 @@ class tao_install_Installator {
                 throw new Exception($cachePath . ' directory creation was failed!');
             }
 				
-			
+			/*
+			 * 4.1 - Extra config
+			 */
+
+            foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
+                common_persistence_Manager::addPersistence($k, $persistence);
+            }
+
 			/*
 			 * 5 - Run the extensions bootstrap
 			 */
@@ -319,8 +326,10 @@ class tao_install_Installator {
 			/*
 			 * 5c - Create generis persistence 
 			 */
-            $this->log('d', 'Creating generis persistence..');
-			common_persistence_Manager::addPersistence('default', $dbConfiguration);
+			if ('default' === $installData['ontology_persistence']){
+                $this->log('d', 'Creating generis persistence..');
+                common_persistence_Manager::addPersistence('default', $dbConfiguration);
+            }
 
 			/*
 			 * 5d - Create generis user
@@ -352,7 +361,7 @@ class tao_install_Installator {
 
 			$generisInstaller = new common_ext_GenerisInstaller($generis, true);
 			$generisInstaller->initContainer($this->getContainer());
-			$generisInstaller->install();
+			$generisInstaller->install($installData['ontology_persistence']);
 
 	        /*
 			 * 8 - Install the extensions

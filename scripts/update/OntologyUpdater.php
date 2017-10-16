@@ -22,13 +22,13 @@
 namespace oat\tao\scripts\update;
 
 use AppendIterator;
+use oat\generis\model\data\DbWrapper;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
 use helpers_RdfDiff;
-use core_kernel_persistence_smoothsql_SmoothModel;
-use common_persistence_SqlPersistence;
 use common_ext_ExtensionsManager;
 use core_kernel_persistence_smoothsql_SmoothIterator;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\extension\ExtensionModel;
 
 class OntologyUpdater {
@@ -37,7 +37,7 @@ class OntologyUpdater {
         $currentModel = ModelManager::getModel();
         $modelIds = array_diff($currentModel->getReadableModels(),array('1'));
         
-        $persistence = common_persistence_SqlPersistence::getPersistence('default');
+        $persistence = $currentModel->getPersistence();
         
         $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $modelIds);
         
