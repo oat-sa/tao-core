@@ -308,14 +308,6 @@ class tao_install_Installator {
                 common_persistence_Manager::addPersistence($k, $persistence);
             }
 
-            if (!$installData['extra_persistences']){
-                $generisConfigWriter = new tao_install_utils_ConfigWriter(
-                    $this->options['root_path'].'generis/config/default/DbWrapper.conf.php',
-                    $this->getConfigPath() . 'generis/DbWrapper.conf.php'
-                );
-                $generisConfigWriter->createConfig();
-            }
-
 			/*
 			 * 5 - Run the extensions bootstrap
 			 */
@@ -369,7 +361,7 @@ class tao_install_Installator {
 
 			$generisInstaller = new common_ext_GenerisInstaller($generis, true);
 			$generisInstaller->initContainer($this->getContainer());
-			$generisInstaller->install();
+			$generisInstaller->install($installData['ontology_persistence']);
 
 	        /*
 			 * 8 - Install the extensions

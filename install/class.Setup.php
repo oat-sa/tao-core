@@ -149,11 +149,10 @@ class tao_install_Setup implements Action
 
 
         $persistences = $parameters['configuration']['generis']['persistences'];
-        $serviceSectionId = explode('/', \oat\generis\model\data\DbWrapper::SERVICE_ID)[1];
-        $persistenceName = $parameters['configuration']['generis'][$serviceSectionId]['options']['persistence'];
+        $persistenceName = $this->getOntologyPersistenceName($parameters);
 
         if ($persistenceName !== 'default' && !isset($persistences[$persistenceName])) {
-            throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for '. $serviceSectionId);
+            throw new ErrorException('Your config file is not consistent - can\'t find persistence declaration for ontology');
         }
 
         $persistence = $parameters['configuration']['generis']['persistences'][$persistenceName];
@@ -322,4 +321,11 @@ class tao_install_Setup implements Action
 
         $this->logNotice('Installation completed!');
     }
+
+    private function getOntologyPersistenceName($parameters)
+    {
+        $persistenceName = $parameters['configuration']['generis']['ontology']['config']['persistence'];
+        return $persistenceName;
+    }
+
 }

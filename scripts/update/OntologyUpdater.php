@@ -37,7 +37,7 @@ class OntologyUpdater {
         $currentModel = ModelManager::getModel();
         $modelIds = array_diff($currentModel->getReadableModels(),array('1'));
         
-        $persistence = ServiceManager::getServiceManager()->get(DbWrapper::SERVICE_ID)->getPersistence();
+        $persistence = $currentModel->getPersistence();
         
         $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $modelIds);
         
