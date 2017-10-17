@@ -1,7 +1,7 @@
 @import '../../../.././../../scss/inc/fonts/tao-icon-classes';
 
 // tree icons per extension
-// syntax => extension-id-according-to-structure.xml : icon-class
+// syntax => structures.xml > trees > className : icon-class
 $extensionIcons: (
     'Battery':       'icon-filebox',
     'Blueprint':     'icon-map-o',
