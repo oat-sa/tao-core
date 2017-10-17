@@ -303,11 +303,13 @@ define([
         function getHighlightIndex() {
             var highlightIndex = [];
             var rootNode = getContainer();
-            rootNode.normalize();
+            if(rootNode){
+                rootNode.normalize();
 
-            textNodesIndex = 0;
+                textNodesIndex = 0;
 
-            buildHighlightIndex(rootNode, highlightIndex);
+                buildHighlightIndex(rootNode, highlightIndex);
+            }
             return highlightIndex;
         }
 
@@ -385,11 +387,13 @@ define([
          */
         function highlightFromIndex(highlightIndex) {
             var rootNode = getContainer();
-            rootNode.normalize();
+            if(rootNode){
+                rootNode.normalize();
 
-            textNodesIndex = 0;
+                textNodesIndex = 0;
 
-            restoreHighlight(rootNode, highlightIndex);
+                restoreHighlight(rootNode, highlightIndex);
+            }
         }
 
         /**
