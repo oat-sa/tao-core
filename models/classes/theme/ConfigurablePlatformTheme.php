@@ -24,7 +24,7 @@ use oat\oatbox\Configurable;
 use oat\tao\helpers\Template;
 
 /**
- * Class UrlSourceTheme
+ * Class ConfigurablePlatformTheme
  *
  * Class to easily configure a theme
  * To use it, declare into tao/theming.conf themes:
@@ -39,7 +39,7 @@ use oat\tao\helpers\Template;
  *          'link' => 'http://taotesting.com',
  *          'message' => 'Tao Platform',
  *          'label' => 'Default Theme',
- *          'id' => 'defaultTheme'
+ *          'prefix' => 'myPrefix' // optional
  *        ),
  *        'stylesheet' => 'http://tao.dev/tao/views/css/tao-3.css'
  *     )
@@ -48,19 +48,22 @@ use oat\tao\helpers\Template;
  *
  * @package oat\tao\model\theme
  */
-class ConfigurableTheme extends Configurable implements Theme
+class ConfigurablePlatformTheme extends Configurable implements Theme
 {
     /** Theme id offset in the options. */
-    const THEME_ID    = 'id';
+    const THEME_ID     = 'id';
+
+    /** Theme prefix offset in the options. */
+    const THEME_PREFIX = 'prefix';
 
     /** Theme label offset in the options. */
-    const THEME_LABEL = 'label';
+    const THEME_LABEL  = 'label';
 
     /** Theme data offset in the options. */
-    const THEME_DATA  = 'data';
+    const THEME_DATA   = 'data';
 
     /** Theme css offset in the options. */
-    const THEME_CSS   = 'stylesheet';
+    const THEME_CSS    = 'stylesheet';
 
     /** Theme data logo url offset in the options under the data offset. */
     const THEME_DATA_LOGO_URL = 'logo-url';
@@ -68,6 +71,31 @@ class ConfigurableTheme extends Configurable implements Theme
     const THEME_DATA_LINK     = 'link';
     /** Theme data logo title offset in the options under the data offset. */
     const THEME_DATA_MESSAGE  = 'message';
+
+    /**
+     * @var string
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $label;
+
+    /**
+     * ConfigurablePlatformTheme constructor.
+     *
+     * @param array $options
+     *
+     * @throws \common_exception_NotFound
+     */
+    public function __construct($options=[])
+    {
+        parent::__construct($options);
+
+        $this->setLabel();
+        $this->setId();
+    }
 
     /**
      * Get a template associated to given $id
@@ -106,7 +134,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if ($this->hasOption(static::THEME_DATA) && is_array($this->getOption(static::THEME_DATA))) {
             return $this->getOption(static::THEME_DATA);
         }
-        
+
         return [];
     }
 
@@ -121,7 +149,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if ($this->hasOption(static::THEME_CSS)) {
             return $this->getOption(static::THEME_CSS);
         }
-        
+
         return Template::css('tao-3.css', 'tao');
     }
 
@@ -136,8 +164,8 @@ class ConfigurableTheme extends Configurable implements Theme
         $data = $this->getThemeData();
         if (isset($data[static::THEME_DATA_LOGO_URL])) {
             return $data[static::THEME_DATA_LOGO_URL];
-        } 
-        
+        }
+
         return Template::img('tao-logo.png', 'tao');
     }
 
@@ -154,7 +182,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if (isset($data[static::THEME_DATA_LINK])) {
             return $data[static::THEME_DATA_LINK];
         }
-        
+
         return 'http://taotesting.com';
     }
 
@@ -171,37 +199,82 @@ class ConfigurableTheme extends Configurable implements Theme
         if (isset($data[static::THEME_DATA_MESSAGE])) {
             return $data[static::THEME_DATA_MESSAGE];
         }
-        
+
         return '';
     }
 
     /**
-     * Get the label of current theme
+     * Gets the label of current theme
      * Labels are useful in situations where you can choose between multiple themes
      *
      * @return string
      */
     public function getLabel()
     {
-        if ($this->hasOption(static::THEME_LABEL)) {
-            return $this->getOption(static::THEME_LABEL);
-        }
-
-        return '';
+        return $this->label;
     }
 
     /**
-     * Get the id of current theme
+     * Gets the id of current theme
      * IDs are used to register the theme
      *
      * @return string
      */
     public function getId()
     {
-        if ($this->hasOption(static::THEME_ID)) {
-            return $this->getOption(static::THEME_ID);
+        return $this->id;
+    }
+
+    /**
+     * Sets the theme label.
+     *
+     * @throws \common_exception_NotFound
+     */
+    protected function setLabel()
+    {
+        if(!$this->hasOption(static::THEME_LABEL)) {
+            throw new \common_exception_NotFound('Missing option "' . static::THEME_LABEL . '"');
         }
 
-        return '';
+        $this->label = $this->getOption(static::THEME_LABEL);
+    }
+
+    /**
+     * Sets the theme id.
+     */
+    protected function setId()
+    {
+        // Sets the identifier from options.
+        if($this->hasOption(static::THEME_ID)) {
+            $this->id = $this->getOption(static::THEME_ID);
+        }
+
+        // Generates and sets the theme identifier.
+        $this->id = static::convertTextToId(
+            $this->getLabel()
+        );
+        
+        // Prefixes the id if the prefix is presented in the options.
+        if($this->hasOption(static::THEME_PREFIX)) {
+            $this->id = $this->getOption(static::THEME_PREFIX) . ucfirst($this->id);
+        }
+    }
+
+    /**
+     * Converts the given text to and identifier.
+     * 
+     * @param $text
+     * 
+     * @return string
+     * 
+     * @TODO: this method can be reusable move to a helper class if you need to use it!
+     */
+    public static function convertTextToId($text)
+    {
+        $id = iconv('UTF-8', 'us-ascii//TRANSLIT', $text);
+        $id = preg_replace("~[^\w ]+~", '', trim(strtolower($id)));
+        $id = str_replace(' ', '', ucwords($id));
+        
+        return $id;
     }
 }
