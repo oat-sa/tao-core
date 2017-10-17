@@ -18,6 +18,7 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-filebox:before { @include icon-filebox; }
 .icon-click-to-speak:before { @include icon-click-to-speak; }
 .icon-speech-bubble:before { @include icon-speech-bubble; }
 .icon-microphone:before { @include icon-microphone; }
