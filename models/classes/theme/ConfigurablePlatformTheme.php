@@ -50,21 +50,47 @@ use oat\tao\helpers\Template;
  */
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
-    const THEME_DATA = 'data';
-    const THEME_CSS = 'stylesheet';
+    /** Theme id offset in the options. */
+    const THEME_ID     = 'id';
 
+    /** Theme prefix offset in the options. */
+    const THEME_PREFIX = 'prefix';
+
+    /** Theme label offset in the options. */
+    const THEME_LABEL  = 'label';
+
+    /** Theme data offset in the options. */
+    const THEME_DATA   = 'data';
+
+    /** Theme css offset in the options. */
+    const THEME_CSS    = 'stylesheet';
+
+    /** Theme data logo url offset in the options under the data offset. */
     const THEME_DATA_LOGO_URL = 'logo-url';
+    /** Theme data logo link offset in the options under the data offset. */
     const THEME_DATA_LINK     = 'link';
+    /** Theme data logo title offset in the options under the data offset. */
     const THEME_DATA_MESSAGE  = 'message';
-    const THEME_DATA_LABEL    = 'label';
-    const THEME_DATA_ID       = 'id';
-    const THEME_DATA_PREFIX   = 'prefix';
 
-    private $label;
+    /**
+     * @var string
+     */
     private $id;
 
+    /**
+     * @var string
+     */
+    private $label;
 
-    public function __construct($options=[]) {
+    /**
+     * ConfigurablePlatformTheme constructor.
+     *
+     * @param array $options
+     *
+     * @throws \common_exception_NotFound
+     */
+    public function __construct($options=[])
+    {
         parent::__construct($options);
 
         $this->setLabel();
@@ -105,11 +131,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getThemeData()
     {
-        if ($this->hasOption(self::THEME_DATA) && is_array($this->getOption(self::THEME_DATA))) {
-            return $this->getOption(self::THEME_DATA);
-        } else {
-            return [];
+        if ($this->hasOption(static::THEME_DATA) && is_array($this->getOption(static::THEME_DATA))) {
+            return $this->getOption(static::THEME_DATA);
         }
+
+        return [];
     }
 
     /**
@@ -120,11 +146,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
-        if ($this->hasOption(self::THEME_CSS)) {
-            return $this->getOption(self::THEME_CSS);
-        } else {
-            return Template::css('tao-3.css', 'tao');
+        if ($this->hasOption(static::THEME_CSS)) {
+            return $this->getOption(static::THEME_CSS);
         }
+
+        return Template::css('tao-3.css', 'tao');
     }
 
     /**
@@ -136,11 +162,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getLogoUrl()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LOGO_URL])) {
-            return $data[self::THEME_DATA_LOGO_URL];
-        } else {
-            return Template::img('tao-logo.png', 'tao');
+        if (isset($data[static::THEME_DATA_LOGO_URL])) {
+            return $data[static::THEME_DATA_LOGO_URL];
         }
+
+        return Template::img('tao-logo.png', 'tao');
     }
 
     /**
@@ -153,11 +179,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getLink()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LINK])) {
-            return $data[self::THEME_DATA_LINK];
-        } else {
-            return 'http://taotesting.com';
+        if (isset($data[static::THEME_DATA_LINK])) {
+            return $data[static::THEME_DATA_LINK];
         }
+
+        return 'http://taotesting.com';
     }
 
     /**
@@ -170,15 +196,15 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getMessage()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_MESSAGE])) {
-            return $data[self::THEME_DATA_MESSAGE];
-        } else {
-            return '';
+        if (isset($data[static::THEME_DATA_MESSAGE])) {
+            return $data[static::THEME_DATA_MESSAGE];
         }
+
+        return '';
     }
 
     /**
-     * Get the label of current theme
+     * Gets the label of current theme
      * Labels are useful in situations where you can choose between multiple themes
      *
      * @return string
@@ -189,7 +215,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     }
 
     /**
-     * Get the id of current theme
+     * Gets the id of current theme
      * IDs are used to register the theme
      *
      * @return string
@@ -200,29 +226,55 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     }
 
     /**
-     * set the theme label
+     * Sets the theme label.
      *
-     * @throws \Exception
+     * @throws \common_exception_NotFound
      */
-    protected function setLabel() {
-        if(!$this->hasOption(self::THEME_DATA_LABEL)) {
-            throw new \Exception('Missing option "' . self::THEME_DATA_LABEL . '"');
+    protected function setLabel()
+    {
+        if(!$this->hasOption(static::THEME_LABEL)) {
+            throw new \common_exception_NotFound('Missing option "' . static::THEME_LABEL . '"');
         }
-        $this->label = $this->getOption(self::THEME_DATA_LABEL);
+
+        $this->label = $this->getOption(static::THEME_LABEL);
     }
 
     /**
-     * set the theme id
+     * Sets the theme id.
      */
-    protected function setId() {
-        if($this->hasOption(self::THEME_DATA_ID)) {
-            $this->id = $this->getOption(self::THEME_DATA_ID);
+    protected function setId()
+    {
+        // Sets the identifier from options.
+        if($this->hasOption(static::THEME_ID)) {
+            $this->id = $this->getOption(static::THEME_ID);
         }
-        $this->id = iconv('UTF-8', 'us-ascii//TRANSLIT', $this->getLabel());
-        $this->id = preg_replace("~[^\w ]+~", '', trim(strtolower($this->id)));
-        $this->id = str_replace(' ', '', ucwords($this->id));
-        if($this->hasOption(self::THEME_DATA_PREFIX)) {
-            $this->id = $this->getOption(self::THEME_DATA_PREFIX) . ucfirst($this->id);
+
+        // Generates and sets the theme identifier.
+        $this->id = static::convertTextToId(
+            $this->getLabel()
+        );
+        
+        // Prefixes the id if the prefix is presented in the options.
+        if($this->hasOption(static::THEME_PREFIX)) {
+            $this->id = $this->getOption(static::THEME_PREFIX) . ucfirst($this->id);
         }
+    }
+
+    /**
+     * Converts the given text to and identifier.
+     * 
+     * @param $text
+     * 
+     * @return string
+     * 
+     * @TODO: this method can be reusable move to a helper class if you need to use it!
+     */
+    public static function convertTextToId($text)
+    {
+        $id = iconv('UTF-8', 'us-ascii//TRANSLIT', $text);
+        $id = preg_replace("~[^\w ]+~", '', trim(strtolower($id)));
+        $id = str_replace(' ', '', ucwords($id));
+        
+        return $id;
     }
 }

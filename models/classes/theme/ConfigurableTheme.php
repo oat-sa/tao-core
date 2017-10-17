@@ -50,20 +50,23 @@ use oat\tao\helpers\Template;
  */
 class ConfigurableTheme extends Configurable implements Theme
 {
-    /** Theme id in the options. */
+    /** Theme id offset in the options. */
     const THEME_ID    = 'id';
 
-    /** Theme label in the options. */
+    /** Theme label offset in the options. */
     const THEME_LABEL = 'label';
 
-    /** Theme data in the options. */
+    /** Theme data offset in the options. */
     const THEME_DATA  = 'data';
 
-    /** Theme css in the options. */
+    /** Theme css offset in the options. */
     const THEME_CSS   = 'stylesheet';
 
+    /** Theme data logo url offset in the options under the data offset. */
     const THEME_DATA_LOGO_URL = 'logo-url';
+    /** Theme data logo link offset in the options under the data offset. */
     const THEME_DATA_LINK     = 'link';
+    /** Theme data logo title offset in the options under the data offset. */
     const THEME_DATA_MESSAGE  = 'message';
 
     /**
@@ -100,11 +103,11 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getThemeData()
     {
-        if ($this->hasOption(self::THEME_DATA) && is_array($this->getOption(self::THEME_DATA))) {
-            return $this->getOption(self::THEME_DATA);
-        } else {
-            return [];
+        if ($this->hasOption(static::THEME_DATA) && is_array($this->getOption(static::THEME_DATA))) {
+            return $this->getOption(static::THEME_DATA);
         }
+        
+        return [];
     }
 
     /**
@@ -115,11 +118,11 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
-        if ($this->hasOption(self::THEME_CSS)) {
-            return $this->getOption(self::THEME_CSS);
-        } else {
-            return Template::css('tao-3.css', 'tao');
+        if ($this->hasOption(static::THEME_CSS)) {
+            return $this->getOption(static::THEME_CSS);
         }
+        
+        return Template::css('tao-3.css', 'tao');
     }
 
     /**
@@ -131,11 +134,11 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getLogoUrl()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LOGO_URL])) {
-            return $data[self::THEME_DATA_LOGO_URL];
-        } else {
-            return Template::img('tao-logo.png', 'tao');
-        }
+        if (isset($data[static::THEME_DATA_LOGO_URL])) {
+            return $data[static::THEME_DATA_LOGO_URL];
+        } 
+        
+        return Template::img('tao-logo.png', 'tao');
     }
 
     /**
@@ -148,11 +151,11 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getLink()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LINK])) {
-            return $data[self::THEME_DATA_LINK];
-        } else {
-            return 'http://taotesting.com';
+        if (isset($data[static::THEME_DATA_LINK])) {
+            return $data[static::THEME_DATA_LINK];
         }
+        
+        return 'http://taotesting.com';
     }
 
     /**
@@ -165,11 +168,11 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getMessage()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_MESSAGE])) {
-            return $data[self::THEME_DATA_MESSAGE];
-        } else {
-            return '';
+        if (isset($data[static::THEME_DATA_MESSAGE])) {
+            return $data[static::THEME_DATA_MESSAGE];
         }
+        
+        return '';
     }
 
     /**
