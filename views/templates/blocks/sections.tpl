@@ -36,7 +36,7 @@ $sections = get_data('sections');
                             <div id="tree-<?= $section->getId() ?>"
                                  class="taotree taotree-<?= is_null($tree->get('className'))
                                      ? 'default'
-                                     : strtolower(str_replace(' ', '_'), $tree->get('className')) ?>"
+                                     : strtolower(str_replace(' ', '_', $tree->get('className'))) ?>"
                                  data-url="<?= $tree->get('dataUrl') ?>"
                                  data-rootNode="<?= $tree->get('rootNode') ?>"
                                  data-actions="<?= htmlspecialchars(json_encode($tree->getActions()), ENT_QUOTES) ?>">
