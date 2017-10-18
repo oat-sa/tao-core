@@ -59,6 +59,29 @@ label, .form_desc {
     }
 }
 
+.uri-container {
+    position: relative;
+    input {
+        padding-right: 32px !important;
+    }
+    .clipboard-command {
+        position: absolute;
+        top: -5px;
+        right: 0;
+        background: whiten($info, .1);
+        cursor: pointer;
+        color: white;
+        display: block;
+        width: 30px;
+        height: 25px;
+        text-align:center;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        line-height: 23px;
+        text-shadow: 1px 1px 0 blacken($info, .2);
+    }
+}
+
 .file-drop {
     height: 150px;
     overflow-y: auto;
