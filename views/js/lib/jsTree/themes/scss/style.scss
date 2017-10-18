@@ -53,7 +53,7 @@
 
     li {
         background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==) no-repeat -1000px -1000px;
-        display: block;
+        display: table-row;
         padding: 0 0 0 11px;
         margin: 0;
         ul {
@@ -66,7 +66,8 @@
             color: $textColor;
             white-space: nowrap;
             text-decoration: none;
-            margin: 0;
+            padding-right: 3px;
+            margin-right: 5px;
             display: block;
             @include font-size(13);
             @include simple-border(transparent);
