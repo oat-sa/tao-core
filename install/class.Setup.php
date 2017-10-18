@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -128,7 +128,10 @@ class tao_install_Setup implements Action
             , "instance_name" =>	null
             , "extensions" =>		null
             , 'timezone'   =>      date_default_timezone_get()
+            , 'extra_persistences' => []
         );
+
+        $persistences = $parameters['configuration']['generis']['persistences'];
 
         if(!isset($parameters['configuration'])){
             throw new InvalidArgumentException('Your config should have a \'configuration\' key');
@@ -138,15 +141,15 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'generis\' key under \'configuration\'');
         }
 
-        if(!isset($parameters['configuration']['generis']['persistences'])){
+        if(!isset($persistences)){
             throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
         }
 
-        if(!isset($parameters['configuration']['generis']['persistences']['default'])){
+        if(!isset($persistences['default'])){
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $persistence = $parameters['configuration']['generis']['persistences']['default'];
+        $persistence = $persistences['default'];
 
         if(isset($persistence['connection'])){
             if(isset($persistence['connection']['wrapperClass']) && $persistence['connection']['wrapperClass'] == '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection'){
@@ -273,13 +276,12 @@ class tao_install_Setup implements Action
 
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
-        $installator->install($options);
-
 
         // configure persistences
-        foreach($parameters['configuration']['generis']['persistences'] as $key => $persistence){
-            \common_persistence_Manager::addPersistence($key, $persistence);
-        }
+        $options['extra_persistences'] = $persistences;
+
+
+        $installator->install($options);
 
         /** @var common_ext_ExtensionsManager $extensionManager */
         $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
