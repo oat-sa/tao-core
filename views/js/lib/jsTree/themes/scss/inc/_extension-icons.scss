@@ -19,7 +19,7 @@ $extensionIcons: (
 
 @each $extensionId, $extensionIcon in $extensionIcons {
     $extensionClass: to-lower-case(str-replace($extensionId, ' ', $replace: '_'));
-    #{'.taotree-' + $extensionClass} .node-instance ins:before {
+    #{'.taotree.taotree-' + $extensionClass} .node-instance ins:before {
         @extend #{'.' + $extensionIcon + ':before'};
     }
 }

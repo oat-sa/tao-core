@@ -313,4 +313,8 @@
     }
 }
 
+.taotree .node-instance ins:before {
+    @include icon-test;
+}
+
 @import './inc/extension-icons';
