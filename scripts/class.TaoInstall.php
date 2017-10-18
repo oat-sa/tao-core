@@ -76,7 +76,8 @@ class tao_scripts_TaoInstall
             'timezone'   => date_default_timezone_get(),
             'file_path' => $root_path . 'data' . DIRECTORY_SEPARATOR,
             'operated_by_name' => null,
-            'operated_by_email' => null
+            'operated_by_email' => null,
+            'extra_persistences' => []
 		);
     	
     	$this->options = array_merge($this->options, $this->parameters);
