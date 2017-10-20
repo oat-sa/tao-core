@@ -24,7 +24,7 @@ namespace oat\tao\helpers;
 use Jig\Utils\StringUtils;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\OperatedByService;
-use oat\tao\model\theme\ConfigurableTheme;
+use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
@@ -210,7 +210,7 @@ class Layout
     public static function getLogoUrl()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurableTheme) {
+        if ($theme instanceof ConfigurablePlatformTheme) {
             $logoFile = $theme->getLogoUrl();
             if (! empty($logoFile)) {
                 return $logoFile;
@@ -266,7 +266,7 @@ class Layout
     public static function getLinkUrl()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurableTheme) {
+        if ($theme instanceof ConfigurablePlatformTheme) {
             $link = $theme->getLink();
             if (! empty($link)) {
                 return $link;
@@ -302,7 +302,7 @@ class Layout
     public static function getMessage()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurableTheme) {
+        if ($theme instanceof ConfigurablePlatformTheme) {
             $message = $theme->getMessage();
             if (! empty($message)) {
                 return $message;
@@ -427,10 +427,16 @@ class Layout
     public static function renderThemeTemplate($target, $templateId, $data = array()){
 
         //search in the registry to get the custom template to render
-        $tpl = self::getThemeTemplate($target, $templateId);
+        $tpl   = self::getThemeTemplate($target, $templateId);
+        $theme = self::getCurrentTheme();
 
         if(!is_null($tpl)){
-            //render the template
+            if ($theme instanceof ConfigurablePlatformTheme) {
+                // allow to use the getters from ConfigurablePlatformTheme
+                // to insert logo and such
+                $data['themeObj'] = $theme;
+            }
+            // render the template
             $renderer = new \Renderer($tpl, $data);
             return $renderer->render();
         }
