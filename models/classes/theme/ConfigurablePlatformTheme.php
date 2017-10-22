@@ -21,6 +21,7 @@
 namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
+use oat\tao\model\theme\DefaultTheme;
 use oat\tao\helpers\Template;
 
 /**
@@ -31,7 +32,6 @@ use oat\tao\helpers\Template;
  *
  * @package oat\tao\model\theme
  */
-
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
 
@@ -69,7 +69,18 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     private $defaultThemePath = '';
 
+    /**
+     * Set of custom texts that can be used in the templates
+     *
+     * @var array
+     */
+    private $allTexts = [];
 
+    /**
+     * These options are required to build a new instance of ConfigurablePlatformTheme
+     *
+     * @var array
+     */
     private $mandatoryOptions = [
         self::EXTENSION_ID,
         self::LABEL
@@ -117,6 +128,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *          // templates/themes/platform/my-default-theme/login-message.tpl
      *          'login-message' => ConfigurablePlatformTheme::TEMPLATE_DEFAULT,
      *     ],
+     *     // array of translatable strings
+     *     'allTexts' => [
+     *          'diagBrowserCheckResult' => __('Your browser %CURRENT_BROWSER% is not compatible.'),
+     *          'diagOsCheckResult'      => __('Your Operating System %CURRENT_OS% is not compatible.')
+     *     ],
      *     'whateverCustomStuff' => 'anything as long as the key is in camelCase'
      * ];
      *
@@ -124,11 +140,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      * @throws \common_exception_MissingParameter
      */
-    public function __construct(array $options=[])
+    public function __construct(array $options = [])
     {
         // make sure label and extension id are set
-        foreach($this->mandatoryOptions as $required) {
-            if(empty($options[$required])) {
+        foreach ($this->mandatoryOptions as $required) {
+            if (empty($options[$required])) {
                 throw new \common_exception_MissingParameter($required, __CLASS__);
             }
         }
@@ -144,9 +160,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
                 $options
             )
         );
+
+        if ($this->hasOption('allTexts')) {
+            $this->allTexts = $this->getOption('allTexts');
+        }
     }
-
-
 
 
     /**
@@ -164,7 +182,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             return Template::getTemplate('blocks/' . $id . '.tpl', 'tao');
         }
 
-        if($templates[$id] === static::TEMPLATE_DEFAULT){
+        if ($templates[$id] === static::TEMPLATE_DEFAULT) {
             return Template::getTemplate(
                 $this->defaultThemePath . '/' . $id . '.tpl',
                 $this->getOption(static::EXTENSION_ID)
@@ -289,7 +307,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      * @param string $label
      */
-    protected function setDefaultThemePath($label) {
+    protected function setDefaultThemePath($label)
+    {
         $this->defaultThemePath = 'themes/platform/' . self::convertTextToId($label, '-');
     }
 
@@ -304,35 +323,75 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      * @TODO: this method can be reusable move to a helper class if you need to use it!
      */
-    public static function convertTextToId($text, $separator='')
+    public static function convertTextToId($text, $separator = '')
     {
         $id = iconv('UTF-8', 'us-ascii//TRANSLIT', $text);
         $id = preg_replace("~[^\w ]+~", '', trim(strtolower($id)));
 
         // separated-by-separator
-        if($separator) {
+        if ($separator) {
             $id = preg_replace('~\s+~', $separator, $id);
-        }
-        // camelCase
+        } // camelCase
         else {
             $id = preg_replace('~\s+~', $separator, ucwords($id));
             $id = strtolower($id[0]) . substr($id, 1);
         }
-        
+
         return $id;
     }
 
 
     /**
-     * This setup is used when configuring a theme for a custom extension. In multi tenancy though this
-     * might not be relevant.
+     * Allow to retrieve a custom translatable string for a given key
+     *
+     * @param String $key
+     * @return string
+     */
+    public function getText($key)
+    {
+        $allTexts = $this->getAllTexts();
+        return (array_key_exists($key, $allTexts)) ? $allTexts[$key] : '';
+    }
+
+    /**
+     * Retrieve all custom translatable strings for the given keys
+     *
+     * @param String[] $allKeys
+     * @return array
+     */
+    public function getTextFromArray($allKeys)
+    {
+        $allValues = [];
+        if (is_array($allKeys) && !empty($allKeys)) {
+            forEach ($allKeys as $key) {
+                $allValues[$key] = $this->getText($key);
+            }
+        }
+        return $allValues;
+    }
+
+    /**
+     * Retrieve all existing custom translatable strings
+     *
+     * @return array
+     */
+    public function getAllTexts()
+    {
+        return $this->allTexts;
+    }
+
+
+    /**
+     * This setup is used when configuring a theme for a custom extension.
+     * In multi tenancy though the tenant id might be use instead of the extension id.
      *
      * @param $label
      * @param $extensionId
      *
      * @return array
      */
-    protected function buildDefaultSetup($label, $extensionId){
+    protected function buildDefaultSetup($label, $extensionId)
+    {
         return [
             static::LABEL        => $label,
             static::EXTENSION_ID => $extensionId,
@@ -340,5 +399,78 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             static::LOGO_URL     => Template::img($this->defaultThemePath . '/logo.png', $extensionId),
             static::STYLESHEET   => Template::css($this->defaultThemePath . '/theme.css', $extensionId)
         ];
+    }
+
+
+    /**
+     * Build an instance of ConfigurablePlatformTheme based on a legacy theme object
+     *
+     * @param $theme
+     * @return ConfigurablePlatformTheme
+     */
+    public static function convertFromLegacyTheme($theme)
+    {
+        if(is_array($theme)) {
+            $options = isset($theme['options']) ? $theme['options'] : '';
+            $theme = new $theme['class']($options);
+        }
+
+        if ($theme instanceof ConfigurablePlatformTheme) {
+            return $theme;
+        }
+
+        // list of all previously used templates
+        $templates = ['footer', 'header', 'header-logo', 'login-message'];
+
+        // all keys associated with a public getter from previously used theme classes
+        $getKeys = ['id', 'label', 'stylesheet', 'logoUrl', 'link', 'message', 'allTexts'];
+
+        // collect options
+        $options = [];
+        if (method_exists($theme, 'getOptions')) {
+            $options = $theme->getOptions();
+        }
+
+        if (method_exists($theme, 'getThemeData')) {
+            $options = array_merge($options, $theme->getThemeData());
+        }
+        unset($options['data']);
+
+        foreach ($getKeys as $key) {
+            $method = 'get' . ucfirst($key);
+            if (method_exists($theme, $method)) {
+                $options[$key] = $theme->{$method}();
+            }
+        }
+        // TAO default logo URL is different
+        if($theme instanceof DefaultTheme) {
+            $options['logoUrl'] = Template::img('tao-logo.png', 'tao');
+        }
+
+        if (method_exists($theme, 'getTemplate')) {
+            if (empty($options['templates'])) {
+                $options['templates'] = [];
+            }
+            foreach ($templates as $id) {
+                $template = $theme->getTemplate($id);
+                if(!is_null($template)) {
+                    $options['templates'][$id] = $template;
+                }
+            }
+        }
+
+        // example: oat\taoExtension\model\theme\MyTheme
+        $themeClass = get_class($theme);
+        if (empty($options['extensionId'])) {
+            strtok($themeClass, '\\');
+            $options['extensionId'] = strtok('\\');
+        }
+
+        if (empty($options['label'])) {
+            $options['label'] = basename($themeClass);
+        }
+
+        $class = get_class();
+        return new $class($options);
     }
 }
