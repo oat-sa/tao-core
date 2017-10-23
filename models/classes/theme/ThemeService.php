@@ -38,16 +38,25 @@ class ThemeService extends ConfigurableService {
     const OPTION_HEADLESS_PAGE = 'headless_page';
 
     /**
-     * Get the current Theme
+     * Get the current theme
+     * @return Theme
      */
-    public function getTheme()
-    {
+    public function getTheme() {
+        $themeId = $this->getThemeId();
+        return $this->getThemeById($themeId);
+    }
+
+
+    /**
+     * Get the id of the current theme
+     * @return mixed|string
+     */
+    public function getThemeId() {
         $themeId = $this->getThemeIdFromThemeDetailsProviders();
         if (empty($themeId)) {
             $themeId = $this->getOption(self::OPTION_CURRENT);
         }
-
-        return $this->getThemeById($themeId);
+        return $themeId;
     }
 
     /**
@@ -222,5 +231,38 @@ class ThemeService extends ConfigurableService {
         }
 
         return [];
+    }
+
+
+    /**
+     * Remove all themes that share a certain class name
+     *
+     * @param $className
+     * @return mixed
+     */
+    public function removeThemesByClassName($className) {
+        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        foreach($themes as $registryId => $theme) {
+            $current = is_array($theme) ? $theme['class'] : get_class($theme);
+            if($current === $className) {
+                unset($themes[$registryId]);
+            }
+        }
+        $this->setOption(self::OPTION_AVAILABLE, $themes);
+        return $themes;
+    }
+
+
+    /**
+     * Remove a theme with a certain id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function removeThemeById($id) {
+        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        unset($themes[$id]);
+        $this->setOption(self::OPTION_AVAILABLE, $themes);
+        return $themes;
     }
 }
