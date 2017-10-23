@@ -73,7 +73,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     public function getPosition(QueuedAction $action, User $user = null)
     {
         $action->setServiceLocator($this->getServiceManager());
-        $positions = json_decode($this->getPersistence()->get($this->getQueueKey($action)), true);
+        $positions = $this->getPositions($action);
         return count($positions);
     }
 
@@ -84,7 +84,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $action->setServiceLocator($this->getServiceManager());
         $key = $this->getQueueKey($action);
-        $positions = json_decode($this->getPersistence()->get($key), true);
+        $positions = $this->getPositions($action);
         $edgeTime = time() - $this->getTtl($action);
         $newPositions = array_filter($positions, function ($val) use ($edgeTime) {
             return $val > $edgeTime;
@@ -99,8 +99,8 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     protected function queue(QueuedAction $action, User $user)
     {
-        $key = $this->getQueueKey($action, $user);
-        $positions = json_decode($this->getPersistence()->get($key), true);
+        $key = $this->getQueueKey($action);
+        $positions = $this->getPositions($action);
         $positions[$user->getIdentifier()] = time();
         $this->getPersistence()->set($key, json_encode($positions));
     }
@@ -111,8 +111,8 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
      */
     protected function dequeue(QueuedAction $action, User $user)
     {
-        $key = $this->getQueueKey($action, $user);
-        $positions = json_decode($this->getPersistence()->get($key), true);
+        $key = $this->getQueueKey($action);
+        $positions = $this->getPositions($action);
         unset($positions[$user->getIdentifier()]);
         $this->getPersistence()->set($key, json_encode($positions));
     }
@@ -159,5 +159,19 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             throw new ActionQueueException(__('Action `%s` is not configured in the action queue service', $action->getId()));
         }
         return $actions[$action->getId()];
+    }
+
+    /**
+     * @param QueuedAction $action
+     * @return array
+     */
+    protected function getPositions(QueuedAction $action)
+    {
+        $key = $this->getQueueKey($action);
+        $positions = json_decode($this->getPersistence()->get($key), true);
+        if (!$positions) {
+            $positions = [];
+        }
+        return $positions;
     }
 }

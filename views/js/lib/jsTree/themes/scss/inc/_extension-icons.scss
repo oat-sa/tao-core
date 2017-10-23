@@ -1,0 +1,28 @@
+// tree icons per extension
+// syntax:
+// extension-id-according-to-structure.xml : icon-class
+
+@import '../../../.././../../scss/inc/fonts/tao-icon-classes';
+
+$extensionIcons: (
+    'Group':         'icon-users',
+    'Item':          'icon-item',
+    'Result Server': 'icon-result-server',
+    'Result':        'icon-result',
+    'Role':          'icon-user',
+    'Test Taker':    'icon-test-taker',
+    'Test':          'icon-test',
+    'Media':         'icon-media',
+    'Trees':         'icon-tree',
+    'Blueprint':     'icon-map-o',
+    'Battery':       'icon-filebox',
+    'Default':       'icon-new-page'
+);
+
+
+@each $extensionId, $extensionIcon in $extensionIcons {
+    $extensionClass: to-lower-case(str-replace($extensionId, ' ', $replace: '_'));
+    #{'.taotree-' + $extensionClass} .node-instance ins:before{
+        @extend #{'.' + $extensionIcon + ':before'};
+    }
+}
