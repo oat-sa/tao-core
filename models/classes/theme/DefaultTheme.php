@@ -25,7 +25,7 @@ use oat\oatbox\Configurable;
 /**
  * Class DefaultTheme
  *
- * @deprecated use ConfigurableTheme instead
+ * @deprecated use ConfigurablePlatformTheme instead
  *
  * @package oat\tao\model\theme
  */
