@@ -145,7 +145,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         // make sure label and extension id are set
         foreach ($this->mandatoryOptions as $required) {
             if (empty($options[$required])) {
-                throw new \common_exception_MissingParameter($required, __CLASS__);
+                throw new \common_exception_MissingParameter($required, get_class());
             }
         }
 
@@ -197,14 +197,17 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     /**
      * This method is here to handle custom options
      *
-     * @param $optionKey
+     * @param $method
      * @param $arguments
      * @return mixed
      * @throws \common_exception_NotFound
      */
-    public function __call($optionKey, $arguments)
+    public function __call($method, $arguments)
     {
-        $optionKey = strtolower($optionKey[3]) . substr($optionKey, 4);
+        if(substr($method, 0, 3) !== 'get') {
+            throw new \common_exception_NotFound('Unknown method "' . $method . '"');
+        }
+        $optionKey = strtolower($method[3]) . substr($method, 4);
         if ($this->hasOption($optionKey)) {
             return $this->getOption($optionKey);
         }
@@ -403,20 +406,25 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
 
     /**
-     * Build an instance of ConfigurablePlatformTheme based on a legacy theme object
+     * Build an instance of ConfigurablePlatformTheme from a legacy theme
      *
-     * @param $theme
+     * @param object|array $theme
      * @return ConfigurablePlatformTheme
+     * @throws \common_exception_MissingParameter
      */
     public static function convertFromLegacyTheme($theme)
     {
-        if(is_array($theme)) {
-            $options = isset($theme['options']) ? $theme['options'] : '';
-            $theme = new $theme['class']($options);
-        }
-
         if ($theme instanceof ConfigurablePlatformTheme) {
             return $theme;
+        }
+
+        // older themes are stored as an instance, newer ones as array
+        if(is_array($theme)) {
+            if(empty($theme['class'])) {
+                throw new \common_exception_MissingParameter('class', __METHOD__);
+            }
+            $options = !empty($theme['options']) ? $theme['options'] : [];
+            $theme = new $theme['class']($options);
         }
 
         // list of all previously used templates
