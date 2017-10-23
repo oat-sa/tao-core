@@ -30,7 +30,6 @@ use oat\tao\model\theme\ConfigurablePlatformTheme;
  */
 class ConfigurableTheme extends ConfigurablePlatformTheme implements Theme
 {
-// @todo
     const THEME_DATA = 'data';
 
     /**
