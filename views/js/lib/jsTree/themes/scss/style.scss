@@ -140,7 +140,6 @@
             }
         }
 
-
         &.private ins:after, &.permissions-partial ins:after, &.permissions-none ins:after {
             display: inline-block;
             position: relative;
@@ -242,7 +241,6 @@
 
     background-image: url("icons.png");
 }
-
 
 #jstree-dragged {
     position: absolute;
