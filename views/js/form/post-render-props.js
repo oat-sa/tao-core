@@ -35,6 +35,11 @@ define([
                     }),
                 $fieldBox = $('<span>', { class: 'uri-container'});
 
+            // if the field has already been added
+            if($('.uri-container').length) {
+                return;
+            }
+
             if(!isInstanceForm || !$idField.length) {
                 return;
             }
@@ -47,9 +52,16 @@ define([
 
             $fieldBox.append([$copyField, $button]);
 
-            $container.find('.form-toolbar')
-                .before($('<div>')
+            $container.find('div')
+                .first()
+                .after($('<div>')
                 .append([$label, $fieldBox]));
+
+            $fieldBox.css({
+                height: $copyField.outerHeight()
+            });
+
+            $copyField.addClass('final');
         }
 
 
