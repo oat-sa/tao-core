@@ -73,10 +73,13 @@ class ThemeService extends ConfigurableService {
      * Add and set a theme as default
      *
      * @param Theme $theme
+     * @param bool  $protectAlreadyExistingThemes
+     *
+     * @throws \common_exception_Error
      */
-    public function setTheme(Theme $theme)
+    public function setTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
-        $id = $this->addTheme($theme);
+        $id = $this->addTheme($theme, $protectAlreadyExistingThemes);
         $this->setCurrentTheme($id);
     }
 
@@ -84,15 +87,20 @@ class ThemeService extends ConfigurableService {
      * Add a Theme but don't activate it
      *
      * @param Theme $theme
+     * @param bool  $protectAlreadyExistingThemes
+     *
      * @return string
      */
-    public function addTheme(Theme $theme)
+    public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
         $themes = $this->getOption(self::OPTION_AVAILABLE);
         $baseId = method_exists($theme, 'getId') ? $theme->getId() : '';
-        $nr = 0;
-        while (isset($themes[$baseId.$nr])) {
-            $nr++;
+        $nr     = '';
+        if ($protectAlreadyExistingThemes) {
+            $nr = 0;
+            while (isset($themes[$baseId . $nr])) {
+                $nr++;
+            }
         }
         $themes[$baseId.$nr] = [
             'class' => get_class($theme),

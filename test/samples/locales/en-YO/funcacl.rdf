@@ -172,22 +172,6 @@
     <rdfs:label xml:lang="en-YO"><![CDATA[action getActions]]></rdfs:label>
     <rdfs:comment xml:lang="en-YO"><![CDATA[action getActions]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_SaSUsers">
-    <rdfs:label xml:lang="en-YO"><![CDATA[module SaSUsers]]></rdfs:label>
-    <rdfs:comment xml:lang="en-YO"><![CDATA[module SaSUsers]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_setView">
-    <rdfs:label xml:lang="en-YO"><![CDATA[action setView]]></rdfs:label>
-    <rdfs:comment xml:lang="en-YO"><![CDATA[action setView]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_viewGrid">
-    <rdfs:label xml:lang="en-YO"><![CDATA[action viewGrid]]></rdfs:label>
-    <rdfs:comment xml:lang="en-YO"><![CDATA[action viewGrid]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_getGridData">
-    <rdfs:label xml:lang="en-YO"><![CDATA[action getGridData]]></rdfs:label>
-    <rdfs:comment xml:lang="en-YO"><![CDATA[action getGridData]]></rdfs:comment>
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Settings">
     <rdfs:label xml:lang="en-YO"><![CDATA[module Settings]]></rdfs:label>
     <rdfs:comment xml:lang="en-YO"><![CDATA[module Settings]]></rdfs:comment>

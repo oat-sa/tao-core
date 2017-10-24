@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2017-09-19 13:40:30
+ * @date   2017-10-18 08:32:44
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,8 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_CLIPBOARD = 'icon-clipboard';
+    const CLASS_FILEBOX = 'icon-filebox';
     const CLASS_CLICK_TO_SPEAK = 'icon-click-to-speak';
     const CLASS_SPEECH_BUBBLE = 'icon-speech-bubble';
     const CLASS_MICROPHONE = 'icon-microphone';
@@ -279,11 +281,20 @@ class tao_helpers_Icon {
     const CLASS_HEADPHONES = 'icon-headphones';
     const CLASS_COMPRESS = 'icon-compress';
     const CLASS_MAP_O = 'icon-map-o';
+    const CLASS_VARIABLE = 'icon-variable';
 
 	
     /**
      * List of all icons as function
      */
+
+    public static function iconClipboard($options=array()){
+        return self::buildIcon(self::CLASS_CLIPBOARD, $options);
+    }
+
+    public static function iconFilebox($options=array()){
+        return self::buildIcon(self::CLASS_FILEBOX, $options);
+    }
 
     public static function iconClickToSpeak($options=array()){
         return self::buildIcon(self::CLASS_CLICK_TO_SPEAK, $options);
@@ -1099,6 +1110,10 @@ class tao_helpers_Icon {
 
     public static function iconMapO($options=array()){
         return self::buildIcon(self::CLASS_MAP_O, $options);
+    }
+
+    public static function iconVariable($options=array()){
+        return self::buildIcon(self::CLASS_VARIABLE, $options);
     }
 
 

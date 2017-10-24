@@ -79,7 +79,18 @@ class CliController implements ServiceLocatorAwareInterface
             $report = call_user_func($action, $params);
         } catch (\Exception $e) {
             $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
-            $report->add(new Report(Report::TYPE_ERROR, $e->getMessage()));
+
+            $message = $e->getMessage();
+            $previous = $e->getPrevious();
+
+            // Get the full stack trace of the exception
+            while($previous){
+                $message .= PHP_EOL . "caused by : " . PHP_EOL .$previous->getMessage();
+                $previous = $previous->getPrevious();
+            }
+
+            $report->add(new Report(Report::TYPE_ERROR, $message));
+
         }
 
         return $report;
