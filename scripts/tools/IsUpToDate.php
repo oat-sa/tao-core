@@ -22,7 +22,7 @@
  */
 require(__DIR__ . '/../../../vendor/autoload.php');
 
-$options = getopt('p:v::');
+$options = getopt('p:v');
 $path = (!isset($options['p'])) ? '' : $options['p'];
 $isUpToDate = \tao_install_utils_System::isTAOUpToDate($path);
 $exitCode = ($isUpToDate) ? 0 : 128;

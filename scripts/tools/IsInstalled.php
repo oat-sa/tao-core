@@ -20,7 +20,7 @@
  */
 require(__DIR__ . '/../../../vendor/autoload.php');
 
-$options = getopt('p:v::');
+$options = getopt('p:v');
 $path = (!isset($options['p'])) ? '' : $options['p'];
 $isInstalled = \tao_install_utils_System::isTAOInstalled($path);
 $exitCode = ($isInstalled) ? 0 : 128;
