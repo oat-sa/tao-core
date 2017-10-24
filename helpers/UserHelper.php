@@ -156,14 +156,15 @@ class UserHelper
      * Gets the full user name
      * @param User $user
      * @param bool $defaultToLabel
+     * @param string $delimiter
      * @return string
      */
-    public static function getUserName(User $user, $defaultToLabel = false)
+    public static function getUserName(User $user, $defaultToLabel = false, $delimiter = ' ')
     {
         $firstName = self::getUserStringProp($user, PROPERTY_USER_FIRSTNAME);
         $lastName = self::getUserStringProp($user, PROPERTY_USER_LASTNAME);
         
-        $userName = trim($firstName . ' ' . $lastName);
+        $userName = trim($firstName . $delimiter . $lastName);
         
         if (empty($userName) && $defaultToLabel) {
             $userName = self::getUserLabel($user);

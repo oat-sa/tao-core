@@ -45,6 +45,14 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
         }
 	};
 
+    var blockUser = function blockUser(uri) {
+
+    };
+
+    var resetUser = function resetUser(uri) {
+
+    };
+
     /**
      * The user index controller
      * @exports controller/users/index
@@ -66,8 +74,8 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
                 actions: {
                     'edit': editUser,
                     'remove': removeUser,
-                    'block': function () {},
-                    'reset': function () {}
+                    'block': blockUser,
+                    'reset': resetUser
                 },
                 'model': [
                     {
