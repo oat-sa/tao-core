@@ -67,7 +67,9 @@
             white-space: nowrap;
             text-decoration: none;
             margin: 0;
-            display: block;
+            display: inline-block;
+            margin-right: 10px;
+            padding-right: 5px;
             @include font-size(13);
             @include simple-border(transparent);
             overflow: visible;
