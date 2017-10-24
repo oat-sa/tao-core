@@ -61,24 +61,34 @@ label, .form_desc {
 
 .uri-container {
     position: relative;
+    display: inline-block;
+    width: 65%;
+    overflow:hidden;
     input {
-        padding-right: 32px !important;
+        &.final {
+            width: calc(100% - 29px) !important;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-color: #bbb;
+        }
     }
     .clipboard-command {
         position: absolute;
-        top: -4px;
+        top: 0;
         right: 0;
-        background: whiten($info, .1);
+        background: whiten($uiHeaderBg, .3);
         cursor: pointer;
-        color: white;
+        color: $textColor;
         display: block;
         width: 30px;
-        height: 24px;
+        height: 100%;
         text-align:center;
+        line-height: 23px;
+        text-shadow: 1px 1px 0 white(.5);
+        border: 1px #ccc solid;
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
-        line-height: 23px;
-        text-shadow: 1px 1px 0 blacken($info, .2);
     }
 }
 
@@ -123,12 +133,12 @@ label, .form_desc {
             @include simple-border;
             @extend .truncate;
             &:before {
-               @include tao-icon-setup;
-               @include icon-document;
-               @include font-size(14);
-               line-height: 14px;
-               margin-right: 5px;
-               color: $info;
+                @include tao-icon-setup;
+                @include icon-document;
+                @include font-size(14);
+                line-height: 14px;
+                margin-right: 5px;
+                color: $info;
             }
             .size {
                 color: $info;
@@ -136,31 +146,31 @@ label, .form_desc {
                 font-style: italic;
             }
             .status {
-               position: absolute;
-               right: 30px;
-               top: 6px;
-               &.sending:before {
-                   @include tao-icon-setup;
-                   @include icon-download;
-                   @include fade(2s);
-                   @include repeat;
-               }
-               &.success:before{
-                   @include tao-icon-setup;
-                   @include icon-success;
-                   color: $success;
-               }
-               &.error:before{
-                   @include tao-icon-setup;
-                   @include icon-error;
-                   color: $error;
-               }
+                position: absolute;
+                right: 30px;
+                top: 6px;
+                &.sending:before {
+                    @include tao-icon-setup;
+                    @include icon-download;
+                    @include fade(2s);
+                    @include repeat;
+                }
+                &.success:before{
+                    @include tao-icon-setup;
+                    @include icon-success;
+                    color: $success;
+                }
+                &.error:before{
+                    @include tao-icon-setup;
+                    @include icon-error;
+                    color: $error;
+                }
             }
             .icon-close {
-               position: absolute;
-               right: 6px;
-               top: 6px;
-             }
+                position: absolute;
+                right: 6px;
+                top: 6px;
+            }
         }
     }
 }
