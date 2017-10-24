@@ -20,7 +20,7 @@
  * sudo -u www-data php tao/scripts/tools/IsUpToDate.php
  * sudo -u www-data php tao/scripts/tools/IsUpToDate.php -p ./config -v
  */
-require(dirname(__FILE__) . '/../../../vendor/autoload.php');
+require(__DIR__ . '/../../../vendor/autoload.php');
 
 $options = getopt('p:v::');
 $path = (!isset($options['p'])) ? '' : $options['p'];
