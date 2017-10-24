@@ -20,6 +20,7 @@
  */
 
 use oat\tao\helpers\Layout;
+use tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * This container initialize the login form.
@@ -29,16 +30,8 @@ use oat\tao\helpers\Layout;
  * @package tao
  
  */
-class tao_actions_form_Login
-    extends tao_helpers_form_FormContainer
+class tao_actions_form_Login extends tao_helpers_form_FormContainer
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
      * Short description of method initForm
      *
@@ -66,30 +59,27 @@ class tao_actions_form_Login
      */
     public function initElements()
     {
-        
-		
-    	if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
-			$hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
-			$hiddenElt->setValue($this->data['redirect']);
-			$this->form->addElement($hiddenElt);
-    	}
-    	$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
-		$loginElt->setDescription(Layout::getLoginLabel());
-		$loginElt->setAttributes(array('autofocus' => 'autofocus'));
-		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$this->form->addElement($loginElt);
-		
-		$passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
-		$passElt->setDescription(Layout::getPasswordLabel());
-		$passElt->addValidator(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty')
-		);
-		$this->form->addElement($passElt);
+        if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
+            $hiddenElt = FormFactory::getElement('redirect', 'Hidden');
+            $hiddenElt->setValue($this->data['redirect']);
+            $this->form->addElement($hiddenElt);
+        }
 
-		if (isset($this->data['disableAutocomplete']) && !empty($this->data['disableAutocomplete'])) {
-			$loginElt->setAttributes(array('autocomplete' => 'off'));
-			$passElt->setAttributes(array('autocomplete' => 'off'));
-		}
+        $loginElt = FormFactory::getElement('login', 'Textbox');
+        $loginElt->setDescription(__("Login"));
+        $loginElt->setAttributes(array('autofocus' => 'autofocus'));
+        $loginElt->addValidator(FormFactory::getValidator('NotEmpty'));
+        $this->form->addElement($loginElt);
+
+        $passElt = FormFactory::getElement('password', 'Hiddenbox');
+        $passElt->setDescription(__("Password"));
+        $passElt->addValidator(FormFactory::getValidator('NotEmpty'));
+        $this->form->addElement($passElt);
+
+        if (isset($this->data['disable_auto_complete']) && !empty($this->data['disable_auto_complete'])) {
+            $loginElt->setAttributes(array('autocomplete' => 'off'));
+            $passElt->setAttributes(array('autocomplete' => 'off'));
+        }
     }
 
 }

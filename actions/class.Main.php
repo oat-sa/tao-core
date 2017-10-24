@@ -144,7 +144,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $disableAutoComplete = $loginService->getOption(LoginService::OPTION_DISABLE_AUTO_COMPLETE);
 
 		$container = new tao_actions_form_Login(array(
-            'disableAutocomplete' => $disableAutoComplete,
+            'disable_auto_complete' => $disableAutoComplete,
         ));
 
 		$form = $container->getForm();
