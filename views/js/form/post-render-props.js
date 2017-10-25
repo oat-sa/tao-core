@@ -35,21 +35,26 @@ define([
                     }),
                 $fieldBox = $('<span>', { class: 'uri-container'});
 
+            // if the field has already been added
+            if($('.uri-container').length) {
+                return;
+            }
+
             if(!isInstanceForm || !$idField.length) {
                 return;
             }
 
-
             $copyField = $idField.clone()
                 .attr({ readonly: true, type: 'text' });
-
             $idField.remove();
-
             $fieldBox.append([$copyField, $button]);
 
-            $container.find('.form-toolbar')
-                .before($('<div>')
+            $container.find('div')
+                .first()
+                .after($('<div>')
                 .append([$label, $fieldBox]));
+            $fieldBox.height($copyField.outerHeight());
+            $copyField.addClass('final');
         }
 
 
