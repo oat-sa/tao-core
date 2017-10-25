@@ -50,18 +50,17 @@ class TranslationBundle {
      * Create a new bundle
      * @param string $langCode
      * @param common_ext_Extension[]
-     * @throws commone_exception_InvalidArgumentType
-     * @throws commone_exception_Errors
+     * @throws \InvalidArgumentException
      */
     public function __construct($langCode, $extensions){
         if(!is_string($langCode)){
-            throw new common_exception_InvalidArgumentType(__CLASS__, __METHOD__, 0, 'string', $this);   
+            throw new \InvalidArgumentException('$langCode argument should be a string.');
         }
         if(!is_array($extensions)){
-            throw new common_exception_InvalidArgumentType(__CLASS__, __METHOD__, 1, 'array', $this);   
+            throw new \InvalidArgumentException('$extensions argument should be an array.');
         }
         if(empty($langCode) || empty($extensions)){
-            throw new common_exception_Error('$langCode and $extensions needs to be assigned.');
+            throw new \InvalidArgumentException('$langCode and $extensions arguments should not be empty.');
         }
 
         $this->langCode     = $langCode;

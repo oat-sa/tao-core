@@ -75,7 +75,7 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      * @param string $langCode
      * @param array $extensions
      * @dataProvider wrongConstructorProvider
-     * @expectedException common_exception_InvalidArgumentType
+     * @expectedException InvalidArgumentException
      */
     public function testWrongConstructor($langCode, $extensions){
        new TranslationBundle($langCode, $extensions); 
