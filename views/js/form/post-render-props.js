@@ -57,9 +57,7 @@ define([
                 .after($('<div>')
                 .append([$label, $fieldBox]));
 
-            $fieldBox.css({
-                height: $copyField.outerHeight()
-            });
+            $fieldBox.height($copyField.outerHeight());
 
             $copyField.addClass('final');
         }

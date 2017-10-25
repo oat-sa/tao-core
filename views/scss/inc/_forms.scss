@@ -66,11 +66,15 @@ label, .form_desc {
     overflow:hidden;
     input {
         &.final {
-            width: calc(100% - 29px) !important;
+            width: calc(100% - 30px) !important;
             position: absolute;
             left: 0;
             top: 0;
             border-color: #bbb;
+            height: 100%;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
         }
     }
     .clipboard-command {
@@ -85,7 +89,7 @@ label, .form_desc {
         height: 100%;
         text-align:center;
         line-height: 23px;
-        text-shadow: 1px 1px 0 white(.5);
+        text-shadow: none;
         border: 1px #ccc solid;
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
