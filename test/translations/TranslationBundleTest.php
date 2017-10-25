@@ -86,10 +86,10 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      * @return array() the data
      */     
     public function bundleProvider(){
-        return array(
-            array('en-US', array(new \common_ext_Extension('tao'), new \common_ext_Extension('taoItems')), md5('en-US_tao-taoItems')),
-            array('fr-FR', array(new \common_ext_Extension('tao'), new \common_ext_Extension('taoItems')), md5('fr-FR_tao-taoItems')),
-        );
+        return [
+           ['en-US', ['tao', 'taoItems'], md5('en-US_tao-taoItems')],
+           ['fr-FR', ['tao', 'taoItems'], md5('fr-FR_tao-taoItems')],
+        ];
     }   
  
     /**

@@ -16,7 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\helpers\translation;
@@ -76,7 +76,7 @@ class TranslationBundle {
 
         $this->langCode = $langCode;
         $this->extensions = $extensions;
-        $this->basePath = $basePath;
+        $this->basePath = rtrim($basePath, '/\\');
     }
 
     /**
@@ -84,10 +84,7 @@ class TranslationBundle {
      * @return string the identifier
      */
     public function getSerial(){
-        $getId = function($extension){
-            return $extension->getId();
-        };
-        $ids = array_map($getId, $this->extensions);
+        $ids = $this->extensions;
         sort($ids); 
         return md5($this->langCode . '_' . implode('-', $ids));
     }
@@ -101,7 +98,7 @@ class TranslationBundle {
         $translations = array();
         
         foreach($this->extensions as $extension){
-            $jsFilePath = $extension->getDir() . 'locales/' . $this->langCode . '/messages_po.js';
+            $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if(file_exists($jsFilePath)){
                 $translate = json_decode(file_get_contents($jsFilePath),false);
                 if($translate != null){

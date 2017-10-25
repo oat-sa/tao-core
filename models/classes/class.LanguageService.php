@@ -171,7 +171,12 @@ class tao_models_classes_LanguageService
     {
         $returnValue = array();
         
-        $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        $extensions = array_map(
+            function ($extension) {
+                return $extension->getId();
+            },
+            common_ext_ExtensionsManager::singleton()->getInstalledExtensions()
+        );
         // lookup for languages into tao
         $languages = tao_helpers_translation_Utils::getAvailableLanguages();
         $path = ROOT_PATH . 'tao/views/locales/';
@@ -180,8 +185,7 @@ class tao_models_classes_LanguageService
         foreach ($languages as $langCode) {
             
             try {
-                
-                $bundle = new TranslationBundle($langCode, $extensions);
+                $bundle = new TranslationBundle($langCode, $extensions, ROOT_PATH);
                 
                 if ($checkPreviousBundle) {
                     $currentBundle = $path . $langCode . '.json';
