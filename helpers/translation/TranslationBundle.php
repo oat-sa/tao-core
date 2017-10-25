@@ -92,13 +92,9 @@ class TranslationBundle {
         foreach($this->extensions as $extension){
             $jsFilePath = $extension->getDir() . 'locales/' . $this->langCode . '/messages_po.js';
             if(file_exists($jsFilePath)){
-                try {
-                    $translate = json_decode(file_get_contents($jsFilePath),false);
-                    if($translate != null){
-                        $translations = array_merge($translations, (array)$translate);
-                    }
-                } catch(\tao_helpers_translation_TranslationException $te){
-                   common_Logger::w("Unable to generate the translatin bundle for  " . $this->langCode . " : " . $te->getMessage()); 
+                $translate = json_decode(file_get_contents($jsFilePath),false);
+                if($translate != null){
+                    $translations = array_merge($translations, (array)$translate);
                 }
             }
         }
