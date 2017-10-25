@@ -33,11 +33,8 @@ use oat\tao\model\TaoOntology;
  * @package tao
  
  */
-class tao_models_classes_UserService
-    extends tao_models_classes_ClassService
-    implements core_kernel_users_UsersManagement
+class tao_models_classes_UserService extends tao_models_classes_ClassService implements core_kernel_users_UsersManagement
 {
-
     /**
      * the core user service
      *
@@ -45,7 +42,6 @@ class tao_models_classes_UserService
      * @var core_kernel_users_Service
      */
     protected $generisUserService = null;
-
 
     /**
      * constructor
@@ -64,22 +60,24 @@ class tao_models_classes_UserService
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string login
-     * @param  string password
+     * @param  string $login
+     * @param  string $password
      * @return boolean
      * @deprecated
      */
     public function loginUser($login, $password)
     {
-        
-        $returnValue = (bool) false;
-        try{
-            $returnValue = LoginService::login($login, $password);
+        $loggedIn = false;
+
+        try {
+            /** @var LoginService $loginService */
+            $loginService = $this->getServiceManager()->get(LoginService::SERVICE_ID);
+            $loggedIn = $loginService->login($login, $password);
+        } catch (core_kernel_users_Exception $ue) {
+            common_Logger::e("A fatal error occurred at user login time: " . $ue->getMessage());
         }
-        catch(core_kernel_users_Exception $ue){
-        	common_Logger::e("A fatal error occured at user login time: " . $ue->getMessage());
-        }
-        return (bool) $returnValue;
+
+        return (bool) $loggedIn;
     }
 
     /**
