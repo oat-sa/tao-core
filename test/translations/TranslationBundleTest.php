@@ -64,9 +64,9 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      */     
     public function wrongConstructorProvider(){
         return array(
-            array(true, array()),
-            array('test', 12),
-            array(null, null),
+            array(true, array(), null),
+            array('test', 12, 10),
+            array(null, null, false),
         );
     }   
  
@@ -77,8 +77,8 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      * @dataProvider wrongConstructorProvider
      * @expectedException InvalidArgumentException
      */
-    public function testWrongConstructor($langCode, $extensions){
-       new TranslationBundle($langCode, $extensions); 
+    public function testWrongConstructor($langCode, $extensions, $basePath){
+       new TranslationBundle($langCode, $extensions, $basePath); 
     }
    
     /**
@@ -99,7 +99,7 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      * @dataProvider bundleProvider
      */
     public function testBundle($langCode, $extensions, $expectedSerial){
-       $bundle = new TranslationBundle($langCode, $extensions); 
+       $bundle = new TranslationBundle($langCode, $extensions, __DIR__ . '/../../../'); 
 
        $serial = $bundle->getSerial();
        $this->assertTrue(is_string($serial));

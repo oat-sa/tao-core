@@ -45,26 +45,38 @@ class TranslationBundle {
      * @var common_ext_Extension[]
      */
     private $extensions;
+    
+    /**
+     * @var string
+     */
+    private $basePath;
 
     /**
      * Create a new bundle
+     * 
+     * $extensions = ['tao', 'taoItems']
+     * 
      * @param string $langCode
      * @param common_ext_Extension[]
      * @throws \InvalidArgumentException
      */
-    public function __construct($langCode, $extensions){
+    public function __construct($langCode, $extensions, $basePath){
         if(!is_string($langCode)){
             throw new \InvalidArgumentException('$langCode argument should be a string.');
+        }
+        if(!is_string($basePath)){
+            throw new \InvalidArgumentException('$basePath argument should be a string.');
         }
         if(!is_array($extensions)){
             throw new \InvalidArgumentException('$extensions argument should be an array.');
         }
-        if(empty($langCode) || empty($extensions)){
-            throw new \InvalidArgumentException('$langCode and $extensions arguments should not be empty.');
+        if(empty($langCode) || empty($extensions) || empty($basePath)){
+            throw new \InvalidArgumentException('$langCode, $extensions, $basePath arguments should not be empty.');
         }
 
-        $this->langCode     = $langCode;
-        $this->extensions   = $extensions;
+        $this->langCode = $langCode;
+        $this->extensions = $extensions;
+        $this->basePath = $basePath;
     }
 
     /**
