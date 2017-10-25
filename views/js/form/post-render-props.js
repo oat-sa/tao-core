@@ -44,21 +44,16 @@ define([
                 return;
             }
 
-
             $copyField = $idField.clone()
                 .attr({ readonly: true, type: 'text' });
-
             $idField.remove();
-
             $fieldBox.append([$copyField, $button]);
 
             $container.find('div')
                 .first()
                 .after($('<div>')
                 .append([$label, $fieldBox]));
-
             $fieldBox.height($copyField.outerHeight());
-
             $copyField.addClass('final');
         }
 

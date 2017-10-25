@@ -93,6 +93,9 @@ label, .form_desc {
         border: 1px #ccc solid;
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
+        &:hover {
+            background: whiten($uiHeaderBg, .45);
+        }
     }
 }
 
