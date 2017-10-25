@@ -32,6 +32,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-clipboard { content: "\e90a"; }
+@mixin icon-filebox { content: "\e909"; }
 @mixin icon-click-to-speak { content: "\e907"; }
 @mixin icon-speech-bubble { content: "\f0e5"; }
 @mixin icon-microphone { content: "\f130"; }
@@ -236,3 +238,4 @@
 @mixin icon-headphones { content: "\e910"; }
 @mixin icon-compress { content: "\f066"; }
 @mixin icon-map-o { content: "\f278"; }
+@mixin icon-variable { content: "\e908"; }
