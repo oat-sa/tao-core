@@ -209,6 +209,8 @@ define([
 
                 this.classUri = this.config.classUri;
 
+                this.setState('multiple', !!this.config.multiple);
+
                 this.render($container);
             })
             .on('render', function(){
@@ -253,8 +255,7 @@ define([
                     if($instance.hasClass('selected')){
                         self.unselect($instance.data('uri'));
                     } else {
-                        self.clearSelection();
-                        self.select($instance.data('uri'));
+                        self.select($instance.data('uri'), true);
                     }
                 });
 
