@@ -244,7 +244,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
     /**
      * Get the logo url of current theme
-     * Logo url is used into header
+     * If not empty, this url is used on the header logo
      *
      * @return string
      */
