@@ -934,9 +934,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(InstantActionQueue::SERVICE_ID, $service);
             $this->setVersion('13.2.0');
         }
-
-
-        $this->skip('13.2.0', '13.7.3');
+        
+      
+        $this->skip('13.2.0', '13.7.4');
     }
 
     private function migrateFsAccess() {
