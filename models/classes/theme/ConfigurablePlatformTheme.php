@@ -59,11 +59,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     /** Theme templates key */
     const TEMPLATES = 'templates';
 
-    /** Use the default template path */
-    const TEMPLATE_DEFAULT = 'useTemplateDefault';
-
-    /** Use the default template path */
-    const STYLESHEET_DEFAULT = 'useStylesheetDefault';
+    /** Use the default path for logo, stylesheet, templates etc. */
+    const DEFAULT_PATH = 'useDefaultThemePath';
 
     /**
      * Default theme path
@@ -123,7 +120,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *     'link' => 'http://example.com',
      *     'message' => 'Tao Platform',
      *
-     *     // if stylesheet === ConfigurablePlatformTheme::STYLESHEET_DEFAULT
+     *     // if stylesheet === ConfigurablePlatformTheme::DEFAULT_PATH
      *     'stylesheet' => 'http://domain/taoSomething/views/css/themes/platform/default-theme/theme.css',
      *     // when no stylesheet is given:
      *     'stylesheet' => 'http://example.com/tao/views/css/tao-3.css',
@@ -136,7 +133,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *          // if the value of the template === ConfigurablePlatformTheme::TEMPLATE_DEFAULT
      *          // the default theme path will be used something like:
      *          // templates/themes/platform/default-theme/login-message.tpl
-     *          'login-message' => ConfigurablePlatformTheme::TEMPLATE_DEFAULT,
+     *          'login-message' => ConfigurablePlatformTheme::DEFAULT_PATH,
      *     ],
      *     // array of translatable strings
      *     'customTexts' => [
@@ -413,11 +410,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             $options
         );
 
-        if($options[static::LOGO_URL] === static::TEMPLATE_DEFAULT) {
+        if($options[static::LOGO_URL] === static::DEFAULT_PATH) {
             $options[static::LOGO_URL] = Template::img($this->defaultThemePath . '/logo.png', $options[static::EXTENSION_ID]);
         }
 
-        if($options[static::STYLESHEET] === static::STYLESHEET_DEFAULT) {
+        if($options[static::STYLESHEET] === static::DEFAULT_PATH) {
             $options[static::STYLESHEET] = Template::css($this->defaultThemePath . '/theme.css', $options[static::EXTENSION_ID]);
         }
 
