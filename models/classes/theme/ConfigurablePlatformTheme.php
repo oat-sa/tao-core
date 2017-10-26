@@ -62,6 +62,9 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     /** Use the default template path */
     const TEMPLATE_DEFAULT = 'useTemplateDefault';
 
+    /** Use the default template path */
+    const STYLESHEET_DEFAULT = 'useStylesheetDefault';
+
     /**
      * Default theme path
      *
@@ -119,7 +122,14 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *     'logoUrl' => 'http://example.com/foo.png',
      *     'link' => 'http://example.com',
      *     'message' => 'Tao Platform',
+     *
+     *     // if stylesheet === ConfigurablePlatformTheme::STYLESHEET_DEFAULT
+     *     'stylesheet' => 'http://domain/taoSomething/views/css/themes/platform/default-theme/theme.css',
+     *     // when no stylesheet is given:
      *     'stylesheet' => 'http://example.com/tao/views/css/tao-3.css',
+     *     // when stylesheet is any other url:
+     *     'stylesheet' => 'http://example.com/any-other-url.css',
+     *
      *     'templates' => [
      *          'header-logo' => Template::getTemplate('blocks/header-logo.tpl', 'some-extension'),
      *
@@ -151,15 +161,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
         $this->setDefaultThemePath($options[static::LABEL]);
 
-        parent::__construct(
-            array_merge(
-                $this->buildDefaultSetup(
-                    $options[static::LABEL],
-                    $options[static::EXTENSION_ID]
-                ),
-                $options
-            )
-        );
+        parent::__construct($this->setupOptions($options));
 
         if ($this->hasOption('customTexts')) {
             $this->customTexts = $this->getOption('customTexts');
@@ -234,11 +236,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
-        if ($this->hasOption(static::STYLESHEET)) {
-            return $this->getOption(static::STYLESHEET);
-        }
-
-        return Template::css('tao-3.css', 'tao');
+        return $this->getOption(static::STYLESHEET);
     }
 
 
@@ -250,10 +248,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getLogoUrl()
     {
-        if ($this->hasOption(static::LOGO_URL)) {
-            return $this->getOption(static::LOGO_URL);
-        }
-        return Template::img('tao-logo.png', 'tao');
+        return $this->getOption(static::LOGO_URL);
     }
 
 
@@ -402,97 +397,30 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * This setup is used when configuring a theme for a custom extension.
      * In multi tenancy though the tenant id might be use instead of the extension id.
      *
-     * @param $label
-     * @param $extensionId
+     * @param $options
      *
      * @return array
      */
-    protected function buildDefaultSetup($label, $extensionId)
+    protected function setupOptions($options)
     {
-        return [
-            static::LABEL        => $label,
-            static::EXTENSION_ID => $extensionId,
-            static::ID           => $extensionId . ucfirst(self::convertTextToId($label)),
-            static::LOGO_URL     => Template::img($this->defaultThemePath . '/logo.png', $extensionId),
-            static::STYLESHEET   => Template::css($this->defaultThemePath . '/theme.css', $extensionId)
-        ];
-    }
+        $options = array_merge([
+            static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
+            static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),
+            static::LABEL        => $options[static::LABEL],
+            static::EXTENSION_ID => $options[static::EXTENSION_ID],
+            static::ID           => $options[static::EXTENSION_ID] . ucfirst(self::convertTextToId($options[static::LABEL]))
+        ],
+            $options
+        );
 
-
-    /**
-     * Build an instance of ConfigurablePlatformTheme from a legacy theme
-     *
-     * @param object|array $theme
-     * @return ConfigurablePlatformTheme
-     * @throws \common_exception_MissingParameter
-     */
-    public static function convertFromLegacyTheme($theme)
-    {
-        if ($theme instanceof ConfigurablePlatformTheme) {
-            return $theme;
+        if($options[static::LOGO_URL] === static::TEMPLATE_DEFAULT) {
+            $options[static::LOGO_URL] = Template::img($this->defaultThemePath . '/logo.png', $options[static::EXTENSION_ID]);
         }
 
-        // older themes are stored as an instance, newer ones as array
-        if(is_array($theme)) {
-            if(empty($theme['class'])) {
-                throw new \common_exception_MissingParameter('class', __METHOD__);
-            }
-            $options = !empty($theme['options']) ? $theme['options'] : [];
-            $theme = new $theme['class']($options);
+        if($options[static::STYLESHEET] === static::STYLESHEET_DEFAULT) {
+            $options[static::STYLESHEET] = Template::css($this->defaultThemePath . '/theme.css', $options[static::EXTENSION_ID]);
         }
 
-        // list of all previously used templates
-        $templates = ['footer', 'header', 'header-logo', 'login-message'];
-
-        // all keys associated with a public getter from previously used theme classes
-        $getKeys = ['id', 'label', 'stylesheet', 'logoUrl', 'link', 'message', 'customTexts'];
-
-        // collect options
-        $options = [];
-        if (method_exists($theme, 'getOptions')) {
-            $options = $theme->getOptions();
-        }
-
-        if (method_exists($theme, 'getThemeData')) {
-            $options = array_merge($options, $theme->getThemeData());
-        }
-        unset($options['data']);
-
-        foreach ($getKeys as $key) {
-            $method = 'get' . ucfirst($key);
-            if (method_exists($theme, $method)) {
-                $options[$key] = $theme->{$method}();
-            }
-        }
-        // TAO default logo URL is different
-        if($theme instanceof DefaultTheme) {
-            $options['logoUrl'] = Template::img('tao-logo.png', 'tao');
-        }
-
-        if (method_exists($theme, 'getTemplate')) {
-            if (empty($options['templates'])) {
-                $options['templates'] = [];
-            }
-            foreach ($templates as $id) {
-                $template = $theme->getTemplate($id);
-                if(!is_null($template)) {
-                    $options['templates'][$id] = $template;
-                }
-            }
-        }
-
-        // example: oat\taoExtension\model\theme\MyTheme
-        $themeClass = get_class($theme);
-        if (empty($options['extensionId'])) {
-            strtok($themeClass, '\\');
-            $options['extensionId'] = strtok('\\');
-        }
-
-        if (empty($options['label'])) {
-            $options['label'] = basename($themeClass);
-        }
-
-        $class = get_class();
-        return new $class($options);
+        return $options;
     }
 }
