@@ -74,7 +74,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      * @var array
      */
-    private $allTexts = [];
+    private $customTexts = [];
 
     /**
      * These options are required to build a new instance of ConfigurablePlatformTheme
@@ -94,26 +94,26 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * Only label and extensionId are configured, this will create a default configuration
      * These are the only mandatory elements
      *
-     * $config = [
+     * $options = [
      *     'label' => 'Default Theme',
      *     'extensionId' => 'taoSomething'
      * ];
-     * $theme = new \oat\tao\model\theme\ConfigurablePlatformTheme($config);
+     * $theme = new \oat\tao\model\theme\ConfigurablePlatformTheme($options);
      *
      * This will end up as:
      * $options = [
-     *     'logoUrl' => 'http://domain/taoExtension/views/img/themes/platform/my-default-theme/logo.png',
-     *     'label' => 'My Default Theme',
-     *     'extensionId' => 'taoExtension',
-     *     'stylesheet' => 'http://domain/taoExtension/views/css/themes/platform/my-default-theme/theme.css',
-     *     'id' => 'taoExtensionMyDefaultTheme'
+     *     'logoUrl' => 'http://domain/taoSomething/views/img/themes/platform/default-theme/logo.png',
+     *     'label' => 'Default Theme',
+     *     'extensionId' => 'taoSomething',
+     *     'stylesheet' => 'http://domain/taoSomething/views/css/themes/platform/default-theme/theme.css',
+     *     'id' => 'taoSomethingDefaultTheme'
      * ];
      *
      * If this contains anything you don't like, just add that key to your $config array to override the default.
      * The same applies if something is missing that you would like to have - for these cases generic getter is available.
      *
      * // Full blown custom configuration example
-     * $config = [
+     * $options = [
      *     'label' => 'Default Theme',
      *     'extensionId' => 'taoSomething',
      *     'logoUrl' => 'http://example.com/foo.png',
@@ -125,11 +125,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      *          // if the value of the template === ConfigurablePlatformTheme::TEMPLATE_DEFAULT
      *          // the default theme path will be used something like:
-     *          // templates/themes/platform/my-default-theme/login-message.tpl
+     *          // templates/themes/platform/default-theme/login-message.tpl
      *          'login-message' => ConfigurablePlatformTheme::TEMPLATE_DEFAULT,
      *     ],
      *     // array of translatable strings
-     *     'allTexts' => [
+     *     'customTexts' => [
      *          'diagBrowserCheckResult' => __('Your browser %CURRENT_BROWSER% is not compatible.'),
      *          'diagOsCheckResult'      => __('Your Operating System %CURRENT_OS% is not compatible.')
      *     ],
@@ -161,8 +161,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             )
         );
 
-        if ($this->hasOption('allTexts')) {
-            $this->allTexts = $this->getOption('allTexts');
+        if ($this->hasOption('customTexts')) {
+            $this->customTexts = $this->getOption('customTexts');
         }
     }
 
@@ -352,25 +352,22 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getText($key)
     {
-        $allTexts = $this->getAllTexts();
-        return (array_key_exists($key, $allTexts)) ? $allTexts[$key] : '';
+        return (array_key_exists($key, $this->customTexts)) ? $this->customTexts[$key] : '';
     }
 
     /**
      * Retrieve all custom translatable strings for the given keys
      *
-     * @param String[] $allKeys
+     * @param array $keys
      * @return array
      */
-    public function getTextFromArray($allKeys)
+    public function getTextFromArray(array $keys = [])
     {
-        $allValues = [];
-        if (is_array($allKeys) && !empty($allKeys)) {
-            forEach ($allKeys as $key) {
-                $allValues[$key] = $this->getText($key);
-            }
+        $values = [];
+        forEach ($keys as $key) {
+            $values[$key] = $this->getText($key);
         }
-        return $allValues;
+        return $values;
     }
 
     /**
@@ -378,9 +375,19 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      * @return array
      */
+    public function getCustomTexts()
+    {
+        return $this->customTexts;
+    }
+    
+    /**
+     * This is now just an alias to keep backward compatibility
+     *
+     * @return array
+     */
     public function getAllTexts()
     {
-        return $this->allTexts;
+        return $this->getCustomTexts();
     }
 
 
@@ -431,7 +438,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         $templates = ['footer', 'header', 'header-logo', 'login-message'];
 
         // all keys associated with a public getter from previously used theme classes
-        $getKeys = ['id', 'label', 'stylesheet', 'logoUrl', 'link', 'message', 'allTexts'];
+        $getKeys = ['id', 'label', 'stylesheet', 'logoUrl', 'link', 'message', 'customTexts'];
 
         // collect options
         $options = [];
