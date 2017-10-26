@@ -135,6 +135,9 @@ implements Websource
                         return $mimeType = 'image/svg+xml';
                     }
                     break;
+                case 'mp3':
+                    return $mimeType = 'audio/mpeg';
+                    break;
             }
         }
         return $mimeType;

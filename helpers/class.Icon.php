@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2017-10-11 11:52:32
+ * @date   2017-10-18 08:32:44
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,7 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_CLIPBOARD = 'icon-clipboard';
     const CLASS_FILEBOX = 'icon-filebox';
     const CLASS_CLICK_TO_SPEAK = 'icon-click-to-speak';
     const CLASS_SPEECH_BUBBLE = 'icon-speech-bubble';
@@ -286,6 +287,10 @@ class tao_helpers_Icon {
     /**
      * List of all icons as function
      */
+
+    public static function iconClipboard($options=array()){
+        return self::buildIcon(self::CLASS_CLIPBOARD, $options);
+    }
 
     public static function iconFilebox($options=array()){
         return self::buildIcon(self::CLASS_FILEBOX, $options);
