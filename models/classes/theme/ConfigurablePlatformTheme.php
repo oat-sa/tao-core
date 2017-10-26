@@ -234,7 +234,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
-        return $this->getOption(static::STYLESHEET);
+        if ($this->hasOption(static::STYLESHEET)) {
+            return $this->getOption(static::STYLESHEET);
+        }
+
+        return Template::css('tao-3.css', 'tao');
     }
 
 
@@ -246,7 +250,10 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getLogoUrl()
     {
-        return $this->getOption(static::LOGO_URL);
+        if ($this->hasOption(static::LOGO_URL)) {
+            return $this->getOption(static::LOGO_URL);
+        }
+        return Template::img('tao-logo.png', 'tao');
     }
 
 
