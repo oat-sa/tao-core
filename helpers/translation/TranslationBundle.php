@@ -47,9 +47,16 @@ class TranslationBundle {
     private $extensions;
     
     /**
+     * The TAO platform installation base path.
      * @var string
      */
     private $basePath;
+    
+    /**
+     * The TAO version in use.
+     * @var string
+     */
+    private $taoVersion;
 
     /**
      * Create a new bundle
@@ -60,23 +67,27 @@ class TranslationBundle {
      * @param common_ext_Extension[]
      * @throws \InvalidArgumentException
      */
-    public function __construct($langCode, $extensions, $basePath){
+    public function __construct($langCode, $extensions, $basePath, $taoVersion = ''){
         if(!is_string($langCode)){
             throw new \InvalidArgumentException('$langCode argument should be a string.');
         }
         if(!is_string($basePath)){
             throw new \InvalidArgumentException('$basePath argument should be a string.');
         }
+        if(!is_string($taoVersion)){
+            throw new \InvalidArgumentException('$taoVersion argument should be a string.');
+        }
         if(!is_array($extensions)){
             throw new \InvalidArgumentException('$extensions argument should be an array.');
         }
         if(empty($langCode) || empty($extensions) || empty($basePath)){
-            throw new \InvalidArgumentException('$langCode, $extensions, $basePath arguments should not be empty.');
+            throw new \InvalidArgumentException('$langCode, $extensions and $basePath arguments should not be empty.');
         }
 
         $this->langCode = $langCode;
         $this->extensions = $extensions;
         $this->basePath = rtrim($basePath, '/\\');
+        $this->taoVersion = $taoVersion;
     }
 
     /**
@@ -110,15 +121,19 @@ class TranslationBundle {
         $content = array(
             'serial' =>  $this->getSerial(),
             'date'   => time(),
-            'version' => TAO_VERSION,
             'translations' =>   $translations
         );
+        
+        if (!empty($this->taoVersion)) {
+            $content['version'] = $this->taoVersion;
+        }
+        
         if(is_dir($directory)){
             if(!is_dir($directory. '/' . $this->langCode)){
                 mkdir($directory. '/' . $this->langCode);
             }
             $file = $directory. '/' . $this->langCode . '/messages.json';
-            if(file_put_contents($file, json_encode($content))){
+            if(@file_put_contents($file, json_encode($content))){
                 return $file;
             } 
         }

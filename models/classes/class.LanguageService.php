@@ -185,7 +185,7 @@ class tao_models_classes_LanguageService
         foreach ($languages as $langCode) {
             
             try {
-                $bundle = new TranslationBundle($langCode, $extensions, ROOT_PATH);
+                $bundle = new TranslationBundle($langCode, $extensions, ROOT_PATH, TAO_VERSION);
                 
                 if ($checkPreviousBundle) {
                     $currentBundle = $path . $langCode . '.json';
