@@ -32,7 +32,7 @@ use oat\tao\helpers\Template;
  *
  * @package oat\tao\model\theme
  */
-class ThemeConverter extends ConfigurablePlatformTheme
+class ThemeConverter
 {
 
     /**
@@ -107,8 +107,6 @@ class ThemeConverter extends ConfigurablePlatformTheme
         if (empty($options['label'])) {
             $options['label'] = basename($themeClass);
         }
-
-        $class = get_class();
-        return new $class($options);
+        return new ConfigurablePlatformTheme($options);
     }
 }
