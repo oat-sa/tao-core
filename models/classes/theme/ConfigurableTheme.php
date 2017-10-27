@@ -30,7 +30,18 @@ use oat\tao\model\theme\ConfigurablePlatformTheme;
  */
 class ConfigurableTheme extends ConfigurablePlatformTheme implements Theme
 {
+
+    /** Theme data offset in the options. */
     const THEME_DATA = 'data';
+
+    /** Theme data logo url offset in the options under the data offset. */
+    const THEME_DATA_LOGO_URL = 'logo-url';
+
+    /** Theme data logo link offset in the options under the data offset. */
+    const THEME_DATA_LINK     = 'link';
+
+    /** Theme data logo title offset in the options under the data offset. */
+    const THEME_DATA_MESSAGE  = 'message';
 
     /**
      * Get options under data key
