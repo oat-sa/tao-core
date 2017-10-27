@@ -218,21 +218,50 @@ define([
                 var $component = this.getElement();
 
                 //browser hierarchy
-                $component.on('click', '.class:not(.empty)', function(e){
-                    var $class = $(e.currentTarget);
-                    e.preventDefault();
-                    e.stopPropagation();
 
-                    if(!$class.hasClass('closed')){
-                        $class.addClass('closed');
-                    } else {
-                        if(!$class.children('ul').children('li').length){
-                            self.query({ classUri : $class.data('uri') });
-                        }  else {
-                            $class.removeClass('closed');
+                if(self.config.selectClass){
+                    $component.on('click', '.class', function(e){
+                        var $class = $(e.currentTarget);
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if($(e.target).hasClass('class-toggler')){
+                            if(!$class.hasClass('empty')){
+                                if(!$class.hasClass('closed')){
+                                    $class.addClass('closed');
+                                } else {
+                                    if(!$class.children('ul').children('li').length){
+                                        self.query({ classUri : $class.data('uri') });
+                                    }  else {
+                                        $class.removeClass('closed');
+                                    }
+                                }
+                            }
+                        } else {
+                            if($class.hasClass('selected')){
+                                self.unselect($class.data('uri'));
+                            } else {
+                                self.select($class.data('uri'), !self.is('multiple'));
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    $component.on('click', '.class:not(.empty)', function(e){
+                        var $class = $(e.currentTarget);
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if(!$class.hasClass('closed')){
+                            $class.addClass('closed');
+                        } else {
+                            if(!$class.children('ul').children('li').length){
+                                self.query({ classUri : $class.data('uri') });
+                            }  else {
+                                $class.removeClass('closed');
+                            }
+                        }
+                    });
+                }
 
                 //selection
                 $component.on('click', '.instance', function(e){
@@ -247,12 +276,12 @@ define([
                     }
                 });
 
-                //need more data
+
+
                 $component.on('click', '.more', function(e){
                     var $root = $(e.currentTarget).parent('.class');
                     e.preventDefault();
                     e.stopPropagation();
-
 
                     self.query({
                         classUri:   $root.data('uri') ,

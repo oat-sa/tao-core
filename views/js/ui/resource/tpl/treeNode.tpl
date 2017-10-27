@@ -1,12 +1,13 @@
 {{#equal type 'class'}}
 {{#if state}}
 <li data-uri="{{uri}}" class="class {{state}}" data-count="{{count}}">
-    <a href="#" title="{{label}}">{{label}}</a>
-   <ul>
+    <a href="#" title="{{label}}">{{label}}</a> <span class="class-toggler" tabindex="0"></span>
+
+    <ul>
     {{#if childList}}
         {{{childList}}}
     {{/if}}
-   </ul>
+    </ul>
     <div class="more hidden">
         <a href="#" class="btn-info small"><span class="icon-download"></span> {{__ 'Load more'}}</a>
     </div>

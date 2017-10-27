@@ -548,7 +548,8 @@ define([
         var container = document.getElementById('visual');
         var config = {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-            classes : classesData
+            classes : classesData,
+            selectClass : true
         };
 
         resourceSelectorFactory(container, config)
@@ -567,6 +568,9 @@ define([
                 if(params.format === 'list'){
                     this.update(listData, params);
                 }
+            })
+            .on('change', function(selection){
+                console.log(selection);
             });
     });
 });
