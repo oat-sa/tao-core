@@ -105,7 +105,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *     'logoUrl' => 'http://domain/taoSomething/views/img/themes/platform/default-theme/logo.png',
      *     'label' => 'Default Theme',
      *     'extensionId' => 'taoSomething',
-     *     'stylesheet' => 'http://domain/taoSomething/views/css/themes/platform/default-theme/theme.css',
      *     'id' => 'taoSomethingDefaultTheme'
      * ];
      *
