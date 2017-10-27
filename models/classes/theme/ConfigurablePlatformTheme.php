@@ -130,7 +130,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *     'templates' => [
      *          'header-logo' => Template::getTemplate('blocks/header-logo.tpl', 'some-extension'),
      *
-     *          // if the value of the template === ConfigurablePlatformTheme::TEMPLATE_DEFAULT
+     *          // if the value of the template === ConfigurablePlatformTheme::DEFAULT_PATH
      *          // the default theme path will be used something like:
      *          // templates/themes/platform/default-theme/login-message.tpl
      *          'login-message' => ConfigurablePlatformTheme::DEFAULT_PATH,
@@ -181,7 +181,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             return Template::getTemplate('blocks/' . $id . '.tpl', 'tao');
         }
 
-        if ($templates[$id] === static::TEMPLATE_DEFAULT) {
+        if ($templates[$id] === static::DEFAULT_PATH) {
             return Template::getTemplate(
                 $this->defaultThemePath . '/' . $id . '.tpl',
                 $this->getOption(static::EXTENSION_ID)
