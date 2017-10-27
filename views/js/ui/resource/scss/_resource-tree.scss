@@ -7,6 +7,10 @@
         @include transition(opacity, 300ms, linear);
     }
 
+    &.multiple ul li.instance:before{
+        display: block;
+    }
+
     ul {
         list-style-type: none;
         padding: 0;
@@ -46,6 +50,14 @@
                         margin-right: 4px;
                         @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
                     }
+                    &:hover {
+                        background-color: $uiClickableHoverBg;
+                        color: $textHighlight;
+                        &:before {
+                            color: $textHighlight;
+                        }
+                        @include transition(all, 200ms, linear);
+                    }
                 }
                 &.closed {
                     &:before {
@@ -58,12 +70,14 @@
                         display: none;
                     }
                 }
+
                 &.empty:before {
                     content: inherit;
                 }
             }
             &.instance {
                 &:before {
+                    display: none;
                     @include icon-checkbox;
                     color: $info;
                 }
@@ -87,8 +101,6 @@
                     }
                     @include transition(all, 200ms, linear);
                 }
-
-
             }
 
             a:hover {

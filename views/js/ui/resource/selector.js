@@ -57,12 +57,17 @@ define([
 
     var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
 
+    var selectionModes = {
+        single : 'single',
+        multiple : 'multiple'
+    };
+
     var defaultConfig = {
         type : __('resources'),
         noResultsText : _('No resources found'),
         searchPlaceholder : __('Search'),
         icon : 'item',
-        multiple : true,
+        selectionMode : selectionModes.single,
         filters: false,
         formats : {
             list : {
@@ -86,16 +91,17 @@ define([
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
      * @param {String} config.classUri - the root Class URI
+     * @param {Object|[]} [config.classes] - the classes hierarchy for the class selector
      * @param {Object[]} config.formats - the definition of the supported viewer/selector component
      * @param {Objet[]} [config.nodes] - the nodes to preload, the format is up to the formatComponent
      * @param {String} [config.icon] - the icon class that represents a resource
      * @param {String} [config.type] - describes the resource type
-     * @param {Boolean} [config.multiple = true] - multiple vs unique selection
+     * @param {Boolean} [config.selectionMode] - multiple or single selection mode
      * @param {Number} [config.limit = 30] - the default page size for data paging
      * @param {Object|Boolean} [config.filters = false] - false or filters config, see ui/resource/filters
      * @returns {resourceSelector} the component
      */
-    return function resourceSelectorFactory($container, config){
+    var resourceSelectorFactory = function resourceSelectorFactory($container, config){
         var $classContainer;
         var $resultArea;
         var $noResults;
@@ -269,6 +275,20 @@ define([
             },
 
             /**
+             * Let's you change the selection mode
+             * @param {String} newMode - single or multiple
+             * @returns {resourceSelector} chains
+             */
+            changeSelectionMode : function changeSelectionMode(newMode){
+                if(this.is('rendered') && this.config.selectionMode !== newMode && selectionModes[newMode]){
+                    this.config.multiple = newMode === selectionModes.multiple;
+                    this.selectionComponent.setState('multiple', this.config.multiple);
+                    this.setState('multiple', this.config.multiple);
+                }
+                return this;
+            },
+
+            /**
              * Update the component with the given resources
              * @param {Object[]} resources - the data, with at least a URI as key and as property
              * @param {Object} params - the query parameters
@@ -346,6 +366,7 @@ define([
                 this.searchQuery = {};
                 this.classUri    = this.config.classUri;
                 this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
+                this.config.multiple =  this.config.selectionMode === selectionModes.multiple;
 
                 this.render($container);
             })
@@ -501,4 +522,11 @@ define([
         });
         return resourceSelector;
     };
+
+    /**
+     * Exposes the selection modes
+     */
+    resourceSelectorFactory.selectionModes = selectionModes;
+
+    return resourceSelectorFactory;
 });

@@ -33,6 +33,7 @@ define([
     'use strict';
 
     var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
+    var modes = resourceSelectorFactory.selectionModes;
 
     QUnit.module('API');
 
@@ -84,6 +85,7 @@ define([
         { title : 'changeFormat' },
         { title : 'getSearchQuery' },
         { title : 'setSearchQuery' },
+        { title : 'changeSelectionMode' },
     ]).test('Instance API ', function(data, assert) {
         var instance = resourceSelectorFactory();
         assert.equal(typeof instance[data.title], 'function', 'The resourceSelector exposes the method "' + data.title);
@@ -116,15 +118,16 @@ define([
         });
     });
 
-    QUnit.asyncTest('Rendering', function(assert) {
+    QUnit.asyncTest('multiple selection rendering', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(11);
+        QUnit.expect(12);
 
         assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
 
         resourceSelectorFactory($container, {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.multiple,
             classes : classesData
         })
         .after('render', function(){
@@ -142,9 +145,46 @@ define([
             assert.equal($('.selection', $element).length, 1, 'The component has the selection toolbar');
             assert.equal($('.selection .search input', $element).length, 1, 'The component has the pattern input');
             assert.equal($('.selection .selection-control input', $element).length, 1, 'The component has the selection control');
+            assert.ok( ! $('.selection .selection-control label', $element).hasClass('hidden'), 'The selection control is displayed');
 
             assert.equal($('main', $element).length, 1, 'The component has the viewer container');
             assert.equal($('footer .get-selection', $element).length, 1, 'The component has the selection indicator');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('single selection rendering', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(12);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.single,
+            classes : classesData
+        })
+        .after('render', function(){
+
+            var $element = this.getElement();
+
+            assert.equal($('.resource-selector', $container).length, 1, 'The component has been inserted');
+            assert.equal($('.resource-selector', $container)[0], $element[0], 'The component element is correct');
+
+            assert.equal($('.context', $element).length, 1, 'The component has the context toolbar');
+            assert.equal($('.context .class-selector.rendered', $element).length, 1, 'The component has the class selector');
+
+            assert.equal($('.context [data-view-format]', $element).length, 2, 'The component has 2 format switchers');
+
+            assert.equal($('.selection', $element).length, 1, 'The component has the selection toolbar');
+            assert.equal($('.selection .search input', $element).length, 1, 'The component has the pattern input');
+            assert.equal($('.selection .selection-control input', $element).length, 1, 'The component has the selection control');
+            assert.ok($('.selection .selection-control label', $element).hasClass('hidden'), 'The selection control is hidden');
+
+            assert.equal($('main', $element).length, 1, 'The component has the viewer container');
+            assert.equal($('footer .get-selection', $element).length, 0, 'The component has no selection indicator');
 
             QUnit.start();
         });
@@ -207,10 +247,11 @@ define([
             });
     });
 
-    QUnit.asyncTest('selection', function(assert) {
+    QUnit.asyncTest('multiple selection', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.multiple,
             classes : classesData,
             format : 'list'
         };
@@ -228,16 +269,16 @@ define([
                 var selection = this.getSelection();
 
                 assert.equal($control.length, 1, 'The selection control exists');
-                assert.equal($control.prop('indeterminate'), false, 'The selection control says no values');
+                assert.equal($control.prop('indeterminate'), false, 'hThe selection control says no values');
                 assert.equal($control.prop('checked'), false, 'The selection control says no values');
 
-                assert.equal($node1.length, 1, 'The node1 exists');
-                assert.ok(! $node1.hasClass('selected'), 'The node1 is not selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898801542197'], 'undefined', 'The selection does not contain the node1');
+                assert.equal($node1.length, 1, 'node2 exists');
+                assert.ok(! $node1.hasClass('selected'), 'node2 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898801542197'], 'undefined', 'The selection does not contain node1');
 
-                assert.equal($node2.length, 1, 'The node1 exists');
-                assert.ok(! $node2.hasClass('selected'), 'The node1 is not selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988061562101'], 'undefined', 'The selection does not contain the noder2');
+                assert.equal($node2.length, 1, 'node1 exists');
+                assert.ok(! $node2.hasClass('selected'), 'node1 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988061562101'], 'undefined', 'The selection does not contain noder2');
 
                 $node1.click();
                 $node2.click();
@@ -247,11 +288,11 @@ define([
                 assert.equal($control.prop('indeterminate'), true, 'The selection control says some values');
                 assert.equal($control.prop('checked'), false, 'The selection control says some values');
 
-                assert.ok($node1.hasClass('selected'), 'The node1 is now selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'object', 'The selection contains the node1');
+                assert.ok($node1.hasClass('selected'), 'node1 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'object', 'The selection contains node1');
 
-                assert.ok($node2.hasClass('selected'), 'The node2 is now selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'object', 'The selection contains the node2');
+                assert.ok($node2.hasClass('selected'), 'node2 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'object', 'The selection contains node2');
 
                 this.clearSelection();
                 selection = this.getSelection();
@@ -259,11 +300,11 @@ define([
                 assert.equal($control.prop('indeterminate'), false, 'The selection control says no values');
                 assert.equal($control.prop('checked'), false, 'The selection control says no values');
 
-                assert.ok(! $node1.hasClass('selected'), 'The node1 is not selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898801542197'], 'undefined', 'The selection does not contain the node1');
+                assert.ok(! $node1.hasClass('selected'), 'node1 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898801542197'], 'undefined', 'The selection does not contain node1');
 
-                assert.ok(! $node2.hasClass('selected'), 'The node1 is not selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988061562101'], 'undefined', 'The selection does not contain the noder2');
+                assert.ok(! $node2.hasClass('selected'), 'node2 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'undefined', 'The selection does not contain node2');
 
                 $control.click();
                 selection = this.getSelection();
@@ -271,13 +312,115 @@ define([
                 assert.equal($control.prop('indeterminate'), false, 'The selection control says all  values');
                 assert.equal($control.prop('checked'), true, 'The selection control says all values');
 
-                assert.ok($node1.hasClass('selected'), 'The node1 is now selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'object', 'The selection contains the node1');
+                assert.ok($node1.hasClass('selected'), 'node1 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'object', 'The selection contains node1');
 
-                assert.ok($node2.hasClass('selected'), 'The node2 is now selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'object', 'The selection contains the node2');
+                assert.ok($node2.hasClass('selected'), 'node2 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'object', 'The selection contains node2');
 
                 QUnit.start();
+            })
+            .on('query', function(params){
+                this.update(listData, params);
+            });
+    });
+
+
+    QUnit.asyncTest('single selection', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.single,
+            classes : classesData,
+            format : 'list'
+        };
+
+        QUnit.expect(19);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on('update', function(){
+                var $node1 = $('[data-uri="http://bertao/tao.rdf#i14918988138981105"]', this.getElement());
+                var $node2 = $('[data-uri="http://bertao/tao.rdf#i14918988538969120"]', this.getElement());
+
+                var selection = this.getSelection();
+
+                assert.equal($node1.length, 1, 'node1 exists');
+                assert.ok(! $node1.hasClass('selected'), 'node1 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'undefined', 'The selection does not contain node1');
+
+                assert.equal($node2.length, 1, 'node2 exists');
+                assert.ok(! $node2.hasClass('selected'), 'node2 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'undefined', 'The selection does not contain node2');
+
+                $node1.click();
+
+                selection = this.getSelection();
+
+                assert.ok($node1.hasClass('selected'), 'node1 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'object', 'The selection contains node1');
+
+                assert.ok(! $node2.hasClass('selected'), 'node2 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'undefined', 'The selection does not contain node2');
+
+                this.clearSelection();
+                selection = this.getSelection();
+
+                assert.ok(! $node1.hasClass('selected'), 'node1 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'undefined', 'The selection does not contain node1');
+
+                assert.ok(! $node2.hasClass('selected'), 'node2 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'undefined', 'The selection does not contain node2');
+
+                $node1.click();
+                $node2.click();
+                selection = this.getSelection();
+
+                assert.ok(! $node1.hasClass('selected'), 'node1 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'undefined', 'The selection does not contain node1');
+
+                assert.ok($node2.hasClass('selected'), 'node2 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988538969120'], 'object', 'The selection contains node2');
+
+                QUnit.start();
+            })
+            .on('query', function(params){
+                this.update(listData, params);
+            });
+    });
+
+
+    QUnit.asyncTest('selection change', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.single,
+            classes : classesData,
+            format : 'list'
+        };
+
+        QUnit.expect(6);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on('change', function(selection){
+                var $node1 = $('[data-uri="http://bertao/tao.rdf#i14918988138981105"]', this.getElement());
+                assert.ok($node1.hasClass('selected'), 'node1 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'object', 'The selection contains node1');
+                QUnit.start();
+            })
+            .on('update', function(){
+                var $node1 = $('[data-uri="http://bertao/tao.rdf#i14918988138981105"]', this.getElement());
+
+                var selection = this.getSelection();
+
+                assert.equal($node1.length, 1, 'node1 exists');
+                assert.ok(! $node1.hasClass('selected'), 'node1 is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i14918988138981105'], 'undefined', 'The selection does not contain node1');
+                $node1.click();
+
             })
             .on('query', function(params){
                 this.update(listData, params);
