@@ -137,8 +137,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *     ],
      *     // array of translatable strings
      *     'customTexts' => [
-     *          'diagBrowserCheckResult' => __('Your browser %CURRENT_BROWSER% is not compatible.'),
-     *          'diagOsCheckResult'      => __('Your Operating System %CURRENT_OS% is not compatible.')
+     *          'diagBrowserCheckResult' => 'Your browser %CURRENT_BROWSER% is not compatible.',
+     *          'diagOsCheckResult'      => 'Your Operating System %CURRENT_OS% is not compatible.'
      *     ],
      *     'whateverCustomStuff' => 'anything as long as the key is in camelCase'
      * ];
