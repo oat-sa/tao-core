@@ -247,18 +247,6 @@ define([
                     }
                 });
 
-                $component.on('click', '.class', function(e){
-                    var $instance = $(e.currentTarget);
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    if($instance.hasClass('selected')){
-                        self.unselect($instance.data('uri'));
-                    } else {
-                        self.select($instance.data('uri'), true);
-                    }
-                });
-
                 //need more data
                 $component.on('click', '.more', function(e){
                     var $root = $(e.currentTarget).parent('.class');
