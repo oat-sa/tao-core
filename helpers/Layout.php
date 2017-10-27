@@ -25,6 +25,7 @@ use Jig\Utils\StringUtils;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\theme\ConfigurablePlatformTheme;
+use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
@@ -210,7 +211,10 @@ class Layout
     public static function getLogoUrl()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurablePlatformTheme) {
+        if (
+            $theme instanceof ConfigurableTheme ||
+            $theme instanceof ConfigurablePlatformTheme
+        ) {
             $logoFile = $theme->getLogoUrl();
             if (! empty($logoFile)) {
                 return $logoFile;
@@ -266,7 +270,10 @@ class Layout
     public static function getLinkUrl()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurablePlatformTheme) {
+        if (
+            $theme instanceof ConfigurableTheme ||
+            $theme instanceof ConfigurablePlatformTheme
+        ) {
             $link = $theme->getLink();
             if (! empty($link)) {
                 return $link;
@@ -302,7 +309,10 @@ class Layout
     public static function getMessage()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurablePlatformTheme) {
+        if (
+            $theme instanceof ConfigurableTheme ||
+            $theme instanceof ConfigurablePlatformTheme
+        ) {
             $message = $theme->getMessage();
             if (! empty($message)) {
                 return $message;
