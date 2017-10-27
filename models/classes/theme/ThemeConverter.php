@@ -32,9 +32,8 @@ use oat\tao\helpers\Template;
  *
  * @package oat\tao\model\theme
  */
-class ThemeConverter
+class ThemeConverter extends ConfigurablePlatformTheme
 {
-
 
     /**
      * Build an instance of ConfigurablePlatformTheme from a legacy theme
