@@ -427,6 +427,43 @@ define([
             });
     });
 
+    QUnit.asyncTest('class selection', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.single,
+            selectClass : true,
+            classes : classesData,
+            format : 'tree'
+        };
+
+        QUnit.expect(6);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on('change', function(selection){
+                var $class = $('.resource-tree [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+                assert.ok($class.hasClass('selected'), 'node1 is now selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898712953393'], 'object', 'The selection contains the class');
+                QUnit.start();
+            })
+            .on('update', function(){
+                var $class = $('.resource-tree [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+
+                var selection = this.getSelection();
+
+                assert.equal($class.length, 1, 'The class node exists');
+                assert.ok(! $class.hasClass('selected'), 'The class node is not selected');
+                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898712953393'], 'undefined', 'The selection does not contain the class');
+
+                $class.click();
+            })
+            .on('query', function(params){
+                this.update(treeRootData, params);
+            });
+    });
+
     QUnit.asyncTest('search', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
@@ -570,7 +607,7 @@ define([
                 }
             })
             .on('change', function(selection){
-                console.log(selection);
+                window.console.log(selection);
             });
     });
 });
