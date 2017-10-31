@@ -175,6 +175,7 @@ define([
                 }
 
                 if(this.is('rendered')){
+
                     $component = this.getElement();
 
                     if(params && params.classUri){

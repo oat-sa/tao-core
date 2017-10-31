@@ -311,6 +311,7 @@ define([
 
                     hider.hide($noResults);
 
+
                     if(!this.selectionComponent){
 
                         this.selectionComponent = componentFactory($resultArea, _.defaults({
@@ -350,6 +351,51 @@ define([
             updateFilters : function updateFilters(filterConfig){
                 if(this.is('rendered') && filterConfig !== false && this.filtersComponent){
                     this.filtersComponent.update(filterConfig);
+                }
+                return this;
+            },
+
+            /**
+             * Remove a given node, from the selection component and the node list.
+             *
+             * @param {Object|String} node - the node or the node URI
+             * @param {String} [node.uri]
+             * @returns {resourceSelector} chains
+             */
+            removeNode : function removeNode(node){
+                var uri;
+                if(this.is('rendered') && this.selectionComponent){
+                    uri = _.isString(node) ? node : node.uri;
+                    if(this.selectionComponent.hasNode(uri)){
+                        this.selectionComponent.removeNode(uri);
+                        $('[data-uri="' + uri + '"]', $resultArea).remove();
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Add manually a node.
+             *
+             * @param {Object} node - the node to add
+             * @param {String} node.uri
+             * @param {String} node.label
+             * @param {String} [node.type=instance] - instance or class
+             * @param {String} [parentUri] - where to append the new node
+             * @returns {resourceSelector} chains
+             */
+            addNode : function addNode(node, parentUri){
+                if(this.is('rendered') && node && node.uri && this.selectionComponent){
+                    if(!this.selectionComponent.hasNode(node.uri)){
+                        if(!node.type){
+                            node.type = 'instance';
+                        }
+                        this.selectionComponent.update([node], {
+                            classUri: parentUri || this.classUri,
+                            format:   this.format,
+                            limit  : this.config.limit
+                        });
+                    }
                 }
                 return this;
             }

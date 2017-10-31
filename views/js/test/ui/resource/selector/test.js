@@ -86,6 +86,8 @@ define([
         { title : 'getSearchQuery' },
         { title : 'setSearchQuery' },
         { title : 'changeSelectionMode' },
+        { title : 'removeNode' },
+        { title : 'addNode' },
     ]).test('Instance API ', function(data, assert) {
         var instance = resourceSelectorFactory();
         assert.equal(typeof instance[data.title], 'function', 'The resourceSelector exposes the method "' + data.title);
@@ -538,6 +540,111 @@ define([
             .on('query.bar', function(params){
                 this.update(listData, params);
                 this.off('query.bar');
+            });
+    });
+
+    QUnit.asyncTest('remove a node', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            classes : classesData,
+            format : 'tree'
+        };
+
+        var nodeUri = 'http://bertao/tao.rdf#i1491898771637894';
+
+        QUnit.expect(5);
+
+        resourceSelectorFactory($container, config)
+            .on('update.foo', function(){
+                var $node;
+                var selection;
+
+                this.off('update.foo');
+
+                $node = $('.instance[data-uri="' + nodeUri + '"]', this.getElement());
+                assert.equal($node.length, 1, 'The node exists');
+
+                //add the node to the selection
+                $node.click();
+                selection = this.getSelection();
+                assert.ok($node.hasClass('selected'), 'node is selected');
+                assert.equal(typeof selection[nodeUri], 'object', 'The selection contains our node');
+
+                this.removeNode(nodeUri);
+
+                $node = $('.instance[data-uri="' + nodeUri + '"]', this.getElement());
+                assert.equal($node.length, 0, 'The node has been remove from the DOM');
+
+                selection = this.getSelection();
+                assert.equal(typeof selection[nodeUri], 'undefined', 'The selection does not contains the removed node');
+
+                QUnit.start();
+            })
+            .on('query', function(params){
+                if(config.classUri === params.classUri){
+                    this.update(treeRootData, params);
+                } else {
+                    this.update(treeNodeData, params);
+                }
+            });
+    });
+
+    QUnit.asyncTest('add a node', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            classes : classesData,
+            format : 'tree'
+        };
+
+        var parentUri = 'http://bertao/tao.rdf#i1491898694361191';
+        var newNode = {
+            uri :  'http://bertao/tao.rdf#i1234',
+            label : 'FooBar Node'
+        };
+
+        QUnit.expect(8);
+
+        resourceSelectorFactory($container, config)
+            .on('update.foo', function(){
+                var $node;
+                var $parentNode;
+                var selection;
+
+                this.off('update.foo');
+
+                $parentNode = $('.class[data-uri="' + parentUri + '"]', this.getElement());
+                assert.equal($parentNode.length, 1, 'The parent node exists');
+
+                $node = $('.instance[data-uri="' + newNode.uri + '"]', this.getElement());
+                assert.equal($node.length, 0, 'The node does not exist');
+
+                selection = this.getSelection();
+                assert.equal(typeof selection[newNode.uri], 'undefined', 'The selection does not contain the future node');
+
+                //add the node
+                this.addNode(newNode, parentUri);
+
+                $node = $('.instance[data-uri="' + newNode.uri + '"]', this.getElement());
+                assert.equal($node.length, 1, 'The node has been inserted');
+                assert.equal($node.parents('.class').data('uri'), parentUri, 'The node has been inserted under the correct parent');
+                assert.equal($node.text().trim(), newNode.label, 'The node has the correct label');
+
+                //ensure the new node can be selected
+                $node.click();
+                selection = this.getSelection();
+                assert.ok($node.hasClass('selected'), 'node is selected');
+                assert.equal(typeof selection[newNode.uri], 'object', 'The selection contains our node');
+
+                QUnit.start();
+            })
+            .on('query', function(params){
+                if(config.classUri === params.classUri){
+                    this.update(treeRootData, params);
+                } else {
+                    this.update(treeNodeData, params);
+                }
             });
     });
 
