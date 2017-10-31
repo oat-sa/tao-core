@@ -33,6 +33,7 @@ define([
     'i18n',
     'core/areaBroker',
     'ui/component',
+    'ui/feedback',
     'ui/hider',
     'ui/resource/selector',
     'ui/dialog/confirm',
@@ -41,7 +42,7 @@ define([
     'css!ui/mediaSelector/css/selector.css',
     'ui/previewer',
     'ui/uploader',
-], function($, _, __, areaBroker, component, hider, resourceSelectorFactory, confirmDialog, selectorTpl, propertiesTpl){
+], function($, _, __, areaBroker, component, feedback, hider, resourceSelectorFactory, confirmDialog, selectorTpl, propertiesTpl){
     'use strict';
 
     var defaultConfig = {
@@ -147,6 +148,15 @@ define([
                 this.setState('preview', !this.config.startUploading);
                 this.setState('upload', this.config.startUploading);
 
+
+                if(this.config.filters){
+                    if(_.isString(this.config.filters)){
+                        this.config.filters = this.config.filters.split(',');
+                    } else if(_.some(this.config.filters, _.isPlainObject)) {
+                        this.config.filters = _.pluck(this.config.filters, 'mime');
+                    }
+                }
+
                 this.render($container);
             })
             .on('render', function(){
@@ -167,8 +177,47 @@ define([
                     upload      : true,
                     multiple    : true,
                     fileSelect  : function(files, done){
-                        console.log(files);
-                        done(files);
+                        var filtered;
+
+                        //check the mime-type
+                        if(self.config.filters){
+
+                            //TODO check stars
+                            filtered = _.filter(files, function(file){
+                                // Under rare circumstances a browser may report the mime type
+                                // with quotes (e.g. "application/foo" instead of application/foo)
+                                var checkType = file.type.replace(/^["']+|['"]+$/g, '');
+                                return _.contains(self.config.filters, checkType);
+                            });
+
+                            if(files.length !== givenLength){
+                                feedback().error('Unauthorized files have been removed');
+                            }
+                        } else {
+                            filtered = files;
+                        }
+
+                    async.filter(files, function(file, cb){
+                        var result = true;
+
+                        //try to call a server side service to check whether the selected files exists or not.
+                        if(options.fileExistsUrl){
+                            var pathParam = currentPath + '/' + file.name;
+                            pathParam.replace('//','/');
+                            $.getJSON(options.fileExistsUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + pathParam, function(response){
+                                if(response && response.exists === true){
+                                    result = window.confirm('Do you want to override ' + file.name + '?');
+                                }
+                                cb(result);
+                            });
+                        } else{
+                            //fallback on client side check
+                            if(_.contains(fileNames, file.name.toLowerCase())){
+                                result = window.confirm('Do you want to override ' + file.name + '?');
+                            }
+                            cb(result);
+                        }
+                    }, done);
                     }
                 });
 
@@ -191,7 +240,6 @@ define([
                         self.unSelectMedia();
                     }
                 });
-
 
                 areas.getArea('actions').on('click', '.action a', function(e){
                     var $actionElt;
