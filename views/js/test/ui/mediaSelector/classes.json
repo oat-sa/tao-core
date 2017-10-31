@@ -1,0 +1,29 @@
+[{
+  "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#Media",
+  "label": "Media",
+  "children": [{
+
+    "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#MediaSourceLocal",
+    "label": "Local",
+    "children": [{
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#local1",
+      "label": "images"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#local2",
+      "label": "style"
+    }]
+  }, {
+    "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#MediaSourceShare",
+    "label": "Shared",
+    "children": [{
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#shared1",
+      "label": "images"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#shared2",
+      "label": "videos"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#shared3",
+      "label": "audio"
+    }]
+  }]
+}]

@@ -1,0 +1,81 @@
+[{
+  "label": "Media",
+  "type": "class",
+  "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOMedia.rdf#Media",
+  "state": "open",
+  "count": 3,
+  "children": [{
+    "label": "Some class",
+    "type": "class",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508942861564114542",
+    "state": "open",
+    "count": 1,
+    "children": [{
+      "label": "tao-logo.png",
+      "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508942878515714543",
+      "mime": "image\/png",
+      "size": 7354,
+      "alt": "tao-logo.png",
+      "url": "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i1508942878515714543",
+      "type": "instance"
+    }]
+  }, {
+    "label": "europe-map.png",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508506508983764",
+    "mime": "image\/png",
+    "size": 130156,
+    "alt": "Europe map",
+    "url" : "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i1508506508983764",
+    "type": "instance"
+  }, {
+    "label": "au.png",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508506544243465",
+    "mime": "image\/png",
+    "size": 1504,
+    "alt": "au flag",
+    "url" : "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i1508506544243465",
+    "type": "instance"
+  }, {
+    "label": "ca.png",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508506568151066",
+    "mime": "image\/png",
+    "size": 1005,
+    "alt": "ca flag",
+    "url" : "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i1508506568151066",
+    "type": "instance"
+  }, {
+    "label": "bg.png",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508506589171667",
+    "mime": "image\/png",
+    "size": 483,
+    "alt": "bg flag",
+    "url" : "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i1508506589171667",
+    "type": "instance"
+  }, {
+    "label": "de.png",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i150850660377168",
+    "mime": "image\/png",
+    "size": 602,
+    "alt": "de flag",
+    "url" : "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i150850660377168",
+
+    "type": "instance"
+  }, {
+    "label": "fr.png",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508506642871969",
+    "mime": "image\/png",
+    "size": 637,
+    "alt": "fr flag",
+    "url" : "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i1508506642871969",
+    "type": "instance"
+  }, {
+    "label": "gb.png",
+    "uri": "taomedia:\/\/mediamanager\/http_2_bertaodev_1_tao_0_rdf_3_i1508506668922970",
+    "mime": "image\/png",
+    "size": 1767,
+    "alt": "gb flag",
+    "url" : "https://taodev.localdomain/taoMediaManager/MediaManager/getFile?uri=http%3A%2F%2Fbertaodev%2Ftao.rdf%23i1508506668922970",
+    "type": "instance"
+
+  }]
+}]
