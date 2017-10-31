@@ -1,0 +1,84 @@
+@import 'inc/bootstrap';
+
+
+.media-selector {
+
+    //background-color: $uiClickableDefaultBg;
+    background-color: #fff;
+    position: relative;
+    height: 100%;
+    max-width: 850px;
+    margin: auto;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+
+    & > section {
+        flex : 1 1 auto;
+    }
+
+    .media-browser {
+
+        flex : 0 1 292px;
+
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: stretch;
+
+        .resource-selector-container {
+            flex : 1 1 auto;
+            position: relative;
+            height: 100%;
+        }
+        .actions {
+            //background-color : white;
+            margin: 0;
+            padding: 10px;
+            width: 100%;
+            flex : 0 1 100px;
+            left: 0;
+        }
+    }
+    .media-view, .media-upload {
+
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: stretch;
+
+        & > h2 {
+            margin: 0;
+            padding: 5px 10px;
+        }
+        .media-preview {
+            flex : 1 0 auto;
+            border: solid 5px $uiClickableDefaultBg;
+            @include border-radius(3);
+            margin: 5px 10px;
+            position: relative;
+
+            & > img, .nopreview {
+                position: absolute;
+                display: block;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 400px;
+                max-height: 400px;
+            }
+        }
+        .media-properties {
+            flex : 0 1 130px;
+            padding: 5px 10px;
+        }
+
+        .actions {
+            text-align: right;
+            padding: 5px 10px 10px 10px;
+        }
+
+        .media-uploader {
+            padding: 5px 10px;
+        }
+    }
+}
