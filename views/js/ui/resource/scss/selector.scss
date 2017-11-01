@@ -138,7 +138,7 @@
     main {
         @include simple-flex-box;
 
-        min-height: 250px;
+        min-height: 150px;
 
         border-top: solid 1px $uiGeneralContentBorder;
         background-color: $uiGeneralContentBg;

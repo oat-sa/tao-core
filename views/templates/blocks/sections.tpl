@@ -8,7 +8,7 @@ $sections = get_data('sections');
 
 <?php if ($sections): ?>
     <div class="section-container">
-        
+
         <ul class="tab-container clearfix">
             <?php foreach ($sections as $section): ?>
 
@@ -23,7 +23,7 @@ $sections = get_data('sections');
 
         <?php foreach ($sections as $section): ?>
             <div class="hidden clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
-            
+
                 <section class="navi-container">
                     <div class="section-trees">
                         <?php foreach ($section->getTrees() as $i => $tree):
@@ -39,14 +39,15 @@ $sections = get_data('sections');
                                      : strtolower(str_replace(' ', '_', $tree->get('className'))) ?>"
                                  data-url="<?= $tree->get('dataUrl') ?>"
                                  data-rootNode="<?= $tree->get('rootNode') ?>"
+                                 data-icon="<?= is_null($tree->get('className')) ? 'test'  : strtolower(str_replace(' ', '-', $tree->get('className'))) ?>"
                                  data-actions="<?= htmlspecialchars(json_encode($tree->getActions()), ENT_QUOTES) ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>
-    
+
                     <div class="tree-action-bar-box">
                         <ul class="plain action-bar tree-action-bar vertical-action-bar">
-                        <?php  
+                        <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
                                 'actions' => $section->getActionsByGroup('tree')
                             ));
@@ -56,7 +57,7 @@ $sections = get_data('sections');
                         <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
                                 'actions' => $section->getActionsByGroup('none')
-                            )); 
+                            ));
                         ?>
                         </ul>
                     </div>

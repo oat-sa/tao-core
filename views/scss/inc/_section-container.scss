@@ -32,6 +32,8 @@
     // @todo all simple-flex-box references below should be removed once all templates are upgraded
 
     top: 0 !important;
+    position: relative;
+    height: calc(100% - 99px);
 
     .section-header {
         border: none;
@@ -93,16 +95,34 @@
 
 
     .navi-container {
+
+        position: relative;
         display:none;
-        background:  $canvas;
+        @include flex-container(nowrap, column);
         @include simple-flex-box($treeSidebar * 1px);
+        background:  $canvas;
         border-right: 1px $uiGeneralContentBorder solid;
+
         .block-title {
             @include font-size(14);
             padding: 2px 8px;
             margin: 0;
         }
+        .section-trees {
+            position: relative;
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+
+            min-height: 200px;
+            height: 100%;
+
+            .taotree {
+                position: relative;
+                height: calc(100% - 35px);
+            }
+        }
         .tree-action-bar-box {
+            position: relative;
+            @include vendor-prefix(flex, 1 1 120px, property, (-ms-, -webkit-, ''));
             margin: 10px 0;
             opacity: 0;
             &.active {
