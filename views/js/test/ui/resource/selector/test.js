@@ -437,25 +437,31 @@ define([
             format : 'tree'
         };
 
+        var classUri = 'http://bertao/tao.rdf#i1491898712953393';
+
         QUnit.expect(6);
 
         assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
 
         resourceSelectorFactory($container, config)
             .on('change', function(selection){
-                var $class = $('.resource-tree [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+                var $class = $('.class[data-uri="' + classUri + '"]', this.getElement());
                 assert.ok($class.hasClass('selected'), 'node1 is now selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898712953393'], 'object', 'The selection contains the class');
+                assert.equal(typeof selection[classUri], 'object', 'The selection contains the class');
                 QUnit.start();
             })
-            .on('update', function(){
-                var $class = $('.resource-tree [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+            .on('update.foobar', function(){
+                var $class;
+                var selection;
 
-                var selection = this.getSelection();
+                this.off('update.foobar');
+
+                $class = $('.class[data-uri="' + classUri + '"]', this.getElement());
+                selection = this.getSelection();
 
                 assert.equal($class.length, 1, 'The class node exists');
                 assert.ok(! $class.hasClass('selected'), 'The class node is not selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898712953393'], 'undefined', 'The selection does not contain the class');
+                assert.equal(typeof selection[classUri], 'undefined', 'The selection does not contain the class');
 
                 $class.click();
             })
