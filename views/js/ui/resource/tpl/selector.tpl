@@ -15,11 +15,11 @@
             {{/if}}
         </div>
         <div class="selection-control">
-            <a href="#" class="toggle-mode {{#unless switchMode}}hidden{{/unless}}" title="{{__ 'Multiple selection'}}">
-                <span class="icon-multiple"></span>
+            <a href="#" class="selection-toggle {{#unless switchMode}}hidden{{/unless}}" title="{{__ 'Multiple selection'}}">
+                <span class="icon-multi-select"></span>
             </a>
-            <label class="{{#unless multiple}}hidden{{/unless}}">
-                <input type="checkbox" />
+            <label class="selection-indicator {{#unless multiple}}hidden{{/unless}}">
+                <input type="checkbox">
                 <span class="icon-checkbox"></span>
             </label>
         </div>

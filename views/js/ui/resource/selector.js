@@ -114,7 +114,7 @@ define([
         var $selectCtrlLabel;
         var $filterToggle;
         var $filterContainer;
-        var $modeSwitcher;
+        var $selectionToggle;
 
         var resourceSelectorApi = {
 
@@ -289,7 +289,6 @@ define([
                     this.setState('multiple', this.config.multiple);
 
                     if(this.config.multiple){
-                        hider.hide($modeSwitcher);
                         hider.show($selectCtrlLabel);
                     } else {
                         hider.hide($selectCtrlLabel);
@@ -434,17 +433,17 @@ define([
                 return new Promise(function(resolve){
                     var $component = self.getElement();
 
-                    $classContainer  = $('.class-context', $component);
-                    $resultArea      = $('main', $component);
-                    $noResults       = $('.no-results', $resultArea);
-                    $searchField     = $('.search input', $component);
-                    $filterToggle    = $('.filters-opener', $component);
-                    $filterContainer = $('.filters-container', $component);
-                    $viewFormats     = $('.context > a', $component);
-                    $selectNum       = $('.selected-num', $component);
-                    $selectCtrl      = $('.selection-control input', $component);
-                    $selectCtrlLabel = $('.selection-control label', $component);
-                    $modeSwitcher    = $('.toggle-mode', $component);
+                    $classContainer   = $('.class-context', $component);
+                    $resultArea       = $('main', $component);
+                    $noResults        = $('.no-results', $resultArea);
+                    $searchField      = $('.search input', $component);
+                    $filterToggle     = $('.filters-opener', $component);
+                    $filterContainer  = $('.filters-container', $component);
+                    $viewFormats      = $('.context > a', $component);
+                    $selectNum        = $('.selected-num', $component);
+                    $selectCtrl       = $('.selection-control input', $component);
+                    $selectCtrlLabel  = $('.selection-control label', $component);
+                    $selectionToggle  = $('.selection-toggle', $component);
 
                     //the search field
                     $searchField.on('keyup', _.debounce(function(e){
@@ -475,11 +474,15 @@ define([
 
                     //mode switcher
                     if(self.config.selectionMode === selectionModes.both){
-                        $modeSwitcher.on('click', function(e){
+                        $selectionToggle.on('click', function(e){
                             e.preventDefault();
-                            self.changeSelectionMode(selectionModes.multiple);
-                            hider.hide($modeSwitcher);
-                            hider.show($selectCtrlLabel);
+                            self.changeSelectionMode(self.config.multiple ? selectionModes.single : selectionModes.multiple);
+                        });
+
+                        $resultArea.on('mousedown', function(e){
+                            if(e.ctrlKey && !self.config.multiple){
+                                self.changeSelectionMode(selectionModes.multiple);
+                            }
                         });
                     }
 

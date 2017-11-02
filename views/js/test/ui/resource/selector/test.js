@@ -327,7 +327,6 @@ define([
             });
     });
 
-
     QUnit.asyncTest('single selection', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
@@ -391,7 +390,6 @@ define([
                 this.update(listData, params);
             });
     });
-
 
     QUnit.asyncTest('selection change', function(assert) {
         var $container = $('#qunit-fixture');
@@ -469,6 +467,49 @@ define([
             })
             .on('query', function(params){
                 this.update(treeRootData, params);
+            });
+    });
+
+    QUnit.asyncTest('change selection mode', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.both,
+            classes : classesData,
+            format : 'list'
+        };
+
+        QUnit.expect(10);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on('update', function(){
+                var $toggler = $('.selection-toggle', this.getElement());
+                var $indicator = $('.selection-control label', this.getElement());
+
+                assert.equal($toggler.length, 1, 'the toggler exists');
+                assert.ok( ! $toggler.hasClass('hidden'), 'the toggler is displayed');
+
+                assert.equal($indicator.length, 1, 'the indicator exists');
+                assert.ok($indicator.hasClass('hidden'), 'the indicator is hidden');
+
+                assert.ok( ! this.is('multiple'), 'The component starts in single mode');
+
+                $toggler.click();
+
+                assert.ok(this.is('multiple'), 'The component is now in multiple mode');
+                assert.ok( ! $indicator.hasClass('hidden'), 'the indicator is now displayed');
+
+                this.changeSelectionMode('single');
+
+                assert.ok( ! this.is('multiple'), 'The component is now in single mode');
+                assert.ok($indicator.hasClass('hidden'), 'the indicator is now hidden');
+
+                QUnit.start();
+            })
+            .on('query', function(params){
+                this.update(listData, params);
             });
     });
 
