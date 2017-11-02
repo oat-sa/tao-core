@@ -7,6 +7,10 @@
         @include transition(opacity, 300ms, linear);
     }
 
+    &.multiple ul li.instance:before{
+        display: block;
+    }
+
     ul {
         list-style-type: none;
         padding: 0;
@@ -35,8 +39,28 @@
                 text-align:center;
             }
             &.class {
-                &:before {
-                    @include icon-down;
+                .class-toggler {
+                    position: absolute;
+                    width: 50px;
+                    right: 0;
+                    top: 0;
+                    height: 40px;
+                    &:before {
+                        @include tao-icon-setup;
+                        @include icon-down;
+                        position: absolute;
+                        right: 17px;
+                        top: 12px;
+                        width: 14px;
+                        @include font-size(15);
+                        text-align:center;
+                    }
+                    &:hover {
+                        cursor: pointer;
+                        &:before{
+                            font-weight: bold;
+                        }
+                    }
                 }
                 & > a {
                     &:before {
@@ -46,9 +70,35 @@
                         margin-right: 4px;
                         @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
                     }
+                    &:hover {
+                        background-color: $uiClickableHoverBg;
+                        color: $textHighlight;
+                        &:before {
+                            color: $textHighlight;
+                        }
+                        @include transition(all, 200ms, linear);
+                    }
+                    &:hover ~ .class-toggler:before{
+                        color: $textHighlight;
+                        @include transition(all, 200ms, linear);
+                    }
+                }
+
+                &.selected {
+                    & > .class-toggler:before {
+                        color: $textHighlight;
+                    }
+                    & > a {
+                        background-color: $uiClickableHoverBg;
+                        color: $textHighlight;
+                        &:before {
+                            color: $textHighlight;
+                        }
+                        @include transition(all, 200ms, linear);
+                    }
                 }
                 &.closed {
-                    &:before {
+                    & > .class-toggler:before {
                         @include icon-right;
                     }
                     & > a:before {
@@ -58,12 +108,14 @@
                         display: none;
                     }
                 }
+
                 &.empty:before {
                     content: inherit;
                 }
             }
             &.instance {
                 &:before {
+                    display: none;
                     @include icon-checkbox;
                     color: $info;
                 }
@@ -87,8 +139,6 @@
                     }
                     @include transition(all, 200ms, linear);
                 }
-
-
             }
 
             a:hover {
