@@ -656,11 +656,36 @@ define([
 
     QUnit
         .cases([
+            // with default origins
             { title: 'centerH, centerV',    hPos: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
             { title: 'leftH, centerV',      hPos: 'left',   vPos: 'center', expectedX: 200, expectedY: 325 },
             { title: 'rightH, centerV',     hPos: 'right',  vPos: 'center', expectedX: 500, expectedY: 325 },
             { title: 'centerH, topV',       hPos: 'center', vPos: 'top',    expectedX: 350, expectedY: 250 },
-            { title: 'centerH, bottomV',    hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400 }
+            { title: 'centerH, bottomV',    hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400 },
+
+            // with custom hOrigin
+            { title: 'centerH, hOrigin left',    hPos: 'center', hOrigin: 'left',    vPos: 'center', expectedX: 400, expectedY: 325 },
+            { title: 'centerH, hOrigin center',  hPos: 'center', hOrigin: 'center',  vPos: 'center', expectedX: 350, expectedY: 325 },
+            { title: 'centerH, hOrigin right',   hPos: 'center', hOrigin: 'right',   vPos: 'center', expectedX: 300, expectedY: 325 },
+            { title: 'leftH, hOrigin left',      hPos: 'left',   hOrigin: 'left',    vPos: 'center', expectedX: 300, expectedY: 325 },
+            { title: 'leftH, hOrigin center',    hPos: 'left',   hOrigin: 'center',  vPos: 'center', expectedX: 250, expectedY: 325 },
+            { title: 'leftH, hOrigin right',     hPos: 'left',   hOrigin: 'right',   vPos: 'center', expectedX: 200, expectedY: 325 },
+            { title: 'rightH, hOrigin left',     hPos: 'right',  hOrigin: 'left',    vPos: 'center', expectedX: 500, expectedY: 325 },
+            { title: 'rightH, hOrigin center',   hPos: 'right',  hOrigin: 'center',  vPos: 'center', expectedX: 450, expectedY: 325 },
+            { title: 'rightH, hOrigin right',    hPos: 'right',  hOrigin: 'right',   vPos: 'center', expectedX: 400, expectedY: 325 },
+
+            // with custom vOrigin
+            { title: 'centerV, vOrigin top',     hPos: 'center', vOrigin: 'top',    vPos: 'center', expectedX: 350, expectedY: 350 },
+            { title: 'centerV, vOrigin center',  hPos: 'center', vOrigin: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
+            { title: 'centerV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'center', expectedX: 350, expectedY: 300 },
+            { title: 'topV, vOrigin top',        hPos: 'center', vOrigin: 'top',    vPos: 'top',    expectedX: 350, expectedY: 300 },
+            { title: 'topV, vOrigin center',     hPos: 'center', vOrigin: 'center', vPos: 'top',    expectedX: 350, expectedY: 275 },
+            { title: 'topV, vOrigin bottom',     hPos: 'center', vOrigin: 'bottom', vPos: 'top',    expectedX: 350, expectedY: 250 },
+            { title: 'bottomV, vOrigin top',     hPos: 'center', vOrigin: 'top',    vPos: 'bottom', expectedX: 350, expectedY: 400 },
+            { title: 'bottomV, vOrigin center',  hPos: 'center', vOrigin: 'center', vPos: 'bottom', expectedX: 350, expectedY: 375 },
+            { title: 'bottomV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'bottom', expectedX: 350, expectedY: 350 }
+
+
         ])
         .asyncTest('.alignWith(), .hAlignWith(), .vAlignWith()', function (data, assert) {
             var component = makePlaceable(componentFactory()),
@@ -684,7 +709,9 @@ define([
                 .on('render', function() {
                     this.alignWith($refElement, {
                         hPos: data.hPos,
-                        vPos: data.vPos
+                        vPos: data.vPos,
+                        hOrigin: data.hOrigin,
+                        vOrigin: data.vOrigin
                     });
                 })
                 .on('move', function() {
@@ -705,7 +732,7 @@ define([
                         assert.equal(componentPosition.x, 0, 'component x position has been reset');
                         assert.equal(componentPosition.y, 0, 'component y position has been reset');
 
-                        this.hAlignWith($refElement, data.hPos);
+                        this.hAlignWith($refElement, data.hPos, data.hOrigin);
 
                     // .hAlignWith() result
                     } else if(moveCounter === 4) {
@@ -720,7 +747,7 @@ define([
                         assert.equal(componentPosition.x, 0, 'component x position has been reset');
                         assert.equal(componentPosition.y, 0, 'component y position has been reset');
 
-                        this.vAlignWith($refElement, data.vPos);
+                        this.vAlignWith($refElement, data.vPos, data.vOrigin);
 
                     // .vAlignWith() result
                     } else if(moveCounter === 6) {
@@ -755,15 +782,25 @@ define([
                     $target = $container.find('#target'),
                     $hPos = $container.find('#hPos'),
                     $vPos = $container.find('#vPos'),
+                    $hOrigin = $container.find('#hOrigin'),
+                    $vOrigin = $container.find('#vOrigin'),
                     $alignWith = $container.find('#alignWith');
 
                 $alignWith.on('click', function(e) {
-                    e.preventDefault();
-
-                    self.alignWith($($target.val()), {
+                    var options = {
                         hPos: $hPos.val(),
                         vPos: $vPos.val()
-                    });
+                    };
+                    e.preventDefault();
+
+                    if ($hOrigin.val() && $hOrigin.val() !== 'default') {
+                        options.hOrigin = $hOrigin.val();
+                    }
+                    if ($vOrigin.val() && $vOrigin.val() !== 'default') {
+                        options.vOrigin = $vOrigin.val();
+                    }
+
+                    self.alignWith($($target.val()), options);
                 });
 
                 assert.ok(true);
@@ -771,7 +808,8 @@ define([
             })
             .init()
             .render($container)
-            .setSize(200, 100);
+            .setSize(200, 100)
+            .moveBy(100, 100);
     });
 
 });

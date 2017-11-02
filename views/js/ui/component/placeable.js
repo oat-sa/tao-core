@@ -42,6 +42,11 @@ define([
         initialY: 0
     };
 
+    var alignDefaults = {
+        hPos: 'center',
+        vPos: 'center'
+    };
+
     var positioningMode = 'absolute';
 
     var placeableComponent = {
@@ -114,22 +119,24 @@ define([
         /**
          * Place the component so it is horizontally aligned with a reference element
          * @param {jQuery} $element - the reference element
-         * @param {('left'|'center'|'right')} hPos - horizontal position relative to the reference element
+         * @param {('left'|'center'|'right')} [hPos] - horizontal position relative to the reference element
+         * @param {('left'|'center'|'right')} [hOrigin] - the origin of the transformation
          * @returns {Component} chains
          */
-        hAlignWith: function hAlignWith($element, hPos) {
-            var alignedCoords = this._getAlignedCoords($element, { hPos: hPos });
+        hAlignWith: function hAlignWith($element, hPos, hOrigin) {
+            var alignedCoords = this._getAlignedCoords($element, { hPos: hPos, hOrigin: hOrigin });
             return this.moveToX(alignedCoords.x);
         },
 
         /**
          * Place the component so it is vertically aligned with a reference element
          * @param {jQuery} $element - the reference element
-         * @param {('top'|'center'|'bottom')} vPos - vertical position relative to the reference element
+         * @param {('top'|'center'|'bottom')} [vPos] - vertical position relative to the reference element
+         * @param {('top'|'center'|'bottom')} [vOrigin] - the origin of the transformation
          * @returns {Component} chains
          */
-        vAlignWith: function vAlignWith($element, vPos) {
-            var alignedCoords = this._getAlignedCoords($element, { vPos: vPos });
+        vAlignWith: function vAlignWith($element, vPos, vOrigin) {
+            var alignedCoords = this._getAlignedCoords($element, { vPos: vPos, vOrigin: vOrigin });
             return this.moveToY(alignedCoords.y);
         },
 
@@ -138,7 +145,9 @@ define([
          * @param {jQuery} $element - the reference element
          * @param {Object} [options]
          * @param {('left'|'center'|'right')} [options.hPos] - horizontal position relative to the reference element
+         * @param {('left'|'center'|'right')} [options.hOrigin] - the origin of the transformation
          * @param {('top'|'center'|'bottom')} [options.vPos] - vertical position relative to the reference element
+         * @param {('top'|'center'|'bottom')} [options.vOrigin] - the origin of the transformation
          * @returns {x,y} - the aligned coordinates
          * @private
          */
@@ -149,8 +158,9 @@ define([
                 elementOffset,
                 elementWidth,
                 elementHeight,
-                x,
-                y;
+                x, y,
+                hPos, vPos,
+                hOrigin, vOrigin;
 
             options = options || {};
 
@@ -160,42 +170,60 @@ define([
             elementWidth       = $element.outerWidth();
             elementHeight      = $element.outerHeight();
 
-            switch(options.hPos) {
-                case 'left': {
-                    x = (elementOffset.left - containerOffset.left) - componentOuterSize.width;
-                    break;
-                }
-                case 'right': {
-                    x = (elementOffset.left - containerOffset.left) + elementWidth;
-                    break;
-                }
-                default:
-                case 'center': {
-                    x = (elementOffset.left - containerOffset.left) + (elementWidth / 2) - (componentOuterSize.width / 2);
-                    break;
-                }
+            hPos    = options.hPos || alignDefaults.hPos;
+            vPos    = options.vPos || alignDefaults.vPos;
+            hOrigin = options.hOrigin || this._getDefaultHOrigin(options.hPos);
+            vOrigin = options.vOrigin || this._getDefaultVOrigin(options.vPos);
+
+            x = elementOffset.left - containerOffset.left;
+            y = elementOffset.top - containerOffset.top;
+
+            // compute X
+            switch(hPos) {
+                case 'center':  { x += elementWidth / 2; break; }
+                case 'right':   { x += elementWidth;     break; }
+            }
+            switch(hOrigin) {
+                case 'center':  { x -= componentOuterSize.width / 2; break; }
+                case 'right':   { x -= componentOuterSize.width;     break; }
             }
 
-            switch(options.vPos) {
-                case 'top': {
-                    y = (elementOffset.top - containerOffset.top) - componentOuterSize.height;
-                    break;
-                }
-                case 'bottom': {
-                    y = (elementOffset.top - containerOffset.top) + elementHeight;
-                    break;
-                }
-                default:
-                case 'center': {
-                    y = (elementOffset.top - containerOffset.top) + (elementHeight / 2) - (componentOuterSize.height / 2);
-                    break;
-                }
+            // compute Y
+            switch(vPos) {
+                case 'center': { y += elementHeight / 2; break; }
+                case 'bottom': { y += elementHeight;     break; }
+            }
+            switch(vOrigin) {
+                case 'center': { y -= componentOuterSize.height / 2; break; }
+                case 'bottom': { y -= componentOuterSize.height;     break; }
             }
 
             return {
                 x: x,
                 y: y
             };
+        },
+
+        _getDefaultHOrigin: function _getDefaultHOrigin(hPos) {
+            var hOrigin;
+            switch(hPos) {
+                default:
+                case 'center': { hOrigin = 'center'; break; }
+                case 'left':   { hOrigin = 'right';  break; }
+                case 'right':  { hOrigin = 'left';   break; }
+            }
+            return hOrigin;
+        },
+
+        _getDefaultVOrigin: function _getDefaultVOrigin(vPos) {
+            var vOrigin;
+            switch(vPos) {
+                default:
+                case 'center': { vOrigin = 'center';  break; }
+                case 'top':    { vOrigin = 'bottom';  break; }
+                case 'bottom': { vOrigin = 'top';     break; }
+            }
+            return vOrigin;
         },
 
         /**
