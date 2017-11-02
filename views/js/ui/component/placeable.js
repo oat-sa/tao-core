@@ -223,7 +223,16 @@ define([
         },
 
         /**
-         * The default hOrigin changes according to the hPos value
+         * For background compatibility, the default hOrigin changes according to the hPos value
+         * - left => right
+         *              REFERENCE_ELEMENT
+         *     COMPONENT
+         * - center => center
+         *              REFERENCE_ELEMENT
+         *                  COMPONENT
+         * - right => left
+         *              REFERENCE_ELEMENT
+         *                               COMPONENT
          * @returns {('left'|'center'|'right')}
          * @private
          */
@@ -239,7 +248,15 @@ define([
         },
 
         /**
-         * The default vOrigin changes according to the vPos value
+         * For background compatibility, the default vOrigin changes according to the vPos value
+         * - top => bottom
+         *                               COMPONENT
+         *              REFERENCE_ELEMENT
+         * - center => center
+         *              REFERENCE_ELEMENT COMPONENT
+         * - bottom => top
+         *              REFERENCE_ELEMENT
+         *                               COMPONENT
          * @returns {('top'|'center'|'bottom')}
          * @private
          */
