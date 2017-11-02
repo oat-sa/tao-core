@@ -59,7 +59,8 @@ define([
 
     var selectionModes = {
         single : 'single',
-        multiple : 'multiple'
+        multiple : 'multiple',
+        both : 'both'
     };
 
     var defaultConfig = {
@@ -113,6 +114,7 @@ define([
         var $selectCtrlLabel;
         var $filterToggle;
         var $filterContainer;
+        var $modeSwitcher;
 
         var resourceSelectorApi = {
 
@@ -285,6 +287,13 @@ define([
                     this.config.multiple = newMode === selectionModes.multiple;
                     this.selectionComponent.setState('multiple', this.config.multiple);
                     this.setState('multiple', this.config.multiple);
+
+                    if(this.config.multiple){
+                        hider.hide($modeSwitcher);
+                        hider.show($selectCtrlLabel);
+                    } else {
+                        hider.hide($selectCtrlLabel);
+                    }
                 }
                 return this;
             },
@@ -413,6 +422,7 @@ define([
                 this.searchQuery = {};
                 this.classUri    = this.config.classUri;
                 this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
+                this.config.switchMode = this.config.selectionMode === selectionModes.both;
                 this.config.multiple =  this.config.selectionMode === selectionModes.multiple;
 
                 this.render($container);
@@ -434,6 +444,7 @@ define([
                     $selectNum       = $('.selected-num', $component);
                     $selectCtrl      = $('.selection-control input', $component);
                     $selectCtrlLabel = $('.selection-control label', $component);
+                    $modeSwitcher    = $('.toggle-mode', $component);
 
                     //the search field
                     $searchField.on('keyup', _.debounce(function(e){
@@ -461,6 +472,17 @@ define([
                             .changeFormat(format)
                             .query();
                     });
+
+                    //mode switcher
+                    if(self.config.selectionMode === selectionModes.both){
+                        $modeSwitcher.on('click', function(e){
+                            e.preventDefault();
+                            self.changeSelectionMode(selectionModes.multiple);
+                            hider.hide($modeSwitcher);
+                            hider.show($selectCtrlLabel);
+                        });
+                    }
+
 
                     //the select all control
                     $selectCtrl.on('change', function(){

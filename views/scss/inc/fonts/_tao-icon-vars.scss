@@ -32,7 +32,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@mixin icon-multi-select-icon { content: "\e90b"; }
+@mixin icon-multi-select { content: "\e90b"; }
 @mixin icon-clipboard { content: "\e90a"; }
 @mixin icon-filebox { content: "\e909"; }
 @mixin icon-click-to-speak { content: "\e907"; }

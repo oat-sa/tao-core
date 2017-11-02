@@ -699,7 +699,8 @@ define([
         var config = {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
             classes : classesData,
-            selectClass : true
+            selectClass : true,
+            selectionMode: 'both'
         };
 
         resourceSelectorFactory(container, config)
