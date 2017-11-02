@@ -125,8 +125,10 @@ define([
          * Place the component using another element as a reference position
          * @param {jQuery} $element - the reference element
          * @param {Object} [options]
-         * @param {('left'|'center'|'right')} options.hPos - horizontal position relative to the reference element
-         * @param {('top'|'center'|'bottom')} options.vPos - vertical position relative to the reference element
+         * @param {('left'|'center'|'right')} [options.hPos] - horizontal position relative to the reference element
+         * @param {('left'|'center'|'right')} [options.hOrigin] - the origin of the transformation
+         * @param {('top'|'center'|'bottom')} [options.vPos] - vertical position relative to the reference element
+         * @param {('top'|'center'|'bottom')} [options.vOrigin] - the origin of the transformation
          * @returns {Component} chains
          */
         alignWith: function alignWith($element, options) {
