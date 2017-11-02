@@ -81,6 +81,10 @@
             }
             & > a {
                 @include resource-selector-actions;
+                width: 38px;
+            }
+            .selection-toggle .icon-multi-select:before {
+                @include font-size(16);
             }
         }
         .search {
