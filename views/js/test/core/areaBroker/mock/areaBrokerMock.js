@@ -17,6 +17,7 @@
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
     'jquery',
