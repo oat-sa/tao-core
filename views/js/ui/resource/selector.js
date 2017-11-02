@@ -68,6 +68,7 @@ define([
         searchPlaceholder : __('Search'),
         icon : 'item',
         selectionMode : selectionModes.single,
+        selectClass : false,
         filters: false,
         formats : {
             list : {
