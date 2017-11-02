@@ -18,6 +18,7 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-multi-select-icon:before { @include icon-multi-select-icon; }
 .icon-clipboard:before { @include icon-clipboard; }
 .icon-filebox:before { @include icon-filebox; }
 .icon-click-to-speak:before { @include icon-click-to-speak; }
