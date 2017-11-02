@@ -783,10 +783,9 @@ define([
                     $hPos = $container.find('#hPos'),
                     $vPos = $container.find('#vPos'),
                     $hOrigin = $container.find('#hOrigin'),
-                    $vOrigin = $container.find('#vOrigin'),
-                    $alignWith = $container.find('#alignWith');
+                    $vOrigin = $container.find('#vOrigin');
 
-                $alignWith.on('click', function(e) {
+                $container.find('select').on('change', function(e) {
                     var options = {
                         hPos: $hPos.val(),
                         vPos: $vPos.val()
