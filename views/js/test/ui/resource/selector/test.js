@@ -611,9 +611,6 @@ define([
                 if(params.format === 'list'){
                     this.update(listData, params);
                 }
-            })
-            .on('change', function(selection){
-                window.console.log(selection);
             });
     });
 });
