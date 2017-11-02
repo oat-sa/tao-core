@@ -23,11 +23,10 @@ $sections = get_data('sections');
 
         <?php foreach ($sections as $section): ?>
             <div class="hidden clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
-
+                <?php if(count($section->getTrees()) > 0): ?>
                 <section class="navi-container">
                     <div class="section-trees">
-                        <?php foreach ($section->getTrees() as $i => $tree):
-                        ?>
+                        <?php foreach ($section->getTrees() as $tree): ?>
                             <div class="tree-block">
                                 <div class="plain action-bar horizontal-action-bar">
                                 </div>
@@ -61,7 +60,7 @@ $sections = get_data('sections');
                         ?>
                         </ul>
                     </div>
-
+                <?php endif; ?>
                 </section>
 
                 <section class="content-container">
