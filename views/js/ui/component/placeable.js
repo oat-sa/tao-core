@@ -28,6 +28,24 @@
  * component.moveTo(50, 50);
  * component.moveBy(10, 10);
  *
+ *
+ * You can also align the component with a reference element
+ * component.alignWith($element, { hPos: 'center', vPos: 'center' });
+ *
+ * And even specify the h/v origin of the alignment:
+ *
+ * component.alignWith($element, { hPos: 'left', hOrigin: 'left' });
+ *                    REFERENCE_ELEMENT
+ *                    COMPONENT
+ *
+ * component.alignWith($element, { hPos: 'left', hOrigin: 'center' });
+ *                    REFERENCE_ELEMENT
+ *                COMPONENT
+ *
+ * component.alignWith($element, { hPos: 'left', hOrigin: 'right' });
+ *                    REFERENCE_ELEMENT
+ *           COMPONENT
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -204,6 +222,11 @@ define([
             };
         },
 
+        /**
+         * The default hOrigin changes according to the hPos value
+         * @returns {('left'|'center'|'right')}
+         * @private
+         */
         _getDefaultHOrigin: function _getDefaultHOrigin(hPos) {
             var hOrigin;
             switch(hPos) {
@@ -215,6 +238,11 @@ define([
             return hOrigin;
         },
 
+        /**
+         * The default vOrigin changes according to the vPos value
+         * @returns {('top'|'center'|'bottom')}
+         * @private
+         */
         _getDefaultVOrigin: function _getDefaultVOrigin(vPos) {
             var vOrigin;
             switch(vPos) {
