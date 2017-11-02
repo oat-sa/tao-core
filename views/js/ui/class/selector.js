@@ -60,14 +60,16 @@ define([
          */
         var buildTree = function buildTree(classes){
             var nodeToListItem = function nodeToListItem(acc , node){
-                var item = _.pick(node, ['uri', 'label']);
+                var item;
+                if(node.uri && node.label){
+                    item = _.clone(node);
+                    classList[item.uri] = item;
 
-                classList[item.uri] = item.label;
-
-                if(node.children && node.children.length){
-                    item.childList = _.reduce(node.children, nodeToListItem, '');
+                    if(node.children && node.children.length){
+                        item.childList = _.reduce(node.children, nodeToListItem, '');
+                    }
+                    acc += listItemTpl(item);
                 }
-                acc += listItemTpl(item);
                 return acc;
             };
 
@@ -93,15 +95,16 @@ define([
                     if(this.is('rendered') && $selected.length){
 
                         $selected
-                            .text(classList[uri])
+                            .text(classList[uri].label)
                             .data('uri', uri)
                             .removeClass('empty');
 
                         /**
                          * @event classSelector#change
                          * @param {String} uri - the selected class URI
+                         * @param {Object} class - the class node
                          */
-                        this.trigger('change', uri);
+                        this.trigger('change', uri, classList[uri]);
                     }
                 }
                 return this;
@@ -113,6 +116,18 @@ define([
              */
             getValue : function getValue(){
                 return this.config.classUri;
+            },
+
+            /**
+             * Get the selected class node
+             * @returns {Object} the node
+             */
+            getClassNode : function getClassNode(){
+                var node = null;
+                if(this.config.classUri && classList[this.config.classUri]){
+                    node =  classList[this.config.classUri];
+                }
+                return node;
             }
 
         }, defaultConfig)
@@ -124,7 +139,7 @@ define([
 
                 if(this.config.classUri && classList[this.config.classUri]){
                     //set the default label
-                    this.config.label =  classList[this.config.classUri];
+                    this.config.label =  classList[this.config.classUri].label;
                 }
 
                 this.render($container);

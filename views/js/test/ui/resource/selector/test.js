@@ -427,6 +427,49 @@ define([
             });
     });
 
+    QUnit.asyncTest('class selection', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.single,
+            selectClass : true,
+            classes : classesData,
+            format : 'tree'
+        };
+
+        var classUri = 'http://bertao/tao.rdf#i1491898712953393';
+
+        QUnit.expect(6);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on('change', function(selection){
+                var $class = $('.class[data-uri="' + classUri + '"]', this.getElement());
+                assert.ok($class.hasClass('selected'), 'node1 is now selected');
+                assert.equal(typeof selection[classUri], 'object', 'The selection contains the class');
+                QUnit.start();
+            })
+            .on('update.foobar', function(){
+                var $class;
+                var selection;
+
+                this.off('update.foobar');
+
+                $class = $('.class[data-uri="' + classUri + '"]', this.getElement());
+                selection = this.getSelection();
+
+                assert.equal($class.length, 1, 'The class node exists');
+                assert.ok(! $class.hasClass('selected'), 'The class node is not selected');
+                assert.equal(typeof selection[classUri], 'undefined', 'The selection does not contain the class');
+
+                $class.click();
+            })
+            .on('query', function(params){
+                this.update(treeRootData, params);
+            });
+    });
+
     QUnit.asyncTest('search', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
@@ -548,7 +591,8 @@ define([
         var container = document.getElementById('visual');
         var config = {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-            classes : classesData
+            classes : classesData,
+            selectClass : true
         };
 
         resourceSelectorFactory(container, config)
