@@ -126,7 +126,7 @@ define([
                                 .then(function(classes) {
                                     resourceSelectorFactory($treeElt, {
                                         icon : $treeElt.data('icon'),
-                                        selectionMode: 'both',
+                                        selectionMode: 'multiple',
                                         selectClass : true,
                                         showSelection : false,
                                         classUri: rootNode,
@@ -197,6 +197,18 @@ define([
                                             });
                                         } else if (length > 1){
                                             //multiple mode
+
+                                            actions.updateContext(
+                                              _.map(selection, function(resource, uri) {
+                                                    return {
+                                                        uri: uri,
+                                                        id: uri,
+                                                        classUri: uri,
+                                                        permissions:  permissions
+                                                    };
+                                                })
+                                            );
+
                                         }
                                     });
                                 })

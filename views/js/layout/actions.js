@@ -156,6 +156,8 @@ define([
 
             context = context || {};
 
+            debugger;
+
             if(_.isArray(context) ) {
                 _.forEach(actions, function(action){
                     var hasClasses = _.some(context, 'classUri');

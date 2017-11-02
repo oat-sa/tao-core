@@ -1,4 +1,22 @@
 /**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2017 Open Assessment Technologies SA;
+ */
+
+/**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -11,9 +29,10 @@ define([
     'layout/actions/binder',
     'layout/search',
     'layout/filter',
-	'uri',
-	'ui/feedback'
-], function(module, $, __, _, appContext, section, binder, search, toggleFilter, uri, feedback){
+    'uri',
+    'ui/feedback',
+    'ui/dialog/confirm'
+], function(module, $, __, _, appContext, section, binder, search, toggleFilter, uri, feedback, confirmDialog) {
     'use strict';
 
     /**
@@ -173,12 +192,77 @@ define([
                                 id : actionContext.uri || actionContext.classUri
                             }]);
                         } else {
-                            var msg = response.msg || __("Unable to delete the selected resource");
-                            feedback().error(msg);
+                            feedback().error(response.msg || __("Unable to delete the selected resource"));
                         }
                     }
                 });
             }
+        });
+
+        binder.register('removeNodes', function removeNodes(actionContexts){
+            var tokenName = module.config().xsrfTokenName;
+            var confirmMessage;
+            var data = {};
+
+            if(!_.isArray(actionContexts)){
+                actionContexts = [actionContexts];
+            }
+
+            //TODO do not use cookies !
+            data[tokenName] = $.cookie(tokenName);
+            data.resources = _.map(actionContexts, function(actionContext){
+                return _.pick(actionContext, ['uri', 'id', 'classUri']);
+            });
+
+            if(actionContexts.length === 1){
+                confirmMessage = __('Please confirm deletion');
+            } else if(actionContexts.length > 1){
+                confirmMessage = __('Please confirm deletion of %s resources.', actionContext.length);
+            }
+
+            confirmDialog(confirmMessage, function accept(){
+                $.ajax({
+                    url: self.url,
+                    type: "POST",
+                    data: data,
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.deleted) {
+                            $(actionContext.tree).trigger('removenode.taotree', [{
+                                id : actionContext.uri || actionContext.classUri
+                            }]);
+                        } else {
+                            feedback().error(response.msg || __("Unable to delete the selected resource"));
+                        }
+                    }
+                });
+
+            });
+            //var data = {};
+
+            //data.uri = uri.decode(actionContext.uri),
+            //data.classUri = uri.decode(actionContext.classUri),
+            //data.id = actionContext.id,
+            //data[tokenName] = $.cookie(tokenName);
+
+            //TODO replace by a nice popup
+            //if (window.confirm(__("Please confirm deletion"))) {
+                //$.ajax({
+                    //url: this.url,
+                    //type: "POST",
+                    //data: data,
+                    //dataType: 'json',
+                    //success: function(response){
+                        //if (response.deleted) {
+                            //$(actionContext.tree).trigger('removenode.taotree', [{
+                                //id : actionContext.uri || actionContext.classUri
+                            //}]);
+                        //} else {
+                            //feedback().error(response.msg || __("Unable to delete the selected resource"));
+                        //}
+                    //}
+                //});
+            //}
         });
 
         /**
@@ -194,7 +278,7 @@ define([
             var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed']);
 
             //wrap into a private function for recusion calls
-            var _moveNode = function _moveNode(url, data){
+            var _moveNode = function _moveNode(url){
                 $.ajax({
                     url: url,
                     type: "POST",
