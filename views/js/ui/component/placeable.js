@@ -83,119 +83,27 @@ define([
          * @fires Component#center
          */
         center: function center() {
-            var $container = this.getContainer();
+            var $container = this.getContainer(),
+                $element = this.getElement(),
+                centerX,
+                centerY;
 
             if (this.is('rendered') && !this.is('disabled')) {
-                this.alignWith($container);
+                if ($container.length) {
+                    centerX = $container.width() / 2 - $element.width() / 2;
+                    centerY = $container.height() / 2 - $element.height() / 2;
 
-                /**
-                 * @event Component#center the component has been centered
-                 * @param {Number} centerX
-                 * @param {Number} centerY
-                 */
-                this.trigger('center', this._x, this._y);
+                    this.moveTo(centerX, centerY);
+
+                    /**
+                     * @event Component#center the component has been centered
+                     * @param {Number} centerX
+                     * @param {Number} centerY
+                     */
+                    this.trigger('center', centerX, centerY);
+                }
             }
             return this;
-        },
-
-        /**
-         * Place the component using another element as a reference position
-         * @param {jQuery} $element - the reference element
-         * @param {Object} [options]
-         * @param {('left'|'center'|'right')} options.hPos - horizontal position relative to the reference element
-         * @param {('top'|'center'|'bottom')} options.vPos - vertical position relative to the reference element
-         * @returns {Component} chains
-         */
-        alignWith: function alignWith($element, options) {
-            var alignedCoords = this._getAlignedCoords($element, options);
-            return this.moveTo(alignedCoords.x, alignedCoords.y);
-        },
-
-        /**
-         * Place the component so it is horizontally aligned with a reference element
-         * @param {jQuery} $element - the reference element
-         * @param {('left'|'center'|'right')} hPos - horizontal position relative to the reference element
-         * @returns {Component} chains
-         */
-        hAlignWith: function hAlignWith($element, hPos) {
-            var alignedCoords = this._getAlignedCoords($element, { hPos: hPos });
-            return this.moveToX(alignedCoords.x);
-        },
-
-        /**
-         * Place the component so it is vertically aligned with a reference element
-         * @param {jQuery} $element - the reference element
-         * @param {('top'|'center'|'bottom')} vPos - vertical position relative to the reference element
-         * @returns {Component} chains
-         */
-        vAlignWith: function vAlignWith($element, vPos) {
-            var alignedCoords = this._getAlignedCoords($element, { vPos: vPos });
-            return this.moveToY(alignedCoords.y);
-        },
-
-        /**
-         * Get the coordinates of the component so it is aligned with a reference element
-         * @param {jQuery} $element - the reference element
-         * @param {Object} [options]
-         * @param {('left'|'center'|'right')} [options.hPos] - horizontal position relative to the reference element
-         * @param {('top'|'center'|'bottom')} [options.vPos] - vertical position relative to the reference element
-         * @returns {x,y} - the aligned coordinates
-         * @private
-         */
-        _getAlignedCoords: function _getAlignedCoords($element, options) {
-            var $container = this.getContainer(),
-                componentOuterSize,
-                containerOffset,
-                elementOffset,
-                elementWidth,
-                elementHeight,
-                x,
-                y;
-
-            options = options || {};
-
-            componentOuterSize = this.getOuterSize();
-            containerOffset    = $container.offset();
-            elementOffset      = $element.offset();
-            elementWidth       = $element.outerWidth();
-            elementHeight      = $element.outerHeight();
-
-            switch(options.hPos) {
-                case 'left': {
-                    x = (elementOffset.left - containerOffset.left) - componentOuterSize.width;
-                    break;
-                }
-                case 'right': {
-                    x = (elementOffset.left - containerOffset.left) + elementWidth;
-                    break;
-                }
-                default:
-                case 'center': {
-                    x = (elementOffset.left - containerOffset.left) + (elementWidth / 2) - (componentOuterSize.width / 2);
-                    break;
-                }
-            }
-
-            switch(options.vPos) {
-                case 'top': {
-                    y = (elementOffset.top - containerOffset.top) - componentOuterSize.height;
-                    break;
-                }
-                case 'bottom': {
-                    y = (elementOffset.top - containerOffset.top) + elementHeight;
-                    break;
-                }
-                default:
-                case 'center': {
-                    y = (elementOffset.top - containerOffset.top) + (elementHeight / 2) - (componentOuterSize.height / 2);
-                    break;
-                }
-            }
-
-            return {
-                x: x,
-                y: y
-            };
         },
 
         /**
