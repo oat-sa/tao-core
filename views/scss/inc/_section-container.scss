@@ -100,7 +100,7 @@
         display:none;
         @include flex-container(nowrap, column);
         @include simple-flex-box($treeSidebar * 1px);
-        width : $treeSidebar * 1px;
+        max-width : $treeSidebar * 1px;
         background:  $canvas;
         border-right: 1px $uiGeneralContentBorder solid;
 
