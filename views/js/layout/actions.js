@@ -21,10 +21,12 @@
 define([
     'jquery',
     'lodash',
+    'core/eventifier',
+    'core/promise',
     'lib/uuid',
     'layout/actions/binder',
     'layout/actions/common'
-], function($, _, uuid, binder, commonActions){
+], function($, _, eventifier, Promise, uuid, binder, commonActions){
     'use strict';
 
     /**
@@ -40,7 +42,7 @@ define([
     /**
      * @exports layout/actions
      */
-    var actionManager = {
+    var actionManager = eventifier({
 
         /**
          * Initialize the actions for the given scope. It should be done only once.
@@ -74,7 +76,7 @@ define([
 
                 var $this = $(this);
                 var id;
-                if($this.attr('title')){
+                if($this.data('action')){
 
                     //use the element id
                     if($this.attr('id')){
@@ -130,6 +132,7 @@ define([
          * Listen for event that could update the actions.
          * Those events may change the current context.
          * @private
+         * @deprecated
          */
         _listenUpdates : function _listenUpdates(){
             var self = this;
@@ -156,12 +159,10 @@ define([
 
             context = context || {};
 
-            debugger;
-
             if(_.isArray(context) ) {
                 _.forEach(actions, function(action){
-                    var hasClasses = _.some(context, 'classUri');
-                    var hasInstances = _.some(context, 'uri');
+                    var hasClasses = _.some(context, { type : 'class' });
+                    var hasInstances = _.some(context, { type : 'instance' });
 
                     //if some has not the permissions we deny
                     var hasPermissionDenied = _.some(context, function(resource){
@@ -183,7 +184,11 @@ define([
 
             } else {
 
-                current = context.uri ? 'instance' : context.classUri ? 'class' : 'none';
+                if(context.type){
+                    current = context.type;
+                } else {
+                    current = context.uri ? 'instance' : context.classUri ? 'class' : 'none';
+                }
                 permissions = context.permissions || {};
 
                 _.forEach(actions, function(action){
@@ -225,8 +230,12 @@ define([
          * Execute the operation bound to an action (via {@link layout/actions/binder#register});
          * @param {String|Object} action - can be either the id, the name or the action directly
          * @param {ActionContext} [context] - an action conext, use the current otherwise
+         * @returns {Promise?}
+         * @fires ActionManger#error if the executed action fails
+         * @fires ActionManger#{actionId} an event with the action id
          */
-        exec : function(action, context){
+        exec : function exec(action, context){
+            var self = this;
             if(_.isString(action)){
                 if(_.isPlainObject(actions[action])){
                     //try to find by id
@@ -245,7 +254,15 @@ define([
                 action.state.active = true;
                 this.updateState();
 
-                binder.exec(action, context || resourceContext);
+                return Promise
+                    .resolve(binder.exec(action, context || resourceContext))
+                    .then(function actionDone(result){
+                        var events = [action.id, action.binding];
+                        self.trigger(events.join(' '), context || resourceContext, result);
+                    })
+                    .catch( function actionError(err){
+                        self.trigger('error', err);
+                    });
             }
         },
 
@@ -265,7 +282,7 @@ define([
             }
             return action;
         }
-    };
+    });
 
     return actionManager;
 });

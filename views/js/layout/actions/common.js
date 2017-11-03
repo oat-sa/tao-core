@@ -199,70 +199,65 @@ define([
             }
         });
 
+        /**
+         * Register the removeNodes action: removes multiple resources
+         *
+         * @this the action (once register it is bound to an action object)
+         *
+         * @param {Object[]|Object} actionContexts - single or multiple action contexts
+         * @returns {Promise<String[]>} with the list of deleted ids/uris
+         */
         binder.register('removeNodes', function removeNodes(actionContexts){
+            var self = this;
             var tokenName = module.config().xsrfTokenName;
             var confirmMessage;
             var data = {};
+            var classes;
+            var instances;
 
             if(!_.isArray(actionContexts)){
                 actionContexts = [actionContexts];
             }
 
+            classes = _.filter(actionContexts, { type : 'class' });
+            instances = _.filter(actionContexts, { type : 'instance' });
+
             //TODO do not use cookies !
             data[tokenName] = $.cookie(tokenName);
-            data.resources = _.map(actionContexts, function(actionContext){
-                return _.pick(actionContext, ['uri', 'id', 'classUri']);
-            });
+            data.ids = _.pluck(actionContexts, 'id');
 
             if(actionContexts.length === 1){
                 confirmMessage = __('Please confirm deletion');
             } else if(actionContexts.length > 1){
-                confirmMessage = __('Please confirm deletion of %s resources.', actionContext.length);
+                if(instances.length){
+                    confirmMessage = __('%s instances', instances.length);
+                }
+                if(classes.length){
+                    if(confirmMessage){
+                        confirmMessage += __(' and ');
+                    }
+                    confirmMessage += __('%s classes', classes.length);
+                }
+                confirmMessage =  __('Please confirm deletion of %s.', confirmMessage);
             }
 
-            confirmDialog(confirmMessage, function accept(){
-                $.ajax({
-                    url: self.url,
-                    type: "POST",
-                    data: data,
-                    dataType: 'json',
-                    success: function(response){
-                        if (response.deleted) {
-                            $(actionContext.tree).trigger('removenode.taotree', [{
-                                id : actionContext.uri || actionContext.classUri
-                            }]);
-                        } else {
-                            feedback().error(response.msg || __("Unable to delete the selected resource"));
+            return new Promise( function (resolve, reject){
+                confirmDialog(confirmMessage, function accept(){
+                    $.ajax({
+                        url: self.url,
+                        type: "POST",
+                        data: data,
+                        dataType: 'json',
+                        success: function(response){
+                            if (response.success && response.deleted) {
+                                resolve(data.deleted);
+                            } else {
+                                reject(new Error(response.msg || __("Unable to delete the selected resources")));
+                            }
                         }
-                    }
-                });
-
+                    });
+                }, resolve);
             });
-            //var data = {};
-
-            //data.uri = uri.decode(actionContext.uri),
-            //data.classUri = uri.decode(actionContext.classUri),
-            //data.id = actionContext.id,
-            //data[tokenName] = $.cookie(tokenName);
-
-            //TODO replace by a nice popup
-            //if (window.confirm(__("Please confirm deletion"))) {
-                //$.ajax({
-                    //url: this.url,
-                    //type: "POST",
-                    //data: data,
-                    //dataType: 'json',
-                    //success: function(response){
-                        //if (response.deleted) {
-                            //$(actionContext.tree).trigger('removenode.taotree', [{
-                                //id : actionContext.uri || actionContext.classUri
-                            //}]);
-                        //} else {
-                            //feedback().error(response.msg || __("Unable to delete the selected resource"));
-                        //}
-                    //}
-                //});
-            //}
         });
 
         /**

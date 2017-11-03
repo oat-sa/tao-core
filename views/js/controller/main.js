@@ -37,10 +37,117 @@ define([
     'layout/search',
     'ui/resource/selector',
     'provider/resources'
-], function(module, $, _, __, context, helpers, uiForm, loggerFactory, sections, actions, treeFactory, versionWarning, loadingBar, nav, search, resourceSelectorFactory, resourceProviderFactory) {
+], function(module, $, _, __, context, helpers, uiForm, loggerFactory, sections, actionManager, treeFactory, versionWarning, loadingBar, nav, search, resourceSelectorFactory, resourceProviderFactory) {
     'use strict';
 
     var logger = loggerFactory('controller/main');
+
+
+    var sectionTree = function sectionTree($container) {
+        var resourceProvider = resourceProviderFactory();
+        var rootClassUri = $container.data('rootnode');
+        var treeActions  = _.reduce($container.data('actions'), function(acc, id, key){
+            var action = actionManager.getBy(id);
+            if(action){
+                acc[key] = action;
+            }
+            return acc;
+        }, {});
+
+        return new Promise( function(resolve) {
+            resourceProvider.getClasses(rootClassUri)
+            .then(function(classes) {
+                resourceSelectorFactory($container, {
+                    icon : $container.data('icon') || 'test',
+                    selectionMode: 'multiple',
+                    selectClass : true,
+                    classUri: rootClassUri,
+                    classes: classes
+                })
+                .on('init', function(){
+                    actionManager.exec(treeActions.init, {
+                        uri: rootClassUri
+                    });
+                })
+                .on('render', function() {
+                    var self = this;
+                    //$actionBar.addClass('active');
+                    //
+
+                    actionManager.on('removeNodes', function(actionContext, nodes){
+                        _.forEach(nodes, self.removeNode, self);
+                    });
+
+                    resolve();
+                })
+                .on('query', function(params) {
+                    var self = this;
+
+                    //ask the server the resources from the component query
+                    resourceProvider.getResources(params)
+                        .then(function(items) {
+                            self.update(items, params);
+                        })
+                        .catch(function(err) {
+                            logger.error(err);
+                        });
+                })
+                .on('change', function(selection) {
+                    var length = _.size(selection);
+                    var getContext = function getContext(resource) {
+                        var resourceContext =  {
+                            permissions:  {
+                                "item-authoring": true,
+                                "item-class-new": true,
+                                "item-delete": true,
+                                "item-duplicate": true,
+                                "item-export": true,
+                                "item-import": true,
+                                "item-new": true,
+                                "item-preview": true,
+                                "item-properties": true,
+                                "item-translate": true
+                            }
+                        };
+                        if(resource.classUri){
+                            resourceContext.id = resource.classUri;
+                            resourceContext.uri = resource.classUri;
+                            resourceContext.classUri = resource.classUri;
+                            resourceContext.type = 'class';
+                        } else {
+                            resourceContext.id = resource.uri;
+                            resourceContext.uri = resource.uri;
+                            resourceContext.classUri = resource.classUri;
+                            resourceContext.type = 'instance';
+                        }
+
+                        return resourceContext;
+                    };
+
+                    if(length === 1){
+                        _.forEach(selection, function(resource) {
+                            var selectedContext = getContext(resource);
+                            actionManager.updateContext(selectedContext);
+                            if(selectedContext.type === 'class'){
+                                actionManager.exec(treeActions.selectClass, selectedContext);
+                            }
+                            if(selectedContext.type === 'instance'){
+                                actionManager.exec(treeActions.selectInstance, selectedContext);
+                            }
+                        });
+                    } else if (length > 1){
+                        actionManager.updateContext( _.transform(selection, function(acc, resource){
+                            acc.push(getContext(resource));
+                            return acc;
+                        }, []));
+                    }
+                });
+            })
+            .catch(function(err) {
+                logger.error(err);
+            });
+        });
+    };
 
     /**
      * This controller initialize all the layout components used by the backend : sections, actions, tree, loader, etc.
@@ -83,33 +190,23 @@ define([
                 context.section = section.id;
 
                 //initialize actions
-                actions.init(section.panel);
+                actionManager.init(section.panel);
 
                 switch (section.type) {
                     case 'tree':
                         section.panel.addClass('content-panel');
-                        //sectionHeight.init(section.panel);
 
                         //set up the tree
                         $('.taotree', section.panel).each(function() {
                             var $treeElt = $(this);
                             var $actionBar = $('.tree-action-bar-box', section.panel);
 
-                            var rootNode = $treeElt.data('rootnode');
                             var treeUrl = context.root_url;
-                            var treeActions = {};
                             var serverParameters = {
                                 extension: context.shownExtension,
                                 perspective: context.shownStructure,
                                 section: context.section,
                             };
-                            var resourceProvider = resourceProviderFactory();
-
-                            $.each($treeElt.data('actions'), function(key, val) {
-                                if (actions.getBy(val)) {
-                                    treeActions[key] = val;
-                                }
-                            });
 
                             //TODO use the treeUrl within the resource provider
                             if (/\/$/.test(treeUrl)) {
@@ -117,102 +214,11 @@ define([
                             } else {
                                 treeUrl += $treeElt.data('url');
                             }
-
-                            actions.exec(treeActions.init, {
-                                uri: rootNode
-                            });
-
-                            resourceProvider.getClasses(rootNode, serverParameters)
-                                .then(function(classes) {
-                                    resourceSelectorFactory($treeElt, {
-                                        icon : $treeElt.data('icon'),
-                                        selectionMode: 'multiple',
-                                        selectClass : true,
-                                        showSelection : false,
-                                        classUri: rootNode,
-                                        classes: classes
-                                    })
-                                    .on('render', function() {
-                                        $actionBar.addClass('active');
-                                    })
-                                    .on('query', function(params) {
-                                        var self = this;
-
-                                        //ask the server the resources from the component query
-                                        resourceProvider.getResources(_.defaults(params, serverParameters))
-                                            .then(function(items) {
-                                                self.update(items, params);
-                                            })
-                                            .catch(function(err) {
-                                                logger.error(err);
-                                            });
-                                    })
-                                    .on('change', function(selection) {
-                                        var length = _.size(selection);
-                                        var permissions  = {
-                                            "item-authoring": true,
-                                            "item-class-new": true,
-                                            "item-delete": true,
-                                            "item-duplicate": true,
-                                            "item-export": true,
-                                            "item-import": true,
-                                            "item-new": true,
-                                            "item-preview": true,
-                                            "item-properties": true,
-                                            "item-translate": true
-                                        };
-
-                                        if(length === 1){
-                                            _.forEach(selection, function(resource, uri) {
-                                                if(resource.classUri){
-                                                    actions.updateContext({
-                                                        uri: uri,
-                                                        id: uri,
-                                                        classUri: uri,
-
-                                                        permissions:  permissions
-                                                    });
-
-                                                    actions.exec(treeActions.selectClass, {
-                                                        uri: uri,
-                                                        id: uri,
-                                                        classUri: uri
-                                                    });
-
-                                                } else {
-                                                    actions.updateContext({
-                                                        uri: uri,
-                                                        id: uri,
-                                                        classUri: rootNode,
-
-                                                        permissions: permissions
-                                                    });
-
-                                                    actions.exec(treeActions.selectInstance, {
-                                                        uri: uri,
-                                                        id: uri,
-                                                        classUri: rootNode
-                                                    });
-                                                }
-                                            });
-                                        } else if (length > 1){
-                                            //multiple mode
-
-                                            actions.updateContext(
-                                              _.map(selection, function(resource, uri) {
-                                                    return {
-                                                        uri: uri,
-                                                        id: uri,
-                                                        classUri: uri,
-                                                        permissions:  permissions
-                                                    };
-                                                })
-                                            );
-
-                                        }
-                                    });
+                            sectionTree($treeElt)
+                                .then(function(){
+                                    $actionBar.addClass('active');
                                 })
-                                .catch(function(err) {
+                                .catch(function(err){
                                     logger.error(err);
                                 });
                         });
@@ -229,130 +235,9 @@ define([
             })
             .init();
 
-
             //initialize legacy components
             helpers.init();
             uiForm.init();
         }
     };
 });
-
-/*
-define([
-    'module',
-    'jquery',
-    'i18n',
-    'context',
-    'helpers',
-    'uiForm',
-    'layout/section',
-    'layout/actions',
-    'layout/tree',
-    'layout/version-warning',
-    'layout/section-height',
-    'layout/loading-bar',
-    'layout/nav',
-    'layout/search'
-],
-function (module, $, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
-    'use strict';
-
-    return {
-        start : function(){
-
-            var $doc = $(document);
-
-            versionWarning.init();
-
-            //just before an ajax request
-            $doc.ajaxSend(function () {
-                loadingBar.start();
-            });
-
-            //when an ajax request complete
-            $doc.ajaxComplete(function () {
-                loadingBar.stop();
-            });
-
-            //navigation bindings
-            nav.init();
-
-            //search component
-            search.init();
-
-            //initialize sections
-            section.on('activate', function(section){
-
-                window.scrollTo(0,0);
-
-                // quick work around issue in IE11
-                // IE randomly thinks there is no id and throws an error
-                // I know it's not logical but with this 'fix' everything works fine
-                if(!section || !section.id) {
-                    return;
-                }
-
-                context.section = section.id;
-
-                //initialize actions
-                actions.init(section.panel);
-
-                switch(section.type){
-                case 'tree':
-                    section.panel.addClass('content-panel');
-                    sectionHeight.init(section.panel);
-
-                    //set up the tree
-                    $('.taotree', section.panel).each(function(){
-                        var $treeElt = $(this),
-                            $actionBar = $('.tree-action-bar-box', section.panel);
-
-                        var rootNode = $treeElt.data('rootnode');
-                        var treeUrl = context.root_url;
-                        var treeActions = {};
-                        $.each($treeElt.data('actions'), function (key, val) {
-                            if (actions.getBy(val)) {
-                                treeActions[key] = val;
-                            }
-                        });
-
-                        if(/\/$/.test(treeUrl)){
-                            treeUrl += $treeElt.data('url').replace(/^\//, '');
-                        } else {
-                            treeUrl += $treeElt.data('url');
-                        }
-                        treeFactory($treeElt, treeUrl, {
-                            serverParameters : {
-                                extension    : context.shownExtension,
-                                perspective  : context.shownStructure,
-                                section      : context.section,
-                                classUri     : rootNode ? rootNode : undefined
-                            },
-                            actions : treeActions
-                        });
-                        $treeElt.on('ready.taotree', function() {
-                            $actionBar.addClass('active');
-                            sectionHeight.setHeights(section.panel);
-                        });
-                    });
-
-                    $('.navi-container', section.panel).show();
-                    break;
-                case 'content' :
-
-                    //or load the content block
-                    this.loadContentBlock();
-
-                    break;
-                }
-            })
-            .init();
-
-
-            //initialize legacy components
-            helpers.init();
-            uiForm.init();
-        }
-    };
-});*/
-

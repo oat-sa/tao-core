@@ -22,6 +22,11 @@ define(['lodash'], function(_){
     'use strict';
 
     /**
+     * The list of registered bindings, key are binding name.
+     */
+    var bindings = {};
+
+    /**
      * Helps you to bind actions' behavior.
      *
      * To bind a behavior to an action, you need to register a callback under the same name than 'binding' value in the structure.xml
@@ -30,11 +35,6 @@ define(['lodash'], function(_){
      * @exports layout/actions/binder
      */
     var actionBinder =  {
-
-        /**
-         * The list of registered bindings, key are binding name.
-         */
-        _bindings : {},
 
         /**
          * Register a new binding
@@ -48,14 +48,14 @@ define(['lodash'], function(_){
          * @param {ActionBinding}
          *
          */
-        register : function(name, binding){
+        register : function register(name, binding){
 
             /**
              * @callback ActionBinding
              * @this action - the action object
              * @param {ActionContext} context - the context
              */
-            this._bindings[name] = binding;
+            bindings[name] = binding;
         },
 
         /**
@@ -63,16 +63,15 @@ define(['lodash'], function(_){
          * @param {Object} action - the action to execute the binding of
          * @param {String} action.binding - the action must contain a binding property that match a registerd binding
          * @param {ActionContext} context - the context in which to execute the binding
+         * @returns {Promise?}
          */
-        exec : function(action, context){
+        exec : function exec(action, context){
             var name;
             if(action && action.binding){
 
                 name = action.binding;
-                if(_.isFunction(this._bindings[name])){
-
-                    this._bindings[name].call(action, context);
-
+                if(_.isFunction(bindings[name])){
+                    return bindings[name].call(action, context);
                 }
             }
         }
