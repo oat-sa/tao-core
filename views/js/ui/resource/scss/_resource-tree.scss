@@ -68,7 +68,6 @@
                         @include icon-folder-open;
                         color: $warning;
                         margin-right: 4px;
-                        @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
                     }
                     &:hover {
                         background-color: $uiClickableHoverBg;

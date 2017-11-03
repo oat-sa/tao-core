@@ -59,7 +59,8 @@ define([
 
     var selectionModes = {
         single : 'single',
-        multiple : 'multiple'
+        multiple : 'multiple',
+        both : 'both'
     };
 
     var defaultConfig = {
@@ -113,6 +114,7 @@ define([
         var $selectCtrlLabel;
         var $filterToggle;
         var $filterContainer;
+        var $selectionToggle;
 
         var resourceSelectorApi = {
 
@@ -285,6 +287,12 @@ define([
                     this.config.multiple = newMode === selectionModes.multiple;
                     this.selectionComponent.setState('multiple', this.config.multiple);
                     this.setState('multiple', this.config.multiple);
+
+                    if(this.config.multiple){
+                        hider.show($selectCtrlLabel);
+                    } else {
+                        hider.hide($selectCtrlLabel);
+                    }
                 }
                 return this;
             },
@@ -413,6 +421,7 @@ define([
                 this.searchQuery = {};
                 this.classUri    = this.config.classUri;
                 this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
+                this.config.switchMode = this.config.selectionMode === selectionModes.both;
                 this.config.multiple =  this.config.selectionMode === selectionModes.multiple;
 
                 this.render($container);
@@ -424,16 +433,17 @@ define([
                 return new Promise(function(resolve){
                     var $component = self.getElement();
 
-                    $classContainer  = $('.class-context', $component);
-                    $resultArea      = $('main', $component);
-                    $noResults       = $('.no-results', $resultArea);
-                    $searchField     = $('.search input', $component);
-                    $filterToggle    = $('.filters-opener', $component);
-                    $filterContainer = $('.filters-container', $component);
-                    $viewFormats     = $('.context > a', $component);
-                    $selectNum       = $('.selected-num', $component);
-                    $selectCtrl      = $('.selection-control input', $component);
-                    $selectCtrlLabel = $('.selection-control label', $component);
+                    $classContainer   = $('.class-context', $component);
+                    $resultArea       = $('main', $component);
+                    $noResults        = $('.no-results', $resultArea);
+                    $searchField      = $('.search input', $component);
+                    $filterToggle     = $('.filters-opener', $component);
+                    $filterContainer  = $('.filters-container', $component);
+                    $viewFormats      = $('.context > a', $component);
+                    $selectNum        = $('.selected-num', $component);
+                    $selectCtrl       = $('.selection-control input', $component);
+                    $selectCtrlLabel  = $('.selection-control label', $component);
+                    $selectionToggle  = $('.selection-toggle', $component);
 
                     //the search field
                     $searchField.on('keyup', _.debounce(function(e){
@@ -461,6 +471,21 @@ define([
                             .changeFormat(format)
                             .query();
                     });
+
+                    //mode switcher
+                    if(self.config.selectionMode === selectionModes.both){
+                        $selectionToggle.on('click', function(e){
+                            e.preventDefault();
+                            self.changeSelectionMode(self.config.multiple ? selectionModes.single : selectionModes.multiple);
+                        });
+
+                        $resultArea.on('mousedown', function(e){
+                            if(e.ctrlKey && !self.config.multiple){
+                                self.changeSelectionMode(selectionModes.multiple);
+                            }
+                        });
+                    }
+
 
                     //the select all control
                     $selectCtrl.on('change', function(){
