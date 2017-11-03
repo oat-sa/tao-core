@@ -218,8 +218,41 @@ define([
                 var self = this;
                 var $component = this.getElement();
 
-                //browser hierarchy
+                /***
+                 * Open a class node
+                 * @param {jQueryElement} $class
+                 */
+                var openClass = function openClass($class){
+                    if($class.hasClass('closed')){
+                        if(!$class.children('ul').children('li').length){
+                            self.query({ classUri : $class.data('uri') });
+                        }  else {
+                            $class.removeClass('closed');
+                        }
+                    }
+                };
 
+                /***
+                 * Close a class node
+                 * @param {jQueryElement} $class
+                 */
+                var closeClass = function closeClass($class){
+                    $class.addClass('closed');
+                };
+
+                /***
+                 * Toggle a class node
+                 * @param {jQueryElement} $class
+                 */
+                var toggleClass = function toggleClass($class){
+                    if(!$class.hasClass('closed')){
+                        closeClass($class);
+                    } else {
+                        openClass($class);
+                    }
+                };
+
+                //browser hierarchy
                 if(self.config.selectClass){
                     $component.on('click', '.class', function(e){
                         var $class = $(e.currentTarget);
@@ -228,21 +261,14 @@ define([
 
                         if($(e.target).hasClass('class-toggler')){
                             if(!$class.hasClass('empty')){
-                                if(!$class.hasClass('closed')){
-                                    $class.addClass('closed');
-                                } else {
-                                    if(!$class.children('ul').children('li').length){
-                                        self.query({ classUri : $class.data('uri') });
-                                    }  else {
-                                        $class.removeClass('closed');
-                                    }
-                                }
+                                toggleClass($class);
                             }
                         } else {
                             if($class.hasClass('selected')){
                                 self.unselect($class.data('uri'));
                             } else {
                                 self.select($class.data('uri'), !self.is('multiple'));
+                                openClass($class);
                             }
                         }
                     });
@@ -252,15 +278,7 @@ define([
                         e.preventDefault();
                         e.stopPropagation();
 
-                        if(!$class.hasClass('closed')){
-                            $class.addClass('closed');
-                        } else {
-                            if(!$class.children('ul').children('li').length){
-                                self.query({ classUri : $class.data('uri') });
-                            }  else {
-                                $class.removeClass('closed');
-                            }
-                        }
+                        toggleClass($class);
                     });
                 }
 
@@ -276,8 +294,6 @@ define([
                         self.select($instance.data('uri'), !self.is('multiple'));
                     }
                 });
-
-
 
                 $component.on('click', '.more', function(e){
                     var $root = $(e.currentTarget).parent('.class');

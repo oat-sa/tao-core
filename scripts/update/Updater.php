@@ -935,10 +935,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(InstantActionQueue::SERVICE_ID, $service);
             $this->setVersion('13.2.0');
         }
-      
-        $this->skip('13.2.0', '13.9.0');
 
-        if($this->isVersion('13.9.0')){
+        $this->skip('13.2.0', '13.14.0');
+
+        if($this->isVersion('13.14.0')){
             $action = new RegisterResourceService();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);

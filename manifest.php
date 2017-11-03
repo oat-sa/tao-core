@@ -20,15 +20,16 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  *
  */
-use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\InstallNotificationTable;
-use oat\tao\scripts\install\RegisterResourceService;
-use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
+use oat\tao\scripts\install\RegisterValidationRules;
+use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetupMaintenanceService;
+use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\RegisterResourceService;
+
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
 return array(

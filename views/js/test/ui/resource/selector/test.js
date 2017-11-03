@@ -327,7 +327,6 @@ define([
             });
     });
 
-
     QUnit.asyncTest('single selection', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
@@ -392,7 +391,6 @@ define([
             });
     });
 
-
     QUnit.asyncTest('selection change', function(assert) {
         var $container = $('#qunit-fixture');
         var config = {
@@ -439,30 +437,79 @@ define([
             format : 'tree'
         };
 
+        var classUri = 'http://bertao/tao.rdf#i1491898712953393';
+
         QUnit.expect(6);
 
         assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
 
         resourceSelectorFactory($container, config)
             .on('change', function(selection){
-                var $class = $('.resource-tree [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+                var $class = $('.class[data-uri="' + classUri + '"]', this.getElement());
                 assert.ok($class.hasClass('selected'), 'node1 is now selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898712953393'], 'object', 'The selection contains the class');
+                assert.equal(typeof selection[classUri], 'object', 'The selection contains the class');
                 QUnit.start();
             })
-            .on('update', function(){
-                var $class = $('.resource-tree [data-uri="http://bertao/tao.rdf#i1491898712953393"]', this.getElement());
+            .on('update.foobar', function(){
+                var $class;
+                var selection;
 
-                var selection = this.getSelection();
+                this.off('update.foobar');
+
+                $class = $('.class[data-uri="' + classUri + '"]', this.getElement());
+                selection = this.getSelection();
 
                 assert.equal($class.length, 1, 'The class node exists');
                 assert.ok(! $class.hasClass('selected'), 'The class node is not selected');
-                assert.equal(typeof selection['http://bertao/tao.rdf#i1491898712953393'], 'undefined', 'The selection does not contain the class');
+                assert.equal(typeof selection[classUri], 'undefined', 'The selection does not contain the class');
 
                 $class.click();
             })
             .on('query', function(params){
                 this.update(treeRootData, params);
+            });
+    });
+
+    QUnit.asyncTest('change selection mode', function(assert) {
+        var $container = $('#qunit-fixture');
+        var config = {
+            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
+            selectionMode : modes.both,
+            classes : classesData,
+            format : 'list'
+        };
+
+        QUnit.expect(10);
+
+        assert.equal($('.resource-selector', $container).length, 0, 'No resource tree in the container');
+
+        resourceSelectorFactory($container, config)
+            .on('update', function(){
+                var $toggler = $('.selection-toggle', this.getElement());
+                var $indicator = $('.selection-control label', this.getElement());
+
+                assert.equal($toggler.length, 1, 'the toggler exists');
+                assert.ok( ! $toggler.hasClass('hidden'), 'the toggler is displayed');
+
+                assert.equal($indicator.length, 1, 'the indicator exists');
+                assert.ok($indicator.hasClass('hidden'), 'the indicator is hidden');
+
+                assert.ok( ! this.is('multiple'), 'The component starts in single mode');
+
+                $toggler.click();
+
+                assert.ok(this.is('multiple'), 'The component is now in multiple mode');
+                assert.ok( ! $indicator.hasClass('hidden'), 'the indicator is now displayed');
+
+                this.changeSelectionMode('single');
+
+                assert.ok( ! this.is('multiple'), 'The component is now in single mode');
+                assert.ok($indicator.hasClass('hidden'), 'the indicator is now hidden');
+
+                QUnit.start();
+            })
+            .on('query', function(params){
+                this.update(listData, params);
             });
     });
 
@@ -693,7 +740,8 @@ define([
         var config = {
             classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
             classes : classesData,
-            selectClass : true
+            selectClass : true,
+            selectionMode: 'both'
         };
 
         resourceSelectorFactory(container, config)
@@ -712,9 +760,6 @@ define([
                 if(params.format === 'list'){
                     this.update(listData, params);
                 }
-            })
-            .on('change', function(selection){
-                window.console.log(selection);
             });
     });
 });
