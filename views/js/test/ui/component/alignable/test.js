@@ -65,11 +65,11 @@ define([
     QUnit
         .cases([
             // with default origins
-            { title: 'centerH, centerV',    hPos: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
-            { title: 'leftH, centerV',      hPos: 'left',   vPos: 'center', expectedX: 200, expectedY: 325 },
-            { title: 'rightH, centerV',     hPos: 'right',  vPos: 'center', expectedX: 500, expectedY: 325 },
-            { title: 'centerH, topV',       hPos: 'center', vPos: 'top',    expectedX: 350, expectedY: 250 },
-            { title: 'centerH, bottomV',    hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400 },
+            { title: 'centerH, centerV', hPos: 'center', vPos: 'center', expectedX: 350, expectedY: 325 },
+            { title: 'leftH, centerV',   hPos: 'left',   vPos: 'center', expectedX: 200, expectedY: 325 },
+            { title: 'rightH, centerV',  hPos: 'right',  vPos: 'center', expectedX: 500, expectedY: 325 },
+            { title: 'centerH, topV',    hPos: 'center', vPos: 'top',    expectedX: 350, expectedY: 250 },
+            { title: 'centerH, bottomV', hPos: 'center', vPos: 'bottom', expectedX: 350, expectedY: 400 },
 
             // with custom hOrigin
             { title: 'centerH, hOrigin left',    hPos: 'center', hOrigin: 'left',    vPos: 'center', expectedX: 400, expectedY: 325 },
@@ -91,7 +91,11 @@ define([
             { title: 'topV, vOrigin bottom',     hPos: 'center', vOrigin: 'bottom', vPos: 'top',    expectedX: 350, expectedY: 250 },
             { title: 'bottomV, vOrigin top',     hPos: 'center', vOrigin: 'top',    vPos: 'bottom', expectedX: 350, expectedY: 400 },
             { title: 'bottomV, vOrigin center',  hPos: 'center', vOrigin: 'center', vPos: 'bottom', expectedX: 350, expectedY: 375 },
-            { title: 'bottomV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'bottom', expectedX: 350, expectedY: 350 }
+            { title: 'bottomV, vOrigin bottom',  hPos: 'center', vOrigin: 'bottom', vPos: 'bottom', expectedX: 350, expectedY: 350 },
+
+            // with offsets
+            { title: 'positive Offset', hPos: 'center', vPos: 'center', hOffset:  10, vOffset:  10, expectedX: 360, expectedY: 335 },
+            { title: 'negative Offset', hPos: 'center', vPos: 'center', hOffset: -10, vOffset: -10, expectedX: 340, expectedY: 315 }
 
 
         ])
@@ -119,7 +123,9 @@ define([
                         hPos: data.hPos,
                         vPos: data.vPos,
                         hOrigin: data.hOrigin,
-                        vOrigin: data.vOrigin
+                        vOrigin: data.vOrigin,
+                        hOffset: data.hOffset,
+                        vOffset: data.vOffset
                     });
                 })
                 .on('move', function() {
@@ -140,9 +146,9 @@ define([
                         assert.equal(componentPosition.x, 0, 'component x position has been reset');
                         assert.equal(componentPosition.y, 0, 'component y position has been reset');
 
-                        this.hAlignWith($refElement, data.hPos, data.hOrigin);
+                        this.hAlignWith($refElement, data.hPos, data.hOrigin, data.hOffset);
 
-                        // .hAlignWith() result
+                    // .hAlignWith() result
                     } else if(moveCounter === 4) {
                         componentPosition = this.getPosition();
 
@@ -155,9 +161,9 @@ define([
                         assert.equal(componentPosition.x, 0, 'component x position has been reset');
                         assert.equal(componentPosition.y, 0, 'component y position has been reset');
 
-                        this.vAlignWith($refElement, data.vPos, data.vOrigin);
+                        this.vAlignWith($refElement, data.vPos, data.vOrigin, data.vOffset) ;
 
-                        // .vAlignWith() result
+                    // .vAlignWith() result
                     } else if(moveCounter === 6) {
                         componentPosition = this.getPosition();
 
