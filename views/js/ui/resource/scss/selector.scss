@@ -86,6 +86,10 @@
             .selection-toggle .icon-multi-select:before {
                 @include font-size(16);
             }
+            .selection-toggle.hidden{
+                display: inline-block !important;
+                visibility: hidden;
+            }
         }
         .search {
             @include simple-flex-box;

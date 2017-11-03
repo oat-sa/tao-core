@@ -489,6 +489,7 @@ define([
 
                     //the select all control
                     $selectCtrl.on('change', function(){
+                        console.log('change', $(this).prop('checked'));
                         if($(this).prop('checked') === false){
                             self.selectionComponent.clearSelection();
                         } else {
@@ -569,6 +570,8 @@ define([
 
                 var nodesCount = _.size(this.selectionComponent.getNodes());
                 var selectedCount = _.size(selected);
+                console.log(nodesCount, selectedCount);
+                console.log(this.selectionComponent.getNodes(), selected);
 
                 //the number selected at the bottom
                 $selectNum.text(selectedCount);

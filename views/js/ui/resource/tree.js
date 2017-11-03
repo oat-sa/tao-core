@@ -148,12 +148,16 @@ define([
                 function reduceNode(acc , node){
 
                     //filter already added nodes or classes when loading "more"
-                    if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ){
+                    if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ||
+                        (node.type === 'class' && !node.state && !self.config.selectClass) ){
                         return acc;
                     }
 
                     if(node.type === 'class' && self.config.selectClass){
                         node.classUri = node.uri;
+                        if(!node.state){
+                            node.state = 'empty';
+                        }
                         self.addNode(node.uri,  _.omit(node, ['count', 'state', 'type', 'children']));
                     }
                     if(node.type === 'instance'){
