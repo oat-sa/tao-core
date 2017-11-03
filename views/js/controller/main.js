@@ -28,6 +28,7 @@ define([
     'helpers',
     'uiForm',
     'core/logger',
+    'core/store',
     'layout/section',
     'layout/actions',
     'layout/tree',
@@ -37,14 +38,19 @@ define([
     'layout/search',
     'ui/resource/selector',
     'provider/resources'
-], function(module, $, _, __, context, helpers, uiForm, loggerFactory, sections, actionManager, treeFactory, versionWarning, loadingBar, nav, search, resourceSelectorFactory, resourceProviderFactory) {
+], function(module, $, _, __, context, helpers, uiForm, loggerFactory, store, sections, actionManager, treeFactory, versionWarning, loadingBar, nav, search, resourceSelectorFactory, resourceProviderFactory) {
     'use strict';
 
     var logger = loggerFactory('controller/main');
 
-
+    /**
+     * Set up the BRS tree
+     * @param {jQueryElement} $container - the tree container with accurate data-attr
+     * @returns {Promise} that resolves once rendered
+     */
     var sectionTree = function sectionTree($container) {
         var resourceProvider = resourceProviderFactory();
+        var treeId       = $container.attr('id');
         var rootClassUri = $container.data('rootnode');
         var treeActions  = _.reduce($container.data('actions'), function(acc, id, key){
             var action = actionManager.getBy(id);
@@ -55,96 +61,129 @@ define([
         }, {});
 
         return new Promise( function(resolve) {
-            resourceProvider.getClasses(rootClassUri)
-            .then(function(classes) {
-                resourceSelectorFactory($container, {
-                    icon : $container.data('icon') || 'test',
-                    selectionMode: 'multiple',
-                    selectClass : true,
-                    classUri: rootClassUri,
-                    classes: classes
-                })
-                .on('init', function(){
-                    actionManager.exec(treeActions.init, {
-                        uri: rootClassUri
-                    });
-                })
-                .on('render', function() {
-                    var self = this;
-                    //$actionBar.addClass('active');
-                    //
 
-                    actionManager.on('removeNodes', function(actionContext, nodes){
-                        _.forEach(nodes, self.removeNode, self);
-                    });
+            store('taotree').then(function(treeStore){
+                return Promise.all([
+                    resourceProvider.getClasses(rootClassUri),
+                    treeStore.getItem(treeId)
+                ])
+                .then(function(results) {
+                    var classes = results[0];
+                    var defaultNode = results[1];
 
-                    resolve();
-                })
-                .on('query', function(params) {
-                    var self = this;
-
-                    //ask the server the resources from the component query
-                    resourceProvider.getResources(params)
-                        .then(function(items) {
-                            self.update(items, params);
-                        })
-                        .catch(function(err) {
-                            logger.error(err);
+                    resourceSelectorFactory($container, {
+                        icon : $container.data('icon') || 'test',
+                        selectionMode: 'both',
+                        selectClass : true,
+                        classUri: rootClassUri,
+                        classes: classes
+                    })
+                    .on('init', function(){
+                        actionManager.exec(treeActions.init, {
+                            uri: rootClassUri
                         });
-                })
-                .on('change', function(selection) {
-                    var length = _.size(selection);
-                    var getContext = function getContext(resource) {
-                        var resourceContext =  {
-                            permissions:  {
-                                "item-authoring": true,
-                                "item-class-new": true,
-                                "item-delete": true,
-                                "item-duplicate": true,
-                                "item-export": true,
-                                "item-import": true,
-                                "item-new": true,
-                                "item-preview": true,
-                                "item-properties": true,
-                                "item-translate": true
-                            }
-                        };
-                        if(resource.classUri){
-                            resourceContext.id = resource.classUri;
-                            resourceContext.uri = resource.classUri;
-                            resourceContext.classUri = resource.classUri;
-                            resourceContext.type = 'class';
+                    })
+                    .on('render', function() {
+                        var self = this;
+
+                        actionManager.on('removeNodes', function(actionContext, nodes){
+                            _.forEach(nodes, self.removeNode, self);
+                        });
+                        actionManager.on('subClass instanciate', function(actionContext, node){
+                            self.addNode(node, node.parent);
+                            self.select(node);
+                        });
+
+                        resolve();
+                    })
+                    .on('query', function(params) {
+                        var self = this;
+
+                        //ask the server the resources from the component query
+                        resourceProvider.getResources(params)
+                            .then(function(resources) {
+                                self.update(resources, params);
+                            })
+                            .catch(function(err) {
+                                logger.error(err);
+                            });
+
+                    })
+
+                    .on('update.first', function(){
+                        var $resource;
+                        this.off('update.first');
+
+                        //on the 1st update we select the default node
+                        //or fallback on 1st instance, or even 1st class
+                        if(this.hasNode(defaultNode)){
+                            this.select(defaultNode);
                         } else {
-                            resourceContext.id = resource.uri;
-                            resourceContext.uri = resource.uri;
-                            resourceContext.classUri = resource.classUri;
-                            resourceContext.type = 'instance';
+                            $resource = this.getElement().find('.instance');
+                            if(!$resource.length){
+                                $resource = this.getElement().find('.class');
+                            }
+                            if($resource.length){
+                                this.select( $resource.first().data('uri') );
+                            }
                         }
-
-                        return resourceContext;
-                    };
-
-                    if(length === 1){
-                        _.forEach(selection, function(resource) {
-                            var selectedContext = getContext(resource);
-                            actionManager.updateContext(selectedContext);
-                            if(selectedContext.type === 'class'){
-                                actionManager.exec(treeActions.selectClass, selectedContext);
+                    })
+                    .on('change', function(selection) {
+                        var length = _.size(selection);
+                        var getContext = function getContext(resource) {
+                            var resourceContext =  {
+                                permissions:  {
+                                    "item-authoring": true,
+                                    "item-class-new": true,
+                                    "item-delete": true,
+                                    "item-duplicate": true,
+                                    "item-export": true,
+                                    "item-import": true,
+                                    "item-new": true,
+                                    "item-preview": true,
+                                    "item-properties": true,
+                                    "item-translate": true
+                                }
+                            };
+                            if(resource.classUri){
+                                resourceContext.id = resource.classUri;
+                                resourceContext.uri = resource.classUri;
+                                resourceContext.classUri = resource.classUri;
+                                resourceContext.type = 'class';
+                            } else {
+                                resourceContext.id = resource.uri;
+                                resourceContext.uri = resource.uri;
+                                resourceContext.classUri = resource.classUri;
+                                resourceContext.type = 'instance';
                             }
-                            if(selectedContext.type === 'instance'){
-                                actionManager.exec(treeActions.selectInstance, selectedContext);
-                            }
-                        });
-                    } else if (length > 1){
-                        actionManager.updateContext( _.transform(selection, function(acc, resource){
-                            acc.push(getContext(resource));
-                            return acc;
-                        }, []));
-                    }
+
+                            return resourceContext;
+                        };
+
+                        if(length === 1){
+                            _.forEach(selection, function(resource) {
+                                var selectedContext = getContext(resource);
+                                actionManager.updateContext(selectedContext);
+                                if(selectedContext.type === 'class'){
+                                    actionManager.exec(treeActions.selectClass, selectedContext);
+                                }
+                                if(selectedContext.type === 'instance'){
+                                    actionManager.exec(treeActions.selectInstance, selectedContext);
+                                }
+
+                                treeStore.setItem(treeId, resource);
+                            });
+                        } else if (length > 1){
+                            actionManager.updateContext( _.transform(selection, function(acc, resource){
+                                acc.push(getContext(resource));
+                                return acc;
+                            }, []));
+                        }
+                    });
+                })
+                .catch(function(err) {
+                    logger.error(err);
                 });
-            })
-            .catch(function(err) {
-                logger.error(err);
             });
         });
     };
@@ -214,6 +253,7 @@ define([
                             } else {
                                 treeUrl += $treeElt.data('url');
                             }
+
                             sectionTree($treeElt)
                                 .then(function(){
                                     $actionBar.addClass('active');

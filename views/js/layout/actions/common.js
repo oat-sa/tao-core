@@ -35,6 +35,7 @@ define([
 ], function(module, $, __, _, appContext, section, binder, search, toggleFilter, uri, feedback, confirmDialog) {
     'use strict';
 
+
     /**
      * Register common actions.
      *
@@ -81,21 +82,33 @@ define([
          */
         binder.register('subClass', function subClass(actionContext){
             var classUri = uri.decode(actionContext.classUri);
-            $.ajax({
-                url: this.url,
-                type: "POST",
-                data: {classUri: actionContext.classUri, id: classUri, type: 'class'},
-                dataType: 'json',
-                success: function(response){
-                    if (response.uri) {
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            'uri'       : uri.decode(response.uri),
-                            'parent'    : classUri,
-                            'label'     : response.label,
-                            'cssClass'  : 'node-class'
-                        }]);
+            var self = this;
+            return new Promise( function(resolve, reject) {
+                $.ajax({
+                    url: self.url,
+                    type: "POST",
+                    data: {classUri: actionContext.classUri, id: classUri, type: 'class'},
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.uri) {
+                            $(actionContext.tree).trigger('addnode.taotree', [{
+                                'uri'       : uri.decode(response.uri),
+                                'parent'    : classUri,
+                                'label'     : response.label,
+                                'cssClass'  : 'node-class'
+                            }]);
+                            resolve({
+                                'uri'       : uri.decode(response.uri),
+                                'parent'    : classUri,
+                                'label'     : response.label,
+                                'type'      : 'class'
+                            });
+                        }
+                    },
+                    error : function (xhr, options, err){
+                        reject(err);
                     }
-                }
+                });
             });
         });
 
@@ -110,22 +123,34 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('instanciate', function instanciate(actionContext){
+            var self = this;
             var classUri = uri.decode(actionContext.classUri);
-            $.ajax({
-                url: this.url,
-                type: "POST",
-                data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
-                dataType: 'json',
-                success: function(response){
-                    if (response.uri) {
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            'uri'		: uri.decode(response.uri),
-                            'parent'    : classUri,
-                            'label'     : response.label,
-                            'cssClass'  : 'node-instance'
-                        }]);
+            return new Promise( function(resolve, reject) {
+                $.ajax({
+                    url: self.url,
+                    type: "POST",
+                    data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.uri) {
+                            $(actionContext.tree).trigger('addnode.taotree', [{
+                                'uri'		: uri.decode(response.uri),
+                                'parent'    : classUri,
+                                'label'     : response.label,
+                                'cssClass'  : 'node-instance'
+                            }]);
+                            resolve({
+                                'uri'       : uri.decode(response.uri),
+                                'parent'    : classUri,
+                                'label'     : response.label,
+                                'type'      : 'instance'
+                            });
+                        }
+                    },
+                    error : function (xhr, options, err){
+                        reject(err);
                     }
-                }
+                });
             });
         });
 
@@ -250,7 +275,7 @@ define([
                         dataType: 'json',
                         success: function(response){
                             if (response.success && response.deleted) {
-                                resolve(data.deleted);
+                                resolve(response.deleted);
                             } else {
                                 reject(new Error(response.msg || __("Unable to delete the selected resources")));
                             }

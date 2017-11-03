@@ -372,13 +372,10 @@ define([
              * @returns {resourceSelector} chains
              */
             removeNode : function removeNode(node){
-                var uri;
-                if(this.is('rendered') && this.selectionComponent){
-                    uri = _.isString(node) ? node : node.uri;
-                    if(this.selectionComponent.hasNode(uri)){
-                        this.selectionComponent.removeNode(uri);
-                        $('[data-uri="' + uri + '"]', $resultArea).remove();
-                    }
+                var uri = _.isString(node) ? node : node.uri;
+                if(this.hasNode(uri)){
+                    this.selectionComponent.removeNode(uri);
+                    $('[data-uri="' + uri + '"]', $resultArea).remove();
                 }
                 return this;
             },
@@ -405,6 +402,42 @@ define([
                             limit  : this.config.limit
                         });
                     }
+                }
+                return this;
+            },
+
+            /**
+             * Does the given node exists ?
+             *
+             * @param {Object|String} node - the node or directly the URI
+             * @param {String} [node.uri]
+             * @returns {Boolean}
+             */
+            hasNode : function hasNode(node){
+                var uri;
+                if(this.is('rendered') && this.selectionComponent){
+                    uri = _.isString(node) ? node : node.uri;
+                    return this.selectionComponent.hasNode(uri);
+                }
+                return false;
+            },
+
+            /**
+             * Select a node manually
+             *
+             * @param {Object|String} node - the node to select or directly the URI
+             * @param {String} [node.uri]
+             * @returns {resourceSelector} chains
+             */
+            select: function select(node){
+                var uri = _.isString(node) ? node : node.uri;
+                if(this.hasNode(uri)){
+                    if(!this.is('multiple')){
+                        this.selectionComponent.clearSelection();
+                    }
+                    this.selectionComponent.select(uri);
+
+                    $('[data-uri="' + uri + '"]', $resultArea)[0].scrollIntoView({ behavior: 'smooth' });
                 }
                 return this;
             }
@@ -489,7 +522,6 @@ define([
 
                     //the select all control
                     $selectCtrl.on('change', function(){
-                        console.log('change', $(this).prop('checked'));
                         if($(this).prop('checked') === false){
                             self.selectionComponent.clearSelection();
                         } else {
@@ -570,8 +602,6 @@ define([
 
                 var nodesCount = _.size(this.selectionComponent.getNodes());
                 var selectedCount = _.size(selected);
-                console.log(nodesCount, selectedCount);
-                console.log(this.selectionComponent.getNodes(), selected);
 
                 //the number selected at the bottom
                 $selectNum.text(selectedCount);

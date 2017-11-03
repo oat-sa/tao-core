@@ -256,9 +256,9 @@ define([
 
                 return Promise
                     .resolve(binder.exec(action, context || resourceContext))
-                    .then(function actionDone(result){
+                    .then(function actionDone(actionData){
                         var events = [action.id, action.binding];
-                        self.trigger(events.join(' '), context || resourceContext, result);
+                        self.trigger(events.join(' '), context || resourceContext, actionData);
                     })
                     .catch( function actionError(err){
                         self.trigger('error', err);
