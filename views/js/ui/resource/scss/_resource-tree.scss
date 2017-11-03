@@ -9,6 +9,7 @@
 
     &.multiple ul li.instance:before{
         display: block;
+        @include transition(all, 200ms, linear);
     }
 
     ul {
