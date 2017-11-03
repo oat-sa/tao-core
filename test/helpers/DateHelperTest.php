@@ -64,6 +64,10 @@ class DateHelperTest extends TaoPhpUnitTestRunner
         $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_VERBOSE));
         $this->assertEquals('1980-02-01T10:00:00.012', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601));
         
+        $ms = '0.9999 1509450498';
+        $dateStr = tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601);
+        $this->assertSame(1, preg_match('/\.000$/', $dateStr));
+        
         $ms = '0.99999999 1509450498';
         $dateStr = tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601);
         $this->assertSame(1, preg_match('/\.000$/', $dateStr));
