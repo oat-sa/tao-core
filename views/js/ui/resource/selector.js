@@ -284,6 +284,10 @@ define([
              */
             changeSelectionMode : function changeSelectionMode(newMode){
                 if(this.is('rendered') && this.config.selectionMode !== newMode && selectionModes[newMode]){
+                    if(this.config.multiple){
+                        this.clearSelection();
+                    }
+
                     this.config.multiple = newMode === selectionModes.multiple;
                     this.selectionComponent.setState('multiple', this.config.multiple);
                     this.setState('multiple', this.config.multiple);
@@ -415,7 +419,7 @@ define([
              */
             hasNode : function hasNode(node){
                 var uri;
-                if(this.is('rendered') && this.selectionComponent){
+                if(node && this.is('rendered') && this.selectionComponent){
                     uri = _.isString(node) ? node : node.uri;
                     return this.selectionComponent.hasNode(uri);
                 }
@@ -440,6 +444,17 @@ define([
                     $('[data-uri="' + uri + '"]', $resultArea)[0].scrollIntoView({ behavior: 'smooth' });
                 }
                 return this;
+            },
+
+            refresh : function refresh(defaultNode){
+                if(this.is('rendered')){
+                    this.on('update.refresh', function(){
+                        this.off('update.refresh');
+                        this.select(defaultNode);
+                    });
+                    this.reset()
+                        .query();
+                }
             }
         };
 

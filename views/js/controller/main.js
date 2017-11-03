@@ -93,6 +93,9 @@ define([
                             self.addNode(node, node.parent);
                             self.select(node);
                         });
+                        actionManager.on('refresh', function(node){
+                            self.refresh(node || defaultNode);
+                        });
 
                         resolve();
                     })
@@ -107,11 +110,11 @@ define([
                             .catch(function(err) {
                                 logger.error(err);
                             });
-
                     })
 
                     .on('update.first', function(){
                         var $resource;
+
                         this.off('update.first');
 
                         //on the 1st update we select the default node
@@ -170,8 +173,8 @@ define([
                                 if(selectedContext.type === 'instance'){
                                     actionManager.exec(treeActions.selectInstance, selectedContext);
                                 }
-
-                                treeStore.setItem(treeId, resource);
+                                defaultNode = resource;
+                                treeStore.setItem(treeId, defaultNode);
                             });
                         } else if (length > 1){
                             actionManager.updateContext( _.transform(selection, function(acc, resource){
