@@ -158,10 +158,10 @@ define([
                         if(!node.state){
                             node.state = 'empty';
                         }
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'type', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
                     }
                     if(node.type === 'instance'){
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'type', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
                         node.icon = config.icon;
                     }
                     if(node.children && node.children.length){
@@ -256,7 +256,7 @@ define([
                     }
                 };
 
-                //browser hierarchy
+                //browse hierarchy
                 if(self.config.selectClass){
                     $component.on('click', '.class', function(e){
                         var $class = $(e.currentTarget);
@@ -272,7 +272,6 @@ define([
                                 self.unselect($class.data('uri'));
                             } else {
                                 self.select($class.data('uri'), !self.is('multiple'));
-                                openClass($class);
                             }
                         }
                     });
@@ -316,6 +315,25 @@ define([
                 } else  {
                     this.query();
                 }
+            })
+            .after('change', function(selection){
+                var self = this;
+                //if a class node has been seletected manually, open it
+                _.defer(function(){
+                    if(self.config.selectClass){
+                        _.filter(selection, {type : 'class'})
+                        .forEach(function(node){
+                            var $node = $('[data-uri="' + node.uri + '"]', self.getElement());
+                            if($node.hasClass('closed') && ! $node.hasClass('empty')){
+                                if(!$node.children('ul').children('li').length){
+                                    self.query({ classUri : $node.data('uri') });
+                                }  else {
+                                    $node.removeClass('closed');
+                                }
+                            }
+                        });
+                    }
+                });
             })
             .on('query', function(){
                 this.setState('loading', true);

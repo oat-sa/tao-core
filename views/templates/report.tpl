@@ -65,9 +65,13 @@ require(['jquery', 'i18n', 'layout/actions'], function($, __, actionManager){
         $('.tree').trigger('refresh.taotree', [{
             uri : <?php echo json_encode(get_data('selectNode')); ?>
         }]);
-        actionManager.trigger('refresh', {
-            uri : <?php echo json_encode(get_data('selectNode')); ?>
-        });
+        <?php if (has_data('selectNode')): ?>
+            actioManager.trigger('refresh', {
+                uri : <?php echo json_encode(get_data('selectNode')); ?>
+            });
+        <?php else : ?>
+        actionManager.trigger('refresh');
+        <?php endif; ?>
     });
 });
 </script>

@@ -446,15 +446,49 @@ define([
                 return this;
             },
 
-            refresh : function refresh(defaultNode){
+            /**
+             * Select the default node, then fallback to 1st instance then 1st class
+             *
+             * @param {Object|String} node - the node to select or directly the URI
+             * @param {String} [node.uri]
+             * @param {Boolean} [fallback = true] - apply the fallback ?
+             * @returns {resourceSelector} chains
+             */
+            selectDefaultNode : function selectDefaultNode(node, fallback){
+                var $resource;
+                if(this.is('rendered')){
+                    if(this.hasNode(node)){
+                        this.select(node);
+                    } else if(fallback !== false) {
+                        $resource = this.getElement().find('.instance');
+                        if(!$resource.length){
+                            $resource = this.getElement().find('.class');
+                        }
+                        if($resource.length){
+                            this.select( $resource.first().data('uri') );
+                        }
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Refresh and select the given node
+             *
+             * @param {Object|String} node - the node to select or directly the URI
+             * @param {String} [node.uri]
+             * @returns {resourceSelector} chains
+             */
+            refresh : function refresh(node){
                 if(this.is('rendered')){
                     this.on('update.refresh', function(){
                         this.off('update.refresh');
-                        this.select(defaultNode);
+                        this.selectDefaultNode(node);
                     });
                     this.reset()
                         .query();
                 }
+                return this;
             }
         };
 

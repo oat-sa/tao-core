@@ -88,12 +88,15 @@ define([
 
                         actionManager.on('removeNodes', function(actionContext, nodes){
                             _.forEach(nodes, self.removeNode, self);
+                            self.changeSelectionMode('single');
+                            self.selectDefaultNode(defaultNode);
                         });
-                        actionManager.on('subClass instanciate', function(actionContext, node){
-                            self.addNode(node, node.parent);
+                        actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
+                            self.addNode(node, node.classUri);
                             self.select(node);
                         });
                         actionManager.on('refresh', function(node){
+                            debugger;
                             self.refresh(node || defaultNode);
                         });
 
@@ -113,28 +116,18 @@ define([
                     })
 
                     .on('update.first', function(){
-                        var $resource;
 
                         this.off('update.first');
 
                         //on the 1st update we select the default node
                         //or fallback on 1st instance, or even 1st class
-                        if(this.hasNode(defaultNode)){
-                            this.select(defaultNode);
-                        } else {
-                            $resource = this.getElement().find('.instance');
-                            if(!$resource.length){
-                                $resource = this.getElement().find('.class');
-                            }
-                            if($resource.length){
-                                this.select( $resource.first().data('uri') );
-                            }
-                        }
+                        this.selectDefaultNode(defaultNode);
                     })
                     .on('change', function(selection) {
                         var length = _.size(selection);
                         var getContext = function getContext(resource) {
-                            var resourceContext =  {
+                            return _.defaults(resource, {
+                                id : resource.uri,
                                 permissions:  {
                                     "item-authoring": true,
                                     "item-class-new": true,
@@ -147,20 +140,7 @@ define([
                                     "item-properties": true,
                                     "item-translate": true
                                 }
-                            };
-                            if(resource.classUri){
-                                resourceContext.id = resource.classUri;
-                                resourceContext.uri = resource.classUri;
-                                resourceContext.classUri = resource.classUri;
-                                resourceContext.type = 'class';
-                            } else {
-                                resourceContext.id = resource.uri;
-                                resourceContext.uri = resource.uri;
-                                resourceContext.classUri = resource.classUri;
-                                resourceContext.type = 'instance';
-                            }
-
-                            return resourceContext;
+                            });
                         };
 
                         if(length === 1){
@@ -173,6 +153,7 @@ define([
                                 if(selectedContext.type === 'instance'){
                                     actionManager.exec(treeActions.selectInstance, selectedContext);
                                 }
+
                                 defaultNode = resource;
                                 treeStore.setItem(treeId, defaultNode);
                             });

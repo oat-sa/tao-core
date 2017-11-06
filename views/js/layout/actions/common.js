@@ -77,6 +77,7 @@ define([
          *
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.classUri - the URI of the parent class
+         * @returns {Promise<Object>} resolves with the new class data
          *
          * @fires layout/tree#addnode.taotree
          */
@@ -91,19 +92,24 @@ define([
                     dataType: 'json',
                     success: function(response){
                         if (response.uri) {
+
+                            //backward compat format for jstree
                             $(actionContext.tree).trigger('addnode.taotree', [{
-                                'uri'       : uri.decode(response.uri),
-                                'parent'    : classUri,
-                                'label'     : response.label,
-                                'cssClass'  : 'node-class'
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-class'
                             }]);
-                            resolve({
-                                'uri'       : uri.decode(response.uri),
-                                'parent'    : classUri,
-                                'label'     : response.label,
-                                'type'      : 'class'
+
+                            //resolve format (resourceSelector)
+                            return resolve({
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                classUri  : uri.decode(actionContext.classUri),
+                                type      : 'class'
                             });
                         }
+                        return reject(new Error(__('Adding the new class has failed')));
                     },
                     error : function (xhr, options, err){
                         reject(err);
@@ -119,6 +125,7 @@ define([
          *
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.classUri - the URI of the class' instance
+         * @returns {Promise<Object>} resolves with the new instance data
          *
          * @fires layout/tree#addnode.taotree
          */
@@ -133,19 +140,24 @@ define([
                     dataType: 'json',
                     success: function(response){
                         if (response.uri) {
+
+                            //backward compat format for jstree
                             $(actionContext.tree).trigger('addnode.taotree', [{
-                                'uri'		: uri.decode(response.uri),
-                                'parent'    : classUri,
-                                'label'     : response.label,
-                                'cssClass'  : 'node-instance'
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-instance'
                             }]);
-                            resolve({
-                                'uri'       : uri.decode(response.uri),
-                                'parent'    : classUri,
-                                'label'     : response.label,
-                                'type'      : 'instance'
+
+                            //resolve format (resourceSelector)
+                            return resolve({
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                classUri  : uri.decode(actionContext.classUri),
+                                type      : 'instance'
                             });
                         }
+                        return reject(new Error(__('Adding the new resource has failed')));
                     },
                     error : function (xhr, options, err){
                         reject(err);
@@ -162,25 +174,46 @@ define([
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.uri - the URI of the base instance
          * @param {String} actionContext.classUri - the URI of the class' instance
+         * @returns {Promise<Object>} resolves with the new instance data
          *
          * @fires layout/tree#addnode.taotree
          */
         binder.register('duplicateNode', function duplicateNode(actionContext){
-            $.ajax({
-                url: this.url,
-                type: "POST",
-                data: {uri: actionContext.id, classUri: uri.decode(actionContext.classUri)},
-                dataType: 'json',
-                success: function(response){
-                    if (response.uri) {
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            'uri'       : uri.decode(response.uri),
-                            'parent'    : uri.decode(actionContext.classUri),
-                            'label'     : response.label,
-                            'cssClass'  : 'node-instance'
-                        }]);
+            var self = this;
+            return new Promise( function(resolve, reject) {
+                $.ajax({
+                    url: self.url,
+                    type: "POST",
+                    data: {
+                        uri: actionContext.id,
+                        classUri: uri.decode(actionContext.classUri)
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.uri) {
+
+                            //backward compat format for jstree
+                            $(actionContext.tree).trigger('addnode.taotree', [{
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-instance'
+                            }]);
+
+                            //resolve format (resourceSelector)
+                            return resolve({
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                classUri  : uri.decode(actionContext.classUri),
+                                type      : 'instance'
+                            });
+                        }
+                        return reject(new Error(__('Node duplcation has failed')));
+                    },
+                    error : function (xhr, options, err){
+                        reject(err);
                     }
-                }
+                });
             });
         });
 
@@ -235,7 +268,7 @@ define([
         binder.register('removeNodes', function removeNodes(actionContexts){
             var self = this;
             var tokenName = module.config().xsrfTokenName;
-            var confirmMessage;
+            var confirmMessage = '';
             var data = {};
             var classes;
             var instances;
@@ -255,13 +288,21 @@ define([
                 confirmMessage = __('Please confirm deletion');
             } else if(actionContexts.length > 1){
                 if(instances.length){
-                    confirmMessage = __('%s instances', instances.length);
+                    if(instances.length === 1){
+                        confirmMessage = __('an instance', instances.length);
+                    } else {
+                        confirmMessage = __('%s instances', instances.length);
+                    }
                 }
                 if(classes.length){
                     if(confirmMessage){
                         confirmMessage += __(' and ');
                     }
-                    confirmMessage += __('%s classes', classes.length);
+                    if(classes.length === 1){
+                        confirmMessage = __('a class', instances.length);
+                    } else {
+                        confirmMessage += __('%s classes', classes.length);
+                    }
                 }
                 confirmMessage =  __('Please confirm deletion of %s.', confirmMessage);
             }
@@ -340,10 +381,8 @@ define([
          * This action helps to filter tree content.
          *
          * @this the action (once register it is bound to an action object)
-         *
-         * @param {Object} actionContext - the current actionContext
          */
-        binder.register('filter', function filter(actionContext){
+        binder.register('filter', function filter(){
             $('#panel-' + appContext.section + ' .search-form').slideUp();
 
             toggleFilter($('#panel-' + appContext.section + ' .filter-form'));
@@ -362,9 +401,9 @@ define([
 
 
             var data = _.pick(actionContext, ['uri', 'classUri', 'id']);
-	            // used to avoid same query twice
-	        var uniqueValue = data.uri || data.classUri || '';
-	        var $container  = $('.search-form [data-purpose="search"]');
+            // used to avoid same query twice
+            var uniqueValue = data.uri || data.classUri || '';
+            var $container  = $('.search-form [data-purpose="search"]');
 
             $('.filter-form').slideUp();
 
@@ -426,7 +465,7 @@ define([
                         })
                         .show();
                     } else {
-                       section.updateContentBlock($response);
+                        section.updateContentBlock($response);
                     }
                 }
             });

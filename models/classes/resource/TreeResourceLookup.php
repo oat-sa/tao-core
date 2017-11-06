@@ -59,11 +59,12 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         return array_map(function($data){
 
             $formated = [
-                'label' => $data['data'],
-                'type'  => $data['type'],
-                'uri'   => $data['attributes']['data-uri'],
-                'state' => isset($data['state']) ? $data['state'] : false,
-                'count' => isset($data['count']) ? $data['count'] : 0
+                'label'    => $data['data'],
+                'type'     => $data['type'],
+                'uri'      => $data['attributes']['data-uri'],
+                'classUri' => $data['attributes']['data-classUri'],
+                'state'    => isset($data['state']) ? $data['state'] : false,
+                'count'    => isset($data['count']) ? $data['count'] : 0
             ];
             if(isset($data['children'])){
                 $formated['children'] = $this->formatTreeData($data['children']);

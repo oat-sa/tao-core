@@ -56,7 +56,9 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         foreach($resources as $resource){
             $nodes[] = [
                 'uri'        => $resource->getUri(),
-                'label'      => $resource->getLabel()
+                'classUri'   => $resource->getClass()->getUri(),
+                'label'      => $resource->getLabel(),
+                'type'       => 'instance'
             ];
         }
 
