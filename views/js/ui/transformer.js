@@ -44,7 +44,7 @@ define([
             return '';
         }
         while (i--) {
-            if (style[vendorPrefixes[i] + 'Transform'] !== undefined) {
+            if (! _.isUndefined(style[vendorPrefixes[i] + 'Transform'])) {
                 return '-' + vendorPrefixes[i] + '-';
             }
         }
@@ -162,7 +162,7 @@ define([
                 }
             }
 
-            if (undefined !== defaults[key] && value !== defaults[key]) {
+            if (! _.isUndefined(defaults[key]) && value !== defaults[key]) {
                 if (key.indexOf('translate') > -1) {
                     value += 'px';
                 }
