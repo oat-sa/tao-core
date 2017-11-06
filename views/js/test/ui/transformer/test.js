@@ -1,7 +1,8 @@
 define([
+    'lodash',
     'jquery',
     'ui/transformer'
-], function ($, transformer) {
+], function (_, $, transformer) {
 
     'use strict';
 
@@ -217,18 +218,55 @@ define([
 
         transformer.scaleX($container, 3);
         rect = getRect($container);
-        assert.ok(rect.height === 100 && rect.width === 450, 'scaleX(3) on top of existing 1.5');
+        assert.ok(rect.height === 150 && rect.width === 450, 'scaleX(3) on top of existing 1.5');
 
         $container = resetContainer('scale');
         transformer.scaleY($container, 3);
         rect = getRect($container);
-        assert.ok(rect.width === 100 && rect.height === 450, 'scaleY(3) on top of existing 1.5');
+        assert.ok(rect.width === 150 && rect.height === 450, 'scaleY(3) on top of existing 1.5');
 
         $container = resetContainer('scale');
         transformer.scale($container, 3);
         rect = getRect($container);
         assert.ok(rect.width === rect.height && rect.width === 450, 'scale(3) on top of existing 1.5');
     });
+
+
+    QUnit
+        .cases([
+            {
+                title: 'scale',
+                newTransforms: { scaleX: 3, scaleY: 3, translateX: 72 * 3, translateY: 50 * 3 },
+                transform: function($el) { transformer.scale($el, 2); }
+            }, {
+                title: 'translate',
+                newTransforms: { translateX: 100, translateY: 100 },
+                transform: function($el) { transformer.translate($el, 28, 50); }
+            }
+        ])
+        .test('Keep original transformations while doing new ones', function (data, assert) {
+            var $container = resetContainer('transform'),
+                expected = {
+                    translateX: 72,
+                    translateY: 50,
+                    rotate: 20,
+                    skew: 20,
+                    scaleX: 1.5,
+                    scaleY: 1.5
+                },
+                actual;
+
+            QUnit.expect(2);
+
+            actual = transformer.getTransformation($container);
+            assert.deepEqual(actual.obj, expected, 'container has the correct initial transform');
+
+            data.transform($container);
+
+            _.assign(expected, data.newTransforms);
+            actual = transformer.getTransformation($container);
+            assert.deepEqual(actual.obj, expected, 'new transforms have kept the existing ones');
+        });
 
 
 });

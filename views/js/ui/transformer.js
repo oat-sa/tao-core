@@ -128,15 +128,17 @@ define([
      */
     function _transform($elem, transforms) {
         var cssObj = {},
-            defaults = _unmatrix('none'),
             classNames = [],
+            defaults = _unmatrix('none'),
+            availableTrans = _.keys(defaults),
             oriTrans;
 
         transforms = _normalizeTransforms(transforms);
 
         // memorize old transformation
-        if (!$elem.data('oriTrans')) {
-            oriTrans =  _getTransformation($elem[0]);
+        oriTrans = $elem.data('oriTrans');
+        if (!oriTrans) {
+            oriTrans = _getTransformation($elem[0]);
             oriTrans.origin = _getTransformOrigin($elem[0]);
             $elem.data('oriTrans', oriTrans);
         }
@@ -145,33 +147,31 @@ define([
 
         // generate the style
         _.forIn(transforms, function (value, key) {
-
-            // ignore values that aren't numeric
-            if (_.isNaN(value)) {
+            if (_.isNaN(value) || availableTrans.indexOf(key) === -1) {
                 return true;
             }
-            value = parseFloat(value);
 
-            // apply original transformation if applicable
-            if ($elem.data('oriTrans').obj[key] !== defaults[key]) {
-                if (key.indexOf('scale') > -1) {
-                    value *= $elem.data('oriTrans').obj[key];
-                }
-                else {
-                    value += $elem.data('oriTrans').obj[key];
-                }
-            }
+            cssObj[prefix + 'transform'] += getTransformString(
+                key,
+                parseFloat(value),
+                defaults[key],
+                oriTrans.obj[key]
+            );
 
-            if (! _.isUndefined(defaults[key]) && value !== defaults[key]) {
-                if (key.indexOf('translate') > -1) {
-                    value += 'px';
-                }
-                else if (key === 'rotate' || key.indexOf('skew') > -1) {
-                    value += 'deg';
-                }
-                cssObj[prefix + 'transform'] += key + '(' + value + ') ';
-                classNames.push('transform-' + key.replace(/(X|Y)$/i, ''));
-            }
+            classNames.push('transform-' + key.replace(/(X|Y)$/i, ''));
+
+            availableTrans = availableTrans.filter(function(transId) {
+                return key !== transId;
+            });
+        });
+
+        // loop on the remaining transforms to restore previously made transforms
+        availableTrans.forEach(function (key) {
+            cssObj[prefix + 'transform'] += getTransformString(
+                key,
+                oriTrans.obj[key],
+                defaults[key]
+            );
         });
 
         cssObj[prefix + 'transform'] = $.trim(cssObj[prefix + 'transform']);
@@ -181,6 +181,31 @@ define([
         $elem.addClass(_.unique(classNames).join(' '));
 
         $elem.trigger('transform.' + ns, transforms);
+    }
+
+    function getTransformString(transformId, newValue, defaultValue, originalValue) {
+        var transformString = '';
+
+        // apply original transformation if applicable
+        if (!_.isUndefined(originalValue) && originalValue !== defaultValue) {
+            if (transformId.indexOf('scale') > - 1) {
+                newValue *= originalValue;
+            }
+            else {
+                newValue += originalValue;
+            }
+        }
+
+        if (newValue !== defaultValue) {
+            if (transformId.indexOf('translate') > -1) {
+                newValue += 'px';
+            }
+            else if (transformId === 'rotate' || transformId.indexOf('skew') > -1) {
+                newValue += 'deg';
+            }
+            transformString = transformId + '(' + newValue + ') ';
+        }
+        return transformString;
     }
 
 
