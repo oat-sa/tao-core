@@ -180,10 +180,19 @@ class tao_helpers_Date
     static function getTimeStamp($microtime, $microseconds = false)
     {
         $parts = array_reverse(explode(" ", $microtime));
-
-        $timestamp = $microseconds && isset($parts[1])
-            ? $parts[0] . '.' . str_replace('0.', '', sprintf('%0.6f', $parts[1]))
-            : $parts[0];
+        
+        if ($microseconds && isset($parts[1])) {
+            $round = sprintf('%0.6f', $parts[1]);
+            if ($round === '1.000000') {
+                // Edge case -> rounded up to the second.
+                $timestamp = '' . (intval($parts[0]) + 1) . '.000000';
+            } else {
+                $timestamp = $parts[0] . '.' . str_replace('0.', '', $round);
+            }
+            
+        } else {
+            $timestamp = $parts[0];
+        }
 
         return $timestamp;
     }
