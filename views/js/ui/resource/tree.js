@@ -151,8 +151,13 @@ define([
                     if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ){
                         return acc;
                     }
+
+                    if(node.type === 'class' && self.config.selectClass){
+                        node.classUri = node.uri;
+                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'type', 'children']));
+                    }
                     if(node.type === 'instance'){
-                        self.addNode([node.uri],  _.omit(node, ['count', 'state', 'type', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'type', 'children']));
                         node.icon = config.icon;
                     }
                     if(node.children && node.children.length){
@@ -170,6 +175,7 @@ define([
                 }
 
                 if(this.is('rendered')){
+
                     $component = this.getElement();
 
                     if(params && params.classUri){
@@ -204,28 +210,77 @@ define([
 
                 this.classUri = this.config.classUri;
 
+                this.setState('multiple', !!this.config.multiple);
+
                 this.render($container);
             })
             .on('render', function(){
                 var self = this;
                 var $component = this.getElement();
 
-                //browser hierarchy
-                $component.on('click', '.class:not(.empty)', function(e){
-                    var $class = $(e.currentTarget);
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    if(!$class.hasClass('closed')){
-                        $class.addClass('closed');
-                    } else {
+                /***
+                 * Open a class node
+                 * @param {jQueryElement} $class
+                 */
+                var openClass = function openClass($class){
+                    if($class.hasClass('closed')){
                         if(!$class.children('ul').children('li').length){
                             self.query({ classUri : $class.data('uri') });
                         }  else {
                             $class.removeClass('closed');
                         }
                     }
-                });
+                };
+
+                /***
+                 * Close a class node
+                 * @param {jQueryElement} $class
+                 */
+                var closeClass = function closeClass($class){
+                    $class.addClass('closed');
+                };
+
+                /***
+                 * Toggle a class node
+                 * @param {jQueryElement} $class
+                 */
+                var toggleClass = function toggleClass($class){
+                    if(!$class.hasClass('closed')){
+                        closeClass($class);
+                    } else {
+                        openClass($class);
+                    }
+                };
+
+                //browser hierarchy
+                if(self.config.selectClass){
+                    $component.on('click', '.class', function(e){
+                        var $class = $(e.currentTarget);
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if($(e.target).hasClass('class-toggler')){
+                            if(!$class.hasClass('empty')){
+                                toggleClass($class);
+                            }
+                        } else {
+                            if($class.hasClass('selected')){
+                                self.unselect($class.data('uri'));
+                            } else {
+                                self.select($class.data('uri'), !self.is('multiple'));
+                                openClass($class);
+                            }
+                        }
+                    });
+                } else {
+                    $component.on('click', '.class:not(.empty)', function(e){
+                        var $class = $(e.currentTarget);
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        toggleClass($class);
+                    });
+                }
 
                 //selection
                 $component.on('click', '.instance', function(e){
@@ -236,19 +291,14 @@ define([
                     if($instance.hasClass('selected')){
                         self.unselect($instance.data('uri'));
                     } else {
-                        if(self.config.multiple !== true){
-                            self.clearSelection();
-                        }
-                        self.select($instance.data('uri'));
+                        self.select($instance.data('uri'), !self.is('multiple'));
                     }
                 });
 
-                //need more data
                 $component.on('click', '.more', function(e){
                     var $root = $(e.currentTarget).parent('.class');
                     e.preventDefault();
                     e.stopPropagation();
-
 
                     self.query({
                         classUri:   $root.data('uri') ,

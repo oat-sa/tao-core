@@ -69,6 +69,7 @@ define([
     QUnit.cases([
         { title : 'getValue' },
         { title : 'setValue' },
+        { title : 'getClassNode' },
     ]).test('Instance API ', function(data, assert) {
         var instance = classSelector();
         assert.equal(typeof instance[data.title], 'function', 'The classSelector exposes the method "' + data.title);
@@ -196,7 +197,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(7);
+        QUnit.expect(10);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -214,15 +215,54 @@ define([
 
             this.setValue('http://bertao/tao.rdf#i14727195563004295');
         })
-        .on('change', function(newValue){
+        .on('change', function(newValue, newNode){
 
             assert.equal($('a.selected', $container).text(), 'Designer',  'The node\'s text is used by the selection element');
             assert.equal(this.getValue(), newValue,  'There new value is correct');
             assert.equal(this.getValue(), 'http://bertao/tao.rdf#i14727195563004295',  'There new value is correct');
 
+            assert.equal(typeof newNode, 'object', 'The class node is sent');
+            assert.equal(newNode.uri, 'http://bertao/tao.rdf#i14727195563004295', 'The class node URI is correct');
+            assert.equal(newNode.label, 'Designer', 'The node label is correct');
+
             QUnit.start();
         });
     });
+
+
+    QUnit.asyncTest('get class node', function(assert) {
+
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(7);
+
+        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+
+        classSelector($container, {
+            classes : classes
+        })
+        .on('render', function(){
+
+            var node;
+            var $element = this.getElement();
+            var $aNode   = $('ul:first-child > li:first-child > ul > li:last-child > a', $element);
+
+            assert.ok($('a.selected', $element).hasClass('empty'), 'The selection element is empty');
+            assert.equal(this.getValue(), null,  'There is no value selected');
+            assert.equal(this.getClassNode(), null, 'No node seleted either');
+
+            $aNode.click();
+
+            node = this.getClassNode();
+
+            assert.equal(typeof node, 'object', 'The class node is selected');
+            assert.equal(node.uri, 'http://bertao/tao.rdf#i14727380063820347', 'The class node URI is correct');
+            assert.equal(node.label, 'Trainee', 'The node label is correct');
+
+            QUnit.start();
+        });
+    });
+
 
     QUnit.asyncTest('default value not in the classes', function(assert) {
 
