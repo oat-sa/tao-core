@@ -22,6 +22,7 @@
 namespace oat\tao\model\actionQueue;
 
 use oat\oatbox\extension\AbstractAction;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * class Action
@@ -30,6 +31,8 @@ use oat\oatbox\extension\AbstractAction;
  */
 abstract class AbstractQueuedAction extends AbstractAction implements QueuedAction
 {
+
+    use LoggerAwareTrait;
 
     /**
      * Action execution result
