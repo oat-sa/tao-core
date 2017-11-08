@@ -72,15 +72,4 @@
             }
         }
     }
-
-    .more {
-        height: 45px;
-        padding: 10px;
-        text-align: center;
-    }
-
-    &.loading .more {
-        opacity: 0.65;
-        cursor : inherit;
-    }
 }

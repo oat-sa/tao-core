@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2017 (original work) Open Assessment Technologies SA;
  *               
  * 
  */
@@ -56,7 +56,18 @@ class EuropeanFormatter extends Configurable implements Formatter
         	    $formatString = 'F j, Y, g:i:s a';
         	    break;
 			case \tao_helpers_Date::FORMAT_ISO8601:
-				$milliseconds = str_replace('0.', '', sprintf('%0.3f', fmod($timestamp, 1)));
+                $round = sprintf('%0.3f', fmod($timestamp, 1));
+                
+                if ($round === '1.000') {
+                    // Edge case where the rounded value provided by 
+                    // sprintf is 1.000. It means we have to round up
+                    // the seconds.
+                    $milliseconds = '000';
+                    $dateTime = $dateTime->add(new \DateInterval('PT1S'));
+                } else {
+                    $milliseconds = str_replace('0.', '', $round);
+                }
+
 				$formatString = 'Y-m-d\TH:i:s.'.$milliseconds;
 				break;
         	default:

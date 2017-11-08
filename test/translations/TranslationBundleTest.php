@@ -64,9 +64,9 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      */     
     public function wrongConstructorProvider(){
         return array(
-            array(true, array()),
-            array('test', 12),
-            array(null, null),
+            array(true, array(), null),
+            array('test', 12, 10),
+            array(null, null, false),
         );
     }   
  
@@ -75,10 +75,10 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      * @param string $langCode
      * @param array $extensions
      * @dataProvider wrongConstructorProvider
-     * @expectedException common_exception_InvalidArgumentType
+     * @expectedException InvalidArgumentException
      */
-    public function testWrongConstructor($langCode, $extensions){
-       new TranslationBundle($langCode, $extensions); 
+    public function testWrongConstructor($langCode, $extensions, $basePath){
+       new TranslationBundle($langCode, $extensions, $basePath); 
     }
    
     /**
@@ -86,10 +86,10 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      * @return array() the data
      */     
     public function bundleProvider(){
-        return array(
-            array('en-US', array(new \common_ext_Extension('tao'), new \common_ext_Extension('taoItems')), md5('en-US_tao-taoItems')),
-            array('fr-FR', array(new \common_ext_Extension('tao'), new \common_ext_Extension('taoItems')), md5('fr-FR_tao-taoItems')),
-        );
+        return [
+           ['en-US', ['tao', 'taoItems'], md5('en-US_tao-taoItems')],
+           ['fr-FR', ['tao', 'taoItems'], md5('fr-FR_tao-taoItems')],
+        ];
     }   
  
     /**
@@ -99,7 +99,7 @@ class TranslationBundleTest extends TaoPhpUnitTestRunner {
      * @dataProvider bundleProvider
      */
     public function testBundle($langCode, $extensions, $expectedSerial){
-       $bundle = new TranslationBundle($langCode, $extensions); 
+       $bundle = new TranslationBundle($langCode, $extensions, __DIR__ . '/../../../'); 
 
        $serial = $bundle->getSerial();
        $this->assertTrue(is_string($serial));
