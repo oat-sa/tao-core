@@ -20,123 +20,223 @@
 
 namespace oat\tao\model\theme;
 
+use Jig\Utils\StringUtils;
 use oat\oatbox\Configurable;
+use oat\tao\model\theme\DefaultTheme;
 use oat\tao\helpers\Template;
+use qtism\common\datatypes\String;
+
 
 /**
  * Class ConfigurablePlatformTheme
  *
- * Class to easily configure a theme
- * To use it, declare into tao/theming.conf themes:
- *
- * return new oat\tao\model\theme\ThemeService(array(
- * 'available' => array(
- *    [...],
- *    'test' => new \oat\tao\model\theme\ConfigurableTheme(),
- *    'testConfigured' => new \oat\tao\model\theme\ConfigurableTheme(array(
- *       'data' => array(
- *          'logo-url' => 'http://lorempixel.com/400/200,
- *          'link' => 'http://taotesting.com',
- *          'message' => 'Tao Platform',
- *          'label' => 'Default Theme',
- *          'prefix' => 'myPrefix' // optional
- *        ),
- *        'stylesheet' => 'http://tao.dev/tao/views/css/tao-3.css'
- *     )
- *  )
- *  [...]
+ * Class to easily configure a platform theme, the configuration is written to
+ * /config/tao/theming.conf
  *
  * @package oat\tao\model\theme
  */
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
-    /** Theme id offset in the options. */
-    const THEME_ID     = 'id';
 
-    /** Theme prefix offset in the options. */
-    const THEME_PREFIX = 'prefix';
+    /** Theme container id key */
+    const CONTAINER_ID = 'containerId';
+    
+    /** Theme container type key */
+    const CONTAINER_TYPE = 'containerId';
 
-    /** Theme label offset in the options. */
-    const THEME_LABEL  = 'label';
+    /** Theme label key */
+    const LABEL = 'label';
 
-    /** Theme data offset in the options. */
-    const THEME_DATA   = 'data';
+    /** Theme id key */
+    const ID = 'id';
 
-    /** Theme css offset in the options. */
-    const THEME_CSS    = 'stylesheet';
+    /** Theme stylesheet key */
+    const STYLESHEET = 'stylesheet';
 
-    /** Theme data logo url offset in the options under the data offset. */
-    const THEME_DATA_LOGO_URL = 'logo-url';
-    /** Theme data logo link offset in the options under the data offset. */
-    const THEME_DATA_LINK     = 'link';
-    /** Theme data logo title offset in the options under the data offset. */
-    const THEME_DATA_MESSAGE  = 'message';
+    /** Theme logo url key */
+    const LOGO_URL = 'logoUrl';
+
+    /** Theme logo link key */
+    const LINK = 'link';
+
+    /** Theme logo title key */
+    const MESSAGE = 'message';
+
+    /** Theme templates key */
+    const TEMPLATES = 'templates';
+
+    /** Use the default path for logo, stylesheet, templates etc. */
+    const DEFAULT_PATH = 'useDefaultThemePath';
 
     /**
+     * Default theme path
+     *
      * @var string
      */
-    private $id;
+    private $defaultThemePath = '';
 
     /**
-     * @var string
+     * Set of custom texts that can be used in the templates
+     *
+     * @var array
      */
-    private $label;
+    private $customTexts = [];
+
+    /**
+     * These options are required to build a new instance of ConfigurablePlatformTheme
+     *
+     * @var array
+     */
+    private $mandatoryOptions = [
+        self::CONTAINER_TYPE,
+        self::CONTAINER_ID,
+        self::LABEL
+    ];
+
 
     /**
      * ConfigurablePlatformTheme constructor.
      *
+     * @examples
+     * Only label and containerId are configured, this will create a default configuration
+     * These are the only mandatory elements
+     *
+     * $options = [
+     *     'label' => 'Default Theme',
+     *     // extension id | tenant id
+     *     'containerId' => 'taoSomething',
+     *     // 'extension' | 'tenant'
+     *     'containerType => 'extension'
+     * ];
+     * $theme = new \oat\tao\model\theme\ConfigurablePlatformTheme($options);
+     *
+     * This will end up as:
+     * $options = [
+     *     'logoUrl' => 'http://domain/taoSomething/views/img/themes/platform/default-theme/logo.png',
+     *     'label' => 'Default Theme',
+     *     'containerId' => 'taoSomething',
+     *     'containerType => 'extension'
+     *     'id' => 'taoSomethingDefaultTheme'
+     * ];
+     *
+     * If this contains anything you don't like, just add that key to your $config array to override the default.
+     * The same applies if something is missing that you would like to have - for these cases generic getter is available.
+     *
+     * // Full blown custom configuration example
+     * // Note that when 'containerType => 'tenant' the values of ConfigurablePlatformTheme::DEFAULT_PATH
+     * // will be adapted to work with tenants instead.
+     * $options = [
+     *     'label' => 'Default Theme',
+     *     'containerId' => 'taoSomething',
+     *     'containerType' => 'extension'
+     *     'logoUrl' => 'http://example.com/foo.png',
+     *     'link' => 'http://example.com',
+     *     'message' => 'Tao Platform',
+     *
+     *     // if stylesheet === ConfigurablePlatformTheme::DEFAULT_PATH
+     *     'stylesheet' => 'http://domain/taoSomething/views/css/themes/platform/default-theme/theme.css',
+     *     // when no stylesheet is given:
+     *     'stylesheet' => 'http://example.com/tao/views/css/tao-3.css',
+     *     // when stylesheet is any other url:
+     *     'stylesheet' => 'http://example.com/any-other-url.css',
+     *
+     *     'templates' => [
+     *          'header-logo' => Template::getTemplate('blocks/header-logo.tpl', 'some-extension'),
+     *
+     *          // if the value of the template === ConfigurablePlatformTheme::DEFAULT_PATH
+     *          // the default theme path will be used something like:
+     *          // templates/themes/platform/default-theme/login-message.tpl
+     *          'login-message' => ConfigurablePlatformTheme::DEFAULT_PATH,
+     *     ],
+     *     // array of translatable strings
+     *     'customTexts' => [
+     *          'diagBrowserCheckResult' => 'Your browser %CURRENT_BROWSER% is not compatible.',
+     *          'diagOsCheckResult'      => 'Your Operating System %CURRENT_OS% is not compatible.'
+     *     ],
+     *     'whateverCustomStuff' => 'anything as long as the key is in camelCase'
+     * ];
+     *
      * @param array $options
      *
-     * @throws \common_exception_NotFound
+     * @throws \common_exception_MissingParameter
      */
-    public function __construct($options=[])
+    public function __construct(array $options = [])
     {
-        parent::__construct($options);
+        // make sure label and extension id are set
+        foreach ($this->mandatoryOptions as $required) {
+            if (empty($options[$required])) {
+                throw new \common_exception_MissingParameter($required, get_class());
+            }
+        }
 
-        $this->setLabel();
-        $this->setId();
+        $this->setDefaultThemePath($options[static::LABEL]);
+
+        parent::__construct($this->setupOptions($options));
+
+        if ($this->hasOption('customTexts')) {
+            $this->customTexts = $this->getOption('customTexts');
+        }
     }
 
+
     /**
-     * Get a template associated to given $id
+     * Get a template associated from a given $id
      *
      * @param string $id
      * @param string $context
-     * @return null|string
+     * @return string
      */
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
-        switch ($id) {
-            case 'header-logo' :
-                $template = Template::getTemplate('blocks/header-logo.tpl', 'tao');
-                break;
-            case 'footer' :
-                $template = Template::getTemplate('blocks/footer.tpl', 'tao');
-                break;
-            case 'login-message' :
-                $template = Template::getTemplate('blocks/login-message.tpl', 'tao');
-                break;
-            default:
-                \common_Logger::w('Unknown template '.$id);
-                $template = null;
+        $templates = $this->getOption(static::TEMPLATES);
+
+        if (is_null($templates) || empty($templates[$id])) {
+            return Template::getTemplate('blocks/' . $id . '.tpl', 'tao');
         }
-        return $template;
+
+        if ($templates[$id] === static::DEFAULT_PATH) {
+            return Template::getTemplate(
+                $this->defaultThemePath . '/' . $id . '.tpl',
+                $this->getOption(static::CONTAINER_ID)
+            );
+        }
+
+        // otherwise it will be assumed the template is already configured
+        return $templates[$id];
     }
 
+
     /**
-     * Get options under data key
-     * Options to configure header & footer template
+     * This method is here to handle custom options
+     *
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     * @throws \common_exception_NotFound
+     */
+    public function __call($method, $arguments)
+    {
+        if(substr($method, 0, 3) !== 'get') {
+            throw new \common_exception_NotFound('Unknown method "' . $method . '"');
+        }
+        $optionKey = strtolower($method[3]) . substr($method, 4);
+        if ($this->hasOption($optionKey)) {
+            return $this->getOption($optionKey);
+        }
+        throw new \common_exception_NotFound('Unknown option "' . $optionKey . '"');
+    }
+
+
+    /**
+     * Get all options
      *
      * @return array
      */
     public function getThemeData()
     {
-        if ($this->hasOption(static::THEME_DATA) && is_array($this->getOption(static::THEME_DATA))) {
-            return $this->getOption(static::THEME_DATA);
-        }
-
-        return [];
+        return $this->getOptions();
     }
+
 
     /**
      * Get the url of stylesheet associated to current theme configuration
@@ -146,44 +246,36 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
-        if ($this->hasOption(static::THEME_CSS)) {
-            return $this->getOption(static::THEME_CSS);
-        }
-
-        return Template::css('tao-3.css', 'tao');
+        return $this->getOption(static::STYLESHEET);
     }
+
 
     /**
      * Get the logo url of current theme
-     * Logo url is used into header
+     * If not empty, this url is used on the header logo
      *
      * @return string
      */
     public function getLogoUrl()
     {
-        $data = $this->getThemeData();
-        if (isset($data[static::THEME_DATA_LOGO_URL])) {
-            return $data[static::THEME_DATA_LOGO_URL];
-        }
-
-        return Template::img('tao-logo.png', 'tao');
+        return $this->getOption(static::LOGO_URL);
     }
+
 
     /**
      * Get the url link of current theme
-     * Url is used into header, to provide link to logo
-     * Url is used into footer, to provide link to footer message
+     * URL is used in the header as a link for the logo
+     * and in the footer for the message
      *
      * @return string
      */
     public function getLink()
     {
-        $data = $this->getThemeData();
-        if (isset($data[static::THEME_DATA_LINK])) {
-            return $data[static::THEME_DATA_LINK];
+        if ($this->hasOption(static::LINK)) {
+            return $this->getOption(static::LINK);
         }
 
-        return 'http://taotesting.com';
+        return '';
     }
 
     /**
@@ -195,9 +287,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getMessage()
     {
-        $data = $this->getThemeData();
-        if (isset($data[static::THEME_DATA_MESSAGE])) {
-            return $data[static::THEME_DATA_MESSAGE];
+        if ($this->hasOption(static::MESSAGE)) {
+            return $this->getOption(static::MESSAGE);
         }
 
         return '';
@@ -211,7 +302,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getLabel()
     {
-        return $this->label;
+        return $this->getOption(static::LABEL);
     }
 
     /**
@@ -222,59 +313,98 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getId()
     {
-        return $this->id;
+        return $this->getOption(static::ID);
     }
 
+
     /**
-     * Sets the theme label.
+     * Construct the common part of the default theme part
      *
-     * @throws \common_exception_NotFound
+     * @param string $label
      */
-    protected function setLabel()
+    protected function setDefaultThemePath($label)
     {
-        if(!$this->hasOption(static::THEME_LABEL)) {
-            throw new \common_exception_NotFound('Missing option "' . static::THEME_LABEL . '"');
-        }
 
-        $this->label = $this->getOption(static::THEME_LABEL);
+        $this->defaultThemePath = 'themes/platform/' . StringUtils::removeSpecChars($label);
     }
 
-    /**
-     * Sets the theme id.
-     */
-    protected function setId()
-    {
-        // Sets the identifier from options.
-        if($this->hasOption(static::THEME_ID)) {
-            $this->id = $this->getOption(static::THEME_ID);
-        }
-
-        // Generates and sets the theme identifier.
-        $this->id = static::convertTextToId(
-            $this->getLabel()
-        );
-        
-        // Prefixes the id if the prefix is presented in the options.
-        if($this->hasOption(static::THEME_PREFIX)) {
-            $this->id = $this->getOption(static::THEME_PREFIX) . ucfirst($this->id);
-        }
-    }
 
     /**
-     * Converts the given text to and identifier.
-     * 
-     * @param $text
-     * 
+     * Allow to retrieve a custom translatable string for a given key
+     *
+     * @param String $key
      * @return string
-     * 
-     * @TODO: this method can be reusable move to a helper class if you need to use it!
      */
-    public static function convertTextToId($text)
+    public function getText($key)
     {
-        $id = iconv('UTF-8', 'us-ascii//TRANSLIT', $text);
-        $id = preg_replace("~[^\w ]+~", '', trim(strtolower($id)));
-        $id = str_replace(' ', '', ucwords($id));
-        
-        return $id;
+        return (array_key_exists($key, $this->customTexts)) ? $this->customTexts[$key] : '';
+    }
+
+    /**
+     * Retrieve all custom translatable strings for the given keys
+     *
+     * @param array $keys
+     * @return array
+     */
+    public function getTextFromArray(array $keys = [])
+    {
+        $values = [];
+        forEach ($keys as $key) {
+            $values[$key] = $this->getText($key);
+        }
+        return $values;
+    }
+
+    /**
+     * Retrieve all existing custom translatable strings
+     *
+     * @return array
+     */
+    public function getCustomTexts()
+    {
+        return $this->customTexts;
+    }
+    
+    /**
+     * This is now just an alias to keep backward compatibility
+     *
+     * @return array
+     */
+    public function getAllTexts()
+    {
+        return $this->getCustomTexts();
+    }
+
+
+    /**
+     * This setup is used when configuring a theme for a custom extension.
+     * In multi tenancy though the tenant id might be use instead of the extension id.
+     *
+     * @param $options
+     *
+     * @return array
+     */
+    protected function setupOptions($options)
+    {
+        $options = array_merge([
+            static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
+            static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),
+            static::LABEL        => $options[static::LABEL],
+            static::CONTAINER_ID => $options[static::CONTAINER_ID],
+            static::ID           => $options[static::CONTAINER_ID]
+                                    . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
+        ],
+            $options
+        );
+
+        if($options[static::LOGO_URL] === static::DEFAULT_PATH) {
+            $options[static::LOGO_URL] = Template::img($this->defaultThemePath . '/logo.png', $options[static::CONTAINER_ID]);
+        }
+
+        if($options[static::STYLESHEET] === static::DEFAULT_PATH) {
+            $options[static::STYLESHEET] = Template::css($this->defaultThemePath . '/theme.css', $options[static::CONTAINER_ID]);
+        }
+
+        return $options;
     }
 }
