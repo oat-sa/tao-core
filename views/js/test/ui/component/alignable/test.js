@@ -23,8 +23,7 @@ define([
     'jquery',
     'ui/component',
     'ui/component/placeable',
-    'ui/component/alignable',
-    'ui/component/resizable'
+    'ui/component/alignable'
 ], function ($, componentFactory, makePlaceable, makeAlignable) {
     'use strict';
 
