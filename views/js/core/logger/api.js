@@ -25,7 +25,7 @@
  * logger.info('Message');
  * logger.debug('Formated %s', 'message');
  * logger.trace({ anotherField : true}, 'hello');
- * logger.error(new Error('Something went wrong');
+ * logger.error(new Error('Something went wrong'));
  *
  * var childLogger = logger.child({ type : 'sub-component'});
  * childLogger.warn('oops');
