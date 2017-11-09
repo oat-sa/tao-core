@@ -23,18 +23,40 @@
  */
 define([
     'lodash',
+    'i18n',
     'jquery',
     'ui/component/placeable',
     'tpl!ui/component/tpl/window'
-], function (_, $, makePlaceable, windowTpl) {
+], function (_, __, $, makePlaceable, windowTpl) {
     'use strict';
 
     var eventNs = '.windowed',
         cssNs = '.window-component',
 
         defaultConfig = {
-            hasCloser: true
+            hasCloser: true,
+            hasBin: false
         };
+
+    var controlsPresets = {
+        bin: {
+            id: 'bin',
+            order: 100,
+            icon: 'bin',
+            description: __('Delete'),
+            event: 'delete'
+        },
+        closer: {
+            id: 'closer',
+            order: 200,
+            icon: 'result-nok',
+            description: __('Close'),
+            event: 'close',
+            onclick: function onclick() {
+                this.hide();
+            }
+        }
+    };
 
     var windowedComponentAPI = {
         /**
@@ -91,20 +113,17 @@ define([
         },
 
         /**
-         * Pre-configured control to close the component
+         * Add pre-configured controls to the title bar
          * @returns {component}
          */
-        addCloser: function addCloser() {
-            return this.addControl({
-                id: 'closer',
-                order: 100,
-                icon: 'result-nok',
-                description: 'Close',
-                event: 'close',
-                onclick: function onclick() {
-                    this.hide();
-                }
-            });
+        addPresets: function addPresets() {
+            if (this.config.hasCloser) {
+                this.addControl(controlsPresets.closer);
+            }
+            if (this.config.hasBin) {
+                this.addControl(controlsPresets.bin);
+            }
+            return this;
         },
 
         /**
@@ -162,6 +181,7 @@ define([
      * @param {Component} component - an instance of ui/component
      * @param {Object} config
      * @param {Boolean} hasCloser - auto-add the closer control to the title bar
+     * @param {Boolean} hasBin - auto-add the delete control to the title bar
      * @param {String} windowTitle - to be rendered in the title bar
      */
     return function makeWindowed(component, config) {
@@ -178,9 +198,7 @@ define([
             .on('init' + eventNs, function() {
                 _.defaults(this.config, config || {}, defaultConfig);
 
-                if (this.config.hasCloser) {
-                    this.addCloser();
-                }
+                this.addPresets();
             })
             .on('render' + eventNs, function() {
                 this._renderControls();

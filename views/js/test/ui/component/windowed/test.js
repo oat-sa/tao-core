@@ -46,7 +46,7 @@ define([
             { title: 'getControls' },
             { title: 'getTitle' },
             { title: 'addControl' },
-            { title: 'addCloser' }
+            { title: 'addPresets' }
         ])
         .test('component API', function(data, assert) {
             var component = makeWindowed(componentFactory());
@@ -332,6 +332,32 @@ define([
             .render($container);
     });
 
+    QUnit.asyncTest('Delete control', function(assert) {
+        var component = makeWindowed(componentFactory({}, { hasBin: true })),
+            $container = $(fixtureContainer);
+
+        QUnit.expect(4);
+
+        component
+            .on('render', function() {
+                var $controls = component.getControls(),
+                    $bin = $controls.find('[data-control="bin"]');
+
+                assert.equal(this.is('hidden'), false, 'component is visible');
+                assert.equal($bin.length, 1, 'bin element has been found');
+                assert.ok($bin.hasClass('icon-bin'), 'bin control has the correct class');
+
+                $bin.click();
+            })
+            .on('delete', function() {
+                assert.ok(true, 'delete event has been triggered');
+
+                QUnit.start();
+            })
+            .init()
+            .render($container);
+    });
+
 
     QUnit.module('Visual test');
 
@@ -362,6 +388,7 @@ define([
                 initialX: 100,
                 initialY: 50,
                 windowTitle: 'My Windowed component',
+                hasBin: true,
                 hasCloser: true
             })
             .render($container)
