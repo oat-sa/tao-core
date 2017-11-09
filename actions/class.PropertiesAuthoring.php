@@ -1,7 +1,7 @@
 <?php
 
 use oat\oatbox\event\EventManagerAwareTrait;
-use oat\tao\model\event\ClassUpdatedEvent;
+use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\tao\model\search\Index;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
@@ -50,7 +50,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 if ($clazz instanceof core_kernel_classes_Resource) {
                     $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
                     $properties = $this->hasRequestParameter('properties') ? $this->getRequestParameter('properties') : [];
-                    $this->getEventManager()->trigger(new ClassUpdatedEvent($clazz, $properties));
+                    $this->getEventManager()->trigger(new ClassFormUpdatedEvent($clazz, $properties));
                 }
                 $this->setData('message', __('%s Class saved', $clazz->getLabel()));
                 $this->setData('reload', true);

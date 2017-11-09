@@ -23,7 +23,7 @@ use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\oatbox\event\Event;
 
-class ClassUpdatedEvent implements Event, JsonSerializable
+class ClassFormUpdatedEvent implements Event, JsonSerializable
 {
     /** @var string */
     protected $class;
