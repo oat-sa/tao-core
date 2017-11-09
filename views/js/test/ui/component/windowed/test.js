@@ -97,11 +97,11 @@ define([
 
     QUnit
         .cases([
-            { title: 'invalid id',              icon: 'icon',   onclick: _.noop },
-            { title: 'invalid id', id: {},      icon: 'icon',   onclick: _.noop },
-            { title: 'invalid id', id: 69,      icon: 'icon',   onclick: _.noop },
-            { title: 'invalid id', id: _.noop,  icon: 'icon',   onclick: _.noop },
-            { title: 'invalid id', id: '',      icon: 'icon',   onclick: _.noop },
+            { title: 'invalid id',              icon: 'icon', onclick: _.noop },
+            { title: 'invalid id', id: {},      icon: 'icon', onclick: _.noop },
+            { title: 'invalid id', id: 69,      icon: 'icon', onclick: _.noop },
+            { title: 'invalid id', id: _.noop,  icon: 'icon', onclick: _.noop },
+            { title: 'invalid id', id: '',      icon: 'icon', onclick: _.noop },
 
             { title: 'invalid icon', id: 'id',                    onclick: _.noop },
             { title: 'invalid icon', id: 'id',    icon: {},       onclick: _.noop },
@@ -109,11 +109,18 @@ define([
             { title: 'invalid icon', id: 'id',    icon: _.noop,   onclick: _.noop },
             { title: 'invalid icon', id: 'id',    icon: '',       onclick: _.noop },
 
-            { title: 'invalid onclick', id: 'id', icon: 'icon' },
-            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: {} },
-            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: 69 },
-            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: '' },
-            { title: 'invalid onclick', id: 'id', icon: 'icon',   onclick: 'onclick' }
+            { title: 'no onclick and no event', id: 'id', icon: 'icon' },
+
+            { title: 'invalid onclick', id: 'id', icon: 'icon', onclick: {} },
+            { title: 'invalid onclick', id: 'id', icon: 'icon', onclick: 69 },
+            { title: 'invalid onclick', id: 'id', icon: 'icon', onclick: '' },
+            { title: 'invalid onclick', id: 'id', icon: 'icon', onclick: 'onclick' },
+
+            { title: 'invalid event', id: 'id', icon: 'icon', event: {} },
+            { title: 'invalid event', id: 'id', icon: 'icon', event: 69 },
+            { title: 'invalid event', id: 'id', icon: 'icon', event: '' },
+            { title: 'invalid event', id: 'id', icon: 'icon', event: '  ' },
+            { title: 'invalid event', id: 'id', icon: 'icon', event: _.noop }
         ])
         .test('add control api', function(data, assert) {
             var component = makeWindowed(componentFactory()),
@@ -121,7 +128,8 @@ define([
                     component.addControl({
                         id: data.id,
                         icon: data.icon,
-                        onclick: data.onclick
+                        onclick: data.onclick,
+                        event: data.event
                     });
                 };
 
@@ -132,18 +140,13 @@ define([
 
     QUnit.asyncTest('allow to add controls with a specific order', function(assert) {
         var component = makeWindowed(componentFactory()),
-            $container = $(fixtureContainer),
-            state = {
-                crossClicked: false,
-                fullscreenClicked: false,
-                restoreClicked: false
-            };
+            $container = $(fixtureContainer);
 
-        QUnit.expect(10);
+        QUnit.expect(7);
 
         component
             .on('render', function() {
-                var $controls   = component.getControls(),
+                var $controls = component.getControls(),
                     $renderedControls,
                     $cross,
                     $fullscreen,
@@ -166,6 +169,53 @@ define([
                 assert.ok($cross.data('control'), 'cross', 'cross control has been rendered last');
                 assert.ok($cross.hasClass('icon-result-nok'), 'cross control has the correct class');
 
+                QUnit.start();
+            })
+            .init({
+                windowTitle: 'test component',
+                hasCloser: false
+            })
+            .addControl({
+                id: 'cross',
+                order: 300,
+                icon: 'result-nok',
+                onclick: _.noop
+            })
+            .addControl({
+                id: 'fullscreen',
+                order: 100,
+                icon: 'resize',
+                onclick: _.noop
+            })
+            .addControl({
+                id: 'restore',
+                order: 200,
+                icon: 'undo',
+                onclick: _.noop
+            })
+            .render($container);
+    });
+
+
+    QUnit.asyncTest('allow to pass a onclick listener to a control', function(assert) {
+        var component = makeWindowed(componentFactory()),
+            $container = $(fixtureContainer),
+            state = {
+                crossClicked: false,
+                fullscreenClicked: false,
+                restoreClicked: false
+            };
+
+        QUnit.expect(3);
+
+        component
+            .on('render', function() {
+                var $controls   = component.getControls(),
+
+                    $cross      = $controls.find('[data-control="cross"]'),
+                    $fullscreen = $controls.find('[data-control="fullscreen"]'),
+                    $restore    = $controls.find('[data-control="restore"]');
+
                 $cross.click();
                 $fullscreen.click();
                 $restore.click();
@@ -182,7 +232,6 @@ define([
             })
             .addControl({
                 id: 'cross',
-                order: 300,
                 icon: 'result-nok',
                 onclick: function() {
                     state.crossClicked = true;
@@ -190,7 +239,6 @@ define([
             })
             .addControl({
                 id: 'fullscreen',
-                order: 100,
                 icon: 'resize',
                 onclick: function() {
                     state.fullscreenClicked = true;
@@ -198,11 +246,61 @@ define([
             })
             .addControl({
                 id: 'restore',
-                order: 200,
                 icon: 'undo',
                 onclick: function() {
                     state.restoreClicked = true;
                 }
+            })
+            .render($container);
+    });
+
+
+    QUnit.asyncTest('allow to pass a event name to a control', function(assert) {
+        var component = makeWindowed(componentFactory()),
+            $container = $(fixtureContainer);
+
+        QUnit.expect(3);
+
+        component
+            .on('render', function() {
+                var $controls   = component.getControls(),
+
+                    $cross      = $controls.find('[data-control="cross"]'),
+                    $fullscreen = $controls.find('[data-control="fullscreen"]'),
+                    $restore    = $controls.find('[data-control="restore"]');
+
+                $cross.click();
+                $fullscreen.click();
+                $restore.click();
+            })
+            .init({
+                windowTitle: 'test component',
+                hasCloser: false
+            })
+            .addControl({
+                id: 'cross',
+                icon: 'result-nok',
+                event: 'crossclick'
+            })
+            .addControl({
+                id: 'fullscreen',
+                icon: 'resize',
+                event: 'fullscreenclick'
+            })
+            .addControl({
+                id: 'restore',
+                icon: 'undo',
+                event: 'restoreclick'
+            })
+            .on('crossclick', function() {
+                assert.ok(true, 'cross control event has been fired');
+            })
+            .on('fullscreenclick', function() {
+                assert.ok(true, 'fullscreen control event has been fired');
+            })
+            .on('restoreclick', function() {
+                assert.ok(true, 'restore control event has been fired');
+                QUnit.start();
             })
             .render($container);
     });

@@ -64,10 +64,11 @@ define([
         /**
          * Adds a control to the control area
          * @param {String} controlOptions.id
-         * @param {Number} controlOptions.order - position relative to the other controls
          * @param {String} controlOptions.icon
-         * @param {String} controlOptions.description - link description on mouse over
-         * @param {Function} controlOptions.onclick - what to do when the control is clicked
+         * @param {Number} [controlOptions.order] - position relative to the other controls
+         * @param {String} [controlOptions.description] - link description on mouse over
+         * @param {Function} [controlOptions.onclick] - what to do when the control is clicked. Optional if event is specified.
+         * @param {Function} [controlOptions.event] - event to trigger when the control is clicked. Optional if onclick is specified
          * @returns {component}
          */
         addControl: function addControl(controlOptions) {
@@ -77,8 +78,9 @@ define([
             if (!_.isString(controlOptions.icon) || _.isEmpty(controlOptions.icon)) {
                 throw new Error('control must have an icon');
             }
-            if (!_.isFunction(controlOptions.onclick)) {
-                throw new Error('control must have an onclick listener');
+            if (!_.isFunction(controlOptions.onclick)
+                && !(_.isString(controlOptions.event) && controlOptions.event.trim() !== '')) {
+                throw new Error('control must have valid onclick or event parameter');
             }
             if (!_.isArray(this._windowControls)) {
                 this._windowControls = [];
@@ -98,14 +100,9 @@ define([
                 order: 100,
                 icon: 'result-nok',
                 description: 'Close',
+                event: 'close',
                 onclick: function onclick() {
                     this.hide();
-
-                    /**
-                     * Executes extra close tasks
-                     * @event component#close
-                     */
-                    this.trigger('close');
                 }
             });
         },
@@ -118,7 +115,8 @@ define([
         _renderControls: function _renderControls() {
             var self = this,
                 $controlsArea = this.getControls(),
-                controlsCallbacks = {};
+                controlsCallbacks = {},
+                controlsEvents = {};
 
             if (_.isArray(this._windowControls)) {
                 $controlsArea.empty();
@@ -138,6 +136,7 @@ define([
                     $controlsArea.append($control);
 
                     controlsCallbacks[control.id] = control.onclick;
+                    controlsEvents[control.id] = control.event;
                 });
 
                 // add behavior
@@ -145,9 +144,13 @@ define([
                     .off('click' + eventNs)
                     .on('click' + eventNs, function(e) {
                         var controlId = $(e.target).data('control');
+                        e.stopPropagation();
 
                         if (_.isFunction(controlsCallbacks[controlId])) {
                             controlsCallbacks[controlId].call(self);
+                        }
+                        if (_.isString(controlsEvents[controlId])) {
+                            self.trigger(controlsEvents[controlId]);
                         }
                     });
             }
