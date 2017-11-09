@@ -24,7 +24,6 @@ use Jig\Utils\StringUtils;
 use oat\oatbox\Configurable;
 use oat\tao\model\theme\DefaultTheme;
 use oat\tao\helpers\Template;
-use qtism\common\datatypes\String;
 
 
 /**
