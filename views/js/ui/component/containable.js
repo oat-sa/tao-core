@@ -97,15 +97,17 @@ define([
                 newY = containerSize.height - size.height - paddingBottom;
             }
 
-            this.moveTo(newX, newY);
+            if (newX !== position.x || newY !== position.y) {
+                this.moveTo(newX, newY);
 
-            /**
-             * Executes extra contained tasks
-             * @event component#contained
-             * @param {Number} newX
-             * @param {Number} newY
-             */
-            this.trigger('contained', newX, newY);
+                /**
+                 * Executes extra contained tasks
+                 * @event component#contained
+                 * @param {Number} newX
+                 * @param {Number} newY
+                 */
+                this.trigger('contained', newX, newY);
+            }
         }
     };
 
