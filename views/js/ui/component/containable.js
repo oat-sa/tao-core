@@ -19,6 +19,7 @@
 /**
  * Make sure that, when being positioned, a component stays fully visible within a given container.
  * This is suitable for static positioning with placeable or alignable methods, not for dynamic user behavior (draggable or resizable).
+ * that is better handled with interact built-in helpers.
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -61,7 +62,8 @@ define([
                     height: $container.innerHeight()
                 };
 
-            var newX, newY,
+            var newX = position.x,
+                newY = position.y,
                 paddingTop, paddingRight, paddingBottom, paddingLeft;
 
             options = options || {};
@@ -71,20 +73,16 @@ define([
             paddingBottom = options.paddingBottom || options.padding || 0;
             paddingLeft   = options.paddingLeft   || options.padding || 0;
 
-            if (position.x < 0) {
+            if (position.x < paddingLeft) {
                 newX = 0 + paddingLeft;
-            } else if (position.x + size.width > containerSize.width) {
+            } else if (position.x + size.width > containerSize.width - paddingRight) {
                 newX = containerSize.width - size.width - paddingRight;
-            } else {
-                newX = position.x;
             }
 
-            if (position.y < 0) {
+            if (position.y < paddingTop) {
                 newY = 0 + paddingTop;
-            } else if (position.y + size.height > containerSize.height) {
+            } else if (position.y + size.height > containerSize.height - paddingBottom) {
                 newY = containerSize.height - size.height - paddingBottom;
-            } else {
-                newY = position.y;
             }
 
             this.moveTo(newX, newY);

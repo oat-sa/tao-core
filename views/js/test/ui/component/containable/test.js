@@ -16,7 +16,6 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
- * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
@@ -58,26 +57,27 @@ define([
 
     QUnit
         .cases([
-            { title: 'contain right',   moveToX: 301,   moveToY: 100,   expectedX: 300,   expectedY: 100 },
-            { title: 'contain left',    moveToX: -1,    moveToY: 100,   expectedX: 0,     expectedY: 100 },
-            { title: 'contain top',     moveToX: 100,   moveToY: -1,    expectedX: 100,   expectedY: 0 },
-            { title: 'contain bottom',  moveToX: 100,   moveToY: 401,   expectedX: 100,   expectedY: 400 },
+            // overflow container
+            { title: 'overflow right',   moveToX: 301,   moveToY: 100,   expectedX: 300,   expectedY: 100 },
+            { title: 'overflow left',    moveToX: -1,    moveToY: 100,   expectedX: 0,     expectedY: 100 },
+            { title: 'overflow top',     moveToX: 100,   moveToY: -1,    expectedX: 100,   expectedY: 0 },
+            { title: 'overflow bottom',  moveToX: 100,   moveToY: 401,   expectedX: 100,   expectedY: 400 },
 
-            // with padding
-            { title: 'contain right, padding',      moveToX: 301,   moveToY: 100,   expectedX: 290,   expectedY: 100,   padding: 10 },
-            { title: 'contain right, paddingRight', moveToX: 301,   moveToY: 100,   expectedX: 290,   expectedY: 100,   paddingRight: 10 },
-            { title: 'contain left, padding',       moveToX: -1,    moveToY: 100,   expectedX: 10,    expectedY: 100,   padding: 10 },
-            { title: 'contain left, paddingLeft',   moveToX: -1,    moveToY: 100,   expectedX: 10,    expectedY: 100,   paddingLeft: 10 },
-            { title: 'contain top, padding',        moveToX: 100,   moveToY: -1,    expectedX: 100,   expectedY: 10,    padding: 10 },
-            { title: 'contain top, paddingTop',     moveToX: 100,   moveToY: -1,    expectedX: 100,   expectedY: 10,    paddingTop: 10 },
-            { title: 'contain bottom, padding',     moveToX: 100,   moveToY: 401,   expectedX: 100,   expectedY: 390,   padding: 10 },
-            { title: 'contain bottom, paddingBottom', moveToX: 100, moveToY: 401,   expectedX: 100,   expectedY: 390,   paddingBottom: 10 }
+            // overflow padding
+            { title: 'overflow right, padding',      moveToX: 291,   moveToY: 100,   expectedX: 290,   expectedY: 100,   padding: 10 },
+            { title: 'overflow right, paddingRight', moveToX: 291,   moveToY: 100,   expectedX: 290,   expectedY: 100,   paddingRight: 10 },
+            { title: 'overflow left, padding',       moveToX: 9,     moveToY: 100,   expectedX: 10,    expectedY: 100,   padding: 10 },
+            { title: 'overflow left, paddingLeft',   moveToX: 9,     moveToY: 100,   expectedX: 10,    expectedY: 100,   paddingLeft: 10 },
+            { title: 'overflow top, padding',        moveToX: 100,   moveToY: 9,     expectedX: 100,   expectedY: 10,    padding: 10 },
+            { title: 'overflow top, paddingTop',     moveToX: 100,   moveToY: 9,     expectedX: 100,   expectedY: 10,    paddingTop: 10 },
+            { title: 'overflow bottom, padding',     moveToX: 100,   moveToY: 391,   expectedX: 100,   expectedY: 390,   padding: 10 },
+            { title: 'overflow bottom, paddingBottom', moveToX: 100, moveToY: 391,   expectedX: 100,   expectedY: 390,   paddingBottom: 10 }
         ])
         .asyncTest('automatically reposition the component if it overflow its container', function (data, assert) {
             var component = makeContainable(componentFactory()),
                 $container = $(fixtureContainer);
 
-            QUnit.expect(3);
+            QUnit.expect(5);
 
             $container.css({
                 width: '500px',
@@ -98,12 +98,16 @@ define([
                     paddingLeft: data.paddingLeft
                 })
 
-                .on('contained', function() {
+                .on('contained', function(newX, newY) {
                     var componentPosition = this.getPosition();
 
                     assert.ok(true, 'contained event has been triggered');
+
                     assert.equal(componentPosition.x, data.expectedX, 'component x position has been contained');
                     assert.equal(componentPosition.y, data.expectedY, 'component y position has been contained');
+
+                    assert.equal(newX, data.expectedX, 'contained event has the right x parameter');
+                    assert.equal(newY, data.expectedY, 'contained event has the right y parameter');
 
                     QUnit.start();
                 })
