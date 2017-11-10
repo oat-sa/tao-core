@@ -3,6 +3,22 @@
 @import "resource-tree";
 @import "filters";
 
+@mixin resource-selector-actions {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    padding: 10px 0 0 12px;
+    color: $textColor;
+    border-left: solid 1px $uiGeneralContentBg;
+    text-shadow: 0 0 0 transparent;
+    text-decoration: none;
+
+    &:hover, &.active {
+        color: $uiClickableHoverBg;
+        @include transition(color, 200ms, linear);
+    }
+}
+
 .resource-selector{
     position: relative;
     height: 100%;
@@ -10,7 +26,8 @@
     @include flex-container(nowrap, column);
     opacity: 0;
 
-    background-color : $uiGeneralContentBg;
+
+    background-color: $uiClickableDefaultBg;
     @include simple-border;
 
     &.rendered {
@@ -22,12 +39,11 @@
         height: 40px;
         @include vendor-prefix(flex, 0 1 40px, property, (-ms-, -webkit-, ''));
         border-top: solid 1px $uiGeneralContentBorder;
-        background-color: $uiClickableDefaultBg;
     }
-
 
     .context {
         @include flex-container(nowrap, row);
+        padding-right: 16px;
 
         .class-context {
             @include simple-flex-box;
@@ -43,51 +59,39 @@
             }
         }
 
-
         & > a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            padding: 10px 0 0 12px;
-            color: $textColor;
-            border-left: solid 1px $uiGeneralContentBg;
-            text-shadow: 0 0 0 transparent;
-            text-decoration: none;
-
-            &:hover, &.active {
-                color: $uiClickableHoverBg;
-                @include transition(color, 200ms, linear);
-            }
+            @include resource-selector-actions;
         }
     }
 
     .selection {
 
         @include flex-container(nowrap, row);
+        padding-right: 16px;
 
         .selection-control {
 
-            @include vendor-prefix(flex, 0 1 80px, property, (-ms-, -webkit-, ''));
+            @include vendor-prefix(flex, 0 0 80px, property, (-ms-, -webkit-, ''));
 
-            text-align: right;
-            color: $info;
-            margin: 0;
-            padding: 0;
-            label {
-                margin: 0 24px 0 0;
-                padding: 10px 2px 0 0;
+            & > label {
+                @include resource-selector-actions;
+                width: 36px;
+                padding: 10px 0 0 8px;
+                margin: 0;
             }
-            label [class^="icon-"], label [class*=" icon-"] {
-                color: $info;
-                @include font-size(14);
+            & > a {
+                @include resource-selector-actions;
+                width: 38px;
+            }
+            .selection-toggle .icon-multi-select:before {
+                @include font-size(16);
             }
         }
-
         .search {
             @include simple-flex-box;
             position: relative;
 
-            padding : 5px;
+            padding : 6px 6px 6px 5px;
 
             &:before {
                 @include tao-icon-setup;
@@ -152,6 +156,16 @@
             text-align:center;
             margin: 10px auto;
             opacity: .75;
+        }
+
+        .more {
+            height: 45px;
+            padding: 10px;
+        }
+
+        &.loading .more {
+            opacity: 0.65;
+            cursor : inherit;
         }
     }
 

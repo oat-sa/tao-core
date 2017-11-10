@@ -96,6 +96,21 @@ define([
                 nodes[uri] = node;
             },
 
+
+            /**
+             * Remove a node
+             * @param {String} uri - the URI of the node to remove
+             */
+            removeNode : function removeNode(uri){
+                if(this.hasNode(uri)){
+                    //removes from the selection too
+                    if(selection[uri]){
+                        this.unselect(uri);
+                    }
+                    nodes = _.omit(nodes, uri);
+                }
+            },
+
             /**
              * Check if the given node exists
              * @param {String} uri - the node's URI
