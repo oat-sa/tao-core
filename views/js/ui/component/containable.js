@@ -72,7 +72,7 @@ define([
             var options = optionsParam || {};
 
             var position = this.getPosition(),
-                size = this.getSize(),
+                size = this.getOuterSize(),
                 containerSize = {
                     width: $container.innerWidth(),
                     height: $container.innerHeight()

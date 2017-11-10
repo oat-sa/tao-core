@@ -57,6 +57,8 @@ define([
 
     QUnit
         .cases([
+            // component is 200 x 100 per CSS rule, container 500x500
+
             // overflow container
             { title: 'overflow right',   moveToX: 301,   moveToY: 100,   expectedX: 300,   expectedY: 100 },
             { title: 'overflow left',    moveToX: -1,    moveToY: 100,   expectedX: 0,     expectedY: 100 },
@@ -85,10 +87,7 @@ define([
             });
 
             component
-                .init({
-                    width: 200,
-                    height: 100
-                })
+                .init()
                 .render($container)
                 .containIn($container, {
                     padding: data.padding,
@@ -117,6 +116,8 @@ define([
 
     QUnit
         .cases([
+            // component is 200 x 100 per CSS rule, container 500x500
+
             // position at edges
             { title: 'edge right',   moveToX: 300,   moveToY: 100,   expectedX: 300,   expectedY: 100 },
             { title: 'edge left',    moveToX: 0,     moveToY: 100,   expectedX: 0,     expectedY: 100 },
@@ -145,10 +146,7 @@ define([
             });
 
             component
-                .init({
-                    width: 200,
-                    height: 100
-                })
+                .init()
                 .render($container)
                 .containIn($container, {
                     padding: data.padding,
