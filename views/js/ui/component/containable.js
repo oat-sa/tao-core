@@ -35,48 +35,60 @@ define([
 
     var containableComponent = {
 
-        containIn: function containIn($container, $options) {
+        containIn: function containIn($container, options) {
             var self = this;
 
-            this.on('move' + ns, function() {
-                // unbind the present listener to avoid infinite loop
-                self.off('move' + ns);
+            this
+                .off('move' + ns)
+                .on('move' + ns, function() {
+                    // unbind the present listener to avoid infinite loop
+                    self.off('move' + ns);
 
-                // position component
-                self._containComponent($container, $options);
+                    // position component
+                    self._containComponent($container, options);
 
-                // re-bind listener
-                self.containIn($container, $options);
-            });
+                    // re-bind listener
+                    self.containIn($container, options);
+                });
             return this;
         },
 
-        _containComponent: function _containComponent($container, $options) {
+        _containComponent: function _containComponent($container, options) {
             var position = this.getPosition(),
                 size = this.getSize(),
                 containerSize = {
                     width: $container.innerWidth(),
                     height: $container.innerHeight()
-                },
-                newX,
-                newY;
+                };
+
+            var newX, newY,
+                paddingTop, paddingRight, paddingBottom, paddingLeft;
+
+            options = options || {};
+
+            paddingTop    = options.paddingTop    || options.padding || 0;
+            paddingRight  = options.paddingRight  || options.padding || 0;
+            paddingBottom = options.paddingBottom || options.padding || 0;
+            paddingLeft   = options.paddingLeft   || options.padding || 0;
 
             if (position.x < 0) {
-                newX = 0;
+                newX = 0 + paddingLeft;
             } else if (position.x + size.width > containerSize.width) {
-                newX = containerSize.width - size.width;
+                newX = containerSize.width - size.width - paddingRight;
             } else {
                 newX = position.x;
             }
+
             if (position.y < 0) {
-                newY = 0;
+                newY = 0 + paddingTop;
             } else if (position.y + size.height > containerSize.height) {
-                newY = containerSize.height - size.height;
+                newY = containerSize.height - size.height - paddingBottom;
             } else {
                 newY = position.y;
             }
 
             this.moveTo(newX, newY);
+
             this.trigger('contained', newX, newY);
         }
     };

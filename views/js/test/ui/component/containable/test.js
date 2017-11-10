@@ -62,6 +62,16 @@ define([
             { title: 'contain left',    moveToX: -1,    moveToY: 100,   expectedX: 0,     expectedY: 100 },
             { title: 'contain top',     moveToX: 100,   moveToY: -1,    expectedX: 100,   expectedY: 0 },
             { title: 'contain bottom',  moveToX: 100,   moveToY: 401,   expectedX: 100,   expectedY: 400 },
+
+            // with padding
+            { title: 'contain right, padding',      moveToX: 301,   moveToY: 100,   expectedX: 290,   expectedY: 100,   padding: 10 },
+            { title: 'contain right, paddingRight', moveToX: 301,   moveToY: 100,   expectedX: 290,   expectedY: 100,   paddingRight: 10 },
+            { title: 'contain left, padding',       moveToX: -1,    moveToY: 100,   expectedX: 10,    expectedY: 100,   padding: 10 },
+            { title: 'contain left, paddingLeft',   moveToX: -1,    moveToY: 100,   expectedX: 10,    expectedY: 100,   paddingLeft: 10 },
+            { title: 'contain top, padding',        moveToX: 100,   moveToY: -1,    expectedX: 100,   expectedY: 10,    padding: 10 },
+            { title: 'contain top, paddingTop',     moveToX: 100,   moveToY: -1,    expectedX: 100,   expectedY: 10,    paddingTop: 10 },
+            { title: 'contain bottom, padding',     moveToX: 100,   moveToY: 401,   expectedX: 100,   expectedY: 390,   padding: 10 },
+            { title: 'contain bottom, paddingBottom', moveToX: 100, moveToY: 401,   expectedX: 100,   expectedY: 390,   paddingBottom: 10 }
         ])
         .asyncTest('automatically reposition the component if it overflow its container', function (data, assert) {
             var component = makeContainable(componentFactory()),
@@ -80,7 +90,13 @@ define([
                     height: 100
                 })
                 .render($container)
-                .containIn($container)
+                .containIn($container, {
+                    padding: data.padding,
+                    paddingTop: data.paddingTop,
+                    paddingRight: data.paddingRight,
+                    paddingBottom: data.paddingBottom,
+                    paddingLeft: data.paddingLeft
+                })
 
                 .on('contained', function() {
                     var componentPosition = this.getPosition();
@@ -99,21 +115,22 @@ define([
 
     QUnit.asyncTest('display and play', function (assert) {
         var component = makeContainable(componentFactory()),
-            $container = $('#outside');
+            $container = $('#outside'),
+
+            $xPos = $container.find('#xPos'),
+            $yPos = $container.find('#yPos'),
+            $padding = $container.find('#padding');
 
         QUnit.expect(1);
 
         component
             .on('render', function(){
-                var self = this,
-                    $xPos = $container.find('#xPos'),
-                    $yPos = $container.find('#yPos');
-
-                self.moveTo($xPos.val(), $yPos.val());
+                var self = this;
 
                 $container.find('input').on('change', function(e) {
                     e.preventDefault();
-                    self.moveTo($xPos.val(), $yPos.val());
+                    self.containIn($container, { padding: $padding.val() })
+                        .moveTo($xPos.val(), $yPos.val());
                 });
 
                 assert.ok(true);
@@ -122,7 +139,8 @@ define([
             .init()
             .render($container)
             .setSize(200, 100)
-            .containIn($container);
+            .containIn($container, { padding: $padding.val() })
+            .moveTo($xPos.val(), $yPos.val());
     });
 
 });
