@@ -15,7 +15,6 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
-
 /**
  * Make sure that, when being positioned, a component stays fully visible within a given container.
  * This is suitable for static positioning with placeable or alignable methods, not for dynamic user behavior (draggable or resizable).
@@ -36,11 +35,20 @@ define([
 
     var containableComponent = {
 
+        /**
+         * @param {jQuery} $container
+         * @param {Object} [options] - global padding or...
+         * @param {Number} [options.padding] - global padding or...
+         * @param {Number} [options.paddingTop]
+         * @param {Number} [options.paddingRight]
+         * @param {Number} [options.paddingBottom]
+         * @param {Number} [options.paddingLeft]
+         * @returns {containableComponent}
+         */
         containIn: function containIn($container, options) {
             var self = this;
 
-            this
-                .off('move' + ns)
+            self.off('move' + ns)
                 .on('move' + ns, function() {
                     // unbind the present listener to avoid infinite loop
                     self.off('move' + ns);
@@ -51,10 +59,18 @@ define([
                     // re-bind listener
                     self.containIn($container, options);
                 });
-            return this;
+
+            return self;
         },
 
-        _containComponent: function _containComponent($container, options) {
+        /**
+         * Actual containment algorithm. API is the same as .containIn()
+         * @fires component#contained
+         * @private
+         */
+        _containComponent: function _containComponent($container, optionsParam) {
+            var options = optionsParam || {};
+
             var position = this.getPosition(),
                 size = this.getSize(),
                 containerSize = {
@@ -64,14 +80,10 @@ define([
 
             var newX = position.x,
                 newY = position.y,
-                paddingTop, paddingRight, paddingBottom, paddingLeft;
-
-            options = options || {};
-
-            paddingTop    = options.paddingTop    || options.padding || 0;
-            paddingRight  = options.paddingRight  || options.padding || 0;
-            paddingBottom = options.paddingBottom || options.padding || 0;
-            paddingLeft   = options.paddingLeft   || options.padding || 0;
+                paddingTop    = options.paddingTop    || options.padding || 0,
+                paddingRight  = options.paddingRight  || options.padding || 0,
+                paddingBottom = options.paddingBottom || options.padding || 0,
+                paddingLeft   = options.paddingLeft   || options.padding || 0;
 
             if (position.x < paddingLeft) {
                 newX = 0 + paddingLeft;
@@ -87,13 +99,19 @@ define([
 
             this.moveTo(newX, newY);
 
+            /**
+             * Executes extra contained tasks
+             * @event component#contained
+             * @param {Number} newX
+             * @param {Number} newY
+             */
             this.trigger('contained', newX, newY);
         }
     };
 
     /**
      * @param {Component} component - an instance of ui/component
-     * @param {Object} config
+     * @param {Object} [config]
      */
     return function makeContainable(component, config) {
 
