@@ -155,7 +155,7 @@ class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
         if(!self::$isStarted){
 			$this->session();
 			$this->setDefaultTimezone();
-//			$this->registerErrorhandler();
+			$this->registerErrorhandler();
 			self::$isStarted = true;
 		}
 	}

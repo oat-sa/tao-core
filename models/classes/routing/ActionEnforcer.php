@@ -88,9 +88,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         if(class_exists($controllerClass)) {
             $controller = new $controllerClass();
             $this->getServiceManager()->propagate($controller, $this);
-            $this->logWarning('polop');
-            $this->logWarning('polop');
-            $this->logWarning('polop');
             return $controller;
         } else {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
@@ -145,8 +142,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	                \common_Logger::w('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
 	            }
 	        }
-
-
+	        
 	        // Action method is invoked, passing request parameters as
 	        // method parameters.
 	        $user = common_session_SessionManager::getSession()->getUser();
