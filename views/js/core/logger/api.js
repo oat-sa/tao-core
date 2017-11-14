@@ -45,13 +45,19 @@ define([
      */
     var defaultLevel = 'info';
 
+    /**
+     * Log levels as described in RFC 5424
+     * @type {Object}
+     */
     var levels = {
-        fatal : 60, // The service/app is going to stop or become unusable now. An operator should definitely look into this soon.
-        error : 50, // Fatal for a particular request, but the service/app continues servicing other requests. An operator should look at this soon(ish).
-        warn  : 40, // A note on something that should probably be looked at by an operator eventually.
-        info  : 30, // Detail on regular operation.
-        debug : 20, // Anything else, i.e. too verbose to be included in "info" level.
-        trace : 10  // Logging from external libraries used by your app or very detailed application logging.
+        emergency : 80, // System is unusable
+        alert : 70, // Action must be taken immediately
+        critical : 60, // Critical conditions
+        error : 50, // Error conditions
+        warning : 40, // Exceptional occurrences that are not errors
+        notice : 30,  // Normal but significant events
+        info : 20,  // Interesting events
+        debug : 10  // Detailed debug information
     };
 
     /**
