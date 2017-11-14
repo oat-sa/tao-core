@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\tao\actions;
+namespace oat\tao\controller;
 
 /**
  * Class Log
