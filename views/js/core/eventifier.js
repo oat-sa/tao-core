@@ -307,7 +307,7 @@ define([
                             return acc;
                         }, getHandlerObject());
 
-                    logger.trace({event : eventName, args : args}, 'trigger %s', eventName);
+                    logger.info({event : eventName, args : args}, 'trigger %s', eventName);
 
                     if(mergedHandlers){
                         triggerAllHandlers(mergedHandlers, name, ns);
@@ -391,7 +391,7 @@ define([
                 }
 
                 function logHandlerStop(stoppedIn, event, err) {
-                    logger.trace({ err: err, event: event.name, stoppedIn: stoppedIn }, event.name + ' handlers stopped');
+                    logger.info({ err: err, event: event.name, stoppedIn: stoppedIn }, event.name + ' handlers stopped');
                 }
 
                 function shouldStop(name) {
