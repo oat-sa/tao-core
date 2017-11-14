@@ -28,12 +28,14 @@ define([
     'use strict';
 
     var mapping = {
-        trace : 'debug',
         debug : 'debug',
         info  : 'info',
-        warn  : 'warn',
+        notice  : 'notice',
+        warning  : 'warning',
         error : 'error',
-        fatal : 'error'
+        critical : 'error',
+        alert : 'error',
+        emergency : 'error'
     };
 
     /**

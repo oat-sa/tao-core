@@ -26,9 +26,9 @@ define(['core/logger/console'], function(consoleLogger) {
 
     //keep a ref of the global functions
     var cerr   = window.console.error;
-    var cwarn  = window.console.warn;
-    var cinfo  = window.console.info;
+    var cwarn = window.console.warning;
     var clog   = window.console.log;
+    var cinfo = window.console.info;
     var cdebug = window.console.debug;
 
 
@@ -51,24 +51,6 @@ define(['core/logger/console'], function(consoleLogger) {
             window.console.log   = clog;
             window.console.debug = cdebug;
         }
-    });
-
-    QUnit.asyncTest("trace log", function(assert) {
-        QUnit.expect(4);
-
-        window.console.debug = function(name, message, record) {
-            assert.equal(name, 'foo', 'The logger name matches');
-            assert.equal(message, 'hello', 'The logger name matches');
-            assert.equal(typeof record, 'object', 'the record is an object');
-            assert.equal(record.level, 'trace', 'The record level is correct');
-            QUnit.start();
-        };
-
-        consoleLogger.log({
-            level: 'trace',
-            name : 'foo',
-            msg: 'hello'
-        });
     });
 
     QUnit.asyncTest("debug log", function(assert) {
@@ -120,19 +102,37 @@ define(['core/logger/console'], function(consoleLogger) {
         });
     });
 
-    QUnit.asyncTest("warn log", function(assert) {
+    QUnit.asyncTest("notice log", function(assert) {
         QUnit.expect(4);
 
-        window.console.warn = function(name, message, record) {
+        window.console.notice = function(name, message, record) {
             assert.equal(name, 'foo', 'The logger name matches');
-            assert.equal(message, 'oops', 'The logger name matches');
+            assert.equal(message, 'hello', 'The logger name matches');
             assert.equal(typeof record, 'object', 'the record is an object');
-            assert.equal(record.level, 'warn', 'The record level is correct');
+            assert.equal(record.level, 'notice', 'The record level is correct');
             QUnit.start();
         };
 
         consoleLogger.log({
-            level: 'warn',
+            level: 'notice',
+            name : 'foo',
+            msg: 'hello'
+        });
+    });
+
+    QUnit.asyncTest("warning log", function(assert) {
+        QUnit.expect(4);
+
+        window.console.warning = function(name, message, record) {
+            assert.equal(name, 'foo', 'The logger name matches');
+            assert.equal(message, 'oops', 'The logger name matches');
+            assert.equal(typeof record, 'object', 'the record is an object');
+            assert.equal(record.level, 'warning', 'The record level is correct');
+            QUnit.start();
+        };
+
+        consoleLogger.log({
+            level: 'warning',
             name : 'foo',
             msg: 'oops'
         });
@@ -158,20 +158,60 @@ define(['core/logger/console'], function(consoleLogger) {
         });
     });
 
-    QUnit.asyncTest("fatal log", function(assert) {
+    QUnit.asyncTest("critical log", function(assert) {
         QUnit.expect(5);
 
         window.console.error = function(name, message, err, record) {
             assert.equal(name, 'foo', 'The logger name matches');
             assert.equal(message, 'oops', 'The logger name matches');
             assert.equal(typeof record, 'object', 'the record is an object');
-            assert.equal(record.level, 'fatal', 'The record level is correct');
+            assert.equal(record.level, 'critical', 'The record level is correct');
             assert.ok(record.err instanceof Error, 'The record contains an error');
             QUnit.start();
         };
 
         consoleLogger.log({
-            level: 'fatal',
+            level: 'critical',
+            name : 'foo',
+            msg: 'oops',
+            err: new Error('oops')
+        });
+    });
+
+    QUnit.asyncTest("alert log", function(assert) {
+        QUnit.expect(5);
+
+        window.console.error = function(name, message, err, record) {
+            assert.equal(name, 'foo', 'The logger name matches');
+            assert.equal(message, 'oops', 'The logger name matches');
+            assert.equal(typeof record, 'object', 'the record is an object');
+            assert.equal(record.level, 'alert', 'The record level is correct');
+            assert.ok(record.err instanceof Error, 'The record contains an error');
+            QUnit.start();
+        };
+
+        consoleLogger.log({
+            level: 'alert',
+            name : 'foo',
+            msg: 'oops',
+            err: new Error('oops')
+        });
+    });
+
+    QUnit.asyncTest("emergency log", function(assert) {
+        QUnit.expect(5);
+
+        window.console.error = function(name, message, err, record) {
+            assert.equal(name, 'foo', 'The logger name matches');
+            assert.equal(message, 'oops', 'The logger name matches');
+            assert.equal(typeof record, 'object', 'the record is an object');
+            assert.equal(record.level, 'emergency', 'The record level is correct');
+            assert.ok(record.err instanceof Error, 'The record contains an error');
+            QUnit.start();
+        };
+
+        consoleLogger.log({
+            level: 'emergency',
             name : 'foo',
             msg: 'oops',
             err: new Error('oops')
@@ -196,20 +236,20 @@ define(['core/logger/console'], function(consoleLogger) {
         }
     });
 
-    QUnit.asyncTest('no native warn', function(assert){
+    QUnit.asyncTest('no native warning', function(assert){
         QUnit.expect(5);
 
         window.console.log = function(level, name, message, record) {
-            assert.equal(level, '[WARN]', 'The level is displayed');
+            assert.equal(level, '[WARNING]', 'The level is displayed');
             assert.equal(name, 'foo', 'The logger name matches');
             assert.equal(message, 'oops', 'The logger name matches');
             assert.equal(typeof record, 'object', 'the record is an object');
-            assert.equal(record.level, 'warn', 'The record level is correct');
+            assert.equal(record.level, 'warning', 'The record level is correct');
             QUnit.start();
         };
 
         consoleLogger.log({
-            level: 'warn',
+            level: 'warning',
             name : 'foo',
             msg: 'oops'
         });

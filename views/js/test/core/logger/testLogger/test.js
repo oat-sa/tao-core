@@ -35,28 +35,28 @@ define([
     QUnit.module('TestLogger');
 
     QUnit.test('can log and retrieve messages', function(assert) {
-        var trace = { level: 'trace', msg: 'trace'},
-            debug = { level: 'debug', msg: 'debug'},
+        var debug = { level: 'debug', msg: 'debug'},
             info  = { level: 'info',  msg: 'info'},
-            warn  = { level: 'warn',  msg: 'warn'},
+            notice  = { level: 'notice',  msg: 'notice'},
+            warning  = { level: 'warning',  msg: 'warning'},
             error = { level: 'error', msg: 'error'},
-            fatal = { level: 'fatal', msg: 'fatal'},
+            critical = { level: 'critical', msg: 'critical'},
+            alert = { level: 'alert', msg: 'alert'},
+            emergency = { level: 'emergency', msg: 'emergency'},
             messages;
 
-        QUnit.expect(24);
+        QUnit.expect(32);
 
-        testLogger.log(trace);
         testLogger.log(debug);
         testLogger.log(info);
-        testLogger.log(warn);
+        testLogger.log(notice);
+        testLogger.log(warning);
         testLogger.log(error);
-        testLogger.log(fatal);
+        testLogger.log(critical);
+        testLogger.log(alert);
+        testLogger.log(emergency);
 
         messages = testLogger.getMessages();
-
-        assert.ok(_.isArray(messages.trace), 'trace record are in an array');
-        assert.equal(messages.trace.length, 1, 'on trace record has been logged');
-        assert.deepEqual(messages.trace[0], trace, 'correct trace record has been logged');
 
         assert.ok(_.isArray(messages.debug), 'debug record are in an array');
         assert.equal(messages.debug.length, 1, 'on debug record has been logged');
@@ -66,27 +66,41 @@ define([
         assert.equal(messages.info.length, 1, 'on info record has been logged');
         assert.deepEqual(messages.info[0], info, 'correct info record has been logged');
 
-        assert.ok(_.isArray(messages.warn), 'warn record are in an array');
-        assert.equal(messages.warn.length, 1, 'on warn record has been logged');
-        assert.deepEqual(messages.warn[0], warn, 'correct warn record has been logged');
+        assert.ok(_.isArray(messages.notice), 'notice record are in an array');
+        assert.equal(messages.notice.length, 1, 'on notice record has been logged');
+        assert.deepEqual(messages.notice[0], notice, 'correct notice record has been logged');
+
+        assert.ok(_.isArray(messages.warning), 'warning record are in an array');
+        assert.equal(messages.warning.length, 1, 'on warning record has been logged');
+        assert.deepEqual(messages.warning[0], warning, 'correct warning record has been logged');
 
         assert.ok(_.isArray(messages.error), 'error record are in an array');
         assert.equal(messages.error.length, 1, 'on error record has been logged');
         assert.deepEqual(messages.error[0], error, 'correct error record has been logged');
 
-        assert.ok(_.isArray(messages.fatal), 'fatal record are in an array');
-        assert.equal(messages.fatal.length, 1, 'on fatal record has been logged');
-        assert.deepEqual(messages.fatal[0], fatal, 'correct fatal record has been logged');
+        assert.ok(_.isArray(messages.critical), 'critical record are in an array');
+        assert.equal(messages.critical.length, 1, 'on critical record has been logged');
+        assert.deepEqual(messages.critical[0], critical, 'correct critical record has been logged');
+
+        assert.ok(_.isArray(messages.alert), 'alert record are in an array');
+        assert.equal(messages.alert.length, 1, 'on alert record has been logged');
+        assert.deepEqual(messages.alert[0], alert, 'correct alert record has been logged');
+
+        assert.ok(_.isArray(messages.emergency), 'emergency record are in an array');
+        assert.equal(messages.emergency.length, 1, 'on emergency record has been logged');
+        assert.deepEqual(messages.emergency[0], emergency, 'correct emergency record has been logged');
 
         testLogger.reset();
         messages = testLogger.getMessages();
 
-        assert.equal(messages.trace.length, 0, 'trace records have been reseted');
         assert.equal(messages.debug.length, 0, 'debug records have been reseted');
         assert.equal(messages.info.length, 0,  'info records have been reseted');
-        assert.equal(messages.warn.length, 0,  'warn records have been reseted');
+        assert.equal(messages.notice.length, 0,  'notice records have been reseted');
+        assert.equal(messages.warning.length, 0,  'warning records have been reseted');
         assert.equal(messages.error.length, 0, 'error records have been reseted');
-        assert.equal(messages.fatal.length, 0, 'fatal records have been reseted');
+        assert.equal(messages.critical.length, 0, 'critical records have been reseted');
+        assert.equal(messages.alert.length, 0, 'alert records have been reseted');
+        assert.equal(messages.emergency.length, 0, 'emergency records have been reseted');
     });
 
 });

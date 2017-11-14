@@ -50,7 +50,7 @@ define(['core/logger/api'], function(loggerFactory){
     });
 
     QUnit.test('levels', function(assert){
-        QUnit.expect(13);
+        QUnit.expect(17);
 
         assert.ok(typeof loggerFactory.levels === 'object', 'The module exposes the available levels');
 
@@ -90,7 +90,7 @@ define(['core/logger/api'], function(loggerFactory){
 
     QUnit.test('logger instance', function(assert){
         var logger;
-        QUnit.expect(10);
+        QUnit.expect(12);
 
         logger = loggerFactory('foo');
 
@@ -240,7 +240,7 @@ define(['core/logger/api'], function(loggerFactory){
 
         loggerFactory.register({
             log : function log(message){
-                assert.equal(message.level, 'trace', 'the level match');
+                assert.equal(message.level, 'debug', 'the level match');
                 assert.equal(message.msg, 'something', 'the message match');
             }
         });
@@ -255,7 +255,7 @@ define(['core/logger/api'], function(loggerFactory){
 
         logger.level(loggerFactory.levels.debug);
         assert.equal(logger.level(), 'debug', 'The current level match');
-        logger.trace('something');
+        logger.debug('something');
     });
 
     QUnit.test('base fields', function(assert){
@@ -277,7 +277,7 @@ define(['core/logger/api'], function(loggerFactory){
             }
         });
 
-        logger = loggerFactory('foo', loggerFactory.levels.debug, {
+        logger = loggerFactory('foo', loggerFactory.levels.info, {
             foo : 'bar',
             moo : moo
         });
@@ -322,7 +322,7 @@ define(['core/logger/api'], function(loggerFactory){
             }
         });
 
-        logger = loggerFactory('foo', loggerFactory.levels.debug, {
+        logger = loggerFactory('foo', loggerFactory.levels.info, {
             foo : 'bar',
             moo : {
                 a : 24
@@ -339,7 +339,7 @@ define(['core/logger/api'], function(loggerFactory){
     QUnit.test('child logger', function(assert){
         var logger;
         var child;
-        QUnit.expect(13);
+        QUnit.expect(15);
 
         loggerFactory.register({
             log : function log(message){
@@ -349,11 +349,11 @@ define(['core/logger/api'], function(loggerFactory){
             }
         });
 
-        logger = loggerFactory('foo', loggerFactory.levels.debug, {
+        logger = loggerFactory('foo', loggerFactory.levels.info, {
             foo : 'bar',
         });
 
-        logger.trace('nothing');
+        logger.debug('nothing');
 
         child = logger.child({bar : true});
 
@@ -369,7 +369,7 @@ define(['core/logger/api'], function(loggerFactory){
         assert.equal(typeof child.debug, 'function', 'The child has a debug method');
         assert.equal(typeof child.level, 'function', 'The child has a level method');
         assert.equal(typeof child.child, 'function', 'The child has a child method');
-        child.debug('something');
+        child.info('something');
     });
 
 });

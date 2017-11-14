@@ -31,12 +31,14 @@ define([
 
     function resetMessages() {
         messages = {
-            trace : [],
             debug : [],
             info  : [],
-            warn  : [],
+            notice  : [],
+            warning  : [],
             error : [],
-            fatal : []
+            critical : [],
+            alert : [],
+            emergency : []
         };
     }
 
