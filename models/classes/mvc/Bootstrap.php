@@ -36,7 +36,6 @@ use oat\tao\model\routing\CliController;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_report_Report as Report;
-use Psr\Log\LoggerInterface;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
@@ -216,7 +215,7 @@ class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 	    } else {
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
-            $this->getServiceManager()->propagate($cliController, $this);
+            $this->propagate($cliController, $this);
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
@@ -324,16 +323,20 @@ class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 	    }
 	}
 
-	/**
-	 *  Start the MVC Loop from the ClearFW
-	 *  @throws \ActionEnforcingException in case of wrong module or action
-	 *  @throws \tao_models_classes_UserException when a request try to acces a protected area
-	 */
+    /**
+     * Start the MVC Loop from the ClearFW
+     *
+     * @throws Exception
+     * @throws \ActionEnforcingException In case of wrong module or action
+     * @throws \common_exception_Error
+     * @throws \common_ext_ExtensionException
+     * @throws \tao_models_classes_UserException when a request try to acces a protected area
+     */
     protected function mvc()
     {
         $re = \common_http_Request::currentRequest();
         $fc = new TaoFrontController();
-        $this->getServiceManager()->propagate($fc, $this);
+        $this->propagate($fc, $this);
         $fc->legacy($re);
     }
 

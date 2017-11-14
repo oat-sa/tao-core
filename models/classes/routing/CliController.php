@@ -70,7 +70,7 @@ class CliController implements ServiceManagerAwareInterface, TaoLoggerAwareInter
             $action = new Help($extId);
         }
 
-        $this->getServiceManager()->propagate($action, $this);
+        $this->propagate($action, $this);
         $this->getServiceLocator()->get(ArgumentService::SERVICE_ID)->load($action, $params);
 
         try {

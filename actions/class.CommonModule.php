@@ -276,9 +276,10 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * Propagate the service (logger and service manager)
      *
      * @return mixed
+     * @throws common_exception_Error
      */
     protected function getFlowController()
     {
-        return $this->getServiceManager()->propagate(new FlowController(), $this);
+        return $this->propagate(new FlowController(), $this);
     }
 }

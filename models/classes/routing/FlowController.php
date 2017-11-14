@@ -92,7 +92,7 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-        $this->getServiceManager()->propagate($enforcer, $this);
+        $this->propagate($enforcer, $this);
         $enforcer->execute();
 
         //should not be reached
