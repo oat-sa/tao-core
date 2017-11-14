@@ -142,7 +142,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	                \common_Logger::w('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
 	            }
 	        }
-	        
+
 	        // Action method is invoked, passing request parameters as
 	        // method parameters.
 	        $user = common_session_SessionManager::getSession()->getUser();
