@@ -21,15 +21,15 @@
 
 namespace oat\tao\model\routing;
 
-use ActionEnforcingException;
-use common_Logger;
 use common_http_Request;
 use common_ext_ExtensionsManager;
-use HTTPToolkit;
 use InterruptedActionException;
 use Context;
 use FlowController as ClearFwFlowController;
-use tao_helpers_Uri;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\log\TaoLoggerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * The FlowController helps you to navigate through MVC actions.
@@ -37,8 +37,10 @@ use tao_helpers_Uri;
  * @author Jérôme Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
  * @author Bertrand Chevrier <Bertrand@taotestin.com>
  */
-class FlowController extends ClearFwFlowController
+class FlowController extends ClearFwFlowController implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
+    use ServiceManagerAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * This header is added to the response to inform the client a forward occurs
@@ -90,6 +92,7 @@ class FlowController extends ClearFwFlowController
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
+        $this->getServiceManager()->propagate($enforcer, $this);
         $enforcer->execute();
 
         //should not be reached
