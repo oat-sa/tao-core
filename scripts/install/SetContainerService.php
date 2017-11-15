@@ -28,8 +28,17 @@ use oat\tao\model\service\ContainerService;
  */
 class SetContainerService extends InstallAction
 {
+    /**
+     * Sets the ContainerService.
+     *
+     * @param $params
+     *
+     * @return \common_report_Report
+     */
     public function __invoke($params)
     {
         $this->registerService(ContainerService::SERVICE_ID, new ContainerService());
+
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ContainerService registered');
     }
 }

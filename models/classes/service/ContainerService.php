@@ -28,7 +28,7 @@ use Psr\Container\ContainerInterface;
 class ContainerService extends ConfigurableService implements ContainerInterface
 {
     /** The Service identifier in the Service Manager. */
-    const SERVICE_ID = 'tao/container-service';
+    const SERVICE_ID = 'tao/containerService';
 
     /** Uses the container trait. */
     use PimpleContainerTrait;
