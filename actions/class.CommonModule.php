@@ -23,8 +23,11 @@
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\log\TaoLoggerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Top level controller
@@ -35,8 +38,10 @@ use oat\tao\model\accessControl\AclProxy;
  * @package tao
  *         
  */
-abstract class tao_actions_CommonModule extends Module
+abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
+    use ServiceManagerAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * The Modules access the models throught the service instance
@@ -228,8 +233,7 @@ abstract class tao_actions_CommonModule extends Module
      */
 	public function forward($action, $controller = null, $extension = null, $params = array())
     {
-        $flow = new FlowController();
-        $flow->forward($action, $controller, $extension, $params);
+        $this->getFlowController()->forward($action, $controller, $extension, $params);
     }
 
     /**
@@ -238,8 +242,7 @@ abstract class tao_actions_CommonModule extends Module
      */
     public function forwardUrl($url)
     {
-        $flow = new FlowController();
-        $flow->forwardUrl($url);
+        $this->getFlowController()->forwardUrl($url);
     }
 
     /**
@@ -248,8 +251,7 @@ abstract class tao_actions_CommonModule extends Module
      */
 	public function redirect($url, $statusCode = 302)
     {
-        $flow = new FlowController();
-        $flow->redirect($url, $statusCode);
+        $this->getFlowController()->redirect($url, $statusCode);
     }
     
     /**
@@ -269,12 +271,14 @@ abstract class tao_actions_CommonModule extends Module
     }
 
     /**
-     * Placeholder function until controllers properly support service manager
-     * 
-     * @return \oat\oatbox\service\ServiceManager
+     * Get the flow controller
+     *
+     * Propagate the service (logger and service manager)
+     *
+     * @return mixed
      */
-    protected function getServiceManager()
+    protected function getFlowController()
     {
-        return ServiceManager::getServiceManager();
+        return $this->getServiceManager()->propagate(new FlowController(), $this);
     }
 }

@@ -20,23 +20,25 @@
 
 namespace oat\tao\model\routing;
 
-use oat\oatbox\service\ServiceManager;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
 use oat\oatbox\action\Help;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\cliArgument\ArgumentService;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class CliController
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\routing
  */
-class CliController implements ServiceLocatorAwareInterface
+class CliController implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceManagerAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * @var ActionService
@@ -48,7 +50,6 @@ class CliController implements ServiceLocatorAwareInterface
      */
     public function __construct()
     {
-        $this->setServiceLocator(ServiceManager::getServiceManager());
         $this->actionService = $this->getServiceLocator()->get(ActionService::SERVICE_ID);
     }
 
@@ -69,10 +70,7 @@ class CliController implements ServiceLocatorAwareInterface
             $action = new Help($extId);
         }
 
-        if ($action instanceof ServiceLocatorAwareInterface) {
-            $action->setServiceLocator($this->getServiceLocator());
-        }
-
+        $this->getServiceManager()->propagate($action, $this);
         $this->getServiceLocator()->get(ArgumentService::SERVICE_ID)->load($action, $params);
 
         try {

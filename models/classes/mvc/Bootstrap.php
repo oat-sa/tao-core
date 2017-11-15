@@ -16,13 +16,18 @@
  *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013- (update and modification) Open Assessment Technologies SA;
+ *               2013-2017 (update and modification) Open Assessment Technologies SA;
  *
  */
 namespace oat\tao\model\mvc;
 
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\log\LoggerService;
+use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
@@ -31,13 +36,12 @@ use oat\tao\model\routing\CliController;
 use common_Logger;
 use common_ext_ExtensionsManager;
 use common_report_Report as Report;
+use Psr\Log\LoggerInterface;
 use tao_helpers_Context;
 use tao_helpers_Request;
 use tao_helpers_Uri;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -60,9 +64,10 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap implements ServiceLocatorAwareInterface
+class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceManagerAwareTrait;
+    use LoggerAwareTrait;
 
     const CONFIG_SESSION_HANDLER = 'session';
 
@@ -147,10 +152,10 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	 */
 	public function start()
 	{
-		if(!self::$isStarted){
+        if(!self::$isStarted){
 			$this->session();
 			$this->setDefaultTimezone();
-			$this->registerErrorhandler();
+//			$this->registerErrorhandler();
 			self::$isStarted = true;
 		}
 	}
@@ -200,8 +205,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
             throw new \common_exception_SystemUnderMaintenance();
         }
     }
-	
-        
+
 	protected function dispatchCli()
 	{
 	    $params = $_SERVER['argv'];
@@ -212,6 +216,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	    } else {
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
+            $this->getServiceManager()->propagate($cliController, $this);
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
@@ -261,7 +266,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
                 session_id($request->getParameter('session_id'));
             }
         }
-        
+
         // set the session cookie to HTTP only.
         
         $this->configureSessionHandler();
@@ -304,8 +309,9 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	 */
 	protected function registerErrorhandler()
 	{
-		// register the logger as erorhandler
+        // register the logger as erorhandler
 		common_Logger::singleton()->register();
+	    $this->setLogger($this->getServiceLocator()->get(LoggerService::SERVICE_ID)->getLogger());
 	}
 
 	/**
@@ -327,6 +333,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
     {
         $re = \common_http_Request::currentRequest();
         $fc = new TaoFrontController();
+        $this->getServiceManager()->propagate($fc, $this);
         $fc->legacy($re);
     }
 
