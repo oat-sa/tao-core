@@ -65,6 +65,7 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
      * shared methods for test initialization
      */
     public static function initTest(){
+
         //connect the API
         if(!self::$connected){
             \common_session_SessionManager::startSession(new \common_test_TestUserSession());
