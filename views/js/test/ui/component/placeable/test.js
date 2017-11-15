@@ -653,12 +653,19 @@ define([
 
     QUnit
         .cases([
-            { title: 'moveTo, floor', fn: 'moveTo', x: '125.49', y: '125.49', expectedX: 125, expectedY: 125 },
-            { title: 'moveTo, ceil',  fn: 'moveTo', x: '125.50', y: '125.50', expectedX: 126, expectedY: 126 },
-            { title: 'moveTo, ceil',  fn: 'moveTo', x: '125.51', y: '125.51', expectedX: 126, expectedY: 126 },
-            { title: 'moveBy, floor', fn: 'moveBy', x: '125.49', y: '125.49', expectedX: 125, expectedY: 125 },
-            { title: 'moveBy, ceil',  fn: 'moveBy', x: '125.50', y: '125.50', expectedX: 126, expectedY: 126 },
-            { title: 'moveBy, ceil',  fn: 'moveBy', x: '125.51', y: '125.51', expectedX: 126, expectedY: 126 }
+            // round by default
+            { title: 'moveTo, floor', fn: 'moveTo', x: 125.49, y: 125.49, expectedX: 125, expectedY: 125 },
+            { title: 'moveTo, ceil',  fn: 'moveTo', x: 125.50, y: 125.50, expectedX: 126, expectedY: 126 },
+            { title: 'moveTo, ceil',  fn: 'moveTo', x: 125.51, y: 125.51, expectedX: 126, expectedY: 126 },
+
+            { title: 'moveBy, floor', fn: 'moveBy', x: 125.49, y: 125.49, expectedX: 125, expectedY: 125 },
+            { title: 'moveBy, ceil',  fn: 'moveBy', x: 125.50, y: 125.50, expectedX: 126, expectedY: 126 },
+            { title: 'moveBy, ceil',  fn: 'moveBy', x: 125.51, y: 125.51, expectedX: 126, expectedY: 126 },
+
+            // disable rounding
+            { title: 'moveTo, no round', options: { round: false }, fn: 'moveTo', x: 125.51, y: 125.51, expectedX: 125.51, expectedY: 125.51 },
+            { title: 'moveBy, no round', options: { round: false }, fn: 'moveBy', x: 125.51, y: 125.51, expectedX: 125.51, expectedY: 125.51 },
+
         ])
         .asyncTest('.moveTo() and .moveBy() round values', function (data, assert) {
             var component = makePlaceable(componentFactory()),
@@ -674,8 +681,8 @@ define([
 
                     if (moveCounter === 2) {
                         position = component.getPosition();
-                        assert.equal(position.x, data.expectedX, 'component x has been rounded');
-                        assert.equal(position.y, data.expectedY, 'component y has been rounded');
+                        assert.equal(position.x, data.expectedX, 'component x has the correct value');
+                        assert.equal(position.y, data.expectedY, 'component y has the correct value');
 
                         QUnit.start();
                     }
@@ -683,7 +690,7 @@ define([
                 .init()
                 .render($container);
 
-            component[data.fn](data.x, data.y);
+            component[data.fn](data.x, data.y, data.options);
         });
 
 });

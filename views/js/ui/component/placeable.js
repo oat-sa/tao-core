@@ -50,15 +50,24 @@ define([
          * Set the translation of the component
          * @param {Number} xOffsetAbsolute
          * @param {Number} yOffsetAbsolute
+         * @param {Object} [rawOptions]
+         * @param {Boolean} [rawOptions.round] - if coordinates should be rounded, default to true
          *
          * @fires Component#move
          * @private
          */
-        _translate: function _translate(xOffsetAbsolute, yOffsetAbsolute) {
-            var $element = this.getElement();
+        _translate: function _translate(xOffsetAbsolute, yOffsetAbsolute, rawOptions) {
+            var $element = this.getElement(),
+                optionDefaults = {
+                    round: true
+                },
+                options = _.defaults(rawOptions || {}, optionDefaults);
 
-            xOffsetAbsolute = Math.round(xOffsetAbsolute);
-            yOffsetAbsolute = Math.round(yOffsetAbsolute);
+            if (options.round) {
+                console.log('rounding !');
+                xOffsetAbsolute = Math.round(xOffsetAbsolute);
+                yOffsetAbsolute = Math.round(yOffsetAbsolute);
+            }
 
             transformer.translateXY($element, xOffsetAbsolute, yOffsetAbsolute);
 
@@ -113,9 +122,11 @@ define([
          * Moves the component by the given offset, which is relative to the current position
          * @param {Number} xOffsetRelative
          * @param {Number} yOffsetRelative
+         * @param {Object} [options]
+         * @param {Boolean} [options.round] - if coordinates should be rounded, default to true
          * @returns {Component} chains
          */
-        moveBy: function moveBy(xOffsetRelative, yOffsetRelative) {
+        moveBy: function moveBy(xOffsetRelative, yOffsetRelative, options) {
             var xOffsetAbsolute,
                 yOffsetAbsolute;
 
@@ -123,7 +134,7 @@ define([
                 xOffsetAbsolute = this._translateX + xOffsetRelative;
                 yOffsetAbsolute = this._translateY + yOffsetRelative;
 
-                this._translate(xOffsetAbsolute, yOffsetAbsolute);
+                this._translate(xOffsetAbsolute, yOffsetAbsolute, options);
             }
             return this;
         },
@@ -132,9 +143,11 @@ define([
          * Moves the component to the given position
          * @param {Number} x
          * @param {Number} y
+         * @param {Object} [options]
+         * @param {Boolean} [options.round] - if coordinates should be rounded, default to true
          * @returns {Component} chains
          */
-        moveTo: function moveTo(x, y) {
+        moveTo: function moveTo(x, y, options) {
             var xOffsetAbsolute,
                 yOffsetAbsolute;
 
@@ -142,7 +155,7 @@ define([
                 xOffsetAbsolute = x - this.config.initialX;
                 yOffsetAbsolute = y - this.config.initialY;
 
-                this._translate(xOffsetAbsolute, yOffsetAbsolute);
+                this._translate(xOffsetAbsolute, yOffsetAbsolute, options);
             }
             return this;
         },
@@ -150,19 +163,23 @@ define([
         /**
          * Moves the component to the given X position
          * @param {Number} x
+         * @param {Object} [options]
+         * @param {Boolean} [options.round] - if coordinates should be rounded, default to true
          * @returns {Component} chains
          */
-        moveToX: function moveToX(x) {
-            return this.moveTo(x, this._y);
+        moveToX: function moveToX(x, options) {
+            return this.moveTo(x, this._y, options);
         },
 
         /**
          * Moves the component to the given Y position
          * @param {Number} y
+         * @param {Object} [options]
+         * @param {Boolean} [options.round] - if coordinates should be rounded, default to true
          * @returns {Component} chains
          */
-        moveToY: function moveToY(y) {
-            return this.moveTo(this._x, y);
+        moveToY: function moveToY(y, options) {
+            return this.moveTo(this._x, y, options);
         },
 
         /**
