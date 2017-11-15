@@ -651,4 +651,39 @@ define([
         assert.equal(transformer.getTransformation($element).obj.translateY, 0, 'component\'s element has the the right y translation');
     });
 
+    QUnit
+        .cases([
+            { title: 'moveTo, floor', fn: 'moveTo', x: '125.49', y: '125.49', expectedX: 125, expectedY: 125 },
+            { title: 'moveTo, ceil',  fn: 'moveTo', x: '125.50', y: '125.50', expectedX: 126, expectedY: 126 },
+            { title: 'moveTo, ceil',  fn: 'moveTo', x: '125.51', y: '125.51', expectedX: 126, expectedY: 126 },
+            { title: 'moveBy, floor', fn: 'moveBy', x: '125.49', y: '125.49', expectedX: 125, expectedY: 125 },
+            { title: 'moveBy, ceil',  fn: 'moveBy', x: '125.50', y: '125.50', expectedX: 126, expectedY: 126 },
+            { title: 'moveBy, ceil',  fn: 'moveBy', x: '125.51', y: '125.51', expectedX: 126, expectedY: 126 }
+        ])
+        .asyncTest('.moveTo() and .moveBy() round values', function (data, assert) {
+            var component = makePlaceable(componentFactory()),
+                $container = $(fixtureContainer).width(800).height(600),
+                position,
+                moveCounter = 0;
+
+            QUnit.expect(2);
+
+            component
+                .on('move', function() {
+                    moveCounter++;
+
+                    if (moveCounter === 2) {
+                        position = component.getPosition();
+                        assert.equal(position.x, data.expectedX, 'component x has been rounded');
+                        assert.equal(position.y, data.expectedY, 'component y has been rounded');
+
+                        QUnit.start();
+                    }
+                })
+                .init()
+                .render($container);
+
+            component[data.fn](data.x, data.y);
+        });
+
 });

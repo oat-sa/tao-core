@@ -57,6 +57,9 @@ define([
         _translate: function _translate(xOffsetAbsolute, yOffsetAbsolute) {
             var $element = this.getElement();
 
+            xOffsetAbsolute = Math.round(xOffsetAbsolute);
+            yOffsetAbsolute = Math.round(yOffsetAbsolute);
+
             transformer.translateXY($element, xOffsetAbsolute, yOffsetAbsolute);
 
             // retrieving current translate values is a costly process (see ui/transformer and/or lib/unmatrix)
