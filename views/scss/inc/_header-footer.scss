@@ -5,9 +5,9 @@ $navHeight: 64;
 
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
-        -webkit-transition: opacity .7s, top 0s;
-        transition: opacity .5s, top 0s;
-        transition-delay: .5s;
+        //-webkit-transition: opacity .7s, top 0s;
+        //transition: opacity .3s, top 0s;
+        //transition-delay: .2s;
         opacity: 1;
         top: $navHeight * 1px;
     }
@@ -60,16 +60,6 @@ $navHeight: 64;
     background: $darkBar;
     color: $darkBarTxt;
 
-    // when resizing the window .settings-menu can slip under .main-menu
-    // until the JS class toggle kicks in
-    overflow-y: hidden;
-
-    // this makes sure that after the previous fix
-    // sub menus are still available
-    &:hover {
-        overflow-y: visible;
-    }
-
     a {
         color: $darkBarTxt;
         &:hover {
@@ -107,7 +97,7 @@ $navHeight: 64;
             }
             & > a {
                 &:hover {
-                    @include vendor-prefix(transition, background-color 1s ease);
+                    @include vendor-prefix(transition, background-color 0.3s ease);
                     background-color: rgba($info, .5);
                     text-decoration: none;
                     span {
@@ -162,7 +152,13 @@ $navHeight: 64;
             }
         }
 
+        .plugin-box-menu{
+            position: relative;
+            margin-right: 10px;
+        }
+        
         .main-menu, .settings-menu {
+
             background:inherit;
             ul {
                 background:inherit;
@@ -206,6 +202,21 @@ $navHeight: 64;
             }
         }
         .settings-menu {
+            z-index: 1;
+            position: relative;
+
+            // when resizing the window .settings-menu can slip under .main-menu
+            // until the JS class toggle kicks in
+            overflow-y: hidden;
+
+            // this makes sure that after the previous fix
+            // sub menus are still available
+            &:hover {
+                overflow-y: visible;
+                ~ .plugin-box-menu .plugin-box-element .overflown-element{// replace task-listing by the more generic class e.g. overflown-element
+                    filter: grayscale(0.7) contrast(60%) brightness(1.2);
+                }
+            }
             .reduced-menu-trigger {
                 display:none;
             }

@@ -105,5 +105,7 @@ $userLabel    = get_data('userLabel');
             </li>
         </ul>
     </div>
+
+    <div class="plugin-box-menu rgt"></div>
 </nav>
 
