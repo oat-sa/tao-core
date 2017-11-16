@@ -16,7 +16,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 /**
- * Make sure that, when being positioned, a component stays fully visible within a given container.
+ * Ensure that, when being positioned, a component stays fully visible within a given container.
  * This is suitable for static positioning with placeable or alignable methods, not for dynamic user behavior (draggable or resizable).
  * that is better handled with interact built-in helpers.
  *
@@ -37,7 +37,7 @@ define([
 
         /**
          * @param {jQuery} $container
-         * @param {Object} [options] - global padding or...
+         * @param {Object} [options]
          * @param {Number} [options.padding] - global padding or...
          * @param {Number} [options.paddingTop]
          * @param {Number} [options.paddingRight]
@@ -64,7 +64,7 @@ define([
         },
 
         /**
-         * Actual containment algorithm. API is the same as .containIn()
+         * Actual containment algorithm. Interface is the same as .containIn()
          * @fires component#contained
          * @private
          */
