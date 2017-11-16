@@ -935,9 +935,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('13.2.0');
         }
 
-        $this->skip('13.2.0', '14.1.0');
+        $this->skip('13.2.0', '14.1.1');
 
-        if ($this->isVersion('14.1.0')) {
+        if ($this->isVersion('14.1.1')) {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao','mod' => 'Log']));
             $this->setVersion('14.2.0');
         }
