@@ -2,6 +2,7 @@
 use oat\tao\helpers\Layout;
 $mainMenu     = get_data('main-menu');
 $settingsMenu = get_data('settings-menu');
+$userLabel    = get_data('userLabel');
 ?>
 <nav>
     <ul class="plain clearfix lft main-menu">
@@ -75,12 +76,31 @@ $settingsMenu = get_data('settings-menu');
                             </ul>
                         <?php endif; ?>
                     </li>
+
                 <?php endforeach ?>
+
+            <?php elseif(!empty($userLabel)): ?>
+
+                <li class="infoControl user-label-outside-menu">
+                    <span class="a">
+                        <span class="icon-user"></span>
+                        <span><?=$userLabel?></span>
+                    </span>
+                </li>
             <?php endif; ?>
 
-            <li data-env="user" class="li-logout">
-                <a id="logout" href="<?= _url('logout', 'Main', 'tao') ?>" title="<?= __('Log Out') ?>">
+            <?php if(has_data('unread-notification')): ?>
+                <li data-env="user" class="li-logout">
+                    <a id="logout" href="<?= get_data('notification-url') ?>" title="<?= __('Messages') ?>">
+                        <span class="icon-email glyph"></span>
+                        <sup class="notification-count"><?= get_data('unread-notification') ?></sup>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <li data-env="user" class="li-logout<?php if(!empty($userLabel) && print ' sep-before')?>">
+                <a id="logout" href="<?= get_data('logout') ?>" title="<?= __('Log Out') ?>">
                     <span class="icon-logout glyph"></span>
+                    <span class="text hidden logout-text"><?= __("Logout"); ?></span>
                 </a>
             </li>
         </ul>

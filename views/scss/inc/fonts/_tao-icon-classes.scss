@@ -18,6 +18,17 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-multi-select:before { @include icon-multi-select; }
+.icon-clipboard:before { @include icon-clipboard; }
+.icon-filebox:before { @include icon-filebox; }
+.icon-click-to-speak:before { @include icon-click-to-speak; }
+.icon-speech-bubble:before { @include icon-speech-bubble; }
+.icon-microphone:before { @include icon-microphone; }
+.icon-microphone-off:before { @include icon-microphone-off; }
+.icon-disconnect:before { @include icon-disconnect; }
+.icon-connect:before { @include icon-connect; }
+.icon-eliminate:before { @include icon-eliminate; }
+.icon-wheelchair:before { @include icon-wheelchair; }
 .icon-text-marker:before { @include icon-text-marker; }
 .icon-unshield:before { @include icon-unshield; }
 .icon-shield:before { @include icon-shield; }
@@ -210,3 +221,8 @@
 .icon-reload:before { @include icon-reload; }
 .icon-speed:before { @include icon-speed; }
 .icon-volume:before { @include icon-volume; }
+.icon-contrast:before { @include icon-contrast; }
+.icon-headphones:before { @include icon-headphones; }
+.icon-compress:before { @include icon-compress; }
+.icon-map-o:before { @include icon-map-o; }
+.icon-variable:before { @include icon-variable; }

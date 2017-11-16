@@ -27,6 +27,37 @@ define([
     'use strict';
 
     /**
+     * Builds a chunked term from a too long one.
+     *
+     * Internet Explorer will not insert a line-break before a period or a colon (and possibly other characters),
+     * even when they're preceded by a space. To address this chunks starting with one of the problematic characters
+     * will have this removed and it will be appended to the previous chunk.
+     *
+     * @param longWord
+     * @param chunkExp
+     * @returns {string}
+     */
+    var getCutTerm = function getCutTerm(longWord, chunkExp) {
+        var cutTerms = longWord.match(chunkExp),
+            i = cutTerms.length,
+            oldFirst = '',
+            newFirst = '',
+            offenders = ['.', ':', ';'];
+
+        while(i--) {
+            newFirst = cutTerms[i].charAt(0);
+            if (offenders.indexOf(newFirst) > -1) {
+                cutTerms[i] = cutTerms[i].substr(1);
+            }
+            if (offenders.indexOf(oldFirst) > -1) {
+                cutTerms[i] = cutTerms[i] + oldFirst;
+            }
+            oldFirst = newFirst;
+        }
+        return cutTerms.join(' ');
+    };
+
+    /**
      * Wrap very long strings after n characters
      *
      * @param str
@@ -43,9 +74,10 @@ define([
             cut;
 
         while(i--) {
-            cut = longWords[i].match(chunkExp).join(' ');
+            cut = getCutTerm(longWords[i], chunkExp);
             str = str.replace(new RegExp(regexEscape(longWords[i]), 'g'), cut);
         }
+
         return str;
     }
 

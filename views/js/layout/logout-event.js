@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -22,14 +22,24 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-define(['jquery', 'i18n', 'helpers', 'ui/dialog/alert'],
-    function ($, __, helpers, alert) {
+define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'],
+    function ($, _, __, url, alert) {
         'use strict';
 
-        return function logoutEvent() {
-            
-            alert(__('You have been logged out. Please login again'), function () {
-                window.location = helpers._url('logout', 'Main', 'tao');
+        var defaults = {
+            message: __('You have been logged out. Please login again'),
+            redirectUrl: url.route('logout', 'Main', 'tao')
+        };
+
+        /**
+         * @param {Object} options
+         * @param {String} [options.message] - Message to be displayed before redirect
+         * @param {String} [options.redirectUrl] - Target URI
+         */
+        return function logoutEvent(options) {
+            options = _.defaults(options || {}, defaults);
+            alert(options.message, function () {
+                window.location = options.redirectUrl;
             });
         };
     });

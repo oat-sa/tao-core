@@ -26,18 +26,20 @@ define([
     'i18n',
     'core/providerRegistry',
     'ui/datatable/filterStrategy/multiple',
-    'ui/datatable/filterStrategy/single',
+    'ui/datatable/filterStrategy/single'
 ], function ($, _, __, providerRegistry, multipleStrategy, singleStrategy) {
     'use strict';
 
+    var filter;
+
     /**
      * Datatable filter strategy
-     * @param {Object} options
+     * @param {Object} datatableOptions
      */
     function filterStrategy(datatableOptions) {
         var strategy;
 
-        var filter = {
+        var filterElement = {
             /**
              * Init filter strategy
              */
@@ -55,16 +57,18 @@ define([
             getQueryData : function getQueryData($table, $filter, options) {
                 return strategy.getQueryData($table, $filter, options);
             },
+            getFiltersData : function getFiltersData($table, $filter, options) {
+                return strategy.getFiltersData($table, $filter, options);
+            },
             render : function render($table, options) {
                 return strategy.render($table, options);
             }
         };
 
-        return filter.init();
+        return filterElement.init();
     }
 
-    var filter = providerRegistry(filterStrategy);
-
+    filter = providerRegistry(filterStrategy);
     filter.registerProvider('single', singleStrategy);
     filter.registerProvider('multiple', multipleStrategy);
 

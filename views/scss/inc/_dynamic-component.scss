@@ -1,7 +1,7 @@
 .dynamic-component-container{
     display:inline-block;
     background: $canvas;
-    padding: 3px;
+    padding: 5px;
     position: absolute;
     left: 0;
     top: 0;
@@ -16,6 +16,23 @@
         line-height: 1.4;
         min-height : 23px;
         @include font-size(14);
+        .reset  {
+            color: $darkBarTxt;
+            position: absolute;
+            top: 1px;
+            right: 24px;
+            text-decoration: none;
+            padding-left : 5px;
+            &:before{
+                @include tao-icon-setup;
+                @include icon-compress;
+                margin : 0;
+                padding: 3px 1px 1px 5px;
+                top: 2px;
+                position: relative;
+                @include font-size(14);
+            }
+        }
         .closer {
             color: $darkBarTxt;
             position: absolute;
@@ -23,12 +40,12 @@
             right: 2px;
             text-decoration: none;
             padding-left : 5px;
-            &::before{
+            &:before{
                 margin : 0;
                 padding: 3px 1px 1px 5px;
                 top: 2px;
                 position: relative;
-                font-size: 1.6rem;
+                @include font-size(16);
             }
         }
         h3 {

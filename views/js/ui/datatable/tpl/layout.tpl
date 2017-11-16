@@ -2,16 +2,16 @@
 
     {{#if options.filter}}
     <aside class="filter" data-column="{{options.filter.columns}}">
-        <input type="text" value="" name="filter" placeholder="{{__ 'Filter'}}">
+        <input type="text" value="" name="filter" placeholder="{{options.labels.filter}}">
         <button class="icon-find" type="button"></button>
     </aside>
     {{/if}}
 
     {{#with options.status}}
     <h2>
-        <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{__ 'Nothing to list!'}}{{/if}}</span>
-        <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{__ 'Available'}}{{/if}}</span>: <span class="count">{{count}}</span></span>
-        <span class="loading">{{#if loading}}{{loading}}{{else}}{{__ 'Loading'}}{{/if}}...</span>
+        <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{options.labels.empty}}{{/if}}</span>
+        <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{options.labels.available}}{{/if}}</span>: <span class="count">{{count}}</span></span>
+        <span class="loading">{{#if loading}}{{loading}}{{else}}{{options.labels.loading}}{{/if}}...</span>
     </h2>
     {{/with}}
 
@@ -36,6 +36,9 @@
                 {{#each options.model}}
                 <col/>
                 {{/each}}
+                {{#if options.actions}}
+                </col>
+                {{/if}}
             </colgroup>
             <thead>
                 <tr>
@@ -43,8 +46,8 @@
                     <th class="checkboxes"><input type="checkbox" name="checkall" value="1" /></th>
                     {{/if}}
                     {{#each options.model}}
-                    <th>
-                        <div {{#if sortable}}data-sort-by="{{id}}"{{/if}}>{{label}}</div>
+                    <th{{#if type}} class="actions"{{/if}}>
+                        <div {{#if sortable}} class="sortable" data-sort-by="{{id}}" {{#if sorttype}}data-sort-type="{{sorttype}}"{{/if}} tabindex="0"{{/if}}>{{label}}</div>
                         {{#if filterable}}
                         <aside data-column="{{id}}" class="filter column
                             {{#if customFilter}} customInput" >
@@ -58,7 +61,7 @@
                     </th>
                     {{/each}}
                     {{#if options.actions}}
-                    <th class="actions">{{__ 'Actions'}}</th>
+                    <th class="actions">{{options.labels.actions}}</th>
                     {{/if}}
                 </tr>
             </thead>
@@ -68,18 +71,52 @@
                         {{#if ../options.selectable}}
                         <td class="checkboxes"><input type="checkbox" name="cb[{{id}}]" value="1" /></td>
                         {{/if}}
+
                         {{#each ../options.model}}
-                            <td class="{{id}}">{{{property id ../this}}}</td>
+                            {{#if type}}
+                            <td class="actions {{id}}">
+                                {{#each ../actions}}
+                                    {{#if id}}
+                                        {{#with ../../../../this}}
+                                            {{#unless ../hidden}}
+                                                {{#if ../../disabled}}
+                                                    {{#with ../../../this}}
+                                <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}} disabled="disabled">{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                    {{/with}}
+                                                {{else}}
+                                                    {{#with ../../../this}}
+                                <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                    {{/with}}
+                                                {{/if}}
+                                            {{/unless}}
+                                        {{/with}}
+                                    {{else}}
+                                <button class="btn-info small {{@key}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                    {{/if}}
+
+                                {{/each}}
+                            </td>
+                            {{else}}
+                            <td class="{{id}}">{{{property id ../../this}}}</td>
+                            {{/if}}
+
                         {{/each}}
+
                         {{#if ../options.actions}}
                         <td class="actions">
                             {{#each ../../options.actions}}
                                 {{#if id}}
                                     {{#with ../../this}}
                                         {{#unless ../hidden}}
-                                            {{#with ../../this}}
-                            <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}><span class="icon-{{#if icon}}{{icon}}{{else}}{{id}}{{/if}}"></span> {{label}}</button>
-                                            {{/with}}
+                                            {{#if ../../disabled}}
+                                                {{#with ../../../this}}
+                            <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}} disabled="disabled">{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                {{/with}}
+                                            {{else}}
+                                                {{#with ../../../this}}
+                            <button class="btn-info small {{id}}"{{#if title}} title="{{title}}"{{/if}}>{{#if icon}}<span class="icon-{{icon}}"></span> {{/if}}{{#if label}} {{label}}{{/if}}</button>
+                                                {{/with}}
+                                            {{/if}}
                                         {{/unless}}
                                     {{/with}}
                                 {{else}}

@@ -21,8 +21,10 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\accessControl\AclProxy;
 
 /**
  * Top level controller
@@ -57,6 +59,21 @@ abstract class tao_actions_CommonModule extends Module
 	return $this->renderer;
     }
     
+    /**
+     * Whenever or not the current user has access to a specific action
+     * using functional and data access control
+     *
+     * @param string $controllerClass
+     * @param string $action
+     * @param array $parameters
+     * @return boolean
+     */
+    public function hasAccess($controllerClass, $action, $parameters = [])
+    {
+        $user = common_session_SessionManager::getSession()->getUser();
+        return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
+    }
+
     /**
      *
      * @see Module::setView()
@@ -120,15 +137,21 @@ abstract class tao_actions_CommonModule extends Module
      * 
      * @param string $description error to show
      * @param boolean $returnLink whenever or not to add a return link
+     * @param int $httpStatus
      */
-    protected function returnError($description, $returnLink = true) {
+    protected function returnError($description, $returnLink = true, $httpStatus = null) {
         if (tao_helpers_Request::isAjax()) {
             common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description); 
         } else {
             $this->setData('message', $description);
             $this->setData('returnLink', $returnLink);
-            $this->setView('error/user_error.tpl', 'tao');
+
+            if(!is_null($httpStatus) && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+                $this->setView("error/error${httpStatus}.tpl", 'tao');
+            } else {
+                $this->setView('error/user_error.tpl', 'tao');
+            }
         }
     }
 
@@ -156,18 +179,11 @@ abstract class tao_actions_CommonModule extends Module
     /**
      * Helps you to add the URL of the client side config file
      * 
-     * @param array $extraParameters additionnal parameters to append to the URL 
+     * @param array $extraParameters additional parameters to append to the URL
      * @return string the URL
      */
-    protected function getClientConfigUrl($extraParameters = array()){
-        $context = Context::getInstance();
-        $clientConfigParams = array(
-            'extension'         => $context->getExtensionName(),
-            'module'            => $context->getModuleName(),
-            'action'            => $context->getActionName()
-        );
-        
-        return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParams, $extraParameters));
+    protected function getClientConfigUrl($extraParameters = []){
+        return JavaScript::getClientConfigUrl($extraParameters);
     }
 
 
@@ -243,6 +259,22 @@ abstract class tao_actions_CommonModule extends Module
         $flow->redirect($url, $statusCode);
     }
     
+    /**
+     * Returns a requestparameter unencoded
+     *
+     * @param string $paramName
+     * @throws common_exception_MissingParameter
+     * @return string
+     */
+    public function getRawParameter($paramName)
+    {
+        $raw = $this->getRequest()->getRawParameters();
+        if (!isset($raw[$paramName])) {
+            throw new common_exception_MissingParameter($paramName);
+        }
+        return $raw[$paramName];
+    }
+
     /**
      * Placeholder function until controllers properly support service manager
      * 

@@ -24,6 +24,7 @@ use oat\tao\model\accessControl\func\FuncAccessControl;
 use oat\tao\model\accessControl\func\AccessRule;
 use common_ext_ExtensionsManager;
 use common_session_SessionManager;
+use oat\tao\model\TaoOntology;
 use oat\taoDevTools\actions\ControllerMap;
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\helpers\ControllerHelper;
@@ -67,7 +68,7 @@ class SimpleAccess extends ConfigurableService
     public function accessPossible(User $user, $controller, $action) {
         $isUser = false;
         foreach ($user->getRoles() as $role) {
-            if ($role == INSTANCE_ROLE_BASEUSER) {
+            if ($role == TaoOntology::PROPERTY_INSTANCE_ROLE_BASE_USER) {
                 $isUser = true;
                 break;
             }
@@ -80,8 +81,12 @@ class SimpleAccess extends ConfigurableService
             $mask = $rule->getMask();
             
             if (is_string($mask)) {
-                list($controller, $action) = explode('@', $mask, 2);
-                $this->whiteListAction($controller, $action);
+                if (strpos($mask, '@') == false) {
+                    $this->whiteListController($mask);
+                } else {
+                    list($controller, $action) = explode('@', $mask, 2);
+                    $this->whiteListAction($controller, $action);
+                }
             } else {
             
                 if (isset($mask['ext']) && !isset($mask['mod'])) {

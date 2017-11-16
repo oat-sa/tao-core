@@ -16,7 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\helpers\translation;
@@ -45,27 +45,49 @@ class TranslationBundle {
      * @var common_ext_Extension[]
      */
     private $extensions;
+    
+    /**
+     * The TAO platform installation base path.
+     * @var string
+     */
+    private $basePath;
+    
+    /**
+     * The TAO version in use.
+     * @var string
+     */
+    private $taoVersion;
 
     /**
      * Create a new bundle
+     * 
+     * $extensions = ['tao', 'taoItems']
+     * 
      * @param string $langCode
      * @param common_ext_Extension[]
-     * @throws commone_exception_InvalidArgumentType
-     * @throws commone_exception_Errors
+     * @throws \InvalidArgumentException
      */
-    public function __construct($langCode, $extensions){
+    public function __construct($langCode, $extensions, $basePath, $taoVersion = ''){
         if(!is_string($langCode)){
-            throw new common_exception_InvalidArgumentType(__CLASS__, __METHOD__, 0, 'string', $this);   
+            throw new \InvalidArgumentException('$langCode argument should be a string.');
+        }
+        if(!is_string($basePath)){
+            throw new \InvalidArgumentException('$basePath argument should be a string.');
+        }
+        if(!is_string($taoVersion)){
+            throw new \InvalidArgumentException('$taoVersion argument should be a string.');
         }
         if(!is_array($extensions)){
-            throw new common_exception_InvalidArgumentType(__CLASS__, __METHOD__, 1, 'array', $this);   
+            throw new \InvalidArgumentException('$extensions argument should be an array.');
         }
-        if(empty($langCode) || empty($extensions)){
-            throw new common_exception_Error('$langCode and $extensions needs to be assigned.');
+        if(empty($langCode) || empty($extensions) || empty($basePath)){
+            throw new \InvalidArgumentException('$langCode, $extensions and $basePath arguments should not be empty.');
         }
 
-        $this->langCode     = $langCode;
-        $this->extensions   = $extensions;
+        $this->langCode = $langCode;
+        $this->extensions = $extensions;
+        $this->basePath = rtrim($basePath, '/\\');
+        $this->taoVersion = $taoVersion;
     }
 
     /**
@@ -73,10 +95,7 @@ class TranslationBundle {
      * @return string the identifier
      */
     public function getSerial(){
-        $getId = function($extension){
-            return $extension->getId();
-        };
-        $ids = array_map($getId, $this->extensions);
+        $ids = $this->extensions;
         sort($ids); 
         return md5($this->langCode . '_' . implode('-', $ids));
     }
@@ -90,15 +109,11 @@ class TranslationBundle {
         $translations = array();
         
         foreach($this->extensions as $extension){
-            $jsFilePath = $extension->getDir() . 'locales/' . $this->langCode . '/messages_po.js';
+            $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if(file_exists($jsFilePath)){
-                try {
-                    $translate = json_decode(file_get_contents($jsFilePath),false);
-                    if($translate != null){
-                        $translations = array_merge($translations, (array)$translate);
-                    }
-                } catch(\tao_helpers_translation_TranslationException $te){
-                   common_Logger::w("Unable to generate the translatin bundle for  " . $this->langCode . " : " . $te->getMessage()); 
+                $translate = json_decode(file_get_contents($jsFilePath),false);
+                if($translate != null){
+                    $translations = array_merge($translations, (array)$translate);
                 }
             }
         }
@@ -106,15 +121,19 @@ class TranslationBundle {
         $content = array(
             'serial' =>  $this->getSerial(),
             'date'   => time(),
-            'version' => TAO_VERSION,
             'translations' =>   $translations
         );
+        
+        if (!empty($this->taoVersion)) {
+            $content['version'] = $this->taoVersion;
+        }
+        
         if(is_dir($directory)){
             if(!is_dir($directory. '/' . $this->langCode)){
                 mkdir($directory. '/' . $this->langCode);
             }
             $file = $directory. '/' . $this->langCode . '/messages.json';
-            if(file_put_contents($file, json_encode($content))){
+            if(@file_put_contents($file, json_encode($content))){
                 return $file;
             } 
         }

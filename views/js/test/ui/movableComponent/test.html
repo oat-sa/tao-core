@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ui Test - Movable Component</title>
+    <base href="../../../../"/>
+    <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+    <link rel="stylesheet" type="text/css" href="css/tao-main-style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/tao-3.css"/>
+    <script type="text/javascript" src="js/lib/require.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking"
+            data-cover-only="ui/movableComponent.js"></script>
+
+    <style>
+        #outside {
+            position: relative;
+            border: solid 1px grey;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+        }
+        .component {
+            outline: dashed 2px black;
+            background-color: lightblue;
+            opacity: .5;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        //don't start the test now
+        QUnit.config.autostart = false;
+
+        //load the config
+        require(['/tao/ClientConfig/config'], function () {
+
+            //load the test
+            require(['test/ui/movableComponent/test'], function () {
+
+                //Tests loaded, run tests
+                QUnit.start();
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<div id="outside">
+    <div class="content">
+        <div>
+            <p>Lorem Ipsum "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
+                velit..." "Il n’y a personne qui n’aime la souffrance pour elle-même, qui ne la recherche et qui ne la
+                veuille pour elle-même…"
+                <img src="img1.jpg" style="float:left;"/> Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit. Sed ac suscipit ex. Nullam at magna felis. Praesent efficitur nibh sollicitudin nunc
+                iaculis dictum. Donec dolor
+                risus, blandit vitae feugiat at, luctus eget sapien. Vivamus gravida, dui at suscipit ullamcorper, odio
+                lectus fermentum velit, faucibus rutrum dui sem vitae urna. Etiam fermentum non magna vel blandit.
+                Aliquam odio tortor, fringilla
+                et quam in, pulvinar eleifend metus. Nam mattis porttitor leo, in porttitor ligula. Phasellus nec nunc
+                eu nulla fringilla sodales. Pellentesque finibus nulla velit, eget sodales nulla sagittis et.
+                Suspendisse sed enim ligula. Nulla
+                ornare dictum hendrerit. Donec non massa vel nulla egestas suscipit sit amet quis ante. Duis a est
+                suscipit, aliquet odio ac, tincidunt ex.
+                <img src="img2.jpg" style="float:right;"/> Etiam auctor ex eu sagittis commodo.
+                Phasellus rutrum venenatis tempor. Ut accumsan gravida eros, nec tempor velit elementum eu. Quisque
+                porta condimentum diam a scelerisque.
+                Suspendisse eget rhoncus arcu. Ut dapibus metus erat, nec tincidunt enim feugiat sed. In sit amet lorem
+                varius, efficitur mi a, elementum lectus. Integer ante erat, laoreet ac dictum non, fringilla vitae mi.
+                In commodo dolor arcu,
+                a bibendum tortor imperdiet nec. Donec vulputate pretium metus, in lobortis neque semper at. Quisque
+                pharetra, risus nec viverra congue, sapien tortor cursus massa, sit amet maximus sem dolor molestie
+                odio. Integer hendrerit placerat
+                massa sed tincidunt. Phasellus id odio laoreet, gravida sem sodales, dictum leo. Quisque vel finibus
+                lorem. Donec ultricies mi ut felis scelerisque consequat. Vestibulum id sem varius, mollis eros sit
+                amet, porttitor lorem. Nulla non
+                lacus ultricies, venenatis eros quis, vestibulum lacus. Nullam placerat imperdiet ultrices. In non
+                congue nunc, quis consectetur purus. Sed mattis finibus ipsum sit amet tempus. Fusce at malesuada sem.
+                Donec blandit varius mi id blandit.
+                Praesent tincidunt tortor sit amet nisl vestibulum, sed ornare eros blandit. Ut dignissim imperdiet
+                diam. Pellentesque quis quam blandit, tincidunt risus nec, porttitor odio. Fusce posuere erat ac
+                porttitor venenatis. Nulla ac erat
+                in dui egestas fermentum eget vitae justo. Nunc mauris neque, ultrices ut magna vitae, suscipit
+                ullamcorper eros. Quisque pellentesque ex sapien, sit amet porttitor ante eleifend vel. Nunc molestie
+                ligula eget tellus efficitur, non
+                fermentum sem pharetra. Quisque eleifend commodo gravida. Suspendisse vel lorem auctor, aliquet libero
+                et, vulputate turpis. Donec id ligula vel neque varius placerat. Phasellus convallis justo libero, vel
+                porttitor orci finibus sit
+                amet. Suspendisse eget enim non mi aliquam iaculis a varius tortor. Donec auctor id velit at dignissim.
+                In efficitur enim tempor enim fermentum tincidunt. Suspendisse ut lacus nec lacus tristique pharetra.
+                Etiam pretium, ipsum quis
+                interdum efficitur, magna ex accumsan eros, sed mattis lacus ipsum vitae sapien. Proin sed ante at arcu
+                suscipit tristique id et est. Sed eros lectus, aliquam id nulla ac, dictum consectetur velit.
+            </p>
+        </div>
+        <div>
+            <form id="contact_form" action="#" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <label for="name">Your name:</label><br/>
+                    <input id="name" class="input" name="name" type="text" value="" size="30"/><br/>
+                </div>
+                <div class="row">
+                    <label for="email">Your email:</label><br/>
+                    <input id="email" class="input" name="email" type="text" value="" size="30"/><br/>
+                </div>
+                <div class="row">
+                    <label for="message">Your message:</label><br/>
+                    <textarea id="message" class="input" name="message" rows="7" cols="30"></textarea><br/>
+                </div>
+                <input id="submit_button" type="submit" value="Send email"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

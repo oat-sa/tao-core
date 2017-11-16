@@ -1,0 +1,14 @@
+@import 'inc/bootstrap';
+
+.ui-generis-validator {
+    color: $error;
+    text-align: right;
+    width: 99%;
+
+    input.error,
+    select.error,
+    textarea.error {
+        border-color: $error;
+        color: $error;
+    }
+}

@@ -1,4 +1,4 @@
-<ul id="entry-point-box" class="plain">
+<ul id="entry-point-box" class="plain" data-errorMessage="<?=get_data('errorMessage')?>">
     <?php foreach (get_data('entries') as $entry) : ?>
         <li>
             <a class="block entry-point entry-point-<?= $entry->getId() ?>" href="<?= $entry->getUrl() ?>">

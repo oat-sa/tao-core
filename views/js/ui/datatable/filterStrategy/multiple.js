@@ -27,22 +27,68 @@ define([
 ], function ($, _, __) {
     'use strict';
 
-    var filter = {
+    var multipleFilter = {
         init : function () {},
         /**
          * @param {jQuery} $table - table element
          * @param {jQuery} $filter - filter input
          * @param {object} options - datatable options
          */
-        getQueryData : function getQueryData($table, $filter, options) {
+        getQueryData : function getQueryData($table, $filterElement, options) {
             var data = {filtercolumns : {}};
 
             _.forEach($('.filter', $table), function (filter) {
                 var $filter = $(filter);
-                var $filterInput = $('select, input', $filter);
-                var name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
+                var column = $filter.data('column');
+                var filterSelector = options.filterSelector || 'select, input';
+                var $filterInput = $(filterSelector, $filter);
+                var name;
+                var model;
+                var filterValue;
+
+                if ($filterInput.length === 0) {
+                    return;
+                }
+
+                model = _.find(options.model, function (o) {
+                    return o.id === column;
+                });
+
+                name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
                 if ($filterInput.val()) {
-                    data.filtercolumns[name] = $filterInput.val();
+                    filterValue = $filterInput.val();
+                    if (model && 'function' === typeof model.filterTransform) {
+                        filterValue = model.filterTransform(filterValue);
+                    }
+                    data.filtercolumns[name] = filterValue;
+                }
+            });
+
+            return data;
+        },
+        /**
+         * @param {jQuery} $table - table element
+         * @param {jQuery} $filter - filter input
+         * @param {object} options - datatable options
+         */
+        getFiltersData : function getFiltersData($table, $filterElement, options) {
+            var data = {filtercolumns : {}};
+
+            _.forEach($('.filter', $table), function (filter) {
+                var $filter = $(filter);
+                var filterSelector = options.filterSelector || 'select, input';
+                var $filterInput = $(filterSelector, $filter);
+                var name;
+                var filterValue;
+
+                if ($filterInput.length === 0) {
+                    return;
+                }
+
+                name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
+                if ($filterInput.val()) {
+                    filterValue = $filterInput.val();
+                    data.filtercolumns[name] = filterValue;
                 }
             });
 
@@ -52,11 +98,17 @@ define([
             _.forEach($('.filter', $table), function (filter) {
                 var $filter = $(filter);
                 var column = $filter.data('column');
-                var $filterInput = $('select, input', $filter);
-                var model = _.find(options.model, function (o) {
+                var filterSelector = options.filterSelector || 'select, input';
+                var $filterInput = $(filterSelector, $filter);
+                var model;
+                var name;
+                if ($filterInput.length === 0) {
+                    return;
+                }
+                model = _.find(options.model, function (o) {
                     return o.id === column;
                 });
-                var name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
+                name = $filterInput.attr('name').replace(/^filter\[(.+)\]$/, '$1');
 
                 if (options.filtercolumns && options.filtercolumns[name]) {
                     $filterInput.val(options.filtercolumns[name]);
@@ -71,5 +123,5 @@ define([
         }
     };
 
-    return filter;
+    return multipleFilter;
 });

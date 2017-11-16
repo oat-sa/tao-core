@@ -1,0 +1,148 @@
+.resource-tree{
+    position: relative;
+    height: 100%;
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
+    &.multiple ul li.instance:before{
+        display: block;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            position: relative;
+            & > a {
+                height: 40px;
+                padding: 10px;
+                display:block;
+                width: 100%;
+                padding-right: 25px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                border-bottom: solid 1px $uiGeneralContentBorder;
+                color : $textColor;
+            }
+            &:before {
+                @include tao-icon-setup;
+                position: absolute;
+                right: 17px;
+                top: 12px;
+                width: 14px;
+                text-align:center;
+            }
+            &.class {
+                .class-toggler {
+                    position: absolute;
+                    width: 50px;
+                    right: 0;
+                    top: 0;
+                    height: 40px;
+                    &:before {
+                        @include tao-icon-setup;
+                        @include icon-down;
+                        position: absolute;
+                        right: 17px;
+                        top: 12px;
+                        width: 14px;
+                        @include font-size(15);
+                        text-align:center;
+                    }
+                    &:hover {
+                        cursor: pointer;
+                        &:before{
+                            font-weight: bold;
+                        }
+                    }
+                }
+                & > a {
+                    &:before {
+                        @include tao-icon-setup;
+                        @include icon-folder-open;
+                        color: $warning;
+                        margin-right: 4px;
+                    }
+                    &:hover {
+                        background-color: $uiClickableHoverBg;
+                        color: $textHighlight;
+                        &:before {
+                            color: $textHighlight;
+                        }
+                        @include transition(all, 200ms, linear);
+                    }
+                    &:hover ~ .class-toggler:before{
+                        color: $textHighlight;
+                        @include transition(all, 200ms, linear);
+                    }
+                }
+
+                &.selected {
+                    & > .class-toggler:before {
+                        color: $textHighlight;
+                    }
+                    & > a {
+                        background-color: $uiClickableHoverBg;
+                        color: $textHighlight;
+                        &:before {
+                            color: $textHighlight;
+                        }
+                        @include transition(all, 200ms, linear);
+                    }
+                }
+                &.closed {
+                    & > .class-toggler:before {
+                        @include icon-right;
+                    }
+                    & > a:before {
+                        @include icon-folder;
+                    }
+                    & > ul {
+                        display: none;
+                    }
+                }
+
+                &.empty:before {
+                    content: inherit;
+                }
+            }
+            &.instance {
+                &:before {
+                    display: none;
+                    @include icon-checkbox;
+                    color: $info;
+                }
+                &.selected:before {
+                    @include icon-checkbox-checked;
+                }
+                & > a > span  {
+                    color: $info;
+                    margin-right: 4px;
+                    @include font-size(16);
+                    vertical-align: top;
+                }
+                &.selected, &:hover {
+                    cursor: pointer;
+                    background-color: $uiClickableHoverBg;
+                    &:before{
+                        color: $textHighlight;
+                    }
+                    & > a, & > a > span {
+                        color: $textHighlight;
+                    }
+                    @include transition(all, 200ms, linear);
+                }
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}

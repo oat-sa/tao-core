@@ -326,8 +326,108 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
     });
 
 
+    QUnit.asyncTest('send and stop', function (assert) {
+        QUnit.expect(15);
+
+        var config = {
+            service: 'service.url',
+            token: 'token1'
+        };
+
+        var requestChannel = 'foo';
+        var requestMessage = 'hello';
+
+        var testPath = [{
+            token: 'token1',
+            request: [],
+            response: {
+                token: 'token2',
+                messages: [],
+                responses: []
+            }
+        }, {
+            token: 'token2',
+            request: [{
+                channel: requestChannel,
+                message: requestMessage
+            }],
+            response: {
+                token: 'token3',
+                messages: [{
+                    channel: requestChannel,
+                    message: 'bar'
+                }],
+                responses: [
+                    'ok'
+                ]
+            }
+        }];
+
+        var currentStep = 0;
+
+        var expectedToken = testPath[currentStep].token;
+        var expectedRequest = testPath[currentStep].request;
+        var expectedResponse = testPath[currentStep].response;
+        var instance;
+
+        $.ajax = ajaxMock(function(promise) {
+            instance.polling.stop();
+            promise.resolve(expectedResponse);
+
+            currentStep = Math.min(currentStep + 1, testPath.length - 1);
+            expectedToken = testPath[currentStep].token;
+            expectedRequest = testPath[currentStep].request;
+            expectedResponse = testPath[currentStep].response;
+        }, function (ajaxConfig) {
+            assert.equal(ajaxConfig.url, config.service, 'The provider has called the right service');
+            assert.equal(ajaxConfig.headers['X-Auth-Token'], expectedToken, 'The provider has set the right security token');
+            assert.deepEqual(JSON.parse(ajaxConfig.data), expectedRequest, 'The provider has sent the request');
+        });
+
+        communicator.registerProvider('poll', poll);
+
+        instance = communicator('poll', config)
+            .on('send', function (promise, channel, message) {
+                assert.ok(true, 'The communicator has fired the "send" event');
+                assert.ok(promise instanceof Promise, 'The promise is provided');
+                assert.equal(channel, requestChannel, 'The right channel is provided');
+                assert.equal(message, requestMessage, 'The right message is provided');
+            })
+            .on('message', function () {
+                //should not be called
+                assert.ok(false, 'Message triggered on stopped polling service.');
+            });
+
+
+
+        assert.ok(!!instance, 'The provider exists');
+
+        instance.init().then(function () {
+            assert.equal(instance.getState('ready'), true, 'The provider is initialized');
+
+            instance.open().then(function () {
+                assert.equal(instance.getState('open'), true, 'The connection is open');
+
+                instance.send(requestChannel, requestMessage).then(function (response) {
+                    assert.ok(true, 'The message is sent');
+
+                    // do not explicitly call the close() method,
+                    // it will be invoked by the destroy() method,
+                    // thus "close" and "closed" events must be triggered
+                    instance.destroy().then(function () {
+                        assert.ok(true, 'The provider is destroyed');
+
+                        QUnit.start();
+                    });
+                });
+
+            });
+        });
+    });
+
+
     QUnit.asyncTest('send failed #network', function (assert) {
-        QUnit.expect(19);
+        QUnit.expect(25);
 
         var config = {
             service: 'service.url',
@@ -367,6 +467,9 @@ define(['jquery', 'lodash', 'core/communicator', 'core/communicator/poll'], func
             .on('error', function(error) {
                 assert.ok(true, 'An error event is triggered');
                 assert.equal(typeof error, 'object', 'An error object is provided');
+                assert.equal(typeof error.sent, 'boolean', 'The error object contains the sent value');
+                assert.equal(error.sent, false, 'The request was never sent');
+                assert.equal(error.source, 'network', 'The error object contains the error source');
             });
 
         $.ajax = ajaxMock(function (promise) {

@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\upload\UploadService;
 
 /**
  * The Parser enables you to load, parse and validate xml content from an xml
@@ -31,7 +33,6 @@
  */
 class tao_models_classes_Parser
 {
-
     /**
      * XML content string
      *
@@ -115,24 +116,39 @@ class tao_models_classes_Parser
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string source
-     * @param  array options
-     * @return mixed
+     * @param  string $source
+     * @param  array $options
+     * @throws common_exception_Error
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\ServiceNotFoundException
      */
     public function __construct($source, $options = array())
     {
+        $sourceType = false;
 
-        if($source instanceof \oat\oatbox\filesystem\File) {
-            $this->sourceType = self::SOURCE_FLYFILE;
-        } elseif (preg_match("/^<\?xml(.*)?/m", trim($source))) {
-            $this->sourceType = self::SOURCE_STRING;
-        } else if(preg_match("/^http/", $source)) {
-            $this->sourceType = self::SOURCE_URL;
-        } else if(is_file($source)) {
-            $this->sourceType = self::SOURCE_FILE;
-        } else {
+        if ($source instanceof \oat\oatbox\filesystem\File) {
+            $sourceType = self::SOURCE_FLYFILE;
+        } elseif (is_string($source)) {
+            if (preg_match("/^<\?xml(.*)?/m", trim($source))) {
+                $sourceType = self::SOURCE_STRING;
+            } elseif(preg_match("/^http/", $source)) {
+                $sourceType = self::SOURCE_URL;
+            } elseif(is_file($source)) {
+                $sourceType = self::SOURCE_FILE;
+            } else {
+                $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
+                if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
+                    $sourceType = self::SOURCE_FLYFILE;
+                    $source = $uploadFile;
+                }
+            }
+        }
+
+        if ($sourceType === false) {
             throw new common_exception_Error("Denied content in the source parameter! ".get_class($this)." accepts either XML content, a URL to an XML Content or the path to a file but got ".substr($source, 0, 500));
         }
+
+        $this->sourceType = $sourceType;
         $this->source = $source;
 
         if(isset($options['extension'])){
@@ -297,7 +313,7 @@ class tao_models_classes_Parser
      * @param boolean $refresh load content again.
      * @return string
      */
-    protected function getContent($refresh = false)
+    public function getContent($refresh = false)
     {
         if ($this->content === null || $refresh) {
             try{

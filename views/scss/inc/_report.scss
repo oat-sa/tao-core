@@ -1,0 +1,63 @@
+.component-report {
+    position: relative;
+    .fold {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 1;
+        .check-txt.hide{
+            display:none;
+        }
+    }
+    .content {
+        .hierarchical {
+            [class^="feedback-"], [class*=" feedback-"] {
+                display: none;
+            }
+        }
+        .actions {
+            text-align: right;
+            .action {
+                margin-top: 10px;
+            }
+        }
+    }
+    &.detailed {
+        .fold .check-txt{
+            &.show{
+                display:none;
+            }
+            &.hide{
+                display:inline-block;
+            }
+        }
+        .content{
+            .hierarchical {
+                [class^="feedback-"], [class*=" feedback-"] {
+                    display: block;
+                }
+                background-color: transparent;
+                border-color: transparent;
+                .hierarchical {
+                    margin: 0;
+                    padding: 10px 10px 10px 20px;
+                    .hierarchical-icon {
+                        top: 10px;
+                        left: -10px;
+                    }
+                }
+                .leaf {
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+    &.no-border{
+        .content{
+            &> [class^="feedback-"], &> [class*=" feedback-"]{
+                background-color: transparent;
+                border-color: transparent;
+            }
+        }
+    }
+}

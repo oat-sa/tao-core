@@ -35,6 +35,7 @@ class DatatableRequest implements DatatableRequestInterface
     const DEFAULT_PAGE = 1;
     const DEFAULT_SORT_BY = null;
     const DEFAULT_SORT_ORDER = 'asc';
+    const DEFAULT_SORT_TYPE = 'string';
     const DEFAULT_FILTERS = [];
 
     /**
@@ -62,7 +63,10 @@ class DatatableRequest implements DatatableRequestInterface
      */
     public function getRows()
     {
-        $rows = isset($this->requestParams[self::PARAM_ROWS]) ? $this->requestParams[self::PARAM_ROWS] : self::DEFAULT_ROWS;
+        $rows = isset($this->requestParams[self::PARAM_ROWS])
+            ? $this->requestParams[self::PARAM_ROWS]
+            : self::DEFAULT_ROWS;
+
         return (integer)$rows;
     }
 
@@ -102,6 +106,23 @@ class DatatableRequest implements DatatableRequestInterface
         }
 
         return $sortOrder;
+    }
+
+    /**
+     * Get sorting type
+     * @return string
+     */
+    public function getSortType()
+    {
+        $sortType = isset($this->requestParams[self::PARAM_SORT_TYPE]) ?
+            $this->requestParams[self::PARAM_SORT_TYPE] : self::DEFAULT_SORT_TYPE;
+        $sortType= mb_strtolower($sortType);
+
+        if(!in_array($sortType, ['string', 'numeric'])) {
+            $sortType = self::DEFAULT_SORT_TYPE;
+        }
+
+        return $sortType;
     }
 
     /**

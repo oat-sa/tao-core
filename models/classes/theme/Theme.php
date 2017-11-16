@@ -26,11 +26,19 @@ interface Theme
     const CONTEXT_FRONTOFFICE = 'frontOffice';
 
     /**
-     * Returns a human readable title of the theme
+     * Returns the theme's unique identifier.
+     *
+     * @return string
+     */
+    public function getId();
+
+    /**
+     * Returns the theme's unique friendly name.
+     *
      * @return string
      */
     public function getLabel();
-    
+
     /**
      * Returns the path to the template file on the fs
      * that is referenced by id and context

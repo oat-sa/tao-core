@@ -13,6 +13,21 @@ return new \oat\tao\model\mvc\DefaultUrlService(
                     'ext'        => 'tao',
                     'controller' => 'Main',
                     'action'     => 'login',
+                ],
+                'logout' =>
+                [
+                    'ext'        => 'tao',
+                    'controller' => 'Main',
+                    'action'     => 'logout',
+                    'redirect'   =>
+                        [
+                            'class'   => \oat\tao\model\mvc\DefaultUrlModule\TaoActionResolver::class,
+                            'options' => [
+                                'action' => 'entry',
+                                'controller' => 'Main',
+                                'ext' => 'tao'
+                            ]
+                        ],
                 ]
             ]
         );

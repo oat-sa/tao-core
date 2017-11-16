@@ -27,137 +27,139 @@ define([
 ], function ($, _, __, tpl, pageTpl) {
     'use strict';
 
-    var $paginationTpl;
+    return {
+        init : function () {
+            var $paginationTpl;
 
-    var generatePage = function generatePage(page) {
-        return $(pageTpl({page: page}));
-    };
+            var generatePage = function generatePage(page) {
+                return $(pageTpl({page: page}));
+            };
 
-    var separator = function separator() {
-        var $page = generatePage('...');
-        $page.addClass('separator');
-        return $page;
-    };
+            var separator = function separator() {
+                var $page = generatePage('...');
+                $page.addClass('separator');
+                return $page;
+            };
 
-    var generatePart = function generatePart(from, to, activePage) {
-        var i, pages = [], $page;
+            var generatePart = function generatePart(from, to, activePage) {
+                var i, pages = [], $page;
 
-        for (i = from; i <= to; i++) {
-            $page = generatePage(i);
-            if (i === activePage) {
-                $page.addClass('active');
-            }
-            pages.push($page);
-        }
-
-        return pages;
-    };
-
-    var generatePages = function generatePages(page, total) {
-        var pages = [];
-
-        if (total <= 7) {
-            pages = pages.concat(generatePart(1, total, page));
-        } else {
-            if (page < 5) {
-                pages = pages.concat(generatePart(1, 5, page));
-                pages = pages.concat(separator());
-                pages = pages.concat(generatePart(total, total, page));
-            } else {
-                if ( page >= total-3 ) {
-                    pages = pages.concat(generatePart(1, 1, page));
-                    pages = pages.concat(separator());
-                    pages = pages.concat(generatePart(total-3, total, page));
-                } else {
-                    pages = pages.concat(generatePart(1, 1, page));
-                    pages = pages.concat(separator());
-                    pages = pages.concat(generatePart(page-1, page+1, page));
-                    pages = pages.concat(separator());
-                    pages = pages.concat(generatePart(total, total, page));
+                for (i = from; i <= to; i++) {
+                    $page = generatePage(i);
+                    if (i === activePage) {
+                        $page.addClass('active');
+                    }
+                    pages.push($page);
                 }
-            }
+
+                return pages;
+            };
+
+            var generatePages = function generatePages(page, total) {
+                var pages = [];
+
+                if (total <= 7) {
+                    pages = pages.concat(generatePart(1, total, page));
+                } else {
+                    if (page < 5) {
+                        pages = pages.concat(generatePart(1, 5, page));
+                        pages = pages.concat(separator());
+                        pages = pages.concat(generatePart(total, total, page));
+                    } else {
+                        if ( page >= total-3 ) {
+                            pages = pages.concat(generatePart(1, 1, page));
+                            pages = pages.concat(separator());
+                            pages = pages.concat(generatePart(total-3, total, page));
+                        } else {
+                            pages = pages.concat(generatePart(1, 1, page));
+                            pages = pages.concat(separator());
+                            pages = pages.concat(generatePart(page-1, page+1, page));
+                            pages = pages.concat(separator());
+                            pages = pages.concat(generatePart(total, total, page));
+                        }
+                    }
+                }
+
+                return pages;
+            };
+
+            var dropPages = function dropPages() {
+                $('.page', $paginationTpl).remove();
+            };
+
+            var bindPages = function bindPages(list) {
+                var $point = pagination.forwardButton();
+                _.each(list, function($page) {
+                    $page.insertBefore($point);
+                });
+            };
+
+            var pagination = {
+                render: function render($container) {
+                    $paginationTpl = $(tpl());
+                    $container.append($paginationTpl);
+                },
+                forwardButton: function forwardButton() {
+                    return $('.next', $paginationTpl);
+                },
+                backwardButton: function backwardButton() {
+                    return $('.previous', $paginationTpl);
+                },
+                pageButtons: function pageButton() {
+                    return $('.page', $paginationTpl);
+                },
+                firstPageButton: function lastPageButton() {
+                    return $('.first-page', $paginationTpl);
+                },
+                lastPageButton: function lastPageButton() {
+                    return $('.last-page', $paginationTpl);
+                },
+                setPages: function setPages(page, total) {
+                    var pages = generatePages(page, total);
+
+                    dropPages();
+                    bindPages(pages);
+                },
+                disableButton: function disableButton($btn) {
+                    if (!$btn.hasClass('disabled')) {
+                        $btn.addClass('disabled');
+                    }
+                },
+                enableButton: function enableButton($btn) {
+                    if ($btn.hasClass('disabled')) {
+                        $btn.removeClass('disabled');
+                    }
+                },
+                destroy: function destroy() {
+                    $paginationTpl.remove();
+                },
+                disable: function enable() {
+                    var self = this;
+                    this.disableButton(this.backwardButton());
+                    this.disableButton(this.firstPageButton());
+
+                    $('.page', $paginationTpl).each(function(){
+                        self.disableButton( $(this) );
+                    });
+
+                    this.disableButton(this.lastPageButton());
+                    this.disableButton(this.forwardButton());
+                },
+                enable: function disable() {
+                    var self = this;
+                    this.enableButton(this.backwardButton());
+                    this.enableButton(this.firstPageButton());
+
+                    $('.page', $paginationTpl).each(function(){
+                        self.enableButton( $(this) );
+                    });
+
+                    this.enableButton(this.lastPageButton());
+                    this.enableButton(this.forwardButton());
+                }
+            };
+
+            return pagination;
         }
-
-        return pages;
     };
-
-    var dropPages = function dropPages() {
-        $('.page', $paginationTpl).remove();
-    };
-
-    var bindPages = function bindPages(list) {
-        var $point = pagination.forwardButton();
-        _.each(list, function($page) {
-            $page.insertBefore($point);
-        });
-    };
-
-    var pagination = {
-        init: function init() {
-        },
-        render: function render($container) {
-            $paginationTpl = $(tpl());
-            $container.append($paginationTpl);
-        },
-        forwardButton: function forwardButton() {
-            return $('.next', $paginationTpl);
-        },
-        backwardButton: function backwardButton() {
-            return $('.previous', $paginationTpl);
-        },
-        pageButtons: function pageButton() {
-            return $('.page', $paginationTpl);
-        },
-        firstPageButton: function lastPageButton() {
-            return $('.first-page', $paginationTpl);
-        },
-        lastPageButton: function lastPageButton() {
-            return $('.last-page', $paginationTpl);
-        },
-        setPages: function setPages(page, total) {
-            var pages = generatePages(page, total);
-
-            dropPages();
-            bindPages(pages);
-        },
-        disableButton: function disableButton($btn) {
-            if (!$btn.hasClass('disabled')) {
-                $btn.addClass('disabled');
-            }
-        },
-        enableButton: function enableButton($btn) {
-            if ($btn.hasClass('disabled')) {
-                $btn.removeClass('disabled');
-            }
-        },
-        destroy: function destroy() {
-            $paginationTpl.remove();
-        },
-        disable: function enable() {
-            var self = this;
-            this.disableButton(this.backwardButton());
-            this.disableButton(this.firstPageButton());
-
-            $('.page', $paginationTpl).each(function(){
-                self.disableButton( $(this) );
-            });
-
-            this.disableButton(this.lastPageButton());
-            this.disableButton(this.forwardButton());
-        },
-        enable: function disable() {
-            var self = this;
-            this.enableButton(this.backwardButton());
-            this.enableButton(this.firstPageButton());
-
-            $('.page', $paginationTpl).each(function(){
-                self.enableButton( $(this) );
-            });
-
-            this.enableButton(this.lastPageButton());
-            this.enableButton(this.forwardButton());
-        }
-    };
-
-    return pagination;
 });

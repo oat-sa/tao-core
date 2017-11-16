@@ -57,10 +57,53 @@ class tao_install_utils_System{
      * 
 	 * @return boolean
 	 */
-	public static function isTAOInstalled(){
-		$config = dirname(__FILE__).'/../../../config/generis.conf.php';
+	public static function isTAOInstalled($path = '')
+    {
+        $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
+		$config = "${path}/generis.conf.php";
 		return file_exists($config);
 	}
+
+    /**
+     * Check if TAO is already up to date.
+     *
+     * @return boolean
+     */
+    public static function isTAOUpToDate($path = '')
+    {
+        $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
+        $generisConf = "${path}/generis.conf.php";
+
+        if (!is_readable($generisConf)) {
+            return false;
+        }
+
+        include_once($generisConf);
+        $installationConf = "${path}/generis/installation.conf.php";
+
+        if (!is_readable($installationConf)) {
+            return false;
+        }
+
+        $conf = include_once($installationConf);
+        $extIterator = is_array($conf) ? $conf : $conf->getConfig();
+
+        foreach ($extIterator as $extName => $ext) {
+            $manifestPath = __DIR__ . "/../../../${extName}/manifest.php";
+
+            if (!is_readable($manifestPath)) {
+                return false;
+            } else {
+                $manifest = include_once($manifestPath);
+
+                if ((!isset($ext["installed"])) || (!isset($manifest["version"])) || ($ext["installed"] !== $manifest["version"])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
     
     /**
      * Returns the availables locales (languages or cultures) of the tao platform

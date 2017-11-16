@@ -25,6 +25,7 @@
 define([
     'module',
     'jquery',
+    'lodash',
     'i18n',
     'helpers',
     'context',
@@ -35,6 +36,7 @@ define([
     function (
         module,
         $,
+        _,
         __,
         helpers,
         context,
@@ -43,7 +45,7 @@ define([
         encode
         ) {
 
-    'use strict';
+        'use strict';
 
         /**
          * Create a URL based on action and module
@@ -196,7 +198,8 @@ define([
             //get data for each property
             $('.regular-property', $form[0]).each(function () {
                 var property = {};
-                var name = '';
+                var name = '',
+                    isArray = false;
 
                 //get range on advanced mode
                 var range = [];
@@ -210,7 +213,18 @@ define([
                 $(':input.property', this).each(function () {
                     var $property = $(this);
                     name = $property.attr('name').replace(/(property_)?[^_]+_/, '');
-                    if ($property.attr('type') === 'radio') {
+
+                    isArray = (name.indexOf('[]') === name.length - 2);
+                    if ($property.attr('type') === 'checkbox' && isArray) {
+                        name = name.substr(0, name.length - 2);
+                        if ($property.is(':checked')) {
+                            if (!_.isArray(property[name])) {
+                                property[name] = [];
+                            }
+                            property[name].push($property.val());
+                        }
+
+                    } else if ($property.attr('type') === 'radio') {
                         if ($property.is(':checked')) {
                             property[name] = $property.val();
                         }
@@ -303,19 +317,21 @@ define([
                 var regexpId = new RegExp('^' + $checker.prop('id').replace('_checker', ''), 'i');
 
                 if ($checker.hasClass('box-checker-uncheck')) {
-                    $(":checkbox").each(function () {
+                    $(":checkbox:not(:disabled)").each(function () {
                         if (regexpId.test(this.id)) {
                             //noinspection JSPotentiallyInvalidUsageOfThis,JSPotentiallyInvalidUsageOfThis
                             this.checked = false;
+                            $(this).change();
                         }
                     });
                     $checker.removeClass('box-checker-uncheck');
                     $checker.text(__('Check all'));
                 }
                 else {
-                    $(":checkbox").each(function () {
+                    $(":checkbox:not(:disabled)").each(function () {
                         if (regexpId.test(this.id)) {
                             this.checked = true;
+                            $(this).change();
                         }
                     });
                     $checker.addClass('box-checker-uncheck');

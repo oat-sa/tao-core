@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ui Test - Generis Widget TextBox</title>
+        <base href="../../../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="textBox.js"></script>
+
+        <script  type="text/javascript">
+            //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                //load the test
+                require(['test/ui/generis/widget/textBox/test'], function(){
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+
+        <style>
+            #display-and-play {
+                border: 1px solid blue;
+            }
+            #display-and-play > * {
+                margin: 10px;
+                width: 500px;
+            }
+            #display-and-play > form {
+                background-color: #ddd;
+                padding: 10px;
+            }
+            #display-and-play .toolbar {
+                padding-top: 30px;
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture">
+            <div id="fixture-1"></div>
+            <div id="fixture-2"></div>
+            <div id="fixture-3"></div>
+            <div id="fixture-4"></div>
+            <div id="fixture-5"></div>
+            <div id="fixture-6"></div>
+        </div>
+        <div id="display-and-play">
+            <h2>Display & Play</h2>
+            <form>
+                <fieldset></fieldset>
+                <div class="toolbar">
+                    <button id="validate">Validate</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+

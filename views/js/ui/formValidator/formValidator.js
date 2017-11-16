@@ -69,7 +69,7 @@ define([
     'i18n',
     'ui/validator',
     'ui/formValidator/highlighters/highlighter'
-], function($, _, __, validator, highlighterFactory){
+], function($, _, __, jQueryValidator, highlighterFactory){
     'use strict';
 
     var defaultOptions = {
@@ -104,7 +104,7 @@ define([
             init : function init() {
                 var self = this;
 
-                self.options = $.extend(true, defaultOptions, options);
+                self.options = _.defaults(options || {}, defaultOptions);
 
                 $toValidate = getFieldsToValidate();
 
@@ -126,8 +126,7 @@ define([
              * @returns {boolean} - whether form is valid
              */
             validate : function validate() {
-                var self = this,
-                    $toValidate = getFieldsToValidate();
+                $toValidate = getFieldsToValidate();
 
                 state = {
                     valid : true,
@@ -215,7 +214,7 @@ define([
          * @param {string} [message]
          */
         function highlightField($field, success, message) {
-            var highlighter = getHighlighter();
+            highlighter = getHighlighter();
             if (success) {
                 highlighter.unhighlight($field);
             } else {
@@ -229,10 +228,8 @@ define([
          * @return {object} - highlighter {@see ui/formValidator/highlighters/highlighter}
          */
         function getHighlighter() {
-            var self = validator;
-
-            if (highlighter === undefined) {
-                highlighter = highlighterFactory(self.options.highlighter);
+            if (_.isUndefined(highlighter)) {
+                highlighter = highlighterFactory(validator.options.highlighter);
             }
             return highlighter;
         }
@@ -243,12 +240,11 @@ define([
          * @returns {jQuery}
          */
         function getFieldsToValidate() {
-            var self = validator,
-                $container;
+            var $container;
 
-            if ($toValidate === undefined) {
-                $container = self.getContainer();
-                $toValidate = $container.find(self.options.selector);
+            if (_.isUndefined($toValidate)) {
+                $container = validator.getContainer();
+                $toValidate = $container.find(validator.options.selector);
             }
             return $toValidate;
         }

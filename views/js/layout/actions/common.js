@@ -2,6 +2,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'jquery',
     'i18n',
     'lodash',
@@ -12,7 +13,7 @@ define([
     'layout/filter',
 	'uri',
 	'ui/feedback'
-], function($, __, _, appContext, section, binder, search, toggleFilter, uri, feedback){
+], function(module, $, __, _, appContext, section, binder, search, toggleFilter, uri, feedback){
     'use strict';
 
     /**
@@ -151,11 +152,14 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext){
-            var data = {
-                uri: uri.decode(actionContext.uri),
-                classUri: uri.decode(actionContext.classUri),
-                id: actionContext.id
-            };
+            var tokenName = module.config().xsrfTokenName;
+            var data = {};
+
+            data.uri = uri.decode(actionContext.uri),
+            data.classUri = uri.decode(actionContext.classUri),
+            data.id = actionContext.id,
+            data[tokenName] = $.cookie(tokenName);
+
             //TODO replace by a nice popup
             if (window.confirm(__("Please confirm deletion"))) {
                 $.ajax({

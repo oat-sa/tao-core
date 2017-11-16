@@ -1,19 +1,18 @@
 @import "inc/bootstrap";
 
 .tree {
-
     overflow:auto;
     max-height: 75vh;
     max-width: 280px;
     background: white;
     border-right: 5px $canvas solid;
-
     .ltr, .rtl {
         margin-top: 8px;
         min-height: 150px;
         overflow: visible;
     }
     ul {
+        display: block;
         margin: 0 8px;
         padding: 5px 0;
         list-style-type: none;
@@ -55,7 +54,6 @@
         background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABAAgMAAADwqRilAAAACVBMVEX///8kbHeAgIB/SOz/AAAAAXRSTlMAQObYZgAAAEVJREFUeNpjYIACBwY4EICzArAJhoQiAH6VWM0cBUDAMUQEuVaMxhWBEMIq2IBNcAHRKom2fVgBplXYQmgVthDSGiwhBAAx4grYHitHZwAAAABJRU5ErkJggg==) no-repeat -1000px -1000px;
         display: block;
         padding: 0 0 0 11px;
-        margin: 0;
         ul {
             display: none;
             margin: 0;
@@ -66,12 +64,18 @@
             color: $textColor;
             white-space: nowrap;
             text-decoration: none;
-            margin: 0;
-            display: block;
+            display: inline-block;
+            padding-right: 5px;
             @include font-size(13);
             @include simple-border(transparent);
             overflow: visible;
             text-overflow: ellipsis;
+            &:after {
+                content: "\00a0\00a0\00a0\00a0";
+                white-space: pre;
+                display: inline-block;
+                width: 1px;
+            }
             &:hover {
                 color: $info;
             }
@@ -142,7 +146,6 @@
             }
         }
 
-        
         &.private ins:after, &.permissions-partial ins:after, &.permissions-none ins:after {
             display: inline-block;
             position: relative;
@@ -152,17 +155,17 @@
             text-shadow: 0px 0px 1px #666;
             @include font-size(14);
         }
-        
+
         &.permissions-partial ins:after {
             color: #EED401;
             @include icon-lock;
         }
-        
+
         &.private ins:after, &.permissions-none ins:after {
             color: #BA122B;
             @include icon-lock;
         }
-        
+
         &.open ul {
             display: block;
         }
@@ -219,67 +222,6 @@
     }
 }
 
-.taotree-delivery .node-instance ins:before{
-    @include icon-delivery;
-}
-
-.taotree-booklet .node-instance ins:before{
-    @include icon-delivery;
-}
-
-.taotree-group .node-instance ins:before{
-    @include icon-users;
-}
-
-.taotree-item .node-instance ins:before{
-    @include icon-item;
-}
-
-.taotree-result_server .node-instance ins:before{
-    @include icon-result-server;
-}
-
-.taotree-result{
-  .node-instance ins:before{
-    @include icon-result;
-  }
-}
-
-.taotree-role .node-instance ins:before{
-      @include icon-user;
-  }
-
-.taotree-test_taker .node-instance ins:before{
-    @include icon-test-taker;
-}
-
-.taotree-test .node-instance ins:before{
-    @include icon-test;
-}
-
-.taotree-media .node-instance ins:before{
-  @include icon-media;
-}
-
-.taotree-trees .node-instance ins:before {
-    @include icon-tree;
-}
-
-.taotree-default{
-    @include icon-new-page;
-}
-
-#jstree-dragged {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    margin: 0;
-    padding: 0;
-    ul ul ul {
-        display: none;
-    }
-}
-
 #jstree-marker {
     padding: 0;
     margin: 0;
@@ -306,10 +248,13 @@
     background-image: url("icons.png");
 }
 
-
-
 #jstree-dragged {
-   ul{
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    margin: 0;
+    padding: 0;
+    ul{
         background: none !important;
         min-height: inherit;
         max-height: inherit;
@@ -320,11 +265,16 @@
             a {
                 padding: 0 6px;
                 ins {
-                  display: none;
+                    display: none;
                 }
             }
         }
-   }
+        ul {
+            ul {
+                display: none;
+            }
+        }
+    }
 }
 
 .tree-css-context {
@@ -366,3 +316,9 @@
         }
     }
 }
+
+.taotree .node-instance ins:before {
+    @include icon-test;
+}
+
+@import './inc/extension-icons';

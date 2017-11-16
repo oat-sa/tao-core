@@ -17,6 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2016-2017 (update and modification) Open Assessment Technologies SA;
  * 
  */
 
@@ -31,6 +32,10 @@ use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\mvc\DefaultUrlService;
+use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\security\xsrf\TokenService;
+
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -80,7 +85,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
-                return $this->returnError(__('You currently have no access to the platform'));
+                return $this->returnError(__('You currently have no access to the platform'), true, 403);
 	        }
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
@@ -100,15 +105,14 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
             }
 
-
+            if ($this->hasRequestParameter('errorMessage')){
+                $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
+            }
+            $this->setData('logout', $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
-
             $this->setData('settings-menu', $naviElements);
-            
             $this->setData('current-section', $this->getRequestParameter('section'));
-
             $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
-
             $this->setView('layout.tpl', 'tao');
 	    }
 	}
@@ -124,6 +128,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $config = $extension->getConfig('login');
         $disableAutocomplete = !empty($config['disableAutocomplete']);
+
+        $enableIframeProtection = !empty($config['block_iframe_usage']) && $config['block_iframe_usage'];
+        if ($enableIframeProtection) {
+            \oat\tao\model\security\IFrameBlocker::setHeader();
+        }
 
 		$params = array(
             'disableAutocomplete' => $disableAutocomplete,
@@ -212,8 +221,11 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function logout()
 	{
+            
 		common_session_SessionManager::endSession();
-		$this->redirect(_url('entry', 'Main', 'tao'));
+                /* @var $urlRouteService DefaultUrlService */
+                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+		$this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
 	/**
@@ -271,6 +283,26 @@ class tao_actions_Main extends tao_actions_CommonModule
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
+
+        /* @var $notifService NotificationServiceInterface */
+        $notifService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+
+        if($notifService->getVisibility()) {
+            $notif = $notifService->notificationCount($user->getUri());
+
+            $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
+
+            $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
+                [
+                    'structure' => 'tao_Notifications',
+                    'ext'       => 'tao',
+                    'section'   => 'settings_my_notifications',
+                ]
+            ));
+        }
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $this->setData('logout', $urlRouteService->getLogoutUrl());
         
         $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
         $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
@@ -279,7 +311,14 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('shownStructure', $structure);
 
         $this->setData('current-section', $this->getRequestParameter('section'));
-		                
+
+        // Add csrf token
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenName = $tokenService->getTokenName();
+        $token = $tokenService->createToken();
+        $this->setCookie($tokenName, $token, null, '/');
+        $this->setData('xsrf-token-name', $tokenName);
+
         //creates the URL of the action used to configure the client side
         $clientConfigParams = array(
             'shownExtension' => $extension,

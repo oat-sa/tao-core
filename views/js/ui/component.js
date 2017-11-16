@@ -48,12 +48,15 @@ define([
 
         if ($element) {
             if (_.isNumber(width)) {
-                $element.width(width);
+                $element.css({ width: width + 'px' });
             }
             if (_.isNumber(height)) {
-                $element.height(height);
+                $element.css({ height: height + 'px' });
             }
         }
+
+        this._width = width;
+        this._height = height;
     }
 
     /**
@@ -74,6 +77,9 @@ define([
         var $container;
 
         // base skeleton
+        /**
+         * @typedef {Object} Component
+         */
         var componentApi = {
             /**
              * Initializes the component
@@ -88,7 +94,7 @@ define([
             init : function init(config) {
                 this.config = _(config || {})
                     .omit(function(value){
-                        return value === null || value === undefined;
+                        return value === null || typeof value === 'undefined';
                     })
                     .defaults(defaults || {})
                     .value();
@@ -189,6 +195,39 @@ define([
 
                 return this;
             },
+
+            /**
+             * Get the component's size
+             * @returns {Object}
+             * @fires component#setsize
+             */
+            getSize: function getSize() {
+                if (this.is('rendered')) {
+                    return {
+                        width: this._width || 0,
+                        height: this._height || 0
+                    };
+                }
+            },
+
+            /**
+             * Get the component rendered size
+             * @param {Boolean} includeMargin - include the margins in the returned size
+             * @returns {{width: number, height: number}}
+             */
+            getOuterSize: function getOuterSize(includeMargin) {
+                var $component;
+                if (this.is('rendered')) {
+                    $component = this.getElement();
+                    includeMargin = includeMargin || false;
+
+                    return {
+                        width: Math.round($component.outerWidth(includeMargin)),
+                        height: Math.round($component.outerHeight(includeMargin))
+                    };
+                }
+            },
+
 
             /**
              * Shows the component

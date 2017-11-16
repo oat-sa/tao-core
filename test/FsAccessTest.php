@@ -20,6 +20,9 @@
  */
 
 
+use oat\oatbox\filesystem\FileSystem;
+use oat\tao\model\asset\AssetService;
+use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
@@ -37,12 +40,12 @@ use oat\oatbox\filesystem\FileSystemService;
  
  */
 class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
-    
+
     private $testUser;
     private $credentials = array();
     
     /**
-     * @var \core_kernel_fileSystem_FileSystem
+     * @var FileSystem
      */
     private static $fileSystem = null;
     
@@ -50,7 +53,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     {
         $this->disableCache();
         $pass = md5(rand());
-        $taoManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
+        $taoManagerRole = new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE);
         $this->testUser = tao_models_classes_UserService::singleton()->addUser('testUser', $pass, $taoManagerRole );
         $this->credentials = array(
             'loginForm_sent' => 1,
@@ -68,21 +71,25 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             $this->testUser->delete();
         }
     }
-    
+
     public static function tearDownAfterClass() {
         parent::tearDownAfterClass();
-        $serviceManager = ServiceManager::getServiceManager();
-        $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
-        $fsm->unregisterFileSystem(self::$fileSystem->getUri());
-        $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
+        if (!is_null(self::$fileSystem)) {
+            $serviceManager = ServiceManager::getServiceManager();
+            /** @var FileSystemService $fsm */
+            $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
+            $fsm->unregisterFileSystem(self::$fileSystem->getId());
+            $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
+        }
     }
-    
+
     /**
      * 
      * @return array
      */
     public function fileAccessProviders() {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         
         if (is_null(self::$fileSystem )) {
             $serviceManager = ServiceManager::getServiceManager();
@@ -90,13 +97,12 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             $fsId = core_kernel_uri_UriService::singleton()->generateUri();
             $fsm->registerLocalFileSystem($fsId, $ext->getConstant('DIR_VIEWS'));
             $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
-            self::$fileSystem = new core_kernel_fileSystem_FileSystem($fsId);
+            self::$fileSystem = $fsm->getFileSystem($fsId);
         }
         return array(
-            array(DirectWebSource::spawnWebsource(self::$fileSystem->getUri(), $ext->getConstant('BASE_WWW'))),
-            array(TokenWebSource::spawnWebsource(self::$fileSystem->getUri(), self::$fileSystem->getPath())),
-            array(ActionWebSource::spawnWebsource(self::$fileSystem->getUri())),
-            // doesn't work without manual modification array(FlyTokenWebSource::spawnWebsource(self::$fileSystem->getUri(), 'unused')),
+            array(DirectWebSource::spawnWebsource(self::$fileSystem->getId(), $assetService->getJsBaseWww( $ext->getId() ))),
+            array(TokenWebSource::spawnWebsource(self::$fileSystem->getId(), self::$fileSystem->getAdapter()->getPathPrefix())),
+            array(ActionWebSource::spawnWebsource(self::$fileSystem->getId())),
         );
     }
     

@@ -1,229 +1,303 @@
 define(['jquery', 'ui/feedback'], function($, feedback){
     'use strict';
 
-    QUnit.module('feedback');
+    QUnit.module('API');
 
-    QUnit.test('module', function(assert){
-        QUnit.expect(1);
-
-        assert.ok(typeof feedback === 'function', 'The module expose a function');
-    });
-
-    QUnit.test('api', function(assert){
-        QUnit.expect(11);
-
-        var fb = feedback();
-
-        assert.ok(typeof fb === 'object'                       , 'The feedback function creates an object');
-        assert.ok(typeof fb._container === 'object'            , 'The feedback instance has a _container member');
-        assert.ok(typeof fb._container.selector === 'string'   , 'The _container is a jquery object');
-        assert.ok(typeof fb.message === 'function'             , 'The feedback instance has a message method');
-        assert.ok(typeof fb.info === 'function'                , 'The feedback instance has a info method');
-        assert.ok(typeof fb.success === 'function'             , 'The feedback instance has a success method');
-        assert.ok(typeof fb.warning === 'function'             , 'The feedback instance has a warning method');
-        assert.ok(typeof fb.danger === 'function'              , 'The feedback instance has a danger method');
-        assert.ok(typeof fb.error === 'function'               , 'The feedback instance has an error method');
-        assert.ok(typeof fb.open === 'function'                , 'The feedback instance has an open method');
-        assert.ok(typeof fb.close === 'function'               , 'The feedback instance has a close method');
-    });
-
-    QUnit.test('factory', function(assert){
+    QUnit.test('module', function(assert) {
         QUnit.expect(3);
 
-        var fb1 = feedback();
-        var fb2 = feedback();
+        assert.equal(typeof feedback, 'function', "The feedback module exposes a function");
+        assert.equal(typeof feedback(), 'object', "The feedback factory produces an object");
+        assert.notStrictEqual(feedback(), feedback(), "The feedback factory provides a different object on each call");
+    });
 
-        assert.ok(typeof fb1 === 'object'                       , 'The feedback function creates an object');
-        assert.ok(typeof fb2 === 'object'                       , 'The feedback function creates an object');
-        notStrictEqual(fb1, fb2                          , 'The feedback function creates object instances');
+    QUnit.cases([
+        { name : 'init',         title : 'init' },
+        { name : 'destroy',      title : 'destroy' },
+        { name : 'render',       title : 'render' },
+        { name : 'show',         title : 'show' },
+        { name : 'hide',         title : 'hide' },
+        { name : 'enable',       title : 'enable' },
+        { name : 'disable',      title : 'disable' },
+        { name : 'is',           title : 'is' },
+        { name : 'setState',     title : 'setState' },
+        { name : 'getContainer', title : 'getContainer' },
+        { name : 'getElement',   title : 'getElement' },
+        { name : 'getTemplate',  title : 'getTemplate' },
+        { name : 'setTemplate',  title : 'setTemplate' }
+    ])
+    .test('component ', function(data, assert) {
+        var instance = feedback();
+        assert.equal(typeof instance[data.name], 'function', 'The feedback instance exposes a "' + data.title + '" function');
+    });
+
+    QUnit.cases([
+        { name : 'on',      title : 'on' },
+        { name : 'off',     title : 'off' },
+        { name : 'trigger', title : 'trigger' }
+    ])
+    .test('eventifier ', function(data, assert) {
+        var instance = feedback();
+        assert.equal(typeof instance[data.name], 'function', 'The feedback instance exposes a "' + data.title + '" function');
+    });
+
+    QUnit.cases([
+        { name : 'message', title : 'message' },
+        { name : 'info',    title : 'info' },
+        { name : 'success', title : 'success' },
+        { name : 'warning', title : 'warning' },
+        { name : 'danger',  title : 'danger' },
+        { name : 'error',   title : 'error' },
+        { name : 'open',    title : 'open' },
+        { name : 'close',   title : 'close' },
+        { name : 'display', title : 'display' },
+    ])
+    .test('spec ', function(data, assert) {
+        var instance = feedback();
+        assert.equal(typeof instance[data.name], 'function', 'The feedback instance exposes a "' + data.title + '" function');
     });
 
     QUnit.test('wrong container', function(assert){
         QUnit.expect(1);
 
+        $('#feedback-box').remove();
+
         assert.throws(function(){
-
-            feedback( $('#foofoo'));
-
-        }, Error, 'An exception should be thrown if the container is not an existing element');
+            feedback();
+        }, TypeError, 'An exception should be thrown if the container is not an existing element');
     });
 
-    QUnit.test('state', function(assert){
-        QUnit.expect(9);
 
-        var fb = feedback().message();
-        var fb2 = feedback().message();
+    QUnit.module('Behavior');
 
-        assert.ok(typeof fb === 'object'                       , 'The feedback function creates an object');
-        assert.ok(typeof fb._state === 'string'                , 'The feedback contains has a _state member');
-        assert.ok(typeof fb.setState === 'function'            , 'The feedback instance has a setState method');
-        assert.ok(typeof fb.isInState === 'function'           , 'The feedback instance has an isInState method');
-        assert.equal(fb._state, 'created'                      , 'The feedback instance starts with the created state');
-        assert.ok(fb.isInState('created')                      , 'The isInState method verify the currrent state');
-        assert.equal(fb2._state, 'created'                      , 'The 2nd feedback instance starts with the created state');
-
-        fb2.setState('closed');
-
-        assert.equal(fb2._state, 'closed'                      , 'Once changed the current state is changed');
-        assert.equal(fb._state, 'created'                      , 'Once changed it does not interfer with other instances');
-    });
-
-    QUnit.test('default message', function(assert){
-        QUnit.expect(5);
-
-        var fb = feedback();
-        var r2 = fb.message();
-
-        assert.ok(typeof fb === 'object'                       , 'The feedback function creates an object');
-        strictEqual(fb, r2                              , 'The message function is fluent');
-        assert.ok(typeof fb.content === 'string'               , 'The content property has been created');
-        assert.equal(fb.category, 'volatile'                   , 'The category of info is volatile');
-        assert.ok(/feedback-info/m.test(fb.content)            , 'The content property contains the right css class');
-    });
-
-    QUnit.test('parameterized message', function(assert){
-        QUnit.expect(5);
-
-        var fb = feedback().message('success', 'AWESOME_MESSAGE');
-
-        assert.ok(typeof fb === 'object'                       , 'The feedback function creates an object');
-        assert.ok(typeof fb.content === 'string'               , 'The content property has been created');
-        assert.equal(fb.level, 'success'                       , 'The level is set to success');
-        assert.ok(/feedback-success/m.test(fb.content)         , 'The content property contains the right css class');
-        assert.ok(/AWESOME_MESSAGE/m.test(fb.content)          , 'The content property contains the message');
-    });
-
-    QUnit.test('display message', function(assert){
-        QUnit.expect(3);
+    QUnit.asyncTest('DOM rendering', function(assert) {
         var $container = $('#feedback-box');
 
-        var fb = feedback($container).message('warning', 'DANGER_ZONE').display();
+        QUnit.expect(8);
 
-        assert.equal(fb.level, 'warning'                               , 'The level is set to warning');
-        assert.ok(/DANGER_ZONE/m.test(fb.content)                      , 'The content property contains the message');
-        assert.equal($('.feedback-warning', $container).length, 1 , 'The feedback content has been appended to the container');
-    });
+        feedback( $container )
+            .on('render', function(){
+                var $element = $('.feedback', $container);
 
-    QUnit.test('close message', function(assert){
-        QUnit.expect(2);
+                assert.equal($element.length, 1, 'The container has the component root element');
+                assert.ok($element.hasClass('rendered'), 'The component root element has the rendered class');
+                assert.ok($element.hasClass('feedback-info'), 'The component root element has the correct level class');
 
-        var $container = $('#feedback-box');
-        var fb = feedback($container).message('warning', 'DANGER_ZONE').display();
+                assert.equal($('.icon-info', $element).length, 1, 'The component has the correct level icon');
+                assert.equal($('[data-close]', $element).length, 1, 'The component has the closer');
+                assert.equal($element.children('div').length, 1, 'The component has the message box');
+                assert.equal($element.children('div').text().trim(), 'foo', 'The component has the correct message');
 
-        assert.equal($('.feedback-warning', $container).length, 1 , 'The feedback content has been appended to the container');
+                assert.deepEqual($element[0], this.getElement()[0], 'The element is the one bound to the component');
 
-        fb.close();
-        assert.equal($('.feedback-warning', $container).length, 0, 'The feedback content has been removed from the container');
-    });
-
-    QUnit.asyncTest('close event', function(assert){
-
-        QUnit.expect(2);
-
-        var $container = $('#feedback-box');
-        var fb = feedback($container).message('warning', 'DANGER_ZONE').display();
-
-        assert.equal($('.feedback-warning', $container).length, 1 , 'The feedback content has been appended to the container');
-
-        $container.on('close.feedback', function(e){
-            assert.equal($('.feedback-warning', $container).length, 0, 'The feedback content has been removed from the container');
-            QUnit.start();
-        });
-
-        fb.close();
-    });
-
-    QUnit.asyncTest('close button', function(assert) {
-
-        QUnit.expect(2);
-
-        var $container = $('#feedback-box');
-        feedback($container).message('warning', 'DANGER_ZONE').display();
-
-        assert.equal($('.feedback-warning', $container).length, 1 , 'The feedback content has been appended to the container');
-
-        $container.on('close.feedback', function(e){
-            assert.equal($('.feedback-warning', $container).length, 0, 'The feedback content has been removed from the container');
-            QUnit.start();
-        });
-
-        $container.find('.icon-close').click();
-    });
-
-    QUnit.asyncTest('callbacks', function(assert){
-
-        QUnit.expect(3);
-
-        var $container = $('#feedback-box');
-        feedback($container)
-            .message('warning', 'DANGER_ZONE', {
-                create : function(){
-                    assert.ok(true, 'The create callback is called');
-                },
-                display : function(){
-                    assert.ok(true, 'The close callback is called');
-                },
-                close : function(){
-                    assert.ok(true, 'The close callback is called');
-                    QUnit.start();
-                }
+                QUnit.start();
             })
-            .display()
-            .close();
+            .info('foo');
     });
 
-    QUnit.asyncTest('timeout', function(assert){
-
-        QUnit.expect(4);
-
+    QUnit.asyncTest('mounting lifecycle', function(assert) {
         var $container = $('#feedback-box');
-        var fb = feedback($container).message('info', 'AWESOME_MESSAGE', { timeout : 10 }).display();
-
-        assert.equal($('.feedback-info', $container).length, 1 , 'The feedback content has been appended to the container');
-
-        $container.on('close.feedback', function(e){
-            assert.equal($('.feedback-info', $container).length, 0, 'The feedback content has been removed from the container');
-            QUnit.start();
-        });
-
-        var fbt = feedback($container.clone()).message('info', 'AWESOME_MESSAGE').display();
-        assert.notEqual(fbt._getTimeout(), fbt._getTimeout('error'), 'Different feedback types have different timeouts by default');
-        assert.notEqual(fb._getTimeout(), fbt._getTimeout(), 'It\'s possible to set custom timeout for message');
-        fbt.close();
-
-    });
-
-    QUnit.test('popup messages', function(assert){
-        QUnit.expect(6);
-
-        var $container = $('#feedback-box');
-
-        var fb1 = feedback($container).message('info', 'AWESOME_MESSAGE_1', {popup: true}).open();
-        assert.equal($('.feedback-info', $container).length, 1 , 'The container a message');
-        assert.ok(/AWESOME_MESSAGE_1/.test($('.feedback-info div', $container).text()), 'The container has the right message');
-        assert.ok($('.feedback-info', $container).hasClass('popup') , 'The container has the popup class');
-        fb1.close();
-
-        var fb2 = feedback($container).message('info', 'AWESOME_MESSAGE_2', {popup: false}).open();
-        assert.equal($('.feedback-info', $container).length, 1 , 'The container a message');
-        assert.ok(/AWESOME_MESSAGE_2/.test($('.feedback-info div', $container).text()), 'The container has the right message');
-        assert.ok( ! $('.feedback-info', $container).hasClass('popup') , 'The container has not the popup class');
-        fb2.close();
-    });
-
-    QUnit.test('volatile messages', function(assert){
 
         QUnit.expect(2);
 
-        var $container = $('#feedback-box');
-        var fb1 = feedback($container).message('info', 'AWESOME_MESSAGE_1').open();
-        var fb2 = feedback($container).message('info', 'AWESOME_MESSAGE_2').open();
+        feedback( $container )
+            .on('render', function(){
+                assert.ok(this.is('rendered'), 'The component is rendered');
+                assert.equal($('.feedback', $container).length, 1, 'The component is  appended');
 
-        assert.equal($('.feedback-info', $container).length, 1 , 'The container has only one volatile message');
-        assert.ok(/AWESOME_MESSAGE_2/.test($('.feedback-info div', $container).text()), 'The container has the 2nd message');
-
-        fb1.close();
-        fb2.close();
+                this.destroy();
+            })
+            .on('destroy', function(){
+                QUnit.start();
+            })
+            .success('foo');
     });
 
+    QUnit.cases([{
+        title : 'basic info',
+        level : 'info',
+        message : 'foo',
+        params : [],
+        options : {},
+        expected : {
+            popup : true,
+            message : 'foo'
+        }
+    }, {
+        title : 'parameterized success',
+        level : 'success',
+        message : 'Greeting from %s, today you are %d',
+        params : ['OAT S.A.', 33],
+        options : {},
+        expected : {
+            popup : true,
+            message : 'Greeting from OAT S.A., today you are 33'
+        }
+    }, {
+        title : 'parameterized HTML danger',
+        level : 'success',
+        message : 'You are going to <strong>delete %d <em>%s </em></strong>',
+        params : [5, 'test takers'],
+        options : {
+            encodeHtml : false
+        },
+        expected : {
+            popup : true,
+            message : 'You are going to <strong>delete 5 <em>test takers </em></strong>'
+        }
+    }, {
+        title : 'inline encoded HTML error',
+        level : 'success',
+        message : '<i>error</i>',
+        params : [],
+        options : {
+            popup : false
+        },
+        expected : {
+            popup : false,
+            message : '&lt;i&gt;error&lt;/i&gt;'
+        }
+    }, {
+        title : 'very long warning',
+        level : 'warning',
+        message : 'It seems you suffer from hippopotomonstrosesquipedaliophobia',
+        params : [],
+        options : {
+            wrapLongWordsAfter : 20
+        },
+        expected : {
+            popup : true,
+            message : 'It seems you suffer from hippopotomonstrosesq uipedaliophobia'
+        }
+    }, {
+        title : 'very long warning with a dot at threshold position',
+        level : 'warning',
+        message : 'It seems you suffer from hippopotomonstrosesq.uipedaliophobia',
+        params : [],
+        options : {
+            wrapLongWordsAfter : 20
+        },
+        expected : {
+            popup : true,
+            message : 'It seems you suffer from hippopotomonstrosesq. uipedaliophobia'
+        }
+    }])
+    .asyncTest('message ', function(data, assert) {
+        QUnit.expect(5);
+
+        feedback( )
+            .on('render', function(){
+                var $element = this.getElement();
+                assert.ok(this.is('rendered'), 'The component is rendered');
+                assert.ok($element.hasClass('feedback-' + data.level), 'The component root element has the correct level class');
+                assert.equal($('.icon-' + data.level, $element).length, 1, 'The component has the correct level icon');
+                assert.equal($($element).children('div').html().trim(), data.expected.message.trim(), 'The component has the correct message');
+                assert.equal($element.hasClass('popup'), data.expected.popup, 'The component has the correct popup state');
+
+                QUnit.start();
+            })
+            .message(data.level, data.message, data.params, data.options)
+            .open();
+    });
+
+    QUnit.asyncTest('timeout close', function(assert){
+        var $container = $('#feedback-box');
+
+        QUnit.expect(5);
+
+        feedback($container, {
+            timeout : 500
+        })
+        .on('render', function(){
+            assert.ok(this.is('rendered'), 'The component is rendered');
+            assert.equal($('.feedback', $container).length, 1, 'There is 1 feedback');
+        })
+        .on('destroy', function(){
+            assert.ok(true, 'Destroy is called');
+        })
+        .danger('foo');
+
+        setTimeout(function(){
+            assert.equal($('.feedback', $container).length, 1, 'There is 1 feedback');
+        }, 450);
+        setTimeout(function(){
+            assert.equal($('.feedback', $container).length, 0, 'There are no feedbacks anymore');
+            QUnit.start();
+        }, 600);
+    });
+
+    QUnit.asyncTest('specialized timeout', function(assert){
+        var $container = $('#feedback-box');
+
+        QUnit.expect(5);
+
+        feedback($container, {
+            timeout : {
+                warning: 1000
+            }
+        })
+        .on('render', function(){
+            assert.ok(this.is('rendered'), 'The component is rendered');
+            assert.equal($('.feedback', $container).length, 1, 'There is 1 feedback');
+        })
+        .on('destroy', function(){
+            assert.ok(true, 'Destroy is called');
+        })
+        .warning('foo');
+
+        setTimeout(function(){
+            assert.equal($('.feedback', $container).length, 1, 'There is 1 feedback');
+        }, 950);
+        setTimeout(function(){
+            assert.equal($('.feedback', $container).length, 0, 'There are no feedbacks anymore');
+            QUnit.start();
+        }, 1050);
+    });
+
+    QUnit.asyncTest('close button', function(assert){
+        var $container = $('#feedback-box');
+
+        QUnit.expect(2);
+
+        feedback($container, {
+            timeout : 500
+        })
+        .on('render', function(){
+            var $element = this.getElement();
+            var $closer   = $('[data-close]', $element);
+            assert.equal($closer.length, 1, 'The closer is attached');
+
+            $closer.trigger('click');
+        })
+        .on('destroy', function(){
+            assert.ok(true, 'Destroy is called');
+            QUnit.start();
+        })
+        .error('foo');
+    });
+
+    QUnit.asyncTest('only one', function(assert){
+        var $container = $('#feedback-box');
+        var fb1, fb2;
+
+        QUnit.expect(5);
+
+        assert.equal($('.feedback', $container).length, 0, 'The contaier has no feedback');
+
+        fb1 = feedback($container)
+            .on('render', function(){
+                assert.equal($('.feedback', $container).length, 1, 'The contaier has no feedback');
+                assert.ok($('.feedback', $container).hasClass('feedback-error'), 'The only feedback is an error');
+                fb2.danger('bar', { timeout: 1000 });
+            });
+
+        fb2 = feedback($container)
+            .on('render', function(){
+                assert.equal($('.feedback', $container).length, 1, 'The contaier has no feedback');
+                assert.ok($('.feedback', $container).hasClass('feedback-danger'), 'The only feedback is an danger');
+                QUnit.start();
+            });
+
+        fb1.error('foo', { timeout: 2000 });
+    });
 });

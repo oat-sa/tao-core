@@ -131,30 +131,32 @@ define([
 
                     // send messages to the remote service
                     $.ajax({
-                            url: config.service,
-                            type: 'POST',
-                            cache: false,
-                            headers: headers,
-                            data: JSON.stringify(request),
-                            async: true,
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            timeout: config.timeout
-                        })
-                        // when the request succeeds...
-                        .done(function (response) {
-                            response = response || {};
+                        url: config.service,
+                        type: 'POST',
+                        cache: false,
+                        headers: headers,
+                        data: JSON.stringify(request),
+                        async: true,
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        timeout: config.timeout
+                    })
+                    // when the request succeeds...
+                    .done(function (response) {
+                        response = response || {};
 
-                            // receive optional security token
-                            if (response.token) {
-                                tokenHandler.setToken(response.token);
-                            }
+                        // receive optional security token
+                        if (response.token) {
+                            tokenHandler.setToken(response.token);
+                        }
 
-                            // resolve each message promises
-                            _.forEach(promises, function (promise, idx) {
-                                promise.resolve(response.responses && response.responses[idx]);
-                            });
 
+                        // resolve each message promises
+                        _.forEach(promises, function (promise, idx) {
+                            promise.resolve(response.responses && response.responses[idx]);
+                        });
+
+                        if (!self.polling.is('stopped')) {
                             // receive server messages
                             _.forEach(response.messages, function (msg) {
                                 if (msg.channel) {
@@ -163,38 +165,40 @@ define([
                                     self.trigger('message', 'malformed', msg);
                                 }
                             });
+                        }
 
-                            self.trigger('receive', response);
+                        self.trigger('receive', response);
 
-                            async.resolve();
-                        })
+                        async.resolve();
+                    })
 
-                        // when the request fails...
-                        .fail(function (jqXHR, textStatus, errorThrown) {
-                            var error = {
-                                source: 'network',
-                                purpose: 'communicator',
-                                context: this,
-                                code: jqXHR.status,
-                                type: textStatus || 'error',
-                                message: errorThrown || __('An error occurred!')
-                            };
+                    // when the request fails...
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        var error = {
+                            source: 'network',
+                            purpose: 'communicator',
+                            context: this,
+                            sent: jqXHR.readyState > 0,
+                            code: jqXHR.status,
+                            type: textStatus || 'error',
+                            message: errorThrown || __('An error occurred!')
+                        };
 
-                            // reset the security token on error
-                            if (token) {
-                                tokenHandler.setToken(token);
-                            }
+                        // reset the security token on error
+                        if (token) {
+                            tokenHandler.setToken(token);
+                        }
 
-                            // reject all message promises
-                            _.forEach(promises, function (promise) {
-                                promise.reject(error);
-                            });
-
-                            self.trigger('error', error);
-
-                            // the request promise must be resolved, even if failed, to continue the polling
-                            async.resolve();
+                        // reject all message promises
+                        _.forEach(promises, function (promise) {
+                            promise.reject(error);
                         });
+
+                        self.trigger('error', error);
+
+                        // the request promise must be resolved, even if failed, to continue the polling
+                        async.resolve();
+                    });
                 }
             });
 

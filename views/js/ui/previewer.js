@@ -229,6 +229,13 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier, documentV
                             width : options.width || _defaultSize.pdf.width,
                             height : options.height || _defaultSize.pdf.height
                         }).load(options.url, 'pdf');
+
+                        //if the documenviewer is used within the test runner (the old one)
+                        //we need to inform it the content will change.
+                        //this is an already deperecated feature, but we need backward compat
+                        _.defer(function(){
+                            iframeNotifier.parent('imageloaded');
+                        });
                     }
                 }
 

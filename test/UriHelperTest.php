@@ -18,20 +18,17 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-use oat\tao\test\TaoPhpUnitTestRunner;
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * @author Jerome Bogaerts, <taosupport@tudor.lu>
  * @package tao
  
  */
-class UriHelperTestCase extends TaoPhpUnitTestRunner {
+class UriHelperTestCase extends \PHPUnit_Framework_TestCase {
     
     public function setUp()
     {		
         parent::setUp();
-		TaoPhpUnitTestRunner::initTest();
 	}
 	
 	public function testUriDomain(){

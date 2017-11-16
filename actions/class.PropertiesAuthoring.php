@@ -1,6 +1,12 @@
 <?php
+
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\tao\model\search\Index;
-/**  
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\TaoOntology;
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -22,7 +28,9 @@ use oat\tao\model\search\Index;
  * Regrouping all actions related to authoring
  * of properties
  */
-class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
+class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
+{
+    use EventManagerAwareTrait;
 
     /**
      * @requiresRight id READ
@@ -41,6 +49,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             if ($myForm->isValid()) {
                 if ($clazz instanceof core_kernel_classes_Resource) {
                     $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
+                    $properties = $this->hasRequestParameter('properties') ? $this->getRequestParameter('properties') : [];
+                    $this->getEventManager()->trigger(new ClassFormUpdatedEvent($clazz, $properties));
                 }
                 $this->setData('message', __('%s Class saved', $clazz->getLabel()));
                 $this->setData('reload', true);
@@ -66,7 +76,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
     
         if($this->hasRequestParameter('index')){
-            $index = $this->getRequestParameter('index');
+            $index = intval($this->getRequestParameter('index'));
         }
         else{
             $index = count($clazz->getProperties(false)) + 1;
@@ -111,7 +121,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         foreach($class->getProperties() as $classProperty) {
             if ($classProperty->equals($property)) {
 
-                $indexes = $property->getPropertyValues(new core_kernel_classes_Property(INDEX_PROPERTY));
+                $indexes = $property->getPropertyValues(new core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY));
                 //delete property and the existing values of this property
                 if($property->delete(true)){
                     //delete index linked to the property
@@ -126,9 +136,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         }
         
         if ($success) {
-            return $this->returnJson(array(
+            $this->returnJson(array(
                 'success' => true
             ));
+            return;
         } else {
             $this->returnError(__('Unable to remove the property.'));
         }
@@ -156,7 +167,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
 
         //remove use of index property in property
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $property->removePropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY),$indexPropertyUri);
+        $property->removePropertyValue(new core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY),$indexPropertyUri);
 
         //remove index property
         $indexProperty = new \oat\tao\model\search\Index($indexPropertyUri);
@@ -220,20 +231,20 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             if($i !== 0){
                 $indexIdentifier = $indexIdentifierBackup.'_'.$i;
             }
-            $resources = $indexClass->searchInstances(array(INDEX_PROPERTY_IDENTIFIER => $indexIdentifier), array('like' => false));
+            $resources = $indexClass->searchInstances(array(TaoOntology::INDEX_PROPERTY_IDENTIFIER => $indexIdentifier), array('like' => false));
             $count = count($resources);
             $i++;
         }while($count !== 0);
 
         $indexProperty = $class->createInstanceWithProperties(array(
                 RDFS_LABEL => preg_replace('/_/',' ',ucfirst($indexIdentifier)),
-                INDEX_PROPERTY_IDENTIFIER => $indexIdentifier,
-                INDEX_PROPERTY_TOKENIZER => $tokenizer,
-                INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
-                INDEX_PROPERTY_DEFAULT_SEARCH => GENERIS_FALSE,
+				TaoOntology::INDEX_PROPERTY_IDENTIFIER => $indexIdentifier,
+				TaoOntology::INDEX_PROPERTY_TOKENIZER => $tokenizer,
+				TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING => GENERIS_TRUE,
+				TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH  => GENERIS_FALSE,
             ));
 
-        $property->setPropertyValue(new core_kernel_classes_Property(INDEX_PROPERTY), $indexProperty);
+        $property->setPropertyValue(new core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY), $indexProperty);
 
         //generate form
         $indexFormContainer = new tao_actions_form_IndexProperty(new Index($indexProperty), $propertyIndex.$index);
@@ -349,11 +360,16 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
     protected function saveSimpleProperty($propertyValues)
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
+        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyValues['uri']));
         $type = $propertyValues['type'];
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
+        unset($propertyValues['uri']);
         unset($propertyValues['type']);
         unset($propertyValues['range']);
         $rangeNotEmpty = false;
+        $values = array(
+            ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => array()
+        );
 
         if (isset($propertyMap[$type])) {
             $values[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
@@ -361,14 +377,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         }
         
         foreach($propertyValues as $key => $value){
-            $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
-        
-        }
-
-        // if the label is empty
-        $validator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Property\'s label field is required')));
-        if(!$validator->evaluate($values[RDFS_LABEL])){
-            throw new Exception($validator->getMessage());
+            if (is_string($value)) {
+                $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+            } elseif (is_array($value)) {
+                $values[tao_helpers_Uri::decode($key)] = $value;
+            } else {
+                common_Logger::w('Unsuported value type '.gettype($value));
+            }
         }
 
         $rangeValidator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Range field is required')));
@@ -376,8 +391,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             throw new Exception($rangeValidator->getMessage());
         }
 
-        $property = new core_kernel_classes_Property($values['uri']);
-        unset($values['uri']);
         $this->bindProperties($property, $values);
 
         // set the range
@@ -442,13 +455,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         $validator = new tao_helpers_form_validators_IndexIdentifier();
 
         // if the identifier is valid
-        $values[INDEX_PROPERTY_IDENTIFIER] = strtolower($values[INDEX_PROPERTY_IDENTIFIER]);
-        if(!$validator->evaluate($values[INDEX_PROPERTY_IDENTIFIER])){
+        $values[TaoOntology::INDEX_PROPERTY_IDENTIFIER] = strtolower($values[TaoOntology::INDEX_PROPERTY_IDENTIFIER]);
+        if(!$validator->evaluate($values[TaoOntology::INDEX_PROPERTY_IDENTIFIER])){
             throw new Exception($validator->getMessage());
         }
 
         //if the property exists edit it, else create one
-        $existingIndex = \oat\tao\model\search\IndexService::getIndexById($values[INDEX_PROPERTY_IDENTIFIER]);
+        $existingIndex = \oat\tao\model\search\IndexService::getIndexById($values[TaoOntology::INDEX_PROPERTY_IDENTIFIER]);
         $indexProperty = new core_kernel_classes_Property($values['uri']);
         if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
             throw new Exception("The index identifier should be unique");

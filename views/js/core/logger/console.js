@@ -27,22 +27,30 @@ define([
 ], function(_){
     'use strict';
 
+    var mapping = {
+        trace : 'debug',
+        debug : 'debug',
+        info  : 'info',
+        warn  : 'warn',
+        error : 'error',
+        fatal : 'error'
+    };
+
     /**
      * Initialize the logger API with the console provider
      * @returns {logger} the logger
      */
     return {
-        log : function log(message){
-
-            var level = message.level;
-            var messages = message.messages;
-            if(message.context){
-                messages.unshift('[' + message.context + ']');
-            }
-            if(_.isFunction(window.console[level])){
-                window.console[level].apply(window.console, messages);
+        log : function log(record){
+            var level = record.level;
+            if(_.isFunction(window.console[mapping[level]])){
+                if(record.err){
+                    window.console[mapping[level]].call(window.console, record.name, record.msg, record.err, record);
+                } else {
+                    window.console[mapping[level]].call(window.console, record.name, record.msg, record);
+                }
             } else {
-                window.console.log.apply(window.console, [level.toUpperCase()].concat(messages));
+                window.console.log('['+ level.toUpperCase() + ']', record.name, record.msg, record);
             }
         }
     };
