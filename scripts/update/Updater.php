@@ -938,6 +938,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('13.2.0', '14.1.1');
 
         if($this->isVersion('14.1.1')) {
+
             $taoRenderer = $this->getServiceManager()->build(\oat\tao\model\mvc\view\ViewManager::class ,
                 [
                     'tao' => [
@@ -951,6 +952,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register('tao/render', $taoRenderer);
             $this->setVersion('15.0.0');
         }
+
     }
 
     private function migrateFsAccess() {
