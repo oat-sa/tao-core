@@ -18,7 +18,6 @@
  *
  */
 
-namespace oat\tao\controller;
 
 /**
  * Class Log
@@ -27,7 +26,7 @@ namespace oat\tao\controller;
  *
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class Log extends \tao_actions_CommonModule
+class tao_actions_Log extends \tao_actions_CommonModule
 {
 
     /**
@@ -35,13 +34,9 @@ class Log extends \tao_actions_CommonModule
      */
     public function log()
     {
-
-        if ($this->hasRequestParameter('messages')) {
-            $messages = $this->getRequestParameter('messages');
-            foreach ($messages as $message) {
-
-            }
-            var_dump($messages);
+        if ($this->hasRequestParameter('message')) {
+            $message = $this->getRequestParameter('message');
+            var_dump($message);
         }
     }
 

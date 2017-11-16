@@ -26,19 +26,16 @@ define([
     'lodash',
     'jquery',
     'module',
-    'util/url',
-    'core/store'
-], function(_, $, module, url, store){
+    'util/url'
+], function(_, $, module, url){
     'use strict';
 
-    var storeName = 'logger';
-    var storeKey  = 'queue';
     var defaultConfig = {
         url : url.route('log', 'log', 'tao'),
         id : 'taolog'
     };
+    console.log(module);
     var config = _.defaults(module.config() || {}, defaultConfig);
-    var storeId = storeName + '-' + config.id;
     var logQueue = [];
 
     if (_.isArray(config.url)) {
@@ -52,9 +49,6 @@ define([
      */
     function push(message) {
         logQueue.push(message);
-        return store(storeId).then(function(actionStore) {
-            return actionStore.setItem(storeKey, logQueue);
-        });
     }
 
     /**
@@ -62,27 +56,26 @@ define([
      * @returns {Promise} resolves with the flushed data
      */
     function flush() {
+        var messages = logQueue;
         logQueue = [];
-        return store(storeId).then(function(actionStore) {
-            return actionStore.getItem(storeKey).then(function(queue){
-                return actionStore.setItem(storeKey, logQueue).then(function(){
-                    return queue;
-                });
-            });
+        _.forEach(messages, function (message) {
+            send(message);
         });
     }
 
     /**
      * Send log messages from the queue
-     * @param {Object} messages - log messages array
+     * @param {Object} message - log message
      */
-    function send(messages) {
+    function send(message) {
         return $.ajax({
             url : config.url,
             type : 'POST',
             cache : false,
-            data : {messages: messages},
+            data : {json: message},
             dataType : 'json'
+        }).fail(function () {
+            push(message);
         });
     }
 
@@ -96,14 +89,7 @@ define([
          */
         log : function log(record) {
             push(record);
-            flush().then(function (messages) {
-                send(messages).fail(function() {
-                    //in case of connectivity issue messages return back to the storage to be sent with next call
-                    _.forEach(messages, function (message) {
-                        push(message);
-                    });
-                });
-            });
+            flush();
         }
     };
 });
