@@ -51,7 +51,14 @@ abstract class tao_actions_CommonModule extends Module
     public function __construct()
     {
     }
-
+    
+    public function getRenderer() {
+	if (!isset($this->renderer)) {
+            $this->renderer = $this->getServiceManager()->get('tao/render')->getRenderEngine('tao');
+	}
+	return $this->renderer;
+    }
+    
     /**
      * Whenever or not the current user has access to a specific action
      * using functional and data access control

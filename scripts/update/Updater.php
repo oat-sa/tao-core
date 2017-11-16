@@ -164,7 +164,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $cssPath = trim(Template::css('', $extension->getId()), '/');
                 ClientLibRegistry::getRegistry()->register($extension->getId().'Css', $cssPath);
             }
-             $this->setVersion('2.7.3');
+            $this->setVersion('2.7.3');
         }
 
         if ($this->isVersion('2.7.3')) {
@@ -227,7 +227,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
-                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
+                ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
             foreach ($toCleanup as $subject) {
                 $persistence->exec($query,array($subject));
             }
@@ -609,7 +609,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 'ext'        => 'tao',
                 'controller' => 'Main',
                 'action'     => 'index',
-                ));
+            ));
             $service->setRoute('login', array(
                 'ext'        => 'tao',
                 'controller' => 'Main',
@@ -619,7 +619,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.24.0');
         }
 
-	    $this->skip('7.24.0', '7.27.0');
+        $this->skip('7.24.0', '7.27.0');
 
         if ($this->isVersion('7.27.0')) {
             OntologyUpdater::syncModels();
@@ -631,13 +631,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             /*@var $routeService \oat\tao\model\mvc\DefaultUrlService */
             $routeService = $this->getServiceManager()->get(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID);
             $routeService->setRoute('logout',
-                        [
-                            'ext'        => 'tao',
-                            'controller' => 'Main',
-                            'action'     => 'logout',
-                            'redirect'   => _url('entry', 'Main', 'tao'),
-                        ]
-                    );
+                [
+                    'ext'        => 'tao',
+                    'controller' => 'Main',
+                    'action'     => 'logout',
+                    'redirect'   => _url('entry', 'Main', 'tao'),
+                ]
+            );
             $this->getServiceManager()->register(\oat\tao\model\mvc\DefaultUrlService::SERVICE_ID , $routeService);
 
             $this->setVersion('7.31.0');
@@ -655,9 +655,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('7.34.0')) {
             OntologyUpdater::syncModels();
             AclProxy::applyRule(new AccessRule(
-               AccessRule::GRANT,
-               TaskService::TASK_QUEUE_MANAGER_ROLE,
-               ['ext' => 'tao', 'mod' => 'TaskQueue']
+                AccessRule::GRANT,
+                TaskService::TASK_QUEUE_MANAGER_ROLE,
+                ['ext' => 'tao', 'mod' => 'TaskQueue']
             ));
             $this->setVersion('7.35.0');
         }
@@ -691,7 +691,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('7.54.1');
         }
 
-	    $this->skip('7.54.1', '7.61.0');
+        $this->skip('7.54.1', '7.61.0');
 
         if ($this->isVersion('7.61.0')) {
 
@@ -715,14 +715,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         if($this->isVersion('7.69.6')) {
 
             $queue = new NotificationServiceAggregator([
-                'rds' =>
-                    array(
-                        'class'   => RdsNotification::class,
-                        'options' => [
-                            RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
-                            'visibility'  => false,
-                        ],
-                    )
+                    'rds' =>
+                        array(
+                            'class'   => RdsNotification::class,
+                            'options' => [
+                                RdsNotification::OPTION_PERSISTENCE => RdsNotification::DEFAULT_PERSISTENCE,
+                                'visibility'  => false,
+                            ],
+                        )
                 ]
             );
 
@@ -919,9 +919,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('12.2.2', '12.21.5');
 
         if ($this->isVersion('12.21.5')) {
-                $service = new GetTreeService();
-                $this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
-                $this->setVersion('12.21.6');
+            $service = new GetTreeService();
+            $this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
+            $this->setVersion('12.21.6');
         }
 
         $this->skip('12.21.6', '13.1.5');
@@ -936,6 +936,23 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('13.2.0', '14.1.1');
+
+        if($this->isVersion('14.1.1')) {
+
+            $taoRenderer = $this->getServiceManager()->build(\oat\tao\model\mvc\view\ViewManager::class ,
+                [
+                    'tao' => [
+                        'class' => \oat\tao\model\mvc\view\TaoViewRender::class
+                    ],
+                    'json' => [
+                        'class' => \oat\tao\model\mvc\view\TaoJsonRender::class
+                    ],
+                ]
+            );
+            $this->getServiceManager()->register('tao/render', $taoRenderer);
+            $this->setVersion('15.0.0');
+        }
+
     }
 
     private function migrateFsAccess() {
@@ -950,8 +967,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                     TokenWebSource::OPTION_FILESYSTEM_ID => $fsUri,
                 );
                 switch ($class) {
-                	case 'tao_models_classes_fsAccess_TokenAccessProvider' :
-                	    /** @var Directory $dir */
+                    case 'tao_models_classes_fsAccess_TokenAccessProvider' :
+                        /** @var Directory $dir */
                         $dir = $this->getServiceManager()->get(ResourceFileSerializer::SERVICE_ID)->unserializeDirectory($fsUri);
                         // maybe it's a dirty way but it's quicker. too much modification would have been required in ItemUpdater
                         $adapter = $dir->getFileSystem()->getAdapter();
@@ -960,19 +977,19 @@ class Updater extends \common_ext_ExtensionUpdater {
                         }
 
                         $options[TokenWebSource::OPTION_PATH] = $adapter->getPathPrefix();
-                	    $options[TokenWebSource::OPTION_SECRET] = $config['secret'];
-                	    $options[TokenWebSource::OPTION_TTL] = (int) ini_get('session.gc_maxlifetime');
-                	    $websource = new TokenWebSource($options);
-                	    break;
-                	case 'tao_models_classes_fsAccess_ActionAccessProvider' :
-                	    $websource = new ActionWebSource($options);
-                	    break;
-                	case 'tao_models_classes_fsAccess_DirectAccessProvider' :
-                	    $options[DirectWebSource::OPTION_URL] = $config['accessUrl'];
-                	    $websource = new DirectWebSource($options);
-                	    break;
-                	default:
-                	    throw new common_Exception('unknown implementation '.$class);
+                        $options[TokenWebSource::OPTION_SECRET] = $config['secret'];
+                        $options[TokenWebSource::OPTION_TTL] = (int) ini_get('session.gc_maxlifetime');
+                        $websource = new TokenWebSource($options);
+                        break;
+                    case 'tao_models_classes_fsAccess_ActionAccessProvider' :
+                        $websource = new ActionWebSource($options);
+                        break;
+                    case 'tao_models_classes_fsAccess_DirectAccessProvider' :
+                        $options[DirectWebSource::OPTION_URL] = $config['accessUrl'];
+                        $websource = new DirectWebSource($options);
+                        break;
+                    default:
+                        throw new common_Exception('unknown implementation '.$class);
                 }
                 WebsourceManager::singleton()->addWebsource($websource);
             }
