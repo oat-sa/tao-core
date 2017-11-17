@@ -74,7 +74,8 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
 
                     $data['id'] = $entity->getId();
                     $data['status'] = $status;
-                    $data['report'] = $entity->getReport();
+                    //convert to array for xml response.
+                    $data['report'] = json_decode(json_encode($entity->getReport()));
                 }
             } else {
                 // load data from the old queue
