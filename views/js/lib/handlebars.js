@@ -312,6 +312,16 @@ var __module2__ = (function(__dependency1__, __dependency2__) {
       var level = options.data && options.data.level != null ? parseInt(options.data.level, 10) : 1;
       instance.log(level, context);
     });
+
+    instance.registerHelper('ifequals', function(lvalue, rvalue, options) {
+      if (arguments.length < 3)
+          throw new Error("Handlebars Helper equal needs 2 parameters");
+      if( lvalue!=rvalue ) {
+          return options.inverse(this);
+      } else {
+          return options.fn(this);
+      }
+    });
   }
 
   var logger = {
