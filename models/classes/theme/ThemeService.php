@@ -38,16 +38,24 @@ class ThemeService extends ConfigurableService {
     const OPTION_HEADLESS_PAGE = 'headless_page';
 
     /**
-     * Get the current Theme
+     * Returns the id of the current theme
+     * @return string
      */
-    public function getTheme()
+    public function getCurrentThemeId()
     {
         $themeId = $this->getThemeIdFromThemeDetailsProviders();
         if (empty($themeId)) {
             $themeId = $this->getOption(self::OPTION_CURRENT);
         }
+        return $themeId;
+    }
 
-        return $this->getThemeById($themeId);
+    /**
+     * Get the current Theme
+     */
+    public function getTheme()
+    {
+        return $this->getThemeById($this->getCurrentThemeId());
     }
 
     /**
