@@ -60,23 +60,24 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
                 $collection = $taskLog->search($filter);
 
                 if ($collection->isEmpty()) {
-                    throw new \common_exception_NotFound('Task not found');
+                    // if we don't have the task in the new queue, try to load the data from the old one
+                    $data = $this->getTaskData($taskId);
+                } else {
+                    $entity = $collection->first();
+                    $status = (string)$entity->getStatus();
+
+                    if ($entity->getStatus()->isInProgress()) {
+                        $status = \oat\oatbox\task\Task::STATUS_RUNNING;
+                    } elseif ($entity->getStatus()->isCompleted() || $entity->getStatus()->isFailed()) {
+                        $status = \oat\oatbox\task\Task::STATUS_FINISHED;
+                    }
+
+                    $data['id'] = $entity->getId();
+                    $data['status'] = $status;
+                    $data['report'] = $entity->getReport();
                 }
-
-                $entity = $collection->first();
-
-                $status = (string) $entity->getStatus();
-
-                if ($entity->getStatus()->isInProgress()) {
-                    $status = \oat\oatbox\task\Task::STATUS_RUNNING;
-                } elseif ($entity->getStatus()->isCompleted() || $entity->getStatus()->isFailed()) {
-                    $status = \oat\oatbox\task\Task::STATUS_FINISHED;
-                }
-
-                $data['id']     = $entity->getId();
-                $data['status'] = $status;
-                $data['report'] = $entity->getReport();
             } else {
+                // load data from the old queue
                 $data = $this->getTaskData($taskId);
             }
 
