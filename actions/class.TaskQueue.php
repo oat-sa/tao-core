@@ -24,6 +24,8 @@ use oat\tao\model\TaskQueueActionTrait;
  * Class tao_actions_TaskQueue
  * @package oat\tao\controller\api
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
+ *
+ * @deprecated Please use the new endpoint in taoTaskQueue extension
  */
 class tao_actions_TaskQueue extends \tao_actions_RestController
 {
@@ -41,7 +43,43 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
             if (!$this->hasRequestParameter(self::TASK_ID_PARAM)) {
                 throw new \common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
             }
-            $data = $this->getTaskData($this->getRequestParameter(self::TASK_ID_PARAM));
+
+            $taskId = $this->getRequestParameter(self::TASK_ID_PARAM);
+
+            /** @var \common_ext_ExtensionsManager $extensionManager */
+            $extensionManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+
+            // get data from the new task queue
+            if ($extensionManager->isInstalled('taoTaskQueue')) {
+                /** @var \oat\taoTaskQueue\model\TaskLogInterface $taskLog */
+                $taskLog = $this->getServiceManager()->get(\oat\taoTaskQueue\model\TaskLogInterface::SERVICE_ID);
+
+                $filter = (new \oat\taoTaskQueue\model\TaskLog\TaskLogFilter())
+                    ->eq(\oat\taoTaskQueue\model\TaskLogBroker\TaskLogBrokerInterface::COLUMN_ID, $taskId);
+
+                $collection = $taskLog->search($filter);
+
+                if ($collection->isEmpty()) {
+                    throw new \common_exception_NotFound('Task not found');
+                }
+
+                $entity = $collection->first();
+
+                $status = (string) $entity->getStatus();
+
+                if ($entity->getStatus()->isInProgress()) {
+                    $status = \oat\oatbox\task\Task::STATUS_RUNNING;
+                } elseif ($entity->getStatus()->isCompleted() || $entity->getStatus()->isFailed()) {
+                    $status = \oat\oatbox\task\Task::STATUS_FINISHED;
+                }
+
+                $data['id']     = $entity->getId();
+                $data['status'] = $status;
+                $data['report'] = $entity->getReport();
+            } else {
+                $data = $this->getTaskData($taskId);
+            }
+
             $this->returnSuccess($data);
         } catch (\Exception $e) {
             $this->returnFailure($e);
