@@ -19,12 +19,9 @@
  */
 namespace oat\tao\model\routing;
 
-use Context;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
 use common_http_Request;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
@@ -35,10 +32,9 @@ use Psr\Http\Message\ServerRequestInterface;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class TaoFrontController implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
+class TaoFrontController implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
-    use LoggerAwareTrait;
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
         $request->getUri();
@@ -92,7 +88,7 @@ class TaoFrontController implements ServiceManagerAwareInterface, TaoLoggerAware
         try
         {
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
-            $this->getServiceManager()->propagate($enforcer, $this);
+            $this->propagate($enforcer);
             $enforcer->execute();
         }
         catch (InterruptedActionException $iE)

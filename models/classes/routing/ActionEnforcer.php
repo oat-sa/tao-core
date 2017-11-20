@@ -87,7 +87,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $controllerClass = $this->getControllerClass();
         if(class_exists($controllerClass)) {
             $controller = new $controllerClass();
-            $this->propagate($controller, $this);
+            $this->propagate($controller);
             return $controller;
         } else {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());

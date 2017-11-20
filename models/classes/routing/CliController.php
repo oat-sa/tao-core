@@ -35,10 +35,9 @@ use oat\tao\model\cliArgument\ArgumentService;
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\routing
  */
-class CliController implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
+class CliController implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
-    use LoggerAwareTrait;
 
     /**
      * @var ActionService
@@ -70,7 +69,7 @@ class CliController implements ServiceManagerAwareInterface, TaoLoggerAwareInter
             $action = new Help($extId);
         }
 
-        $this->propagate($action, $this);
+        $this->propagate($action);
         $this->getServiceLocator()->get(ArgumentService::SERVICE_ID)->load($action, $params);
 
         try {

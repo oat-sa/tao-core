@@ -215,7 +215,7 @@ class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 	    } else {
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
-            $this->propagate($cliController, $this);
+            $this->propagate($cliController);
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
@@ -336,7 +336,7 @@ class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
     {
         $re = \common_http_Request::currentRequest();
         $fc = new TaoFrontController();
-        $this->propagate($fc, $this);
+        $this->propagate($fc);
         $fc->legacy($re);
     }
 
