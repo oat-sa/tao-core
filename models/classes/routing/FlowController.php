@@ -27,9 +27,7 @@ use InterruptedActionException;
 use Context;
 use FlowController as ClearFwFlowController;
 use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * The FlowController helps you to navigate through MVC actions.
@@ -37,10 +35,9 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @author Jérôme Bogaerts <jerome.bogaerts@tudor.lu> <jerome.bogaerts@gmail.com>
  * @author Bertrand Chevrier <Bertrand@taotestin.com>
  */
-class FlowController extends ClearFwFlowController implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
+class FlowController extends ClearFwFlowController implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
-    use LoggerAwareTrait;
 
     /**
      * This header is added to the response to inform the client a forward occurs
@@ -92,7 +89,7 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
 
         //execite the new action
         $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
-        $this->propagate($enforcer, $this);
+        $this->propagate($enforcer);
         $enforcer->execute();
 
         //should not be reached

@@ -63,10 +63,9 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
+class Bootstrap implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
-    use LoggerAwareTrait;
 
     const CONFIG_SESSION_HANDLER = 'session';
 
@@ -310,7 +309,6 @@ class Bootstrap implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 	{
         // register the logger as erorhandler
 		common_Logger::singleton()->register();
-	    $this->setLogger($this->getServiceLocator()->get(LoggerService::SERVICE_ID)->getLogger());
 	}
 
 	/**

@@ -22,8 +22,6 @@ namespace oat\tao\model\routing;
 
 use IExecutable;
 use ActionEnforcingException;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use ReflectionMethod;
@@ -46,10 +44,9 @@ use oat\tao\model\event\BeforeAction;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
  */
-class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLoggerAwareInterface
+class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
-    use LoggerAwareTrait;
 
     private $extension;
     

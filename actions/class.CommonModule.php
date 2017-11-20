@@ -28,6 +28,7 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Top level controller
@@ -40,7 +41,7 @@ use oat\oatbox\log\LoggerAwareTrait;
  */
 abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
-    use ServiceManagerAwareTrait;
+    use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
     use LoggerAwareTrait;
 
     /**
@@ -276,10 +277,19 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * Propagate the service (logger and service manager)
      *
      * @return mixed
-     * @throws common_exception_Error
      */
     protected function getFlowController()
     {
-        return $this->propagate(new FlowController(), $this);
+        return $this->propagate(new FlowController());
+    }
+
+    protected function getServiceManager()
+    {
+        try {
+            $serviceManager = $this->getOriginalServiceManager();
+        } catch (common_exception_Error $e) {
+            $serviceManager = ServiceManager::getServiceManager();
+        }
+        return $serviceManager;
     }
 }
