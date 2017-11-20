@@ -307,7 +307,7 @@ define([
                             return acc;
                         }, getHandlerObject());
 
-                    logger.info({event : eventName, args : args}, 'trigger %s', eventName);
+                    logger.info({event : eventName}, 'trigger %s', eventName);
 
                     if(mergedHandlers){
                         triggerAllHandlers(mergedHandlers, name, ns);

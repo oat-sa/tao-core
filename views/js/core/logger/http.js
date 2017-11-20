@@ -32,9 +32,8 @@ define([
 
     var defaultConfig = {
         url : url.route('log', 'log', 'tao'),
-        id : 'taolog'
+        level: 'warning'
     };
-    console.log(module);
     var config = _.defaults(module.config() || {}, defaultConfig);
     var logQueue = [];
 
@@ -68,14 +67,16 @@ define([
      * @param {Object} message - log message
      */
     function send(message) {
-        return $.ajax({
+        $.ajax({
             url : config.url,
             type : 'POST',
             cache : false,
-            data : {json: message},
-            dataType : 'json'
-        }).fail(function () {
-            push(message);
+            data : {json : JSON.stringify(message)},
+            dataType : 'json',
+            global : false,
+            error : function () {
+                push(message);
+            }
         });
     }
 
@@ -87,9 +88,11 @@ define([
          * log message
          * @param {Object} record - See core/logger/api::log() method
          */
-        log : function log(record) {
-            push(record);
-            flush();
+        log : function log(message) {
+            if (this.checkMinLevel(config.level, message.level)) {
+                push(message);
+                flush();
+            }
         }
     };
 });

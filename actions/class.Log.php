@@ -18,7 +18,6 @@
  *
  */
 
-
 /**
  * Class Log
  *
@@ -34,10 +33,50 @@ class tao_actions_Log extends \tao_actions_CommonModule
      */
     public function log()
     {
-        if ($this->hasRequestParameter('message')) {
-            $message = $this->getRequestParameter('message');
-            var_dump($message);
+        $result = [];
+        if ($this->hasRequestParameter('json')) {
+            $message = json_decode($this->getRequestParameter('json'));
+            \common_Logger::singleton()->log($this->getLevel($message['level']), json_encode($message), ['frontend']);
         }
+        $this->returnJson($result);
+    }
+
+    /**
+     * Map log level
+     * @todo make it compatible with PRS-3 log levels
+     * @param $level
+     * @return int
+     */
+    private function getLevel($level)
+    {
+        $result = \common_Logger::TRACE_LEVEL;
+        switch ($level) {
+            case 'emergency' :
+                $result = \common_Logger::FATAL_LEVEL;
+                break;
+            case 'alert' :
+                $result = \common_Logger::FATAL_LEVEL;
+                break;
+            case 'critical' :
+                $result = \common_Logger::FATAL_LEVEL;
+                break;
+            case 'error' :
+                $result = \common_Logger::ERROR_LEVEL;
+                break;
+            case 'warning' :
+                $result = \common_Logger::WARNING_LEVEL;
+                break;
+            case 'notice' :
+                $result = \common_Logger::INFO_LEVEL;
+                break;
+            case 'info' :
+                $result = \common_Logger::INFO_LEVEL;
+                break;
+            case 'debug' :
+                $result = \common_Logger::DEBUG_LEVEL;
+                break;
+        }
+        return $result;
     }
 
 }

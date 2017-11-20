@@ -938,7 +938,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('13.2.0', '14.3.0');
 
         if ($this->isVersion('14.3.0')) {
-            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao','mod' => 'Log']));
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
             $this->setVersion('14.4.0');
         }
     }
