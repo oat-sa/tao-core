@@ -107,7 +107,7 @@ $userLabel    = get_data('userLabel');
         </ul>
     </div>
 
-    <div class="persistent-menu plugin-box-menu rgt">
+    <div class="persistent-menu rgt">
         <ul class="clearfix plain">
             <?php if($persistentMenu): ?>
                 <?php foreach ($persistentMenu as $item): ?>

@@ -212,7 +212,7 @@ $navHeight: 64;
             // sub menus are still available
             &:hover {
                 overflow-y: visible;
-                ~ .plugin-box-menu .plugin-box-element .overflown-element{// replace task-listing by the more generic class e.g. overflown-element
+                ~ .persistent-menu .overflown-element{// replace task-listing by the more generic class e.g. overflown-element
                     filter: grayscale(0.7) contrast(60%) brightness(1.2);
                 }
             }
