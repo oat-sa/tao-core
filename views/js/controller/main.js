@@ -16,64 +16,11 @@ define([
     'layout/loading-bar',
     'layout/nav',
     'layout/search',
-    'taoTaskQueue/component/manager/manager'
+    'taoTaskQueue/component/manager/manager',
+    'taoTaskQueue/model/taskQueue'
 ],
-function (module, $, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search, taskQueueManagerFactory) {
+function (module, $, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search, taskQueueManagerFactory, taskQueue) {
     'use strict';
-
-    var _sampleLogCollection = [
-        {
-            id: 'rdf#i1508337970199318643',
-            task_name: 'Task Name',
-            label: 'Task label',
-            status: 'completed',
-            owner: 'userId',
-            created_at: '1510149684',//timezone ?
-            updated_at: '1510149694',
-            file: false,//suppose
-            category: 'import',
-            report : {
-                type : 'success',
-                message : 'completed task rdf#i1508337970199318643',
-                data : null,
-                children: []
-            }
-        },
-        {
-            id: 'rdf#i15083379701993186432222',
-            task_name: 'Task Name 2',
-            label: 'Task label 2',
-            status: 'in_progress',
-            owner: 'userId',
-            created_at: '1510149584',//timezone ?
-            updated_at: '1510149574',
-            file: false,
-            category: 'publish',//d
-            report : {
-                type : 'info',
-                message : 'running task rdf#i15083379701993186432222',
-                data : null,//download url ? task context ?
-                children: []
-            }
-        },
-        {
-            id: 'rdf#i1508337970190342',
-            task_name: 'Task Name 2',
-            label: 'Task label 2',
-            status: 'failed',
-            owner: 'userId',
-            created_at: '1510149584',//timezone ?
-            updated_at: '1510049574',
-            file: true,//suppose
-            category: 'export',//d
-            report : {
-                type : 'error',
-                message : 'running task rdf#i1508337970190342',
-                data : null,//download url ? task context ?
-                children: []
-            }
-        }
-    ];
 
     /**
      * This controller initialize all the layout components used by the backend : sections, actions, tree, loader, etc.
@@ -175,13 +122,43 @@ function (module, $, __, context, helpers, uiForm, section, actions, treeFactory
             helpers.init();
             uiForm.init();
 
+            //console.log(JSON.stringify(_sampleLogCollection))
+
             var $plugin = $('<div class="plugin-box-element">').appendTo($('.plugin-box-menu'));
-            var taskManager = taskQueueManagerFactory({}, _sampleLogCollection)
+            var taskManager = taskQueueManagerFactory()
                 .on('render', function(){
                     var self = this;
-
+                })
+                .on('remove', function(taskId){
+                    taskQueue.archive(taskId);
+                })
+                .on('report', function(taskId){
+                    taskQueue.get(taskId).then(function(task){
+                        //show report in popup ???
+                        console.log('show report', task);
+                    });
+                })
+                .on('download', function(taskId){
+                    taskQueue.download(taskId);
                 })
                 .render($plugin);
+
+
+            taskQueue.on('pollAll', function(tasks){
+                taskManager.loadData(tasks);
+            });
+
+            return;
+
+            taskQueueInstance = taskQueueModel()
+                .on('completed failed archived', function(){
+                    //update the view manager
+                    taskManager.update(this.getAllData());
+                }).on('enqueued', function(taskData){
+                    //update the view manager + animation
+                    feedback('task created');
+                    taskManager.animateInsertion(taskData);
+                }).pollAll();//smart management of poll interval
         }
     };
 });
