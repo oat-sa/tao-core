@@ -6,8 +6,8 @@ $navHeight: 64;
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
         //-webkit-transition: opacity .7s, top 0s;
-        //transition: opacity .3s, top 0s;
-        //transition-delay: .2s;
+        transition: opacity .1s, top 0s;
+        transition-delay: .2s;
         opacity: 1;
         top: $navHeight * 1px;
     }
@@ -97,7 +97,7 @@ $navHeight: 64;
             }
             & > a {
                 &:hover {
-                    @include vendor-prefix(transition, background-color 0.3s ease);
+                    @include vendor-prefix(transition, background-color 0.2s ease);
                     background-color: rgba($info, .5);
                     text-decoration: none;
                     span {
@@ -156,7 +156,7 @@ $navHeight: 64;
             position: relative;
         }
         
-        .main-menu, .settings-menu {
+        .main-menu, .settings-menu, .persistent-menu {
 
             background:inherit;
             ul {
@@ -220,6 +220,8 @@ $navHeight: 64;
                 display:none;
             }
             padding-right: 20px;
+        }
+        .settings-menu, .persistent-menu{
             li {
                 min-width: 25px;
 
@@ -253,7 +255,6 @@ $navHeight: 64;
                     right: -1px;
                 }
             }
-
         }
     }
 }
@@ -400,6 +401,10 @@ body > footer {
                     }
                 }
 
+            }
+
+            .persistent-menu {
+                margin-right: 90px;
             }
         }
     }

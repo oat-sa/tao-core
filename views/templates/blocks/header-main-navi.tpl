@@ -2,6 +2,7 @@
 use oat\tao\helpers\Layout;
 $mainMenu     = get_data('main-menu');
 $settingsMenu = get_data('settings-menu');
+$persistentMenu = get_data('persistent-menu');
 $userLabel    = get_data('userLabel');
 ?>
 <nav>
@@ -106,6 +107,34 @@ $userLabel    = get_data('userLabel');
         </ul>
     </div>
 
-    <div class="plugin-box-menu rgt"></div>
+    <div class="persistent-menu plugin-box-menu rgt">
+        <ul class="clearfix plain">
+            <?php if($persistentMenu): ?>
+                <?php foreach ($persistentMenu as $item): ?>
+                <?php $entry = $item['perspective']; ?>
+                <?php $className = get_data('shownExtension') === $entry->getExtension() && get_data(
+                'shownStructure'
+                ) === $entry->getId()
+                ? 'active li-' . $entry->getId()
+                : 'li-' . $entry->getId();?>
+                <li class="<?= $className ?>">
+                    <a id="<?= $entry->getId() ?>" <?php
+                        if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
+                        <?php else : ?>
+                        href="<?= $entry->getUrl() ?>"
+                        <?php endif ?> title="<?= __($entry->getName()) ?>">
+
+                        <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
+
+                        <?php $description = $entry->getDescription();
+                        if ($description): ?>
+                        <?= __($description) ?>
+                        <?php endif ?>
+                    </a>
+                </li>
+                <?php endforeach ?>
+            <?php endif; ?>
+        </ul>
+    </div>
 </nav>
 
