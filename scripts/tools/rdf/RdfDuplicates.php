@@ -27,6 +27,22 @@ use oat\oatbox\extension\AbstractAction;
 
 
 /**
+ * Counts all duplicates of the rdf properties
+ *   [properties]
+ *      -- fix - delete all duplicate rows from the statements table
+ *          (duplicate row - this is row which has same fields: modelid, subject, predicate, object, l_language)
+ *
+ * To quickly delete all duplicates can be used SQL query:
+ * ```
+ * DELETE FROM statements s where s.id IN (SELECT s1.id FROM statements s1
+ *       LEFT OUTER JOIN (
+ *           SELECT MIN(s2.id) as id, s2.modelid, s2.subject, s2.predicate, s2.object, s2.l_language
+ *           FROM statements s2
+ *           GROUP BY s2.modelid, s2.subject, s2.predicate, s2.object, s2.l_language
+ *       ) as KeepRows ON s1.id = KeepRows.id
+ *       WHERE KeepRows.id IS NULL)
+ * ```
+ *
  * Class FindDuplicates
  * @package oat\taoNccer\scripts\tools
  *
@@ -51,7 +67,7 @@ class RdfDuplicates extends AbstractAction
         $report = Report::createInfo('Duplication searching');
 
         $sql = 'SELECT COUNT(*) FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                  AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language';
+                  AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid';
         $stmt = $this->getPersistence()->query($sql);
         $total = $stmt->fetchAll()[0]['count'];
         if (!$total) {
@@ -61,13 +77,16 @@ class RdfDuplicates extends AbstractAction
             if (isset($params[0]) && $params[0] == '--fix') {
                 do {
                     $sql = 'SELECT s.id AS source FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                      AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language LIMIT 1';
+                      AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid LIMIT 1';
                     $stmt = $this->getPersistence()->query($sql);
-                    $id = $stmt->fetchAll()[0]['source'];
-
+                    $res = $stmt->fetchAll();
+                    $id = 0;
+                    if (isset($res[0]) && isset($res[0]['source'])) {
+                        $id = $res[0]['source'];
+                    }
                     if ($id) {
                         $sql = 'SELECT s1.id FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                            AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language
+                            AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid
                           WHERE s.id=?';
                         $stmt = $this->getPersistence()->query($sql, [$id]);
                         $duplicates = array_column($stmt->fetchAll(), 'id');
@@ -83,10 +102,10 @@ class RdfDuplicates extends AbstractAction
             }
 
             if (!$fixed) {
-                $report->add(Report::createInfo(sprintf('%s duplicates were found, fixed %s', $total, $fixed)));
+                $report->add(Report::createInfo(sprintf('%s duplicates were found', $total)));
                 $report->add(Report::createInfo('Use --fix parameter to delete duplicates'));
            } else {
-                $report->add(Report::createSuccess(sprintf('%s duplicates were found, fixed %s', $total, $fixed)));
+                $report->add(Report::createSuccess(sprintf('fixed %s, deleted %s', $total, $fixed)));
             }
         }
         return $report;
