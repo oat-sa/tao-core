@@ -40,6 +40,8 @@ class tao_helpers_Date
 
     const FORMAT_ISO8601 = 3;
 
+    const FORMAT_LONG_MICROSECONDS = 4;
+
     const FORMAT_INTERVAL_LONG = 100;
 
     const FORMAT_INTERVAL_SHORT = 101;

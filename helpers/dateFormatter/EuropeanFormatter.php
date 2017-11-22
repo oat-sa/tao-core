@@ -49,6 +49,9 @@ class EuropeanFormatter extends Configurable implements Formatter
         	case \tao_helpers_Date::FORMAT_LONG:
         	    $formatString = 'd/m/Y H:i:s';
         	    break;
+        	case \tao_helpers_Date::FORMAT_LONG_MICROSECONDS:
+        	    $formatString = 'd/m/Y H:i:s.u';
+        	    break;
         	case \tao_helpers_Date::FORMAT_DATEPICKER:
         	    $formatString = 'Y-m-d H:i';
         	    break;
