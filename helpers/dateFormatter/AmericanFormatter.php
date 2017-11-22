@@ -48,6 +48,9 @@ class AmericanFormatter extends Configurable implements Formatter
             case \tao_helpers_Date::FORMAT_LONG:
                 $formatString = 'm/d/Y H:i:s';
                 break;
+            case \tao_helpers_Date::FORMAT_LONG_MICROSECONDS:
+                $formatString = 'm/d/Y H:i:s.u';
+                break;
             case \tao_helpers_Date::FORMAT_DATEPICKER:
                 $formatString = 'm-d-Y H:i';
                 break;
