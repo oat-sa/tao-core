@@ -41,7 +41,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     const CONTAINER_ID = 'containerId';
     
     /** Theme container type key */
-    const CONTAINER_TYPE = 'containerId';
+    const CONTAINER_TYPE = 'containerType';
 
     /** Theme label key */
     const LABEL = 'label';
@@ -90,8 +90,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * @var array
      */
     private $mandatoryOptions = [
-        self::CONTAINER_TYPE,
-        self::CONTAINER_ID,
         self::LABEL
     ];
 
@@ -104,11 +102,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * These are the only mandatory elements
      *
      * $options = [
-     *     'label' => 'Default Theme',
-     *     // extension id | tenant id
-     *     'containerId' => 'taoSomething',
-     *     // 'extension' | 'tenant'
-     *     'containerType => 'extension'
+     *     'label' => 'Default Theme'
      * ];
      * $theme = new \oat\tao\model\theme\ConfigurablePlatformTheme($options);
      *
@@ -408,6 +402,14 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     protected function setupOptions($options)
     {
+        if(empty($options[static::CONTAINER_TYPE])) {
+            $options[static::CONTAINER_TYPE] = 'extension';
+        }
+        if(empty($options[static::CONTAINER_ID])) {
+            $cls = get_class($this);
+            strtok($cls, '\\');
+            $options[static::CONTAINER_ID] = strtok('\\');
+        }
         $options = array_merge([
             static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
             static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),

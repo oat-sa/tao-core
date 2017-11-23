@@ -100,9 +100,9 @@ class ThemeConverter
         // example: oat\taoExtension\model\theme\MyTheme
         $themeClass = get_class($theme);
         //@todo: map to container id
-        if (empty($options['extensionId'])) {
+        if (empty($options['containerId'])) {
             strtok($themeClass, '\\');
-            $options['extensionId'] = strtok('\\');
+            $options['containerId'] = strtok('\\');
         }
 
         if (empty($options['label'])) {
