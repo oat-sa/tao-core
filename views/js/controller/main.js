@@ -17,11 +17,9 @@ define([
     'layout/section-height',
     'layout/loading-bar',
     'layout/nav',
-    'layout/search',
-    'taoTaskQueue/component/manager/manager',
-    'taoTaskQueue/model/taskQueue'
+    'layout/search'
 ],
-function (module, _, $, __, context, router, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search, taskQueueManagerFactory, taskQueue) {
+function (module, _, $, __, context, router, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
     'use strict';
 
     /**
