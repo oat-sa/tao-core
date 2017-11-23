@@ -67,6 +67,9 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     /** Use the default path for logo, stylesheet, templates etc. */
     const DEFAULT_PATH = 'useDefaultThemePath';
 
+    /** Theme operated by key */
+    const OPERATED_BY = 'operatedBy';
+
     /**
      * Default theme path
      *
@@ -151,6 +154,10 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *     'customTexts' => [
      *          'diagBrowserCheckResult' => 'Your browser %CURRENT_BROWSER% is not compatible.',
      *          'diagOsCheckResult'      => 'Your Operating System %CURRENT_OS% is not compatible.'
+     *     ],
+     *     'operatedBy' => [
+     *          'email' => 'company@example.com',
+     *          'name' => 'Big Company'
      *     ],
      *     'whateverCustomStuff' => 'anything as long as the key is in camelCase'
      * ];
@@ -313,6 +320,22 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getId()
     {
         return $this->getOption(static::ID);
+    }
+
+
+    /**
+     * Operated by info, make sure both fields contain a string
+     *
+     * @return array
+     */
+    public function getOperatedBy() {
+        $operatedBy = $this->getOption(static::OPERATED_BY);
+        foreach(['name', 'email'] as $field) {
+            if(empty($operatedBy[$field]) || is_null($operatedBy[$field])) {
+                $operatedBy[$field] = '';
+            }
+        }
+        return $operatedBy;
     }
 
 

@@ -339,14 +339,28 @@ class Layout
      * @return array
      */
     public static function getOperatedByData() {
-        $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
 
-        $name = $operatedByService->getName();
-        $email = $operatedByService->getEmail();
+        $name = '';
+        $email = '';
+
+        // find data in the theme, they will be there if installed with the taoStyles extension
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurablePlatformTheme) {
+            $operatedBy = $theme->getOperatedBy();
+            $name  = $operatedBy['name'];
+            $email = $operatedBy['email'];
+        }
+
+        // otherwise they will be stored in config
+        if(!$name && !$email) {
+            $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
+            $name = $operatedByService->getName();
+            $email = $operatedByService->getEmail();
+        }
 
         $data = [
             'name' => $name,
-            'email' => (empty($email)) ? '' : StringUtils::encodeText('mailto:' . $email)
+            'email' => $email ? '' : StringUtils::encodeText('mailto:' . $email)
         ];
         return $data;
     }
