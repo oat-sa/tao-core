@@ -39,7 +39,7 @@ define([
                 items : ['Bold', 'Italic', 'Subscript', 'Superscript']
             }, {
                 name : 'insert',
-                items : ['SpecialChar',  'TaoQtiTable']
+                items : ['SpecialChar',  'TaoQtiTable', 'TaoTooltip']
             }, {
                 name : 'links',
                 items : ['Link']
@@ -49,7 +49,7 @@ define([
                 items : ['Bold', 'Italic', 'Subscript', 'Superscript']
             }, {
                 name : 'insert',
-                items : ['SpecialChar', 'TaoQtiTable']
+                items : ['SpecialChar', 'TaoQtiTable', 'TaoTooltip']
             }, {
                 name : 'links',
                 items : ['Link']
@@ -59,7 +59,7 @@ define([
                 items : ['Bold', 'Italic', 'Subscript', 'Superscript']
             }, {
                 name : 'insert',
-                items : ['Image', 'SpecialChar', 'TaoQtiTable']
+                items : ['Image', 'SpecialChar', 'TaoQtiTable', 'TaoTooltip']
             }, {
                 name : 'links',
                 items : ['Link']

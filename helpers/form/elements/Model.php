@@ -56,7 +56,7 @@ abstract class Model
         foreach (parent::getOptions() as $optUri => $optLabel) {
             $model = new core_kernel_classes_Resource(tao_helpers_Uri::decode($optUri));
             $status = $model->getOnePropertyValue($statusProperty);
-            if (!is_null($status) && $status->getUri() != TAO_ITEM_MODEL_STATUS_DEPRECATED) {
+            if (!is_null($status)) {
                 $options[$optUri] = $optLabel; 
             } elseif ($model->getUri() == $current) {
                 $options[$optUri] = $optLabel.' ('.(is_null($status) ? __('unknown') : $status->getLabel()).')';
