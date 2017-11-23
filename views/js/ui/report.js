@@ -87,7 +87,7 @@ define([
         data.children = children;
         data.actions = actions;
         return feedbackTpl(data);
-    }
+    };
 
     var report = {
         /**
@@ -169,17 +169,17 @@ define([
                     self.trigger('action', actionId);
                 });
 
-                $checkbox.click(function(){
+                $checkbox.on('change', _.throttle(function(){
                     if(self.isDetailed()){
                         self.hideDetails();
                     }else{
                         self.showDetails();
                     }
-                });
+                }, 100));
 
             })
             .init(initConfig);
-    }
+    };
 
     return reportComponentFactory;
 });
