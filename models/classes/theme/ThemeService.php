@@ -42,25 +42,17 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
-        $themes = $this->getAllThemes();
-        $baseId = method_exists($theme, 'getId') ? $theme->getId() : '';
+        $themes  = $this->getAllThemes();
+        $themeId = $this->getUniqueId($theme);
 
-        $idNumber = '';
-        if ($protectAlreadyExistingThemes) {
-            $idNumber = 0;
-            while (isset($themes[$baseId . $idNumber])) {
-                $idNumber++;
-            }
-        }
-
-        $themes[$baseId . $idNumber] = [
+        $themes[$themeId] = [
             'class' => get_class($theme),
             'options' => ($theme instanceof Configurable) ? $theme->getOptions() : []
         ];
 
         $this->setOption(self::OPTION_AVAILABLE, $themes);
 
-        return $baseId . $idNumber;
+        return $themeId;
     }
 
     /**

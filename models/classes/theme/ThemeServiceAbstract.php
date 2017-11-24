@@ -115,6 +115,25 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     }
 
     /**
+     * Returns the unique identifier.
+     *
+     * @param Theme $theme
+     *
+     * @return string
+     */
+    protected function getUniqueId(Theme $theme)
+    {
+        $baseId = method_exists($theme, 'getId') ? $theme->getId() : '';
+
+        $idNumber = 0;
+        while ($this->hasTheme($baseId . $idNumber)) {
+            $idNumber++;
+        }
+
+        return $baseId . $idNumber;
+    }
+
+    /**
      * Tells if the page has to be headless: without header and footer.
      *
      * @return bool|mixed
