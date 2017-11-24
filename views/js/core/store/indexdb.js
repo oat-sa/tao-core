@@ -369,10 +369,18 @@ define([
         }
         return getKnownStores().then(function(store) {
             return new Promise(function(resolve, reject) {
-                store.getAll( function (storeNames){
-                    return resolve(_.filter(storeNames || [], function(storeName){
+                store.getAll( function (entries){
+
+                    var storeNames = _(entries)
+                    .map(function(entry){
+                        return entry && entry.key;
+                    })
+                    .filter(function(storeName){
                         return validate(storeName);
-                    }));
+                    })
+                    .value();
+
+                    return resolve(storeNames);
                 }, reject);
             });
         });

@@ -33,6 +33,8 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.test("factory", function(assert){
+        var store;
+
         QUnit.expect(4);
 
         assert.throws(function(){
@@ -43,15 +45,18 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             indexDbBackend(false);
         }, TypeError, 'The backend should be created with a valid store id');
 
-        var store = indexDbBackend('foo');
+        store = indexDbBackend('foo');
 
         assert.equal(typeof store, 'object', 'The factory return an object');
         assert.notDeepEqual(indexDbBackend('foo'), store, 'The factory creates a new object');
     });
 
     QUnit.test("store", function(assert){
+        var store;
+
         QUnit.expect(7);
-        var store = indexDbBackend('foo');
+
+        store = indexDbBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
         assert.equal(typeof store.getItem, 'function', 'The store exposes the getItem method');
@@ -67,12 +72,15 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.module('CRUD');
 
     QUnit.asyncTest("setItem", function(assert){
+        var store;
+        var p;
+
         QUnit.expect(4);
 
-        var store = indexDbBackend('foo');
+        store = indexDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
-        var p = store.setItem('bar', 'boz');
+        p = store.setItem('bar', 'boz');
         assert.ok(p instanceof Promise, 'setItem returns a Promise');
 
         p.then(function(result){
@@ -88,12 +96,15 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.asyncTest("getItem", function(assert){
+        var store;
+        var p;
+
         QUnit.expect(5);
 
-        var store = indexDbBackend('foo');
+        store = indexDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
-        var p = store.setItem('bar', 'noz');
+        p = store.setItem('bar', 'noz');
         assert.ok(p instanceof Promise, 'setItem returns a Promise');
 
         p.then(function(result){
@@ -113,9 +124,11 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.asyncTest("removeItem", function(assert){
+        var store;
+
         QUnit.expect(5);
 
-        var store = indexDbBackend('foo');
+        store = indexDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         store.setItem('moo', 'noob')
@@ -127,8 +140,8 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             });
         }).then(function(){
             return store.removeItem('moo').then(function(rmResult){
-                    assert.ok(rmResult, 'The item is removed');
-                });
+                assert.ok(rmResult, 'The item is removed');
+            });
         }).then(function(){
             return store.getItem('moo').then(function(value){
                 assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
@@ -141,9 +154,11 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.asyncTest("clear", function(assert){
+        var store;
+
         QUnit.expect(5);
 
-        var store = indexDbBackend('foo');
+        store = indexDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         Promise.all([
@@ -156,13 +171,13 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             });
         }).then(function(){
             return store.clear().then(function(rmResult){
-                    assert.ok(rmResult, 'The item is removed');
-                });
+                assert.ok(rmResult, 'The item is removed');
+            });
         }).then(function(){
             return store.getItem('too').then(function(value){
                 assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
-                return store.getItem('zoo').then(function(value){
-                    assert.equal(typeof value, 'undefined', 'The value does not exists anymore');
+                return store.getItem('zoo').then(function(newValue){
+                    assert.equal(typeof newValue, 'undefined', 'The value does not exists anymore');
                     QUnit.start();
                 });
             });
@@ -172,9 +187,8 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         });
     });
 
-    QUnit.asyncTest("object", function(assert){
-        QUnit.expect(3);
-
+    QUnit.asyncTest("get/set object", function(assert){
+        var store;
         var sample = {
             collection : [{
                 item1: true,
@@ -184,7 +198,10 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 item4: { value : null }
             }]
         };
-        var store = indexDbBackend('foo');
+
+        QUnit.expect(3);
+
+        store = indexDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         store.setItem('sample', sample).then(function(added){
@@ -203,9 +220,11 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.module('Erase');
 
     QUnit.asyncTest("removeStore", function (assert) {
+        var store;
+
         QUnit.expect(6);
 
-        var store = indexDbBackend('foo');
+        store = indexDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         Promise.all([
@@ -219,16 +238,18 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             })
             .then(function () {
                 return store.removeStore().then(function (rmResult) {
+                    var store2;
+
                     assert.ok(rmResult, 'The store is removed');
 
-                    var store2 = indexDbBackend('foo');
+                    store2 = indexDbBackend('foo');
                     assert.equal(typeof store2, 'object', 'The store is an object');
 
                     return store2.getItem('too').then(function (value) {
                         assert.equal(typeof value, 'undefined', 'The store has been erased');
 
-                        return store2.removeStore().then(function (rmResult) {
-                            assert.ok(rmResult, 'The store is removed');
+                        return store2.removeStore().then(function (newRmResult) {
+                            assert.ok(newRmResult, 'The store is removed');
                             QUnit.start();
                         });
                     });
@@ -241,10 +262,13 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     });
 
     QUnit.asyncTest("removeAll", function (assert) {
+        var store1;
+        var store2;
+
         QUnit.expect(24);
 
-        var store1 = indexDbBackend('foo1');
-        var store2 = indexDbBackend('foo2');
+        store1 = indexDbBackend('foo1');
+        store2 = indexDbBackend('foo2');
 
         assert.equal(typeof store1, 'object', 'The store1 is an object');
         assert.equal(typeof store2, 'object', 'The store2 is an object');
@@ -259,16 +283,16 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
             .then(function () {
                 return store1.getItem('too').then(function (value) {
                     assert.equal(value, 'tooa', 'The value of too retrieved from store1 is correct');
-                    return store1.getItem('zoo').then(function (value) {
-                        assert.equal(value, 'zooa', 'The value of zoo retrieved from store1 is correct');
+                    return store1.getItem('zoo').then(function (newValue) {
+                        assert.equal(newValue, 'zooa', 'The value of zoo retrieved from store1 is correct');
                     });
                 });
             })
             .then(function () {
                 return store2.getItem('too').then(function (value) {
                     assert.equal(value, 'toob', 'The value of too retrieved from store2 is correct');
-                    return store2.getItem('zoo').then(function (value) {
-                        assert.equal(value, 'zoob', 'The value of zoo retrieved from store2 is correct');
+                    return store2.getItem('zoo').then(function (newValue) {
+                        assert.equal(newValue, 'zoob', 'The value of zoo retrieved from store2 is correct');
                     });
                 });
             })
@@ -279,7 +303,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 assert.ok(rmResult, 'The stores are removed');
             })
             .then(function () {
-                var store1 = indexDbBackend('foo1');
+                store1 = indexDbBackend('foo1');
                 assert.equal(typeof store1, 'object', 'The store1 is an object');
 
                 return store1.getItem('too').then(function (value) {
@@ -291,7 +315,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 });
             })
             .then(function () {
-                var store2 = indexDbBackend('foo2');
+                store2 = indexDbBackend('foo2');
                 assert.equal(typeof store2, 'object', 'The store2 is an object');
 
                 return store2.getItem('too').then(function (value) {
@@ -303,8 +327,8 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 });
             })
             .then(function() {
-                var store1 = indexDbBackend('foo1');
-                var store2 = indexDbBackend('foo2');
+                store1 = indexDbBackend('foo1');
+                store2 = indexDbBackend('foo2');
 
                 assert.equal(typeof store1, 'object', 'The store1 is an object');
                 assert.equal(typeof store2, 'object', 'The store2 is an object');
@@ -332,7 +356,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                         assert.ok(rmResult, 'The stores are removed');
                     })
                     .then(function () {
-                        var store1 = indexDbBackend('foo1');
+                        store1 = indexDbBackend('foo1');
                         assert.equal(typeof store1, 'object', 'The store1 is an object');
 
                         return store1.getItem('zoo').then(function (value) {
@@ -344,7 +368,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                         });
                     })
                     .then(function () {
-                        var store2 = indexDbBackend('foo2');
+                        store2 = indexDbBackend('foo2');
                         assert.equal(typeof store1, 'object', 'The store2 is an object');
 
                         return store2.getItem('zoo').then(function (value) {
@@ -363,6 +387,56 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 assert.ok(false, err);
                 QUnit.start();
             });
+    });
+
+
+    QUnit.module('get stores');
+
+    QUnit.asyncTest('get all stores', function(assert){
+        var store1;
+        var store2;
+        var store3;
+
+        QUnit.expect(8);
+
+        assert.equal(typeof indexDbBackend.getAll, 'function', 'IndexedDB backend exposes the getAll method');
+
+        store1 = indexDbBackend('test-store-1');
+        store2 = indexDbBackend('test-store-2');
+        store3 = indexDbBackend('bar3');
+
+        assert.equal(typeof store1, 'object', 'The store1 is an object');
+        assert.equal(typeof store2, 'object', 'The store2 is an object');
+        assert.equal(typeof store3, 'object', 'The store2 is an object');
+
+        Promise.all([
+            store1.setItem('test', true),
+            store2.setItem('test', true),
+            store3.setItem('test', true)
+        ]).then(function(){
+
+            var validate = function(name){
+                return name === 'test-store-1' || name === 'test-store-2';
+            };
+
+            return indexDbBackend.getAll(validate).then(function(storeNames){
+                assert.equal(storeNames.length, 2, 'Two store names have been found');
+                assert.ok(storeNames.indexOf('test-store-1') > -1, 'The 1st store is selected');
+                assert.ok(storeNames.indexOf('test-store-2') > -1, 'The 2nd store is selected');
+                assert.ok(storeNames.indexOf('bar3') === -1, 'The 3rd store is filtered');
+            });
+
+        })
+        .then(function(){
+            return indexDbBackend.removeAll();
+        })
+        .then(function(){
+            QUnit.start();
+        })
+        .catch(function (err) {
+            assert.ok(false, err);
+            QUnit.start();
+        });
     });
 
     QUnit.module('store id');
