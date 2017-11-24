@@ -18,7 +18,7 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define(['lib/polyfill/performance-now'], function () {
+define(function () {
     'use strict';
 
     /**

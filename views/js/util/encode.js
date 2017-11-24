@@ -53,8 +53,38 @@ define([
         return encodeHTML(html).replace(_reQuot, '&quot;').replace(_reApos, '&apos;');
     };
 
+    /**
+     * Encodes a Unicode string to Base64.
+     * Borrowed from MDN: https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+     * @param {String} str
+     * @returns {String}
+     */
+    function encodeBase64(str) {
+        // first we use encodeURIComponent to get percent-encoded UTF-8,
+        // then we convert the percent encodings into raw bytes which
+        // can be fed into btoa.
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        }));
+    }
+
+    /**
+     * Decodes a Base64 string to Unicode string.
+     * Borrowed from MDN: https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+     * @param {String} str
+     * @returns {String}
+     */
+    function decodeBase64(str) {
+        // Going backwards: from bytestream, to percent-encoding, to original string.
+        return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    }
+
     return {
         html: encodeHTML,
-        attribute: encodeAttribute
+        attribute: encodeAttribute,
+        encodeBase64: encodeBase64,
+        decodeBase64: decodeBase64
     };
 });

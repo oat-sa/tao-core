@@ -63,6 +63,18 @@ class DateHelperTest extends TaoPhpUnitTestRunner
         $this->assertEquals('1980-02-01 10:00', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_DATEPICKER));
         $this->assertEquals('February 1, 1980, 10:00:00 am', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_VERBOSE));
         $this->assertEquals('1980-02-01T10:00:00.012', tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601));
+        
+        $ms = '0.9999 1509450498';
+        $dateStr = tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601);
+        $this->assertSame(1, preg_match('/\.000$/', $dateStr));
+        
+        $ms = '0.99999999 1509450498';
+        $dateStr = tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601);
+        $this->assertSame(1, preg_match('/\.000$/', $dateStr));
+        
+        $ms = '0.99999951 1509450498';
+        $dateStr = tao_helpers_Date::displayeDate($ms, tao_helpers_Date::FORMAT_ISO8601);
+        $this->assertSame(1, preg_match('/\.000$/', $dateStr));
     }
 
     public function testDisplayDateSpecificTimeZone()
@@ -107,6 +119,9 @@ class DateHelperTest extends TaoPhpUnitTestRunner
     {
         $microtime = "0.60227900 1425372507";
         $this->assertEquals(1425372507, tao_helpers_Date::getTimeStamp($microtime));
+        
+        $microtime = "0.00000000 1425372507";
+        $this->assertEquals(1425372507.000000, tao_helpers_Date::getTimeStamp($microtime, true));
     }
 
     /**

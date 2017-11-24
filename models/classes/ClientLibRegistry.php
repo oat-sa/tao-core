@@ -23,7 +23,6 @@ use oat\oatbox\AbstractRegistry;
 use \common_ext_ExtensionsManager;
 use \common_Logger;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 
 /**
@@ -81,9 +80,13 @@ class ClientLibRegistry extends AbstractRegistry
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $id
      * @param string $fullPath
+     * @throws \common_exception_Error
      */
     public function register($id, $fullPath)
     {
+        /** @var AssetService $assetService */
+        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+
         if (self::getRegistry()->isRegistered($id)) {
             common_Logger::w('Lib already registered');
         }
@@ -94,11 +97,11 @@ class ClientLibRegistry extends AbstractRegistry
         
         $found = false;
         foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
-            if ($ext->hasConstant('BASE_WWW') && strpos($fullPath, $ext->getConstant('BASE_WWW')) === 0) {
+            if (strpos($fullPath, $assetService->getJsBaseWww( $ext->getId() )) === 0) {
                 $found = true;
                 self::getRegistry()->set($id, array(
                     'extId' => $ext->getId(),
-                    'path' => substr($fullPath, strlen($ext->getConstant('BASE_WWW')))
+                    'path' => substr($fullPath, strlen( $assetService->getJsBaseWww($ext->getId()) ))
                 ));
                 break;
             }

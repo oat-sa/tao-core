@@ -154,7 +154,7 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
         var $container;
         var pagination;
 
-        QUnit.expect(13);
+        QUnit.expect(14);
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
@@ -166,19 +166,19 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
 
                 pagination.setPage(8);
-                assert.equal(pagination.getActivePage(), 3, 'Current page still there');
+                assert.equal(pagination.getActivePage(), 7, 'Current page still there');
                 pagination.setPage(0);
-                assert.equal(pagination.getActivePage(), 3, 'Current page still there');
+                assert.equal(pagination.getActivePage(), 1, 'Current page still there');
                 pagination.setPage(-1);
-                assert.equal(pagination.getActivePage(), 3, 'Current page still there');
-                pagination.setPage(3);
+                assert.equal(pagination.getActivePage(), 1, 'Current page still there');
             })
             .on('error', function() {
                 assert.ok(true, 'Too much catched');
             })
             .on('change', function () {
-                assert.equal(pagination.getActivePage(), 3, 'Current page is correct');
-                assert.equal($('.page', $container).text(), 3, 'Current page in template is correct');
+                assert.ok(pagination.getActivePage() <= 7 && pagination.getActivePage() >= 1, 'Current page is correct');
+                var renderedPageNum = parseInt($('.page', $container).text(), 10);
+                assert.ok(renderedPageNum <= 7 && renderedPageNum >= 1, 'Current page in template is correct');
             })
             .render($container);
     });
@@ -405,13 +405,13 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             .on('render', function () {
                 assert.equal(pagination.getActivePage(), 5, 'Current page is correct');
                 pagination.setPage(11);
-                assert.equal(pagination.getActivePage(), 5, 'Current page still there');
+                assert.equal(pagination.getActivePage(), 10, 'Current page still there');
                 pagination.setPage(0);
-                assert.equal(pagination.getActivePage(), 5, 'Current page still there');
+                assert.equal(pagination.getActivePage(), 1, 'Current page still there');
                 pagination.setPage(-1);
-                assert.equal(pagination.getActivePage(), 5, 'Current page still there');
-                pagination.setPage(6);
+                assert.equal(pagination.getActivePage(), 1, 'Current page still there');
 
+                pagination.setPage(5);
                 assert.equal($('.page', $container).length, 7, 'Current page in template is correct');
                 assert.equal($('.separator', $container).length, 2, 'Separators counted correctly');
 

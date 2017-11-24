@@ -26,10 +26,11 @@ define([
     'urlParser',
     'core/eventifier',
     'core/mimetype',
+    'core/store',
     'tpl!ui/mediaplayer/tpl/player',
     'css!ui/mediaplayer/css/player',
     'nouislider'
-], function ($, _, __, async, UrlParser, eventifier, mimetype, playerTpl) {
+], function ($, _, __, async, UrlParser, eventifier, mimetype, store, playerTpl) {
     'use strict';
 
     /**
@@ -120,6 +121,7 @@ define([
             maxPlays :      0,
             replayTimeout : 0,
             canPause :      true,
+            canSeek :       true,
             loop :          false,
             autoStart :     false
         }
@@ -486,6 +488,7 @@ define([
         var player;
         var interval;
         var destroyed;
+        var initWidth, initHeight;
 
         function loopEvents(callback) {
             _.forEach(['onStateChange', 'onPlaybackQualityChange', 'onPlaybackRateChange', 'onError', 'onApiChange'], callback);
@@ -522,6 +525,10 @@ define([
                                     window.console.log(ev, e);
                                 });
                             });
+                        }
+
+                        if (initWidth && initHeight) {
+                            this.setSize(initWidth, initHeight);
                         }
 
                         mediaplayer._onReady();
@@ -625,6 +632,9 @@ define([
                     }
                     if (media) {
                         media.setSize(width, height);
+                    } else {
+                        initWidth = width;
+                        initHeight = height;
                     }
                 },
 
@@ -926,6 +936,7 @@ define([
          * @param {String|jQuery|HTMLElement} [config.renderTo] - An optional container in which renders the player
          * @param {Boolean} [config.loop] - The media will be played continuously
          * @param {Boolean} [config.canPause] - The play can be paused
+         * @param {Boolean} [config.canSeek] - The player allows to reach an arbitrary position within the media using the duration bar
          * @param {Boolean} [config.startMuted] - The player should be initially muted
          * @param {Boolean} [config.autoStart] - The player starts as soon as it is displayed
          * @param {Number} [config.autoStartAt] - The time position at which the player should start
@@ -947,6 +958,7 @@ define([
             this._setType(this.config.type || _defaults.type);
 
             this._reset();
+            this._updateVolumeFromStore();
             this._initEvents();
             this._initSources(function() {
                 if (!self.is('youtube')) {
@@ -1586,6 +1598,8 @@ define([
             this.autoStart = this.config.autoStart;
             this.autoStartAt = this.config.autoStartAt;
             this.startMuted = this.config.startMuted;
+
+
         },
 
         /**
@@ -1688,10 +1702,16 @@ define([
                 self.seek(value, true);
             });
 
+            $(document).on('updateVolume' + _ns, function(event, value) {
+                self.setVolume(value);
+            });
+
             this.$volume.on('change' + _ns, function(event, value) {
                 self.unmute();
+                $(document).trigger('updateVolume' + _ns, value);
                 self.setVolume(value, true);
             });
+
             this.$sound.on('mouseover' + _ns, 'a', function(){
                 var position;
 
@@ -1727,6 +1747,8 @@ define([
             this.$controls.off(_ns);
             this.$seek.off(_ns);
             this.$volume.off(_ns);
+
+            $(document).off(_ns);
         },
 
 
@@ -1749,7 +1771,7 @@ define([
          */
         _updateVolume : function _updateVolume(value, internal) {
             this.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(value)));
-
+            this._storeVolume(this.volume);
             if (!internal) {
                 this._updateVolumeSlider(value);
             }
@@ -1805,6 +1827,7 @@ define([
 
             if (value && isFinite(value)) {
                 this.$seekSlider = this._renderSlider(this.$seek, 0, 0, value);
+                this.$seekSlider.attr('disabled', !this.config.canSeek);
             }
         },
 
@@ -1843,6 +1866,7 @@ define([
             this._setState('ready', true);
             this._setState('canplay', true);
             this._setState('canpause', this.config.canPause);
+            this._setState('canseek', this.config.canSeek);
             this._setState('loading', false);
 
             /**
@@ -1859,6 +1883,36 @@ define([
             } else if (this.autoStart) {
                 this.play();
             }
+        },
+
+        /**
+         * Update volume in DBIndex store
+         * @param {Number} volume
+         * @private
+         */
+        _storeVolume: function _storeVolume(volume) {
+            return store('mediaVolume')
+                .then(function(volumeStore){
+                    volumeStore.setItem('volume', volume);
+                });
+        },
+
+        /**
+         * Get volume from DBIndex store
+         * @private
+         */
+        _updateVolumeFromStore: function _updateVolumeFromStore() {
+            var self = this;
+            return store('mediaVolume')
+                .then(function (volumeStore) {
+                    return volumeStore.getItem('volume');
+                })
+                .then(function (volume) {
+                    if(_.isNumber(volume)){
+                        self.volume = Math.max(_volumeMin, Math.min(_volumeMax, parseFloat(volume)));
+                        self.setVolume(self.volume);
+                    }
+                });
         },
 
         /**
@@ -2017,6 +2071,15 @@ define([
          */
         _canPause : function _canPause() {
             return !!this.config.canPause;
+        },
+
+        /**
+         * Checks if the media can be sought
+         * @returns {Boolean}
+         * @private
+         */
+        _canSeek : function _canSeek() {
+            return !!this.config.canSeek;
         },
 
         /**

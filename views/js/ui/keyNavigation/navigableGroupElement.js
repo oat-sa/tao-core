@@ -102,7 +102,7 @@ define([
                 if(!$group.is(':visible')){
                     return false;
                 }
-                _.each(keyNavigator.getNavigables(), function(nav){
+                _.forEach(keyNavigator.getNavigables(), function(nav){
                     if(nav.isVisible()){
                         hasVisibleNavigable = true;
                         return false;
@@ -116,7 +116,17 @@ define([
              * @returns {boolean}
              */
             isEnabled : function isEnabled() {
-                return !$group.is(':disabled');
+                var hasEnabledNavigable = false;
+                if($group.is(':disabled')){
+                    return false;
+                }
+                _.forEach(keyNavigator.getNavigables(), function(nav){
+                    if(nav.isEnabled()){
+                        hasEnabledNavigable = true;
+                        return false;
+                    }
+                });
+                return hasEnabledNavigable;
             },
 
             /**

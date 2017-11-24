@@ -1,0 +1,61 @@
+// Structure
+.window-component {
+    display: flex;
+    flex-direction: column;
+
+    .window-component-title-bar {
+        display: flex;
+        padding: 3px 8px;
+
+        .window-component-title {
+            flex: 1;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .window-component-controls {
+            flex: 0 1 auto;
+            button {
+                padding: 0;
+                height: auto;
+                margin-left: 8px;
+            }
+        }
+    }
+
+    .window-component-body {
+        flex: 1;
+        padding: 8px;
+    }
+}
+
+
+// Skin
+$titleBarTxt: white(1);
+$titleBarBg: $darkBar;
+$bodyBg: $canvas;
+$border: $titleBarBg;
+
+.window-component {
+    border: 1px solid $border;
+
+    .window-component-title-bar {
+        background-color: $titleBarBg;
+        color: $titleBarTxt;
+
+        .window-component-title {
+
+        }
+
+        .window-component-controls {
+            button {
+                background-color: transparent;
+            }
+        }
+    }
+
+    .window-component-body {
+        background-color: $bodyBg;
+    }
+}

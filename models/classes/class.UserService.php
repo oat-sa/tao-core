@@ -2,6 +2,7 @@
 use oat\oatbox\user\LoginService;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
+use oat\tao\model\TaoOntology;
 
 /*
  * This program is free software; you can redistribute it and/or
@@ -274,14 +275,14 @@ class tao_models_classes_UserService
     {
         $returnValue = array();
 
-        $returnValue = array(INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
+        $returnValue = array(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE));
 
         return (array) $returnValue;
     }
     
     public function getDefaultRole()
     {
-    	return new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
+    	return new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE);
     }
 
     /**
@@ -311,7 +312,7 @@ class tao_models_classes_UserService
      */
     public function getAllUsers($options = [], $filters = [PROPERTY_USER_LOGIN => '*'])
     {
-        $userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
+        $userClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 		$options = array_merge(['recursive' => true, 'like' => true], $options);
 
 		return (array) $userClass->searchInstances($filters, $options);
@@ -327,7 +328,7 @@ class tao_models_classes_UserService
      */
 	public function getCountUsers($options = [], $filters = [])
 	{
-		$userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
+		$userClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 
 		return $userClass->countInstances($filters, $options);
 	}
@@ -429,7 +430,7 @@ class tao_models_classes_UserService
         
         //set up default properties
         if(!is_null($user)){
-            $user->setPropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRSTTIME), GENERIS_TRUE);
+            $user->setPropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_FIRST_TIME), GENERIS_TRUE);
         }
     	
         return $user;
@@ -524,7 +525,7 @@ class tao_models_classes_UserService
 	 */
 	public function getRootClass()
 	{
-		return new core_kernel_classes_Class(CLASS_TAO_USER);
+		return new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 	}
 
     /**

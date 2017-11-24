@@ -2,16 +2,16 @@
 
     {{#if options.filter}}
     <aside class="filter" data-column="{{options.filter.columns}}">
-        <input type="text" value="" name="filter" placeholder="{{__ 'Filter'}}">
+        <input type="text" value="" name="filter" placeholder="{{options.labels.filter}}">
         <button class="icon-find" type="button"></button>
     </aside>
     {{/if}}
 
     {{#with options.status}}
     <h2>
-        <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{__ 'Nothing to list!'}}{{/if}}</span>
-        <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{__ 'Available'}}{{/if}}</span>: <span class="count">{{count}}</span></span>
-        <span class="loading">{{#if loading}}{{loading}}{{else}}{{__ 'Loading'}}{{/if}}...</span>
+        <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{options.labels.empty}}{{/if}}</span>
+        <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{options.labels.available}}{{/if}}</span>: <span class="count">{{count}}</span></span>
+        <span class="loading">{{#if loading}}{{loading}}{{else}}{{options.labels.loading}}{{/if}}...</span>
     </h2>
     {{/with}}
 
@@ -47,7 +47,7 @@
                     {{/if}}
                     {{#each options.model}}
                     <th{{#if type}} class="actions"{{/if}}>
-                        <div {{#if sortable}} class="sortable" data-sort-by="{{id}}" tabindex="0"{{/if}}>{{label}}</div>
+                        <div {{#if sortable}} class="sortable" data-sort-by="{{id}}" {{#if sorttype}}data-sort-type="{{sorttype}}"{{/if}} tabindex="0"{{/if}}>{{label}}</div>
                         {{#if filterable}}
                         <aside data-column="{{id}}" class="filter column
                             {{#if customFilter}} customInput" >
@@ -61,7 +61,7 @@
                     </th>
                     {{/each}}
                     {{#if options.actions}}
-                    <th class="actions">{{__ 'Actions'}}</th>
+                    <th class="actions">{{options.labels.actions}}</th>
                     {{/if}}
                 </tr>
             </thead>

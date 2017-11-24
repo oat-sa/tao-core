@@ -20,6 +20,8 @@
  */
 use oat\tao\helpers\form\elements\TreeAware;
 use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\WidgetDefinitions;
 
 /**
  * The GenerisFormFactory enables you to create Forms using rdf data and the
@@ -101,7 +103,7 @@ class tao_helpers_form_GenerisFormFactory
 					else{
 						/** @var core_kernel_classes_Resource $rangeInstance */
                         foreach ($range->getInstances(true) as $rangeInstance) {
-                            $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP));
+                            $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TaoOntology::LIST_LEVEL_PROP));
                             if (is_null($level)) {
                                 $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = array(tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel());
                             } else {
@@ -156,7 +158,7 @@ class tao_helpers_form_GenerisFormFactory
 
 
         if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::OBJECT_CLASS_URI );
 		}
 
 
@@ -288,63 +290,63 @@ class tao_helpers_form_GenerisFormFactory
 		$returnValue = array(
 			'text' => array(
 				'title' 	=> __('Text - Short - Field'),
-				'widget'	=> PROPERTY_WIDGET_TEXTBOX,
+				'widget'	=> WidgetDefinitions::PROPERTY_TEXTBOX,
 				'range'		=> RDFS_LITERAL,
 			    'multiple'  => GENERIS_FALSE
 			),
 			'longtext' => array(
 				'title' 	=> __('Text - Long - Box'),
-				'widget'	=> PROPERTY_WIDGET_TEXTAREA,
+				'widget'	=> WidgetDefinitions::PROPERTY_TEXTAREA,
 				'range'		=> RDFS_LITERAL,
 			    'multiple'  => GENERIS_FALSE
 			),
 			'html' => array(
 				'title' 	=> __('Text - Long - HTML editor'),
-				'widget'	=> PROPERTY_WIDGET_HTMLAREA,
+				'widget'	=> WidgetDefinitions::PROPERTY_HTMLAREA,
 				'range'		=> RDFS_LITERAL,
 			    'multiple'  => GENERIS_FALSE
 			),
 			'list' => array(
 				'title' 	=> __('List - Single choice - Radio button'),
-				'widget'	=> PROPERTY_WIDGET_RADIOBOX,
+				'widget'	=> WidgetDefinitions::PROPERTY_RADIOBOX,
 				'range'		=> RDFS_RESOURCE,
 			    'multiple'  => GENERIS_FALSE
 			),
 
 			'multiplenodetree' => array(
 				'title' 	=> __('Tree - Multiple node choice '),
-				'widget'	=> PROPERTY_WIDGET_TREEBOX,
+				'widget'	=> WidgetDefinitions::PROPERTY_TREEBOX,
 				'range'		=> RDFS_RESOURCE,
 				'multiple'  => GENERIS_TRUE
 			),
 
 			'longlist' => array(
 				'title' 	=> __('List - Single choice - Drop down'),
-				'widget'	=> PROPERTY_WIDGET_COMBOBOX,
+				'widget'	=> WidgetDefinitions::PROPERTY_COMBOBOX,
 				'range'		=> RDFS_RESOURCE,
 			    'multiple'  => GENERIS_FALSE
 			),
 			'multilist' => array(
 				'title' 	=> __('List - Multiple choice - Check box'),
-				'widget'	=> PROPERTY_WIDGET_CHECKBOX,
+				'widget'	=> WidgetDefinitions::PROPERTY_CHECKBOX,
 				'range'		=> RDFS_RESOURCE,
 			    'multiple'  => GENERIS_TRUE
 			),
 			'calendar' => array(
 				'title' 	=> __('Calendar'),
-				'widget'	=> PROPERTY_WIDGET_CALENDAR,
+				'widget'	=> WidgetDefinitions::PROPERTY_CALENDAR,
 				'range'		=> RDFS_LITERAL,
 			    'multiple'  => GENERIS_FALSE
 			),
 			'password' => array(
 				'title' 	=> __('Password'),
-				'widget'	=> PROPERTY_WIDGET_HIDDENBOX,
+				'widget'	=> WidgetDefinitions::PROPERTY_HIDDENBOX,
 				'range'		=> RDFS_LITERAL,
 			    'multiple'  => GENERIS_FALSE
 			),
 			'file' => array(
 				'title' 	=> __('File'),
-				'widget'	=> PROPERTY_WIDGET_FILE,
+				'widget'	=> WidgetDefinitions::PROPERTY_FILE,
 				'range'		=> CLASS_GENERIS_FILE,
 			    'multiple'  => GENERIS_FALSE
 			)

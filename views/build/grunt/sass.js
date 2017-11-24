@@ -5,30 +5,34 @@ module.exports = function(grunt) {
 
     grunt.config.merge({
         sass : {
-            options : {
-                noCache: true,
-                unixNewlines : true,
-                loadPath : ['../scss/', '../js/lib/'],
-                lineNumbers : false,
-                style : 'compressed'
+            options: {
+                includePaths : [ '../scss/', '../js/lib/' ],
+                outputStyle : 'compressed',
+                sourceMap : true
             },
             tao: {
                 files : {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
                     '../css/tao-3.css' : '../scss/tao-3.scss',
                     '../css/layout.css' : '../scss/layout.scss',
-                    '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss',
+                    '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss'
                 }
             },
             ckeditor : {
                 files : {
                     '../js/lib/ckeditor/skins/tao/editor.css' : '../js/lib/ckeditor/skins/tao/scss/editor.scss',
-                    '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss',
+                    '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss'
                 }
             },
-            mediaplayer : {
+            component : {
                 files : {
                     '../js/ui/mediaplayer/css/player.css' : '../js/ui/mediaplayer/scss/player.scss',
+                    '../js/ui/class/css/selector.css' : '../js/ui/class/scss/selector.scss',
+                    '../js/ui/resource/css/selector.css' : '../js/ui/resource/scss/selector.scss',
+                    '../js/ui/generis/form/form.css' : '../js/ui/generis/form/form.scss',
+                    '../js/ui/generis/widget/widget.css' : '../js/ui/generis/widget/widget.scss',
+                    '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss',
+                    '../js/ui/switch/css/switch.css' : '../js/ui/switch/scss/switch.scss'
                 }
             }
         },
@@ -40,6 +44,13 @@ module.exports = function(grunt) {
             taosass : {
                 files : ['../scss/*.scss', '../scss/**/*.scss', '../js/lib/jsTree/**/*.scss'],
                 tasks : ['sass:tao', 'notify:taosass'],
+                options : {
+                    debounceDelay : 1000
+                }
+            },
+            componentsass : {
+                files : ['../js/ui/**/*.scss'],
+                tasks : ['sass:component', 'notify:taosass' ],
                 options : {
                     debounceDelay : 1000
                 }
@@ -57,5 +68,5 @@ module.exports = function(grunt) {
     });
 
     //register an alias for main build
-    grunt.registerTask('taosass', ['sass:tao']);
+    grunt.registerTask('taosass', ['sass:tao', 'sass:component']);
 };

@@ -1,0 +1,95 @@
+@import "inc/bootstrap";
+
+.class-selector{
+    padding: 5px;
+    position: relative;
+
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
+    a.selected {
+        display: inline-block;
+        position: relative;
+        @include simple-border;
+        @include border-radius(3);
+        padding: 3px 10px;
+        text-decoration: none;
+        width: 100%;
+
+        background-color: $uiGeneralContentBg;
+
+        &.empty{
+            color: $uiClickableActiveBg;
+        }
+
+        &:after {
+            @include tao-icon-setup;
+            @include icon-down;
+            position: absolute;
+            right: 10px;
+            top: 7px;
+        }
+    }
+
+    .options {
+
+        position: absolute;
+        width: 100%;
+        background-color: $uiClickableDefaultBg;
+        border: solid 1px $uiGeneralContentBorder;
+        @include border-radius-bottom(3);
+        @include box-shadow;
+        left: 0;
+        margin-top: 7px;
+        overflow-y: auto;
+        z-index: 100;
+        min-height: 100px;
+        max-height: 450px;
+        @include transition(max-height, 300ms, ease);
+
+        &.folded {
+            overflow: hidden;
+
+            min-height: 0;
+            max-height: 0;
+            border-width: 0;
+            @include transition(max-height, 300ms, ease);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 0 15px;
+
+            li {
+                padding-top: 3px;
+
+                a {
+                    text-decoration: none;
+                    color: $textColor;
+
+                    &:hover {
+                        color: $info;
+                        @include transition(color, 200ms, linear);
+                    }
+                }
+
+                &:before {
+                    @include tao-icon-setup;
+                    @include icon-folder;
+                    color: $warning;
+                    top: 2px;
+                    @include vendor-prefix(text-shadow, 1px 1px 0 blacken($warning, .2), property, (-webkit-, -moz-, ''));
+                    margin-right: 4px;
+                }
+            }
+        }
+
+        & > ul {
+            margin: 5px 0 0 7px;
+        }
+    }
+}
+

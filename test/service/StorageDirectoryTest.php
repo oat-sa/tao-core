@@ -24,9 +24,8 @@ use League\Flysystem\Adapter\AbstractAdapter;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-class StorageDirectoryTest extends TaoPhpUnitTestRunner
+class StorageDirectoryTest extends \PHPUnit_Framework_TestCase
 {
     protected $fileSystemTmpId;
     protected $fileSystem;

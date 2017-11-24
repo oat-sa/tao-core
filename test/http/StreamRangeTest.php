@@ -18,9 +18,7 @@
  *
  */
 
-use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\stream\StreamRange;
-use oat\tao\model\stream\StreamRangeException;
 use Slim\Http\Stream;
 
 /**
@@ -28,14 +26,8 @@ use Slim\Http\Stream;
  * @package tao
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class StreamRangeTest extends TaoPhpUnitTestRunner
+class StreamRangeTest extends \PHPUnit_Framework_TestCase
 {
-
-
-    protected function setUp()
-    {
-        parent::setUp();
-    }
 
 
     /**

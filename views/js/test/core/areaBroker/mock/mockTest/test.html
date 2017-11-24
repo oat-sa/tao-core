@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Area Broker Mock</title>
+    <link rel="stylesheet" type="text/css" href="/tao/views/js/lib/qunit/qunit.css">
+    <script type="text/javascript" src="/tao/views/js/lib/require.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking"
+            data-cover-only="/tao/views/js/test/core/areaBroker/mock/areaBrokerMock.js"></script>
+    <script type="text/javascript">
+        QUnit.config.autostart = false;
+        require(['/tao/ClientConfig/config'], function () {
+            require(['/tao/views/js/test/core/areaBroker/mock/mockTest/test.js'], function () {
+                QUnit.start();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <div id="custom-areas">
+        <div class="custom-content"></div>
+        <div class="custom-actionbars">
+            <div class="custom-nav"></div>
+            <div class="custom-toolbox"></div>
+        </div>
+    </div>
+</body>
+</html>
+

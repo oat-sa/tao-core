@@ -31,12 +31,22 @@
  */
 abstract class tao_scripts_Runner
 {
+    // Adding container and logger.
+    use \oat\oatbox\log\ContainerLoggerTrait;
+
+    /**
+     * Runner related dependencies will be reached under this offset.
+     * (use different indexes for every single child!!!)
+     */
+    const CONTAINER_INDEX = 'taoScriptsRunner';
+
     // --- ASSOCIATIONS ---
 
 
     // --- ATTRIBUTES ---
     private $isCli;
     private $logOny;
+
     /**
      * Short description of attribute parameters
      *
@@ -60,13 +70,15 @@ abstract class tao_scripts_Runner
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @param  array inputFormat
-     * @param  array options
+     * @param  \Pimple\Container|array $inputFormat
+     * @param  array $options
      * @return mixed
      */
     public function __construct($inputFormat = array(), $options = array())
     {
-        
+        // Using the container if it's necessary with automatic dependency returning.
+        $inputFormat = $this->initContainer($inputFormat, static::CONTAINER_INDEX);
+
         if(PHP_SAPI == 'cli' && !isset($options['argv'])){
             $this->argv = $_SERVER['argv'];
             $this->isCli = true;
@@ -432,20 +444,30 @@ abstract class tao_scripts_Runner
      */
     protected function err($message, $stopExec = false)
     {
-        
         common_Logger::e($message);
         echo $this->out($message, array('color' => 'light_red'));
         
         if($stopExec == true){
-                    if($this->isCli){
-        	   exit(1);	//exit the program with an error
-            }
-            else {
-                throw new Exception($message);
-            }
+            $this->handleError(new Exception($message, 1));
         }
-        
-        
+    }
+
+    /**
+     * Handles a fatal error situation.
+     *
+     * @param Exception $e
+     *
+     * @throws Exception
+     */
+    protected function handleError(Exception $e)
+    {
+        if($this->isCli){
+            $errorCode = $e->getCode();
+            exit((empty($errorCode)) ? 1 : $errorCode);	//exit the program with an error
+        }
+        else {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -508,5 +530,3 @@ abstract class tao_scripts_Runner
     }
 
 } /* end of abstract class tao_scripts_Runner */
-
-?>

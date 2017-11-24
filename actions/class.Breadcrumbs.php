@@ -156,7 +156,17 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
         $routes = $this->getRoutes();
         foreach($routes as $route) {
             $parsedRoute = $this->parseRoute($route);
-            $data[] = $this->requestService($route, $parsedRoute);
+            $routeData = $this->requestService($route, $parsedRoute);
+
+            if ($routeData !== null) {
+                // When the routeData contains more entry. (if it's a numeric array)
+                if (array_values($routeData) === $routeData) {
+                    $data = array_merge($data, $routeData);
+                }
+                else {
+                    $data[] = $routeData;
+                }
+            }
         }
         $this->returnData($data);
     }

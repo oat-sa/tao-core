@@ -169,6 +169,18 @@ define(['jquery', 'ui/feedback'], function($, feedback){
             popup : true,
             message : 'It seems you suffer from hippopotomonstrosesq uipedaliophobia'
         }
+    }, {
+        title : 'very long warning with a dot at threshold position',
+        level : 'warning',
+        message : 'It seems you suffer from hippopotomonstrosesq.uipedaliophobia',
+        params : [],
+        options : {
+            wrapLongWordsAfter : 20
+        },
+        expected : {
+            popup : true,
+            message : 'It seems you suffer from hippopotomonstrosesq. uipedaliophobia'
+        }
     }])
     .asyncTest('message ', function(data, assert) {
         QUnit.expect(5);
@@ -180,7 +192,7 @@ define(['jquery', 'ui/feedback'], function($, feedback){
                 assert.ok($element.hasClass('feedback-' + data.level), 'The component root element has the correct level class');
                 assert.equal($('.icon-' + data.level, $element).length, 1, 'The component has the correct level icon');
                 assert.equal($($element).children('div').html().trim(), data.expected.message.trim(), 'The component has the correct message');
-                assert.equal($element.hasClass('popup'), data.expected.popup, 'Thei component has the correct popup state');
+                assert.equal($element.hasClass('popup'), data.expected.popup, 'The component has the correct popup state');
 
                 QUnit.start();
             })

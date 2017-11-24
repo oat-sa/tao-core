@@ -9,6 +9,22 @@
     <script type="text/javascript" src="/tao/views/js/lib/qunit/qunit-parameterize.js"></script>
     <script type="text/javascript" src="/tao/views/js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking"
             data-cover-only="ui/component/placeable.js"></script>
+
+    <style>
+        #outside {
+            position: relative;
+            border: solid 1px grey;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+        }
+        .component {
+            outline: dashed 2px black;
+            background-color: lightblue;
+            opacity: .5;
+        }
+    </style>
+
     <script type="text/javascript">
         QUnit.config.autostart = false;
         require(['/tao/ClientConfig/config'], function () {

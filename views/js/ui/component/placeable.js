@@ -33,9 +33,8 @@
  */
 define([
     'lodash',
-    'ui/component',
     'ui/transformer'
-], function (_, componentFactory, transformer) {
+], function (_, transformer) {
     'use strict';
 
     var defaultConfig = {
@@ -143,6 +142,24 @@ define([
                 this._translate(xOffsetAbsolute, yOffsetAbsolute);
             }
             return this;
+        },
+
+        /**
+         * Moves the component to the given X position
+         * @param {Number} x
+         * @returns {Component} chains
+         */
+        moveToX: function moveToX(x) {
+            return this.moveTo(x, this._y);
+        },
+
+        /**
+         * Moves the component to the given Y position
+         * @param {Number} y
+         * @returns {Component} chains
+         */
+        moveToY: function moveToY(y) {
+            return this.moveTo(this._x, y);
         },
 
         /**

@@ -19,8 +19,7 @@
  * 
  */
 use oat\generis\model\user\PasswordConstraintsService;
-use oat\tao\test\TaoPhpUnitTestRunner;
-include_once dirname(__FILE__) . '/../includes/raw_start.php';
+use oat\tao\model\TaoOntology;
 
 /**
  * Test the user management 
@@ -29,7 +28,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  
  */
-class UserTestCase extends TaoPhpUnitTestRunner {
+class UserTestCase extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * @var tao_models_classes_UserService
@@ -47,7 +46,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 		PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-		PROPERTY_USER_ROLES		=>  INSTANCE_ROLE_GLOBALMANAGER
+		PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
 	);
 	
 	/**
@@ -61,7 +60,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 		PROPERTY_USER_MAIL		=>	'f.lecé@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR',
-		PROPERTY_USER_ROLES		=>  INSTANCE_ROLE_GLOBALMANAGER
+		PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
 	);
 	
 	/**
@@ -78,7 +77,6 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		TaoPhpUnitTestRunner::initTest();
 		$this->userService = tao_models_classes_UserService::singleton();
 		$this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
 		$this->testUserUtf8Data[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserUtf8Data[PROPERTY_USER_PASSWORD]);
@@ -103,7 +101,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 
 		//insert it
 		$this->assertTrue($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
-		$tmclass = new core_kernel_classes_Class(CLASS_TAO_USER);
+		$tmclass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 		$this->testUser = $tmclass->createInstance();
 		$this->assertNotNull($this->testUser);
 		$this->assertTrue($this->testUser->exists());
@@ -134,7 +132,7 @@ class UserTestCase extends TaoPhpUnitTestRunner {
 	public function testAddUtf8User(){
 		
 		$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
-		$tmclass = new core_kernel_classes_Class(CLASS_TAO_USER);
+		$tmclass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
 		$this->testUserUtf8 = $tmclass->createInstance();
 		$this->assertNotNull($this->testUserUtf8);
 		$this->assertTrue($this->testUserUtf8->exists());

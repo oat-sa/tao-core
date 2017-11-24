@@ -171,22 +171,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 				throw new \common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
 			}
 		}
-		return array_merge($this->getCustomParameters(), $effectiveParameters);
-	}
-
-	/**
-	 * Handle default parameters
-	 * should be overriden to declare new and specific expected parameters
-	 *
-	 * @return array
-	 */
-	protected function getExpectedParameters()
-	{
-		$expectedParameters = array(
-			"label" => array(RDFS_LABEL, false),
-			"comment" => array(RDFS_COMMENT,false)
-		);
-		return array_merge($this->getCustomParameters(), $expectedParameters);
+		return $effectiveParameters;
 	}
 
 	/**
@@ -216,22 +201,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 			"comment" => RDFS_COMMENT,
 			"type"=> RDF_TYPE
 		);
-	}
-
-	/**
-	 * Handle extra custom parameters
-	 *
-	 * @return array
-	 */
-	private function getCustomParameters()
-	{
-		$customParameters = array();
-		foreach ($this->getHeaders() as $apacheParamName => $apacheParamValue) {
-			if (\common_Utils::isUri($apacheParamName)) {
-				$customParameters[$apacheParamName] = $apacheParamValue;
-			}
-		}
-		return $customParameters;
 	}
 
 	/**
