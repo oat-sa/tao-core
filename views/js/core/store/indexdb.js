@@ -356,6 +356,29 @@ define([
     };
 
     /**
+     * Get all storage
+     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @param {Function} [backend] - An optional storage handler to use
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    indexDbBackend.getAll = function getAll(validate) {
+        if (!_.isFunction(validate)) {
+            validate = function valid(){
+                return true;
+            };
+        }
+        return getKnownStores().then(function(store) {
+            return new Promise(function(resolve, reject) {
+                store.getAll( function (storeNames){
+                    return resolve(_.filter(storeNames || [], function(storeName){
+                        return validate(storeName);
+                    }));
+                }, reject);
+            });
+        });
+    };
+
+    /**
      * Get the identifier of the storage
      * @returns {Promise} that resolves with the store identifier
      */

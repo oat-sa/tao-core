@@ -45,8 +45,20 @@ define([
     var dectectionDone    = false;
 
     /**
-     * Detect IndexDB support.
-     * Due to a bug in firefox private mode, we need to try to open a database to be sure it's avaialable.
+     * The list of required methods exposed by a store backend
+     * @type {String[]}
+     */
+    var backendApi = ['removeAll', 'getAll', 'getStoreIdentifier'];
+
+    /**
+     * The list of required methods exposed by a store implementation
+     * @type {String[]}
+     */
+    var storeApi = ['getItem', 'setItem', 'removeItem', 'clear', 'removeStore'];
+
+    /**
+     * Detect IndexedDB support.
+     * Due to a bug in Firefox private mode, we need to try to open a database to be sure it's available.
      * @returns {Promise} that resolve the result
      */
     var isIndexDBSupported = function isIndexDBSupported(){
@@ -95,7 +107,7 @@ define([
      * @returns {Boolean} true if valid
      */
     var isBackendApiValid = function isBackendApiValid(backend) {
-        return _.all(['removeAll', 'getStoreIdentifier'], function methodExists(method){
+        return _.all(backendApi, function methodExists(method){
             return _.isFunction(backend[method]);
         });
     };
@@ -106,15 +118,15 @@ define([
      * @returns {Boolean} true if valid
      */
     var isStorageApiValid = function isStorageApiValid(storage) {
-        return _.all(['getItem', 'setItem', 'removeItem', 'clear', 'removeStore'], function methodExists(method){
+        return _.all(storeApi, function methodExists(method){
             return _.isFunction(storage[method]);
         });
     };
 
     /**
-     * Load the backend based either on the preselected and the current support
+     * Load the backend based either on the pre-selected and the current support
      * @param {Object} [preselectedBackend] - the backend to force the selection
-     * @returns {Promise} that resolves with the bakend
+     * @returns {Promise} that resolves with the backend
      */
     var loadBackend = function loadBackend(preselectedBackend) {
         return isIndexDBSupported().then(function(){
@@ -124,7 +136,7 @@ define([
                 return Promise.reject(new TypeError('No backend, no storage!'));
             }
             if(!isBackendApiValid(backend)){
-                return Promise.reject(new TypeError('This backend does not look like a store backend, it miss removeAll or getStoreIdentifier'));
+                return Promise.reject(new TypeError('This backend does comply with the store backend API'));
             }
             return backend;
         });
@@ -173,7 +185,19 @@ define([
     };
 
     /**
-     * Get the identifier of either the current (or the preselected store)
+     * Get the name/key of all storages
+     * @param {Function} [validate] - An optional callback that validates the store
+     * @param {Object} [preselectedBackend] - the backend to force the selection
+     * @returns {Promise<String[]>} resolves with the names of the stores
+     */
+    store.getAll = function getAll(validate, preselectedBackend) {
+        return loadBackend(preselectedBackend).then(function(backend){
+            return backend.getAll(validate);
+        });
+    };
+
+    /**
+     * Get the identifier of either the current (or the pre-selected store)
      * @param {Object} [preselectedBackend] - the backend to force the selection
      * @returns {Promise} that resolves with the identifier
      */

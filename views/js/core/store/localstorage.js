@@ -186,6 +186,41 @@ define([
         });
     };
 
+
+    /**
+     * Get all stores
+     * @param {Function} [validate] - An optional callback that validates
+     * @returns {Promise} with true in resolve once cleaned
+     */
+    localStorageBackend.removeAll = function removeAll(validate) {
+        var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        return new Promise(function (resolve, reject) {
+            try {
+                _(storage)
+                    .map(function(entry, index){
+                        return storage.key(index);
+                    })
+                    .filter(function(key){
+                        var res = keyPattern.exec(key);
+                        var storeName = res && res[1];
+                        if (storeName) {
+                            return validate ? validate(storeName) : true;
+                        }
+                        return false;
+                    })
+                    .forEach(function(key){
+                        storage.removeItem(key);
+                    });
+                resolve(true);
+            } catch (ex) {
+                reject(ex);
+            }
+        });
+    };
+
     /**
      * Get the identifier of the storage
      * @returns {Promise} that resolves with the store identifier
