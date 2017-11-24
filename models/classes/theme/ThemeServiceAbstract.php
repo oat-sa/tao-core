@@ -123,7 +123,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
      */
     protected function getUniqueId(Theme $theme)
     {
-        $baseId = method_exists($theme, 'getId') ? $theme->getId() : '';
+        $baseId = $theme->getId();
 
         $idNumber = 0;
         while ($this->hasTheme($baseId . $idNumber)) {
