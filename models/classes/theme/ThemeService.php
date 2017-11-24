@@ -84,7 +84,7 @@ class ThemeService extends ThemeServiceAbstract
         foreach ($themes as $key => $theme) {
             if (is_array($theme) && isset($theme['class'])) {
                 $options = isset($theme['options']) ? $theme['options'] : [];
-                $theme = new $theme['class']($options);
+                $theme   = $this->getServiceManager()->build($theme['class'], $options);
             }
 
             $themes[$key] = $theme;
