@@ -193,26 +193,30 @@ define([
      * @returns {Promise<String[]>} resolves with the list of stores
      */
     localStorageBackend.getAll = function getAll(validate) {
+        var storeNames = [];
         var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
         if (!_.isFunction(validate)) {
             validate = function valid(){
                 return true;
             };
         }
-        return Promise.resolve(
-            _(storage)
-                .map(function(entry, index){
-                    return storage.key(index);
-                })
-                .filter(function(key){
-                    var res = keyPattern.exec(key);
-                    var storeName = res && res[1];
-                    if (storeName) {
-                        return validate(storeName);
-                    }
-                    return false;
-                })
-        );
+
+        storeNames = _(storage)
+            .map(function(entry, index){
+                var key = storage.key(index);
+                var res = keyPattern.exec(key);
+                return res && res[1];
+
+            })
+            .filter(function(storeName){
+                if (storeName) {
+                    return validate(storeName);
+                }
+                return false;
+            })
+            .value();
+
+        return Promise.resolve(storeNames);
     };
 
     /**
