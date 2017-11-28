@@ -46,8 +46,8 @@ class ThemeService extends ThemeServiceAbstract
         $themeId = $this->getUniqueId($theme);
 
         $themes[$themeId] = [
-            'class' => get_class($theme),
-            'options' => ($theme instanceof Configurable) ? $theme->getOptions() : []
+            static::THEME_CLASS_OFFSET   => get_class($theme),
+            static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : []
         ];
 
         $this->setOption(self::OPTION_AVAILABLE, $themes);
@@ -72,11 +72,14 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getAllThemes()
     {
-        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        $themes = (array)$this->getOption(self::OPTION_AVAILABLE);
         foreach ($themes as $key => $theme) {
-            if (is_array($theme) && isset($theme['class'])) {
-                $options = isset($theme['options']) ? $theme['options'] : [];
-                $theme   = $this->getServiceManager()->build($theme['class'], $options);
+            if (is_array($theme) && isset($theme[static::THEME_CLASS_OFFSET])) {
+                $options = isset($theme[static::THEME_OPTIONS_OFFSET])
+                    ? $theme[static::THEME_OPTIONS_OFFSET]
+                    : []
+                ;
+                $theme   = $this->getServiceManager()->build($theme[static::THEME_CLASS_OFFSET], $options);
             }
 
             $themes[$key] = $theme;

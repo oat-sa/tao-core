@@ -26,10 +26,17 @@ interface ThemeServiceInterface
     /** Service identifier in the ServiceManager. */
     const SERVICE_ID = 'tao/theming';
 
-
+    /** The option of the theme collection. */
     const OPTION_AVAILABLE = 'available';
 
+    /** The option of the current theme name. */
     const OPTION_CURRENT = 'current';
+
+    /** The class name offset in the stored version. */
+    const THEME_CLASS_OFFSET = 'class';
+
+    /** The options offset in the stored version. */
+    const THEME_OPTIONS_OFFSET = 'options';
 
     const OPTION_THEME_DETAILS_PROVIDERS = 'themeDetailsProviders';
 
