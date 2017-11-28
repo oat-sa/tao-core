@@ -6,7 +6,7 @@ $foreground: $darkBarTxt;
     border-radius: 250%;
     position: absolute;
     background: $foreground;
-    z-index: 10;
+    z-index: 1;//create a stacking context to ensure it is display on top of its container
     width: 1px;
     height: 1px;
     top: 0px;
