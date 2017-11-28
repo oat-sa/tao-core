@@ -3,4 +3,11 @@
 $background: $darkBarTxt;
 .absorbable{
     background : $background;
+    opacity: 0.1;
+    &.animate{
+        opacity: 0.75;
+        border-radius: 50%;
+        transform: translateZ(0);
+        transition-timing-function: cubic-bezier(.2, .6, 1, .4);
+    }
 }
