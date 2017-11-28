@@ -239,29 +239,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		if ($this->hasRequestParameter('limit')) {
 			$options['limit'] = $this->getRequestParameter('limit');
 		}
-		
+
+		if ($this->hasRequestParameter('order')) {
+			$options['order'] = \tao_helpers_Uri::decode($this->getRequestParameter('order'));
+		}
+
+		if ($this->hasRequestParameter('orderdir')) {
+			$options['orderdir'] = $this->getRequestParameter('orderdir');
+		}
+
         //generate the tree from the given parameters
         $tree = $this->getClassService()->toTree($clazz, $options);
-        
         $tree = $this->addPermissions($tree);
-        
-        //sort items by name
-        function sortTreeNodes($a, $b) {
-            if (isset($a['data']) && isset($b['data'])) {
-                if ($a['type'] != $b['type']) {
-                    return ($a['type'] == 'class') ? -1 : 1;
-                } else {
-                    return strcasecmp($a['data'], $b['data']);
-                }
-            }
-        }
-        
-        if (isset($tree['children'])) {
-            usort($tree['children'], 'sortTreeNodes');
-        } elseif(array_values($tree) === $tree) {//is indexed array
-            usort($tree, 'sortTreeNodes');
-        }
-        
+
         //expose the tree
         $this->returnJson($tree);
 	}
