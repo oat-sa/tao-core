@@ -41,8 +41,8 @@ define([
                 .init()
                 .render($component)
                 .alignWith($component, {
-                    hPos : 0,
-                    vPos : 0,
+                    hPos : 'center',
+                    vPos : 'center',
                     hOrigin : 'center',
                     vOrigin : 'center'
                 });

@@ -46,8 +46,8 @@ define([
                 .render($component)
                 .setSize(targetWidth, targetHeight)
                 .alignWith($target, {
-                    hPos : 0,
-                    vPos : 0,
+                    hPos : 'center',
+                    vPos : 'center',
                     hOrigin : 'center',
                     vOrigin : 'center'
                 });
@@ -63,8 +63,8 @@ define([
                     animatedComponent
                         .setSize(finalWidth, finalHeight)
                         .alignWith($component, {
-                            hPos : 0,
-                            vPos : 0,
+                            hPos : 'center',
+                            vPos : 'center',
                             hOrigin : 'center',
                             vOrigin : 'center',
                             hOffset: targetWidth/2-finalWidth/2,
@@ -109,5 +109,5 @@ define([
             .on('init.makeAbsorbable', function() {
                 _.defaults(this.config, config || {}, defaultConfig);
             });
-    }
+    };
 });
