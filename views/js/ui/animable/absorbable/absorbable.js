@@ -101,7 +101,7 @@ define([
      * @param {Component} component - an instance of ui/component
      * @param {Object} config
      */
-    function makeAbsorbable(component, config) {
+    return function makeAbsorbable(component, config) {
         _.assign(component, absorbableComponent);
 
         return component
@@ -110,6 +110,4 @@ define([
                 _.defaults(this.config, config || {}, defaultConfig);
             });
     }
-
-    return makeAbsorbable;
 });
