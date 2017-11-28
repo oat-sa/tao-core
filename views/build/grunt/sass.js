@@ -34,6 +34,7 @@ module.exports = function(grunt) {
                     '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss',
                     '../js/ui/switch/css/switch.css' : '../js/ui/switch/scss/switch.scss',
                     '../js/ui/animable/absorbable/css/absorb.css' : '../js/ui/animable/absorbable/scss/absorb.scss',
+                    '../js/ui/badge/css/badge.css' : '../js/ui/badge/scss/badge.scss'
                 }
             }
         },
