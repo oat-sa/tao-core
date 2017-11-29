@@ -38,25 +38,26 @@ class ThemeService extends ConfigurableService {
     const OPTION_HEADLESS_PAGE = 'headless_page';
 
     /**
-     * Get the current theme
-     * @return Theme
+     * Returns the id of the current theme
+     * @return string
      */
-    public function getTheme() {
-        $themeId = $this->getThemeId();
-        return $this->getThemeById($themeId);
-    }
-
-
-    /**
-     * Get the id of the current theme
-     * @return mixed|string
-     */
-    public function getThemeId() {
+    public function getCurrentThemeId()
+    {
         $themeId = $this->getThemeIdFromThemeDetailsProviders();
         if (empty($themeId)) {
             $themeId = $this->getOption(self::OPTION_CURRENT);
         }
         return $themeId;
+    }
+
+    /**
+     * Get the current Theme
+     *
+     * @return Theme
+     */
+    public function getTheme()
+    {
+        return $this->getThemeById($this->getCurrentThemeId());
     }
 
     /**
@@ -153,7 +154,7 @@ class ThemeService extends ConfigurableService {
     /**
      * Get Theme identified by id
      *
-     * @param unknown $id
+     * @param string $id
      * @throws \common_exception_InconsistentData
      * @return Theme
      */
@@ -235,34 +236,18 @@ class ThemeService extends ConfigurableService {
 
 
     /**
-     * Remove all themes that share a certain class name
-     *
-     * @param $className
-     * @return mixed
-     */
-    public function removeThemesByClassName($className) {
-        $themes = $this->getOption(self::OPTION_AVAILABLE);
-        foreach($themes as $registryId => $theme) {
-            $current = is_array($theme) ? $theme['class'] : get_class($theme);
-            if($current === $className) {
-                unset($themes[$registryId]);
-            }
-        }
-        $this->setOption(self::OPTION_AVAILABLE, $themes);
-        return $themes;
-    }
-
-
-    /**
      * Remove a theme with a certain id
      *
      * @param $id
-     * @return mixed
+     * @return bool
      */
     public function removeThemeById($id) {
         $themes = $this->getOption(self::OPTION_AVAILABLE);
+        if(is_null($themes)) {
+            return false;
+        }
         unset($themes[$id]);
         $this->setOption(self::OPTION_AVAILABLE, $themes);
-        return $themes;
+        return true;
     }
 }
