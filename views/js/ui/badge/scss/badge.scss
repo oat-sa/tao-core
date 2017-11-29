@@ -14,7 +14,7 @@ $foreground: $darkBarTxt;
         border-radius:50%;
         background: $darkBarTxt;
     }
-    .loader {
+    .loader:not(.hidden) {
         position: relative;
         top:-1px;
         width:25px;
