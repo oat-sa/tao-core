@@ -119,7 +119,7 @@ define([
             .on('render', function(){
                 var self = this;
                 var $element = this.getElement();
-                var $container;
+                var $reason;
 
                 initModal({
                     disableEscape: true,
@@ -127,8 +127,8 @@ define([
                 });
 
                 if ( _.isObject(this.config.categoriesSelector)) {
-                    $container = $element.find('.reason').children('.categories');
-                    this.config.categoriesSelector.render($container);
+                    $reason = $element.find('.reason').children('.categories');
+                    this.config.categoriesSelector.render($reason);
                 }
 
                 $element
@@ -153,6 +153,7 @@ define([
                     // prevents all registered shortcuts to be triggered and activate the dialog shortcuts
                     globalShortcut.disable();
                     this.dialogShortcut = shortcutRegistry($('body'), {
+                        avoidInput: true,
                         propagate: false,
                         prevent: true
                     })
