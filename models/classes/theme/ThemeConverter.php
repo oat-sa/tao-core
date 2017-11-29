@@ -86,13 +86,13 @@ class ThemeConverter
         }
 
         if (method_exists($theme, 'getTemplate')) {
-            if (empty($options['templates'])) {
-                $options['templates'] = [];
+            if (empty($options[ConfigurablePlatformTheme::TEMPLATES])) {
+                $options[ConfigurablePlatformTheme::TEMPLATES] = [];
             }
             foreach ($templates as $id) {
                 $template = $theme->getTemplate($id);
                 if(!is_null($template)) {
-                    $options['templates'][$id] = $template;
+                    $options[ConfigurablePlatformTheme::TEMPLATES][$id] = $template;
                 }
             }
         }
@@ -100,13 +100,13 @@ class ThemeConverter
         // example: oat\taoExtension\model\theme\MyTheme
         $themeClass = get_class($theme);
         //@todo: map to container id
-        if (empty($options['containerId'])) {
+        if (empty($options[ConfigurablePlatformTheme::EXTENSION_ID])) {
             strtok($themeClass, '\\');
-            $options['containerId'] = strtok('\\');
+            $options[ConfigurablePlatformTheme::EXTENSION_ID] = strtok('\\');
         }
 
-        if (empty($options['label'])) {
-            $options['label'] = basename($themeClass);
+        if (empty($options[ConfigurablePlatformTheme::LABEL])) {
+            $options[ConfigurablePlatformTheme::LABEL] = basename($themeClass);
         }
         return new ConfigurablePlatformTheme($options);
     }
