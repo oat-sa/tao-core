@@ -21,12 +21,14 @@ define([
     'i18n',
     'tpl!ui/bulkActionPopup/tpl/layout',
     'ui/component',
+    'ui/keyNavigation/navigator',
+    'ui/keyNavigation/navigableDomElement',
     'util/shortcut/registry',
     'util/shortcut',
     'util/namespace',
     'ui/modal',
     'select2'
-], function($, _, __, layoutTpl, component, shortcutRegistry, globalShortcut, namespaceHelper){
+], function($, _, __, layoutTpl, component, keyNavigator, navigableDomElement, shortcutRegistry, globalShortcut, namespaceHelper){
     'use strict';
 
     /**
@@ -101,6 +103,10 @@ define([
                     this.dialogShortcut.clear();
                     this.dialogShortcut = null;
                 }
+                if (this.navigator) {
+                    this.navigator.destroy();
+                    this.navigator = null;
+                }
 
                 this.getElement().removeClass('modal').modal('destroy');
             })
@@ -134,6 +140,10 @@ define([
                 $element
                     .on(namespaceHelper.namespaceAll('selected.cascading-combobox', _ns), function (e, reasons) {
                         state.reasons = reasons;
+                        if (self.config.allowShortcuts) {
+                            // ensure the keyboard navigation is taking care of the possible new fields
+                            initNavigator();
+                        }
                         self.trigger('change', state);
                     })
                     .on(namespaceHelper.namespaceAll('change', _ns), 'textarea', function () {
@@ -150,6 +160,9 @@ define([
                     });
 
                 if (this.config.allowShortcuts) {
+                    // install the keyboard navigation
+                    initNavigator();
+
                     // prevents all registered shortcuts to be triggered and activate the dialog shortcuts
                     globalShortcut.disable();
                     this.dialogShortcut = shortcutRegistry($('body'), {
@@ -157,8 +170,17 @@ define([
                         propagate: false,
                         prevent: true
                     })
-                        // prevents the TAB key to be used to move outside the dialog box
-                        .set('Tab Shift+Tab')
+                        // prevents the TAB key to be used to move outside the dialog box, but handles navigation
+                        .add(namespaceHelper.namespaceAll('Tab', _ns, true), function() {
+                            self.navigator.next();
+                        }, {
+                            avoidInput: false
+                        })
+                        .add(namespaceHelper.namespaceAll('Shift+Tab', _ns, true), function() {
+                            self.navigator.previous();
+                        }, {
+                            avoidInput: false
+                        })
 
                         // handles the dialog's shortcuts: just fire the action using the event loop
                         .add(namespaceHelper.namespaceAll('esc', _ns, true), function (e, shortcut) {
@@ -193,6 +215,36 @@ define([
                     instance.destroy();
                 })
                 .modal(modalConfig)
+                .focus();
+        }
+
+        /**
+         * Sets a keyboard navigator on the dialog to take care of TAB navigation
+         */
+        function initNavigator() {
+            var $element = instance.getElement();
+
+            instance.navigator = keyNavigator({
+                id : _ns,
+                replace : true,
+                loop : true,
+                group: $element,
+
+                // the dialog is always set as first component, so ensure to start on the first field
+                defaultPosition: 1,
+
+                // take all input fields and the dialog as navigable components
+                // but ignore buttons and select2 hidden fields
+                elements : navigableDomElement.createFromDoms($element.find(':input:not(button,select.select2-offscreen)').add($element))
+            })
+                .on('activate', function(cursor, target) {
+                    if ($(target).is($element)) {
+                        instance.validate();
+                    }
+                })
+
+                // put the focus on the keyboard navigation, to ensure the first field is selected
+                // otherwise the user will have to hit twice the tab key before selecting it
                 .focus();
         }
 
