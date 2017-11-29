@@ -15,7 +15,6 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
-
 define([
     'jquery',
     'lodash',
@@ -33,65 +32,99 @@ define([
         assert.notStrictEqual(loadingButtonFactory(), loadingButtonFactory(), "The loadingButtonFactory provides a different object on each call");
     });
 
-    //QUnit.cases([
-    //    { title : 'init' },
-    //    { title : 'destroy' },
-    //    { title : 'render' },
-    //    { title : 'show' },
-    //    { title : 'hide' },
-    //    { title : 'enable' },
-    //    { title : 'disable' },
-    //    { title : 'is' },
-    //    { title : 'setState' },
-    //    { title : 'getContainer' },
-    //    { title : 'getElement' },
-    //    { title : 'getTemplate' },
-    //    { title : 'setTemplate' },
-    //]).test('Component API ', function(data, assert) {
-    //    var instance = taskQueueManagerFactory();
-    //    assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the component method "' + data.title);
-    //});
-    //
-    //QUnit.cases([
-    //    { title : 'on' },
-    //    { title : 'off' },
-    //    { title : 'trigger' },
-    //    { title : 'before' },
-    //    { title : 'after' },
-    //]).test('Eventifier API ', function(data, assert) {
-    //    var instance = taskQueueManagerFactory();
-    //    assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the eventifier method "' + data.title);
-    //});
-    //
-    //QUnit.cases([
-    //    { title : 'query' },
-    //    { title : 'update' },
-    //]).test('Instance API ', function(data, assert) {
-    //    var instance = taskQueueManagerFactory();
-    //    assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the method "' + data.title);
-    //});
+    QUnit.cases([
+        { title : 'init' },
+        { title : 'destroy' },
+        { title : 'render' },
+        { title : 'show' },
+        { title : 'hide' },
+        { title : 'enable' },
+        { title : 'disable' },
+        { title : 'is' },
+        { title : 'setState' },
+        { title : 'getContainer' },
+        { title : 'getElement' },
+        { title : 'getTemplate' },
+        { title : 'setTemplate' },
+    ]).test('Component API ', function(data, assert) {
+        var instance = loadingButtonFactory();
+        assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the component method "' + data.title);
+    });
 
+    QUnit.cases([
+        { title : 'on' },
+        { title : 'off' },
+        { title : 'trigger' },
+        { title : 'before' },
+        { title : 'after' },
+    ]).test('Eventifier API ', function(data, assert) {
+        var instance = loadingButtonFactory();
+        assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the eventifier method "' + data.title);
+    });
+
+    QUnit.cases([
+        { title : 'start' },
+        { title : 'terminate' },
+        { title : 'reset' },
+    ]).test('Instance API ', function(data, assert) {
+        var instance = loadingButtonFactory();
+        assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the method "' + data.title);
+    });
 
     QUnit.module('Behavior');
+
+    QUnit.asyncTest('click and start', function(assert) {
+        var $container = $('#qunit-fixture');
+        loadingButtonFactory({})
+            .on('render', function(){
+                assert.ok(true, 'rendered');
+                this.getElement().click();
+            })
+            .on('started', function(){
+                assert.ok(true, 'started after click');
+                QUnit.start();
+            })
+            .render($container);
+    });
+
+    QUnit.asyncTest('start, terminate and reset', function(assert) {
+        var $container = $('#qunit-fixture');
+        loadingButtonFactory({})
+            .on('render', function(){
+                assert.ok(true, 'rendered');
+                this.start();
+            })
+            .on('started', function(){
+                assert.ok(true, 'programmatically started');
+                this.terminate();
+            })
+            .on('terminated', function(){
+                assert.ok(true, 'programmatically terminated');
+                this.reset();
+            })
+            .on('reset', function(){
+                assert.ok(true, 'programmatically reset');
+                QUnit.start();
+            })
+            .render($container);
+    });
 
     QUnit.module('Visual');
 
     QUnit.asyncTest('playground', function(assert) {
-
         var $container = $('#visual');
         var button = loadingButtonFactory({})
-            .on('report', function(){
-                //fetch report
-            })
             .on('render', function(){
-                var self = this;
                 assert.ok(true);
-
                 QUnit.start();
             })
             .on('started', function(){
                 _.delay(function(){
                     button.terminate();
+                }, 2000);
+            }).on('terminated', function(){
+                _.delay(function(){
+                    button.reset();
                 }, 2000);
             })
             .render($container);
