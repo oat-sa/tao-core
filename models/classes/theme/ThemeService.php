@@ -34,7 +34,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        return $this->getOption(self::OPTION_CURRENT);
+        return $this->getOption(static::OPTION_CURRENT);
     }
 
     /**
@@ -54,7 +54,7 @@ class ThemeService extends ThemeServiceAbstract
             static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : []
         ];
 
-        $this->setOption(self::OPTION_AVAILABLE, $themes);
+        $this->setOption(static::OPTION_AVAILABLE, $themes);
 
         return $themeId;
     }
@@ -68,7 +68,7 @@ class ThemeService extends ThemeServiceAbstract
             throw new \common_exception_Error('Theme '. $themeId .' not found');
         }
 
-        $this->setOption(self::OPTION_CURRENT, $themeId);
+        $this->setOption(static::OPTION_CURRENT, $themeId);
     }
 
     /**
@@ -76,13 +76,14 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getAllThemes()
     {
-        $themes = (array)$this->getOption(self::OPTION_AVAILABLE);
+        $themes = (array)$this->getOption(static::OPTION_AVAILABLE);
         foreach ($themes as $key => $theme) {
             if (is_array($theme) && isset($theme[static::THEME_CLASS_OFFSET])) {
                 $options = isset($theme[static::THEME_OPTIONS_OFFSET])
                     ? $theme[static::THEME_OPTIONS_OFFSET]
                     : []
                 ;
+
                 $theme   = $this->getServiceManager()->build($theme[static::THEME_CLASS_OFFSET], $options);
             }
 
@@ -92,20 +93,20 @@ class ThemeService extends ThemeServiceAbstract
         return $themes;
     }
 
-
     /**
-     * Remove a theme with a certain id
-     *
-     * @param $id
-     * @return bool
+     * @inheritdoc
      */
-    public function removeThemeById($id) {
-        $themes = $this->getOption(self::OPTION_AVAILABLE);
-        if(is_null($themes)) {
+    public function removeThemeById($themeId)
+    {
+        if(!$this->hasTheme($themeId)) {
             return false;
         }
-        unset($themes[$id]);
-        $this->setOption(self::OPTION_AVAILABLE, $themes);
+
+        $themes = $this->getOption(static::OPTION_AVAILABLE);
+        unset($themes[$themeId]);
+
+        $this->setOption(static::OPTION_AVAILABLE, $themes);
+
         return true;
     }
 }

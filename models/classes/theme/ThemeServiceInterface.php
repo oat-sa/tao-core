@@ -43,32 +43,32 @@ interface ThemeServiceInterface
     const OPTION_HEADLESS_PAGE = 'headless_page';
 
     /**
-     * Returns the id of the current theme
+     * Returns the identifier of the current Theme.
      *
      * @return string
      */
     public function getCurrentThemeId();
 
     /**
-     * Get the current Theme
+     * Returns the current Theme.
      *
      * @return Theme
      */
     public function getTheme();
 
     /**
-     * Gets the Theme identified by id
+     * Returns the Theme identified by the requested identifier.
      *
-     * @param string $id
+     * @param string $themeId
      *
      * @return Theme
      *
      * @throws \common_exception_InconsistentData
      */
-    public function getThemeById($id);
+    public function getThemeById($themeId);
 
     /**
-     * Returns all available Themes
+     * Returns all the available Themes.
      *
      * @return Theme[]
      */
@@ -95,22 +95,31 @@ interface ThemeServiceInterface
     public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true);
 
     /**
-     * Returns TRUE if the theme exists.
+     * Returns TRUE if the Theme exists.
      *
-     * @param string $id
+     * @param string $themeId
      *
      * @return bool
      */
-    public function hasTheme($id);
+    public function hasTheme($themeId);
 
     /**
-     * Sets the current theme.
+     * Sets the current Theme.
      *
      * @param string $themeId
      *
      * @throws \common_exception_Error
      */
     public function setCurrentTheme($themeId);
+
+    /**
+     * Removes the Theme identified by the requested identifier.
+     *
+     * @param string $themeId
+     *
+     * @return bool
+     */
+    public function removeThemeById($themeId);
 
     /**
      * Tells if the page has to be headless: without header and footer.
