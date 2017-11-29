@@ -65,7 +65,7 @@ define([
             .on('render', function() {
                 var self = this;
                 this.getElement().on('click', function(){
-                    if(!self.is('started') && !self.is('terminated')){
+                    if(!self.is('disabled') && !self.is('started') && !self.is('terminated')){
                         self.start();
                     }
                 });

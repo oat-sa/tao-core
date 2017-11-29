@@ -32,7 +32,7 @@ define([
     };
 
     var pulsableComponent = {
-        pulse : function absorb(pulseCount){
+        pulse : function pulse(pulseCount){
             var self = this;
             var $component = this.getElement();
             var pulseNb = parseInt(pulseCount || this.config.pulseCount || defaultConfig.pulseCount, 10);
