@@ -325,11 +325,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getOperatedBy() {
         $operatedBy = $this->getOption(static::OPERATED_BY);
-        foreach(['name', 'email'] as $field) {
-            if(empty($operatedBy[$field]) || is_null($operatedBy[$field])) {
-                $operatedBy[$field] = '';
-            }
-        }
+        $operatedBy['name']  = empty($operatedBy['name'])  ? '' : $operatedBy['name'];
+        $operatedBy['email'] = empty($operatedBy['email']) ? '' : $operatedBy['email'];
         return $operatedBy;
     }
 
@@ -366,7 +363,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getTextFromArray(array $keys = [])
     {
         $values = [];
-        forEach ($keys as $key) {
+        foreach ($keys as $key) {
             $values[$key] = $this->getText($key);
         }
         return $values;
