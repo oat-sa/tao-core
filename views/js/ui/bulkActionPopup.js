@@ -163,7 +163,7 @@ define([
                         .add(namespaceHelper.namespaceAll('esc', _ns, true), function (e, shortcut) {
                             instance.trigger('action-cancel', shortcut);
                         })
-                        .add(namespaceHelper.namespaceAll('enter space', _ns, true), function (e, shortcut) {
+                        .add(namespaceHelper.namespaceAll('enter', _ns, true), function (e, shortcut) {
                             instance.trigger('action-ok', shortcut);
                         });
                 }
