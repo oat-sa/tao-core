@@ -37,8 +37,9 @@ define([
     'lodash',
     'core/promise',
     'core/store/localstorage',
-    'core/store/indexdb'
-], function(_, Promise, localStorageBackend, indexedDBBackend){
+    'core/store/indexdb',
+    'core/store/memory'
+], function(_, Promise, localStorageBackend, indexedDBBackend, memoryBackend){
     'use strict';
 
     var supportsIndexedDB = false;
@@ -157,7 +158,8 @@ define([
      */
     store.backends = {
         localStorage : localStorageBackend,
-        indexDb      : indexedDBBackend
+        indexDb      : indexedDBBackend,
+        memory       : memoryBackend
     };
 
     /**
