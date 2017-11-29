@@ -53,6 +53,7 @@ use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\model\service\ContainerService;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -935,7 +936,18 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('13.2.0');
         }
 
-        $this->skip('13.2.0', '14.1.0');
+        $this->skip('13.2.0', '14.4.0');
+
+        if ($this->isVersion('14.4.0')) {
+            $this->getServiceManager()->register(
+                ContainerService::SERVICE_ID,
+                new ContainerService()
+            );
+
+            $this->setVersion('14.4.1');
+        }
+
+        $this->skip('14.4.1', '14.5.0');
     }
 
     private function migrateFsAccess() {

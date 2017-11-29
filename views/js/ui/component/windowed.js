@@ -23,18 +23,40 @@
  */
 define([
     'lodash',
+    'i18n',
     'jquery',
     'ui/component/placeable',
     'tpl!ui/component/tpl/window'
-], function (_, $, makePlaceable, windowTpl) {
+], function (_, __, $, makePlaceable, windowTpl) {
     'use strict';
 
     var eventNs = '.windowed',
         cssNs = '.window-component',
 
         defaultConfig = {
-            hasCloser: true
+            hasCloser: true,
+            hasBin: false
         };
+
+    var controlsPresets = {
+        bin: {
+            id: 'bin',
+            order: 100,
+            icon: 'bin',
+            description: __('Delete'),
+            event: 'delete'
+        },
+        closer: {
+            id: 'closer',
+            order: 200,
+            icon: 'result-nok',
+            description: __('Close'),
+            event: 'close',
+            onclick: function onclick() {
+                this.hide();
+            }
+        }
+    };
 
     var windowedComponentAPI = {
         /**
@@ -64,10 +86,11 @@ define([
         /**
          * Adds a control to the control area
          * @param {String} controlOptions.id
-         * @param {Number} controlOptions.order - position relative to the other controls
          * @param {String} controlOptions.icon
-         * @param {String} controlOptions.description - link description on mouse over
-         * @param {Function} controlOptions.onclick - what to do when the control is clicked
+         * @param {Number} [controlOptions.order] - position relative to the other controls
+         * @param {String} [controlOptions.description] - link description on mouse over
+         * @param {Function} [controlOptions.onclick] - what to do when the control is clicked. Optional if event is specified.
+         * @param {Function} [controlOptions.event] - event to trigger when the control is clicked. Optional if onclick is specified
          * @returns {component}
          */
         addControl: function addControl(controlOptions) {
@@ -77,8 +100,9 @@ define([
             if (!_.isString(controlOptions.icon) || _.isEmpty(controlOptions.icon)) {
                 throw new Error('control must have an icon');
             }
-            if (!_.isFunction(controlOptions.onclick)) {
-                throw new Error('control must have an onclick listener');
+            if (!_.isFunction(controlOptions.onclick)
+                && !(_.isString(controlOptions.event) && controlOptions.event.trim() !== '')) {
+                throw new Error('control must have valid onclick or event parameter');
             }
             if (!_.isArray(this._windowControls)) {
                 this._windowControls = [];
@@ -89,25 +113,17 @@ define([
         },
 
         /**
-         * Pre-configured control to close the component
+         * Add pre-configured controls to the title bar
          * @returns {component}
          */
-        addCloser: function addCloser() {
-            return this.addControl({
-                id: 'closer',
-                order: 100,
-                icon: 'result-nok',
-                description: 'Close',
-                onclick: function onclick() {
-                    this.hide();
-
-                    /**
-                     * Executes extra close tasks
-                     * @event component#close
-                     */
-                    this.trigger('close');
-                }
-            });
+        addPresets: function addPresets() {
+            if (this.config.hasCloser) {
+                this.addControl(controlsPresets.closer);
+            }
+            if (this.config.hasBin) {
+                this.addControl(controlsPresets.bin);
+            }
+            return this;
         },
 
         /**
@@ -118,7 +134,8 @@ define([
         _renderControls: function _renderControls() {
             var self = this,
                 $controlsArea = this.getControls(),
-                controlsCallbacks = {};
+                controlsCallbacks = {},
+                controlsEvents = {};
 
             if (_.isArray(this._windowControls)) {
                 $controlsArea.empty();
@@ -138,6 +155,7 @@ define([
                     $controlsArea.append($control);
 
                     controlsCallbacks[control.id] = control.onclick;
+                    controlsEvents[control.id] = control.event;
                 });
 
                 // add behavior
@@ -145,9 +163,13 @@ define([
                     .off('click' + eventNs)
                     .on('click' + eventNs, function(e) {
                         var controlId = $(e.target).data('control');
+                        e.stopPropagation();
 
                         if (_.isFunction(controlsCallbacks[controlId])) {
                             controlsCallbacks[controlId].call(self);
+                        }
+                        if (_.isString(controlsEvents[controlId])) {
+                            self.trigger(controlsEvents[controlId]);
                         }
                     });
             }
@@ -159,6 +181,7 @@ define([
      * @param {Component} component - an instance of ui/component
      * @param {Object} config
      * @param {Boolean} hasCloser - auto-add the closer control to the title bar
+     * @param {Boolean} hasBin - auto-add the delete control to the title bar
      * @param {String} windowTitle - to be rendered in the title bar
      */
     return function makeWindowed(component, config) {
@@ -175,9 +198,7 @@ define([
             .on('init' + eventNs, function() {
                 _.defaults(this.config, config || {}, defaultConfig);
 
-                if (this.config.hasCloser) {
-                    this.addCloser();
-                }
+                this.addPresets();
             })
             .on('render' + eventNs, function() {
                 this._renderControls();
