@@ -43,8 +43,12 @@ class ThemeService extends ThemeServiceAbstract
     public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
         $themes  = $this->getAllThemes();
-        $themeId = $this->getUniqueId($theme);
-
+        $themeId = $theme->getId();
+        
+        if ($protectAlreadyExistingThemes) {
+            $themeId = $this->getUniqueId($theme);
+        }
+        
         $themes[$themeId] = [
             static::THEME_CLASS_OFFSET   => get_class($theme),
             static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : []
