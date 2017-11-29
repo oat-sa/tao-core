@@ -91,4 +91,21 @@ class ThemeService extends ThemeServiceAbstract
 
         return $themes;
     }
+
+
+    /**
+     * Remove a theme with a certain id
+     *
+     * @param $id
+     * @return bool
+     */
+    public function removeThemeById($id) {
+        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        if(is_null($themes)) {
+            return false;
+        }
+        unset($themes[$id]);
+        $this->setOption(self::OPTION_AVAILABLE, $themes);
+        return true;
+    }
 }
