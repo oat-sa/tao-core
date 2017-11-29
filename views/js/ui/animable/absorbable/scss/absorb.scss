@@ -1,13 +1,29 @@
 @import "inc/bootstrap";
 
+$animationFunction: cubic-bezier(.2, .6, 1, .4);
 $background: $darkBarTxt;
 .absorbable{
+    border-radius: 0%;
     background : $background;
-    opacity: 0.1;
+    opacity : 0;
     &.animate{
-        opacity: 0.75;
-        border-radius: 50%;
         transform: translateZ(0);
-        transition-timing-function: cubic-bezier(.2, .6, 1, .4);
+        transition-timing-function: $animationFunction;
+        @include animation(absorbable-opacity 3s $animationFunction 1);
+    }
+    @include keyframes(absorbable-opacity) {
+        0% {
+            opacity : 0;
+        }
+        20% {
+            opacity : 0;
+            border-radius: 20%;
+        }
+        60% {
+            opacity : 0.9;
+        }
+        100% {
+            border-radius: 50%;
+        }
     }
 }

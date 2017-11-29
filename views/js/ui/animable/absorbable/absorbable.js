@@ -27,7 +27,7 @@ define([
     'use strict';
 
     var defaultConfig = {
-        animationDuration: 1
+        animationDuration: 2
     };
 
     var absorbableComponent = {
@@ -57,8 +57,8 @@ define([
                     //css
                     animatedComponent
                         .getElement().addClass('animate').css({
-                        transitionDuration : animationDuration+'s'
-                    });
+                            transitionDuration : animationDuration+'s'
+                        });
 
                     animatedComponent
                         .setSize(finalWidth, finalHeight)

@@ -12,13 +12,12 @@ $foreground: $darkBarTxt;
     top: 0px;
     left: 0px;
     box-shadow: 0 0 0 rgba($darkBarTxt, 0.6);
-    @include keyframes(badget-pulse) {
+    @include keyframes(pulsable-pulse) {
         0% {box-shadow: 0 0 0 0 rgba($darkBarTxt, 0.6)}
         50% {box-shadow: 0 0 0 200px rgba($darkBarTxt, 0)}
         100% {box-shadow: 0 0 0 0 rgba($darkBarTxt, 0)}
     }
     &.animate{
-        //@include animation(pulsable-pulse 1s ease-out 3);
-        @include animation(badget-pulse 1s ease-out 3);
+        @include animation(pulsable-pulse 1s ease-out 3);
     }
 }
