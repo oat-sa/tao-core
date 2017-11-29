@@ -538,9 +538,9 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
         // A unique node URI to be returned from as a tree leaf.
         $uniqueNode = (isset($options['uniqueNode'])) ? $options['uniqueNode'] : null;
 
-        $order = isset($options['order']) ? $options['order'] : OntologyRdfs::RDFS_LABEL;
-        $orderDir = isset($options['orderdir']) ? $options['orderdir'] : 'asc';
-        $searchOptions['order'] = [$order => $orderDir];
+        if (isset($options['order']) && isset($options['orderdir'])) {
+            $searchOptions['order'] = [$options['order'] => $options['orderdir']];
+        }
 
         if ($uniqueNode !== null) {
             $instance = new \core_kernel_classes_Resource($uniqueNode);
