@@ -22,7 +22,8 @@ define([
     'core/encoder/float',
     'core/encoder/time',
     'core/encoder/array2str',
-    'core/encoder/str2array'
+    'core/encoder/str2array',
+    'core/encoder/entity'
 ],
 function(
     _,
@@ -31,7 +32,8 @@ function(
     float,
     time,
     array2str,
-    str2array
+    str2array,
+    entity
 ){
     'use strict';
 
@@ -68,13 +70,14 @@ function(
     * Provides multi sources encoding decoding
     * @exports core/encoder/encoders
     */
-    var Encoders =  {
+    var encoders =  {
         number : number,
         float: float,
         time : time,
         boolean : boolean,
         array2str : array2str,
         str2array : str2array,
+        entity : entity,
 
         register : function(name, encode, decode){
             if(!_.isString(name)){
@@ -114,6 +117,6 @@ function(
         }
     };
 
-    return Encoders;
+    return encoders;
 });
 
