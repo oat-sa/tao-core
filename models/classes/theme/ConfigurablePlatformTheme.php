@@ -36,11 +36,8 @@ use oat\tao\helpers\Template;
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
 
-    /** Theme container id key */
-    const CONTAINER_ID = 'containerId';
-    
-    /** Theme container type key */
-    const CONTAINER_TYPE = 'containerType';
+    /** Theme extension id key */
+    const EXTENSION_ID = 'extensionId';
 
     /** Theme label key */
     const LABEL = 'label';
@@ -65,6 +62,15 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
     /** Use the default path for logo, stylesheet, templates etc. */
     const DEFAULT_PATH = 'useDefaultThemePath';
+
+    /** Path to themes */
+    const DEFAULT_THEME_PATH = 'themes/platform';
+
+    /** Logo Name */
+    const DEFAULT_LOGO_NAME = 'logo.png';
+
+    /** Stylesheet Name */
+    const DEFAULT_STYLESHEET_NAME = 'theme.css';
 
     /** Theme operated by key */
     const OPERATED_BY = 'operatedBy';
@@ -97,8 +103,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * ConfigurablePlatformTheme constructor.
      *
      * @examples
-     * Only label and containerId are configured, this will create a default configuration
-     * These are the only mandatory elements
+     * Only label is configured, this will create a default configuration.
+     * Label is the only mandatory element.
      *
      * $options = [
      *     'label' => 'Default Theme'
@@ -109,8 +115,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * $options = [
      *     'logoUrl' => 'http://domain/taoSomething/views/img/themes/platform/default-theme/logo.png',
      *     'label' => 'Default Theme',
-     *     'containerId' => 'taoSomething',
-     *     'containerType => 'extension'
+     *     'extensionId' => 'taoSomething',
      *     'id' => 'taoSomethingDefaultTheme'
      * ];
      *
@@ -118,12 +123,9 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * The same applies if something is missing that you would like to have - for these cases generic getter is available.
      *
      * // Full blown custom configuration example
-     * // Note that when 'containerType => 'tenant' the values of ConfigurablePlatformTheme::DEFAULT_PATH
-     * // will be adapted to work with tenants instead.
      * $options = [
      *     'label' => 'Default Theme',
-     *     'containerId' => 'taoSomething',
-     *     'containerType' => 'extension'
+     *     'extensionId' => 'taoSomething',
      *     'logoUrl' => 'http://example.com/foo.png',
      *     'link' => 'http://example.com',
      *     'message' => 'Tao Platform',
@@ -196,7 +198,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         if ($templates[$id] === static::DEFAULT_PATH) {
             return Template::getTemplate(
                 $this->defaultThemePath . '/' . $id . '.tpl',
-                $this->getOption(static::CONTAINER_ID)
+                $this->getOption(static::EXTENSION_ID)
             );
         }
 
@@ -340,7 +342,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     protected function setDefaultThemePath($label)
     {
 
-        $this->defaultThemePath = 'themes/platform/' . StringUtils::removeSpecChars($label);
+        $this->defaultThemePath = static::DEFAULT_THEME_PATH . '/' . StringUtils::removeSpecChars($label);
     }
 
 
@@ -401,31 +403,34 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     protected function setupOptions($options)
     {
-        if(empty($options[static::CONTAINER_TYPE])) {
-            $options[static::CONTAINER_TYPE] = 'extension';
-        }
-        if(empty($options[static::CONTAINER_ID])) {
+        if(empty($options[static::EXTENSION_ID])) {
             $cls = get_class($this);
             strtok($cls, '\\');
-            $options[static::CONTAINER_ID] = strtok('\\');
+            $options[static::EXTENSION_ID] = strtok('\\');
         }
         $options = array_merge([
             static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
             static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),
             static::LABEL        => $options[static::LABEL],
-            static::CONTAINER_ID => $options[static::CONTAINER_ID],
-            static::ID           => $options[static::CONTAINER_ID]
+            static::EXTENSION_ID => $options[static::EXTENSION_ID],
+            static::ID           => $options[static::EXTENSION_ID]
                                     . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
         ],
             $options
         );
 
         if($options[static::LOGO_URL] === static::DEFAULT_PATH) {
-            $options[static::LOGO_URL] = Template::img($this->defaultThemePath . '/logo.png', $options[static::CONTAINER_ID]);
+            $options[static::LOGO_URL] = Template::img(
+                $this->defaultThemePath . '/' . static::DEFAULT_LOGO_NAME,
+                $options[static::EXTENSION_ID]
+            );
         }
 
         if($options[static::STYLESHEET] === static::DEFAULT_PATH) {
-            $options[static::STYLESHEET] = Template::css($this->defaultThemePath . '/theme.css', $options[static::CONTAINER_ID]);
+            $options[static::STYLESHEET] = Template::css(
+                $this->defaultThemePath . '/' . static::DEFAULT_STYLESHEET_NAME,
+                $options[static::EXTENSION_ID]
+            );
         }
 
         return $options;
