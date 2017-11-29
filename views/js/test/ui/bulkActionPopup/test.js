@@ -290,7 +290,7 @@ define([
 
         var instance = bulkActionPopup(config)
             .on('cancel', function(){
-                assert.ok(true, 'cancelled');
+                assert.ok(true, 'canceled');
                 QUnit.start();
             }).on('destroy', function(){
                 assert.ok(true, 'destroyed');
@@ -362,7 +362,7 @@ define([
 
         var instance = bulkActionPopup(config)
             .on('cancel', function(){
-                assert.ok(true, 'cancelled');
+                assert.ok(true, 'canceled');
                 QUnit.start();
             }).on('destroy', function(){
                 assert.ok(true, 'destroyed');
@@ -435,7 +435,7 @@ define([
 
         var instance = bulkActionPopup(config)
             .on('cancel', function(){
-                assert.ok(true, 'cancelled');
+                assert.ok(true, 'canceled');
                 QUnit.start();
             }).on('destroy', function(){
                 assert.ok(true, 'destroyed');
@@ -527,7 +527,7 @@ define([
 
         var instance = bulkActionPopup(config)
             .on('cancel', function(){
-                assert.ok(true, 'cancelled');
+                assert.ok(true, 'canceled');
                 QUnit.start();
             }).on('destroy', function(){
                 assert.ok(true, 'destroyed');
