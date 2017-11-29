@@ -43,7 +43,7 @@ define([
      * @param {jQuery} config.renderTo - the jQuery container it should be rendered to
      * @param {String} config.actionName - the action name (use in the title text)
      * @param {String} config.resourceType - the name of the resource type (use in the text)
-     * @param {Boolean} [config.allowShortcuts] - allow keyboard shortcuts (Esc to cancel, Enter or Space to validate)
+     * @param {Boolean} [config.allowShortcuts] - allow keyboard shortcuts (Esc to cancel, Enter to validate)
      * @param {String} [config.resourceTypes] - the name of the resource type in plural (use in the text)
      * @param {Boolean} [config.reason] - defines if the reason section should be displayed or not
      * @param {Function} [config.categoriesSelector] - callback renderer for categories
