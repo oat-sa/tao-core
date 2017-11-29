@@ -172,7 +172,10 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
         $this->setDefaultThemePath($options[static::LABEL]);
 
-        parent::__construct($this->setupOptions($options));
+        parent::__construct();
+
+        // set default options
+        $this->setupOptions($options);
 
         if ($this->hasOption('customTexts')) {
             $this->customTexts = $this->getOption('customTexts');
@@ -396,7 +399,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      *
      * @param $options
      *
-     * @return array
+     * @return bool
      */
     protected function setupOptions($options)
     {
@@ -430,6 +433,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             );
         }
 
-        return $options;
+        $this->setOptions($options);
+
+        return true;
     }
 }
