@@ -17,22 +17,6 @@ class TreeWrapper
 		$this->treeArray = $treeArray;
 	}
 
-//	/**
-//	 * @return TreeWrapper
-//	 */
-//	public function getSortedTreeByName()
-//	{
-//		$sortedArray = $this->treeArray;
-//
-//		if (isset($sortedArray['children'])) {
-//			usort($sortedArray['children'], array($this, 'sortTreeNodes'));
-//		} elseif (array_values($sortedArray) === $sortedArray) {//is indexed array
-//			usort($sortedArray, array($this, 'sortTreeNodes'));
-//		}
-//
-//		return new self($sortedArray);
-//	}
-
 	/**
 	 * @param []Filter
 	 * @return TreeWrapper
