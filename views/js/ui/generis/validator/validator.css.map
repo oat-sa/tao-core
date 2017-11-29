@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "validator.css",
+	"sources": [
+		"validator.scss",
+		"../../../../scss/inc/_bootstrap.scss",
+		"../../../../scss/inc/_variables.scss",
+		"../../../../scss/inc/_functions.scss",
+		"../../../../scss/inc/_colors.scss",
+		"../../../../scss/inc/fonts/_tao-icon-vars.scss"
+	],
+	"names": [],
+	"mappings": "AAEA,AAAA,qBAAqB,AAAC,CAClB,KAAK,CIED,OAAgB,CJDpB,UAAU,CAAE,KAAK,CACjB,KAAK,CAAE,GAAG,CAQb,AAXD,AAKI,qBALiB,CAKjB,KAAK,AAAA,MAAM,CALf,AAMI,qBANiB,CAMjB,MAAM,AAAA,MAAM,CANhB,AAOI,qBAPiB,CAOjB,QAAQ,AAAA,MAAM,AAAC,CACX,YAAY,CILZ,OAAgB,CJMhB,KAAK,CINL,OAAgB,CJOnB"
+}

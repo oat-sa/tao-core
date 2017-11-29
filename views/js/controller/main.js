@@ -2,6 +2,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'jquery',
     'i18n',
     'context',
@@ -16,7 +17,7 @@ define([
     'layout/nav',
     'layout/search'
 ],
-function ($, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
+function (module, $, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
     'use strict';
 
     /**

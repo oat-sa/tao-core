@@ -1,0 +1,27 @@
+@import "inc/fonts/tao-icon-classes";
+
+// tree icons per extension
+// syntax => structures.xml > trees > className : icon-class
+// Turn the class name to lower case and replace spaces by underscore
+// @example:
+// 'Result Server' becomes 'result_server'
+$extensionIcons: (
+    'battery':       'icon-filebox',
+    'blueprint':     'icon-map-o',
+    'default':       'icon-new-page',
+    'group':         'icon-users',
+    'item':          'icon-item',
+    'media':         'icon-media',
+    'result_server': 'icon-result-server',
+    'result':        'icon-result',
+    'role':          'icon-user',
+    'test_taker':    'icon-test-taker',
+    'test':          'icon-test',
+    'trees':         'icon-tree',
+);
+
+@each $extensionClass, $extensionIcon in $extensionIcons {
+    #{'.taotree.taotree-' + $extensionClass} .node-instance ins:before {
+        @extend #{'.' + $extensionIcon + ':before'};
+    }
+}

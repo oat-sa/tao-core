@@ -22,7 +22,6 @@
 namespace oat\tao\model\websource;
 
 use oat\oatbox\Configurable;
-use core_kernel_fileSystem_FileSystem;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use League\Flysystem\FileNotFoundException;
@@ -46,8 +45,6 @@ implements Websource
     
 	/**
 	 * Filesystem that is being made available
-	 * 
-	 * @var core_kernel_fileSystem_FileSystem
 	 */
 	protected $fileSystem = null;
 
@@ -137,6 +134,9 @@ implements Websource
                     if ($mimeType === 'text/plain') {
                         return $mimeType = 'image/svg+xml';
                     }
+                    break;
+                case 'mp3':
+                    return $mimeType = 'audio/mpeg';
                     break;
             }
         }

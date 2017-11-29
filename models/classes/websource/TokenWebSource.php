@@ -20,7 +20,6 @@
  */
 namespace oat\tao\model\websource;
 
-use core_kernel_fileSystem_FileSystem;
 use common_ext_ExtensionsManager;
 
 /**

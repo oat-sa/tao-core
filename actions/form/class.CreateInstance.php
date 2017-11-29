@@ -20,6 +20,7 @@
  */
 
 use oat\tao\helpers\Template;
+use oat\tao\model\TaoOntology;
 
 /**
  * Short description of class tao_actions_form_CreateInstance
@@ -100,7 +101,7 @@ class tao_actions_form_CreateInstance
     public function initElements()
     {
         
-        $guiOrderProperty = new core_kernel_classes_Property(TAO_GUIORDER_PROP);
+        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::GUI_ORDER_PROP);
     	
     	//get the list of properties to set in the form
     	$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();

@@ -13,7 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
+ */
+
+/**
+ * Bootstrap the app, start the entry controller
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 (function(){
     'use strict';
@@ -23,19 +28,30 @@
     var bundle  = loaderScript.getAttribute('data-bundle');
 
     var loadController = function loadController(){
+        var started = false;
         var controllerOptions = {};
         var controllerPath = loaderScript.getAttribute('data-controller');
         var params = loaderScript.getAttribute('data-params');
         try{
             controllerOptions = JSON.parse(params);
-        } catch(e){}
-
+        } catch(err){
+            controllerOptions = {};
+        }
         require([controllerPath], function(controller) {
-            controller.start(controllerOptions);
+            var startController = function startController(){
+                if(!started){
+                    started = true;
+                    controller.start(controllerOptions);
+                }
+            };
+            document.addEventListener('readystatechange', startController, false);
+            if (document.readyState === 'complete') {
+                startController();
+            }
         });
     };
     require([configUrl], function() {
-       if(bundle){
+        if(bundle){
             require([bundle], loadController);
         } else {
             loadController();

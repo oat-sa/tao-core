@@ -45,7 +45,7 @@ class CleanClass extends AbstractAction
             return $report;
         }
 
-        $resourceDeleted = $this->class->countInstances();
+        $resourceDeleted = $this->class->countInstances(array(), array('recursive' => true));
 
         if ($this->class->equals($this->service->getRootClass())) {
             foreach ($this->service->getRootClass()->getSubClasses() as $subClass){

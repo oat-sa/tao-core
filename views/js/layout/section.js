@@ -21,18 +21,17 @@
 define([
     'jquery',
     'lodash',
-    'context',
-    'html5-history-api'
+    'context'
 ], function(
     $,
     _,
-    context,
-    history
+    context
 ){
     'use strict';
 
     var sectionParamExp = /&section=([^&]*)/;
     var location = window.history.location || window.location;
+    var sectionApi;
 
     //back & forward button, and push state
     $(window).on('popstate', function (event) {
@@ -76,7 +75,7 @@ define([
      * @returns {Object}
      */
     function getState() {
-        var state = history.state;
+        var state = window.history.state;
         return setStateId(state);
     }
 
@@ -110,7 +109,7 @@ define([
             hasNoSection = stateUrl === stateUrlWithoutSection;
             method = hasNoSection ? 'replaceState' : 'pushState';
 
-            history[method]({
+            window.history[method]({
                     sectionId : section.id,
                     restoreWith : restoreWith || 'activate'
                 },
@@ -126,7 +125,7 @@ define([
      * @typedef SectionApi
      * @exports layout/section
      */
-    var sectionApi = {
+    sectionApi = {
 
         scope : $('.section-container'),
         sections : {},

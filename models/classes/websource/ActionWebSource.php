@@ -20,8 +20,6 @@
  */
 namespace oat\tao\model\websource;
 
-use \core_kernel_fileSystem_FileSystem;
-
 /**
  * Grants Access to compiled data via the MVC
  *

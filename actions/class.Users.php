@@ -21,6 +21,8 @@
  */
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\TaoOntology;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -165,7 +167,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
-            if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
+            if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;
             }
             $index++;
@@ -186,6 +188,22 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
+        // Csrf token validation
+        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenName = $tokenService->getTokenName();
+        $token = $this->getRequestParameter($tokenName);
+        if (! $tokenService->checkToken($token)) {
+            \common_Logger::w('Xsrf validation failed');
+            return $this->returnJson([
+                'deleted' => false,
+                'message' => 'Not authorized to perform action'
+            ]);
+        } else {
+            $tokenService->revokeToken($token);
+            $newToken = $tokenService->createToken();
+            $this->setCookie($tokenName, $newToken, null, '/');
+        }
+
         $deleted = false;
         $message = __('An error occured during user deletion');
         if (helpers_PlatformInstance::isDemo()) {
@@ -211,7 +229,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function add()
     {
-        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(CLASS_TAO_USER));
+        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER));
         $myForm = $myFormContainer->getForm();
 
         if ($myForm->isSubmited()) {
@@ -242,7 +260,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             throw new Exception("wrong request mode");
         }
 
-        $clazz = new core_kernel_classes_Class(CLASS_TAO_USER);
+        $clazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
         $myForm = $formContainer->getForm();
 
@@ -339,7 +357,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     private function checkUser($uri)
     {
-        if ($uri === LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
+        if ($uri === LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
             throw new Exception('Default user data cannot be changed');
         }
     }

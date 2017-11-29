@@ -33,22 +33,53 @@ class ThemeService extends ConfigurableService {
 
     const OPTION_CURRENT = 'current';
 
+    const OPTION_THEME_DETAILS_PROVIDERS = 'themeDetailsProviders';
+
+    const OPTION_HEADLESS_PAGE = 'headless_page';
+
     /**
      * Get the current Theme
      */
     public function getTheme()
     {
-        return $this->getThemeById($this->getOption(self::OPTION_CURRENT));
+        $themeId = $this->getThemeIdFromThemeDetailsProviders();
+        if (empty($themeId)) {
+            $themeId = $this->getOption(self::OPTION_CURRENT);
+        }
+
+        return $this->getThemeById($themeId);
+    }
+
+    /**
+     * Tells if the page has to be headless: without header and footer.
+     *
+     * @return bool|mixed
+     */
+    public function isHeadless()
+    {
+        if ($this->hasOption(self::OPTION_HEADLESS_PAGE)) {
+            return $this->getOption(self::OPTION_HEADLESS_PAGE);
+        }
+
+        $isHeadless = $this->getIsHeadLessFromThemeDetailsProviders();
+        if (empty($isHeadless)) {
+            $isHeadless = false;
+        }
+
+        return $isHeadless;
     }
 
     /**
      * Add and set a theme as default
      *
      * @param Theme $theme
+     * @param bool  $protectAlreadyExistingThemes
+     *
+     * @throws \common_exception_Error
      */
-    public function setTheme(Theme $theme)
+    public function setTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
-        $id = $this->addTheme($theme);
+        $id = $this->addTheme($theme, $protectAlreadyExistingThemes);
         $this->setCurrentTheme($id);
     }
 
@@ -56,15 +87,20 @@ class ThemeService extends ConfigurableService {
      * Add a Theme but don't activate it
      *
      * @param Theme $theme
+     * @param bool  $protectAlreadyExistingThemes
+     *
      * @return string
      */
-    public function addTheme(Theme $theme)
+    public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
         $themes = $this->getOption(self::OPTION_AVAILABLE);
         $baseId = method_exists($theme, 'getId') ? $theme->getId() : '';
-        $nr = 0;
-        while (isset($themes[$baseId.$nr])) {
-            $nr++;
+        $nr     = '';
+        if ($protectAlreadyExistingThemes) {
+            $nr = 0;
+            while (isset($themes[$baseId . $nr])) {
+                $nr++;
+            }
         }
         $themes[$baseId.$nr] = [
             'class' => get_class($theme),
@@ -125,5 +161,66 @@ class ThemeService extends ConfigurableService {
         } else {
             throw new \common_exception_InconsistentData('Theme '.$id.' not found');
         }
+    }
+
+    /**
+     * Returns the theme id provided by the themeDetailsProviders.
+     *
+     * @return string
+     */
+    protected function getThemeIdFromThemeDetailsProviders()
+    {
+        $providers = $this->getThemeDetailsProviders();
+        foreach ($providers as $provider) {
+            if ($provider instanceof ThemeDetailsProviderInterface) {
+                $themeId = $provider->getThemeId();
+                if (!empty($themeId) && $themeId !== ' ') {
+                    if ($this->hasTheme($themeId)) {
+                        return $themeId;
+                    }
+
+                    \common_Logger::i(
+                        'The requested theme ' . $themeId .
+                        ' requested by the ' . get_class($provider) . ' provider does not exist!'
+                    );
+                }
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Returns the isHeadless details provided by the themeDetailsProviders.
+     *
+     * @return bool|mixed
+     */
+    protected function getIsHeadlessFromThemeDetailsProviders()
+    {
+        $providers = $this->getThemeDetailsProviders();
+        foreach ($providers as $provider) {
+            if ($provider instanceof ThemeDetailsProviderInterface) {
+                $isHeadless = $provider->isHeadless();
+                if (!empty($isHeadless)) {
+                    return $isHeadless;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the theme details providers.
+     *
+     * @return array
+     */
+    protected function getThemeDetailsProviders()
+    {
+        if ($this->hasOption(static::OPTION_THEME_DETAILS_PROVIDERS)) {
+            return (array)$this->getOption(static::OPTION_THEME_DETAILS_PROVIDERS);
+        }
+
+        return [];
     }
 }

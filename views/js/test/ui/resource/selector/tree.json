@@ -1,0 +1,70 @@
+[{
+  "label": "Item",
+  "type": "class",
+  "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+  "state": "open",
+  "count": 8,
+  "children": [{
+    "label": "Maths",
+    "type": "class",
+    "uri": "http:\/\/bertao\/tao.rdf#i1491898694361191",
+    "state": "closed",
+    "count": 4
+  }, {
+    "label": "Biologie test",
+    "type": "class",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918989726364157",
+    "state": "closed",
+    "count": 2
+  }, {
+    "label": "JavaScript puzzlers",
+    "type": "class",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918989921558166",
+    "state": "closed",
+    "count": 2
+  }, {
+    "label": "Stress test",
+    "type": "class",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990023579175",
+    "state": "closed",
+    "count": 4
+  }, {
+    "label": "Foo",
+    "type": "class",
+    "uri": "http:\/\/bertao\/tao.rdf#i1492615004952240",
+    "state": "closed",
+    "count": 0
+  }, {
+    "label": "Demo item 1",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990131344188"
+  }, {
+    "label": "Demo item 2",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990321044191"
+  }, {
+    "label": "Demo item 3",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990365765195"
+  }, {
+    "label": "Demo item 4",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990415288199"
+  }, {
+    "label": "Demo item 5",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990452611203"
+  }, {
+    "label": "Demo item 6",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990496432207"
+  }, {
+    "label": "Demo item 7",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990534013211"
+  }, {
+    "label": "Demo item 8",
+    "type": "instance",
+    "uri": "http:\/\/bertao\/tao.rdf#i14918990577335215"
+  }]
+}]

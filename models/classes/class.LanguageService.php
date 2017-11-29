@@ -23,6 +23,7 @@
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
+use oat\tao\model\TaoOntology;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -69,7 +70,7 @@ class tao_models_classes_LanguageService
         $returnValue = null;
 
         
-        $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
 	    $langs = $langClass->searchInstances(array(
 	    	RDF_VALUE => $code
 	    ), array(
@@ -112,9 +113,9 @@ class tao_models_classes_LanguageService
     public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
     {
         $returnValue = array();
-    	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+    	$langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
 	    $returnValue = $langClass->searchInstances(array(
-	    	PROPERTY_LANGUAGE_USAGES => $usage->getUri()
+			TaoOntology::PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
 	    	'like' => false
 	    ));
@@ -131,15 +132,16 @@ class tao_models_classes_LanguageService
      */
     public function isLanguageAvailable($code, core_kernel_classes_Resource $usage)
     {
-        $languages =$this->getAvailableLanguagesByUsage($usage);
-        /** @var core_kernel_classes_Resource $resource */
-        foreach ($languages as $key => $resource) {
-            if ($this->getCode($resource) == $code) {
-                return true;
-            }
-        }
+        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
+        $result = $langClass->searchInstances(
+            array(
+                RDF_VALUE => $code,
+				TaoOntology::PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
+            ),
+            array('like' => false)
+        );
 
-        return false;
+        return !empty($result);
     }
 
     public function addTranslationsForLanguage(core_kernel_classes_Resource $language)
@@ -169,7 +171,12 @@ class tao_models_classes_LanguageService
     {
         $returnValue = array();
         
-        $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        $extensions = array_map(
+            function ($extension) {
+                return $extension->getId();
+            },
+            common_ext_ExtensionsManager::singleton()->getInstalledExtensions()
+        );
         // lookup for languages into tao
         $languages = tao_helpers_translation_Utils::getAvailableLanguages();
         $path = ROOT_PATH . 'tao/views/locales/';
@@ -178,8 +185,7 @@ class tao_models_classes_LanguageService
         foreach ($languages as $langCode) {
             
             try {
-                
-                $bundle = new TranslationBundle($langCode, $extensions);
+                $bundle = new TranslationBundle($langCode, $extensions, ROOT_PATH, TAO_VERSION);
                 
                 if ($checkPreviousBundle) {
                     $currentBundle = $path . $langCode . '.json';

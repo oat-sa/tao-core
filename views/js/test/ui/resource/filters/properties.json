@@ -1,0 +1,67 @@
+{
+  "properties": [{
+    "uri": "http:\/\/www.w3.org\/2000\/01\/rdf-schema#label",
+    "label": "Label",
+    "widget": "http:\/\/www.tao.lu\/datatypes\/WidgetDefinitions.rdf#TextBox",
+    "validators": ["NotEmpty"]
+  }, {
+    "uri": "http:\/\/bertaodev\/tao.rdf#i15016905057070224",
+    "label": "Foo",
+    "widget": "http:\/\/www.tao.lu\/datatypes\/WidgetDefinitions.rdf#TextBox",
+    "position": 0
+  }, {
+    "uri": "http:\/\/bertaodev\/tao.rdf#i15012259849560117",
+    "label": "Target language",
+    "widget": "http:\/\/www.tao.lu\/datatypes\/WidgetDefinitions.rdf#ComboBox",
+    "range": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Languages",
+    "position": 100
+  }],
+  "ranges": {
+    "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Languages": [{
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langda-DK",
+      "label": "Danish"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langde-DE",
+      "label": "German"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langel-GR",
+      "label": "Greek"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langen-US",
+      "label": "English"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langes-ES",
+      "label": "Spanish"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langfr-FR",
+      "label": "French"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langis-IS",
+      "label": "Icelandic"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langit-IT",
+      "label": "Italian"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langja-JP",
+      "label": "Japanese"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langnl-NL",
+      "label": "Dutch"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langpt-PT",
+      "label": "Portuguese"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langsv-SE",
+      "label": "Swedish"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Languk-UA",
+      "label": "Ukrainian"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langzh-CN",
+      "label": "Simplified Chinese from China"
+    }, {
+      "uri": "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langzh-TW",
+      "label": "Traditional Chinese from Taiwan"
+    }]
+  }
+}

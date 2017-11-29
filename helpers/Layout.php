@@ -21,7 +21,9 @@
 
 namespace oat\tao\helpers;
 
+use Jig\Utils\StringUtils;
 use oat\tao\model\menu\Icon;
+use oat\tao\model\OperatedByService;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
@@ -197,7 +199,7 @@ class Layout
         $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
         return $contentTemplate;
     }
-    
+
     /**
      * Get the logo URL.
      *
@@ -228,7 +230,7 @@ class Layout
                 $logoFile = Template::img('tao-logo.png', 'tao');
                 break;
         }
-        
+
         return $logoFile;
     }
 
@@ -244,7 +246,7 @@ class Layout
 
     /**
      * Deprecated way to insert a theming css, use custom template instead
-     * 
+     *
      * @deprecated
      * @return string
      */
@@ -321,7 +323,24 @@ class Layout
 
         return $message;
     }
-    
+
+    /**
+     * Get the currently registered OperatedBy data
+     * @return array
+     */
+    public static function getOperatedByData() {
+        $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
+
+        $name = $operatedByService->getName();
+        $email = $operatedByService->getEmail();
+
+        $data = [
+            'name' => $name,
+            'email' => (empty($email)) ? '' : StringUtils::encodeText('mailto:' . $email)
+        ];
+        return $data;
+    }
+
     public static function isUnstable() {
 
         $isUnstable = true;
@@ -332,6 +351,34 @@ class Layout
                 break;
         }
         return $isUnstable;
+    }
+
+    /**
+     * Turn TAO_VERSION in a more verbose form.
+     * If TAO_VERSION diverges too much from the usual patterns TAO_VERSION will be returned unaltered.
+     *
+     * Examples (TAO_VERSION => return value): 
+     * 3.2.0-sprint52      => Sprint52 rev 3.2.0
+     * v3.2.0-sprint52     => Sprint52 rev 3.2.0
+     * 3.2.0sprint52       => Sprint52 rev 3.2.0
+     * 3.2.0               => 3.2.0
+     * 3.2                 => 3.2
+     * 3.2 0               => 3.2
+     * pattern w/o numbers => pattern w/o numbers
+     *
+     * @return string
+     */
+    public static function getVerboseVersionName() {
+        preg_match('~(?<revision>([\d\.]+))([\W_]?(?<specifics>(.*)?))~', trim(TAO_VERSION), $components);
+        if(empty($components['revision'])) {
+            return TAO_VERSION;
+        }
+        $version = '';
+        if(!empty($components['specifics'])) {
+            $version .= ucwords($components['specifics']) . ' rev ';
+        }
+        $version .= ucwords($components['revision']);
+        return $version;
     }
 
     /**
@@ -369,16 +416,16 @@ class Layout
     public static function getCopyrightNotice() {
         return '';
     }
-    
+
     /**
      * Render a themable template identified by its id
-     * 
+     *
      * @param string $templateId
      * @param array $data
      * @return string
      */
     public static function renderThemeTemplate($target, $templateId, $data = array()){
-        
+
         //search in the registry to get the custom template to render
         $tpl = self::getThemeTemplate($target, $templateId);
 

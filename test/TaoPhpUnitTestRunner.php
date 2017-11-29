@@ -61,10 +61,17 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
      */
     protected $tempFileSystemId;
 
+    public function __construct($name = null, array $data = array(), $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        require_once __DIR__ .'/../../config/generis.conf.php';
+    }
+
     /**
      * shared methods for test initialization
      */
     public static function initTest(){
+
         //connect the API
         if(!self::$connected){
             \common_session_SessionManager::startSession(new \common_test_TestUserSession());

@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2017-02-07 14:34:30
+ * @date   2017-11-02 16:23:31
  * @package tao
  * @subpackage helpers
  */
@@ -75,6 +75,15 @@ class tao_helpers_Icon {
     /**
      * List of all icons as constant
      */
+    const CLASS_MULTI_SELECT = 'icon-multi-select';
+    const CLASS_CLIPBOARD = 'icon-clipboard';
+    const CLASS_FILEBOX = 'icon-filebox';
+    const CLASS_CLICK_TO_SPEAK = 'icon-click-to-speak';
+    const CLASS_SPEECH_BUBBLE = 'icon-speech-bubble';
+    const CLASS_MICROPHONE = 'icon-microphone';
+    const CLASS_MICROPHONE_OFF = 'icon-microphone-off';
+    const CLASS_DISCONNECT = 'icon-disconnect';
+    const CLASS_CONNECT = 'icon-connect';
     const CLASS_ELIMINATE = 'icon-eliminate';
     const CLASS_WHEELCHAIR = 'icon-wheelchair';
     const CLASS_TEXT_MARKER = 'icon-text-marker';
@@ -270,13 +279,51 @@ class tao_helpers_Icon {
     const CLASS_SPEED = 'icon-speed';
     const CLASS_VOLUME = 'icon-volume';
     const CLASS_CONTRAST = 'icon-contrast';
+    const CLASS_HEADPHONES = 'icon-headphones';
     const CLASS_COMPRESS = 'icon-compress';
     const CLASS_MAP_O = 'icon-map-o';
+    const CLASS_VARIABLE = 'icon-variable';
 
 	
     /**
      * List of all icons as function
      */
+
+    public static function iconMultiSelect($options=array()){
+        return self::buildIcon(self::CLASS_MULTI_SELECT, $options);
+    }
+
+    public static function iconClipboard($options=array()){
+        return self::buildIcon(self::CLASS_CLIPBOARD, $options);
+    }
+
+    public static function iconFilebox($options=array()){
+        return self::buildIcon(self::CLASS_FILEBOX, $options);
+    }
+
+    public static function iconClickToSpeak($options=array()){
+        return self::buildIcon(self::CLASS_CLICK_TO_SPEAK, $options);
+    }
+
+    public static function iconSpeechBubble($options=array()){
+        return self::buildIcon(self::CLASS_SPEECH_BUBBLE, $options);
+    }
+
+    public static function iconMicrophone($options=array()){
+        return self::buildIcon(self::CLASS_MICROPHONE, $options);
+    }
+
+    public static function iconMicrophoneOff($options=array()){
+        return self::buildIcon(self::CLASS_MICROPHONE_OFF, $options);
+    }
+
+    public static function iconDisconnect($options=array()){
+        return self::buildIcon(self::CLASS_DISCONNECT, $options);
+    }
+
+    public static function iconConnect($options=array()){
+        return self::buildIcon(self::CLASS_CONNECT, $options);
+    }
 
     public static function iconEliminate($options=array()){
         return self::buildIcon(self::CLASS_ELIMINATE, $options);
@@ -1058,12 +1105,20 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_CONTRAST, $options);
     }
 
+    public static function iconHeadphones($options=array()){
+        return self::buildIcon(self::CLASS_HEADPHONES, $options);
+    }
+
     public static function iconCompress($options=array()){
         return self::buildIcon(self::CLASS_COMPRESS, $options);
     }
 
     public static function iconMapO($options=array()){
         return self::buildIcon(self::CLASS_MAP_O, $options);
+    }
+
+    public static function iconVariable($options=array()){
+        return self::buildIcon(self::CLASS_VARIABLE, $options);
     }
 
 

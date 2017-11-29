@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "form.css",
+	"sources": [
+		"form.scss",
+		"../../../../scss/inc/_bootstrap.scss",
+		"../../../../scss/inc/_variables.scss",
+		"../../../../scss/inc/_functions.scss",
+		"../../../../scss/inc/_colors.scss",
+		"../../../../scss/inc/fonts/_tao-icon-vars.scss"
+	],
+	"names": [],
+	"mappings": "AAEA,AAAA,gBAAgB,AAAC,CGsHb,MAAM,CAAE,GAAG,CAAC,KAAK,CC/FI,IAAI,CDgGzB,aAAa,CAAE,GAAG,CAClB,qBAAqB,CAAE,GAAG,CHtH1B,gBAAgB,CIyBG,OAAO,CJxB1B,OAAO,CAAE,IAAI,CACb,QAAQ,CAAE,QAAQ,CAClB,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,KAAK,CAUf,AAhBD,AAQI,gBARY,CAQZ,EAAE,AAAC,CACC,UAAU,CAAE,CAAC,CAChB,AAVL,AAYI,gBAZY,CAYZ,QAAQ,AAAC,CACL,UAAU,CAAE,IAAI,CAChB,UAAU,CAAE,KAAK,CACpB,AGyND,aAAa,CAAb,OAAa,CHrNb,AAAA,EAAE,CAAG,SAAS,CAAE,cAAc,EGsN9B,eAAe,CAAf,OAAe,CHtNf,AAAA,EAAE,CAAG,SAAS,CAAE,cAAc,EGuN9B,kBAAkB,CAAlB,OAAkB,CHvNlB,AAAA,EAAE,CAAG,SAAS,CAAE,cAAc,EGwN9B,UAAU,CAAV,OAAU,CHxNV,AAAA,EAAE,CAAG,SAAS,CAAE,cAAc"
+}

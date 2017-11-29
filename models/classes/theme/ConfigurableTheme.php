@@ -37,7 +37,9 @@ use oat\tao\helpers\Template;
  *       'data' => array(
  *          'logo-url' => 'http://lorempixel.com/400/200,
  *          'link' => 'http://taotesting.com',
- *          'message' => 'Tao Platform'
+ *          'message' => 'Tao Platform',
+ *          'label' => 'Default Theme',
+ *          'id' => 'defaultTheme'
  *        ),
  *        'stylesheet' => 'http://tao.dev/tao/views/css/tao-3.css'
  *     )
@@ -48,11 +50,23 @@ use oat\tao\helpers\Template;
  */
 class ConfigurableTheme extends Configurable implements Theme
 {
-    const THEME_DATA = 'data';
-    const THEME_CSS = 'stylesheet';
+    /** Theme id offset in the options. */
+    const THEME_ID    = 'id';
 
+    /** Theme label offset in the options. */
+    const THEME_LABEL = 'label';
+
+    /** Theme data offset in the options. */
+    const THEME_DATA  = 'data';
+
+    /** Theme css offset in the options. */
+    const THEME_CSS   = 'stylesheet';
+
+    /** Theme data logo url offset in the options under the data offset. */
     const THEME_DATA_LOGO_URL = 'logo-url';
+    /** Theme data logo link offset in the options under the data offset. */
     const THEME_DATA_LINK     = 'link';
+    /** Theme data logo title offset in the options under the data offset. */
     const THEME_DATA_MESSAGE  = 'message';
 
     /**
@@ -75,7 +89,7 @@ class ConfigurableTheme extends Configurable implements Theme
                 $template = Template::getTemplate('blocks/login-message.tpl', 'tao');
                 break;
             default:
-                \common_Logger::w('Unkown template '.$id);
+                \common_Logger::w('Unknown template '.$id);
                 $template = null;
         }
         return $template;
@@ -89,11 +103,11 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getThemeData()
     {
-        if ($this->hasOption(self::THEME_DATA) && is_array($this->getOption(self::THEME_DATA))) {
-            return $this->getOption(self::THEME_DATA);
-        } else {
-            return [];
+        if ($this->hasOption(static::THEME_DATA) && is_array($this->getOption(static::THEME_DATA))) {
+            return $this->getOption(static::THEME_DATA);
         }
+        
+        return [];
     }
 
     /**
@@ -104,11 +118,11 @@ class ConfigurableTheme extends Configurable implements Theme
      */
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
-        if ($this->hasOption(self::THEME_CSS)) {
-            return $this->getOption(self::THEME_CSS);
-        } else {
-            return Template::css('tao-3.css', 'tao');
+        if ($this->hasOption(static::THEME_CSS)) {
+            return $this->getOption(static::THEME_CSS);
         }
+        
+        return Template::css('tao-3.css', 'tao');
     }
 
     /**
@@ -120,11 +134,11 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getLogoUrl()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LOGO_URL])) {
-            return $data[self::THEME_DATA_LOGO_URL];
-        } else {
-            return Template::img('tao-logo.png', 'tao');
-        }
+        if (isset($data[static::THEME_DATA_LOGO_URL])) {
+            return $data[static::THEME_DATA_LOGO_URL];
+        } 
+        
+        return Template::img('tao-logo.png', 'tao');
     }
 
     /**
@@ -137,28 +151,57 @@ class ConfigurableTheme extends Configurable implements Theme
     public function getLink()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_LINK])) {
-            return $data[self::THEME_DATA_LINK];
-        } else {
-            return 'http://taotesting.com';
+        if (isset($data[static::THEME_DATA_LINK])) {
+            return $data[static::THEME_DATA_LINK];
         }
+        
+        return 'http://taotesting.com';
     }
 
     /**
      * Get the message of current theme
-     * Message is used into header, to provide title to logo
-     * Message is used into footer, as footer message
+     * Message is used in the header as title of the logo
+     * Message is used in the footer as footer message
      *
      * @return string
      */
     public function getMessage()
     {
         $data = $this->getThemeData();
-        if (isset($data[self::THEME_DATA_MESSAGE])) {
-            return $data[self::THEME_DATA_MESSAGE];
-        } else {
-            return '';
+        if (isset($data[static::THEME_DATA_MESSAGE])) {
+            return $data[static::THEME_DATA_MESSAGE];
         }
+        
+        return '';
     }
 
+    /**
+     * Get the label of current theme
+     * Labels are useful in situations where you can choose between multiple themes
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        if ($this->hasOption(static::THEME_LABEL)) {
+            return $this->getOption(static::THEME_LABEL);
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the id of current theme
+     * IDs are used to register the theme
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        if ($this->hasOption(static::THEME_ID)) {
+            return $this->getOption(static::THEME_ID);
+        }
+
+        return '';
+    }
 }

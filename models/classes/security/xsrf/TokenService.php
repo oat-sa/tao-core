@@ -145,6 +145,15 @@ class TokenService extends ConfigurableService
     }
 
     /**
+     * Gets this session's name for token
+     * @return {String}
+     */
+    public function getTokenName()
+    {
+        return $this->getStore()->getTokenName();
+    }
+
+    /**
      * Invalidate the tokens in the pool :
      *  - remove the oldest if the pool raises it's size limit
      *  - remove the expired tokens

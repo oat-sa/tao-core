@@ -39,7 +39,7 @@ define([
                 items : ['Bold', 'Italic', 'Subscript', 'Superscript']
             }, {
                 name : 'insert',
-                items : ['SpecialChar']
+                items : ['SpecialChar',  'TaoQtiTable']
             }, {
                 name : 'links',
                 items : ['Link']
@@ -49,7 +49,7 @@ define([
                 items : ['Bold', 'Italic', 'Subscript', 'Superscript']
             }, {
                 name : 'insert',
-                items : ['SpecialChar']
+                items : ['SpecialChar', 'TaoQtiTable']
             }, {
                 name : 'links',
                 items : ['Link']
@@ -59,12 +59,11 @@ define([
                 items : ['Bold', 'Italic', 'Subscript', 'Superscript']
             }, {
                 name : 'insert',
-                items : ['Image', 'SpecialChar']
+                items : ['Image', 'SpecialChar', 'TaoQtiTable']
             }, {
                 name : 'links',
                 items : ['Link']
-            },
-            '/', {
+            }, {
                 name : 'styles',
                 items : ['Format']
             }, {
@@ -127,7 +126,8 @@ define([
                 "&Ocirc;", "&Otilde;", "&Ouml;", "&times;", "&Oslash;", "&Ugrave;", "&Uacute;", "&Ucirc;", "&Uuml;", "&Yacute;", "&THORN;", "&szlig;", "&agrave;", "&aacute;", "&acirc;",
                 "&atilde;", "&auml;", "&aring;", "&aelig;", "&ccedil;", "&egrave;", "&eacute;", "&ecirc;", "&euml;", "&igrave;", "&iacute;", "&icirc;", "&iuml;", "&eth;", "&ntilde;",
                 "&ograve;", "&oacute;", "&ocirc;", "&otilde;", "&ouml;", "&divide;", "&oslash;", "&ugrave;", "&uacute;", "&ucirc;", "&uuml;", "&yacute;", "&thorn;", "&yuml;", "&OElig;",
-                "&oelig;", "&#372;", "&#374", "&#373", "&#375;", "&sbquo;", "&#8219;", "&bdquo;", "&hellip;", "&trade;", "&#9658;", "&bull;", "&rarr;", "&rArr;", "&hArr;", "&diams;","&asymp;"]
+                "&oelig;", "&#372;", "&#374", "&#373", "&#375;", "&sbquo;", "&#8219;", "&bdquo;", "&hellip;", "&trade;", "&#9658;", "&bull;", "&rarr;", "&rArr;", "&hArr;", "&diams;","&asymp;"],
+            disableNativeTableHandles: true
         };
 
         /**
@@ -235,6 +235,11 @@ define([
 
         };
 
+        var _switchDtd = function _switchDtd(dtdMode) {
+            dtdHandler.setMode(dtdMode);
+            window.CKEDITOR.dtd = dtdHandler.getDtd();
+        };
+
         /**
          * Generate a configuration object for CKEDITOR
          *
@@ -251,6 +256,7 @@ define([
          * @param {Boolean} [options.underline] - enables the underline plugin
          * @param {Boolean} [options.highlight] - enables the highlight plugin
          * @param {Boolean} [options.mathJax] - enables the mathJax plugin
+         * @param {String} [options.removePlugins] - a coma-separated list of plugins that should not be loaded: 'plugin1,plugin2,plugin3'
          *
          * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
          */
@@ -349,11 +355,10 @@ define([
             // debugger: has this config been used?
             //config.aaaConfigurationHasBeenLoadedFromConfigurator = true;
 
-            // toggle global DTD
-            // I know that this is rather ugly
+            // toggle global DTD depending on the CK instance which is receiving the focus
+            // I know that this is rather ugly <= don't worry, we'll keep this a secret ;)
             editor.on('focus', function(){
-                dtdHandler.setMode(dtdMode);
-                window.CKEDITOR.dtd = dtdHandler.getDtd();
+                _switchDtd(dtdMode);
                 // should be 1 on html, undefined on qti
                 // console.log(CKEDITOR.dtd.pre.img)
             });
@@ -390,6 +395,9 @@ define([
 
             return config;
         };
+
+        // Set TAO custom DTD the first time CKEditor is initialized
+        _switchDtd('qti');
 
         return {
             getConfig : getConfig

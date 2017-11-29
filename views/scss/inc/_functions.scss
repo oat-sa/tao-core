@@ -65,14 +65,14 @@ Usage:
     }
 }
 
-@mixin flex-container($wrapBehavior: nowrap) {
+@mixin flex-container($wrapBehavior: nowrap, $direction : row) {
     display: box; // 2009 syntax : FF 21
     // 2012 Syntax
     @include vendor-prefix(display, flexbox, value, (-ms-, -webkit-, ''));
     // Final Syntax
     @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
 
-    @include vendor-prefix(direction, row, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(flex-direction, $direction, property, (-ms-, -webkit-, ''));
     @include vendor-prefix(flex-wrap, $wrapBehavior, property, (-ms-, -webkit-, ''));
 
     flex-pack : start; // 2012 syntax : IE10

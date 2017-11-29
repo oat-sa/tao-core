@@ -5,6 +5,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 use \common_ext_ExtensionsManager;
 use \common_persistence_Manager;
+use oat\tao\model\TaoOntology;
 
 
 abstract class RestTestRunner extends TaoPhpUnitTestRunner
@@ -29,7 +30,7 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
             PROPERTY_USER_UILG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
             PROPERTY_USER_PASSWORD => 'test' . rand(),
             PROPERTY_USER_ROLES => array(
-                INSTANCE_ROLE_GLOBALMANAGER
+				TaoOntology::PROPERTY_INSTANCE_ROLE_GLOBALMANAGER
             )
         );
     }
@@ -45,7 +46,7 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
         $userdata = $this->getUserData();
         $password = $userdata[PROPERTY_USER_PASSWORD]; 
         $userdata[PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($userdata[PROPERTY_USER_PASSWORD]);
-        $tmclass = new \core_kernel_classes_Class(CLASS_TAO_USER);
+        $tmclass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $user = $tmclass->createInstanceWithProperties($userdata);
         \common_Logger::i('Created user ' . $user->getUri());
         

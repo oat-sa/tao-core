@@ -39,8 +39,7 @@ module.exports = function(grunt) {
         'jquery.cookie',
         'jquery.fileDownload',
         'raphael',
-        'scale.raphael',
-        'html5-history-api']);
+        'scale.raphael']);
 
     grunt.option('mainlibs', libs);
     grunt.option('root', root);
@@ -49,6 +48,7 @@ module.exports = function(grunt) {
     grunt.option('testUrl', testUrl);
     grunt.option('reports', reportOutput);
     grunt.option('livereloadPort', livereloadPort);
+    grunt.option('requirejsModule', require('requirejs'));
 
     //track build time
     require('time-grunt')(grunt);

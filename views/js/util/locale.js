@@ -20,7 +20,7 @@
 /**
  * @author Ivan Klimchuk <klimchuk@1pt.com>
  */
-define(['module'], function (module) {
+define(['module', 'moment'], function (module, moment) {
     'use strict';
 
     var configuration = module.config();
@@ -64,6 +64,14 @@ define(['module'], function (module) {
         },
 
         /**
+         * Returns datetime format
+         * @return {string}
+         */
+        getDateTimeFormat : function getDateTimeFormat() {
+            return this.getConfig() && this.getConfig().dateTimeFormat ? this.getConfig().dateTimeFormat : 'DD/MM/YYYY HH:mm:ss';
+        },
+
+        /**
          * Parse float values with process locale features
          * @param number
          * @returns {Number}
@@ -96,6 +104,16 @@ define(['module'], function (module) {
             }
 
             return parseInt(number, numericBase);
+        },
+
+        /**
+         * Parse unix timestamp
+         * Note that user's (browser's) timezone will be used.
+         * @param {Number} timestamp
+         * @return string
+         */
+        formatDateTime: function (timestamp) {
+            return moment(timestamp, 'X').format(this.getDateTimeFormat());
         }
     };
 
