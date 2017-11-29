@@ -50,11 +50,19 @@ class ThemeConverter
 
         // older themes are stored as an instance, newer ones as array
         if(is_array($theme)) {
-            if(empty($theme['class'])) {
-                throw new \common_exception_MissingParameter('class', __METHOD__);
+            if(empty($theme[ThemeServiceInterface::THEME_CLASS_OFFSET])) {
+                throw new \common_exception_MissingParameter(
+                    ThemeServiceInterface::THEME_CLASS_OFFSET,
+                    __METHOD__
+                );
             }
-            $options = !empty($theme['options']) ? $theme['options'] : [];
-            $theme = new $theme['class']($options);
+
+            $options = !empty($theme[ThemeServiceInterface::THEME_OPTIONS_OFFSET])
+                ? $theme[ThemeServiceInterface::THEME_OPTIONS_OFFSET]
+                : []
+            ;
+
+            $theme = new $theme[ThemeServiceInterface::THEME_CLASS_OFFSET]($options);
         }
 
         // list of all previously used templates
