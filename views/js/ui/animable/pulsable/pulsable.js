@@ -32,27 +32,42 @@ define([
     };
 
     var pulsableComponent = {
+        /**
+         * Show a pulse animation for a given number of time
+         * @param {Integer} [pulseCount] - number of time the component should pulse, if it is not given, takes the value define in the config
+         * @returns {ui/component} self
+         */
         pulse : function pulse(pulseCount){
             var self = this;
-            var $component = this.getElement();
-            var pulseNb = parseInt(pulseCount || this.config.pulseCount || defaultConfig.pulseCount, 10);
-            var animatedComponent = makeAlignable(componentFactory())
-                .setTemplate(pulseTpl)
-                .init()
-                .render($component)
-                .alignWith($component, {
-                    hPos : 'center',
-                    vPos : 'center',
-                    hOrigin : 'center',
-                    vOrigin : 'center'
-                });
+            var $component, pulseNb, animatedComponent;
 
-            return new Promise(function(resolve){
-                _.delay(function(){
-                    animatedComponent.destroy();
-                    resolve(self);
-                }, pulseNb * 1000);//one pulse per second
-            });
+            if(this.config && this.is('rendered')){
+                $component = this.getElement();
+
+                if($component.css('position') === 'static'){
+                    $component.css('position', 'relative');
+                }
+
+                pulseNb = parseInt(pulseCount || this.config.pulseCount || defaultConfig.pulseCount, 10);
+                animatedComponent = makeAlignable(componentFactory())
+                    .setTemplate(pulseTpl)
+                    .init()
+                    .render($component)
+                    .alignWith($component, {
+                        hPos : 'center',
+                        vPos : 'center',
+                        hOrigin : 'center',
+                        vOrigin : 'center'
+                    });
+
+                return new Promise(function(resolve){
+                    _.delay(function(){
+                        animatedComponent.destroy();
+                        resolve(self);
+                    }, pulseNb * 1000);//one pulse per second
+                });
+            }
+            return this;
         }
     };
 
