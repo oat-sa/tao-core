@@ -134,7 +134,8 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 
                 //file meta
                 header('Content-Disposition: attachment; filename="' . $filename . '"');
-                header('Content-Type: text/csv');
+                header('Content-Type: ' . $file->getMimeType());
+                
                 tao_helpers_Http::returnStream($file->readPsrStream());
                 return;
             }

@@ -1,0 +1,61 @@
+@import 'inc/bootstrap';
+
+.ui-generis-widget {
+    margin: 10px 0px;
+
+    > .left {
+        display: inline-block;
+        margin-top: 8px;
+        width: 34%;
+        vertical-align: top;
+    }
+
+    > .right {
+        display: inline-block;
+        min-width: 150px;
+        width: 65%;
+
+        > input,
+        > select,
+        > textarea {
+            background-color: white;
+            @include simple-border();
+            color: $textColor;
+            font-family: $regularFont;
+            padding: 8px;
+            width: 100%;
+        }
+
+        > input,
+        > select {
+            font: inherit;
+            height: 36px;
+        }
+
+        > .check-box-input {
+            color: $textColor;
+            display: inline-block;
+            font-family: $regularFont;
+            padding: 4px;
+            width: 100%;
+
+            > .option {
+                padding-top: 4px;
+            }
+        }
+
+        input.error,
+        select.error,
+        textarea.error,
+        .check-box-input.error {
+            border-color: $error;
+            color: $error;
+        }
+    }
+
+    .validation-container {
+        color: $error;
+        text-align: right;
+        width: 99%;
+    }
+}

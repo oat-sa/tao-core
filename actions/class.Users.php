@@ -22,6 +22,7 @@
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\TaoOntology;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -166,7 +167,7 @@ class tao_actions_Users extends \oat\tao\model\mvc\psr7\Controller
             $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
-            if ($user->getUri() == LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
+            if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;
             }
             $index++;
@@ -228,7 +229,7 @@ class tao_actions_Users extends \oat\tao\model\mvc\psr7\Controller
      */
     public function add()
     {
-        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(CLASS_TAO_USER));
+        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER));
         $myForm = $myFormContainer->getForm();
 
         if ($myForm->isSubmited()) {
@@ -259,7 +260,7 @@ class tao_actions_Users extends \oat\tao\model\mvc\psr7\Controller
             throw new Exception("wrong request mode");
         }
 
-        $clazz = new core_kernel_classes_Class(CLASS_TAO_USER);
+        $clazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
         $myForm = $formContainer->getForm();
 
@@ -356,7 +357,7 @@ class tao_actions_Users extends \oat\tao\model\mvc\psr7\Controller
      */
     private function checkUser($uri)
     {
-        if ($uri === LOCAL_NAMESPACE . DEFAULT_USER_URI_SUFFIX) {
+        if ($uri === LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
             throw new Exception('Default user data cannot be changed');
         }
     }

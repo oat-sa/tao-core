@@ -145,6 +145,24 @@ define([
         },
 
         /**
+         * Moves the component to the given X position
+         * @param {Number} x
+         * @returns {Component} chains
+         */
+        moveToX: function moveToX(x) {
+            return this.moveTo(x, this._y);
+        },
+
+        /**
+         * Moves the component to the given Y position
+         * @param {Number} y
+         * @returns {Component} chains
+         */
+        moveToY: function moveToY(y) {
+            return this.moveTo(this._x, y);
+        },
+
+        /**
          * Restore the default position of the component
          * @returns {Component} chains
          */

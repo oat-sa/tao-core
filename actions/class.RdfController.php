@@ -28,6 +28,7 @@ use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\TaoOntology;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -555,7 +556,7 @@ abstract class tao_actions_RdfController extends \oat\tao\model\mvc\psr7\Control
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
-			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA)))){
+			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)))){
 				$langElt = $myForm->getElement('translate_lang');
 				$langElt->setValue($targetLang);
 				$langElt->setAttribute('readonly', 'true');

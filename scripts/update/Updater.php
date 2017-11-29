@@ -59,6 +59,10 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
 use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
 use oat\tao\model\routing\Resolver;
+use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\model\service\ContainerService;
+use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -101,6 +105,7 @@ use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\OperatedByService;
+use oat\tao\model\actionQueue\implementation\InstantActionQueue;
 
 /**
  *
@@ -921,9 +926,39 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('12.2.2');
         }
 
-        $this->skip('12.2.2', '12.3.0');
+        $this->skip('12.2.2', '12.21.5');
 
-                if($this->isVersion('12.3.0')) {
+        if ($this->isVersion('12.21.5')) {
+                $service = new GetTreeService();
+                $this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
+                $this->setVersion('12.21.6');
+        }
+
+        $this->skip('12.21.6', '13.1.5');
+
+        if ($this->isVersion('13.1.5')) {
+            $service = new InstantActionQueue([
+                InstantActionQueue::OPTION_PERSISTENCE => 'cache',
+                InstantActionQueue::OPTION_ACTIONS => [],
+            ]);
+            $this->getServiceManager()->register(InstantActionQueue::SERVICE_ID, $service);
+            $this->setVersion('13.2.0');
+        }
+
+        $this->skip('13.2.0', '14.4.0');
+
+        if ($this->isVersion('14.4.0')) {
+            $this->getServiceManager()->register(
+                ContainerService::SERVICE_ID,
+                new ContainerService()
+            );
+
+            $this->setVersion('14.4.1');
+        }
+
+        $this->skip('14.4.1', '14.5.0');
+
+        if($this->isVersion('14.5.0')) {
             $service = new ActionExecutor(
                 [
                     'executor' =>
@@ -942,7 +977,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             }
 
-            $this->setVersion('13.0.0');
+            $this->setVersion('15.0.0');
         }
 
     }
