@@ -15,6 +15,19 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * A badge component used to indicate the status of a list of process or elements
+ *
+ * @example
+ * badgeFactory({
+ *          type : 'info',
+ *          value : 2,
+ *          loading : true
+ *     });
+ *
+ * @author Sam <sam@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -35,6 +48,15 @@ define([
     var _allowedTypes = ['success', 'error', 'info'];
 
     var badgeApi = {
+
+        /**
+         * Update and refresh the rendering of the badge
+         * @param {Object} config - the display config
+         * @param {Number} config.value - the number to be display in the badge, if above 99, the 99+ will be displayed instead
+         * @param {String} config.type - define the type of the badge (success, error, info)
+         * @param {Boolean} [config.loading] - if true, show the loading animation around it
+         * @returns {badgeApi}
+         */
         update : function update(config){
 
             var $component = this.getElement();
@@ -45,18 +67,18 @@ define([
 
             _.assign(this.config, config);
 
-            if(config && config.value){
-                displayValue = parseInt(config.value, 10);
+            if(this.config && this.config.value){
+                displayValue = parseInt(this.config.value, 10);
                 displayValue = (displayValue > 99) ? '99+' : displayValue;//only display up to a value of 99
 
                 //set status
-                if(_allowedTypes.indexOf(config.type) === -1){
-                    throw new Error('Invalid badge type : '.config.type);
+                if(_allowedTypes.indexOf(this.config.type) === -1){
+                    throw new Error('Invalid badge type : '.this.config.type);
                 }
-                $badge.addClass('badge-' + config.type).html(displayValue);
+                $badge.addClass('badge-' + this.config.type).html(displayValue);
 
                 //if any is running
-                if(config.loading){//replace by loading
+                if(this.config.loading){//replace by loading
                     hider.show($loader);
                     hider.hide($border);
                 }else{
@@ -76,10 +98,21 @@ define([
     };
 
     /**
-     * Create a badge that indicates the status of an array of elements
+     * Create a badge that indicates the status and a number
+     *
+     * @param {Object} config - the component config
+     * @param {Number} config.value - the number to be display in the badge, if above 99, the 99+ will be displayed instead
+     * @param {String} config.type - define the type of the badge (success, error, info)
+     * @param {Boolean} [config.loading] - if true, show the loading animation around it
+     * @returns {badge} the component
      */
     return function badgeFactory(config) {
         var initConfig = _.defaults(config || {}, _defaults);
+
+        /**
+         * The component
+         * @typedef {ui/component} badge
+         */
         return component(badgeApi)
             .setTemplate(badgeTpl)
             .on('render', function() {

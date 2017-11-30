@@ -48,7 +48,7 @@ define([
         { title : 'setTemplate' },
     ]).test('Component API ', function(data, assert) {
         var instance = loadingButtonFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the component method "' + data.title);
+        assert.equal(typeof instance[data.title], 'function', 'The loadingButton exposes the component method "' + data.title);
     });
 
     QUnit.cases([
@@ -59,7 +59,7 @@ define([
         { title : 'after' },
     ]).test('Eventifier API ', function(data, assert) {
         var instance = loadingButtonFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the eventifier method "' + data.title);
+        assert.equal(typeof instance[data.title], 'function', 'The loadingButton exposes the eventifier method "' + data.title);
     });
 
     QUnit.cases([
@@ -68,7 +68,7 @@ define([
         { title : 'reset' },
     ]).test('Instance API ', function(data, assert) {
         var instance = loadingButtonFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the method "' + data.title);
+        assert.equal(typeof instance[data.title], 'function', 'The loadingButton exposes the method "' + data.title);
     });
 
     QUnit.module('Behavior');
@@ -89,24 +89,49 @@ define([
 
     QUnit.asyncTest('start, terminate and reset', function(assert) {
         var $container = $('#qunit-fixture');
-        loadingButtonFactory({})
-            .on('render', function(){
-                assert.ok(true, 'rendered');
-                this.start();
-            })
-            .on('started', function(){
-                assert.ok(true, 'programmatically started');
-                this.terminate();
-            })
-            .on('terminated', function(){
-                assert.ok(true, 'programmatically terminated');
-                this.reset();
-            })
-            .on('reset', function(){
-                assert.ok(true, 'programmatically reset');
-                QUnit.start();
-            })
-            .render($container);
+        loadingButtonFactory({
+            type : 'info',
+            icon : 'delivery',
+            title : 'Publish',
+            label : 'Publish',
+            terminatedLabel : 'Interrupted'
+        })
+        .on('render', function(){
+            assert.ok(this.getElement().find('.start-icon').is(':visible'), 'start icon visible');
+            assert.ok(this.getElement().find('.action-label').is(':visible'), 'action label visible');
+            assert.equal(this.getElement().find('.action-label').text(), 'Publish', 'label correct');
+            assert.ok(!this.getElement().find('.terminated-label').is(':visible'), 'terminate label hidden');
+            assert.ok(!this.getElement().find('.spinning').is(':visible'), 'loading icon visible');
+            this.start();
+        })
+        .on('started', function(){
+            assert.ok(true, 'programmatically started');
+            assert.ok(!this.getElement().find('.start-icon').is(':visible'), 'start icon hidden');
+            assert.ok(this.getElement().find('.action-label').is(':visible'), 'action label visible');
+            assert.equal(this.getElement().find('.action-label').text(), 'Publish', 'label correct');
+            assert.ok(!this.getElement().find('.terminated-label').is(':visible'), 'terminate label hidden');
+            assert.ok(this.getElement().find('.spinning').is(':visible'), 'loading icon visible');
+            this.terminate();
+        })
+        .on('terminated', function(){
+            assert.ok(true, 'programmatically terminated');
+            assert.ok(this.getElement().find('.start-icon').is(':visible'), 'start icon visible');
+            assert.ok(!this.getElement().find('.action-label').is(':visible'), 'action label hidden');
+            assert.equal(this.getElement().find('.terminated-label').text(), 'Interrupted', 'terminate label correct');
+            assert.ok(this.getElement().find('.terminated-label').is(':visible'), 'terminate visible');
+            assert.ok(!this.getElement().find('.spinning').is(':visible'), 'loading icon hidden');
+            this.reset();
+        })
+        .on('reset', function(){
+            assert.ok(true, 'programmatically reset');
+            assert.ok(this.getElement().find('.start-icon').is(':visible'), 'start icon visible');
+            assert.ok(this.getElement().find('.action-label').is(':visible'), 'action label visible');
+            assert.equal(this.getElement().find('.action-label').text(), 'Publish', 'label correct');
+            assert.ok(!this.getElement().find('.terminated-label').is(':visible'), 'terminate label hidden');
+            assert.ok(!this.getElement().find('.spinning').is(':visible'), 'loading icon visible');
+            QUnit.start();
+        })
+        .render($container);
     });
 
     QUnit.module('Visual');

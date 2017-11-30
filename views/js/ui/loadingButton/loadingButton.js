@@ -15,6 +15,19 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
+
+/**
+ * A button component that has its own lifecycle: render -> started -> terminated [-> reset]
+ *
+ * @example
+ * badgeFactory({
+ *          type : 'info',
+ *          value : 2,
+ *          loading : true
+ *     });
+ *
+ * @author Sam <sam@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',
@@ -30,7 +43,7 @@ define([
         icon : 'property-advanced',
         title : '',
         label : 'OK',
-        terminatedLabel : 'STOPPED'
+        terminatedLabel : 'FINISHED'
     };
 
     var buttonApi = {
