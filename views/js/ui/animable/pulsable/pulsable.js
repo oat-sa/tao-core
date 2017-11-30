@@ -16,6 +16,15 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
+/**
+ * Allow to generate a pulsing animation for a component
+ *
+ * @example
+ * component.pulse(3);//will have the component pulse for 3 times
+ * component.pulse(3).then(callback);//enables executing the callback after the animation sequence is over
+ *
+ * @author Sam <sam@taotesting.com>
+ */
 define([
     'jquery',
     'lodash',

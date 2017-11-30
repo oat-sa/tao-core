@@ -16,6 +16,16 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
 
+/**
+ * Allow to generate an absorbing animation from a target element to the component
+ *
+ * @example
+ * component.absorb($target);//will create an animation
+ * component.absorb($target).then(callback);//enables executing the callback after the animation sequence is over
+ * component.absorbBurst($target, [0, 500, 1000]).then(callback);//creates 3 successive absorbing animation respectively at 0, 500 and 1000ms
+ *
+ * @author Sam <sam@taotesting.com>
+ */
 define([
     'lodash',
     'core/promise',
@@ -31,6 +41,12 @@ define([
     };
 
     var absorbableComponent = {
+
+        /**
+         * Generate an absorbing animation from a target element to the component
+         * @param {JQuery} $target
+         * @returns {Promise} - resolved when the animation is over
+         */
         absorb : function absorb($target){
             var self = this;
             var $component = this.getElement();
@@ -52,12 +68,17 @@ define([
                     vOrigin : 'center'
                 });
 
+            if($component.css('position') === 'static'){
+                $component.css('position', 'relative');
+            }
+
             return new Promise(function(resolve){
                 _.delay(function(){
                     //css
                     animatedComponent
                         .getElement().addClass('animate').css({
-                            transitionDuration : animationDuration+'s'
+                            transitionDuration : animationDuration+'s',
+
                         });
 
                     animatedComponent
@@ -79,6 +100,14 @@ define([
                 }, animationStartOffset);
             });
         },
+
+        /**
+         * Generate a sequence of absorbing animation from a target element to the component.
+         *
+         * @param {JQuery} $target
+         * @param {Array} delayArray
+         * @returns {Promise} - resolved when the animation is over
+         */
         absorbBurst : function($target, delayArray){
 
             var animations = [];
