@@ -34,7 +34,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        return $this->getOption(self::OPTION_CURRENT);
+        return $this->getOption(static::OPTION_CURRENT);
     }
 
     /**
@@ -43,14 +43,18 @@ class ThemeService extends ThemeServiceAbstract
     public function addTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
         $themes  = $this->getAllThemes();
-        $themeId = $this->getUniqueId($theme);
-
+        $themeId = $theme->getId();
+        
+        if ($protectAlreadyExistingThemes) {
+            $themeId = $this->getUniqueId($theme);
+        }
+        
         $themes[$themeId] = [
-            'class' => get_class($theme),
-            'options' => ($theme instanceof Configurable) ? $theme->getOptions() : []
+            static::THEME_CLASS_OFFSET   => get_class($theme),
+            static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : []
         ];
 
-        $this->setOption(self::OPTION_AVAILABLE, $themes);
+        $this->setOption(static::OPTION_AVAILABLE, $themes);
 
         return $themeId;
     }
@@ -64,7 +68,7 @@ class ThemeService extends ThemeServiceAbstract
             throw new \common_exception_Error('Theme '. $themeId .' not found');
         }
 
-        $this->setOption(self::OPTION_CURRENT, $themeId);
+        $this->setOption(static::OPTION_CURRENT, $themeId);
     }
 
     /**
@@ -72,16 +76,37 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getAllThemes()
     {
-        $themes = $this->getOption(self::OPTION_AVAILABLE);
+        $themes = (array)$this->getOption(static::OPTION_AVAILABLE);
         foreach ($themes as $key => $theme) {
-            if (is_array($theme) && isset($theme['class'])) {
-                $options = isset($theme['options']) ? $theme['options'] : [];
-                $theme   = $this->getServiceManager()->build($theme['class'], $options);
+            if (is_array($theme) && isset($theme[static::THEME_CLASS_OFFSET])) {
+                $options = isset($theme[static::THEME_OPTIONS_OFFSET])
+                    ? $theme[static::THEME_OPTIONS_OFFSET]
+                    : []
+                ;
+
+                $theme   = $this->getServiceManager()->build($theme[static::THEME_CLASS_OFFSET], $options);
             }
 
             $themes[$key] = $theme;
         }
 
         return $themes;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeThemeById($themeId)
+    {
+        if(!$this->hasTheme($themeId)) {
+            return false;
+        }
+
+        $themes = $this->getOption(static::OPTION_AVAILABLE);
+        unset($themes[$themeId]);
+
+        $this->setOption(static::OPTION_AVAILABLE, $themes);
+
+        return true;
     }
 }
