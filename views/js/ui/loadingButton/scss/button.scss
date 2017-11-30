@@ -17,8 +17,8 @@
             display: inline-block;
             @include vendor-prefix(transform, translateZ(0));
             @include vendor-prefix(transform-origin, 50% 50%);
-            @include animation(spinner-button-rotate 1.4s infinite linear);
-            @include keyframes(spinner-button-rotate) {
+            @include animation(loading-button-rotate 1.4s infinite linear);
+            @include keyframes(loading-button-rotate) {
                 0% {
                     @include vendor-prefix(transform, rotate(0deg));
                 }
@@ -32,9 +32,6 @@
         }
     }
     &.terminated{
-        cursor: default;
-        opacity: 0.6;
-        background-color : gray;
         .action-label{
             display: none;
         }

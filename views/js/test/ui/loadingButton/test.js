@@ -89,6 +89,7 @@ define([
 
     QUnit.asyncTest('start, terminate and reset', function(assert) {
         var $container = $('#qunit-fixture');
+        QUnit.expect(27);
         loadingButtonFactory({
             type : 'info',
             icon : 'delivery',
@@ -102,6 +103,7 @@ define([
             assert.equal(this.getElement().find('.action-label').text(), 'Publish', 'label correct');
             assert.ok(!this.getElement().find('.terminated-label').is(':visible'), 'terminate label hidden');
             assert.ok(!this.getElement().find('.spinning').is(':visible'), 'loading icon visible');
+            assert.ok(!this.is('disabled'), 'component is enabled');
             this.start();
         })
         .on('started', function(){
@@ -111,6 +113,7 @@ define([
             assert.equal(this.getElement().find('.action-label').text(), 'Publish', 'label correct');
             assert.ok(!this.getElement().find('.terminated-label').is(':visible'), 'terminate label hidden');
             assert.ok(this.getElement().find('.spinning').is(':visible'), 'loading icon visible');
+            assert.ok(!this.is('disabled'), 'component is enabled');
             this.terminate();
         })
         .on('terminated', function(){
@@ -120,6 +123,7 @@ define([
             assert.equal(this.getElement().find('.terminated-label').text(), 'Interrupted', 'terminate label correct');
             assert.ok(this.getElement().find('.terminated-label').is(':visible'), 'terminate visible');
             assert.ok(!this.getElement().find('.spinning').is(':visible'), 'loading icon hidden');
+            assert.ok(this.is('disabled'), 'component is disabled');
             this.reset();
         })
         .on('reset', function(){
@@ -129,6 +133,7 @@ define([
             assert.equal(this.getElement().find('.action-label').text(), 'Publish', 'label correct');
             assert.ok(!this.getElement().find('.terminated-label').is(':visible'), 'terminate label hidden');
             assert.ok(!this.getElement().find('.spinning').is(':visible'), 'loading icon visible');
+            assert.ok(!this.is('disabled'), 'component is enabled again');
             QUnit.start();
         })
         .render($container);

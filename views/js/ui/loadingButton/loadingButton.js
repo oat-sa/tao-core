@@ -55,6 +55,7 @@ define([
             if(this.is('started')){
                 this.setState('started', false);
                 this.setState('terminated', true);
+                this.disable();
                 this.trigger('terminated');
             }
             return this;
@@ -62,6 +63,7 @@ define([
         reset : function reset(){
             if(this.is('terminated')){
                 this.setState('terminated', false);
+                this.enable();
                 this.trigger('reset');
             }
             return this;
