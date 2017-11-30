@@ -1,13 +1,11 @@
 @import "inc/bootstrap";
 
-
 $navHeight: 64;
 
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
-        //-webkit-transition: opacity .7s, top 0s;
-        transition: opacity .1s, top 0s;
-        transition-delay: .2s;
+        @include vendor-prefix(transition, opacity .1s, top 0s);
+        @include vendor-prefix(transition-delay, .2s);
         opacity: 1;
         top: $navHeight * 1px;
     }
@@ -155,7 +153,7 @@ $navHeight: 64;
         .plugin-box-menu{
             position: relative;
         }
-        
+
         .main-menu, .settings-menu, .persistent-menu {
 
             background:inherit;
@@ -201,6 +199,8 @@ $navHeight: 64;
             }
         }
         .settings-menu {
+
+            //creates a stacking index to have the setting menu always on top of the others
             z-index: 1;
             position: relative;
 
