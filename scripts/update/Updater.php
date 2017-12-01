@@ -948,6 +948,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('14.4.1', '14.5.0');
+
+        if($this->isVersion('14.5.0')) {
+            OntologyUpdater::syncModels();
+            AclProxy::applyRule(new AccessRule(AccessRule::DENY, 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole', ['controller' => 'tao_actions_ExtensionsManager']));
+            $this->setVersion('14.5.1');
+        }
     }
 
     private function migrateFsAccess() {

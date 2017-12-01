@@ -52,7 +52,14 @@ class AccessRule
     public function isGrant() {
         return $this->grantDeny == self::GRANT;
     }
-    
+
+    /**
+     * @return bool
+     */
+    public function isDeny() {
+        return $this->grantDeny == self::DENY;
+    }
+
     /**
      * Gets the role this rule applies to
      * @return core_kernel_classes_Resource
