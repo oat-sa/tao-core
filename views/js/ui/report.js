@@ -99,7 +99,7 @@ define([
         },
         /**
          * Show the report details
-         * 
+         *
          * @returns {this}
          * @fires reportComponent#showDetails
          */
@@ -169,6 +169,7 @@ define([
                     self.trigger('action', actionId);
                 });
 
+                //ensure multiple fast clicks only activate the toggle once
                 $checkbox.on('change', _.throttle(function(){
                     if(self.isDetailed()){
                         self.hideDetails();

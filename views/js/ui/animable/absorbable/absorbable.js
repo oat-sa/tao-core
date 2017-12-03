@@ -37,14 +37,14 @@ define([
     'use strict';
 
     var defaultConfig = {
-        animationDuration: 2
+        animationDuration: 1
     };
 
     var absorbableComponent = {
 
         /**
          * Generate an absorbing animation from a target element to the component
-         * @param {JQuery} $target
+         * @param {JQuery} $target - the target dom where the absorb animation should start
          * @returns {Promise} - resolved when the animation is over
          */
         absorb : function absorb($target){
@@ -104,8 +104,8 @@ define([
         /**
          * Generate a sequence of absorbing animation from a target element to the component.
          *
-         * @param {JQuery} $target
-         * @param {Array} delayArray
+         * @param {JQuery} $target - the target dom where the absorb animation should start
+         * @param {Array} delayArray - the array of time an absorb animation should successively start
          * @returns {Promise} - resolved when the animation is over
          */
         absorbBurst : function($target, delayArray){

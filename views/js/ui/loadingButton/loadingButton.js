@@ -17,13 +17,16 @@
  */
 
 /**
- * A button component that has its own lifecycle: render -> started -> terminated [-> reset]
+ * A button component used to trigger lengthy action.
+ * It has its own lifecycle: render -> started -> terminated [-> reset]
  *
  * @example
- * badgeFactory({
+ * loadingButtonFactory({
  *          type : 'info',
- *          value : 2,
- *          loading : true
+ *          icon : 'property-advanced',
+ *          title : 'Execute my script,
+ *          label : 'Run',
+ *          terminatedLabel : 'Terminated'
  *     });
  *
  * @author Sam <sam@taotesting.com>
@@ -72,9 +75,24 @@ define([
 
     /**
      * Create a button with the lifecycle : render -> started -> terminated [-> reset]
+     * @param {Object} config - the component config
+     * @param {String} config.type - the icon type (info, success, error)
+     * @param {String} config.icon - the button icon
+     * @param {String} config.title - the button's title
+     * @param {String} config.label - the button's label
+     * @param {String} config.terminatedLabel - the button's label when terminated
+     * @return {loadingButton} the component
+     *
+     * @event started - Emitted when the button is clicked and the triggered action supposed to be started
+     * @event terminated - Emitted when the button action is stopped, interrupted
+     * @event reset - Emitted when the button revert from the terminated stated to the initial one
      */
     return function loadingButtonFactory(config) {
         var initConfig = _.defaults(config || {}, _defaults);
+
+        /**
+         * @typedef {loadingButton} the component
+         */
         return component(buttonApi)
             .setTemplate(buttonTpl)
             .on('render', function() {
