@@ -142,7 +142,7 @@ define([
     QUnit.asyncTest('playground', function(assert) {
         var $container = $('#visual');
         badgeFactory({
-            type : 'info',
+            type : 'success',
             value : 9,
             loading : true
         })
