@@ -1284,3 +1284,5 @@ msgstr "Tu email"
 msgid "Your TAO Password"
 msgstr "Tu contraseña TAO"
 
+msgid "Please wait"
+msgstr "Espera"
