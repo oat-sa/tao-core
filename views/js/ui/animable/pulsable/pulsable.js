@@ -44,7 +44,7 @@ define([
         /**
          * Show a pulse animation for a given number of time
          * @param {Integer} [pulseCount] - number of time the component should pulse, if it is not given, takes the value define in the config
-         * @returns {ui/component} self
+         * @returns {Promise}
          */
         pulse : function pulse(pulseCount){
             var self = this;
@@ -76,7 +76,7 @@ define([
                     }, pulseNb * 1000);//one pulse per second
                 });
             }
-            return this;
+            return Promise.resolve(this);
         }
     };
 

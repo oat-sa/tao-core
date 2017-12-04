@@ -54,7 +54,7 @@ define([
             var targetHeight = $target.height();
             var finalWidth = 10;
             var finalHeight = 10;
-            var animationDuration = parseInt(this.config.animationDuration, 10) || 1;
+            var animationDuration = parseInt(this.config.animationDuration, 10) || defaultConfig.animationDuration;
             var animationStartOffset = 10;//safety duration padding to allow styles to be properly applied
             var animatedComponent = makeAlignable(componentFactory())
                 .setTemplate(absorbTpl)

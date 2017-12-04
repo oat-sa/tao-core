@@ -110,13 +110,13 @@ define([
 
             assert.equal($component.find('.badge').text(), '9', 'value still correct');
             assert.ok($component.find('.badge').hasClass('badge-info'), 'class ok');
-            assert.ok(!$component.find('.loader').is(':visible'), 'loading is hidden visible');
+            assert.ok(!$component.find('.loader').is(':visible'), 'loading is hidden');
 
             this.update({value: 0});
             assert.equal($component.find('.badge').text(), '', 'value emptied');
             assert.ok(!$component.find('.badge').hasClass('badge-info'), 'class info gone');
             assert.ok($component.find('.badge').hasClass('icon-result-ok'), 'class ok');
-            assert.ok(!$component.find('.loader').is(':visible'), 'loading is hidden visible');
+            assert.ok(!$component.find('.loader').is(':visible'), 'loading is hidden');
 
             QUnit.start();
         })

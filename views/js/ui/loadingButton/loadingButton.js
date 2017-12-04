@@ -24,7 +24,7 @@
  * loadingButtonFactory({
  *          type : 'info',
  *          icon : 'property-advanced',
- *          title : 'Execute my script,
+ *          title : 'Execute my script',
  *          label : 'Run',
  *          terminatedLabel : 'Terminated'
  *     });
