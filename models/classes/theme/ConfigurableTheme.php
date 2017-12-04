@@ -47,6 +47,7 @@ use oat\tao\helpers\Template;
  *  [...]
  *
  * @package oat\tao\model\theme
+ * @deprecated use oat\tao\model\theme\ConfigurablePlatformTheme instead
  */
 class ConfigurableTheme extends Configurable implements Theme
 {

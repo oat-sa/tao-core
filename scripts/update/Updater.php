@@ -945,13 +945,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.4.1');
         }
 
-        $this->skip('14.4.1', '14.5.0');
+        $this->skip('14.4.1', '14.7.0');
 
-        if ($this->isVersion('14.5.0')) {
+        if ($this->isVersion('14.7.0')) {
             $moduleService = ModuleAccessService::singleton();
             $moduleService->remove('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
                 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager');
-            $this->setVersion('14.5.1');
+            $this->setVersion('14.7.1');
         }
     }
 
