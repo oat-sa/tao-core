@@ -131,7 +131,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'ClientConfig')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'TaskQueueData')),
-        array('deny', 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole',  array('ext' => 'tao', 'mod' => 'tao_actions_ExtensionsManager')),
+        array('deny', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',  array('ext' => 'tao', 'mod' => 'tao_actions_ExtensionsManager')),
     ),
     'constants' => array(
 
