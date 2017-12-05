@@ -202,59 +202,68 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		if (!tao_helpers_Request::isAjax()) {
             throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
-	
-		$options = array(
-			'subclasses' => true, 
-			'instances' => true, 
-			'highlightUri' => '',
-			'chunk' => false,
-			'offset' => 0,
-			'limit' => 0
-		);
-		
-		if ($this->hasRequestParameter('loadNode')) {
-		    $options['uniqueNode'] = $this->getRequestParameter('loadNode');
-		}
-		
-        if ($this->hasRequestParameter("selected")) {
-			$options['browse'] = array($this->getRequestParameter("selected"));
-		}
-		
-		if ($this->hasRequestParameter('hideInstances')) {
-			if((bool) $this->getRequestParameter('hideInstances')) {
-				$options['instances'] = false;
-			}
-		}
-		if ($this->hasRequestParameter('classUri')) {
-			$clazz = $this->getCurrentClass();
-			$options['chunk'] = !$clazz->equals($this->getRootClass());
-		} else {
-			$clazz = $this->getRootClass();
-		}
-		
-		if ($this->hasRequestParameter('offset')) {
-			$options['offset'] = $this->getRequestParameter('offset');
-		}
-		
-		if ($this->hasRequestParameter('limit')) {
-			$options['limit'] = $this->getRequestParameter('limit');
-		}
-
-		if ($this->hasRequestParameter('order')) {
-			$options['order'] = \tao_helpers_Uri::decode($this->getRequestParameter('order'));
-		}
-
-		if ($this->hasRequestParameter('orderdir')) {
-			$options['orderdir'] = $this->getRequestParameter('orderdir');
-		}
-
+        $options = $this->getTreeOptionsFromRequest([]);
         //generate the tree from the given parameters
-        $tree = $this->getClassService()->toTree($clazz, $options);
+        $tree = $this->getClassService()->toTree($options['class'], $options);
         $tree = $this->addPermissions($tree);
 
         //expose the tree
         $this->returnJson($tree);
 	}
+
+    /**
+     * Get options to generate tree
+     * @return array
+     * @throws Exception
+     */
+    protected function getTreeOptionsFromRequest($options = [])
+    {
+        $options = array_merge([
+            'subclasses' => true,
+            'instances' => true,
+            'highlightUri' => '',
+            'chunk' => false,
+            'offset' => 0,
+            'limit' => 0
+        ], $options);
+
+        if ($this->hasRequestParameter('loadNode')) {
+            $options['uniqueNode'] = $this->getRequestParameter('loadNode');
+        }
+
+        if ($this->hasRequestParameter("selected")) {
+            $options['browse'] = array($this->getRequestParameter("selected"));
+        }
+
+        if ($this->hasRequestParameter('hideInstances')) {
+            if((bool) $this->getRequestParameter('hideInstances')) {
+                $options['instances'] = false;
+            }
+        }
+        if ($this->hasRequestParameter('classUri')) {
+            $options['class'] = $this->getCurrentClass();
+            $options['chunk'] = !$options['class']->equals($this->getRootClass());
+        } else {
+            $options['class'] = $this->getRootClass();
+        }
+
+        if ($this->hasRequestParameter('offset')) {
+            $options['offset'] = $this->getRequestParameter('offset');
+        }
+
+        if ($this->hasRequestParameter('limit')) {
+            $options['limit'] = $this->getRequestParameter('limit');
+        }
+
+        if ($this->hasRequestParameter('order')) {
+            $options['order'] = \tao_helpers_Uri::decode($this->getRequestParameter('order'));
+        }
+
+        if ($this->hasRequestParameter('orderdir')) {
+            $options['orderdir'] = $this->getRequestParameter('orderdir');
+        }
+        return $options;
+    }
 
 	/**
 	 * Add permission information to the tree structure
