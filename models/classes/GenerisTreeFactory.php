@@ -276,7 +276,8 @@ class GenerisTreeFactory
         $queryBuilder = $search->query();
         $query = $queryBuilder->newQuery()->add(OntologyRdfs::RDFS_SUBCLASSOF)->equals($class->getUri());
         $queryBuilder->setCriteria($query);
-        $order = isset($this->optionsFilter['order']) ? $this->optionsFilter['order'] : [RDFS_LABEL => 'asc'];
+        //classes always sorted by label
+        $order = [RDFS_LABEL => 'asc'];
         $queryBuilder->sort($order);
         $result = [];
         foreach ($search->getGateway()->search($queryBuilder) as $subclass) {
