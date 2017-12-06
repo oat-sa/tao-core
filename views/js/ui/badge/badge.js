@@ -45,7 +45,7 @@ define([
         value: 0
     };
 
-    var _allowedTypes = ['success', 'error', 'info'];
+    var _allowedTypes = ['success', 'warning', 'error', 'info'];
 
     var badgeApi = {
 
@@ -61,7 +61,7 @@ define([
 
             var $component = this.getElement();
             var $border = $component.find('.badge-border');
-            var $badge = $component.find('.badge').removeClass('badge-info badge-success badge-error icon-result-ok');
+            var $badge = $component.find('.badge').removeClass('badge-info badge-success badge-warning badge-error icon-result-ok');
             var $loader = $component.find('.loader');
             var displayValue;
 

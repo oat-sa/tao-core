@@ -5,14 +5,6 @@ $foreground: $darkBarTxt;
 
 .badge-component {
     position: relative;
-    .loader-background{
-        position: absolute;
-        top:-1px;
-        width:25px;
-        height:25px;
-        border-radius:50%;
-        background: $darkBarTxt;
-    }
     .loader:not(.hidden) {
         position: relative;
         top:-1px;
@@ -30,7 +22,6 @@ $foreground: $darkBarTxt;
                 @include vendor-prefix(transform, rotate(360deg));
             }
         }
-
         &:before {
             width:50%;
             height:50%;
@@ -41,7 +32,6 @@ $foreground: $darkBarTxt;
             left:0;
             content:'';
         }
-
         &:after {
             background: $background;
             width:75%;
@@ -67,11 +57,16 @@ $foreground: $darkBarTxt;
         text-align: center;
         display: inline-block;
         &.badge-info{
-            display: none;
+            color: whiten($info, 0.9);
+            background: whiten($info, 0.2);
         }
         &.badge-success{
             color: whiten($success, 0.9);
             background: whiten($success, 0.2);
+        }
+        &.badge-warning{
+            color: whiten($danger, 0.9);
+            background: $danger;
         }
         &.badge-error{
             color: whiten($error, 0.9);
