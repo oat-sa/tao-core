@@ -281,6 +281,14 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         return $this->propagate(new FlowController());
     }
 
+    /**
+     * Get the service Manager
+     *
+     * @deprecated Use $this->propagate or $this->registerService to access ServiceManager functionalities
+     * @deprecated To get the service dependencies manager, use $this->getServiceLocator
+     *
+     * @return ServiceManager
+     */
     protected function getServiceManager()
     {
         try {
