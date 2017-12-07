@@ -4,7 +4,7 @@ $foreground: $darkBarTxt;
 .pulsable {
     z-index: 1;//create a stacking context to ensure it is display on top of its container
     display: block;
-    border-radius: 250%;
+    border-radius: 50%;
     position: absolute;
     background: $foreground;
     width: 1px;
