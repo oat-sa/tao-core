@@ -18,6 +18,15 @@ class TreeWrapper
 	}
 
 	/**
+     * @deprecated tree nodes will be sorted by name by default
+	 * @return TreeWrapper
+	 */
+	public function getSortedTreeByName()
+ 	{
+ 		return $this;
+ 	}
+
+	/**
 	 * @param []Filter
 	 * @return TreeWrapper
 	 */
