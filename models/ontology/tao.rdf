@@ -152,7 +152,7 @@
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Task Queue Manager]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Task Queue Manager Role]]></rdfs:comment>
-    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
   </rdf:Description>
   <!-- Operational Administrator Role -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator">
