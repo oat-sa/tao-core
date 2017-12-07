@@ -78,9 +78,9 @@ define([
      * @param {Object} config - the component config
      * @param {String} config.type - the icon type (info, success, error)
      * @param {String} config.icon - the button icon
-     * @param {String} config.title - the button's title
      * @param {String} config.label - the button's label
-     * @param {String} config.terminatedLabel - the button's label when terminated
+     * @param {String} [config.title] - the button's title
+     * @param {String} [config.terminatedLabel] - the button's label when terminated
      * @return {loadingButton} the component
      *
      * @event started - Emitted when the button is clicked and the triggered action supposed to be started
