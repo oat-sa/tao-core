@@ -945,9 +945,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.4.1');
         }
 
-        $this->skip('14.4.1', '14.7.0');
+        $this->skip('14.4.1', '14.8.0');
 
-        if ($this->isVersion('14.7.0')) {
+       if ($this->isVersion('14.8.0')) {
             $moduleService = ModuleAccessService::singleton();
             $moduleService->remove('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
                 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager');
@@ -971,7 +971,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Users')));
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'WebService')));
 
-            $this->setVersion('14.7.1');
+            $this->setVersion('14.8.1');
         }
     }
 

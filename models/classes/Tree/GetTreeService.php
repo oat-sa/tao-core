@@ -30,12 +30,11 @@ class GetTreeService extends ConfigurableService
 			$request->getOffset(),
 			$request->getResourceUrisToShow(),
 			$request->getFilters(),
-			$request->getFiltersOptions()
+			$request->getFiltersOptions(),
+			[]
 		);
 
 		$treeWrapper = new TreeWrapper($factory->buildTree($request->getClass()));
-		$treeWrapper = $treeWrapper->getSortedTreeByName();
-
 
 		if ($request->isHideNode()) {
 			$treeWrapper = $treeWrapper->getDefaultChildren();
