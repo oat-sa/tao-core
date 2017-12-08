@@ -19,6 +19,7 @@ $loadingBarBorder: whiten($darkBar, .4);
     top: 0px;
     display:none;
     z-index: 10000;
+    cursor: progress;
 
     &.fixed {
         position: fixed;
