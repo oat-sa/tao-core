@@ -1,0 +1,30 @@
+@import "inc/bootstrap";
+
+$animationFunction: cubic-bezier(.2, .6, 1, .4);
+$background: $darkBarTxt;
+.absorbable{
+    z-index: 1;//create a stacking context to ensure it is display on top of its container
+    border-radius: 0%;
+    background : $background;
+    opacity : 0;
+    &.animate{
+        transform: translateZ(0);
+        transition-timing-function: $animationFunction;
+        @include animation(absorbable-opacity 2s $animationFunction 1);
+    }
+    @include keyframes(absorbable-opacity) {
+        0% {
+            opacity : 0;
+        }
+        20% {
+            opacity : 0.3;
+            border-radius: 20%;
+        }
+        60% {
+            opacity : 0.9;
+        }
+        100% {
+            border-radius: 50%;
+        }
+    }
+}
