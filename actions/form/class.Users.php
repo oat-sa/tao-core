@@ -191,9 +191,9 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		}
 		asort($rolesOptions);
 
-		$rolesOptions = $this->filterPermittedRoles($rolesOptions);
+        $userService = tao_models_classes_UserService::singleton();
+        $rolesOptions = $userService->getPermittedRoles($userService->getCurrentUser(), $rolesOptions);
 
-								 
 		$rolesElt = $this->form->getElement(tao_helpers_Uri::encode($property->getUri()));
 		$rolesElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$rolesElt->setOptions($rolesOptions);
@@ -247,12 +247,6 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 				}
 			}
 		}
-    }
-
-    private function filterPermittedRoles($roles)
-    {
-        $userService = tao_models_classes_UserService::singleton();
-        return $userService->getPermittedRoles($userService->getCurrentUser(), $roles);
     }
 
 }
