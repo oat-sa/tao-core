@@ -2,6 +2,7 @@
 
 $background: $darkBar;
 $foreground: $darkBarTxt;
+$brightOrange : rgb(209, 108, 85);//special color to make the warning color better for the badge
 
 .badge-component {
     position: relative;
@@ -65,8 +66,8 @@ $foreground: $darkBarTxt;
             background: whiten($success, 0.2);
         }
         &.badge-warning{
-            color: whiten($danger, 0.9);
-            background: $danger;
+            color: whiten($brightOrange, 0.9);
+            background: $brightOrange;
         }
         &.badge-error{
             color: whiten($error, 0.9);
