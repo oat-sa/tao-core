@@ -947,7 +947,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('14.4.1', '14.8.0');
 
-       if ($this->isVersion('14.8.0')) {
+        if ($this->isVersion('14.8.0')) {
             $moduleService = ModuleAccessService::singleton();
             $moduleService->remove('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
                 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager');
@@ -973,6 +973,9 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('14.8.1');
         }
+
+        this->skip('14.8.1', '14.9.0');
+
     }
 
     private function migrateFsAccess() {
