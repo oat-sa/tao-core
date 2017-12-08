@@ -17,7 +17,7 @@
  */
 
 /**
- * LocalStorage backend of the client store
+ * In Memory backend of the client store
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
