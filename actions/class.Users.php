@@ -336,6 +336,8 @@ class tao_actions_Users extends tao_actions_CommonModule
                     unset($values[PROPERTY_USER_DEFLG]);
                 }
 
+                $this->userService->checkCurrentUserAccess($values[\oat\generis\model\GenerisRdf::PROPERTY_USER_ROLES]);
+
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
                 if ($binder->bind($values)) {
