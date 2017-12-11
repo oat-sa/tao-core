@@ -1,5 +1,5 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,10 +16,13 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013-2017 (update and modification) Open Assessment Technologies SA
  * 
  */
+
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
+use oat\oatbox\filesystem\File;
 
 /**
  * Adapter for RDF/RDFS format
@@ -44,15 +47,19 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
-    public function import($source,  core_kernel_classes_Class $destination = null, $namespace = null)
+    public function import($source, core_kernel_classes_Class $destination = null, $namespace = null)
     {
+        if (!$source instanceof File) {
+            /** @var UploadService $uploadService */
+            $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+            $file = $uploadService->getUploadedFlyFile($source);
+        } else {
+            $file = $source;
+        }
+
         $returnValue = false;
 
-        /** @var UploadService $uploadService */
-        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-        $uploadedFile = $uploadService->getUploadedFile($source);
-
-        if (file_exists($uploadedFile)) {
+        if ($file->exists()) {
             $api = core_kernel_impl_ApiModelOO::singleton();
             if (!is_null($destination)) {
                 $targetNamespace = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
@@ -61,10 +68,10 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
             } else {
                 $targetNamespace = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
             }
-            $returnValue = $api->importXmlRdf($targetNamespace, $uploadedFile);
+            $returnValue = $api->importXmlRdf($targetNamespace, $file);
         }
 
-        $uploadService->remove($uploadService->getUploadedFlyFile($source));
+        $file->delete();
 
         return $returnValue;
     }
