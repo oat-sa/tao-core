@@ -22,6 +22,7 @@
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\data\ValidationException;
 use oat\tao\model\upload\UploadService;
+use oat\oatbox\filesystem\File;
 
 /**
  * Adapter for CSV format
@@ -123,17 +124,27 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
-    public function import($source,  core_kernel_classes_Class $destination = null)
+    public function import($source, core_kernel_classes_Class $destination = null)
     {
-    	if(!isset($this->options['map'])){
+    	if (!isset($this->options['map'])) {
         	throw new BadFunctionCallException("import map not set");
         }
-        if(is_null($destination)){
+        if (is_null($destination)) {
         	throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
-        /** @var UploadService $uploadService */
-        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
-        $file = $uploadService->getUploadedFile($source);
+
+        if (!$source instanceof File) {
+            /** @var UploadService $uploadService */
+            $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+            $file = $uploadService->getUploadedFlyFile($source);
+        } else {
+            $file = $source;
+        }
+
+        if (@preg_match('//u', $file->read()) === false) {
+            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
+        }
+
         $csvData = $this->load($file);
         
         $createdResources = 0;
@@ -200,7 +211,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		    $report->setMessage(__('Imported %1$d/%2$d. Some records are invalid.', $createdResources, $toImport));
 		}
 
-        $uploadService->remove($uploadService->getUploadedFlyFile($source));
+        $file->delete();
 		
 		return $report;
     }
@@ -215,9 +226,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      */
     public function export( core_kernel_classes_Class $source = null)
     {
-        $returnValue = (bool) false;
-
-        return (bool) $returnValue;
+        return false;
     }
     
     /**
@@ -269,8 +278,6 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      */
     private function applyCallbacks($value, $options,  core_kernel_classes_Property $targetProperty)
     {
-        $returnValue = (string) '';
-        
     	if(isset($options['callbacks'])){
 			foreach(array('*', $targetProperty->getUri()) as $key){
 				if(isset($options['callbacks'][$key]) && is_array($options['callbacks'][$key])){
@@ -283,9 +290,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 			}
 		}
 		
-		$returnValue = $value;
-
-        return $returnValue;
+		return $value;
     }
 
     /**
@@ -324,7 +329,8 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         }
     }
 
-    public function onResourceImported(Closure $closure) {
+    public function onResourceImported(Closure $closure)
+    {
 		$this->resourceImported[] = $closure;
 	}
 
@@ -342,7 +348,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		$validators = $this->getValidator($propUri);
 		foreach ((array)$validators as $validator) {
 
-			$validator->setOptions( array_merge(array('resourceClass' => $destination,'property' => $propUri), $validator->getOptions()) );
+			$validator->setOptions(array_merge(array('resourceClass' => $destination,'property' => $propUri), $validator->getOptions()) );
 			
             if (!$validator->evaluate($csvRow[$csvColumn])) {
                 throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
