@@ -212,6 +212,7 @@ class tao_helpers_data_CsvFile
 
         }
         ini_set('auto_detect_line_endings', $adle);
+        fclose($resource);
         $this->setData($data);
     }
 
