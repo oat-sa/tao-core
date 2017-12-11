@@ -36,6 +36,7 @@ $sections = get_data('sections');
                                  class="taotree taotree-<?= is_null($tree->get('className'))
                                      ? 'default'
                                      : strtolower(str_replace(' ', '_', $tree->get('className'))) ?>"
+                                 data-type="<?= $tree->get('type') ?>"
                                  data-url="<?= $tree->get('dataUrl') ?>"
                                  data-rootNode="<?= $tree->get('rootNode') ?>"
                                  data-icon="<?= is_null($tree->get('className')) ? 'test'  : strtolower(str_replace(' ', '-', $tree->get('className'))) ?>"

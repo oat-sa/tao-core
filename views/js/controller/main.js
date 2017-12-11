@@ -17,41 +17,39 @@
  */
 
 /**
+ * Main controller for the backend
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'module',
     'jquery',
     'lodash',
-    'i18n',
     'context',
     'helpers',
     'uiForm',
+    'util/url',
     'core/logger',
-    'core/store',
     'layout/section',
     'layout/actions',
-    'layout/tree',
     'layout/version-warning',
     'layout/loading-bar',
     'layout/nav',
     'layout/search',
-    'ui/resource/selector',
-    'provider/resources'
-], function(module, $, _, __, context, helpers, uiForm, loggerFactory, store, sections, actionManager, treeFactory, versionWarning, loadingBar, nav, search, resourceSelectorFactory, resourceProviderFactory) {
+    'layout/tree/loader',
+], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager, versionWarning, loadingBar, nav, search, treeLoader){
     'use strict';
 
     var logger = loggerFactory('controller/main');
 
     /**
-     * Set up the BRS tree
+     * Loads and set up the given tree for a section, based on the tree provider
      * @param {jQueryElement} $container - the tree container with accurate data-attr
      * @returns {Promise} that resolves once rendered
      */
     var sectionTree = function sectionTree($container) {
-        var resourceProvider = resourceProviderFactory();
-        var treeId       = $container.attr('id');
-        var rootClassUri = $container.data('rootnode');
+        var treeProvider;
+
+        //get the tree actions
         var treeActions  = _.reduce($container.data('actions'), function(acc, id, key){
             var action = actionManager.getBy(id);
             if(action){
@@ -60,115 +58,21 @@ define([
             return acc;
         }, {});
 
-        return new Promise( function(resolve) {
+        var treeUrl = urlUtil.build([context.root_url, $container.data('url')]);
 
-            store('taotree').then(function(treeStore){
-                return Promise.all([
-                    resourceProvider.getClasses(rootClassUri),
-                    treeStore.getItem(treeId)
-                ])
-                .then(function(results) {
-                    var classes = results[0];
-                    var defaultNode = results[1];
+        //get the current tree based on the type attr, or fallback to jstree
+        try {
+            treeProvider = treeLoader.getProvider($container.data('type'));
+        } catch(err) {
+            treeProvider = treeLoader.getProvider('jstree');
+        }
 
-                    resourceSelectorFactory($container, {
-                        icon : $container.data('icon') || 'test',
-                        selectionMode: 'both',
-                        selectClass : true,
-                        classUri: rootClassUri,
-                        classes: classes
-                    })
-                    .on('init', function(){
-                        actionManager.exec(treeActions.init, {
-                            uri: rootClassUri
-                        });
-                    })
-                    .on('render', function() {
-                        var self = this;
-
-                        actionManager.on('removeNodes', function(actionContext, nodes){
-                            _.forEach(nodes, self.removeNode, self);
-                            self.changeSelectionMode('single');
-                            self.selectDefaultNode(defaultNode);
-                        });
-                        actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
-                            self.addNode(node, node.classUri);
-                            self.select(node);
-                        });
-                        actionManager.on('refresh', function(node){
-                            debugger;
-                            self.refresh(node || defaultNode);
-                        });
-
-                        resolve();
-                    })
-                    .on('query', function(params) {
-                        var self = this;
-
-                        //ask the server the resources from the component query
-                        resourceProvider.getResources(params)
-                            .then(function(resources) {
-                                self.update(resources, params);
-                            })
-                            .catch(function(err) {
-                                logger.error(err);
-                            });
-                    })
-
-                    .on('update.first', function(){
-
-                        this.off('update.first');
-
-                        //on the 1st update we select the default node
-                        //or fallback on 1st instance, or even 1st class
-                        this.selectDefaultNode(defaultNode);
-                    })
-                    .on('change', function(selection) {
-                        var length = _.size(selection);
-                        var getContext = function getContext(resource) {
-                            return _.defaults(resource, {
-                                id : resource.uri,
-                                permissions:  {
-                                    "item-authoring": true,
-                                    "item-class-new": true,
-                                    "item-delete": true,
-                                    "item-duplicate": true,
-                                    "item-export": true,
-                                    "item-import": true,
-                                    "item-new": true,
-                                    "item-preview": true,
-                                    "item-properties": true,
-                                    "item-translate": true
-                                }
-                            });
-                        };
-
-                        if(length === 1){
-                            _.forEach(selection, function(resource) {
-                                var selectedContext = getContext(resource);
-                                actionManager.updateContext(selectedContext);
-                                if(selectedContext.type === 'class'){
-                                    actionManager.exec(treeActions.selectClass, selectedContext);
-                                }
-                                if(selectedContext.type === 'instance'){
-                                    actionManager.exec(treeActions.selectInstance, selectedContext);
-                                }
-
-                                defaultNode = resource;
-                                treeStore.setItem(treeId, defaultNode);
-                            });
-                        } else if (length > 1){
-                            actionManager.updateContext( _.transform(selection, function(acc, resource){
-                                acc.push(getContext(resource));
-                                return acc;
-                            }, []));
-                        }
-                    });
-                })
-                .catch(function(err) {
-                    logger.error(err);
-                });
-            });
+        return treeProvider.init($container, {
+            id : $container.attr('id'),
+            url : treeUrl,
+            rootClassUri : $container.data('rootnode'),
+            icon : $container.data('icon'),
+            actions : treeActions
         });
     };
 
@@ -224,20 +128,6 @@ define([
                             var $treeElt = $(this);
                             var $actionBar = $('.tree-action-bar-box', section.panel);
 
-                            var treeUrl = context.root_url;
-                            var serverParameters = {
-                                extension: context.shownExtension,
-                                perspective: context.shownStructure,
-                                section: context.section,
-                            };
-
-                            //TODO use the treeUrl within the resource provider
-                            if (/\/$/.test(treeUrl)) {
-                                treeUrl += $treeElt.data('url').replace(/^\//, '');
-                            } else {
-                                treeUrl += $treeElt.data('url');
-                            }
-
                             sectionTree($treeElt)
                                 .then(function(){
                                     $actionBar.addClass('active');
@@ -253,7 +143,6 @@ define([
 
                         //or load the content block
                         this.loadContentBlock();
-
                         break;
                 }
             })

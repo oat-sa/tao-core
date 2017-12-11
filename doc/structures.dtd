@@ -53,6 +53,7 @@
                         <!ATTLIST tree className CDATA #IMPLIED>
                         <!-- the name of the main class that resources are instances of in the tree -->
                         <!ATTLIST tree
+                                type CDATA #IMPLIED
                                 selectClass CDATA #IMPLIED
                                 selectInstance CDATA #IMPLIED
                                 moveInstance CDATA #IMPLIED
