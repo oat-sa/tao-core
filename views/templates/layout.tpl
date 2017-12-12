@@ -21,7 +21,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Layout::getTitle() ?></title>
 
-    <link rel="shortcut icon" href="<?= Template::img('img/favicon.ico', 'tao') ?>"/>
+    <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao') ?>"/>
 
     <?= tao_helpers_Scriptloader::render() ?>
     <?= Layout::getAmdLoader(Template::js('loader/backoffice.min.js', 'tao'), 'controller/backoffice') ?>
