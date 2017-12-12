@@ -20,6 +20,7 @@
  * A tree component mostly used as a data viewer/selector for the resource selector.
  * The data flow works on the query/update model:
  * @example
+ *
  * resourceTreeFactory(container, config)
  *     .on('query', function(params){
  *         var self = this;
@@ -106,6 +107,7 @@ define([
         /**
          * A selectable component
          * @typedef {ui/component} resourceTree
+         * @augments {ui/resource/selectable}
          */
         var resourceTree = selectable(component({
 
@@ -222,7 +224,7 @@ define([
                 var self = this;
                 var $component = this.getElement();
 
-                /***
+                /**
                  * Open a class node
                  * @param {jQueryElement} $class
                  */
@@ -236,7 +238,7 @@ define([
                     }
                 };
 
-                /***
+                /**
                  * Close a class node
                  * @param {jQueryElement} $class
                  */
@@ -244,7 +246,7 @@ define([
                     $class.addClass('closed');
                 };
 
-                /***
+                /**
                  * Toggle a class node
                  * @param {jQueryElement} $class
                  */
@@ -256,8 +258,10 @@ define([
                     }
                 };
 
-                //browse hierarchy
+                //Browse hierarchy
                 if(self.config.selectClass){
+                    //if we can
+
                     $component.on('click', '.class', function(e){
                         var $class = $(e.currentTarget);
                         e.preventDefault();

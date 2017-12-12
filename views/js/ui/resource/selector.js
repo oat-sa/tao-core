@@ -134,7 +134,7 @@ define([
             },
 
             /**
-             * Reset the component
+             * Reset the  selector
              * @returns {resourceSelector} chains
              * @fires resourceSelector#reset
              */
@@ -405,6 +405,9 @@ define([
                             format:   this.format,
                             limit  : this.config.limit
                         });
+                        if(node.type === 'class'){
+                            self.classSelector.
+                        }
                     }
                 }
                 return this;
@@ -554,20 +557,27 @@ define([
                             .query();
                     });
 
-                    //mode switcher
+                    //mode switcher (multiple/single)
                     if(self.config.selectionMode === selectionModes.both){
+
+                        //click the toggler
                         $selectionToggle.on('click', function(e){
                             e.preventDefault();
                             self.changeSelectionMode(self.config.multiple ? selectionModes.single : selectionModes.multiple);
                         });
 
+                        //CTRL-Click
                         $resultArea.on('mousedown', function(e){
                             if(e.ctrlKey && !self.config.multiple){
                                 self.changeSelectionMode(selectionModes.multiple);
                             }
                         });
-                    }
 
+                        //switch back to sinlge
+                        $resultArea.on('click', function(){
+                            self.changeSelectionMode(selectionModes.single);
+                        });
+                    }
 
                     //the select all control
                     $selectCtrl.on('change', function(){
