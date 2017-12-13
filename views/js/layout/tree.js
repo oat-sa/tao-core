@@ -90,6 +90,7 @@ define([
                             lastSelected = node;
                         }
                         //create the tree
+                        $elt.data('tree-state', { loadNode: options.loadNode });
                         $elt.tree(treeOptions);
                         sectionManager.on('show.section', function (section) {
                             if (treeSectionId === section.id) {

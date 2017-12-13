@@ -98,7 +98,8 @@ function (module, _, $, __, context, router, helpers, uiForm, section, actions, 
                                 section      : context.section,
                                 classUri     : rootNode ? rootNode : undefined
                             },
-                            actions : treeActions
+                            actions : treeActions,
+                            loadNode : section.defaultUri
                         });
                         $treeElt.on('ready.taotree', function() {
                             $actionBar.addClass('active');

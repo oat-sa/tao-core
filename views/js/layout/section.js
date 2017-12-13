@@ -21,11 +21,13 @@
 define([
     'jquery',
     'lodash',
-    'context'
+    'context',
+    'util/url'
 ], function(
     $,
     _,
-    context
+    context,
+    url
 ){
     'use strict';
 
@@ -34,7 +36,7 @@ define([
     var sectionApi;
 
     //back & forward button, and push state
-    $(window).on('popstate', function (event) {
+    $(window).on('popstate', function () {
         restoreState(getState());
     });
 
@@ -145,12 +147,9 @@ define([
             var self = this;
             var restore = true;
             var $openersContainer;
-            var defaultSection;
-
-            var paramResult = window.location.toString().match(sectionParamExp);
-            if(paramResult && paramResult.length){
-                defaultSection = paramResult[1].replace('#', '');
-            }
+            var parsedUrl = url.parse(location.href);
+            var defaultSection = parsedUrl.query.section;
+            var defaultUri = parsedUrl.query.uri;
 
             this.options = options || {};
 
@@ -162,25 +161,26 @@ define([
             //load sections from the DOM
             $('li', $openersContainer).each(function(index){
 
-                 var $sectionOpener = $(this);
-                 var $link = $sectionOpener.children('a');
-                 var id = $link.attr('href').replace('#panel-', '');
-                 var $panel = $('#panel-' + id);
-                 var active = false;
+                var $sectionOpener = $(this);
+                var $link = $sectionOpener.children('a');
+                var id = $link.attr('href').replace('#panel-', '');
+                var $panel = $('#panel-' + id);
+                var isActive = defaultSection ? defaultSection === id : index === 0;
 
                 $panel.removeClass('hidden');
 
-                 self.sections[id] = {
+                self.sections[id] = {
                     id          : id,
                     url         : $link.data('url'),
                     name        : $link.text(),
-                    panel       : $('#panel-' + id),
+                    panel       : $panel,
                     opener      : $sectionOpener,
                     type        : $panel.find('.section-trees').children().length ? 'tree' : 'content',
-                    active      : defaultSection ? defaultSection === id : index === 0,
+                    active      : isActive,
                     activated   : false,
-                    disabled    : $sectionOpener.hasClass('disabled')
-                 };
+                    disabled    : $sectionOpener.hasClass('disabled'),
+                    defaultUri  : (isActive && defaultUri) ? defaultUri : ''
+                };
             });
 
             //to be sure at least one is active, for example when the given default section does not exists
