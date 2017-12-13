@@ -29,6 +29,8 @@ use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
+use oat\generis\model\data\event\ResourceUpdated;
+use oat\oatbox\event\EventManager;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -594,6 +596,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 						$this->setData('message', __('Translation saved'));
 					}
 				}
+                $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+                $eventManager->trigger(new ResourceUpdated($instance));
 			}
 		}
 		
