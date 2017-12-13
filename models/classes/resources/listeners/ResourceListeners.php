@@ -22,11 +22,18 @@ namespace oat\tao\model\resources\listeners;
 
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
-use oat\tao\model\resources\events\ResourceUpdatedAt;
 use oat\tao\model\TaoOntology;
 
+/**
+ * Class ResourceListeners
+ * @package oat\tao\model\resources\listeners
+ */
 class ResourceListeners
 {
+    /**
+     * @param ResourceCreated $event
+     * @return \common_report_Report
+     */
     public static function createdResourceEvent(ResourceCreated $event)
     {
         /** @var \core_kernel_classes_Resource $resource */
@@ -38,6 +45,11 @@ class ResourceListeners
 
     }
 
+    /**
+     * @param ResourceUpdated $event
+     * @return \common_report_Report
+     * @throws \core_kernel_persistence_Exception
+     */
     public static function updatedResourceEvent(ResourceUpdated $event)
     {
         $resource = new \core_kernel_classes_Resource($event->getResource());
@@ -56,16 +68,4 @@ class ResourceListeners
         return $report;
 
     }
-
-    public static function updatedUpdatedAt(ResourceUpdatedAt $event)
-    {
-        $resource = new \core_kernel_classes_Resource($event->getResource());
-        $property = new \core_kernel_classes_Property(TaoOntology::PROPERTY_UPDATED_AT);
-        $resource->editPropertyValues($property, time());
-        $report = \common_report_Report::createSuccess();
-        return $report;
-
-    }
-
-
 }

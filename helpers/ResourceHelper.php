@@ -20,10 +20,18 @@
  */
 namespace oat\tao\helpers;
 
-
+/**
+ * Class ResourceHelper
+ * @package oat\tao\helpers
+ */
 class ResourceHelper
 {
 
+    /**
+     * @param \core_kernel_classes_Resource $resource
+     * @return \core_kernel_classes_Container
+     * @throws \core_kernel_persistence_Exception
+     */
     public static function getUpdatedAt(\core_kernel_classes_Resource $resource)
     {
         return $resource->getOnePropertyValue(
