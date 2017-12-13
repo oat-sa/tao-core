@@ -70,6 +70,14 @@ define([
             },
 
             /**
+             * Get a given node
+             * @returns {Object?} the node
+             */
+            getNode : function getNode(uri){
+                return uri && _.isPlainObject(nodes[uri]) ? nodes[uri] : false;
+            },
+
+            /**
              * Set the selectable nodes
              * @param {Object[]} nodes
              */
