@@ -47,6 +47,7 @@ abstract class AbstractPluginService extends ConfigurableService
      * Creates a plugin object from data array
      * @param $data
      * @return PluginModule
+     * @throws \common_exception_InconsistentData
      */
     protected function createFromArray($data)
     {
@@ -127,16 +128,17 @@ abstract class AbstractPluginService extends ConfigurableService
     {
         if (!is_null($plugin)) {
             $plugin->setActive(false);
-            $this->registry->register($plugin);
+            return $this->registry->register($plugin);
         }
+        
+        return false;
     }
-
-
 
     /**
      * Register a list of plugins
      * @param array $plugins
      * @return int The number of registered plugins
+     * @throws \common_exception_InconsistentData
      */
     public function registerPlugins(array $plugins)
     {
@@ -155,6 +157,7 @@ abstract class AbstractPluginService extends ConfigurableService
      * Register a list of plugins gathered by categories
      * @param array $plugins
      * @return int The number of registered plugins
+     * @throws \common_exception_InconsistentData
      * @throws \common_exception_InvalidArgumentType
      */
     public function registerPluginsByCategories(array $plugins)
