@@ -979,7 +979,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('14.8.1', '14.11.2');
 
-        if ($this->isVersion('14.11.1')) {
+        if ($this->isVersion('14.11.2')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(ResourceCreated::class, [ResourceListeners::class, 'createdResourceEvent']);
