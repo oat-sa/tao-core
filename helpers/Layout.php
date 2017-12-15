@@ -359,9 +359,12 @@ class Layout
         }
 
         $data = [
-            'name' => $name,
-            'email' => $email ? '' : StringUtils::encodeText('mailto:' . $email)
+            'name'  => $name,
+            'email' => empty($email)
+                ? ''
+                : StringUtils::encodeText('mailto:' . $email)
         ];
+
         return $data;
     }
 
