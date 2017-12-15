@@ -14,11 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
  *
  */
 namespace oat\tao\helpers;
+
+use oat\tao\model\TaoOntology;
 
 /**
  * Class ResourceHelper
@@ -35,7 +37,7 @@ class ResourceHelper
     public static function getUpdatedAt(\core_kernel_classes_Resource $resource)
     {
         return $resource->getOnePropertyValue(
-            new \core_kernel_classes_Property(\oat\tao\model\TaoOntology::PROPERTY_UPDATED_AT)
+            new \core_kernel_classes_Property(TaoOntology::PROPERTY_UPDATED_AT)
         );
     }
 

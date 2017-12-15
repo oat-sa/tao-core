@@ -28,7 +28,8 @@
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt">
       <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
-      <rdfs:label xml:lang="en-US"><![CDATA[Last updated date]]></rdfs:label>
+      <rdfs:label xml:lang="en-US"><![CDATA[Updated]]></rdfs:label>
+      <rdfs:comment xml:lang="en-US"><![CDATA[Last updated date]]></rdfs:comment>
     </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#level">
