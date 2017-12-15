@@ -27,6 +27,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 
 /**
  * Top level controller
@@ -293,7 +294,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     {
         try {
             $serviceManager = $this->getOriginalServiceManager();
-        } catch (common_exception_Error $e) {
+        } catch (InvalidServiceManagerException $e) {
             $serviceManager = ServiceManager::getServiceManager();
         }
         return $serviceManager;
