@@ -977,7 +977,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.8.1');
         }
 
-        $this->skip('14.8.1', '14.11.1');
+        $this->skip('14.8.1', '14.11.2');
 
         if ($this->isVersion('14.11.1')) {
             /** @var EventManager $eventManager */
