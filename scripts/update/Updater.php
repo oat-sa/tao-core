@@ -51,7 +51,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\resources\listeners\ResourceListeners;
+use oat\tao\model\resources\UpdateResource;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
@@ -980,10 +980,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('14.8.1', '14.11.2');
 
         if ($this->isVersion('14.11.2')) {
+
+            $resourceUpdate = new UpdateResource();
+            $this->getServiceManager()->register(UpdateResource::SERVICE_ID, $resourceUpdate);
+
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->attach(ResourceCreated::class, [ResourceListeners::class, 'createdResourceEvent']);
-            $eventManager->attach(ResourceUpdated::class, [ResourceListeners::class, 'updatedResourceEvent']);
+            $eventManager->attach(ResourceCreated::class, [UpdateResource::SERVICE_ID, 'createdResourceEvent']);
+            $eventManager->attach(ResourceUpdated::class, [UpdateResource::SERVICE_ID, 'updatedResourceEvent']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
             $this->setVersion('14.12.0');
         }

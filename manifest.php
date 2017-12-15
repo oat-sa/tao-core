@@ -29,6 +29,8 @@ use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\RegisterUpdateResourceService;
+use oat\tao\scripts\install\RegisterResourceEvents;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -98,7 +100,8 @@ return array(
             SetupMaintenanceService::class,
             AddArchiveService::class,
             SetContainerService::class,
-            \oat\tao\scripts\install\RegisterResourceEvents::class,
+            RegisterUpdateResourceService::class,
+            RegisterResourceEvents::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
