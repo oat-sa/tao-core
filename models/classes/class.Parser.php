@@ -336,7 +336,7 @@ class tao_models_classes_Parser
                         break;
                     case self::SOURCE_URL:
                         //only same domain
-                        if(!preg_match("/^".preg_quote(BASE_URL, '/')."/", $this->source)){
+                        if (!preg_match("/^" . preg_quote(tao_helpers_Uri::getBaseUrl(), '/') . "/", $this->source)) {
                             throw new Exception("The given uri must be in the domain {$_SERVER['HTTP_HOST']}");
                         }
                         $this->content = tao_helpers_Request::load($this->source, true);

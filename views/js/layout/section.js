@@ -531,7 +531,7 @@ define([
                 this.sections[value] ||
                 this.sections[value.replace('panel-', '')] ||
                 _(this.sections).where({'url' : value }).first() ||
-                _(this.sections).where({'url' : context.root_url + value }).first();
+                _(this.sections).where({'url' : '/' + value }).first();
             if(section){
                 this.selected = section;
             } else {

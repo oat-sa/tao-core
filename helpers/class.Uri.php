@@ -27,11 +27,6 @@
  */
 class tao_helpers_Uri
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
     /**
      * the base url
      *
@@ -72,8 +67,6 @@ class tao_helpers_Uri
      */
     const ENCODE_ARRAY_ALL = 3;
 
-    // --- OPERATIONS ---
-
     /**
      * get the project base url
      *
@@ -83,21 +76,14 @@ class tao_helpers_Uri
      */
     public static function getBaseUrl()
     {
-        $returnValue = (string) '';
+        if (is_null(self::$base) && defined('BASE_URL')) {
+            self::$base = BASE_URL;
+            if (!preg_match("/\/$/", self::$base)) {
+                self::$base .= '/';
+            }
+        }
 
-        
-
-		if(is_null(self::$base) && defined('BASE_URL')){
-			self::$base = BASE_URL;
-			if(!preg_match("/\/$/", self::$base)){
-				self::$base .= '/';
-			}
-		}
-		$returnValue = self::$base;
-
-        
-
-        return (string) $returnValue;
+        return (string) self::$base;
     }
 
     /**
@@ -109,33 +95,34 @@ class tao_helpers_Uri
      */
     public static function getRootUrl()
     {
-        $returnValue = (string) '';
+        if (is_null(self::$root)) {
+            if (defined('PHP_SAPI') && (PHP_SAPI == "cli" || PHP_SAPI == "embed")) {
+                self::$root = 'localhost';
+            } else {
+                $scheme = ((isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') || $_SERVER['SERVER_PORT'] == 443)
+                    ? 'https://'
+                    : 'http://';
+                $host = array_key_exists('HTTP_HOST', $_SERVER) ? $_SERVER['HTTP_HOST'] : 'localhost';
+                self::$root = $scheme . $host;
+            }
+            if (!preg_match("/\/$/", self::$root)) {
+                self::$root .= '/';
+            }
+        }
 
-        
-
-        if(is_null(self::$root) && defined('ROOT_URL')){
-			self::$root = ROOT_URL;
-			if(!preg_match("/\/$/", self::$root)){
-				self::$root .= '/';
-			}
-		}
-		$returnValue = self::$root;
-
-        
-
-        return (string) $returnValue;
+        return (string) self::$root;
     }
 
     /**
-     * conveniance method to create urls based on the current MVC context and
+     * convenience method to create urls based on the current MVC context and
      * it for the used kind of url resolving
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string action
-     * @param  string module
-     * @param  string extension
-     * @param  array params
+     * @param  string $action
+     * @param  string $module
+     * @param  string $extension
+     * @param  array $params
      * @return string
      */
     public static function url($action = null, $module = null, $extension = null, $params = array())
@@ -175,22 +162,18 @@ class tao_helpers_Uri
     }
 
     /**
-     * format propertly an ol style url
+     * format properly an old style url
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string url
-     * @param  array params
+     * @param  string $url
+     * @param  array $params
+     * @deprecated
      * @return string
      */
     public static function legacyUrl($url, $params = array())
     {
-        $returnValue = (string) '';
-
-        
-        
-
-        return (string) $returnValue;
+        return (string) '';
     }
 
     /**
@@ -198,8 +181,8 @@ class tao_helpers_Uri
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string uri
-     * @param  boolean dotMode
+     * @param  string $uri
+     * @param  boolean $dotMode
      * @return string
      */
     public static function encode($uri, $dotMode = true)

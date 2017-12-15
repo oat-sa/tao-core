@@ -267,9 +267,9 @@ class Bootstrap implements ServiceLocatorAwareInterface
         $this->configureSessionHandler();
 
         $sessionParams = session_get_cookie_params();
-        $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
+        $cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(tao_helpers_Uri::getRootUrl())) ? tao_helpers_Uri::getDomain(tao_helpers_Uri::getRootUrl()) : $sessionParams['domain']);
         $isSecureFlag = \common_http_Request::isHttps();
-        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, TRUE);
+        session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(tao_helpers_Uri::getRootUrl()), $cookieDomain, $isSecureFlag, TRUE);
         session_name(GENERIS_SESSION_NAME);
         
         if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
@@ -280,7 +280,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
             //cookie keep alive, if lifetime is not 0
             if ($sessionParams['lifetime'] !== 0) {
                 $expiryTime = $sessionParams['lifetime'] + time();
-                setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, true);
+                setcookie(session_name(), session_id(), $expiryTime, tao_helpers_Uri::getPath(tao_helpers_Uri::getRootUrl()), $cookieDomain, $isSecureFlag, true);
             }
         }
     }

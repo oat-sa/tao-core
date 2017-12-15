@@ -19,11 +19,13 @@
  */
 namespace oat\tao\model;
 
+use common_exception_Error;
+use common_ext_ExtensionsManager;
+use common_Logger;
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
+use tao_helpers_Uri;
 
 /**
  * 
@@ -60,27 +62,26 @@ class ClientLibRegistry extends AbstractRegistry
     public function getLibAliasMap()
     {
         $extensionsAliases = array();
-        $assetservice = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
         foreach (ClientLibRegistry::getRegistry()->getMap() as $alias => $lib ){
             if (is_array($lib) && isset($lib['extId']) && isset($lib['path'])) {
-                $extensionsAliases[$alias] = $assetservice->getJsBaseWww($lib['extId']).$lib['path'];
+                $extensionsAliases[$alias] = $assetService->getJsBaseWww($lib['extId']).$lib['path'];
             } elseif (is_string($lib)) {
-                $extensionsAliases[$alias] = str_replace(ROOT_URL, '../../../', $lib);
+                $extensionsAliases[$alias] = str_replace(tao_helpers_Uri::getRootUrl(), '../../../', $lib);
             } else {
                 throw new \common_exception_InconsistentData('Invalid '.self::getConfigId().' entry found');
             }
         }
+
         return $extensionsAliases;
     }
-    
-    
+
     /**
      * Register a new path for given alias, trigger a warning if path already register
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param string $id
      * @param string $fullPath
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      */
     public function register($id, $fullPath)
     {
@@ -90,11 +91,11 @@ class ClientLibRegistry extends AbstractRegistry
         if (self::getRegistry()->isRegistered($id)) {
             common_Logger::w('Lib already registered');
         }
-        
+
         if (substr($fullPath, 0, strlen('../../../')) == '../../../') {
-            $fullPath = ROOT_URL.substr($fullPath, strlen('../../../'));
+            $fullPath = substr($fullPath, strlen('../../../'));
         }
-        
+
         $found = false;
         foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
             if (strpos($fullPath, $assetService->getJsBaseWww( $ext->getId() )) === 0) {
@@ -108,7 +109,7 @@ class ClientLibRegistry extends AbstractRegistry
             
         }
         if ($found == false) {
-            throw new \common_exception_Error('Path "'.$fullPath.'" is not a valid asset path in Tao');
+            throw new common_exception_Error('Path "' . $fullPath . '" is not a valid asset path in Tao');
         }
     }
 }

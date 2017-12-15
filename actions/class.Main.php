@@ -140,7 +140,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
 				
-			if (substr($redirectUrl, 0,1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+			if (substr($redirectUrl, 0,1) == '/' || substr($redirectUrl, 0, strlen(tao_helpers_Uri::getRootUrl())) == tao_helpers_Uri::getRootUrl()) {
 				$params['redirect'] = $redirectUrl;
 			}
 		}
@@ -150,7 +150,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
-                $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+                $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
 
 				if($success){
 				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");

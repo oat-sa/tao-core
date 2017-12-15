@@ -23,6 +23,7 @@ namespace oat\tao\model\asset;
 
 use oat\oatbox\service\ConfigurableService;
 use Jig\Utils\FsUtils;
+use tao_helpers_Uri;
 
 /**
  * Asset service to retrieve assets easily based on a config
@@ -87,7 +88,7 @@ class AssetService extends ConfigurableService
      */
     protected function getAssetUrl()
     {
-        return $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : ROOT_URL;
+        return $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : tao_helpers_Uri::getRootUrl();
     }
 
     /**
@@ -96,7 +97,7 @@ class AssetService extends ConfigurableService
      */
     protected function getAssetBaseUrl()
     {
-        $baseUrl = $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : ROOT_URL;
+        $baseUrl = $this->hasOption(self::BASE_OPTION_KEY) ? $this->getOption(self::BASE_OPTION_KEY) : tao_helpers_Uri::getRootUrl();
 
         $baseUrl = trim($baseUrl);
         if(substr($baseUrl, -1) != '/'){

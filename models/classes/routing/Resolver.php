@@ -46,12 +46,10 @@ class Resolver
     private $controller;
     
     private $action;
-    
+
     /**
      * Resolves a request to a method
-     * 
-     * @param common_http_Request $pRequest
-     * @return string
+     * @param common_http_Request $request
      */
     public function __construct(common_http_Request $request) {
        $this->request = $request;

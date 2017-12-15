@@ -25,8 +25,6 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetServiceFileStorage;
-use oat\tao\scripts\install\RegisterValidationRules;
-use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\AddArchiveService;
 

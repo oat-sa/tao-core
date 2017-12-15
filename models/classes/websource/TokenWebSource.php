@@ -55,7 +55,7 @@ class TokenWebSource extends BaseWebsource
         $relPath = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $relativePath));
         $token = $this->generateToken($relUrl);
         $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
+        return '/' . $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
     }
 	// helpers
 	

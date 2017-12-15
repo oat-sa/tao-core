@@ -24,6 +24,8 @@ use oat\oatbox\AbstractRegistry;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\websource\WebsourceManager;
+use Jig\Utils\FsUtils;
+use tao_helpers_Uri;
 
 class ThemeRegistry extends AbstractRegistry
 {

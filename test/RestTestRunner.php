@@ -10,8 +10,7 @@ use oat\tao\model\TaoOntology;
 
 abstract class RestTestRunner extends TaoPhpUnitTestRunner
 {
-
-    protected $host = ROOT_URL;
+    protected $host = "";
 
     protected $userUri = "";
 
@@ -40,6 +39,8 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
     {
         TaoPhpUnitTestRunner::initTest();
         $this->disableCache();
+
+        $this->host = \tao_helpers_Uri::getRootUrl();
         
         // creates a user using remote script from joel
         $userdata = $this->getUserData();

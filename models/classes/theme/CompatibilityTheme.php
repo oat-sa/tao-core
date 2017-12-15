@@ -19,9 +19,6 @@
  */
 namespace oat\tao\model\theme;
 
-use oat\tao\helpers\Template;
-use oat\oatbox\Configurable;
-
 /**
  * Backwards compatibilit Theme build
  * based on original array
@@ -58,7 +55,7 @@ class CompatibilityTheme extends DefaultTheme implements Theme
     {
         if ($this->hasOption($context)) {
             $arr = $this->getOption($context);
-            return ROOT_URL.$arr['path'];
+            return \tao_helpers_Uri::getRootUrl() . $arr['path'];
         } else {
             return parent::getStylesheet($context);
         }

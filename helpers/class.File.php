@@ -490,10 +490,10 @@ class tao_helpers_File
      * @return string
      */
     public static function getPathFromUrl($url) {
-        if (substr($url, 0, strlen(ROOT_URL)) != ROOT_URL) {
+        if (substr($url, 0, strlen(tao_helpers_Uri::getRootUrl())) != tao_helpers_Uri::getRootUrl()) {
             throw new common_Exception($url.' does not lie within the tao instalation path');
         }
-        $subUrl = substr($url, strlen(ROOT_URL));
+        $subUrl = substr($url, strlen(tao_helpers_Uri::getRootUrl()));
         $parts = array();
         foreach (explode('/', $subUrl) as $directory) {
             $parts[] = urldecode($directory);
