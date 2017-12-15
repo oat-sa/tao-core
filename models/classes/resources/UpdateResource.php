@@ -18,28 +18,32 @@
  *
  */
 
-namespace oat\tao\model\resources\listeners;
+namespace oat\tao\model\resources;
 
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\TaoOntology;
 
 /**
- * Class ResourceListeners
- * @package oat\tao\model\resources\listeners
+ * Class UpdateResource
+ * @package oat\tao\model\resources
  */
-class ResourceListeners
+class UpdateResource extends ConfigurableService
 {
+    use OntologyAwareTrait;
+
+    const SERVICE_ID = 'tao/UpdateResource';
     /**
      * @param ResourceCreated $event
      * @return \common_report_Report
      */
-    public static function createdResourceEvent(ResourceCreated $event)
+    public function createdResourceEvent(ResourceCreated $event)
     {
         /** @var \core_kernel_classes_Resource $resource */
         $resource = $event->getResource();
-        $property = new \core_kernel_classes_Property(TaoOntology::PROPERTY_UPDATED_AT);
+        $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
         $resource->editPropertyValues($property, time());
         $report = \common_report_Report::createSuccess();
         return $report;
@@ -51,10 +55,10 @@ class ResourceListeners
      * @return \common_report_Report
      * @throws \core_kernel_persistence_Exception
      */
-    public static function updatedResourceEvent(ResourceUpdated $event)
+    public function updatedResourceEvent(ResourceUpdated $event)
     {
         $resource = $event->getResource();
-        $property = new \core_kernel_classes_Property(TaoOntology::PROPERTY_UPDATED_AT);
+        $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
         $updatedAt = $resource->getOnePropertyValue($property);
 
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {

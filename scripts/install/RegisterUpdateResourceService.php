@@ -27,22 +27,19 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\resources\UpdateResource;
 
 /**
- * Class RegisterResourceEvents
+ * Class RegisterUpdateResourceService
  * @package oat\tao\scripts\install
  */
-class RegisterResourceEvents extends InstallAction
+class RegisterUpdateResourceService extends InstallAction
 {
     use OntologyAwareTrait;
     
     public function __invoke($params)
     {
-        /** @var EventManager $eventManager */
-        $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(ResourceCreated::class, [UpdateResource::SERVICE_ID, 'createdResourceEvent']);
-        $eventManager->attach(ResourceUpdated::class, [UpdateResource::SERVICE_ID, 'updatedResourceEvent']);
-        $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+        $resourceUpdate = new UpdateResource();
+        $this->getServiceManager()->register(UpdateResource::SERVICE_ID, $resourceUpdate);
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Resource events is registered');
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'UpdateResourceService is registered');
     }
 
 }
