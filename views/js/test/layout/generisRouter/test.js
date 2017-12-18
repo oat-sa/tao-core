@@ -42,7 +42,6 @@ define([
         .cases([
             {title: 'pushState'},
             {title: 'restoreState'},
-            {title: 'getState'},
 
             // eventifier
             {title: 'on'},
@@ -67,15 +66,20 @@ define([
 
     QUnit.asyncTest('if url has no section, add it and replace current state', function(assert) {
         var generisRouter = generisRouterFactory();
-        var newState;
         var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems';
         var section = { id: 'authoring' };
+        var restoreWith = 'activate';
+
+        QUnit.expect(4);
 
         generisRouter
             .off('.test')
             .on('replacestate.test', function(stateUrl) {
+                var state = window.history.state;
                 assert.ok(true, 'replacestate have been called');
                 assert.equal(stateUrl, '/tao/Main/index?structure=items&ext=taoItems&section=authoring');
+                assert.equal(state.sectionId, section.id, 'section id param has been correctly set');
+                assert.equal(state.restoreWith, restoreWith, 'restoreWith param has been correctly set');
                 QUnit.start();
             })
             .on('pushstate.test', function() {
@@ -83,24 +87,25 @@ define([
                 QUnit.start();
             });
 
-        generisRouter.pushState(url, section, 'activate');
-        newState = window.history.state;
-
-        //todo: wtf ?! this is set with the replace state method. Talk about strange... Should be asserted in callback
-        assert.equal(newState.url, 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring', 'section has been added to url');
+        generisRouter.pushState(url, section, restoreWith);
     });
 
     QUnit.asyncTest('if url already has a section, push new state', function(assert) {
         var generisRouter = generisRouterFactory();
-        var newState;
         var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var section = { id: 'manage_items' };
+        var restoreWith = 'activate';
+
+        QUnit.expect(4);
 
         generisRouter
             .off('.test')
             .on('pushstate.test', function(stateUrl) {
+                var state = window.history.state;
                 assert.equal(stateUrl, '/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
                 assert.ok(true, 'pushstate has been called');
+                assert.equal(state.sectionId, section.id, 'section id param has been correctly set');
+                assert.equal(state.restoreWith, restoreWith, 'restoreWith param has been correctly set');
                 QUnit.start();
             })
             .on('replacestate.test', function() {
@@ -108,15 +113,7 @@ define([
                 QUnit.start();
             });
 
-        generisRouter.pushState(url, section, 'activate');
-        newState = window.history.state;
-
-        //todo: wtf ?! this is set with the replace state method. Talk about strange... Should be asserted in callback
-        assert.equal(
-            newState.url,
-            'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items',
-            'section has been added to url'
-        );
+        generisRouter.pushState(url, section, restoreWith);
     });
 
     QUnit.asyncTest('does not push new state if section does not change', function(assert) {

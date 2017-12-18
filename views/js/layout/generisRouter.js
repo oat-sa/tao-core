@@ -38,49 +38,8 @@ define([
     var generisRouter;
 
     function generisRouterFactory() {
-        var sectionParamExp = /&section=([^&]*)/;
-        var location = window.history.location || window.location;
-
         if (generisRouter) {
             return generisRouter;
-        }
-
-
-        /**
-         * Ensures the state has an identifier and has the right format.
-         *
-         * ultimately state.data is the source of truth
-         * it build the following way:
-         *  - if already set, does not change
-         *  - if not, build it from the pushstate values (state.sectionId, state.restoreWith)
-         *  - if not, use the context and default values (location.href, activate)
-         * @param {Object} state The state to identify
-         * @returns {Object} Returns the provided state
-         */
-        function setStateId(state) {
-            var sectionPart, data;
-
-            if (!state || !_.isObject(state)) {
-                state = {};
-            }
-
-            if (!state.url) {
-                state.url = location.href;
-            }
-
-            if (!state.id) {
-                sectionPart = state.url.match(sectionParamExp);
-                state.id = sectionPart && sectionPart[1];
-            }
-
-            if (!state.data) {
-                state.data = {};
-            }
-            data = state.data;
-            data.sectionId = data.sectionId || state.sectionId || state.id;
-            data.restoreWith = data.restoreWith || state.restoreWith || 'activate';
-
-            return state;
         }
 
         generisRouter = eventifier({
@@ -117,48 +76,30 @@ define([
 
                         console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
                     }
-
-                    //fixme: This is a problem. We are actually triggering the show/activate action from the pushState function!!!
-                    // this.restoreState(this.getState());
-                    //fixme: better, but as this has side effects, like modifying current state, so we leave it for now
-                    this.getState();
                 }
             },
             /**
              * Restore a state from the history.
              * It calls activate or show on the section saved into the state.
-             * @param {Object} state - a state that has been pushed previously
-             * @returns {Boolean|SectionApi} false if there is nothing to restore
              */
-            restoreState: function restoreState(state) {
-                if(state && state.data && state.data.sectionId){
-                    this.trigger('section' + state.data.restoreWith, state.data.sectionId);
-                    return true; //fixme: for backward compat
-                }
-            },
-            /**
-             * Gets the current history state.
-             *
-             * @returns {Object}
-             */
-            getState: function getState() {
+            restoreState: function restoreState() {
                 var state = window.history.state;
-                console.log('GGGGGGGGGGGGGGGGGGGG in getState, which changes state content !!!!!!');
-
-                return setStateId(state);
+                console.log('GGGGGGGGGGGGGGG ' + state);
+                if(this.hasRestorableState()){
+                    this.trigger('section' + (state.restoreWith || 'activate'), state.sectionId);
+                }
             },
 
             hasRestorableState: function hasRestorableState() {
                 var state = window.history.state;
-                return state && state.data && state.data.sectionId;
+                return state && state.restoreWith && state.sectionId;
             }
         });
 
         //back & forward button, and push state
         $(window).on('popstate', function () {
-            console.log('GGGGGGGGGGGGGGGGG poping state in generisRouter, retrieving state:');
-            console.log(generisRouter.getState());
-            generisRouter.restoreState(generisRouter.getState());
+            console.log('GGGGGGGGGGGGGGGGG poping state in generisRouter, about to restore state:');
+            generisRouter.restoreState();
         });
 
         return generisRouter;

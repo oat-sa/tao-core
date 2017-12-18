@@ -245,8 +245,9 @@ define([
                     self.get(sectionId)._show();
                 });
             /* */
-            if (options.history !== false && restore && generisRouter.hasRestorableState()) {
-                generisRouter.restore(generisRouter.getState());
+            if (this.options.history !== false && restore && generisRouter.hasRestorableState()) {
+                generisRouter.restoreState();
+                console.log('SSSSSSSSS RESTORING STATE IN INIT');
             } else {
                 return this.activate();
             }
