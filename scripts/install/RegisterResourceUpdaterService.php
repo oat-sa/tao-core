@@ -14,31 +14,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
-namespace oat\tao\helpers;
+namespace oat\tao\scripts\install;
 
-use oat\tao\model\TaoOntology;
+use oat\oatbox\extension\InstallAction;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\resources\ResourceUpdater;
 
 /**
- * Class ResourceHelper
- * @package oat\tao\helpers
+ * Class RegisterResourceUpdaterServicex
+ * @package oat\tao\scripts\install
  */
-class ResourceHelper
+class RegisterResourceUpdaterService extends InstallAction
 {
-
-    /**
-     * @param \core_kernel_classes_Resource $resource
-     * @return \core_kernel_classes_Container
-     * @throws \core_kernel_persistence_Exception
-     */
-    public static function getUpdatedAt(\core_kernel_classes_Resource $resource)
+    use OntologyAwareTrait;
+    
+    public function __invoke($params)
     {
-        return $resource->getOnePropertyValue(
-            new \core_kernel_classes_Property(TaoOntology::PROPERTY_UPDATED_AT)
-        );
+        $resourceUpdater = new ResourceUpdater();
+        $this->getServiceManager()->register(ResourceUpdater::SERVICE_ID, $resourceUpdater);
+
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ResourceUpdater service is registered');
     }
 
 }

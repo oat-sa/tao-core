@@ -51,6 +51,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\resources\ResourceUpdater;
 use oat\tao\model\resources\UpdateResource;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
@@ -981,13 +982,13 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('14.11.2')) {
 
-            $resourceUpdate = new UpdateResource();
-            $this->getServiceManager()->register(UpdateResource::SERVICE_ID, $resourceUpdate);
+            $resourceUpdater = new ResourceUpdater();
+            $this->getServiceManager()->register(ResourceUpdater::SERVICE_ID, $resourceUpdater);
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->attach(ResourceCreated::class, [UpdateResource::SERVICE_ID, 'createdResourceEvent']);
-            $eventManager->attach(ResourceUpdated::class, [UpdateResource::SERVICE_ID, 'updatedResourceEvent']);
+            $eventManager->attach(ResourceCreated::class, [ResourceUpdater::SERVICE_ID, 'catchCreatedResourceEvent']);
+            $eventManager->attach(ResourceUpdated::class, [ResourceUpdater::SERVICE_ID, 'catchUpdatedResourceEvent']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
             $this->setVersion('14.12.0');
         }
