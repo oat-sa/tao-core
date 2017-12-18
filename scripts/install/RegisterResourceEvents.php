@@ -29,6 +29,7 @@ use oat\tao\model\resources\ResourceUpdater;
 /**
  * Class RegisterResourceEvents
  * @package oat\tao\scripts\install
+ * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
 class RegisterResourceEvents extends InstallAction
 {

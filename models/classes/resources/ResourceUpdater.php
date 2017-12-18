@@ -29,6 +29,7 @@ use oat\tao\model\TaoOntology;
 /**
  * Class ResourceUpdater
  * @package oat\tao\model\resources
+ * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
 class ResourceUpdater extends ConfigurableService
 {
@@ -36,7 +37,8 @@ class ResourceUpdater extends ConfigurableService
 
     const SERVICE_ID = 'tao/ResourceUpdater';
 
-    protected $updatedAtCache;
+    /** @var array */
+    protected $updatedAtCache = [];
 
     /**
      * @param ResourceCreated $event

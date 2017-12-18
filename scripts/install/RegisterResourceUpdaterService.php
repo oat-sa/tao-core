@@ -26,6 +26,7 @@ use oat\tao\model\resources\ResourceUpdater;
 /**
  * Class RegisterResourceUpdaterServicex
  * @package oat\tao\scripts\install
+ * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
 class RegisterResourceUpdaterService extends InstallAction
 {
