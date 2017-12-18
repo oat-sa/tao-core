@@ -18,7 +18,7 @@
 /**
  * The purpose of this router is to allow navigation between Generis views entities (sections, tree items...).
  * It does not dispatch any controller (that's the backoffice.js' job) but coordinates various modules
- * (like the sections object or the tree) to set the correct view according to the window.history state content
+ * (like the sections object or the tree) to set the correct view according to the history state.
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -48,6 +48,12 @@ define([
 
         /**
          * Ensures the state has an identifier and has the right format.
+         *
+         * ultimately state.data is the source of truth
+         * it build the following way:
+         *  - if already set, does not change
+         *  - if not, build it from the pushstate values (state.sectionId, state.restoreWith)
+         *  - if not, use the context and default values (location.href, activate)
          * @param {Object} state The state to identify
          * @returns {Object} Returns the provided state
          */
@@ -113,7 +119,9 @@ define([
                     }
 
                     //fixme: This is a problem. We are actually triggering the show/activate action from the pushState function!!!
-                    this.restoreState(this.getState());
+                    // this.restoreState(this.getState());
+                    //fixme: better, but as this has side effects, like modifying current state, so we leave it for now
+                    this.getState();
                 }
             },
             /**
@@ -125,7 +133,7 @@ define([
             restoreState: function restoreState(state) {
                 if(state && state.data && state.data.sectionId){
                     this.trigger('section' + state.data.restoreWith, state.data.sectionId);
-                    return true; // for backward compat
+                    return true; //fixme: for backward compat
                 }
             },
             /**

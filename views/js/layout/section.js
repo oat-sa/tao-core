@@ -243,7 +243,7 @@ define([
                 });
             /* */
 
-            if(this.options.history === false || !restore || !generisRouter.restoreState(generisRouter.getState())){
+            if(this.options.history === false || !restore || !generisRouter.restoreState(generisRouter.getState())){ // todo: wtf is this?
             // if(this.options.history === false || !restore || !restoreState(getState())){
                 return this.activate();
             }
@@ -292,15 +292,10 @@ define([
             if(!this.selected){
                 this.current();
             }
-
-            if(this.options.history === false){
-                return this._activate();
+            if(this.options.history !== false){
+                generisRouter.pushState(location.href, this.selected, 'activate');
             }
-
-            generisRouter.pushState(location.href, this.selected, 'activate');
-            // pushState(this.selected, 'activate');
-
-            return this;
+            return this._activate();
         },
 
         /**
@@ -343,15 +338,10 @@ define([
             if(!this.selected){
                 this.current();
             }
-
-            if(this.options.history === false){
-                return this._show();
+            if(this.options.history !== false){
+                generisRouter.pushState(location.href, this.selected, 'show');
             }
-
-            generisRouter.pushState(location.href, this.selected, 'show');
-            // pushState(this.selected, 'show');
-
-            return this;
+            return this._show();
         },
 
 
