@@ -67,8 +67,6 @@ define([
     QUnit.asyncTest('if url has no section, add it and replace current state', function(assert) {
         var generisRouter = generisRouterFactory();
         var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems';
-        var section = { id: 'authoring' };
-        var restoreWith = 'activate';
 
         QUnit.expect(4);
 
@@ -78,8 +76,8 @@ define([
                 var state = window.history.state;
                 assert.ok(true, 'replacestate have been called');
                 assert.equal(stateUrl, '/tao/Main/index?structure=items&ext=taoItems&section=authoring');
-                assert.equal(state.sectionId, section.id, 'section id param has been correctly set');
-                assert.equal(state.restoreWith, restoreWith, 'restoreWith param has been correctly set');
+                assert.equal(state.sectionId, 'authoring', 'section id param has been correctly set');
+                assert.equal(state.restoreWith, 'activate', 'restoreWith param has been correctly set');
                 QUnit.start();
             })
             .on('pushstate.test', function() {
@@ -87,14 +85,15 @@ define([
                 QUnit.start();
             });
 
-        generisRouter.pushState(url, section, restoreWith);
+        generisRouter.pushState(url, {
+            sectionId: 'authoring',
+            restoreWith: 'activate'
+        });
     });
 
     QUnit.asyncTest('if url already has a section, push new state', function(assert) {
         var generisRouter = generisRouterFactory();
         var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
-        var section = { id: 'manage_items' };
-        var restoreWith = 'activate';
 
         QUnit.expect(4);
 
@@ -104,8 +103,8 @@ define([
                 var state = window.history.state;
                 assert.equal(stateUrl, '/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
                 assert.ok(true, 'pushstate has been called');
-                assert.equal(state.sectionId, section.id, 'section id param has been correctly set');
-                assert.equal(state.restoreWith, restoreWith, 'restoreWith param has been correctly set');
+                assert.equal(state.sectionId, 'manage_items', 'section id param has been correctly set');
+                assert.equal(state.restoreWith, 'activate', 'restoreWith param has been correctly set');
                 QUnit.start();
             })
             .on('replacestate.test', function() {
@@ -113,13 +112,15 @@ define([
                 QUnit.start();
             });
 
-        generisRouter.pushState(url, section, restoreWith);
+        generisRouter.pushState(url, {
+            sectionId: 'manage_items',
+            restoreWith: 'activate'
+        });
     });
 
     QUnit.asyncTest('does not push new state if section does not change', function(assert) {
         var generisRouter = generisRouterFactory();
         var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
-        var section = { id: 'authoring' };
 
         generisRouter
             .off('.test')
@@ -132,7 +133,10 @@ define([
                 QUnit.start();
             });
 
-        generisRouter.pushState(url, section, 'activate');
+        generisRouter.pushState(url, {
+            sectionId: 'authoring',
+            restoreWith: 'activate'
+        });
 
         assert.ok(_.isNull(window.history.state), 'state has not been updated');
         QUnit.start();
@@ -143,9 +147,6 @@ define([
         var generisRouter = generisRouterFactory();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
-        var section1 = { id: 'manage_items' };
-        var section2 = { id: 'authoring' };
-        var restoreWith = 'activate';
 
         generisRouter
             .off('.test')
@@ -159,8 +160,14 @@ define([
                 QUnit.start();
             });
 
-        generisRouter.pushState(url1, section1, restoreWith);
-        generisRouter.pushState(url2, section2, restoreWith);
+        generisRouter.pushState(url1, {
+            sectionId: 'manage_items',
+            restoreWith: 'activate'
+        });
+        generisRouter.pushState(url2, {
+            sectionId: 'authoring',
+            restoreWith: 'activate'
+        });
 
         window.history.back();
     });
@@ -169,9 +176,6 @@ define([
         var generisRouter = generisRouterFactory();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
-        var section1 = { id: 'manage_items' };
-        var section2 = { id: 'authoring' };
-        var restoreWith = 'show';
 
         generisRouter
             .off('.test')
@@ -185,8 +189,14 @@ define([
                 QUnit.start();
             });
 
-        generisRouter.pushState(url1, section1, restoreWith);
-        generisRouter.pushState(url2, section2, restoreWith);
+        generisRouter.pushState(url1, {
+            sectionId: 'manage_items',
+            restoreWith: 'show'
+        });
+        generisRouter.pushState(url2, {
+            sectionId: 'authoring',
+            restoreWith: 'show'
+        });
 
         window.history.back();
     });

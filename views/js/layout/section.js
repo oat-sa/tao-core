@@ -247,6 +247,7 @@ define([
             /* */
             if (this.options.history !== false && restore && generisRouter.hasRestorableState()) {
                 generisRouter.restoreState();
+                //todo: make sure we go through there!
                 console.log('SSSSSSSSS RESTORING STATE IN INIT');
             } else {
                 return this.activate();
@@ -296,7 +297,11 @@ define([
                 this.current();
             }
             if(this.options.history !== false){
-                generisRouter.pushState(location.href, this.selected, 'activate');
+                generisRouter.pushState(location.href, {
+                    sectionId: this.selected.id,
+                    sectionName: this.selected.name,
+                    restoreWith: 'activate'
+                });
             }
             return this._activate();
         },
@@ -342,7 +347,11 @@ define([
                 this.current();
             }
             if(this.options.history !== false){
-                generisRouter.pushState(location.href, this.selected, 'show');
+                generisRouter.pushState(location.href, {
+                    sectionId: this.selected.id,
+                    sectionName: this.selected.name,
+                    restoreWith: 'show'
+                });
             }
             return this._show();
         },

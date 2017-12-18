@@ -17,8 +17,8 @@
  */
 /**
  * The purpose of this router is to allow navigation between Generis views entities (sections, tree items...).
- * It does not dispatch any controller (that's the backoffice.js' job) but coordinates various modules
- * (like the sections object or the tree) to set the correct view according to the history state.
+ * It does not dispatch any controller (that's the backoffice.js' job) but ensures that history URLs are well-formed
+ * so the usual controllers will restore correct state.
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -45,33 +45,39 @@ define([
         generisRouter = eventifier({
             /**
              * Add a new state to the history
-             * @param {String} url - state url to save in the state. Might be modified
+             * @param {String} baseUrl - state url to save in the state. Might be modified
              * @param {Object} section
              * @param {String} [restoreWith = 'activate']
              */
-            pushState: function pushState(url, section, restoreWith) {
-                var parsedUrl = urlUtil.parse(url);
+            pushState: function pushState(baseUrl, options) {
+                var sectionId = options.sectionId;
+                var restoreWith = options.restoreWith;
+
+                var parsedUrl = urlUtil.parse(baseUrl);
                 var query = parsedUrl.query;
+                var newQuery = _.clone(query);
                 var hasNoSection = !query.section;
 
                 var state = {
-                    sectionId: section.id,
+                    sectionId: sectionId,
                     restoreWith : restoreWith || 'activate'
                 };
-                var stateName = section.name || '';
                 var stateUrl;
 
-                if (section && (section.id !== query.section)) {
-                    query.section = section.id;
-                    stateUrl = urlUtil.build(parsedUrl.path, query);
+                if (sectionId !== query.section) {
+                    newQuery.section = sectionId;
+                }
+
+                if (!_.isEqual(query, newQuery)) {
+                    stateUrl = urlUtil.build(parsedUrl.path, newQuery);
 
                     if (hasNoSection) {
-                        window.history.replaceState(state, stateName, stateUrl);
+                        window.history.replaceState(state, null, stateUrl);
                         this.trigger('replacestate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
                     } else {
-                        window.history.pushState(state, stateName, stateUrl);
+                        window.history.pushState(state, null, stateUrl);
                         this.trigger('pushstate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
@@ -84,7 +90,7 @@ define([
              */
             restoreState: function restoreState() {
                 var state = window.history.state;
-                console.log('GGGGGGGGGGGGGGG ' + state);
+                console.log('GGGGGGGGGGGGGGG restoring state ' + state);
                 if(this.hasRestorableState()){
                     this.trigger('section' + (state.restoreWith || 'activate'), state.sectionId);
                 }
