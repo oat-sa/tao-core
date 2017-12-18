@@ -181,6 +181,8 @@ define([
             var defaultSection = parsedUrl.query.section;
             var defaultUri = parsedUrl.query.uri;
 
+            console.log('SSSSSSSSSSSSSSS section init, state = ', _.clone(window.history.state));
+
             this.options = options || {};
 
             this.scope = $scope || this.scope || $('.section-container');
@@ -218,6 +220,7 @@ define([
                 for(var id in this.sections){
                     this.sections[id].active =  true;
                     restore = false;
+                    console.log('SSSSSSSSSSSSS FORCING ACTIVE SECTION, DISABLE RESTORING');
                     break;
                 }
             }
@@ -242,12 +245,11 @@ define([
                     self.get(sectionId)._show();
                 });
             /* */
-
-            if(this.options.history === false || !restore || !generisRouter.restoreState(generisRouter.getState())){ // todo: wtf is this?
-            // if(this.options.history === false || !restore || !restoreState(getState())){
+            if (options.history !== false && restore && generisRouter.hasRestorableState()) {
+                generisRouter.restore(generisRouter.getState());
+            } else {
                 return this.activate();
             }
-            return this;
         },
 
         /**

@@ -102,7 +102,7 @@ define([
                 var stateName = section.name || '';
                 var stateUrl;
 
-                if (section) {
+                if (section && (section.id !== query.section)) {
                     query.section = section.id;
                     stateUrl = urlUtil.build(parsedUrl.path, query);
 
@@ -143,7 +143,14 @@ define([
              */
             getState: function getState() {
                 var state = window.history.state;
+                console.log('GGGGGGGGGGGGGGGGGGGG in getState, which changes state content !!!!!!');
+
                 return setStateId(state);
+            },
+
+            hasRestorableState: function hasRestorableState() {
+                var state = window.history.state;
+                return state && state.data && state.data.sectionId;
             }
         });
 
