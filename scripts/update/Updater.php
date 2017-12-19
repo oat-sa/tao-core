@@ -981,8 +981,10 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('14.11.2')) {
 
-            $resourceWatcher = new ResourceWatcher();
+            $resourceWatcher = new ResourceWatcher([ResourceWatcher::OPTION_THRESHOLD => 1]);
             $this->getServiceManager()->register(ResourceWatcher::SERVICE_ID, $resourceWatcher);
+
+            OntologyUpdater::syncModels();
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);

@@ -34,7 +34,7 @@ class RegisterResourceWatcherService extends InstallAction
     
     public function __invoke($params)
     {
-        $resourceWatcher = new ResourceWatcher();
+        $resourceWatcher = new ResourceWatcher([ResourceWatcher::OPTION_THRESHOLD => 1]);
         $this->getServiceManager()->register(ResourceWatcher::SERVICE_ID, $resourceWatcher);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ResourceWatcher service is registered');

@@ -37,6 +37,8 @@ class ResourceWatcher extends ConfigurableService
 
     const SERVICE_ID = 'tao/ResourceWatcher';
 
+    const OPTION_THRESHOLD = 'threshold';
+
     /** @var array */
     protected $updatedAtCache = [];
 
@@ -50,6 +52,7 @@ class ResourceWatcher extends ConfigurableService
         $resource = $event->getResource();
         $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
         $now = time();
+        $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
         $report = \common_report_Report::createSuccess();
@@ -71,7 +74,8 @@ class ResourceWatcher extends ConfigurableService
             $updatedAt = (integer) $updatedAt->literal;
         }
         $now = time();
-        if ($updatedAt && ($now - $updatedAt) > 1) {
+        $threshold = $this->getOption(self::OPTION_THRESHOLD);
+        if ($updatedAt && ($now - $updatedAt) > $threshold) {
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
@@ -88,12 +92,11 @@ class ResourceWatcher extends ConfigurableService
      */
     public function getUpdatedAt(\core_kernel_classes_Resource $resource)
     {
-        $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
-        $now = time();
-        if (isset($this->updatedAtCache[$resource->getUri()]) && ($now - $this->updatedAtCache[$resource->getUri()]) < 1) {
+        if (isset($this->updatedAtCache[$resource->getUri()])) {
             $updatedAt = $this->updatedAtCache[$resource->getUri()];
 
         } else {
+            $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $updatedAt = $resource->getOnePropertyValue($property);
             if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
                 $updatedAt = (integer) $updatedAt->literal;
