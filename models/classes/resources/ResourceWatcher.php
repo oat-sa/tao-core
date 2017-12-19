@@ -37,6 +37,7 @@ class ResourceWatcher extends ConfigurableService
 
     const SERVICE_ID = 'tao/ResourceWatcher';
 
+    /** Time in seconds for updatedAt threshold */
     const OPTION_THRESHOLD = 'threshold';
 
     /** @var array */
@@ -51,7 +52,7 @@ class ResourceWatcher extends ConfigurableService
         /** @var \core_kernel_classes_Resource $resource */
         $resource = $event->getResource();
         $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
-        $now = time();
+        $now = microtime(true);
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
@@ -73,9 +74,9 @@ class ResourceWatcher extends ConfigurableService
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
             $updatedAt = (integer) $updatedAt->literal;
         }
-        $now = time();
+        $now = microtime(true);
         $threshold = $this->getOption(self::OPTION_THRESHOLD);
-        if ($updatedAt && ($now - $updatedAt) > $threshold) {
+        if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
