@@ -18,7 +18,7 @@
 /**
  * The purpose of this router is to allow navigation between Generis views entities (sections, tree items...).
  * It does not dispatch any controller (that's the backoffice.js' job) but ensures that history URLs are well-formed
- * so the usual controllers will restore correct state.
+ * so the usual controllers will restore correct state when triggered.
  *
  * @author Christophe Noël <christophe@taotesting.com>
  */
@@ -51,7 +51,7 @@ define([
              */
             pushState: function pushState(baseUrl, options) {
                 var sectionId = options.sectionId;
-                var restoreWith = options.restoreWith;
+                var restoreWith = options.restoreWith || 'activate';
 
                 var parsedUrl = urlUtil.parse(baseUrl);
                 var query = parsedUrl.query;
@@ -60,7 +60,7 @@ define([
 
                 var state = {
                     sectionId: sectionId,
-                    restoreWith : restoreWith || 'activate'
+                    restoreWith : restoreWith
                 };
                 var stateUrl;
 
@@ -84,6 +84,84 @@ define([
                     }
                 }
             },
+
+            pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
+                var parsedUrl    = urlUtil.parse(baseUrl);
+                var currentQuery = parsedUrl.query;
+                var newQuery     = _.clone(currentQuery);
+                var baseUrlHasSection = currentQuery.section;
+
+                var stateUrl;
+                var state = {
+                    sectionId: sectionId,
+                    restoreWith : restoreWith || 'activate'
+                };
+
+                if (!baseUrlHasSection) {
+                    // adding missing section parameter
+                    newQuery.section = sectionId;
+
+                } else if (sectionId !== currentQuery.section) {
+                    // changing section, we need to remove any uri
+                    newQuery.section = sectionId;
+                    delete newQuery.uri;
+                }
+
+                if (sectionId && !_.isEqual(currentQuery, newQuery)) {
+                    stateUrl = urlUtil.build(parsedUrl.path, newQuery);
+
+                    if (baseUrlHasSection) {
+                        window.history.pushState(state, null, stateUrl);
+                        this.trigger('pushstate', stateUrl);
+
+                        console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
+                    } else {
+                        window.history.replaceState(state, null, stateUrl);
+                        this.trigger('replacestate', stateUrl);
+
+                        console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
+                    }
+                }
+            },
+
+            pushNodeState: function pushNodeState(baseUrl, nodeUri) {
+                var parsedUrl    = urlUtil.parse(baseUrl);
+                var currentQuery = parsedUrl.query;
+                var newQuery     = _.clone(currentQuery);
+                var baseUrlHasSection = currentQuery.section;
+
+                var state = {
+                    sectionId: sectionId,
+                    restoreWith : restoreWith || 'activate'
+                };
+                var stateUrl;
+
+                if (sectionId !== currentQuery.section) {
+                    newQuery.section = sectionId;
+                    if (baseUrlHasSection) {
+                        delete newQuery.uri;
+                    }
+                }
+
+                if (!_.isEqual(currentQuery, newQuery)) {
+                    stateUrl = urlUtil.build(parsedUrl.path, newQuery);
+
+                    if (baseUrlHasSection) {
+                        window.history.pushState(state, null, stateUrl);
+                        this.trigger('pushstate', stateUrl);
+
+                        console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
+                    } else {
+                        window.history.replaceState(state, null, stateUrl);
+                        this.trigger('replacestate', stateUrl);
+
+                        console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
+                    }
+                }
+            },
+
+
+
             /**
              * Restore a state from the history.
              * It calls activate or show on the section saved into the state.

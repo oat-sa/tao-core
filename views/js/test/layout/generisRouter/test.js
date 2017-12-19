@@ -27,6 +27,8 @@ define([
 
     var location = window.history.location || window.location;
     var testerUrl = location.href;
+    var baseUrlAbs = 'http://tao/tao/Main/index?structure=items&ext=taoItems';
+    var baseUrlRel = '/tao/Main/index?structure=items&ext=taoItems';
 
     QUnit.module('Module');
 
@@ -40,7 +42,8 @@ define([
 
     QUnit
         .cases([
-            {title: 'pushState'},
+            {title: 'pushSectionState'},
+            {title: 'pushNodeState'},
             {title: 'restoreState'},
 
             // eventifier
@@ -55,7 +58,7 @@ define([
             assert.ok(typeof instance[data.title] === 'function', 'instance implements ' + data.title);
         });
 
-    QUnit.module('.pushState()', {
+    QUnit.module('.pushSectionState()', {
         setup: function() {
             window.history.replaceState(null, '', testerUrl);
         },
@@ -64,86 +67,142 @@ define([
         }
     });
 
-    QUnit.asyncTest('if url has no section, add it and replace current state', function(assert) {
-        var generisRouter = generisRouterFactory();
-        var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems';
+    QUnit
+        .cases([
+            {
+                title: 'change the section parameter',
+                baseUrl: baseUrlAbs + '&section=manage_items',
+                sectionId: 'authoring',
+                restoreWith: 'activate',
+                expectedUrl: baseUrlRel + '&section=authoring'
+            },
+            {
+                title: 'remove the uri parameter on section change',
+                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i15151515151515',
+                sectionId: 'authoring',
+                restoreWith: 'activate',
+                expectedUrl: baseUrlRel + '&section=authoring'
+            }
+        ])
+        .asyncTest('Push new state in history when section parameter already exists', function(data, assert) {
+            var generisRouter = generisRouterFactory();
 
-        QUnit.expect(4);
+            QUnit.expect(4);
 
-        generisRouter
-            .off('.test')
-            .on('replacestate.test', function(stateUrl) {
-                var state = window.history.state;
-                assert.ok(true, 'replacestate have been called');
-                assert.equal(stateUrl, '/tao/Main/index?structure=items&ext=taoItems&section=authoring');
-                assert.equal(state.sectionId, 'authoring', 'section id param has been correctly set');
-                assert.equal(state.restoreWith, 'activate', 'restoreWith param has been correctly set');
-                QUnit.start();
-            })
-            .on('pushstate.test', function() {
-                assert.ok(false, 'I should not be called');
-                QUnit.start();
-            });
+            generisRouter
+                .off('.test')
+                .on('pushstate.test', function(stateUrl) {
+                    var state = window.history.state;
+                    assert.ok(true, 'replacestate have been called');
+                    assert.equal(stateUrl, data.expectedUrl);
+                    assert.equal(state.sectionId, data.sectionId, 'section id param has been correctly set');
+                    assert.equal(state.restoreWith, data.restoreWith, 'restoreWith param has been correctly set');
+                    QUnit.start();
+                })
+                .on('replacestate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                });
 
-        generisRouter.pushState(url, {
-            sectionId: 'authoring',
-            restoreWith: 'activate'
-        });
-    });
-
-    QUnit.asyncTest('if url already has a section, push new state', function(assert) {
-        var generisRouter = generisRouterFactory();
-        var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
-
-        QUnit.expect(4);
-
-        generisRouter
-            .off('.test')
-            .on('pushstate.test', function(stateUrl) {
-                var state = window.history.state;
-                assert.equal(stateUrl, '/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
-                assert.ok(true, 'pushstate has been called');
-                assert.equal(state.sectionId, 'manage_items', 'section id param has been correctly set');
-                assert.equal(state.restoreWith, 'activate', 'restoreWith param has been correctly set');
-                QUnit.start();
-            })
-            .on('replacestate.test', function() {
-                assert.ok(false, 'I should not be called');
-                QUnit.start();
-            });
-
-        generisRouter.pushState(url, {
-            sectionId: 'manage_items',
-            restoreWith: 'activate'
-        });
-    });
-
-    QUnit.asyncTest('does not push new state if section does not change', function(assert) {
-        var generisRouter = generisRouterFactory();
-        var url = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
-
-        generisRouter
-            .off('.test')
-            .on('pushstate.test', function() {
-                assert.ok(false, 'I should not be called');
-                QUnit.start();
-            })
-            .on('replacestate.test', function() {
-                assert.ok(false, 'I should not be called');
-                QUnit.start();
-            });
-
-        generisRouter.pushState(url, {
-            sectionId: 'authoring',
-            restoreWith: 'activate'
+            generisRouter.pushSectionState(data.baseUrl, data.sectionId, data.restoreWith);
         });
 
-        assert.ok(_.isNull(window.history.state), 'state has not been updated');
-        QUnit.start();
+    QUnit
+        .cases([
+            {
+                title: 'add the section parameter',
+                baseUrl: baseUrlAbs,
+                sectionId: 'authoring',
+                restoreWith: 'activate',
+                expectedUrl: baseUrlRel + '&section=authoring'
+            },
+            {
+                title: 'add the section parameter and keep the uri parameter',
+                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i15151515151515',
+                sectionId: 'authoring',
+                restoreWith: 'activate',
+                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i15151515151515' + '&section=authoring'
+            }
+        ])
+        .asyncTest('Replace current state when section does not exists', function(data, assert) {
+            var generisRouter = generisRouterFactory();
+
+            QUnit.expect(4);
+
+            generisRouter
+                .off('.test')
+                .on('pushstate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                })
+                .on('replacestate.test', function(stateUrl) {
+                    var state = window.history.state;
+                    assert.ok(true, 'replacestate have been called');
+                    assert.equal(stateUrl, data.expectedUrl);
+                    assert.equal(state.sectionId, data.sectionId, 'section id param has been correctly set');
+                    assert.equal(state.restoreWith, data.restoreWith, 'restoreWith param has been correctly set');
+                    QUnit.start();
+                });
+
+            generisRouter.pushSectionState(data.baseUrl, data.sectionId, data.restoreWith);
+        });
+
+
+    QUnit
+        .cases([
+            {
+                title: 'SectionId is the same as the existing section',
+                baseUrl: baseUrlAbs + '&section=authoring',
+                sectionId: 'authoring',
+                restoreWith: 'activate'
+            },
+            {
+                title: 'SectionId parameter is missing',
+                baseUrl: baseUrlAbs + '&section=authoring'
+            }
+        ])
+        .asyncTest('Does not change state', function(data, assert) {
+            var generisRouter = generisRouterFactory();
+
+            generisRouter
+                .off('.test')
+                .on('pushstate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                })
+                .on('replacestate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                });
+
+            generisRouter.pushSectionState(data.baseUrl, data.sectionId, data.restoreWith);
+
+            assert.ok(_.isNull(window.history.state), 'state has not been updated');
+            QUnit.start();
+        });
+
+
+    QUnit.module('.pushNodeState()', {
+        setup: function() {
+            window.history.replaceState(null, '', testerUrl);
+        },
+        teardown: function() {
+            window.history.replaceState(null, '', testerUrl);
+        }
     });
 
 
-    QUnit.asyncTest('on popstate, trigger the sectionactivate event if previous state was pushed with the "activate" param', function(assert) {
+    QUnit.module('popstate', {
+        setup: function() {
+            window.history.replaceState(null, '', testerUrl);
+        },
+        teardown: function() {
+            window.history.replaceState(null, '', testerUrl);
+        }
+    });
+
+
+    QUnit.asyncTest('Trigger the sectionactivate event if previous state was pushed with the "activate" param', function(assert) {
         var generisRouter = generisRouterFactory();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
@@ -172,7 +231,7 @@ define([
         window.history.back();
     });
 
-    QUnit.asyncTest('on popstate, trigger the sectionshow event if previous state was pushed with the "show" param', function(assert) {
+    QUnit.asyncTest('Trigger the sectionshow event if previous state was pushed with the "show" param', function(assert) {
         var generisRouter = generisRouterFactory();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
@@ -200,5 +259,7 @@ define([
 
         window.history.back();
     });
+
+    // todo: test hasRestorableState
 
 });

@@ -297,11 +297,7 @@ define([
                 this.current();
             }
             if(this.options.history !== false){
-                generisRouter.pushState(location.href, {
-                    sectionId: this.selected.id,
-                    sectionName: this.selected.name,
-                    restoreWith: 'activate'
-                });
+                generisRouter.pushSectionState(location.href, this.selected.id, 'activate');
             }
             return this._activate();
         },
@@ -347,11 +343,7 @@ define([
                 this.current();
             }
             if(this.options.history !== false){
-                generisRouter.pushState(location.href, {
-                    sectionId: this.selected.id,
-                    sectionName: this.selected.name,
-                    restoreWith: 'show'
-                });
+                generisRouter.pushSectionState(location.href, this.selected.id, 'show');
             }
             return this._show();
         },
