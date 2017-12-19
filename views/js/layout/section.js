@@ -36,122 +36,6 @@ define([
     var sectionApi;
     var generisRouter = generisRouterFactory();
 
-
-    // ========================== START ======================================
-    // ========================== START ======================================
-    // ========================== START ======================================
-    // ========================== START ======================================
-    // ========================== START ======================================
-    // ========================== START ======================================
-    // ========================== START ======================================
-
-    /** /
-    var sectionParamExp = /&section=([^&]*)/;
-    var location = window.history.location || window.location;
-    /** /
-
-    //back & forward button, and push state
-    $(window).on('popstate', function () {
-        console.log('SSSSSSSSSSSSSS poping state in section, retrieving state:');
-        console.log(getState());
-        restoreState(getState());
-    });
-
-    /**
-     * Ensures the state has an identifier and has the right format.
-     * @param {Object} state The state to identify
-     * @returns {Object} Returns the provided state
-     * /
-    function setStateId(state) {
-        var sectionPart, data;
-
-        if (!state || !_.isObject(state)) {
-            state = {};
-        }
-
-        if (!state.url) {
-            state.url = location.href;
-        }
-
-        if (!state.id) {
-            sectionPart = state.url.match(sectionParamExp);
-            state.id = sectionPart && sectionPart[1];
-        }
-
-        if (!state.data) {
-            state.data = {};
-        }
-        data = state.data;
-        data.sectionId = data.sectionId || state.sectionId || state.id;
-        data.restoreWith = data.restoreWith || state.restoreWith || 'activate';
-
-        return state;
-    }
-
-    /**
-     * Gets the current history state.
-     *
-     * @returns {Object}
-     * /
-    function getState() {
-        var state = window.history.state;
-        return setStateId(state);
-    }
-
-    /**
-     * Restore a state from the history.
-     * It calls activate or show on the section saved into the state.
-     * @param {Object} state - a state that has been pushed previously
-     * @returns {Boolean|SectionApi} false if there is nothing to restore
-     * /
-    function restoreState(state){
-        console.log('SSSSSSSSSSSSSSS In original restoreState');
-        if(state && state.data && state.data.sectionId){
-            console.log('SSSSSSSSSSSSSSS In original restoreState, RESTORING', state);
-            return sectionApi.get(state.data.sectionId)['_' + state.data.restoreWith]();
-        }
-    }
-
-
-    /**
-     * Add a new state to the history
-     * @param {Object} section
-     * @param {String} [restoreWith = 'activate']
-     * /
-    function pushState(section, restoreWith){
-        var stateUrl;
-        var stateUrlWithoutSection;
-        var hasNoSection;
-        var method;
-        var newState;
-
-        if (section) {
-            stateUrl = window.location.search + '' || '?';
-            console.log('SSSSSSSSSS window.location.search = ', window.location.search);
-            stateUrlWithoutSection = stateUrl.replace(sectionParamExp, '');
-            hasNoSection = stateUrl === stateUrlWithoutSection;
-            method = hasNoSection ? 'replaceState' : 'pushState';
-
-            window.history[method]({
-                    sectionId : section.id,
-                    restoreWith : restoreWith || 'activate'
-                },
-                section.name || '',
-                stateUrlWithoutSection + '&section=' + section.id
-            );
-            console.log('SSSSSSSSSSSSS original pushstate with,', method, 'and url =', stateUrlWithoutSection + '&section=' + section.id);
-            restoreState(getState());
-        }
-    }
-
-
-     // ========================== END ======================================
-     // ========================== END ======================================
-     // ========================== END ======================================
-     // ========================== END ======================================
-     // ========================== END ======================================
-     // ========================== END ======================================
-
     /**
      * The section API provides you all the methods needed to manage sections.
      * @typedef SectionApi
@@ -180,8 +64,6 @@ define([
             var parsedUrl = url.parse(location.href);
             var defaultSection = parsedUrl.query.section;
             var defaultUri = parsedUrl.query.uri;
-
-            console.log('SSSSSSSSSSSSSSS section init, state = ', _.clone(window.history.state));
 
             this.options = options || {};
 
@@ -220,7 +102,6 @@ define([
                 for(var id in this.sections){
                     this.sections[id].active =  true;
                     restore = false;
-                    console.log('SSSSSSSSSSSSS FORCING ACTIVE SECTION, DISABLE RESTORING');
                     break;
                 }
             }
@@ -237,18 +118,14 @@ define([
             generisRouter
                 .off('.sectionManager')
                 .on('sectionactivate.sectionManager', function(sectionId) {
-                    console.log('SSSSSSSSSSSSS activating section', sectionId);
                     self.get(sectionId)._activate();
                 })
                 .on('sectionshow.sectionManager', function(sectionId) {
-                    console.log('SSSSSSSSSSSSS showing section', sectionId);
                     self.get(sectionId)._show();
                 });
             /* */
             if (this.options.history !== false && restore && generisRouter.hasRestorableState()) {
                 generisRouter.restoreState();
-                //todo: make sure we go through there!
-                console.log('SSSSSSSSS RESTORING STATE IN INIT');
             } else {
                 return this.activate();
             }
@@ -313,7 +190,6 @@ define([
          * @fires SectionApi#show.section
          */
         _activate : function(){
-            console.log('SSSSSSSSSS actual _ACTIVATE()');
             this._show();
             if(this.selected.activated === false){
                 this.selected.activated = true;

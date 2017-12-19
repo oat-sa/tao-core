@@ -88,8 +88,6 @@ define([
             // workaround to fix dublicate tree bindings on multiple page loads
             if (!$elt.hasClass('tree')) {
 
-                console.log('TTTTTTTTTTTTTTTTT actual tree building');
-
                 store('taotree').then(function(treeStore){
                     treeStore.getItem(context.section).then(function(node){
                         if(node){
@@ -101,7 +99,6 @@ define([
                         sectionManager.on('show.section', function (section) {
                             if (treeSectionId === section.id) {
                                 $elt.trigger('refresh.taotree');
-                                console.log('TTTTTTTTTTTTTT refreshing tree following show');
                             }
                         });
                         generisRouter.on('urichange', function(nodeUri, sectionId) {
@@ -352,10 +349,7 @@ define([
                         //Check if any class-level action is defined in the structures.xml file
                         classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
                         if (classActions.length > 0) {
-                            console.log('push Node state class ' + nodeContext.classUri);
-                            // pushState(nodeContext.classUri);
                             generisRouter.pushNodeState(location.href, nodeContext.classUri);
-                            console.log('TTTTTTTTTTT SELECTING CLASS');
                             executePossibleAction(options.actions, nodeContext, ['delete']);
                         }
                     }
@@ -370,11 +364,7 @@ define([
                         //the last selected node is stored
                         store('taotree').then(function(treeStore){
                             treeStore.setItem(context.section, nodeId).then(function(){
-                                console.log('TTTTTTTTTTTTTTTT push node state instance ' + nodeContext.uri);
-                                // pushState(nodeContext.uri);
                                 generisRouter.pushNodeState(location.href, nodeContext.uri);
-
-                                console.log('TTTTTTTTTTT SELECTING INSTANCE');
                                 executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                             });
                         });

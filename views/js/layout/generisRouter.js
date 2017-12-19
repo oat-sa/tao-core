@@ -17,12 +17,10 @@
  */
 /**
  * The purpose of this router is to allow navigation between Generis views entities (sections, tree items...).
- * It does not dispatch any controller (that's the backoffice.js' job) but ensures that history URLs are well-formed
- * so the usual controllers will restore correct state when triggered.
- *
- * State restoring only needs 2 parameters: SectionId and RestoreWith.
- * If the URL contains a URI, it will automatically be loaded on state restoration.
- *
+ * It does not dispatch any controller (that's the backoffice.js' job) but ensures that the browser history has
+ * a consistent state and URLs. On history move, it triggers event listened by the section manager and the tree.
+ * Those module actually do the job of restoring the route state.
+ **
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
@@ -55,6 +53,16 @@ define([
         }
 
         generisRouter = eventifier({
+            /**
+             * To be called on section initial loading or section change.
+             * This method create a new history state or replace the current one. It might be called as a convenient way
+             * to add the sectionId to the current browser Url. In that case, history.replaceState() will be used.
+             * Otherwise, history.pushState().
+             *
+             * @param {String} baseUrl - a base on which to build the stateUrl. Most of the time, it is the current URL from the call point.
+             * @param {String} sectionId - to be saved in the state and added to the Url
+             * @param {('activate'|'show')} restoreWith - the method needed to restore the section
+             */
             pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
                 var parsedUrl    = urlUtil.parse(baseUrl);
                 var currentQuery = parsedUrl.query;
@@ -86,17 +94,23 @@ define([
                         window.history.pushState(newState, null, stateUrl);
                         this.trigger('pushsectionstate', stateUrl);
 
-                        console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
                     } else {
                         window.history.replaceState(newState, null, stateUrl);
                         this.trigger('replacesectionstate', stateUrl);
-
-                        console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
                     }
                     topState = newState;
                 }
             },
 
+            /**
+             * To be called on node selection in the tree.
+             * This method create a new history state or replace the current one. It might be called as a convenient way
+             * to add the Uri parameter to the current browser Url. In that case, history.replaceState() will be used.
+             * Otherwise, history.pushState().
+             *
+             * @param {String} baseUrl - a base on which to build the stateUrl. Most of the time, it is the current URL from the call point.
+             * @param {String} nodeUri - to be saved in the state and added to the Url
+             */
             pushNodeState: function pushNodeState(baseUrl, nodeUri) {
                 var parsedUrl    = urlUtil.parse(baseUrl);
                 var currentQuery = parsedUrl.query;
@@ -122,27 +136,20 @@ define([
                         window.history.pushState(newState, null, stateUrl);
                         this.trigger('pushnodestate', stateUrl);
 
-                        console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
                     } else {
                         window.history.replaceState(newState, null, stateUrl);
                         this.trigger('replacenodestate', stateUrl);
-
-                        console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
                     }
                     topState = newState;
                 }
             },
 
             /**
-             * Restore a state from the history.
-             * It calls activate or show on the section saved into the state.
+             * Restore a state from the history, by triggering events relevant to the retrieved state.
+             * @param {Boolean} fromPopState - if this method has been called following a popState event
              */
             restoreState: function restoreState(fromPopState) {
                 var state = window.history.state || {};
-                console.log('GGGGGGGGGGG restoring state ', (fromPopState) ? 'POPPING' : 'BACK NEW CONTROLLER');
-                console.log(state);
-                console.log('GGGGGGGGGGG topstate is ');
-                console.log(topState);
                 if(this.hasRestorableState()){
                     // generisRouter has already been used
                     if (fromPopState) {
@@ -157,11 +164,11 @@ define([
                             this.trigger('urichange', state.nodeUri, state.sectionId);
                         }
 
-                    // we are restoring in section initialisation: uri will be read and set during tree initialisation
+                    // we are restoring in section initialisation: we only need to deal with the section,
+                    // as uri will be read and set during tree initialisation
                     } else {
                         this.trigger('section' + state.restoreWith, state.sectionId);
                     }
-                    console.log('GGGGGGGGGG saving current state in topState');
                     topState = state;
                 }
             },
@@ -172,9 +179,10 @@ define([
             }
         });
 
-        //back & forward button, and push state
+        /**
+         * Trigger the actual routing events.
+         */
         $(window).on('popstate', function () {
-            console.log('GGGGGGGGGGGGGGGGG poping state in generisRouter, about to restore state:');
             generisRouter.restoreState(true);
         });
 
