@@ -7,16 +7,20 @@ define([
     'i18n',
     'context',
     'core/store',
+    'util/url',
+    'layout/generisRouter',
     'layout/actions',
     'layout/section',
     'ui/feedback',
     'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, actionManager, sectionManager, feedback, uri){
+], function($, _, __, context, store, urlUtil, generisRouterFactory, actionManager, sectionManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
+    var location = window.history.location || window.location;
+    var generisRouter = generisRouterFactory();
 
     /**
      * The tree factory helps you to instantiate a new tree from the TAO ontology
@@ -24,20 +28,20 @@ define([
      *
      * @param {jQueryElement} $elt - that will contain the tree
      * @param {String} url - the endpoint to load data
-     * @param {Object} [options] - additional configuration options
-     * @param {Object} [options.serverParameters] - add parameters to send to the endpoint (defaults are hideInstance, filter, offset and limit)
-     * @param {Object} [options.actions] - which actions to perform from the tree
-     * @param {String} [options.actions.moveInstance] - the id of the action bound (using actionManager.register) on move
-     * @param {String} [options.actions.selectInstance] - the id of the action bound (using actionManager.register) on item selection
-     * @param {String} [options.actions.selectClass] - the id of the action bound (using actionManager.register) on class selection
-     * @param {String} [options.actions.deleteInstance] - the id of the action bound (using actionManager.register) on delete
-     * @param {String} [options.selectNode] - the URI of the node to be selected by default, the node must be loaded.
-     * @param {String} [options.loadNode] - the URI of a node to be loaded from the server side and selected.
+     * @param {Object} [opts] - additional configuration options
+     * @param {Object} [opts.serverParameters] - add parameters to send to the endpoint (defaults are hideInstance, filter, offset and limit)
+     * @param {Object} [opts.actions] - which actions to perform from the tree
+     * @param {String} [opts.actions.moveInstance] - the id of the action bound (using actionManager.register) on move
+     * @param {String} [opts.actions.selectInstance] - the id of the action bound (using actionManager.register) on item selection
+     * @param {String} [opts.actions.selectClass] - the id of the action bound (using actionManager.register) on class selection
+     * @param {String} [opts.actions.deleteInstance] - the id of the action bound (using actionManager.register) on delete
+     * @param {String} [opts.selectNode] - the URI of the node to be selected by default, the node must be loaded.
+     * @param {String} [opts.loadNode] - the URI of a node to be loaded from the server side and selected.
      *
      */
-    var treeFactory = function($elt, url, options){
+    var treeFactory = function($elt, url, opts){
 
-        options = options || {};
+        var options = opts || {};
 
         var lastOpened;
         var permissions = {};
@@ -84,6 +88,8 @@ define([
             // workaround to fix dublicate tree bindings on multiple page loads
             if (!$elt.hasClass('tree')) {
 
+                console.log('TTTTTTTTTTTTTTTTT actual tree building');
+
                 store('taotree').then(function(treeStore){
                     treeStore.getItem(context.section).then(function(node){
                         if(node){
@@ -95,6 +101,12 @@ define([
                         sectionManager.on('show.section', function (section) {
                             if (treeSectionId === section.id) {
                                 $elt.trigger('refresh.taotree');
+                                console.log('TTTTTTTTTTTTTT refreshing tree following show');
+                            }
+                        });
+                        generisRouter.on('urichange', function(nodeUri, sectionId) {
+                            if (treeSectionId === sectionId) {
+                                $elt.trigger('refresh.taotree', [{loadNode : nodeUri}]);
                             }
                         });
                     });
@@ -340,6 +352,10 @@ define([
                         //Check if any class-level action is defined in the structures.xml file
                         classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
                         if (classActions.length > 0) {
+                            console.log('push Node state class ' + nodeContext.classUri);
+                            // pushState(nodeContext.classUri);
+                            generisRouter.pushNodeState(location.href, nodeContext.classUri);
+                            console.log('TTTTTTTTTTT SELECTING CLASS');
                             executePossibleAction(options.actions, nodeContext, ['delete']);
                         }
                     }
@@ -354,6 +370,11 @@ define([
                         //the last selected node is stored
                         store('taotree').then(function(treeStore){
                             treeStore.setItem(context.section, nodeId).then(function(){
+                                console.log('TTTTTTTTTTTTTTTT push node state instance ' + nodeContext.uri);
+                                // pushState(nodeContext.uri);
+                                generisRouter.pushNodeState(location.href, nodeContext.uri);
+
+                                console.log('TTTTTTTTTTT SELECTING INSTANCE');
                                 executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                             });
                         });

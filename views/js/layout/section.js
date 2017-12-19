@@ -313,7 +313,7 @@ define([
          * @fires SectionApi#show.section
          */
         _activate : function(){
-
+            console.log('SSSSSSSSSS actual _ACTIVATE()');
             this._show();
             if(this.selected.activated === false){
                 this.selected.activated = true;

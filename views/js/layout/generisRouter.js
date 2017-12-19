@@ -38,7 +38,16 @@ define([
 ) {
     'use strict';
 
+    /**
+     * The router instance
+     */
     var generisRouter;
+
+    /**
+     * Keep track of the latest known state
+     */
+    var topState;
+
 
     function generisRouterFactory() {
         if (generisRouter) {
@@ -55,7 +64,8 @@ define([
                 var stateUrl;
                 var newState = {
                     sectionId: sectionId,
-                    restoreWith : restoreWith || 'activate'
+                    restoreWith : restoreWith || 'activate',
+                    nodeUri: currentQuery.uri
                 };
 
                 if (!baseUrlHasSection) {
@@ -66,6 +76,7 @@ define([
                     // changing section, we need to remove any uri
                     newQuery.section = sectionId;
                     delete newQuery.uri;
+                    delete newState.nodeUri;
                 }
 
                 if (sectionId && !_.isEqual(currentQuery, newQuery)) {
@@ -82,6 +93,7 @@ define([
 
                         console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
                     }
+                    topState = newState;
                 }
             },
 
@@ -92,9 +104,10 @@ define([
                 var baseUrlHasUri = currentQuery.uri;
 
                 var currentState = window.history.state || {};
-                var state = {
+                var newState = {
                     sectionId: currentState.sectionId || currentQuery.section || '',
-                    restoreWith : currentState.restoreWith || 'activate'
+                    restoreWith : currentState.restoreWith || 'activate',
+                    nodeUri: nodeUri
                 };
                 var stateUrl;
 
@@ -106,30 +119,57 @@ define([
                     stateUrl = urlUtil.build(parsedUrl.path, newQuery);
 
                     if (baseUrlHasUri) {
-                        window.history.pushState(state, null, stateUrl);
+                        window.history.pushState(newState, null, stateUrl);
                         this.trigger('pushnodestate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
                     } else {
-                        window.history.replaceState(state, null, stateUrl);
+                        window.history.replaceState(newState, null, stateUrl);
                         this.trigger('replacenodestate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
                     }
+                    topState = newState;
                 }
             },
 
+            /**
+             * This is meant to be called in the main controller so we now that currentState is never empty
+             */
+            saveCurrentState: function saveCurrentState() {
 
+            },
 
             /**
              * Restore a state from the history.
              * It calls activate or show on the section saved into the state.
              */
-            restoreState: function restoreState() {
-                var state = window.history.state;
-                console.log('GGGGGGGGGGGGGGG restoring state ' + state);
+            restoreState: function restoreState(fromPopState) {
+                var state = window.history.state || {};
+                console.log('GGGGGGGGGGG restoring state ', (fromPopState) ? 'POPPING' : 'BACK NEW CONTROLLER');
+                console.log(state);
+                console.log('GGGGGGGGGGG topstate is ');
+                console.log(topState);
                 if(this.hasRestorableState()){
-                    this.trigger('section' + (state.restoreWith || 'activate'), state.sectionId);
+                    // generisRouter has already been used
+                    if (fromPopState) {
+                        topState = topState || {};
+
+                        // changing section
+                        if (topState.sectionId !== state.sectionId) {
+                            this.trigger('section' + state.restoreWith, state.sectionId);
+
+                        // changing uri
+                        } else {
+                            this.trigger('urichange', state.nodeUri, state.sectionId);
+                        }
+
+                    // we are restoring in section initialisation: uri will be read and set during tree initialisation
+                    } else {
+                        this.trigger('section' + state.restoreWith, state.sectionId);
+                    }
+                    console.log('GGGGGGGGGG saving current state in topState');
+                    topState = state;
                 }
             },
 
@@ -142,7 +182,7 @@ define([
         //back & forward button, and push state
         $(window).on('popstate', function () {
             console.log('GGGGGGGGGGGGGGGGG poping state in generisRouter, about to restore state:');
-            generisRouter.restoreState();
+            generisRouter.restoreState(true);
         });
 
         return generisRouter;
