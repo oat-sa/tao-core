@@ -329,7 +329,9 @@ define([
                 assert.equal($component.find('.hierarchical:visible').length, 3, 'all hierarchical reportr are visible');
                 assert.equal($component.find('.leaf:visible').length, 3, 'all leaf report are visible');
 
-                $component.find('.fold input').click();
+                _.delay(function(){
+                    $component.find('.fold input').click();
+                }, 200);
 
             }).on('hideDetails', function () {
 
@@ -345,4 +347,46 @@ define([
 
     });
 
+    QUnit.module('Playground');
+
+    QUnit.test('render and play', function () {
+
+        QUnit.expect(0);
+
+        var $fixtureContainer = $('#qunit-fixture-external');
+        var sampleData = {
+            "type": "warning",
+            "message": "<em>Data not imported. All records are <strong>invalid.</strong></em>",
+            "data": null,
+            "children": [{
+                "type": "error",
+                "message": "Row 1 Student Number Identifier: Duplicated student \"92001\"",
+                "data": null,
+                "children": [{
+                    "type": "error",
+                    "message": "This is but a sub-report Z",
+                    "data": null,
+                    "children": []
+                }]
+            }, {
+                "type": "success",
+                "message": "Row 2 Student Number Identifier OK",
+                "data": null,
+                "children": [{
+                    "type": "success",
+                    "message": "This is but a sub-report A",
+                    "data": null,
+                    "children": []
+                }, {
+                    "type": "info",
+                    "message": "This is but a sub-report B",
+                    "data": null,
+                    "children": []
+                }]
+            }]
+        };
+
+        report({}, sampleData).render($fixtureContainer);
+
+    });
 });
