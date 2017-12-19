@@ -24,7 +24,7 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\extension\InstallAction;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\resources\ResourceUpdater;
+use oat\tao\model\resources\ResourceWatcher;
 
 /**
  * Class RegisterResourceEvents
@@ -39,8 +39,8 @@ class RegisterResourceEvents extends InstallAction
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(ResourceCreated::class, [ResourceUpdater::SERVICE_ID, 'catchCreatedResourceEvent']);
-        $eventManager->attach(ResourceUpdated::class, [ResourceUpdater::SERVICE_ID, 'catchUpdatedResourceEvent']);
+        $eventManager->attach(ResourceCreated::class, [ResourceWatcher::SERVICE_ID, 'catchCreatedResourceEvent']);
+        $eventManager->attach(ResourceUpdated::class, [ResourceWatcher::SERVICE_ID, 'catchUpdatedResourceEvent']);
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Resource events is registered');
