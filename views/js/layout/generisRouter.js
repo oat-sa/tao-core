@@ -20,6 +20,9 @@
  * It does not dispatch any controller (that's the backoffice.js' job) but ensures that history URLs are well-formed
  * so the usual controllers will restore correct state when triggered.
  *
+ * State restoring only needs 2 parameters: SectionId and RestoreWith.
+ * If the URL contains a URI, it will automatically be loaded on state restoration.
+ *
  * @author Christophe Noël <christophe@taotesting.com>
  */
 define([
@@ -43,48 +46,6 @@ define([
         }
 
         generisRouter = eventifier({
-            /**
-             * Add a new state to the history
-             * @param {String} baseUrl - state url to save in the state. Might be modified
-             * @param {Object} section
-             * @param {String} [restoreWith = 'activate']
-             */
-            pushState: function pushState(baseUrl, options) {
-                var sectionId = options.sectionId;
-                var restoreWith = options.restoreWith || 'activate';
-
-                var parsedUrl = urlUtil.parse(baseUrl);
-                var query = parsedUrl.query;
-                var newQuery = _.clone(query);
-                var hasNoSection = !query.section;
-
-                var state = {
-                    sectionId: sectionId,
-                    restoreWith : restoreWith
-                };
-                var stateUrl;
-
-                if (sectionId !== query.section) {
-                    newQuery.section = sectionId;
-                }
-
-                if (!_.isEqual(query, newQuery)) {
-                    stateUrl = urlUtil.build(parsedUrl.path, newQuery);
-
-                    if (hasNoSection) {
-                        window.history.replaceState(state, null, stateUrl);
-                        this.trigger('replacestate', stateUrl);
-
-                        console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
-                    } else {
-                        window.history.pushState(state, null, stateUrl);
-                        this.trigger('pushstate', stateUrl);
-
-                        console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
-                    }
-                }
-            },
-
             pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
                 var parsedUrl    = urlUtil.parse(baseUrl);
                 var currentQuery = parsedUrl.query;
@@ -92,7 +53,7 @@ define([
                 var baseUrlHasSection = currentQuery.section;
 
                 var stateUrl;
-                var state = {
+                var newState = {
                     sectionId: sectionId,
                     restoreWith : restoreWith || 'activate'
                 };
@@ -111,13 +72,13 @@ define([
                     stateUrl = urlUtil.build(parsedUrl.path, newQuery);
 
                     if (baseUrlHasSection) {
-                        window.history.pushState(state, null, stateUrl);
-                        this.trigger('pushstate', stateUrl);
+                        window.history.pushState(newState, null, stateUrl);
+                        this.trigger('pushsectionstate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
                     } else {
-                        window.history.replaceState(state, null, stateUrl);
-                        this.trigger('replacestate', stateUrl);
+                        window.history.replaceState(newState, null, stateUrl);
+                        this.trigger('replacesectionstate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
                     }
@@ -128,32 +89,30 @@ define([
                 var parsedUrl    = urlUtil.parse(baseUrl);
                 var currentQuery = parsedUrl.query;
                 var newQuery     = _.clone(currentQuery);
-                var baseUrlHasSection = currentQuery.section;
+                var baseUrlHasUri = currentQuery.uri;
 
+                var currentState = window.history.state || {};
                 var state = {
-                    sectionId: sectionId,
-                    restoreWith : restoreWith || 'activate'
+                    sectionId: currentState.sectionId || currentQuery.section || '',
+                    restoreWith : currentState.restoreWith || 'activate'
                 };
                 var stateUrl;
 
-                if (sectionId !== currentQuery.section) {
-                    newQuery.section = sectionId;
-                    if (baseUrlHasSection) {
-                        delete newQuery.uri;
-                    }
+                if (nodeUri !== currentQuery.uri) {
+                    newQuery.uri = nodeUri;
                 }
 
-                if (!_.isEqual(currentQuery, newQuery)) {
+                if (nodeUri && !_.isEqual(currentQuery, newQuery)) {
                     stateUrl = urlUtil.build(parsedUrl.path, newQuery);
 
-                    if (baseUrlHasSection) {
+                    if (baseUrlHasUri) {
                         window.history.pushState(state, null, stateUrl);
-                        this.trigger('pushstate', stateUrl);
+                        this.trigger('pushnodestate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG pushing state with url', stateUrl);
                     } else {
                         window.history.replaceState(state, null, stateUrl);
-                        this.trigger('replacestate', stateUrl);
+                        this.trigger('replacenodestate', stateUrl);
 
                         console.log('GGGGGGGGGGGGGGGGGGGG replacing state with url', stateUrl);
                     }

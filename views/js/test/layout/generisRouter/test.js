@@ -45,6 +45,7 @@ define([
             {title: 'pushSectionState'},
             {title: 'pushNodeState'},
             {title: 'restoreState'},
+            {title: 'hasRestorableState'},
 
             // eventifier
             {title: 'on'},
@@ -91,15 +92,15 @@ define([
 
             generisRouter
                 .off('.test')
-                .on('pushstate.test', function(stateUrl) {
+                .on('pushsectionstate.test', function(stateUrl) {
                     var state = window.history.state;
-                    assert.ok(true, 'replacestate have been called');
+                    assert.ok(true, 'pushsectionstate have been called');
                     assert.equal(stateUrl, data.expectedUrl);
                     assert.equal(state.sectionId, data.sectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.restoreWith, 'restoreWith param has been correctly set');
                     QUnit.start();
                 })
-                .on('replacestate.test', function() {
+                .on('replacesectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
                     QUnit.start();
                 });
@@ -131,13 +132,13 @@ define([
 
             generisRouter
                 .off('.test')
-                .on('pushstate.test', function() {
+                .on('pushsectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
                     QUnit.start();
                 })
-                .on('replacestate.test', function(stateUrl) {
+                .on('replacesectionstate.test', function(stateUrl) {
                     var state = window.history.state;
-                    assert.ok(true, 'replacestate have been called');
+                    assert.ok(true, 'replacesectionstate have been called');
                     assert.equal(stateUrl, data.expectedUrl);
                     assert.equal(state.sectionId, data.sectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.restoreWith, 'restoreWith param has been correctly set');
@@ -166,11 +167,11 @@ define([
 
             generisRouter
                 .off('.test')
-                .on('pushstate.test', function() {
+                .on('pushsectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
                     QUnit.start();
                 })
-                .on('replacestate.test', function() {
+                .on('replacesectionstate.test', function() {
                     assert.ok(false, 'I should not be called');
                     QUnit.start();
                 });
@@ -191,6 +192,173 @@ define([
         }
     });
 
+    QUnit
+        .cases([
+            {
+                title: 'Change the uri parameter. No section param, no existing state.',
+                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: '',
+                expectedRestoreWith: 'activate',
+                setExistingState: _.noop
+            },
+            {
+                title: 'Change the uri parameter. With section param, no existing state.',
+                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: 'manage_items',
+                expectedRestoreWith: 'activate',
+                setExistingState: _.noop
+            },
+            {
+                title: 'Change the uri parameter. No section param, existing state.',
+                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: 'authoring',
+                expectedRestoreWith: 'show',
+                setExistingState: function setExistingState(generisRouter) {
+                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                }
+            },
+            {
+                title: 'Change the uri parameter. Section param, existing state, different sections (should never happen. This is only to assert the assessment priority.',
+                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: 'authoring',
+                expectedRestoreWith: 'show',
+                setExistingState: function setExistingState(generisRouter) {
+                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                }
+            }
+        ])
+        .asyncTest('Push new state in history when uri parameter already exists', function(data, assert) {
+            var generisRouter = generisRouterFactory();
+
+            QUnit.expect(4);
+
+            generisRouter
+                .off('.test')
+                .on('pushnodestate.test', function(stateUrl) {
+                    var state = window.history.state;
+                    assert.ok(true, 'pushnodestate have been called');
+                    assert.equal(stateUrl, data.expectedUrl);
+                    assert.equal(state.sectionId, data.expectedSectionId, 'section id param has been correctly set');
+                    assert.equal(state.restoreWith, data.expectedRestoreWith, 'restoreWith param has been correctly set');
+                    QUnit.start();
+                })
+                .on('replacenodestate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                });
+
+            data.setExistingState(generisRouter);
+
+            generisRouter.pushNodeState(data.baseUrl, data.nodeUri);
+        });
+
+    QUnit
+        .cases([
+            {
+                title: 'Add the uri parameter. No section param, no existing state.',
+                baseUrl: baseUrlAbs,
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: '',
+                expectedRestoreWith: 'activate',
+                setExistingState: _.noop
+            },
+            {
+                title: 'Add the uri parameter. With section param, no existing state.',
+                baseUrl: baseUrlAbs + '&section=manage_items',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: 'manage_items',
+                expectedRestoreWith: 'activate',
+                setExistingState: _.noop
+            },
+            {
+                title: 'Add the uri parameter. No section param, existing state.',
+                baseUrl: baseUrlAbs,
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: 'authoring',
+                expectedRestoreWith: 'show',
+                setExistingState: function setExistingState(generisRouter) {
+                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                }
+            },
+            {
+                title: 'Change the uri parameter. Section param, existing state, different sections (should never happen. This is only to assess priority.',
+                baseUrl: baseUrlAbs + '&section=manage_items',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedSectionId: 'authoring',
+                expectedRestoreWith: 'show',
+                setExistingState: function setExistingState(generisRouter) {
+                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                }
+            }
+        ])
+        .asyncTest('Replace current state when uri parameter does not exists', function(data, assert) {
+            var generisRouter = generisRouterFactory();
+
+            QUnit.expect(4);
+
+            generisRouter
+                .off('.test')
+                .on('pushnodestate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                })
+                .on('replacenodestate.test', function(stateUrl) {
+                    var state = window.history.state;
+                    assert.ok(true, 'replacenodestate have been called');
+                    assert.equal(stateUrl, data.expectedUrl);
+                    assert.equal(state.sectionId, data.expectedSectionId, 'section id param has been correctly set');
+                    assert.equal(state.restoreWith, data.expectedRestoreWith, 'restoreWith param has been correctly set');
+                    QUnit.start();
+                });
+
+            data.setExistingState(generisRouter);
+
+            generisRouter.pushNodeState(data.baseUrl, data.nodeUri);
+        });
+
+    QUnit
+        .cases([
+            {
+                title: 'Uri parameter is the same',
+                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888'
+            },
+            {
+                title: 'Uri parameter is missing',
+                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888'
+            }
+        ])
+        .asyncTest('Does not change state', function(data, assert) {
+            var generisRouter = generisRouterFactory();
+
+            generisRouter
+                .off('.test')
+                .on('pushnodestate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                })
+                .on('replacenodestate.test', function() {
+                    assert.ok(false, 'I should not be called');
+                    QUnit.start();
+                });
+
+            generisRouter.pushNodeState(data.baseUrl, data.nodeUri);
+
+            assert.ok(_.isNull(window.history.state), 'state has not been updated');
+            QUnit.start();
+        });
 
     QUnit.module('popstate', {
         setup: function() {
