@@ -261,7 +261,7 @@ define([
                     assert.equal(stateUrl, data.expectedUrl);
                     assert.equal(state.sectionId, data.expectedSectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.expectedRestoreWith, 'restoreWith param has been correctly set');
-                    assert.equal(state.nodeUri, data.nodeUri, 'nodeUri param has been correctly set');
+                    assert.equal(state.nodeUri, data.expectedNodeUri, 'nodeUri param has been correctly set');
                     QUnit.start();
                 })
                 .on('replacenodestate.test', function() {
@@ -341,7 +341,7 @@ define([
                     assert.equal(stateUrl, data.expectedUrl);
                     assert.equal(state.sectionId, data.expectedSectionId, 'section id param has been correctly set');
                     assert.equal(state.restoreWith, data.expectedRestoreWith, 'restoreWith param has been correctly set');
-                    assert.equal(state.nodeUri, data.nodeUri, 'nodeUri param has been correctly set');
+                    assert.equal(state.nodeUri, data.expectedNodeUri, 'nodeUri param has been correctly set');
                     QUnit.start();
                 });
 
@@ -492,7 +492,7 @@ define([
 
     QUnit.asyncTest('On move back with a page reload (= different extension), trigger sectionactivate ', function(assert) {
         var generisRouter = generisRouterFactory();
-        var url = 'http://tao/tao/Main/index?structure=tests&ext=taoItems&section=manage_tests';
+        var url = '/tao/Main/index?structure=tests&ext=taoItems&section=manage_tests';
 
         QUnit.expect(2);
 
@@ -508,6 +508,7 @@ define([
                 QUnit.start();
             })
             .on('urichange.test', function() {
+
                 assert.ok(false, 'urichange should not be called');
                 QUnit.start();
             });
@@ -515,7 +516,7 @@ define([
         window.history.pushState({
             sectionId: 'manage_tests',
             restoreWith: 'activate'
-        }, null, url);
+        }, '', url);
 
         // when page reloads and there is a restorable state, then .restoreState() gets called
         generisRouter.restoreState();

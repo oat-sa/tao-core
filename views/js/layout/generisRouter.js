@@ -134,13 +134,6 @@ define([
             },
 
             /**
-             * This is meant to be called in the main controller so we now that currentState is never empty
-             */
-            saveCurrentState: function saveCurrentState() {
-
-            },
-
-            /**
              * Restore a state from the history.
              * It calls activate or show on the section saved into the state.
              */
