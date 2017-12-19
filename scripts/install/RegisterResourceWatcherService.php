@@ -21,23 +21,23 @@ namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\resources\ResourceUpdater;
+use oat\tao\model\resources\ResourceWatcher;
 
 /**
- * Class RegisterResourceUpdaterServicex
+ * Class RegisterResourceWatcherService
  * @package oat\tao\scripts\install
  * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
-class RegisterResourceUpdaterService extends InstallAction
+class RegisterResourceWatcherService extends InstallAction
 {
     use OntologyAwareTrait;
     
     public function __invoke($params)
     {
-        $resourceUpdater = new ResourceUpdater();
-        $this->getServiceManager()->register(ResourceUpdater::SERVICE_ID, $resourceUpdater);
+        $resourceWatcher = new ResourceWatcher();
+        $this->getServiceManager()->register(ResourceWatcher::SERVICE_ID, $resourceWatcher);
 
-        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ResourceUpdater service is registered');
+        return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'ResourceWatcher service is registered');
     }
 
 }

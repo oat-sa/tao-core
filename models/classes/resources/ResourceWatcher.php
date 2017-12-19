@@ -27,15 +27,15 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\TaoOntology;
 
 /**
- * Class ResourceUpdater
+ * Class ResourceWatcher
  * @package oat\tao\model\resources
  * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
-class ResourceUpdater extends ConfigurableService
+class ResourceWatcher extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'tao/ResourceUpdater';
+    const SERVICE_ID = 'tao/ResourceWatcher';
 
     /** @var array */
     protected $updatedAtCache = [];

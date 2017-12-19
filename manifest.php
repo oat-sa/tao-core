@@ -29,7 +29,7 @@ use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\AddArchiveService;
-use oat\tao\scripts\install\RegisterResourceUpdaterService;
+use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
@@ -100,7 +100,7 @@ return array(
             SetupMaintenanceService::class,
             AddArchiveService::class,
             SetContainerService::class,
-            RegisterResourceUpdaterService::class,
+            RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
         )
     ),
