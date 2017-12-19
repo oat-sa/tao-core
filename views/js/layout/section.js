@@ -114,7 +114,6 @@ define([
              */
             this.scope.trigger('init.section');
 
-            /* */
             generisRouter
                 .off('.sectionManager')
                 .on('sectionactivate.sectionManager', function(sectionId) {
@@ -123,7 +122,7 @@ define([
                 .on('sectionshow.sectionManager', function(sectionId) {
                     self.get(sectionId)._show();
                 });
-            /* */
+
             if (this.options.history !== false && restore && generisRouter.hasRestorableState()) {
                 generisRouter.restoreState();
             } else {
