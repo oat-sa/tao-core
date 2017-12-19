@@ -25,6 +25,8 @@ use common_Exception;
 use common_ext_ExtensionsManager;
 use League\Flysystem\Adapter\Local;
 use oat\funcAcl\models\ModuleAccessService;
+use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
@@ -49,6 +51,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
@@ -974,8 +977,27 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.8.1');
         }
 
-        $this->skip('14.8.1', '14.10.0');
+        $this->skip('14.8.1', '14.11.2');
 
+        if ($this->isVersion('14.11.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('14.11.3');
+        }
+
+        if ($this->isVersion('14.11.3')) {
+
+            $resourceWatcher = new ResourceWatcher([ResourceWatcher::OPTION_THRESHOLD => 1]);
+            $this->getServiceManager()->register(ResourceWatcher::SERVICE_ID, $resourceWatcher);
+
+            OntologyUpdater::syncModels();
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceCreated::class, [ResourceWatcher::SERVICE_ID, 'catchCreatedResourceEvent']);
+            $eventManager->attach(ResourceUpdated::class, [ResourceWatcher::SERVICE_ID, 'catchUpdatedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->setVersion('14.12.0');
+        }
     }
 
     private function migrateFsAccess() {
