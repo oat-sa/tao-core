@@ -39,6 +39,10 @@ define([
 ], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager, versionWarning, loadingBar, nav, search, treeLoader){
     'use strict';
 
+    var defaultTree = {
+
+    };
+
     var logger = loggerFactory('controller/main');
 
     /**

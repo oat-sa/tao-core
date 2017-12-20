@@ -188,7 +188,7 @@ define([
                     classList = _.omit(classList, uri);
 
                     if(this.is('rendered')){
-                        $('[data-uri="' + uri + '"]', this.getElement()).remove();
+                        $('[data-uri="' + uri + '"]', this.getElement()).parent('li').remove();
                     }
                     return !this.hasNode(node);
                 }
@@ -260,6 +260,12 @@ define([
                     self.setValue($(this).data('uri'));
 
                     $options.toggleClass('folded');
+                });
+
+                $options.on('mouseleave', function(){
+                    _.delay(function(){
+                        $options.addClass('folded');
+                    }, 600);
                 });
 
             })

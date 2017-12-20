@@ -83,10 +83,12 @@ define([
                                 self.selectDefaultNode(defaultNode);
                             });
                             actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
+                                self.changeSelectionMode('single');
                                 self.addNode(node, node.classUri);
                                 self.select(node);
                             });
                             actionManager.on('refresh', function(node){
+                                debugger;
                                 self.refresh(node || defaultNode);
                             });
 

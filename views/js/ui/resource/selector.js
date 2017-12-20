@@ -57,6 +57,11 @@ define([
 
     var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
 
+    var nodeTypes = {
+        instance : 'instance',
+        class: 'class'
+    };
+
     var selectionModes = {
         single : 'single',
         multiple : 'multiple',
@@ -378,7 +383,14 @@ define([
             removeNode : function removeNode(node){
                 var uri = _.isString(node) ? node : node.uri;
                 if(this.hasNode(uri)){
+
+                    //update the class selector
+                    if(this.getNodeType(node) === nodeTypes.class && this.classSelector){
+                        this.classSelector.removeNode(node);
+                    }
+
                     this.selectionComponent.removeNode(uri);
+                    //FIXME DOM should be managed inside the component
                     $('[data-uri="' + uri + '"]', $resultArea).remove();
                 }
                 return this;
@@ -398,15 +410,19 @@ define([
                 if(this.is('rendered') && node && node.uri && this.selectionComponent){
                     if(!this.selectionComponent.hasNode(node.uri)){
                         if(!node.type){
-                            node.type = 'instance';
+                            node.type = nodeTypes.instance;
                         }
+
+                        //update the selection component
                         this.selectionComponent.update([node], {
                             classUri: parentUri || this.classUri,
                             format:   this.format,
                             limit  : this.config.limit
                         });
-                        if(node.type === 'class'){
-                            self.classSelector.
+
+                        //update the class selector
+                        if(this.getNodeType(node) === nodeTypes.class && this.classSelector){
+                            this.classSelector.addNode(node, parentUri);
                         }
                     }
                 }
@@ -425,6 +441,24 @@ define([
                 if(node && this.is('rendered') && this.selectionComponent){
                     uri = _.isString(node) ? node : node.uri;
                     return this.selectionComponent.hasNode(uri);
+                }
+                return false;
+            },
+
+            /**
+             * Get the type of a node, usually instance or class
+             *
+             * @param {Object|String} node - the node or directly the URI
+             * @param {String} [node.uri]
+             * @returns {String|Boolean} one of the nodeTypes or false
+             */
+            getNodeType : function getNodeType(node){
+                var uri;
+                var foundNode;
+                if(node && this.is('rendered') && this.selectionComponent){
+                    uri = _.isString(node) ? node : node.uri;
+                    foundNode = this.selectionComponent.getNode(uri);
+                    return foundNode && foundNode.type;
                 }
                 return false;
             },
@@ -463,9 +497,9 @@ define([
                     if(this.hasNode(node)){
                         this.select(node);
                     } else if(fallback !== false) {
-                        $resource = this.getElement().find('.instance');
+                        $resource = this.getElement().find('.' + nodeTypes.instance);
                         if(!$resource.length){
-                            $resource = this.getElement().find('.class');
+                            $resource = this.getElement().find('.' + nodeTypes.class);
                         }
                         if($resource.length){
                             this.select( $resource.first().data('uri') );
@@ -687,10 +721,11 @@ define([
         return resourceSelector;
     };
 
-    /**
-     * Exposes the selection modes
-     */
+    //Exposes the selection modes
     resourceSelectorFactory.selectionModes = selectionModes;
+
+    //Exposes the node types
+    resourceSelectorFactory.nodeTypes = nodeTypes;
 
     return resourceSelectorFactory;
 });

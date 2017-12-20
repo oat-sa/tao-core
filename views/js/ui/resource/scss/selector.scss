@@ -47,6 +47,7 @@
 
         .class-context {
             @include simple-flex-box;
+            overflow : hidden;
 
             .class-selector{
                 position: static;

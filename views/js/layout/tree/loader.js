@@ -22,16 +22,50 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'core/providerRegistry',
     'layout/tree/provider/jstree',
     'layout/tree/provider/resourceSelector'
-], function(providerRegistry, jsTreeProvider, resourceSelectorProvider){
+], function(module, providerRegistry, jsTreeProvider, resourceSelectorProvider){
     'use strict';
 
+    /**
+     * If not config is set, this is the default tree provider
+     */
+    var defaultProvider = 'jstree';
+
+    /**
+     * Contains all tree providers
+     */
     var treeProviderRegistry = providerRegistry({});
 
+    /**
+     * Check whether a provider exists
+     * @param {String} providerName - the name of the provider
+     * @returns {Boolean} true if the provider is registered
+     */
+    var providerExists = function providerExists(providerName){
+        return providerName && treeProviderRegistry.getAvailableProviders().indexOf(providerName) !== -1;
+    };
+
+    //manually register the providers
     treeProviderRegistry.registerProvider('jstree', jsTreeProvider);
     treeProviderRegistry.registerProvider('resource-selector', resourceSelectorProvider);
 
-    return treeProviderRegistry;
+    /**
+     * Let's you load either the default tree provider or a specific one
+     * @param {String} [providerName] - the name of the provider
+     * @returns {treeProvider} the provider
+     */
+    return function loadTree(providerName){
+        var providerToLoad = defaultProvider;
+        var config = module.config();
+
+        if(providerExists(providerName)){
+            providerToLoad = providerName;
+        } else if (providerExists(config.treeProvider)){
+            providerToLoad = config.treeProvider;
+        }
+        return treeProviderRegistry.getProvider(providerToLoad);
+    };
 });

@@ -211,7 +211,7 @@ abstract class tao_actions_CommonModule extends Module
             if ($report->getType() == common_report_Report::TYPE_SUCCESS &&
                 !is_null($data) && $data instanceof \core_kernel_classes_Resource) {
                 $this->setData('message', $report->getMessage());
-                $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
+                $this->setData('selectNode', $data->getUri());
                 $this->setData('reload', true);
                 return $this->setView('form.tpl', 'tao');
             }
