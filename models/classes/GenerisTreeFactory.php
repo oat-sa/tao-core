@@ -268,7 +268,7 @@ class GenerisTreeFactory
     /**
      * @param core_kernel_classes_Class $class
      * @return core_kernel_classes_Class[]
-     * @throws 
+     * @throws
      */
     private function getSubClasses(core_kernel_classes_Class $class)
     {
