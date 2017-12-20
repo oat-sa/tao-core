@@ -160,7 +160,7 @@ define([
                             this.trigger('section' + state.restoreWith, state.sectionId);
 
                         // changing uri
-                        } else {
+                        } else if (state.nodeUri) {
                             this.trigger('urichange', state.nodeUri, state.sectionId);
                         }
 
@@ -173,6 +173,9 @@ define([
                 }
             },
 
+            /**
+             * Check that the current state contains the minimum information to restore a state
+             */
             hasRestorableState: function hasRestorableState() {
                 var state = window.history.state;
                 return state && state.restoreWith && state.sectionId;
