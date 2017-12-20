@@ -56,9 +56,11 @@ define([
          * @param {('activate'|'show')} restoreWith - the method needed to restore the section
          */
         pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
-            var parsedUrl    = urlUtil.parse(baseUrl);
-            var currentQuery = parsedUrl.query;
-            var newQuery     = _.clone(currentQuery);
+            var parsedUrl = urlUtil.parse(baseUrl);
+            var currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
+                return (key === 'uri') ? decodeURIComponent(value) : value;
+            });
+            var newQuery = _.clone(currentQuery);
             var baseUrlHasSection = currentQuery.section;
 
             var stateUrl;
@@ -101,12 +103,14 @@ define([
          * Otherwise, history.pushState().
          *
          * @param {String} baseUrl - a base on which to build the stateUrl. Most of the time, it is the current URL from the call point.
-         * @param {String} nodeUri - to be saved in the state and added to the Url
+         * @param {String} nodeUri - to be saved in the state and added to the Url. Should be given as a plain non-encoded URI (ex: http://tao/mytao.rdf#i151378052813779)
          */
         pushNodeState: function pushNodeState(baseUrl, nodeUri) {
-            var parsedUrl    = urlUtil.parse(baseUrl);
-            var currentQuery = parsedUrl.query;
-            var newQuery     = _.clone(currentQuery);
+            var parsedUrl = urlUtil.parse(baseUrl);
+            var currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
+                return (key === 'uri') ? decodeURIComponent(value) : value;
+            });
+            var newQuery = _.clone(currentQuery);
             var baseUrlHasUri = currentQuery.uri;
 
             var currentState = window.history.state || {};

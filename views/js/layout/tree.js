@@ -102,7 +102,7 @@ define([
                         });
                         generisRouter.on('urichange', function(nodeUri, sectionId) {
                             if (treeSectionId === sectionId) {
-                                $elt.trigger('refresh.taotree', [{loadNode : nodeUri}]);
+                                $elt.trigger('refresh.taotree', [{loadNode : uri.encode(nodeUri)}]);
                             }
                         });
                     });
@@ -348,7 +348,7 @@ define([
                         //Check if any class-level action is defined in the structures.xml file
                         classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
                         if (classActions.length > 0) {
-                            generisRouter.pushNodeState(location.href, nodeContext.classUri);
+                            generisRouter.pushNodeState(location.href, uri.decode(nodeContext.classUri));
                             executePossibleAction(options.actions, nodeContext, ['delete']);
                         }
                     }
@@ -363,7 +363,7 @@ define([
                         //the last selected node is stored
                         store('taotree').then(function(treeStore){
                             treeStore.setItem(context.section, nodeId).then(function(){
-                                generisRouter.pushNodeState(location.href, nodeContext.uri);
+                                generisRouter.pushNodeState(location.href, uri.decode(nodeContext.uri));
                                 executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                             });
                         });
