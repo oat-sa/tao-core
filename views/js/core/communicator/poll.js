@@ -103,13 +103,8 @@ define([
             // there is no message in the queue at this moment
             this.messagesQueue = [];
 
-            // prepare the polling of the remote service
-            // it will be started by the open() method
-            this.polling = pollingFactory({
-                interval: config.interval,
-                autoStart: false,
-                action: function communicatorPoll() {
-                    var async = this.async();
+            this.request = function request(){
+                return new Promise(function(resolve){
                     var headers = {};
                     var token = tokenHandler.getToken();
 
@@ -169,7 +164,7 @@ define([
 
                         self.trigger('receive', response);
 
-                        async.resolve();
+                        resolve();
                     })
 
                     // when the request fails...
@@ -197,6 +192,19 @@ define([
                         self.trigger('error', error);
 
                         // the request promise must be resolved, even if failed, to continue the polling
+                        resolve();
+                    });
+                });
+            };
+
+            // prepare the polling of the remote service
+            // it will be started by the open() method
+            this.polling = pollingFactory({
+                interval: config.interval,
+                autoStart: false,
+                action: function communicatorPoll() {
+                    var async = this.async();
+                    self.request().then(function(){
                         async.resolve();
                     });
                 }

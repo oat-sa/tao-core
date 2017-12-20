@@ -47,6 +47,7 @@ use oat\tao\helpers\Template;
  *  [...]
  *
  * @package oat\tao\model\theme
+ * @deprecated use oat\tao\model\theme\ConfigurablePlatformTheme instead
  */
 class ConfigurableTheme extends Configurable implements Theme
 {
@@ -68,6 +69,64 @@ class ConfigurableTheme extends Configurable implements Theme
     const THEME_DATA_LINK     = 'link';
     /** Theme data logo title offset in the options under the data offset. */
     const THEME_DATA_MESSAGE  = 'message';
+
+    /**
+     * Defined custom texts
+     * @var array
+     */
+    private $allTexts;
+
+    /**
+     * Define all custom text
+     * return [
+     *  'myCustomTextId' => __('My custom text translation');
+     * ];
+     * @return array
+     */
+    protected function initializeTexts()
+    {
+        return [];
+    }
+
+    /**
+     * Allow to set a custom translatable string for a given key
+     * @param String $key
+     * @return string
+     */
+    public function getText($key) {
+        if (empty($this->allTexts)) {
+            $this->allTexts = $this->initializeTexts();
+        }
+        return (array_key_exists($key, $this->allTexts))
+            ? $this->allTexts[$key]
+            : '';
+    }
+
+    /**
+     * Retrieve all custom strings for the given keys
+     * @param String[] $allKeys
+     * @return array
+     */
+    public function getTextFromArray($allKeys) {
+        $allValues = [];
+        if (is_array($allKeys) && ! empty($allKeys)) {
+            forEach ($allKeys as $key) {
+                $allValues[$key] = $this->getText($key);
+            }
+        }
+        return $allValues;
+    }
+
+    /**
+     * Retrieve all existing strings
+     * @return array
+     */
+    public function getAllTexts() {
+        if (empty($this->allTexts)) {
+            $this->allTexts = $this->initializeTexts();
+        }
+        return $this->allTexts;
+    }
 
     /**
      * Get a template associated to given $id

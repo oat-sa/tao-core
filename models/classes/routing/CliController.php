@@ -70,6 +70,7 @@ class CliController implements ServiceManagerAwareInterface
         }
 
         $this->propagate($action);
+
         $this->getServiceLocator()->get(ArgumentService::SERVICE_ID)->load($action, $params);
 
         try {

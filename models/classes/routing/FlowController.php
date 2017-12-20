@@ -112,5 +112,5 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
         //as we use a route resolver, it's easier to rebuild the URL to resolve it 
         $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
 	}
-	
+
 }

@@ -3,9 +3,11 @@
  */
 define([
     'module',
+    'lodash',
     'jquery',
     'i18n',
     'context',
+    'router',
     'helpers',
     'uiForm',
     'layout/section',
@@ -17,7 +19,7 @@ define([
     'layout/nav',
     'layout/search'
 ],
-function (module, $, __, context, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
+function (module, _, $, __, context, router, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
     'use strict';
 
     /**
@@ -27,6 +29,7 @@ function (module, $, __, context, helpers, uiForm, section, actions, treeFactory
     return {
         start : function(){
 
+            var config = module.config();
             var $doc = $(document);
 
             versionWarning.init();
@@ -47,7 +50,7 @@ function (module, $, __, context, helpers, uiForm, section, actions, treeFactory
             //search component
             search.init();
 
-            //initialize sections 
+            //initialize sections
             section.on('activate', function(section){
 
                 window.scrollTo(0,0);
@@ -60,8 +63,8 @@ function (module, $, __, context, helpers, uiForm, section, actions, treeFactory
                 }
 
                 context.section = section.id;
-               
-                //initialize actions 
+
+                //initialize actions
                 actions.init(section.panel);
 
                 switch(section.type){
@@ -82,7 +85,7 @@ function (module, $, __, context, helpers, uiForm, section, actions, treeFactory
                                 treeActions[key] = val;
                             }
                         });
-                        
+
                         if(/\/$/.test(treeUrl)){
                             treeUrl += $treeElt.data('url').replace(/^\//, '');
                         } else {
@@ -105,11 +108,9 @@ function (module, $, __, context, helpers, uiForm, section, actions, treeFactory
 
                     $('.navi-container', section.panel).show();
                     break;
-                case 'content' : 
-
+                case 'content':
                     //or load the content block
                     this.loadContentBlock();
-                    
                     break;
                 }
             })
@@ -119,6 +120,13 @@ function (module, $, __, context, helpers, uiForm, section, actions, treeFactory
             //initialize legacy components
             helpers.init();
             uiForm.init();
+
+            //dispatch also extra registered controllers
+            if(config && _.isArray(config.extraRoutes)){
+                _.forEach(config.extraRoutes, function(route){
+                    router.dispatch(route);
+                });
+            }
         }
     };
 });

@@ -62,8 +62,10 @@ define([
          * @param {Object} [options]
          * @param {('left'|'center'|'right')} [options.hPos] - horizontal position relative to the reference element
          * @param {('left'|'center'|'right')} [options.hOrigin] - the origin of the transformation
+         * @param {Number} [options.hOffset] - horizontal offset
          * @param {('top'|'center'|'bottom')} [options.vPos] - vertical position relative to the reference element
          * @param {('top'|'center'|'bottom')} [options.vOrigin] - the origin of the transformation
+         * @param {Number} [options.vOffset] - vertical offset
          * @returns {Component} chains
          */
         alignWith: function alignWith($element, options) {
@@ -76,10 +78,11 @@ define([
          * @param {jQuery} $element - the reference element
          * @param {('left'|'center'|'right')} [hPos] - horizontal position relative to the reference element
          * @param {('left'|'center'|'right')} [hOrigin] - the origin of the transformation
+         * @param {Number} [hOffset] - horizontal offset
          * @returns {Component} chains
          */
-        hAlignWith: function hAlignWith($element, hPos, hOrigin) {
-            var alignedCoords = this._getAlignedCoords($element, { hPos: hPos, hOrigin: hOrigin });
+        hAlignWith: function hAlignWith($element, hPos, hOrigin, hOffset) {
+            var alignedCoords = this._getAlignedCoords($element, { hPos: hPos, hOrigin: hOrigin, hOffset: hOffset });
             return this.moveToX(alignedCoords.x);
         },
 
@@ -88,10 +91,11 @@ define([
          * @param {jQuery} $element - the reference element
          * @param {('top'|'center'|'bottom')} [vPos] - vertical position relative to the reference element
          * @param {('top'|'center'|'bottom')} [vOrigin] - the origin of the transformation
+         * @param {Number} [vOffset] - vertical offset
          * @returns {Component} chains
          */
-        vAlignWith: function vAlignWith($element, vPos, vOrigin) {
-            var alignedCoords = this._getAlignedCoords($element, { vPos: vPos, vOrigin: vOrigin });
+        vAlignWith: function vAlignWith($element, vPos, vOrigin, vOffset) {
+            var alignedCoords = this._getAlignedCoords($element, { vPos: vPos, vOrigin: vOrigin, vOffset: vOffset });
             return this.moveToY(alignedCoords.y);
         },
 
@@ -101,8 +105,10 @@ define([
          * @param {Object} [options]
          * @param {('left'|'center'|'right')} [options.hPos] - horizontal position relative to the reference element
          * @param {('left'|'center'|'right')} [options.hOrigin] - the origin of the transformation
+         * @param {Number} [options.hOffset] - horizontal offset
          * @param {('top'|'center'|'bottom')} [options.vPos] - vertical position relative to the reference element
          * @param {('top'|'center'|'bottom')} [options.vOrigin] - the origin of the transformation
+         * @param {Number} [options.vOffset] - vertical offset
          * @returns {x,y} - the aligned coordinates
          * @private
          */
@@ -142,6 +148,7 @@ define([
                 case 'center':  { x -= componentOuterSize.width / 2; break; }
                 case 'right':   { x -= componentOuterSize.width;     break; }
             }
+            x += options.hOffset || 0;
 
             // compute Y
             switch(vPos) {
@@ -152,6 +159,7 @@ define([
                 case 'center': { y -= componentOuterSize.height / 2; break; }
                 case 'bottom': { y -= componentOuterSize.height;     break; }
             }
+            y += options.vOffset || 0;
 
             return {
                 x: x,

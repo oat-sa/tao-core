@@ -24,11 +24,12 @@ use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
 use oat\tao\model\accessControl\AclProxy;
-use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\log\TaoLoggerAwareInterface;
-use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 
 /**
  * Top level controller
@@ -271,6 +272,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         return $raw[$paramName];
     }
 
+
     /**
      * Get the flow controller
      *
@@ -283,11 +285,19 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         return $this->propagate(new FlowController());
     }
 
+    /**
+     * Get the service Manager
+     *
+     * @deprecated Use $this->propagate or $this->registerService to access ServiceManager functionalities
+     * @deprecated To get the service dependencies manager, use $this->getServiceLocator
+     *
+     * @return ServiceManager
+     */
     protected function getServiceManager()
     {
         try {
             $serviceManager = $this->getOriginalServiceManager();
-        } catch (common_exception_Error $e) {
+        } catch (InvalidServiceManagerException $e) {
             $serviceManager = ServiceManager::getServiceManager();
         }
         return $serviceManager;
