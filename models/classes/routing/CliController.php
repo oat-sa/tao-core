@@ -20,7 +20,6 @@
 
 namespace oat\tao\model\routing;
 
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
@@ -28,7 +27,6 @@ use oat\oatbox\action\Help;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\cliArgument\ArgumentService;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Class CliController
@@ -40,28 +38,15 @@ class CliController implements ServiceManagerAwareInterface
     use ServiceManagerAwareTrait;
 
     /**
-     * @var ActionService
-     */
-    protected $actionService;
-
-    /**
-     * CliController constructor.
-     */
-    public function __construct()
-    {
-        $this->setServiceLocator(ServiceManager::getServiceManager());
-        $this->actionService = $this->getServiceLocator()->get(ActionService::SERVICE_ID);
-    }
-
-    /**
      * @param string $actionIdentifier fully qualified action class name
      * @param array $params Params to be passed to action's __invoke method
-     * @return Report
+     * @return Report|mixed
+     * @throws \common_exception_Error
      */
     public function runAction($actionIdentifier, array $params = [])
     {
         try {
-            $action = $this->actionService->resolve($actionIdentifier);
+            $action = $this->getActionService()->resolve($actionIdentifier);
         } catch (\common_ext_ManifestNotFoundException $e) {
             $action = new Help(null);
         } catch (ResolutionException $e) {
@@ -93,5 +78,13 @@ class CliController implements ServiceManagerAwareInterface
         }
 
         return $report;
+    }
+
+    /**
+     * @return ActionService
+     */
+    protected function getActionService()
+    {
+        return $this->getServiceLocator()->get(ActionService::SERVICE_ID);
     }
 }
