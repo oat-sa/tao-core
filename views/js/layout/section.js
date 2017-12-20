@@ -29,12 +29,11 @@ define([
     _,
     context,
     url,
-    generisRouterFactory
+    generisRouter
 ){
     'use strict';
 
     var sectionApi;
-    var generisRouter = generisRouterFactory();
 
     /**
      * The section API provides you all the methods needed to manage sections.

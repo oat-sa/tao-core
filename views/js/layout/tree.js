@@ -15,12 +15,11 @@ define([
     'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, urlUtil, generisRouterFactory, actionManager, sectionManager, feedback, uri){
+], function($, _, __, context, store, urlUtil, generisRouter, actionManager, sectionManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
     var location = window.history.location || window.location;
-    var generisRouter = generisRouterFactory();
 
     /**
      * The tree factory helps you to instantiate a new tree from the TAO ontology

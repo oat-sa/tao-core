@@ -37,160 +37,158 @@ define([
     'use strict';
 
     /**
-     * The router instance
-     */
-    var generisRouter;
-
-    /**
      * Keep track of the latest known state
      */
     var topState;
 
+    /**
+     * The router instance
+     */
+    var generisRouter = eventifier({
+        /**
+         * To be called on section initial loading or section change.
+         * This method create a new history state or replace the current one. It might be called as a convenient way
+         * to add the sectionId to the current browser Url. In that case, history.replaceState() will be used.
+         * Otherwise, history.pushState().
+         *
+         * @param {String} baseUrl - a base on which to build the stateUrl. Most of the time, it is the current URL from the call point.
+         * @param {String} sectionId - to be saved in the state and added to the Url
+         * @param {('activate'|'show')} restoreWith - the method needed to restore the section
+         */
+        pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
+            var parsedUrl    = urlUtil.parse(baseUrl);
+            var currentQuery = parsedUrl.query;
+            var newQuery     = _.clone(currentQuery);
+            var baseUrlHasSection = currentQuery.section;
 
-    function generisRouterFactory() {
-        if (generisRouter) {
-            return generisRouter;
-        }
+            var stateUrl;
+            var newState = {
+                sectionId: sectionId,
+                restoreWith : restoreWith || 'activate',
+                nodeUri: currentQuery.uri
+            };
 
-        generisRouter = eventifier({
-            /**
-             * To be called on section initial loading or section change.
-             * This method create a new history state or replace the current one. It might be called as a convenient way
-             * to add the sectionId to the current browser Url. In that case, history.replaceState() will be used.
-             * Otherwise, history.pushState().
-             *
-             * @param {String} baseUrl - a base on which to build the stateUrl. Most of the time, it is the current URL from the call point.
-             * @param {String} sectionId - to be saved in the state and added to the Url
-             * @param {('activate'|'show')} restoreWith - the method needed to restore the section
-             */
-            pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
-                var parsedUrl    = urlUtil.parse(baseUrl);
-                var currentQuery = parsedUrl.query;
-                var newQuery     = _.clone(currentQuery);
-                var baseUrlHasSection = currentQuery.section;
+            if (!baseUrlHasSection) {
+                // adding missing section parameter
+                newQuery.section = sectionId;
 
-                var stateUrl;
-                var newState = {
-                    sectionId: sectionId,
-                    restoreWith : restoreWith || 'activate',
-                    nodeUri: currentQuery.uri
-                };
-
-                if (!baseUrlHasSection) {
-                    // adding missing section parameter
-                    newQuery.section = sectionId;
-
-                } else if (sectionId !== currentQuery.section) {
-                    // changing section, we need to remove any uri
-                    newQuery.section = sectionId;
-                    delete newQuery.uri;
-                    delete newState.nodeUri;
-                }
-
-                if (sectionId && !_.isEqual(currentQuery, newQuery)) {
-                    stateUrl = urlUtil.build(parsedUrl.path, newQuery);
-
-                    if (baseUrlHasSection) {
-                        window.history.pushState(newState, null, stateUrl);
-                        this.trigger('pushsectionstate', stateUrl);
-
-                    } else {
-                        window.history.replaceState(newState, null, stateUrl);
-                        this.trigger('replacesectionstate', stateUrl);
-                    }
-                    topState = newState;
-                }
-            },
-
-            /**
-             * To be called on node selection in the tree.
-             * This method create a new history state or replace the current one. It might be called as a convenient way
-             * to add the Uri parameter to the current browser Url. In that case, history.replaceState() will be used.
-             * Otherwise, history.pushState().
-             *
-             * @param {String} baseUrl - a base on which to build the stateUrl. Most of the time, it is the current URL from the call point.
-             * @param {String} nodeUri - to be saved in the state and added to the Url
-             */
-            pushNodeState: function pushNodeState(baseUrl, nodeUri) {
-                var parsedUrl    = urlUtil.parse(baseUrl);
-                var currentQuery = parsedUrl.query;
-                var newQuery     = _.clone(currentQuery);
-                var baseUrlHasUri = currentQuery.uri;
-
-                var currentState = window.history.state || {};
-                var newState = {
-                    sectionId: currentState.sectionId || currentQuery.section || '',
-                    restoreWith : currentState.restoreWith || 'activate',
-                    nodeUri: nodeUri
-                };
-                var stateUrl;
-
-                if (nodeUri !== currentQuery.uri) {
-                    newQuery.uri = nodeUri;
-                }
-
-                if (nodeUri && !_.isEqual(currentQuery, newQuery)) {
-                    stateUrl = urlUtil.build(parsedUrl.path, newQuery);
-
-                    if (baseUrlHasUri) {
-                        window.history.pushState(newState, null, stateUrl);
-                        this.trigger('pushnodestate', stateUrl);
-
-                    } else {
-                        window.history.replaceState(newState, null, stateUrl);
-                        this.trigger('replacenodestate', stateUrl);
-                    }
-                    topState = newState;
-                }
-            },
-
-            /**
-             * Restore a state from the history, by triggering events relevant to the retrieved state.
-             * @param {Boolean} fromPopState - if this method has been called following a popState event
-             */
-            restoreState: function restoreState(fromPopState) {
-                var state = window.history.state || {};
-                if(this.hasRestorableState()){
-                    // generisRouter has already been used
-                    if (fromPopState) {
-                        topState = topState || {};
-
-                        // changing section
-                        if (topState.sectionId !== state.sectionId) {
-                            this.trigger('section' + state.restoreWith, state.sectionId);
-
-                        // changing uri
-                        } else if (state.nodeUri) {
-                            this.trigger('urichange', state.nodeUri, state.sectionId);
-                        }
-
-                    // we are restoring in section initialisation: we only need to deal with the section,
-                    // as uri will be read and set during tree initialisation
-                    } else {
-                        this.trigger('section' + state.restoreWith, state.sectionId);
-                    }
-                    topState = state;
-                }
-            },
-
-            /**
-             * Check that the current state contains the minimum information to restore a state
-             */
-            hasRestorableState: function hasRestorableState() {
-                var state = window.history.state;
-                return state && state.restoreWith && state.sectionId;
+            } else if (sectionId !== currentQuery.section) {
+                // changing section, we need to remove any uri
+                newQuery.section = sectionId;
+                delete newQuery.uri;
+                delete newState.nodeUri;
             }
-        });
+
+            if (sectionId && !_.isEqual(currentQuery, newQuery)) {
+                stateUrl = urlUtil.build(parsedUrl.path, newQuery);
+
+                if (baseUrlHasSection) {
+                    window.history.pushState(newState, null, stateUrl);
+                    this.trigger('pushsectionstate', stateUrl);
+
+                } else {
+                    window.history.replaceState(newState, null, stateUrl);
+                    this.trigger('replacesectionstate', stateUrl);
+                }
+                topState = newState;
+            }
+        },
 
         /**
-         * Trigger the actual routing events.
+         * To be called on node selection in the tree.
+         * This method create a new history state or replace the current one. It might be called as a convenient way
+         * to add the Uri parameter to the current browser Url. In that case, history.replaceState() will be used.
+         * Otherwise, history.pushState().
+         *
+         * @param {String} baseUrl - a base on which to build the stateUrl. Most of the time, it is the current URL from the call point.
+         * @param {String} nodeUri - to be saved in the state and added to the Url
          */
-        $(window).on('popstate', function () {
-            generisRouter.restoreState(true);
-        });
+        pushNodeState: function pushNodeState(baseUrl, nodeUri) {
+            var parsedUrl    = urlUtil.parse(baseUrl);
+            var currentQuery = parsedUrl.query;
+            var newQuery     = _.clone(currentQuery);
+            var baseUrlHasUri = currentQuery.uri;
 
-        return generisRouter;
-    }
+            var currentState = window.history.state || {};
+            var newState = {
+                sectionId: currentState.sectionId || currentQuery.section || '',
+                restoreWith : currentState.restoreWith || 'activate',
+                nodeUri: nodeUri
+            };
+            var stateUrl;
 
-    return generisRouterFactory;
+            if (nodeUri !== currentQuery.uri) {
+                newQuery.uri = nodeUri;
+            }
+
+            if (nodeUri && !_.isEqual(currentQuery, newQuery)) {
+                stateUrl = urlUtil.build(parsedUrl.path, newQuery);
+
+                if (baseUrlHasUri) {
+                    window.history.pushState(newState, null, stateUrl);
+                    this.trigger('pushnodestate', stateUrl);
+
+                } else {
+                    window.history.replaceState(newState, null, stateUrl);
+                    this.trigger('replacenodestate', stateUrl);
+                }
+                topState = newState;
+            }
+        },
+
+        /**
+         * Restore a state from the history, by triggering events relevant to the retrieved state.
+         * @param {Boolean} fromPopState - if this method has been called following a popState event
+         */
+        restoreState: function restoreState(fromPopState) {
+            var state = window.history.state || {};
+            if(this.hasRestorableState()){
+                // generisRouter has already been used
+                if (fromPopState) {
+                    topState = topState || {};
+
+                    // changing section
+                    if (topState.sectionId !== state.sectionId) {
+                        this.trigger('section' + state.restoreWith, state.sectionId);
+
+                    // changing uri
+                    } else if (state.nodeUri) {
+                        this.trigger('urichange', state.nodeUri, state.sectionId);
+                    }
+
+                // we are restoring in section initialisation: we only need to deal with the section,
+                // as uri will be read and set during tree initialisation
+                } else {
+                    this.trigger('section' + state.restoreWith, state.sectionId);
+                }
+                topState = state;
+            }
+        },
+
+        /**
+         * Check that the current state contains the minimum information to restore a state
+         */
+        hasRestorableState: function hasRestorableState() {
+            var state = window.history.state;
+            return state && state.restoreWith && state.sectionId;
+        },
+
+        /**
+         * Add the listener that triggers the actual routing events
+         */
+        init: function init() {
+            $(window).on('popstate.generisRouter', function () {
+                generisRouter.restoreState(true);
+            });
+        },
+
+        /**
+         * Removes the popstate listener
+         */
+        destroy: function destroy() {
+            $(window).off('.generisRouter');
+        }
+    });
+
+    return generisRouter;
 });
