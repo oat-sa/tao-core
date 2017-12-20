@@ -14,34 +14,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
-
-namespace oat\tao\model\providers;
+namespace oat\tao\model\modules;
 
 use oat\oatbox\AbstractRegistry;
 
 /**
- * Store the <b>available</b> providers modules, even if not activated, providers have to be registered.
+ * Store the <b>available</b> plugins modules, even if not activated, plugins have to be registered.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-abstract class AbstractProviderRegistry extends AbstractRegistry
+abstract class AbstractModuleRegistry extends AbstractRegistry
 {
     /**
-     * Register a provider
-     * @param ProviderModule $provider the provider to register
+     * Register a plugin
+     * @param DynamicModule $module the plugin to register
      * @return boolean true if registered
      */
-    public function register(ProviderModule $provider)
+    public function register(DynamicModule $module)
     {
-        if (!is_null($provider) && !empty($provider->getModule())) {
+        if(!is_null($module) && ! empty($module->getModule()) ) {
 
-            //encode the provider into an assoc array
-            $providerData = $provider->toArray();
-
-            self::getRegistry()->set($provider->getModule(), $providerData);
+            self::getRegistry()->set($module->getModule(), $module->toArray());
 
             return true;
         }

@@ -20,7 +20,7 @@
 namespace oat\tao\test\providers;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\providers\AbstractProviderRegistry;
+use oat\tao\model\modules\AbstractModuleRegistry;
 use oat\tao\model\providers\AbstractProviderService;
 use oat\tao\model\providers\ProviderModule;
 use Prophecy\Prophet;
@@ -29,7 +29,7 @@ use Prophecy\Prophet;
  * Concrete class ProviderRegistry
  * @package oat\tao\test\providers
  */
-class ProviderRegistry extends AbstractProviderRegistry
+class ProviderRegistry extends AbstractModuleRegistry
 {
     /**
      * @see \oat\oatbox\AbstractRegistry::getExtension()
