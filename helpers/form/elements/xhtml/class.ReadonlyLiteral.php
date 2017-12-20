@@ -21,17 +21,13 @@
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
- * Class tao_helpers_form_elements_xhtml_Readonlyliteral
+ * Class tao_helpers_form_elements_xhtml_ReadonlyLiteral
  */
-class tao_helpers_form_elements_xhtml_Readonlyliteral extends tao_helpers_form_elements_ReadonlyLiteral
+class tao_helpers_form_elements_xhtml_ReadonlyLiteral extends tao_helpers_form_elements_ReadonlyLiteral
 {
     use XhtmlRenderingTrait;
 
     /**
-     * Short description of method render
-     *
-     * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function render()
