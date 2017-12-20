@@ -268,7 +268,7 @@ class GenerisTreeFactory
     /**
      * @param core_kernel_classes_Class $class
      * @return core_kernel_classes_Class[]
-     * @throws \oat\search\base\exception\SearchGateWayExeption
+     * @throws 
      */
     private function getSubClasses(core_kernel_classes_Class $class)
     {
@@ -280,6 +280,7 @@ class GenerisTreeFactory
         $order = [RDFS_LABEL => 'asc'];
         $queryBuilder->sort($order);
         $result = [];
+        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getInterfaceLanguage());
         foreach ($search->getGateway()->search($queryBuilder) as $subclass) {
             $result[] = $this->getClass($subclass->getUri());
         }
