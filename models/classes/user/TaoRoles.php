@@ -31,4 +31,6 @@ interface TaoRoles
     const SYSTEM_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
 
     const OPERATIONAL_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator';
+
+    const GLOBAL_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole';
 }
