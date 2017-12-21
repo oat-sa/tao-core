@@ -19,7 +19,7 @@
 
 namespace oat\tao\model\plugins;
 
-use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\modules\AbstractModuleService;
 
 /**
  * Manage module plugins. Should be overridden to provide the right PluginRegistry instance and a SERVICE_ID constant.
@@ -27,26 +27,13 @@ use oat\oatbox\service\ConfigurableService;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-abstract class AbstractPluginService extends ConfigurableService
+abstract class AbstractPluginService extends AbstractModuleService
 {
-    /**
-     * @var AbstractPluginRegistry
-     */
-    private $registry;
-
-    /**
-     * Registry setter
-     * @param AbstractPluginRegistry $registry
-     */
-    public function setRegistry(AbstractPluginRegistry $registry)
-    {
-        $this->registry = $registry;
-    }
-
     /**
      * Creates a plugin object from data array
      * @param $data
      * @return PluginModule
+     * @throws \common_exception_InconsistentData
      */
     protected function createFromArray($data)
     {
@@ -60,13 +47,7 @@ abstract class AbstractPluginService extends ConfigurableService
      */
     public function getAllPlugins()
     {
-        $plugins = array_map(function ($value) {
-            return $this->loadPlugin($value);
-        }, $this->registry->getMap());
-
-        return array_filter($plugins, function ($plugin) {
-            return !is_null($plugin);
-        });
+        return parent::getAllModules();
     }
 
     /**
@@ -77,28 +58,7 @@ abstract class AbstractPluginService extends ConfigurableService
      */
     public function getPlugin($id)
     {
-        foreach ($this->registry->getMap() as $plugin) {
-            if ($plugin['id'] == $id) {
-                return $this->loadPlugin($plugin);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Load a plugin from the given data
-     * @param array $data
-     * @return PluginModule|null
-     */
-    private function loadPlugin(array $data)
-    {
-        $plugin = null;
-        try {
-            $plugin = $this->createFromArray($data);
-        } catch (\common_exception_InconsistentData $dataException) {
-            \common_Logger::w('Got inconsistent plugin data, skipping.');
-        }
-        return $plugin;
+        return parent::getModule($id);
     }
 
     /**
@@ -109,12 +69,7 @@ abstract class AbstractPluginService extends ConfigurableService
      */
     public function activatePlugin(PluginModule $plugin)
     {
-        if (!is_null($plugin)) {
-            $plugin->setActive(true);
-            return $this->registry->register($plugin);
-        }
-
-        return false;
+        return parent::activateModule($plugin);
     }
 
     /**
@@ -125,48 +80,29 @@ abstract class AbstractPluginService extends ConfigurableService
      */
     public function deactivatePlugin(PluginModule $plugin)
     {
-        if (!is_null($plugin)) {
-            $plugin->setActive(false);
-            $this->registry->register($plugin);
-        }
+        return parent::deactivateModule($plugin);
     }
-
-
 
     /**
      * Register a list of plugins
      * @param array $plugins
      * @return int The number of registered plugins
+     * @throws \common_exception_InconsistentData
      */
     public function registerPlugins(array $plugins)
     {
-        $count = 0;
-        foreach($plugins as $plugin) {
-            if (is_array($plugin)) {
-                $plugin = $this->createFromArray($plugin);
-            }
-            $this->registry->register($plugin);
-            $count ++;
-        }
-        return $count;
+        return parent::registerModules($plugins);
     }
 
     /**
      * Register a list of plugins gathered by categories
      * @param array $plugins
      * @return int The number of registered plugins
+     * @throws \common_exception_InconsistentData
      * @throws \common_exception_InvalidArgumentType
      */
     public function registerPluginsByCategories(array $plugins)
     {
-        $count = 0;
-        foreach($plugins as $categoryPlugins) {
-            if (is_array($categoryPlugins)) {
-                $count += $this->registerPlugins($categoryPlugins);
-            } else {
-                throw new \common_exception_InvalidArgumentType(self::class, __FUNCTION__, 0, 'array', $categoryPlugins);
-            }
-        }
-        return $count;
+        return parent::registerModulesByCategories($plugins);
     }
 }
