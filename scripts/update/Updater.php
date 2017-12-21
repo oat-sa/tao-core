@@ -998,6 +998,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
             $this->setVersion('14.12.0');
         }
+
+        $this->skip('14.12.0', '14.15.0');
+
+        if ($this->isVersion('14.15.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('14.16.0');
+        }
+
     }
 
     private function migrateFsAccess() {
