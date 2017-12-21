@@ -555,13 +555,13 @@ class tao_models_classes_UserService
      * @param $roles
      * @return array
      */
-    public function getPermittedRoles(core_kernel_classes_Resource $user, array $roles)
+    public function getPermittedRoles(core_kernel_classes_Resource $user, array $roles, $encoded = true)
     {
         $exclude = [];
         if (!$this->userHasRoles($user, TaoRoles::SYSTEM_ADMINISTRATOR)) {
-            $exclude[] = tao_helpers_Uri::encode(TaoRoles::SYSTEM_ADMINISTRATOR);
+            $exclude[] = $encoded ? tao_helpers_Uri::encode(TaoRoles::SYSTEM_ADMINISTRATOR) : TaoRoles::SYSTEM_ADMINISTRATOR;
             if (!$this->userHasRoles($user, TaoRoles::GLOBAL_MANAGER)) {
-                $exclude[] = tao_helpers_Uri::encode(TaoRoles::GLOBAL_MANAGER);
+                $exclude[] = $encoded ? tao_helpers_Uri::encode(TaoRoles::GLOBAL_MANAGER) : TaoRoles::GLOBAL_MANAGER;
             }
         }
         if (count($exclude)) {

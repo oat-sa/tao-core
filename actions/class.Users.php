@@ -340,8 +340,8 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $this->userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
 
                 // leave roles which are not in the allowed list for current user
-                $oldRoles = array_keys($this->userService->getUserRoles($user));
-                $allowedRoles = $this->userService->getPermittedRoles($this->userService->getCurrentUser(), $oldRoles);
+                $oldRoles = $this->userService->getUserRoles($user);
+                $allowedRoles = $this->userService->getPermittedRoles($this->userService->getCurrentUser(), $oldRoles, false);
                 $staticRoles = array_diff($oldRoles, $allowedRoles);
                 $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
 
