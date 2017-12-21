@@ -14,19 +14,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
-namespace oat\tao\model\plugins;
 
-use oat\tao\model\modules\AbstractModuleRegistry;
+namespace oat\tao\model\providers;
+
+use oat\tao\model\modules\DynamicModule;
 
 /**
- * Store the <b>available</b> plugins modules, even if not activated, plugins have to be registered.
+ * A class that represents a frontend provider module.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
- * @deprecated Still exists for compatibility reason. Should be replaced by AbstractModuleRegistry  
  */
-abstract class AbstractPluginRegistry extends AbstractModuleRegistry
+class ProviderModule extends DynamicModule
 {
+
 }
