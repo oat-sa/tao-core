@@ -520,7 +520,11 @@ class tao_models_classes_UserService
 	 */
 	public function unnatachRole(core_kernel_classes_Resource $user, core_kernel_classes_Resource $role)
 	{
-		$this->generisUserService->unnatachRole($user, $role);
+        try {
+            $this->checkCurrentUserAccess($role);
+		    $this->generisUserService->unnatachRole($user, $role);
+        } catch (common_exception_Error $e) {
+        }
 	}
         
 	/**
