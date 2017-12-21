@@ -3,6 +3,7 @@ use oat\oatbox\user\LoginService;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\user\TaoRoles;
 
 /*
  * This program is free software; you can redistribute it and/or
@@ -553,10 +554,10 @@ class tao_models_classes_UserService
     public function getPermittedRoles(core_kernel_classes_Resource $user, array $roles)
     {
         $exclude = [];
-        if (!$this->userHasRoles($user, 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole')) {
-            $exclude[] = tao_helpers_Uri::encode('http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole');
-            if (!$this->userHasRoles($user, 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole')) {
-                $exclude[] = tao_helpers_Uri::encode('http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole');
+        if (!$this->userHasRoles($user, TaoRoles::SYSTEM_ADMINISTRATOR)) {
+            $exclude[] = tao_helpers_Uri::encode(TaoRoles::SYSTEM_ADMINISTRATOR);
+            if (!$this->userHasRoles($user, TaoRoles::GLOBAL_MANAGER)) {
+                $exclude[] = tao_helpers_Uri::encode(TaoRoles::GLOBAL_MANAGER);
             }
         }
         if (count($exclude)) {
@@ -584,14 +585,14 @@ class tao_models_classes_UserService
             }, $roles);
         }
 
-        if (in_array('http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole', $roles)
-            && !$this->userHasRoles($this->getCurrentUser(), 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole')
+        if (in_array(TaoRoles::SYSTEM_ADMINISTRATOR, $roles)
+            && !$this->userHasRoles($this->getCurrentUser(), TaoRoles::SYSTEM_ADMINISTRATOR)
         ) {
             throw new common_exception_Error('Permission denied');
         }
 
-        if (in_array('http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole', $roles)
-            && !$this->userHasRoles($this->getCurrentUser(), ['http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole', 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'])
+        if (in_array(TaoRoles::GLOBAL_MANAGER, $roles)
+            && !$this->userHasRoles($this->getCurrentUser(), [TaoRoles::SYSTEM_ADMINISTRATOR, TaoRoles::GLOBAL_MANAGER])
         ) {
             throw new common_exception_Error('Permission denied');
         }

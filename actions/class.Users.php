@@ -23,6 +23,7 @@ use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
+use oat\generis\model\GenerisRdf;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -336,7 +337,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                     unset($values[PROPERTY_USER_DEFLG]);
                 }
 
-                $this->userService->checkCurrentUserAccess($values[\oat\generis\model\GenerisRdf::PROPERTY_USER_ROLES]);
+                $this->userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
 
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
