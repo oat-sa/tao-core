@@ -184,6 +184,7 @@ $navHeight: 64;
             }
         }
 
+
         .main-menu {
             li {
                 min-width: 80px;
@@ -255,6 +256,12 @@ $navHeight: 64;
                     right: -1px;
                 }
             }
+        }
+    }
+
+    .title-box {
+        &:empty{
+            display:none;
         }
     }
 }
@@ -410,9 +417,10 @@ body > footer {
     }
 }
 
+
 @media (max-width: 1024px) {
     body {
-        &:not(.delivery-scope), &:not(.small-navi) {
+        &:not(.delivery-scope):not(.small-navi) {
             @include mobile-navi();
         }
     }
@@ -421,8 +429,9 @@ body > footer {
 // works in conjunction with layout/nav.js
 body {
     &.oversized-nav {
-        &:not(.delivery-scope), &:not(.small-navi) {
+        &:not(.delivery-scope):not(.small-navi) {
             @include mobile-navi();
         }
     }
 }
+
