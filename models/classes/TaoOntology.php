@@ -30,6 +30,7 @@ interface TaoOntology
 	const TEST_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test';
 	const DELIVERY_CLASS_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery';
 	const LIST_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
+	const PROPERTY_UPDATED_AT = 'http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt';
 	const LIST_LEVEL_PROP = 'http://www.tao.lu/Ontologies/TAO.rdf#level';
 	const GUI_ORDER_PROP = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder';
 	const LANGUAGES_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
