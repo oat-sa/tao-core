@@ -69,15 +69,15 @@ class Bootstrap implements ServiceManagerAwareInterface
 
     const CONFIG_SESSION_HANDLER = 'session';
 
-	/**
-	 * @var boolean if the context has been started
-	 */
-	protected static $isStarted = false;
+    /**
+     * @var boolean if the context has been started
+     */
+    protected static $isStarted = false;
 
-	/**
-	 * @var boolean if the context has been dispatched
-	 */
-	protected static $isDispatched = false;
+    /**
+     * @var boolean if the context has been dispatched
+     */
+    protected static $isDispatched = false;
 
     /**
      * Bootstrap constructor.
@@ -111,23 +111,23 @@ class Bootstrap implements ServiceManagerAwareInterface
         }
     }
 
-	/**
-	 * Check if the current context has been started
-	 * @return boolean
-	 */
-	public static function isStarted()
-	{
-		return self::$isStarted;
-	}
+    /**
+     * Check if the current context has been started
+     * @return boolean
+     */
+    public static function isStarted()
+    {
+        return self::$isStarted;
+    }
 
-	/**
-	 * Check if the current context has been dispatched
-	 * @return boolean
-	 */
-	public static function isDispatched()
-	{
-		return self::$isDispatched;
-	}
+    /**
+     * Check if the current context has been dispatched
+     * @return boolean
+     */
+    public static function isDispatched()
+    {
+        return self::$isDispatched;
+    }
 
     /**
      * Check if the platform is ready
@@ -139,34 +139,34 @@ class Bootstrap implements ServiceManagerAwareInterface
         return $this->getMaintenanceService()->isPlatformReady();
     }
 
-	/**
-	 * Start all the services:
-	 *  1. Start the session
-	 *  2. Update the include path
-	 *  3. Include the global helpers
-	 *  4. Connect the current user to the generis API
-	 *  5. Initialize the internationalization
-	 *  6. Check the application' state
-	 */
-	public function start()
-	{
+    /**
+     * Start all the services:
+     *  1. Start the session
+     *  2. Update the include path
+     *  3. Include the global helpers
+     *  4. Connect the current user to the generis API
+     *  5. Initialize the internationalization
+     *  6. Check the application' state
+     */
+    public function start()
+    {
         if(!self::$isStarted){
-			$this->session();
-			$this->setDefaultTimezone();
-			$this->registerErrorhandler();
-			self::$isStarted = true;
-		}
-	}
-	
-	protected function dispatchHttp()
-	{
-	    $isAjax = tao_helpers_Request::isAjax();
-	    
-	    if(tao_helpers_Context::check('APP_MODE')){
-	        if(!$isAjax){
-	            $this->scripts();
-	        }
-	    }
+            $this->session();
+            $this->setDefaultTimezone();
+            $this->registerErrorhandler();
+            self::$isStarted = true;
+        }
+    }
+
+    protected function dispatchHttp()
+    {
+        $isAjax = tao_helpers_Request::isAjax();
+
+        if(tao_helpers_Context::check('APP_MODE')){
+            if(!$isAjax){
+                $this->scripts();
+            }
+        }
 
         //Catch all exceptions
         try {
@@ -181,10 +181,10 @@ class Bootstrap implements ServiceManagerAwareInterface
         } catch(Exception $e){
             $this->catchError($e);
         }
-	    
-	    // explicitly close session
-	    session_write_close();
-	}
+
+        // explicitly close session
+        session_write_close();
+    }
 
     /**
      * Put the platform on maintenance
@@ -204,44 +204,44 @@ class Bootstrap implements ServiceManagerAwareInterface
         }
     }
 
-	protected function dispatchCli()
-	{
-	    $params = $_SERVER['argv'];
-	    $file = array_shift($params);
+    protected function dispatchCli()
+    {
+        $params = $_SERVER['argv'];
+        $file = array_shift($params);
 
-	    if (count($params) < 1) {
-	        $report = new Report(Report::TYPE_ERROR, __('No action specified'));
-	    } else {
+        if (count($params) < 1) {
+            $report = new Report(Report::TYPE_ERROR, __('No action specified'));
+        } else {
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
             $this->propagate($cliController);
             $report = $cliController->runAction($actionIdentifier, $params);
-	    }
-	     
-	    echo \helpers_Report::renderToCommandline($report);
-	}
+        }
 
-	/**
-	 * Dispatch the current http request into the control loop:
-	 *  1. Load the ressources
-	 *  2. Start the MVC Loop from the ClearFW
+        echo \helpers_Report::renderToCommandline($report);
+    }
+
+    /**
+     * Dispatch the current http request into the control loop:
+     *  1. Load the ressources
+     *  2. Start the MVC Loop from the ClearFW
      *  manage Exception:
-	 */
-	public function dispatch()
-	{
-		if(!self::$isDispatched){
-		    if (PHP_SAPI == 'cli') {
-		        $this->dispatchCli();
-		    } else {
+     */
+    public function dispatch()
+    {
+        if(!self::$isDispatched){
+            if (PHP_SAPI == 'cli') {
+                $this->dispatchCli();
+            } else {
                 $this->dispatchHttp();
-		    }
+            }
             self::$isDispatched = true;
         }
     }
-    
+
     /**
      * Catch any errors
-     * return a http response in function of client accepted mime type 
+     * return a http response in function of client accepted mime type
      *
      * @param Exception $exception
      */
@@ -266,7 +266,7 @@ class Bootstrap implements ServiceManagerAwareInterface
         }
 
         // set the session cookie to HTTP only.
-        
+
         $this->configureSessionHandler();
 
         $sessionParams = session_get_cookie_params();
@@ -274,12 +274,12 @@ class Bootstrap implements ServiceManagerAwareInterface
         $isSecureFlag = \common_http_Request::isHttps();
         session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $isSecureFlag, TRUE);
         session_name(GENERIS_SESSION_NAME);
-        
+
         if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
-            
+
             // Resume the session
             session_start();
-            
+
             //cookie keep alive, if lifetime is not 0
             if ($sessionParams['lifetime'] !== 0) {
                 $expiryTime = $sessionParams['lifetime'] + time();
@@ -287,7 +287,7 @@ class Bootstrap implements ServiceManagerAwareInterface
             }
         }
     }
-	
+
     private function configureSessionHandler() {
         $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
         if ($sessionHandler !== false) {
@@ -301,25 +301,25 @@ class Bootstrap implements ServiceManagerAwareInterface
             );
         }
     }
-    
-	/**
-	 * register a custom Errorhandler
-	 */
-	protected function registerErrorhandler()
-	{
-        // register the logger as erorhandler
-		common_Logger::singleton()->register();
-	}
 
-	/**
-	 * Set Timezone quickfix
-	 */
-	protected function setDefaultTimezone()
-	{
-	    if(function_exists("date_default_timezone_set") && defined('TIME_ZONE')){
-	        date_default_timezone_set(TIME_ZONE);
-	    }
-	}
+    /**
+     * register a custom Errorhandler
+     */
+    protected function registerErrorhandler()
+    {
+        // register the logger as erorhandler
+        common_Logger::singleton()->register();
+    }
+
+    /**
+     * Set Timezone quickfix
+     */
+    protected function setDefaultTimezone()
+    {
+        if(function_exists("date_default_timezone_set") && defined('TIME_ZONE')){
+            date_default_timezone_set(TIME_ZONE);
+        }
+    }
 
     /**
      * Start the MVC Loop from the ClearFW
