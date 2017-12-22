@@ -9,7 +9,9 @@ define([
     'context',
     'router',
     'helpers',
+    'uri',
     'uiForm',
+    'layout/generisRouter',
     'layout/section',
     'layout/actions',
     'layout/tree',
@@ -19,7 +21,7 @@ define([
     'layout/nav',
     'layout/search'
 ],
-function (module, _, $, __, context, router, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
+function (module, _, $, __, context, router, helpers, uri, uiForm, generisRouter, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
     'use strict';
 
     /**
@@ -33,6 +35,7 @@ function (module, _, $, __, context, router, helpers, uiForm, section, actions, 
             var $doc = $(document);
 
             versionWarning.init();
+            generisRouter.init();
 
             //just before an ajax request
             $doc.ajaxSend(function () {
@@ -98,7 +101,8 @@ function (module, _, $, __, context, router, helpers, uiForm, section, actions, 
                                 section      : context.section,
                                 classUri     : rootNode ? rootNode : undefined
                             },
-                            actions : treeActions
+                            actions : treeActions,
+                            loadNode : uri.encode(section.defaultUri)
                         });
                         $treeElt.on('ready.taotree', function() {
                             $actionBar.addClass('active');
