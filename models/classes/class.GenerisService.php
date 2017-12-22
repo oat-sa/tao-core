@@ -47,11 +47,14 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 
     use OntologyAwareTrait;
 
+    /** @deprecated use GenerisRdf::CLASS_GENERIS_RESOURCE */
 	const PROPERTY_GENERIS_RESOURCE = 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource';
 
+    /** @deprecated use GenerisRdf::GENERIS_TRUE */
 	const PROPERTY_INSTANCE_BOOLEAN_TRUE ='http://www.tao.lu/Ontologies/generis.rdf#True';
 
-	const PROPERTY_INSTANCE_BOOLEAN_FALSE = 'http://www.tao.lu/Ontologies/generis.rdf#False';
+    /** @deprecated use GenerisRdf::GENERIS_FALSE */
+    const PROPERTY_INSTANCE_BOOLEAN_FALSE = 'http://www.tao.lu/Ontologies/generis.rdf#False';
 	/**
      * constructor
      *
