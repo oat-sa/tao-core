@@ -10,6 +10,7 @@ define([
     'router',
     'helpers',
     'uiForm',
+    'layout/generisRouter',
     'layout/section',
     'layout/actions',
     'layout/tree',
@@ -19,7 +20,7 @@ define([
     'layout/nav',
     'layout/search'
 ],
-function (module, _, $, __, context, router, helpers, uiForm, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
+function (module, _, $, __, context, router, helpers, uiForm, generisRouter, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
     'use strict';
 
     /**
@@ -33,6 +34,7 @@ function (module, _, $, __, context, router, helpers, uiForm, section, actions, 
             var $doc = $(document);
 
             versionWarning.init();
+            generisRouter.init();
 
             //just before an ajax request
             $doc.ajaxSend(function () {

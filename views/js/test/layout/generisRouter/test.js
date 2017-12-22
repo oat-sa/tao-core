@@ -22,7 +22,7 @@ define([
     'lodash',
     'jquery',
     'layout/generisRouter'
-], function (_, $, generisRouterFactory) {
+], function (_, $, generisRouter) {
     'use strict';
 
     var location = window.history.location || window.location;
@@ -30,14 +30,14 @@ define([
     var baseUrlAbs = 'http://tao/tao/Main/index?structure=items&ext=taoItems';
     var baseUrlRel = '/tao/Main/index?structure=items&ext=taoItems';
 
+    generisRouter.init();
+
     QUnit.module('Module');
 
     QUnit.test('Module export', function (assert) {
-        QUnit.expect(3);
+        QUnit.expect(1);
 
-        assert.ok(typeof generisRouterFactory === 'function', 'The module expose a factory function');
-        assert.ok(typeof generisRouterFactory() === 'object', 'The factory returns an object');
-        assert.equal(generisRouterFactory(), generisRouterFactory(), 'The factory always returns the same object');
+        assert.ok(typeof generisRouter === 'object', 'The module expose an object');
     });
 
     QUnit
@@ -53,10 +53,9 @@ define([
             {title: 'trigger'}
         ])
         .test('Instance API', function (data, assert) {
-            var instance = generisRouterFactory();
             QUnit.expect(1);
 
-            assert.ok(typeof instance[data.title] === 'function', 'instance implements ' + data.title);
+            assert.ok(typeof generisRouter[data.title] === 'function', 'instance implements ' + data.title);
         });
 
     QUnit.module('.pushSectionState()', {
@@ -86,7 +85,6 @@ define([
             }
         ])
         .asyncTest('Push new state in history when section parameter already exists', function(data, assert) {
-            var generisRouter = generisRouterFactory();
             var state = window.history.state;
 
             QUnit.expect(6);
@@ -123,15 +121,14 @@ define([
             },
             {
                 title: 'add the section parameter and keep the uri parameter',
-                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i15151515151515',
+                baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555',
                 sectionId: 'authoring',
                 restoreWith: 'activate',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i15151515151515',
-                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i15151515151515' + '&section=authoring'
+                nodeUri: 'http://tao/mytao.rdf#i555555555555555',
+                expectedUrl: baseUrlRel + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555' + '&section=authoring'
             }
         ])
         .asyncTest('Replace current state when section does not exists', function(data, assert) {
-            var generisRouter = generisRouterFactory();
             var state = window.history.state;
 
             QUnit.expect(6);
@@ -171,7 +168,6 @@ define([
             }
         ])
         .asyncTest('Does not change state', function(data, assert) {
-            var generisRouter = generisRouterFactory();
 
             generisRouter
                 .off('.test')
@@ -204,51 +200,50 @@ define([
         .cases([
             {
                 title: 'Change the uri parameter. No section param, no existing state.',
-                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: '',
                 expectedRestoreWith: 'activate',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
                 setExistingState: _.noop
             },
             {
                 title: 'Change the uri parameter. With section param, no existing state.',
-                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: 'manage_items',
                 expectedRestoreWith: 'activate',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
                 setExistingState: _.noop
             },
             {
                 title: 'Change the uri parameter. No section param, existing state.',
-                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: 'authoring',
                 expectedRestoreWith: 'show',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                setExistingState: function setExistingState(generisRouter) {
-                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                setExistingState: function setExistingState(gr) {
+                    gr.pushSectionState(baseUrlAbs, 'authoring', 'show');
                 }
             },
             {
                 title: 'Change the uri parameter. Section param, existing state, different sections (should never happen. This is only to assert the assessment priority.',
-                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: 'authoring',
                 expectedRestoreWith: 'show',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                setExistingState: function setExistingState(generisRouter) {
-                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                setExistingState: function setExistingState(gr) {
+                    gr.pushSectionState(baseUrlAbs, 'authoring', 'show');
                 }
             }
         ])
         .asyncTest('Push new state in history when uri parameter already exists', function(data, assert) {
-            var generisRouter = generisRouterFactory();
             var state = window.history.state;
 
             QUnit.expect(6);
@@ -281,50 +276,49 @@ define([
             {
                 title: 'Add the uri parameter. No section param, no existing state.',
                 baseUrl: baseUrlAbs,
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: '',
                 expectedRestoreWith: 'activate',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
                 setExistingState: _.noop
             },
             {
                 title: 'Add the uri parameter. With section param, no existing state.',
                 baseUrl: baseUrlAbs + '&section=manage_items',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: 'manage_items',
                 expectedRestoreWith: 'activate',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
                 setExistingState: _.noop
             },
             {
                 title: 'Add the uri parameter. No section param, existing state.',
                 baseUrl: baseUrlAbs,
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: 'authoring',
                 expectedRestoreWith: 'show',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                setExistingState: function setExistingState(generisRouter) {
-                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                setExistingState: function setExistingState(gr) {
+                    gr.pushSectionState(baseUrlAbs, 'authoring', 'show');
                 }
             },
             {
                 title: 'Change the uri parameter. Section param, existing state, different sections (should never happen. This is only to assess priority.',
                 baseUrl: baseUrlAbs + '&section=manage_items',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
                 expectedSectionId: 'authoring',
                 expectedRestoreWith: 'show',
-                expectedNodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                setExistingState: function setExistingState(generisRouter) {
-                    generisRouter.pushSectionState(baseUrlAbs, 'authoring', 'show');
+                expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
+                setExistingState: function setExistingState(gr) {
+                    gr.pushSectionState(baseUrlAbs, 'authoring', 'show');
                 }
             }
         ])
         .asyncTest('Replace current state when uri parameter does not exists', function(data, assert) {
-            var generisRouter = generisRouterFactory();
             var state = window.history.state;
 
             QUnit.expect(6);
@@ -356,17 +350,15 @@ define([
         .cases([
             {
                 title: 'Uri parameter is the same',
-                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888',
-                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888'
+                baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888',
+                nodeUri: 'http://tao/mytao.rdf#i888888888888888'
             },
             {
                 title: 'Uri parameter is missing',
-                baseUrl: baseUrlAbs + '&uri=http_2_tao_1_mytao_0_rdf_3_i8888888888888888'
+                baseUrl: baseUrlAbs + '&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888'
             }
         ])
         .asyncTest('Does not change state', function(data, assert) {
-            var generisRouter = generisRouterFactory();
-
             generisRouter
                 .off('.test')
                 .on('pushnodestate.test', function() {
@@ -395,7 +387,6 @@ define([
 
 
     QUnit.asyncTest('On move back with a section change, trigger the sectionactivate event if previous state was pushed with the "activate" param', function(assert) {
-        var generisRouter = generisRouterFactory();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
 
@@ -424,7 +415,6 @@ define([
     });
 
     QUnit.asyncTest('On move back with a section change, trigger the sectionshow event if previous state was pushed with the "show" param', function(assert) {
-        var generisRouter = generisRouterFactory();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring';
         var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
 
@@ -453,9 +443,8 @@ define([
     });
 
     QUnit.asyncTest('On move back with uri change and no section change, trigger the urichange event', function(assert) {
-        var generisRouter = generisRouterFactory();
         var url1 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items';
-        var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items&uri=http_2_tao_1_mytao_0_rdf_3_i1111111111111111';
+        var url2 = 'http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555';
 
         QUnit.expect(2);
 
@@ -471,12 +460,12 @@ define([
             })
             .on('urichange.test', function(uri) {
                 assert.ok(true, 'urichange has been called');
-                assert.equal(uri, 'http_2_tao_1_mytao_0_rdf_3_i1111111111111111', 'correct param is passed to the callback');
+                assert.equal(uri, 'http://tao/mytao.rdf#i111111111111111', 'correct param is passed to the callback');
                 QUnit.start();
             });
 
-        generisRouter.pushNodeState(url1, 'http_2_tao_1_mytao_0_rdf_3_i1111111111111111');
-        generisRouter.pushNodeState(url2, 'http_2_tao_1_mytao_0_rdf_3_i8888888888888888');
+        generisRouter.pushNodeState(url1, 'http://tao/mytao.rdf#i111111111111111');
+        generisRouter.pushNodeState(url2, 'http://tao/mytao.rdf#i888888888888888');
 
         window.history.back();
     });
@@ -491,7 +480,6 @@ define([
     });
 
     QUnit.asyncTest('On move back with a page reload (= different extension), trigger sectionactivate ', function(assert) {
-        var generisRouter = generisRouterFactory();
         var url = '/tao/Main/index?structure=tests&ext=taoItems&section=manage_tests';
 
         QUnit.expect(2);

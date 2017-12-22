@@ -59,11 +59,11 @@ require(['jquery', 'i18n'], function($, __){
             $toggleDetails.text(__('Show detailed report'));
         }
     });
-    
+
     // Continue button
     $('#import-continue').on('click', function() {
         $('.tree').trigger('refresh.taotree', [{
-            uri : <?php echo json_encode(get_data('selectNode')); ?>
+            loadNode : <?php echo json_encode(get_data('selectNode')); ?>
         }]);
     });
 });

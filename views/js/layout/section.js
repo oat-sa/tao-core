@@ -22,19 +22,20 @@ define([
     'jquery',
     'lodash',
     'context',
+    'uri',
     'util/url',
     'layout/generisRouter'
 ], function(
     $,
     _,
     context,
+    uri,
     url,
-    generisRouterFactory
+    generisRouter
 ){
     'use strict';
 
     var sectionApi;
-    var generisRouter = generisRouterFactory();
 
     /**
      * The section API provides you all the methods needed to manage sections.
@@ -63,7 +64,8 @@ define([
             var $openersContainer;
             var parsedUrl = url.parse(location.href);
             var defaultSection = parsedUrl.query.section;
-            var defaultUri = parsedUrl.query.uri;
+            // URI parameter is URL-encoded, but the tree needs a TAO-encoded URI!
+            var defaultUri = uri.encode(decodeURIComponent(parsedUrl.query.uri));
 
             this.options = options || {};
 
