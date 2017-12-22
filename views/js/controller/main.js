@@ -9,6 +9,7 @@ define([
     'context',
     'router',
     'helpers',
+    'uri',
     'uiForm',
     'layout/generisRouter',
     'layout/section',
@@ -20,7 +21,7 @@ define([
     'layout/nav',
     'layout/search'
 ],
-function (module, _, $, __, context, router, helpers, uiForm, generisRouter, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
+function (module, _, $, __, context, router, helpers, uri, uiForm, generisRouter, section, actions, treeFactory, versionWarning, sectionHeight, loadingBar, nav, search) {
     'use strict';
 
     /**
@@ -101,7 +102,7 @@ function (module, _, $, __, context, router, helpers, uiForm, generisRouter, sec
                                 classUri     : rootNode ? rootNode : undefined
                             },
                             actions : treeActions,
-                            loadNode : section.defaultUri
+                            loadNode : uri.encode(section.defaultUri)
                         });
                         $treeElt.on('ready.taotree', function() {
                             $actionBar.addClass('active');
