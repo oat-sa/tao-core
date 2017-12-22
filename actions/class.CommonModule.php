@@ -220,7 +220,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             $sucesses = $firstSubReport->getSuccesses();
         }
 
-        if (!is_null($data)) {
+        if (!is_null($data) && $data instanceof core_kernel_classes_Resource) {
             $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
         }
         $this->setData('report', $report);
