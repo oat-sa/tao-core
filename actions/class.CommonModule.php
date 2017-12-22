@@ -23,8 +23,10 @@
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
+use oat\oatbox\log\TaoLoggerAwareInterface;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
@@ -38,9 +40,10 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
  * @package tao
  *         
  */
-abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface
+abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
     use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
+    use LoggerAwareTrait;
 
     /**
      * The Modules access the models throught the service instance

@@ -20,7 +20,8 @@
 
 namespace oat\tao\model\routing;
 
-use oat\oatbox\service\ServiceManager;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
@@ -28,7 +29,6 @@ use oat\oatbox\action\Help;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\cliArgument\ArgumentService;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Class CliController
@@ -49,7 +49,6 @@ class CliController implements ServiceManagerAwareInterface
      */
     public function __construct()
     {
-        $this->setServiceLocator(ServiceManager::getServiceManager());
         $this->actionService = $this->getServiceLocator()->get(ActionService::SERVICE_ID);
     }
 
