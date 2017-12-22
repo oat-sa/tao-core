@@ -39,10 +39,6 @@ define([
 ], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager, versionWarning, loadingBar, nav, search, treeLoader){
     'use strict';
 
-    var defaultTree = {
-
-    };
-
     var logger = loggerFactory('controller/main');
 
     /**
@@ -65,18 +61,14 @@ define([
         var treeUrl = urlUtil.build([context.root_url, $container.data('url')]);
 
         //get the current tree based on the type attr, or fallback to jstree
-        try {
-            treeProvider = treeLoader.getProvider($container.data('type'));
-        } catch(err) {
-            treeProvider = treeLoader.getProvider('jstree');
-        }
+        treeProvider = treeLoader($container.data('type'));
 
         return treeProvider.init($container, {
-            id : $container.attr('id'),
-            url : treeUrl,
+            id           : $container.attr('id'),
+            url          : treeUrl,
             rootClassUri : $container.data('rootnode'),
-            icon : $container.data('icon'),
-            actions : treeActions
+            icon         : $container.data('icon'),
+            actions      : treeActions
         });
     };
 
