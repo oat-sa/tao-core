@@ -18,32 +18,15 @@
  */
 namespace oat\tao\model\plugins;
 
-use oat\oatbox\AbstractRegistry;
+use oat\tao\model\modules\AbstractModuleRegistry;
 
 /**
  * Store the <b>available</b> plugins modules, even if not activated, plugins have to be registered.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
+ * @deprecated Still exists for compatibility reason. Should be replaced by AbstractModuleRegistry  
  */
-abstract class AbstractPluginRegistry extends AbstractRegistry
+abstract class AbstractPluginRegistry extends AbstractModuleRegistry
 {
-    /**
-     * Register a plugin
-     * @param PluginModule $plugin the plugin to register
-     * @return boolean true if registered
-     */
-    public function register(PluginModule $plugin)
-    {
-        if(!is_null($plugin) && ! empty($plugin->getModule()) ) {
-
-            //encode the plugin into an assoc array
-            $pluginData = $plugin->toArray();
-
-            self::getRegistry()->set($plugin->getModule(),  $pluginData);
-
-            return true;
-        }
-        return false;
-    }
 }

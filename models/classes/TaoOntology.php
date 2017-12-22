@@ -34,9 +34,13 @@ interface TaoOntology
 	const LIST_LEVEL_PROP = 'http://www.tao.lu/Ontologies/TAO.rdf#level';
 	const GUI_ORDER_PROP = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder';
 	const LANGUAGES_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
+
+	/** @deprecated use TaoRoles::GLOBAL_MANAGER */
 	const PROPERTY_INSTANCE_ROLE_GLOBALMANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole';
 	const PROPERTY_INSTANCE_ROLE_TAO_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole';
+	/** @deprecated use TaoRoles::SYSTEM_ADMINISTRATOR */
 	const PROPERTY_INSTANCE_ROLE_SYSADMIN = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
+	/** @deprecated use TaoRoles::BACK_OFFICE */
 	const PROPERTY_INSTANCE_ROLE_BACKOFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
 	const PROPERTY_INSTANCE_ROLE_FRONTOFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole';
 	const PROPERTY_INSTANCE_ROLE_SERVICE = 'http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole';
@@ -65,6 +69,7 @@ interface TaoOntology
 	const INDEX_PROPERTY_TOKENIZER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer';
 	const INDEX_PROPERTY_DEFAULT_SEARCH = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch';
 	const PROPERTY_LOCK = 'http://www.tao.lu/Ontologies/TAO.rdf#Lock';
+	/** @deprecated use TaoRoles::BASE_USER */
 	const PROPERTY_INSTANCE_ROLE_BASE_USER = 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole';
 	const PROPERTY_USER_FIRST_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao';
 	const PROPERTY_USER_LAST_EXTENSION = 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed';
