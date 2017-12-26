@@ -280,8 +280,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
         }
 
-
-        $perspectiveTypes = array(Perspective::GROUP_DEFAULT, 'settings');
+        $perspectiveTypes = array(Perspective::GROUP_DEFAULT, 'settings', 'persistent');
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }

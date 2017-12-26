@@ -18,6 +18,7 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-multi-select:before { @include icon-multi-select; }
 .icon-clipboard:before { @include icon-clipboard; }
 .icon-filebox:before { @include icon-filebox; }
 .icon-click-to-speak:before { @include icon-click-to-speak; }
@@ -225,3 +226,4 @@
 .icon-compress:before { @include icon-compress; }
 .icon-map-o:before { @include icon-map-o; }
 .icon-variable:before { @include icon-variable; }
+.icon-tooltip:before { @include icon-tooltip; }

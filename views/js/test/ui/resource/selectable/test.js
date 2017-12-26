@@ -70,6 +70,7 @@ define([
         { title : 'getNodes' },
         { title : 'setNodes' },
         { title : 'addNode' },
+        { title : 'removeNode' },
         { title : 'hasNode' },
         { title : 'getSelection' },
         { title : 'clearSelection' },
@@ -97,7 +98,7 @@ define([
 
     QUnit.test('accessors', function(assert) {
         var instance = selectable(componentMock);
-        QUnit.expect(6);
+        QUnit.expect(9);
 
         assert.ok(! instance.hasNode('item-1'));
         assert.ok(! instance.hasNode('item-3'));
@@ -110,6 +111,17 @@ define([
         assert.ok(! instance.hasNode('item-12'));
         instance.addNode('item-12', { uri: 'item-12', num: 12});
         assert.ok(instance.hasNode('item-12'));
+
+        instance.removeNode('item-12');
+        assert.ok(! instance.hasNode('item-12'));
+
+        instance.removeNode('item-1');
+        assert.ok(! instance.hasNode('item-1'));
+
+        assert.deepEqual(instance.getNodes(), {
+            'item-2' : nodesMock[1],
+            'item-3' : nodesMock[2]
+        });
     });
 
 

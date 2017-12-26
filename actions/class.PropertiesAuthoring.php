@@ -1,4 +1,7 @@
 <?php
+
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\tao\model\search\Index;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
@@ -25,7 +28,9 @@ use oat\tao\model\TaoOntology;
  * Regrouping all actions related to authoring
  * of properties
  */
-class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
+class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
+{
+    use EventManagerAwareTrait;
 
     /**
      * @requiresRight id READ
@@ -44,6 +49,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
             if ($myForm->isValid()) {
                 if ($clazz instanceof core_kernel_classes_Resource) {
                     $this->setData("selectNode", tao_helpers_Uri::encode($clazz->getUri()));
+                    $properties = $this->hasRequestParameter('properties') ? $this->getRequestParameter('properties') : [];
+                    $this->getEventManager()->trigger(new ClassFormUpdatedEvent($clazz, $properties));
                 }
                 $this->setData('message', __('%s Class saved', $clazz->getLabel()));
                 $this->setData('reload', true);
@@ -129,9 +136,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule {
         }
         
         if ($success) {
-            return $this->returnJson(array(
+            $this->returnJson(array(
                 'success' => true
             ));
+            return;
         } else {
             $this->returnError(__('Unable to remove the property.'));
         }

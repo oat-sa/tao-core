@@ -57,12 +57,19 @@ define([
 
     var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
 
+    var selectionModes = {
+        single : 'single',
+        multiple : 'multiple',
+        both : 'both'
+    };
+
     var defaultConfig = {
         type : __('resources'),
         noResultsText : _('No resources found'),
         searchPlaceholder : __('Search'),
         icon : 'item',
-        multiple : true,
+        selectionMode : selectionModes.single,
+        selectClass : false,
         filters: false,
         formats : {
             list : {
@@ -86,16 +93,17 @@ define([
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
      * @param {String} config.classUri - the root Class URI
+     * @param {Object|[]} [config.classes] - the classes hierarchy for the class selector
      * @param {Object[]} config.formats - the definition of the supported viewer/selector component
      * @param {Objet[]} [config.nodes] - the nodes to preload, the format is up to the formatComponent
      * @param {String} [config.icon] - the icon class that represents a resource
      * @param {String} [config.type] - describes the resource type
-     * @param {Boolean} [config.multiple = true] - multiple vs unique selection
+     * @param {Boolean} [config.selectionMode] - multiple or single selection mode
      * @param {Number} [config.limit = 30] - the default page size for data paging
      * @param {Object|Boolean} [config.filters = false] - false or filters config, see ui/resource/filters
      * @returns {resourceSelector} the component
      */
-    return function resourceSelectorFactory($container, config){
+    var resourceSelectorFactory = function resourceSelectorFactory($container, config){
         var $classContainer;
         var $resultArea;
         var $noResults;
@@ -106,6 +114,7 @@ define([
         var $selectCtrlLabel;
         var $filterToggle;
         var $filterContainer;
+        var $selectionToggle;
 
         var resourceSelectorApi = {
 
@@ -269,6 +278,26 @@ define([
             },
 
             /**
+             * Let's you change the selection mode
+             * @param {String} newMode - single or multiple
+             * @returns {resourceSelector} chains
+             */
+            changeSelectionMode : function changeSelectionMode(newMode){
+                if(this.is('rendered') && this.config.selectionMode !== newMode && selectionModes[newMode]){
+                    this.config.multiple = newMode === selectionModes.multiple;
+                    this.selectionComponent.setState('multiple', this.config.multiple);
+                    this.setState('multiple', this.config.multiple);
+
+                    if(this.config.multiple){
+                        hider.show($selectCtrlLabel);
+                    } else {
+                        hider.hide($selectCtrlLabel);
+                    }
+                }
+                return this;
+            },
+
+            /**
              * Update the component with the given resources
              * @param {Object[]} resources - the data, with at least a URI as key and as property
              * @param {Object} params - the query parameters
@@ -290,6 +319,7 @@ define([
                     }
 
                     hider.hide($noResults);
+
 
                     if(!this.selectionComponent){
 
@@ -332,6 +362,51 @@ define([
                     this.filtersComponent.update(filterConfig);
                 }
                 return this;
+            },
+
+            /**
+             * Remove a given node, from the selection component and the node list.
+             *
+             * @param {Object|String} node - the node or the node URI
+             * @param {String} [node.uri]
+             * @returns {resourceSelector} chains
+             */
+            removeNode : function removeNode(node){
+                var uri;
+                if(this.is('rendered') && this.selectionComponent){
+                    uri = _.isString(node) ? node : node.uri;
+                    if(this.selectionComponent.hasNode(uri)){
+                        this.selectionComponent.removeNode(uri);
+                        $('[data-uri="' + uri + '"]', $resultArea).remove();
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Add manually a node.
+             *
+             * @param {Object} node - the node to add
+             * @param {String} node.uri
+             * @param {String} node.label
+             * @param {String} [node.type=instance] - instance or class
+             * @param {String} [parentUri] - where to append the new node
+             * @returns {resourceSelector} chains
+             */
+            addNode : function addNode(node, parentUri){
+                if(this.is('rendered') && node && node.uri && this.selectionComponent){
+                    if(!this.selectionComponent.hasNode(node.uri)){
+                        if(!node.type){
+                            node.type = 'instance';
+                        }
+                        this.selectionComponent.update([node], {
+                            classUri: parentUri || this.classUri,
+                            format:   this.format,
+                            limit  : this.config.limit
+                        });
+                    }
+                }
+                return this;
             }
         };
 
@@ -346,6 +421,8 @@ define([
                 this.searchQuery = {};
                 this.classUri    = this.config.classUri;
                 this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
+                this.config.switchMode = this.config.selectionMode === selectionModes.both;
+                this.config.multiple =  this.config.selectionMode === selectionModes.multiple;
 
                 this.render($container);
             })
@@ -356,16 +433,17 @@ define([
                 return new Promise(function(resolve){
                     var $component = self.getElement();
 
-                    $classContainer  = $('.class-context', $component);
-                    $resultArea      = $('main', $component);
-                    $noResults       = $('.no-results', $resultArea);
-                    $searchField     = $('.search input', $component);
-                    $filterToggle    = $('.filters-opener', $component);
-                    $filterContainer = $('.filters-container', $component);
-                    $viewFormats     = $('.context > a', $component);
-                    $selectNum       = $('.selected-num', $component);
-                    $selectCtrl      = $('.selection-control input', $component);
-                    $selectCtrlLabel = $('.selection-control label', $component);
+                    $classContainer   = $('.class-context', $component);
+                    $resultArea       = $('main', $component);
+                    $noResults        = $('.no-results', $resultArea);
+                    $searchField      = $('.search input', $component);
+                    $filterToggle     = $('.filters-opener', $component);
+                    $filterContainer  = $('.filters-container', $component);
+                    $viewFormats      = $('.context > a', $component);
+                    $selectNum        = $('.selected-num', $component);
+                    $selectCtrl       = $('.selection-control input', $component);
+                    $selectCtrlLabel  = $('.selection-control label', $component);
+                    $selectionToggle  = $('.selection-toggle', $component);
 
                     //the search field
                     $searchField.on('keyup', _.debounce(function(e){
@@ -393,6 +471,21 @@ define([
                             .changeFormat(format)
                             .query();
                     });
+
+                    //mode switcher
+                    if(self.config.selectionMode === selectionModes.both){
+                        $selectionToggle.on('click', function(e){
+                            e.preventDefault();
+                            self.changeSelectionMode(self.config.multiple ? selectionModes.single : selectionModes.multiple);
+                        });
+
+                        $resultArea.on('mousedown', function(e){
+                            if(e.ctrlKey && !self.config.multiple){
+                                self.changeSelectionMode(selectionModes.multiple);
+                            }
+                        });
+                    }
+
 
                     //the select all control
                     $selectCtrl.on('change', function(){
@@ -501,4 +594,11 @@ define([
         });
         return resourceSelector;
     };
+
+    /**
+     * Exposes the selection modes
+     */
+    resourceSelectorFactory.selectionModes = selectionModes;
+
+    return resourceSelectorFactory;
 });
