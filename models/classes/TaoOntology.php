@@ -22,17 +22,37 @@ namespace oat\tao\model;
 
 interface TaoOntology
 {
+    /** @deprecated use TaoOntology::CLASS_URI_OBJECT */
 	const OBJECT_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
+	const CLASS_URI_OBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
+	/** @deprecated use TaoOntology::CLASS_URI_GROUP  */
 	const GROUP_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group';
+	const CLASS_URI_GROUP = 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group';
+	/** @deprecated use TaoOntology::CLASS_URI_ITEM */
 	const ITEM_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
+	const CLASS_URI_ITEM = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
+	/** @deprecated use TaoOntology::CLASS_URI_RESULT */
 	const RESULT_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOResult.rdf#Result';
+	const CLASS_URI_RESULT = 'http://www.tao.lu/Ontologies/TAOResult.rdf#Result';
+	/** @deprecated use TaoOntology::CLASS_URI_SUBJECT  */
 	const SUBJECT_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject';
+	const CLASS_URI_SUBJECT = 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject';
+	/** @deprecated use TaoOntology::CLASS_URI_TEST */
 	const TEST_CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test';
+	const CLASS_URI_TEST = 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test';
+	/** @deprecated use TaoOntology::CLASS_URI_DELIVERY */
 	const DELIVERY_CLASS_URI = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery';
+	const CLASS_URI_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery';
+	/** @deprecated use TaoOntology::CLASS_URI_LIST */
 	const LIST_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
+	const CLASS_URI_LIST = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
 	const PROPERTY_UPDATED_AT = 'http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt';
+	/** @deprecated use TaoOntology::PROPERTY_LIST_LEVEL */
 	const LIST_LEVEL_PROP = 'http://www.tao.lu/Ontologies/TAO.rdf#level';
+	const PROPERTY_LIST_LEVEL = 'http://www.tao.lu/Ontologies/TAO.rdf#level';
+    /** @deprecated use TaoOntology::PROPERTY_GUI_ORDER */
 	const GUI_ORDER_PROP = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder';
+	/** @deprecated use Language::CLASS_URI_LANGUAGES  */
 	const LANGUAGES_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
 
 	/** @deprecated use TaoRoles::GLOBAL_MANAGER */
@@ -42,32 +62,47 @@ interface TaoOntology
 	const PROPERTY_INSTANCE_ROLE_SYSADMIN = 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole';
 	/** @deprecated use TaoRoles::BACK_OFFICE */
 	const PROPERTY_INSTANCE_ROLE_BACKOFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
-	const PROPERTY_INSTANCE_ROLE_FRONTOFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole';
-	const PROPERTY_INSTANCE_ROLE_SERVICE = 'http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole';
+	/** @deprecated use TaoRoles::DELIVERY */
 	const PROPERTY_INSTANCE_ROLE_DELIVERY = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
 	const PROPERTY_INSTALLATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#installator';
 	const PROPERTY_TAO_PROPERTY = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty';
-	const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
-	const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
-	const PROPERTY_INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
+	/** @deprecated use Language::CLASS_URI_LANGUAGES */
+    const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
+    /** @deprecated use Language::PROPERTY_LANGUAGE_USAGES */
+    const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
+    /** @deprecated use Language::PROPERTY_LANGUAGE_ORIENTATION */
+    const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
+    /** @deprecated use Language::CLASS_URI_LANGUAGES_USAGES */
+    const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
+    /** @deprecated use Language::INSTANCE_LANGUAGE_USAGE_GUI */
+    const PROPERTY_INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
+    /** @deprecated use Language::INSTANCE_LANGUAGE_USAGE_DATA */
+    const PROPERTY_STANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
+    const PROPERTY_INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
 	const PROPERTY_INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
-	const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
-	const PROPERTY_INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
-	const PROPERTY_STANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
 	const CLASS_URI_PROCESS_EXECUTIONS = 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544';
 	const CLASS_URI_MANAGEMENT_ROLE = 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole';
 	const CLASS_URI_WORKER_ROLE = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole';
 	const CLASS_URI_TAO_USER = 'http://www.tao.lu/Ontologies/TAO.rdf#User';
 	const DEFAULT_USER_URI_SUFFIX = '#superUser';
+	/** @deprecated use Oauth::CLASS_URI_OAUTH_CONSUMER*/
 	const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
-	const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
-	const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
-	const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
+    /** @deprecated use Oauth::PROPERTY_OAUTH_KEY*/
+    const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
+    /** @deprecated use Oauth::PROPERTY_OAUTH_SECRET*/
+    const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
+    /** @deprecated use Oauth::PROPERTY_OAUTH_CALLBACK*/
+    const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
+    /** @deprecated use Search::PROPERTY_INDEX */
 	const INDEX_PROPERTY = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';
-	const INDEX_PROPERTY_FUZZY_MATCHING = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching';
-	const INDEX_PROPERTY_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier';
-	const INDEX_PROPERTY_TOKENIZER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer';
-	const INDEX_PROPERTY_DEFAULT_SEARCH = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch';
+    /** @deprecated use Search::PROPERTY_INDEX_FUZZY_MATCHING */
+    const INDEX_PROPERTY_FUZZY_MATCHING = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching';
+    /** @deprecated use Search::PROPERTY_INDEX_IDENTIFIER */
+    const INDEX_PROPERTY_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier';
+    /** @deprecated use Search::PROPERTY_INDEX_TOKENIZER */
+    const INDEX_PROPERTY_TOKENIZER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer';
+    /** @deprecated use Search::PROPERTY_DEFAULT_SEARCH */
+    const INDEX_PROPERTY_DEFAULT_SEARCH = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch';
 	const PROPERTY_LOCK = 'http://www.tao.lu/Ontologies/TAO.rdf#Lock';
 	/** @deprecated use TaoRoles::BASE_USER */
 	const PROPERTY_INSTANCE_ROLE_BASE_USER = 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole';

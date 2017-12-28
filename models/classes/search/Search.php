@@ -26,12 +26,19 @@ use oat\oatbox\PhpSerializable;
 
 /**
  * Search interface
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
-interface Search extends PhpSerializable 
+interface Search extends PhpSerializable
 {
     const SERVICE_ID = 'tao/search';
+
+    const PROPERTY_INDEX = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';
+    const PROPERTY_INDEX_FUZZY_MATCHING = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching';
+    const PROPERTY_INDEX_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier';
+    const PROPERTY_INDEX_TOKENIZER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer';
+    const PROPERTY_DEFAULT_SEARCH = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch';
+
     /**
      * Search for instances using a Lucene query
      *
@@ -46,31 +53,31 @@ interface Search extends PhpSerializable
 
     /**
      * Index the resources given as a traversable
-     * 
+     *
      * @param \Traversable $resourceTraversable
      */
     public function fullReIndex(\Traversable $resourceTraversable);
-    
+
     /**
      * (Re)Generate the index for a given resource
-     * 
+     *
      * @param core_kernel_classes_Resource $resource
      * @return boolean true if successfully indexed
      */
     public function index(core_kernel_classes_Resource $resource);
-    
+
     /**
      * Remove a resource from the index
-     * 
+     *
      * @param string $resourceId
      * @return boolean true if successfully removed
      */
     public function remove($resourceId);
-    
+
     /**
      * Whenever or not the current implementation supports
      * custom indexes
-     * 
+     *
      * @return boolean
      */
     public function supportCustomIndex();
