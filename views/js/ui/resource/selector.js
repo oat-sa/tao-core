@@ -721,6 +721,9 @@ define([
                 var nodesCount = _.size(this.selectionComponent.getNodes());
                 var selectedCount = _.size(selected);
 
+                console.log('nodesCount', nodesCount);
+                console.log('selectedCount', selectedCount);
+
                 //the number selected at the bottom
                 $selectNum.text(selectedCount);
 

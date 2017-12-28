@@ -320,25 +320,6 @@ define([
                     this.query();
                 }
             })
-            .after('change', function(selection){
-                var self = this;
-                //if a class node has been seletected manually, open it
-                _.defer(function(){
-                    if(self.config.selectClass){
-                        _.filter(selection, {type : 'class'})
-                        .forEach(function(node){
-                            var $node = $('[data-uri="' + node.uri + '"]', self.getElement());
-                            if($node.hasClass('closed') && ! $node.hasClass('empty')){
-                                if(!$node.children('ul').children('li').length){
-                                    self.query({ classUri : $node.data('uri') });
-                                }  else {
-                                    $node.removeClass('closed');
-                                }
-                            }
-                        });
-                    }
-                });
-            })
             .on('query', function(){
                 this.setState('loading', true);
             })
