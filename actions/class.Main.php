@@ -116,14 +116,14 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setView('layout.tpl', 'tao');
 	    }
 	}
-	
-	/**
-	 * Authentication form,
-	 * default page, main entry point to the user
-     *
-	 * @return void
-	 */
-	public function login()
+
+    /**
+     * Authentication form,
+     * default page, main entry point to the user
+     * @return void
+     * @throws core_kernel_persistence_Exception
+     */
+    public function login()
 	{
 	    /** @var LoginService $loginService */
 	    $loginService = $this->getServiceManager()->get(LoginService::SERVICE_ID);
@@ -152,23 +152,28 @@ class tao_actions_Main extends tao_actions_CommonModule
         if ($form->isSubmited()) {
             if ($form->isValid()) {
                 /** @var EventManager $eventManager */
-                $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+                $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-                if ($loginService->login($form->getValue('login'), $form->getValue('password'))) {
-                    $eventManager->trigger(new LoginSucceedEvent($form->getValue('login')));
-
-                    common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
-
-                    if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
-                        $this->redirect($_REQUEST['redirect']);
-                    } else {
-                        $this->forward('entry');
-                    }
+                if ($loginService->isBlocked($form->getValue('login'))) {
+                    common_Logger::i("User '" . $form->getValue('login') . "' has been blocked.");
+                    $this->setData('errorMessage', __('You have been blocked due to too many failed login attempts or by the administrator. Please try again later or ask your administrator.'));
                 } else {
-                    $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
+                    if ($loginService->login($form->getValue('login'), $form->getValue('password'))) {
+                        $eventManager->trigger(new LoginSucceedEvent($form->getValue('login')));
 
-                    common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
-                    $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
+                        common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
+
+                        if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
+                            $this->redirect($_REQUEST['redirect']);
+                        } else {
+                            $this->forward('entry');
+                        }
+                    } else {
+                        $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
+
+                        common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
+                        $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
+                    }
                 }
             }
 		}
