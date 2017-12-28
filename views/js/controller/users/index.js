@@ -2,8 +2,32 @@
  * @author Jérôme Bogaert <jerome@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/datatable'], function(module, $, __, helpers, section, feedback) {
+define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/dialog/confirm', 'ui/datatable'], function (module, $, __, helpers, section, feedback, dialogConfirm) {
     'use strict';
+
+    var runUserAction = function runUserAction(uri, action, confirmMessage) {
+        var tokenName = module.config().xsrfTokenName;
+        var data = {};
+
+        data.uri = uri;
+        data[tokenName] = $.cookie(tokenName);
+
+        dialogConfirm(confirmMessage, function () {
+            $.ajax({
+                url : helpers._url(action, 'Users', 'tao'),
+                data : data,
+                type : 'POST'
+            }).done(function(response) {
+                if (response.deleted) {
+                    feedback().success(response.message);
+                } else {
+                    feedback().error(response.message);
+                }
+                $('#user-list').datatable('refresh');
+            });
+        });
+
+    };
 
     /**
      * Edit a user (shows the edit section)
@@ -21,36 +45,24 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
      * Removes a user
      * @param {String} uri - the user uri
      */
-    var removeUser = function removeUser(uri){
-        var tokenName = module.config().xsrfTokenName;
-        var data = {};
-
-        data.uri = uri;
-        data[tokenName] = $.cookie(tokenName);
-
-        //TODO use a confirm component
-        if (window.confirm(__('Please confirm user deletion'))) {
-            $.ajax({
-                url : helpers._url('delete', 'Users', 'tao'),
-                data : data,
-                type : 'POST'
-            }).done(function(response){
-                if(response.deleted){
-                    feedback().success(response.message);
-                } else {
-                    feedback().error(response.message);
-                }
-                $('#user-list').datatable('refresh');
-            });
-        }
+    var removeUser = function removeUser(uri) {
+        runUserAction(uri, 'delete', __('Please confirm user deletion'));
 	};
 
+    /**
+     * Blocks a user
+     * @param {String} uri - the user uri
+     */
     var blockUser = function blockUser(uri) {
-
+        runUserAction(uri, 'block', __('Please confirm user blocking'));
     };
 
+    /**
+     * Reset (unblocks) a user
+     * @param {String} uri - the user uri
+     */
     var resetUser = function resetUser(uri) {
-
+        runUserAction(uri, 'reset', __('Please confirm user resetting'));
     };
 
     /**
@@ -60,14 +72,14 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
     return {
         start : function(){
             var $userList = $('#user-list');
-    
-            section.on('show', function(section){
-                if(section.id === 'list_users'){
+
+            section.on('show', function (section) {
+                if (section.id === 'list_users') {
                     $userList.datatable('refresh');
                 }
             });
 
-            //initialize the user manager component
+            // initialize the user manager component
             $userList.datatable({
                 url: helpers._url('data', 'Users', 'tao'),
                 filter: true,
