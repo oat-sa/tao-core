@@ -24,8 +24,11 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
 use \common_user_User;
 use oat\tao\helpers\ControllerHelper;
-use oat\taoBackOffice\model\menuStructure\Action as MenuAction; 
+use oat\taoBackOffice\model\menuStructure\Action as MenuAction;
+
+
 /**
+ * Manage Menu Actions
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -33,12 +36,25 @@ class ActionService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/menuaction';
 
+    /**
+     * Expose the access levels
+     */
     const ACCESS_DENIED    = 0;
     const ACCESS_GRANTED   = 1;
     const ACCESS_UNDEFINED = 2;
 
+    /**
+     * Keep an index of resolved actions
+     */
     private $resolvedActions = [];
 
+    /**
+     * Has a node access to an action
+     * @param MenuAction        $action the menu action
+     * @param common_user_User  $user   the user to check
+     * @param array             $node   the node/resource to verify
+     * @return int                      the access level
+     */
     public function hasAccess(MenuAction $action, common_user_User $user, array $node){
 
         $resolvedAction = $this->getResolvedAction($action);
@@ -64,6 +80,13 @@ class ActionService extends ConfigurableService
         return self::ACCESS_UNDEFINED;
     }
 
+    /**
+     * Compute the permissions of a node against a list of actions
+     * @param MenuAction[]      $actions the menu actions
+     * @param common_user_User  $user   the user to check
+     * @param array             $node   the node/resource to verify
+     * @return array                    the computed permissions as actionId => boolean
+     */
     public function computePermissions(array $actions, \common_user_User $user, array $node)
     {
         $permissions = [];
@@ -76,6 +99,11 @@ class ActionService extends ConfigurableService
         return $permissions;
     }
 
+    /**
+     * Get the action resolved against itself in the current context
+     * @param MenuAction $action the action
+     * @return array the resolved action
+     */
     private function getResolvedAction(MenuAction $action)
     {
         $actionId = $action->getId();
