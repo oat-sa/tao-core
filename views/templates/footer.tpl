@@ -24,7 +24,7 @@ use oat\tao\helpers\Template;
         }]);
         <?php if (has_data('selectNode')): ?>
             actionManager.trigger('refresh', {
-                uri : <?php echo json_encode(get_data('selectNode')); ?>
+                uri : <?php echo json_encode(\tao_helpers_Uri::decode(get_data('selectNode'))); ?>,
             });
         <?php else : ?>
         actionManager.trigger('refresh');

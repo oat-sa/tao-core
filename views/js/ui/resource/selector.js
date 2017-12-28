@@ -93,6 +93,24 @@ define([
     };
 
     /**
+     * Filter and extract classes from a resource tree
+     * @param {Object[]} resources - the resource tree
+     * @returns {Object[]} contains only classes with URI and label
+     */
+    var filterClasses = function filterClasses(resources){
+        return _(resources)
+            .filter({ type : nodeTypes.class })
+            .map(function(resource){
+                var classNode = _.pick(resource, ['uri', 'label']);
+
+                if(resource.children){
+                    classNode.children = filterClasses(resource.children);
+                }
+                return classNode;
+            }).value();
+    };
+
+    /**
      * The factory that creates the resource selector component
      *
      * @param {jQueryElement} $container - where to append the component
@@ -330,6 +348,10 @@ define([
                     hider.hide($noResults);
 
 
+                    if(params.updateClasses && this.classSelector){
+                        this.classSelector.updateNodes(filterClasses(resources));
+                    }
+
                     if(!this.selectionComponent){
 
                         this.selectionComponent = componentFactory($resultArea, _.defaults({
@@ -522,8 +544,11 @@ define([
                         this.off('update.refresh');
                         this.selectDefaultNode(node);
                     });
+
                     this.reset()
-                        .query();
+                        .query({
+                            updateClasses : true
+                        });
                 }
                 return this;
             }

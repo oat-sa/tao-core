@@ -88,7 +88,6 @@ define([
                                 self.select(node);
                             });
                             actionManager.on('refresh', function(node){
-                                debugger;
                                 self.refresh(node || defaultNode);
                             });
 

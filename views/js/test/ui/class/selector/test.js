@@ -73,6 +73,8 @@ define([
         { title : 'hasNode' },
         { title : 'removeNode' },
         { title : 'addNode' },
+        { title : 'updateNode' },
+        { title : 'updateNodes' },
     ]).test('Instance API ', function(data, assert) {
         var instance = classSelector();
         assert.equal(typeof instance[data.title], 'function', 'The classSelector exposes the method "' + data.title);
@@ -413,6 +415,44 @@ define([
             assert.ok(this.hasNode(node), 'The node is added');
             assert.equal($('.options [data-uri="' + node.uri + '"]', $element).length, 1,  'The node is now in the options');
             assert.equal($parentNode.parent('li').find('ul > li').length, 1,  'The parent node has now a new child');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('update a node', function(assert) {
+        var uri      = 'http://bertao/tao.rdf#i14727190988218272';
+        var label    = 'Sales Directors';
+        var newLabel = 'Foo Directors';
+
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(8);
+
+        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+
+        classSelector($container, {
+            classes : classes,
+            classUri: uri,
+        })
+        .on('render', function(){
+            var $element = this.getElement();
+            var $selectableNode = $('.options [data-uri="' + uri + '"]', $element);
+
+            assert.ok(this.hasNode(uri), 'The node exists');
+            assert.equal($selectableNode.length, 1,  'The node is in the options');
+            assert.equal($selectableNode.text().trim(), label,  'The node label is correct');
+
+            assert.equal($('a.selected', $container).text().trim(), label,  'The node is also the selected node');
+            assert.equal(this.getValue(), uri,  'There selected uri is correct');
+
+            this.updateNode({
+                uri : uri,
+                label : newLabel
+            });
+
+            assert.equal($selectableNode.text().trim(), newLabel,  'The node label has changed');
+            assert.equal($('a.selected', $container).text().trim(), newLabel,  'The selection label has also changed');
 
             QUnit.start();
         });

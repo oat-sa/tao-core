@@ -96,7 +96,10 @@ define([
 
                         $selected
                             .text(classList[uri].label)
-                            .attr('title', classList[uri].label)
+                            .attr({
+                                'title'    : classList[uri].label,
+                                'data-uri' : uri
+                            })
                             .data('uri', uri)
                             .removeClass('empty');
 
@@ -144,6 +147,7 @@ define([
                             .text(this.config.placeholder)
                             .removeAttr('title')
                             .data('uri', null)
+                            .removeAttr('data-uri')
                             .addClass('empty');
 
 
@@ -209,6 +213,8 @@ define([
                 var subTree;
                 var $parentNode;
                 if(this.is('rendered') && node && !this.hasNode(node)){
+
+                    //this will also update the classList
                     subTree = buildTree([node]);
 
                     if(parentUri){
@@ -227,6 +233,48 @@ define([
                 }
                 return this;
             },
+
+            /**
+             * Update a node (the label for now)
+             *
+             * @param {Object} node - the node to update
+             * @param {String} node.uri
+             * @param {String} node.label
+             * @returns {classSelector} chains
+             */
+            updateNode : function updateNode(node){
+                if(node && node.uri && this.hasNode(node)  && classList[node.uri].label !== node.label){
+                    classList[node.uri].label = node.label;
+                    if(this.is('rendered')){
+
+                        $('[data-uri="' + node.uri + '"]', this.getElement())
+                            .attr('title', node.label)
+                            .text(node.label);
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Update multiple nodes, recursively
+             * @see {classSelector#updateNode}
+             *
+             * @param {Object[]} node - the node to update
+             * @param {String} node.uri
+             * @param {String} node.label
+             * @param {Object[]} node.children
+             * @returns {classSelector} chains
+             */
+            updateNodes : function updateNodes(nodes){
+                var self = this;
+                _.forEach(nodes, function(node){
+                    if(node.children){
+                        self.updateNodes(node.children);
+                    }
+                    self.updateNode(node);
+                });
+                return this;
+            }
 
         }, defaultConfig)
             .setTemplate(selectorTpl)
@@ -261,13 +309,6 @@ define([
 
                     $options.toggleClass('folded');
                 });
-
-                $options.on('mouseleave', function(){
-                    _.delay(function(){
-                        $options.addClass('folded');
-                    }, 600);
-                });
-
             })
             .on('destroy', function(){
                 classList = {};
