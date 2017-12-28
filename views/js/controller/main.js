@@ -36,7 +36,8 @@ define([
     'layout/nav',
     'layout/search',
     'layout/tree/loader',
-], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager, versionWarning, loadingBar, nav, search, treeLoader){
+    'layout/section-height',
+], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager, versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
     var logger = loggerFactory('controller/main');
@@ -118,6 +119,7 @@ define([
                 switch (section.type) {
                     case 'tree':
                         section.panel.addClass('content-panel');
+                        sectionHeight.init(section.panel);
 
                         //set up the tree
                         $('.taotree', section.panel).each(function() {
@@ -127,6 +129,7 @@ define([
                             sectionTree($treeElt)
                                 .then(function(){
                                     $actionBar.addClass('active');
+                                    sectionHeight.setHeights(section.panel);
                                 })
                                 .catch(function(err){
                                     logger.error(err);
