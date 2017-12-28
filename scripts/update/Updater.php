@@ -1006,7 +1006,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.16.0');
         }
 
-        $this->skip('14.16.0', '14.18.2');
+        $this->skip('14.16.0', '14.19.0');
     }
 
     private function migrateFsAccess() {
