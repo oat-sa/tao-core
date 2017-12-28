@@ -99,9 +99,9 @@ interface TaoOntology
     const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
     /** @deprecated use tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION */
     const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
-    /** @deprecated use tao_models_classes_LanguageService::PROPERTY_ORIENTATION_LTR */
+    /** @deprecated use tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR */
     const PROPERTY_INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
-    /** @deprecated use tao_models_classes_LanguageService::PROPERTY_ORIENTATION_RTL */
+    /** @deprecated use tao_models_classes_LanguageService::INSTANCE_ORIENTATION_RTL */
     const PROPERTY_INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     /** @deprecated use tao_models_classes_LanguageService::CLASS_URI_LANGUAGES_USAGES */
     const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
