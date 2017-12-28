@@ -33,12 +33,6 @@ interface Search extends PhpSerializable
 {
     const SERVICE_ID = 'tao/search';
 
-    const PROPERTY_INDEX = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';
-    const PROPERTY_INDEX_FUZZY_MATCHING = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching';
-    const PROPERTY_INDEX_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier';
-    const PROPERTY_INDEX_TOKENIZER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer';
-    const PROPERTY_DEFAULT_SEARCH = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch';
-
     /**
      * Search for instances using a Lucene query
      *

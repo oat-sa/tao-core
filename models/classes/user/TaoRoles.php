@@ -35,4 +35,6 @@ interface TaoRoles
     const GLOBAL_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole';
 
     const DELIVERY = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
+
+    const TAO_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole';
 }
