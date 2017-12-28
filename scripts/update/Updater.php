@@ -99,6 +99,7 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
+use oat\tao\scripts\install\RegisterActionService;
 
 /**
  *
@@ -1007,6 +1008,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('14.16.0', '14.18.2');
+
+        if ($this->isVersion('14.18.2')) {
+
+            $action = new RegisterActionService();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+
+            $this->setVersion('14.19.0');
+        }
     }
 
     private function migrateFsAccess() {

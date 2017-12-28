@@ -31,6 +31,7 @@ use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
+use oat\tao\scripts\install\RegisterActionService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -39,7 +40,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '14.18.2',
+    'version' => '14.19.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=5.13.0',
@@ -102,6 +103,7 @@ return array(
             SetContainerService::class,
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
+            RegisterActionService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
