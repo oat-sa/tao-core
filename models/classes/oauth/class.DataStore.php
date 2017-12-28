@@ -1,23 +1,23 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *			   2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *			   2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
+ *
  */
 
 use oat\tao\model\TaoOntology;
@@ -32,12 +32,15 @@ use IMSGlobal\LTI\OAuth\OAuthToken;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
+
  */
 class tao_models_classes_oauth_DataStore
 	extends OAuthDataStore
 {
-
+    const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
+    const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
+    const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
+    const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
 	/**
 	 * Helper function to find the OauthConsumer RDF Resource
 	 *
@@ -62,7 +65,7 @@ class tao_models_classes_oauth_DataStore
 
 		return $returnValue;
 	}
-	
+
 	public function getOauthConsumer(core_kernel_classes_Resource $consumer)
 	{
 	    $values = $consumer->getPropertiesValues(array(
@@ -85,7 +88,7 @@ class tao_models_classes_oauth_DataStore
 	    }
         return new OAuthConsumer($consumer_key, $secret, $callbackUrl);
 	}
-	
+
 
 	/**
 	 * returns the OauthConsumer for the specified key
@@ -102,7 +105,7 @@ class tao_models_classes_oauth_DataStore
 		$consumer = $this->findOauthConsumerResource($consumer_key);
 		$secret			= (string)$consumer->getUniquePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_OAUTH_SECRET));
 		$callbackUrl	= null;
-		
+
 		$returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);
 
 		return $returnValue;
@@ -162,7 +165,7 @@ class tao_models_classes_oauth_DataStore
 	/**
 	 * Should create a new access token
 	 * not implemented
-	 * 
+	 *
 	 * @access public
 	 * @author Joel Bout, <joel@taotesting.com>
 	 * @param  token
