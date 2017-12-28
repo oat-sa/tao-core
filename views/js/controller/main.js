@@ -37,7 +37,7 @@ define([
     'layout/search',
     'layout/tree/loader',
     'layout/section-height',
-], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager, versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
+], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
     var logger = loggerFactory('controller/main');
@@ -97,8 +97,6 @@ define([
             //navigation bindings
             nav.init();
 
-            //search component
-            search.init();
 
             //initialize sections
             sections.on('activate', function(section) {
@@ -115,6 +113,9 @@ define([
 
                 //initialize actions
                 actionManager.init(section.panel);
+
+                //search component
+                search.init();
 
                 switch (section.type) {
                     case 'tree':

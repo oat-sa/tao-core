@@ -19,9 +19,10 @@ use oat\tao\helpers\Template;
         var currentSection = section.current().selected;
         $trees = (currentSection && currentSection.panel && currentSection.panel.length) ?
             $('.tree', currentSection.panel) : $('.tree:visible');
-        $trees.trigger('refresh.taotree', [{
+/*        $trees.trigger('refresh.taotree', [{
             selectNode : <?=json_encode(get_data('selectNode'))?>
         }]);
+*/
         <?php if (has_data('selectNode')): ?>
             actionManager.trigger('refresh', {
                 uri : <?php echo json_encode(\tao_helpers_Uri::decode(get_data('selectNode'))); ?>,

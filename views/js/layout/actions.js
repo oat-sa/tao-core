@@ -25,7 +25,7 @@ define([
     'core/promise',
     'lib/uuid',
     'layout/actions/binder',
-    'layout/actions/common'
+    'layout/actions/common',
 ], function($, _, eventifier, Promise, uuid, binder, commonActions){
     'use strict';
 

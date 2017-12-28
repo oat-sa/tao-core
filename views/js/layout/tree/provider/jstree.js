@@ -552,10 +552,18 @@ define([
 
                     //bind events from the definition below
                     _.forEach(events, function(callback, name){
-                        $container.off(name + '.taotree')
+                        $container
+                            .off(name + '.taotree')
                             .on(name + '.taotree', function(){
                                 callback.apply(this, Array.prototype.slice.call(arguments, 1));
                             });
+                    });
+
+                    //forward some events
+                    actionManager.on('refresh', function(params){
+                        if($container.is(':visible')){
+                            $container.trigger('refresh.taotree', [params]);
+                        }
                     });
 
                     // workaround to fix dublicate tree bindings on multiple page loads

@@ -27,14 +27,11 @@ define([
     'context',
     'layout/section',
     'layout/actions/binder',
-    'layout/search',
-    'layout/filter',
     'uri',
     'ui/feedback',
     'ui/dialog/confirm'
-], function(module, $, __, _, appContext, section, binder, search, toggleFilter, uri, feedback, confirmDialog) {
+], function(module, $, __, _, appContext, section, binder, uri, feedback, confirmDialog) {
     'use strict';
-
 
     /**
      * Register common actions.
@@ -376,60 +373,6 @@ define([
             };
             _moveNode(this.url, data);
         });
-
-        /**
-         * This action helps to filter tree content.
-         *
-         * @this the action (once register it is bound to an action object)
-         */
-        binder.register('filter', function filter(){
-            $('#panel-' + appContext.section + ' .search-form').slideUp();
-
-            toggleFilter($('#panel-' + appContext.section + ' .filter-form'));
-        });
-
-        /**
-         * Register the removeNode action: removes a resource.
-         *
-         * @this the action (once register it is bound to an action object)
-         *
-         * @param {Object} actionContext - the current actionContext
-         * @param {String} [actionContext.uri]
-         * @param {String} [actionContext.classUri]
-         */
-        binder.register('launchFinder', function remove(actionContext){
-
-
-            var data = _.pick(actionContext, ['uri', 'classUri', 'id']);
-            // used to avoid same query twice
-            var uniqueValue = data.uri || data.classUri || '';
-            var $container  = $('.search-form [data-purpose="search"]');
-
-            $('.filter-form').slideUp();
-
-            if($container.is(':visible')){
-                $('.search-form').slideUp();
-                search.reset();
-                return;
-            }
-
-            if($container.data('current') === uniqueValue) {
-                $('.search-form').slideDown();
-                return;
-            }
-
-            $.ajax({
-                url: this.url,
-                type: "GET",
-                data: data,
-                dataType: 'html'
-            }).done(function(response){
-                $container.data('current', uniqueValue);
-                search.init($container, response);
-                $('.search-form').slideDown();
-            });
-        });
-
 
         /**
          * Register the launchEditor action.
