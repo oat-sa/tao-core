@@ -19,11 +19,14 @@
  *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+namespace oat\tao\model\oauth;
 
 use oat\tao\model\TaoOntology;
 use IMSGlobal\LTI\OAuth\OAuthDataStore;
 use IMSGlobal\LTI\OAuth\OAuthConsumer;
 use IMSGlobal\LTI\OAuth\OAuthToken;
+use oat\oatbox\service\ConfigurableService;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Tao Implementation of an OAuthDatastore
@@ -34,9 +37,11 @@ use IMSGlobal\LTI\OAuth\OAuthToken;
  * @package tao
  
  */
-class tao_models_classes_oauth_DataStore
-	extends OAuthDataStore
+class DataStore	extends ConfigurableService
 {
+    use OntologyAwareTrait;
+    
+    const OPTION_NONCE_STORE = 'nonce';
 
 	/**
 	 * Helper function to find the OauthConsumer RDF Resource
@@ -44,26 +49,26 @@ class tao_models_classes_oauth_DataStore
 	 * @access public
 	 * @author Joel Bout, <joel@taotesting.com>
 	 * @param  string consumer_key
-	 * @return core_kernel_classes_Resource
+	 * @return \core_kernel_classes_Resource
 	 */
 	public function findOauthConsumerResource($consumer_key)
 	{
 		$returnValue = null;
 
-		$class = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OAUTH_CONSUMER);
+		$class = $this->getClass(TaoOntology::CLASS_URI_OAUTH_CONSUMER);
 		$instances = $class->searchInstances(array(TaoOntology::PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false, 'recursive' => true));
 		if (count($instances) == 0) {
-			throw new tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);
+			throw new \tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);
 		}
 		if (count($instances) > 1) {
-			throw new tao_models_classes_oauth_Exception('Multiple Credentials for consumer key '.$consumer_key);
+			throw new \tao_models_classes_oauth_Exception('Multiple Credentials for consumer key '.$consumer_key);
 		}
 		$returnValue	= current($instances);
 
 		return $returnValue;
 	}
 	
-	public function getOauthConsumer(core_kernel_classes_Resource $consumer)
+	public function getOauthConsumer(\core_kernel_classes_Resource $consumer)
 	{
 	    $values = $consumer->getPropertiesValues(array(
 			TaoOntology::PROPERTY_OAUTH_KEY,
@@ -71,7 +76,7 @@ class tao_models_classes_oauth_DataStore
 			TaoOntology::PROPERTY_OAUTH_CALLBACK
 	    ));
 	    if (empty($values[TaoOntology::PROPERTY_OAUTH_KEY]) || empty($values[TaoOntology::PROPERTY_OAUTH_SECRET])) {
-	        throw new tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for '.$consumer->getUri());
+	        throw new \tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for '.$consumer->getUri());
 	    }
 	    $consumer_key = (string)current($values[TaoOntology::PROPERTY_OAUTH_KEY]);
 	    $secret = (string)current($values[TaoOntology::PROPERTY_OAUTH_SECRET]);
@@ -100,7 +105,7 @@ class tao_models_classes_oauth_DataStore
 		$returnValue = null;
 
 		$consumer = $this->findOauthConsumerResource($consumer_key);
-		$secret			= (string)$consumer->getUniquePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_OAUTH_SECRET));
+		$secret			= (string)$consumer->getUniquePropertyValue($this->getProperty(TaoOntology::PROPERTY_OAUTH_SECRET));
 		$callbackUrl	= null;
 		
 		$returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);
@@ -121,7 +126,7 @@ class tao_models_classes_oauth_DataStore
 	 */
 	public function lookup_token($consumer, $token_type, $token)
 	{
-  		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called for token '.$token.' of type '.$token_type);
+  		\common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called for token '.$token.' of type '.$token_type);
 		return new OAuthToken($consumer, "");
 	}
 
@@ -139,8 +144,12 @@ class tao_models_classes_oauth_DataStore
 	 */
 	public function lookup_nonce($consumer, $token, $nonce, $timestamp)
 	{
-		common_Logger::w(__CLASS__.'::'.__FUNCTION__.' called');
-		return null;
+        $store = $this->getSubService(self::OPTION_NONCE_STORE);
+        $found = $store->load($nonce);
+        if (!$found) {
+            $store->save($nonce);
+        }
+        return $found ? true : null;
 	}
 
 	/**
@@ -155,7 +164,7 @@ class tao_models_classes_oauth_DataStore
 	 */
 	function new_request_token($consumer, $callback = null)
 	{
-		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
+		\common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
 		return null;
 	}
 
@@ -171,7 +180,7 @@ class tao_models_classes_oauth_DataStore
 	 */
 	public function new_access_token($token, $consumer, $verifier = null)
 	{
-		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
+		\common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
 		return null;
 	}
 
