@@ -43,6 +43,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
      * @param $authorizationHeader Move the signature parameters into the Authorization header of the request
+     * @return common_http_Request
      */
     public function sign(common_http_Request $request, \common_http_Credentials $credentials, $authorizationHeader = false) {
         
