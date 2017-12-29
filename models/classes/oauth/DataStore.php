@@ -35,9 +35,8 @@ use oat\generis\model\OntologyAwareTrait;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
-class DataStore	extends ConfigurableService
+class DataStore extends ConfigurableService
 {
     use OntologyAwareTrait;
     

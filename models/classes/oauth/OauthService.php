@@ -71,13 +71,12 @@ class OauthService extends ConfigurableService implements \common_http_Signature
             $consumer,
             $token,
             $oauthRequest->get_normalized_http_method(),
-            $oauthRequest->getUrl(),
+            $oauthRequest->to_url(),
             $allInitialParameters
         );
         $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
-        //common_logger::d('Base string: '.$signedRequest->get_signature_base_string());
         $signedRequest->sign_request($signature_method, $consumer, $token);
-        common_logger::d('Base string from TAO/Joel: '.$signedRequest->get_signature_base_string());
+        //common_logger::d('Base string from TAO/Joel: '.$signedRequest->get_signature_base_string());
 
         if ($authorizationHeader) {
             $combinedParameters = $signedRequest->get_parameters();
@@ -86,7 +85,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
             $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), true));
             $signatureHeaders = array("Authorization" => $this->buildAuthorizationHeader($signatureParameters));
             $signedRequest = new common_http_Request(
-                $signedRequest->getUrl(),
+                $signedRequest->to_url(),
                 $signedRequest->get_normalized_http_method(),
                 $request->getParams(),
                 array_merge($signatureHeaders, $request->getHeaders()),
@@ -94,7 +93,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
             );
         } else {
             $signedRequest =  new common_http_Request(
-                $signedRequest->getUrl(),
+                $signedRequest->to_url(),
                 $signedRequest->get_normalized_http_method(),
                 $signedRequest->get_parameters(),
                 $request->getHeaders(),
@@ -147,6 +146,11 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         return $authorizationHeader;
     }
 
+    /**
+     * Transform common_http_Request into an OAuth request
+     * @param common_http_Request $request
+     * @return \IMSGlobal\LTI\OAuth\OAuthRequest
+     */
     private function getOauthRequest(common_http_Request $request) {
         $params = array();
         

@@ -20,11 +20,12 @@
  *
  */
 use oat\tao\model\oauth\OauthService;
+use oat\oatbox\service\ServiceManager;
 /**
  * @author Joel Bout, <joel@taotesting.com>
  * @deprecated please use OauthService::getDataStore()
  */
-class tao_models_classes_oauth_DataStore extends OAuthDataStore
+class tao_models_classes_oauth_DataStore
 {
 
 	/**
