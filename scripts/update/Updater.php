@@ -102,6 +102,7 @@ use oat\tao\model\actionQueue\implementation\InstantActionQueue;
 use oat\tao\model\oauth\OauthService;
 use oat\tao\model\oauth\DataStore;
 use oat\tao\model\oauth\nonce\NoNonce;
+use oat\tao\scripts\install\RegisterActionService;
 
 /**
  *
@@ -1011,8 +1012,17 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('14.16.0', '14.19.0');
 
-        // register OAuthService
         if ($this->isVersion('14.19.0')) {
+
+            $action = new RegisterActionService();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+
+            $this->setVersion('14.20.0');
+        }
+
+        // register OAuthService
+        if ($this->isVersion('14.20.0')) {
             if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
                 $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
                     OauthService::OPTION_DATASTORE => new DataStore([
@@ -1020,7 +1030,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                     ])
                 ]));
             }
-            $this->setVersion('14.20.0');
+            $this->setVersion('14.21.0');
         }
     }
 
