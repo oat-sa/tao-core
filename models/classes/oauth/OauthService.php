@@ -24,6 +24,7 @@ use IMSGlobal\LTI\OAuth\OAuthRequest;
 use IMSGlobal\LTI\OAuth\OAuthServer;
 use oat\oatbox\service\ConfigurableService;
 use common_http_Request;
+use IMSGlobal\LTI\OAuth\OAuthException;
 /**
  * Oauth Services based on the TAO DataStore implementation
  *
@@ -48,7 +49,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     public function sign(common_http_Request $request, \common_http_Credentials $credentials, $authorizationHeader = false) {
         
         if (!$credentials instanceof \tao_models_classes_oauth_Credentials) {
-            throw new tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
+            throw new \tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
         }
         
         

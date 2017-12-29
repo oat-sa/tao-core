@@ -72,15 +72,25 @@ class DataStore extends ConfigurableService
 		return $returnValue;
 	}
 	
-	public function getOauthConsumer(\core_kernel_classes_Resource $consumer)
+	/**
+	 * Returns the OAuthConsumer for the provided credentials
+	 *
+	 * @param \common_http_Credentials $consumer
+	 * @throws \tao_models_classes_oauth_Exception
+	 * @return \IMSGlobal\LTI\OAuth\OAuthConsumer
+	 */
+	public function getOauthConsumer(\common_http_Credentials $credentials)
 	{
-	    $values = $consumer->getPropertiesValues(array(
+        if (!$credentials instanceof \core_kernel_classes_Resource) {
+            throw new \tao_models_classes_oauth_Exception('Unsupported credential type '.get_class($credentials));
+        }
+	    $values = $credentials->getPropertiesValues(array(
 			self::PROPERTY_OAUTH_KEY,
 			self::PROPERTY_OAUTH_SECRET,
 			self::PROPERTY_OAUTH_CALLBACK
 	    ));
 	    if (empty($values[self::PROPERTY_OAUTH_KEY]) || empty($values[self::PROPERTY_OAUTH_SECRET])) {
-	        throw new \tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for '.$consumer->getUri());
+	        throw new \tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for '.$credentials->getUri());
 	    }
 	    $consumer_key = (string)current($values[self::PROPERTY_OAUTH_KEY]);
 	    $secret = (string)current($values[self::PROPERTY_OAUTH_SECRET]);
