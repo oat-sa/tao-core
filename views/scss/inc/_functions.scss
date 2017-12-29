@@ -253,8 +253,8 @@ Usage:
 /// @param {property} [$type = all] the CSS property to apply the transition to
 /// @param {time} [$duration = .5s] the transition property
 /// @param {timing-function} [$effect = ease-out] the transition property
-@mixin transition($type : all, $duration : 0.5s, $effect : ease-out){
-    @include vendor-prefix(transition, $type + ', ' + $duration + ', ' + $effect, property);
+@mixin transition($type : all, $duration : 0.5s, $effect : ease-out, $delay : 0s){
+    @include vendor-prefix(transition, $type + ', ' + $duration + ', ' + $effect + ', ' + $delay, property);
 }
 
 @mixin fade($duration: 1s){

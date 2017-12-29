@@ -47,6 +47,10 @@ class IntlFormatter extends Configurable implements Formatter
                 $dateFormat = IntlDateFormatter::SHORT;
                 $timeFormat = IntlDateFormatter::MEDIUM;
                 break;
+            case \tao_helpers_Date::FORMAT_LONG_MICROSECONDS:
+                $dateFormat = IntlDateFormatter::SHORT;
+                $timeFormat = IntlDateFormatter::MEDIUM;
+                break;
             case \tao_helpers_Date::FORMAT_DATEPICKER:
             case \tao_helpers_Date::FORMAT_ISO8601:
                 // exception

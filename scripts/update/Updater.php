@@ -24,6 +24,9 @@ namespace oat\tao\scripts\update;
 use common_Exception;
 use common_ext_ExtensionsManager;
 use League\Flysystem\Adapter\Local;
+use oat\funcAcl\models\ModuleAccessService;
+use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
@@ -48,11 +51,10 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
-use oat\tao\model\requiredAction\implementation\RequiredActionRedirect;
-use oat\tao\model\requiredAction\implementation\RequiredActionRedirectUrlPart;
-use oat\tao\model\routing\Resolver;
+use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\model\service\ContainerService;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -97,6 +99,7 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
+use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterResourceService;
 
 /**
@@ -936,14 +939,92 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('13.2.0');
         }
 
-        $this->skip('13.2.0', '13.14.0');
+        $this->skip('13.2.0', '14.4.0');
 
-        if($this->isVersion('13.14.0')){
+        if ($this->isVersion('14.4.0')) {
+            $this->getServiceManager()->register(
+                ContainerService::SERVICE_ID,
+                new ContainerService()
+            );
+
+            $this->setVersion('14.4.1');
+        }
+
+        $this->skip('14.4.1', '14.8.0');
+
+        if ($this->isVersion('14.8.0')) {
+            $moduleService = ModuleAccessService::singleton();
+            $moduleService->remove('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
+                'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ExtensionsManager');
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',      array('ext'=>'tao','mod' => 'ExtensionsManager')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Api')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Breadcrumbs')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Export')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'File')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Import')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Lock')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Main')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'PasswordRecovery')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Permission')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'PropertiesAuthoring')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'QueueAction')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'RestResource')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'RestUser')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Roles')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'TaskQueue')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Users')));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'WebService')));
+
+            $this->setVersion('14.8.1');
+        }
+
+        $this->skip('14.8.1', '14.11.2');
+
+        if ($this->isVersion('14.11.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('14.11.3');
+        }
+
+        if ($this->isVersion('14.11.3')) {
+
+            $resourceWatcher = new ResourceWatcher([ResourceWatcher::OPTION_THRESHOLD => 1]);
+            $this->getServiceManager()->register(ResourceWatcher::SERVICE_ID, $resourceWatcher);
+
+            OntologyUpdater::syncModels();
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceCreated::class, [ResourceWatcher::SERVICE_ID, 'catchCreatedResourceEvent']);
+            $eventManager->attach(ResourceUpdated::class, [ResourceWatcher::SERVICE_ID, 'catchUpdatedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->setVersion('14.12.0');
+        }
+
+        $this->skip('14.12.0', '14.15.0');
+
+        if ($this->isVersion('14.15.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('14.16.0');
+        }
+
+        $this->skip('14.16.0', '14.19.0');
+
+        if ($this->isVersion('14.19.0')) {
+
+            $action = new RegisterActionService();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+
+            $this->setVersion('14.20.0');
+        }
+
+        if($this->isVersion('14.20.0')){
             $action = new RegisterResourceService();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
 
-            $this->setVersion('14.0.0');
+            $this->setVersion('15.0.0');
         }
     }
 

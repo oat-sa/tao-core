@@ -28,13 +28,15 @@ define([
     'context',
     'core/store',
     'core/promise',
+    'util/url',
+    'layout/generisRouter',
     'layout/actions',
     'layout/section',
     'ui/feedback',
     'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, Promise, actionManager, sectionManager, feedback, uri){
+], function($, _, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -476,6 +478,7 @@ define([
                             //Check if any class-level action is defined in the structures.xml file
                             classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
                             if (classActions.length > 0) {
+                                generisRouter.pushNodeState(location.href, uri.decode(nodeContext.classUri));
                                 executePossibleAction(options.actions, nodeContext, ['delete']);
                             }
                         }
@@ -490,6 +493,7 @@ define([
                             //the last selected node is stored
                             store('taotree').then(function(treeStore){
                                 treeStore.setItem(context.section, nodeId).then(function(){
+                                    generisRouter.pushNodeState(location.href, uri.decode(nodeContext.uri));
                                     executePossibleAction(options.actions, nodeContext, ['moveInstance', 'delete']);
                                 });
                             });
@@ -575,10 +579,16 @@ define([
                                     lastSelected = node;
                                 }
                                 //create the tree
+                                $container.data('tree-state', { loadNode: options.loadNode });
                                 $container.tree(treeOptions);
                                 sectionManager.on('show.section', function (section) {
                                     if (treeSectionId === section.id) {
                                         $container.trigger('refresh.taotree');
+                                    }
+                                });
+                                generisRouter.on('urichange', function(nodeUri, sectionId) {
+                                    if (treeSectionId === sectionId) {
+                                        $container.trigger('refresh.taotree', [{loadNode : uri.encode(nodeUri)}]);
                                     }
                                 });
                             });

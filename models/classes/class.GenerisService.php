@@ -29,8 +29,6 @@ use oat\tao\helpers\TreeHelper;
 use oat\tao\model\GenerisTreeFactory;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\TaoOntology;
-
-
 /**
  * The Service class is an abstraction of each service instance.
  * Used to centralize the behavior related to every service instances.
@@ -47,11 +45,6 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 
     use OntologyAwareTrait;
 
-	const PROPERTY_GENERIS_RESOURCE = 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource';
-
-	const PROPERTY_INSTANCE_BOOLEAN_TRUE ='http://www.tao.lu/Ontologies/generis.rdf#True';
-
-	const PROPERTY_INSTANCE_BOOLEAN_FALSE = 'http://www.tao.lu/Ontologies/generis.rdf#False';
 	/**
      * constructor
      *
@@ -523,7 +516,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
      */
     public function toTree( core_kernel_classes_Class $clazz, array $options = array())
     {
-	    
+        $searchOptions = [];
         // show instances yes/no
         $instances = (isset($options['instances'])) ? $options['instances'] : true;
         // cut of the class and only display the children?
@@ -537,7 +530,11 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
         $offset = (isset($options['offset'])) ? $options['offset'] : 0;
         // A unique node URI to be returned from as a tree leaf.
         $uniqueNode = (isset($options['uniqueNode'])) ? $options['uniqueNode'] : null;
-        
+
+        if (isset($options['order']) && isset($options['orderdir'])) {
+            $searchOptions['order'] = [$options['order'] => $options['orderdir']];
+        }
+
         if ($uniqueNode !== null) {
             $instance = new \core_kernel_classes_Resource($uniqueNode);
             $results[] = TreeHelper::buildResourceNode($instance, $clazz);
@@ -553,7 +550,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
                 $openNodes[] = $clazz->getUri();
             }
 
-	        $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse);
+	        $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse, [], $searchOptions);
 	        $tree = $factory->buildTree($clazz);
             $returnValue = $chunk
                 ? (isset($tree['children']) ? $tree['children'] : array())

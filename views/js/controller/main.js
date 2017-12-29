@@ -22,13 +22,16 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'jquery',
     'lodash',
     'context',
+    'router',
     'helpers',
     'uiForm',
     'util/url',
     'core/logger',
+    'layout/generisRouter',
     'layout/section',
     'layout/actions',
     'layout/version-warning',
@@ -37,7 +40,7 @@ define([
     'layout/search',
     'layout/tree/loader',
     'layout/section-height',
-], function($, _, context, helpers, uiForm, urlUtil, loggerFactory, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
+], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
     var logger = loggerFactory('controller/main');
@@ -45,9 +48,10 @@ define([
     /**
      * Loads and set up the given tree for a section, based on the tree provider
      * @param {jQueryElement} $container - the tree container with accurate data-attr
+     * @param {String} [defaultUri] - the URI of the node to select by default
      * @returns {Promise} that resolves once rendered
      */
-    var sectionTree = function sectionTree($container) {
+    var sectionTree = function sectionTree($container, defaultUri) {
         var treeProvider;
 
         //get the tree actions
@@ -69,7 +73,8 @@ define([
             url          : treeUrl,
             rootClassUri : $container.data('rootnode'),
             icon         : $container.data('icon'),
-            actions      : treeActions
+            actions      : treeActions,
+            loadNode     : defaultUri
         });
     };
 
@@ -80,9 +85,11 @@ define([
     return {
         start: function start() {
 
+            var config = module.config();
             var $doc = $(document);
 
             versionWarning.init();
+            generisRouter.init();
 
             //just before an ajax request
             $doc.ajaxSend(function() {
@@ -127,7 +134,7 @@ define([
                             var $treeElt = $(this);
                             var $actionBar = $('.tree-action-bar-box', section.panel);
 
-                            sectionTree($treeElt)
+                            sectionTree($treeElt, section.defaultUri)
                                 .then(function(){
                                     $actionBar.addClass('active');
                                     sectionHeight.setHeights(section.panel);
@@ -151,6 +158,13 @@ define([
             //initialize legacy components
             helpers.init();
             uiForm.init();
+
+            //dispatch also extra registered controllers
+            if(config && _.isArray(config.extraRoutes)){
+                _.forEach(config.extraRoutes, function(route){
+                    router.dispatch(route);
+                });
+            }
         }
     };
 });

@@ -62,9 +62,10 @@ define([
      * @param {Object} [data] - additional parameters
      * @param {String} [method = 'GET'] - the HTTP method
      * @param {Object} [headers] - the HTTP header
+     * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    return function request(url, data, method, headers){
+    return function request(url, data, method, headers, background){
         return new Promise(function(resolve, reject){
 
             if(_.isEmpty(url)){
@@ -76,7 +77,8 @@ define([
                 type: method || 'GET',
                 dataType: 'json',
                 headers: headers,
-                data : data
+                data : data,
+                global : !background//TODO fix this with TT-260
             })
             .done(function(response, status, xhr){
                 if (xhr.status === 204 || (response && response.errorCode === 204)){
