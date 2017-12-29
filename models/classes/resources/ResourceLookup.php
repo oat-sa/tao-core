@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\resource;
+namespace oat\tao\model\resources;
 
 /**
  * How to lookup resources
@@ -26,8 +26,6 @@ namespace oat\tao\model\resource;
  */
 interface ResourceLookup
 {
-    const BASE_SERVICE_ID = 'tao/ResourceLookup';
-
     /**
      * Retrieve Resources for the given parameters
      *

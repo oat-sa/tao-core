@@ -19,7 +19,7 @@
  */
 
 use \oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\resource\ResourceService;
+use oat\tao\model\resources\ResourceService;
 
 /**
  * Class tao_actions_RestResourceController

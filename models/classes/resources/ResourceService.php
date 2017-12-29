@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\resource;
+namespace oat\tao\model\resources;
 
 use oat\oatbox\service\ConfigurableService;
 use \core_kernel_classes_Class;
@@ -96,7 +96,13 @@ class ResourceService extends ConfigurableService
         if(in_array($format, self::$formats)){
 
             //load the lookup dynamically using the format
-            $resourceLookup = $this->getServiceManager()->get(ResourceLookup::BASE_SERVICE_ID . '/' . $format);
+
+            try {
+                $resourceLookup = $this->getServiceManager()->get('tao/' . ucfirst(strtolower($format)) . 'ResourceLookup');
+            } catch(\oat\oatbox\service\ServiceNotFoundException $snfe){
+                \common_Logger::w('Trying to get resource using an unknown format : ' . $format);
+                $resourceLookup = null;
+            }
             if(!is_null($resourceLookup) && $resourceLookup instanceof ResourceLookup){
                 $result = $resourceLookup->getResources($rootClass, $propertyFilters, $offset, $limit);
             }

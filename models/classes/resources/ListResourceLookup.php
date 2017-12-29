@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\resource;
+namespace oat\tao\model\resources;
 
 use oat\oatbox\service\ConfigurableService;
 
@@ -29,7 +29,7 @@ use oat\oatbox\service\ConfigurableService;
 class ListResourceLookup extends ConfigurableService implements ResourceLookup
 {
 
-    const SERVICE_ID = ResourceLookup::BASE_SERVICE_ID . '/list';
+    const SERVICE_ID = 'tao/ListResourceLookup';
 
     /**
      * Retrieve QTI Resources for the given parameters.

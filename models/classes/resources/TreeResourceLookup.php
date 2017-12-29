@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\resource;
+namespace oat\tao\model\resources;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\GenerisTreeFactory;
@@ -29,7 +29,7 @@ use oat\tao\model\GenerisTreeFactory;
  */
 class TreeResourceLookup extends ConfigurableService implements ResourceLookup
 {
-    const SERVICE_ID = ResourceLookup::BASE_SERVICE_ID . '/tree';
+    const SERVICE_ID = 'tao/TreeResourceLookup';
 
     /**
      * Retrieve QTI Resources in their hierarchy, for the given parameters as format them as tree.
