@@ -21,36 +21,16 @@ namespace oat\tao\model\oauth\nonce;
 
 use oat\oatbox\service\ConfigurableService;
 /**
+ * Validates recceived nonce
+ *
  * @author Joel Bout, <joel@taotesting.com>
  */
-class KvNonceStore extends ConfigurableService implements NonceStore
-{
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_TTL = 'ttl';
-    
-    const DEFAULT_TTL = 1800;
-    
-    const PREFIX = 'nonce_';
+interface NonceStore {
     
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\oauth\nonce\NonceStore::isValid()
+     * Returns true if the nonce was not used recently, false if it was
+     * @param string $id
+     * @return bool
      */
-    public function isValid($id)
-    {
-        if ($this->getPersistence()->exists(self::PREFIX.$id)) {
-            return false;
-        }
-        $ttl = $this->hasOption(self::OPTION_TTL) ? $this->getOption(self::OPTION_TTL) : self::DEFAULT_TTL;
-        return $this->getPersistence()->set(self::PREFIX.$id, 't', $ttl);
-    }
-    
-    /**
-     * @return \common_persistence_KeyValuePersistence
-     */
-    protected function getPersistence()
-    {
-        $pm = $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID);
-        return $pm->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
-    }
+    public function isValid($id);
 }

@@ -53,7 +53,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         
         
         $oauthRequest = $this->getOauthRequest($request); 
-        $dataStore = new tao_models_classes_oauth_DataStore();
+        $dataStore = $this->getDataStore();
         $consumer = $dataStore->getOauthConsumer($credentials);
         $token = $dataStore->new_request_token($consumer);
 
@@ -114,7 +114,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @throws common_Exception exception thrown if validation fails
     */
     public function validate(common_http_Request $request, \common_http_Credentials $credentials = null) {
-        $server = new OAuthServer($this->getSubService(self::OPTION_DATASTORE));
+        $server = new OAuthServer($this->getDataStore());
 		$method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
         
@@ -124,6 +124,13 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         } catch (OAuthException $e) {
             throw new common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
         }
+    }
+
+    /**
+     * @return DataStore
+     */
+    public function getDataStore() {
+        return $this->getSubService(self::OPTION_DATASTORE);
     }
 
     /**

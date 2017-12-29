@@ -19,30 +19,16 @@
  *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-
-use oat\tao\model\TaoOntology;
-use IMSGlobal\LTI\OAuth\OAuthDataStore;
-use IMSGlobal\LTI\OAuth\OAuthConsumer;
-use IMSGlobal\LTI\OAuth\OAuthToken;
-
+use oat\tao\model\oauth\OauthService;
 /**
- * Tao Implementation of an OAuthDatastore
- * Does not yet implement the nonce and request/access token
- *
- * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
-
+ * @deprecated please use OauthService::getDataStore()
  */
-class tao_models_classes_oauth_DataStore
-	extends OAuthDataStore
+class tao_models_classes_oauth_DataStore extends OAuthDataStore
 {
-    const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
-    const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
-    const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
-    const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
+
 	/**
-	 * Helper function to find the OauthConsumer RDF Resource
+	 * deprecated helper function to find the OauthConsumer RDF Resource
 	 *
 	 * @access public
 	 * @author Joel Bout, <joel@taotesting.com>
@@ -51,131 +37,13 @@ class tao_models_classes_oauth_DataStore
 	 */
 	public function findOauthConsumerResource($consumer_key)
 	{
-		$returnValue = null;
-
-		$class = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OAUTH_CONSUMER);
-		$instances = $class->searchInstances(array(TaoOntology::PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false, 'recursive' => true));
-		if (count($instances) == 0) {
-			throw new tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);
-		}
-		if (count($instances) > 1) {
-			throw new tao_models_classes_oauth_Exception('Multiple Credentials for consumer key '.$consumer_key);
-		}
-		$returnValue	= current($instances);
-
-		return $returnValue;
+	    return $this->getService()->getDataStore()->findOauthConsumerResource($consumer_key);
 	}
 
-	public function getOauthConsumer(core_kernel_classes_Resource $consumer)
-	{
-	    $values = $consumer->getPropertiesValues(array(
-			TaoOntology::PROPERTY_OAUTH_KEY,
-			TaoOntology::PROPERTY_OAUTH_SECRET,
-			TaoOntology::PROPERTY_OAUTH_CALLBACK
-	    ));
-	    if (empty($values[TaoOntology::PROPERTY_OAUTH_KEY]) || empty($values[TaoOntology::PROPERTY_OAUTH_SECRET])) {
-	        throw new tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for '.$consumer->getUri());
-	    }
-	    $consumer_key = (string)current($values[TaoOntology::PROPERTY_OAUTH_KEY]);
-	    $secret = (string)current($values[TaoOntology::PROPERTY_OAUTH_SECRET]);
-	    if (!empty($values[TaoOntology::PROPERTY_OAUTH_CALLBACK])) {
-	        $callbackUrl = (string)current($values[TaoOntology::PROPERTY_OAUTH_CALLBACK]);
-	        if (empty($callbackUrl)) {
-	            $callbackUrl = null;
-	        }
-	    } else {
-	        $callbackUrl = null;
-	    }
-        return new OAuthConsumer($consumer_key, $secret, $callbackUrl);
-	}
-
-
-	/**
-	 * returns the OauthConsumer for the specified key
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  consumer_key
-	 * @return OAuthConsumer
-	 */
-	public function lookup_consumer($consumer_key)
-	{
-		$returnValue = null;
-
-		$consumer = $this->findOauthConsumerResource($consumer_key);
-		$secret			= (string)$consumer->getUniquePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_OAUTH_SECRET));
-		$callbackUrl	= null;
-
-		$returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);
-
-		return $returnValue;
-	}
-
-	/**
-	 * Should verify if the token exists and return it
-	 * Always returns an token with an empty secret for now
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  consumer
-	 * @param  token_type
-	 * @param  token
-	 * @return mixed
-	 */
-	public function lookup_token($consumer, $token_type, $token)
-	{
-  		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called for token '.$token.' of type '.$token_type);
-		return new OAuthToken($consumer, "");
-	}
-
-	/**
-	 * Should verify if a nonce has already been used
-	 * always return NULL, meaning that nonces can be reused
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  consumer
-	 * @param  token
-	 * @param  nonce
-	 * @param  timestamp
-	 * @return mixed
-	 */
-	public function lookup_nonce($consumer, $token, $nonce, $timestamp)
-	{
-		common_Logger::w(__CLASS__.'::'.__FUNCTION__.' called');
-		return null;
-	}
-
-	/**
-	 * Should create a new request token
-	 * not implemented
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  consumer
-	 * @param  callback
-	 * @return mixed
-	 */
-	function new_request_token($consumer, $callback = null)
-	{
-		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
-		return null;
-	}
-
-	/**
-	 * Should create a new access token
-	 * not implemented
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  token
-	 * @param  consumer
-	 * @return mixed
-	 */
-	public function new_access_token($token, $consumer, $verifier = null)
-	{
-		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
-		return null;
-	}
-
+    /**
+     * @return OauthService
+     */
+    private function getService() {
+        return ServiceManager::getServiceManager()->get(OauthService::SERVICE_ID);
+    }
 }

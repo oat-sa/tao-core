@@ -17,9 +17,6 @@
  * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-use IMSGlobal\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
-use IMSGlobal\LTI\OAuth\OAuthRequest;
-use IMSGlobal\LTI\OAuth\OAuthServer;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\oauth\OauthService;
 
@@ -28,7 +25,7 @@ use oat\tao\model\oauth\OauthService;
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
+ * @deprecated
  */
 class tao_models_classes_oauth_Service
     implements common_http_SignatureService
@@ -56,6 +53,9 @@ class tao_models_classes_oauth_Service
         return $this->getService()->validate($request, $credentials);
     }
     
+    /**
+     * @return OauthService
+     */
     private function getService() {
         return ServiceManager::getServiceManager()->get(OauthService::SERVICE_ID);
     }

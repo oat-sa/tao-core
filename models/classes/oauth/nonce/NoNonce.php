@@ -21,18 +21,17 @@ namespace oat\tao\model\oauth\nonce;
 
 use oat\oatbox\service\ConfigurableService;
 /**
- * 
- * @author bout
+ * No nonce validation
  *
+ * @author Joel Bout, <joel@taotesting.com>
  */
-class NoNonce extends ConfigurableService{
-    
-    public function load($id)
-    {
-        return false;
-    }
-    
-    public function save($id)
+class NoNonce extends ConfigurableService implements NonceStore
+{
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\oauth\nonce\NonceStore::isValid()
+     */
+    public function isValid($id)
     {
         return true;
     }
