@@ -23,12 +23,13 @@
  */
 define([
     'lodash',
+    'i18n',
     'core/promise',
     'core/store',
     'layout/actions',
     'provider/resources',
     'ui/resource/selector'
-], function(_, Promise, store, actionManager, resourceProviderFactory, resourceSelectorFactory){
+], function(_, __, Promise, store, actionManager, resourceProviderFactory, resourceSelectorFactory){
     'use strict';
 
     var resourceProvider = resourceProviderFactory();
@@ -64,6 +65,7 @@ define([
 
                         resourceSelectorFactory($container, {
                             icon : options.icon || 'test',
+                            searchPlaceholder : __('Filter'),
                             selectionMode: 'both',
                             selectClass : true,
                             classUri: options.rootClassUri,

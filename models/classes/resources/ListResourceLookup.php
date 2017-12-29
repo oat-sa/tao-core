@@ -32,15 +32,16 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     const SERVICE_ID = 'tao/ListResourceLookup';
 
     /**
-     * Retrieve QTI Resources for the given parameters.
-     * @param \core_kernel_classes_Class $rootClass the resource class
-     * @param cestring $propertyFilters the lookup format
-     * @param string $pattern to filter by label
-     * @param int    $offset for paging
-     * @param int    $limit  for paging
+     * Retrieve Resources for the given parameters as a list
+     *
+     * @param \core_kernel_classes_Class $rootClass       the resources class
+     * @param array                      $propertyFilters propUri/propValue to search resources
+     * @param string[]                   $selectedUris    the resources to open
+     * @param int                        $offset          for paging
+     * @param int                        $limit           for paging
      * @return array the resources
      */
-    public function getResources(\core_kernel_classes_Class $rootClass, array $propertyFilters = [], $offset = 0, $limit = 30)
+    public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
         $options = [
             'recursive' => true,

@@ -51,9 +51,8 @@ function($, _, __, section, actionManager, feedback){
             model : _.values(data.model),
             actions : {
                 open : function openResource(id){
-                    //$('.tree').trigger('refresh.taotree', [{loadNode : id}]);
                     actionManager.trigger('refresh', {
-                        loadNode : id
+                        uri : id
                     });
                 }
             },

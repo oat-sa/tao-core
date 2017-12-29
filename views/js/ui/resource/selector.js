@@ -539,16 +539,19 @@ define([
              * @returns {resourceSelector} chains
              */
             refresh : function refresh(node){
+                var queryParams = {
+                    updateClasses : true,
+                };
                 if(this.is('rendered')){
                     this.on('update.refresh', function(){
                         this.off('update.refresh');
                         this.selectDefaultNode(node);
                     });
-
+                    if(node && node.uri){
+                        queryParams.selectedUri = node.uri;
+                    }
                     this.reset()
-                        .query({
-                            updateClasses : true
-                        });
+                        .query(queryParams);
                 }
                 return this;
             }

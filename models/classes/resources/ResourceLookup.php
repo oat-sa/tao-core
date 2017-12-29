@@ -29,11 +29,19 @@ interface ResourceLookup
     /**
      * Retrieve Resources for the given parameters
      *
-     * @param \core_kernel_classes_Class $rootClass the resources class
-     * @param array $propertyFilters propUri/propValue to search resources
-     * @param int    $offset for paging
-     * @param int    $limit  for paging
+     * @param \core_kernel_classes_Class $rootClass       the resources class
+     * @param array                      $propertyFilters propUri/propValue to search resources
+     * @param string[]                   $selectedUris    the resources to open
+     * @param int                        $offset          for paging
+     * @param int                        $limit           for paging
      * @return array the resources
      */
-    public function getResources(\core_kernel_classes_Class $rootClass, array $propertyFilters = [], $offset = 0, $limit = 30);
+    public function getResources(
+        \core_kernel_classes_Class $rootClass,
+        array $selectedUris = [],
+        array $propertyFilters = [],
+        $offset = 0,
+        $limit = 30
+    );
+
 }

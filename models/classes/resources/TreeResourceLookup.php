@@ -21,6 +21,7 @@ namespace oat\tao\model\resources;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\GenerisTreeFactory;
+use oat\tao\helpers\TreeHelper;
 
 /**
  * Look up resources and format them as a tree hierarchy
@@ -32,16 +33,26 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
     const SERVICE_ID = 'tao/TreeResourceLookup';
 
     /**
-     * Retrieve QTI Resources in their hierarchy, for the given parameters as format them as tree.
-     * @param \core_kernel_classes_Class $resourceClass the resource class
-     * @param array $propertyFilters propUri/propValue to search resources
-     * @param int    $offset for paging
-     * @param int    $limit  for paging
+     * Retrieve Resources in their hierarchy, for the given parameters as format them as tree.
+     *
+     * @param \core_kernel_classes_Class $rootClass       the resources class
+     * @param array                      $propertyFilters propUri/propValue to search resources
+     * @param string[]                   $selectedUris    the resources to open
+     * @param int                        $offset          for paging
+     * @param int                        $limit           for paging
      * @return array the resources
      */
-    public function getResources(\core_kernel_classes_Class $rootClass, array $propertyFilters = [], $offset = 0, $limit = 30)
+    public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
-        $factory = new GenerisTreeFactory(true, [$rootClass->getUri()], $limit, $offset, [], $propertyFilters);
+
+        $openNodes = [];
+        if(count($selectedUris) > 0){
+            $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
+        }
+        if (!in_array($rootClass->getUri(), $openNodes)) {
+            $openNodes[] = $rootClass->getUri();
+        }
+        $factory = new GenerisTreeFactory(true, $openNodes, $limit, $offset, $selectedUris, $propertyFilters);
         $treeData = $factory->buildTree($rootClass);
 
         return $this->formatTreeData([$treeData]);

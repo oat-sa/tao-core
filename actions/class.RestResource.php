@@ -110,7 +110,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
 
         $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or PUT method'));
     }
-
+    
+    /**
+     * Get all resources
+     *
+     * @requiresRight classUri READ
+     */
     public function getAll()
     {
         if ($this->isRequestGet()) {
@@ -119,6 +124,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 $search   = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';
                 $limit    = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 30;
                 $offset   = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
+                $selectedUris = [];
 
                 if(! empty($search) ){
                     $decodedSearch = json_decode($search, true);
@@ -126,9 +132,12 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                         $search = $decodedSearch;
                     }
                 }
+                if($this->hasRequestParameter('selectedUri')){
+                    $selectedUris = [$this->getRequestParameter('selectedUri')];
+                }
 
                 $class = $this->getClassParameter();
-                $data = $this->getResourceService()->getResources($class, $format, $search, $offset, $limit);
+                $data = $this->getResourceService()->getResources($class, $format, $selectedUris, $search, $offset, $limit);
 
                 $this->returnSuccess($data);
 

@@ -80,13 +80,13 @@ class ResourceService extends ConfigurableService
     /**
      * Retrieve the resources for the given parameters
      * @param \core_kernel_classes_Class $resourceClass the resource class
-     * @param string $format the lookup format
-     * @param string|array  $search to filter by label if a string or provides the search filters
-     * @param int $offset for paging
-     * @param int $limit  for paging
+     * @param string                     $format        the lookup format
+     * @param string|array               $search        to filter by label if a string or provides the search filters
+     * @param int                        $offset        for paging
+     * @param int                        $limit         for paging
      * @return array the resources
      */
-    public function getResources(\core_kernel_classes_Class $rootClass, $format = 'list', $search = '', $offset = 0, $limit = 30)
+    public function getResources(\core_kernel_classes_Class $rootClass, $format = 'list', $selectedUris = [], $search = '', $offset = 0, $limit = 30)
     {
         $propertyFilters = $this->getPropertyFilters($search);
 
@@ -104,7 +104,7 @@ class ResourceService extends ConfigurableService
                 $resourceLookup = null;
             }
             if(!is_null($resourceLookup) && $resourceLookup instanceof ResourceLookup){
-                $result = $resourceLookup->getResources($rootClass, $propertyFilters, $offset, $limit);
+                $result = $resourceLookup->getResources($rootClass, $selectedUris, $propertyFilters, $offset, $limit);
             }
         }
         return $result;
