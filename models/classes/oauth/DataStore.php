@@ -150,16 +150,16 @@ class DataStore extends ConfigurableService
 	 *
 	 * @access public
 	 * @author Joel Bout, <joel@taotesting.com>
-	 * @param  consumer
-	 * @param  token
-	 * @param  nonce
-	 * @param  timestamp
+	 * @param OAuthConsumer $consumer
+	 * @param OAuthToken $token
+	 * @param string $nonce
+	 * @param string $timestamp
 	 * @return mixed
 	 */
 	public function lookup_nonce($consumer, $token, $nonce, $timestamp)
 	{
         $store = $this->getSubService(self::OPTION_NONCE_STORE);
-        return $store->isValid($nonce) ? null : true;
+        return $store->isValid($timestamp.'_'.$consumer->key.'_'.$nonce) ? null : true;
 	}
 
 	/**

@@ -122,7 +122,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
             $oauthRequest = $this->getOauthRequest($request);
             $server->verify_request($oauthRequest);
         } catch (OAuthException $e) {
-            throw new common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
+            throw new \common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
         }
     }
 
