@@ -99,6 +99,8 @@ define([
         $contentBlock.css( { height: containerHeight, maxHeight: containerHeight });
         treeHeight = containerHeight - getTreeActionIdealHeight();
         $tree.css({ maxHeight: treeHeight });
+
+        //bad hack, but the entire module is a joke, so it doesn't hurt that much
         if($tree.data('type') === 'resource-selector'){
             $tree.css({ height: treeHeight });
         }

@@ -49,8 +49,8 @@ define([
     };
 
     //manually register the providers
-    treeProviderRegistry.registerProvider('jstree', jsTreeProvider);
-    treeProviderRegistry.registerProvider('resource-selector', resourceSelectorProvider);
+    treeProviderRegistry.registerProvider(jsTreeProvider.name, jsTreeProvider);
+    treeProviderRegistry.registerProvider(resourceSelectorProvider.name, resourceSelectorProvider);
 
     /**
      * Let's you load either the default tree provider or a specific one

@@ -40,6 +40,11 @@ define([
     return {
 
         /**
+         * Tree provider name
+         */
+        name : 'resource-selector',
+
+        /**
          * Init is the tree provider entry point
          * @param {jQueryElement} $container - that will contain the tree
          * @param {Object} [options] - additional configuration options
@@ -57,11 +62,13 @@ define([
 
                     return Promise.all([
                         resourceProvider.getClasses(options.rootClassUri),
+                        resourceProvider.getClassProperties(options.rootClassUri),
                         treeStore.getItem(options.id)
                     ])
                     .then(function(results) {
-                        var classes = results[0];
-                        var defaultNode = results[1];
+                        var classes     = results[0];
+                        var filters     = results[1];
+                        var defaultNode = results[2];
 
                         resourceSelectorFactory($container, {
                             icon : options.icon || 'test',
@@ -69,7 +76,8 @@ define([
                             selectionMode: 'both',
                             selectClass : true,
                             classUri: options.rootClassUri,
-                            classes: classes
+                            classes: classes,
+                            filters: filters
                         })
                         .on('init', function(){
                             actionManager.exec(options.actions.init, {

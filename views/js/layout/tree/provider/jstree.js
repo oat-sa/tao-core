@@ -44,6 +44,11 @@ define([
     return {
 
         /**
+         * Tree provider name
+         */
+        name : 'jstree',
+
+        /**
          * The tree factory helps you to instantiate a new tree from the TAO ontology
          * @exports layout/tree/provider/jstree
          *

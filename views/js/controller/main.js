@@ -65,8 +65,15 @@ define([
 
         var treeUrl = urlUtil.build([context.root_url, $container.data('url')]);
 
+        var treeType = $container.data('type');
+
         //get the current tree based on the type attr, or fallback to jstree
-        treeProvider = treeLoader($container.data('type'));
+        treeProvider = treeLoader(treeType);
+
+        if(!treeType){
+            //fill with the default value
+            $container.data('type', treeProvider.name);
+        }
 
         return treeProvider.init($container, {
             id           : $container.attr('id'),

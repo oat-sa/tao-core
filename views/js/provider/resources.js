@@ -40,7 +40,7 @@ define([
             url : urlUtil.route('getAll', 'RestResource', 'tao')
         },
         getClassProperties : {
-            url : urlUtil.route('create', 'RestFormItem', 'taoItems')
+            url : urlUtil.route('create', 'RestResource', 'tao')
         }
     };
 
@@ -64,27 +64,8 @@ define([
              * @param {String} classUri - the root class URI
              * @returns {Promise} that resolves with the classes
              */
-            getClasses: function getClasses(classUri, params){
-                return request(config.getClasses.url, {
-                    classUri : classUri
-                });
-
-                //.then(function(results){
-                    //var format = function format(entry){
-                        //var newEntry = {
-                            //uri : entry.attributes['data-uri'],
-                            //label : entry.data
-                        //};
-                        //if(entry.children && entry.children.length){
-                            //newEntry.children = _.map(entry.children, format);
-                        //}
-                        //return newEntry;
-                    //};
-                    //if(!_.isArray(results)){
-                        //results = [results];
-                    //}
-                    //return _.map(results, format);
-                //});
+            getClasses: function getClasses(classUri){
+                return request(config.getClasses.url, { classUri : classUri });
             },
 
             /**
@@ -101,8 +82,8 @@ define([
              * @param {String} classUri - the item class URI
              * @returns {Promise} that resolves with the classes
              */
-            getItemClassProperties: function getItemClassProperties(classUri) {
-                return request(config.getItemClassProperties.url, { classUri : classUri });
+            getClassProperties: function getClassProperties(classUri) {
+                return request(config.getClassProperties.url, { classUri : classUri });
             }
         };
     };
