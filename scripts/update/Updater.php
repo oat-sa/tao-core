@@ -99,6 +99,9 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
+use oat\tao\model\oauth\OauthService;
+use oat\tao\model\oauth\DataStore;
+use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\scripts\install\RegisterActionService;
 
 /**
@@ -1016,6 +1019,18 @@ class Updater extends \common_ext_ExtensionUpdater {
             $action->__invoke([]);
 
             $this->setVersion('14.20.0');
+        }
+
+        // register OAuthService
+        if ($this->isVersion('14.20.0')) {
+            if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
+                $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
+                    OauthService::OPTION_DATASTORE => new DataStore([
+                        DataStore::OPTION_NONCE_STORE => new NoNonce()
+                    ])
+                ]));
+            }
+            $this->setVersion('14.21.0');
         }
     }
 
