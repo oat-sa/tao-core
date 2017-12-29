@@ -1007,15 +1007,15 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.16.0');
         }
 
-        $this->skip('14.16.0', '14.18.2');
+        $this->skip('14.16.0', '14.19.0');
 
-        if ($this->isVersion('14.18.2')) {
+        if ($this->isVersion('14.19.0')) {
 
             $action = new RegisterActionService();
             $action->setServiceLocator($this->getServiceManager());
             $action->__invoke([]);
 
-            $this->setVersion('14.19.0');
+            $this->setVersion('14.20.0');
         }
     }
 
