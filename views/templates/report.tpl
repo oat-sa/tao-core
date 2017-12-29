@@ -62,12 +62,9 @@ require(['jquery', 'i18n', 'layout/actions'], function($, __, actionManager){
 
     // Continue button
     $('#import-continue').on('click', function() {
-        $('.tree').trigger('refresh.taotree', [{
-            loadNode : <?php echo json_encode(get_data('selectNode')); ?>
-        }]);
         <?php if (has_data('selectNode')): ?>
-            actioManager.trigger('refresh', {
-                uri : <?php echo json_encode(get_data('selectNode')); ?>
+            actionManager.trigger('refresh', {
+                uri : <?php echo json_encode(\tao_helpers_Uri::decode(get_data('selectNode'))); ?>,
             });
         <?php else : ?>
         actionManager.trigger('refresh');

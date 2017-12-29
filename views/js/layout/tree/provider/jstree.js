@@ -564,7 +564,14 @@ define([
                     });
 
                     //forward some events
-                    actionManager.on('refresh', function(params){
+                    actionManager.on('refresh', function(node){
+                        var params = node;
+                        if(node && node.uri){
+                            params = {
+                                loadNode : uri.encode(params.uri)
+                            };
+                        }
+
                         if($container.is(':visible')){
                             $container.trigger('refresh.taotree', [params]);
                         }
