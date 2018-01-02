@@ -48,10 +48,12 @@ define([
     /**
      * Loads and set up the given tree for a section, based on the tree provider
      * @param {jQueryElement} $container - the tree container with accurate data-attr
-     * @param {String} [defaultUri] - the URI of the node to select by default
+     * @param {Object} section - the section the tree belongs to
+     * @param {String} section.id - id of the section
+     * @param {String} [section.defaultUri] - the URI of the node to select by default
      * @returns {Promise} that resolves once rendered
      */
-    var sectionTree = function sectionTree($container, defaultUri) {
+    var sectionTree = function sectionTree($container, section) {
         var treeProvider;
 
         //get the tree actions
@@ -81,7 +83,8 @@ define([
             rootClassUri : $container.data('rootnode'),
             icon         : $container.data('icon'),
             actions      : treeActions,
-            loadNode     : defaultUri
+            sectionId    : section.id,
+            loadNode     : section.defaultUri
         });
     };
 
@@ -110,7 +113,6 @@ define([
 
             //navigation bindings
             nav.init();
-
 
             //initialize sections
             sections.on('activate', function(section) {
@@ -141,7 +143,7 @@ define([
                             var $treeElt = $(this);
                             var $actionBar = $('.tree-action-bar-box', section.panel);
 
-                            sectionTree($treeElt, section.defaultUri)
+                            sectionTree($treeElt, section)
                                 .then(function(){
                                     $actionBar.addClass('active');
                                     sectionHeight.setHeights(section.panel);

@@ -557,7 +557,6 @@ define([
              */
             var setUpTree  = function setUpTree(){
                 return new Promise( function (resolve) {
-                    var treeSectionId = context.section;
 
                     //bind events from the definition below
                     _.forEach(events, function(callback, name){
@@ -594,12 +593,12 @@ define([
                                 $container.data('tree-state', { loadNode: options.loadNode });
                                 $container.tree(treeOptions);
                                 sectionManager.on('show.section', function (section) {
-                                    if (treeSectionId === section.id) {
+                                    if (options.sectionId === section.id) {
                                         $container.trigger('refresh.taotree');
                                     }
                                 });
                                 generisRouter.on('urichange', function(nodeUri, sectionId) {
-                                    if (treeSectionId === sectionId) {
+                                    if (options.sectionId === sectionId) {
                                         $container.trigger('refresh.taotree', [{loadNode : uri.encode(nodeUri)}]);
                                     }
                                 });

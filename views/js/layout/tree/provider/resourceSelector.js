@@ -26,11 +26,15 @@ define([
     'i18n',
     'core/promise',
     'core/store',
+    'core/logger',
     'layout/actions',
+    'layout/generisRouter',
     'provider/resources',
     'ui/resource/selector'
-], function(_, __, Promise, store, actionManager, resourceProviderFactory, resourceSelectorFactory){
+], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, resourceProviderFactory, resourceSelectorFactory){
     'use strict';
+
+    var logger = loggerFactory('layout/tree/provider/resourceSelector');
 
     var resourceProvider = resourceProviderFactory();
 
@@ -52,6 +56,8 @@ define([
          * @param {String} [options.url] - the endpoint to load data
          * @param {String} [options.rootClassUri] - the URI of the root class
          * @param {Object} [options.actions] - which actions to perform from the tree
+         * @param {String} [options.loadNode] - the URI of the node to select by default
+         * @param {String} [options.sectionId] - the section the selector belongs to
          * @returns {Promise} resolves when the tree is rendered
          */
         init: function init($container, options){
@@ -68,7 +74,8 @@ define([
                     .then(function(results) {
                         var classes     = results[0];
                         var filters     = results[1];
-                        var defaultNode = results[2];
+                        var defaultNode = options.loadNode || results[2];
+                        var preloadNode = typeof options.loadNode !== 'undefined';
 
                         resourceSelectorFactory($container, {
                             icon : options.icon || 'test',
@@ -101,10 +108,21 @@ define([
                                 self.refresh(node || defaultNode);
                             });
 
+                            generisRouter.on('urichange', function(nodeUri, sectionId) {
+                                if (options.sectionId === sectionId) {
+                                    self.refresh(nodeUri);
+                                }
+                            });
+
                             resolve();
                         })
                         .on('query', function(params) {
                             var self = this;
+
+                            if(preloadNode){
+                                params.selectedUri = options.loadNode;
+                                preloadNode = false;
+                            }
 
                             //ask the server the resources from the component query
                             resourceProvider.getResources(params)
@@ -112,7 +130,7 @@ define([
                                     self.update(resources, params);
                                 })
                                 .catch(function(err) {
-                                    console.error(err);
+                                    logger.error(err);
                                 });
                         })
                         .on('update.first', function(){
@@ -154,6 +172,8 @@ define([
                                         actionManager.exec(options.actions.selectInstance, selectedContext);
                                     }
 
+                                    generisRouter.pushNodeState(location.href, resource.uri);
+
                                     defaultNode = resource;
                                     treeStore.setItem(options.id, defaultNode);
                                 });
@@ -163,6 +183,9 @@ define([
                                     return acc;
                                 }, []));
                             }
+                        })
+                        .on('error', function(err){
+                            logger.error(err);
                         });
                     });
                 });
