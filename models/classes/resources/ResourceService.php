@@ -36,7 +36,12 @@ class ResourceService extends ConfigurableService
     /**
      * The different lookup formats
      */
-    private static $formats = ['list', 'tree'];
+    private static $formats = [ 'list', 'tree'];
+
+    /**
+     * The lookup instances by format
+     */
+    private $lookups;
 
     /**
      * Get the list of  classes from the given root class
@@ -92,20 +97,9 @@ class ResourceService extends ConfigurableService
 
         $result = [];
 
-        //whitelisting's mandatory to prevent hijacking the dependency injection
-        if(in_array($format, self::$formats)){
-
-            //load the lookup dynamically using the format
-
-            try {
-                $resourceLookup = $this->getServiceManager()->get('tao/' . ucfirst(strtolower($format)) . 'ResourceLookup');
-            } catch(\oat\oatbox\service\ServiceNotFoundException $snfe){
-                \common_Logger::w('Trying to get resource using an unknown format : ' . $format);
-                $resourceLookup = null;
-            }
-            if(!is_null($resourceLookup) && $resourceLookup instanceof ResourceLookup){
-                $result = $resourceLookup->getResources($rootClass, $selectedUris, $propertyFilters, $offset, $limit);
-            }
+        $resourceLookup = $this->getResourceLookup($format);
+        if (!is_null($resourceLookup)) {
+            $result = $resourceLookup->getResources($rootClass, $selectedUris, $propertyFilters, $offset, $limit);
         }
         return $result;
     }
@@ -133,5 +127,23 @@ class ResourceService extends ConfigurableService
             }
         }
         return $propertyFilters;
+    }
+
+    /**
+     * Get the resource lookup for the given format
+     * @return ResourceLookup or null
+     */
+    private function getResourceLookup($format)
+    {
+        if(in_array($format, self::$formats)){
+            if(!isset($this->lookups)){
+                $this->lookups = [
+                    'list' => $this->getServiceManager()->get(ListResourceLookup::SERVICE_ID),
+                    'tree' => $this->getServiceManager()->get(TreeResourceLookup::SERVICE_ID)
+                ];
+            }
+            return $this->lookups[$format];
+        }
+        return null;
     }
 }
