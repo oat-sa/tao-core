@@ -27,7 +27,6 @@ class KvNonceStore extends ConfigurableService implements NonceStore
 {
     const OPTION_PERSISTENCE = 'persistence';
     const OPTION_TTL = 'ttl';
-    const OPTION_USE_NX = 'nx';
     
     const DEFAULT_TTL = 1800;
     
@@ -40,7 +39,7 @@ class KvNonceStore extends ConfigurableService implements NonceStore
     public function isValid($id)
     {
         $ttl = $this->hasOption(self::OPTION_TTL) ? $this->getOption(self::OPTION_TTL) : self::DEFAULT_TTL;
-        if (!$this->hasOption(self::OPTION_USE_NX) || $this->getOption(self::OPTION_USE_NX) != false) {
+        if ($this->getPersistence()->supportsFeature(\common_persistence_KeyValuePersistence::FEATURE_NX)) {
             return $this->getPersistence()->set(self::PREFIX.$id, 't', $ttl, true);
         } else {
             if ($this->getPersistence()->exists(self::PREFIX.$id)) {
