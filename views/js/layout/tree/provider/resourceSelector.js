@@ -74,7 +74,7 @@ define([
                     .then(function(results) {
                         var classes     = results[0];
                         var filters     = results[1];
-                        var defaultNode = options.loadNode || results[2];
+                        var defaultNode = results[2];
                         var preloadNode = typeof options.loadNode !== 'undefined';
 
                         resourceSelectorFactory($container, {
@@ -95,8 +95,11 @@ define([
                             var self = this;
 
                             actionManager.on('removeNodes', function(actionContext, nodes){
+                                self.setState('loading', true);
                                 _.forEach(nodes, self.removeNode, self);
                                 self.changeSelectionMode('single');
+
+                                self.setState('loading', false);
                                 self.selectDefaultNode(defaultNode);
                             });
                             actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
@@ -139,32 +142,28 @@ define([
 
                             //on the 1st update we select the default node
                             //or fallback on 1st instance, or even 1st class
-                            this.selectDefaultNode(defaultNode);
+                            this.selectDefaultNode(options.loadNode || defaultNode);
                         })
                         .on('change', function(selection) {
+                            var self   = this;
                             var length = _.size(selection);
                             var getContext = function getContext(resource) {
                                 return _.defaults(resource, {
                                     id : resource.uri,
-                                    permissions:  {
-                                        "item-authoring": true,
-                                        "item-class-new": true,
-                                        "item-delete": true,
-                                        "item-duplicate": true,
-                                        "item-export": true,
-                                        "item-import": true,
-                                        "item-new": true,
-                                        "item-preview": true,
-                                        "item-properties": true,
-                                        "item-translate": true
-                                    }
+                                    permissions:  {}
                                 });
                             };
+
+                            //ignore changes while loading or modifying the selector
+                            if(self.is('loading')){
+                                return;
+                            }
 
                             if(length === 1){
                                 _.forEach(selection, function(resource) {
                                     var selectedContext = getContext(resource);
                                     actionManager.updateContext(selectedContext);
+
                                     if(selectedContext.type === 'class'){
                                         actionManager.exec(options.actions.selectClass, selectedContext);
                                     }
