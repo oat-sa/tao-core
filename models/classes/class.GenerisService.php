@@ -29,8 +29,6 @@ use oat\tao\helpers\TreeHelper;
 use oat\tao\model\GenerisTreeFactory;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\TaoOntology;
-use oat\generis\model\OntologyRdfs;
-
 /**
  * The Service class is an abstraction of each service instance.
  * Used to centralize the behavior related to every service instances.
@@ -47,11 +45,6 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
 
     use OntologyAwareTrait;
 
-	const PROPERTY_GENERIS_RESOURCE = 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource';
-
-	const PROPERTY_INSTANCE_BOOLEAN_TRUE ='http://www.tao.lu/Ontologies/generis.rdf#True';
-
-	const PROPERTY_INSTANCE_BOOLEAN_FALSE = 'http://www.tao.lu/Ontologies/generis.rdf#False';
 	/**
      * constructor
      *
