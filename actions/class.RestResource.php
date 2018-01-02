@@ -110,9 +110,11 @@ class tao_actions_RestResource extends tao_actions_CommonModule
 
         $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or PUT method'));
     }
-    
+
     /**
-     * Get all resources
+     * Get all resources belonging to a given class.
+     * The result is paginated and structured based on the given format.
+     * The result can be filtered, or target a given selection.
      *
      * @requiresRight classUri READ
      */

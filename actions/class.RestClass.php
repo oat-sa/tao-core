@@ -21,9 +21,8 @@
 use \oat\generis\model\OntologyAwareTrait;
 
 /**
- * Class tao_actions_RestResourceController
  *
- * The rest controller to manage resource APIs
+ * The REST controller to manage RDF classes.
  */
 class tao_actions_RestClass extends tao_actions_RestResource
 {
@@ -32,7 +31,7 @@ class tao_actions_RestClass extends tao_actions_RestResource
     const CLASS_PARAMETER = 'classUri';
 
     /**
-     *
+     * Get all the classes that belong to a subclass.
      * @requiresRight classUri READ
      */
     public function getAll()
