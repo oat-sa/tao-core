@@ -570,6 +570,7 @@ define([
                 this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
                 this.config.switchMode = this.config.selectionMode === selectionModes.both;
                 this.config.multiple =  this.config.selectionMode === selectionModes.multiple;
+                this.setState('multiple', this.config.multiple);
 
                 this.render($container);
             })
