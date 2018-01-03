@@ -577,9 +577,9 @@ define([
          */
         var hasAccessTo = function hasAccessTo(actionType, node){
             var action = options.actions[actionType];
-            if(node && action && node.permissions && node.permissions[action.id] !== undefined){
-                return !!node.permissions[action.id];
-            }
+            //if(node && action && node.permissions && node.permissions[action.id] !== undefined){
+                //return !!node.permissions[action.id];
+            //}
             return true;
         };
 
@@ -595,7 +595,7 @@ define([
                 return;
             }
             if(node.type && node.permissions){
-                addClassToNode(node, getPermissionClass(node));
+                //addClassToNode(node, getPermissionClass(node));
             }
             if(node.type){
                 if (!hasAccessTo('moveInstance', node)) {
@@ -737,7 +737,7 @@ define([
          * @returns {undefined}
          */
         var executePossibleAction = function executePossibleAction(actions, context, exclude) {
-            var possibleActions;
+            /*var possibleActions;
             if (!_.isArray(exclude)) {
                 exclude = [];
             }
@@ -758,7 +758,7 @@ define([
                 actionManager.exec(possibleActions[0], context);
             } else {
                 permissionErrorMessage = feedback().error(__("You don't have sufficient permissions to access"));
-            }
+            }*/
         };
 
         return setUpTree();

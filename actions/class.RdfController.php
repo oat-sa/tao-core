@@ -322,7 +322,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             $permissions =  \oat\generis\model\data\permission\PermissionManager::getPermissionModel()->getPermissions($user, [$params['id']]);
 
             \common_Logger::d(' >>>>>>> ' . json_encode($permissions) );
-            $node['permissions'] = $this->getActionService()->computePermissions($actions, $user, $params);
+            $node['permissions'] = $permissions;//$this->getActionService()->computePermissions($actions, $user, $params);
         }
         if (isset($node['children'])) {
             foreach($node['children'] as $index => $child){

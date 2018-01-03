@@ -137,18 +137,16 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
         updateContext : function updateContext(context){
             var self = this;
             var current;
-            var permissions;
 
             context = context || {};
             current = context.uri ? 'instance' : context.classUri ? 'class' : 'none';
-            permissions = context.permissions || {};
 
-            this._resourceContext = _.omit(context, 'permissions');
+            this._resourceContext = context;
 
-            _.forEach(this._actions, function(action, id){
-                var permission = permissions[action.id];
+            _.forEach(this._actions, function(action){
+                console.log(action.id, context, action.rights);
 
-                if( permission === false ||
+                if(
                     (current === 'none' && action.context !== '*') ||
                     (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 
@@ -183,6 +181,9 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
          * @param {ActionContext} [context] - an action conext, use the current otherwise
          */
         exec : function(action, context){
+
+            console.log(' exec ', action, context  || this._resourceContext);
+
             if(_.isString(action)){
                 if(_.isPlainObject(this._actions[action])){
                     //try to find by id
