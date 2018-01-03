@@ -292,7 +292,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	        }
 	    } else {
 	        $tree = $this->computePermissions($actions, $user, $tree);
-	    }
+            }
 
 	    return $tree;
 	}
@@ -319,6 +319,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             }
             $params['id'] = $node['attributes']['data-uri'];
 
+            $permissions =  \oat\generis\model\data\permission\PermissionManager::getPermissionModel()->getPermissions($user, [$params['id']]);
+
+            \common_Logger::d(' >>>>>>> ' . json_encode($permissions) );
             $node['permissions'] = $this->getActionService()->computePermissions($actions, $user, $params);
         }
         if (isset($node['children'])) {

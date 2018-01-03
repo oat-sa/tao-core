@@ -49,18 +49,18 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             this._bind();
         },
 
-        /** 
+        /**
          * Lookup for existing actions in the page and add them to the _actions property
          * @private
          */
         _lookup : function _lookup(){
             var self = this;
             $('.action-bar .action', this.$scope).each(function(){
-    
+
                 var $this = $(this);
                 var id;
                 if($this.attr('title')){
-                
+
                     //use the element id
                     if($this.attr('id')){
                         id = $this.attr('id');
@@ -79,17 +79,19 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
                         binding : $this.data('action'),
                         url     : $('a', $this).attr('href'),
                         context : $this.data('context'),
+                        rights  : $this.data('rights'),
                         state : {
                             disabled    : $this.hasClass('disabled'),
                             hidden      : $this.hasClass('hidden'),
                             active      : $this.hasClass('active')
                         }
                     };
+                    console.log(id, self._actions[id]);
                 }
             });
         },
 
-        /** 
+        /**
          * Bind actions' events: try to execute the binding registered for this action.
          * The behavior depends on the binding name of the action.
          * @private
@@ -99,25 +101,25 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             var actionSelector = this.$scope.selector + ' .action-bar .action';
 
             $(document)
-              .off('click', actionSelector) 
+              .off('click', actionSelector)
               .on('click', actionSelector, function(e){
                 e.preventDefault();
                 var selected  = self._actions[$(this).attr('id')];
-                if(selected && selected.state.disabled === false &&  selected.state.hidden === false){ 
+                if(selected && selected.state.disabled === false &&  selected.state.hidden === false){
                     self.exec(selected);
                 }
             });
-        }, 
+        },
 
         /**
-         * Listen for event that could update the actions. 
+         * Listen for event that could update the actions.
          * Those events may change the current context.
          * @private
          */
         _listenUpdates : function _listenUpdates(){
             var self = this;
-            var treeSelector = this.$scope.selector + ' .tree';  
- 
+            var treeSelector = this.$scope.selector + ' .tree';
+
             //listen for tree changes
             $(document)
               .off('change.taotree.actions', treeSelector)
@@ -136,18 +138,18 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             var self = this;
             var current;
             var permissions;
- 
+
             context = context || {};
-            current = context.uri ? 'instance' : context.classUri ? 'class' : 'none'; 
+            current = context.uri ? 'instance' : context.classUri ? 'class' : 'none';
             permissions = context.permissions || {};
-            
+
             this._resourceContext = _.omit(context, 'permissions');
 
             _.forEach(this._actions, function(action, id){
                 var permission = permissions[action.id];
-        
+
                 if( permission === false ||
-                    (current === 'none' && action.context !== '*') || 
+                    (current === 'none' && action.context !== '*') ||
                     (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 
                     action.state.hidden = true;
@@ -176,7 +178,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
         },
 
         /**
-         * Execute the operation bound to an action (via {@link layout/actions/binder#register}); 
+         * Execute the operation bound to an action (via {@link layout/actions/binder#register});
          * @param {String|Object} action - can be either the id, the name or the action directly
          * @param {ActionContext} [context] - an action conext, use the current otherwise
          */
@@ -192,11 +194,11 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             }
             if(_.isPlainObject(action)){
 
-                //make the executed action active                
+                //make the executed action active
                 _.forEach(this._actions, function(otherAction){
                     otherAction.state.active = false;
-                }); 
-                action.state.active = true; 
+                });
+                action.state.active = true;
                 this.updateState();
 
                 binder.exec(action, context || this._resourceContext);
@@ -204,7 +206,7 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
         },
 
         /**
-         * Helps you to retrieve an action from it's name or id 
+         * Helps you to retrieve an action from it's name or id
          * @param {String} actionName - name or id of the action
          * @returns {Object} the action
          */
@@ -220,6 +222,6 @@ define(['jquery', 'lodash', 'lib/uuid', 'layout/actions/binder', 'layout/actions
             return action;
         }
     };
-    
+
     return actionManager;
 });

@@ -7,7 +7,8 @@ use oat\tao\helpers\Layout;
         id="<?=$action->getId()?>"
         title="<?= __($action->getName()) ?>"
         data-context="<?= $action->getContext() ?>"
-        data-action="<?= $action->getBinding() ?>">
+        data-action="<?= $action->getBinding() ?>"
+        data-rights='<?= json_encode($action->getRequiredRights()) ?>' >
         <a class="li-inner" href="<?= $action->getUrl(); ?>">
             <?= Layout::renderIcon( $action->getIcon(), ' icon-magicwand'); ?> <?= __($action->getName()) ?>
         </a>
