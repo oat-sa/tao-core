@@ -20,13 +20,14 @@
 namespace oat\tao\scripts\install;
 
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\oatbox\extension\InstallAction;
 
 /**
  * Changes the default tree provider to the resource selector component
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class SetResourceSelector extends \common_ext_action_InstallAction
+class SetResourceSelector extends InstallAction
 {
     public function __invoke($params)
     {
