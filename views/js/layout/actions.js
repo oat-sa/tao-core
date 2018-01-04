@@ -194,7 +194,7 @@ define([
                 _.forEach(actions, function(action){
                     var permission = permissions[action.id];
 
-                    if( permission === false ||
+                    if( action.multiple || permission === false ||
                         (current === 'none' && action.context !== '*') ||
                         (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 
