@@ -1038,6 +1038,9 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('14.21.0', '14.22.0');
 
         if($this->isVersion('14.22.0')){
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext'=>'tao','mod' => 'RestClass']));
+
             $this->getServiceManager()->register(ResourceService::SERVICE_ID, new ResourceService());
             $this->getServiceManager()->register(ListResourceLookup::SERVICE_ID, new ListResourceLookup());
             $this->getServiceManager()->register(TreeResourceLookup::SERVICE_ID, new TreeResourceLookup());
