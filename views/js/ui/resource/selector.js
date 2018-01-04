@@ -347,7 +347,6 @@ define([
 
                     hider.hide($noResults);
 
-
                     if(params.updateClasses && this.classSelector){
                         this.classSelector.updateNodes(filterClasses(resources));
                     }
@@ -412,8 +411,6 @@ define([
                     }
 
                     this.selectionComponent.removeNode(uri);
-                    //FIXME DOM should be managed inside the component
-                    $('[data-uri="' + uri + '"]', $resultArea).remove();
                 }
                 return this;
             },
@@ -439,7 +436,8 @@ define([
                         this.selectionComponent.update([node], {
                             classUri: parentUri || this.classUri,
                             format:   this.format,
-                            limit  : this.config.limit
+                            limit  : this.config.limit,
+                            updateCount : node.type === nodeTypes.instance ? 1 : false
                         });
 
                         //update the class selector

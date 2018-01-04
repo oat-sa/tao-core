@@ -92,6 +92,26 @@ define([
     };
 
     /**
+     * Manually update the count value of a class node.
+     * useful when the nodes are added or removed directly.
+     * @param {jQueryElement} $classNode - the node to update
+     * @param {Number} update - the value to add to the count
+     */
+    var updateCount = function updateCount($classNode, update){
+        var count = 0;
+        if($classNode && $classNode.length && $classNode.hasClass('class')){
+            count = $classNode.data('count');
+            count += update;
+            if(count < 0){
+                count = 0;
+            }
+            $classNode
+                .attr('data-count', count)
+                .data('count', count);
+        }
+    };
+
+    /**
      * The factory that creates the resource tree component
      *
      * @param {jQueryElement} $container - where to append the component
@@ -139,6 +159,7 @@ define([
              * Update the component with the given nodes
              * @param {Object[]} nodes - the tree nodes, with at least a URI as key and as property
              * @param {Object} params - the query parameters
+             * @param {Number|false} params.updateCount - force the update of the parent class count
              * @returns {resourceTree} chains
              * @fires resourceTree#update
              */
@@ -194,6 +215,10 @@ define([
                         nodes = nodes[0].children || [];
                     }
                     $root.children('ul').append(reduceNodes(nodes));
+
+                    if(params && _.isNumber(params.updateCount)){
+                        updateCount($root, params.updateCount);
+                    }
 
                     needMore($root);
                     indentChildren($component.children('ul'), 1);
@@ -325,6 +350,19 @@ define([
             })
             .on('update', function(){
                 this.setState('loading', false);
+            })
+            .on('remove', function(uri){
+                var $node;
+                var $parent;
+
+                if(this.is('rendered') && uri){
+                    $node = $('[data-uri="' + uri + '"]', this.getElement());
+                    if($node.hasClass('instance')){
+                        $parent = $node.parents('.class');
+                        updateCount($parent, -1);
+                    }
+                    $node.remove();
+                }
             });
 
         //always defer the initialization to let consumers listen for init and render events.

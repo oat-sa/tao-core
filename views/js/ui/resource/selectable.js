@@ -99,15 +99,30 @@ define([
              * Add a node
              * @param {String} uri - the key
              * @param {Object} node - the node to add
+             * @returns {Boolean}
+             * @fires selectable#add
              */
             addNode : function addNode(uri, node){
-                nodes[uri] = node;
+                if(_.isPlainObject(node)){
+                    nodes[uri] = node;
+
+                    /**
+                     * @event selectable#add a node is added
+                     * @param {String} uri - the URI of the added node
+                     */
+                    this.trigger('add', uri, node);
+
+                    return true;
+                }
+                return false;
             },
 
 
             /**
              * Remove a node
              * @param {String} uri - the URI of the node to remove
+             * @returns {Boolean}
+             * @fires selectable#remove
              */
             removeNode : function removeNode(uri){
                 if(this.hasNode(uri)){
@@ -116,7 +131,16 @@ define([
                         this.unselect(uri);
                     }
                     nodes = _.omit(nodes, uri);
+
+                    /**
+                     * @event selectable#remove a node is removed
+                     * @param {String} uri - the URI of the removed node
+                     */
+                    this.trigger('remove', uri);
+
+                    return true;
                 }
+                return false;
             },
 
             /**

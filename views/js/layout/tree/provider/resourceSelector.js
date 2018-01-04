@@ -95,11 +95,19 @@ define([
                             var self = this;
 
                             actionManager.on('removeNodes', function(actionContext, nodes){
+
+                                //make the component in loading state
+                                //to prevent handling intermediate changes
                                 self.setState('loading', true);
+
                                 _.forEach(nodes, self.removeNode, self);
                                 self.changeSelectionMode('single');
 
                                 self.setState('loading', false);
+                                self.selectDefaultNode(defaultNode);
+                            });
+                            actionManager.on('removeNode', function(actionContext, node){
+                                self.removeNode(node);
                                 self.selectDefaultNode(defaultNode);
                             });
                             actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
