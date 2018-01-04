@@ -226,32 +226,41 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext){
-            var tokenName = module.config().xsrfTokenName;
+            var self = this;
             var data = {};
+            var tokenName = module.config().xsrfTokenName;
 
-            data.uri = uri.decode(actionContext.uri),
-            data.classUri = uri.decode(actionContext.classUri),
-            data.id = actionContext.id,
+            data.uri        = uri.decode(actionContext.uri);
+            data.classUri   = uri.decode(actionContext.classUri);
+            data.id         = actionContext.id;
             data[tokenName] = $.cookie(tokenName);
 
-            //TODO replace by a nice popup
-            if (window.confirm(__("Please confirm deletion"))) {
-                $.ajax({
-                    url: this.url,
-                    type: "POST",
-                    data: data,
-                    dataType: 'json',
-                    success: function(response){
-                        if (response.deleted) {
-                            $(actionContext.tree).trigger('removenode.taotree', [{
-                                id : actionContext.uri || actionContext.classUri
-                            }]);
-                        } else {
-                            feedback().error(response.msg || __("Unable to delete the selected resource"));
+            return new Promise( function (resolve, reject){
+                confirmDialog(__("Please confirm deletion"), function accept(){
+                    $.ajax({
+                        url: self.url,
+                        type: "POST",
+                        data: data,
+                        dataType: 'json',
+                        success: function(response){
+                            if (response.deleted) {
+                                $(actionContext.tree).trigger('removenode.taotree', [{
+                                    id : actionContext.uri || actionContext.classUri
+                                }]);
+                                return resolve({
+                                    uri : actionContext.uri || actionContext.classUri
+                                });
+
+                            } else {
+                                reject(response.msg || __("Unable to delete the selected resource"));
+                            }
+                        },
+                        error : function (xhr, options, err){
+                            reject(err);
                         }
-                    }
-                });
-            }
+                    });
+                }, reject);
+            });
         });
 
         /**
@@ -317,9 +326,12 @@ define([
                             } else {
                                 reject(new Error(response.msg || __("Unable to delete the selected resources")));
                             }
+                        },
+                        error : function (xhr, options, err){
+                            reject(err);
                         }
                     });
-                }, resolve);
+                }, reject);
             });
         });
 
