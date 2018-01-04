@@ -46,7 +46,7 @@ define([
      * maxWidth
      * parentSelector
      *
-     * @type {{disableClass: string, applyToMedium: boolean, denyCustomRatio: boolean, responsive: boolean, showResponsiveToggle: boolean, showReset: boolean, showSync: boolean}}
+     * @type {Object}
      */
     var defaults = {
         disableClass: 'disabled',
