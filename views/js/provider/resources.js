@@ -55,7 +55,7 @@ define([
         config = _.defaults(config || {}, defaultConfig);
 
         /**
-         * @typedef {resoureProvider}
+         * @typedef {resourceProvider}
          */
         return {
 

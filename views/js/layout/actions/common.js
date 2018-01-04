@@ -205,7 +205,7 @@ define([
                                 type      : 'instance'
                             });
                         }
-                        return reject(new Error(__('Node duplcation has failed')));
+                        return reject(new Error(__('Node duplication has failed')));
                     },
                     error : function (xhr, options, err){
                         reject(err);
@@ -286,7 +286,7 @@ define([
             } else if(actionContexts.length > 1){
                 if(instances.length){
                     if(instances.length === 1){
-                        confirmMessage = __('an instance', instances.length);
+                        confirmMessage = __('an instance');
                     } else {
                         confirmMessage = __('%s instances', instances.length);
                     }
@@ -296,7 +296,7 @@ define([
                         confirmMessage += __(' and ');
                     }
                     if(classes.length === 1){
-                        confirmMessage = __('a class', instances.length);
+                        confirmMessage = __('a class');
                     } else {
                         confirmMessage += __('%s classes', classes.length);
                     }
