@@ -7,6 +7,7 @@ use \common_ext_ExtensionsManager;
 use \common_persistence_Manager;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\user\TaoRoles;
 
 
 abstract class RestTestRunner extends TaoPhpUnitTestRunner
@@ -32,7 +33,7 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
             GenerisRdf::PROPERTY_USER_UILG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
             GenerisRdf::PROPERTY_USER_PASSWORD => 'test' . rand(),
             GenerisRdf::PROPERTY_USER_ROLES => array(
-				TaoOntology::PROPERTY_INSTANCE_ROLE_GLOBALMANAGER
+                TaoRoles::GLOBAL_MANAGER
             )
         );
     }

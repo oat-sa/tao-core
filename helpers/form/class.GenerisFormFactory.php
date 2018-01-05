@@ -108,7 +108,7 @@ class tao_helpers_form_GenerisFormFactory
 					else{
 						/** @var core_kernel_classes_Resource $rangeInstance */
                         foreach ($range->getInstances(true) as $rangeInstance) {
-                            $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TaoOntology::LIST_LEVEL_PROP));
+                            $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL));
                             if (is_null($level)) {
                                 $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = array(tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel());
                             } else {
@@ -163,7 +163,7 @@ class tao_helpers_form_GenerisFormFactory
 
 
         if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::OBJECT_CLASS_URI );
+			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT );
 		}
 
 

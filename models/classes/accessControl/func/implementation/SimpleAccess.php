@@ -21,6 +21,7 @@
 namespace oat\tao\model\accessControl\func\implementation;
 
 use oat\generis\model\GenerisRdf;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\model\accessControl\func\FuncAccessControl;
 use oat\tao\model\accessControl\func\AccessRule;
 use common_ext_ExtensionsManager;
@@ -69,7 +70,7 @@ class SimpleAccess extends ConfigurableService
     public function accessPossible(User $user, $controller, $action) {
         $isUser = false;
         foreach ($user->getRoles() as $role) {
-            if ($role == TaoOntology::PROPERTY_INSTANCE_ROLE_BASE_USER) {
+            if ($role == TaoRoles::BASE_USER) {
                 $isUser = true;
                 break;
             }

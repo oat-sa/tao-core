@@ -280,14 +280,14 @@ class tao_models_classes_UserService
     {
         $returnValue = array();
 
-        $returnValue = array(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE));
+        $returnValue = array(TaoRoles::BACK_OFFICE => new core_kernel_classes_Resource(TaoRoles::BACK_OFFICE));
 
         return (array) $returnValue;
     }
     
     public function getDefaultRole()
     {
-    	return new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE);
+    	return new core_kernel_classes_Resource(TaoRoles::BACK_OFFICE);
     }
 
     /**

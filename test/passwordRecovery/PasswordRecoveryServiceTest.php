@@ -21,6 +21,7 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\tao\model\messaging\transportStrategy\FileSink;
@@ -83,7 +84,7 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
             GenerisRdf::PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
             GenerisRdf::PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
             GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-            GenerisRdf::PROPERTY_USER_ROLES => TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE
+            GenerisRdf::PROPERTY_USER_ROLES => TaoRoles::BACK_OFFICE
         ));
     }
 

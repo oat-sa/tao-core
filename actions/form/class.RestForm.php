@@ -132,7 +132,7 @@ class tao_actions_form_RestForm
             }
 
             // Field position in the form
-            $guiPropertyOrder = $property->getOnePropertyValue($this->getProperty(TaoOntology::GUI_ORDER_PROP));
+            $guiPropertyOrder = $property->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_GUI_ORDER));
             if (!is_null($guiPropertyOrder)) {
 
                 $position = intval((string)$guiPropertyOrder);
@@ -305,7 +305,7 @@ class tao_actions_form_RestForm
      */
     protected function getTopClass()
     {
-        return $this->getClass(TaoOntology::OBJECT_CLASS_URI );
+        return $this->getClass(TaoOntology::CLASS_URI_OBJECT );
     }
 
     /**

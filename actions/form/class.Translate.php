@@ -86,7 +86,7 @@ class tao_actions_form_Translate
 		
 		$dataLangElement = tao_helpers_form_FormFactory::getElement('translate_lang', 'Combobox');
 		$dataLangElement->setDescription(__('Translate to'));
-		$dataLangElement->setOptions(tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)));
+		$dataLangElement->setOptions(tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
 		$dataLangElement->setEmptyOption(__('Select a language'));
 		$dataLangElement->addValidator( tao_helpers_form_FormFactory::getValidator('NotEmpty') );
 		$this->form->addElement($dataLangElement);

@@ -353,7 +353,7 @@ abstract class tao_models_classes_GenerisService extends tao_models_classes_Serv
     {
         $returnValue = array();
        if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::OBJECT_CLASS_URI );
+			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT );
 		}
 
 		if($clazz->getUri() == $topLevelClazz->getUri()){

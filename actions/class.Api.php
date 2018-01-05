@@ -101,19 +101,19 @@ class tao_actions_Api extends tao_actions_CommonModule {
                 OntologyRdfs::RDFS_LABEL	=> $processExecution->getLabel()
 			),
 
-			TaoOntology::ITEM_CLASS_URI	=> array(
+			TaoOntology::CLASS_URI_ITEM	=> array(
 				'uri'		=> $item->getUri(),
                 OntologyRdfs::RDFS_LABEL	=> $item->getLabel()
 			),
-			TaoOntology::TEST_CLASS_URI	=> array(
+			TaoOntology::CLASS_URI_TEST	=> array(
 				'uri'		=> $test->getUri(),
                 OntologyRdfs::RDFS_LABEL	=> $test->getLabel()
 			),
-			TaoOntology::DELIVERY_CLASS_URI	=> array(
+			TaoOntology::CLASS_URI_DELIVERY	=> array(
 				'uri'		=> $delivery->getUri(),
                 OntologyRdfs::RDFS_LABEL	=> $delivery->getLabel()
 			),
-            TaoOntology::SUBJECT_CLASS_URI => array(
+            TaoOntology::CLASS_URI_SUBJECT => array(
 				'uri'					=> $user->getUri(),
                 OntologyRdfs::RDFS_LABEL				=> $user->getLabel(),
 				GenerisRdf::PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)),
@@ -164,7 +164,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 				'uri'		=> $processExecution->getUri(),
                 OntologyRdfs::RDFS_LABEL	=> $processExecution->getLabel()
 			),
-			TaoOntology::SUBJECT_CLASS_URI => array(
+			TaoOntology::CLASS_URI_SUBJECT => array(
 				'uri'					=> $user->getUri(),
                 OntologyRdfs::RDFS_LABEL				=> $user->getLabel(),
 				GenerisRdf::PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)),

@@ -25,7 +25,6 @@ use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
-use oat\generis\model\GenerisRdf;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)

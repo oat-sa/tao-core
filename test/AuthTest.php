@@ -20,7 +20,7 @@
  */
 
 use oat\generis\model\GenerisRdf;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -49,7 +49,7 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 		GenerisRdf::PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
 		GenerisRdf::PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-		GenerisRdf::PROPERTY_USER_ROLES		=>	TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE
+		GenerisRdf::PROPERTY_USER_ROLES		=>	TaoRoles::BACK_OFFICE
 	);
 	
 	/**

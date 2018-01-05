@@ -103,7 +103,7 @@ class tao_actions_form_CreateInstance
     public function initElements()
     {
         
-        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::GUI_ORDER_PROP);
+        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER);
     	
     	//get the list of properties to set in the form
     	$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
