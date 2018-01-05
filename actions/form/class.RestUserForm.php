@@ -20,7 +20,6 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
-use \oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use \oat\generis\model\user\PasswordConstraintsService;
 use \oat\oatbox\validator\ValidatorInterface;
 use \Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -140,7 +139,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         ];
 
         if ($this->isNew()) {
-            $notEmptyProperties[] = PROPERTY_USER_PASSWORD;
+            $notEmptyProperties[] = GenerisRdf::PROPERTY_USER_PASSWORD;
             $notEmptyProperties[] = 'http://www.tao.lu/Ontologies/generis.rdf#login';
         }
 
