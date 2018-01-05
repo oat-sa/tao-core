@@ -1033,7 +1033,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->setVersion('14.21.0');
         }
-        $this->skip('14.21.0', '14.23.1');
+        $this->skip('14.21.0', '14.24.0');
     }
 
     private function migrateFsAccess() {
