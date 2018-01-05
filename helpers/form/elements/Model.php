@@ -21,7 +21,6 @@
 namespace oat\tao\helpers\form\elements;
 
 use oat\tao\model\TaoOntology;
-use oat\taoItems\model\ItemModelStatus;
 use tao_helpers_form_elements_MultipleElement;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;

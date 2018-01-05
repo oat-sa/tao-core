@@ -57,8 +57,10 @@ class tao_install_utils_System{
      * 
 	 * @return boolean
 	 */
-	public static function isTAOInstalled(){
-		$config = dirname(__FILE__).'/../../../config/generis.conf.php';
+	public static function isTAOInstalled($path = '')
+    {
+        $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
+		$config = "${path}/generis.conf.php";
 		return file_exists($config);
 	}
 
@@ -67,16 +69,17 @@ class tao_install_utils_System{
      *
      * @return boolean
      */
-    public static function isTAOUpToDate()
+    public static function isTAOUpToDate($path = '')
     {
-        $generisConf = dirname(__FILE__).'/../../../config/generis.conf.php';
+        $path = (empty($path)) ? __DIR__ . '/../../../config' : rtrim($path, '/\\');
+        $generisConf = "${path}/generis.conf.php";
 
         if (!is_readable($generisConf)) {
             return false;
         }
 
         include_once($generisConf);
-        $installationConf = dirname(__FILE__).'/../../../config/generis/installation.conf.php';
+        $installationConf = "${path}/generis/installation.conf.php";
 
         if (!is_readable($installationConf)) {
             return false;
@@ -86,7 +89,7 @@ class tao_install_utils_System{
         $extIterator = is_array($conf) ? $conf : $conf->getConfig();
 
         foreach ($extIterator as $extName => $ext) {
-            $manifestPath = dirname(__FILE__).'/../../../' . $extName . '/manifest.php';
+            $manifestPath = __DIR__ . "/../../../${extName}/manifest.php";
 
             if (!is_readable($manifestPath)) {
                 return false;

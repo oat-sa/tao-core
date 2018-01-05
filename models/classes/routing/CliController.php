@@ -25,18 +25,19 @@ use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
 use oat\oatbox\action\Help;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\cliArgument\ArgumentService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class CliController
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\routing
  */
-class CliController implements ServiceLocatorAwareInterface
+class CliController implements ServiceManagerAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceManagerAwareTrait;
 
     /**
      * @var ActionService
@@ -69,9 +70,7 @@ class CliController implements ServiceLocatorAwareInterface
             $action = new Help($extId);
         }
 
-        if ($action instanceof ServiceLocatorAwareInterface) {
-            $action->setServiceLocator($this->getServiceLocator());
-        }
+        $this->propagate($action);
 
         $this->getServiceLocator()->get(ArgumentService::SERVICE_ID)->load($action, $params);
 
@@ -79,7 +78,18 @@ class CliController implements ServiceLocatorAwareInterface
             $report = call_user_func($action, $params);
         } catch (\Exception $e) {
             $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
-            $report->add(new Report(Report::TYPE_ERROR, $e->getMessage()));
+
+            $message = $e->getMessage();
+            $previous = $e->getPrevious();
+
+            // Get the full stack trace of the exception
+            while($previous){
+                $message .= PHP_EOL . "caused by : " . PHP_EOL .$previous->getMessage();
+                $previous = $previous->getPrevious();
+            }
+
+            $report->add(new Report(Report::TYPE_ERROR, $message));
+
         }
 
         return $report;

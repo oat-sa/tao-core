@@ -299,8 +299,11 @@ class tao_install_Installator {
             } else {
                 throw new Exception($cachePath . ' directory creation was failed!');
             }
-				
-			
+
+            foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
+                common_persistence_Manager::addPersistence($k, $persistence);
+            }
+
 			/*
 			 * 5 - Run the extensions bootstrap
 			 */

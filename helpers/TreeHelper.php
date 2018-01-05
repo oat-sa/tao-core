@@ -51,7 +51,8 @@ class TreeHelper
         $toOpen = array($rootNode->getUri());
         while (!empty($toTest)) {
             reset($toTest);
-            list($classUri, $depends) = each($toTest);
+            $classUri = key($toTest);
+            $depends = current($toTest);
             unset($toTest[$classUri]);
             if (in_array($classUri, $toOpen)) {
                 $toOpen = array_merge($toOpen, $depends);

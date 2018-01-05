@@ -14,13 +14,14 @@ module.exports = function(grunt) {
                 files : {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
                     '../css/tao-3.css' : '../scss/tao-3.scss',
-                    '../css/layout.css' : '../scss/layout.scss'
+                    '../css/layout.css' : '../scss/layout.scss',
+                    '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss'
                 }
             },
             ckeditor : {
                 files : {
                     '../js/lib/ckeditor/skins/tao/editor.css' : '../js/lib/ckeditor/skins/tao/scss/editor.scss',
-                    '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss',
+                    '../js/lib/ckeditor/skins/tao/dialog.css' : '../js/lib/ckeditor/skins/tao/scss/dialog.scss'
                 }
             },
             component : {
@@ -30,7 +31,12 @@ module.exports = function(grunt) {
                     '../js/ui/resource/css/selector.css' : '../js/ui/resource/scss/selector.scss',
                     '../js/ui/generis/form/form.css' : '../js/ui/generis/form/form.scss',
                     '../js/ui/generis/widget/widget.css' : '../js/ui/generis/widget/widget.scss',
-                    '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss'
+                    '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss',
+                    '../js/ui/switch/css/switch.css' : '../js/ui/switch/scss/switch.scss',
+                    '../js/ui/animable/absorbable/css/absorb.css' : '../js/ui/animable/absorbable/scss/absorb.scss',
+                    '../js/ui/animable/pulsable/css/pulse.css' : '../js/ui/animable/pulsable/scss/pulse.scss',
+                    '../js/ui/badge/css/badge.css' : '../js/ui/badge/scss/badge.scss',
+                    '../js/ui/loadingButton/css/button.css' : '../js/ui/loadingButton/scss/button.scss',
                 }
             }
         },
@@ -66,5 +72,5 @@ module.exports = function(grunt) {
     });
 
     //register an alias for main build
-    grunt.registerTask('taosass', ['sass:tao']);
+    grunt.registerTask('taosass', ['sass:tao', 'sass:component']);
 };

@@ -71,16 +71,18 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             $this->testUser->delete();
         }
     }
-    
+
     public static function tearDownAfterClass() {
         parent::tearDownAfterClass();
-        $serviceManager = ServiceManager::getServiceManager();
-        /** @var FileSystemService $fsm */
-        $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
-        $fsm->unregisterFileSystem(self::$fileSystem->getId());
-        $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
+        if (!is_null(self::$fileSystem)) {
+            $serviceManager = ServiceManager::getServiceManager();
+            /** @var FileSystemService $fsm */
+            $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
+            $fsm->unregisterFileSystem(self::$fileSystem->getId());
+            $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
+        }
     }
-    
+
     /**
      * 
      * @return array

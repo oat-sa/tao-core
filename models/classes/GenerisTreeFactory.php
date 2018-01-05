@@ -31,12 +31,19 @@ namespace oat\tao\model;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\oatbox\service\ServiceManager;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\TreeHelper;
 use tao_helpers_Uri;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\search\helper\SupportedOperatorHelper;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\OntologyAwareTrait;
 
 class GenerisTreeFactory
 {
+    use OntologyAwareTrait;
+
     /**
      * All instances of those classes loaded, independent of current limit ( Contain uris only )
      * @var array
@@ -76,12 +83,12 @@ class GenerisTreeFactory
     /** @var array  */
     private $extraProperties = [];
 	/**
-	 * @param boolean $showResources
-	 * @param array $openNodes
-	 * @param int $limit
-	 * @param int $offset
+	 * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
+	 * @param array $openNodes Class uris for which children array should be build as well
+	 * @param int $limit Limit of resources to be shown in one class
+	 * @param int $offset Offset for resources in one class
 	 * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
-	 * @param array $propertyFilter Additionnal property filters to apply to the tree
+	 * @param array $propertyFilter Additional property filters to apply to the tree
 	 * @param array $optionsFilter
 	 * @param array $extraProperties
 	 */
@@ -120,25 +127,24 @@ class GenerisTreeFactory
      *
      * @param core_kernel_classes_Class $class
      * @param core_kernel_classes_Class $parent
-     *
      * @return array
+     * @throws
      */
     private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null) {
-    	$label = $class->getLabel();
-        $label = empty($label) ? __('no label') : $label;
         $returnValue = $this->buildClassNode($class, $parent);
 
-        $instancesCount = (int) $class->countInstances($this->propertyFilter, $this->optionsFilter);
+        $options = array_merge(['recursive' => false], $this->optionsFilter);
+        $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
+        $instancesCount = $this->getSearchService()->getGateway()->count($queryBuilder);
 
         // allow the class to be opened if it contains either instances or subclasses
-        if ($instancesCount > 0 || count($class->getSubClasses(false)) > 0) {
+        $subclasses = $this->getSubClasses($class);
+        if ($instancesCount > 0 || count($subclasses) > 0) {
 	        if (in_array($class->getUri(), $this->openNodes)) {
-                    $returnValue['state']	= 'open';
-
-		            $returnValue['children'] = $this->buildChildNodes($class);
-
+                $returnValue['state']	= 'open';
+                $returnValue['children'] = $this->buildChildNodes($class, $subclasses);
             } else {
-                    $returnValue['state']	= 'closed';
+                $returnValue['state']	= 'closed';
             }
 
             // only show the resources count if we allow resources to be viewed
@@ -153,39 +159,40 @@ class GenerisTreeFactory
      * Builds the content of a class node including it's content
      *
      * @param core_kernel_classes_Class $class
-     *
+     * @param core_kernel_classes_Class[] $subclasses
      * @return array
+     * @throws
      */
-    private function buildChildNodes(core_kernel_classes_Class $class)
+    private function buildChildNodes(core_kernel_classes_Class $class, $subclasses)
     {
-        $childs = array();
+        $children = [];
 
         // subclasses
-        foreach ($class->getSubClasses(false) as $subclass) {
-            $childs[] = $this->classToNode($subclass, $class);
+        foreach ($subclasses as $subclass) {
+            $children[] = $this->classToNode($subclass, $class);
         }
         // resources
         if ($this->showResources) {
-
             $limit = $this->limit;
 
             if (in_array($class->getUri(), $this->browsableTypes)) {
                 $limit = 0;
             }
 
-            $searchResult = $class->searchInstances($this->propertyFilter, array_merge([
+            $options = array_merge([
                 'limit'     => $limit,
                 'offset'    => $this->offset,
                 'recursive' => false,
-                'order'     => OntologyRdfs::RDFS_LABEL,
-            ], $this->optionsFilter));
+                'order'     => [OntologyRdfs::RDFS_LABEL => 'asc'],
+            ], $this->optionsFilter);
 
-
+            $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
+            $searchResult = $this->getSearchService()->getGateway()->search($queryBuilder);
             foreach ($searchResult as $instance){
-                $childs[] = TreeHelper::buildResourceNode($instance, $class, $this->extraProperties);
+                $children[] = TreeHelper::buildResourceNode($instance, $class, $this->extraProperties);
             }
         }
-        return $childs;
+        return $children;
     }
 
     /**
@@ -205,11 +212,79 @@ class GenerisTreeFactory
             'data' 	=> _dh($label),
             'type'	=> 'class',
             'attributes' => array(
-                    'id' => tao_helpers_Uri::encode($class->getUri()),
-                    'class' => 'node-class',
+                'id' => tao_helpers_Uri::encode($class->getUri()),
+                'class' => 'node-class',
                 'data-uri' => $class->getUri(),
                 'data-classUri' => is_null($parent) ? null : $parent->getUri(),
             )
         );
+    }
+
+    /**
+     * @param $class
+     * @param $propertyFilter
+     * @param $options
+     * @return \oat\search\QueryBuilder
+     */
+    private function getQueryBuilder($class, $propertyFilter, $options)
+    {
+        $search = $this->getSearchService();
+        $queryBuilder = $search->query();
+        $query = $search->searchType($queryBuilder, $class->getUri(), $options['recursive']);
+
+        foreach ($propertyFilter as $filterProp => $filterVal) {
+            if (!is_array($filterVal)) {
+                $filterVal = [];
+            }
+            foreach ($filterVal as $values) {
+                if (is_array($values)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::IN, $values);
+                } elseif (is_string($values)) {
+                    $query->addCriterion($filterProp, SupportedOperatorHelper::CONTAIN, $values);
+                }
+            }
+        }
+
+        $queryBuilder->setCriteria($query);
+        if (isset($options['limit'])) {
+            $queryBuilder->setLimit($options['limit']);
+        }
+        if (isset($options['offset'])) {
+            $queryBuilder->setOffset($options['offset']);
+        }
+        if (isset($options['order'])) {
+            $queryBuilder->sort($options['order']);
+        }
+        return $queryBuilder;
+    }
+
+    /**
+     * @return ComplexSearchService
+     */
+    private function getSearchService()
+    {
+        return ServiceManager::getServiceManager()->get(ComplexSearchService::SERVICE_ID);
+    }
+
+    /**
+     * @param core_kernel_classes_Class $class
+     * @return core_kernel_classes_Class[]
+     * @throws
+     */
+    private function getSubClasses(core_kernel_classes_Class $class)
+    {
+        $search = $this->getSearchService();
+        $queryBuilder = $search->query();
+        $query = $queryBuilder->newQuery()->add(OntologyRdfs::RDFS_SUBCLASSOF)->equals($class->getUri());
+        $queryBuilder->setCriteria($query);
+        //classes always sorted by label
+        $order = [RDFS_LABEL => 'asc'];
+        $queryBuilder->sort($order);
+        $result = [];
+        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getInterfaceLanguage());
+        foreach ($search->getGateway()->search($queryBuilder) as $subclass) {
+            $result[] = $this->getClass($subclass->getUri());
+        }
+        return $result;
     }
 }

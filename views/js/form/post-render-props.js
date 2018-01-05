@@ -1,8 +1,61 @@
 define([
     'jquery',
-    'i18n'
+    'i18n',
+    'ui/feedback'
 ],
-    function($, __){
+    function($, __, feedback){
+
+        /**
+         * Add a field with URI of an item etc and a button to copy it to the clipboard
+         * @param $container
+         * @private
+         */
+        function _idToClipboard($container) {
+            // Note: isInstanceForm will not work with jquery|querySelector
+            var isInstanceForm = document.getElementById('tao.forms.instance'),
+                $idField = $container.find('#id'),
+                $copyField,
+                $label   = $('<span>', { class: 'form_desc', text: __('Resource Identifier')}),
+                $button  = $('<span>', { class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard') })
+                    .on('click', function() {
+                        var success;
+                        try {
+                            $copyField.select();
+                            success = document.execCommand('copy');
+                            $copyField.blur();
+                            if(success) {
+                                feedback().success(__('Resource Identifier has been copied to the clipboard'));
+                            }
+                            else {
+                                feedback().error(__('Resource Identifier could not be copied to the clipboard'));
+                            }
+                        } catch (err) {
+                            feedback().error(__('Your browser does not support copying to the clipboard'));
+                        }
+                    }),
+                $fieldBox = $('<span>', { class: 'uri-container'});
+
+            // if the field has already been added
+            if($('.uri-container').length) {
+                return;
+            }
+
+            if(!isInstanceForm || !$idField.length) {
+                return;
+            }
+
+            $copyField = $idField.clone()
+                .attr({ readonly: true, type: 'text' });
+            $idField.remove();
+            $fieldBox.append([$copyField, $button]);
+
+            $container.find('div')
+                .first()
+                .after($('<div>')
+                .append([$label, $fieldBox]));
+            $fieldBox.height($copyField.outerHeight());
+            $copyField.addClass('final');
+        }
 
 
         /**
@@ -206,6 +259,11 @@ define([
          */
         function init($properties) {
             var $container  = $('.content-block .xhtml_form:first form');
+            if(!$container.length) {
+                return;
+            }
+
+            _idToClipboard($container);
 
             // case no or empty argument -> find all properties not upgraded yet
             if(!$properties || !$properties.length){

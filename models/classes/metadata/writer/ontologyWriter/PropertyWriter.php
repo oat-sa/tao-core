@@ -103,7 +103,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
 
         if ($this->validate($propertyValue)) {
             if (! $dryrun) {
-                if (! $resource->setPropertyValue($this->getPropertyToWrite(), $propertyValue)) {
+                if (! $resource->editPropertyValues($this->getPropertyToWrite(), $propertyValue)) {
                     throw new MetadataWriterException(
                         'A problem has occurred during writing property "' . $this->getPropertyToWrite()->getUri() . '".'
                     );

@@ -125,7 +125,9 @@ class tao_actions_form_Instance
                                 if($value instanceof core_kernel_classes_Resource){
                                     if($element instanceof tao_helpers_form_elements_Readonly){
                                         $element->setValue($value->getLabel());
-                                    }else{
+                                    }else if ($element instanceof tao_helpers_form_elements_xhtml_ReadonlyLiteral){
+                                        $element->setValue((string)$value);
+                                    } else {
                                         $element->setValue($value->getUri());
                                     }
                                 }
