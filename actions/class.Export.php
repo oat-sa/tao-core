@@ -27,11 +27,9 @@
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- *
  */
 class tao_actions_Export extends tao_actions_CommonModule
 {
-
     /**
      * get the path to save and retrieve the exported files regarding the current extension
      * @return string the path
@@ -74,6 +72,8 @@ class tao_actions_Export extends tao_actions_CommonModule
         $handlers = $this->getAvailableExportHandlers();
         $exporter = $this->getCurrentExporter();
 
+        $this->propagate($exporter);
+
         $selectedResource = isset($formData['instance']) ? $formData['instance'] : $formData['class'];
         $formFactory = new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
         $myForm = $formFactory->getForm();
@@ -103,40 +103,11 @@ class tao_actions_Export extends tao_actions_CommonModule
                         $exportData['instances'][] = tao_helpers_Uri::decode($instance);
                     }
                 }
-
             } elseif (isset($exportData['exportInstance'])) {
                 $exportData['exportInstance'] = tao_helpers_Uri::decode($exportData['exportInstance']);
             }
 
-            $file = null;
-            try {
-                $report = $exporter->export($exportData, tao_helpers_Export::getExportPath());
-                $file = $report;
-            } catch (common_exception_UserReadableException $e) {
-                $report = common_report_Report::createFailure($e->getUserMessage());
-            }
-
-            $html = '';
-            if ($report instanceof common_report_Report) {
-                $file = $report->getData();
-
-                if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
-                    $report->setType(common_report_Report::TYPE_ERROR);
-                    if (! $report->getMessage()) {
-                        $report->setMessage(__('Error(s) has occurred during export.'));
-                    }
-
-                    $html = tao_helpers_report_Rendering::render($report);
-                }
-            }
-
-            if ($html !== '') {
-                echo $html;
-            } elseif (! is_null($file) && file_exists($file)) {
-                $this->sendFileToClient($file, $selectedResource);
-            }
-            return;
-
+            return $this->handleSubmittedData($exporter, $exportData, $selectedResource);
         }
 
         $context = Context::getInstance();
@@ -146,7 +117,46 @@ class tao_actions_Export extends tao_actions_CommonModule
 
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
+    }
 
+    /**
+     * Does the export and returns the response.
+     *
+     * @param tao_models_classes_export_ExportHandler $exporter
+     * @param array                                   $exportData
+     * @param core_kernel_classes_Resource            $selectedResource
+     */
+    protected function handleSubmittedData(tao_models_classes_export_ExportHandler $exporter, array $exportData, core_kernel_classes_Resource $selectedResource)
+    {
+        $file = null;
+        try {
+            $report = $exporter->export($exportData, tao_helpers_Export::getExportPath());
+            $file = $report;
+        } catch (common_exception_UserReadableException $e) {
+            $report = common_report_Report::createFailure($e->getUserMessage());
+        }
+
+        $html = '';
+        if ($report instanceof common_report_Report) {
+            $file = $report->getData();
+
+            if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
+                $report->setType(common_report_Report::TYPE_ERROR);
+                if (! $report->getMessage()) {
+                    $report->setMessage(__('Error(s) has occurred during export.'));
+                }
+
+                $html = tao_helpers_report_Rendering::render($report);
+            }
+        }
+
+        if ($html !== '') {
+            echo $html;
+        } elseif (! is_null($file) && file_exists($file)) {
+            $this->sendFileToClient($file, $selectedResource);
+        }
+
+        return;
     }
 
     /**
@@ -226,7 +236,7 @@ class tao_actions_Export extends tao_actions_CommonModule
     /**
      * @param $file
      */
-    protected function sendFileToClient($file, $test)
+    protected function sendFileToClient($file, $selectedResource)
     {
         setcookie("fileDownload", "true", 0, "/");
         tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
