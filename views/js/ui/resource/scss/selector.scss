@@ -47,6 +47,7 @@
 
         .class-context {
             @include simple-flex-box;
+            overflow : hidden;
 
             .class-selector{
                 position: static;
@@ -85,6 +86,10 @@
             }
             .selection-toggle .icon-multi-select:before {
                 @include font-size(16);
+            }
+            .selection-toggle.hidden{
+                display: inline-block !important;
+                visibility: hidden;
             }
         }
         .search {
@@ -143,7 +148,7 @@
     main {
         @include simple-flex-box;
 
-        min-height: 250px;
+        min-height: 150px;
 
         border-top: solid 1px $uiGeneralContentBorder;
         background-color: $uiGeneralContentBg;

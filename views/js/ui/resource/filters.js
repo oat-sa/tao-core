@@ -162,7 +162,7 @@ define([
                             }
                             acc += widget.config.label + __(' is ');
                             if(widget.config.range){
-                                displayValue = _.map(value, function(val){
+                                displayValue = _.map(_.isArray(value) ? value : [value], function(val){
                                     var selectedValue = _.find(widget.config.range, { uri : val });
                                     return selectedValue && selectedValue.label;
                                 });
