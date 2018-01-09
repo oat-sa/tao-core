@@ -26,6 +26,7 @@ use common_ext_ExtensionsManager;
 use League\Flysystem\Adapter\Local;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\oatbox\event\EventManager;
@@ -1033,6 +1034,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.21.0');
         }
         $this->skip('14.21.0', '14.23.1');
+
+        if ($this->isVersion('14.23.1')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->setVersion('14.24.0');
+        }
     }
 
     private function migrateFsAccess() {
