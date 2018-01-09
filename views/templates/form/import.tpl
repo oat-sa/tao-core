@@ -30,7 +30,7 @@ require(['jquery'], function($) {
 
 		var form = $(this).parents('form');
 		$(":input[name='"+form.attr('name')+"_sent']").remove();
-		
+
 		form.submit();
 	});
 

@@ -57,6 +57,11 @@ define([
 
     var labelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
 
+    var nodeTypes = {
+        instance : 'instance',
+        class: 'class'
+    };
+
     var selectionModes = {
         single : 'single',
         multiple : 'multiple',
@@ -85,6 +90,24 @@ define([
             }
         },
         limit: 30
+    };
+
+    /**
+     * Filter and extract classes from a resource tree
+     * @param {Object[]} resources - the resource tree
+     * @returns {Object[]} contains only classes with URI and label
+     */
+    var filterClasses = function filterClasses(resources){
+        return _(resources)
+            .filter({ type : nodeTypes.class })
+            .map(function(resource){
+                var classNode = _.pick(resource, ['uri', 'label']);
+
+                if(resource.children){
+                    classNode.children = filterClasses(resource.children);
+                }
+                return classNode;
+            }).value();
     };
 
     /**
@@ -134,7 +157,7 @@ define([
             },
 
             /**
-             * Reset the component
+             * Reset the  selector
              * @returns {resourceSelector} chains
              * @fires resourceSelector#reset
              */
@@ -284,6 +307,10 @@ define([
              */
             changeSelectionMode : function changeSelectionMode(newMode){
                 if(this.is('rendered') && this.config.selectionMode !== newMode && selectionModes[newMode]){
+                    if(this.config.multiple){
+                        this.clearSelection();
+                    }
+
                     this.config.multiple = newMode === selectionModes.multiple;
                     this.selectionComponent.setState('multiple', this.config.multiple);
                     this.setState('multiple', this.config.multiple);
@@ -320,6 +347,9 @@ define([
 
                     hider.hide($noResults);
 
+                    if(params.updateClasses && this.classSelector){
+                        this.classSelector.updateNodes(filterClasses(resources));
+                    }
 
                     if(!this.selectionComponent){
 
@@ -372,13 +402,15 @@ define([
              * @returns {resourceSelector} chains
              */
             removeNode : function removeNode(node){
-                var uri;
-                if(this.is('rendered') && this.selectionComponent){
-                    uri = _.isString(node) ? node : node.uri;
-                    if(this.selectionComponent.hasNode(uri)){
-                        this.selectionComponent.removeNode(uri);
-                        $('[data-uri="' + uri + '"]', $resultArea).remove();
+                var uri = _.isString(node) ? node : node.uri;
+                if(this.hasNode(uri)){
+
+                    //update the class selector
+                    if(this.getNodeType(node) === nodeTypes.class && this.classSelector){
+                        this.classSelector.removeNode(node);
                     }
+
+                    this.selectionComponent.removeNode(uri);
                 }
                 return this;
             },
@@ -397,14 +429,127 @@ define([
                 if(this.is('rendered') && node && node.uri && this.selectionComponent){
                     if(!this.selectionComponent.hasNode(node.uri)){
                         if(!node.type){
-                            node.type = 'instance';
+                            node.type = nodeTypes.instance;
                         }
+
+                        //update the selection component
                         this.selectionComponent.update([node], {
                             classUri: parentUri || this.classUri,
                             format:   this.format,
-                            limit  : this.config.limit
+                            limit  : this.config.limit,
+                            updateCount : node.type === nodeTypes.instance ? 1 : false
                         });
+
+                        //update the class selector
+                        if(this.getNodeType(node) === nodeTypes.class && this.classSelector){
+                            this.classSelector.addNode(node, parentUri);
+                        }
                     }
+                }
+                return this;
+            },
+
+            /**
+             * Does the given node exists ?
+             *
+             * @param {Object|String} node - the node or directly the URI
+             * @param {String} [node.uri]
+             * @returns {Boolean}
+             */
+            hasNode : function hasNode(node){
+                var uri;
+                if(node && this.is('rendered') && this.selectionComponent){
+                    uri = _.isString(node) ? node : node.uri;
+                    return this.selectionComponent.hasNode(uri);
+                }
+                return false;
+            },
+
+            /**
+             * Get the type of a node, usually instance or class
+             *
+             * @param {Object|String} node - the node or directly the URI
+             * @param {String} [node.uri]
+             * @returns {String|Boolean} one of the nodeTypes or false
+             */
+            getNodeType : function getNodeType(node){
+                var uri;
+                var foundNode;
+                if(node && this.is('rendered') && this.selectionComponent){
+                    uri = _.isString(node) ? node : node.uri;
+                    foundNode = this.selectionComponent.getNode(uri);
+                    return foundNode && foundNode.type;
+                }
+                return false;
+            },
+
+            /**
+             * Select a node manually
+             *
+             * @param {Object|String} node - the node to select or directly the URI
+             * @param {String} [node.uri]
+             * @returns {resourceSelector} chains
+             */
+            select: function select(node){
+                var uri = _.isString(node) ? node : node.uri;
+                if(this.hasNode(uri)){
+                    if(!this.is('multiple')){
+                        this.selectionComponent.clearSelection();
+                    }
+                    this.selectionComponent.select(uri);
+
+                    $('[data-uri="' + uri + '"]', $resultArea)[0].scrollIntoView({ behavior: 'smooth' });
+                }
+                return this;
+            },
+
+            /**
+             * Select the default node, then fallback to 1st instance then 1st class
+             *
+             * @param {Object|String} node - the node to select or directly the URI
+             * @param {String} [node.uri]
+             * @param {Boolean} [fallback = true] - apply the fallback ?
+             * @returns {resourceSelector} chains
+             */
+            selectDefaultNode : function selectDefaultNode(node, fallback){
+                var $resource;
+                if(this.is('rendered')){
+                    if(this.hasNode(node)){
+                        this.select(node);
+                    } else if(fallback !== false) {
+                        $resource = this.getElement().find('.' + nodeTypes.instance);
+                        if(!$resource.length){
+                            $resource = this.getElement().find('.' + nodeTypes.class);
+                        }
+                        if($resource.length){
+                            this.select( $resource.first().data('uri') );
+                        }
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Refresh and select the given node
+             *
+             * @param {Object|String} node - the node to select or directly the URI
+             * @param {String} [node.uri]
+             * @returns {resourceSelector} chains
+             */
+            refresh : function refresh(node){
+                var queryParams = {
+                    updateClasses : true,
+                };
+                if(this.is('rendered')){
+                    this.on('update.refresh', function(){
+                        this.off('update.refresh');
+                        this.selectDefaultNode(node);
+                    });
+                    if(node && node.uri){
+                        queryParams.selectedUri = node.uri;
+                    }
+                    this.reset()
+                        .query(queryParams);
                 }
                 return this;
             }
@@ -423,6 +568,7 @@ define([
                 this.format      = this.config.format || _.findKey(this.config.formats, { active : true });
                 this.config.switchMode = this.config.selectionMode === selectionModes.both;
                 this.config.multiple =  this.config.selectionMode === selectionModes.multiple;
+                this.setState('multiple', this.config.multiple);
 
                 this.render($container);
             })
@@ -472,20 +618,27 @@ define([
                             .query();
                     });
 
-                    //mode switcher
+                    //mode switcher (multiple/single)
                     if(self.config.selectionMode === selectionModes.both){
+
+                        //click the toggler
                         $selectionToggle.on('click', function(e){
                             e.preventDefault();
                             self.changeSelectionMode(self.config.multiple ? selectionModes.single : selectionModes.multiple);
                         });
 
+                        //CTRL-Click
                         $resultArea.on('mousedown', function(e){
                             if(e.ctrlKey && !self.config.multiple){
                                 self.changeSelectionMode(selectionModes.multiple);
                             }
                         });
-                    }
 
+                        //switch back to sinlge
+                        $resultArea.on('click', function(){
+                            self.changeSelectionMode(selectionModes.single);
+                        });
+                    }
 
                     //the select all control
                     $selectCtrl.on('change', function(){
@@ -595,10 +748,11 @@ define([
         return resourceSelector;
     };
 
-    /**
-     * Exposes the selection modes
-     */
+    //Exposes the selection modes
     resourceSelectorFactory.selectionModes = selectionModes;
+
+    //Exposes the node types
+    resourceSelectorFactory.nodeTypes = nodeTypes;
 
     return resourceSelectorFactory;
 });

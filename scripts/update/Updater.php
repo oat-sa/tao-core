@@ -103,6 +103,9 @@ use oat\tao\model\oauth\OauthService;
 use oat\tao\model\oauth\DataStore;
 use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\model\resources\ResourceService;
+use oat\tao\model\resources\ListResourceLookup;
+use oat\tao\model\resources\TreeResourceLookup;
 
 /**
  *
@@ -1033,6 +1036,17 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.21.0');
         }
         $this->skip('14.21.0', '14.23.3');
+
+        if($this->isVersion('14.23.3')){
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext'=>'tao','mod' => 'RestClass']));
+
+            $this->getServiceManager()->register(ResourceService::SERVICE_ID, new ResourceService());
+            $this->getServiceManager()->register(ListResourceLookup::SERVICE_ID, new ListResourceLookup());
+            $this->getServiceManager()->register(TreeResourceLookup::SERVICE_ID, new TreeResourceLookup());
+
+            $this->setVersion('15.0.0');
+        }
     }
 
     private function migrateFsAccess() {
