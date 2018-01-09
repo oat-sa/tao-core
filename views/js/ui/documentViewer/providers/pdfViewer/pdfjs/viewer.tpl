@@ -9,7 +9,7 @@
     <div class="pdf-info">
         <label for="pdf-page-num">{{__ 'Page'}}:</label>
         <input class="info" id="pdf-page-num" data-control="pdf-page-num" value="1" />
-        <label>{{__ 'on'}}</label>
+        <label>{{__ 'of'}}</label>
         <span class="info" data-control="pdf-page-count">1</span>
     </div>
 </div>

@@ -99,6 +99,13 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
+use oat\tao\model\oauth\OauthService;
+use oat\tao\model\oauth\DataStore;
+use oat\tao\model\oauth\nonce\NoNonce;
+use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\model\resources\ResourceService;
+use oat\tao\model\resources\ListResourceLookup;
+use oat\tao\model\resources\TreeResourceLookup;
 
 /**
  *
@@ -1000,6 +1007,48 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('14.12.0', '14.15.0');
+
+        if ($this->isVersion('14.15.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('14.16.0');
+        }
+
+        $this->skip('14.16.0', '14.19.0');
+
+        if ($this->isVersion('14.19.0')) {
+
+            $action = new RegisterActionService();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+
+            $this->setVersion('14.20.0');
+        }
+
+        // register OAuthService
+        if ($this->isVersion('14.20.0')) {
+            if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
+                $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
+                    OauthService::OPTION_DATASTORE => new DataStore([
+                        DataStore::OPTION_NONCE_STORE => new NoNonce()
+                    ])
+                ]));
+            }
+            $this->setVersion('14.21.0');
+        }
+        $this->skip('14.21.0', '14.23.3');
+
+        if($this->isVersion('14.23.3')){
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext'=>'tao','mod' => 'RestClass']));
+
+            $this->getServiceManager()->register(ResourceService::SERVICE_ID, new ResourceService());
+            $this->getServiceManager()->register(ListResourceLookup::SERVICE_ID, new ListResourceLookup());
+            $this->getServiceManager()->register(TreeResourceLookup::SERVICE_ID, new TreeResourceLookup());
+
+            $this->setVersion('15.0.0');
+        }
+
+        $this->skip('15.0.0', '15.2.0');
     }
 
     private function migrateFsAccess() {
