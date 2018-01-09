@@ -21,9 +21,11 @@
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\SearchService;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -56,6 +58,7 @@ class ResourceWatcher extends ConfigurableService
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
+        SearchService::getSearchImplementation()->index($resource);
         $report = \common_report_Report::createSuccess();
         return $report;
 
@@ -80,10 +83,19 @@ class ResourceWatcher extends ConfigurableService
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
+            SearchService::getSearchImplementation()->index($resource);
         }
         $report = \common_report_Report::createSuccess();
         return $report;
 
+    }
+
+    /**
+     * @param ResourceDeleted $event
+     */
+    public function catchDeletedResourceEvent(ResourceDeleted $event)
+    {
+        SearchService::getSearchImplementation()->remove($event->getId());
     }
 
      /**
