@@ -31,6 +31,7 @@ namespace oat\tao\model;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\kernel\persistence\smoothsql\search\filter\Filter;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\TreeHelper;
 use tao_helpers_Uri;
@@ -232,6 +233,11 @@ class GenerisTreeFactory
         $query = $search->searchType($queryBuilder, $class->getUri(), $options['recursive']);
 
         foreach ($propertyFilter as $filterProp => $filterVal) {
+
+            if ($filterVal instanceof Filter) {
+                $query->addCriterion($filterVal->getKey(), $filterVal->getOperator(), $filterVal->getValue());
+                continue;
+            }
             if (!is_array($filterVal)) {
                 $filterVal = [];
             }
@@ -268,7 +274,7 @@ class GenerisTreeFactory
     /**
      * @param core_kernel_classes_Class $class
      * @return core_kernel_classes_Class[]
-     * @throws \oat\search\base\exception\SearchGateWayExeption
+     * @throws
      */
     private function getSubClasses(core_kernel_classes_Class $class)
     {
@@ -280,6 +286,7 @@ class GenerisTreeFactory
         $order = [RDFS_LABEL => 'asc'];
         $queryBuilder->sort($order);
         $result = [];
+        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getInterfaceLanguage());
         foreach ($search->getGateway()->search($queryBuilder) as $subclass) {
             $result[] = $this->getClass($subclass->getUri());
         }
