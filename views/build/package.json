@@ -16,7 +16,7 @@
   "dependencies": {},
   "devDependencies": {
     "almond": "^0.3.3",
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.0",
     "grunt-aws-s3": "^0.14.0",
     "grunt-concurrent": "^2.1.0",
     "grunt-contrib-clean": "^1.0.0",
