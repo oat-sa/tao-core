@@ -171,7 +171,6 @@ define([
         //it stores all the handlers under ns/name/[handlers]
         var eventHandlers  = {};
 
-
         /**
          * Get the handlers for an event type
          * @param {String} eventName - the event name, namespace included
@@ -452,6 +451,35 @@ define([
                 if (_.isString(name) && ! _.isEmpty(name.trim())) {
                     stoppedEvents[name.trim()] = true;
                 }
+            },
+
+            /**
+             * Forward events to another eventifier object.
+             * So when an event is triggered on the current target,
+             * it get's triggered on the destination too.
+             *
+             * Be careful, the forward will be triggered only if the event reach the `on` steps
+             * (it can be canceled by a before).
+             *
+             * @param {eventifier} destination - the destination emitter
+             * @param {String|String[]} eventNames - the list of events to forward
+             * @returns {Object} target - chains
+             */
+            forward : function forward(destination, eventNames){
+                var self = this;
+                if(destination && _.isFunction(destination.trigger)){
+                    if(_.isString(eventNames)){
+                        eventNames = getEventNames(eventNames);
+                    }
+                    _.forEach(eventNames, function(eventName) {
+                        self.on(eventName, function forwardEventTo(){
+                            var args = [eventName].concat([].slice.call(arguments));
+
+                            destination.trigger.apply(destination, args);
+                        });
+                    });
+                }
+                return this;
             }
         };
 
