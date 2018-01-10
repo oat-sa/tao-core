@@ -279,6 +279,8 @@ body > footer, .content-wrap:after {
 }
 
 body > footer {
+    z-index: 99999;
+    position: relative;
     font-size: 11px;
     padding: 10px;
     border-top: 1px $uiGeneralContentBorder solid;
