@@ -478,6 +478,7 @@ label {
     }
 
 
+
     // these buttons are originally green which turned out to be avery poor choice
     [class^="btn-"], [class*=" btn-"],
     button, input[type="submit"], input[type="reset"] {
@@ -616,7 +617,14 @@ label {
         }
         vertical-align: top;
 
-
+        & ~ .form-elt-container {
+            display: inline-block;
+            width: 65%;
+            .tree {
+                max-width: none;
+                @include simple-border();
+            }
+        }
     }
     input {
         &[type="text"], &[type="password"] {

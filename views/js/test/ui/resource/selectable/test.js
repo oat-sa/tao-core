@@ -68,6 +68,7 @@ define([
 
     QUnit.cases([
         { title : 'getNodes' },
+        { title : 'getNode' },
         { title : 'setNodes' },
         { title : 'addNode' },
         { title : 'removeNode' },
@@ -97,16 +98,27 @@ define([
     QUnit.module('Nodes');
 
     QUnit.test('accessors', function(assert) {
+        var negativeNodesMock = {
+            'item-1' : { uri : "item-1", num: -1},
+            'item-3' : { uri : "item-3", num: -3 }
+        };
+
         var instance = selectable(componentMock);
-        QUnit.expect(9);
+        QUnit.expect(15);
 
         assert.ok(! instance.hasNode('item-1'));
         assert.ok(! instance.hasNode('item-3'));
+
+        assert.equal(instance.getNode('item-1'), false);
+        assert.equal(instance.getNode('item-3'), false);
 
         instance.setNodes(nodesMock);
 
         assert.ok(instance.hasNode('item-1'));
         assert.ok(instance.hasNode('item-3'));
+
+        assert.equal(instance.getNode('item-1'), nodesMock[0]);
+        assert.equal(instance.getNode('item-3'), nodesMock[2]);
 
         assert.ok(! instance.hasNode('item-12'));
         instance.addNode('item-12', { uri: 'item-12', num: 12});
@@ -122,6 +134,11 @@ define([
             'item-2' : nodesMock[1],
             'item-3' : nodesMock[2]
         });
+
+        instance.setNodes(negativeNodesMock);
+
+        assert.equal(instance.getNode('item-1'), negativeNodesMock['item-1']);
+        assert.deepEqual(instance.getNodes(), negativeNodesMock);
     });
 
 
@@ -201,4 +218,63 @@ define([
         assert.equal(typeof selection['item-3'], 'undefined', 'The item-3 node is not in the selection anymore');
     });
 
+    QUnit.test('select only', function(assert) {
+        var instance;
+        var selection;
+        QUnit.expect(9);
+
+        instance = selectable(componentMock);
+        instance.setNodes(nodesMock);
+
+        selection = instance.getSelection();
+
+        assert.equal(typeof selection['item-1'], 'undefined', 'The item-1 node is not in the selection');
+        assert.equal(typeof selection['item-2'], 'undefined', 'The item-2 node is not in the selection');
+        assert.equal(typeof selection['item-3'], 'undefined', 'The item-3 node is not in the selection');
+
+        instance.select('item-1');
+        selection = instance.getSelection();
+
+        assert.deepEqual(selection['item-1'],  nodesMock[0], 'The item-1 node is in the selection');
+        assert.equal(typeof selection['item-2'], 'undefined', 'The item-2 node is not in the selection');
+        assert.equal(typeof selection['item-3'], 'undefined', 'The item-3 node is not in the selection');
+
+        instance.select(['item-2'], true);
+        selection = instance.getSelection();
+
+        assert.equal(typeof selection['item-1'], 'undefined', 'The item-1 node is not in the selection anymore');
+        assert.deepEqual(selection['item-2'],  nodesMock[1], 'The item-2 node is in the selection');
+        assert.equal(typeof selection['item-3'], 'undefined', 'The item-3 node is not in the selection');
+    });
+
+    QUnit.test('remove selected node', function(assert) {
+        var instance;
+        var selection;
+        QUnit.expect(10);
+
+        instance = selectable(componentMock);
+        instance.setNodes(nodesMock);
+
+        selection = instance.getSelection();
+
+        assert.equal(typeof selection['item-1'], 'undefined', 'The item-1 node is not in the selection');
+        assert.equal(typeof selection['item-2'], 'undefined', 'The item-2 node is not in the selection');
+        assert.equal(typeof selection['item-3'], 'undefined', 'The item-3 node is not in the selection');
+
+        instance.select(['item-1', 'item-3']);
+        selection = instance.getSelection();
+
+        assert.deepEqual(selection['item-1'],  nodesMock[0], 'The item-1 node is in the selection');
+        assert.equal(typeof selection['item-2'], 'undefined', 'The item-2 node is not in the selection');
+        assert.deepEqual(selection['item-3'],  nodesMock[2], 'The item-3 node is in the selection');
+
+        instance.removeNode('item-1');
+        assert.ok( ! instance.hasNode('item-1'), 'The node is removed');
+
+        selection = instance.getSelection();
+
+        assert.equal(typeof selection['item-1'], 'undefined', 'The item-1 node is not in the selection anymore');
+        assert.equal(typeof selection['item-2'], 'undefined', 'The item-2 node is not in the selection');
+        assert.deepEqual(selection['item-3'],  nodesMock[2], 'The item-3 node is in the selection');
+    });
 });

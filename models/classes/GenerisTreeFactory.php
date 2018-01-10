@@ -31,6 +31,7 @@ namespace oat\tao\model;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\kernel\persistence\smoothsql\search\filter\Filter;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\TreeHelper;
 use tao_helpers_Uri;
@@ -232,6 +233,11 @@ class GenerisTreeFactory
         $query = $search->searchType($queryBuilder, $class->getUri(), $options['recursive']);
 
         foreach ($propertyFilter as $filterProp => $filterVal) {
+
+            if ($filterVal instanceof Filter) {
+                $query->addCriterion($filterVal->getKey(), $filterVal->getOperator(), $filterVal->getValue());
+                continue;
+            }
             if (!is_array($filterVal)) {
                 $filterVal = [];
             }

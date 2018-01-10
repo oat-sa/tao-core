@@ -106,6 +106,14 @@ define(['lodash'], function (_) {
         }
 
         /**
+         * Expose the list of registered providers
+         * @return {String[]} the list of provider names
+         */
+        function getAvailableProviders(){
+            return _.keys(_providers);
+        }
+
+        /**
          * Clears the registered providers
          *
          * @returns {registerProvider}
@@ -117,6 +125,7 @@ define(['lodash'], function (_) {
 
         target.registerProvider = registerProvider;
         target.getProvider = getProvider;
+        target.getAvailableProviders = getAvailableProviders;
         target.clearProviders = clearProviders;
 
         return target;

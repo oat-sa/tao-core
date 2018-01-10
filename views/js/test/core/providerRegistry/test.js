@@ -23,7 +23,6 @@ define(['core/providerRegistry'], function(providerRegistry) {
 
     QUnit.module('providerRegistry');
 
-
     QUnit.test('module', function(assert) {
         var target = {};
 
@@ -33,39 +32,29 @@ define(['core/providerRegistry'], function(providerRegistry) {
         assert.notEqual(providerRegistry(), providerRegistry(), 'The providerRegistry helper returns a different object if called with no target');
     });
 
-
-    var providerRegistryApi = [
+    QUnit.cases([
         { name : 'registerProvider', title : 'registerProvider' },
         { name : 'getProvider', title : 'getProvider' },
+        { name : 'getAvailableProviders', title : 'getAvailableProviders' },
         { name : 'clearProviders', title : 'clearProviders' }
-    ];
+    ]).test('exported API ', function(data, assert) {
+        var registry = providerRegistry();
 
-    QUnit
-        .cases(providerRegistryApi)
-        .test('exported API ', function(data, assert) {
-            var registry = providerRegistry();
+        QUnit.expect(1);
+        assert.equal(typeof registry[data.name], 'function', 'The providerRegistry helper has injected the "' + data.name + '" API');
+    });
 
-            QUnit.expect(1);
-            assert.equal(typeof registry[data.name], 'function', 'The providerRegistry helper has injected the "' + data.name + '" API');
-        });
-
-
-    var registerProviderErrors = [
+    QUnit.cases([
         { title : 'a provider have a name', provider: {init:function(){}} },
         { title : 'a provider have a not empty name', name: '', provider: {init:function(){}} },
         { title : 'a provider is an object', name: 'provider', provider: 'provider' },
         { title : 'a provider must come with an init function', name: 'provider', provider: {} }
-    ];
-
-    QUnit
-        .cases(registerProviderErrors)
-        .test('registerProvider errors ', function(data, assert) {
-            QUnit.expect(1);
-            assert.throws(function() {
-                providerRegistry().registerProvider(data.name, data.provider);
-            }, 'registerProvider must throw error when ' + data.title);
-        });
-
+    ]).test('registerProvider errors ', function(data, assert) {
+        QUnit.expect(1);
+        assert.throws(function() {
+            providerRegistry().registerProvider(data.name, data.provider);
+        }, 'registerProvider must throw error when ' + data.title);
+    });
 
     QUnit.test('registerProvider validator', function(assert) {
         var provider = {init: function() {}};
@@ -94,7 +83,6 @@ define(['core/providerRegistry'], function(providerRegistry) {
         assert.equal(registry.getProvider(name), provider, 'The provider is registered');
     });
 
-
     QUnit.test('registerProvider', function(assert) {
         var provider = {init: function() {}};
         var registry = {};
@@ -106,7 +94,6 @@ define(['core/providerRegistry'], function(providerRegistry) {
         assert.equal(registry.registerProvider(name, provider), registry, 'The registerProvider method returns the registry');
         assert.equal(registry.getProvider(name), provider, 'The provider is registered');
     });
-
 
     QUnit.test('getProvider errors', function(assert) {
         QUnit.expect(3);
@@ -127,7 +114,6 @@ define(['core/providerRegistry'], function(providerRegistry) {
         }, 'The registry must throw error if the provider is unknown');
     });
 
-
     QUnit.test('getProvider', function(assert) {
         var provider1 = {init: function() {}};
         var provider2 = {init: function() {}};
@@ -147,7 +133,6 @@ define(['core/providerRegistry'], function(providerRegistry) {
             registry.getProvider();
         }, 'The registry must throw error if getProvider is called without name and there are many providers registered');
     });
-
 
     QUnit.test('clearProviders', function(assert) {
         var provider1 = {init: function() {}};
@@ -181,4 +166,23 @@ define(['core/providerRegistry'], function(providerRegistry) {
             registry.getProvider();
         }, 'All the providers has been removed');
     });
+
+    QUnit.test('getAvailableProviders', function(assert) {
+        var providerMock = {init: function() {}};
+        var registry = providerRegistry({});
+
+        QUnit.expect(3);
+
+        assert.deepEqual(registry.getAvailableProviders(), [], 'No provider available');
+
+        registry.registerProvider('provider1', providerMock);
+        registry.registerProvider('provider2', providerMock);
+
+        assert.deepEqual(registry.getAvailableProviders(), ['provider1', 'provider2'], 'Registered providers are available');
+
+        registry.clearProviders();
+
+        assert.deepEqual(registry.getAvailableProviders(), [], 'No provider available anymore');
+    });
+
 });

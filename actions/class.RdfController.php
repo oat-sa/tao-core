@@ -23,6 +23,7 @@
 
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\ActionResolver;
+use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
@@ -274,26 +275,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	protected function addPermissions($tree)
 	{
 	    $user = \common_session_SessionManager::getSession()->getUser();
-	     
+
 	    $section = MenuService::getSection(
 	        $this->getRequestParameter('extension'),
 	        $this->getRequestParameter('perspective'),
 	        $this->getRequestParameter('section')
 	    );
-	     
-	    $actions = array();
-	    foreach ($section->getActions() as $index => $action) {
-	        try{
-	            $actions[$index] = array(
-	                'resolver'  => new ActionResolver($action->getUrl()),
-	                'id'      => $action->getId(),
-	                'context'   => $action->getContext()
-	            );
-	        } catch(\ResolverException $re) {
-	            common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
-	        }
-	    }
-	     
+
+            $actions = $section->getActions();
+
 	    //then compute ACL for each node of the tree
 	    $treeKeys = array_keys($tree);
 	    if (isset($treeKeys[0]) && is_int($treeKeys[0])) {
@@ -305,9 +295,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 	    }
 
 	    return $tree;
-	     
 	}
-	
+
     /**
      * compulte permissions for a node against actions
      * @param array[] $actions the actions data with context, name and the resolver
@@ -318,34 +307,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     private function computePermissions($actions, $user, $node)
     {
         if (isset($node['attributes']['data-uri'])) {
-            foreach($actions as $action){
-                if($node['type'] == $action['context'] || $action['context'] == 'resource') {
-                    $resolver = $action['resolver'];
-                    try{
-                        if($node['type'] == 'class'){
-                            $params = array('classUri' => $node['attributes']['data-uri']);
-                        } else {
-                            $params = array();
-                            foreach ($node['attributes'] as $key => $value) {
-                                if (substr($key, 0, strlen('data-')) == 'data-') {
-                                    $params[substr($key, strlen('data-'))] = $value;
-                                }
-                            }
-                        }
-                        $params['id'] = $node['attributes']['data-uri'];
-                        $required = array_keys(ControllerHelper::getRequiredRights($resolver->getController(), $resolver->getAction()));
-                        if (count(array_diff($required, array_keys($params))) == 0) {
-                            $node['permissions'][$action['id']] = AclProxy::hasAccess($user, $resolver->getController(), $resolver->getAction(), $params);
-                        } else {
-                            common_Logger::d('Unable to determine access to '.$action['id'], 'ACL');
-                        }
-
-                    //@todo should be a checked exception!
-                    } catch(Exception $e){
-                        common_Logger::w('Unable to resolve permission for action ' . $action['id'] . ' : ' . $e->getMessage() );
+            if($node['type'] == 'class'){
+                $params = array('classUri' => $node['attributes']['data-uri']);
+            } else {
+                $params = array();
+                foreach ($node['attributes'] as $key => $value) {
+                    if (substr($key, 0, strlen('data-')) == 'data-') {
+                        $params[substr($key, strlen('data-'))] = $value;
                     }
                 }
             }
+            $params['id'] = $node['attributes']['data-uri'];
+
+            $node['permissions'] = $this->getActionService()->computePermissions($actions, $user, $params);
         }
         if (isset($node['children'])) {
             foreach($node['children'] as $index => $child){
@@ -694,16 +668,60 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         ));
     }
 
-	/**
-	 * Test whenever the current user has "WRITE" access to the specified id
-	 *
-	 * @param string $resourceId
-	 * @return boolean
-	 */
-	protected function hasWriteAccess($resourceId) {
-	    $user = common_session_SessionManager::getSession()->getUser();
-	    return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
-	}
+    /**
+     * Delete all given resources
+     *
+     * @requiresRight ids WRITE
+     *
+     * @throws Exception
+     */
+    public function deleteAll()
+    {
+        $response = [
+            'success' => true,
+            'deleted' => []
+        ];
+        if (!tao_helpers_Request::isAjax()) {
+            throw new Exception("wrong request mode");
+        }
+
+        // Csrf token validation
+        $this->validateCsrf();
+
+        $ids = $this->getRequestParameter('ids');
+        foreach ($ids as $id) {
+            $deleted = false;
+            try {
+                if ($this->hasWriteAccess($id)) {
+                    $resource = new \core_kernel_classes_Resource($id);
+                    if ($resource->isClass()) {
+                        $deleted = $this->getClassService()->deleteClass(new \core_kernel_classes_Class($id));
+                    } else {
+                        $deleted = $this->getClassService()->deleteResource($resource);
+                    }
+                }
+            } catch (\common_Exception $ce) {
+                \common_Logger::w('Unable to remove resource ' . $id . ' : ' . $ce->getMessage());
+            }
+            if ($deleted) {
+                $response['deleted'][] = $id;
+            }
+        }
+
+        return $this->returnJson($response);
+    }
+
+    /**
+     * Test whenever the current user has "WRITE" access to the specified id
+     *
+     * @param string $resourceId
+     * @return boolean
+     */
+    protected function hasWriteAccess($resourceId)
+    {
+        $user = common_session_SessionManager::getSession()->getUser();
+        return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
+    }
 
     /**
      * Validates csrf token and revokes token on success
@@ -728,4 +746,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         \common_Logger::w('Csrf validation failed');
         throw new \common_exception_Unauthorized();
     }
+
+    /**
+     * @return ActionService 
+     */
+    private function getActionService()
+    {
+        return $this->getServiceManager()->get(ActionService::SERVICE_ID);
+    }
+
 }
