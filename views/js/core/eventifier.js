@@ -454,7 +454,7 @@ define([
             },
 
             /**
-             * Forward events to another eventifier object.
+             * Spread events to another eventifier object.
              * So when an event is triggered on the current target,
              * it get's triggered on the destination too.
              *
@@ -465,7 +465,7 @@ define([
              * @param {String|String[]} eventNames - the list of events to forward
              * @returns {Object} target - chains
              */
-            forward : function forward(destination, eventNames){
+            spread : function spread(destination, eventNames){
                 var self = this;
                 if(destination && _.isFunction(destination.trigger)){
                     if(_.isString(eventNames)){
@@ -492,6 +492,9 @@ define([
         logger = eventifierLogger.child({ target : targetName });
 
         _(eventApi).functions().forEach(function(method){
+            if(_.isFunction(target[method])){
+                eventifierLogger.warn('The target object has already a method named ' + method, target);
+            }
             target[method] = function delegate(){
                 var args =  [].slice.call(arguments);
                 return eventApi[method].apply(target, args);
