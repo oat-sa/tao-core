@@ -168,7 +168,7 @@ define([
                 var time = new Date().toISOString();
 
                 //without providers or not the level, we don't log.
-                if(loggerFactory.providers === false || !checkMinLevel(minLevel || defaultLevel, level)){
+                if(loggerFactory.providers === false){
                     return;
                 }
 
@@ -291,6 +291,8 @@ define([
         if(!_.isPlainObject(provider) || !_.isFunction(provider.log)){
             throw new TypeError('A log provider is an object with a log method');
         }
+        //propogate checkMinLevel function
+        provider.checkMinLevel = checkMinLevel;
         this.providers = this.providers || [];
         this.providers.push(provider);
     };

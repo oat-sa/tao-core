@@ -31,8 +31,22 @@ class SetClientLoggerConfig extends \common_ext_action_InstallAction
     {
         ClientLibConfigRegistry::getRegistry()->register(
             'core/logger', [
-                'level'   => 'warn',
-                'loggers' =>  ['core/logger/console']
+                'level' => 'warning',
+                'loggers' =>  [
+                    'core/logger/console',
+                    'core/logger/http'
+                ]
+            ]
+        );
+        ClientLibConfigRegistry::getRegistry()->register(
+            'core/logger/http', [
+                'url' =>  ['log', 'Log', 'tao'],
+                'level' => 'warning',
+            ]
+        );
+        ClientLibConfigRegistry::getRegistry()->register(
+            'core/logger/console', [
+                'level' => 'warning',
             ]
         );
     }
