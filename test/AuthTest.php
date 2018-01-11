@@ -22,6 +22,8 @@
 use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
+
 /**
  * 
  * @author Bertrand Chevrier, <taosupport@tudor.lu>

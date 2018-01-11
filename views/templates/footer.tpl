@@ -14,14 +14,14 @@ use oat\tao\helpers\Template;
     });
 <?php endif; ?>
 <?php if(get_data('reload')): ?>
-    require(['jquery', 'layout/section'], function ($, section) {
-        var $trees;
-        var currentSection = section.current().selected;
-        $trees = (currentSection && currentSection.panel && currentSection.panel.length) ?
-            $('.tree', currentSection.panel) : $('.tree:visible');
-        $trees.trigger('refresh.taotree', [{
-            selectNode : <?=json_encode(get_data('selectNode'))?>
-        }]);
+    require(['layout/actions'], function (actionManager) {
+        <?php if (has_data('selectNode')): ?>
+            actionManager.trigger('refresh', {
+                uri : <?php echo json_encode(\tao_helpers_Uri::decode(get_data('selectNode'))); ?>,
+            });
+        <?php else : ?>
+        actionManager.trigger('refresh');
+        <?php endif; ?>
     });
 <?php endif;?>
 </script>

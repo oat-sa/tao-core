@@ -1,0 +1,1 @@
+<div class="pulsable animate"></div>

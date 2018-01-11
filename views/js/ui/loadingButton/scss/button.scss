@@ -1,0 +1,42 @@
+@import "inc/bootstrap";
+
+.loading-button{
+    [class^="icon-"], [class*=" icon-"] {
+        padding: 0;
+    }
+    .action-label, .terminated-label{
+        margin-left: 9px;
+    }
+    .spinner-icon, .terminated-label{
+        display: none;
+    }
+    &.started{
+        cursor: default;
+        opacity: 0.5;
+        .spinner-icon{
+            display: inline-block;
+            @include vendor-prefix(transform, translateZ(0));
+            @include vendor-prefix(transform-origin, 50% 50%);
+            @include animation(loading-button-rotate 1.4s infinite linear);
+            @include keyframes(loading-button-rotate) {
+                0% {
+                    @include vendor-prefix(transform, rotate(0deg));
+                }
+                100% {
+                    @include vendor-prefix(transform, rotate(360deg));
+                }
+            }
+        }
+        .start-icon{
+            display: none;
+        }
+    }
+    &.terminated{
+        .action-label{
+            display: none;
+        }
+        .terminated-label{
+            display: inline-block;
+        }
+    }
+}
