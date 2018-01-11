@@ -57,7 +57,7 @@ define([
         assert.ok(typeof emitter.spread === 'function', "the emitter defintion holds the method spread");
     });
 
-    QUnit.test('warn when overriting', function(assert){
+    QUnit.test('warn when overwriting', function(assert){
 
         QUnit.expect(4);
 
