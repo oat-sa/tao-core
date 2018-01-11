@@ -184,6 +184,7 @@ $navHeight: 64;
             }
         }
 
+
         .main-menu {
             li {
                 min-width: 80px;
@@ -257,6 +258,12 @@ $navHeight: 64;
             }
         }
     }
+
+    .title-box {
+        &:empty{
+            display:none;
+        }
+    }
 }
 
 
@@ -272,6 +279,8 @@ body > footer, .content-wrap:after {
 }
 
 body > footer {
+    z-index: 99999;
+    position: relative;
     font-size: 11px;
     padding: 10px;
     border-top: 1px $uiGeneralContentBorder solid;
@@ -404,15 +413,17 @@ body > footer {
             }
 
             .persistent-menu {
-                margin-right: 90px;
+                right: 90px;
+                position: absolute;
             }
         }
     }
 }
 
+
 @media (max-width: 1024px) {
     body {
-        &:not(.delivery-scope), &:not(.small-navi) {
+        &:not(.delivery-scope):not(.small-navi) {
             @include mobile-navi();
         }
     }
@@ -421,8 +432,9 @@ body > footer {
 // works in conjunction with layout/nav.js
 body {
     &.oversized-nav {
-        &:not(.delivery-scope), &:not(.small-navi) {
+        &:not(.delivery-scope):not(.small-navi) {
             @include mobile-navi();
         }
     }
 }
+

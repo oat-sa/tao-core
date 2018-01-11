@@ -21,104 +21,19 @@
 define([
     'jquery',
     'lodash',
-    'context'
+    'context',
+    'util/url',
+    'layout/generisRouter'
 ], function(
     $,
     _,
-    context
+    context,
+    url,
+    generisRouter
 ){
     'use strict';
 
-    var sectionParamExp = /&section=([^&]*)/;
-    var location = window.history.location || window.location;
     var sectionApi;
-
-    //back & forward button, and push state
-    $(window).on('popstate', function (event) {
-        restoreState(getState());
-    });
-
-    /**
-     * Ensures the state has an identifier and has the right format.
-     * @param {Object} state The state to identify
-     * @returns {Object} Returns the provided state
-     */
-    function setStateId(state) {
-        var sectionPart, data;
-
-        if (!state || !_.isObject(state)) {
-            state = {};
-        }
-
-        if (!state.url) {
-            state.url = location.href;
-        }
-
-        if (!state.id) {
-            sectionPart = state.url.match(sectionParamExp);
-            state.id = sectionPart && sectionPart[1];
-        }
-
-        if (!state.data) {
-            state.data = {};
-        }
-        data = state.data;
-        data.sectionId = data.sectionId || state.sectionId || state.id;
-        data.restoreWith = data.restoreWith || state.restoreWith || 'activate';
-
-        return state;
-    }
-
-    /**
-     * Gets the current history state.
-     *
-     * @returns {Object}
-     */
-    function getState() {
-        var state = window.history.state;
-        return setStateId(state);
-    }
-
-    /**
-     * Restore a state from the history.
-     * It calls activate or show on the section saved into the state.
-     * @param {Object} state - a state that has been pushed previously
-     * @returns {Boolean|SectionApi} false if there is nothing to restore
-     */
-    function restoreState(state){
-        if(state && state.data && state.data.sectionId){
-           return sectionApi.get(state.data.sectionId)['_' + state.data.restoreWith]();
-        }
-    }
-
-
-    /**
-     * Add a new state to the history
-     * @param {Object} section
-     * @param {String} [restoreWith = 'activate']
-     */
-    function pushState(section, restoreWith){
-        var stateUrl;
-        var stateUrlWithoutSection;
-        var hasNoSection;
-        var method;
-
-        if (section) {
-            stateUrl = window.location.search + '' || '?';
-            stateUrlWithoutSection = stateUrl.replace(sectionParamExp, '');
-            hasNoSection = stateUrl === stateUrlWithoutSection;
-            method = hasNoSection ? 'replaceState' : 'pushState';
-
-            window.history[method]({
-                    sectionId : section.id,
-                    restoreWith : restoreWith || 'activate'
-                },
-                section.name || '',
-                stateUrlWithoutSection + '&section=' + section.id
-            );
-            restoreState(getState());
-        }
-    }
 
     /**
      * The section API provides you all the methods needed to manage sections.
@@ -145,12 +60,9 @@ define([
             var self = this;
             var restore = true;
             var $openersContainer;
-            var defaultSection;
-
-            var paramResult = window.location.toString().match(sectionParamExp);
-            if(paramResult && paramResult.length){
-                defaultSection = paramResult[1].replace('#', '');
-            }
+            var parsedUrl = url.parse(location.href);
+            var defaultSection = parsedUrl.query.section;
+            var defaultUri = decodeURIComponent(parsedUrl.query.uri);
 
             this.options = options || {};
 
@@ -162,25 +74,26 @@ define([
             //load sections from the DOM
             $('li', $openersContainer).each(function(index){
 
-                 var $sectionOpener = $(this);
-                 var $link = $sectionOpener.children('a');
-                 var id = $link.attr('href').replace('#panel-', '');
-                 var $panel = $('#panel-' + id);
-                 var active = false;
+                var $sectionOpener = $(this);
+                var $link = $sectionOpener.children('a');
+                var id = $link.attr('href').replace('#panel-', '');
+                var $panel = $('#panel-' + id);
+                var isActive = defaultSection ? defaultSection === id : index === 0;
 
                 $panel.removeClass('hidden');
 
-                 self.sections[id] = {
+                self.sections[id] = {
                     id          : id,
                     url         : $link.data('url'),
                     name        : $link.text(),
-                    panel       : $('#panel-' + id),
+                    panel       : $panel,
                     opener      : $sectionOpener,
                     type        : $panel.find('.section-trees').children().length ? 'tree' : 'content',
-                    active      : defaultSection ? defaultSection === id : index === 0,
+                    active      : isActive,
                     activated   : false,
-                    disabled    : $sectionOpener.hasClass('disabled')
-                 };
+                    disabled    : $sectionOpener.hasClass('disabled'),
+                    defaultUri  : (isActive && defaultUri) ? defaultUri : ''
+                };
             });
 
             //to be sure at least one is active, for example when the given default section does not exists
@@ -200,11 +113,20 @@ define([
              */
             this.scope.trigger('init.section');
 
+            generisRouter
+                .off('.sectionManager')
+                .on('sectionactivate.sectionManager', function(sectionId) {
+                    self.get(sectionId)._activate();
+                })
+                .on('sectionshow.sectionManager', function(sectionId) {
+                    self.get(sectionId)._show();
+                });
 
-            if(this.options.history === false || !restore || !restoreState(getState())){
+            if (this.options.history !== false && restore && generisRouter.hasRestorableState()) {
+                generisRouter.restoreState();
+            } else {
                 return this.activate();
             }
-            return this;
         },
 
         /**
@@ -249,14 +171,10 @@ define([
             if(!this.selected){
                 this.current();
             }
-
-            if(this.options.history === false){
-                return this._activate();
+            if(this.options.history !== false){
+                generisRouter.pushSectionState(location.href, this.selected.id, 'activate');
             }
-
-            pushState(this.selected, 'activate');
-
-            return this;
+            return this._activate();
         },
 
         /**
@@ -270,7 +188,6 @@ define([
          * @fires SectionApi#show.section
          */
         _activate : function(){
-
             this._show();
             if(this.selected.activated === false){
                 this.selected.activated = true;
@@ -299,14 +216,10 @@ define([
             if(!this.selected){
                 this.current();
             }
-
-            if(this.options.history === false){
-                return this._show();
+            if(this.options.history !== false){
+                generisRouter.pushSectionState(location.href, this.selected.id, 'show');
             }
-
-            pushState(this.selected, 'show');
-
-            return this;
+            return this._show();
         },
 
 

@@ -55,12 +55,12 @@ define([
         idealHeight = ($visibleButtons.outerHeight(true) * $requiredRows) +
             parseInt($visibleActionBarBox.css('margin-bottom')) +
             parseInt($visibleActionBarBox.css('margin-top'));
-            
+
         $visibleActionBarBox.find('.dummy').remove();
 
         return idealHeight;
     }
-    
+
 
     /**
      * Compute the height of the navi- and content container
@@ -89,15 +89,21 @@ define([
         var containerHeight = getContainerHeight($scope),
             $contentBlock = $scope.find('.content-block'),
             $tree = $scope.find('.taotree');
+        var treeHeight;
 
         if (!$tree.length) {
             return;
         }
 
+
         $contentBlock.css( { height: containerHeight, maxHeight: containerHeight });
-        $tree.css({
-            maxHeight: containerHeight - getTreeActionIdealHeight()
-        });
+        treeHeight = containerHeight - getTreeActionIdealHeight();
+        $tree.css({ maxHeight: treeHeight });
+
+        //bad hack, but the entire module is a joke, so it doesn't hurt that much
+        if($tree.data('type') === 'resource-selector'){
+            $tree.css({ height: treeHeight });
+        }
     }
 
     /**
