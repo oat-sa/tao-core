@@ -24,9 +24,14 @@
  */
 define([
     'lodash',
-], function(_){
+    'module'
+], function(_, module){
     'use strict';
 
+    var defaultConfig = {
+        level: 'info'
+    };
+    var config = _.defaults(module.config() || {}, defaultConfig);
     var mapping = {
         trace : 'debug',
         debug : 'debug',
@@ -43,14 +48,16 @@ define([
     return {
         log : function log(record){
             var level = record.level;
-            if(_.isFunction(window.console[mapping[level]])){
-                if(record.err){
-                    window.console[mapping[level]].call(window.console, record.name, record.msg, record.err, record);
+            if (this.checkMinLevel(config.level, level)) {
+                if(_.isFunction(window.console[mapping[level]])){
+                    if(record.err){
+                        window.console[mapping[level]].call(window.console, record.name, record.msg, record.err, record);
+                    } else {
+                        window.console[mapping[level]].call(window.console, record.name, record.msg, record);
+                    }
                 } else {
-                    window.console[mapping[level]].call(window.console, record.name, record.msg, record);
+                    window.console.log('['+ level.toUpperCase() + ']', record.name, record.msg, record);
                 }
-            } else {
-                window.console.log('['+ level.toUpperCase() + ']', record.name, record.msg, record);
             }
         }
     };

@@ -25,7 +25,7 @@
  * logger.info('Message');
  * logger.debug('Formated %s', 'message');
  * logger.trace({ anotherField : true}, 'hello');
- * logger.error(new Error('Something went wrong');
+ * logger.error(new Error('Something went wrong'));
  *
  * var childLogger = logger.child({ type : 'sub-component'});
  * childLogger.warn('oops');
@@ -162,7 +162,7 @@ define([
                 var time = new Date().toISOString();
 
                 //without providers or not the level, we don't log.
-                if(loggerFactory.providers === false || !checkMinLevel(minLevel || defaultLevel, level)){
+                if(loggerFactory.providers === false){
                     return;
                 }
 
@@ -285,9 +285,12 @@ define([
         if(!_.isPlainObject(provider) || !_.isFunction(provider.log)){
             throw new TypeError('A log provider is an object with a log method');
         }
+        //propogate checkMinLevel function
+        provider.checkMinLevel = checkMinLevel;
         this.providers = this.providers || [];
         this.providers.push(provider);
     };
+
 
     /**
      * Flush the messages queue into the providers

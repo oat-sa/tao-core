@@ -44,12 +44,25 @@ define([
 
     //the logger providers are configured through the AMD module config
     var config = _.defaults(module.config() || {}, defaultConfig);
-
+    var logger = loggerFactory('core/logger');
 
     if(_.isArray(config.loggers) && config.loggers.length){
         loggerFactory.setDefaultLevel(config.level);
         loggerFactory.load(config.loggers);
     }
+
+    /**
+      * Catch uncaught errors
+      * @param msg - error message
+      * @param url - current url
+      * @param line - line number
+      * @param col - column number
+      * @param error - error object (not all browsers support).
+      * @return {boolean}
+      */
+    window.onerror = function (msg, url, line, col, error) {
+        logger.error("Caught[via window.onerror]: '" + msg + "' from " + url + ":" + line + ":" + col);
+    };
 
     /**
      * Expose explicitely an direct way to activate log levels

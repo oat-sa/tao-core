@@ -106,6 +106,7 @@ use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\TreeResourceLookup;
+use oat\tao\model\user\TaoRoles;
 
 /**
  *
@@ -1049,6 +1050,13 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('15.0.0', '15.2.2');
+
+        if ($this->isVersion('15.2.2')) {
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            $this->setVersion('15.3.0');
+        }
     }
 
     private function migrateFsAccess() {
