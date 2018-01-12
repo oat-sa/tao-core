@@ -162,7 +162,7 @@ define([
                 var time = new Date().toISOString();
 
                 //without providers or not the level, we don't log.
-                if(loggerFactory.providers === false){
+                if(loggerFactory.providers === false || !checkMinLevel(minLevel || defaultLevel, level)){
                     return;
                 }
 

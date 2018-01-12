@@ -37,11 +37,7 @@ class SetClientLoggerConfig extends InstallAction
                 'loggers' =>  [
                     'core/logger/console' => [
                         'level' => 'warn',
-                    ],
-                    'core/logger/http' => [
-                        'level' => 'error',
-                        'url' =>  ['log', 'Log', 'tao'],
-                    ],
+                    ]
                 ]
             ]
         );
