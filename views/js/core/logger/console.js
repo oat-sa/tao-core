@@ -23,15 +23,13 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
-    'module'
-], function(_, module){
+    'lodash'
+], function(_){
     'use strict';
 
     var defaultConfig = {
         level: 'info'
     };
-    var config = _.defaults(module.config() || {}, defaultConfig);
     var mapping = {
         trace : 'debug',
         debug : 'debug',
@@ -40,12 +38,16 @@ define([
         error : 'error',
         fatal : 'error'
     };
+    var config;
 
     /**
      * Initialize the logger API with the console provider
      * @returns {logger} the logger
      */
     return {
+        setConfig : function setConfig(newConfig){
+            config = _.defaults(newConfig || {}, defaultConfig);
+        },
         log : function log(record){
             var level = record.level;
             if (this.checkMinLevel(config.level, level)) {

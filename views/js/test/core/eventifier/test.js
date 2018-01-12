@@ -34,13 +34,18 @@ define([
     });
 
 
-    QUnit.module('eventification');
+    QUnit.module('eventification', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
+
 
     QUnit.test("delegates", function(assert){
 
         var emitter = eventifier();
 
-        QUnit.expect(7);
+        QUnit.expect(8);
 
         assert.ok(typeof emitter === 'object', "the emitter definition is an object");
         assert.ok(typeof emitter.on === 'function', "the emitter defintion holds the method on");
@@ -49,6 +54,36 @@ define([
         assert.ok(typeof emitter.off === 'function', "the emitter defintion holds the method off");
         assert.ok(typeof emitter.removeAllListeners === 'function', "the emitter defintion holds the method removeAllListeners");
         assert.ok(typeof emitter.trigger === 'function', "the emitter defintion holds the method trigger");
+        assert.ok(typeof emitter.spread === 'function', "the emitter defintion holds the method spread");
+    });
+
+    QUnit.test('warn when overwriting', function(assert){
+
+        QUnit.expect(4);
+
+        assert.equal(testLogger.getMessages().warn.length, 0, 'No warning');
+
+        eventifier();
+        assert.equal(testLogger.getMessages().warn.length, 0, 'No overwrite no warning');
+        testLogger.reset();
+
+        eventifier({
+            spread: function(){}
+        });
+
+        assert.equal(testLogger.getMessages().warn.length, 1, 'A warning is created because the spread method exists');
+        testLogger.reset();
+
+        eventifier({
+            spread: function(){},
+            trigger: function(){},
+            on: function(){},
+            foo : function(){}
+        });
+
+        assert.equal(testLogger.getMessages().warn.length, 3, 'Warnings are created because 3 methods exist');
+        testLogger.reset();
+
     });
 
     QUnit.asyncTest("listen and trigger with params", function(assert){
@@ -180,7 +215,12 @@ define([
         emitter.trigger('foo');
     });
 
-    QUnit.module('namespaces');
+
+    QUnit.module('namespaces', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
 
     QUnit.asyncTest("listen namespace, trigger without namespace", function(assert){
         var emitter = eventifier();
@@ -320,7 +360,11 @@ define([
         emitter.trigger('foo').trigger('norz');
     });
 
-    QUnit.module('before');
+    QUnit.module('before', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
 
     QUnit.asyncTest("sync", function(assert){
 
@@ -412,8 +456,6 @@ define([
 
         QUnit.expect(11);
 
-        testLogger.reset();
-
         itemEditor.on('save', function(){
             assert.ok(false, "The listener should not be executed : e.g. do save item");
         });
@@ -453,8 +495,6 @@ define([
         var itemEditor = eventifier();
 
         QUnit.expect(11);
-
-        testLogger.reset();
 
         itemEditor.on('save', function(){
             assert.ok(false, "The listener should not be executed : e.g. do save item");
@@ -727,7 +767,12 @@ define([
         emitter.trigger('ev4.ns4 ev2');
     });
 
-    QUnit.module('on/between');
+    QUnit.module('on/between', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
+
 
     QUnit.asyncTest('async promise, resolved', function (assert) {
         var emitter = eventifier(),
@@ -759,8 +804,6 @@ define([
         var emitter = eventifier();
 
         QUnit.expect(4);
-
-        testLogger.reset();
 
         emitter
             .on('foo', function(){
@@ -831,8 +874,6 @@ define([
 
         QUnit.expect(5);
 
-        testLogger.reset();
-
         emitter
             .on('foo', function(){
                 return new Promise(function (resolve) {
@@ -868,7 +909,12 @@ define([
         }, 30);
     });
 
-    QUnit.module('after');
+    QUnit.module('after', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
+
 
     QUnit.asyncTest("trigger", function(assert){
 
@@ -1011,14 +1057,17 @@ define([
         emitter.trigger('foo bar.moo bar');
     });
 
-    QUnit.module('stopEvent');
+
+    QUnit.module('stopEvent', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
 
     QUnit.asyncTest("stop in sync .before() handlers", function(assert){
         var emitter = eventifier();
 
         QUnit.expect(4);
-
-        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -1054,8 +1103,6 @@ define([
 
         QUnit.expect(5);
 
-        testLogger.reset();
-
         emitter
             .before('save', function(){
                 assert.ok(true, 'The .before() handler has been called');
@@ -1090,8 +1137,6 @@ define([
 
         QUnit.expect(6);
 
-        testLogger.reset();
-
         emitter
             .before('save', function(){
                 assert.ok(true, 'The .before() handler has been called');
@@ -1125,8 +1170,6 @@ define([
         var emitter = eventifier();
 
         QUnit.expect(6);
-
-        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -1169,8 +1212,6 @@ define([
         var emitter = eventifier();
 
         QUnit.expect(7);
-
-        testLogger.reset();
 
         emitter
             .before('save', function(){
@@ -1215,8 +1256,6 @@ define([
 
         QUnit.expect(8);
 
-        testLogger.reset();
-
         emitter
             .before('save', function(){
                 assert.ok(true, 'The .before() handler has been called');
@@ -1260,8 +1299,6 @@ define([
 
         QUnit.expect(6);
 
-        testLogger.reset();
-
         emitter
             .on('save', function(){
                 assert.ok(true, 'The .on(save) handler has been called');
@@ -1295,8 +1332,6 @@ define([
         var emitter = eventifier();
 
         QUnit.expect(7);
-
-        testLogger.reset();
 
         emitter
             .on('save', function(){
@@ -1347,8 +1382,6 @@ define([
 
         QUnit.expect(4);
 
-        testLogger.reset();
-
         emitter
             .before('save.ns1', function(){
                 assert.ok(true, 'The .before() handler has been called');
@@ -1376,5 +1409,168 @@ define([
             assert.equal(stopTraces[0].stoppedIn, 'before', 'trace has been logged in the right place');
             assert.equal(stopTraces[0].event, 'save', 'event has the correct name');
         }, 10);
+    });
+
+
+    QUnit.module('spread', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
+
+    QUnit.asyncTest('simple event', function(assert){
+        var emitter = eventifier();
+        var destination = eventifier();
+
+        QUnit.expect(3);
+
+        emitter.spread(destination, 'foo');
+
+        emitter.on('foo', function(){
+            assert.ok(true, 'The emitter handler is called');
+        });
+        emitter.on('bar', function(){
+            assert.ok(true, 'The emitter handler is called');
+            QUnit.start();
+        });
+
+        destination.on('foo', function(){
+            assert.ok(true, 'The event is spread');
+        });
+        destination.on('bar', function(){
+            assert.ok(false, 'The event must not be fowarded');
+        });
+
+        emitter.trigger('foo');
+        emitter.trigger('bar');
+    });
+
+    QUnit.asyncTest('simple event with parameters', function(assert){
+        var emitter = eventifier();
+        var destination = eventifier();
+        var param1 = ['a', 'b'];
+        var param2 = { 'a' : 'b'};
+
+        QUnit.expect(6);
+
+        emitter.spread(destination, 'foo');
+
+        emitter.on('foo', function(received1, received2){
+            assert.ok(true, 'The emitter handler is called');
+            assert.deepEqual(received1, param1);
+            assert.deepEqual(received2, param2);
+        });
+
+        destination.on('foo', function(received1, received2){
+            assert.ok(true, 'The event is spread');
+            assert.deepEqual(received1, param1);
+            assert.deepEqual(received2, param2);
+            QUnit.start();
+        });
+
+        emitter.trigger('foo', param1, param2);
+    });
+
+    QUnit.asyncTest('multiple events with parameters', function(assert){
+        var emitter = eventifier();
+        var destination = eventifier();
+        var param1 = ['a', 'b'];
+        var param2 = { 'a' : 'b'};
+
+        QUnit.expect(14);
+
+        emitter.spread(destination, 'foo bar noz');
+
+        emitter.on('foo bar', function(received1, received2){
+            assert.ok(true, 'The emitter handler is called');
+            assert.deepEqual(received1, param1);
+            assert.deepEqual(received2, param2);
+        });
+        emitter.on('noz', function(){
+            assert.ok(true, 'The emitter handler is called');
+        });
+
+        destination.on('foo', function(received1, received2){
+            assert.ok(true, 'The event is spread');
+            assert.deepEqual(received1, param1);
+            assert.deepEqual(received2, param2);
+        });
+        destination.on('bar', function(received1, received2){
+            assert.ok(true, 'The event is spread');
+            assert.deepEqual(received1, param1);
+            assert.deepEqual(received2, param2);
+        });
+        emitter.on('noz', function(){
+            assert.ok(true, 'The event is spread');
+            QUnit.start();
+        });
+
+        emitter.trigger('foo bar', param1, param2);
+        emitter.trigger('noz');
+    });
+
+    QUnit.asyncTest('namespace', function(assert){
+        var emitter = eventifier();
+        var destination = eventifier();
+
+        QUnit.expect(3);
+
+        emitter.spread(destination, 'foo.bar');
+
+        emitter.on('foo.noz', function(){
+            assert.ok(true, 'The emitter handler is called');
+        });
+        emitter.on('foo.bar', function(){
+            assert.ok(true, 'The emitter handler is called');
+        });
+
+        destination.on('foo.noz', function(){
+            assert.ok(false, 'The event should not be spread');
+        });
+        destination.on('foo.bar', function(){
+            assert.ok(true, 'The event is spread');
+            QUnit.start();
+        });
+
+        emitter.trigger('foo.noz');
+        emitter.trigger('foo.bar');
+    });
+
+    QUnit.asyncTest('canceled', function(assert){
+        var emitter = eventifier();
+        var destination = eventifier();
+
+        QUnit.expect(4);
+
+        emitter.spread(destination, 'foo bar');
+
+        emitter.before('foo', function(){
+            assert.ok(true, 'The emitter before phase is called');
+            return Promise.reject();
+        });
+        emitter.on('foo', function(){
+            assert.ok(false, 'The emitter handler should not be called');
+        });
+
+        destination.on('foo', function(){
+            assert.ok(false, 'The event should not be spread');
+        });
+
+
+        emitter.before('bar', function(){
+            assert.ok(true, 'The emitter before phase is called');
+            return Promise.resolve();
+        });
+        emitter.on('bar', function(){
+            assert.ok(true, 'The emitter handler is called');
+        });
+
+        destination.on('bar', function(){
+            assert.ok(true, 'The event is spread');
+            QUnit.start();
+        });
+
+        emitter.trigger('foo');
+        emitter.trigger('bar');
     });
 });

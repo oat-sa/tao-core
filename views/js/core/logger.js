@@ -39,17 +39,19 @@ define([
      */
     var defaultConfig = {
         level : loggerFactory.levels.warn,
-        loggers : ['core/logger/console']
+        loggers : {
+            'core/logger/console' : {
+                'level' : 'warn'
+            }
+        }
     };
 
     //the logger providers are configured through the AMD module config
     var config = _.defaults(module.config() || {}, defaultConfig);
     var logger = loggerFactory('core/logger');
 
-    if(_.isArray(config.loggers) && config.loggers.length){
-        loggerFactory.setDefaultLevel(config.level);
-        loggerFactory.load(config.loggers);
-    }
+    loggerFactory.setDefaultLevel(config.level);
+    loggerFactory.load(config.loggers);
 
     /**
       * Catch uncaught errors

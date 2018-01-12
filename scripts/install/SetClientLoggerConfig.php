@@ -30,24 +30,19 @@ class SetClientLoggerConfig extends InstallAction
 {
     public function __invoke($params)
     {
+        ClientLibConfigRegistry::getRegistry()->remove('core/logger');
         ClientLibConfigRegistry::getRegistry()->register(
             'core/logger', [
                 'level' => 'warn',
                 'loggers' =>  [
-                    'core/logger/console',
-                    'core/logger/http'
+                    'core/logger/console' => [
+                        'level' => 'warn',
+                    ],
+                    'core/logger/http' => [
+                        'level' => 'error',
+                        'url' =>  ['log', 'Log', 'tao'],
+                    ],
                 ]
-            ]
-        );
-        ClientLibConfigRegistry::getRegistry()->register(
-            'core/logger/http', [
-                'url' =>  ['log', 'Log', 'tao'],
-                'level' => 'warn',
-            ]
-        );
-        ClientLibConfigRegistry::getRegistry()->register(
-            'core/logger/console', [
-                'level' => 'warn',
             ]
         );
     }

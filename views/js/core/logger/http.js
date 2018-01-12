@@ -25,21 +25,16 @@
 define([
     'lodash',
     'jquery',
-    'module',
     'util/url'
-], function(_, $, module, url){
+], function(_, $, url){
     'use strict';
 
     var defaultConfig = {
-        url : url.route('log', 'log', 'tao'),
+        url : url.route('log', 'Log', 'tao'),
         level: 'warning'
     };
-    var config = _.defaults(module.config() || {}, defaultConfig);
+    var config;
     var logQueue = [];
-
-    if (_.isArray(config.url)) {
-        config.url = url.route.apply(url, config.url);
-    }
 
     /**
      * Push log message into log queue
@@ -84,6 +79,12 @@ define([
      * @returns {logger} the logger
      */
     return {
+        setConfig : function setConfig(newConfig){
+            config = _.defaults(newConfig || {}, defaultConfig);
+            if (_.isArray(config.url)) {
+                config.url = url.route.apply(url, config.url);
+            }
+        },
         /**
          * log message
          * @param {Object} record - See core/logger/api::log() method
