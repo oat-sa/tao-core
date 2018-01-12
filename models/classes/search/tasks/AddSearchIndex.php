@@ -53,7 +53,7 @@ class AddSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareIn
         }
         $id = array_shift($params);
         $dataProviderServiceId = array_shift($params);
-        $customBody = array_shift($params);
+        $customBody = array_shift($params) ? array_shift($params) : [];
 
         $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Adding search index for %s', $id));
         $subReport = $this->addIndex($id, $dataProviderServiceId, $customBody);
