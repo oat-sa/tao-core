@@ -1076,6 +1076,12 @@ class Updater extends \common_ext_ExtensionUpdater {
                         'fields' => [
                             'label'
                         ],
+                    ],
+                    ,
+                    TaoOntology::CLASS_URI_GROUP => [
+                        'fields' => [
+                            'label'
+                        ],
                     ]
                 ]
             ];
