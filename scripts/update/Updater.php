@@ -107,6 +107,9 @@ use oat\tao\model\oauth\OauthService;
 use oat\tao\model\oauth\DataStore;
 use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\model\resources\ResourceService;
+use oat\tao\model\resources\ListResourceLookup;
+use oat\tao\model\resources\TreeResourceLookup;
 
 /**
  *
@@ -1036,41 +1039,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->setVersion('14.21.0');
         }
-        $this->skip('14.21.0', '14.23.1');
 
-        if ($this->isVersion('14.23.1')) {
-            /** @var EventManager $eventManager */
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
-            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
-            $options = [
-                'indexesMap' => [
-                    TaoOntology::CLASS_URI_ITEM => [
-                        'fields' => [
-                            'label'
-                        ],
-                    ],
-                    TaoOntology::CLASS_URI_TEST => [
-                        'fields' => [
-                            'label'
-                        ],
-                    ],
-                    TaoOntology::CLASS_URI_SUBJECT => [
-                        'fields' => [
-                            'label'
-                        ],
-                    ]
-                ]
-            ];
-            $ontologyDataProvider = new OntologyDataProvider($options);
-            $this->getServiceManager()->register(OntologyDataProvider::SERVICE_ID, $ontologyDataProvider);
+        $this->skip('14.21.0', '14.23.3');
 
-            $searchDataProvider = new SearchDataProvider([SearchDataProvider::PROVIDERS_OPTION => [OntologyDataProvider::SERVICE_ID]]);
-            $this->getServiceManager()->register(SearchDataProvider::SERVICE_ID, $searchDataProvider);
+        if($this->isVersion('14.23.3')){
 
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext'=>'tao','mod' => 'RestClass']));
 
-            $this->setVersion('14.24.0');
+            $this->getServiceManager()->register(ResourceService::SERVICE_ID, new ResourceService());
+            $this->getServiceManager()->register(ListResourceLookup::SERVICE_ID, new ListResourceLookup());
+            $this->getServiceManager()->register(TreeResourceLookup::SERVICE_ID, new TreeResourceLookup());
+
+            $this->setVersion('15.0.0');
         }
+
+        $this->skip('15.0.0', '15.4.0');
+
     }
 
     private function migrateFsAccess() {

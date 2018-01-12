@@ -8,7 +8,7 @@ $sections = get_data('sections');
 
 <?php if ($sections): ?>
     <div class="section-container">
-        
+
         <ul class="tab-container clearfix">
             <?php foreach ($sections as $section): ?>
 
@@ -23,11 +23,10 @@ $sections = get_data('sections');
 
         <?php foreach ($sections as $section): ?>
             <div class="hidden clear content-wrapper content-panel" id="panel-<?= $section->getId() ?>">
-            
+                <?php if(count($section->getTrees()) > 0): ?>
                 <section class="navi-container">
                     <div class="section-trees">
-                        <?php foreach ($section->getTrees() as $i => $tree):
-                        ?>
+                        <?php foreach ($section->getTrees() as $tree): ?>
                             <div class="tree-block">
                                 <div class="plain action-bar horizontal-action-bar">
                                 </div>
@@ -37,16 +36,18 @@ $sections = get_data('sections');
                                  class="taotree taotree-<?= is_null($tree->get('className'))
                                      ? 'default'
                                      : strtolower(str_replace(' ', '_', $tree->get('className'))) ?>"
+                                 data-type="<?= $tree->get('type') ?>"
                                  data-url="<?= $tree->get('dataUrl') ?>"
                                  data-rootNode="<?= $tree->get('rootNode') ?>"
+                                 data-icon="<?= is_null($tree->get('className')) ? 'test'  : strtolower(str_replace(' ', '-', $tree->get('className'))) ?>"
                                  data-actions="<?= htmlspecialchars(json_encode($tree->getActions()), ENT_QUOTES) ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>
-    
+
                     <div class="tree-action-bar-box">
                         <ul class="plain action-bar tree-action-bar vertical-action-bar">
-                        <?php  
+                        <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
                                 'actions' => $section->getActionsByGroup('tree')
                             ));
@@ -56,11 +57,11 @@ $sections = get_data('sections');
                         <?php
                             Template::inc('blocks/actions.tpl', 'tao', array(
                                 'actions' => $section->getActionsByGroup('none')
-                            )); 
+                            ));
                         ?>
                         </ul>
                     </div>
-
+                <?php endif; ?>
                 </section>
 
                 <section class="content-container">
