@@ -31,10 +31,12 @@ define([
 
     var defaultConfig = {
         url : url.route('log', 'Log', 'tao'),
-        level: 'warning'
+        level: 'warning',
+        delay: 500 //milliseconds of delay to flush
     };
     var config;
     var logQueue = [];
+    var debouncedFlush;
 
     /**
      * Push log message into log queue
@@ -52,28 +54,30 @@ define([
     function flush() {
         var messages = logQueue;
         logQueue = [];
-        _.forEach(messages, function (message) {
-            send(message);
-        });
+        send(messages);
     }
 
     /**
      * Send log messages from the queue
-     * @param {Object} message - log message
+     * @param {Array} messages - log messages
      */
-    function send(message) {
+    function send(messages) {
         $.ajax({
             url : config.url,
             type : 'POST',
             cache : false,
-            data : {json : JSON.stringify(message)},
+            data : {messages : JSON.stringify(messages)},
             dataType : 'json',
             global : false,
             error : function () {
-                push(message);
+                _.forEach(flush, function (message) {
+                    push(message);
+                });
             }
         });
     }
+
+    debouncedFlush = _.debounce(flush, defaultConfig.delay);
 
     /**
      * @returns {logger} the logger
@@ -84,6 +88,7 @@ define([
             if (_.isArray(config.url)) {
                 config.url = url.route.apply(url, config.url);
             }
+            debouncedFlush = _.debounce(flush, config.delay);
         },
         /**
          * log message
@@ -92,7 +97,7 @@ define([
         log : function log(message) {
             if (this.checkMinLevel(config.level, message.level)) {
                 push(message);
-                flush();
+                debouncedFlush();
             }
         }
     };
