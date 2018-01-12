@@ -23,6 +23,8 @@ namespace oat\tao\model\search;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
+use oat\tao\model\search\document\Document;
+use oat\tao\model\search\document\IndexDocument;
 
 /**
  * Search interface
@@ -53,12 +55,12 @@ interface Search extends PhpSerializable
     public function fullReIndex(\Traversable $resourceTraversable);
 
     /**
-     * (Re)Generate the index for a given resource
+     * (Re)Generate the index for a given data
      *
-     * @param core_kernel_classes_Resource $resource
+     * @param Document $document
      * @return boolean true if successfully indexed
      */
-    public function index(core_kernel_classes_Resource $resource);
+    public function index(Document $document);
 
     /**
      * Remove a resource from the index

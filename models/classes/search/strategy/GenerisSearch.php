@@ -21,6 +21,8 @@
 namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
+use oat\tao\model\search\document\Document;
+use oat\tao\model\search\document\IndexDocument;
 use oat\tao\model\search\Search;
 use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
@@ -88,12 +90,12 @@ class GenerisSearch extends ConfigurableService implements Search
     }
     
     /**
-     * (Re)Generate the index for a given resource
+     * (Re)Generate the index for a given data
      *
-     * @param core_kernel_classes_Resource $resource
+     * @param Document $document
      * @return boolean true if successfully indexed
     */
-    public function index(\core_kernel_classes_Resource $resource)
+    public function index(Document $document)
     {
         // nothing to do
         return true;
