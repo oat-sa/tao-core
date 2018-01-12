@@ -73,10 +73,16 @@ $sections = get_data('sections');
                         ?>
                         <?php
                         foreach ($section->getTrees() as $i => $tree) {
-                            if (!is_null($tree->get('rootNode'))) {
+                            $node = null;
+                            if (!is_null($tree->get('searchNode'))) {
+                                $node = $tree->get('searchNode');
+                            } else if (!is_null($tree->get('rootNode'))) {
+                                $node = $tree->get('rootNode');
+                            }
+                            if ($node) {
                                 Template::inc('blocks/search.tpl', 'tao', array(
-                                    'rootNode' => $tree->get('rootNode'),
-                                    'searchLabel' => __('Search %s', $tree->get('className'))
+                                'rootNode' => $node,
+                                'searchLabel' => __('Search %s', $tree->get('className'))
                                 ));
                             }
                         }

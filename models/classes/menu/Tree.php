@@ -59,7 +59,7 @@ class Tree  implements PhpSerializable
     {
         $actions = array();
         foreach ($this->data as $key => $value) {
-            if (!in_array($key, array('rootNode', 'dataUrl', 'className', 'name'))) {
+            if (!in_array($key, array('rootNode', 'searchNode', 'dataUrl', 'className', 'name'))) {
                 $actions[$key] = $value;
             }
         }
