@@ -92,4 +92,29 @@ class SearchDataProvider extends ConfigurableService
         }
         return [];
     }
+
+    /**
+     * @param $rootClass
+     * @return \core_kernel_classes_Class
+     */
+    public function getSearchClass($rootClass)
+    {
+        $providers = $this->getAllDataProviders();
+        if ($rootClass instanceof \core_kernel_classes_Class) {
+            $rootClass = $rootClass->getUri();
+        }
+        $searchClass = (string) $rootClass;
+        /** @var DataProvider|ConfigurableService $provider */
+        foreach ($providers as $provider) {
+            $indexesMap = $provider->getOption(DataProvider::INDEXES_MAP_OPTION);
+            if (isset($indexesMap[$rootClass])) {
+                $classData = $indexesMap[$rootClass];
+                if (isset($classData[DataProvider::SEARCH_CLASS_OPTION])) {
+                    $searchClass = $classData[DataProvider::SEARCH_CLASS_OPTION];
+                }
+            }
+        }
+
+        return new \core_kernel_classes_Class($searchClass);
+    }
 }

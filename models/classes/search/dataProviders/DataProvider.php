@@ -28,6 +28,7 @@ namespace oat\tao\model\search\dataProviders;
 interface DataProvider
 {
     const INDEXES_MAP_OPTION = 'indexesMap';
+    const SEARCH_CLASS_OPTION = 'searchClass';
 
     /**
      * @return string

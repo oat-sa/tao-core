@@ -21,6 +21,7 @@
 namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
+use oat\tao\model\search\dataProviders\SearchDataProvider;
 use oat\tao\model\search\document\Document;
 use oat\tao\model\search\document\IndexDocument;
 use oat\tao\model\search\Search;
@@ -42,7 +43,12 @@ class GenerisSearch extends ConfigurableService implements Search
      * @see \oat\tao\model\search\Search::query()
      */
     public function query($queryString, $rootClass = null, $start = 0, $count = 10) {
-        $results = $rootClass->searchInstances(array(
+        /** @var SearchDataProvider $searchDataProvider */
+        $searchDataProvider = $this->getServiceLocator()->get(SearchDataProvider::SERVICE_ID);
+
+        /** @var  $searchClass */
+        $searchClass = $searchDataProvider->getSearchClass($rootClass);
+        $results = $searchClass->searchInstances(array(
         	RDFS_LABEL => $queryString
         ), array(
             'recursive' => true,
@@ -55,7 +61,7 @@ class GenerisSearch extends ConfigurableService implements Search
             $ids[] = $resource->getUri();
         }
 
-        return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
+        return new ResultSet($ids, $this->getTotalCount($queryString, $searchClass));
 
     }
     
