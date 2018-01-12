@@ -20,6 +20,7 @@
  * A tree component mostly used as a data viewer/selector for the resource selector.
  * The data flow works on the query/update model:
  * @example
+ *
  * resourceTreeFactory(container, config)
  *     .on('query', function(params){
  *         var self = this;
@@ -91,6 +92,26 @@ define([
     };
 
     /**
+     * Manually update the count value of a class node.
+     * useful when the nodes are added or removed directly.
+     * @param {jQueryElement} $classNode - the node to update
+     * @param {Number} update - the value to add to the count
+     */
+    var updateCount = function updateCount($classNode, update){
+        var count = 0;
+        if($classNode && $classNode.length && $classNode.hasClass('class')){
+            count = $classNode.data('count');
+            count += update;
+            if(count < 0){
+                count = 0;
+            }
+            $classNode
+                .attr('data-count', count)
+                .data('count', count);
+        }
+    };
+
+    /**
      * The factory that creates the resource tree component
      *
      * @param {jQueryElement} $container - where to append the component
@@ -106,6 +127,7 @@ define([
         /**
          * A selectable component
          * @typedef {ui/component} resourceTree
+         * @augments {ui/resource/selectable}
          */
         var resourceTree = selectable(component({
 
@@ -137,6 +159,7 @@ define([
              * Update the component with the given nodes
              * @param {Object[]} nodes - the tree nodes, with at least a URI as key and as property
              * @param {Object} params - the query parameters
+             * @param {Number|false} params.updateCount - force the update of the parent class count
              * @returns {resourceTree} chains
              * @fires resourceTree#update
              */
@@ -148,16 +171,20 @@ define([
                 function reduceNode(acc , node){
 
                     //filter already added nodes or classes when loading "more"
-                    if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ){
+                    if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ||
+                        (node.type === 'class' && !node.state && !self.config.selectClass) ){
                         return acc;
                     }
 
                     if(node.type === 'class' && self.config.selectClass){
                         node.classUri = node.uri;
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'type', 'children']));
+                        if(!node.state){
+                            node.state = 'empty';
+                        }
+                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
                     }
                     if(node.type === 'instance'){
-                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'type', 'children']));
+                        self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
                         node.icon = config.icon;
                     }
                     if(node.children && node.children.length){
@@ -189,6 +216,10 @@ define([
                     }
                     $root.children('ul').append(reduceNodes(nodes));
 
+                    if(params && _.isNumber(params.updateCount)){
+                        updateCount($root, params.updateCount);
+                    }
+
                     needMore($root);
                     indentChildren($component.children('ul'), 1);
 
@@ -218,7 +249,7 @@ define([
                 var self = this;
                 var $component = this.getElement();
 
-                /***
+                /**
                  * Open a class node
                  * @param {jQueryElement} $class
                  */
@@ -232,7 +263,7 @@ define([
                     }
                 };
 
-                /***
+                /**
                  * Close a class node
                  * @param {jQueryElement} $class
                  */
@@ -240,7 +271,7 @@ define([
                     $class.addClass('closed');
                 };
 
-                /***
+                /**
                  * Toggle a class node
                  * @param {jQueryElement} $class
                  */
@@ -252,8 +283,10 @@ define([
                     }
                 };
 
-                //browser hierarchy
+                //Browse hierarchy
                 if(self.config.selectClass){
+                    //if we can
+
                     $component.on('click', '.class', function(e){
                         var $class = $(e.currentTarget);
                         e.preventDefault();
@@ -268,7 +301,6 @@ define([
                                 self.unselect($class.data('uri'));
                             } else {
                                 self.select($class.data('uri'), !self.is('multiple'));
-                                openClass($class);
                             }
                         }
                     });
@@ -318,6 +350,19 @@ define([
             })
             .on('update', function(){
                 this.setState('loading', false);
+            })
+            .on('remove', function(uri){
+                var $node;
+                var $parent;
+
+                if(this.is('rendered') && uri){
+                    $node = $('[data-uri="' + uri + '"]', this.getElement());
+                    if($node.hasClass('instance')){
+                        $parent = $node.parents('.class');
+                        updateCount($parent, -1);
+                    }
+                    $node.remove();
+                }
             });
 
         //always defer the initialization to let consumers listen for init and render events.

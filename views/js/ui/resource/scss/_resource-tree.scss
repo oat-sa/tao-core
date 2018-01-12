@@ -9,6 +9,7 @@
 
     &.multiple ul li.instance:before{
         display: block;
+        @include transition(all, 200ms, linear);
     }
 
     ul {
@@ -61,6 +62,9 @@
                             font-weight: bold;
                         }
                     }
+                }
+                &.empty .class-toggler{
+                    display: none;
                 }
                 & > a {
                     &:before {

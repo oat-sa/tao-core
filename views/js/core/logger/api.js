@@ -25,7 +25,7 @@
  * logger.info('Message');
  * logger.debug('Formated %s', 'message');
  * logger.trace({ anotherField : true}, 'hello');
- * logger.error(new Error('Something went wrong');
+ * logger.error(new Error('Something went wrong'));
  *
  * var childLogger = logger.child({ type : 'sub-component'});
  * childLogger.warn('oops');
@@ -246,20 +246,24 @@ define([
 
     /**
      * Load providers from AMD modules
-     * @param {String[]} modules - provider's modules to load and register
+     * @param {Object} providerConfigs - provider's modules to load and register
      * @returns {Promise} resolves once modules are registered
      */
-    loggerFactory.load = function load(modules){
+    loggerFactory.load = function load(providerConfigs){
         var self = this;
+        var modules = [];
         this.providers = [];
 
         return new Promise( function(resolve, reject) {
             //we can load the loggers dynamically
+            _.forEach(providerConfigs, function (providerConfig, providerName) {
+                modules.push(providerName);
+            });
             require(modules, function(){
                 var loadedProviders = [].slice.call(arguments);
-                _.forEach(loadedProviders, function (provider){
+                _.forEach(loadedProviders, function (provider, moduleKey){
                     try {
-                        self.register(provider);
+                        self.register(provider, providerConfigs[modules[moduleKey]]);
                     } catch(err){
                         reject(err);
                     }
@@ -278,16 +282,23 @@ define([
      * A logger provider provides with a way to log
      * @typedef {Object} loggerProvider
      * @property {Function} log - called with the message in parameter
+     * @param {Object} providerConfig - provider's config
      * @throws TypeError
      */
-    loggerFactory.register = function register(provider){
+    loggerFactory.register = function register(provider, providerConfig){
 
         if(!_.isPlainObject(provider) || !_.isFunction(provider.log)){
             throw new TypeError('A log provider is an object with a log method');
         }
+        //propogate checkMinLevel function
+        provider.checkMinLevel = checkMinLevel;
+        if (_.isFunction(provider.setConfig)) {
+            provider.setConfig(providerConfig);
+        }
         this.providers = this.providers || [];
         this.providers.push(provider);
     };
+
 
     /**
      * Flush the messages queue into the providers

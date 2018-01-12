@@ -9,17 +9,16 @@
         <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="warning"></span>
 
         <div class="tooltip-content">
-            {{__ 'The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size.'}}
+            {{__ 'Media resize along with their container, e.g. 50% means half of the container size not half of the media size.'}}
         </div>
     </div>
 
 
     <div class="media-sizer-percent">
-        <label for="">{{__ 'Size'}}</label>
-                <span class="item-editor-unit-input-box">
-                    <input type="text" name="width" value="" data-validate="$numeric"
-                           data-validate-option="$allowEmpty;"/>
-                </span>
+        <label for="media-sizer-percent-width">{{__ 'Size'}}</label>
+        <span class="item-editor-unit-input-box">
+            <input type="text" name="width" id="media-sizer-percent-width" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
+        </span>
 
         <div class="media-sizer-reset media-sizer-reset-percent" data-unit="percent">
             <span class="icon-reset"></span>
@@ -31,17 +30,15 @@
     </div>
 
     <div class="media-sizer-pixel">
-        <label for="">{{__ 'Width'}}</label>
-                <span class="item-editor-unit-input-box">
-                    <input type="text" name="width" value="" data-validate="$numeric"
-                           data-validate-option="$allowEmpty;"/>
-                </span>
+        <label for="media-sizer-pixel-width">{{__ 'Width'}}</label>
+        <span class="item-editor-unit-input-box">
+            <input type="text" name="width" id="media-sizer-pixel-width" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
+        </span>
 
-        <label for="">{{__ 'Height'}}</label>
-                <span class="item-editor-unit-input-box">
-                    <input type="text" name="height" value="" data-validate="$numeric"
-                           data-validate-option="$allowEmpty;"/>
-                </span>
+        <label for="media-sizer-pixel-height">{{__ 'Height'}}</label>
+        <span class="item-editor-unit-input-box">
+            <input type="text" name="height" id="media-sizer-pixel-height" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
+        </span>
 
         <div class="media-sizer-sync">
             <span class="icon-link"></span>

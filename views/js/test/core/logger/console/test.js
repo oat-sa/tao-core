@@ -31,6 +31,10 @@ define(['core/logger/console'], function(consoleLogger) {
     var clog   = window.console.log;
     var cdebug = window.console.debug;
 
+    //mock checkMinLevel function which should be propogated by core/logger/api module
+    consoleLogger.checkMinLevel = function () {
+        return true;
+    };
 
     QUnit.module('API');
 
