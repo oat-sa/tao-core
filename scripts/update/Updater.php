@@ -1055,6 +1055,40 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('15.0.0', '15.4.0');
 
+        if ($this->isVersion('15.4.0')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $options = [
+                'indexesMap' => [
+                    TaoOntology::CLASS_URI_ITEM => [
+                        'fields' => [
+                            'label'
+                        ],
+                    ],
+                    TaoOntology::CLASS_URI_TEST => [
+                        'fields' => [
+                            'label'
+                        ],
+                    ],
+                    TaoOntology::CLASS_URI_SUBJECT => [
+                        'fields' => [
+                            'label'
+                        ],
+                    ]
+                ]
+            ];
+            $ontologyDataProvider = new OntologyDataProvider($options);
+            $this->getServiceManager()->register(OntologyDataProvider::SERVICE_ID, $ontologyDataProvider);
+
+            $searchDataProvider = new SearchDataProvider([SearchDataProvider::PROVIDERS_OPTION => [OntologyDataProvider::SERVICE_ID]]);
+            $this->getServiceManager()->register(SearchDataProvider::SERVICE_ID, $searchDataProvider);
+
+
+            $this->setVersion('15.5.0');
+        }
+
     }
 
     private function migrateFsAccess() {
