@@ -53,9 +53,12 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\search\dataProviders\OntologyDataProvider;
+use oat\tao\model\search\dataProviders\SearchDataProvider;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -1040,6 +1043,32 @@ class Updater extends \common_ext_ExtensionUpdater {
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $options = [
+                'indexesMap' => [
+                    TaoOntology::CLASS_URI_ITEM => [
+                        'fields' => [
+                            'label'
+                        ],
+                    ],
+                    TaoOntology::CLASS_URI_TEST => [
+                        'fields' => [
+                            'label'
+                        ],
+                    ],
+                    TaoOntology::CLASS_URI_SUBJECT => [
+                        'fields' => [
+                            'label'
+                        ],
+                    ]
+                ]
+            ];
+            $ontologyDataProvider = new OntologyDataProvider($options);
+            $this->getServiceManager()->register(OntologyDataProvider::SERVICE_ID, $ontologyDataProvider);
+
+            $searchDataProvider = new SearchDataProvider([SearchDataProvider::PROVIDERS_OPTION => [OntologyDataProvider::SERVICE_ID]]);
+            $this->getServiceManager()->register(SearchDataProvider::SERVICE_ID, $searchDataProvider);
+
+
             $this->setVersion('14.24.0');
         }
     }

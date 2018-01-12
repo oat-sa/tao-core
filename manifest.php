@@ -32,6 +32,7 @@ use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
+use \oat\tao\scripts\install\SetupSearchService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -43,7 +44,7 @@ return array(
     'version' => '14.24.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.1.0'
+        'generis' => '>=6.5.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -103,7 +104,8 @@ return array(
             SetContainerService::class,
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
-            RegisterActionService::class
+            RegisterActionService::class,
+            SetupSearchService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
