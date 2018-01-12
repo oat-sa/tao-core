@@ -1049,13 +1049,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('15.0.0');
         }
 
-        $this->skip('15.0.0', '15.3.2');
+        $this->skip('15.0.0', '15.4.0');
 
-        if ($this->isVersion('15.3.2')) {
+        if ($this->isVersion('15.4.0')) {
             $setClientLoggerConfig = new SetClientLoggerConfig();
             $setClientLoggerConfig([]);
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
-            $this->setVersion('15.4.0');
+            $this->setVersion('15.5.0');
         }
     }
 
