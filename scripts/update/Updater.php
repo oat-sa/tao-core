@@ -1054,7 +1054,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('15.3.2')) {
             $setClientLoggerConfig = new SetClientLoggerConfig();
             $setClientLoggerConfig([]);
-            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
             $this->setVersion('15.4.0');
         }
     }

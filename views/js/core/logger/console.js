@@ -27,7 +27,7 @@ define([
 ], function(_){
     'use strict';
 
-    var defaultConfig = {
+    var config = {
         level: 'info'
     };
     var mapping = {
@@ -38,7 +38,6 @@ define([
         error : 'error',
         fatal : 'error'
     };
-    var config;
 
     /**
      * Initialize the logger API with the console provider
@@ -46,7 +45,7 @@ define([
      */
     return {
         setConfig : function setConfig(newConfig){
-            config = _.defaults(newConfig || {}, defaultConfig);
+            config = _.defaults(newConfig || {}, config);
         },
         log : function log(record){
             var level = record.level;
