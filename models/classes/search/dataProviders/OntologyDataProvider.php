@@ -19,14 +19,18 @@
 
 namespace oat\tao\model\search\dataProviders;
 
-
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\document\IndexDocument;
 use oat\tao\model\search\Index;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SearchTokenGenerator;
 
-
+/**
+ * Class OntologyDataProvider
+ *
+ * @author Aleksej Tikhanovich <aleksej@taotesting.com>
+ * @package oat\tao\model\search\dataProviders
+ */
 class OntologyDataProvider extends ConfigurableService implements DataProvider
 {
     const SEARCH_DATA_PROVIDER_NAME = 'ontology';

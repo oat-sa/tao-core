@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -22,9 +22,6 @@ namespace oat\tao\model\search\tasks;
 
 use oat\oatbox\action\Action;
 use oat\tao\model\search\dataProviders\DataProvider;
-use oat\tao\model\search\dataProviders\OntologyDataProvider;
-use oat\tao\model\search\dataProviders\SearchDataProvider;
-use oat\tao\model\search\SearchService;
 use oat\taoTaskQueue\model\Task\TaskAwareInterface;
 use oat\taoTaskQueue\model\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -33,6 +30,8 @@ use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Class AddSearchIndex
+ *
+ * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
 class AddSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
@@ -62,7 +61,12 @@ class AddSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareIn
         return $report;
     }
 
-
+    /**
+     * @param $id
+     * @param $dataProviderServiceId
+     * @param $customBody
+     * @return \common_report_Report
+     */
     protected function addIndex($id, $dataProviderServiceId, $customBody)
     {
         try {

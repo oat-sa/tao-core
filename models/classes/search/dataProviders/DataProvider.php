@@ -21,18 +21,23 @@ namespace oat\tao\model\search\dataProviders;
 
 /**
  * Interface DataProvider
+ *
+ * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\dataProviders
  */
 interface DataProvider
 {
     const INDEXES_MAP_OPTION = 'indexesMap';
 
+    /**
+     * @return string
+     */
     public function getIndexPrefix();
 
     /**
      * @param       $id
      * @param array $customBody
-     * @return mixed
+     * @return bool
      */
     public function addIndex($id, $customBody = []);
 
@@ -44,7 +49,7 @@ interface DataProvider
 
     /**
      * @param null $resourceTraversable
-     * @return mixed
+     * @return array
      */
     public function prepareDataForIndex($resourceTraversable = null);
 }

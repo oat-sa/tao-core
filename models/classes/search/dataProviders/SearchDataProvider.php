@@ -19,11 +19,12 @@
 
 namespace oat\tao\model\search\dataProviders;
 
-
 use oat\oatbox\service\ConfigurableService;
 
 /**
  * Class SearchDataProvider
+ *
+ * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\dataProviders
  */
 class SearchDataProvider extends ConfigurableService

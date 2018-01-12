@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -30,6 +30,8 @@ use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Class DeleteSearchIndex
+ *
+ * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
 class DeleteSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
@@ -65,7 +67,7 @@ class DeleteSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwar
     {
         try {
             SearchService::getSearchImplementation()->remove($resourceId);
-            $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Index has been deelted for %s', $resourceId));
+            $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Index has been deleted for %s', $resourceId));
         } catch (\Exception $e) {
             $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Failed to delete index for %s', $resourceId));
         }
