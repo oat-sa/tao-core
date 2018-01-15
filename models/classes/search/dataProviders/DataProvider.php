@@ -38,6 +38,11 @@ interface DataProvider
     public function getIndexPrefix();
 
     /**
+     * @return mixed
+     */
+    public function query($queryString, $rootClass = null, $start = 0, $count = 10);
+
+    /**
      * @param       $id
      * @param array $customBody
      * @return bool

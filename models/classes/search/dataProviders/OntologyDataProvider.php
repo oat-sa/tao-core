@@ -22,6 +22,7 @@ namespace oat\tao\model\search\dataProviders;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\document\IndexDocument;
 use oat\tao\model\search\Index;
+use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SearchTokenGenerator;
 
@@ -39,9 +40,24 @@ class OntologyDataProvider extends ConfigurableService implements DataProvider
     protected $tokenGenerator;
     protected $map;
 
+    /**
+     * @return string
+     */
     public function getIndexPrefix()
     {
         return 'documents';
+    }
+
+    /**
+     * @param      $queryString
+     * @param null $rootClass
+     * @param int  $start
+     * @param int  $count
+     * @return mixed|ResultSet
+     */
+    public function query($queryString, $rootClass = null, $start = 0, $count = 10)
+    {
+        return SearchService::getSearchImplementation()->query($queryString, $rootClass, $start = 0, $count = 10);
     }
 
     /**
@@ -180,5 +196,26 @@ class OntologyDataProvider extends ConfigurableService implements DataProvider
             return $resourceType;
         }
         return null;
+    }
+
+    /**
+     * Return total count of corresponded instances
+     *
+     * @param string $queryString
+     * @param core_kernel_classes_Class $rootClass
+     *
+     * @return array
+     */
+    private function getTotalCount( $queryString, $rootClass = null )
+    {
+        return $rootClass->countInstances(
+            array(
+                RDFS_LABEL => $queryString
+            ),
+            array(
+                'recursive' => true,
+                'like'      => true,
+            )
+        );
     }
 }

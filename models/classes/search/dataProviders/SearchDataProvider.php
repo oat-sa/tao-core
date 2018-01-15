@@ -45,6 +45,26 @@ class SearchDataProvider extends ConfigurableService
     }
 
     /**
+     * @param $rootClass
+     * @return null|ConfigurableService|DataProvider
+     */
+    public function getDataProvidersByClass($rootClass)
+    {
+        $providers = $this->getAllDataProviders();
+        if ($rootClass instanceof \core_kernel_classes_Class) {
+            $rootClass = $rootClass->getUri();
+        }
+        /** @var DataProvider|ConfigurableService $provider */
+        foreach ($providers as $provider) {
+            $indexesMap = $provider->getOption(DataProvider::INDEXES_MAP_OPTION);
+            if (isset($indexesMap[$rootClass])) {
+               return $provider;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param $resourceTraversable
      * @return array
      */
@@ -103,7 +123,9 @@ class SearchDataProvider extends ConfigurableService
         if ($rootClass instanceof \core_kernel_classes_Class) {
             $rootClass = $rootClass->getUri();
         }
+
         $searchClass = (string) $rootClass;
+
         /** @var DataProvider|ConfigurableService $provider */
         foreach ($providers as $provider) {
             $indexesMap = $provider->getOption(DataProvider::INDEXES_MAP_OPTION);
@@ -114,7 +136,6 @@ class SearchDataProvider extends ConfigurableService
                 }
             }
         }
-
         return new \core_kernel_classes_Class($searchClass);
     }
 }

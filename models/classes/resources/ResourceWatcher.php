@@ -62,7 +62,7 @@ class ResourceWatcher extends ConfigurableService
         $now = microtime(true);
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
-        $resource->setPropertyValue($property, $now);
+        $resource->editPropertyValues($property, $now);
         $report = \common_report_Report::createSuccess();
         return $report;
 

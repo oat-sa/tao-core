@@ -23,9 +23,7 @@ namespace oat\tao\model\search\strategy;
 use core_kernel_classes_Class;
 use oat\tao\model\search\dataProviders\SearchDataProvider;
 use oat\tao\model\search\document\Document;
-use oat\tao\model\search\document\IndexDocument;
 use oat\tao\model\search\Search;
-use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
 
