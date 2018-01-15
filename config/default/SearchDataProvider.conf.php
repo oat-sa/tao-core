@@ -4,7 +4,7 @@
  */
 
 return new \oat\tao\model\search\dataProviders\SearchDataProvider(array(
-    'providers' => [
+    \oat\tao\model\search\dataProviders\SearchDataProvider::PROVIDERS_OPTION => [
         \oat\tao\model\search\dataProviders\OntologyDataProvider::SERVICE_ID
     ]
 ));

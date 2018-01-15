@@ -4,22 +4,23 @@
  */
 
 use oat\tao\model\TaoOntology;
-use oat\generis\model\OntologyRdfs;
+use oat\tao\model\search\dataProviders\DataProvider;
+use oat\tao\model\search\dataProviders\OntologyDataProvider;
 
-return new \oat\tao\model\search\dataProviders\OntologyDataProvider(array(
-    'indexesMap' => [
+return new OntologyDataProvider(array(
+    DataProvider::INDEXES_MAP_OPTION => [
         TaoOntology::CLASS_URI_ITEM => [
-            'fields' => [
+            DataProvider::FIELDS_OPTION => [
                 'label'
             ],
         ],
         TaoOntology::CLASS_URI_TEST => [
-            'fields' => [
+            DataProvider::FIELDS_OPTION => [
                 'label'
             ],
         ],
         TaoOntology::CLASS_URI_SUBJECT => [
-            'fields' => [
+            DataProvider::FIELDS_OPTION => [
                 'label'
             ],
         ]
