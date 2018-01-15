@@ -22,6 +22,7 @@ namespace oat\tao\scripts\install;
 
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\extension\InstallAction;
+use oat\tao\model\search\dataProviders\DataProvider;
 use oat\tao\model\search\dataProviders\OntologyDataProvider;
 use oat\tao\model\search\dataProviders\SearchDataProvider;
 use oat\tao\model\TaoOntology;
@@ -31,24 +32,24 @@ class SetupSearchService extends InstallAction
     public function __invoke($params)
     {
         $options = [
-            'indexesMap' => [
+            DataProvider::INDEXES_MAP_OPTION => [
                 TaoOntology::CLASS_URI_ITEM => [
-                    'fields' => [
+                    DataProvider::FIELDS_OPTION => [
                         'label'
                     ],
                 ],
                 TaoOntology::CLASS_URI_TEST => [
-                    'fields' => [
+                    DataProvider::FIELDS_OPTION => [
                         'label'
                     ],
                 ],
                 TaoOntology::CLASS_URI_SUBJECT => [
-                    'fields' => [
+                    DataProvider::FIELDS_OPTION => [
                         'label'
                     ],
                 ],
                 TaoOntology::CLASS_URI_GROUP => [
-                    'fields' => [
+                    DataProvider::FIELDS_OPTION => [
                         'label'
                     ],
                 ]

@@ -53,6 +53,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\search\dataProviders\DataProvider;
 use oat\tao\model\search\dataProviders\OntologyDataProvider;
 use oat\tao\model\search\dataProviders\SearchDataProvider;
 use oat\tao\model\security\xsrf\TokenService;
@@ -1061,24 +1062,24 @@ class Updater extends \common_ext_ExtensionUpdater {
             $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
             $options = [
-                'indexesMap' => [
+                DataProvider::INDEXES_MAP_OPTION => [
                     TaoOntology::CLASS_URI_ITEM => [
-                        'fields' => [
+                        DataProvider::FIELDS_OPTION => [
                             'label'
                         ],
                     ],
                     TaoOntology::CLASS_URI_TEST => [
-                        'fields' => [
+                        DataProvider::FIELDS_OPTION => [
                             'label'
                         ],
                     ],
                     TaoOntology::CLASS_URI_SUBJECT => [
-                        'fields' => [
+                        DataProvider::FIELDS_OPTION => [
                             'label'
                         ],
                     ],
                     TaoOntology::CLASS_URI_GROUP => [
-                        'fields' => [
+                        DataProvider::FIELDS_OPTION => [
                             'label'
                         ],
                     ]

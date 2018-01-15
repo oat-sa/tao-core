@@ -29,6 +29,8 @@ interface DataProvider
 {
     const INDEXES_MAP_OPTION = 'indexesMap';
     const SEARCH_CLASS_OPTION = 'searchClass';
+    const LABEL_CLASS_OPTION = 'label';
+    const FIELDS_OPTION = 'fields';
 
     /**
      * @return string
