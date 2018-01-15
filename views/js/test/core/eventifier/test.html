@@ -21,7 +21,12 @@
                     config : {
                         'core/logger' : {
                             level : 10, // trace
-                            loggers : ['tao/test/core/logger/testLogger']
+                            //loggers : ['tao/test/core/logger/testLogger']
+                            loggers : {
+                                'tao/test/core/logger/testLogger' : {
+                                    'level' : 10
+                                }
+                            }
                         }
                     }
                 });
