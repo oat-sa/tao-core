@@ -129,6 +129,28 @@ define([
     };
 
     /**
+     * Get all stores
+     * @param {Function} [validate] - An optional callback that validates the stores to retrieve
+     * @returns {Promise<String[]>} resolves with the list of stores
+     */
+    memoryStorageBackend.getAll = function getAll(validate) {
+        var storeNames = [];
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        storeNames = _(memoryStore)
+            .map(function(store, storeName){
+                return storeName;
+            })
+            .filter(function(storeName){
+                return validate ? validate(storeName) : true;
+            })
+            .value();
+
+        return Promise.resolve(storeNames);
+    };
+
+    /**
      * Get the identifier of the storage
      * @returns {Promise} that resolves with the store identifier
      */

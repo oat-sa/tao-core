@@ -17,7 +17,7 @@
  */
 
 /**
- * IndexDB backend of the client store
+ * IndexedDB backend of the client store
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
