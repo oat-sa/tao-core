@@ -1,6 +1,8 @@
 .component-report {
+    width:100%;
     position: relative;
     .fold {
+        color : $textColor;
         position: absolute;
         right: 10px;
         top: 10px;
@@ -16,6 +18,9 @@
             }
         }
         .actions {
+            padding: 0;
+            background: transparent;
+            color : $textColor;
             text-align: right;
             .action {
                 margin-top: 10px;
