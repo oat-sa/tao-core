@@ -34,6 +34,7 @@ use oat\tao\model\search\document\IndexDocument;
 interface Search extends PhpSerializable
 {
     const SERVICE_ID = 'tao/search';
+    const OPTION_RESPONSE_KEY = 'responseKey';
 
     /**
      * Search for instances using a Lucene query
@@ -42,10 +43,11 @@ interface Search extends PhpSerializable
      * @param core_kernel_classes_Class $rootClass
      * @param int $start
      * @param int $count
+     * @param array $options
      *
      * @return ResultSet
      */
-    public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
+    public function query( $queryString, $rootClass = null, $start = 0, $count = 10, $options = []);
 
     /**
      * Index the resources given as a traversable

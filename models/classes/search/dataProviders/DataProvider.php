@@ -31,6 +31,7 @@ interface DataProvider
     const SEARCH_CLASS_OPTION = 'searchClass';
     const LABEL_CLASS_OPTION = 'label';
     const FIELDS_OPTION = 'fields';
+    const PARAM_RESULT_CLASS = 'resultClass';
 
     /**
      * @return string
@@ -40,7 +41,7 @@ interface DataProvider
     /**
      * @return mixed
      */
-    public function query($queryString, $rootClass = null, $start = 0, $count = 10);
+    public function query($queryString, $rootClass = null, $start = 0, $count = 10, $options = []);
 
     /**
      * @param       $id

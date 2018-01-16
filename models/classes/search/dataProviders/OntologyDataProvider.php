@@ -53,11 +53,12 @@ class OntologyDataProvider extends ConfigurableService implements DataProvider
      * @param null $rootClass
      * @param int  $start
      * @param int  $count
+     * @param array  $options
      * @return mixed|ResultSet
      */
-    public function query($queryString, $rootClass = null, $start = 0, $count = 10)
+    public function query($queryString, $rootClass = null, $start = 0, $count = 10, $options = [])
     {
-        return SearchService::getSearchImplementation()->query($queryString, $rootClass, $start = 0, $count = 10);
+        return SearchService::getSearchImplementation()->query($queryString, $rootClass, $start, $count, $options);
     }
 
     /**

@@ -40,7 +40,7 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $rootClass = null, $start = 0, $count = 10) {
+    public function query($queryString, $rootClass = null, $start = 0, $count = 10, $options = []) {
         /** @var SearchDataProvider $searchDataProvider */
         $searchDataProvider = $this->getServiceLocator()->get(SearchDataProvider::SERVICE_ID);
 
@@ -58,7 +58,6 @@ class GenerisSearch extends ConfigurableService implements Search
         foreach ($results as $resource) {
             $ids[] = $resource->getUri();
         }
-
         return new ResultSet($ids, $this->getTotalCount($queryString, $searchClass));
 
     }
