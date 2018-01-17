@@ -19,9 +19,12 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\search\Index;
 
 /**
  * Enable you to edit a property
@@ -49,8 +52,8 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
 	    $propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
-			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
-                new core_kernel_classes_Property(TaoOntology::GUI_ORDER_PROP),
+			array(new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
+                new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER),
                 $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
 			)
 		);
@@ -80,10 +83,10 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 				$element->setName("{$index}_{$element->getName()}");
                 $element->addClass('property');
 
-                if ($propertyProperty->getUri() == TaoOntology::GUI_ORDER_PROP){
+                if ($propertyProperty->getUri() == TaoOntology::PROPERTY_GUI_ORDER){
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('Integer'));
                 }
-                if ($propertyProperty->getUri() == RDFS_LABEL){
+                if ($propertyProperty->getUri() == OntologyRdfs::RDFS_LABEL){
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
                 }
 				$this->form->addElement($element);
@@ -137,7 +140,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 	    $elementNames[] = $treeElt->getName();
 
 	    //index part
-        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY));
+        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(Index::PROPERTY_INDEX));
         foreach($indexes as $i => $indexUri){
             $indexProperty = new \oat\tao\model\search\Index($indexUri);
             $indexFormContainer = new tao_actions_form_IndexProperty($indexProperty,$index.$i);

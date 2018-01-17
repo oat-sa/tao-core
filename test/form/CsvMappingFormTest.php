@@ -1,5 +1,7 @@
 <?php
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 
@@ -13,13 +15,13 @@ class CsvMappingFormTestCase extends TaoPhpUnitTestRunner
         $csv_column = array('login', 'password', 'title', 'last-name', 'firstname', 'gender', 'mail', 'token', 'abelabel');
 
         $properties = tao_helpers_Uri::encodeArray(array(
-            RDFS_LABEL => 'Label',
-            PROPERTY_USER_FIRSTNAME => 'First Name',
-            PROPERTY_USER_LASTNAME => 'Last Name',
-            PROPERTY_USER_LOGIN => 'Login',
-            PROPERTY_USER_PASSWORD => 'Password',
-            PROPERTY_USER_MAIL => 'Mail',
-            PROPERTY_USER_UILG => 'Interface Language',
+            OntologyRdfs::RDFS_LABEL => 'Label',
+            GenerisRdf::PROPERTY_USER_FIRSTNAME => 'First Name',
+            GenerisRdf::PROPERTY_USER_LASTNAME => 'Last Name',
+            GenerisRdf::PROPERTY_USER_LOGIN => 'Login',
+            GenerisRdf::PROPERTY_USER_PASSWORD => 'Password',
+            GenerisRdf::PROPERTY_USER_MAIL => 'Mail',
+            GenerisRdf::PROPERTY_USER_UILG => 'Interface Language',
             PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN => 'Password recovery token',
         ), tao_helpers_Uri::ENCODE_ARRAY_KEYS);
         

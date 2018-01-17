@@ -19,6 +19,9 @@
  *
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+
 /**
  * Short description of class tao_actions_form_Clazz
  *
@@ -80,7 +83,7 @@ class tao_actions_form_Clazz
      */
     protected function getTopClazz()
     {
-        return new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
+        return new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
     }
 
     /**
@@ -185,7 +188,7 @@ class tao_actions_form_Clazz
                 $element->setName('class_' . $element->getName());
 
                 //set label validator
-                if ($property->getUri() == RDFS_LABEL) {
+                if ($property->getUri() == OntologyRdfs::RDFS_LABEL) {
                     $element->addValidators(
                         array(
                             tao_helpers_form_FormFactory::getValidator('NotEmpty'),

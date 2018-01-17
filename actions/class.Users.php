@@ -19,11 +19,12 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
-use oat\generis\model\GenerisRdf;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -85,12 +86,12 @@ class tao_actions_Users extends tao_actions_CommonModule
         $start = $limit * $page - $limit;
 
         $fieldsMap = [
-            'login' => PROPERTY_USER_LOGIN,
-            'firstname' => PROPERTY_USER_FIRSTNAME,
-            'lastname' => PROPERTY_USER_LASTNAME,
-            'email' => PROPERTY_USER_MAIL,
-            'dataLg' => PROPERTY_USER_DEFLG,
-            'guiLg' => PROPERTY_USER_UILG
+            'login' => GenerisRdf::PROPERTY_USER_LOGIN,
+            'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
+            'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
+            'email' => GenerisRdf::PROPERTY_USER_MAIL,
+            'dataLg' => GenerisRdf::PROPERTY_USER_DEFLG,
+            'guiLg' => GenerisRdf::PROPERTY_USER_UILG
         ];
 
         // sorting
@@ -98,7 +99,7 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         // filtering
         $filters = [
-            PROPERTY_USER_LOGIN => '*',
+            GenerisRdf::PROPERTY_USER_LOGIN => '*',
         ];
         
         if ($filterQuery) {
@@ -129,7 +130,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             'limit' => $limit
         ]), $filters);
 
-        $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+        $rolesProperty = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
 
         $response = new stdClass();
         $readonly = array();
@@ -137,13 +138,13 @@ class tao_actions_Users extends tao_actions_CommonModule
         foreach ($users as $user) {
 
             $propValues = $user->getPropertiesValues(array(
-                PROPERTY_USER_LOGIN,
-                PROPERTY_USER_FIRSTNAME,
-                PROPERTY_USER_LASTNAME,
-                PROPERTY_USER_MAIL,
-                PROPERTY_USER_DEFLG,
-                PROPERTY_USER_UILG,
-                PROPERTY_USER_ROLES
+                GenerisRdf::PROPERTY_USER_LOGIN,
+                GenerisRdf::PROPERTY_USER_FIRSTNAME,
+                GenerisRdf::PROPERTY_USER_LASTNAME,
+                GenerisRdf::PROPERTY_USER_MAIL,
+                GenerisRdf::PROPERTY_USER_DEFLG,
+                GenerisRdf::PROPERTY_USER_UILG,
+                GenerisRdf::PROPERTY_USER_ROLES
             ));
 
             $roles = $user->getPropertyValues($rolesProperty);
@@ -154,16 +155,16 @@ class tao_actions_Users extends tao_actions_CommonModule
             }
 
             $id = tao_helpers_Uri::encode($user->getUri());
-            $firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
-            $lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
-            $uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
-            $dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
+            $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
+            $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
+            $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
+            $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
 
             $response->data[$index]['id'] = $id;
-            $response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+            $response->data[$index]['login'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_LOGIN]);
             $response->data[$index]['firstname'] = $firstName;
             $response->data[$index]['lastname'] = $lastName;
-            $response->data[$index]['email'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+            $response->data[$index]['email'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
             $response->data[$index]['roles'] = implode(', ', $labels);
             $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
@@ -236,7 +237,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $values = $myForm->getValues();
-                $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
                 unset($values['password1']);
                 unset($values['password2']);
 
@@ -249,7 +250,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             }
         }
 
-        $this->setData('loginUri', tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
+        $this->setData('loginUri', tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
         $this->setData('formTitle', __('Add a user'));
         $this->setData('myForm', $myForm->render());
         $this->setView('user/form.tpl');
@@ -324,17 +325,17 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $values = $myForm->getValues();
 
                 if (!empty($values['password2']) && !empty($values['password3'])) {
-                    $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
+                    $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
                 }
 
                 unset($values['password2']);
                 unset($values['password3']);
 
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_UILG]))) {
-                    unset($values[PROPERTY_USER_UILG]);
+                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_UILG]))) {
+                    unset($values[GenerisRdf::PROPERTY_USER_UILG]);
                 }
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_DEFLG]))) {
-                    unset($values[PROPERTY_USER_DEFLG]);
+                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_DEFLG]))) {
+                    unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
                 }
 
                 $this->userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);

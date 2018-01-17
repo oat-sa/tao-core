@@ -20,6 +20,8 @@
  */
 namespace oat\tao\model\search;
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 
 class Index extends \core_kernel_classes_Resource {
@@ -43,7 +45,7 @@ class Index extends \core_kernel_classes_Resource {
     private function getOneCached($propertyUri)
     {
         if (is_null($this->cached)) {
-            $props = array(TaoOntology::INDEX_PROPERTY_IDENTIFIER, TaoOntology::INDEX_PROPERTY_TOKENIZER, TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING, TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH);
+            $props = array(static::PROPERTY_INDEX_IDENTIFIER, static::PROPERTY_INDEX_TOKENIZER, static::PROPERTY_INDEX_FUZZY_MATCHING, static::PROPERTY_DEFAULT_SEARCH);
             $this->cached = $this->getPropertiesValues($props);
         }
         return empty($this->cached[$propertyUri]) ? null : reset($this->cached[$propertyUri]);
@@ -51,7 +53,7 @@ class Index extends \core_kernel_classes_Resource {
 
     public function getIdentifier()
     {
-        return (string)$this->getOneCached(TaoOntology::INDEX_PROPERTY_IDENTIFIER);
+        return (string)$this->getOneCached(static::PROPERTY_INDEX_IDENTIFIER);
     }
 
     /**
@@ -60,7 +62,7 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function getTokenizer()
     {
-        $tokenizer = $this->getOneCached(TaoOntology::INDEX_PROPERTY_TOKENIZER);
+        $tokenizer = $this->getOneCached(static::PROPERTY_INDEX_TOKENIZER);
         $implClass = (string)$tokenizer->getUniquePropertyValue($this->getProperty("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass"));
         if (!class_exists($implClass)) {
             throw new \common_exception_Error('Tokenizer class "'.$implClass.'" not found for '.$tokenizer->getUri());
@@ -76,8 +78,8 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isFuzzyMatching()
     {
-        $res = $this->getOneCached(TaoOntology::INDEX_PROPERTY_FUZZY_MATCHING);
-        return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
+        $res = $this->getOneCached(static::PROPERTY_INDEX_FUZZY_MATCHING);
+        return !is_null($res) && is_object($res) && $res->getUri() == GenerisRdf::GENERIS_TRUE;
     }
 
     /**
@@ -88,8 +90,8 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isDefaultSearchable()
     {
-        $res = $this->getOneCached(TaoOntology::INDEX_PROPERTY_DEFAULT_SEARCH);
-        return !is_null($res) && is_object($res) && $res->getUri() == GENERIS_TRUE;
+        $res = $this->getOneCached(static::PROPERTY_DEFAULT_SEARCH);
+        return !is_null($res) && is_object($res) && $res->getUri() == GenerisRdf::GENERIS_TRUE;
     }
 
 
@@ -100,6 +102,6 @@ class Index extends \core_kernel_classes_Resource {
      */
     public function isStored()
     {
-        return $this->getUri() === RDFS_LABEL;
+        return $this->getUri() === OntologyRdfs::RDFS_LABEL;
     }
 }
