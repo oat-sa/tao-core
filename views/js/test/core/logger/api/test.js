@@ -117,7 +117,7 @@ define(['core/logger/api'], function(loggerFactory){
 
         assert.equal(loggerFactory.providers, false, 'No providers');
 
-        p = loggerFactory.load(['test/core/logger/api/mlogck']);
+        p = loggerFactory.load({'test/core/logger/api/mlogck':{}});
         assert.ok(p instanceof Promise, 'the load method returns a Promise');
 
         p.then(function(){
@@ -136,7 +136,7 @@ define(['core/logger/api'], function(loggerFactory){
 
         assert.equal(loggerFactory.providers, false, 'No providers');
 
-        p = loggerFactory.load(['test/core/logger/api/test']);
+        p = loggerFactory.load({'test/core/logger/api/test':{}});
         assert.ok(p instanceof Promise, 'the load method returns a Promise');
 
         p.then(function(){
@@ -196,6 +196,7 @@ define(['core/logger/api'], function(loggerFactory){
         });
 
         logger = loggerFactory('foo', 'warn');
+        console.log(logger);
         logger.trace('nothing');
         logger.debug('nothing');
         logger.info('nothing');

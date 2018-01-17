@@ -668,16 +668,60 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         ));
     }
 
-	/**
-	 * Test whenever the current user has "WRITE" access to the specified id
-	 *
-	 * @param string $resourceId
-	 * @return boolean
-	 */
-	protected function hasWriteAccess($resourceId) {
-	    $user = common_session_SessionManager::getSession()->getUser();
-	    return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
-	}
+    /**
+     * Delete all given resources
+     *
+     * @requiresRight ids WRITE
+     *
+     * @throws Exception
+     */
+    public function deleteAll()
+    {
+        $response = [
+            'success' => true,
+            'deleted' => []
+        ];
+        if (!tao_helpers_Request::isAjax()) {
+            throw new Exception("wrong request mode");
+        }
+
+        // Csrf token validation
+        $this->validateCsrf();
+
+        $ids = $this->getRequestParameter('ids');
+        foreach ($ids as $id) {
+            $deleted = false;
+            try {
+                if ($this->hasWriteAccess($id)) {
+                    $resource = new \core_kernel_classes_Resource($id);
+                    if ($resource->isClass()) {
+                        $deleted = $this->getClassService()->deleteClass(new \core_kernel_classes_Class($id));
+                    } else {
+                        $deleted = $this->getClassService()->deleteResource($resource);
+                    }
+                }
+            } catch (\common_Exception $ce) {
+                \common_Logger::w('Unable to remove resource ' . $id . ' : ' . $ce->getMessage());
+            }
+            if ($deleted) {
+                $response['deleted'][] = $id;
+            }
+        }
+
+        return $this->returnJson($response);
+    }
+
+    /**
+     * Test whenever the current user has "WRITE" access to the specified id
+     *
+     * @param string $resourceId
+     * @return boolean
+     */
+    protected function hasWriteAccess($resourceId)
+    {
+        $user = common_session_SessionManager::getSession()->getUser();
+        return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
+    }
 
     /**
      * Validates csrf token and revokes token on success
