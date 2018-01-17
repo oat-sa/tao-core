@@ -38,7 +38,6 @@ use oat\tao\helpers\TreeHelper;
 use tao_helpers_Uri;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\model\OntologyAwareTrait;
 
 class GenerisTreeFactory
