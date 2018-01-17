@@ -61,7 +61,10 @@ class SearchDataProvider extends ConfigurableService
                return $provider;
             }
         }
-        return null;
+        // If no any configured search data providers, then return OntologyDataProvider
+        /** @var OntologyDataProvider $ontology */
+        $ontology = $this->getServiceLocator()->get(OntologyDataProvider::SERVICE_ID);
+        return $ontology;
     }
 
     /**

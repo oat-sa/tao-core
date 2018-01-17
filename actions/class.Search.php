@@ -86,6 +86,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
             if (empty($results)) {
                 /** @var SearchDataProvider $providerClass */
                 $providerClass = $this->getServiceLocator()->get(SearchDataProvider::SERVICE_ID);
+                // Searching data provider by rootClass
                 $provider = $providerClass->getDataProvidersByClass($class);
                 $results = $provider->query($query, $class, $startRow, $rows);
             }
