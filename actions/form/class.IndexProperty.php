@@ -113,7 +113,7 @@ class tao_actions_form_IndexProperty
 
         //get and add identifier (Text)
         $identifier = (!is_null($indexProperty))?$indexProperty->getIdentifier():'';
-        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(ndex::PROPERTY_INDEX_IDENTIFIER), 'Textbox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(Index::PROPERTY_INDEX_IDENTIFIER), 'Textbox');
         $propIndexElt->setDescription(__('Identifier'));
         $propIndexElt->addAttribute('class', 'index');
         $propIndexElt->addAttribute('data-related-index', $indexUri);
