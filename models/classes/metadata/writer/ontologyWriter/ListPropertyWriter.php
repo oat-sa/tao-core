@@ -20,6 +20,8 @@
 
 namespace oat\tao\model\metadata\writer\ontologyWriter;
 
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 
@@ -46,7 +48,7 @@ class ListPropertyWriter extends PropertyWriter
 
         $listClass = $this->getClass(
             $this->getClass($this->getOption(self::PROPERTY_KEY))
-                 ->getOnePropertyValue($this->getProperty(RDFS_RANGE))
+                 ->getOnePropertyValue($this->getProperty(OntologyRdfs::RDFS_RANGE))
         );
 
         $list = $this->getListService()->getListElements($listClass);
@@ -59,7 +61,7 @@ class ListPropertyWriter extends PropertyWriter
         foreach ($list as $element) {
             $this->list[$element->getUri()] = [
                 $element->getLabel(),
-                $element->getOnePropertyValue($this->getProperty(RDF_VALUE))->literal
+                $element->getOnePropertyValue($this->getProperty(OntologyRdf::RDF_VALUE))->literal
             ];
         }
 

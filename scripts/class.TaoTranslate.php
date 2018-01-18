@@ -1,4 +1,6 @@
 <?php
+
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\menu\MenuService;
 /**  
  * This program is free software; you can redistribute it and/or
@@ -530,7 +532,7 @@ class tao_scripts_TaoTranslate
 
         			// Now that PO files & JS files are created, we can create the translation models
         			// if we find RDF models to load for this extension.
-        			$translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
+        			$translatableProperties = array(OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT);
         	
         			foreach ($this->getOntologyFiles() as $f){
        					common_Logger::d('reading rdf '.$f);
@@ -639,7 +641,7 @@ class tao_scripts_TaoTranslate
        	$poFileWriter->write();
         $this->outVerbose("PO translation file '" . basename($oldFilePath) . "' in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
 
-		$translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
+		$translatableProperties = array(OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT);
 
 		// We now deal with RDF models.
         foreach ($this->getOntologyFiles() as $f){

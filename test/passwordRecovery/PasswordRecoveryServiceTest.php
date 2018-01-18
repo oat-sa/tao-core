@@ -19,7 +19,9 @@
  *               
  */
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 use oat\tao\model\messaging\transportStrategy\FileSink;
@@ -73,16 +75,16 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
     }
     
     protected function createUser() {
-        $class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+        $class = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
         return $class->createInstanceWithProperties(array(
-            PROPERTY_USER_LOGIN => 'john.doe',
-            PROPERTY_USER_PASSWORD => core_kernel_users_Service::getPasswordHash()->encrypt('secure'),
-            PROPERTY_USER_LASTNAME => 'Doe',
-            PROPERTY_USER_FIRSTNAME => 'John',
-            PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
-            PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-            PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-            PROPERTY_USER_ROLES => TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE
+            GenerisRdf::PROPERTY_USER_LOGIN => 'john.doe',
+            GenerisRdf::PROPERTY_USER_PASSWORD => core_kernel_users_Service::getPasswordHash()->encrypt('secure'),
+            GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
+            GenerisRdf::PROPERTY_USER_FIRSTNAME => 'John',
+            GenerisRdf::PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
+            GenerisRdf::PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+            GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+            GenerisRdf::PROPERTY_USER_ROLES => TaoRoles::BACK_OFFICE
         ));
     }
 

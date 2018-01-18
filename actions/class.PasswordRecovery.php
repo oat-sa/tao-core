@@ -18,6 +18,7 @@
  *               
  */
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 
 /**
@@ -61,7 +62,7 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         
         if ($form->isSubmited() && $form->isValid()) {
             $mail = $form->getValue('userMail');
-            $user = $this->passwordRecoveryService->getUser(PROPERTY_USER_MAIL, $mail);
+            $user = $this->passwordRecoveryService->getUser(GenerisRdf::PROPERTY_USER_MAIL, $mail);
             
             if ($user !== null) {
                 \common_Logger::i("User requests a password (user URI: {$user->getUri()})");

@@ -72,14 +72,14 @@ class tao_actions_form_UserSettings
 		$langService = tao_models_classes_LanguageService::singleton();
 		
     	// Retrieve languages available for a GUI usage.
-    	$guiUsage = new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_LANGUAGE_USAGE_GUI);
+    	$guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
 		$guiOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($guiUsage) as $lang){
 			$guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
 		}
         
         // Retrieve languages available for a Data usage.
-        $dataUsage = new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA);
+        $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
 		$dataOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
 			$dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
