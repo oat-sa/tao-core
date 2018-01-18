@@ -18,6 +18,8 @@
  *               
  * 
  */
+
+use oat\generis\model\GenerisRdf;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\IndexService;
@@ -40,7 +42,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
     public function setUp()
     {		
         parent::setUp();
-		$rdfClass = new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
+		$rdfClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
 		$this->class = $rdfClass->createSubClass('test class');
 		$this->property = $this->class->createProperty('test property');
 	}

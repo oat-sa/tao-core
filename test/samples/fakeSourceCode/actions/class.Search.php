@@ -93,7 +93,7 @@ class tao_actions_form_Search
 		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
 		$langElt->setDescription(__('Language'));
 		
-		$languages = array_merge(array('  '), tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)));
+		$languages = array_merge(array('  '), tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
 		$langElt->setOptions($languages);
 		$langElt->setValue(0);
 		$this->form->addElement($langElt);

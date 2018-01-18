@@ -22,6 +22,7 @@ namespace oat\tao\helpers;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdfs;
 use tao_helpers_Uri;
 
 /**
@@ -59,7 +60,7 @@ class TreeHelper
                 $class = new core_kernel_classes_Class($classUri);
                 /** @var core_kernel_classes_Class $parent */
                 foreach ($class->getParentClasses(false) as $parent) {
-                    if ($parent->getUri() === RDFS_CLASS) {
+                    if ($parent->getUri() === OntologyRdfs::RDFS_CLASS) {
                         continue;
                     }
                     if (!isset($toTest[$parent->getUri()])) {

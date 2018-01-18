@@ -124,7 +124,7 @@ class tao_helpers_translation_RDFUtils
     {
         $returnValue = null;
 
-        $languageType = TaoOntology::LANGUAGES_CLASS_URI;
+        $languageType = tao_models_classes_LanguageService::CLASS_URI_LANGUAGES;
         $languagePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
         $rdfNs = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
         $rdfsNs = 'http://www.w3.org/2000/01/rdf-schema#';
@@ -157,15 +157,15 @@ class tao_helpers_translation_RDFUtils
         $descriptionNode->appendChild($valueNode);
         
         $guiUsageNode = $doc->createElementNS($base, 'tao:languageUsages');
-        $guiUsageNode->setAttributeNs($rdfNs, 'rdf:resource', TaoOntology::PROPERTY_INSTANCE_LANGUAGE_USAGE_GUI);
+        $guiUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
         $descriptionNode->appendChild($guiUsageNode);
         
         $dataUsageNode = $doc->createElementNS($base, 'tao:languageUsages');
-        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA);
+        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
         $descriptionNode->appendChild($dataUsageNode);
         
         $dataUsageNode = $doc->createElementNS($base, 'tao:LanguageOrientation');
-        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', TaoOntology::PROPERTY_INSTANCE_ORIENTATION_LTR);
+        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR);
         $descriptionNode->appendChild($dataUsageNode);
         
         $returnValue = $doc;
