@@ -20,16 +20,39 @@
  * Test the indexdb store backend
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise){
+define(['core/store/indexdb', 'core/promise'], function(indexedDbBackend, Promise){
     'use strict';
+
+    var testDbs = [
+        'foo',
+        'foo1',
+        'foo2',
+        'foo3',
+        'test-store-1',
+        'test-store-2',
+        'bar3'
+    ];
+
+    QUnit.moduleDone( function(){
+        var req;
+        var idb = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+        if(idb && typeof idb.deleteDatabase === 'function'){
+            testDbs.forEach(function(dbName){
+                req = idb.deleteDatabase(dbName);
+                req.onerror = function(event) {
+                    window.console.error("Error deleting test database " + dbName, event);
+                };
+            });
+        }
+    });
 
     QUnit.module('API');
 
     QUnit.test("module", function(assert){
         QUnit.expect(2);
 
-        assert.ok(typeof indexDbBackend !== 'undefined', "The module exports something");
-        assert.ok(typeof indexDbBackend === 'function', "The module exposes a function");
+        assert.ok(typeof indexedDbBackend !== 'undefined', "The module exports something");
+        assert.ok(typeof indexedDbBackend === 'function', "The module exposes a function");
     });
 
     QUnit.test("factory", function(assert){
@@ -38,34 +61,40 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         QUnit.expect(4);
 
         assert.throws(function(){
-            indexDbBackend();
+            indexedDbBackend();
         }, TypeError, 'The backend should be created with a store id');
 
         assert.throws(function(){
-            indexDbBackend(false);
+            indexedDbBackend(false);
         }, TypeError, 'The backend should be created with a valid store id');
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
 
         assert.equal(typeof store, 'object', 'The factory return an object');
-        assert.notDeepEqual(indexDbBackend('foo'), store, 'The factory creates a new object');
+        assert.notDeepEqual(indexedDbBackend('foo'), store, 'The factory creates a new object');
+    });
+
+    QUnit.test("storage backend", function(assert){
+        QUnit.expect(3);
+
+        assert.equal(typeof indexedDbBackend.removeAll, 'function', 'The backend exposes the removeAll method');
+        assert.equal(typeof indexedDbBackend.getAll, 'function', 'The backend exposes the getAll method');
+        assert.equal(typeof indexedDbBackend.getStoreIdentifier, 'function', 'The backend exposes the getStoreIdentifier method');
     });
 
     QUnit.test("store", function(assert){
         var store;
-
         QUnit.expect(7);
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
 
         assert.equal(typeof store, 'object', 'The store is an object');
         assert.equal(typeof store.getItem, 'function', 'The store exposes the getItem method');
         assert.equal(typeof store.setItem, 'function', 'The store exposes the setItem method');
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
+        assert.equal(typeof store.getItems, 'function', 'The store exposes the getItems method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
         assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
-        assert.equal(typeof indexDbBackend.removeAll, 'function', 'The store exposes the removeAll method');
-
     });
 
 
@@ -77,7 +106,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(4);
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         p = store.setItem('bar', 'boz');
@@ -101,7 +130,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(5);
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         p = store.setItem('bar', 'noz');
@@ -128,7 +157,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(5);
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         store.setItem('moo', 'noob')
@@ -158,7 +187,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(5);
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         Promise.all([
@@ -201,7 +230,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(3);
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         store.setItem('sample', sample).then(function(added){
@@ -216,6 +245,57 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
         });
     });
 
+    QUnit.asyncTest("getItems", function(assert){
+        var store;
+
+        QUnit.expect(5);
+
+        store = indexedDbBackend('foo3');
+        assert.equal(typeof store, 'object', 'The store is an object');
+
+        Promise.all([
+            store.setItem('zoo', 'zoob'),
+            store.setItem('too', 'toob'),
+            store.setItem('moo', 'moob'),
+            store.setItem('joo', 'joob')
+        ])
+        .then(function(){
+            return store.getItem('joo').then(function(value){
+                assert.equal(value, 'joob', 'The retrieved value is correct');
+            });
+        }).then(function(){
+            return store.getItems().then(function(entries){
+                assert.equal(typeof entries, 'object', 'The entries is an object');
+                assert.deepEqual(entries, {
+                    zoo : 'zoob',
+                    too : 'toob',
+                    moo : 'moob',
+                    joo : 'joob'
+                }, 'The entries contains the store values');
+            });
+        })
+        .then(function(){
+            return store.setItem('yoo', 'yoob');
+        })
+        .then(function(){
+            return store.removeItem('moo');
+        })
+        .then(function(){
+            return store.getItems().then(function(entries){
+                assert.deepEqual(entries, {
+                    zoo : 'zoob',
+                    too : 'toob',
+                    yoo : 'yoob',
+                    joo : 'joob'
+                }, 'The entries contains the updated values');
+            });
+        }).then(function(){
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
 
     QUnit.module('Erase');
 
@@ -224,7 +304,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(6);
 
-        store = indexDbBackend('foo');
+        store = indexedDbBackend('foo');
         assert.equal(typeof store, 'object', 'The store is an object');
 
         Promise.all([
@@ -242,7 +322,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
                     assert.ok(rmResult, 'The store is removed');
 
-                    store2 = indexDbBackend('foo');
+                    store2 = indexedDbBackend('foo');
                     assert.equal(typeof store2, 'object', 'The store is an object');
 
                     return store2.getItem('too').then(function (value) {
@@ -267,8 +347,8 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(24);
 
-        store1 = indexDbBackend('foo1');
-        store2 = indexDbBackend('foo2');
+        store1 = indexedDbBackend('foo1');
+        store2 = indexedDbBackend('foo2');
 
         assert.equal(typeof store1, 'object', 'The store1 is an object');
         assert.equal(typeof store2, 'object', 'The store2 is an object');
@@ -297,13 +377,13 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 });
             })
             .then(function () {
-                return indexDbBackend.removeAll();
+                return indexedDbBackend.removeAll();
             })
             .then(function (rmResult) {
                 assert.ok(rmResult, 'The stores are removed');
             })
             .then(function () {
-                store1 = indexDbBackend('foo1');
+                store1 = indexedDbBackend('foo1');
                 assert.equal(typeof store1, 'object', 'The store1 is an object');
 
                 return store1.getItem('too').then(function (value) {
@@ -315,7 +395,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 });
             })
             .then(function () {
-                store2 = indexDbBackend('foo2');
+                store2 = indexedDbBackend('foo2');
                 assert.equal(typeof store2, 'object', 'The store2 is an object');
 
                 return store2.getItem('too').then(function (value) {
@@ -327,8 +407,8 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 });
             })
             .then(function() {
-                store1 = indexDbBackend('foo1');
-                store2 = indexDbBackend('foo2');
+                store1 = indexedDbBackend('foo1');
+                store2 = indexedDbBackend('foo2');
 
                 assert.equal(typeof store1, 'object', 'The store1 is an object');
                 assert.equal(typeof store2, 'object', 'The store2 is an object');
@@ -348,7 +428,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                         });
                     })
                     .then(function () {
-                        return indexDbBackend.removeAll(function(storeName) {
+                        return indexedDbBackend.removeAll(function(storeName) {
                             return storeName === "foo2";
                         });
                     })
@@ -356,7 +436,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                         assert.ok(rmResult, 'The stores are removed');
                     })
                     .then(function () {
-                        store1 = indexDbBackend('foo1');
+                        store1 = indexedDbBackend('foo1');
                         assert.equal(typeof store1, 'object', 'The store1 is an object');
 
                         return store1.getItem('zoo').then(function (value) {
@@ -368,7 +448,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                         });
                     })
                     .then(function () {
-                        store2 = indexDbBackend('foo2');
+                        store2 = indexedDbBackend('foo2');
                         assert.equal(typeof store1, 'object', 'The store2 is an object');
 
                         return store2.getItem('zoo').then(function (value) {
@@ -399,11 +479,11 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         QUnit.expect(8);
 
-        assert.equal(typeof indexDbBackend.getAll, 'function', 'IndexedDB backend exposes the getAll method');
+        assert.equal(typeof indexedDbBackend.getAll, 'function', 'IndexedDB backend exposes the getAll method');
 
-        store1 = indexDbBackend('test-store-1');
-        store2 = indexDbBackend('test-store-2');
-        store3 = indexDbBackend('bar3');
+        store1 = indexedDbBackend('test-store-1');
+        store2 = indexedDbBackend('test-store-2');
+        store3 = indexedDbBackend('bar3');
 
         assert.equal(typeof store1, 'object', 'The store1 is an object');
         assert.equal(typeof store2, 'object', 'The store2 is an object');
@@ -419,7 +499,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
                 return name === 'test-store-1' || name === 'test-store-2';
             };
 
-            return indexDbBackend.getAll(validate).then(function(storeNames){
+            return indexedDbBackend.getAll(validate).then(function(storeNames){
                 assert.equal(storeNames.length, 2, 'Two store names have been found');
                 assert.ok(storeNames.indexOf('test-store-1') > -1, 'The 1st store is selected');
                 assert.ok(storeNames.indexOf('test-store-2') > -1, 'The 2nd store is selected');
@@ -428,7 +508,7 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
 
         })
         .then(function(){
-            return indexDbBackend.removeAll();
+            return indexedDbBackend.removeAll();
         })
         .then(function(){
             QUnit.start();
@@ -444,14 +524,14 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.asyncTest('get store identifier', function(assert){
         QUnit.expect(4);
 
-        assert.equal(typeof indexDbBackend.getStoreIdentifier, 'function', 'IndexedDB backend has the getStoreIdentifier method');
+        assert.equal(typeof indexedDbBackend.getStoreIdentifier, 'function', 'IndexedDB backend has the getStoreIdentifier method');
 
-        indexDbBackend.getStoreIdentifier().then(function(id){
+        indexedDbBackend.getStoreIdentifier().then(function(id){
 
             assert.equal(typeof id, 'string', 'we have a store identifier');
             assert.ok(id.length > 0, 'the identifier is not empty');
 
-            return indexDbBackend.getStoreIdentifier().then(function(idNextCall){
+            return indexedDbBackend.getStoreIdentifier().then(function(idNextCall){
 
                 assert.equal(id, idNextCall, 'The identifier should remain the same accross the store');
                 QUnit.start();
@@ -466,13 +546,13 @@ define(['core/store/indexdb', 'core/promise'], function(indexDbBackend, Promise)
     QUnit.asyncTest('get new store identifier', function(assert){
         QUnit.expect(3);
 
-        indexDbBackend.getStoreIdentifier().then(function(id){
+        indexedDbBackend.getStoreIdentifier().then(function(id){
 
             assert.equal(typeof id, 'string', 'we have a store identifier');
             assert.ok(id.length > 0, 'the identifier is not empty');
 
-            return indexDbBackend('id').removeStore().then(function(){
-                return indexDbBackend.getStoreIdentifier().then(function(idNextCall){
+            return indexedDbBackend('id').removeStore().then(function(){
+                return indexedDbBackend.getStoreIdentifier().then(function(idNextCall){
 
                     assert.notEqual(id, idNextCall, 'The identifier should be different since the has been removed');
                     QUnit.start();

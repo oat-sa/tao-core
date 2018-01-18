@@ -35,15 +35,27 @@
  */
 define([
     'lodash',
+    'moment',
+    'module',
+    'core/logger',
     'core/promise',
     'core/store/localstorage',
     'core/store/indexdb',
     'core/store/memory'
-], function(_, Promise, localStorageBackend, indexedDBBackend, memoryBackend){
+], function(_, moment, module, loggerFactory, Promise, localStorageBackend, indexedDBBackend, memoryBackend){
     'use strict';
 
     var supportsIndexedDB = false;
     var dectectionDone    = false;
+    var quotaChecked      = false;
+
+    /**
+     * The exported store module, can be used as a function to get one store
+     * or as an object to run methods on multiple stores.
+     *
+     * @type {Function|Object}
+     */
+    var store;
 
     /**
      * The list of required methods exposed by a store backend
@@ -55,7 +67,38 @@ define([
      * The list of required methods exposed by a store implementation
      * @type {String[]}
      */
-    var storeApi = ['getItem', 'setItem', 'removeItem', 'clear', 'removeStore'];
+    var storeApi = ['getItem', 'setItem', 'removeItem', 'getItems', 'clear', 'removeStore'];
+
+    /**
+     * Dedicated logger
+     */
+    var logger = loggerFactory('core/store');
+
+    /**
+     * Main config
+     */
+    var config = _.defaults(module.config() || {}, {
+
+        /**
+         * Percent of used space (ie. 80% used)
+         * to consider the browser as having low space
+         * @type {Number}
+         */
+        lowSpaceRatio : 80,
+
+        /**
+         * Default duration thresholds to invalidate stores
+         *
+         * @type {Object<String>} ISO 8601  duration
+         */
+        invalidation : {
+            //candidate for invalidation if we're going over quota
+            staled : 'P2W',
+
+            //candidate for upfront invalidation if estimates are low
+            oldster : 'P2M'
+        }
+    });
 
     /**
      * Detect IndexedDB support.
@@ -103,6 +146,40 @@ define([
     };
 
     /**
+     * Check storage estimates and invalidate old
+     * Estimates aren't widely supported,
+     * but that worth to try it (progressive enhancement)
+     */
+    var checkQuotas = function checkQuotas(){
+        if(!quotaChecked && 'storage' in window.navigator && window.navigator.storage.estimate){
+            window.navigator.storage.estimate()
+                .then(function(estimate){
+                    var usedRatio = 0;
+                    if (_.isNumber(estimate.usage) &&
+                        _.isNumber(estimate.quota) &&
+                        estimate.quota > 0){
+
+                        usedRatio = (estimate.usage / estimate.quota).toFixed(2);
+                        if(usedRatio > config.lowSpaceRatio){
+                            logger.warn('The browser storage is getting low ' + usedRatio + '% used', estimate);
+                            logger.warn('We will attempt to clean oldster databases in persistent backends');
+                            store.cleanUpSpace(config.invalidation.oldster, [], localStorageBackend);
+                            if(isIndexDBSupported){
+                                store.cleanUpSpace(config.invalidation.oldster, [],indexedDBBackend);
+                            }
+                        } else {
+                            logger.debug('Browser storage estimate : ' + usedRatio + '% used', estimate);
+                        }
+                    }
+                })
+                .catch(function(err){
+                    logger.warn('Unable to retrieve quotas : ' + err.message);
+                });
+        }
+        quotaChecked = true;
+    };
+
+    /**
      * Check the backend object complies with the API
      * @param {Object} backend - the backend object to check
      * @returns {Boolean} true if valid
@@ -130,27 +207,55 @@ define([
      * @returns {Promise} that resolves with the backend
      */
     var loadBackend = function loadBackend(preselectedBackend) {
+        //var backend;
+
+        //to prevent running the clean up if it triggers itself
+        //the quota issue (infinite loop)
+        //var cleanUpStaledTried = false;
+
         return isIndexDBSupported().then(function(){
             var backend = preselectedBackend || (supportsIndexedDB ? indexedDBBackend : localStorageBackend);
-
             if(!_.isFunction(backend)){
                 return Promise.reject(new TypeError('No backend, no storage!'));
             }
             if(!isBackendApiValid(backend)){
                 return Promise.reject(new TypeError('This backend does comply with the store backend API'));
             }
+
+            //attempt to check the quotas
+            if(backend !== memoryBackend){
+                checkQuotas();
+            }
+
             return backend;
+        //})
+        //.catch(function(err){
+
+            //console.log(err);
+            ////browser DB or user disk is full
+            //if ( err && err.name &&
+                 //(err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+                //logger.error('The browser storage is over quota : ' + err.message);
+
+                //if(backend && !cleanUpStaledTried){
+                    //cleanUpStaledTried = true;
+                    //logger.warn('We will attempt to clean staled databases in persistent backends');
+                    //store.cleanUpSpace(config.invalidation.staled, [], backend);
+                //}
+            //}
+
+            //throw err;
         });
     };
 
     /**
-     * Create a new store
+     * Loads a store
      *
      * @param {String} storeName - the name of the store
      * @param {Object} [preselectedBackend] - the backend to force the selection
      * @returns {Promise} that resolves with the Storage a Storage Like instance
      */
-    var store = function store(storeName, preselectedBackend) {
+    store = function storeLoader(storeName, preselectedBackend) {
 
         return loadBackend(preselectedBackend).then(function(backend){
 
@@ -159,6 +264,7 @@ define([
             if(!isStorageApiValid(storeInstance)){
                 return Promise.reject(new TypeError('The backend does not comply with the Storage interface'));
             }
+
 
             return storeInstance;
         });
@@ -176,19 +282,70 @@ define([
 
     /**
      * Removes all storage
-     * @param {Function} [validate] - An optional callback that validates the store to delete
+     * @param {validateStore} [validate] - An optional callback that validates the store to delete
      * @param {Object} [preselectedBackend] - the backend to force the selection
      * @returns {Promise} with true in resolve once cleaned
      */
     store.removeAll = function removeAll(validate, preselectedBackend) {
         return loadBackend(preselectedBackend).then(function(backend){
+
+            /**
+             * @callback validateStore
+             * @param {String} storeName - the name of the store
+             * @param {Object} store - the store details
+             */
             return backend.removeAll(validate);
         });
     };
 
     /**
+     * Clean up storage meeting the invalidation conditions
+     * @param {Number|String} [since] - unix timestamp in ms or ISO duration, to compare with lastOpen
+     * @param {RegExp} [storeNamePattern] - applies only on store names that matches the pattern
+     * @param {Object} [preselectedBackend] - the backend to force the selection
+     * @returns {Promise<Boolean>}
+     */
+    store.cleanUpSpace = function cleanUpSpace(since, storeNamePattern, preselectedBackend) {
+        var tsThreshold;
+
+        /**
+         * Create the invalidation callback
+         * @type {validateStore}
+         */
+        var invalidate = function invalidate(storeName, storeEntry){
+
+            if(!storeName || !storeEntry){
+                return false;
+            }
+
+            //storeName matches ?
+            if ( storeNamePattern instanceof RegExp &&
+                ! storeNamePattern.test(storeName) ){
+
+                return false;
+            }
+            return  _.isNumber(storeEntry.lastOpen) &&
+                    _.isNumber(tsThreshold) &&
+                    storeEntry.lastOpen <= tsThreshold;
+        };
+
+        if(_.isNumber(since) && since > 0){
+            tsThreshold = since;
+        } else {
+            if(!_.isString(since)){
+                since = config.invalidation.oldster;
+            }
+            tsThreshold = moment().subtract(moment.duration(since)).valueOf();
+        }
+
+        logger.info('Trying to remove stores lastly opened before ' + tsThreshold + '(' + since + ')');
+
+        return store.removeAll(invalidate, preselectedBackend);
+    };
+
+    /**
      * Get the name/key of all storages
-     * @param {Function} [validate] - An optional callback that validates the store
+     * @param {validateStore} [validate] - An optional callback that validates the store
      * @param {Object} [preselectedBackend] - the backend to force the selection
      * @returns {Promise<String[]>} resolves with the names of the stores
      */

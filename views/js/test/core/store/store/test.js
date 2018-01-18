@@ -36,6 +36,9 @@ define(['core/store', 'core/promise'], function(store, Promise){
                 mockedData[key] = value;
                 return Promise.resolve(true);
             },
+            getItems : function getItems(){
+                return Promise.resolve(mockedData);
+            },
             removeItem : function removeItem(key){
                 delete mockedData[key];
                 return Promise.resolve(true);
@@ -61,7 +64,7 @@ define(['core/store', 'core/promise'], function(store, Promise){
     QUnit.module('API');
 
     QUnit.test("module", function(assert){
-        QUnit.expect(6);
+        QUnit.expect(7);
 
         assert.ok(typeof store !== 'undefined', "The module exports something");
         assert.ok(typeof store === 'function', "The module exposes a function");
@@ -69,6 +72,7 @@ define(['core/store', 'core/promise'], function(store, Promise){
         assert.ok(typeof store.getIdentifier === 'function', "The module expose the getIdentifier method");
         assert.ok(typeof store.getAll === 'function', "The module expose the getAll method");
         assert.ok(typeof store.removeAll === 'function', "The module expose the removeAll method");
+        assert.ok(typeof store.cleanUpSpace === 'function', "The module expose the cleanUpSpace method");
     });
 
     QUnit.cases([{
@@ -446,6 +450,76 @@ define(['core/store', 'core/promise'], function(store, Promise){
         store.getIdentifier(mockBackend).then(function(id){
             assert.equal(typeof id, 'string', 'we have a store identifier');
             assert.equal(id, 'aaaa-bbbb-cccc-dddd', 'the identifier matches');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.cases([{
+        title : 'older than 30 seconds',
+        since : 'PT30S',
+        removed : ['store-1-day', 'store-10-days',  'store-20-days', 'store-40-days']
+    }, {
+        title : 'older than 1 day',
+        since : 'P1D',
+        removed : ['store-1-day', 'store-10-days',  'store-20-days', 'store-40-days']
+    }, {
+        title : 'older than 2 weeks',
+        since : 'P2W',
+        removed : ['store-20-days', 'store-40-days']
+    }, {
+        title : 'older than 6 months (using a timestamp)',
+        since : Date.now() - (1000 * 60 * 60 * 24 * 182.5),
+        removed : []
+    }, {
+        title : 'older than 1 day and starts with ^store-1',
+        since : 'P1D',
+        pattern : /^store-1/,
+        removed : ['store-1-day', 'store-10-days']
+    }]).asyncTest("cleanUpSpace, clean up stores", function(data, assert){
+
+        var now = Date.now();
+        var aDay = 1000 * 60 * 60 * 24;
+        var testStores = {
+            'store-now' : {
+                name : 'store-now',
+                lastOpen : now
+            },
+            'store-1-day' : {
+                name : 'store-1-day',
+                lastOpen : now - aDay
+            },
+            'store-10-days' : {
+                name : 'store-10-days',
+                lastOpen : now - (aDay * 10)
+            },
+            'store-20-days' : {
+                name : 'store-20-days',
+                lastOpen : now - (aDay * 20)
+            },
+            'store-40-days' : {
+                name : 'store-40-days',
+                lastOpen : now - (aDay * 40)
+            },
+        };
+
+        QUnit.expect(8);
+
+        mockBackend.removeAll = function(validate) {
+            assert.ok(true, 'The store has delegated the call to the backend');
+            assert.equal(typeof validate, 'function', 'The validator has been provided');
+
+            assert.equal( validate('store-now', testStores['store-now']), data.removed.indexOf('store-now') > -1);
+            assert.equal( validate('store-1-day', testStores['store-1-day']), data.removed.indexOf('store-1-day') > -1);
+            assert.equal( validate('store-10-days', testStores['store-10-days']), data.removed.indexOf('store-10-days') > -1);
+            assert.equal( validate('store-20-days', testStores['store-20-days']), data.removed.indexOf('store-20-days') > -1);
+            assert.equal( validate('store-40-days', testStores['store-40-days']), data.removed.indexOf('store-40-days') > -1);
+        };
+
+        store.cleanUpSpace(data.since, data.pattern, mockBackend).then(function(){
+            assert.ok(true, 'The store has resolved the clean up');
             QUnit.start();
         }).catch(function(err){
             assert.ok(false, err);

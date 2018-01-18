@@ -24,8 +24,9 @@
 define([
     'lodash',
     'core/promise',
+    'core/promiseQueue',
     'lib/uuid'
-], function(_, Promise, uuid){
+], function(_, Promise, promiseQueue, uuid){
     'use strict';
 
     /**
@@ -40,7 +41,100 @@ define([
      */
     var storage = window.localStorage;
 
+    /**
+     * The name of the store that contains the index of known stores.
+     * @type {String}
+     */
+    var knownStoresName = 'index';
+
+    /**
+     * The name of the store that contains the store id
+     * @type {String}
+     */
     var idStoreName = 'id';
+
+    var writingQueue = promiseQueue();
+
+    /**
+     * Set an entry into a store
+     * @param {String} storeName - unprefixed store name
+     * @param {String} key - entry key
+     * @param {*} value - the value to set
+     * @returns {Promise<Boolean>}
+     */
+    var setEntry = function setEntry(storeName, key, value) {
+        return new Promise(function(resolve, reject){
+            try{
+                storage.setItem(prefix + storeName + '.' + key, JSON.stringify(value));
+                resolve(true);
+            } catch(ex){
+                reject(ex);
+            }
+        });
+    };
+
+    /**
+     * Get an entry from a store
+     * @param {String} storeName - unprefixed store name
+     * @param {String} key - entry key
+     * @returns {Promise<*>} resolves with the value
+     */
+    var getEntry = function getEntry(storeName, key) {
+        return new Promise(function(resolve, reject){
+            var value;
+            try{
+                value = storage.getItem(prefix + storeName + '.' + key);
+                if(value === null){
+                    resolve();
+                } else {
+                    resolve(JSON.parse(value));
+                }
+            } catch(ex){
+                reject(ex);
+            }
+        });
+    };
+
+    /**
+     * Gets access to the store that contains the index of known stores.
+     * @returns {Promise}
+     */
+    var getKnownStores = function getKnownStores() {
+        return getEntry(knownStoresName, 'stores');
+    };
+
+    /**
+     * Adds a store into the index of known stores.
+     * @param {String} storeName
+     * @returns {Promise<Boolean>}
+     */
+    var registerStore = function registerStore(storeName) {
+        return getKnownStores()
+            .then(function(stores){
+                stores = stores || {};
+                stores[storeName] = {
+                    name : storeName,
+                    lastOpen : Date.now()
+                };
+                return setEntry(knownStoresName, 'stores', stores);
+            })
+        ;
+    };
+
+    /**
+     * Removes a store from the index of known stores.
+     * @param {String} storeName
+     * @returns {Promise<Boolean>}
+     */
+    var unregisterStore = function unregisterStore(storeName) {
+        return getKnownStores()
+            .then(function(stores){
+                stores = stores || {};
+                delete stores[storeName];
+                return setEntry(knownStoresName, 'stores', stores);
+            })
+        ;
+    };
 
     /**
      * Open and access a store
@@ -51,12 +145,24 @@ define([
     var localStorageBackend = function localStorageBackend(storeName){
 
         var name;
+        var registered = false;
+
+        var openStore = function openStore(){
+            if(registered){
+                return Promise.resolve();
+            }
+            return registerStore(storeName)
+                    .then(function(){
+                        registered = true;
+                    });
+        };
         if(_.isEmpty(storeName) || !_.isString(storeName)){
             throw new TypeError('The store name is required');
         }
 
         //prefix all storage entries to avoid global keys confusion
         name = prefix + storeName + '.';
+
 
         /**
          * The store
@@ -69,18 +175,10 @@ define([
              * @returns {Promise} with the result in resolve, undefined if nothing
              */
             getItem : function getItem(key){
-                return new Promise(function(resolve, reject){
-                    var value;
-                    try{
-                        value = storage.getItem(name + key);
-                        if(value === null){
-                            resolve();
-                        } else {
-                            resolve(JSON.parse(value));
-                        }
-                    } catch(ex){
-                        reject(ex);
-                    }
+                return writingQueue.serie(function(){
+                    return openStore().then(function(){
+                        return getEntry(storeName, key);
+                    });
                 });
             },
 
@@ -91,13 +189,10 @@ define([
              * @returns {Promise} with true in resolve if added/updated
              */
             setItem :  function setItem(key, value){
-                return new Promise(function(resolve, reject){
-                    try{
-                        storage.setItem(name + key, JSON.stringify(value));
-                        resolve(true);
-                    } catch(ex){
-                        reject(ex);
-                    }
+                return writingQueue.serie(function(){
+                    return openStore().then(function(){
+                        return setEntry(storeName, key, value);
+                    });
                 });
             },
 
@@ -107,13 +202,44 @@ define([
              * @returns {Promise} with true in resolve if removed
              */
             removeItem : function removeItem(key){
-                return new Promise(function(resolve, reject){
-                    try{
+                return writingQueue.serie(function(){
+                    return openStore().then(function(){
                         storage.removeItem(name + key);
-                        resolve(true);
-                    } catch(ex){
-                        reject(ex);
-                    }
+                        return true;
+                    });
+                });
+            },
+
+            /**
+             * Get all store items
+             * @returns {Promise<Object>} with a collection of items
+             */
+            getItems: function getItems() {
+                var keyPattern = new RegExp('^' + name);
+                return writingQueue.serie(function(){
+                    return openStore().then(function(){
+                        return  _(storage)
+                            .map(function(entry, index){
+                                return storage.key(index);
+                            })
+                            .filter(function(key){
+                                return keyPattern.test(key);
+                            })
+                            .reduce(function(acc, key){
+                                var value;
+                                var exposedKey = key.replace(name, '');
+                                try {
+                                    value = storage.getItem(key);
+                                    if(value !== null){
+                                        acc[exposedKey] = JSON.parse(value);
+                                    }
+                                }
+                                catch(ex){
+                                    acc[exposedKey] = null;
+                                }
+                                return acc;
+                            }, {});
+                    });
                 });
             },
 
@@ -123,8 +249,8 @@ define([
              */
             clear : function clear(){
                 var keyPattern = new RegExp('^' + name);
-                return new Promise(function(resolve, reject){
-                    try{
+                return writingQueue.serie(function(){
+                    return openStore().then(function(){
                         _(storage)
                             .map(function(entry, index){
                                 return storage.key(index);
@@ -135,10 +261,8 @@ define([
                             .forEach(function(key){
                                 storage.removeItem(key);
                             });
-                        resolve(true);
-                    } catch(ex){
-                        reject(ex);
-                    }
+                        return true;
+                    });
                 });
             },
 
@@ -147,7 +271,9 @@ define([
              * @returns {Promise} with true in resolve once cleared
              */
             removeStore : function removeStore() {
-                return this.clear();
+                return this.clear().then(function(){
+                    return unregisterStore(storeName);
+                });
             }
         };
     };
@@ -158,31 +284,23 @@ define([
      * @returns {Promise} with true in resolve once cleaned
      */
     localStorageBackend.removeAll = function removeAll(validate) {
-        var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
         if (!_.isFunction(validate)) {
             validate = null;
         }
-        return new Promise(function (resolve, reject) {
-            try {
-                _(storage)
-                    .map(function(entry, index){
-                        return storage.key(index);
-                    })
-                    .filter(function(key){
-                        var res = keyPattern.exec(key);
-                        var storeName = res && res[1];
-                        if (storeName) {
-                            return validate ? validate(storeName) : true;
-                        }
-                        return false;
-                    })
-                    .forEach(function(key){
-                        storage.removeItem(key);
-                    });
-                resolve(true);
-            } catch (ex) {
-                reject(ex);
-            }
+        return getKnownStores().then(function(stores){
+            var removing = _(stores)
+                .filter(function(store, storeName){
+                    return validate ? validate(storeName, store) : true;
+                })
+                .map(function(store){
+                    if(store && store.name){
+                        return localStorageBackend(store.name).removeStore();
+                    }
+                    return Promise.resolve();
+                })
+                .value();
+
+            return Promise.all(removing);
         });
     };
 
@@ -193,30 +311,16 @@ define([
      * @returns {Promise<String[]>} resolves with the list of stores
      */
     localStorageBackend.getAll = function getAll(validate) {
-        var storeNames = [];
-        var keyPattern = new RegExp('^' + prefix + '([^.]+)\.([^.]+)');
-        if (!_.isFunction(validate)) {
-            validate = function valid(){
-                return true;
-            };
-        }
-
-        storeNames = _(storage)
-            .map(function(entry, index){
-                var key = storage.key(index);
-                var res = keyPattern.exec(key);
-                return res && res[1];
-
-            })
-            .filter(function(storeName){
-                if (storeName) {
-                    return validate(storeName);
-                }
-                return false;
-            })
-            .value();
-
-        return Promise.resolve(storeNames);
+        return getKnownStores().then(function(stores){
+            return _(stores)
+                .filter(function(store, storeName){
+                    return validate ? validate(storeName, store) : true;
+                })
+                .map(function(store){
+                    return store.name;
+                })
+                .value();
+        });
     };
 
     /**

@@ -63,7 +63,7 @@ define([
              * @returns {Promise} with the result in resolve, undfined if nothing
              */
             getItem : function getItem(key){
-                if(!memoryStore[storeName]){
+                if (! _.isPlainObject(memoryStore[storeName])) {
                     return Promise.resolve();
                 }
                 return Promise.resolve( memoryStore[storeName][key] );
@@ -76,7 +76,7 @@ define([
              * @returns {Promise} with true in resolve if added/updated
              */
             setItem : function setItem(key, value){
-                if(!memoryStore[storeName]){
+                if (! _.isPlainObject(memoryStore[storeName])) {
                     memoryStore[storeName] = {};
                 }
                 memoryStore[storeName][key] = value;
@@ -91,6 +91,14 @@ define([
             removeItem : function removeItem(key){
                 memoryStore[storeName] = _.omit(memoryStore[storeName], key);
                 return Promise.resolve(typeof memoryStore[storeName][key] === 'undefined');
+            },
+
+            /**
+             * Get all store items
+             * @returns {Promise<Object>} with a collection of items
+             */
+            getItems : function getItems(){
+                return Promise.resolve(memoryStore[storeName]);
             },
 
             /**

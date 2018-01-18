@@ -53,9 +53,17 @@ define([
         assert.notDeepEqual(memoryStorageBackend('foo'), store, 'The factory creates a new object');
     });
 
+    QUnit.test("storage backend", function(assert){
+        QUnit.expect(3);
+
+        assert.equal(typeof memoryStorageBackend.removeAll, 'function', 'The backend exposes the removeAll method');
+        assert.equal(typeof memoryStorageBackend.getAll, 'function', 'The backend exposes the getAll method');
+        assert.equal(typeof memoryStorageBackend.getStoreIdentifier, 'function', 'The backend exposes the getStoreIdentifier method');
+    });
+
     QUnit.test("store", function(assert){
         var store;
-        QUnit.expect(9);
+        QUnit.expect(7);
 
         store = memoryStorageBackend('foo');
 
@@ -63,14 +71,10 @@ define([
         assert.equal(typeof store.getItem, 'function', 'The store exposes the getItem method');
         assert.equal(typeof store.setItem, 'function', 'The store exposes the setItem method');
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
+        assert.equal(typeof store.getItems, 'function', 'The store exposes the getItems method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
         assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
-        assert.equal(typeof memoryStorageBackend.removeAll, 'function', 'The backend exposes the removeAll method');
-        assert.equal(typeof memoryStorageBackend.getAll, 'function', 'The backend exposes the getAll method');
-        assert.equal(typeof memoryStorageBackend.getStoreIdentifier, 'function', 'The backend exposes the getStoreIdentifier method');
-
     });
-
 
     QUnit.module('CRUD');
 
@@ -210,6 +214,58 @@ define([
                     QUnit.start();
                 });
             });
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest("getItems", function(assert){
+        var store;
+
+        QUnit.expect(5);
+
+        store = memoryStorageBackend('bar');
+        assert.equal(typeof store, 'object', 'The store is an object');
+
+        Promise.all([
+            store.setItem('zoo', 'zoob'),
+            store.setItem('too', 'toob'),
+            store.setItem('moo', 'moob'),
+            store.setItem('joo', 'joob')
+        ])
+        .then(function(){
+            return store.getItem('joo').then(function(value){
+                assert.equal(value, 'joob', 'The retrieved value is correct');
+            });
+        }).then(function(){
+            return store.getItems().then(function(entries){
+                assert.equal(typeof entries, 'object', 'The entries is an object');
+                assert.deepEqual(entries, {
+                    zoo : 'zoob',
+                    too : 'toob',
+                    moo : 'moob',
+                    joo : 'joob'
+                }, 'The entries contains the store values');
+            });
+        })
+        .then(function(){
+            return store.setItem('yoo', 'yoob');
+        })
+        .then(function(){
+            return store.removeItem('moo');
+        })
+        .then(function(){
+            return store.getItems().then(function(entries){
+                assert.deepEqual(entries, {
+                    zoo : 'zoob',
+                    too : 'toob',
+                    yoo : 'yoob',
+                    joo : 'joob'
+                }, 'The entries contains the updated values');
+            });
+        }).then(function(){
+            QUnit.start();
         }).catch(function(err){
             assert.ok(false, err);
             QUnit.start();
