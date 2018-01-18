@@ -203,4 +203,70 @@ class tao_helpers_Date
     {
         return join('.', array($dt->getTimestamp(), $dt->format('u')));
     }
+
+    /**
+     * Get array of DateTime objects build from $date (or current time if not given) $amount times back with given interval
+     * Example:
+     * $timeKeys = $service->getTimeKeys(new \DateInterval('PT1H'), new \DateTime('now'), 24);
+     *
+     *   array (
+     *     0 =>
+     *       DateTime::__set_state(array(
+     *       'date' => '2017-04-24 08:00:00.000000',
+     *       'timezone_type' => 1,
+     *       'timezone' => '+00:00',
+     *     )),
+     *     1 =>
+     *       DateTime::__set_state(array(
+     *       'date' => '2017-04-24 07:00:00.000000',
+     *       'timezone_type' => 1,
+     *       'timezone' => '+00:00',
+     *     )),
+     *     2 =>
+     *       DateTime::__set_state(array(
+     *       'date' => '2017-04-24 06:00:00.000000',
+     *       'timezone_type' => 1,
+     *       'timezone' => '+00:00',
+     *     )),
+     *       ...
+     *   )
+     *
+     * @param \DateInterval $interval
+     * @param \DateTime|null $date
+     * @param null $amount
+     * @return \DateTime[]
+     */
+    public static function getTimeKeys(\DateInterval $interval, \DateTime $date = null, $amount = null)
+    {
+        $timeKeys = [];
+        if ($date === null) {
+            $date = new \DateTime('now', new \DateTimeZone('UTC'));
+        }
+
+        if ($interval->format('%i') > 0) {
+            $date->setTime($date->format('H'), $date->format('i')+1, 0);
+            $amount = $amount === null ? 60 : $amount;
+        }
+        if ($interval->format('%h') > 0) {
+            $date->setTime($date->format('H')+1, 0, 0);
+            $amount = $amount === null ? 24 : $amount;
+        }
+        if ($interval->format('%d') > 0) {
+            $date->setTime(0, 0, 0);
+            $date->setDate($date->format('Y'), $date->format('m'), $date->format('d')+1);
+            $amount = $amount === null ? cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y')) : $amount;
+        }
+        if ($interval->format('%m') > 0) {
+            $date->setTime(0, 0, 0);
+            $date->setDate($date->format('Y'), $date->format('m')+1, 1);
+            $amount = $amount === null ? 12 : $amount;
+        }
+
+        while ($amount > 0) {
+            $timeKeys[] = new \DateTime($date->format(\DateTime::ISO8601), new \DateTimeZone('UTC'));
+            $date->sub($interval);
+            $amount--;
+        }
+        return $timeKeys;
+    }
 }
