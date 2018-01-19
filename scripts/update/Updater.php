@@ -1062,28 +1062,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
             $options = [
-                DataProvider::INDEXES_MAP_OPTION => [
-                    TaoOntology::CLASS_URI_ITEM => [
-                        DataProvider::FIELDS_OPTION => [
-                            'label'
-                        ],
-                    ],
-                    TaoOntology::CLASS_URI_TEST => [
-                        DataProvider::FIELDS_OPTION => [
-                            'label'
-                        ],
-                    ],
-                    TaoOntology::CLASS_URI_SUBJECT => [
-                        DataProvider::FIELDS_OPTION => [
-                            'label'
-                        ],
-                    ],
-                    TaoOntology::CLASS_URI_GROUP => [
-                        DataProvider::FIELDS_OPTION => [
-                            'label'
-                        ],
-                    ]
-                ]
+                DataProvider::INDEXES_MAP_OPTION => []
             ];
             $ontologyDataProvider = new OntologyDataProvider($options);
             $this->getServiceManager()->register(OntologyDataProvider::SERVICE_ID, $ontologyDataProvider);

@@ -32,6 +32,7 @@ interface DataProvider
     const LABEL_CLASS_OPTION = 'label';
     const FIELDS_OPTION = 'fields';
     const PARAM_RESULT_CLASS = 'resultClass';
+    const PARAM_DELIVERY_URI = 'deliveryUri';
 
     /**
      * @return string
