@@ -32,7 +32,7 @@ use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
-
+use oat\tao\scripts\install\SetupSearchService;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -41,10 +41,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '15.6.1',
+    'version' => '15.7.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.2.0'
+        'generis' => '>=6.5.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -104,7 +104,8 @@ return array(
             SetContainerService::class,
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
-            RegisterActionService::class
+            RegisterActionService::class,
+            SetupSearchService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -155,7 +156,6 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'ClientConfig')),
-        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#BaseUserRole', array('ext'=>'tao','mod' => 'Log', 'act' => 'log')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueData')),
     ),
     'constants' => array(

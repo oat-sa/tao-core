@@ -26,6 +26,7 @@ use common_ext_ExtensionsManager;
 use League\Flysystem\Adapter\Local;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\generis\model\OntologyRdfs;
@@ -53,10 +54,15 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\search\dataProviders\DataProvider;
+use oat\tao\model\search\dataProviders\OntologyDataProvider;
+use oat\tao\model\search\dataProviders\SearchDataProvider;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -107,7 +113,6 @@ use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\TreeResourceLookup;
-use oat\tao\model\user\TaoRoles;
 
 /**
  *
@@ -238,7 +243,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
-                    ."AND predicate IN ('".OntologyRdfs::RDFS_LABEL."','".OntologyRdfs::RDFS_COMMENT."') ";
+                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
             foreach ($toCleanup as $subject) {
                 $persistence->exec($query,array($subject));
             }
@@ -1060,6 +1065,24 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('15.5.0', '15.6.1');
+
+        if ($this->isVersion('15.6.1')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $options = [
+                DataProvider::INDEXES_MAP_OPTION => []
+            ];
+            $ontologyDataProvider = new OntologyDataProvider($options);
+            $this->getServiceManager()->register(OntologyDataProvider::SERVICE_ID, $ontologyDataProvider);
+
+            $searchDataProvider = new SearchDataProvider([SearchDataProvider::PROVIDERS_OPTION => [OntologyDataProvider::SERVICE_ID]]);
+            $this->getServiceManager()->register(SearchDataProvider::SERVICE_ID, $searchDataProvider);
+
+
+            $this->setVersion('15.7.0');
+        }
     }
 
     private function migrateFsAccess() {

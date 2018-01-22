@@ -23,6 +23,8 @@ namespace oat\tao\model\search;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
+use oat\tao\model\search\document\Document;
+use oat\tao\model\search\document\IndexDocument;
 
 /**
  * Search interface
@@ -32,6 +34,7 @@ use oat\oatbox\PhpSerializable;
 interface Search extends PhpSerializable
 {
     const SERVICE_ID = 'tao/search';
+    const OPTION_RESPONSE_KEY = 'responseKey';
 
     /**
      * Search for instances using a Lucene query
@@ -40,10 +43,11 @@ interface Search extends PhpSerializable
      * @param core_kernel_classes_Class $rootClass
      * @param int $start
      * @param int $count
+     * @param array $options
      *
      * @return ResultSet
      */
-    public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
+    public function query( $queryString, $rootClass = null, $start = 0, $count = 10, $options = []);
 
     /**
      * Index the resources given as a traversable
@@ -53,12 +57,12 @@ interface Search extends PhpSerializable
     public function fullReIndex(\Traversable $resourceTraversable);
 
     /**
-     * (Re)Generate the index for a given resource
+     * (Re)Generate the index for a given data
      *
-     * @param core_kernel_classes_Resource $resource
+     * @param Document $document
      * @return boolean true if successfully indexed
      */
-    public function index(core_kernel_classes_Resource $resource);
+    public function index(Document $document);
 
     /**
      * Remove a resource from the index

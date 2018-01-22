@@ -21,9 +21,10 @@
 namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
+use oat\tao\model\search\dataProviders\SearchDataProvider;
+use oat\tao\model\search\document\Document;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\Search;
-use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
 
@@ -40,8 +41,13 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $rootClass = null, $start = 0, $count = 10) {
-        $results = $rootClass->searchInstances(array(
+    public function query($queryString, $rootClass = null, $start = 0, $count = 10, $options = []) {
+        /** @var SearchDataProvider $searchDataProvider */
+        $searchDataProvider = $this->getServiceLocator()->get(SearchDataProvider::SERVICE_ID);
+
+        /** @var  $searchClass */
+        $searchClass = $searchDataProvider->getSearchClass($rootClass);
+        $results = $searchClass->searchInstances(array(
             OntologyRdfs::RDFS_LABEL => $queryString
         ), array(
             'recursive' => true,
@@ -53,8 +59,7 @@ class GenerisSearch extends ConfigurableService implements Search
         foreach ($results as $resource) {
             $ids[] = $resource->getUri();
         }
-
-        return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
+        return new ResultSet($ids, $this->getTotalCount($queryString, $searchClass));
 
     }
     
@@ -89,12 +94,12 @@ class GenerisSearch extends ConfigurableService implements Search
     }
     
     /**
-     * (Re)Generate the index for a given resource
+     * (Re)Generate the index for a given data
      *
-     * @param core_kernel_classes_Resource $resource
+     * @param Document $document
      * @return boolean true if successfully indexed
     */
-    public function index(\core_kernel_classes_Resource $resource)
+    public function index(Document $document)
     {
         // nothing to do
         return true;

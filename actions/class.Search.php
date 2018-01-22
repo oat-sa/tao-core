@@ -23,6 +23,7 @@ use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SyntaxException;
 use oat\tao\model\search\IndexService;
 use oat\tao\model\search\ResultSet;
+use oat\tao\model\search\dataProviders\SearchDataProvider;
 
 /**
  * Controller for indexed searches
@@ -84,7 +85,11 @@ class tao_actions_Search extends tao_actions_CommonModule {
 
             //  if there is no results based on considering the query as URI
             if (empty($results)) {
-                $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
+                /** @var SearchDataProvider $providerClass */
+                $providerClass = $this->getServiceLocator()->get(SearchDataProvider::SERVICE_ID);
+                // Searching data provider by rootClass
+                $provider = $providerClass->getDataProvidersByClass($class);
+                $results = $provider->query($query, $class, $startRow, $rows);
             }
 
             $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );

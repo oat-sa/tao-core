@@ -21,10 +21,17 @@
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\dataProviders\OntologyDataProvider;
+use oat\tao\model\search\Search;
+use oat\tao\model\search\SearchService;
+use oat\tao\model\search\tasks\AddSearchIndex;
+use oat\tao\model\search\tasks\DeleteSearchIndex;
 use oat\tao\model\TaoOntology;
+use oat\taoTaskQueue\model\QueueDispatcher;
 
 /**
  * Class ResourceWatcher
@@ -68,7 +75,7 @@ class ResourceWatcher extends ConfigurableService
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event)
     {
-        $resource = $event->getResource();
+        $resource = $this->getResource($event->getResource()->getUri());
         $updatedAt = $this->getUpdatedAt($resource);
 
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
@@ -77,13 +84,40 @@ class ResourceWatcher extends ConfigurableService
         $now = microtime(true);
         $threshold = $this->getOption(self::OPTION_THRESHOLD);
         if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
+
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
+
+            /** @var Search $searchService */
+            $searchService = SearchService::getSearchImplementation();
+            /** @var OntologyDataProvider $ontologyDataProvider */
+            $ontologyDataProvider = $this->getServiceLocator()->get(OntologyDataProvider::SERVICE_ID);
+            if ($searchService->supportCustomIndex() && $ontologyDataProvider->needIndex($resource)) {
+                /** @var QueueDispatcher $queueDispatcher */
+                $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
+                $queueDispatcher->createTask(new AddSearchIndex(), [$resource->getUri(), OntologyDataProvider::SERVICE_ID], __('Adding/Updating search index for %s', $resource->getLabel()));
+            }
+
         }
         $report = \common_report_Report::createSuccess();
         return $report;
 
+    }
+
+    /**
+     * @param ResourceDeleted $event
+     */
+    public function catchDeletedResourceEvent(ResourceDeleted $event)
+    {
+        /** @var Search $searchService */
+        $searchService = SearchService::getSearchImplementation();
+        if ($searchService->supportCustomIndex()) {
+            /** @var QueueDispatcher $queueDispatcher */
+            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
+            $queueDispatcher->createTask(new DeleteSearchIndex(), [$event->getId()], __('Deleting search index for %s', $event->getId()));
+
+        }
     }
 
      /**
