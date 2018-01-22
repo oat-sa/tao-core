@@ -229,7 +229,7 @@ class GenerisTreeFactory
      * @param $propertyFilter
      * @param $options
      * @return \oat\search\QueryBuilder
-     * @throws 
+     * @throws
      */
     private function getQueryBuilder($class, $propertyFilter, $options)
     {
