@@ -29,6 +29,7 @@ use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\helpers\Template;
@@ -61,6 +62,7 @@ use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -1040,7 +1042,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->setVersion('14.21.0');
         }
-
         $this->skip('14.21.0', '14.23.3');
 
         if($this->isVersion('14.23.3')){
@@ -1057,6 +1058,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('15.0.0', '15.4.0');
 
         if ($this->isVersion('15.4.0')) {
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            $this->setVersion('15.5.0');
+        }
+
+        $this->skip('15.5.0', '15.6.1');
+
+        if ($this->isVersion('15.6.1')) {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
@@ -1071,9 +1081,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(SearchDataProvider::SERVICE_ID, $searchDataProvider);
 
 
-            $this->setVersion('15.5.0');
+            $this->setVersion('15.7.0');
         }
-
     }
 
     private function migrateFsAccess() {

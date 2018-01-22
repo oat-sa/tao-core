@@ -1,4 +1,8 @@
 <?php
+
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -197,9 +201,9 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 	protected function getParametersAliases()
 	{
 		return array(
-			"label"=> RDFS_LABEL,
-			"comment" => RDFS_COMMENT,
-			"type"=> RDF_TYPE
+			"label"=> OntologyRdfs::RDFS_LABEL,
+			"comment" => OntologyRdfs::RDFS_COMMENT,
+			"type"=> OntologyRdf::RDF_TYPE
 		);
 	}
 

@@ -37,7 +37,7 @@ class ExtensionModel extends \common_ext_ExtensionModel
     
     protected function addLanguages($extension) {
         $langService = tao_models_classes_LanguageService::singleton();
-        $dataUsage = new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA);
+        $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
         $dataOptions = array();
 
         $model = ModelManager::getModel();

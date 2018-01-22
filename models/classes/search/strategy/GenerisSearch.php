@@ -23,6 +23,7 @@ namespace oat\tao\model\search\strategy;
 use core_kernel_classes_Class;
 use oat\tao\model\search\dataProviders\SearchDataProvider;
 use oat\tao\model\search\document\Document;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
@@ -47,7 +48,7 @@ class GenerisSearch extends ConfigurableService implements Search
         /** @var  $searchClass */
         $searchClass = $searchDataProvider->getSearchClass($rootClass);
         $results = $searchClass->searchInstances(array(
-        	RDFS_LABEL => $queryString
+            OntologyRdfs::RDFS_LABEL => $queryString
         ), array(
             'recursive' => true,
             'like'      => true,
@@ -83,7 +84,7 @@ class GenerisSearch extends ConfigurableService implements Search
     {
         return $rootClass->countInstances(
             array(
-                RDFS_LABEL => $queryString
+                OntologyRdfs::RDFS_LABEL => $queryString
             ),
             array(
                 'recursive' => true,
