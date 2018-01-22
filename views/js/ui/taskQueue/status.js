@@ -27,6 +27,8 @@
  * .on('finished')
  * .render('body')
  * .start();
+ *
+ * @deprecated
  */
 define([
     'jquery',

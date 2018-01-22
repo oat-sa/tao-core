@@ -27,6 +27,8 @@
  *       statusUrl : 'http://my.server/taskQueue/status',
  *       removeUrl : 'http://my.server/taskQueue/remove'
  *   }).init().render('body')
+ *
+ * @deprecated
  */
 define([
     'jquery',
