@@ -19,7 +19,8 @@
  * 
  */
 
-use oat\tao\model\TaoOntology;
+use oat\generis\model\GenerisRdf;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -41,14 +42,14 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 	 * @var array user data set
 	 */
 	protected $testUserData = array(
-		PROPERTY_USER_LOGIN		=> 	'jane.doe',
-		PROPERTY_USER_PASSWORD	=>	'p34@word',
-		PROPERTY_USER_LASTNAME	=>	'Doe',
-		PROPERTY_USER_FIRSTNAME	=>	'Jane',
-		PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
-		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
-		PROPERTY_USER_ROLES		=>	TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE
+		GenerisRdf::PROPERTY_USER_LOGIN		=> 	'jane.doe',
+		GenerisRdf::PROPERTY_USER_PASSWORD	=>	'p34@word',
+		GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
+		GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'Jane',
+		GenerisRdf::PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
+		GenerisRdf::PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+		GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+		GenerisRdf::PROPERTY_USER_ROLES		=>	TaoRoles::BACK_OFFICE
 	);
 	
 	/**
@@ -68,12 +69,12 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 	public function setUp(){		
 		TaoPhpUnitTestRunner::initTest();
 
-		$this->clearPassword = $this->testUserData[PROPERTY_USER_PASSWORD];
-		$this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
+		$this->clearPassword = $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD];
+		$this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
 		
 		$this->userService = tao_models_classes_UserService::singleton();
 		
-		$class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$class = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
 		$this->testUser = $class->createInstance();
 		$this->assertNotNull($this->testUser);          
 	    $this->userService->bindProperties($this->testUser,$this->testUserData);
@@ -109,7 +110,7 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 	 */
 	public function testAuth(){
 		//is the user in the db
-		$this->assertFalse(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]) );
+		$this->assertFalse(	$this->userService->loginAvailable($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN]) );
 		
 		if(tao_models_classes_UserService::singleton()->isASessionOpened()){
 			tao_models_classes_UserService::singleton()->logout();
@@ -119,7 +120,7 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 		$this->assertFalse( tao_models_classes_UserService::singleton()->isASessionOpened() );
 
 		//check user login
-		$this->assertTrue( $this->userService->loginUser($this->testUserData[PROPERTY_USER_LOGIN], $this->clearPassword));
+		$this->assertTrue( $this->userService->loginUser($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN], $this->clearPassword));
 		
 		//check session
 		$this->assertTrue( tao_models_classes_UserService::singleton()->isASessionOpened() );

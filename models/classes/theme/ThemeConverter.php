@@ -21,7 +21,8 @@
 namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
-use oat\tao\model\theme\DefaultTheme;
+use /** @noinspection PhpDeprecationInspection */
+    oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\helpers\Template;
 
