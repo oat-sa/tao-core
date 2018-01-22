@@ -48,6 +48,7 @@
  * });
  *
  * @author Sam <sam@taotesting.com>
+ * @deprected
  */
 define([
     'lodash',
