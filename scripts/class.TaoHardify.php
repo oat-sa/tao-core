@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
 
 
 /**
@@ -376,7 +377,7 @@ class tao_scripts_TaoHardify
 		        		$this->options['additionalProperties'] = $additionalProperties;
 		        		
 		        		if ($this->options['topClass'] == null){
-		        			$this->options['topClass'] = new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
+		        			$this->options['topClass'] = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
 		        		}
 		        		else{
 		        			$topClassUri = trim($this->options['topClass']);

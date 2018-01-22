@@ -21,6 +21,7 @@ namespace oat\tao\model\event;
 
 use core_kernel_classes_Resource;
 use JsonSerializable;
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\Event;
 
 class UserCreatedEvent implements Event, JsonSerializable
@@ -58,7 +59,7 @@ class UserCreatedEvent implements Event, JsonSerializable
     {
         return [
             'uri' => $this->user->getUri(),
-//            'login' => $this->user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
+//            'login' => $this->user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)),
         ];
     }
 }
