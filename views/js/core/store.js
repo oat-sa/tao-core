@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -207,12 +207,6 @@ define([
      * @returns {Promise} that resolves with the backend
      */
     var loadBackend = function loadBackend(preselectedBackend) {
-        //var backend;
-
-        //to prevent running the clean up if it triggers itself
-        //the quota issue (infinite loop)
-        //var cleanUpStaledTried = false;
-
         return isIndexDBSupported().then(function(){
             var backend = preselectedBackend || (supportsIndexedDB ? indexedDBBackend : localStorageBackend);
             if(!_.isFunction(backend)){
@@ -228,23 +222,6 @@ define([
             }
 
             return backend;
-        //})
-        //.catch(function(err){
-
-            //console.log(err);
-            ////browser DB or user disk is full
-            //if ( err && err.name &&
-                 //(err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
-                //logger.error('The browser storage is over quota : ' + err.message);
-
-                //if(backend && !cleanUpStaledTried){
-                    //cleanUpStaledTried = true;
-                    //logger.warn('We will attempt to clean staled databases in persistent backends');
-                    //store.cleanUpSpace(config.invalidation.staled, [], backend);
-                //}
-            //}
-
-            //throw err;
         });
     };
 
