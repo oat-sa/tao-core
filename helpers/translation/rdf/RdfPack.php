@@ -21,6 +21,7 @@
 
 namespace oat\tao\helpers\translation\rdf;
 
+use oat\generis\model\OntologyRdfs;
 use tao_helpers_translation_POFileReader;
 use common_Utils;
 use core_kernel_classes_Triple;
@@ -89,7 +90,7 @@ class RdfPack implements \IteratorAggregate {
         foreach ($translationFile->getTranslationUnits() as $tu) {
             $annotations = $tu->getAnnotations();
             $about = isset($annotations['po-translator-comments']) ? $annotations['po-translator-comments'] : null;
-            if ($about && common_Utils::isUri($about) && in_array($tu->getContext(), array(RDFS_LABEL, RDFS_COMMENT))) {
+            if ($about && common_Utils::isUri($about) && in_array($tu->getContext(), array(OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT))) {
                 $triple = new \core_kernel_classes_Triple();
                 $triple->subject = $about;
                 $triple->predicate = $tu->getContext();
