@@ -49,16 +49,17 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 		}
         $data = array(
             'name'       => (string) $node['name'],
-            'id'       => (string) $node['id'],
+            'id'         => (string) $node['id'],
             'url'        => $url,
             'binding'    => isset($node['binding']) ? (string) $node['binding'] : (isset($node['js']) ? (string) $node['js'] : 'load'),
             'context'    => (string) $node['context'],
             'reload'     => isset($node['reload']) ? true : false,
-            'disabled'     => isset($node['disabled']) ? true : false,
+            'disabled'   => isset($node['disabled']) ? true : false,
+            'multiple'   => isset($node['multiple']) ? (trim(strtolower($node['multiple'])) == 'true')  : false,
             'group'      => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT,
-			'extension'  => $extension,
-			'controller' => $controller,
-			'action'     => $action
+            'extension'  => $extension,
+            'controller' => $controller,
+            'action'     => $action
         );
 
         if(isset($node->icon)){
@@ -120,6 +121,15 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
      */
     public function getIcon() {
         return $this->data['icon'];
+    }
+
+    /**
+     * Is the action available for multiple resources
+     * @return bool 
+     */
+    public function isMultiple()
+    {
+        return $this->data['multiple'];
     }
 
     /**

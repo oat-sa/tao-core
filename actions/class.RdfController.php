@@ -529,7 +529,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
-			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)))){
+			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)))){
 				$langElt = $myForm->getElement('translate_lang');
 				$langElt->setValue($targetLang);
 				$langElt->setAttribute('readonly', 'true');
@@ -671,16 +671,60 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         ));
     }
 
-	/**
-	 * Test whenever the current user has "WRITE" access to the specified id
-	 *
-	 * @param string $resourceId
-	 * @return boolean
-	 */
-	protected function hasWriteAccess($resourceId) {
-	    $user = common_session_SessionManager::getSession()->getUser();
-	    return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
-	}
+    /**
+     * Delete all given resources
+     *
+     * @requiresRight ids WRITE
+     *
+     * @throws Exception
+     */
+    public function deleteAll()
+    {
+        $response = [
+            'success' => true,
+            'deleted' => []
+        ];
+        if (!tao_helpers_Request::isAjax()) {
+            throw new Exception("wrong request mode");
+        }
+
+        // Csrf token validation
+        $this->validateCsrf();
+
+        $ids = $this->getRequestParameter('ids');
+        foreach ($ids as $id) {
+            $deleted = false;
+            try {
+                if ($this->hasWriteAccess($id)) {
+                    $resource = new \core_kernel_classes_Resource($id);
+                    if ($resource->isClass()) {
+                        $deleted = $this->getClassService()->deleteClass(new \core_kernel_classes_Class($id));
+                    } else {
+                        $deleted = $this->getClassService()->deleteResource($resource);
+                    }
+                }
+            } catch (\common_Exception $ce) {
+                \common_Logger::w('Unable to remove resource ' . $id . ' : ' . $ce->getMessage());
+            }
+            if ($deleted) {
+                $response['deleted'][] = $id;
+            }
+        }
+
+        return $this->returnJson($response);
+    }
+
+    /**
+     * Test whenever the current user has "WRITE" access to the specified id
+     *
+     * @param string $resourceId
+     * @return boolean
+     */
+    protected function hasWriteAccess($resourceId)
+    {
+        $user = common_session_SessionManager::getSession()->getUser();
+        return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
+    }
 
     /**
      * Validates csrf token and revokes token on success

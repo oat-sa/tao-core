@@ -1,4 +1,22 @@
 /**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2017 Open Assessment Technologies SA;
+ */
+
+/**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -9,11 +27,10 @@ define([
     'context',
     'layout/section',
     'layout/actions/binder',
-    'layout/search',
-    'layout/filter',
-	'uri',
-	'ui/feedback'
-], function(module, $, __, _, appContext, section, binder, search, toggleFilter, uri, feedback){
+    'uri',
+    'ui/feedback',
+    'ui/dialog/confirm'
+], function(module, $, __, _, appContext, section, binder, uri, feedback, confirmDialog) {
     'use strict';
 
     /**
@@ -57,26 +74,44 @@ define([
          *
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.classUri - the URI of the parent class
+         * @returns {Promise<Object>} resolves with the new class data
          *
          * @fires layout/tree#addnode.taotree
          */
         binder.register('subClass', function subClass(actionContext){
             var classUri = uri.decode(actionContext.classUri);
-            $.ajax({
-                url: this.url,
-                type: "POST",
-                data: {classUri: actionContext.classUri, id: classUri, type: 'class'},
-                dataType: 'json',
-                success: function(response){
-                    if (response.uri) {
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            'uri'       : uri.decode(response.uri),
-                            'parent'    : classUri,
-                            'label'     : response.label,
-                            'cssClass'  : 'node-class'
-                        }]);
+            var self = this;
+            return new Promise( function(resolve, reject) {
+                $.ajax({
+                    url: self.url,
+                    type: "POST",
+                    data: {classUri: actionContext.classUri, id: classUri, type: 'class'},
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.uri) {
+
+                            //backward compat format for jstree
+                            $(actionContext.tree).trigger('addnode.taotree', [{
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-class'
+                            }]);
+
+                            //resolve format (resourceSelector)
+                            return resolve({
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                classUri  : uri.decode(actionContext.classUri),
+                                type      : 'class'
+                            });
+                        }
+                        return reject(new Error(__('Adding the new class has failed')));
+                    },
+                    error : function (xhr, options, err){
+                        reject(err);
                     }
-                }
+                });
             });
         });
 
@@ -87,26 +122,44 @@ define([
          *
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.classUri - the URI of the class' instance
+         * @returns {Promise<Object>} resolves with the new instance data
          *
          * @fires layout/tree#addnode.taotree
          */
         binder.register('instanciate', function instanciate(actionContext){
+            var self = this;
             var classUri = uri.decode(actionContext.classUri);
-            $.ajax({
-                url: this.url,
-                type: "POST",
-                data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
-                dataType: 'json',
-                success: function(response){
-                    if (response.uri) {
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            'uri'		: uri.decode(response.uri),
-                            'parent'    : classUri,
-                            'label'     : response.label,
-                            'cssClass'  : 'node-instance'
-                        }]);
+            return new Promise( function(resolve, reject) {
+                $.ajax({
+                    url: self.url,
+                    type: "POST",
+                    data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.uri) {
+
+                            //backward compat format for jstree
+                            $(actionContext.tree).trigger('addnode.taotree', [{
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-instance'
+                            }]);
+
+                            //resolve format (resourceSelector)
+                            return resolve({
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                classUri  : uri.decode(actionContext.classUri),
+                                type      : 'instance'
+                            });
+                        }
+                        return reject(new Error(__('Adding the new resource has failed')));
+                    },
+                    error : function (xhr, options, err){
+                        reject(err);
                     }
-                }
+                });
             });
         });
 
@@ -118,25 +171,46 @@ define([
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.uri - the URI of the base instance
          * @param {String} actionContext.classUri - the URI of the class' instance
+         * @returns {Promise<Object>} resolves with the new instance data
          *
          * @fires layout/tree#addnode.taotree
          */
         binder.register('duplicateNode', function duplicateNode(actionContext){
-            $.ajax({
-                url: this.url,
-                type: "POST",
-                data: {uri: actionContext.id, classUri: uri.decode(actionContext.classUri)},
-                dataType: 'json',
-                success: function(response){
-                    if (response.uri) {
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            'uri'       : uri.decode(response.uri),
-                            'parent'    : uri.decode(actionContext.classUri),
-                            'label'     : response.label,
-                            'cssClass'  : 'node-instance'
-                        }]);
+            var self = this;
+            return new Promise( function(resolve, reject) {
+                $.ajax({
+                    url: self.url,
+                    type: "POST",
+                    data: {
+                        uri: actionContext.id,
+                        classUri: uri.decode(actionContext.classUri)
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        if (response.uri) {
+
+                            //backward compat format for jstree
+                            $(actionContext.tree).trigger('addnode.taotree', [{
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                parent    : uri.decode(actionContext.classUri),
+                                cssClass  : 'node-instance'
+                            }]);
+
+                            //resolve format (resourceSelector)
+                            return resolve({
+                                uri       : uri.decode(response.uri),
+                                label     : response.label,
+                                classUri  : uri.decode(actionContext.classUri),
+                                type      : 'instance'
+                            });
+                        }
+                        return reject(new Error(__('Node duplication has failed')));
+                    },
+                    error : function (xhr, options, err){
+                        reject(err);
                     }
-                }
+                });
             });
         });
 
@@ -152,33 +226,113 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext){
-            var tokenName = module.config().xsrfTokenName;
+            var self = this;
             var data = {};
+            var tokenName = module.config().xsrfTokenName;
 
-            data.uri = uri.decode(actionContext.uri),
-            data.classUri = uri.decode(actionContext.classUri),
-            data.id = actionContext.id,
+            data.uri        = uri.decode(actionContext.uri);
+            data.classUri   = uri.decode(actionContext.classUri);
+            data.id         = actionContext.id;
             data[tokenName] = $.cookie(tokenName);
 
-            //TODO replace by a nice popup
-            if (window.confirm(__("Please confirm deletion"))) {
-                $.ajax({
-                    url: this.url,
-                    type: "POST",
-                    data: data,
-                    dataType: 'json',
-                    success: function(response){
-                        if (response.deleted) {
-                            $(actionContext.tree).trigger('removenode.taotree', [{
-                                id : actionContext.uri || actionContext.classUri
-                            }]);
-                        } else {
-                            var msg = response.msg || __("Unable to delete the selected resource");
-                            feedback().error(msg);
+            return new Promise( function (resolve, reject){
+                confirmDialog(__("Please confirm deletion"), function accept(){
+                    $.ajax({
+                        url: self.url,
+                        type: "POST",
+                        data: data,
+                        dataType: 'json',
+                        success: function(response){
+                            if (response.deleted) {
+                                $(actionContext.tree).trigger('removenode.taotree', [{
+                                    id : actionContext.uri || actionContext.classUri
+                                }]);
+                                return resolve({
+                                    uri : actionContext.uri || actionContext.classUri
+                                });
+
+                            } else {
+                                reject(response.msg || __("Unable to delete the selected resource"));
+                            }
+                        },
+                        error : function (xhr, options, err){
+                            reject(err);
                         }
-                    }
-                });
+                    });
+                }, reject);
+            });
+        });
+
+        /**
+         * Register the removeNodes action: removes multiple resources
+         *
+         * @this the action (once register it is bound to an action object)
+         *
+         * @param {Object[]|Object} actionContexts - single or multiple action contexts
+         * @returns {Promise<String[]>} with the list of deleted ids/uris
+         */
+        binder.register('removeNodes', function removeNodes(actionContexts){
+            var self = this;
+            var tokenName = module.config().xsrfTokenName;
+            var confirmMessage = '';
+            var data = {};
+            var classes;
+            var instances;
+
+            if(!_.isArray(actionContexts)){
+                actionContexts = [actionContexts];
             }
+
+            classes = _.filter(actionContexts, { type : 'class' });
+            instances = _.filter(actionContexts, { type : 'instance' });
+
+            //TODO do not use cookies !
+            data[tokenName] = $.cookie(tokenName);
+            data.ids = _.pluck(actionContexts, 'id');
+
+            if(actionContexts.length === 1){
+                confirmMessage = __('Please confirm deletion');
+            } else if(actionContexts.length > 1){
+                if(instances.length){
+                    if(instances.length === 1){
+                        confirmMessage = __('an instance');
+                    } else {
+                        confirmMessage = __('%s instances', instances.length);
+                    }
+                }
+                if(classes.length){
+                    if(confirmMessage){
+                        confirmMessage += __(' and ');
+                    }
+                    if(classes.length === 1){
+                        confirmMessage = __('a class');
+                    } else {
+                        confirmMessage += __('%s classes', classes.length);
+                    }
+                }
+                confirmMessage =  __('Please confirm deletion of %s.', confirmMessage);
+            }
+
+            return new Promise( function (resolve, reject){
+                confirmDialog(confirmMessage, function accept(){
+                    $.ajax({
+                        url: self.url,
+                        type: "POST",
+                        data: data,
+                        dataType: 'json',
+                        success: function(response){
+                            if (response.success && response.deleted) {
+                                resolve(response.deleted);
+                            } else {
+                                reject(new Error(response.msg || __("Unable to delete the selected resources")));
+                            }
+                        },
+                        error : function (xhr, options, err){
+                            reject(err);
+                        }
+                    });
+                }, reject);
+            });
         });
 
         /**
@@ -194,7 +348,7 @@ define([
             var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed']);
 
             //wrap into a private function for recusion calls
-            var _moveNode = function _moveNode(url, data){
+            var _moveNode = function _moveNode(url){
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -233,62 +387,6 @@ define([
         });
 
         /**
-         * This action helps to filter tree content.
-         *
-         * @this the action (once register it is bound to an action object)
-         *
-         * @param {Object} actionContext - the current actionContext
-         */
-        binder.register('filter', function filter(actionContext){
-            $('#panel-' + appContext.section + ' .search-form').slideUp();
-
-            toggleFilter($('#panel-' + appContext.section + ' .filter-form'));
-        });
-
-        /**
-         * Register the removeNode action: removes a resource.
-         *
-         * @this the action (once register it is bound to an action object)
-         *
-         * @param {Object} actionContext - the current actionContext
-         * @param {String} [actionContext.uri]
-         * @param {String} [actionContext.classUri]
-         */
-        binder.register('launchFinder', function remove(actionContext){
-
-
-            var data = _.pick(actionContext, ['uri', 'classUri', 'id']);
-	            // used to avoid same query twice
-	        var uniqueValue = data.uri || data.classUri || '';
-	        var $container  = $('.search-form [data-purpose="search"]');
-
-            $('.filter-form').slideUp();
-
-            if($container.is(':visible')){
-                $('.search-form').slideUp();
-                search.reset();
-                return;
-            }
-
-            if($container.data('current') === uniqueValue) {
-                $('.search-form').slideDown();
-                return;
-            }
-
-            $.ajax({
-                url: this.url,
-                type: "GET",
-                data: data,
-                dataType: 'html'
-            }).done(function(response){
-                $container.data('current', uniqueValue);
-                search.init($container, response);
-                $('.search-form').slideDown();
-            });
-        });
-
-
-        /**
          * Register the launchEditor action.
          *
          * @this the action (once register it is bound to an action object)
@@ -322,7 +420,7 @@ define([
                         })
                         .show();
                     } else {
-                       section.updateContentBlock($response);
+                        section.updateContentBlock($response);
                     }
                 }
             });

@@ -178,6 +178,11 @@ define([
             })
             .on('update', function(){
                 this.setState('loading', false);
+            })
+            .on('remove', function(uri){
+                if(this.is('rendered')){
+                    $('[data-uri="' + uri + '"]', this.getElement()).remove();
+                }
             });
 
         //always defer the initialization to let consumers listen for init and render events.

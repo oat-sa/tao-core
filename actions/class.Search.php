@@ -16,8 +16,9 @@
  * 
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *               
- */               
+ */
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SyntaxException;
 use oat\tao\model\search\IndexService;
@@ -46,8 +47,8 @@ class tao_actions_Search extends tao_actions_CommonModule {
     	    ),
 	        'filter' => array(),
 	        'model' => array(
-                RDFS_LABEL => array(
-                    'id' => RDFS_LABEL,
+                OntologyRdfs::RDFS_LABEL => array(
+                    'id' => OntologyRdfs::RDFS_LABEL,
                     'label' => __('Label'),
                     'sortable' => false	        	
 	            )
@@ -95,7 +96,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
                     $instance = new core_kernel_classes_Resource($uri);
                     $instanceProperties = array(
                         'id' => $instance->getUri(),
-                        RDFS_LABEL => $instance->getLabel() 
+                        OntologyRdfs::RDFS_LABEL => $instance->getLabel()
                     );
     
                     $response->data[] = $instanceProperties; 

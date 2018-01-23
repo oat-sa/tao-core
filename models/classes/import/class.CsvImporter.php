@@ -18,6 +18,8 @@
  *               
  * 
  */
+
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 
@@ -77,7 +79,7 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
             $file = $uploadService->getUploadedFile($fileInfo['uploaded_file']);
 	    }
 	    
-		$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
+		$properties = array(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL) => __('Label'));
 		$rangedProperties = array();
 
 		$classUri = \tao_helpers_Uri::decode($_POST['classUri']);
@@ -90,7 +92,7 @@ class tao_models_classes_import_CsvImporter extends \oat\tao\model\import\CsvAbs
 				$range = $property->getRange();
 				$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 				
-				if($range instanceof core_kernel_classes_Resource && $range->getUri() != RDFS_LITERAL){
+				if($range instanceof core_kernel_classes_Resource && $range->getUri() != OntologyRdfs::RDFS_LITERAL){
 					$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 				}
 			}

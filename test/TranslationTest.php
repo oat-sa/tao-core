@@ -458,7 +458,7 @@ class TranslationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($result->length == 1);
 
 		// Check for the Language rdf:type.
-		$result = $xPath->query("//rdf:Description/rdf:type[@rdf:resource='" . TaoOntology::LANGUAGES_CLASS_URI . "']");
+		$result = $xPath->query("//rdf:Description/rdf:type[@rdf:resource='" . tao_models_classes_LanguageService::CLASS_URI_LANGUAGES . "']");
 		$this->assertTrue($result->length == 1);
 
 		// Check for the Language rdfs:label.

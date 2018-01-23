@@ -28,6 +28,7 @@ use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\helpers\Template;
@@ -103,6 +104,10 @@ use oat\tao\model\oauth\OauthService;
 use oat\tao\model\oauth\DataStore;
 use oat\tao\model\oauth\nonce\NoNonce;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\model\resources\ResourceService;
+use oat\tao\model\resources\ListResourceLookup;
+use oat\tao\model\resources\TreeResourceLookup;
+use oat\tao\model\user\TaoRoles;
 
 /**
  *
@@ -233,7 +238,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
-                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
+                    ."AND predicate IN ('".OntologyRdfs::RDFS_LABEL."','".OntologyRdfs::RDFS_COMMENT."') ";
             foreach ($toCleanup as $subject) {
                 $persistence->exec($query,array($subject));
             }
@@ -1032,7 +1037,29 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
             $this->setVersion('14.21.0');
         }
-        $this->skip('14.21.0', '14.22.0');
+        $this->skip('14.21.0', '14.23.3');
+
+        if($this->isVersion('14.23.3')){
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext'=>'tao','mod' => 'RestClass']));
+
+            $this->getServiceManager()->register(ResourceService::SERVICE_ID, new ResourceService());
+            $this->getServiceManager()->register(ListResourceLookup::SERVICE_ID, new ListResourceLookup());
+            $this->getServiceManager()->register(TreeResourceLookup::SERVICE_ID, new TreeResourceLookup());
+
+            $this->setVersion('15.0.0');
+        }
+
+        $this->skip('15.0.0', '15.4.0');
+
+        if ($this->isVersion('15.4.0')) {
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            $this->setVersion('15.5.0');
+        }
+
+        $this->skip('15.5.0', '15.6.2');
     }
 
     private function migrateFsAccess() {

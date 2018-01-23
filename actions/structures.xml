@@ -43,12 +43,6 @@
                     <action id="role-assign" name="Assign Users"  url="/tao/Roles/assignUsers" group="content" context="instance">
                         <icon id="icon-edit"/>
                     </action>
-                    <action id="role-filter" name="Filter" context="*" group="search" binding="filter">
-                        <icon id="icon-filter"/>
-                    </action>
-                    <action id="role-search" name="Search" url="/tao/Roles/search" context="*" group="search" binding="launchFinder">
-                        <icon id="icon-find"/>
-                    </action>
                     <action id="role-export" name="Export" url="/tao/Export/index" context="resource" group="tree">
                         <icon id="icon-export"/>
                     </action>

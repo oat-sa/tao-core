@@ -20,6 +20,7 @@
  */
 namespace oat\tao\model\search;
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\Index;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
@@ -69,7 +70,7 @@ class SearchTokenGenerator
     }
     
     protected function getProperties(\core_kernel_classes_Resource $resource) {
-        $classProperties = array($this->getProperty(RDFS_LABEL));
+        $classProperties = array($this->getProperty(OntologyRdfs::RDFS_LABEL));
         foreach ($resource->getTypes() as $type) {
             $classProperties = array_merge($classProperties, $this->getPropertiesByClass($type));
         }
@@ -88,7 +89,7 @@ class SearchTokenGenerator
     protected function getIndexes(\core_kernel_classes_Property $property) {
         if (!isset($this->indexMap[$property->getUri()])) {
             $this->indexMap[$property->getUri()] = array();
-            $indexes = $property->getPropertyValues($this->getProperty(TaoOntology::INDEX_PROPERTY));
+            $indexes = $property->getPropertyValues($this->getProperty(Index::PROPERTY_INDEX));
             foreach ($indexes as $indexUri) {
                 $this->indexMap[$property->getUri()][] = new Index($indexUri);
             }
