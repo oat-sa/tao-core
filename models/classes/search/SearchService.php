@@ -31,9 +31,9 @@ use oat\oatbox\service\ServiceManager;
 class SearchService
 {	
     const CONFIG_KEY = 'search';
-    
+
     /**
-     * 
+     * @return Search
      */
     static public function getSearchImplementation() 
     {
