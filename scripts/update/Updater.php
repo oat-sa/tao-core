@@ -53,9 +53,11 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\search\index\IndexService;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -1060,6 +1062,20 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('15.5.0', '15.6.1');
+
+        if ($this->isVersion('15.6.1')) {
+            $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
+                'rootClasses' => [
+                    TaoOntology::CLASS_URI_ITEM,
+                    TaoOntology::CLASS_URI_TEST,
+                    TaoOntology::CLASS_URI_SUBJECT,
+                    TaoOntology::CLASS_URI_GROUP,
+                    'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
+                    'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media'
+                ]
+            ]));
+            $this->setVersion('15.7.0');
+        }
     }
 
     private function migrateFsAccess() {
