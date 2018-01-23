@@ -1066,12 +1066,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('15.6.1')) {
             $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
                 'rootClasses' => [
-                    TaoOntology::CLASS_URI_ITEM,
-                    TaoOntology::CLASS_URI_TEST,
-                    TaoOntology::CLASS_URI_SUBJECT,
-                    TaoOntology::CLASS_URI_GROUP,
-                    'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
-                    'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media'
+                    TaoOntology::CLASS_URI_ITEM => [
+                        IndexService::PROPERTY_FIELDS => []
+                    ],
+                    TaoOntology::CLASS_URI_TEST => [
+                        IndexService::PROPERTY_FIELDS => []
+                    ],
+                    TaoOntology::CLASS_URI_SUBJECT => [
+                        IndexService::PROPERTY_FIELDS => []
+                    ],
+                    TaoOntology::CLASS_URI_GROUP => [
+                        IndexService::PROPERTY_FIELDS => []
+                    ]
                 ]
             ]));
             $this->setVersion('15.7.0');

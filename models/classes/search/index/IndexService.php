@@ -26,6 +26,7 @@ use oat\tao\model\search\SearchService;
 class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
+    const PROPERTY_FIELDS  = 'fields';
 
     /**
      * @param $id
@@ -47,6 +48,7 @@ class IndexService extends ConfigurableService
     {
         $types = $resource->getTypes();
         $rootClasses = $this->getOption('rootClasses');
+        $rootClasses = array_keys($rootClasses);
         if ($types) {
             $classes = current($types)->getParentClasses(true);
             $classes = array_keys(array_merge($classes, $types));
