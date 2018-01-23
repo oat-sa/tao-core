@@ -8,7 +8,7 @@
         "owner": "userId",
         "createdAt": "1510149584",
         "updatedAt": "1510149574",
-        "file": true,
+        "hasFile": true,
         "category": "publish",
         "report": {
             "type": "success",
