@@ -115,6 +115,14 @@ abstract class tao_helpers_form_Form
      */
     public $error = '';
 
+    /**
+     * List of fields names that are system only and which values doesn't need to be returned by `getValues()` call
+     *
+     * @access protected
+     * @var array
+     */
+    protected $systemElements = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -274,8 +282,9 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  tao_helpers_form_FormElement $element
+     * @param bool|false $isSystem
      */
-    public function addElement( tao_helpers_form_FormElement $element)
+    public function addElement( tao_helpers_form_FormElement $element, $isSystem = false)
     {
 
 		$elementPosition = -1;
@@ -291,6 +300,10 @@ abstract class tao_helpers_form_Form
 		}else{
 			$this->elements[] = $element;
 		}
+
+		if ($isSystem) {
+		    $this->systemElements[] = $element->getName();
+        }
 
 
     }
@@ -696,13 +709,20 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string $groupName
+     * @param  array $filterProperties List of properties which values are unneeded and must be filtered
      * @return array
      */
-    public function getValues($groupName = '')
+    public function getValues($groupName = '', array $filterProperties = [])
     {
         $returnValue = array();
 
 		foreach($this->elements as $element){
+		    if (!empty($this->systemElements) && in_array($element->getName(), $this->systemElements)) {
+		        continue;
+            }
+		    if (!empty($filterProperties) && in_array($element->getName(), $filterProperties)) {
+		        continue;
+            }
 			if(!empty($groupName)){
 				if(isset($this->groups[$groupName])){
 					if(!in_array($element->getName(), $this->groups[$groupName]['elements'])){

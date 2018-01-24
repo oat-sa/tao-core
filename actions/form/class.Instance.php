@@ -60,12 +60,12 @@ class tao_actions_form_Instance
         //add a hidden form element that states that it is an Instance Form.
         $instanceElt = tao_helpers_form_FormFactory::getElement('tao.forms.instance', 'Hidden');
         $instanceElt->setValue('1');
-        $this->form->addElement($instanceElt);
+        $this->form->addElement($instanceElt, true);
 
         //add a token to protect against xsrf
         $tokenElt = tao_helpers_form_FormFactory::getElement('token', 'Token');
         $tokenElt->addValidator(new XsrfTokenValidator());
-        $this->form->addElement($tokenElt);
+        $this->form->addElement($tokenElt, true);
 
         $this->form->setActions($actions, 'top');
         $this->form->setActions($actions, 'bottom');
