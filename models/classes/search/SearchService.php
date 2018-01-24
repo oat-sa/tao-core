@@ -22,6 +22,7 @@ namespace oat\tao\model\search;
 
 use oat\tao\model\menu\MenuService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\search\index\IndexService;
 
 /**
  * Search service
@@ -58,7 +59,9 @@ class SearchService
     static public function runIndexing() 
     {
         $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
-        return self::getSearchImplementation()->fullReIndex($iterator);
+        /** @var \oat\tao\model\search\index\IndexService $indexService */
+        $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
+        return $indexService->fullReIndex($iterator);
     }
     
     /**

@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -22,11 +22,18 @@ namespace oat\tao\model\search\index;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\SearchService;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
+/**
+ * Class IndexService
+ * @package oat\tao\model\search\index
+ */
 class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
     const PROPERTY_FIELDS  = 'fields';
+    const PROPERTY_ROOT_CLASSES  = 'rootClasses';
+    const PROPERTY_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
 
     /**
      * @param $id
@@ -41,13 +48,41 @@ class IndexService extends ConfigurableService
     }
 
     /**
+     * @param \Traversable $resourceTraversable
+     * @throws \common_ext_InstallationException
+     */
+    public function fullReIndex(\Traversable $resourceTraversable)
+    {
+        $searchService = SearchService::getSearchImplementation();
+        if ($searchService->supportCustomIndex()) {
+            SearchService::getSearchImplementation()->fullReIndex($resourceTraversable);
+            $reIndexClasses = $this->getOption('customReIndexClasses');
+            if ($reIndexClasses) {
+                foreach ($reIndexClasses as $reIndexClass) {
+                    if (file_exists($reIndexClass)) {
+                        require_once $reIndexClass;
+                    } elseif (class_exists($reIndexClass) && is_subclass_of($reIndexClass, 'oat\\oatbox\\action\\Action')) {
+                        $action = new $reIndexClass();
+                        if ($action instanceof ServiceLocatorAwareInterface) {
+                            $action->setServiceLocator($this->getServiceLocator());
+                        }
+                        call_user_func($action, array());
+                    } else {
+                        throw new \common_ext_InstallationException('Unable to run install script '.$reIndexClass);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * @param $resource
      * @return mixed|null
      */
     public function getRootClassByResource($resource)
     {
         $types = $resource->getTypes();
-        $rootClasses = $this->getOption('rootClasses');
+        $rootClasses = $this->getOption(self::PROPERTY_ROOT_CLASSES);
         $rootClasses = array_keys($rootClasses);
         if ($types) {
             $classes = current($types)->getParentClasses(true);

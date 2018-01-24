@@ -29,11 +29,16 @@ use oat\tao\model\TaoOntology;
 class RegisterIndexService extends AbstractAction
 {
 
+    /**
+     * @param $params
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
     public function __invoke($params)
     {
 
         $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
-            'rootClasses' => [
+            IndexService::PROPERTY_ROOT_CLASSES => [
                 TaoOntology::CLASS_URI_ITEM => [
                     IndexService::PROPERTY_FIELDS => []
                 ],
