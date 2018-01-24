@@ -99,6 +99,11 @@ class ActionService extends ConfigurableService
         return $permissions;
     }
 
+    /**
+     * Get the rights required for the given action
+     * @param MenuAction $action
+     * @return array the required rights
+     */
     public function getRequiredRights(MenuAction $action)
     {
         $rights = [];
@@ -109,8 +114,6 @@ class ActionService extends ConfigurableService
                     $resolvedAction['controller'],
                     $resolvedAction['action']
                 );
-                \common_Logger::d(' >>> ' . json_encode($rights));
-
             } catch(\Exception $e){
                 \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
             }

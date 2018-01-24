@@ -618,8 +618,12 @@ define([
              */
             function hasAccessTo(actionType, node){
                 var action = options.actions[actionType];
-                if(node && action && node.permissions && typeof node.permissions[action.id] !== 'undefined'){
-                    return !!node.permissions[action.id];
+                if(node && action && node.permissions && action.rights){
+                    return permissionsManager.isContextAllowed(action.rights, {
+                        uri : node.attributes['data-uri'],
+                        classUri : node.attributes['data-classUri'],
+                        id : node.attributes.id
+                    });
                 }
                 return true;
             }
@@ -654,18 +658,23 @@ define([
              */
             function getPermissionClass(node){
                 var nodeId = node.attributes['data-uri'];
-                var hasGrantPerm = permissionsManager.hasPermission(nodeId, permissionsManager.rights.GRANT);
-                var hasWritePerm = permissionsManager.hasPermission(nodeId, permissionsManager.rights.WRITE);
-                var hasReadPerm  = permissionsManager.hasPermission(nodeId, permissionsManager.rights.READ);
 
-                if(hasGrantPerm) {
+                var rights = permissionsManager.getRights();
+                var count    = _.reduce(rights, function(acc, right){
+                    if(permissionsManager.hasPermission(nodeId, right)){
+                        acc++;
+                    }
+                    return acc;
+                }, 0);
+
+                if (rights.length === 0 || count === rights.length) {
                     return 'permissions-full';
                 }
-
-                if (!hasGrantPerm && !hasWritePerm && hasReadPerm) {
-                    return 'permissions-partial';
+                if(count === 0){
+                    return 'permissions-none';
                 }
-                return 'permissions-none';
+
+                return 'permissions-partial';
             }
 
             /**
@@ -789,8 +798,21 @@ define([
              */
             function getTreeData(response){
                 var treeData = response.tree || response;
+                var currentRights;
+
                 if(response.permissions){
-                    permissionsManager.addPermissions(response.permissions);
+                    currentRights = permissionsManager.getRights();
+
+                    if(response.permissions.supportedRights &&
+                        response.permissions.supportedRights.length &&
+                        currentRights.length === 0) {
+
+                        permissionsManager.setSupportedRights(response.permissions.supportedRights);
+
+                    }
+                    if(response.permissions.data){
+                        permissionsManager.addPermissions(response.permissions.data);
+                    }
                 }
                 return treeData;
             }

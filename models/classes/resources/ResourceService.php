@@ -112,7 +112,7 @@ class ResourceService extends ConfigurableService
      *
      * @param User $user the user to check the permissions
      * @param array $resources the resources to get the permissions
-     * @return array the permissions per resource
+     * @return array the available rights and the permissions per resource
      */
     public function getResourcesPermissions(User $user, $resources)
     {
@@ -120,9 +120,14 @@ class ResourceService extends ConfigurableService
         if(!is_null($user)){
             try {
                 $permissionManager = $this->getServiceManager()->get(PermissionInterface::SERVICE_ID);
-                $uris = $this->getUris($resources);
+                $supportedRights   = $permissionManager->getSupportedRights();
+                $permissions['supportedRights'] = $supportedRights;
 
-                $permissions = $permissionManager::getPermissionModel()->getPermissions($user, $uris);
+                if(count($supportedRights) > 0){
+                    $uris = $this->getUris($resources);
+
+                    $permissions['data'] = $permissionManager->getPermissions($user, $uris);
+                }
             } catch(\Exception $e){
                 \common_Logger::w('Unable to retrieve permssions ' . $e->getMessage());
             }

@@ -40,18 +40,43 @@ define([
     var permissionStore = {};
 
     /**
+     * The list of supported rights
+     * @type {String[]}
+     */
+    var supportedRights = [];
+
+    /**
      * The permissions manager
      * @typedef {Object} permissionsManager
      */
     var permissionsManager = {
 
         /**
-         * The available permissions (exhaustive)
+         * set the rights, none by defaults
+         * @param {String[]} rights
+         * @returns {permissionsManager} chains
          */
-        rights : {
-            WRITE : 'WRITE',
-            READ  : 'READ',
-            GRANT : 'GRANT'
+        setSupportedRights : function setSupportedRights(rights){
+            if (_.isArray(rights)) {
+                supportedRights = _.filter(rights, _.isString);
+            }
+        },
+
+        /**
+         * Get the current rights
+         * @returns {String[]} the rights
+         */
+        getRights : function getRights(){
+            return supportedRights;
+        },
+
+        /**
+         * Check if the given right is supported
+         * @param {String} right - the right to check
+         * @returns {Boolean}
+         */
+        isSupported : function isSupported(right){
+            return _.contains(supportedRights, right);
         },
 
         /**
@@ -71,7 +96,7 @@ define([
          */
         addPermissions : function addPermissions(uri, permissions){
             if(_.isString(uri) && _.isArray(permissions)){
-                permissionStore[uri] = _.intersection(permissions, _.values(this.rights));
+                permissionStore[uri] = _.intersection(permissions, _.values(this.getRights()));
             }
 
             if(_.isUndefined(permissions) && _.isPlainObject(uri)){
@@ -80,6 +105,7 @@ define([
                     this.addPermissions(key, value);
                 }, this);
             }
+
             return this;
         },
 
@@ -99,6 +125,11 @@ define([
          * @returns {Boolean}
          */
         hasPermission : function hasPermission(uri, permission){
+
+            //if no right is defined, it's open bar
+            if( supportedRights.length === 0 ) {
+                return true;
+            }
             if(typeof permissionStore[uri] !== 'undefined'){
                 return _.contains(permissionStore[uri], permission);
             }
@@ -122,7 +153,7 @@ define([
          */
         isContextAllowed : function isContextAllowed(requiredRights, resourceContext){
             var self    = this;
-            if(! requiredRights || _.size(requiredRights) === 0){
+            if(! requiredRights || _.size(requiredRights) === 0 || supportedRights.length === 0){
                 return true;
             }
             if(!_.isPlainObject(resourceContext)){
@@ -131,7 +162,7 @@ define([
             return _.all(requiredRights, function(right, requiredParameter){
                 var parameterValue;
 
-                if(typeof resourceContext[requiredParameter] === 'undefined'){
+                if(typeof resourceContext[requiredParameter] === 'undefined' || !self.isSupported(right)){
                     return false;
                 }
 

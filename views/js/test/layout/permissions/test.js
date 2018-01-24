@@ -33,7 +33,9 @@ define([
     });
 
     QUnit.cases([
-        {title: 'addPermissions'},
+        {title: 'setSupportedRights'},
+        {title: 'getRights'},
+        {title: 'isSupported'},
         {title: 'getPermissions'},
         {title: 'hasPermission'},
         {title: 'clear'},
@@ -44,16 +46,37 @@ define([
         assert.ok(typeof permissionsManager[data.title] === 'function', 'The permissionsManager exposes the method ' + data.title);
     });
 
-    QUnit.test('exhaustive available rights', function(assert){
-        QUnit.expect(3);
 
-        assert.equal(permissionsManager.rights.READ, 'READ');
-        assert.equal(permissionsManager.rights.WRITE, 'WRITE');
-        assert.equal(permissionsManager.rights.GRANT, 'GRANT');
+    QUnit.module('rights');
+
+    QUnit.test('supported', function(assert){
+
+        QUnit.expect(10);
+
+        assert.deepEqual(permissionsManager.getRights(), [], 'No supported rights by default');
+        assert.ok( ! permissionsManager.isSupported('r'));
+        assert.ok( ! permissionsManager.isSupported('w'));
+        assert.ok( ! permissionsManager.isSupported('x'));
+        assert.ok( ! permissionsManager.isSupported('y'));
+
+        permissionsManager.setSupportedRights(['r', 'w', 'x']);
+
+        assert.deepEqual(permissionsManager.getRights(), ['r', 'w', 'x'], 'New supported rights');
+        assert.ok(permissionsManager.isSupported('r'));
+        assert.ok(permissionsManager.isSupported('w'));
+        assert.ok(permissionsManager.isSupported('x'));
+        assert.ok( ! permissionsManager.isSupported('y'));
     });
 
 
-    QUnit.module('Permissions');
+    QUnit.module('Permissions', {
+        setup: function setup(){
+            permissionsManager.setSupportedRights(['READ', 'WRITE', 'GRANT']);
+        },
+        teardown : function teardown(){
+            permissionsManager.setSupportedRights([]);
+        }
+    });
 
     QUnit.test('add and get one resource permissions', function(assert){
         var uri = 'http://foo.bar/a';
@@ -143,28 +166,35 @@ define([
         assert.deepEqual(permissionsManager.getPermissions('http://foo.bar/l'), [], 'Permissions set for the resource');
 
 
-        assert.ok(permissionsManager.hasPermission('http://foo.bar/i', permissionsManager.rights.READ));
-        assert.ok(permissionsManager.hasPermission('http://foo.bar/i', permissionsManager.rights.WRITE));
-        assert.ok(permissionsManager.hasPermission('http://foo.bar/i', permissionsManager.rights.GRANT));
+        assert.ok(permissionsManager.hasPermission('http://foo.bar/i', 'READ'));
+        assert.ok(permissionsManager.hasPermission('http://foo.bar/i', 'WRITE'));
+        assert.ok(permissionsManager.hasPermission('http://foo.bar/i', 'GRANT'));
 
-        assert.ok(permissionsManager.hasPermission('http://foo.bar/j', permissionsManager.rights.READ));
-        assert.ok(permissionsManager.hasPermission('http://foo.bar/j', permissionsManager.rights.WRITE));
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/j', permissionsManager.rights.GRANT));
+        assert.ok(permissionsManager.hasPermission('http://foo.bar/j', 'READ'));
+        assert.ok(permissionsManager.hasPermission('http://foo.bar/j', 'WRITE'));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/j', 'GRANT'));
 
-        assert.ok(permissionsManager.hasPermission('http://foo.bar/k', permissionsManager.rights.READ));
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/k', permissionsManager.rights.WRITE));
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/k', permissionsManager.rights.GRANT));
+        assert.ok(permissionsManager.hasPermission('http://foo.bar/k', 'READ'));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/k', 'WRITE'));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/k', 'GRANT'));
 
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/l', permissionsManager.rights.READ));
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/l', permissionsManager.rights.WRITE));
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/l', permissionsManager.rights.GRANT));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/l', 'READ'));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/l', 'WRITE'));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/l', 'GRANT'));
 
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/z', permissionsManager.rights.READ));
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/z', permissionsManager.rights.WRITE));
-        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/z', permissionsManager.rights.GRANT));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/z', 'READ'));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/z', 'WRITE'));
+        assert.ok( ! permissionsManager.hasPermission('http://foo.bar/z', 'GRANT'));
     });
 
-    QUnit.module('Action and context');
+    QUnit.module('Action and context', {
+        setup: function setup(){
+            permissionsManager.setSupportedRights(['READ', 'WRITE', 'GRANT']);
+        },
+        teardown : function teardown(){
+            permissionsManager.setSupportedRights([]);
+        }
+    });
 
 
     QUnit.cases([{
