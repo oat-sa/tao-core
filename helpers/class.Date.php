@@ -74,7 +74,7 @@ class tao_helpers_Date
     {
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
-        } elseif (is_object($timestamp) && $timestamp instanceof DateTime) {
+        } elseif (is_object($timestamp) && $timestamp instanceof DateTimeInterface) {
             $ts = self::getTimeStampWithMicroseconds($timestamp);
         } elseif (is_numeric($timestamp)) {
             $ts = $timestamp;
@@ -93,7 +93,7 @@ class tao_helpers_Date
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param unknown $interval            
-     * @param unknown $format            
+     * @param integer $format
      * @return string|Ambigous <string, string>
      */
     static public function displayInterval($interval, $format = self::FORMAT_INTERVAL_LONG)
@@ -105,7 +105,7 @@ class tao_helpers_Date
             $intervalObj->setTimestamp($interval);
         }
         $newDate = new \DateTime();
-        $intervalObj = $intervalObj instanceof DateTime ? $newDate->diff($intervalObj, true) : $intervalObj;
+        $intervalObj = $intervalObj instanceof DateTimeInterface ? $newDate->diff($intervalObj, true) : $intervalObj;
         if (! $intervalObj instanceof DateInterval) {
             common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
             return '';
