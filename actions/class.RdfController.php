@@ -21,7 +21,6 @@
  *
  */
 
-use oat\generis\model\data\permission\PermissionManager;
 use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\accessControl\AclProxy;
@@ -31,6 +30,7 @@ use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\resources\ResourceService;
 
 /**
  * The TaoModule is an abstract controller,
@@ -207,7 +207,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $options = $this->getTreeOptionsFromRequest([]);
         //generate the tree from the given parameters
         $tree = $this->getClassService()->toTree($options['class'], $options);
-        $permissions = $this->addPermissions($tree);
+
+        $user = \common_Session_SessionManager::getSession()->getUser();
+        $permissions = $this->getResourceService()->getResourcesPermissions($user, $tree);
 
         //expose the tree
         $this->returnJson([
@@ -270,89 +272,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         return $options;
     }
 
-    /**
-     * Get permissions from tree's resources
-     *
-     * @param array $tree
-     * @return array the permissions per URI
-     */
-    protected function addPermissions($tree)
-    {
-        $permissions = []; 
-        try {
-            $permissionManager = $this->getServiceManager()->get(PermissionManager::SERVICE_ID);
-            $user = \common_session_SessionManager::getSession()->getUser();
-            $uris = $this->getUris($tree);
 
-            $permissions = $permissionManager::getPermissionModel()->getPermissions($user, $uris);
-        } catch(\Exception $e){
-            \common_Logger::w('Unable to retrieve permssions ' . $e->getMessage());
-        }
-        return $permissions;
-    }
-
-    /**
-     * Walk through the tree to get it's URIs
-     *
-     * @param array $nodes the tree or a sub tree
-     * @return string[] the list of URIs
-     */
-    private function getUris($nodes)
-    {
-        $uris = [];
-        if (isset($nodes['attributes']['data-uri'])) {
-            $uris[] = $nodes['attributes']['data-uri'];
-        }
-
-        $treeKeys = array_keys($nodes);
-        if (isset($treeKeys[0]) && is_int($treeKeys[0])) {
-            foreach ($nodes as $node) {
-                $uris = array_merge($uris, $this->getUris($node));
-
-            }
-        }
-
-        if(isset($nodes['children'])) {
-            $uris = array_merge($uris, $this->getUris($nodes['children']));
-        }
-
-        return $uris;
-    }
-
-    /**
-     * compulte permissions for a node against actions
-     * @param array[] $actions the actions data with context, name and the resolver
-     * @param User $user the user
-     * @param array $node a tree node
-     * @return array the node augmented with permissions
-     */
-    private function computePermissions($actions, $user, $node)
-    {
-        if (isset($node['attributes']['data-uri'])) {
-            if($node['type'] == 'class'){
-                $params = array('classUri' => $node['attributes']['data-uri']);
-            } else {
-                $params = array();
-                foreach ($node['attributes'] as $key => $value) {
-                    if (substr($key, 0, strlen('data-')) == 'data-') {
-                        $params[substr($key, strlen('data-'))] = $value;
-                    }
-                }
-            }
-            $params['id'] = $node['attributes']['data-uri'];
-
-            $permissions =  \oat\generis\model\data\permission\PermissionManager::getPermissionModel()->getPermissions($user, [$params['id']]);
-
-            //\common_Logger::d(' >>>>>>> ' . json_encode($permissions) );
-            $node['permissions'] = $permissions;//$this->getActionService()->computePermissions($actions, $user, $params);
-        }
-        if (isset($node['children'])) {
-            foreach($node['children'] as $index => $child){
-                $node['children'][$index] = $this->computePermissions($actions, $user, $child);
-            }
-        }
-        return $node;
-    }
 
         /**
          * Add an instance of the selected class
@@ -773,11 +693,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     }
 
     /**
-     * @return ActionService
+     * Get the resource service
+     * @return ResourceService
      */
-    private function getActionService()
+    private function getResourceService()
     {
-        return $this->getServiceManager()->get(ActionService::SERVICE_ID);
+        return $this->getServiceManager()->get(ResourceService::SERVICE_ID);
     }
 
 }
