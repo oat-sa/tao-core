@@ -26,7 +26,8 @@ define([
     'lib/uuid',
     'layout/actions/binder',
     'layout/actions/common',
-], function($, _, eventifier, Promise, uuid, binder, commonActions){
+    'layout/permissions'
+], function($, _, eventifier, Promise, uuid, binder, commonActions, permissionsManager){
     'use strict';
 
     /**
@@ -66,18 +67,18 @@ define([
             this._bind();
         },
 
-        /** 
+        /**
          * Lookup for existing actions in the page and add them to the _actions property
          * @private
          */
         _lookup : function _lookup(){
             var self = this;
             $('.action-bar .action', this.$scope).each(function(){
-    
+
                 var $this = $(this);
                 var id;
                 if($this.data('action')){
-                
+
                     //use the element id
                     if($this.attr('id')){
                         id = $this.attr('id');
@@ -108,7 +109,7 @@ define([
             });
         },
 
-        /** 
+        /**
          * Bind actions' events: try to execute the binding registered for this action.
          * The behavior depends on the binding name of the action.
          * @private
@@ -118,45 +119,44 @@ define([
             var actionSelector = this.$scope.selector + ' .action-bar .action';
 
             $(document)
-              .off('click', actionSelector) 
-              .on('click', actionSelector, function(e){
+                .off('click', actionSelector)
+                .on('click', actionSelector, function(e){
                     var selected;
                     e.preventDefault();
                     selected  = actions[$(this).attr('id')];
-                    if(selected && selected.state.disabled === false &&  selected.state.hidden === false){ 
+                    if(selected && selected.state.disabled === false &&  selected.state.hidden === false){
                         self.exec(selected);
                     }
                 });
-        }, 
+        },
 
         /**
-         * Listen for event that could update the actions. 
+         * Listen for event that could update the actions.
          * Those events may change the current context.
          * @private
          * @deprecated
          */
         _listenUpdates : function _listenUpdates(){
             var self = this;
-            var treeSelector = this.$scope.selector + ' .tree';  
- 
+            var treeSelector = this.$scope.selector + ' .tree';
+
             //listen for tree changes
             $(document)
-              .off('change.taotree.actions', treeSelector)
-              .on('change.taotree.actions', treeSelector, function(e, context){
-                context = context || {};
-                context.tree = this;
-                self.updateContext(context);
-            });
+                .off('change.taotree.actions', treeSelector)
+                .on('change.taotree.actions', treeSelector, function(e, context){
+                    context = context || {};
+                    context.tree = this;
+                    self.updateContext(context);
+                });
         },
 
         /**
          * Update the current context. Context update may change the visibility of the actions.
          * @param {ActionContext|ActionContext[]} context - the new context
          */
-       updateContext : function updateContext(context){
+        updateContext : function updateContext(context){
             var self = this;
             var current;
-            var permissions;
 
             context = context || {};
 
@@ -167,7 +167,7 @@ define([
 
                     //if some has not the permissions we deny
                     var hasPermissionDenied = _.some(context, function(resource){
-                        return resource.permissions && resource.permissions[action.id] === false;
+                        return permissionsManager.isContextAllowed(action.rights, resource);
                     });
 
                     if( action.multiple &&
@@ -190,12 +190,12 @@ define([
                 } else {
                     current = context.uri ? 'instance' : context.classUri ? 'class' : 'none';
                 }
-                permissions = context.permissions || {};
 
                 _.forEach(actions, function(action){
-                    var permission = permissions[action.id];
 
-                    if( action.multiple || permission === false ||
+                    var allowed = permissionsManager.isContextAllowed(action.rights, context);
+
+                    if( action.multiple || allowed === false ||
                         (current === 'none' && action.context !== '*') ||
                         (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 
@@ -228,7 +228,7 @@ define([
         },
 
         /**
-         * Execute the operation bound to an action (via {@link layout/actions/binder#register}); 
+         * Execute the operation bound to an action (via {@link layout/actions/binder#register});
          * @param {String|Object} action - can be either the id, the name or the action directly
          * @param {ActionContext} [context] - an action conext, use the current otherwise
          * @returns {Promise?}
@@ -248,11 +248,11 @@ define([
             }
             if(_.isPlainObject(action)){
 
-                //make the executed action active                
+                //make the executed action active
                 _.forEach(actions, function(otherAction){
                     otherAction.state.active = false;
-                }); 
-                action.state.active = true; 
+                });
+                action.state.active = true;
                 this.updateState();
 
                 return Promise
@@ -268,7 +268,7 @@ define([
         },
 
         /**
-         * Helps you to retrieve an action from it's name or id 
+         * Helps you to retrieve an action from it's name or id
          * @param {String} actionName - name or id of the action
          * @returns {Object} the action
          */
@@ -284,6 +284,6 @@ define([
             return action;
         }
     });
-    
+
     return actionManager;
 });

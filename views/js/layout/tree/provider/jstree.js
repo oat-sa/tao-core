@@ -32,11 +32,12 @@ define([
     'layout/generisRouter',
     'layout/actions',
     'layout/section',
+    'layout/permissions',
     'ui/feedback',
     'uri',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.contextmenu'
-], function($, _, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, feedback, uri){
+], function($, _, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -70,8 +71,6 @@ define([
         init : function init($container, options){
             var lastOpened;
             var lastSelected;
-            var permissionErrorMessage;
-            var permissions = {};
 
             var moreNode = {
                 data : __('More'),
@@ -170,7 +169,6 @@ define([
                  * @param {String} data.cssClass - the css class for the new node (node-instance or node-class at least).
                  */
                 addnode : function addnode(data) {
-
                     var tree =  $.tree.reference($container);
                     var parentNode = tree.get_node($('#' + uri.encode(data.parent), $container).get(0));
 
@@ -189,7 +187,8 @@ define([
                         async       : tree.settings.data.async,
                         data        : params,
                         success     : function (response) {
-                            var items = response.children ? response.children : response;
+                            var treeData = getTreeData(response);
+                            var items = treeData.children || treeData;
                             var node = _.filter(items, function (child) {
                                 return child.attributes && child.attributes['data-uri'] === data.uri;
                             });
@@ -336,25 +335,26 @@ define([
                      */
                     ondata: function ondata(data) {
 
+                        var treeData;
                         if(data.error){
                             feedback().error(data.error);
                             return [];
                         }
 
+                        treeData = getTreeData(data);
+
                         //automatically open the children of the received node
-                        if (data.children) {
-                            data.state = 'open';
+                        if (treeData.children) {
+                            treeData.state = 'open';
                         }
 
-                        computeSelectionAccess(data);
+                        computeSelectionAccess(treeData);
 
-                        flattenPermissions(data);
+                        needMore(treeData);
 
-                        needMore(data);
+                        addTitle(treeData);
 
-                        addTitle(data);
-
-                        return data;
+                        return treeData;
                     },
 
                     /**
@@ -390,7 +390,7 @@ define([
                             if(lastSelected){
                                 $lastSelected = $('#' +  lastSelected, $container);
                                 if($lastSelected.length && !$lastSelected.hasClass('private')){
-                                    lastSelected = undefined;
+                                    lastSelected = null;
                                     return tree.select_branch($lastSelected);
                                 }
                             }
@@ -453,10 +453,9 @@ define([
                         var $node           = $(node);
                         var classActions = [];
                         var nodeId          = $node.attr('id');
+                        var nodeUri         = $node.data('uri');
                         var $parentNode     = tree.parent($node);
-                        var nodeContext     = permissions[nodeId] ? {
-                            permissions : permissions[nodeId]
-                        } : {};
+                        var nodeContext     =  { };
 
                         //mark all unselected
                         $('a.clicked', $container)
@@ -476,8 +475,7 @@ define([
                                 tree.open_branch($node);
                             }
                             nodeContext.classUri = nodeId;
-                            nodeContext.permissions = permissions[nodeId];
-                            nodeContext.id = $node.data('uri');
+                            nodeContext.id = nodeUri;
                             nodeContext.context = ['class', 'resource'];
 
                             //Check if any class-level action is defined in the structures.xml file
@@ -492,7 +490,7 @@ define([
                         if ($node.hasClass('node-instance')){
                             nodeContext.uri = nodeId;
                             nodeContext.classUri = $parentNode.attr('id');
-                            nodeContext.id = $node.data('uri');
+                            nodeContext.id = nodeUri;
                             nodeContext.context = ['instance', 'resource'];
 
                             //the last selected node is stored
@@ -637,10 +635,8 @@ define([
                     _.forEach(node, computeSelectionAccess);
                     return;
                 }
-                if(node.type && node.permissions){
-                    addClassToNode(node, getPermissionClass(node));
-                }
                 if(node.type){
+                    addClassToNode(node, getPermissionClass(node));
                     if (!hasAccessTo('moveInstance', node)) {
                         addClassToNode(node, 'node-undraggable');
                     }
@@ -657,19 +653,16 @@ define([
              * @returns {String} the CSS class
              */
             function getPermissionClass(node){
-                var actions = _.pluck(_.filter(options.actions, function (val) {
-                    return val.context === node.type || val.context === 'resource';
-                }), 'id');
-                var keys = _.intersection(_.keys(node.permissions), actions);
-                var values = _.filter(node.permissions, function (val, key) {
-                    return _.contains(keys, key);
-                });
-                var containsTrue = _.contains(values, true),
-                    containsFalse = _.contains(values, false);
+                var nodeId = node.attributes['data-uri'];
+                var hasGrantPerm = permissionsManager.hasPermission(nodeId, permissionsManager.rights.GRANT);
+                var hasWritePerm = permissionsManager.hasPermission(nodeId, permissionsManager.rights.WRITE);
+                var hasReadPerm  = permissionsManager.hasPermission(nodeId, permissionsManager.rights.READ);
 
-                if (containsTrue && !containsFalse) {
+                if(hasGrantPerm) {
                     return 'permissions-full';
-                } else if (containsTrue && containsFalse) {
+                }
+
+                if (!hasGrantPerm && !hasWritePerm && hasReadPerm) {
                     return 'permissions-partial';
                 }
                 return 'permissions-none';
@@ -690,24 +683,6 @@ define([
                 }
                 if(node.children){
                     _.forEach(node.children, addTitle);
-                }
-            }
-
-            /**
-             * Reads the permissions from tree data to put them into a flat Map as <pre>nodeId : nodePermissions</pre>
-             * @private
-             * @param {Object} node - the tree node as recevied from the server
-             */
-            function flattenPermissions(node){
-                if(_.isArray(node)){
-                    _.forEach(node, flattenPermissions);
-                    return;
-                }
-                if(node.attributes && node.attributes.id){
-                    permissions[node.attributes.id] = node.permissions;
-                }
-                if(node.children){
-                    _.forEach(node.children, flattenPermissions);
                 }
             }
 
@@ -748,11 +723,12 @@ define([
                     async       : tree.settings.data.async,
                     data        : params
                 }).done(function(response){
-                    if(response && _.isArray(response.children)){
-                        response = response.children;
+                    var treeData = getTreeData(response);
+                    if(treeData && _.isArray(treeData.children)){
+                        treeData = treeData.children;
                     }
-                    if(_.isArray(response)){
-                        _.forEach(response, function(newNode){
+                    if(_.isArray(treeData)){
+                        _.forEach(treeData, function(newNode){
                             if(newNode.type === 'instance'){   //yes the server send also the class, even though I ask him gently...
                                 tree.create(newNode, $parentNode);
                             }
@@ -781,23 +757,14 @@ define([
                 if (!_.isArray(exclude)) {
                     exclude = [];
                 }
+
                 possibleActions = _.filter(actions, function (action, name) {
                     var possible = _.contains(nodeContext.context, action.context);
-                    if (context.permissions) {
-                        possible = possible && nodeContext.permissions[action.id];
-                    }
-                    possible = possible && !_.contains(exclude, name);
-                    return possible;
+                    return possible && !_.contains(exclude, name);
                 });
                 //execute the first allowed action
                 if(possibleActions.length > 0){
-                    //hide shown earlier message
-                    if (permissionErrorMessage) {
-                        permissionErrorMessage.close();
-                    }
                     actionManager.exec(possibleActions[0], nodeContext);
-                } else {
-                    permissionErrorMessage = feedback().error(__("You don't have sufficient permissions to access"));
                 }
             }
 
@@ -812,6 +779,20 @@ define([
                         node.attributes['class'] = clazz;
                     }
                 }
+            }
+
+            /**
+             * Parse a response from a request to get the tree data
+             * and extract the permissions if given
+             * @param {Object} response - from a request
+             * @returns {Object} the tree data
+             */
+            function getTreeData(response){
+                var treeData = response.tree || response;
+                if(response.permissions){
+                    permissionsManager.addPermissions(response.permissions);
+                }
+                return treeData;
             }
 
             return setUpTree();
