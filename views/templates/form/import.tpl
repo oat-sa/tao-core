@@ -23,7 +23,72 @@ Template::inc('form.tpl', 'tao');
 
 
 <script type="text/javascript">
-require(['jquery'], function($) {
+require([
+    'jquery',
+    'i18n',
+    'util/url',
+    'layout/actions',
+    'test/core/taskQueue/stub/taskQueue',//TODO replace by 'core/taskQueue/taskQueue' when ready for backend integration
+    'ui/taskQueueButton/standardButton'
+], function($, __, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
+
+    var $container = $('.content-block'),
+        $form = $('#import'),
+        $oldSubmitter = $form.find('.form-submitter'),
+        importUrl = urlHelper.route("<?=get_data('import_action')?>", "<?=get_data('import_module')?>", "<?=get_data('import_extension')?>");
+
+    //TODO remove this when ready for backend integration
+    var importUrl = '/tao/views/js/test/core/taskQueue/samples/newTaskCreationResult.json';
+    taskQueue.setEndpoints({
+        get: '/tao/views/js/test/core/taskQueue/samples/getSingle-completed-import.json'
+    });
+
+    /**
+     * wrapped the old jstree API used to refresh the tree and optionally select a resource
+     * @param {String} [uriResource] - the uri resource node to be selected
+     */
+    var refreshTree = function refreshTree(uriResource){
+        actionManager.trigger('refresh', {
+            uri : uriResource
+        });
+    };
+
+    //find the old submitter and replace it with the new component
+    var taskCreationButton = taskCreationButtonFactory({
+        type : 'info',
+        icon : 'import',
+        title : __('Import'),
+        label : __('Import'),
+        taskQueue : taskQueue,
+        taskCreationUrl : importUrl,
+        taskCreationData : function getTaskCreationData(){
+            return $form.serializeArray();
+        },
+        taskReportContainer : $container
+    }).on('finished', function(result){
+        console.log(result);
+        if (result.task
+                && result.task.report
+                && _.isArray(result.task.report.children)
+                && result.task.report.children.length
+                && result.task.report.children[0]) {
+            if(result.task.report.children[0].data
+                    && result.task.report.children[0].data.uriResource){
+                this.selectedNode = result.task.report.children[0].data.uriResource;
+                this.displayReport(result.task.report, __('Import Completed'));
+            }else{
+                this.displayReport(result.task.report, __('Error'));
+            }
+        }
+    }).on('continue', function(){
+        refreshTree(this.selectedNode);
+    }).on('error', function(err){
+        //format and display error message to user
+        feedback().error(err);
+    }).render($oldSubmitter.closest('.form-toolbar'));
+
+    //replace the old submitter with the new one and apply its style
+    $oldSubmitter.replaceWith(taskCreationButton.getElement().css({float: 'right'}));
 
 	//by changing the format, the form is sent
 	$(":radio[name='importHandler']").change(function(){
