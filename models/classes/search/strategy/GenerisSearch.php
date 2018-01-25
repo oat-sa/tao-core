@@ -71,6 +71,15 @@ class GenerisSearch extends ConfigurableService implements Search
     }
 
     /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::addIndexes()
+     */
+    public function addIndexes(\Traversable $IndexIterator) {
+        // no indexation required
+        return 0;
+    }
+
+    /**
      * Return total count of corresponded instances
      *
      * @param string $queryString

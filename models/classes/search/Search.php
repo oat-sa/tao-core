@@ -48,11 +48,19 @@ interface Search extends PhpSerializable
     public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
 
     /**
-     * Build indexes by array of IndexDocument
+     * Full reindex the documents given as a traversable
      *
      * @param \Traversable $IndexIterator
      */
     public function fullReIndex(\Traversable $IndexIterator);
+
+    /**
+     * Index the documents given as a traversable
+     *
+     * @param \Traversable $IndexIterator
+     * @return mixed
+     */
+    public function addIndexes(\Traversable $IndexIterator);
 
     /**
      * (Re)Generate the index for a given resource
