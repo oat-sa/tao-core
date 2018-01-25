@@ -24,6 +24,7 @@ use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
 use oat\tao\model\search\index\IndexDocument;
+use oat\tao\model\search\index\IndexIterator;
 
 /**
  * Search interface
@@ -49,9 +50,9 @@ interface Search extends PhpSerializable
     /**
      * Build indexes by array of IndexDocument
      *
-     * @param array $indexDocuments
+     * @param IndexIterator $IndexIterator
      */
-    public function fullReIndex($indexDocuments = []);
+    public function fullReIndex(IndexIterator $IndexIterator);
 
     /**
      * (Re)Generate the index for a given resource

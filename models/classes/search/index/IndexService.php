@@ -48,15 +48,15 @@ class IndexService extends ConfigurableService
     }
 
     /**
-     * @param array $indexDocuments
+     * @param IndexIterator $indexIterator
      * @return int
      * @throws \common_ext_InstallationException
      */
-    public function fullReIndex($indexDocuments = [])
+    public function fullReIndex(IndexIterator $indexIterator)
     {
         $searchService = SearchService::getSearchImplementation();
         if ($searchService->supportCustomIndex()) {
-            SearchService::getSearchImplementation()->fullReIndex($indexDocuments);
+            SearchService::getSearchImplementation()->fullReIndex($indexIterator);
             $reIndexClasses = $this->getOption('customReIndexClasses');
             if ($reIndexClasses) {
                 foreach ($reIndexClasses as $reIndexClass) {
@@ -74,7 +74,6 @@ class IndexService extends ConfigurableService
                 }
             }
         }
-        return sizeof($indexDocuments);
     }
 
     /**
