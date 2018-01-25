@@ -21,7 +21,9 @@
 namespace oat\tao\model\search\tasks;
 
 use oat\oatbox\action\Action;
+use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\SearchService;
 use oat\taoTaskQueue\model\Task\TaskAwareInterface;
 use oat\taoTaskQueue\model\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -53,18 +55,12 @@ class AddSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareIn
         $responseId = array_shift($params);
         $type = array_shift($params);
         $body = $params ? array_shift($params) : [];
-        $resource = new \core_kernel_classes_Resource($id);
-
-        if ($resource->exists()) {
-            $body['label'] = $resource->getLabel();
-        }
 
         $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Adding search index for %s', $id));
 
         try {
-            /** @var IndexService $indexService */
-            $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
-            $indexService->addIndex($id, $type, $responseId, $body);
+            $document = new IndexDocument($id, $responseId, $type, $body);
+            SearchService::getSearchImplementation()->index($document);
         }catch (\Exception $e) {
             $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $id, $e->getMessage())));
         }

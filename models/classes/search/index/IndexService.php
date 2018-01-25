@@ -31,9 +31,9 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
-    const PROPERTY_FIELDS  = 'fields';
-    const PROPERTY_ROOT_CLASSES  = 'rootClasses';
-    const PROPERTY_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
+    const OPTION_CUSTOM_FIELDS  = 'custom_fields';
+    const OPTION_ROOT_CLASSES  = 'rootClasses';
+    const OPTION_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
 
     /**
      * @param $id
@@ -83,7 +83,7 @@ class IndexService extends ConfigurableService
     public function getRootClassByResource($resource)
     {
         $types = $resource->getTypes();
-        $rootClasses = $this->getOption(self::PROPERTY_ROOT_CLASSES);
+        $rootClasses = $this->getOption(self::OPTION_ROOT_CLASSES);
         $rootClasses = array_keys($rootClasses);
         if ($types) {
             $classes = current($types)->getParentClasses(true);

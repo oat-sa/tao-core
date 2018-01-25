@@ -38,18 +38,18 @@ class RegisterIndexService extends AbstractAction
     {
 
         $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
-            IndexService::PROPERTY_ROOT_CLASSES => [
+            IndexService::OPTION_ROOT_CLASSES => [
                 TaoOntology::CLASS_URI_ITEM => [
-                    IndexService::PROPERTY_FIELDS => []
+                    IndexService::OPTION_CUSTOM_FIELDS => []
                 ],
                 TaoOntology::CLASS_URI_TEST => [
-                    IndexService::PROPERTY_FIELDS => []
+                    IndexService::OPTION_CUSTOM_FIELDS => []
                 ],
                 TaoOntology::CLASS_URI_SUBJECT => [
-                    IndexService::PROPERTY_FIELDS => []
+                    IndexService::OPTION_CUSTOM_FIELDS => []
                 ],
                 TaoOntology::CLASS_URI_GROUP => [
-                    IndexService::PROPERTY_FIELDS => []
+                    IndexService::OPTION_CUSTOM_FIELDS => []
                 ]
             ]
         ]));

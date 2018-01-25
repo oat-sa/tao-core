@@ -29,6 +29,7 @@ use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\SearchService;
+use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\search\tasks\AddSearchIndex;
 use oat\tao\model\search\tasks\DeleteSearchIndex;
 use oat\tao\model\TaoOntology;
@@ -72,6 +73,7 @@ class ResourceWatcher extends ConfigurableService
     /**
      * @param ResourceUpdated $event
      * @return \common_report_Report
+     * @throws \common_exception_InconsistentData
      * @throws \core_kernel_persistence_Exception
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event)
@@ -91,11 +93,16 @@ class ResourceWatcher extends ConfigurableService
             if ($searchService->supportCustomIndex()) {
                 /** @var IndexService $indexService */
                 $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
-                $body = [
-                    'label' => $resource->getLabel()
-                ];
                 $rootClass = $indexService->getRootClassByResource($resource);
                 if ($rootClass) {
+
+                    $tokenGenerator = new SearchTokenGenerator();
+                    $body = [];
+                    foreach ($tokenGenerator->generateTokens($resource) as $data) {
+                        list($index, $strings) = $data;
+                        $body[$index->getIdentifier()] = $strings;
+                    }
+
                     $uri = $resource->getUri();
                     $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
                     $queueDispatcher->createTask(new AddSearchIndex(), [$uri, $uri, $rootClass, $body], __('Adding/Updating search index for %s', $resource->getLabel()));
