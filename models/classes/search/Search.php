@@ -50,9 +50,9 @@ interface Search extends PhpSerializable
     /**
      * Build indexes by array of IndexDocument
      *
-     * @param IndexIterator $IndexIterator
+     * @param \Traversable $IndexIterator
      */
-    public function fullReIndex(IndexIterator $IndexIterator);
+    public function fullReIndex(\Traversable $IndexIterator);
 
     /**
      * (Re)Generate the index for a given resource

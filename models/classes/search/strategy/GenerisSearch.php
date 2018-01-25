@@ -65,7 +65,7 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::fullReIndex()
      */
-    public function fullReIndex($indexDocuments = []) {
+    public function fullReIndex(\Traversable $indexIterator) {
         // no indexation required
         return 0;
     }
