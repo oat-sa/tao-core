@@ -26,15 +26,17 @@ Template::inc('form.tpl', 'tao');
 require([
     'jquery',
     'i18n',
+    'ui/feedback',
     'util/url',
     'layout/actions',
     'test/core/taskQueue/stub/taskQueue',//TODO replace by 'core/taskQueue/taskQueue' when ready for backend integration
     'ui/taskQueueButton/standardButton'
-], function($, __, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
+], function($, __, feedback, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
 
     var $container = $('.content-block'),
         $form = $('#import'),
         $oldSubmitter = $form.find('.form-submitter'),
+        $uploader = $form.find('.file-uploader'),
         importUrl = urlHelper.route("<?=get_data('import_action')?>", "<?=get_data('import_module')?>", "<?=get_data('import_extension')?>");
 
     //TODO remove this when ready for backend integration
@@ -85,10 +87,22 @@ require([
     }).on('error', function(err){
         //format and display error message to user
         feedback().error(err);
-    }).render($oldSubmitter.closest('.form-toolbar'));
+    }).render($oldSubmitter.closest('.form-toolbar')).disable();
 
     //replace the old submitter with the new one and apply its style
     $oldSubmitter.replaceWith(taskCreationButton.getElement().css({float: 'right'}));
+
+    //toggle submitter according to the number of selected files
+    $uploader.on('change reset.uploaded end.uploader undo.deleter', function(){
+        var data = $uploader.data('ui.uploader');
+        if(data && data.files && data.files.length){
+            taskCreationButton.enable();
+        }else{
+            taskCreationButton.disable();
+        }
+    }).on('delete deleted.deleter', function() {
+        taskCreationButton.disable();
+    });
 
 	//by changing the format, the form is sent
 	$(":radio[name='importHandler']").change(function(){
