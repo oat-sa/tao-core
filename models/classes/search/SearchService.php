@@ -22,6 +22,7 @@ namespace oat\tao\model\search;
 
 use oat\tao\model\menu\MenuService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 
 /**
@@ -59,9 +60,11 @@ class SearchService
     static public function runIndexing() 
     {
         $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
-        /** @var \oat\tao\model\search\index\IndexService $indexService */
+        $indexDocuments = self::prepareIndexesFromIterator($iterator);
+
+        /** @var IndexService $indexService */
         $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
-        return $indexService->fullReIndex($iterator);
+        return $indexService->fullReIndex($indexDocuments);
     }
     
     /**
@@ -85,4 +88,55 @@ class SearchService
         
         return array_values($classes);
     }
+
+    /**
+     * @param \Traversable $resourceTraversable
+     * @return array
+     * @throws \common_exception_InconsistentData
+     */
+    static protected function prepareIndexesFromIterator(\Traversable $resourceTraversable)
+    {
+        $arrayIndexDocuments = [];
+        while ($resourceTraversable->valid()) {
+            /** @var \core_kernel_classes_Resource $resource */
+            $resource = $resourceTraversable->current();
+            $document = self::createDocument($resource);
+            if ($document) {
+                $arrayIndexDocuments[] = $document;
+            }
+            $resourceTraversable->next();
+        }
+
+        return $arrayIndexDocuments;
+    }
+
+    /**
+     * @param \core_kernel_classes_Resource $resource
+     * @return index\IndexDocument
+     * @throws \common_exception_InconsistentData
+     */
+    static protected function createDocument(\core_kernel_classes_Resource $resource) {
+        $tokenGenerator = new SearchTokenGenerator();
+
+        /** @var IndexService $indexService */
+        $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
+
+        $rootClass = $indexService->getRootClassByResource($resource);
+        if ($rootClass) {
+            $body = [];
+            foreach ($tokenGenerator->generateTokens($resource) as $data) {
+                list($index, $strings) = $data;
+                $body[$index->getIdentifier()] = $strings;
+            }
+            $document = new IndexDocument(
+                $resource->getUri(),
+                $resource->getUri(),
+                $rootClass,
+                $body
+            );
+            return $document;
+        }
+        return null;
+    }
+
 }

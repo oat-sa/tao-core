@@ -48,14 +48,15 @@ class IndexService extends ConfigurableService
     }
 
     /**
-     * @param \Traversable $resourceTraversable
+     * @param array $indexDocuments
+     * @return int
      * @throws \common_ext_InstallationException
      */
-    public function fullReIndex(\Traversable $resourceTraversable)
+    public function fullReIndex($indexDocuments = [])
     {
         $searchService = SearchService::getSearchImplementation();
         if ($searchService->supportCustomIndex()) {
-            SearchService::getSearchImplementation()->fullReIndex($resourceTraversable);
+            SearchService::getSearchImplementation()->fullReIndex($indexDocuments);
             $reIndexClasses = $this->getOption('customReIndexClasses');
             if ($reIndexClasses) {
                 foreach ($reIndexClasses as $reIndexClass) {
@@ -73,6 +74,7 @@ class IndexService extends ConfigurableService
                 }
             }
         }
+        return sizeof($indexDocuments);
     }
 
     /**

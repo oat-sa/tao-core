@@ -47,11 +47,11 @@ interface Search extends PhpSerializable
     public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
 
     /**
-     * Index the resources given as a traversable
+     * Build indexes by array of IndexDocument
      *
-     * @param \Traversable $resourceTraversable
+     * @param array $indexDocuments
      */
-    public function fullReIndex(\Traversable $resourceTraversable);
+    public function fullReIndex($indexDocuments = []);
 
     /**
      * (Re)Generate the index for a given resource

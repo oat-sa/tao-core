@@ -18,15 +18,37 @@
  */
 namespace oat\tao\model\search\index;
 
+/**
+ * Class IndexDocument
+ * @package oat\tao\model\search\index
+ */
 class IndexDocument
 {
+    /** @var string */
     protected $id;
+
+    /** @var string */
     protected $responseId;
+
+    /** @var string */
     protected $type;
+
+    /** @var array */
     protected $body;
 
-    public function __construct($id, $responseId, $type, $body)
-    {
+    /**
+     * IndexDocument constructor.
+     * @param $id
+     * @param $responseId
+     * @param $type
+     * @param $body
+     */
+    public function __construct(
+        $id,
+        $responseId,
+        $type,
+        $body
+    ){
         $this->id = $id;
         $this->responseId = $responseId ? $responseId : $id;
         $this->type = $type;
@@ -34,21 +56,33 @@ class IndexDocument
 
     }
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * @return array
+     */
     public function getBody()
     {
         return $this->body;
     }
 
+    /**
+     * @return string
+     */
     public function getResponseId()
     {
         return $this->responseId;

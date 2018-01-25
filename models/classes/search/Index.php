@@ -22,7 +22,7 @@ namespace oat\tao\model\search;
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
 
 class Index extends \core_kernel_classes_Resource {
 
@@ -58,7 +58,7 @@ class Index extends \core_kernel_classes_Resource {
 
     /**
      * @throws \common_exception_Error
-     * @return oat\tao\model\search\tokenizer\Tokenizer
+     * @return PropertyValueTokenizer
      */
     public function getTokenizer()
     {
