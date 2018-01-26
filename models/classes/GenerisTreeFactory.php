@@ -135,7 +135,9 @@ class GenerisTreeFactory
 
         $options = array_merge(['recursive' => false], $this->optionsFilter);
         $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
-        $instancesCount = $this->getSearchService()->getGateway()->count($queryBuilder);
+        $search = $this->getSearchService();
+        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
+        $instancesCount = $search->getGateway()->count($queryBuilder);
 
         // allow the class to be opened if it contains either instances or subclasses
         $subclasses = $this->getSubClasses($class);
@@ -187,7 +189,9 @@ class GenerisTreeFactory
             ], $this->optionsFilter);
 
             $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
-            $searchResult = $this->getSearchService()->getGateway()->search($queryBuilder);
+            $search = $this->getSearchService();
+            $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
+            $searchResult = $search->getGateway()->search($queryBuilder);
             foreach ($searchResult as $instance){
                 $children[] = TreeHelper::buildResourceNode($instance, $class, $this->extraProperties);
             }
@@ -225,11 +229,13 @@ class GenerisTreeFactory
      * @param $propertyFilter
      * @param $options
      * @return \oat\search\QueryBuilder
+     * @throws
      */
     private function getQueryBuilder($class, $propertyFilter, $options)
     {
         $search = $this->getSearchService();
         $queryBuilder = $search->query();
+        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
         $query = $search->searchType($queryBuilder, $class->getUri(), $options['recursive']);
 
         foreach ($propertyFilter as $filterProp => $filterVal) {
@@ -286,7 +292,7 @@ class GenerisTreeFactory
         $order = [RDFS_LABEL => 'asc'];
         $queryBuilder->sort($order);
         $result = [];
-        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getInterfaceLanguage());
+        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
         foreach ($search->getGateway()->search($queryBuilder) as $subclass) {
             $result[] = $this->getClass($subclass->getUri());
         }
