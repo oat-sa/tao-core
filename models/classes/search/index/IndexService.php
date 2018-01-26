@@ -31,7 +31,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
-    const OPTION_CUSTOM_FIELDS  = 'custom_fields';
     const OPTION_ROOT_CLASSES  = 'rootClasses';
     const OPTION_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
 
@@ -87,7 +86,7 @@ class IndexService extends ConfigurableService
         $rootClasses = array_keys($rootClasses);
         if ($types) {
             $classes = current($types)->getParentClasses(true);
-            $classes = array_keys(array_merge($classes, $types));
+            $classes = array_merge($classes, $types);
             $compare = array_intersect($rootClasses, $classes);
 
             if ($compare) {

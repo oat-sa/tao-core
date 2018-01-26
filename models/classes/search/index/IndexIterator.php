@@ -20,6 +20,10 @@ namespace oat\tao\model\search\index;
 
 use oat\tao\model\search\SearchTokenGenerator;
 
+/**
+ * Class IndexIterator
+ * @package oat\tao\model\search\index
+ */
 class IndexIterator implements \Iterator
 {
     const CACHE_SIZE = 100;
