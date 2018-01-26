@@ -26,7 +26,8 @@ define([
     'lib/uuid',
     'layout/actions/binder',
     'layout/actions/common',
-], function($, _, eventifier, Promise, uuid, binder, commonActions){
+    'layout/permissions'
+], function($, _, eventifier, Promise, uuid, binder, commonActions, permissionsManager){
     'use strict';
 
     /**
@@ -97,6 +98,7 @@ define([
                         url     : $('a', $this).attr('href'),
                         context : $this.data('context'),
                         multiple : $this.data('multiple'),
+                        rights  : $this.data('rights'),
                         state : {
                             disabled    : $this.hasClass('disabled'),
                             hidden      : $this.hasClass('hidden'),
@@ -155,7 +157,6 @@ define([
         updateContext : function updateContext(context){
             var self = this;
             var current;
-            var permissions;
 
             context = context || {};
 
@@ -166,7 +167,7 @@ define([
 
                     //if some has not the permissions we deny
                     var hasPermissionDenied = _.some(context, function(resource){
-                        return resource.permissions && resource.permissions[action.id] === false;
+                        return permissionsManager.isContextAllowed(action.rights, resource);
                     });
 
                     if( action.multiple &&
@@ -189,12 +190,12 @@ define([
                 } else {
                     current = context.uri ? 'instance' : context.classUri ? 'class' : 'none';
                 }
-                permissions = context.permissions || {};
 
                 _.forEach(actions, function(action){
-                    var permission = permissions[action.id];
 
-                    if( action.multiple || permission === false ||
+                    var allowed = permissionsManager.isContextAllowed(action.rights, context);
+
+                    if( action.multiple || allowed === false ||
                         (current === 'none' && action.context !== '*') ||
                         (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
 

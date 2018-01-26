@@ -19,8 +19,11 @@
  */
 namespace oat\tao\model\resources;
 
-use oat\oatbox\service\ConfigurableService;
 use \core_kernel_classes_Class;
+use \core_kernel_classes_Resource;
+use oat\generis\model\data\permission\PermissionInterface;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\User;
 
 /**
  * This service let's you access resources
@@ -51,8 +54,8 @@ class ResourceService extends ConfigurableService
     public function getClasses(core_kernel_classes_Class $rootClass)
     {
         $result = [
-            'uri' => $rootClass->getUri(),
-            'label' => $rootClass->getLabel(),
+            'uri'      => $rootClass->getUri(),
+            'label'    => $rootClass->getLabel(),
             'children' => $this->getSubClasses($rootClass->getSubClasses(false))
         ];
 
@@ -105,6 +108,35 @@ class ResourceService extends ConfigurableService
     }
 
     /**
+     * Get the permissions for a list of resources.
+     *
+     * @param User $user the user to check the permissions
+     * @param array $resources the resources to get the permissions
+     * @return array the available rights and the permissions per resource
+     */
+    public function getResourcesPermissions(User $user, $resources)
+    {
+        $permissions = [];
+        if(!is_null($user)){
+            try {
+                $permissionManager = $this->getServiceManager()->get(PermissionInterface::SERVICE_ID);
+                $supportedRights   = $permissionManager->getSupportedRights();
+                $permissions['supportedRights'] = $supportedRights;
+
+                if(count($supportedRights) > 0){
+                    $uris = $this->getUris($resources);
+
+                    $permissions['data'] = $permissionManager->getPermissions($user, $uris);
+                }
+            } catch(\Exception $e){
+                \common_Logger::w('Unable to retrieve permssions ' . $e->getMessage());
+            }
+        }
+        return $permissions;
+
+    }
+
+    /**
      * Get the filters based on the search param
      *
      * @param string|array  $search to filter by label if a string or provides the search filters
@@ -145,5 +177,44 @@ class ResourceService extends ConfigurableService
             return $this->lookups[$format];
         }
         return null;
+    }
+
+    /**
+     * Walk through the resources (recursively) to get theirs URIs
+     *
+     * @param array|core_kernel_class_Resource $nodes the tree or a sub tree, a resource or a resource list
+     * @return string[] the list of URIs
+     */
+    private function getUris($nodes)
+    {
+        $uris = [];
+
+        if ($nodes instanceof core_kernel_classes_Resource) {
+            $uris[] = $nodes->getUri();
+        }
+        if(is_array($nodes)){
+
+            //legacy format
+            if (isset($nodes['attributes']['data-uri'])) {
+                $uris[] = $nodes['attributes']['data-uri'];
+            }
+            if (isset($nodes['uri'])) {
+                $uris[] = $nodes['uri'];
+            }
+
+            $treeKeys = array_keys($nodes);
+            if (isset($treeKeys[0]) && is_int($treeKeys[0])) {
+                foreach ($nodes as $node) {
+                    $uris = array_merge($uris, $this->getUris($node));
+
+                }
+            }
+
+            if (isset($nodes['children'])) {
+                $uris = array_merge($uris, $this->getUris($nodes['children']));
+            }
+        }
+
+        return $uris;
     }
 }
