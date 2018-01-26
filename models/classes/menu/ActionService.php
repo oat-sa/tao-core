@@ -100,6 +100,30 @@ class ActionService extends ConfigurableService
     }
 
     /**
+     * Get the rights required for the given action
+     * @param MenuAction $action
+     * @return array the required rights
+     */
+    public function getRequiredRights(MenuAction $action)
+    {
+        $rights = [];
+        $resolvedAction = $this->getResolvedAction($action);
+        if(!is_null($resolvedAction)){
+            try {
+                $rights  = ControllerHelper::getRequiredRights(
+                    $resolvedAction['controller'],
+                    $resolvedAction['action']
+                );
+            } catch(\Exception $e){
+                \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
+            }
+        }
+
+        return $rights;
+    }
+
+
+    /**
      * Get the action resolved against itself in the current context
      * @param MenuAction $action the action
      * @return array the resolved action
