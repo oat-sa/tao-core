@@ -475,6 +475,12 @@ label {
         h3 {
             margin: 0px 0px 12px;
         }
+        .file-uploader{
+            width: 100%;
+            .file-upload{
+                max-width: none;
+            }
+        }
     }
 
 
