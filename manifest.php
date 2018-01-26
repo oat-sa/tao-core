@@ -27,11 +27,13 @@ use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
+
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -40,10 +42,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '14.23.0',
+    'version' => '15.11.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.1.0'
+        'generis' => '>=6.7.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -89,7 +91,7 @@ return array(
             dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
             dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
             SetServiceFileStorage::class,
-            dirname(__FILE__).'/scripts/install/setServiceState.php',
+            SetServiceState::class,
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',
@@ -126,6 +128,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'PropertiesAuthoring')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'QueueAction')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'RestResource')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'RestClass')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'RestUser')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'Roles')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',    array('ext'=>'tao','mod' => 'TaskQueue')),
@@ -153,6 +156,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'ClientConfig')),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#BaseUserRole', array('ext'=>'tao','mod' => 'Log', 'act' => 'log')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueData')),
     ),
     'constants' => array(

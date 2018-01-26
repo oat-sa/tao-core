@@ -20,6 +20,7 @@
 namespace oat\tao\model\export;
 
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdf;
 
 /**
  * A custom Json LD exporter for single resources
@@ -42,7 +43,7 @@ class JsonLdExport implements \JsonSerializable
      * 
      * @var array
      */
-    private $blackList = array(RDF_TYPE);
+    private $blackList = array(OntologyRdf::RDF_TYPE);
 
     private $encoders = array();
 

@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\passwordRecovery;
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\Template;
 use oat\tao\model\messaging\MessagingService;
 use oat\tao\model\messaging\Message;
@@ -56,7 +57,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
             throw new PasswordRecoveryException('Messaging service is not available.');
         }
         $generisUser = new \core_kernel_users_GenerisUser($user);
-        $userNameProperty = new \core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);
+        $userNameProperty = new \core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_FIRSTNAME);
 
         $messageData = array(
             'user_name' => (string) $user->getOnePropertyValue($userNameProperty),
@@ -81,7 +82,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
      */
     public function getUser($property, $value)
     {
-        $class = new \core_kernel_classes_Class(CLASS_GENERIS_USER);
+        $class = new \core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
 
         $users = \tao_models_classes_UserService::singleton()->searchInstances(
             array($property => $value), 
@@ -100,7 +101,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
      */
     public function getUserMail(\core_kernel_classes_Resource $user)
     {
-        $userMailProperty = new \core_kernel_classes_Property(PROPERTY_USER_MAIL);
+        $userMailProperty = new \core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_MAIL);
         $result = (string) $user->getOnePropertyValue($userMailProperty);
         if (!$result || !filter_var($result, FILTER_VALIDATE_EMAIL)) {
             $result = null;

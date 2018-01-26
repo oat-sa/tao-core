@@ -1,19 +1,18 @@
-
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (update and modification) Open Assessment Technologies SA;
  */
 
@@ -25,10 +24,11 @@ define([
     'lodash',
     'i18n',
     'layout/section',
+    'layout/actions',
     'ui/feedback',
     'ui/datatable'
 ],
-function($, _, __, section, feedback, datatable){
+function($, _, __, section, actionManager, feedback){
     'use strict';
 
     /**
@@ -47,25 +47,27 @@ function($, _, __, section, feedback, datatable){
 
         //create a datatable
         $tableContainer.datatable({
-                'url': data.url,
-                'model' : _.values(data.model),
-                'actions' : {
-                   'open' : function openResource(id){
-                            $('.tree').trigger('refresh.taotree', [{loadNode : id}]);
-                    } 
-                },
-                'params' : {
-                    'params' : data.params,
-                    'filters': data.filters,
-                    'rows': 20
-                 }
+            url: data.url,
+            model : _.values(data.model),
+            actions : {
+                open : function openResource(id){
+                    actionManager.trigger('refresh', {
+                        uri : id
+                    });
+                }
+            },
+            params : {
+                params : data.params,
+                filters: data.filters,
+                rows: 20
+            }
         });
     };
 
     /**
      * Behavior of the tao backend global search.
      * It runs by himself using the init method.
-     * 
+     *
      * @example  search.init();
      *
      * @exports layout/search
@@ -77,15 +79,16 @@ function($, _, __, section, feedback, datatable){
          */
         init : function init(){
 
-            var $container = $('.action-bar .search-area');
+            var searchHandler;
+            var running      = false;
+            var $container   = $('.action-bar .search-area');
             var $searchInput = $('input' , $container);
-            var $searchBtn = $('button' , $container);
-  
+            var $searchBtn   = $('button' , $container);
+
             if($container && $container.length){
-     
+
                 //throttle and control to prevent sending too many requests
-                var running = false;
-                var searchHandler = _.throttle(function searchHandler(query){ 
+                searchHandler = _.throttle(function searchHandlerThrottled(query){
                     if(running === false){
                         running = true;
                         $.ajax({
@@ -101,7 +104,7 @@ function($, _, __, section, feedback, datatable){
                             }
                         }).complete(function(){
                             running = false;
-                        }); 
+                        });
                     }
                 }, 100);
 

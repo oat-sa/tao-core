@@ -20,6 +20,7 @@
  *
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\form\validators\XsrfTokenValidator;
 use oat\tao\model\TaoOntology;
 
@@ -81,7 +82,7 @@ class tao_actions_form_Instance
     {
         $clazz = $this->getClazz();
         $instance = $this->getInstance();
-        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::GUI_ORDER_PROP);
+        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER);
 
         //get the list of properties to set in the form
         $propertyCandidates = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
@@ -147,7 +148,7 @@ class tao_actions_form_Instance
 
                     }
 
-                    if ($property->getUri() == RDFS_LABEL){
+                    if ($property->getUri() == OntologyRdfs::RDFS_LABEL){
                         // Label will not be a TAO Property. However, it should
                         // be always first.
                         array_splice($finalElements, 0, 0, array(array($element, 1)));

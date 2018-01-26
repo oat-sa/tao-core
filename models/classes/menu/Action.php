@@ -23,9 +23,14 @@ namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 use oat\taoBackOffice\model\menuStructure\Action as iAction;
+use oat\tao\helpers\ControllerHelper;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\oatbox\service\ServiceManagerAwareInterface;
 
-class Action implements PhpSerializable, iAction
+class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 {
+    use ServiceManagerAwareTrait;
+
     const SERIAL_VERSION = 1392821334;
 
     /**
@@ -44,16 +49,17 @@ class Action implements PhpSerializable, iAction
 		}
         $data = array(
             'name'       => (string) $node['name'],
-            'id'       => (string) $node['id'],
+            'id'         => (string) $node['id'],
             'url'        => $url,
             'binding'    => isset($node['binding']) ? (string) $node['binding'] : (isset($node['js']) ? (string) $node['js'] : 'load'),
             'context'    => (string) $node['context'],
             'reload'     => isset($node['reload']) ? true : false,
-            'disabled'     => isset($node['disabled']) ? true : false,
+            'disabled'   => isset($node['disabled']) ? true : false,
+            'multiple'   => isset($node['multiple']) ? (trim(strtolower($node['multiple'])) == 'true')  : false,
             'group'      => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT,
-			'extension'  => $extension,
-			'controller' => $controller,
-			'action'     => $action
+            'extension'  => $extension,
+            'controller' => $controller,
+            'action'     => $action
         );
 
         if(isset($node->icon)){
@@ -62,14 +68,14 @@ class Action implements PhpSerializable, iAction
 
         return new static($data);
     }
-    
+
     public function __construct($data, $version = self::SERIAL_VERSION) {
         $this->data = $data;
         if(!isset($this->data['icon'])){
             $this->data['icon'] = $this->inferLegacyIcon($data);
         }
     }
-    
+
     public function getName() {
         return $this->data['name'];
     }
@@ -81,11 +87,11 @@ class Action implements PhpSerializable, iAction
     public function getDisplay() {
         return $this->data['display'];
     }
-    
+
     public function getUrl() {
         return _url($this->getAction(), $this->getController(), $this->getExtensionId());
     }
-    
+
     public function getRelativeUrl() {
         return $this->data['url'];
     }
@@ -93,11 +99,11 @@ class Action implements PhpSerializable, iAction
     public function getBinding() {
         return $this->data['binding'];
     }
-    
+
     public function getContext() {
         return $this->data['context'];
     }
-    
+
     public function getReload() {
         return $this->data['reload'];
     }
@@ -118,6 +124,15 @@ class Action implements PhpSerializable, iAction
     }
 
     /**
+     * Is the action available for multiple resources
+     * @return bool 
+     */
+    public function isMultiple()
+    {
+        return $this->data['multiple'];
+    }
+
+    /**
      * Get the extension id from the action's URL.
      *
      * @return string the extension id
@@ -135,7 +150,7 @@ class Action implements PhpSerializable, iAction
 	}
 
     /**
-     * Try to get the action's icon the old way. 
+     * Try to get the action's icon the old way.
      * I/O impact (file_exists) is limited as the results can be serialized.
      *
      * @return Icon the icon with the src property set to the icon URL.
@@ -158,11 +173,11 @@ class Action implements PhpSerializable, iAction
      *  Check whether the current is allowed to see this action (against ACL).
      *  @deprecated Wrong layer. Should be called at the level of the controller
      *  @return bool true if access is granted
-     */ 
+     */
     public function hasAccess() {
-    
+
         \common_Logger::w('Call to deprecated method ' . __METHOD__ . ' in ' . __CLASS__);
-    
+
         $access = true;
         if (!empty($this->data['url'])) {
 			$access = tao_models_classes_accessControl_AclProxy::hasAccess(
@@ -173,7 +188,12 @@ class Action implements PhpSerializable, iAction
         }
         return $access;
     }
-    
+
+    public function getRequiredRights()
+    {
+        return $this->getServiceManager()->get(ActionService::SERVICE_ID)->getRequiredRights($this);
+    }
+
     public function __toPhpCode() {
         return "new ".__CLASS__."("
             .\common_Utils::toPHPVariableString($this->data).','

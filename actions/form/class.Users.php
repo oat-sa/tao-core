@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\user\PasswordConstraintsService;
 use oat\tao\model\TaoOntology;
 
@@ -94,7 +96,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
     		$options['mode'] = 'add';
     	}
     	
-    	$options['topClazz'] = CLASS_GENERIS_USER;
+    	$options['topClazz'] = GenerisRdf::CLASS_GENERIS_USER;
     	
     	parent::__construct($clazz, $this->user, $options);
     }
@@ -145,7 +147,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		parent::initElements();
 		
 		//login field
-		$loginElement = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
+		$loginElement = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
 		if($this->options['mode'] === 'add'){
 			$loginElement->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
@@ -164,18 +166,18 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		//set default lang to the languages fields
 		$langService = tao_models_classes_LanguageService::singleton();
 		
-		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_DEFLG));
+		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_DEFLG));
 		$dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-    	$dataUsage = new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA);
+    	$dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
 		$dataOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
 			$dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
 		}
 		$dataLangElt->setOptions($dataOptions);
 		
-		$uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
+		$uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-    	$guiUsage = new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_LANGUAGE_USAGE_GUI);
+    	$guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
 		$guiOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($guiUsage) as $lang){
 			$guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
@@ -183,7 +185,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		$uiLangElt->setOptions($guiOptions);
 		
 		// roles field
-		$property = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+		$property = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
 		$roles = $property->getRange()->getInstances(true);
 		$rolesOptions = array();
 		foreach ($roles as $r){
@@ -199,7 +201,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		$rolesElt->setOptions($rolesOptions);
 		
 		// password field
-		$this->form->removeElement(tao_helpers_Uri::encode(PROPERTY_USER_PASSWORD));
+		$this->form->removeElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_PASSWORD));
 		
 		if($this->options['mode'] === 'add'){
 			$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');

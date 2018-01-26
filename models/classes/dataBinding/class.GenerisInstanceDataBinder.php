@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\generis\model\OntologyRdf;
+
 /**
  * A data binder focusing on binding a source of data to a generis instance
  *
@@ -112,7 +114,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
 	        foreach($data as $propertyUri => $propertyValue){
 	        	
 	        	if (false === in_array($propertyUri, $excludedPredicates)){
-	        		if($propertyUri == RDF_TYPE){
+	        		if($propertyUri == OntologyRdf::RDF_TYPE){
 	        			foreach($instance->getTypes() as $type){
 	        				$instance->removeType($type);
 	        			}
