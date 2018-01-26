@@ -30,6 +30,7 @@ use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\resources\ResourceService;
 
 /**
  * The TaoModule is an abstract controller, 
@@ -180,37 +181,44 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 		*/
 		$this->setView('index.tpl');
 	}
-	
-	/**
-	 * Renders json data from the current ontology root class.
-	 * 
-	 * The possible request parameters are the following:
-	 * 
-	 * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
-	 * * browse:
-	 * * hideInstances:
-	 * * chunk:
-	 * * offset:
-	 * * limit:
-	 * * subclasses:
-	 * * classUri:
-	 * 
-	 * @return void
-	 * @requiresRight classUri READ
-	 */
-	public function getOntologyData()
-	{
-		if (!tao_helpers_Request::isAjax()) {
-            throw new common_exception_IsAjaxAction(__FUNCTION__); 
-		}
+
+     /**
+      * Renders json data from the current ontology root class.
+      *
+      * The possible request parameters are the following:
+      *
+      * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
+      * * browse:
+      * * hideInstances:
+      * * chunk:
+      * * offset:
+      * * limit:
+      * * subclasses:
+      * * classUri:
+      *
+      * @return void
+      * @requiresRight classUri READ
+      */
+    public function getOntologyData()
+    {
+        if (!tao_helpers_Request::isAjax()) {
+            throw new common_exception_IsAjaxAction(__FUNCTION__);
+        }
         $options = $this->getTreeOptionsFromRequest([]);
+
         //generate the tree from the given parameters
         $tree = $this->getClassService()->toTree($options['class'], $options);
-        $tree = $this->addPermissions($tree);
+
+        //retrieve resources permissions
+        $user = \common_Session_SessionManager::getSession()->getUser();
+        $permissions = $this->getResourceService()->getResourcesPermissions($user, $tree);
 
         //expose the tree
-        $this->returnJson($tree);
-	}
+        $this->returnJson([
+            'tree' => $tree,
+            'permissions' => $permissions
+        ]);
+    }
 
     /**
      * Get options to generate tree
@@ -267,7 +275,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     }
 
 	/**
-	 * Add permission information to the tree structure
+         * Add permission information to the tree structure
+         *
+         * @deprecated
 	 * 
 	 * @param array $tree
 	 * @return array
@@ -299,6 +309,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
     /**
      * compulte permissions for a node against actions
+     *
+     * @deprecated
+     *
      * @param array[] $actions the actions data with context, name and the resolver
      * @param User $user the user 
      * @param array $node a tree node
@@ -526,7 +539,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
-			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)))){
+			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)))){
 				$langElt = $myForm->getElement('translate_lang');
 				$langElt->setValue($targetLang);
 				$langElt->setAttribute('readonly', 'true');
@@ -755,4 +768,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         return $this->getServiceManager()->get(ActionService::SERVICE_ID);
     }
 
+    /**
+     * Get the resource service
+     * @return ResourceService
+     */
+    protected function getResourceService()
+    {
+        return $this->getServiceManager()->get(ResourceService::SERVICE_ID);
+    }
 }

@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\WidgetRdf;
 use oat\tao\helpers\Template;
 use oat\tao\model\TaoOntology;
 
@@ -101,7 +103,7 @@ class tao_actions_form_CreateInstance
     public function initElements()
     {
         
-        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::GUI_ORDER_PROP);
+        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER);
     	
     	//get the list of properties to set in the form
     	$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
@@ -131,7 +133,7 @@ class tao_actions_form_CreateInstance
 			if($widget == null || $widget instanceof core_kernel_classes_Literal) {
 				continue;
 			}
-			else if ($widget instanceof core_kernel_classes_Resource &&	$widget->getUri() == WIDGET_TREEVIEW){
+			else if ($widget instanceof core_kernel_classes_Resource &&	$widget->getUri() == WidgetRdf::PROPERTY_WIDGET_TREEVIEW){
 			    continue;
 			}
 			
@@ -141,7 +143,7 @@ class tao_actions_form_CreateInstance
 			if(!is_null($element)){
 				
 				//set label validator
-				if($property->getUri() == RDFS_LABEL){
+				if($property->getUri() == OntologyRdfs::RDFS_LABEL){
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
 
@@ -155,7 +157,7 @@ class tao_actions_form_CreateInstance
 					
 				}
 				
-				if ($property->getUri() == RDFS_LABEL){
+				if ($property->getUri() == OntologyRdfs::RDFS_LABEL){
 					// Label will not be a TAO Property. However, it should
 					// be always first.
 					array_splice($finalElements, 0, 0, array(array($element, 1)));

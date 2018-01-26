@@ -53,7 +53,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     {
         $this->disableCache();
         $pass = md5(rand());
-        $taoManagerRole = new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE);
+        $taoManagerRole = new core_kernel_classes_Resource(TaoRoles::BACK_OFFICE);
         $this->testUser = tao_models_classes_UserService::singleton()->addUser('testUser', $pass, $taoManagerRole );
         $this->credentials = array(
             'loginForm_sent' => 1,

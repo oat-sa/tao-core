@@ -20,10 +20,10 @@
  *
  */
 
+use oat\generis\model\OntologyRdf;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
-use oat\tao\model\TaoOntology;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -76,9 +76,9 @@ class tao_models_classes_LanguageService
         $returnValue = null;
 
 
-        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
+        $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
 	    $langs = $langClass->searchInstances(array(
-	    	RDF_VALUE => $code
+            OntologyRdf::RDF_VALUE => $code
 	    ), array(
 	    	'like' => false
 	    ));
@@ -103,7 +103,7 @@ class tao_models_classes_LanguageService
     public function getCode( core_kernel_classes_Resource $language)
     {
         $returnValue = (string) '';
-        $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+        $valueProperty = new core_kernel_classes_Property(OntologyRdf::RDF_VALUE);
         $returnValue = $language->getUniquePropertyValue($valueProperty);
         return (string) $returnValue;
     }
@@ -119,9 +119,9 @@ class tao_models_classes_LanguageService
     public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
     {
         $returnValue = array();
-    	$langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
+    	$langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
 	    $returnValue = $langClass->searchInstances(array(
-			TaoOntology::PROPERTY_LANGUAGE_USAGES => $usage->getUri()
+            static::PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
 	    	'like' => false
 	    ));
@@ -138,11 +138,11 @@ class tao_models_classes_LanguageService
      */
     public function isLanguageAvailable($code, core_kernel_classes_Resource $usage)
     {
-        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
+        $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
         $result = $langClass->searchInstances(
             array(
-                RDF_VALUE => $code,
-				TaoOntology::PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
+                OntologyRdf::RDF_VALUE => $code,
+                static::PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
             ),
             array('like' => false)
         );
