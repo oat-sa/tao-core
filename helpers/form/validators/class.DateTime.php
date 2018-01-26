@@ -52,7 +52,7 @@ class tao_helpers_form_validators_DateTime
 					$dateTime2 = new DateTime($this->getOption('datetime2_ref')->getRawValue());
 				}catch(Exception $e){}
 				
-				if($dateTime2 instanceof DateTime){
+				if($dateTime2 instanceof DateTimeInterface){
 					
 					switch ($this->getOption('comparator')){
 						case 'after':
