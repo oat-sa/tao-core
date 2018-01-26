@@ -232,11 +232,11 @@ class tao_helpers_Date
      *   )
      *
      * @param \DateInterval $interval
-     * @param \DateTime|null $date
+     * @param \DateTimeInterface|null $date
      * @param null $amount
      * @return \DateTime[]
      */
-    public static function getTimeKeys(\DateInterval $interval, \DateTime $date = null, $amount = null)
+    public static function getTimeKeys(\DateInterval $interval, \DateTimeInterface $date = null, $amount = null)
     {
         $timeKeys = [];
         if ($date === null) {
