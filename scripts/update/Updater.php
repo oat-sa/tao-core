@@ -1060,6 +1060,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('15.5.0', '15.9.0');
+
+        if ($this->isVersion('15.9.0')) {
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'RestResource']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'RestClass']));
+
+            $this->setVersion('15.10.0');
+        }
     }
 
     private function migrateFsAccess() {

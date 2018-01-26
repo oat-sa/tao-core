@@ -29,14 +29,60 @@ define([
     'core/logger',
     'layout/actions',
     'layout/generisRouter',
+    'layout/permissions',
     'provider/resources',
     'ui/resource/selector'
-], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, resourceProviderFactory, resourceSelectorFactory){
+], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, permissionsManager, resourceProviderFactory, resourceSelectorFactory){
     'use strict';
 
     var logger = loggerFactory('layout/tree/provider/resourceSelector');
 
     var resourceProvider = resourceProviderFactory();
+
+    var getNodeState = function getNodeState(node){
+        var state = '';
+        var rights = permissionsManager.getRights();
+        var count    = _.reduce(rights, function(acc, right){
+            if(permissionsManager.hasPermission(node.uri, right)){
+                acc++;
+            }
+            return acc;
+        }, 0);
+
+        if (rights.length > 0 && count !== rights.length) {
+            if(count === 0){
+                state  = 'denied';
+            } else {
+                state = 'partial';
+            }
+        }
+
+        return state;
+    };
+
+    var computeNodeState = function computeNodeState(nodes){
+        var state = [];
+        if(_.isArray(nodes)){
+            _.forEach(nodes, computeNodeState);
+        }
+        if(_.isPlainObject(nodes)){
+            state.push(getNodeState(nodes));
+            if(state.length){
+                if(nodes.state){
+                    state = state.concat(nodes.state.split(' '));
+                }
+                nodes.state = _.uniq(state).join(' ');
+            }
+
+            if(nodes.children){
+                nodes = computeNodeState(nodes.children);
+            }
+        }
+
+        return nodes;
+    };
+
+
 
     /**
      * The resource-selector tree provider
@@ -137,8 +183,31 @@ define([
 
                             //ask the server the resources from the component query
                             resourceProvider.getResources(params)
-                                .then(function(resources) {
-                                    self.update(resources, params);
+                                .then(function(queryResults) {
+                                    var resources;
+                                    var currentRights;
+
+                                    if(queryResults && queryResults.resources){
+                                        resources = queryResults.resources;
+                                    } else {
+                                        resources = queryResults;
+                                    }
+                                    if(queryResults.permissions){
+                                        currentRights = permissionsManager.getRights();
+
+                                        if(queryResults.permissions.supportedRights &&
+                                            queryResults.permissions.supportedRights.length &&
+                                            currentRights.length === 0) {
+
+                                            permissionsManager.setSupportedRights(queryResults.permissions.supportedRights);
+
+                                        }
+                                        if(queryResults.permissions.data){
+                                            permissionsManager.addPermissions(queryResults.permissions.data);
+                                        }
+                                    }
+                                    console.log(computeNodeState(resources));
+                                    self.update(computeNodeState(resources), params);
                                 })
                                 .catch(function(err) {
                                     logger.error(err);

@@ -115,6 +115,7 @@
                 &.empty:before {
                     content: inherit;
                 }
+                
             }
             &.instance {
                 &:before {
@@ -141,6 +142,33 @@
                         color: $textHighlight;
                     }
                     @include transition(all, 200ms, linear);
+                }
+            }
+            &.denied {
+                color: grey;
+                background-color: inherit;
+               &:before{
+                        color: grey;
+                    }
+                    & > a, & > a > span {
+                        color: grey;
+                    }
+                &:hover {
+                    background-color: inherit;
+                    color: grey;
+                }
+
+            }
+            &.denied a, &.partial a{
+                [class^="icon-"], [class*=" icon-"] {
+                    position: relative;
+                    &:after {
+                        @include icon-lock;
+                        color: grey;
+                        position: absolute;
+                        left: 6px;
+                        top: 5px;
+                    }
                 }
             }
 

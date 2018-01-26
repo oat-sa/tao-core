@@ -14,7 +14,7 @@
 {{/equal}}
 
 {{#equal type 'instance'}}
-<li data-uri="{{uri}}" class="instance">
+<li data-uri="{{uri}}" class="instance {{state}}">
     <a href="#" title="{{label}}"><span class="icon-{{icon}}"></span>{{label}}</a>
 </li>
 {{/equal}}
