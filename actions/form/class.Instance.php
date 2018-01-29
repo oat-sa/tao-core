@@ -181,17 +181,17 @@ class tao_actions_form_Instance
         //add an hidden elt for the class uri
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
-        $this->form->addElement($classUriElt);
+        $this->form->addElement($classUriElt, true);
 
         if(!is_null($instance)){
             //add an hidden elt for the instance Uri
             $instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
             $instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
-            $this->form->addElement($instanceUriElt);
+            $this->form->addElement($instanceUriElt, true);
 
             $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
             $hiddenId->setValue($instance->getUri());
-            $this->form->addElement($hiddenId);
+            $this->form->addElement($hiddenId, true);
         }
     }
 
