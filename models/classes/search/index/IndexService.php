@@ -35,20 +35,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
-    const OPTION_ROOT_CLASSES  = 'rootClasses';
     const OPTION_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
-
-    /**
-     * @param $id
-     * @param $type
-     * @param null $responseId
-     * @param array $body
-     */
-    public function addIndex($id, $type, $responseId = null, $body = [])
-    {
-        $document = new IndexDocument($id, $responseId, $type, $body);
-        SearchService::getSearchImplementation()->index($document);
-    }
 
     /**
      * @param IndexIterator $indexIterator
@@ -77,29 +64,6 @@ class IndexService extends ConfigurableService
                 }
             }
         }
-    }
-
-    /**
-     * @param $resource
-     * @return mixed|null
-     */
-    public function getRootClassByResource($resource)
-    {
-        $types = $resource->getTypes();
-        $rootClasses = $this->getOption(self::OPTION_ROOT_CLASSES);
-        $rootClasses = array_keys($rootClasses);
-        if ($types) {
-            $classes = current($types)->getParentClasses(true);
-            $classes = array_merge($classes, $types);
-            $compare = array_intersect($rootClasses, $classes);
-
-            if ($compare) {
-                $uri = current($compare);
-                return $uri;
-            }
-            return null;
-        }
-        return null;
     }
 
     /**
