@@ -160,7 +160,10 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueData')),
     ),
     'constants' => array(
-
+        'TAO_VERSION' => '3.3.0-sprint68',
+        'PRODUCT_NAME' => 'TAO',
+        'TAO_RELEASE_STATUS' => 'stable',
+        'TAO_DEFAULT_ENCODING' => 'UTF-8',
         # actions directory
         "DIR_ACTIONS" => $extpath."actions".DIRECTORY_SEPARATOR,
 

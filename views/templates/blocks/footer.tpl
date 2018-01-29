@@ -1,10 +1,11 @@
 <?php
 use oat\tao\helpers\Layout;
 use oat\tao\helpers\Template;
+use oat\tao\helpers\VersionName;
 ?>
 <footer class="dark-bar">
     <div class="lft">
-        © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= TAO_VERSION_NAME ?></span> ·
+        © 2013 - <?= date('Y') ?> · <span class="tao-version"><?= VersionName::get() ?></span> ·
         <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
         · <?= __('All rights reserved.') ?>
         <?php $releaseMsgData = Layout::getReleaseMsgData();
