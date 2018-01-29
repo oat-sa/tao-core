@@ -27,10 +27,13 @@ define([
     'context',
     'layout/section',
     'layout/actions/binder',
+    'layout/permissions',
+    'provider/resources',
+    'ui/destination/selector',
     'uri',
     'ui/feedback',
     'ui/dialog/confirm'
-], function(module, $, __, _, appContext, section, binder, uri, feedback, confirmDialog) {
+], function(module, $, __, _, appContext, section, binder, permissionsManager, resourceProvider, destinationSelectorFactory, uri, feedback, confirmDialog) {
     'use strict';
 
     /**
@@ -423,6 +426,40 @@ define([
                         section.updateContentBlock($response);
                     }
                 }
+            });
+        });
+
+
+        binder.register('copyTo',  function(actionContext){
+            section.current().loadContentBlock(this.url, _.pick(actionContext, ['uri', 'classUri', 'id']), function loaded(){
+                var $container = $(section.current().selected.panel).find('.main-container');
+
+                destinationSelectorFactory($container, {
+                    classUri: actionContext.rootClassUri
+                })
+                .on('query', function(params) {
+                    var self = this;
+
+                    params.classOnly = true;
+                    resourceProvider().getResources(params).then(function(results){
+                        var resources;
+                        if (results && results.resources){
+                            resources = results.resources;
+                        } else {
+                            resources = results;
+                        }
+
+                        //ask the server the resources from the component query
+                        self.update(resources, params);
+                    });
+
+                })
+                .on('select', function(value){
+                    console.log('selected', value);
+                })
+                .on('error', function(err){
+                    console.error(err);
+                });
             });
         });
     };

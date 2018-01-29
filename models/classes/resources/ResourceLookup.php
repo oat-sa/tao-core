@@ -44,4 +44,22 @@ interface ResourceLookup
         $limit = 30
     );
 
+    /**
+     * Retrieve Classes for the given parameters
+     *
+     * @param \core_kernel_classes_Class $rootClass       the resources class
+     * @param array                      $propertyFilters propUri/propValue to search resources
+     * @param string[]                   $selectedUris    the resources to open
+     * @param int                        $offset          for paging
+     * @param int                        $limit           for paging
+     * @return array the classes
+     */
+    public function getClasses(
+        \core_kernel_classes_Class $rootClass,
+        array $selectedUris = [],
+        array $propertyFilters = [],
+        $offset = 0,
+        $limit = 30
+    );
+
 }

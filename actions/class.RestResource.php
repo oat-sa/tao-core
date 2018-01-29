@@ -139,7 +139,11 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 }
 
                 $class = $this->getClassParameter();
-                $resources = $this->getResourceService()->getResources($class, $format, $selectedUris, $search, $offset, $limit);
+                if ($this->hasRequestParameter('classOnly')) {
+                    $resources = $this->getResourceService()->getClasses($class, $format, $selectedUris, $search, $offset, $limit);
+                } else {
+                    $resources = $this->getResourceService()->getResources($class, $format, $selectedUris, $search, $offset, $limit);
+                }
 
                 $user = \common_Session_SessionManager::getSession()->getUser();
                 $permissions = $this->getResourceService()->getResourcesPermissions($user, $resources);

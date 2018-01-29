@@ -227,7 +227,7 @@ define([
                             var getContext = function getContext(resource) {
                                 return _.defaults(resource, {
                                     id : resource.uri,
-                                    permissions:  {}
+                                    rootClassUri : self.classUri
                                 });
                             };
 

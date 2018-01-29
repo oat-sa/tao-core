@@ -455,7 +455,9 @@ define([
                         var nodeId          = $node.attr('id');
                         var nodeUri         = $node.data('uri');
                         var $parentNode     = tree.parent($node);
-                        var nodeContext     =  { };
+                        var nodeContext     =  {
+                            rootClassUri :  options.rootClassUri
+                        };
 
                         //mark all unselected
                         $('a.clicked', $container)
