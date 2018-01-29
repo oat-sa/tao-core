@@ -49,12 +49,6 @@ class tao_helpers_form_xhtml_Form
     public function getValues($groupName = '', array $filterProperties = [])
     {
         $returnValue = array();
-
-        //Moving it there as before it was like that after foreach loop:
-        //unset($returnValue['uri']);
-        //unset($returnValue['classUri']);
-        $filterProperties[] = 'uri';
-        $filterProperties[] = 'classUri';
         
 		foreach($this->elements as $element){
             if (!empty($this->systemElements) && in_array($element->getName(), $this->systemElements)) {
