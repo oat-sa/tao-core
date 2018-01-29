@@ -37,14 +37,7 @@ class RegisterIndexService extends AbstractAction
     public function __invoke($params)
     {
 
-        $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
-            IndexService::OPTION_ROOT_CLASSES => [
-                TaoOntology::CLASS_URI_ITEM,
-                TaoOntology::CLASS_URI_TEST,
-                TaoOntology::CLASS_URI_SUBJECT,
-                TaoOntology::CLASS_URI_GROUP
-            ]
-        ]));
+        $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService());
 
     }
 }

@@ -1065,12 +1065,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('15.10.0')) {
             $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
-                IndexService::OPTION_ROOT_CLASSES => [
-                    TaoOntology::CLASS_URI_ITEM,
-                    TaoOntology::CLASS_URI_TEST,
-                    TaoOntology::CLASS_URI_SUBJECT,
-                    TaoOntology::CLASS_URI_GROUP
-                ]
+                IndexService::OPTION_CUSTOM_REINDEX_CLASSES => []
             ]));
             $this->setVersion('15.11.0');
         }

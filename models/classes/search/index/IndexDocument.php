@@ -27,31 +27,24 @@ class IndexDocument
     /** @var string */
     protected $id;
 
-    /** @var string */
-    protected $responseId;
-
-    /** @var string */
-    protected $type;
-
     /** @var array */
     protected $body;
 
     /**
      * IndexDocument constructor.
      * @param $id
-     * @param $responseId
-     * @param $type
      * @param $body
+     * @throws \common_Exception
      */
     public function __construct(
         $id,
-        $responseId,
-        $type,
         $body
     ){
         $this->id = $id;
-        $this->responseId = $responseId ? $responseId : $id;
-        $this->type = $type;
+
+        if (!isset($body['type'])) {
+            throw new \common_Exception('Body of indexDocument should contain type key');
+        }
         $this->body = $body;
 
     }
@@ -65,27 +58,16 @@ class IndexDocument
     }
 
     /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
+     * Body of document
+     *
+     * $body['type'] = ['type1', 'type2'];
+     * $body['label'] = 'label';
+     * $body[$field'] = $value;
      * @return array
      */
     public function getBody()
     {
         return $this->body;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResponseId()
-    {
-        return $this->responseId;
     }
 
 }

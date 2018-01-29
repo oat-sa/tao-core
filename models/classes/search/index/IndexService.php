@@ -20,8 +20,12 @@
 
 namespace oat\tao\model\search\index;
 
+use oat\generis\model\OntologyRdfs;
+use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\SearchService;
+use oat\tao\model\search\SearchTokenGenerator;
+use oat\tao\model\TaoOntology;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
@@ -96,5 +100,80 @@ class IndexService extends ConfigurableService
             return null;
         }
         return null;
+    }
+
+    /**
+     * @param \core_kernel_classes_Resource $resource
+     * @return IndexDocument
+     * @throws \common_Exception
+     * @throws \common_exception_InconsistentData
+     */
+    public function createDocumentFromResource(\core_kernel_classes_Resource $resource)
+    {
+        $tokenGenerator = new SearchTokenGenerator();
+
+        $body = [];
+        foreach ($tokenGenerator->generateTokens($resource) as $data) {
+            list($index, $strings) = $data;
+            $body[$index->getIdentifier()] = $strings;
+        }
+        $body['type'] = $this->getTypesForResource($resource);
+        $document = new IndexDocument(
+            $resource->getUri(),
+            $body
+        );
+        return $document;
+    }
+
+    /**
+     * @param array $array
+     * @return IndexDocument
+     * @throws MissingOptionException
+     * @throws \common_Exception
+     */
+    public function createDocumentFromArray($array = [])
+    {
+        if (!isset($array['id'])) {
+            throw new MissingOptionException('Missed id property for the index document');
+        }
+
+        if (!isset($array['body'])) {
+            throw new MissingOptionException('Missed body property for the index document');
+        }
+
+        $document = new IndexDocument(
+            $array['id'],
+            $array['body']
+        );
+        return $document;
+    }
+
+    /**
+     * @param $resource
+     * @return array
+     */
+    public function getTypesForResource($resource)
+    {
+        $toDo = array();
+        foreach ($resource->getTypes() as $class) {
+            $toDo[] = $class->getUri();
+        }
+
+        $done = array(OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT);
+        $toDo = array_diff($toDo, $done);
+
+        $classes = array();
+        while (!empty($toDo)) {
+            $class = new \core_kernel_classes_Class(array_pop($toDo));
+            $classes[] = $class->getUri();
+            foreach ($class->getParentClasses() as $parent) {
+                if (!in_array($parent->getUri(), $done)) {
+                    $toDo[] = $parent->getUri();
+                }
+            }
+            $done[] = $class->getUri();
+        }
+
+        return $classes;
     }
 }

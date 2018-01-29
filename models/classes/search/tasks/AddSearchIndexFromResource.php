@@ -21,7 +21,6 @@
 namespace oat\tao\model\search\tasks;
 
 use oat\oatbox\action\Action;
-use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\SearchService;
 use oat\taoTaskQueue\model\Task\TaskAwareInterface;
@@ -31,12 +30,12 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\generis\model\OntologyAwareTrait;
 
 /**
- * Class AddSearchIndex
+ * Class AddSearchIndexFromResource
  *
  * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
-class AddSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
+class AddSearchIndexFromResource implements Action,ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
@@ -48,21 +47,20 @@ class AddSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwareIn
      * @throws \common_exception_MissingParameter
      */
     public function __invoke($params) {
-        if (count($params) < 4) {
+        if (count($params) < 1) {
             throw new \common_exception_MissingParameter();
         }
-        $id = array_shift($params);
-        $responseId = array_shift($params);
-        $type = array_shift($params);
-        $body = $params ? array_shift($params) : [];
+        $resource = new \core_kernel_classes_Resource(array_shift($params));
+        /** @var IndexService $indexService */
+        $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
 
-        $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Adding search index for %s', $id));
+        $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Adding search index for %s', $resource->getUri()));
 
         try {
-            $document = new IndexDocument($id, $responseId, $type, $body);
+            $document = $indexService->createDocumentFromResource($resource);
             SearchService::getSearchImplementation()->index($document);
         }catch (\Exception $e) {
-            $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $id, $e->getMessage())));
+            $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $resource->getUri(), $e->getMessage())));
         }
 
         return $report;

@@ -106,8 +106,7 @@ return array(
             SetContainerService::class,
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
-            RegisterActionService::class,
-            RegisterIndexService::class
+            RegisterActionService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',

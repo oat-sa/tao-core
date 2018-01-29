@@ -25,12 +25,9 @@ use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexDocument;
-use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\SearchService;
-use oat\tao\model\search\SearchTokenGenerator;
-use oat\tao\model\search\tasks\AddSearchIndex;
+use oat\tao\model\search\tasks\AddSearchIndexFromResource;
 use oat\tao\model\search\tasks\DeleteSearchIndex;
 use oat\tao\model\TaoOntology;
 use oat\taoTaskQueue\model\QueueDispatcher;
@@ -91,22 +88,8 @@ class ResourceWatcher extends ConfigurableService
             $resource->editPropertyValues($property, $now);
             $searchService = SearchService::getSearchImplementation();
             if ($searchService->supportCustomIndex()) {
-                /** @var IndexService $indexService */
-                $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
-                $rootClass = $indexService->getRootClassByResource($resource);
-                if ($rootClass) {
-
-                    $tokenGenerator = new SearchTokenGenerator();
-                    $body = [];
-                    foreach ($tokenGenerator->generateTokens($resource) as $data) {
-                        list($index, $strings) = $data;
-                        $body[$index->getIdentifier()] = $strings;
-                    }
-
-                    $uri = $resource->getUri();
-                    $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
-                    $queueDispatcher->createTask(new AddSearchIndex(), [$uri, $uri, $rootClass, $body], __('Adding/Updating search index for %s', $resource->getLabel()));
-                }
+                $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
+                $queueDispatcher->createTask(new AddSearchIndexFromResource(), [$resource->getUri()], __('Adding/Updating search index for %s', $resource->getLabel()));
             }
         }
         $report = \common_report_Report::createSuccess();

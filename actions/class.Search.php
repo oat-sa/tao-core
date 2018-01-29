@@ -90,9 +90,9 @@ class tao_actions_Search extends tao_actions_CommonModule {
             $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
 
             $response = new StdClass();
-            if(count($results) > 0 ){
+            if(count($results['ids']) > 0 ){
     
-                foreach($results as $uri) {
+                foreach($results['ids'] as $uri) {
                     $instance = new core_kernel_classes_Resource($uri);
                     $instanceProperties = array(
                         'id' => $instance->getUri(),
@@ -105,7 +105,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
     		$response->success = true;
             $response->page = empty($response->data) ? 0 : $page;
     		$response->total = $totalPages;
-    		$response->records = count($results);
+    		$response->records = count($results['ids']);
     		
     		$this->returnJson($response, 200);
         } catch (SyntaxException $e) {

@@ -57,7 +57,7 @@ class GenerisSearch extends ConfigurableService implements Search
             $ids[] = $resource->getUri();
         }
 
-        return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
+        return new ResultSet(['ids' => $ids], $this->getTotalCount($queryString, $rootClass));
 
     }
     

@@ -18,6 +18,7 @@
  */
 namespace oat\tao\model\search\index;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\SearchTokenGenerator;
 
 /**
@@ -89,7 +90,9 @@ class IndexIterator implements \Iterator
      */
     function current() {
         $currentResource = new \core_kernel_classes_Resource($this->instanceCache[$this->currentInstance]);
-        return $this->createDocument($currentResource);
+        /** @var IndexService $indexService */
+        $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
+        return $indexService->createDocumentFromResource($currentResource);
     }
 
     /**
@@ -166,27 +169,5 @@ class IndexIterator implements \Iterator
         $this->endOfClass = count($results) < self::CACHE_SIZE;
 
         return count($results) > 0;
-    }
-
-    /**
-     * @param \core_kernel_classes_Resource $resource
-     * @return IndexDocument
-     * @throws \common_exception_InconsistentData
-     */
-    protected function createDocument(\core_kernel_classes_Resource $resource) {
-        $tokenGenerator = new SearchTokenGenerator();
-
-        $body = [];
-        foreach ($tokenGenerator->generateTokens($resource) as $data) {
-            list($index, $strings) = $data;
-            $body[$index->getIdentifier()] = $strings;
-        }
-        $document = new IndexDocument(
-            $resource->getUri(),
-            $resource->getUri(),
-            $this->classIterator->current()->getUri(),
-            $body
-        );
-        return $document;
     }
 }
