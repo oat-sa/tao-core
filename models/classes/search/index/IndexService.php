@@ -53,7 +53,7 @@ class IndexService extends ConfigurableService
     {
         $searchService = SearchService::getSearchImplementation();
         if ($searchService->supportCustomIndex()) {
-            SearchService::getSearchImplementation()->fullReIndex($indexIterator);
+            $searchService->fullReIndex($indexIterator);
             $reIndexClasses = $this->getOption('customReIndexClasses');
             if ($reIndexClasses) {
                 foreach ($reIndexClasses as $reIndexClass) {

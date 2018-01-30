@@ -156,7 +156,7 @@ class IndexIterator implements \Iterator
      */
     protected function load(\core_kernel_classes_Class $class, $offset) {
         $results = $class->searchInstances(array(), array(
-            'recursive' => true,
+            'recursive' => false,
             'limit' => self::CACHE_SIZE,
             'offset' => $offset
         ));
