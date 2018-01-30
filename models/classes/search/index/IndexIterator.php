@@ -19,165 +19,38 @@
 namespace oat\tao\model\search\index;
 
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\search\SearchTokenGenerator;
 
 /**
  * Class IndexIterator
  * @package oat\tao\model\search\index
  */
-class IndexIterator implements \Iterator
+class IndexIterator extends \IteratorIterator
 {
-    const CACHE_SIZE = 100;
-
-    private $classIterator;
-
-    /**
-     * Id of the current instance
-     *
-     * @var int
-     */
-    private $currentInstance = 0;
-
-    /**
-     * List of resource uris currently being iterated over
-     *
-     * @var array
-     */
-    private $instanceCache = null;
-
-    /**
-     * Indicater whenever the end of  the current cache is also the end of the current class
-     *
-     * @var boolean
-     */
-    private $endOfClass = false;
-
-    /**
-     * @var null|SearchTokenGenerator
-     */
-    private $tokenGenerator = null;
-
-    /**
-     * @var null|IndexService
-     */
+    /** @var IndexService  */
     private $indexService = null;
 
-    /**
-     * Whenever we already moved the pointer, used to prevent unnecessary rewinds
-     *
-     * @var boolean
+        /**
+     * @return \oat\oatbox\service\ConfigurableService|IndexService
      */
-    private $unmoved = true;
-
-    /**
-     * Constructor of the iterator expecting a class or classes as argument
-     *
-     * @param mixed $classes array/instance of class(es) to iterate over
-     */
-    public function __construct($classes) {
-        $this->classIterator = new \core_kernel_classes_ClassIterator($classes);
-
-        $this->tokenGenerator = new SearchTokenGenerator();
-
-        /** @var IndexService $indexService */
-        $this->indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
-        $this->ensureNotEmpty();
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see Iterator::rewind()
-     */
-    function rewind() {
-        if (!$this->unmoved) {
-            $this->classIterator->rewind();
-            $this->ensureNotEmpty();
-            $this->unmoved = true;
-        }
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see Iterator::current()
-     */
-    function current() {
-        $currentResource = new \core_kernel_classes_Resource($this->instanceCache[$this->currentInstance]);
-        return $this->indexService->createDocumentFromResource($currentResource);
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see Iterator::key()
-     */
-    function key() {
-        return $this->classIterator->key().'#'.$this->currentInstance;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see Iterator::next()
-     */
-    function next() {
-        $this->unmoved = false;
-        if ($this->valid()) {
-            $this->currentInstance++;
-            if (!isset($this->instanceCache[$this->currentInstance])) {
-                // try to load next block (unless we know it's empty)
-                $remainingInstances = !$this->endOfClass && $this->load($this->classIterator->current(), $this->currentInstance);
-
-                // endOfClass or failed loading
-                if (!$remainingInstances) {
-                    $this->classIterator->next();
-                    $this->ensureNotEmpty();
-                }
-            }
-        }
-    }
-
-    /**
-     * While there are remaining classes there are instances to load
-     *
-     * (non-PHPdoc)
-     * @see Iterator::valid()
-     */
-    function valid() {
-        return $this->classIterator->valid();
-    }
-
-    // Helpers
-
-    /**
-     * Ensure the class iterator is pointin to a non empty class
-     * Loads the first resource block to test this
-     */
-    protected function ensureNotEmpty() {
-        $this->currentInstance = 0;
-        while ($this->classIterator->valid() && !$this->load($this->classIterator->current(), 0)) {
-            $this->classIterator->next();
-        }
-    }
-
-    /**
-     * Load instances into cache
-     *
-     * @param \core_kernel_classes_Class $class
-     * @param int $offset
-     * @return boolean
-     */
-    protected function load(\core_kernel_classes_Class $class, $offset) {
-        $results = $class->searchInstances(array(), array(
-            'recursive' => false,
-            'limit' => self::CACHE_SIZE,
-            'offset' => $offset
-        ));
-        $this->instanceCache = array();
-        foreach ($results as $resource) {
-            $this->instanceCache[$offset] = $resource->getUri();
-            $offset++;
+    protected function getIndexer() {
+        if (is_null($this->indexService)) {
+            $this->indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
         }
 
-        $this->endOfClass = count($results) < self::CACHE_SIZE;
+        return $this->indexService;
+    }
 
-        return count($results) > 0;
+    public function valid()
+    {
+        return $this->getInnerIterator()->valid();
+    }
+
+    /**
+     * @return mixed|IndexDocument
+     * @throws \common_Exception
+     * @throws \common_exception_InconsistentData
+     */
+    public function current() {
+        return $this->getIndexer()->createDocumentFromResource($this->getInnerIterator()->current());
     }
 }

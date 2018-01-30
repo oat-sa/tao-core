@@ -51,9 +51,10 @@ class IndexService extends ConfigurableService
      */
     public function fullReIndex(IndexIterator $indexIterator)
     {
+        $counts = 0;
         $searchService = SearchService::getSearchImplementation();
         if ($searchService->supportCustomIndex()) {
-            $searchService->fullReIndex($indexIterator);
+            $counts = $searchService->fullReIndex($indexIterator);
             $reIndexClasses = $this->getOption('customReIndexClasses');
             if ($reIndexClasses) {
                 foreach ($reIndexClasses as $reIndexClass) {
@@ -64,13 +65,14 @@ class IndexService extends ConfigurableService
                         if ($action instanceof ServiceLocatorAwareInterface) {
                             $action->setServiceLocator($this->getServiceLocator());
                         }
-                        call_user_func($action, array());
+                        $counts += call_user_func($action, array());
                     } else {
                         throw new \common_ext_InstallationException('Unable to run install script '.$reIndexClass);
                     }
                 }
             }
         }
+        return $counts;
     }
 
     /**

@@ -60,7 +60,8 @@ class SearchService
      */
     static public function runIndexing() 
     {
-        $indexIterator = new IndexIterator(self::getIndexedClasses());
+        $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
+        $indexIterator = new IndexIterator($iterator);
         /** @var IndexService $indexService */
         $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
         return $indexService->fullReIndex($indexIterator);
