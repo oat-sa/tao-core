@@ -159,16 +159,16 @@ define([
                         _.isNumber(estimate.quota) &&
                         estimate.quota > 0){
 
-                        usedRatio = (estimate.usage / estimate.quota).toFixed(2);
+                        usedRatio = (estimate.usage / estimate.quota);
                         if(usedRatio > config.lowSpaceRatio){
-                            logger.warn('The browser storage is getting low ' + usedRatio + '% used', estimate);
+                            logger.warn('The browser storage is getting low ' + usedRatio.toFixed(2) + '% used', estimate);
                             logger.warn('We will attempt to clean oldster databases in persistent backends');
                             store.cleanUpSpace(config.invalidation.oldster, [], localStorageBackend);
                             if(isIndexDBSupported){
                                 store.cleanUpSpace(config.invalidation.oldster, [],indexedDBBackend);
                             }
                         } else {
-                            logger.debug('Browser storage estimate : ' + usedRatio + '% used', estimate);
+                            logger.debug('Browser storage estimate : ' + usedRatio.toFixed(2) + '% used', estimate);
                         }
                     }
                 })
@@ -213,7 +213,7 @@ define([
                 return Promise.reject(new TypeError('No backend, no storage!'));
             }
             if(!isBackendApiValid(backend)){
-                return Promise.reject(new TypeError('This backend does comply with the store backend API'));
+                return Promise.reject(new TypeError('This backend doesn\'t comply with the store backend API'));
             }
 
             //attempt to check the quotas
@@ -239,7 +239,7 @@ define([
             var storeInstance = backend(storeName);
 
             if(!isStorageApiValid(storeInstance)){
-                return Promise.reject(new TypeError('The backend does not comply with the Storage interface'));
+                return Promise.reject(new TypeError('The backend doesn\'t comply with the Storage interface'));
             }
 
 
