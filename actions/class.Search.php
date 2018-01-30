@@ -21,7 +21,7 @@
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SyntaxException;
-use oat\tao\model\search\IndexService;
+use oat\tao\model\search\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
 
 /**
@@ -90,9 +90,9 @@ class tao_actions_Search extends tao_actions_CommonModule {
             $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
 
             $response = new StdClass();
-            if(count($results['ids']) > 0 ){
+            if(count($results) > 0 ){
     
-                foreach($results['ids'] as $uri) {
+                foreach($results as $uri) {
                     $instance = new core_kernel_classes_Resource($uri);
                     $instanceProperties = array(
                         'id' => $instance->getUri(),
@@ -105,7 +105,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
     		$response->success = true;
             $response->page = empty($response->data) ? 0 : $page;
     		$response->total = $totalPages;
-    		$response->records = count($results['ids']);
+    		$response->records = count($results);
     		
     		$this->returnJson($response, 200);
         } catch (SyntaxException $e) {
@@ -120,7 +120,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
         
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
-            $indexes = IndexService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
+            $indexes = OntologyIndexService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
             $json = array();
             
             foreach ($indexes as $propertyUri => $index) {

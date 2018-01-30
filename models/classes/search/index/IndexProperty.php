@@ -19,71 +19,60 @@
 namespace oat\tao\model\search\index;
 
 /**
- * Class IndexDocument
+ * Class IndexProperty
  * @package oat\tao\model\search\index
  */
-class IndexDocument
+class IndexProperty
 {
     /** @var string */
-    protected $id;
+    protected $field;
 
-    /** @var array */
-    protected $body;
+    /** @var boolean */
+    protected $fuzzy;
 
-    /** @var array */
-    protected $indexesProperties;
+    /** @var boolean */
+    protected $default;
 
     /**
-     * IndexDocument constructor.
-     * @param string $id
-     * @param array $body
-     * @param array $indexesProperties
+     * IndexProperty constructor.
+     * @param $field
+     * @param bool $fuzzy
+     * @param bool $default
      * @throws \common_Exception
      */
     public function __construct(
-        $id,
-        $body,
-        $indexesProperties = []
+        $field,
+        $fuzzy = false,
+        $default = false
     ){
-        $this->id = $id;
-
-        if (!isset($body['type'])) {
-            throw new \common_Exception('Body of indexDocument should contain type key');
-        }
-        $this->body = $body;
-        $this->indexesProperties = $indexesProperties;
+        $this->field = $field;
+        $this->fuzzy = $fuzzy;
+        $this->default = $default;
 
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function getField()
     {
-        return $this->id;
+        return $this->field;
     }
 
     /**
-     * Body of document
-     *
-     * $body['type'] = ['type1', 'type2'];
-     * $body['label'] = 'label';
-     * $body[$field'] = $value;
-     * @return array
+     * @return bool
      */
-    public function getBody()
+    public function isFuzzy()
     {
-        return $this->body;
+       return (boolean) $this->fuzzy;
     }
 
     /**
-     * Array of IndexProperty
-     *
-     * @return array
+     * @return bool
      */
-    public function getIndexProperties()
+    public function isDefault()
     {
-        return $this->indexesProperties;
+        return (boolean) $this->default;
     }
 
 }

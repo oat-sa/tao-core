@@ -464,7 +464,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         //if the property exists edit it, else create one
-        $existingIndex = \oat\tao\model\search\IndexService::getIndexById($values[Index::PROPERTY_INDEX_IDENTIFIER]);
+        $existingIndex = \oat\tao\model\search\OntologyIndexService::getIndexById($values[Index::PROPERTY_INDEX_IDENTIFIER]);
         $indexProperty = new core_kernel_classes_Property($values['uri']);
         if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
             throw new Exception("The index identifier should be unique");

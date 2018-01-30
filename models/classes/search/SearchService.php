@@ -22,7 +22,6 @@ namespace oat\tao\model\search;
 
 use oat\tao\model\menu\MenuService;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexIterator;
 use oat\tao\model\search\index\IndexService;
 

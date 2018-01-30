@@ -30,7 +30,7 @@ use oat\tao\model\TaoOntology;
  * 
  * @author Joel Bout <joel@taotesting.com>
  */
-class IndexService
+class OntologyIndexService
 {	
     /**
      * Create a new index

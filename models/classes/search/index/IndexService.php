@@ -37,11 +37,10 @@ class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
     const OPTION_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
-    const SUBSTITUTION_CONFIG_KEY = 'index_search_map';
-    const INDEX_MAP_PREFIX_DEFAULT = '_d';
-    const INDEX_MAP_PREFIX_FUZZY = '_t';
-    const INDEX_MAP_PREFIX_STRICT = '_s';
+    const INDEX_MAP_PROPERTY_DEFAULT = 'default';
+    const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
 
+    /** @var array */
     private $map;
 
     /**
@@ -86,16 +85,18 @@ class IndexService extends ConfigurableService
         $tokenGenerator = new SearchTokenGenerator();
 
         $body = [];
+        $indexesProperties = [];
         foreach ($tokenGenerator->generateTokens($resource) as $data) {
             /** @var Index $index */
             list($index, $strings) = $data;
-            $body[$this->getIndexId($index)] = $strings;
+            $body[$index->getIdentifier()] = $strings;
+            $indexesProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
-        $body['type_r'] = $this->getTypesForResource($resource);
-        $this->updateIndexMap();
+        $body['type'] = $this->getTypesForResource($resource);
         $document = new IndexDocument(
             $resource->getUri(),
-            $body
+            $body,
+            $indexesProperties
         );
         return $document;
     }
@@ -116,18 +117,14 @@ class IndexService extends ConfigurableService
             throw new MissingOptionException('Missed body property for the index document');
         }
         $body = $array['body'];
-        $newBody = [];
-        $indexMap = $this->getOption(self::SUBSTITUTION_CONFIG_KEY);
-
-        foreach ($body as $key => $value) {
-            if (isset($indexMap[$key])) {
-                $newBody[$indexMap[$key]] = $value;
-            }
+        $indexProperties = [];
+        if (isset($array['indexProperties'])) {
+            $indexProperties = $array['indexProperties'];
         }
-
         $document = new IndexDocument(
             $array['id'],
-            $newBody
+            $body,
+            $indexProperties
         );
         return $document;
     }
@@ -135,36 +132,18 @@ class IndexService extends ConfigurableService
     /**
      * @param Index $index
      * @return mixed
+     * @throws \common_Exception
      */
-    public function getIndexId(Index $index) {
+    public function getIndexProperties(Index $index) {
         if (!isset($this->map[$index->getIdentifier()])) {
-            $suffix = $index->isFuzzyMatching() ? self::INDEX_MAP_PREFIX_FUZZY : self::INDEX_MAP_PREFIX_STRICT;
-            if ($index->isDefaultSearchable()) {
-                $suffix .= self::INDEX_MAP_PREFIX_DEFAULT;
-            }
-            $this->map[$index->getIdentifier()] = $index->getIdentifier().$suffix;
+            $indexProperty = new IndexProperty(
+                $index->getIdentifier(),
+                $index->isFuzzyMatching(),
+                $index->isDefaultSearchable()
+            );
+            $this->map[$index->getIdentifier()] = $indexProperty;
         }
         return $this->map[$index->getIdentifier()];
-    }
-
-    /**
-     * @throws \common_Exception
-     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
-     */
-    public function updateIndexMap()
-    {
-        $indexMap = [];
-        $options = $this->getOptions();
-        if (isset($options[self::SUBSTITUTION_CONFIG_KEY])) {
-            $indexMap = $options[self::SUBSTITUTION_CONFIG_KEY];
-        }
-        $indexMap = array_merge($indexMap, $this->map);
-        if (!isset($indexMap['type'])) {
-            $indexMap['type'] = 'type_r';
-        }
-        $options[self::SUBSTITUTION_CONFIG_KEY] = $indexMap;
-
-        $this->getServiceManager()->register(self::SERVICE_ID,  new self($options));
     }
 
     /**

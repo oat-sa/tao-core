@@ -22,7 +22,7 @@
 use oat\generis\model\GenerisRdf;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\search\SearchService;
-use oat\tao\model\search\IndexService;
+use oat\tao\model\search\OntologyIndexService;
 use oat\tao\model\search\tokenizer\RawValue;
 
 
@@ -70,12 +70,12 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         $id = 'test_index_'.helpers_Random::generateString(8);
         
-        $index = IndexService::createIndex($this->property, $id, $tokenizer, true, true);
+        $index = OntologyIndexService::createIndex($this->property, $id, $tokenizer, true, true);
         
         $this->assertIsA($index, 'oat\tao\model\search\Index');
         $this->assertTrue($index->exists());
         
-        $indexToo = IndexService::getIndexById($id);
+        $indexToo = OntologyIndexService::getIndexById($id);
         $this->assertIsA($indexToo, 'oat\tao\model\search\Index');
         $this->assertTrue($index->equals($indexToo));
         
@@ -86,7 +86,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
         $tokenizer = $index->getTokenizer();
         $this->assertIsA($tokenizer, 'oat\tao\model\search\tokenizer\Tokenizer');
         
-        $indexes = IndexService::getIndexes($this->property);
+        $indexes = OntologyIndexService::getIndexes($this->property);
         $this->assertTrue(is_array($indexes));
         $this->assertEquals(1, count($indexes));
         
@@ -106,7 +106,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
         $this->assertIsA($index, 'oat\tao\model\search\Index');
         
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
-        IndexService::createIndex($this->property, $index->getIdentifier(), $tokenizer, true, true);
+        OntologyIndexService::createIndex($this->property, $index->getIdentifier(), $tokenizer, true, true);
     }
     
     /**
@@ -117,7 +117,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
         $this->assertIsA($index, 'oat\tao\model\search\Index');
         
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
-        $similar = IndexService::createIndex($this->property, substr($index->getIdentifier(), 0, -2), $tokenizer, true, true);
+        $similar = OntologyIndexService::createIndex($this->property, substr($index->getIdentifier(), 0, -2), $tokenizer, true, true);
         $this->assertIsA($similar, 'oat\tao\model\search\Index');
         
         return $similar;
