@@ -109,6 +109,7 @@ use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
+use oat\tao\model\search\index\IndexService;
 
 /**
  *
