@@ -33,8 +33,6 @@ use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\scripts\install\RegisterIndexService;
-
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
