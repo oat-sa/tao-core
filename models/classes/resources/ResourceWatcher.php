@@ -88,7 +88,9 @@ class ResourceWatcher extends ConfigurableService
             $resource->editPropertyValues($property, $now);
             $searchService = SearchService::getSearchImplementation();
             if ($searchService->supportCustomIndex()) {
+                /** @var QueueDispatcher $queueDispatcher */
                 $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
+                $queueDispatcher->setOwner('Index');
                 $queueDispatcher->createTask(new AddSearchIndexFromResource(), [$resource->getUri()], __('Adding/Updating search index for %s', $resource->getLabel()));
             }
         }
