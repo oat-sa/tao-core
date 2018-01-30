@@ -42,15 +42,18 @@ class tao_helpers_form_xhtml_Form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string groupName
+     * @param  string $groupName
+     * @param  array $filterProperties List of properties which values are unneeded and must be filtered
      * @return array
      */
     public function getValues($groupName = '')
     {
         $returnValue = array();
-
         
 		foreach($this->elements as $element){
+            if (!empty($this->systemElements) && in_array($element->getName(), $this->systemElements)) {
+                continue;
+            }
 			if(empty($groupName)
 					|| !isset($this->groups[$groupName])
 					|| in_array($element->getName(), $this->groups[$groupName]['elements'])) {
@@ -58,8 +61,6 @@ class tao_helpers_form_xhtml_Form
 				$returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
 			}
 		}
-		unset($returnValue['uri']);
-		unset($returnValue['classUri']);
         
 
         return (array) $returnValue;
