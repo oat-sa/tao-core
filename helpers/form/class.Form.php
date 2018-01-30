@@ -115,6 +115,14 @@ abstract class tao_helpers_form_Form
      */
     public $error = '';
 
+    /**
+     * List of fields names that are system only and which values doesn't need to be returned by `getValues()` call
+     *
+     * @access protected
+     * @var array
+     */
+    protected $systemElements = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -274,8 +282,9 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  tao_helpers_form_FormElement $element
+     * @param bool|false $isSystem
      */
-    public function addElement( tao_helpers_form_FormElement $element)
+    public function addElement( tao_helpers_form_FormElement $element, $isSystem = false)
     {
 
 		$elementPosition = -1;
@@ -291,6 +300,10 @@ abstract class tao_helpers_form_Form
 		}else{
 			$this->elements[] = $element;
 		}
+
+		if ($isSystem) {
+		    $this->systemElements[] = $element->getName();
+        }
 
 
     }
@@ -698,23 +711,7 @@ abstract class tao_helpers_form_Form
      * @param  string $groupName
      * @return array
      */
-    public function getValues($groupName = '')
-    {
-        $returnValue = array();
-
-		foreach($this->elements as $element){
-			if(!empty($groupName)){
-				if(isset($this->groups[$groupName])){
-					if(!in_array($element->getName(), $this->groups[$groupName]['elements'])){
-						continue;
-					}
-				}
-			}
-			$returnValue[$element->getName()] = $element->getValue();
-		}
-
-        return $returnValue;
-    }
+    abstract public function getValues($groupName = '');
 
     /**
      * get the current value of the element identified by the name in parameter

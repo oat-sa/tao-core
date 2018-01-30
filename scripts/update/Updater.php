@@ -53,11 +53,9 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\search\index\IndexService;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -110,6 +108,8 @@ use oat\tao\model\resources\ResourceService;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
+use oat\generis\model\data\event\ResourceDeleted;
+use oat\tao\model\search\index\IndexService;
 
 /**
  *
@@ -1061,13 +1061,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('15.5.0');
         }
 
-        $this->skip('15.5.0', '15.10.0');
+        $this->skip('15.5.0', '15.11.1');
 
-        if ($this->isVersion('15.10.0')) {
+        if ($this->isVersion('15.11.1')) {
             $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
                 IndexService::OPTION_CUSTOM_REINDEX_CLASSES => []
             ]));
-            $this->setVersion('15.11.0');
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->setVersion('16.0.0');
         }
     }
 
