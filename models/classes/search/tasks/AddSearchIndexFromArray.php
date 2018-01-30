@@ -58,10 +58,10 @@ class AddSearchIndexFromArray implements Action,ServiceLocatorAwareInterface, Ta
         $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Adding search index for %s', $id));
 
         try {
-            $document = $indexService->createDocumentFromArray(
-                $id,
-                $body
-            );
+            $document = $indexService->createDocumentFromArray([
+                'id' => $id,
+                'body' => $body
+            ]);
             SearchService::getSearchImplementation()->index($document);
         }catch (\Exception $e) {
             $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $id, $e->getMessage())));

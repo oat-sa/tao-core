@@ -38,6 +38,9 @@ class IndexService extends ConfigurableService
     const SERVICE_ID = 'tao/IndexService';
     const OPTION_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
     const SUBSTITUTION_CONFIG_KEY = 'index_search_map';
+    const INDEX_MAP_PREFIX_DEFAULT = '_d';
+    const INDEX_MAP_PREFIX_FUZZY = '_t';
+    const INDEX_MAP_PREFIX_STRICT = '_s';
 
     private $map;
 
@@ -133,9 +136,9 @@ class IndexService extends ConfigurableService
      */
     public function getIndexId(Index $index) {
         if (!isset($this->map[$index->getIdentifier()])) {
-            $suffix = $index->isFuzzyMatching() ? '_t' : '_s';
+            $suffix = $index->isFuzzyMatching() ? self::INDEX_MAP_PREFIX_FUZZY : self::INDEX_MAP_PREFIX_STRICT;
             if ($index->isDefaultSearchable()) {
-                $suffix .= '_d';
+                $suffix .= self::INDEX_MAP_PREFIX_DEFAULT;
             }
             $this->map[$index->getIdentifier()] = $index->getIdentifier().$suffix;
         }
