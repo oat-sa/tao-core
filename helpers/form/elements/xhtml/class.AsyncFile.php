@@ -18,6 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\tao\helpers\ApplicationHelper;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
@@ -68,7 +70,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
         $returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
         
         // get the upload max size
-        $fileSize = tao_helpers_Environment::getFileUploadLimit();
+        $fileSize = ApplicationHelper::getFileUploadLimit();
         
         $mimetypes = array();
         
