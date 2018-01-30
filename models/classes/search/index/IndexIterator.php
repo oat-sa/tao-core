@@ -52,7 +52,15 @@ class IndexIterator implements \Iterator
      */
     private $endOfClass = false;
 
+    /**
+     * @var null|SearchTokenGenerator
+     */
     private $tokenGenerator = null;
+
+    /**
+     * @var null|IndexService
+     */
+    private $indexService = null;
 
     /**
      * Whenever we already moved the pointer, used to prevent unnecessary rewinds
@@ -68,7 +76,11 @@ class IndexIterator implements \Iterator
      */
     public function __construct($classes) {
         $this->classIterator = new \core_kernel_classes_ClassIterator($classes);
+
         $this->tokenGenerator = new SearchTokenGenerator();
+
+        /** @var IndexService $indexService */
+        $this->indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
         $this->ensureNotEmpty();
     }
 
@@ -90,9 +102,7 @@ class IndexIterator implements \Iterator
      */
     function current() {
         $currentResource = new \core_kernel_classes_Resource($this->instanceCache[$this->currentInstance]);
-        /** @var IndexService $indexService */
-        $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
-        return $indexService->createDocumentFromResource($currentResource);
+        return $this->indexService->createDocumentFromResource($currentResource);
     }
 
     /**
