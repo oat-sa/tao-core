@@ -46,15 +46,12 @@ class tao_helpers_form_xhtml_Form
      * @param  array $filterProperties List of properties which values are unneeded and must be filtered
      * @return array
      */
-    public function getValues($groupName = '', array $filterProperties = [])
+    public function getValues($groupName = '')
     {
         $returnValue = array();
         
 		foreach($this->elements as $element){
             if (!empty($this->systemElements) && in_array($element->getName(), $this->systemElements)) {
-                continue;
-            }
-            if (!empty($filterProperties) && in_array($element->getName(), $filterProperties)) {
                 continue;
             }
 			if(empty($groupName)
