@@ -23,6 +23,7 @@ namespace oat\tao\model\search\index;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\Index;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
@@ -36,6 +37,9 @@ class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
     const OPTION_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
+    const SUBSTITUTION_CONFIG_KEY = 'index_search_map';
+
+    private $map;
 
     /**
      * @param IndexIterator $indexIterator
@@ -78,10 +82,12 @@ class IndexService extends ConfigurableService
 
         $body = [];
         foreach ($tokenGenerator->generateTokens($resource) as $data) {
+            /** @var Index $index */
             list($index, $strings) = $data;
-            $body[$index->getIdentifier()] = $strings;
+            $body[$this->getIndexId($index)] = $strings;
         }
-        $body['type'] = $this->getTypesForResource($resource);
+        $body['type_r'] = $this->getTypesForResource($resource);
+        $this->updateIndexMap();
         $document = new IndexDocument(
             $resource->getUri(),
             $body
@@ -104,12 +110,56 @@ class IndexService extends ConfigurableService
         if (!isset($array['body'])) {
             throw new MissingOptionException('Missed body property for the index document');
         }
+        $body = $array['body'];
+        $newBody = [];
+        $indexMap = $this->getOption(self::SUBSTITUTION_CONFIG_KEY);
+
+        foreach ($body as $key => $value) {
+            if (isset($indexMap[$key])) {
+                $newBody[$indexMap[$key]] = $value;
+            }
+        }
 
         $document = new IndexDocument(
             $array['id'],
-            $array['body']
+            $newBody
         );
         return $document;
+    }
+
+    /**
+     * @param Index $index
+     * @return mixed
+     */
+    public function getIndexId(Index $index) {
+        if (!isset($this->map[$index->getIdentifier()])) {
+            $suffix = $index->isFuzzyMatching() ? '_t' : '_s';
+            if ($index->isDefaultSearchable()) {
+                $suffix .= '_d';
+            }
+            $this->map[$index->getIdentifier()] = $index->getIdentifier().$suffix;
+        }
+        return $this->map[$index->getIdentifier()];
+    }
+
+    /**
+     * @throws \common_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    public function updateIndexMap()
+    {
+        $indexMap = [];
+        $options = $this->getOptions();
+        if (isset($options[self::SUBSTITUTION_CONFIG_KEY])) {
+            $indexMap = $options[self::SUBSTITUTION_CONFIG_KEY];
+        }
+        $indexMap = array_merge($indexMap, $this->map);
+        if (!isset($indexMap['type'])) {
+            $indexMap['type'] = 'type_r';
+        }
+        $options[self::SUBSTITUTION_CONFIG_KEY] = $indexMap;
+
+        $this->getServiceManager()->register(self::SERVICE_ID,  new self($options));
     }
 
     /**

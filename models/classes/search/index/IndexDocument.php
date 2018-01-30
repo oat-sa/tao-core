@@ -42,7 +42,7 @@ class IndexDocument
     ){
         $this->id = $id;
 
-        if (!isset($body['type'])) {
+        if (!isset($body['type_r'])) {
             throw new \common_Exception('Body of indexDocument should contain type key');
         }
         $this->body = $body;
