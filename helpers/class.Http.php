@@ -20,7 +20,7 @@
  *
  */
 
-use oat\tao\helpers\ApplicationHelper;
+use oat\generis\Helper\SystemHelper;
 use oat\tao\helpers\FileUploadException;
 use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
@@ -157,7 +157,7 @@ class tao_helpers_Http
     {
 
         // for large file, the $_FILES may be empty so see this before checking for other updates
-        $limit = ApplicationHelper::getFileUploadLimit();
+        $limit = SystemHelper::getFileUploadLimit();
         $contentLength = intval($_SERVER['CONTENT_LENGTH']);
         if( $limit > 0 && $contentLength > $limit && count(self::getFiles())===0){
             throw new FileUploadException('Exceeded filesize limit of ' . $limit);

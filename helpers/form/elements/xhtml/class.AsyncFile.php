@@ -19,7 +19,7 @@
  * 
  */
 
-use oat\tao\helpers\ApplicationHelper;
+use oat\generis\Helper\SystemHelper;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
@@ -70,7 +70,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
         $returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
         
         // get the upload max size
-        $fileSize = ApplicationHelper::getFileUploadLimit();
+        $fileSize = SystemHelper::getFileUploadLimit();
         
         $mimetypes = array();
         
