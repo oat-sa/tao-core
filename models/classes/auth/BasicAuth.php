@@ -19,12 +19,12 @@
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
 
-namespace oat\tao\model;
+namespace oat\tao\model\auth;
 
 
 interface BasicAuth
 {
     const CLASS_BASIC_AUTH = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer';
-    const LOGIN = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin';
-    const PASSWORD = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword';
+    const PROPERTY_LOGIN = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin';
+    const PROPERTY_PASSWORD = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword';
 }
