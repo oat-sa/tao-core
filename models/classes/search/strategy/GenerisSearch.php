@@ -22,11 +22,8 @@ namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\index\implementation\OntologyIndex;
 use oat\tao\model\search\index\IndexDocument;
-use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
-use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
 

@@ -5,7 +5,8 @@ use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
-use oat\tao\model\search\Index;
+use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
 
@@ -124,7 +125,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         foreach($class->getProperties() as $classProperty) {
             if ($classProperty->equals($property)) {
 
-                $indexes = $property->getPropertyValues(new core_kernel_classes_Property(Index::PROPERTY_INDEX));
+                $indexes = $property->getPropertyValues(new core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
                 //delete property and the existing values of this property
                 if($property->delete(true)){
                     //delete index linked to the property
@@ -170,10 +171,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         //remove use of index property in property
         $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $property->removePropertyValue(new core_kernel_classes_Property(Index::PROPERTY_INDEX),$indexPropertyUri);
+        $property->removePropertyValue(new core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX),$indexPropertyUri);
 
         //remove index property
-        $indexProperty = new \oat\tao\model\search\Index($indexPropertyUri);
+        $indexProperty = new OntologyIndex($indexPropertyUri);
         $indexProperty->delete();
 
         echo json_encode(array('id' => $this->getRequestParameter('indexProperty')));
@@ -234,23 +235,23 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if($i !== 0){
                 $indexIdentifier = $indexIdentifierBackup.'_'.$i;
             }
-            $resources = $indexClass->searchInstances(array(Index::PROPERTY_INDEX_IDENTIFIER => $indexIdentifier), array('like' => false));
+            $resources = $indexClass->searchInstances(array(OntologyIndex::PROPERTY_INDEX_IDENTIFIER => $indexIdentifier), array('like' => false));
             $count = count($resources);
             $i++;
         }while($count !== 0);
 
         $indexProperty = $class->createInstanceWithProperties(array(
                 OntologyRdfs::RDFS_LABEL => preg_replace('/_/',' ',ucfirst($indexIdentifier)),
-                Index::PROPERTY_INDEX_IDENTIFIER => $indexIdentifier,
-                Index::PROPERTY_INDEX_TOKENIZER => $tokenizer,
-                Index::PROPERTY_INDEX_FUZZY_MATCHING => GenerisRdf::GENERIS_TRUE,
-                Index::PROPERTY_DEFAULT_SEARCH  => GenerisRdf::GENERIS_FALSE,
+                OntologyIndex::PROPERTY_INDEX_IDENTIFIER => $indexIdentifier,
+                OntologyIndex::PROPERTY_INDEX_TOKENIZER => $tokenizer,
+                OntologyIndex::PROPERTY_INDEX_FUZZY_MATCHING => GenerisRdf::GENERIS_TRUE,
+                OntologyIndex::PROPERTY_DEFAULT_SEARCH  => GenerisRdf::GENERIS_FALSE,
             ));
 
-        $property->setPropertyValue(new core_kernel_classes_Property(Index::PROPERTY_INDEX), $indexProperty);
+        $property->setPropertyValue(new core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX), $indexProperty);
 
         //generate form
-        $indexFormContainer = new tao_actions_form_IndexProperty(new Index($indexProperty), $propertyIndex.$index);
+        $indexFormContainer = new tao_actions_form_IndexProperty(new OntologyIndex($indexProperty), $propertyIndex.$index);
         $myForm = $indexFormContainer->getForm();
         $form = trim(preg_replace('/\s+/', ' ', $myForm->renderElements()));
         echo json_encode(array('form' => $form));
@@ -458,13 +459,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $validator = new tao_helpers_form_validators_IndexIdentifier();
 
         // if the identifier is valid
-        $values[Index::PROPERTY_INDEX_IDENTIFIER] = strtolower($values[Index::PROPERTY_INDEX_IDENTIFIER]);
-        if(!$validator->evaluate($values[Index::PROPERTY_INDEX_IDENTIFIER])){
+        $values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER] = strtolower($values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER]);
+        if(!$validator->evaluate($values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER])){
             throw new Exception($validator->getMessage());
         }
 
         //if the property exists edit it, else create one
-        $existingIndex = \oat\tao\model\search\OntologyIndexService::getIndexById($values[Index::PROPERTY_INDEX_IDENTIFIER]);
+        $existingIndex = OntologyIndexService::getIndexById($values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER]);
         $indexProperty = new core_kernel_classes_Property($values['uri']);
         if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
             throw new Exception("The index identifier should be unique");

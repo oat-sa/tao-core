@@ -23,7 +23,6 @@ namespace oat\tao\model\search\index;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\Index;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
@@ -130,11 +129,11 @@ class IndexService extends ConfigurableService
     }
 
     /**
-     * @param Index $index
+     * @param OntologyIndex $index
      * @return mixed
      * @throws \common_Exception
      */
-    public function getIndexProperties(Index $index) {
+    public function getIndexProperties(OntologyIndex $index) {
         if (!isset($this->map[$index->getIdentifier()])) {
             $indexProperty = new IndexProperty(
                 $index->getIdentifier(),

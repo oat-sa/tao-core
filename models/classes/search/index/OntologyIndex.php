@@ -18,13 +18,13 @@
  *
  *
  */
-namespace oat\tao\model\search;
+namespace oat\tao\model\search\index;
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
 
-class Index extends \core_kernel_classes_Resource {
+class OntologyIndex extends \core_kernel_classes_Resource {
 
     const RDF_TYPE = "http://www.tao.lu/Ontologies/TAO.rdf#Index";
     const PROPERTY_INDEX = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';

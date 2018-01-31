@@ -21,7 +21,7 @@
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SyntaxException;
-use oat\tao\model\search\OntologyIndexService;
+use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
 
 /**
