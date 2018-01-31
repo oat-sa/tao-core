@@ -45,16 +45,17 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      */
     public function getTemplate()
     {
-        // load data from instance if provided
-        $data = [
-            self::PROPERTY_LOGIN => '',
-            self::PROPERTY_PASSWORD => '',
-        ];
-
         $instance = $this->getInstance();
         if ($instance && $instance->exists()) {
-            $data[self::PROPERTY_LOGIN] = (string)$instance->getOnePropertyValue($this->getProperty(self::PROPERTY_LOGIN));
-            $data[self::PROPERTY_PASSWORD] = (string)$instance->getOnePropertyValue($this->getProperty(self::PROPERTY_PASSWORD));
+            $data = [
+                self::PROPERTY_LOGIN => (string)$instance->getOnePropertyValue($this->getProperty(self::PROPERTY_LOGIN)),
+                self::PROPERTY_PASSWORD => (string)$instance->getOnePropertyValue($this->getProperty(self::PROPERTY_PASSWORD)),
+            ];
+        } else {
+            $data = [
+                self::PROPERTY_LOGIN => '',
+                self::PROPERTY_PASSWORD => '',
+            ];
         }
 
         return Template::inc('auth/basicAuthForm.tpl', 'tao', $data);
@@ -66,9 +67,9 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      */
     public function getCredentials()
     {
-        $credentials = [];
-        $credentials[] = (string)$this->getInstance()->getOnePropertyValue($this->getProperty(self::PROPERTY_LOGIN));
-        $credentials[] = (string)$this->getInstance()->getOnePropertyValue($this->getProperty(self::PROPERTY_PASSWORD));
-        return $credentials;
+        return [
+            (string)$this->getInstance()->getOnePropertyValue($this->getProperty(self::PROPERTY_LOGIN)),
+            (string)$this->getInstance()->getOnePropertyValue($this->getProperty(self::PROPERTY_PASSWORD)),
+        ];
     }
 }
