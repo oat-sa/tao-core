@@ -41,15 +41,32 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
 
     /**
      * @return string
+     * @throws \common_exception_InvalidArgumentType
      * @throws \core_kernel_persistence_Exception
      */
     public function getTemplate()
     {
+        $data = $this->loadCredentials();
+        return Template::inc('auth/basicAuthForm.tpl', 'tao', $data);
+    }
+
+    /**
+     * @return array
+     * @throws \common_exception_InvalidArgumentType
+     * @throws \core_kernel_persistence_Exception
+     */
+    public function loadCredentials() {
         $instance = $this->getInstance();
         if ($instance && $instance->exists()) {
+
+            $props = $instance->getPropertiesValues([
+                $this->getProperty(self::PROPERTY_LOGIN),
+                $this->getProperty(self::PROPERTY_PASSWORD)
+            ]);
+
             $data = [
-                self::PROPERTY_LOGIN => (string)$instance->getOnePropertyValue($this->getProperty(self::PROPERTY_LOGIN)),
-                self::PROPERTY_PASSWORD => (string)$instance->getOnePropertyValue($this->getProperty(self::PROPERTY_PASSWORD)),
+                self::PROPERTY_LOGIN => (string)current($props[self::PROPERTY_LOGIN]),
+                self::PROPERTY_PASSWORD => (string)current($props[self::PROPERTY_PASSWORD]),
             ];
         } else {
             $data = [
@@ -58,18 +75,20 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
             ];
         }
 
-        return Template::inc('auth/basicAuthForm.tpl', 'tao', $data);
+        return $data;
     }
 
     /**
      * @return array
+     * @throws \common_exception_InvalidArgumentType
      * @throws \core_kernel_persistence_Exception
      */
     public function getCredentials()
     {
+        $credentials = $this->loadCredentials();
         return [
-            (string)$this->getInstance()->getOnePropertyValue($this->getProperty(self::PROPERTY_LOGIN)),
-            (string)$this->getInstance()->getOnePropertyValue($this->getProperty(self::PROPERTY_PASSWORD)),
+            $credentials[self::PROPERTY_LOGIN],
+            $credentials[self::PROPERTY_PASSWORD],
         ];
     }
 }
