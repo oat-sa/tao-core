@@ -17,10 +17,10 @@
  */
 
 /**
- * Test the indexdb store backend
+ * Test the IndexedDB store backend
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['core/store/indexdb', 'core/promise'], function(indexedDbBackend, Promise){
+define(['core/store/indexeddb', 'core/promise'], function(indexedDbBackend, Promise){
     'use strict';
 
     var testDbs = [

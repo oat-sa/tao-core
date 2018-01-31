@@ -17,7 +17,7 @@
  */
 
 /**
- * Test the indexdb store backend
+ * Test the localStorage store backend
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define(['core/store/localstorage', 'core/promise'], function(localStorageBackend, Promise){

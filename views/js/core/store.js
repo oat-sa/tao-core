@@ -20,7 +20,7 @@
  * Browser storage, multiple backends
  *
  * @example
- *      store('foo', store.backends.indexDb);
+ *      store('foo', store.backends.indexedDB);
  *         .setItem('hello', { who : 'world'))
  *         .then(function(added){
  *              //yeah!
@@ -40,7 +40,7 @@ define([
     'core/logger',
     'core/promise',
     'core/store/localstorage',
-    'core/store/indexdb',
+    'core/store/indexeddb',
     'core/store/memory'
 ], function(_, moment, module, loggerFactory, Promise, localStorageBackend, indexedDBBackend, memoryBackend){
     'use strict';
@@ -253,7 +253,7 @@ define([
      */
     store.backends = {
         localStorage : localStorageBackend,
-        indexDb      : indexedDBBackend,
+        indexedDB    : indexedDBBackend,
         memory       : memoryBackend
     };
 
