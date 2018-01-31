@@ -66,9 +66,9 @@ define([
                 storePrefix: prefix,
                 keyPath: 'key',
                 autoIncrement: true,
-                onStoreReady: function() {
+                onStoreReady: function onStoreReady() {
                     // auto closes when the changed version reflects a DB deletion
-                    store.db.onversionchange = function(e) {
+                    store.db.onversionchange = function onversionchange(e) {
                         if (!e || !e.newVersion) {
                             store.db.close();
                         }
