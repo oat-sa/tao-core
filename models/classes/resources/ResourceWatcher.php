@@ -27,10 +27,8 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\SearchService;
-use oat\tao\model\search\tasks\AddSearchIndexFromResource;
 use oat\tao\model\search\tasks\DeleteSearchIndex;
 use oat\tao\model\TaoOntology;
-use oat\taoTaskQueue\model\QueueDispatcher;
 
 /**
  * Class ResourceWatcher
@@ -86,31 +84,8 @@ class ResourceWatcher extends ConfigurableService
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
-            $searchService = SearchService::getSearchImplementation();
-            if ($searchService->supportCustomIndex()) {
-                /** @var QueueDispatcher $queueDispatcher */
-                $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
-                $queueDispatcher->setOwner('Index');
-                $queueDispatcher->createTask(new AddSearchIndexFromResource(), [$resource->getUri()], __('Adding/Updating search index for %s', $resource->getLabel()));
-            }
         }
-        $report = \common_report_Report::createSuccess();
-        return $report;
 
-    }
-
-    /**
-     * @param ResourceDeleted $event
-     */
-    public function catchDeletedResourceEvent(ResourceDeleted $event)
-    {
-        /** @var Search $searchService */
-        $searchService = SearchService::getSearchImplementation();
-        if ($searchService->supportCustomIndex()) {
-            /** @var QueueDispatcher $queueDispatcher */
-            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
-            $queueDispatcher->createTask(new DeleteSearchIndex(), [$event->getId()], __('Deleting search index for %s', $event->getId()));
-        }
     }
 
      /**

@@ -1067,9 +1067,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
                 IndexService::OPTION_CUSTOM_REINDEX_CLASSES => []
             ]));
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
-            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
             $this->setVersion('16.0.0');
         }
     }

@@ -86,7 +86,7 @@ class IndexService extends ConfigurableService
         $body = [];
         $indexesProperties = [];
         foreach ($tokenGenerator->generateTokens($resource) as $data) {
-            /** @var Index $index */
+            /** @var OntologyIndex $index */
             list($index, $strings) = $data;
             $body[$index->getIdentifier()] = $strings;
             $indexesProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
