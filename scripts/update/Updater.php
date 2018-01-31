@@ -1059,11 +1059,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('15.5.0');
         }
 
-        $this->skip('15.5.0', '15.10.0');
+        $this->skip('15.5.0', '15.12.0');
 
-        if ($this->isVersion('15.10.0')) {
+        if ($this->isVersion('15.12.0')) {
             OntologyUpdater::syncModels();
-            $this->setVersion('15.11.0');
+            $this->setVersion('15.13.0');
         }
     }
 
