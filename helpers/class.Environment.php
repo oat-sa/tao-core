@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\generis\Helper\SystemHelper;
+
 /**
  * Utility class focusing  on the server environment.
  *
@@ -34,19 +36,12 @@ class tao_helpers_Environment
      * Returns the maximum size for fileuploads in bytes.
      *
      * @author Joel Bout, <joel@taotesting.com>
-     * @deprecated use ApplicationHelper::getFileUploadLimit()
+     * @deprecated use SystemHelper::getFileUploadLimit()
      * @return int The upload file limit.
      */
     public static function getFileUploadLimit()
     {
-
-        $max_upload		= self::toBytes(ini_get('upload_max_filesize'));
-        $max_post		= self::toBytes(ini_get('post_max_size'));
-        $memory_limit = self::toBytes(ini_get('memory_limit'));
-
-        $returnValue = min($max_upload, $max_post, $memory_limit);
-
-        return (int) $returnValue;
+        return SystemHelper::getFileUploadLimit();
     }
 
     /**
@@ -74,36 +69,6 @@ class tao_helpers_Environment
      */
     public static function getOperatingSystem()
     {
-        $returnValue = (string) '';
-
-        $returnValue = PHP_OS;
-
-        return (string) $returnValue;
+        return SystemHelper::getOperatingSystem();
     }
-
-    /**
-     * Get the size in bytes of a PHP variable given as a string.
-     *
-     * @author Joel Bout, <joel@taotesting.com>
-     * @param  string $phpSyntax The PHP syntax to describe the variable.
-     * @return int The size in bytes.
-     */
-    private static function toBytes($phpSyntax)
-    {
-        $val = trim($phpSyntax);
-        $last = strtolower($val[strlen($val)-1]);
-        if (!is_numeric($last)) {
-            $val = substr($val, 0, -1);
-            switch($last) {
-                case 'g':
-                    $val *= 1024;
-                case 'm':
-                    $val *= 1024;
-                case 'k':
-                    $val *= 1024;
-            }
-        }
-        return $val;
-    }
-
 }
