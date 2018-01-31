@@ -239,7 +239,7 @@ define([
             var storeInstance = backend(storeName);
 
             if(!isStorageApiValid(storeInstance)){
-                return Promise.reject(new TypeError('The backend doesn\'t comply with the Storage interface'));
+                return Promise.reject(new TypeError('The store doesn\'t comply with the Storage interface'));
             }
 
 

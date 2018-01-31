@@ -132,7 +132,7 @@ define(['core/store', 'core/promise'], function(store, Promise){
             assert.ok(false, 'The backend should not be validated');
         }).catch(function(err){
             assert.ok(err instanceof TypeError, 'The error is the one expected');
-            assert.equal(err.message, 'This backend does comply with the store backend API', 'The error message is the one expected');
+            assert.equal(err.message, 'This backend doesn\'t comply with the store backend API', 'The error message is the one expected');
 
             QUnit.start();
         });
@@ -152,7 +152,7 @@ define(['core/store', 'core/promise'], function(store, Promise){
             assert.ok(false, 'The backend should not be validated');
         }).catch(function(err){
             assert.ok(err instanceof TypeError, 'The error is the one expected');
-            assert.equal(err.message, 'This backend does comply with the store backend API', 'The error message is the one expected');
+            assert.equal(err.message, 'This backend doesn\'t comply with the store backend API', 'The error message is the one expected');
 
             QUnit.start();
         });
@@ -174,7 +174,7 @@ define(['core/store', 'core/promise'], function(store, Promise){
             assert.ok(false, 'The backend should not be validated');
         }).catch(function(err){
             assert.ok(err instanceof TypeError, 'The error is the one expected');
-            assert.equal(err.message, 'The backend does not comply with the Storage interface', 'The error message is the one expected');
+            assert.equal(err.message, 'The store doesn\'t comply with the Storage interface', 'The error message is the one expected');
 
             QUnit.start();
         });
@@ -200,7 +200,7 @@ define(['core/store', 'core/promise'], function(store, Promise){
             assert.ok(false, 'The backend should not be validated');
         }).catch(function(err){
             assert.ok(err instanceof TypeError, 'The error is the one expected');
-            assert.equal(err.message, 'The backend does not comply with the Storage interface', 'The error message is the one expected');
+            assert.equal(err.message, 'The store doesn\'t comply with the Storage interface', 'The error message is the one expected');
 
             QUnit.start();
         });
