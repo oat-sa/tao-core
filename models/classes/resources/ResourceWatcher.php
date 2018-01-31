@@ -21,13 +21,9 @@
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\event\ResourceCreated;
-use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\Search;
-use oat\tao\model\search\SearchService;
-use oat\tao\model\search\tasks\DeleteSearchIndex;
 use oat\tao\model\TaoOntology;
 
 /**
