@@ -263,6 +263,21 @@ select {
     }
 }
 
+input[type="password"].viewable-hiddenbox-input {
+    @include border-radius-right(0);
+    border-right-width: 0;
+}
+
+.viewable-hiddenbox-toggle {
+    @include simple-border();
+    @include border-radius-right(2);
+    @include border-radius-left(0);
+    background-color: white;
+    border-left-width: 0;
+    padding: 2px 4px 0;
+    color: whiten($textColor, .3);
+}
+
 .form_radlst {
 
     input[type="radio"],
@@ -635,6 +650,19 @@ label {
     select, textarea, .form_radlst {
         width: 65%;
         max-width: none;
+    }
+
+    .viewable-hiddenbox {
+        display: flex;
+        label {
+            flex: 0 0 35%;
+        }
+        input {
+            flex: 1 1 auto;
+        }
+        .viewable-hiddenbox-toggle {
+            flex: 0 0 20px;
+        }
     }
 
     .form_radlst {
