@@ -27,6 +27,7 @@ use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\tao\model\search\Search;
 
 /**
  * Class IndexService
@@ -50,9 +51,10 @@ class IndexService extends ConfigurableService
     public function fullReIndex(IndexIterator $indexIterator)
     {
         $counts = 0;
-        $searchService = SearchService::getSearchImplementation();
+        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         if ($searchService->supportCustomIndex()) {
-            $counts = $searchService->fullReIndex($indexIterator);
+            $counts = $searchService->flush();
+            $counts = $searchService->index($indexIterator);
             $reIndexClasses = $this->getOption('customReIndexClasses');
             if ($reIndexClasses) {
                 foreach ($reIndexClasses as $reIndexClass) {

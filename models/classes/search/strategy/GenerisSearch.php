@@ -60,11 +60,10 @@ class GenerisSearch extends ConfigurableService implements Search
     
     /**
      * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::fullReIndex()
+     * @see \oat\tao\model\search\Search::flush()
      */
-    public function fullReIndex(\Traversable $indexIterator) {
-        // no indexation required
-        return 0;
+    public function flush() {
+        // no flushing required
     }
 
     /**

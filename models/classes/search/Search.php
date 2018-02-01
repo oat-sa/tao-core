@@ -46,12 +46,9 @@ interface Search extends PhpSerializable
     public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
 
     /**
-     * Full reindex the documents given as a traversable.
-     * Flush all indexes and generated new ones
-     *
-     * @param \Traversable $IndexIterator
+     * Delete all indexes
      */
-    public function fullReIndex(\Traversable $IndexIterator);
+    public function flush();
 
     /**
      * (Re)Generate the index for a given document
