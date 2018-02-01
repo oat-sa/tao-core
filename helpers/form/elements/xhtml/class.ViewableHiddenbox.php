@@ -41,33 +41,80 @@ class tao_helpers_form_elements_xhtml_ViewableHiddenbox extends tao_helpers_form
     public function render()
     {
         $uid = helpers_Random::generateString(24);
-        $iconPreview = tao_helpers_Icon::iconPreview();
 
         $this->addClass('viewable-hiddenbox-input');
         $this->addAttribute('data-identifier', $uid);
 
+        $value = _dh($this->value);
+
         $html = <<<HTML
 <span class="viewable-hiddenbox">
     {$this->renderLabel()}
-    <input type='password' name='{$this->name}' id='{$this->name}' {$this->renderAttributes()} value="{_dh($this->value)}"/>
-    <span class="viewable-hiddenbox-toggle" data-identifier="{$uid}">{$iconPreview}</span>
+    <input type='password' name='{$this->name}' id='{$this->name}' {$this->renderAttributes()} value='{$value}'/>
+    <span class="viewable-hiddenbox-toggle" data-identifier="{$uid}"></span>
 </span>
 HTML;
 
         $script = <<<SCRIPT
 <script type="text/javascript">
     (function() {
-        var input = document.querySelector('input[data-identifier="$uid"]');
-        var toggle = document.querySelector('.viewable-hiddenbox-toggle[data-identifier="$uid"]');
+        var input = document.querySelector('input[data-identifier="$uid"]'),
+            toggle = document.querySelector('.viewable-hiddenbox-toggle[data-identifier="$uid"]'),
+            
+            iconView = document.createElement('span'),
+            iconHide = document.createElement('span');
         
-        var onmousedown = function() {
+        var show = function() {
+            toggle.removeChild(iconView);
+            toggle.appendChild(iconHide);
             input.type = 'text';
-            window.addEventListener('mouseup', onmouseup);
         };
-        var onmouseup = function() {
+        var hide = function() {
+            toggle.appendChild(iconView);
+            toggle.removeChild(iconHide);
             input.type = 'password';
-            window.removeEventListener('mouseup', onmouseup);
         };
+        var hideOnBlur = function() {
+            hide();
+            input.removeEventListener(hideOnBlur);
+        };
+        
+        iconView.classList.add('icon-preview');
+        iconHide.classList.add('icon-eye-slash');
+        toggle.appendChild(iconView);
+        
+        toggle.addEventListener('click', function() {
+            if (iconView.parentElement) {
+                show();
+                input.focus(); // force focus so it makes sense to listen to the blur event
+            } else {
+                hide();
+            }
+        });
+        
+        // make sure always submit the form with an password input
+        input.addEventListener('blur', hideOnBlur);
+        
+        /*
+        var getContainingForm = function() {
+            var formFound = false,
+                el = input.parentElement;
+            
+            while(el && el.nodeName !== 'BODY' && !formFound) {
+                formFound = (el.nodeName === 'FORM');
+                if (!formFound) {
+                    el = el.parentElement;
+                }
+            }
+            return (formFound) ? el : false;
+        };
+        var form = getContainingForm();
+
+        if (form) {
+            //form.addEventListener('submit', hide);
+        }
+        
+        */
         
         toggle.addEventListener('mousedown', onmousedown);
     })();

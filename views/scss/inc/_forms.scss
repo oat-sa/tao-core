@@ -7,7 +7,6 @@ input:-webkit-autofill {
 
 // Harmonize focus style between browsers
 @mixin focus-style {
-    outline: none;
     border: 1px solid $info !important;
     &:-webkit-autofill {
         border-color: $autofillFocusBorderColor !important;
@@ -17,6 +16,9 @@ input,
 select,
 textarea {
     &:focus {
+        outline: none;
+    }
+    &:not(.error):focus {
         @include focus-style;
     }
 }
@@ -314,7 +316,7 @@ input[type="password"].viewable-hiddenbox-input {
     border-color: $error;
 }
 
-.viewable-hiddenbox-input:focus + .viewable-hiddenbox-toggle {
+.viewable-hiddenbox-input:focus:not(.error) + .viewable-hiddenbox-toggle {
     @include focus-style();
     border-left:0 !important;
 }
