@@ -79,7 +79,7 @@ class OntologyIndexService
             throw new \common_exception_InconsistentData("Several index exist with the identifier ".$identifier);
         }
         return count($resources) > 0
-            ? new Index(array_shift($resources))
+            ? new OntologyIndex(array_shift($resources))
             : null;
     }
     
