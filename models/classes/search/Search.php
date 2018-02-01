@@ -20,10 +20,8 @@
  */
 namespace oat\tao\model\search;
 
-use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
-use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexIterator;
 
 /**
@@ -56,22 +54,13 @@ interface Search extends PhpSerializable
     public function fullReIndex(\Traversable $IndexIterator);
 
     /**
-     * Index the documents given as a traversable
-     * If index is already exist, then it will merge the fields in index with the existing document
-     *
-     * @param \Traversable $IndexIterator
-     * @return mixed
-     */
-    public function addIndexes(\Traversable $IndexIterator);
-
-    /**
      * (Re)Generate the index for a given document
      * If index is already exist, then it will merge the fields in index with the existing document
      *
-     * @param IndexDocument $document
+     * @param IndexIterator|array $documents
      * @return boolean true if successfully indexed
      */
-    public function index(IndexDocument $document);
+    public function index($documents = []);
 
     /**
      * Remove a resource from the index

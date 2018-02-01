@@ -24,6 +24,8 @@ use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\SearchService;
 use oat\tao\model\TaoOntology;
 
 /**
