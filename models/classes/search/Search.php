@@ -48,7 +48,8 @@ interface Search extends PhpSerializable
     public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
 
     /**
-     * Full reindex the documents given as a traversable
+     * Full reindex the documents given as a traversable.
+     * Flush all indexes and generated new ones
      *
      * @param \Traversable $IndexIterator
      */
@@ -56,6 +57,7 @@ interface Search extends PhpSerializable
 
     /**
      * Index the documents given as a traversable
+     * If index is already exist, then it will merge the fields in index with the existing document
      *
      * @param \Traversable $IndexIterator
      * @return mixed
@@ -63,7 +65,8 @@ interface Search extends PhpSerializable
     public function addIndexes(\Traversable $IndexIterator);
 
     /**
-     * (Re)Generate the index for a given resource
+     * (Re)Generate the index for a given document
+     * If index is already exist, then it will merge the fields in index with the existing document
      *
      * @param IndexDocument $document
      * @return boolean true if successfully indexed
