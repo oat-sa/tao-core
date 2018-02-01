@@ -35,22 +35,46 @@ class tao_helpers_form_elements_xhtml_ViewableHiddenbox extends tao_helpers_form
      * Short description of method render
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Christophe Noël <christophe@taotesting.com>
      * @return string
      */
     public function render()
     {
-        $this->addClass('viewable-hiddenbox-input');
-        $returnValue = ''
-            . '<span class="viewable-hiddenbox">'
-            . $this->renderLabel()
-            . "<input type='password' name='{$this->name}' id='{$this->name}' "
-            . $this->renderAttributes()
-            . ' value="' . _dh($this->value) . '"  />'
-            . '<span class="viewable-hiddenbox-toggle">' . tao_helpers_Icon::iconPreview() . '</span>'
-            . '</span>'
-        ;
+        $uid = helpers_Random::generateString(24);
+        $iconPreview = tao_helpers_Icon::iconPreview();
 
-        return (string) $returnValue;
+        $this->addClass('viewable-hiddenbox-input');
+        $this->addAttribute('data-identifier', $uid);
+
+        $html = <<<HTML
+<span class="viewable-hiddenbox">
+    {$this->renderLabel()}
+    <input type='password' name='{$this->name}' id='{$this->name}' {$this->renderAttributes()} value="{_dh($this->value)}"/>
+    <span class="viewable-hiddenbox-toggle" data-identifier="{$uid}">{$iconPreview}</span>
+</span>
+HTML;
+
+        $script = <<<SCRIPT
+<script type="text/javascript">
+    (function() {
+        var input = document.querySelector('input[data-identifier="$uid"]');
+        var toggle = document.querySelector('.viewable-hiddenbox-toggle[data-identifier="$uid"]');
+        
+        var onmousedown = function() {
+            input.type = 'text';
+            window.addEventListener('mouseup', onmouseup);
+        };
+        var onmouseup = function() {
+            input.type = 'password';
+            window.removeEventListener('mouseup', onmouseup);
+        };
+        
+        toggle.addEventListener('mousedown', onmousedown);
+    })();
+</script>
+SCRIPT;
+
+
+        return (string) ($html . $script);
     }
 }

@@ -1,3 +1,26 @@
+// Input autofill style
+$autofillFocusBorderColor: $colorWheel-01;
+$autofillBgColor: rgb(250, 255, 189); // = Chrome default setting
+input:-webkit-autofill {
+    background-color: $autofillBgColor !important;
+}
+
+// Harmonize focus style between browsers
+@mixin focus-style {
+    outline: none;
+    border: 1px solid $info !important;
+    &:-webkit-autofill {
+        border-color: $autofillFocusBorderColor !important;
+    }
+}
+input,
+select,
+textarea {
+    &:focus {
+        @include focus-style;
+    }
+}
+
 label, .form_desc {
     display: inline-block;
     cursor: pointer;
@@ -263,19 +286,45 @@ select {
     }
 }
 
+input[type="text"].viewable-hiddenbox-input,
 input[type="password"].viewable-hiddenbox-input {
     @include border-radius-right(0);
     border-right-width: 0;
+    &:focus {
+        border-right-width: 0 !important;
+    }
 }
 
 .viewable-hiddenbox-toggle {
     @include simple-border();
     @include border-radius-right(2);
     @include border-radius-left(0);
-    background-color: white;
     border-left-width: 0;
     padding: 2px 4px 0;
+    background-color: white;
     color: whiten($textColor, .3);
+    cursor: pointer;
+
+    &:hover {
+        color: $textColor;
+    }
+}
+
+.viewable-hiddenbox-input.error + .viewable-hiddenbox-toggle {
+    border-color: $error;
+}
+
+.viewable-hiddenbox-input:focus + .viewable-hiddenbox-toggle {
+    @include focus-style();
+    border-left:0 !important;
+}
+
+.viewable-hiddenbox-input:-webkit-autofill + .viewable-hiddenbox-toggle {
+    background-color: $autofillBgColor;
+}
+
+.viewable-hiddenbox-input:-webkit-autofill:focus + .viewable-hiddenbox-toggle {
+    border-color: $autofillFocusBorderColor !important;
 }
 
 .form_radlst {
@@ -655,10 +704,11 @@ label {
     .viewable-hiddenbox {
         display: flex;
         label {
-            flex: 0 0 35%;
+            flex: 0 0 auto;
         }
         input {
             flex: 1 1 auto;
+            height: 100%; // Safari fix
         }
         .viewable-hiddenbox-toggle {
             flex: 0 0 20px;
