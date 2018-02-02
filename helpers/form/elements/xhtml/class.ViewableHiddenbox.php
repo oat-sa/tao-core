@@ -77,7 +77,7 @@ HTML;
             input.focus();
         };
         
-        var hide = function(event) {
+        var hide = function() {
             if (!iconView.parentElement) {
                 toggle.appendChild(iconView);
             }
