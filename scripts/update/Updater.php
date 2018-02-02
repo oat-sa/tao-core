@@ -1065,7 +1065,19 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($this->isVersion('15.13.0')) {
-            $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService());
+            $indexMapConfig = [
+                IndexService::INDEX_MAP_PROPERTY => [
+                    IndexService::INDEX_MAP_PROPERTY_DEFAULT => [
+                        'label',
+                        'content'
+                    ],
+                    IndexService::INDEX_MAP_PROPERTY_FUZZY => [
+                        'label',
+                        'content'
+                    ]
+                ]
+            ];
+            $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService($indexMapConfig));
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);

@@ -42,13 +42,14 @@ class IndexService extends ConfigurableService
     const SERVICE_ID = 'tao/IndexService';
     const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
+    const INDEX_MAP_PROPERTY = 'indexMap';
 
     /** @var array */
     private $map;
 
     /**
      * Run a full reindexing
-     * @return int number of resources indexed 
+     * @return int number of resources indexed
      */
     public function runIndexing()
     {
@@ -119,7 +120,8 @@ class IndexService extends ConfigurableService
      * @return mixed
      * @throws \common_Exception
      */
-    public function getIndexProperties(OntologyIndex $index) {
+    public function getIndexProperties(OntologyIndex $index)
+    {
         if (!isset($this->map[$index->getIdentifier()])) {
             $indexProperty = new IndexProperty(
                 $index->getIdentifier(),
@@ -158,6 +160,56 @@ class IndexService extends ConfigurableService
         }
 
         return $classes;
+    }
+
+    /**
+     * @param $name
+     * @return $this
+     */
+    public function addDefaultIndexMap($name)
+    {
+        $indexMap = $this->getOption(self::INDEX_MAP_PROPERTY);
+        $indexMap[self::INDEX_MAP_PROPERTY_DEFAULT][] = $name;
+        $indexMap[self::INDEX_MAP_PROPERTY_DEFAULT] = array_unique($indexMap[self::INDEX_MAP_PROPERTY_DEFAULT]);
+        $this->setOption(self::INDEX_MAP_PROPERTY, $indexMap);
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return $this
+     */
+    public function addFuzzyIndexMap($name)
+    {
+        $indexMap = $this->getOption(self::INDEX_MAP_PROPERTY);
+        $indexMap[self::INDEX_MAP_PROPERTY_FUZZY][] = $name;
+        $indexMap[self::INDEX_MAP_PROPERTY_FUZZY] = array_unique($indexMap[self::INDEX_MAP_PROPERTY_FUZZY]);
+        $this->setOption(self::INDEX_MAP_PROPERTY, $indexMap);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultIndexMap()
+    {
+        $indexMap = $this->getOption(self::INDEX_MAP_PROPERTY);
+        if (isset($indexMap[self::INDEX_MAP_PROPERTY_DEFAULT])) {
+            return $indexMap[self::INDEX_MAP_PROPERTY_DEFAULT];
+        }
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getFuzzyIndexMap()
+    {
+        $indexMap = $this->getOption(self::INDEX_MAP_PROPERTY);
+        if (isset($indexMap[self::INDEX_MAP_PROPERTY_FUZZY])) {
+            return $indexMap[self::INDEX_MAP_PROPERTY_FUZZY];
+        }
+        return [];
     }
 
     protected function getIndexedClasses()
