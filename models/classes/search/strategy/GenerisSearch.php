@@ -97,12 +97,10 @@ class GenerisSearch extends ConfigurableService implements Search
     }
     
     /**
-     * (Re)Generate the index for a given resource
-     *
-     * @param IndexDocument $document
-     * @return boolean true if successfully indexed
-    */
-    public function index(IndexDocument $document)
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::index()
+     */
+    public function index($document = [])
     {
         // nothing to do
         return true;
