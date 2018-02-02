@@ -221,21 +221,28 @@ class Layout
             }
         }
 
+        return static::getDefaultLogoUrl();
+    }
+
+    /**
+     * Returns the default logo url.
+     *
+     * @return string
+     */
+    public static function getDefaultLogoUrl()
+    {
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
-                $logoFile = Template::img('tao-logo-alpha.png', 'tao');
+                return Template::img('tao-logo-alpha.png', 'tao');
                 break;
             case 'beta':
             case 'demoB':
-                $logoFile = Template::img('tao-logo-beta.png', 'tao');
-                break;
-            default:
-                $logoFile = Template::img('tao-logo.png', 'tao');
+                return Template::img('tao-logo-beta.png', 'tao');
                 break;
         }
 
-        return $logoFile;
+        return $logoFile = Template::img('tao-logo.png', 'tao');
     }
 
     /**
