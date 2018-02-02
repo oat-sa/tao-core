@@ -37,13 +37,13 @@ interface Search extends PhpSerializable
      * Search for instances using a Lucene query
      *
      * @param string $queryString
-     * @param core_kernel_classes_Class $rootClass
+     * @param string $rootClass
      * @param int $start
      * @param int $count
      *
      * @return ResultSet
      */
-    public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
+    public function query( $queryString, $type, $start = 0, $count = 10 );
 
     /**
      * Delete all indexes

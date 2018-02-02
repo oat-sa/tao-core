@@ -84,7 +84,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
 
             //  if there is no results based on considering the query as URI
             if (empty($results)) {
-                $results = $this->getServiceLocator()->get(Search::SERVICE_ID)->query($query, $class, $startRow, $rows);
+                $results = $this->getServiceLocator()->get(Search::SERVICE_ID)->query($query, $class->getUri(), $startRow, $rows);
             }
 
             $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );

@@ -26,6 +26,7 @@ use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -35,12 +36,14 @@ use oat\oatbox\service\ConfigurableService;
  */
 class GenerisSearch extends ConfigurableService implements Search
 {
+    use OntologyAwareTrait;
 
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $rootClass = null, $start = 0, $count = 10) {
+    public function query($queryString, $type, $start = 0, $count = 10) {
+        $rootClass = $this->getClass($type);
         $results = $rootClass->searchInstances(array(
             OntologyRdfs::RDFS_LABEL => $queryString
         ), array(
