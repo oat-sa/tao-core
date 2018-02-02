@@ -66,8 +66,6 @@ class tao_actions_form_Login
      */
     public function initElements()
     {
-
-
     	if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
 			$hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
 			$hiddenElt->setValue($this->data['redirect']);
@@ -79,7 +77,10 @@ class tao_actions_form_Login
 		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($loginElt);
 
-		$passElt = tao_helpers_form_FormFactory::getElement('password', 'ViewableHiddenbox');
+		$passwordWidgetId = (isset($this->data['enablePasswordReveal']) && !empty($this->data['enablePasswordReveal']))
+            ? 'ViewableHiddenbox'
+            : 'Hiddenbox';
+		$passElt = tao_helpers_form_FormFactory::getElement('password', $passwordWidgetId);
 		$passElt->setDescription(Layout::getPasswordLabel());
 		$passElt->addValidator(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty')
