@@ -72,6 +72,7 @@ HTML;
                 toggle.appendChild(iconHide);
             }
             input.type = 'text';
+            input.autocomplete = 'off';
             window.addEventListener('mousedown', autoHide); // make sure always submit the form with an password input
             input.focus();
         };
@@ -84,6 +85,7 @@ HTML;
                 toggle.removeChild(iconHide);
             }
             input.type = 'password';
+            input.autocomplete = 'on';
             window.removeEventListener('mousedown', autoHide);
         };
         
