@@ -23,6 +23,7 @@ namespace oat\tao\test;
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use tao_models_classes_GenerisService;
 use \tao_models_classes_TaoService;
@@ -146,7 +147,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
 		
 		//get the properties between 2 classes
-		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
+		$itemClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM);
 		$itemSubClasses = $itemClass->getSubClasses(false);
 		if(count($itemSubClasses) > 0){
 			foreach($itemSubClasses as $testClass){ break; }
