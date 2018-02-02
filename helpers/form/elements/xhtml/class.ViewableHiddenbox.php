@@ -62,61 +62,62 @@ HTML;
             toggle = document.querySelector('.viewable-hiddenbox-toggle[data-identifier="$uid"]'),
             
             iconView = document.createElement('span'),
-            iconHide = document.createElement('span');
+            iconHide = document.createElement('span'),
+            
+            hasBlurred = false; // this is used to prevent double toggling if the blur happens with a click on the toggle itself
         
         var show = function() {
-            toggle.removeChild(iconView);
-            toggle.appendChild(iconHide);
+            if (iconView.parentElement) {
+                toggle.removeChild(iconView);
+            }
+            if (!iconHide.parentElement) {
+                toggle.appendChild(iconHide);
+            }
             input.type = 'text';
         };
         var hide = function() {
-            toggle.appendChild(iconView);
-            toggle.removeChild(iconHide);
+            if (!iconView.parentElement) {
+                toggle.appendChild(iconView);
+            }
+            if (iconHide.parentElement) {
+                toggle.removeChild(iconHide);
+            }
             input.type = 'password';
         };
-        var hideOnBlur = function() {
-            hide();
-            input.removeEventListener(hideOnBlur);
+        var stopBlurring = function() {
+            console.log('stopping blur in window listener');
+            hasBlurred = false;
+            window.removeEventListener('click', stopBlurring);
         };
         
         iconView.classList.add('icon-preview');
         iconHide.classList.add('icon-eye-slash');
-        toggle.appendChild(iconView);
+        hide();
         
         toggle.addEventListener('click', function() {
-            if (iconView.parentElement) {
-                show();
-                input.focus(); // force focus so it makes sense to listen to the blur event
-            } else {
-                hide();
+            console.log('toggle click => blur =', hasBlurred);
+
+            if (!hasBlurred) {
+                if (input.type === 'password') {
+                    show();
+                    input.focus(); // force focus so it makes sense to listen to the blur event
+                } else {
+                    hide();
+                }
             }
         });
         
+        
+        
         // make sure always submit the form with an password input
-        input.addEventListener('blur', hideOnBlur);
-        
-        /*
-        var getContainingForm = function() {
-            var formFound = false,
-                el = input.parentElement;
-            
-            while(el && el.nodeName !== 'BODY' && !formFound) {
-                formFound = (el.nodeName === 'FORM');
-                if (!formFound) {
-                    el = el.parentElement;
-                }
+        input.addEventListener('blur', function() {
+            if (input.type === 'text') {
+                console.log('blur');
+                hide();
+                hasBlurred = true;
+                window.addEventListener('click', stopBlurring);                
             }
-            return (formFound) ? el : false;
-        };
-        var form = getContainingForm();
-
-        if (form) {
-            //form.addEventListener('submit', hide);
-        }
-        
-        */
-        
-        toggle.addEventListener('mousedown', onmousedown);
+        });
     })();
 </script>
 SCRIPT;
