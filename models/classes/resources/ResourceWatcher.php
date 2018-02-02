@@ -87,14 +87,11 @@ class ResourceWatcher extends ConfigurableService
     public function catchDeletedResourceEvent(ResourceDeleted $event)
     {
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        if ($searchService->supportCustomIndex()) {
-            $documentId = $event->getId();
-            try {
-                $searchService->remove($documentId);
-            } catch (\Exception $e) {
-                $message = $e->getMessage();
-                \common_Logger::e("Error delete index document for $documentId with message $message");
-            }
+        try {
+            $searchService->remove($event->getId());
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            \common_Logger::e("Error delete index document for $documentId with message $message");
         }
     }
 
