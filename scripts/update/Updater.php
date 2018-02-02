@@ -1061,9 +1061,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('15.5.0');
         }
 
-        $this->skip('15.5.0', '15.11.1');
+        $this->skip('15.5.0', '15.12.0');
 
-        if ($this->isVersion('15.11.1')) {
+        if ($this->isVersion('15.12.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('15.13.0');
+        }
+
+        if ($this->isVersion('15.13.0')) {
             $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService());
 
             /** @var EventManager $eventManager */
