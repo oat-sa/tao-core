@@ -21,7 +21,7 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\Index;
+use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -35,13 +35,13 @@ class tao_actions_form_IndexProperty
     extends tao_helpers_form_FormContainer
 {
     /**
-     * @var Index
+     * @var OntologyIndex
      */
     protected $index;
 
     protected $prefix;
 
-    public function __construct(Index $index, $prefix)
+    public function __construct(OntologyIndex $index, $prefix)
     {
         $this->index = $index;
         $this->prefix = $prefix;
@@ -49,7 +49,7 @@ class tao_actions_form_IndexProperty
     }
 
     /**
-     * @return Index
+     * @return OntologyIndex
      */
     public function getIndex()
     {
@@ -101,7 +101,7 @@ class tao_actions_form_IndexProperty
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_TRUE)  => __('True'),
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE) => __('False')
         );
-        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(Index::PROPERTY_INDEX_FUZZY_MATCHING), 'Radiobox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(OntologyIndex::PROPERTY_INDEX_FUZZY_MATCHING), 'Radiobox');
         $propIndexElt->setOptions($options);
         $propIndexElt->setDescription(__('Fuzzy Matching'));
         $propIndexElt->addAttribute('class', 'index');
@@ -113,7 +113,7 @@ class tao_actions_form_IndexProperty
 
         //get and add identifier (Text)
         $identifier = (!is_null($indexProperty))?$indexProperty->getIdentifier():'';
-        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(Index::PROPERTY_INDEX_IDENTIFIER), 'Textbox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(OntologyIndex::PROPERTY_INDEX_IDENTIFIER), 'Textbox');
         $propIndexElt->setDescription(__('Identifier'));
         $propIndexElt->addAttribute('class', 'index');
         $propIndexElt->addAttribute('data-related-index', $indexUri);
@@ -129,7 +129,7 @@ class tao_actions_form_IndexProperty
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_TRUE)  => __('True'),
             tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE) => __('False')
         );
-        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(Index::PROPERTY_DEFAULT_SEARCH), 'Radiobox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(OntologyIndex::PROPERTY_DEFAULT_SEARCH), 'Radiobox');
         $propIndexElt->setOptions($options);
         $propIndexElt->setDescription(__('Default search'));
         $propIndexElt->addAttribute('class', 'index');
@@ -146,9 +146,9 @@ class tao_actions_form_IndexProperty
         foreach($tokenizerRange->getInstances() as $value){
             $options[tao_helpers_Uri::encode($value->getUri())] = $value->getLabel();
         }
-        $tokenizer = (!is_null($indexProperty))?$indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(Index::PROPERTY_INDEX_TOKENIZER)):null;
+        $tokenizer = (!is_null($indexProperty))?$indexProperty->getOnePropertyValue(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX_TOKENIZER)):null;
         $tokenizer = (get_class($tokenizer) === 'core_kernel_classes_Resource')?$tokenizer->getUri():'';
-        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(Index::PROPERTY_INDEX_TOKENIZER), 'Combobox');
+        $propIndexElt = tao_helpers_form_FormFactory::getElement($this->prefix."_".tao_helpers_Uri::encode(OntologyIndex::PROPERTY_INDEX_TOKENIZER), 'Combobox');
         $propIndexElt->setDescription(__('Tokenizer'));
         $propIndexElt->addAttribute('class', 'index');
         $propIndexElt->addAttribute('data-related-index', $indexUri);
