@@ -21,6 +21,7 @@
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -47,7 +48,6 @@ class ResourceWatcher extends ConfigurableService
 
     /**
      * @param ResourceCreated $event
-     * @return \common_report_Report
      */
     public function catchCreatedResourceEvent(ResourceCreated $event)
     {
@@ -58,15 +58,10 @@ class ResourceWatcher extends ConfigurableService
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
-        $report = \common_report_Report::createSuccess();
-        return $report;
-
     }
 
     /**
      * @param ResourceUpdated $event
-     * @return \common_report_Report
-     * @throws \common_exception_InconsistentData
      * @throws \core_kernel_persistence_Exception
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event)
@@ -84,6 +79,23 @@ class ResourceWatcher extends ConfigurableService
             $resource->editPropertyValues($property, $now);
         }
 
+    }
+
+    /**
+     * @param ResourceDeleted $event
+     */
+    public function catchDeletedResourceEvent(ResourceDeleted $event)
+    {
+        $searchService = SearchService::getSearchImplementation();
+        if ($searchService->supportCustomIndex()) {
+            $documentId = $event->getId();
+            try {
+                $searchService->remove($documentId);
+            } catch (\Exception $e) {
+                $message = $e->getMessage();
+                \common_Logger::e("Error delete index document for $documentId with message $message");
+            }
+        }
     }
 
      /**

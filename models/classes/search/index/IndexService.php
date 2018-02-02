@@ -53,7 +53,6 @@ class IndexService extends ConfigurableService
         $counts = 0;
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         if ($searchService->supportCustomIndex()) {
-            $counts = $searchService->flush();
             $counts = $searchService->index($indexIterator);
             $reIndexClasses = $this->getOption('customReIndexClasses');
             if ($reIndexClasses) {
