@@ -19,6 +19,10 @@ textarea {
     }
 }
 
+input {
+    -webkit-appearance: none; // remove iOS default styling (inner shadow)
+}
+
 label, .form_desc {
     display: inline-block;
     cursor: pointer;
@@ -288,6 +292,7 @@ input[type="text"].viewable-hiddenbox-input,
 input[type="password"].viewable-hiddenbox-input {
     @include border-radius-right(0);
     border-right-width: 0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0); // remove the gray overlay when input field is tapped on iPad
     &:focus {
         border-right-width: 0 !important;
     }
@@ -712,7 +717,7 @@ label {
             height: 100%; // Safari fix
         }
         .viewable-hiddenbox-toggle {
-            flex: 0 0 20px;
+            flex: 0 0 24px;
         }
     }
 
