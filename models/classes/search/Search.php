@@ -57,7 +57,7 @@ interface Search extends PhpSerializable
      * @param IndexIterator|array $documents
      * @return boolean true if successfully indexed
      */
-    public function index($documents = []);
+    public function index($documents);
 
     /**
      * Remove a resource from the index

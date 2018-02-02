@@ -29,6 +29,7 @@ use oat\tao\model\search\index\IndexService;
  * Search service
  * 
  * @author Joel Bout <joel@taotesting.com>
+ * @deprecated
  */
 class SearchService
 {	
@@ -59,32 +60,7 @@ class SearchService
      */
     static public function runIndexing() 
     {
-        $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
-        $indexIterator = new IndexIterator($iterator);
-        /** @var IndexService $indexService */
         $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
-        return $indexService->fullReIndex($indexIterator);
-    }
-    
-    /**
-     * returns the root classes to index
-     * 
-     * @return array
-     */
-    static protected function getIndexedClasses() 
-    {
-        $classes = array();
-        foreach (MenuService::getAllPerspectives() as $perspective) {
-            foreach ($perspective->getChildren() as $structure) {
-                foreach ($structure->getTrees() as $tree) {
-                    $rootNode = $tree->get('rootNode');
-                    if (!empty($rootNode)) {
-                        $classes[$rootNode] = new \core_kernel_classes_Class($rootNode);
-                    }
-                }
-            }
-        }
-        
-        return array_values($classes);
+        return $indexService->runIndexing();
     }
 }

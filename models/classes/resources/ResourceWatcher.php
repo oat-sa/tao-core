@@ -26,8 +26,8 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\index\IndexService;
-use oat\tao\model\search\SearchService;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\search\Search;
 
 /**
  * Class ResourceWatcher
@@ -86,7 +86,7 @@ class ResourceWatcher extends ConfigurableService
      */
     public function catchDeletedResourceEvent(ResourceDeleted $event)
     {
-        $searchService = SearchService::getSearchImplementation();
+        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         if ($searchService->supportCustomIndex()) {
             $documentId = $event->getId();
             try {

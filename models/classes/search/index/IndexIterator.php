@@ -19,13 +19,17 @@
 namespace oat\tao\model\search\index;
 
 use oat\oatbox\service\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class IndexIterator
  * @package oat\tao\model\search\index
  */
-class IndexIterator extends \IteratorIterator
+class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     /** @var IndexService  */
     private $indexService = null;
 
@@ -34,7 +38,7 @@ class IndexIterator extends \IteratorIterator
      */
     protected function getIndexer() {
         if (is_null($this->indexService)) {
-            $this->indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
+            $this->indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
         }
 
         return $this->indexService;

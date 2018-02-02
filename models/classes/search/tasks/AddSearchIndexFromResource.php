@@ -28,6 +28,7 @@ use oat\taoTaskQueue\model\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\Search;
 
 /**
  * Class AddSearchIndexFromResource
@@ -58,7 +59,7 @@ class AddSearchIndexFromResource implements Action,ServiceLocatorAwareInterface,
 
         try {
             $document = $indexService->createDocumentFromResource($resource);
-            SearchService::getSearchImplementation()->index($document);
+            $this->getServiceLocator()->get(Search::SERVICE_ID)->index($document);
         }catch (\Exception $e) {
             $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $resource->getUri(), $e->getMessage())));
         }

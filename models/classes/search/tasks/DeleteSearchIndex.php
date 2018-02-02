@@ -26,6 +26,7 @@ use oat\taoTaskQueue\model\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\Search;
 /**
  * Class DeleteSearchIndex
  *
@@ -60,7 +61,7 @@ class DeleteSearchIndex implements Action,ServiceLocatorAwareInterface, TaskAwar
     protected function deleteIndex($resourceId)
     {
         try {
-            SearchService::getSearchImplementation()->remove($resourceId);
+            $this->getServiceLocator()->get(Search::SERVICE_ID)->remove($resourceId);
             $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Index has been deleted for %s', $resourceId));
         } catch (\Exception $e) {
             $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Failed to delete index for %s', $resourceId));

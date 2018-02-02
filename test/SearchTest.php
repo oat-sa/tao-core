@@ -24,6 +24,7 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tokenizer\RawValue;
+use oat\tao\model\search\strategy\GenerisSearch;
 
 
 /**
@@ -55,7 +56,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
     
     public function testSearchService()
     {
-        $implementation = SearchService::getSearchImplementation();
+        $implementation = new GenerisSearch();
         $this->assertIsA($implementation, 'oat\tao\model\search\Search');
     }
     

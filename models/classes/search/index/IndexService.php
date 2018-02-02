@@ -28,6 +28,8 @@ use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\tao\model\search\Search;
+use oat\tao\model\menu\MenuService;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Class IndexService
@@ -35,6 +37,8 @@ use oat\tao\model\search\Search;
  */
 class IndexService extends ConfigurableService
 {
+    use OntologyAwareTrait;
+
     const SERVICE_ID = 'tao/IndexService';
     const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
@@ -43,18 +47,16 @@ class IndexService extends ConfigurableService
     private $map;
 
     /**
-     * @param IndexIterator $indexIterator
-     * @return int
-     * @throws \common_ext_InstallationException
+     * Run a full reindexing
+     * @return int number of resources indexed 
      */
-    public function fullReIndex(IndexIterator $indexIterator)
+    public function runIndexing()
     {
-        $counts = 0;
+        $iterator = new \core_kernel_classes_ResourceIterator($this->getIndexedClasses());
+        $indexIterator = new IndexIterator($iterator);
+        $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        if ($searchService->supportCustomIndex()) {
-            $counts = $searchService->index($indexIterator);
-        }
-        return $counts;
+        return $searchService->index($indexIterator);
     }
 
     /**
@@ -156,5 +158,21 @@ class IndexService extends ConfigurableService
         }
 
         return $classes;
+    }
+
+    protected function getIndexedClasses()
+    {
+        $classes = array();
+        foreach (MenuService::getAllPerspectives() as $perspective) {
+            foreach ($perspective->getChildren() as $structure) {
+                foreach ($structure->getTrees() as $tree) {
+                    $rootNode = $tree->get('rootNode');
+                    if (!empty($rootNode)) {
+                        $classes[$rootNode] = $this->getClass($rootNode);
+                    }
+                }
+            }
+        }
+        return array_values($classes);
     }
 }

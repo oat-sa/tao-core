@@ -63,8 +63,6 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
-use oat\tao\model\search\SearchService;
-use oat\tao\model\search\zend\ZendSearch;
 use oat\tao\model\ClientLibRegistry;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
@@ -110,6 +108,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\Search;
 
 /**
  *
@@ -157,7 +156,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($this->isVersion('2.7.1')) {
-            SearchService::setSearchImplementation(ZendSearch::createSearch());
+            // Zendsearch deprecated, skip
             $this->setVersion('2.7.2');
         }
 
@@ -330,11 +329,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         // reset the search impl for machines that missed 2.7.1 update due to merge
         if ($this->isVersion('2.7.15') || $this->isVersion('2.7.16')) {
-            try {
-                SearchService::getSearchImplementation();
-                // all good
-            } catch (\common_exception_Error $error) {
-                SearchService::setSearchImplementation(new GenerisSearch());
+            if (!$this->getServiceManager()->has(Search::SERVICE_ID)) {
+                $this->getServiceManager()->register(Search::SERVICE_ID, new GenerisSearch());
             }
             $this->setVersion('2.7.16');
         }
