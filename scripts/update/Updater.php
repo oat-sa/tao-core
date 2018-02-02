@@ -1064,9 +1064,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('15.5.0', '15.11.1');
 
         if ($this->isVersion('15.11.1')) {
-            $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService([
-                IndexService::OPTION_CUSTOM_REINDEX_CLASSES => []
-            ]));
+            $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService());
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);

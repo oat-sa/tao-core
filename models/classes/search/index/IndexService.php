@@ -36,7 +36,6 @@ use oat\tao\model\search\Search;
 class IndexService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/IndexService';
-    const OPTION_CUSTOM_REINDEX_CLASSES  = 'customReIndexClasses';
     const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
 
@@ -54,22 +53,6 @@ class IndexService extends ConfigurableService
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         if ($searchService->supportCustomIndex()) {
             $counts = $searchService->index($indexIterator);
-            $reIndexClasses = $this->getOption('customReIndexClasses');
-            if ($reIndexClasses) {
-                foreach ($reIndexClasses as $reIndexClass) {
-                    if (file_exists($reIndexClass)) {
-                        require_once $reIndexClass;
-                    } elseif (class_exists($reIndexClass) && is_subclass_of($reIndexClass, 'oat\\oatbox\\action\\Action')) {
-                        $action = new $reIndexClass();
-                        if ($action instanceof ServiceLocatorAwareInterface) {
-                            $action->setServiceLocator($this->getServiceLocator());
-                        }
-                        $counts += call_user_func($action, array());
-                    } else {
-                        throw new \common_ext_InstallationException('Unable to run install script '.$reIndexClass);
-                    }
-                }
-            }
         }
         return $counts;
     }
