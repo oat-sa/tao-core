@@ -27,7 +27,7 @@ use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  */
-class tao_helpers_form_elements_xhtml_ViewableHiddenbox extends tao_helpers_form_elements_Viewablehiddenbox
+class tao_helpers_form_elements_xhtml_Viewablehiddenbox extends tao_helpers_form_elements_Viewablehiddenbox
 {
     use XhtmlRenderingTrait;
 

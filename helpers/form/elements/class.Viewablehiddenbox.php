@@ -28,7 +28,7 @@
  * @package tao
 
  */
-abstract class tao_helpers_form_elements_ViewableHiddenbox
+abstract class tao_helpers_form_elements_Viewablehiddenbox
     extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
