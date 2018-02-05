@@ -34,7 +34,6 @@ use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
 
-
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
 return array(
@@ -42,7 +41,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '15.12.0',
+    'version' => '16.1.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=6.7.0'
@@ -62,6 +61,7 @@ return array(
             dirname(__FILE__). '/models/ontology/model.rdf',
             dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf',
             dirname(__FILE__). '/models/ontology/requiredaction.rdf',
+            dirname(__FILE__). '/models/ontology/auth/basicauth.rdf',
         ),
         'checks' => array(
                 array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),
