@@ -2,12 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Test - IndexDB backend storage</title>
+        <title>Test - IndexedDB backend storage</title>
         <base href="../../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
-        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="store/indexdb.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="store/indexeddb.js"></script>
         <script type="text/javascript">
 
             //don't start the test now
@@ -17,7 +17,7 @@
             require(['/tao/ClientConfig/config'], function(){
 
                 //load the test
-                require(['test/core/store/indexdb/test'], function(){
+                require(['test/core/store/indexeddb/test'], function(){
 
                     QUnit.config.reorder = false;
 

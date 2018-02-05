@@ -53,6 +53,14 @@ define([
         assert.notDeepEqual(memoryStorageBackend('foo'), store, 'The factory creates a new object');
     });
 
+    QUnit.test("storage backend", function(assert){
+        QUnit.expect(3);
+
+        assert.equal(typeof memoryStorageBackend.removeAll, 'function', 'The backend exposes the removeAll method');
+        assert.equal(typeof memoryStorageBackend.getAll, 'function', 'The backend exposes the getAll method');
+        assert.equal(typeof memoryStorageBackend.getStoreIdentifier, 'function', 'The backend exposes the getStoreIdentifier method');
+    });
+
     QUnit.test("store", function(assert){
         var store;
         QUnit.expect(7);
@@ -63,12 +71,10 @@ define([
         assert.equal(typeof store.getItem, 'function', 'The store exposes the getItem method');
         assert.equal(typeof store.setItem, 'function', 'The store exposes the setItem method');
         assert.equal(typeof store.removeItem, 'function', 'The store exposes the removetItem method');
+        assert.equal(typeof store.getItems, 'function', 'The store exposes the getItems method');
         assert.equal(typeof store.clear, 'function', 'The store exposes the clear method');
         assert.equal(typeof store.removeStore, 'function', 'The store exposes the removeStore method');
-        assert.equal(typeof memoryStorageBackend.removeAll, 'function', 'The store exposes the removeAll method');
-
     });
-
 
     QUnit.module('CRUD');
 
@@ -214,6 +220,58 @@ define([
         });
     });
 
+    QUnit.asyncTest("getItems", function(assert){
+        var store;
+
+        QUnit.expect(5);
+
+        store = memoryStorageBackend('bar');
+        assert.equal(typeof store, 'object', 'The store is an object');
+
+        Promise.all([
+            store.setItem('zoo', 'zoob'),
+            store.setItem('too', 'toob'),
+            store.setItem('moo', 'moob'),
+            store.setItem('joo', 'joob')
+        ])
+        .then(function(){
+            return store.getItem('joo').then(function(value){
+                assert.equal(value, 'joob', 'The retrieved value is correct');
+            });
+        }).then(function(){
+            return store.getItems().then(function(entries){
+                assert.equal(typeof entries, 'object', 'The entries is an object');
+                assert.deepEqual(entries, {
+                    zoo : 'zoob',
+                    too : 'toob',
+                    moo : 'moob',
+                    joo : 'joob'
+                }, 'The entries contains the store values');
+            });
+        })
+        .then(function(){
+            return store.setItem('yoo', 'yoob');
+        })
+        .then(function(){
+            return store.removeItem('moo');
+        })
+        .then(function(){
+            return store.getItems().then(function(entries){
+                assert.deepEqual(entries, {
+                    zoo : 'zoob',
+                    too : 'toob',
+                    yoo : 'yoob',
+                    joo : 'joob'
+                }, 'The entries contains the updated values');
+            });
+        }).then(function(){
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
+
 
     QUnit.module('Erase');
 
@@ -304,6 +362,53 @@ define([
         });
     });
 
+    QUnit.module('get stores');
+
+    QUnit.asyncTest('get all stores', function(assert){
+        var store1;
+        var store2;
+        var store3;
+
+        QUnit.expect(8);
+
+        assert.equal(typeof memoryStorageBackend.getAll, 'function', 'memorystorage backend exposes the getAll method');
+
+        store1 = memoryStorageBackend('test-store-1');
+        store2 = memoryStorageBackend('test-store-2');
+        store3 = memoryStorageBackend('bar3');
+
+        assert.equal(typeof store1, 'object', 'The store1 is an object');
+        assert.equal(typeof store2, 'object', 'The store2 is an object');
+        assert.equal(typeof store3, 'object', 'The store2 is an object');
+
+        Promise.all([
+            store1.setItem('test', true),
+            store2.setItem('test', true),
+            store3.setItem('test', true)
+        ]).then(function(){
+
+            var validate = function(name){
+                return name === 'test-store-1' || name === 'test-store-2';
+            };
+
+            return memoryStorageBackend.getAll(validate).then(function(storeNames){
+                assert.equal(storeNames.length, 2, 'Two store names have been found');
+                assert.ok(storeNames.indexOf('test-store-1') > -1, 'The 1st store is selected');
+                assert.ok(storeNames.indexOf('test-store-2') > -1, 'The 2nd store is selected');
+                assert.ok(storeNames.indexOf('bar3') === -1, 'The 3rd store is filtered');
+            });
+        })
+        .then(function(){
+            return memoryStorageBackend.removeAll();
+        })
+        .then(function(){
+            QUnit.start();
+        })
+        .catch(function (err) {
+            assert.ok(false, err);
+            QUnit.start();
+        });
+    });
 
     QUnit.module('store id');
 
