@@ -19,10 +19,6 @@ textarea {
     }
 }
 
-input {
-    -webkit-appearance: none; // remove iOS default styling (inner shadow)
-}
-
 label, .form_desc {
     display: inline-block;
     cursor: pointer;
