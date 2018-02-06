@@ -2,5 +2,5 @@
     {{name}}
     <span class="size">{{size}}</span>
     <span class="status"></span>
-    <a href="#" data-delete=":parent li" data-delete-undo="false"><span class="icon-close"></span></a>
+    <a href="#" data-role="delete"><span class="icon-close"></span></a>
 </li>
