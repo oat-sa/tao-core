@@ -11,9 +11,10 @@ define([
     'util/bytes',
     'tpl!ui/uploader/uploader',
     'tpl!ui/uploader/fileEntry',
+    'ui/deleter',
     'ui/filesender',
     'ui/progressbar'
-], function($, _, __, async, Pluginifier, context, bytes, uploaderTpl, fileEntryTpl){
+], function($, _, __, async, Pluginifier, context, bytes, uploaderTpl, fileEntryTpl, deleter){
     'use strict';
 
     var ns = 'uploader';
@@ -351,6 +352,9 @@ define([
                             .text(files[0].name)
                             .removeClass('placeholder');
                     }
+
+                    //Initialize the deleter on the new file entry
+                    deleter($elt);
 
                     /**
                      * Files has been selected
