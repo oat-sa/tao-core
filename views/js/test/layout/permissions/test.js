@@ -40,6 +40,7 @@ define([
         {title: 'hasPermission'},
         {title: 'clear'},
         {title: 'isContextAllowed'},
+        {title: 'getResourceAccessMode'},
     ])
     .test('Instance API', function (data, assert) {
         QUnit.expect(1);
@@ -196,7 +197,6 @@ define([
         }
     });
 
-
     QUnit.cases([{
         title : 'allowed for a read action',
         requiredRights : { id : 'READ'},
@@ -280,4 +280,50 @@ define([
 
         assert.equal( permissionsManager.isContextAllowed(data.requiredRights, data.context), data.allowed);
     });
+
+
+    QUnit.module('Resource', {
+        setup: function setup(){
+            permissionsManager.setSupportedRights([]);
+        },
+        teardown : function teardown(){
+            permissionsManager.setSupportedRights([]);
+        }
+    });
+    QUnit.cases([{
+        title : 'allowed with no rights',
+        supportedRights : [],
+        resourceRights  : [],
+        expected : 'allowed'
+    }, {
+        title : 'allowed when all rights matches',
+        supportedRights : ['READ', 'WRITE', 'GRANT'],
+        resourceRights  : ['READ', 'WRITE', 'GRANT'],
+        expected : 'allowed'
+    }, {
+        title : 'partial when read only',
+        supportedRights : ['READ', 'WRITE', 'GRANT'],
+        resourceRights  : ['READ'],
+        expected : 'partial'
+    }, {
+        title : 'denied when none',
+        supportedRights : ['READ', 'WRITE', 'GRANT'],
+        resourceRights  : [],
+        expected : 'denied'
+    }]).test('has mode ', function(data, assert){
+        var permissions = {
+            'http://foo.bar/q' : data.resourceRights
+        };
+
+        QUnit.expect(3);
+
+        permissionsManager.setSupportedRights(data.supportedRights);
+        permissionsManager.addPermissions(permissions);
+
+        assert.deepEqual(permissionsManager.getRights(), data.supportedRights, 'List of supported rights configured');
+        assert.deepEqual(permissionsManager.getPermissions('http://foo.bar/q'), data.resourceRights, 'Permissions set for the resource');
+        assert.equal(permissionsManager.getResourceAccessMode('http://foo.bar/q'), data.expected);
+    });
+
+
 });
