@@ -457,10 +457,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->setView('form.tpl', 'tao');
     }
 
-    public function selectDestination()
-    {
-        $this->setView('form/container.tpl', 'tao');
-    }
 
     /**
      * Duplicate the current instance
@@ -482,6 +478,61 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 'uri'   => tao_helpers_Uri::encode($clone->getUri())
             ));
         }
+    }
+
+    /**
+     * A placeholder action, to request only read permissions
+     * on to select a destination.
+     *
+     * @requiresRight id READ
+     */
+    public function selectDestination()
+    {
+        return $this->returnJson([
+            'sucess' => true
+        ]);
+    }
+
+    /**
+     * Copy a resource to a destination
+     *
+     * @requiresRight uri READ
+     * @requiresRight destinationClassUri WRITE
+     */
+    public function copyInstance()
+    {
+        $response = [
+            'success' => false
+        ];
+        if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri') &&
+            common_Utils::isUri($this->getRequestParameter('destinationClassUri'))) {
+
+            $instance  = $this->getCurrentInstance();
+            $clazz     = $this->getCurrentClass();
+            $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+
+            $copy = $this->getClassService()->cloneInstance($instance, $clazz);
+            if($clazz->getUri() != $destinationClass->getUri()){
+                $diff = $this->getClassService()->getPropertyDiff($clazz, $destinationClass);
+                if(count($diff) > 0){
+                    $response['diff'] = $diff;
+                }
+                $status = $this->getClassService()->changeClass($copy, $destinationClass);
+                if(!$status){
+                    $this->getClassService->deleteResource($copy);
+                    $copy = null;
+                }
+            }
+
+            if(!is_null($copy)){
+                $response['success'] = true;
+                $response['data'] = [
+                    'label' => $copy->getLabel(),
+                    'uri'   => $copy->getUri()
+                ];
+            }
+        }
+        $this->returnJson($response);
     }
 
     /**
