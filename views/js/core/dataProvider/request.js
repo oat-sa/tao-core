@@ -31,8 +31,9 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'core/promise'
-], function($, _,  Promise){
+], function($, _, __, Promise){
     'use strict';
 
     /**
@@ -92,7 +93,7 @@ define([
                 }
 
                 //the server has handled the error
-                return reject(createError(response, 'No response', xhr.status));
+                return reject(createError(response, response.error ||  __('The server has sent an empty response'), xhr.status));
             })
             .fail(function(xhr){
                 var response;
