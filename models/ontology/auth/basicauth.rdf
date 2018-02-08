@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<rdf:RDF
+xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+>
+<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer">
+  <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+  <rdfs:label xml:lang="en-US"><![CDATA[Basic Auth Credentials]]></rdfs:label>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin">
+  <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  <rdfs:label xml:lang="en-US"><![CDATA[Login]]></rdfs:label>
+  <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AuthenticationIdentity"/>
+  <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword">
+  <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  <rdfs:label xml:lang="en-US"><![CDATA[Password]]></rdfs:label>
+  <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AuthenticationIdentity"/>
+  <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox"/>
+</rdf:Description>
+</rdf:RDF>

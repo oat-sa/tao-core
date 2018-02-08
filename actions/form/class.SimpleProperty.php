@@ -24,7 +24,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\tao\model\search\Index;
+use oat\tao\model\search\index\OntologyIndex;
 
 /**
  * Enable you to edit a property
@@ -140,9 +140,9 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 	    $elementNames[] = $treeElt->getName();
 
 	    //index part
-        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(Index::PROPERTY_INDEX));
+        $indexes = $property->getPropertyValues(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
         foreach($indexes as $i => $indexUri){
-            $indexProperty = new \oat\tao\model\search\Index($indexUri);
+            $indexProperty = new OntologyIndex($indexUri);
             $indexFormContainer = new tao_actions_form_IndexProperty($indexProperty,$index.$i);
             /** @var tao_helpers_form_Form $indexForm */
             $indexForm = $indexFormContainer->getForm();
