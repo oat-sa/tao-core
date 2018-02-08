@@ -39,51 +39,6 @@ define([
 
     var resourceProvider = resourceProviderFactory();
 
-    var getNodeState = function getNodeState(node){
-        var state = '';
-        var rights = permissionsManager.getRights();
-        var count    = _.reduce(rights, function(acc, right){
-            if(permissionsManager.hasPermission(node.uri, right)){
-                acc++;
-            }
-            return acc;
-        }, 0);
-
-        if (rights.length > 0 && count !== rights.length) {
-            if(count === 0){
-                state  = 'denied';
-            } else {
-                state = 'partial';
-            }
-        }
-
-        return state;
-    };
-
-    var computeNodeState = function computeNodeState(nodes){
-        var state = [];
-        if(_.isArray(nodes)){
-            _.forEach(nodes, computeNodeState);
-        }
-        if(_.isPlainObject(nodes)){
-            state.push(getNodeState(nodes));
-            if(state.length){
-                if(nodes.state){
-                    state = state.concat(nodes.state.split(' '));
-                }
-                nodes.state = _.uniq(state).join(' ');
-            }
-
-            if(nodes.children){
-                nodes = computeNodeState(nodes.children);
-            }
-        }
-
-        return nodes;
-    };
-
-
-
     /**
      * The resource-selector tree provider
      */
@@ -161,6 +116,9 @@ define([
                                 self.addNode(node, node.classUri);
                                 self.select(node);
                             });
+                            actionManager.on('copyTo', function(actionContext, node){
+                                self.refresh(node || defaultNode);
+                            });
                             actionManager.on('refresh', function(node){
                                 self.refresh(node || defaultNode);
                             });
@@ -182,32 +140,9 @@ define([
                             }
 
                             //ask the server the resources from the component query
-                            resourceProvider.getResources(params)
-                                .then(function(queryResults) {
-                                    var resources;
-                                    var currentRights;
-
-                                    if(queryResults && queryResults.resources){
-                                        resources = queryResults.resources;
-                                    } else {
-                                        resources = queryResults;
-                                    }
-                                    if(queryResults.permissions){
-                                        currentRights = permissionsManager.getRights();
-
-                                        if(queryResults.permissions.supportedRights &&
-                                            queryResults.permissions.supportedRights.length &&
-                                            currentRights.length === 0) {
-
-                                            permissionsManager.setSupportedRights(queryResults.permissions.supportedRights);
-
-                                        }
-                                        if(queryResults.permissions.data){
-                                            permissionsManager.addPermissions(queryResults.permissions.data);
-                                        }
-                                    }
-                                    console.log(computeNodeState(resources));
-                                    self.update(computeNodeState(resources), params);
+                            resourceProvider.getResources(params, true)
+                                .then(function(resources) {
+                                    self.update(resources, params);
                                 })
                                 .catch(function(err) {
                                     logger.error(err);

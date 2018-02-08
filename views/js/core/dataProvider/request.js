@@ -46,7 +46,7 @@ define([
     var createError = function createError(response, fallbackMessage, httpCode){
         var err;
         if(response && response.errorCode){
-            err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage));
+            err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage || response.error));
             err.response = response;
         } else {
             err = new Error(fallbackMessage);
@@ -93,7 +93,7 @@ define([
                 }
 
                 //the server has handled the error
-                return reject(createError(response, response.error ||  __('The server has sent an empty response'), xhr.status));
+                return reject(createError(response,  __('The server has sent an empty response'), xhr.status));
             })
             .fail(function(xhr){
                 var response;

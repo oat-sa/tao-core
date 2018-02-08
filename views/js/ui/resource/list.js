@@ -149,7 +149,6 @@ define([
                     var $instance = $(e.currentTarget);
                     e.preventDefault();
                     e.stopPropagation();
-
                     if($instance.hasClass('selected')){
                         self.unselect($instance.data('uri'));
                     } else {

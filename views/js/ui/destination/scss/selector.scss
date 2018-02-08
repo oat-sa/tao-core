@@ -15,7 +15,7 @@
         @include simple-border;
         background-color: $uiClickableDefaultBg;
         padding: 20px;
-        min-height: 500px;
+        height: 500px;
         position: relative;
 
         & > p {
@@ -25,7 +25,7 @@
 
     .selector-container {
         position: relative;
-        height: calc(100% - 60px);
+        height: calc(100% - 90px);
     }
 
     .actions {

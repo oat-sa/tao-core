@@ -481,29 +481,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     }
 
     /**
-     * A placeholder action, to request only read permissions
-     * on to select a destination.
-     *
-     * @requiresRight id READ
-     */
-    public function selectDestination()
-    {
-        return $this->returnJson([
-            'sucess' => true
-        ]);
-    }
-
-    /**
      * Copy a resource to a destination
      *
      * @requiresRight uri READ
-     * @requiresRight destinationClassUri WRITE
      */
     public function copyInstance()
     {
-        $response = [
-            'success' => false
-        ];
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri') &&
             common_Utils::isUri($this->getRequestParameter('destinationClassUri'))) {
 
@@ -511,28 +494,42 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             $clazz     = $this->getCurrentClass();
             $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
 
-            $copy = $this->getClassService()->cloneInstance($instance, $clazz);
-            if($clazz->getUri() != $destinationClass->getUri()){
-                $diff = $this->getClassService()->getPropertyDiff($clazz, $destinationClass);
-                if(count($diff) > 0){
-                    $response['diff'] = $diff;
+            if ($this->hasWriteAccess($destinationClass->getUri())) {
+                $copy = $this->getClassService()->cloneInstance($instance, $clazz);
+                if($clazz->getUri() != $destinationClass->getUri()){
+                    $status = $this->getClassService()->changeClass($copy, $destinationClass);
+                    if(!$status){
+                        $this->getClassService->deleteResource($copy);
+                        $copy = null;
+                    }
                 }
-                $status = $this->getClassService()->changeClass($copy, $destinationClass);
-                if(!$status){
-                    $this->getClassService->deleteResource($copy);
-                    $copy = null;
-                }
-            }
 
-            if(!is_null($copy)){
-                $response['success'] = true;
-                $response['data'] = [
-                    'label' => $copy->getLabel(),
-                    'uri'   => $copy->getUri()
-                ];
+                if(!is_null($copy)){
+                    return $this->returnJson([
+                        'success'  => true,
+                        'data' => [
+                            'label' => $copy->getLabel(),
+                            'uri'   => $copy->getUri()
+                        ]
+                    ]);
+                }
+                return $this->returnJson([
+                    'success'  => false,
+                    'errorCode' => 204,
+                    'errorMessage' =>  __("Unable to copy the resource")
+                ], 204);
             }
+            return $this->returnJson([
+                'success'  => false,
+                'errorCode' => 401,
+                'errorMessage' =>  __("Permission denied to write in the selected class")
+            ], 401);
         }
-        $this->returnJson($response);
+        return $this->returnJson([
+            'success' => false,
+            'errorCode' => 412,
+            'errorMessage' => __('Missing Parameters')
+        ], 412);
     }
 
     /**

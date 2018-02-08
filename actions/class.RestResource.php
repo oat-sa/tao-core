@@ -146,7 +146,11 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 }
 
                 $user = \common_Session_SessionManager::getSession()->getUser();
-                $permissions = $this->getResourceService()->getResourcesPermissions($user, $resources);
+                if(isset($resources['nodes'])){
+                    $permissions = $this->getResourceService()->getResourcesPermissions($user, $resources['nodes']);
+                } else {
+                    $permissions = $this->getResourceService()->getResourcesPermissions($user, $resources);
+                }
 
                 $this->returnSuccess([
                     'resources' => $resources,

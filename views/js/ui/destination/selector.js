@@ -13,11 +13,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA ;
  */
 
 /**
- * A Class Selector component
+ * Let's you select a destination class in a move or a copy
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -40,8 +40,15 @@ define([
     };
 
     /**
+     * Creates the selector component
      * @param {jQueryElement} $container - where the component is rendered
      * @param {Object} [config] - the configuration
+     * @param {String} [config.classUri] - the root classUri
+     * @param {String} [config.title] - header
+     * @param {String} [config.description] - a description sentence
+     * @param {String} [config.actionName] - the action button text
+     * @param {String} [config.icon] - the action button icon
+     * @param {Function} [config.preventSelection] - prevent selection callback (@see ui/resource/selectable)
      * @returns {destinationSelector} the component itself
      */
     return function destinationSelectorFactory($container, config){
@@ -51,6 +58,10 @@ define([
          */
         var destinationSelector = component({
 
+            /**
+             * Forwards data update to it's resource selector
+             * @see ui/resource/selector#update
+             */
             update : function udpate(results, params){
                 if(this.resourceSelector){
                     this.resourceSelector.update(results, params);
@@ -60,7 +71,6 @@ define([
             .setTemplate(selectorTpl)
             .on('init', function(){
 
-
                 this.render($container);
             })
             .on('render', function(){
@@ -68,53 +78,46 @@ define([
                 var $component = this.getElement();
                 var $action    = $('.action', $component);
 
-
+                //set up the inner resource selector
                 this.resourceSelector = resourceSelectorFactory($('.selector-container', $component), {
                     selectionMode: 'single',
                     selectClass : true,
                     classUri: this.config.classUri,
                     showContext : false,
-                    showSelection : false
+                    showSelection : false,
+                    preventSelection : this.config.preventSelection
                 });
 
-                this.resourceSelector.spread(this, ['query', 'error']);
+                //spread the events
+                this.resourceSelector.spread(this, ['query', 'error', 'update']);
 
+                //enable disable the action button
                 this.resourceSelector.on('change', function(selected){
-                    if(selected){
+                    if(selected && _.size(selected) > 0){
                         $action.removeProp('disabled');
                     } else {
                         $action.prop('disabled', true);
                     }
                 });
 
+                //validate the selection
                 $action.on('click', function(e){
+                    var uris;
+                    var selection = self.resourceSelector.getSelection();
                     e.preventDefault();
 
-                    self.trigger('select', self.resourceSelector.getSelection());
-                });
+                    if(_.isPlainObject(selection)) {
+                        uris = _.pluck(selection, 'uri');
+                        if(uris.length){
 
-/*                .on('query', function(params) {
-                    var self = this;
-
-                    params.classOnly = true;
-                    resourceProvider().getResources(params).then(function(results){
-                        var resources;
-                        if (results && results.resources){
-                            resources = results.resources;
-                        } else {
-                            resources = results;
+                            /**
+                             * @event destinationSelector#select
+                             * @param {String} classUri - the destination class
+                             */
+                            self.trigger('select', uris[0]);
                         }
-
-                        //ask the server the resources from the component query
-                        self.update(resources, params);
-                    });
-
-                })
-                .on('error', function(err){
-                    console.error(err);
+                    }
                 });
-
-*/
             });
 
         _.defer(function(){

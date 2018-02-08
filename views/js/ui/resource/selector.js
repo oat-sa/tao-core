@@ -524,7 +524,7 @@ define([
                         $resource = this.getElement().find('.' + nodeTypes.instance);
                         if(!$resource.length){
                             $resource = this.getElement().find('.' + nodeTypes.class);
-                        }
+                    }
                         if($resource.length){
                             this.select( $resource.first().data('uri') );
                         }
