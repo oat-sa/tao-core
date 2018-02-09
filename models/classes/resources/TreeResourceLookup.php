@@ -90,11 +90,6 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
                 'state'    => isset($data['state']) ? $data['state'] : false,
                 'count'    => isset($data['count']) ? $data['count'] : 0
             ];
-            /*
-            if($formated['type'] == 'class' && $formated['state'] != false && $formated['count'] == 0) {
-                $formated['state'] = false;
-            }
-             */
             if(isset($data['children'])){
                 $formated['children'] = $this->formatTreeData($data['children']);
             }
