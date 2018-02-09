@@ -39,7 +39,7 @@ class tao_actions_RestClass extends tao_actions_RestResource
         if ($this->isRequestGet()) {
             try {
                 $class = $this->getClassParameter();
-                $classes = $this->getResourceService()->getClasses($class);
+                $classes = $this->getResourceService()->getAllClasses($class);
                 $this->returnSuccess([$classes]);
             } catch (common_Exception $e) {
                 $this->returnFailure($e);

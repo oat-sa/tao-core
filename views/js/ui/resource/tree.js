@@ -44,7 +44,7 @@ define([
     'use strict';
 
     //yes indent isn't handle by css
-    var indentStep = 10;
+    var indentStep = 15;
 
     var defaultConfig = {
         multiple: true
@@ -299,7 +299,7 @@ define([
                         } else {
                             if($class.hasClass('selected')){
                                 self.unselect($class.data('uri'));
-                            } else {
+                            } else if ($class.data('access') !== 'denied') {
                                 self.select($class.data('uri'), !self.is('multiple'));
                             }
                         }
@@ -315,7 +315,7 @@ define([
                 }
 
                 //selection
-                $component.on('click', '.instance', function(e){
+                $component.on('click', '.instance:not([data-access=denied])', function(e){
                     var $instance = $(e.currentTarget);
                     e.preventDefault();
                     e.stopPropagation();

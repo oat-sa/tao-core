@@ -51,7 +51,7 @@ class ResourceService extends ConfigurableService
      * @param core_kernel_classes_Class $rootClass the root class
      * @return array the classes hierarchy
      */
-    public function getClasses(core_kernel_classes_Class $rootClass)
+    public function getAllClasses(core_kernel_classes_Class $rootClass)
     {
         $result = [
             'uri'      => $rootClass->getUri(),
@@ -103,6 +103,28 @@ class ResourceService extends ConfigurableService
         $resourceLookup = $this->getResourceLookup($format);
         if (!is_null($resourceLookup)) {
             $result = $resourceLookup->getResources($rootClass, $selectedUris, $propertyFilters, $offset, $limit);
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve the classes for the given parameters
+     * @param \core_kernel_classes_Class $resourceClass the resource class
+     * @param string                     $format        the lookup format
+     * @param string|array               $search        to filter by label if a string or provides the search filters
+     * @param int                        $offset        for paging
+     * @param int                        $limit         for paging
+     * @return array the classes
+     */
+    public function getClasses(\core_kernel_classes_Class $rootClass, $format = 'list', $selectedUris = [], $search = '', $offset = 0, $limit = 30)
+    {
+        $propertyFilters = $this->getPropertyFilters($search);
+
+        $result = [];
+
+        $resourceLookup = $this->getResourceLookup($format);
+        if (!is_null($resourceLookup)) {
+            $result = $resourceLookup->getClasses($rootClass, $selectedUris, $propertyFilters, $offset, $limit);
         }
         return $result;
     }

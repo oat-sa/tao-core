@@ -76,6 +76,8 @@ define([
         selectionMode : selectionModes.single,
         selectClass : false,
         filters: false,
+        showContext : true,
+        showSelection : true,
         formats : {
             list : {
                 icon  : 'icon-ul',
@@ -124,6 +126,8 @@ define([
      * @param {Boolean} [config.selectionMode] - multiple or single selection mode
      * @param {Number} [config.limit = 30] - the default page size for data paging
      * @param {Object|Boolean} [config.filters = false] - false or filters config, see ui/resource/filters
+     * @param {Boolean} [config.showContext = true] - show the context bar (class and format switch)
+     * @param {Boolean} [config.showSelection = true] - show the selection bar (search, multi switch and select all)
      * @returns {resourceSelector} the component
      */
     var resourceSelectorFactory = function resourceSelectorFactory($container, config){
@@ -520,7 +524,7 @@ define([
                         $resource = this.getElement().find('.' + nodeTypes.instance);
                         if(!$resource.length){
                             $resource = this.getElement().find('.' + nodeTypes.class);
-                        }
+                    }
                         if($resource.length){
                             this.select( $resource.first().data('uri') );
                         }

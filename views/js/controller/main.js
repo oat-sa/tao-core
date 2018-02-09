@@ -31,6 +31,7 @@ define([
     'uiForm',
     'util/url',
     'core/logger',
+    'ui/feedback',
     'layout/generisRouter',
     'layout/section',
     'layout/actions',
@@ -40,7 +41,7 @@ define([
     'layout/search',
     'layout/tree/loader',
     'layout/section-height',
-], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
+], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
     var logger = loggerFactory('controller/main');
@@ -114,6 +115,11 @@ define([
             //navigation bindings
             nav.init();
 
+            actionManager.on('error', function(err){
+                logger.error(err);
+                feedback().error(err);
+            });
+
             //initialize sections
             sections.on('activate', function(section) {
                 window.scrollTo(0, 0);
@@ -129,6 +135,7 @@ define([
 
                 //initialize actions
                 actionManager.init(section.panel);
+
 
                 //search component
                 search.init();
