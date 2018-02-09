@@ -17,12 +17,14 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2016-2017 (update and modification) Open Assessment Technologies SA;
+ *               2016-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
+use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
@@ -224,9 +226,16 @@ class tao_actions_Main extends tao_actions_CommonModule
 	public function logout()
 	{
 
-		common_session_SessionManager::endSession();
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+
+        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
+        $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
+
+
+        common_session_SessionManager::endSession();
                 /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+
 		$this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
