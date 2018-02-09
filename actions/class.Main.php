@@ -228,8 +228,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-        $login = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN)[0];
-        $eventManager->trigger(new LogoutSucceedEvent($login));
+        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
+        $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
 
 
         common_session_SessionManager::endSession();
