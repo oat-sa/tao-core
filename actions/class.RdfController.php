@@ -491,18 +491,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             common_Utils::isUri($this->getRequestParameter('destinationClassUri'))) {
 
             $instance  = $this->getCurrentInstance();
-            $clazz     = $this->getCurrentClass();
             $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
 
             if ($this->hasWriteAccess($destinationClass->getUri())) {
-                $copy = $this->getClassService()->cloneInstance($instance, $clazz);
-                if($clazz->getUri() != $destinationClass->getUri()){
-                    $status = $this->getClassService()->changeClass($copy, $destinationClass);
-                    if(!$status){
-                        $this->getClassService->deleteResource($copy);
-                        $copy = null;
-                    }
-                }
+                $copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
 
                 if(!is_null($copy)){
                     return $this->returnJson([
