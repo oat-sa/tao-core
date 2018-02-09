@@ -504,7 +504,7 @@ define([
 
                                     //backward compatible for jstree
                                     if(actionContext.tree){
-                                        actionContext.tree.trigger('refresh.taotree', [result]);
+                                        $(actionContext.tree).trigger('refresh.taotree', [result]);
                                     }
                                     return resolve(result);
                                 }
