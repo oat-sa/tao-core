@@ -172,6 +172,35 @@ define([
                 return self.hasPermission(parameterValue, right);
             });
         },
+
+        /**
+         * For a given resource compute the permission mode:
+         *  - allowed : no supported rights required or has the permission on all supported rights
+         *  - partial : has the permission only on some supported rights
+         *  - denied  : has the permission on none of the supported rights
+         *  @param {String} uri - the resource URI
+         *  @returns {String} the mode
+         */
+        getResourceAccessMode : function getResourcesAccessMode(uri) {
+            var self  = this;
+            var mode  = 'allowed';
+            var rights = this.getRights();
+            var count = _.reduce(rights, function(acc, right){
+                if(self.hasPermission(uri, right)){
+                    acc++;
+                }
+                return acc;
+            }, 0);
+
+            if (rights.length > 0 && count !== rights.length) {
+                if(count === 0){
+                    mode  = 'denied';
+                } else {
+                    mode = 'partial';
+                }
+            }
+            return mode;
+        }
     };
 
     return permissionsManager;

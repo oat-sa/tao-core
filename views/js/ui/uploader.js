@@ -327,23 +327,22 @@ define([
                                 .html('<ul>' + listContent + '</ul>');
                         }
 
-                        options.$dropZone
-                            .off('delete.delter', 'li')
-                            .on('delete.deleter', 'li', function(e){
+                        options.$dropZone.off('click.'+ns).on('click.'+ns, '[data-role=delete]', function(e){
+                            var $fileEntry = $(this).parent();
+                            var name = $fileEntry.data('file-name');
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if(name){
+                                options.files =  _.reject(options.files, {name : name});
+                                if(options.files.length === 0){
+                                    self._reset($elt);
+                                } else {
+                                    updateFileName();
+                                }
+                                $fileEntry.remove();
+                            }
+                        });
 
-                                var name = $(e.target).data('file-name');
-
-                                options.$dropZone
-                                   .off('deleted.deleter')
-                                   .one('deleted.deleter', function(){
-                                        options.files =  _.reject(options.files, {name : name});
-                                        if(options.files.length === 0){
-                                            self._reset($elt);
-                                        } else {
-                                            updateFileName();
-                                        }
-                                    });
-                            });
                     } else {
                         //legacy mode, no dnd support
                         options.files = options.files.slice(0, 1);

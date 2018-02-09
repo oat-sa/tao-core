@@ -1,0 +1,36 @@
+@import "inc/bootstrap";
+
+.destination-selector{
+    position: relative;
+
+    width: 400px;
+
+    opacity : 0;
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 300ms, linear);
+    }
+
+    & > div {
+        @include simple-border;
+        background-color: $uiClickableDefaultBg;
+        padding: 20px;
+        height: 500px;
+        position: relative;
+
+        & > p {
+            font-weight: bold;
+        }
+    }
+
+    .selector-container {
+        position: relative;
+        height: calc(100% - 90px);
+    }
+
+    .actions {
+        margin-top: 30px;
+        text-align: right;
+    }
+}
+

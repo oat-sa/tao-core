@@ -74,4 +74,9 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
             'nodes'  => $nodes
         ];
     }
+
+    public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
+    {
+        return [];
+    }
 }
