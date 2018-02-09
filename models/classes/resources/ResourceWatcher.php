@@ -91,7 +91,7 @@ class ResourceWatcher extends ConfigurableService
             $searchService->remove($event->getId());
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            \common_Logger::e("Error delete index document for $documentId with message $message");
+            \common_Logger::e("Error delete index document for {$event->getId()} with message $message");
         }
     }
 
