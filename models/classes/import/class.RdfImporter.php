@@ -19,6 +19,9 @@
  * 
  */
 
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
+
 /**
  * importhandler for RDF
  *
@@ -92,7 +95,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
 
         // keep type property
         $map = array(
-            RDF_PROPERTY => RDF_PROPERTY
+            OntologyRdf::RDF_PROPERTY => OntologyRdf::RDF_PROPERTY
         );
         
         foreach ($graph->resources() as $resource) {
@@ -121,12 +124,12 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
      * @return common_report_Report
      */
     protected function importProperties(core_kernel_classes_Resource $resource, $propertiesValues, $map, $class) {
-        if (isset($propertiesValues[RDF_TYPE])) {
+        if (isset($propertiesValues[OntologyRdf::RDF_TYPE])) {
             // assuming single Type
-            if (count($propertiesValues[RDF_TYPE]) > 1) {
+            if (count($propertiesValues[OntologyRdf::RDF_TYPE]) > 1) {
                 return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple types'));
             } else {
-                foreach ($propertiesValues[RDF_TYPE] as $k => $v) {
+                foreach ($propertiesValues[OntologyRdf::RDF_TYPE] as $k => $v) {
                     $classType = isset($map[$v['value']])
                     ? new core_kernel_classes_Class($map[$v['value']])
                     : $class;
@@ -134,23 +137,23 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
                     $classType->createInstance(null, null, $resource->getUri());
                 }
             }
-            unset($propertiesValues[RDF_TYPE]);
+            unset($propertiesValues[OntologyRdf::RDF_TYPE]);
         }
         
-        if (isset($propertiesValues[RDFS_SUBCLASSOF])) {
+        if (isset($propertiesValues[OntologyRdfs::RDFS_SUBCLASSOF])) {
             $resource = new core_kernel_classes_Class($resource);
             // assuming single subclass
-            if (isset($propertiesValues[RDF_TYPE]) && count($propertiesValues[RDF_TYPE]) > 1) {
+            if (isset($propertiesValues[OntologyRdf::RDF_TYPE]) && count($propertiesValues[OntologyRdf::RDF_TYPE]) > 1) {
                 return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple super classes'));
             }
-            foreach ($propertiesValues[RDFS_SUBCLASSOF] as $k => $v) {
+            foreach ($propertiesValues[OntologyRdfs::RDFS_SUBCLASSOF] as $k => $v) {
                 $classSup = isset($map[$v['value']])
                 ? new core_kernel_classes_Class($map[$v['value']])
                 : $class;
                 $resource->setSubClassOf($classSup);
             }
         
-            unset($propertiesValues[RDFS_SUBCLASSOF]);
+            unset($propertiesValues[OntologyRdfs::RDFS_SUBCLASSOF]);
         }
         foreach ($propertiesValues as $prop=>$values){
             $property = new core_kernel_classes_Property(isset($map[$prop]) ? $map[$prop] : $prop);

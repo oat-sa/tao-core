@@ -28,6 +28,7 @@ use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\helpers\Template;
@@ -62,8 +63,6 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
-use oat\tao\model\search\SearchService;
-use oat\tao\model\search\zend\ZendSearch;
 use oat\tao\model\ClientLibRegistry;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
@@ -107,6 +106,9 @@ use oat\tao\model\resources\ResourceService;
 use oat\tao\model\resources\ListResourceLookup;
 use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
+use oat\generis\model\data\event\ResourceDeleted;
+use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\Search;
 
 /**
  *
@@ -154,7 +156,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($this->isVersion('2.7.1')) {
-            SearchService::setSearchImplementation(ZendSearch::createSearch());
+            // Zendsearch deprecated, skip
             $this->setVersion('2.7.2');
         }
 
@@ -237,7 +239,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
-                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
+                    ."AND predicate IN ('".OntologyRdfs::RDFS_LABEL."','".OntologyRdfs::RDFS_COMMENT."') ";
             foreach ($toCleanup as $subject) {
                 $persistence->exec($query,array($subject));
             }
@@ -327,11 +329,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         // reset the search impl for machines that missed 2.7.1 update due to merge
         if ($this->isVersion('2.7.15') || $this->isVersion('2.7.16')) {
-            try {
-                SearchService::getSearchImplementation();
-                // all good
-            } catch (\common_exception_Error $error) {
-                SearchService::setSearchImplementation(new GenerisSearch());
+            if (!$this->getServiceManager()->has(Search::SERVICE_ID)) {
+                $this->getServiceManager()->register(Search::SERVICE_ID, new GenerisSearch());
             }
             $this->setVersion('2.7.16');
         }
@@ -1058,8 +1057,25 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('15.5.0');
         }
 
-        $this->skip('15.5.0', '15.6.0');
+        $this->skip('15.5.0', '15.12.0');
 
+        if ($this->isVersion('15.12.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('15.13.0');
+        }
+
+        if ($this->isVersion('15.13.0')) {
+            $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService());
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('16.0.0');
+        }
+
+        $this->skip('16.0.0', '16.4.0');
     }
 
     private function migrateFsAccess() {

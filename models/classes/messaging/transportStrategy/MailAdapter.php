@@ -23,6 +23,7 @@
 
 namespace oat\tao\model\messaging\transportStrategy;
 
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\messaging\Transport;
 use oat\tao\model\messaging\transportStrategy\AbstractAdapter;
@@ -125,7 +126,7 @@ class MailAdapter extends ConfigurableService implements Transport
      */
     public function getUserMail(User $user)
     {
-        $userMail = current($user->getPropertyValues(PROPERTY_USER_MAIL));
+        $userMail = current($user->getPropertyValues(GenerisRdf::PROPERTY_USER_MAIL));
         
         if (!$userMail || !filter_var($userMail, FILTER_VALIDATE_EMAIL)) {
             throw new Exception('User email is not valid.');

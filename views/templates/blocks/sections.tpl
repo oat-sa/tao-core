@@ -67,20 +67,26 @@ $sections = get_data('sections');
                 <section class="content-container">
                     <ul class="plain action-bar content-action-bar horizontal-action-bar">
                         <?php
-                        Template::inc('blocks/actions.tpl', 'tao', array(
+                            Template::inc('blocks/actions.tpl', 'tao', array(
                                 'action_classes' => 'btn-info small',
                                 'actions' => $section->getActionsByGroup('content')
                             ));
                         ?>
                         <?php
-                        foreach ($section->getTrees() as $i => $tree) {
-                            if (!is_null($tree->get('rootNode'))) {
-                                Template::inc('blocks/search.tpl', 'tao', array(
-                                    'rootNode' => $tree->get('rootNode'),
+                            foreach ($section->getTrees() as $i => $tree) {
+                                $node = null;
+                                if (!is_null($tree->get('searchNode'))) {
+                                    $node = $tree->get('searchNode');
+                                } else if (!is_null($tree->get('rootNode'))) {
+                                    $node = $tree->get('rootNode');
+                                }
+                                if ($node) {
+                                    Template::inc('blocks/search.tpl', 'tao', array(
+                                    'rootNode' => $node,
                                     'searchLabel' => __('Search %s', $tree->get('className'))
-                                ));
+                                    ));
+                                }
                             }
-                        }
                         ?>
                     </ul>
 

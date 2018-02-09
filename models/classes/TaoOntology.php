@@ -41,6 +41,7 @@ interface TaoOntology
     const PROPERTY_USER_LAST_EXTENSION = 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed';
     const PROPERTY_ABSTRACT_MODEL_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#AbstractModelStatus';
     const PROPERTY_LOCK = 'http://www.tao.lu/Ontologies/TAO.rdf#Lock';
+    const PROPERTY_GUI_ORDER = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder';
     const DEFAULT_USER_URI_SUFFIX = '#superUser';
 
     /** @deprecated use TaoRoles::TAO_MANAGER */
@@ -73,13 +74,13 @@ interface TaoOntology
     const PROPERTY_INSTANCE_ROLE_BACKOFFICE = 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole';
     /** @deprecated use TaoRoles::DELIVERY */
     const PROPERTY_INSTANCE_ROLE_DELIVERY = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
-    /** @deprecated use tao_models_classes_oauth_DataStore::CLASS_URI_OAUTH_CONSUMER */
+    /** @deprecated use DataStore::CLASS_URI_OAUTH_CONSUMER */
     const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
-    /** @deprecated use tao_models_classes_oauth_DataStore::PROPERTY_OAUTH_KEY */
+    /** @deprecated use DataStore::PROPERTY_OAUTH_KEY */
     const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
-    /** @deprecated use tao_models_classes_oauth_DataStore::PROPERTY_OAUTH_SECRET */
+    /** @deprecated use DataStore::PROPERTY_OAUTH_SECRET */
     const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
-    /** @deprecated use tao_models_classes_oauth_DataStore::PROPERTY_OAUTH_CALLBACK */
+    /** @deprecated use DataStore::PROPERTY_OAUTH_CALLBACK */
     const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
     /** @deprecated use Index::PROPERTY_INDEX */
     const INDEX_PROPERTY = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';

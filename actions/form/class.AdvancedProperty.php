@@ -19,6 +19,10 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\WidgetRdf;
+
 /**
  * Short description of class tao_actions_form_AdvancedProperty
  *
@@ -54,9 +58,9 @@ class tao_actions_form_AdvancedProperty
 		$propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
 			array(
-				new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
-				new core_kernel_classes_Property(PROPERTY_WIDGET),
-				new core_kernel_classes_Property(RDFS_RANGE),
+				new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
+				new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET),
+				new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE),
 			)
 		);
     	
@@ -81,7 +85,7 @@ class tao_actions_form_AdvancedProperty
 				}
 				$element->setName("property_{$index}_{$element->getName()}");
                 $element->addClass('property');
-                if ($propertyProperty->getUri() == RDFS_LABEL){
+                if ($propertyProperty->getUri() == OntologyRdfs::RDFS_LABEL){
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
                 }
 				$this->form->addElement($element);

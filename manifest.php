@@ -27,12 +27,12 @@ use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
-
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -41,10 +41,10 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '15.6.0',
+    'version' => '16.4.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.2.0'
+        'generis' => '>=6.7.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -61,6 +61,7 @@ return array(
             dirname(__FILE__). '/models/ontology/model.rdf',
             dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf',
             dirname(__FILE__). '/models/ontology/requiredaction.rdf',
+            dirname(__FILE__). '/models/ontology/auth/basicauth.rdf',
         ),
         'checks' => array(
                 array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),
@@ -90,7 +91,7 @@ return array(
             dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
             dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
             SetServiceFileStorage::class,
-            dirname(__FILE__).'/scripts/install/setServiceState.php',
+            SetServiceState::class,
             dirname(__FILE__).'/scripts/install/setJsConfig.php',
             dirname(__FILE__).'/scripts/install/registerEntryPoint.php',
             dirname(__FILE__).'/scripts/install/setLocaleNumbersConfig.php',

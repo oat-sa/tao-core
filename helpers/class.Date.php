@@ -74,7 +74,7 @@ class tao_helpers_Date
     {
         if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
             $ts = $timestamp->__toString();
-        } elseif (is_object($timestamp) && $timestamp instanceof DateTime) {
+        } elseif (is_object($timestamp) && $timestamp instanceof DateTimeInterface) {
             $ts = self::getTimeStampWithMicroseconds($timestamp);
         } elseif (is_numeric($timestamp)) {
             $ts = $timestamp;
@@ -93,7 +93,7 @@ class tao_helpers_Date
      *
      * @author Lionel Lecaque, lionel@taotesting.com
      * @param unknown $interval            
-     * @param unknown $format            
+     * @param integer $format
      * @return string|Ambigous <string, string>
      */
     static public function displayInterval($interval, $format = self::FORMAT_INTERVAL_LONG)
@@ -105,7 +105,7 @@ class tao_helpers_Date
             $intervalObj->setTimestamp($interval);
         }
         $newDate = new \DateTime();
-        $intervalObj = $intervalObj instanceof DateTime ? $newDate->diff($intervalObj, true) : $intervalObj;
+        $intervalObj = $intervalObj instanceof DateTimeInterface ? $newDate->diff($intervalObj, true) : $intervalObj;
         if (! $intervalObj instanceof DateInterval) {
             common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__, 'TAO');
             return '';
@@ -202,5 +202,71 @@ class tao_helpers_Date
     static function getTimeStampWithMicroseconds(DateTime $dt)
     {
         return join('.', array($dt->getTimestamp(), $dt->format('u')));
+    }
+
+    /**
+     * Get array of DateTime objects build from $date (or current time if not given) $amount times back with given interval
+     * Example:
+     * $timeKeys = $service->getTimeKeys(new \DateInterval('PT1H'), new \DateTime('now'), 24);
+     *
+     *   array (
+     *     0 =>
+     *       DateTime::__set_state(array(
+     *       'date' => '2017-04-24 08:00:00.000000',
+     *       'timezone_type' => 1,
+     *       'timezone' => '+00:00',
+     *     )),
+     *     1 =>
+     *       DateTime::__set_state(array(
+     *       'date' => '2017-04-24 07:00:00.000000',
+     *       'timezone_type' => 1,
+     *       'timezone' => '+00:00',
+     *     )),
+     *     2 =>
+     *       DateTime::__set_state(array(
+     *       'date' => '2017-04-24 06:00:00.000000',
+     *       'timezone_type' => 1,
+     *       'timezone' => '+00:00',
+     *     )),
+     *       ...
+     *   )
+     *
+     * @param \DateInterval $interval
+     * @param \DateTimeInterface|null $date
+     * @param null $amount
+     * @return \DateTime[]
+     */
+    public static function getTimeKeys(\DateInterval $interval, \DateTimeInterface $date = null, $amount = null)
+    {
+        $timeKeys = [];
+        if ($date === null) {
+            $date = new \DateTime('now', new \DateTimeZone('UTC'));
+        }
+
+        if ($interval->format('%i') > 0) {
+            $date->setTime($date->format('H'), $date->format('i')+1, 0);
+            $amount = $amount === null ? 60 : $amount;
+        }
+        if ($interval->format('%h') > 0) {
+            $date->setTime($date->format('H')+1, 0, 0);
+            $amount = $amount === null ? 24 : $amount;
+        }
+        if ($interval->format('%d') > 0) {
+            $date->setTime(0, 0, 0);
+            $date->setDate($date->format('Y'), $date->format('m'), $date->format('d')+1);
+            $amount = $amount === null ? cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y')) : $amount;
+        }
+        if ($interval->format('%m') > 0) {
+            $date->setTime(0, 0, 0);
+            $date->setDate($date->format('Y'), $date->format('m')+1, 1);
+            $amount = $amount === null ? 12 : $amount;
+        }
+
+        while ($amount > 0) {
+            $timeKeys[] = new \DateTime($date->format(\DateTime::ISO8601), new \DateTimeZone('UTC'));
+            $date->sub($interval);
+            $amount--;
+        }
+        return $timeKeys;
     }
 }

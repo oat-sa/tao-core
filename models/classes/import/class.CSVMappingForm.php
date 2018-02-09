@@ -18,6 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\generis\model\OntologyRdfs;
+
 /**
  * This container initialize the form used to map class properties to data to be
  *
@@ -129,7 +132,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
             $propElt->setValue($value);
 
 			/** Add mandatory label */
-			if (tao_helpers_Uri::decode($propertyUri)==RDFS_LABEL) {
+			if (tao_helpers_Uri::decode($propertyUri)==OntologyRdfs::RDFS_LABEL) {
 				$elementEqualsToCsvSelect = new tao_helpers_form_elements_xhtml_Hidden();
 				$elementEqualsToCsvSelect->setValue('csv_select');
 				$elementEqualsToCsvSelect->setDescription(' to null');

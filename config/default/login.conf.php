@@ -26,4 +26,5 @@ return array(
      * @type bool
      */
     'disableAutocomplete' => false,
+    'enablePasswordReveal' => false
 );

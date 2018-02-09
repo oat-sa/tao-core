@@ -21,10 +21,13 @@
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\index\IndexService;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\search\Search;
 
 /**
  * Class ResourceWatcher
@@ -45,7 +48,6 @@ class ResourceWatcher extends ConfigurableService
 
     /**
      * @param ResourceCreated $event
-     * @return \common_report_Report
      */
     public function catchCreatedResourceEvent(ResourceCreated $event)
     {
@@ -56,21 +58,16 @@ class ResourceWatcher extends ConfigurableService
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
-        $report = \common_report_Report::createSuccess();
-        return $report;
-
     }
 
     /**
      * @param ResourceUpdated $event
-     * @return \common_report_Report
      * @throws \core_kernel_persistence_Exception
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event)
     {
         $resource = $event->getResource();
         $updatedAt = $this->getUpdatedAt($resource);
-
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
             $updatedAt = (integer) $updatedAt->literal;
         }
@@ -81,9 +78,21 @@ class ResourceWatcher extends ConfigurableService
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
         }
-        $report = \common_report_Report::createSuccess();
-        return $report;
 
+    }
+
+    /**
+     * @param ResourceDeleted $event
+     */
+    public function catchDeletedResourceEvent(ResourceDeleted $event)
+    {
+        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+        try {
+            $searchService->remove($event->getId());
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            \common_Logger::e("Error delete index document for {$event->getId()} with message $message");
+        }
     }
 
      /**
