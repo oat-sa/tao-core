@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA
  *
  */
 
@@ -23,19 +23,34 @@ namespace oat\tao\model\event;
 use JsonSerializable;
 use oat\oatbox\event\Event;
 
-class LoginSucceedEvent implements Event, JsonSerializable
+class LogoutSucceedEvent implements Event, JsonSerializable
 {
-    private $login = '';
+    /**
+     * @var string
+     */
+    private $login;
+    /**
+     * @var
+     */
     private $time;
 
     /**
-     * LoginEvent constructor.
-     * @param $login
+     * Logout constructor.
      */
     public function __construct($login = '')
     {
         $this->login = $login;
         $this->time = time();
+    }
+
+
+    /**
+     * Return a unique name for this event
+     * @see \oat\oatbox\event\Event::getName()
+     */
+    public function getName()
+    {
+        return __CLASS__;
     }
 
     /**
@@ -47,17 +62,7 @@ class LoginSucceedEvent implements Event, JsonSerializable
     }
 
     /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
-     */
-    public function getName()
-    {
-        return __CLASS__;
-    }
-
-
-    /**
-     * @return \DateTime
+     * @return mixed
      */
     public function getTime()
     {
@@ -74,7 +79,7 @@ class LoginSucceedEvent implements Event, JsonSerializable
     function jsonSerialize()
     {
         return [
-            'login' => $this->getLogin()
+            $this->getLogin(),
         ];
     }
 }

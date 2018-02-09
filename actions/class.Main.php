@@ -21,8 +21,10 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
+use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
@@ -221,10 +223,17 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function logout()
 	{
-            
-		common_session_SessionManager::endSession();
+
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+
+        $login = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN)[0];
+        $eventManager->trigger(new LogoutSucceedEvent($login));
+
+
+        common_session_SessionManager::endSession();
                 /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+
 		$this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
