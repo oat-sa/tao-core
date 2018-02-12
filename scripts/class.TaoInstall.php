@@ -119,22 +119,22 @@ class tao_scripts_TaoInstall
                 : realpath($rootDir->path) . DIRECTORY_SEPARATOR;
 
 			// Setting the installator dependencies.
-			$this->getContainer()->offsetSet(
-				tao_install_Installator::CONTAINER_INDEX,
+            $this->getContainer()->offsetSet(tao_install_Installator::CONTAINER_INDEX,
                 array(
                     'root_path' 	=> $root,
                     'install_path'	=> $root.'tao/install/'
                 )
-			);
+            );
 
-	        $installator = new tao_install_Installator ($this->getContainer());
+	        $options = array_merge($this->options, $this->argv);
 
+	        $installator = new tao_install_Installator($this->getContainer());
 			// mod rewrite cannot be detected in CLI Mode.
 			$installator->escapeCheck('custom_tao_ModRewrite');
-			$installator->install($this->options);
+			$installator->install($options);
     	}
     	catch (Exception $e){
-    		$this->logError("A fatal error occured during installation: " . $e->getMessage());
+    		$this->logError("A fatal error has occurred during installation: " . $e->getMessage());
     		$this->handleError($e);
     	}
     }
