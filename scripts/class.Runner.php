@@ -93,16 +93,15 @@ abstract class tao_scripts_Runner
         $this->out("* Running ".(isset($this->argv[0]) ? $this->argv[0] : __CLASS__) , $options);
          
         $this->inputFormat = $inputFormat;
-        
+
         //check if help is needed
-        $helpTokens = array('-h', 'help', '-help', '--help');
-        foreach( $helpTokens as $helpToken){
-            if(in_array($helpToken, $this->argv)){
-            		 	$this->help();
-            		 	exit(0);
-            }
+        $helpParams = ['-h', 'help', '-help', '--help'];
+        $help = array_intersect($helpParams, $this->argv);
+        if (!empty($help)) {
+            $this->help();
+            exit(0);
         }
-        
+
         //validate the input parameters
         if(!$this->validateInput()){
             $this->help();
@@ -177,7 +176,7 @@ abstract class tao_scripts_Runner
         	}
         	$i++;
         }
-        
+
         //replaces shortcuts by their original names
         if (isset($this->inputFormat['parameters'])) {
             foreach($this->inputFormat['parameters'] as $parameter){
