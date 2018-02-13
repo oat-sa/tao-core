@@ -36,6 +36,7 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\BeforeAction;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * ActionEnforcer class
@@ -47,6 +48,7 @@ use oat\tao\model\event\BeforeAction;
 class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
+    use LoggerAwareTrait;
 
     private $extension;
     
@@ -143,7 +145,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface
 	        // Action method is invoked, passing request parameters as
 	        // method parameters.
 	        $user = common_session_SessionManager::getSession()->getUser();
-	        common_Logger::d('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+	        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
 
             $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
             $eventManager->trigger(new BeforeAction());
