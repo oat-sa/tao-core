@@ -70,7 +70,7 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      */
     public function getTemplate()
     {
-        $data = $this->getCredentials();
+        $data = $this->loadCredentials();
         return Template::inc('auth/basicAuthForm.tpl', 'tao', $data);
     }
 
