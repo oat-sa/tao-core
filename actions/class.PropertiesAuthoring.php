@@ -60,7 +60,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $this->setData('reload', false);
             }
         }
-        $this->setData('formTitle', __('Manage class %s schema', $clazz->getLabel()));
+        $this->setData('formTitle', __('Manage class schema'));
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
