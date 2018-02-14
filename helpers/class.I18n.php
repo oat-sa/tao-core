@@ -86,8 +86,6 @@ class tao_helpers_I18n
         $serviceManager = \oat\oatbox\service\ServiceManager::getServiceManager();
         $extraPoService = $serviceManager->get(\oat\tao\model\i18n\ExtraPoService::SERVICE_ID);
         $extraPoCount = $extraPoService->requirePos();
-        
-        common_Logger::t("${extraPoCount} extra PO files loaded.");
     }
 
     /**

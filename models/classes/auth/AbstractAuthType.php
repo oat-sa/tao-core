@@ -21,36 +21,46 @@
 
 namespace oat\tao\model\auth;
 
-
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\PhpSerializable;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractAuthType implements PhpSerializable
 {
     use OntologyAwareTrait;
 
-    /**
-     * the resource which has authorizations
-     * @var \core_kernel_classes_Resource | null
-     */
+    /** @var \core_kernel_classes_Resource The resource which has authorizations */
     private $instance = null;
 
     /**
+     * Call a request through current authenticator
+     *
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     * @throws \common_exception_InvalidArgumentType
+     */
+    abstract public function call(RequestInterface $request);
+
+    /**
      * RDF class of the AuthType
+     *
      * @return \core_kernel_classes_Class
      */
     abstract public function getAuthClass();
 
     /**
      * All fields to configure current authenticator
+     *
      * @return array
      */
     abstract public function getAuthProperties();
 
     /**
-     * Returns template for the current instance (or empty template for the default authorization)
-     * with credentials
+     * Returns template for the current instance (or empty template for the default authorization) with credentials
+     *
      * @return string
+     * @throws \common_exception_InvalidArgumentType
      */
     abstract public function getTemplate();
 
@@ -58,20 +68,29 @@ abstract class AbstractAuthType implements PhpSerializable
      * (non-PHPdoc)
      * @see \oat\oatbox\PhpSerializable::__toPhpCode()
      */
-    public function __toPhpCode() {
+    public function __toPhpCode()
+    {
         return 'new '.get_class($this).'()';
     }
 
-    public function setInstance(\core_kernel_classes_Resource $instance = null) {
+    /**
+     * Set the instance that contain authentication options
+     *
+     * @param \core_kernel_classes_Resource $instance
+     */
+    public function setInstance(\core_kernel_classes_Resource $instance = null)
+    {
         $this->instance = $instance;
     }
 
-    public function getInstance() {
+    /**
+     * Get the instance that contain authentication options
+     *
+     * @return \core_kernel_classes_Resource
+     */
+    public function getInstance()
+    {
         return $this->instance;
     }
 
-    /**
-     * @return array
-     */
-    abstract public function getCredentials();
 }
