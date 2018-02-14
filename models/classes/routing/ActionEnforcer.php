@@ -36,6 +36,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\BeforeAction;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\log\TaoLoggerAwareInterface;
 
 /**
  * ActionEnforcer class
@@ -44,7 +45,7 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
  */
-class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface
+class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
     use ServiceManagerAwareTrait;
     use LoggerAwareTrait;
