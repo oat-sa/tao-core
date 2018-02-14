@@ -25,7 +25,6 @@ use ActionEnforcingException;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use ReflectionMethod;
-use common_Logger;
 
 use common_session_SessionManager;
 use tao_models_classes_AccessDeniedException;
@@ -138,7 +137,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface
 	            if (isset($parameters[$param->getName()])) {
 	               $tabParam[$param->getName()] = $parameters[$param->getName()];
 	            } elseif (!$param->isDefaultValueAvailable()) {
-	                \common_Logger::w('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+	                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
 	            }
 	        }
 	
