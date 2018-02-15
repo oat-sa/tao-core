@@ -51,18 +51,10 @@ class tao_install_services_InstallService extends tao_install_services_Service{
 		//instantiate the installator
 		try{
 			set_error_handler(array(get_class($this), 'onError'));
-
-            $container = new \Pimple\Container(
-                array(
-                    \oat\oatbox\log\LoggerService::SERVICE_ID => new \oat\oatbox\log\LoggerService(),
-                    tao_install_Installator::CONTAINER_INDEX => array(
-                        'root_path' 	=> TAO_INSTALL_PATH,
-                        'install_path'	=> dirname(__FILE__) . '/../../install',
-                    )
-                )
-            );
-
-			$installer = new tao_install_Installator($container);
+			$installer = new tao_install_Installator(array(
+				'root_path' 	=> TAO_INSTALL_PATH,
+				'install_path'	=> dirname(__FILE__) . '/../../install'
+			));
 			
 			// For the moment, we force English as default language.
 			$content['value']['module_lang'] = 'en-US';
