@@ -31,6 +31,7 @@ use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\resources\ResourceService;
+use oat\generis\model\OntologyRdfs;
 
 /**
  * The TaoModule is an abstract controller,
@@ -337,6 +338,31 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     }
 
     /**
+     * Common action to view and change the label of a class
+     */
+    public function editClassLabel()
+    {
+        $clazz = $this->getCurrentClass();
+
+        $editClassLabelForm = new \tao_actions_form_EditClassLabel($clazz,  $this->getRequestParameters());
+        $myForm = $editClassLabelForm->getForm();
+
+        if ($myForm->isSubmited()) {
+            if ($myForm->isValid()) {
+                $clazz->setLabel($myForm->getValue(\tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+
+                $this->setData("selectNode", \tao_helpers_Uri::encode($clazz->getUri()));
+                $this->setData('message', __('%s Class saved', $clazz->getLabel()));
+                $this->setData('reload', true);
+            }
+        }
+
+        $this->setData('formTitle', __('Edit class %s', $clazz->getLabel()));
+        $this->setData('myForm', $myForm->render());
+        $this->setView('form.tpl', 'tao');
+    }
+
+    /**
      * Add an instance of the selected class
      * @requiresRight id WRITE
      * @return void
@@ -456,7 +482,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
-
 
     /**
      * Duplicate the current instance
