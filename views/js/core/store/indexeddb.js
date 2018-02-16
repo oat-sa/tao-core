@@ -55,6 +55,12 @@ define([
     var idStoreName = 'id';
 
     /**
+     * Check if we're using the v2 of IndexedDB
+     * @type {Boolean}
+     */
+    var isIndexedDB2 = 'getAll' in IDBObjectStore.prototype;
+
+    /**
      * Opens a store
      * @returns {Promise} with store instance in resolve
      */
@@ -209,7 +215,13 @@ define([
                     })
                     .catch(reject);
             };
-            store.deleteDatabase(success, reject);
+            //with old implementation, deleting a store is
+            //either unsupported or buggy
+            if(isIndexedDB2){
+                store.deleteDatabase(success, reject);
+            } else {
+                store.clear(success, reject);
+            }
         });
     };
 
