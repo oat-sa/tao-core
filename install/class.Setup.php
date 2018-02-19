@@ -96,24 +96,19 @@ class tao_install_Setup implements Action
             }
         }
 
-        // override logging during install
-        if (isset($parameters['configuration']['generis']['log'])) {
-
-            /** @var LoggerService $loggerService */
-            $loggerService = $this->getContainer()->offsetGet(LoggerService::SERVICE_ID);
-            $loggerService->addLogger(
-                new TaoLog(array(
-                    'appenders' => array(
-                        array(
-                            'class' => 'SingleFileAppender',
-                            'threshold' => common_Logger::TRACE_LEVEL,
-                            'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log'
-                        )
+        /** @var LoggerService $loggerService */
+        $loggerService = $this->getContainer()->offsetGet(LoggerService::SERVICE_ID);
+        $loggerService->addLogger(
+            new TaoLog(array(
+                'appenders' => array(
+                    array(
+                        'class' => 'SingleFileAppender',
+                        'threshold' => common_Logger::TRACE_LEVEL,
+                        'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log'
                     )
-                ))
-            );
-
-        }
+                )
+            ))
+        );
 
         $options = array (
             "db_driver"	=>			"mysql"
