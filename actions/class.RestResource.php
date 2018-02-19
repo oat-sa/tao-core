@@ -353,6 +353,6 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     protected function getResourceService()
     {
-        return $this->getServiceManager()->get(ResourceService::SERVICE_ID);
+        return $this->getServiceLocator()->get(ResourceService::SERVICE_ID);
     }
 }
