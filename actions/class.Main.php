@@ -21,13 +21,8 @@
  *
  */
 
-use oat\oatbox\event\EventManager;
 use oat\generis\model\GenerisRdf;
-use oat\tao\model\event\LoginFailedEvent;
-use oat\tao\model\event\LoginSucceedEvent;
-use oat\tao\model\event\LogoutSucceedEvent;
-use oat\tao\model\menu\MenuService;
-use oat\tao\model\menu\Perspective;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
@@ -35,6 +30,7 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
+use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\tao\model\mvc\DefaultUrlService;
