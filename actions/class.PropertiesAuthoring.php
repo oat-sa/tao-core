@@ -57,10 +57,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                     $this->getEventManager()->trigger(new ClassFormUpdatedEvent($clazz, $properties));
                 }
                 $this->setData('message', __('%s Class saved', $clazz->getLabel()));
-                $this->setData('reload', true);
+                $this->setData('reload', false);
             }
         }
-        $this->setData('formTitle', __('Edit class %s', $clazz->getLabel()));
+        $this->setData('formTitle', __('Manage class schema'));
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
