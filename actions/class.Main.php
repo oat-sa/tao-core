@@ -235,11 +235,12 @@ class tao_actions_Main extends tao_actions_CommonModule
 		$this->redirect($urlRouteService->getRedirectUrl('logout'));
 	}
 
-	/**
-	 * The main action, load the layout
-     *
-	 * @return void
-	 */
+    /**
+     * The main action, load the layout
+     * @return void
+     * @throws common_Exception
+     * @throws common_exception_Error
+     */
     public function index()
     {
         
@@ -254,18 +255,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
 			$this->removeSessionAttribute('showNodeUri');
-            
-            TaoCe::setLastVisitedUrl(
-                _url(
-                    'index',
-                    'Main',
-                    'tao',
-                    array(
-                        'structure' => $structure,
-                        'ext'       => $extension
-                    )
-                )
-            );
+
+            TaoCe::setLastVisitedUrl(tao_helpers_Uri::url('index', 'Main', 'tao',
+                ['structure' => $structure, 'ext' => $extension]));
             
             $sections = $this->getSections($extension, $structure);
 			if (count($sections) > 0) {
@@ -290,13 +282,13 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
 
-        /* @var $notifService NotificationServiceInterface */
-        $notifService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+        /* @var $notificationService NotificationServiceInterface */
+        $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
 
-        if($notifService->getVisibility()) {
-            $notif = $notifService->notificationCount($user->getUri());
+        if($notificationService->getVisibility()) {
+            $notifications = $notificationService->notificationCount($user->getUri());
 
-            $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
+            $this->setData('unread-notification', $notifications[NotificationInterface::CREATED_STATUS]);
 
             $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
                 [
@@ -307,7 +299,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             ));
         }
         /* @var $urlRouteService DefaultUrlService */
-        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getLogoutUrl());
         
         $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
@@ -319,7 +311,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('current-section', $this->getRequestParameter('section'));
 
         // Add csrf token
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $tokenService->createToken();
         $this->setCookie($tokenName, $token, null, '/');
