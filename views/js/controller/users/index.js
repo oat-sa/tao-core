@@ -2,7 +2,7 @@
  * @author Jérôme Bogaert <jerome@taotesting.com>
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 'ui/dialog/confirm', 'ui/datatable'], function (module, $, __, helpers, section, feedback, dialogConfirm) {
+define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback', 'ui/dialog/confirm', 'ui/datatable'], function (module, $, __, urlHelper, section, feedback, dialogConfirm) {
     'use strict';
 
     var runUserAction = function runUserAction(uri, action, confirmMessage) {
@@ -14,9 +14,9 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
 
         dialogConfirm(confirmMessage, function () {
             $.ajax({
-                url : helpers._url(action, 'Users', 'tao'),
-                data : data,
-                type : 'POST'
+                url: urlHelper.route(action, 'Users', 'tao'),
+                data: data,
+                type: 'POST'
             }).done(function(response) {
                 if (response.deleted) {
                     feedback().success(response.message);
@@ -26,7 +26,6 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
                 $('#user-list').datatable('refresh');
             });
         });
-
     };
 
     /**
@@ -37,7 +36,7 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
         section
             .get('edit_user')
             .enable()
-            .loadContentBlock(helpers._url('edit', 'Users', 'tao'), {uri : uri})
+            .loadContentBlock(urlHelper.route('edit', 'Users', 'tao'), {uri : uri})
             .show();
     };
 
@@ -79,17 +78,29 @@ define(['module', 'jquery', 'i18n', 'helpers', 'layout/section', 'ui/feedback', 
                 }
             });
 
+            var actions = {
+                edit: editUser,
+                remove: removeUser,
+                lock: blockUser,
+                reset: resetUser
+            };
+
             // initialize the user manager component
-            $userList.datatable({
-                url: helpers._url('data', 'Users', 'tao'),
+            $userList.on('load.datatable', function (e, dataset) {
+                _.forEach(dataset.data, function(row) {
+                    var selector = row.blocked
+                        ? '[data-item-identifier="' + row.id + '"] button.lock'
+                        : '[data-item-identifier="' + row.id + '"] button.reset';
+                    $(selector, $userList).hide();
+                });
+            }).datatable({
+                url: urlHelper.route('data', 'Users', 'tao'),
+                paginationStrategyBottom: 'pages',
+                selectable: true,
                 filter: true,
-                actions: {
-                    'edit': editUser,
-                    'remove': removeUser,
-                    'block': blockUser,
-                    'reset': resetUser
-                },
-                'model': [
+                actions: actions,
+                tools: _.omit(actions, 'edit', 'remove'),
+                model: [
                     {
                         id : 'login',
                         label : __('Login'),
