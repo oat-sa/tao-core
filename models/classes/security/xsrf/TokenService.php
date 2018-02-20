@@ -152,7 +152,16 @@ class TokenService extends ConfigurableService
      */
     public function getTokenName()
     {
-        return $this->getStore()->getTokenName();
+        $session = \PHPSession::singleton();
+
+        if ($session->hasAttribute(TokenStore::TOKEN_NAME)) {
+            $name = $session->getAttribute(TokenStore::TOKEN_NAME);
+        } else {
+            $name = 'tao_' . substr(md5(microtime()), rand(0, 25), 7);
+            $session->setAttribute(TokenStore::TOKEN_NAME, $name);
+        }
+
+        return $name;
     }
 
     /**

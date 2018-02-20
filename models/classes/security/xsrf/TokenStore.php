@@ -44,9 +44,4 @@ interface TokenStore
      * Remove all tokens
      */
     public function removeTokens();
-
-    /**
-     * @return string
-     */
-    public function getTokenName();
 }

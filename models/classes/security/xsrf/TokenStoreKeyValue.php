@@ -60,24 +60,6 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     }
 
     /**
-     * Get name/key of tokens
-     * @throws \common_Exception
-     */
-    public function getTokenName()
-    {
-        $persistence = $this->getPersistence();
-
-        if ($persistence->exists(static::TOKEN_NAME)) {
-            $name = $persistence->get(self::TOKEN_NAME);
-        } else {
-            $name = 'tao_' . substr(md5(microtime()), rand(0, 25), 7);
-            $persistence->set(self::TOKEN_NAME, $name);
-        }
-
-        return $name;
-    }
-
-    /**
      * @return common_persistence_KeyValuePersistence|\common_persistence_Persistence
      */
     protected function getPersistence()
