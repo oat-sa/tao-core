@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
@@ -37,6 +38,7 @@ use oat\generis\model\GenerisRdf;
 class tao_actions_Users extends tao_actions_CommonModule
 {
     use EventManagerAwareTrait;
+    use OntologyAwareTrait;
 
     /** @var tao_models_classes_UserService */
     protected $userService = null;
@@ -64,6 +66,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      * Provide the user list data via json
      * @return string|json
      * @todo Use datatable class instead of custom implementation
+     * @throws common_exception_InvalidArgumentType
      */
     public function data()
     {
@@ -76,12 +79,13 @@ class tao_actions_Users extends tao_actions_CommonModule
         $start = $limit * $page - $limit;
 
         $fieldsMap = [
-            'login' => PROPERTY_USER_LOGIN,
-            'firstname' => PROPERTY_USER_FIRSTNAME,
-            'lastname' => PROPERTY_USER_LASTNAME,
-            'email' => PROPERTY_USER_MAIL,
-            'dataLg' => PROPERTY_USER_DEFLG,
-            'guiLg' => PROPERTY_USER_UILG
+            'login' => GenerisRdf::PROPERTY_USER_LOGIN,
+            'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
+            'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
+            'email' => GenerisRdf::PROPERTY_USER_MAIL,
+            'dataLg' => GenerisRdf::PROPERTY_USER_DEFLG,
+            'guiLg' => GenerisRdf::PROPERTY_USER_UILG,
+            'status' => GenerisRdf::PROPERTY_USER_STATUS
         ];
 
         // sorting
@@ -89,7 +93,7 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         // filtering
         $filters = [
-            PROPERTY_USER_LOGIN => '*',
+            GenerisRdf::PROPERTY_USER_LOGIN => '*',
         ];
         
         if ($filterQuery) {
@@ -120,44 +124,67 @@ class tao_actions_Users extends tao_actions_CommonModule
             'limit' => $limit
         ]), $filters);
 
-        $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+        $rolesProperty = $this->getProperty(GenerisRdf::PROPERTY_USER_ROLES);
 
         $response = new stdClass();
         $readonly = array();
         $index = 0;
+
+        /** @var core_kernel_classes_Resource $user */
         foreach ($users as $user) {
 
             $propValues = $user->getPropertiesValues(array(
-                PROPERTY_USER_LOGIN,
-                PROPERTY_USER_FIRSTNAME,
-                PROPERTY_USER_LASTNAME,
-                PROPERTY_USER_MAIL,
-                PROPERTY_USER_DEFLG,
-                PROPERTY_USER_UILG,
-                PROPERTY_USER_ROLES
+                GenerisRdf::PROPERTY_USER_LOGIN,
+                GenerisRdf::PROPERTY_USER_FIRSTNAME,
+                GenerisRdf::PROPERTY_USER_LASTNAME,
+                GenerisRdf::PROPERTY_USER_MAIL,
+                GenerisRdf::PROPERTY_USER_DEFLG,
+                GenerisRdf::PROPERTY_USER_UILG,
+                GenerisRdf::PROPERTY_USER_ROLES,
+                GenerisRdf::PROPERTY_USER_STATUS,
+                GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME
             ));
 
             $roles = $user->getPropertyValues($rolesProperty);
-            $labels = array();
+            $labels = [];
             foreach ($roles as $uri) {
-                $r = new core_kernel_classes_Resource($uri);
+                $r = $this->getResource($uri);
                 $labels[] = $r->getLabel();
             }
 
             $id = tao_helpers_Uri::encode($user->getUri());
-            $firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
-            $lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
-            $uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
-            $dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
+            $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
+            $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
+            $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
+            $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
+
+            $isUserActive = empty($propValues[GenerisRdf::PROPERTY_USER_STATUS]);
+
+            $statusMap = [
+                GenerisRdf::PROPERTY_USER_STATUS_BLOCKED => __('Blocked by administrator'),
+                GenerisRdf::PROPERTY_USER_STATUS_SELF_BLOCKED => __('Self-blocked until %s')
+            ];
+
+            $status = empty($propValues[GenerisRdf::PROPERTY_USER_STATUS]) ? __('Active') : __('Blocked');
+
+            // if self blocked - self-blocked until time
+            // if blocked - blocked by username
+
+            // statuses
+            // Active, Self blocked, Blocked
+
+            // @todo Split self blocked and blocked by administrator statuses
 
             $response->data[$index]['id'] = $id;
-            $response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+            $response->data[$index]['login'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_LOGIN]);
             $response->data[$index]['firstname'] = $firstName;
             $response->data[$index]['lastname'] = $lastName;
-            $response->data[$index]['email'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+            $response->data[$index]['email'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
             $response->data[$index]['roles'] = implode(', ', $labels);
             $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
+            $response->data[$index]['status'] = $status;
+            $response->data[$index]['blocked'] = !$isUserActive;
 
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;
@@ -177,11 +204,12 @@ class tao_actions_Users extends tao_actions_CommonModule
      * Remove a user
      * The request must contains the user's login to remove
      * @return void
+     * @throws Exception
      */
     public function delete()
     {
         // CSRF token validation
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
         if (! $tokenService->checkToken($token)) {
@@ -202,7 +230,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         if (helpers_PlatformInstance::isDemo()) {
             $message = __('User deletion not permitted on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
-            $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $user = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             $this->checkUser($user->getUri());
 
             if ($this->userService->removeUser($user)) {
@@ -219,16 +247,17 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * Form to add a user
      * @return void
+     * @throws Exception
      */
     public function add()
     {
-        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER));
+        $myFormContainer = new tao_actions_form_Users($this->getClass(TaoOntology::CLASS_URI_TAO_USER));
         $myForm = $myFormContainer->getForm();
 
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $values = $myForm->getValues();
-                $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
                 unset($values['password1']);
                 unset($values['password2']);
 
@@ -241,7 +270,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             }
         }
 
-        $this->setData('loginUri', tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
+        $this->setData('loginUri', tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
         $this->setData('formTitle', __('Add a user'));
         $this->setData('myForm', $myForm->render());
         $this->setView('user/form.tpl');
@@ -257,7 +286,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             throw new Exception("wrong request mode");
         }
 
-        $clazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
+        $clazz = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
         $myForm = $formContainer->getForm();
 
@@ -321,17 +350,17 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $values = $myForm->getValues();
 
                 if (!empty($values['password2']) && !empty($values['password3'])) {
-                    $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
+                    $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
                 }
 
                 unset($values['password2']);
                 unset($values['password3']);
 
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_UILG]))) {
-                    unset($values[PROPERTY_USER_UILG]);
+                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_UILG]))) {
+                    unset($values[GenerisRdf::PROPERTY_USER_UILG]);
                 }
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_DEFLG]))) {
-                    unset($values[PROPERTY_USER_DEFLG]);
+                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_DEFLG]))) {
+                    unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
                 }
 
                 $this->userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
