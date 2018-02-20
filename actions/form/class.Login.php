@@ -75,7 +75,7 @@ class tao_actions_form_Login extends tao_helpers_form_FormContainer
             ? 'ViewableHiddenbox'
             : 'Hiddenbox';
         $passElt = FormFactory::getElement('password', $passwordWidgetId);
-        $passElt->setDescription(Layout::getPasswordLabel());
+        $passElt->setDescription(__('Password'));
         $passElt->addValidator(FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($passElt);
 
