@@ -42,7 +42,9 @@ class TokenService extends ConfigurableService
     //options keys
     const POOL_SIZE_OPT  = 'poolSize';
     const TIME_LIMIT_OPT = 'timeLimit';
-    const STORE_OPT      = 'store';
+    /** @deprecated use TokenService::OPTION_STORE */
+    const STORE_OPT    = 'store';
+    const OPTION_STORE = 'store';
 
     const DEFAULT_POOL_SIZE = 10;
     const DEFAULT_TIME_LIMIT = 0;
