@@ -426,24 +426,6 @@ class Layout
 
     /**
      *
-     * @deprecated change default language if you want to change the "Login" translation
-     * @return type
-     */
-    public static function getLoginLabel() {
-        return __("Login");
-    }
-
-    /**
-     *
-     * @deprecated change default language if you want to change the "Password" translation
-     * @return type
-     */
-    public static function getPasswordLabel() {
-        return __("Password");
-    }
-
-    /**
-     *
      * @deprecated use custom footer.tpl template instead
      * @return type
      */

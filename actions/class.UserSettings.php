@@ -151,4 +151,3 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	}
 
 }
-?>

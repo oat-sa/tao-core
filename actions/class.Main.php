@@ -22,20 +22,21 @@
  */
 
 use oat\generis\model\GenerisRdf;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\user\LoginService;
+use oat\tao\helpers\TaoCe;
+use oat\tao\model\accessControl\ActionResolver;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
-use oat\oatbox\user\LoginService;
-use oat\tao\helpers\TaoCe;
-use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\tao\model\accessControl\ActionResolver;
-use oat\tao\model\entryPoint\EntryPointService;
-use oat\oatbox\event\EventManager;
 use oat\tao\model\mvc\DefaultUrlService;
-use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\security\IFrameBlocker;
 use oat\tao\model\security\xsrf\TokenService;
 
 /**
@@ -47,7 +48,6 @@ use oat\tao\model\security\xsrf\TokenService;
  */
 class tao_actions_Main extends tao_actions_CommonModule
 {
-
     /**
      * The user service
      *
@@ -119,68 +119,72 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    }
 	}
 
-	/**
-	 * Authentication form,
-	 * default page, main entry point to the user
-     *
-	 * @return void
-	 */
-	public function login()
+    /**
+     * Authentication form,
+     * default page, main entry point to the user
+     * @return void
+     * @throws core_kernel_persistence_Exception
+     */
+    public function login()
 	{
-        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $config = $extension->getConfig('login');
-        $disableAutocomplete = !empty($config['disableAutocomplete']);
-        $enablePasswordReveal = !empty($config['enablePasswordReveal']);
+	    /** @var LoginService $loginService */
+	    $loginService = $this->getServiceLocator()->get(LoginService::SERVICE_ID);
 
-        $enableIframeProtection = !empty($config['block_iframe_usage']) && $config['block_iframe_usage'];
-        if ($enableIframeProtection) {
-            \oat\tao\model\security\IFrameBlocker::setHeader();
+        if ($loginService->hasOption(LoginService::OPTION_BLOCK_IFRAME_USAGE)
+            && $loginService->getOption(LoginService::OPTION_BLOCK_IFRAME_USAGE)
+        ) {
+            IFrameBlocker::setHeader();
         }
 
-		$params = array(
-            'disableAutocomplete' => $disableAutocomplete,
-            'enablePasswordReveal' => $enablePasswordReveal,
-        );
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
-
 			if (substr($redirectUrl, 0,1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
 				$params['redirect'] = $redirectUrl;
 			}
 		}
-		$myLoginFormContainer = new tao_actions_form_Login($params);
-		$myForm = $myLoginFormContainer->getForm();
 
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
-                $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+        $disableAutoComplete = $loginService->getOption(LoginService::OPTION_DISABLE_AUTO_COMPLETE);
 
-				if($success){
-				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");
+		$container = new tao_actions_form_Login(array(
+            'disable_auto_complete' => $disableAutoComplete,
+        ));
 
-                    $eventManager->trigger(new LoginSucceedEvent($myForm->getValue('login')));
+		$form = $container->getForm();
 
-					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
-						$this->redirect($_REQUEST['redirect']);
-					} else {
-						$this->forward('entry');
-					}
+        if ($form->isSubmited()) {
+            if ($form->isValid()) {
+                /** @var EventManager $eventManager */
+                $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+
+                if ($loginService->isBlocked($form->getValue('login'))) {
+                    common_Logger::i("User '" . $form->getValue('login') . "' has been blocked.");
+                    $this->setData('errorMessage', __('You have been blocked due to too many failed login attempts or by the administrator. Please try again later or ask your administrator.'));
                 } else {
-                    \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "'.");
+                    if ($loginService->login($form->getValue('login'), $form->getValue('password'))) {
+                        $eventManager->trigger(new LoginSucceedEvent($form->getValue('login')));
 
-                    $eventManager->trigger(new LoginFailedEvent($myForm->getValue('login')));
+                        common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
 
-					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
-				}
-			}
+                        if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
+                            $this->redirect($_REQUEST['redirect']);
+                        } else {
+                            $this->forward('entry');
+                        }
+                    } else {
+                        $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
+
+                        common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
+                        $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
+                    }
+                }
+            }
 		}
 
-        $renderedForm = $myForm->render();
+        $renderedForm = $form->render();
 
         // replace the login form by a fake form that will delegate the submit to the real form
         // this will allow to prevent the browser ability to cache login/password
-        if ($disableAutocomplete) {
+        if ($disableAutoComplete) {
             // make a copy of the form and replace the form attributes
             $fakeForm = preg_replace('/<form[^>]+>/', '<div class="form loginForm fakeForm">', $renderedForm);
             $fakeForm = str_replace('</form>', '</div>', $fakeForm);
@@ -209,41 +213,42 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('form', $renderedForm);
         $this->setData('title', __("TAO Login"));
 
+        /** @var EntryPointService $entryPointService */
         $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
         $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
 
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', $this->getRequestParameter('msg'));
         }
-        $this->setData('content-template', array('blocks/login.tpl', 'tao'));
 
+        $this->setData('content-template', array('blocks/login.tpl', 'tao'));
         $this->setView('layout.tpl', 'tao');
 	}
 
-	/**
-	 * Logout, destroy the session and back to the login page
-	 */
+    /**
+     * Logout, destroy the session and back to the login page
+     * @throws common_exception_Error
+     */
 	public function logout()
 	{
-
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
         $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
         $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
 
-
         common_session_SessionManager::endSession();
-                /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
-		$this->redirect($urlRouteService->getRedirectUrl('logout'));
-	}
+        $this->redirect($urlRouteService->getRedirectUrl('logout'));
+    }
 
-	/**
-	 * The main action, load the layout
-     *
-	 * @return void
-	 */
+    /**
+     * The main action, load the layout
+     * @return void
+     * @throws common_Exception
+     * @throws common_exception_Error
+     */
     public function index()
     {
 
@@ -259,17 +264,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 			$this->removeSessionAttribute('classUri');
 			$this->removeSessionAttribute('showNodeUri');
 
-            TaoCe::setLastVisitedUrl(
-                _url(
-                    'index',
-                    'Main',
-                    'tao',
-                    array(
-                        'structure' => $structure,
-                        'ext'       => $extension
-                    )
-                )
-            );
+            TaoCe::setLastVisitedUrl(tao_helpers_Uri::url('index', 'Main', 'tao',
+                ['structure' => $structure, 'ext' => $extension]));
 
             $sections = $this->getSections($extension, $structure);
 			if (count($sections) > 0) {
@@ -294,13 +290,13 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
 
-        /* @var $notifService NotificationServiceInterface */
-        $notifService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+        /* @var $notificationService NotificationServiceInterface */
+        $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
 
-        if($notifService->getVisibility()) {
-            $notif = $notifService->notificationCount($user->getUri());
+        if($notificationService->getVisibility()) {
+            $notifications = $notificationService->notificationCount($user->getUri());
 
-            $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
+            $this->setData('unread-notification', $notifications[NotificationInterface::CREATED_STATUS]);
 
             $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
                 [
@@ -311,7 +307,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             ));
         }
         /* @var $urlRouteService DefaultUrlService */
-        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getLogoutUrl());
 
         $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
@@ -323,7 +319,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('current-section', $this->getRequestParameter('section'));
 
         // Add csrf token
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $tokenService->createToken();
         $this->setCookie($tokenName, $token, null, '/');
@@ -426,9 +422,9 @@ class tao_actions_Main extends tao_actions_CommonModule
         return $sections;
     }
 
-
     /**
      * Check if the system is ready
+     * @deprecated
      */
     public function isReady()
     {
