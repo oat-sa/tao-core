@@ -276,6 +276,45 @@ define([
         });
     });
 
+    QUnit.asyncTest('remove a node', function(assert) {
+        var $container = $('#qunit-fixture');
+        var uri = 'http://bertao/tao.rdf#i1491898801542197';
+        var classUri = 'http://bertao/tao.rdf#i1491898694361191';
+
+        QUnit.expect(11);
+
+        resourceTreeFactory($container, {
+            classUri : classUri,
+            nodes: rootData
+        })
+        .on('render', function(){
+
+            var $classNode = $('[data-uri="'+classUri+'"]', this.getElement());
+            var $node      = $('[data-uri="'+uri+'"]', this.getElement());
+
+            assert.equal($classNode.length, 1, 'The class node is in the DOM');
+            assert.equal($classNode.data('count'), 5, 'The instances count is correct');
+
+            this.after('remove', function(removedUri){
+                assert.equal(removedUri, uri, 'The removedUri is correct');
+
+                assert.ok( ! this.hasNode(uri), 'The node is not registerd anymore');
+                assert.equal($('[data-uri="'+uri+'"]', this.getElement()).length, 0, 'The node is not in the DOM anymore');
+
+                assert.equal($classNode.data('count'), 4, 'The class count has been updated');
+
+                QUnit.start();
+            });
+
+            assert.ok(!this.hasNode('fooyeh'), 'The fake node is not registered');
+            assert.ok(!this.removeNode('fooyeh'), 'Removing a fake node does not work');
+
+            assert.ok(this.hasNode(uri), 'The node is registered');
+            assert.equal($node.length, 1, 'The node is in the DOM');
+
+            assert.ok(this.removeNode(uri), 'The removal went well');
+        });
+    });
 
     QUnit.module('Visual');
 

@@ -379,6 +379,13 @@ define([
                 this.trigger('template', componentTpl);
 
                 return this;
+            },
+
+            /**
+             * Get the component's configuration
+             */
+            getConfig : function getConfig(){
+                return this.config || defaults || {};
             }
         };
 

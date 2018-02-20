@@ -1,12 +1,15 @@
 <div class="resource-selector {{#if multiple}}multiple{{/if}}">
 
+    {{#if showContext}}
     <nav class="context">
         <div class="class-context"></div>
         {{#each formats}}
         <a href="#" data-view-format="{{@key}}" {{#if active}}class="active"{{/if}} {{#if title}}title="{{title}}"{{/if}}><span class="{{icon}}"></span></a>
         {{/each}}
     </nav>
+    {{/if}}
 
+    {{#if showSelection}}
     <nav class="selection">
         <div class="search">
             <input type="text" placeholder="{{searchPlaceholder}}" />
@@ -27,6 +30,7 @@
         <div class="filters-container folded"></div>
         {{/if}}
     </nav>
+    {{/if}}
 
     <main>
         <span class="hidden no-results">{{noResultsText}}</span>

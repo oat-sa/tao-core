@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+
 /**
  * Short description of class tao_actions_form_Role
  *
@@ -49,7 +51,7 @@ class tao_actions_form_Role
         
         parent::initElements();
         
-        $encodedIncludesRolePropertyUri = tao_helpers_Uri::encode(PROPERTY_ROLE_INCLUDESROLE);
+        $encodedIncludesRolePropertyUri = tao_helpers_Uri::encode(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
         $encodedInstanceUri = tao_helpers_Uri::encode($this->getInstance()->getUri());
         $rolesElement = $this->form->getElement($encodedIncludesRolePropertyUri);
         if (!is_null($rolesElement)) {
@@ -79,7 +81,7 @@ class tao_actions_form_Role
         $returnValue = null;
 
         
-        $returnValue = new core_kernel_classes_Class(CLASS_ROLE);
+        $returnValue = new core_kernel_classes_Class(GenerisRdf::CLASS_ROLE);
         
 
         return $returnValue;

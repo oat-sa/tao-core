@@ -70,6 +70,11 @@ define([
         { title : 'getValue' },
         { title : 'setValue' },
         { title : 'getClassNode' },
+        { title : 'hasNode' },
+        { title : 'removeNode' },
+        { title : 'addNode' },
+        { title : 'updateNode' },
+        { title : 'updateNodes' },
     ]).test('Instance API ', function(data, assert) {
         var instance = classSelector();
         assert.equal(typeof instance[data.title], 'function', 'The classSelector exposes the method "' + data.title);
@@ -164,7 +169,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(8);
+        QUnit.expect(9);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -188,6 +193,7 @@ define([
 
             assert.equal(this.getValue(), 'http://bertao/tao.rdf#i14727380063820347',  'The correct value is selected');
             assert.equal($('a.selected', $element).text(), 'Trainee',  'The node\'s text is used by the selection element');
+            assert.equal($('a.selected', $element).attr('title'), 'Trainee',  'The node\'s title is correct');
 
             QUnit.start();
         });
@@ -229,7 +235,6 @@ define([
         });
     });
 
-
     QUnit.asyncTest('get class node', function(assert) {
 
         var $container = $('#qunit-fixture');
@@ -262,7 +267,6 @@ define([
             QUnit.start();
         });
     });
-
 
     QUnit.asyncTest('default value not in the classes', function(assert) {
 
@@ -313,6 +317,146 @@ define([
         });
     });
 
+    QUnit.asyncTest('empty the component', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(9);
+
+        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+
+        classSelector($container, {
+            classes : classes,
+            classUri : 'http://bertao/tao.rdf#i14727195563004295',
+            placeholder : 'select something'
+        })
+        .on('render', function(){
+
+            var $element = this.getElement();
+
+            assert.ok(! $('a.selected', $element).hasClass('empty'), 'The selection element starts with a value');
+            assert.equal(this.getValue(), 'http://bertao/tao.rdf#i14727195563004295',  'There default value is correct');
+            assert.equal($('a.selected', $element).text(), 'Designer',  'The default class label is correct');
+
+            this.empty();
+
+        })
+        .on('change', function(uri, label) {
+            var $element = this.getElement();
+
+            assert.equal(typeof uri, 'undefined', 'No uri selected');
+            assert.equal(typeof label, 'undefined', 'No label selected');
+
+            assert.equal(typeof this.getValue(), 'undefined',  'No current value anymore');
+            assert.equal($('a.selected', $element).text(), 'select something', 'The placeholder replaces the text');
+            assert.ok($('a.selected', $element).hasClass('empty'), 'The selection is empty');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('remove a class', function(assert) {
+        var node = {
+            uri : 'http://bertao/tao.rdf#i14727196326934301',
+            label : 'Test Engineer'
+        };
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(6);
+
+        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+
+        classSelector($container, {
+            classes : classes
+        })
+        .on('render', function(){
+            var $element = this.getElement();
+
+            assert.ok(this.hasNode(node), 'The node exists');
+            assert.equal($('.options [data-uri="' + node.uri + '"]', $element).length, 1,  'The node is in the options');
+
+            assert.ok(this.removeNode(node), 'The node is removed');
+
+            assert.ok( ! this.hasNode(node), 'The node does exists anymore');
+            assert.equal($('.options [data-uri="' + node.uri + '"]', $element).length, 0,  'The node is not in the options anymore');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('add a new class', function(assert) {
+        var node = {
+            uri : 'http://bertao/tao.rdf#i123456789123456456789',
+            label : 'Regression Test Expert'
+        };
+        var parentNode =  'http://bertao/tao.rdf#i14727196326934301';
+
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(9);
+
+        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+
+        classSelector($container, {
+            classes : classes
+        })
+        .on('render', function(){
+            var $element = this.getElement();
+            var $parentNode = $('.options [data-uri="' + parentNode + '"]', $element);
+
+            assert.ok( ! this.hasNode(node), 'The node to add does not exists yet');
+            assert.equal($('.options [data-uri="' + node.uri + '"]', $element).length, 0,  'The node is not in the options');
+
+            assert.ok(this.hasNode(parentNode), 'The parent node exists');
+            assert.equal($parentNode.length, 1,  'The parent node is not in the options');
+            assert.equal($parentNode.parent('li').find('ul > li').length, 0,  'The parent node has no children');
+
+            this.addNode(node, parentNode);
+
+            assert.ok(this.hasNode(node), 'The node is added');
+            assert.equal($('.options [data-uri="' + node.uri + '"]', $element).length, 1,  'The node is now in the options');
+            assert.equal($parentNode.parent('li').find('ul > li').length, 1,  'The parent node has now a new child');
+
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('update a node', function(assert) {
+        var uri      = 'http://bertao/tao.rdf#i14727190988218272';
+        var label    = 'Sales Directors';
+        var newLabel = 'Foo Directors';
+
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(8);
+
+        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+
+        classSelector($container, {
+            classes : classes,
+            classUri: uri,
+        })
+        .on('render', function(){
+            var $element = this.getElement();
+            var $selectableNode = $('.options [data-uri="' + uri + '"]', $element);
+
+            assert.ok(this.hasNode(uri), 'The node exists');
+            assert.equal($selectableNode.length, 1,  'The node is in the options');
+            assert.equal($selectableNode.text().trim(), label,  'The node label is correct');
+
+            assert.equal($('a.selected', $container).text().trim(), label,  'The node is also the selected node');
+            assert.equal(this.getValue(), uri,  'There selected uri is correct');
+
+            this.updateNode({
+                uri : uri,
+                label : newLabel
+            });
+
+            assert.equal($selectableNode.text().trim(), newLabel,  'The node label has changed');
+            assert.equal($('a.selected', $container).text().trim(), newLabel,  'The selection label has also changed');
+
+            QUnit.start();
+        });
+    });
 
     QUnit.module('Visual');
 

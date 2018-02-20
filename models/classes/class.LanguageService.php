@@ -1,29 +1,29 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
+use oat\generis\model\OntologyRdf;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
-use oat\tao\model\TaoOntology;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -31,16 +31,22 @@ use oat\tao\model\TaoOntology;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- 
+
  */
 class tao_models_classes_LanguageService
     extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
 
-
     // --- ATTRIBUTES ---
-
+    const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
+    const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
+    const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
+    const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
+    const INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
+    const INSTANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
+    const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
+    const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     // --- OPERATIONS ---
 
     /**
@@ -69,10 +75,10 @@ class tao_models_classes_LanguageService
     {
         $returnValue = null;
 
-        
-        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
+
+        $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
 	    $langs = $langClass->searchInstances(array(
-	    	RDF_VALUE => $code
+            OntologyRdf::RDF_VALUE => $code
 	    ), array(
 	    	'like' => false
 	    ));
@@ -81,7 +87,7 @@ class tao_models_classes_LanguageService
 	    } else {
 	    	common_Logger::w('Could not find language with code '.$code);
 	    }
-        
+
 
         return $returnValue;
     }
@@ -97,7 +103,7 @@ class tao_models_classes_LanguageService
     public function getCode( core_kernel_classes_Resource $language)
     {
         $returnValue = (string) '';
-        $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+        $valueProperty = new core_kernel_classes_Property(OntologyRdf::RDF_VALUE);
         $returnValue = $language->getUniquePropertyValue($valueProperty);
         return (string) $returnValue;
     }
@@ -113,9 +119,9 @@ class tao_models_classes_LanguageService
     public function getAvailableLanguagesByUsage( core_kernel_classes_Resource $usage)
     {
         $returnValue = array();
-    	$langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
+    	$langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
 	    $returnValue = $langClass->searchInstances(array(
-			TaoOntology::PROPERTY_LANGUAGE_USAGES => $usage->getUri()
+            static::PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
 	    	'like' => false
 	    ));
@@ -132,11 +138,11 @@ class tao_models_classes_LanguageService
      */
     public function isLanguageAvailable($code, core_kernel_classes_Resource $usage)
     {
-        $langClass = new core_kernel_classes_Class(TaoOntology::LANGUAGES_CLASS_URI);
+        $langClass = new core_kernel_classes_Class(static::CLASS_URI_LANGUAGES);
         $result = $langClass->searchInstances(
             array(
-                RDF_VALUE => $code,
-				TaoOntology::PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
+                OntologyRdf::RDF_VALUE => $code,
+                static::PROPERTY_LANGUAGE_USAGES => $usage->getUri(),
             ),
             array('like' => false)
         );
@@ -148,7 +154,7 @@ class tao_models_classes_LanguageService
     {
         $langCode = $this->getCode($language);
         $rdf = ModelManager::getModel()->getRdfInterface();
-        
+
         $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
         foreach ($extensions as $extension) {
             $pack = new RdfPack($langCode, $extension);
@@ -157,7 +163,7 @@ class tao_models_classes_LanguageService
             }
         }
     }
-    
+
 
     /**
      *
@@ -170,7 +176,7 @@ class tao_models_classes_LanguageService
     public function generateClientBundles($checkPreviousBundle = false)
     {
         $returnValue = array();
-        
+
         $extensions = array_map(
             function ($extension) {
                 return $extension->getId();
@@ -183,10 +189,10 @@ class tao_models_classes_LanguageService
         $generated = 0;
         $generate = true;
         foreach ($languages as $langCode) {
-            
+
             try {
                 $bundle = new TranslationBundle($langCode, $extensions, ROOT_PATH, TAO_VERSION);
-                
+
                 if ($checkPreviousBundle) {
                     $currentBundle = $path . $langCode . '.json';
                     if (file_exists($currentBundle)) {
@@ -212,15 +218,15 @@ class tao_models_classes_LanguageService
                     }
                 }
             } catch (common_exception_Error $e) {
-                
+
                 common_Logger::e('Failure: ' . $e->getMessage());
             }
         }
         common_Logger::i($generated . ' translation bundles have been (re)generated');
-        
+
         return $returnValue;
     }
-    
+
     /**
      * Short description of method getDefaultLanguageByUsage
      *

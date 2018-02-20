@@ -28,6 +28,7 @@ use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\fileReference\ResourceFileSerializer;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
 use oat\tao\helpers\Template;
@@ -62,8 +63,6 @@ use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
-use oat\tao\model\search\SearchService;
-use oat\tao\model\search\zend\ZendSearch;
 use oat\tao\model\ClientLibRegistry;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\generis\model\data\ModelManager;
@@ -99,6 +98,17 @@ use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\actionQueue\implementation\InstantActionQueue;
+use oat\tao\model\oauth\OauthService;
+use oat\tao\model\oauth\DataStore;
+use oat\tao\model\oauth\nonce\NoNonce;
+use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\model\resources\ResourceService;
+use oat\tao\model\resources\ListResourceLookup;
+use oat\tao\model\resources\TreeResourceLookup;
+use oat\tao\model\user\TaoRoles;
+use oat\generis\model\data\event\ResourceDeleted;
+use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\Search;
 
 /**
  *
@@ -146,7 +156,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($this->isVersion('2.7.1')) {
-            SearchService::setSearchImplementation(ZendSearch::createSearch());
+            // Zendsearch deprecated, skip
             $this->setVersion('2.7.2');
         }
 
@@ -229,7 +239,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             }
 
             $query = "DELETE from statements WHERE modelId = 1 AND subject = ? "
-                    ."AND predicate IN ('".RDFS_LABEL."','".RDFS_COMMENT."') ";
+                    ."AND predicate IN ('".OntologyRdfs::RDFS_LABEL."','".OntologyRdfs::RDFS_COMMENT."') ";
             foreach ($toCleanup as $subject) {
                 $persistence->exec($query,array($subject));
             }
@@ -319,11 +329,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         // reset the search impl for machines that missed 2.7.1 update due to merge
         if ($this->isVersion('2.7.15') || $this->isVersion('2.7.16')) {
-            try {
-                SearchService::getSearchImplementation();
-                // all good
-            } catch (\common_exception_Error $error) {
-                SearchService::setSearchImplementation(new GenerisSearch());
+            if (!$this->getServiceManager()->has(Search::SERVICE_ID)) {
+                $this->getServiceManager()->register(Search::SERVICE_ID, new GenerisSearch());
             }
             $this->setVersion('2.7.16');
         }
@@ -1006,11 +1013,83 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('14.16.0');
         }
 
-        $this->skip('14.16.0', '14.18.2');
+        $this->skip('14.16.0', '14.19.0');
 
-        if ($this->isVersion('14.18.2')) {
-            OntologyUpdater::syncModels();
+        if ($this->isVersion('14.19.0')) {
+
+            $action = new RegisterActionService();
+            $action->setServiceLocator($this->getServiceManager());
+            $action->__invoke([]);
+
+            $this->setVersion('14.20.0');
+        }
+
+        // register OAuthService
+        if ($this->isVersion('14.20.0')) {
+            if (!$this->getServiceManager()->has(OauthService::SERVICE_ID)) {
+                $this->getServiceManager()->register(OauthService::SERVICE_ID, new OauthService([
+                    OauthService::OPTION_DATASTORE => new DataStore([
+                        DataStore::OPTION_NONCE_STORE => new NoNonce()
+                    ])
+                ]));
+            }
+            $this->setVersion('14.21.0');
+        }
+        $this->skip('14.21.0', '14.23.3');
+
+        if($this->isVersion('14.23.3')){
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', ['ext'=>'tao','mod' => 'RestClass']));
+
+            $this->getServiceManager()->register(ResourceService::SERVICE_ID, new ResourceService());
+            $this->getServiceManager()->register(ListResourceLookup::SERVICE_ID, new ListResourceLookup());
+            $this->getServiceManager()->register(TreeResourceLookup::SERVICE_ID, new TreeResourceLookup());
+
             $this->setVersion('15.0.0');
+        }
+
+        $this->skip('15.0.0', '15.4.0');
+
+        if ($this->isVersion('15.4.0')) {
+            $setClientLoggerConfig = new SetClientLoggerConfig();
+            $setClientLoggerConfig([]);
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            $this->setVersion('15.5.0');
+        }
+
+        $this->skip('15.5.0', '15.12.0');
+
+        if ($this->isVersion('15.12.0')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('15.13.0');
+        }
+
+        if ($this->isVersion('15.13.0')) {
+            $this->getServiceManager()->register(IndexService::SERVICE_ID, new IndexService());
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(ResourceDeleted::class, [ResourceWatcher::SERVICE_ID, 'catchDeletedResourceEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('16.0.0');
+        }
+
+        $this->skip('16.0.0', '16.4.0');
+
+        if ($this->isVersion('16.4.0')) {
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'RestResource']));
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'RestClass']));
+
+            $this->setVersion('17.0.0');
+        }
+        
+        $this->skip('17.0.0', '17.2.1');
+
+        if ($this->isVersion('17.1.1')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('18.0.0');
         }
     }
 

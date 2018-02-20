@@ -1,0 +1,37 @@
+[{
+  "label": "Item",
+  "type": "class",
+  "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+  "classUri": null,
+  "state": "open",
+  "count": 0,
+  "children": [{
+    "label": "Item_2",
+    "type": "class",
+    "uri": "http:\/\/bertaodev\/tao.rdf#i1516810104355796",
+    "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+    "state": false,
+    "count": 0
+  }, {
+    "label": "Item_3",
+    "type": "class",
+    "uri": "http:\/\/bertaodev\/tao.rdf#i1516810704213298",
+    "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+    "state": false,
+    "count": 0
+  }, {
+    "label": "Item_4",
+    "type": "class",
+    "uri": "http:\/\/bertaodev\/tao.rdf#i15172429358769101",
+    "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+    "state": "closed",
+    "count": 0
+  }, {
+    "label": "QTI Example Test",
+    "type": "class",
+    "uri": "http:\/\/bertaodev\/tao.rdf#i1516798560594936",
+    "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+    "state": false,
+    "count": 0
+  }]
+}]

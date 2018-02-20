@@ -20,7 +20,7 @@ use oat\tao\helpers\Template;
     <?php echo tao_helpers_report_Rendering::render(get_data('report')); ?>
 </div>
 <script type="text/javascript">
-require(['jquery', 'i18n'], function($, __){
+require(['jquery', 'i18n', 'layout/actions'], function($, __, actionManager){
 
     var $toggleDetails = $('#fold > span.check-txt');
     var $top = $('.report > .feedback-nesting-0');
@@ -62,9 +62,13 @@ require(['jquery', 'i18n'], function($, __){
 
     // Continue button
     $('#import-continue').on('click', function() {
-        $('.tree').trigger('refresh.taotree', [{
-            loadNode : <?php echo json_encode(get_data('selectNode')); ?>
-        }]);
+        <?php if (has_data('selectNode')): ?>
+            actionManager.trigger('refresh', {
+                uri : <?php echo json_encode(\tao_helpers_Uri::decode(get_data('selectNode'))); ?>,
+            });
+        <?php else : ?>
+        actionManager.trigger('refresh');
+        <?php endif; ?>
     });
 });
 </script>

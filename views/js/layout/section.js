@@ -461,10 +461,11 @@ define([
          *
          * @param {String} [url] - the url to load, by default section's URL is used.
          * @param {Object} [data] - data to add to the request
+         * @param {Function} [loaded] - callback once loaded
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#load.section
          */
-        load : function(url, data){
+        load : function(url, data, loaded){
             var self = this;
             var wideDifferenciator = '[data-content-target="wide"]';
             var $contentBlock;
@@ -489,6 +490,9 @@ define([
                  * @param {String} response - the received content
                  */
                 self.scope.trigger('load.section', [self.selected, response]);
+                if(_.isFunction(loaded)){
+                    loaded();
+                }
             });
 
             return this;
@@ -501,10 +505,11 @@ define([
          *
          * @param {String} [url] - the url to load, by default section's URL is used.
          * @param {Object} [data] - data to add to the request
+         * @param {Function} [loaded] - callback once loaded
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#load.section
          */
-        loadContentBlock : function(url, data){
+        loadContentBlock : function(url, data, loaded){
             var $contentblock;
 
             if(!this.selected){
@@ -523,11 +528,11 @@ define([
             if($contentblock.length){
 
                 //do not yet trigger event on content block load, but may be required
-                $contentblock.empty().load(url, data);
+                $contentblock.empty().load(url, data, loaded);
                 return this;
             }
 
-            return this.load(url, data);
+            return this.load(url, data, loaded);
         },
 
         /**

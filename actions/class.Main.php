@@ -1,27 +1,33 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2016-2017 (update and modification) Open Assessment Technologies SA;
- * 
+ *               2016-2018 (update and modification) Open Assessment Technologies SA;
+ *
  */
 
 use oat\oatbox\event\EventManager;
+use oat\generis\model\GenerisRdf;
+use oat\tao\model\event\LoginFailedEvent;
+use oat\tao\model\event\LoginSucceedEvent;
+use oat\tao\model\event\LogoutSucceedEvent;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\menu\Perspective;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
@@ -41,7 +47,7 @@ use oat\tao\model\security\xsrf\TokenService;
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- 
+
  *
  */
 class tao_actions_Main extends tao_actions_CommonModule
@@ -49,10 +55,10 @@ class tao_actions_Main extends tao_actions_CommonModule
     /**
      * The user service
      *
-     * @var tao_models_classes_UserService 
+     * @var tao_models_classes_UserService
      */
     protected $userService;
-    
+
 	/**
 	 * Constructor performs initializations actions
 	 */
@@ -76,7 +82,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $entries[] = $entry;
             }
         }
-        
+
 	    if (empty($entries)) {
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
@@ -126,7 +132,7 @@ class tao_actions_Main extends tao_actions_CommonModule
     public function login()
 	{
 	    /** @var LoginService $loginService */
-	    $loginService = $this->getServiceManager()->get(LoginService::SERVICE_ID);
+	    $loginService = $this->getServiceLocator()->get(LoginService::SERVICE_ID);
 
         if ($loginService->hasOption(LoginService::OPTION_BLOCK_IFRAME_USAGE)
             && $loginService->getOption(LoginService::OPTION_BLOCK_IFRAME_USAGE)
@@ -214,7 +220,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         /** @var EntryPointService $entryPointService */
         $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
         $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
-        
+
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', $this->getRequestParameter('msg'));
         }
@@ -223,17 +229,23 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setView('layout.tpl', 'tao');
 	}
 
-	/**
-	 * Logout, destroy the session and back to the login page
-	 */
+    /**
+     * Logout, destroy the session and back to the login page
+     * @throws common_exception_Error
+     */
 	public function logout()
 	{
-		common_session_SessionManager::endSession();
-        /* @var $urlRouteService DefaultUrlService */
-        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-		$this->redirect($urlRouteService->getRedirectUrl('logout'));
-	}
+        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
+        $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
+
+        common_session_SessionManager::endSession();
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+
+        $this->redirect($urlRouteService->getRedirectUrl('logout'));
+    }
 
     /**
      * The main action, load the layout
@@ -243,13 +255,13 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     public function index()
     {
-        
+
         $user      = $this->userService->getCurrentUser();
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
-        
+
 		if($this->hasRequestParameter('structure')) {
-            
+
 			// structured mode
 			// @todo stop using session to manage uri/classUri
 			$this->removeSessionAttribute('uri');
@@ -258,7 +270,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
             TaoCe::setLastVisitedUrl(tao_helpers_Uri::url('index', 'Main', 'tao',
                 ['structure' => $structure, 'ext' => $extension]));
-            
+
             $sections = $this->getSections($extension, $structure);
 			if (count($sections) > 0) {
 				$this->setData('sections', $sections);
@@ -266,7 +278,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 				common_Logger::w('no sections');
 			}
 		} else {
-            
+
             //check if the user is a noob, otherwise redirect him to his last visited extension.
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {
@@ -301,7 +313,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getLogoutUrl());
-        
+
         $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
         $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
         // re-added to highlight selected extension in menu
@@ -327,10 +339,10 @@ class tao_actions_Main extends tao_actions_CommonModule
 
 		$this->setView('layout.tpl', 'tao');
 	}
-    
+
     /**
      * Get perspective data depending on the group set in structure.xml
-     * 
+     *
      * @param $groupId
      * @return array
      */
@@ -340,7 +352,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
             $binding = $perspective->getBinding();
             $children = $this->getMenuElementChildren($perspective);
-            
+
             if (!empty($binding) || !empty($children)) {
                 $entry = array(
                     'perspective' => $perspective,
@@ -354,7 +366,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
         return $entries;
     }
-    
+
     /**
      * Get nested menu elements depending on user rights.
      *
@@ -393,23 +405,24 @@ class tao_actions_Main extends tao_actions_CommonModule
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
-                
+
                 $resolver = new ActionResolver($section->getUrl());
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
 
                     foreach($section->getActions() as $action){
+                        $this->getServiceManager()->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
                         if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
-                            $section->removeAction($action); 
+                            $section->removeAction($action);
                         }
-                        
+
                     }
-    
+
     				$sections[] = $section;
                 }
             }
         }
-        
+
         return $sections;
     }
 

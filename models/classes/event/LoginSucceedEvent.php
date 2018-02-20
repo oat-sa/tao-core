@@ -17,6 +17,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\event;
 
 use JsonSerializable;
@@ -25,6 +26,7 @@ use oat\oatbox\event\Event;
 class LoginSucceedEvent implements Event, JsonSerializable
 {
     private $login = '';
+    private $time;
 
     /**
      * LoginEvent constructor.
@@ -33,6 +35,7 @@ class LoginSucceedEvent implements Event, JsonSerializable
     public function __construct($login = '')
     {
         $this->login = $login;
+        $this->time = time();
     }
 
     /**
@@ -50,6 +53,15 @@ class LoginSucceedEvent implements Event, JsonSerializable
     public function getName()
     {
         return __CLASS__;
+    }
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getTime()
+    {
+        return $this->time;
     }
 
     /**

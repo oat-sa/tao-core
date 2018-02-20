@@ -19,6 +19,7 @@
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\WfEngineOntology;
 
 /**
@@ -128,7 +129,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 	    }
 	    $serviceCallClass = $this->getClass( WfEngineOntology::CLASS_URI_CALL_OF_SERVICES);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
-	        RDFS_LABEL => 'serviceCall',
+            OntologyRdfs::RDFS_LABEL => 'serviceCall',
 			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_SERVICE_DEFINITION    => $this->serviceDefinitionId,
 			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_IN    => $inResources,
 			WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT   => $outResources,
