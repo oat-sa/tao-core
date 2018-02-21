@@ -55,6 +55,14 @@ class tao_actions_Users extends tao_actions_CommonModule
     }
 
     /**
+     * @return LoginService
+     */
+    public function getLoginService()
+    {
+        return $this->getServiceLocator()->get(LoginService::SERVICE_ID);
+    }
+
+    /**
      * Show the list of users
      * @return void
      */
@@ -144,6 +152,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 GenerisRdf::PROPERTY_USER_DEFLG,
                 GenerisRdf::PROPERTY_USER_UILG,
                 GenerisRdf::PROPERTY_USER_ROLES,
+
                 GenerisRdf::PROPERTY_USER_STATUS,
                 GenerisRdf::PROPERTY_USER_BLOCKED_BY,
                 GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME
@@ -180,7 +189,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                         $lastFailure->add(new DateInterval($lockoutPeriod));
                     }
 
-                    $status = __('Self-blocked until %s', tao_helpers_Date::displayeDate($lastFailure));
+                    $status = __('Self-blocked, till %s', tao_helpers_Date::displayeDate($lastFailure));
                 } else {
                     $blockedByUsername = $blockedBy->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_LOGIN));
                     $status = __('Blocked by %s', $blockedByUsername);
@@ -348,12 +357,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function edit()
     {
-        if (!$this->hasRequestParameter('uri')) {
-            throw new Exception('Please set the user uri in request parameter');
-        }
-
-        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $this->checkUser($user->getUri());
+        $user = $this->handleRequestParams();
 
         $types = $user->getTypes();
         $myFormContainer = new tao_actions_form_Users(reset($types), $user);
@@ -397,6 +401,52 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->setData('formTitle', __('Edit a user'));
         $this->setData('myForm', $myForm->render());
         $this->setView('user/form.tpl');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function reset()
+    {
+        $user = $this->handleRequestParams();
+
+        if ($this->getLoginService()->resetUser($user)) {
+            $this->returnJson([
+                'reseted' => true,
+                'message' => __('User successfully reseted')
+            ]);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function block()
+    {
+        $user = $this->handleRequestParams();
+
+        if ($this->getLoginService()->blockUser($user)) {
+            $this->returnJson([
+                'blocked' => true,
+                'message' => __('User successfully blocked')
+            ]);
+        }
+    }
+
+    /**
+     * @throws Exception
+     * @return core_kernel_classes_Resource
+     */
+    private function handleRequestParams()
+    {
+        if (!$this->hasRequestParameter('uri')) {
+            throw new Exception('Please set the user uri in request parameter');
+        }
+
+        $user = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $this->checkUser($user->getUri());
+
+        return $user;
     }
 
     /**

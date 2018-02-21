@@ -124,6 +124,7 @@ class tao_actions_Main extends tao_actions_CommonModule
      * default page, main entry point to the user
      * @return void
      * @throws core_kernel_persistence_Exception
+     * @throws Exception
      */
     public function login()
 	{
