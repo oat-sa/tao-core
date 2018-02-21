@@ -238,6 +238,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
 
         common_session_SessionManager::endSession();
+
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 

@@ -23,6 +23,7 @@
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\user\LoginService;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
@@ -67,6 +68,8 @@ class tao_actions_Users extends tao_actions_CommonModule
      * @return string|json
      * @todo Use datatable class instead of custom implementation
      * @throws common_exception_InvalidArgumentType
+     * @throws core_kernel_persistence_Exception
+     * @throws Exception
      */
     public function data()
     {
@@ -142,6 +145,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 GenerisRdf::PROPERTY_USER_UILG,
                 GenerisRdf::PROPERTY_USER_ROLES,
                 GenerisRdf::PROPERTY_USER_STATUS,
+                GenerisRdf::PROPERTY_USER_BLOCKED_BY,
                 GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME
             ));
 
@@ -157,23 +161,33 @@ class tao_actions_Users extends tao_actions_CommonModule
             $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
             $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
             $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
+            /** @var core_kernel_classes_Resource|null $blockedBy */
+            $blockedBy =  empty($propValues[GenerisRdf::PROPERTY_USER_BLOCKED_BY]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_BLOCKED_BY]);
+            $lastFailure = empty($propValues[GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME]);
 
             $isUserActive = empty($propValues[GenerisRdf::PROPERTY_USER_STATUS]);
 
-            $statusMap = [
-                GenerisRdf::PROPERTY_USER_STATUS_BLOCKED => __('Blocked by administrator'),
-                GenerisRdf::PROPERTY_USER_STATUS_SELF_BLOCKED => __('Self-blocked until %s')
-            ];
+            if ($isUserActive) {
+                $status = __('Active');
+            } elseif ($blockedBy) {
+                if ($blockedBy->getUri() === $user->getUri()) {
+                    /** @var LoginService $loginService */
+                    $loginService = $this->getServiceLocator()->get(LoginService::SERVICE_ID);
+                    $lockoutPeriod = $loginService->getOption(LoginService::OPTION_SOFT_LOCKOUT_PERIOD);
 
-            $status = empty($propValues[GenerisRdf::PROPERTY_USER_STATUS]) ? __('Active') : __('Blocked');
+                    if ($lastFailure) {
+                        $lastFailure = (new DateTime('now'))->setTimestamp($lastFailure->literal);
+                        $lastFailure->add(new DateInterval($lockoutPeriod));
+                    }
 
-            // if self blocked - self-blocked until time
-            // if blocked - blocked by username
-
-            // statuses
-            // Active, Self blocked, Blocked
-
-            // @todo Split self blocked and blocked by administrator statuses
+                    $status = __('Self-blocked until %s', tao_helpers_Date::displayeDate($lastFailure));
+                } else {
+                    $blockedByUsername = $blockedBy->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_LOGIN));
+                    $status = __('Blocked by %s', $blockedByUsername);
+                }
+            } else {
+                $status = __('Blocked'); // fallback
+            }
 
             $response->data[$index]['id'] = $id;
             $response->data[$index]['login'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_LOGIN]);
