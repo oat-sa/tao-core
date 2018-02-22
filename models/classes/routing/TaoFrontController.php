@@ -24,6 +24,7 @@ use common_ext_ExtensionsManager;
 use common_http_Request;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\model\session\sessionFactory\SessionFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -62,26 +63,20 @@ class TaoFrontController implements ServiceManagerAwareInterface
         $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
         \tao_helpers_I18n::init($ext, $uiLang);
 
-        //if the controller is a rest controller we try to authenticate the user
-        $controllerClass = $resolver->getControllerClass();
+        try {
+            /** @var SessionFactory $service */
+            $service = $this->getServiceLocator()->get(SessionFactory::SERVICE_ID);
+            $service->createSessionFromRequest($pRequest, $resolver);
+        } catch (\common_user_auth_AuthFailedException $e) {
+            $data['success']	= false;
+            $data['errorCode']	= '401';
+            $data['errorMsg']	= 'You are not authorized to access this functionality.';
+            $data['version']	= TAO_VERSION;
 
-        if (is_subclass_of($controllerClass, \tao_actions_RestController::class)) {
-            $authAdapter = new \tao_models_classes_HttpBasicAuthAdapter(common_http_Request::currentRequest());
-            try {
-                $user = $authAdapter->authenticate();
-                $session = new \common_session_RestSession($user);
-                \common_session_SessionManager::startSession($session);
-            } catch (\common_user_auth_AuthFailedException $e) {
-                $data['success']	= false;
-                $data['errorCode']	= '401';
-                $data['errorMsg']	= 'You are not authorized to access this functionality.';
-                $data['version']	= TAO_VERSION;
-
-                header('HTTP/1.0 401 Unauthorized');
-                header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
-                echo json_encode($data);
-                exit(0);
-            }
+            header('HTTP/1.0 401 Unauthorized');
+            header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
+            echo json_encode($data);
+            exit(0);
         }
 
 
