@@ -18,7 +18,7 @@
  */
 
 /**
- * Limit a string by for word count or character count
+ * Limit a string by either word or character count
  *
  * @author dieter <dieter@taotesting.com>
  */
