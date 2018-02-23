@@ -15,11 +15,9 @@ class SessionFactory extends ConfigurableService
         /** @var SessionBuilder $builder */
         foreach ($this->getAdapters() as $builder) {
             if ($builder->isApplicable($request, $resolver)) {
-                return $builder->getSession($request);
+                return \common_session_SessionManager::startSession($builder->getSession($request));
             }
         }
-
-        return new \common_session_AnonymousSession();
     }
 
     /**
@@ -29,10 +27,10 @@ class SessionFactory extends ConfigurableService
     {
         $adapters = is_array($this->getOption(self::OPTION_ADAPTER)) ? $this->getOption(self::OPTION_ADAPTER) : [];
         foreach ($adapters as $key => $adapter) {
-            if (is_a($adapter, SessionBuilder::class, true)) {
+            if (!is_a($adapter, SessionBuilder::class, true)) {
                 throw new \LogicException('Session adapter must implement interface "SessionBuilder".');
             }
-            $adapters[$key] = new $adapter();
+            $adapters[$key] = $this->propagate(new $adapter());
         }
         return $adapters;
     }
