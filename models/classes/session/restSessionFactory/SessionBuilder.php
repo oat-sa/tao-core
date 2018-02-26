@@ -17,13 +17,31 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
-namespace oat\tao\model\session\sessionFactory;
 
+namespace oat\tao\model\session\restSessionFactory;
+
+use oat\oatbox\user\LoginFailedException;
 use oat\tao\model\routing\Resolver;
 
 interface SessionBuilder
 {
+    /**
+     * Check if the current builder is able to load the session.
+     *
+     * The $request and $resolver is used to know the context
+     *
+     * @param \common_http_Request $request
+     * @param Resolver $resolver
+     * @return boolean
+     */
     public function isApplicable(\common_http_Request $request, Resolver $resolver);
 
+    /**
+     * Construct the session based on request
+     *
+     * @param \common_http_Request $request
+     * @return \common_session_Session
+     * @throws LoginFailedException
+     */
     public function getSession(\common_http_Request $request);
 }

@@ -24,7 +24,7 @@ use common_ext_ExtensionsManager;
 use common_http_Request;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\tao\model\session\sessionFactory\SessionFactory;
+use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -64,8 +64,8 @@ class TaoFrontController implements ServiceManagerAwareInterface
         \tao_helpers_I18n::init($ext, $uiLang);
 
         try {
-            /** @var SessionFactory $service */
-            $service = $this->getServiceLocator()->get(SessionFactory::SERVICE_ID);
+            /** @var RestSessionFactory $service */
+            $service = $this->getServiceLocator()->get(RestSessionFactory::SERVICE_ID);
             $service->createSessionFromRequest($pRequest, $resolver);
         } catch (\common_user_auth_AuthFailedException $e) {
             $data['success']	= false;

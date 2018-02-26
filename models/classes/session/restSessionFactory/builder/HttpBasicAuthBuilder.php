@@ -18,18 +18,33 @@
  *
  */
 
-namespace oat\tao\model\session\sessionFactory\builder;
+namespace oat\tao\model\session\restSessionFactory\builder;
 
 use oat\tao\model\routing\Resolver;
-use oat\tao\model\session\sessionFactory\SessionBuilder;
+use oat\tao\model\session\restSessionFactory\SessionBuilder;
+use \oat\oatbox\user\LoginFailedException;
 
 class HttpBasicAuthBuilder implements SessionBuilder
 {
+    /**
+     * Check if current request concerns a RestController
+     *
+     * @param \common_http_Request $request
+     * @param Resolver $resolver
+     * @return bool
+     */
     public function isApplicable(\common_http_Request $request, Resolver $resolver)
     {
         return is_subclass_of($resolver->getControllerClass(), \tao_actions_RestController::class);
     }
 
+    /**
+     * Create a rest session based on request credentials
+     *
+     * @param \common_http_Request $request
+     * @return \common_session_RestSession|\common_session_Session
+     * @throws LoginFailedException
+     */
     public function getSession(\common_http_Request $request)
     {
         $authAdapter = new \tao_models_classes_HttpBasicAuthAdapter($request);
