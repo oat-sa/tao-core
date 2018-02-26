@@ -56,6 +56,8 @@ use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
+use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -1086,6 +1088,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         $this->skip('17.0.0', '17.4.0');
+
+        if ($this->isVersion('17.4.0')) {
+            $this->getServiceManager()->register(
+                RestSessionFactory::SERVICE_ID,
+                new RestSessionFactory(array(
+                    RestSessionFactory::OPTION_BUILDER => array(
+                        HttpBasicAuthBuilder::class
+                    )
+                ))
+            );
+            $this->setVersion('17.5.0');
+        }
     }
 
     private function migrateFsAccess() {
