@@ -245,6 +245,36 @@ define(['core/store/indexeddb', 'core/promise'], function(indexedDbBackend, Prom
         });
     });
 
+    QUnit.asyncTest("get/set booleans", function(assert){
+        var store;
+
+        QUnit.expect(5);
+
+        store = indexedDbBackend('foo');
+        assert.equal(typeof store, 'object', 'The store is an object');
+
+        store.setItem('true', true)
+            .then(function(added){
+                assert.ok(added, 'The item is added');
+                return store.getItem('true');
+            })
+            .then(function(result){
+                assert.equal(result, true);
+                return store.setItem('false', false);
+            })
+            .then(function(added){
+                assert.ok(added, 'The item is added');
+                return store.getItem('false');
+            })
+            .then(function(result){
+                assert.equal(result, false);
+                QUnit.start();
+            }).catch(function(err){
+                assert.ok(false, err);
+                QUnit.start();
+            });
+    });
+
     QUnit.asyncTest("getItems", function(assert){
         var store;
 
