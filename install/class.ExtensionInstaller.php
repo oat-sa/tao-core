@@ -48,20 +48,24 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
     
     /**
      * Override the default model with the translated model
-     * 
+     *
+     * @inheritdoc
+     *
      * (non-PHPdoc)
      * @see common_ext_ExtensionInstaller::getExtensionModel()
      */
-    public function getExtensionModel() {
-        return new ExtensionModel($this->extension);
+    public function getExtensionModel($modelId = null) {
+        return new ExtensionModel($this->extension, $modelId);
     }
-    
+
     /**
      * Will create the model of Modules and Actions (MVC) in the persistent
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @return void
+     *
+     * @throws common_exception_Error
+     * @throws common_ext_ManifestNotFoundException
      * @since 2.4
      */
     public function extendedInstall()
@@ -77,12 +81,15 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
+     *
      * @return void
+     *
+     * @throws common_exception_Error
+     * @throws common_ext_ManifestNotFoundException
      * @since 2.4
      */
     public function installManagementRole()
     {
-        
         // Try to get a Management Role described by the extension itself.
         // (this information comes actually from the Manifest of the extension)
         $roleUri = $this->extension->getManifest()->getManagementRoleUri();
@@ -119,6 +126,8 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
      * @return void
+     *
+     * @throws common_ext_ManifestNotFoundException
      * @since 2.4
      */
     public function applyAccessRules()

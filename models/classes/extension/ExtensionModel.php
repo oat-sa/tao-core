@@ -20,30 +20,48 @@
 
 namespace oat\tao\model\extension;
 
-use oat\tao\model\TaoOntology;
-use tao_models_classes_LanguageService;
 use common_ext_Extension;
 use core_kernel_classes_Resource;
-use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
+use tao_models_classes_LanguageService;
 
 class ExtensionModel extends \common_ext_ExtensionModel
 {
+    /**
+     * @var null
+     */
+    private $modelId;
 
-    public function __construct(common_ext_Extension $extension) {
-        parent::__construct($extension);
+    /**
+     * @param common_ext_Extension $extension
+     * @param null $modelId
+     *
+     * @throws \common_exception_Error
+     * @throws \common_exception_InvalidArgumentType
+     * @throws \common_exception_MissingParameter
+     * @throws \common_ext_InstallationException
+     * @throws \common_ext_ManifestNotFoundException
+     */
+    public function __construct(common_ext_Extension $extension, $modelId) {
+        $this->modelId = $modelId;
+
+        parent::__construct($extension, $modelId);
         $this->addLanguages($extension);
     }
-    
+
+    /**
+     * @param $extension
+     *
+     * @throws \common_exception_Error
+     * @throws \common_exception_InvalidArgumentType
+     */
     protected function addLanguages($extension) {
         $langService = tao_models_classes_LanguageService::singleton();
         $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
-        $dataOptions = array();
 
-        $model = ModelManager::getModel();
         foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
             $langCode = $langService->getCode($lang);
-            $pack = new RdfPack($langCode, $extension);
+            $pack = new RdfPack($langCode, $extension, $this->modelId);
             $this->append($pack->getIterator());
         }
     }

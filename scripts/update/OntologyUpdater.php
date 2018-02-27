@@ -22,24 +22,37 @@
 namespace oat\tao\scripts\update;
 
 use AppendIterator;
-use oat\generis\model\kernel\persistence\file\FileModel;
-use oat\generis\model\data\ModelManager;
-use helpers_RdfDiff;
-use core_kernel_persistence_smoothsql_SmoothModel;
-use common_persistence_SqlPersistence;
 use common_ext_ExtensionsManager;
+use common_persistence_SqlPersistence;
 use core_kernel_persistence_smoothsql_SmoothIterator;
+use helpers_RdfDiff;
+use oat\generis\model\data\ModelManager;
+use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\tao\model\extension\ExtensionModel;
 
 class OntologyUpdater {
-    
+
+    /**
+     * @throws \common_exception_Error
+     * @throws \common_exception_InconsistentData
+     * @throws \common_exception_InvalidArgumentType
+     * @throws \common_exception_MissingParameter
+     * @throws \common_ext_ExtensionException
+     * @throws \common_ext_InstallationException
+     * @throws \common_ext_ManifestNotFoundException
+     */
     static public function syncModels() {
         $currentModel = ModelManager::getModel();
-        $modelIds = array_diff($currentModel->getReadableModels(),array('1'));
+
+        //exclude generis modelId
+
+        $modelId = common_ext_ExtensionsManager::singleton()->getModelIdByExtensionId('generis');
+
+        $readableModelIds = array_diff($currentModel->getReadableModels(), array($modelId));
         
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
         
-        $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $modelIds);
+        $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $readableModelIds);
         
         $nominalModel = new AppendIterator();
         foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
@@ -51,7 +64,46 @@ class OntologyUpdater {
         
         $diff->applyTo($currentModel);
     }
-    
+
+    /**
+     * @param string $extensionId
+     *
+     * @throws \common_exception_Error
+     * @throws \common_exception_InconsistentData
+     * @throws \common_exception_InvalidArgumentType
+     * @throws \common_exception_MissingParameter
+     * @throws \common_ext_ExtensionException
+     * @throws \common_ext_InstallationException
+     * @throws \common_ext_ManifestNotFoundException
+     */
+    public function syncModel($extensionId) {
+        $currentModel = ModelManager::getModel();
+
+        $extensionManager = common_ext_ExtensionsManager::singleton();
+
+        $modelId = $extensionManager->getModelIdByExtensionId($extensionId);
+
+        echo 'ExtensionId: ' . $extensionId . PHP_EOL;
+        echo 'ModelId: ' . $modelId . PHP_EOL;
+
+        $persistence = common_persistence_SqlPersistence::getPersistence('default');
+
+        $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, [$modelId]);
+
+        $nominalModel = new AppendIterator();
+
+        $nominalModel->append(
+            new ExtensionModel($extensionManager->getExtensionById($extensionId), $modelId)
+        );
+
+        echo 'From cnt: ' . iterator_count($smoothIterator) . ' to: ' . iterator_count($nominalModel) . PHP_EOL;
+
+        $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
+
+        self::logDiff($diff);
+        $diff->applyTo($currentModel);
+    }
+
     static public function correctModelId($rdfFile) {
         $modelFile = new FileModel(array('file' => $rdfFile));
         $modelRdf = ModelManager::getModel()->getRdfInterface();
