@@ -30,6 +30,8 @@ abstract class AbstractAuthService extends ConfigurableService
     const OPTION_DEFAULT_TYPE = 'type';
 
     /**
+     * Get all available type from config
+     *
      * @return array of the auth types from the configuration file
      */
     public function getTypes()
@@ -38,6 +40,8 @@ abstract class AbstractAuthService extends ConfigurableService
     }
 
     /**
+     * Get the authType form config
+     *
      * @param \core_kernel_classes_Resource|null $resource
      * @return AbstractAuthType
      * @throws \common_Exception
@@ -47,7 +51,7 @@ abstract class AbstractAuthService extends ConfigurableService
         if ($resource) {
             $authTypeUri = $resource->getUri();
             foreach ($this->getOption(self::OPTION_TYPES) as $type) {
-                if ($type->getAuthClass()->getUri() == $authTypeUri) {
+                if ($type instanceof AbstractAuthType && $type->getAuthClass()->getUri() == $authTypeUri) {
                     $authType = $type;
                 }
             }

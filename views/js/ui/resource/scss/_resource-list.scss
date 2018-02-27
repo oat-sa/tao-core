@@ -76,6 +76,28 @@
             &.selected a:after {
                 @include icon-checkbox-checked;
             }
+
+            &[data-access=denied] > a, &[data-access=partial] > a {
+                [class^="icon-"], [class*=" icon-"] {
+                    position: relative;
+                    &:after {
+                        @include icon-lock;
+                        color: #555;
+                        position: absolute;
+                        left: 7px;
+                        top: 6px;
+                    }
+                }
+            }
+            &[data-access=denied] {
+                color: $uiClickableActiveBg;
+                background-color: $textHighlight;
+                &:hover, &:hover > a, & > a, [class^="icon-"]:before, [class*=" icon-"]:before  {
+                    cursor: auto;
+                    background-color: $textHighlight;
+                    color: $uiClickableActiveBg !important;
+                }
+            }
         }
     }
 }

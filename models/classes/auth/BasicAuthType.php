@@ -21,16 +21,39 @@
 
 namespace oat\tao\model\auth;
 
-
+use GuzzleHttp\Client;
 use oat\tao\helpers\Template;
+use Psr\Http\Message\RequestInterface;
 
 class BasicAuthType extends AbstractAuthType implements BasicAuth
 {
+    /**
+     * Call a request through basic client
+     *
+     * @param RequestInterface $request
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \common_exception_InvalidArgumentType
+     */
+    public function call(RequestInterface $request)
+    {
+        return (new Client())->send($request, ['auth' => $this->getCredentials(), 'verify' => false]);
+    }
+
+    /**
+     * RDF class of the AuthType
+     *
+     * @return \core_kernel_classes_Class
+     */
     public function getAuthClass()
     {
         return $this->getClass(self::CLASS_BASIC_AUTH);
     }
 
+    /**
+     * All fields to configure current authenticator
+     *
+     * @return array Array of properties of login/password
+     */
     public function getAuthProperties()
     {
         return [
@@ -40,9 +63,10 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
     }
 
     /**
+     * Returns template for the current instance (or empty template for the default authorization) with credentials
+     *
      * @return string
      * @throws \common_exception_InvalidArgumentType
-     * @throws \core_kernel_persistence_Exception
      */
     public function getTemplate()
     {
@@ -51,11 +75,15 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
     }
 
     /**
+     * Fetch the credentials for the current resource.
+     *
+     * Contains login and password or with null value if empty
+     *
      * @return array
      * @throws \common_exception_InvalidArgumentType
-     * @throws \core_kernel_persistence_Exception
      */
-    public function loadCredentials() {
+    protected function loadCredentials()
+    {
         $instance = $this->getInstance();
         if ($instance && $instance->exists()) {
 
@@ -81,9 +109,8 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
     /**
      * @return array
      * @throws \common_exception_InvalidArgumentType
-     * @throws \core_kernel_persistence_Exception
      */
-    public function getCredentials()
+    protected function getCredentials()
     {
         $credentials = $this->loadCredentials();
         return [

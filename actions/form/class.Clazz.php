@@ -187,21 +187,12 @@ class tao_actions_form_Clazz
                 }
                 $element->setName('class_' . $element->getName());
 
-                //set label validator
+                //set label validator, read only
                 if ($property->getUri() == OntologyRdfs::RDFS_LABEL) {
-                    $element->addValidators(
-                        array(
-                            tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-                        )
-                    );
-
-                    $ns = substr($clazz->getUri(), 0, strpos($clazz->getUri(), '#'));
-                    if ($ns != LOCAL_NAMESPACE) {
-                        $readonly = tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
-                        $readonly->setDescription($element->getDescription());
-                        $readonly->setValue($element->getRawValue());
-                        $element = $readonly;
-                    }
+                    $readonly = tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
+                    $readonly->setDescription($element->getDescription());
+                    $readonly->setValue($element->getRawValue());
+                    $element = $readonly;
                 }
                 $element->addClass('global');
                 $this->form->addElement($element);
