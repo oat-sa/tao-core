@@ -1,33 +1,33 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\ClientLibRegistry;
-use oat\tao\helpers\translation\rdf\RdfPack;
-use oat\generis\model\data\ModelManager;
 use oat\tao\model\extension\ExtensionModel;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
+
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
  * the Modules and Actions in the Ontology at installation time.
@@ -36,7 +36,7 @@ use oat\tao\model\user\TaoRoles;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @package tao
  * @since 2.4
- *       
+ *
  */
 class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
 {
@@ -54,7 +54,7 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      * (non-PHPdoc)
      * @see common_ext_ExtensionInstaller::getExtensionModel()
      */
-    public function getExtensionModel($modelId = null) {
+    public function getExtensionModel($modelId) {
         return new ExtensionModel($this->extension, $modelId);
     }
 

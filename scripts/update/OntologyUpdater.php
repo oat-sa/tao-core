@@ -30,8 +30,8 @@ use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\tao\model\extension\ExtensionModel;
 
-class OntologyUpdater {
-
+class OntologyUpdater
+{
     /**
      * @throws \common_exception_Error
      * @throws \common_exception_InconsistentData
@@ -41,7 +41,8 @@ class OntologyUpdater {
      * @throws \common_ext_InstallationException
      * @throws \common_ext_ManifestNotFoundException
      */
-    static public function syncModels() {
+    public static function syncModels()
+    {
         $currentModel = ModelManager::getModel();
 
         //exclude generis modelId
@@ -56,7 +57,7 @@ class OntologyUpdater {
         
         $nominalModel = new AppendIterator();
         foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
-            $nominalModel->append(new ExtensionModel($ext));
+            $nominalModel->append(new ExtensionModel($ext, $modelId));
         }
         
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
@@ -76,15 +77,13 @@ class OntologyUpdater {
      * @throws \common_ext_InstallationException
      * @throws \common_ext_ManifestNotFoundException
      */
-    public function syncModel($extensionId) {
+    public function syncModel($extensionId)
+    {
         $currentModel = ModelManager::getModel();
 
         $extensionManager = common_ext_ExtensionsManager::singleton();
 
         $modelId = $extensionManager->getModelIdByExtensionId($extensionId);
-
-        echo 'ExtensionId: ' . $extensionId . PHP_EOL;
-        echo 'ModelId: ' . $modelId . PHP_EOL;
 
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
 
@@ -96,15 +95,19 @@ class OntologyUpdater {
             new ExtensionModel($extensionManager->getExtensionById($extensionId), $modelId)
         );
 
-        echo 'From cnt: ' . iterator_count($smoothIterator) . ' to: ' . iterator_count($nominalModel) . PHP_EOL;
-
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
 
         self::logDiff($diff);
         $diff->applyTo($currentModel);
     }
 
-    static public function correctModelId($rdfFile) {
+    /**
+     * @param $rdfFile
+     * @throws \common_exception_InconsistentData
+     * @throws \common_exception_MissingParameter
+     */
+    public static function correctModelId($rdfFile)
+    {
         $modelFile = new FileModel(array('file' => $rdfFile));
         $modelRdf = ModelManager::getModel()->getRdfInterface();
         foreach ($modelFile->getRdfInterface() as $triple) {
@@ -112,8 +115,14 @@ class OntologyUpdater {
             $modelRdf->add($triple);
         }
     }
-    
-    static protected function logDiff(\helpers_RdfDiff $diff) {
+
+    /**
+     * @param helpers_RdfDiff $diff
+     *
+     * @throws \common_exception_Error
+     */
+    protected static function logDiff(\helpers_RdfDiff $diff)
+    {
         $folder = FILES_PATH.'updates'.DIRECTORY_SEPARATOR;
         $updateId = time();
         while (file_exists($folder.$updateId)) {
@@ -127,6 +136,5 @@ class OntologyUpdater {
         
         FileModel::toFile($path.DIRECTORY_SEPARATOR.'add.rdf', $diff->getTriplesToAdd());
         FileModel::toFile($path.DIRECTORY_SEPARATOR.'remove.rdf', $diff->getTriplesToRemove());
-    }    
-    
+    }
 }

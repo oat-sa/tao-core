@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\oatbox\NewModeIdFactory;
 
 /**
  * This Script class aims at providing tools to manage TAO extensions.
@@ -471,24 +472,29 @@ class tao_scripts_TaoExtensions
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
+     *
+     * @throws common_Exception
+     * @throws common_exception_Error
+     * @throws common_exception_InconsistentData
+     * @throws common_exception_MissingParameter
+     * @throws common_ext_OutdatedVersionException
      */
     public function actionInstall()
     {
        
         $extensionId = $this->options['extension']; // ID of the extension to install.
         $importLocalData = $this->options['data']; // Import local data (local.rdf) or not ?
-        try{
+        try {
             // Retrieve the extension's information.
             $this->outVerbose("Locating extension '${extensionId}'...");
             $extensionManager = common_ext_ExtensionsManager::singleton();
             $ext = $extensionManager->getExtensionById($extensionId);
             $this->outVerbose("Extension located.");
             
-            try{
+            try {
                 // Install the extension.
                 $this->outVerbose("Installing extension '${extensionId}'...");
-                $installer = new tao_install_ExtensionInstaller($ext, $importLocalData);
+                $installer = new tao_install_ExtensionInstaller(new NewModeIdFactory(), $ext, $importLocalData);
                 $installer->install();
                 $this->outVerbose("Extension successfully installed.");
             }
@@ -502,10 +508,9 @@ class tao_scripts_TaoExtensions
                 $this->error("Extension '" . $extensionId . " is dependant on extension '" . $e->getExtensionId() . "' but is missing. Install '" . $e->getExtensionId() . "' first.", true);
             }
         }
-        catch (common_ext_ExtensionException $e){
+        catch (common_ext_ExtensionException $e) {
             $this->error("An unexpected error occured: " . $e->getMessage(), true);
         }
-      
     }
 
     /**

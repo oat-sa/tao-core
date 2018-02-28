@@ -28,13 +28,13 @@ use tao_models_classes_LanguageService;
 class ExtensionModel extends \common_ext_ExtensionModel
 {
     /**
-     * @var null
+     * @var int
      */
     private $modelId;
 
     /**
      * @param common_ext_Extension $extension
-     * @param null $modelId
+     * @param int $modelId
      *
      * @throws \common_exception_Error
      * @throws \common_exception_InvalidArgumentType

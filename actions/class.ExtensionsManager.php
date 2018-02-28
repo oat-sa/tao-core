@@ -20,8 +20,8 @@
  * 
  */
 
+use oat\oatbox\NewModeIdFactory;
 use oat\tao\model\menu\MenuService;
-use oat\tao\helpers\translation\TranslationBundle;
 
 /**
  * default action
@@ -66,29 +66,33 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 	}
 
 
-
     /**
-     *
      * install action
      *
+     * @throws common_Exception
+     * @throws common_exception_Error
+     * @throws common_exception_InconsistentData
+     * @throws common_exception_MissingParameter
+     * @throws common_ext_OutdatedVersionException
      */
-    public function install(){
-		$success = false;
-		try {
-			$extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
-			$extInstaller->install();
-			$message =   __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
-			$success = true;
-			
-			// reinit user session
-			$session = \common_session_SessionManager::getSession()->refresh();
-		}
-		catch(common_ext_ExtensionException $e) {
-			$message = $e->getMessage();
-		}
+    public function install()
+    {
+        $success = false;
 
-		echo json_encode(array('success' => $success, 'message' => $message));
-	}
+        try {
+            $extInstaller = new tao_install_ExtensionInstaller(new NewModeIdFactory(), $this->getCurrentExtension());
+            $extInstaller->install();
+            $message = __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
+            $success = true;
+
+            // reinit user session
+            \common_session_SessionManager::getSession()->refresh();
+        } catch (common_ext_ExtensionException $e) {
+            $message = $e->getMessage();
+        }
+
+        echo json_encode(array('success' => $success, 'message' => $message));
+    }
 
     /**
      * Once some extensions have been installed, we trigger this action.

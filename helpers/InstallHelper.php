@@ -20,7 +20,8 @@
  */
 namespace oat\tao\helpers;
 
-use common_Logger;
+use oat\oatbox\NewModeIdFactory;
+
 /**
  * Utility class for instalation.
  *
@@ -31,11 +32,12 @@ class InstallHelper extends \helpers_InstallHelper
     /**
      * Override of original install helper to throw install exception
      * on errors
-     * 
+     *
      * @param array $extensionIDs
      * @param array $installData
+     * @return array :string
+     * @throws \common_exception_Error
      * @throws \tao_install_utils_Exception
-     * @return multitype:string
      */
     public static function installRecursively($extensionIDs, $installData=array())
     {
@@ -47,8 +49,9 @@ class InstallHelper extends \helpers_InstallHelper
         }
     }
     
-    protected static function getInstaller($extension, $importLocalData) {
-        $instance = new \tao_install_ExtensionInstaller($extension, $importLocalData);
+    protected static function getInstaller($extension, $importLocalData)
+    {
+        $instance = new \tao_install_ExtensionInstaller(new NewModeIdFactory(), $extension, $importLocalData);
         $instance->initContainer(static::$container);
 
         return $instance;
