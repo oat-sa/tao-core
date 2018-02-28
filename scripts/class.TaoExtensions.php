@@ -20,7 +20,7 @@
  * 
  */
 
-use oat\oatbox\NewModeIdFactory;
+use oat\oatbox\NewModelIdFactory;
 
 /**
  * This Script class aims at providing tools to manage TAO extensions.
@@ -494,7 +494,7 @@ class tao_scripts_TaoExtensions
             try {
                 // Install the extension.
                 $this->outVerbose("Installing extension '${extensionId}'...");
-                $installer = new tao_install_ExtensionInstaller(new NewModeIdFactory(), $ext, $importLocalData);
+                $installer = new tao_install_ExtensionInstaller(new NewModelIdFactory(), $ext, $importLocalData);
                 $installer->install();
                 $this->outVerbose("Extension successfully installed.");
             }

@@ -20,7 +20,7 @@
  * 
  */
 
-use oat\oatbox\NewModeIdFactory;
+use oat\oatbox\NewModelIdFactory;
 use oat\tao\model\menu\MenuService;
 
 /**
@@ -80,7 +80,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
         $success = false;
 
         try {
-            $extInstaller = new tao_install_ExtensionInstaller(new NewModeIdFactory(), $this->getCurrentExtension());
+            $extInstaller = new tao_install_ExtensionInstaller(new NewModelIdFactory(), $this->getCurrentExtension());
             $extInstaller->install();
             $message = __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
             $success = true;
