@@ -34,7 +34,7 @@ class RestSessionFactory extends ConfigurableService
 {
     const SERVICE_ID = 'tao/restSessionFactory';
 
-    const OPTION_BUILDER = 'builders';
+    const OPTION_BUILDERS = 'builders';
 
     /**
      * Create a rest session based on builders.
@@ -65,7 +65,7 @@ class RestSessionFactory extends ConfigurableService
      */
     protected function getSessionBuilders()
     {
-        $adapters = is_array($this->getOption(self::OPTION_BUILDER)) ? $this->getOption(self::OPTION_BUILDER) : [];
+        $adapters = is_array($this->getOption(self::OPTION_BUILDERS)) ? $this->getOption(self::OPTION_BUILDERS) : [];
         foreach ($adapters as $key => $adapter) {
             if (!is_a($adapter, SessionBuilder::class, true)) {
                 throw new \LogicException('Session adapter must implement interface "SessionBuilder".');
