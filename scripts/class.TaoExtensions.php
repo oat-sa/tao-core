@@ -20,7 +20,7 @@
  * 
  */
 
-use oat\oatbox\NewModelIdFactory;
+use oat\generis\model\data\NewModelIdFactory;
 
 /**
  * This Script class aims at providing tools to manage TAO extensions.

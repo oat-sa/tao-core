@@ -20,7 +20,7 @@
  * 
  */
 
-use oat\oatbox\NewModelIdFactory;
+use oat\generis\model\data\NewModelIdFactory;
 use oat\tao\model\menu\MenuService;
 
 /**

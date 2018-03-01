@@ -20,7 +20,7 @@
  */
 namespace oat\tao\helpers;
 
-use oat\oatbox\NewModelIdFactory;
+use oat\generis\model\data\NewModelIdFactory;
 
 /**
  * Utility class for instalation.

@@ -20,6 +20,7 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\generis\model\data\NewModelIdFactory;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
@@ -353,7 +354,7 @@ class tao_install_Installator {
             $this->log('d', 'Finishing generis install..');
 			$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
 
-			$generisInstaller = new common_ext_GenerisInstaller($generis, true);
+			$generisInstaller = new common_ext_GenerisInstaller(new NewModelIdFactory(), $generis, true);
 			$generisInstaller->initContainer($this->getContainer());
 			$generisInstaller->install();
 

@@ -50,7 +50,7 @@ class AclProxy
                 new FuncProxy(),
                 new DataAccessControl()
             );
-            
+
             /*
             $taoExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             self::$implementations = array();
@@ -65,21 +65,24 @@ class AclProxy
         }
         return self::$implementations;
     }
-    
+
     /**
      * Returns whenever or not a user has access to a specified link
      *
-     * @param string $action
+     * @param User $user
      * @param string $controller
-     * @param string $extension
+     * @param string $action
      * @param array $parameters
      * @return boolean
      */
-    public static function hasAccess(User $user, $controller, $action, $parameters) {
-        $access = true;
+    public static function hasAccess(User $user, $controller, $action, $parameters)
+    {
         foreach (self::getImplementations() as $impl) {
-            $access = $access && $impl->hasAccess($user, $controller, $action, $parameters);
+            \common_Logger::f('Check ' . get_class($impl));
+            if (!$impl->hasAccess($user, $controller, $action, $parameters)) {
+                return false;
+            }
         }
-        return $access;
+        return true;
     }
 }

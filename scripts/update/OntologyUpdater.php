@@ -28,6 +28,7 @@ use core_kernel_persistence_smoothsql_SmoothIterator;
 use helpers_RdfDiff;
 use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileModel;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\extension\ExtensionModel;
 
 class OntologyUpdater
@@ -43,27 +44,65 @@ class OntologyUpdater
      */
     public static function syncModels()
     {
-        $currentModel = ModelManager::getModel();
+        /** @var common_ext_ExtensionsManager $extensionManager */
+        $extensionManager = ServiceManager::getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID);
 
-        //exclude generis modelId
+        $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator(
+            common_persistence_SqlPersistence::getPersistence('default'),
+            $extensionManager->getInstalledModelIds()
+        );
 
-        $modelId = common_ext_ExtensionsManager::singleton()->getModelIdByExtensionId('generis');
-
-        $readableModelIds = array_diff($currentModel->getReadableModels(), array($modelId));
-        
-        $persistence = common_persistence_SqlPersistence::getPersistence('default');
-        
-        $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $readableModelIds);
-        
         $nominalModel = new AppendIterator();
-        foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
-            $nominalModel->append(new ExtensionModel($ext, $modelId));
+
+        /** @var \common_ext_Extension $ext */
+        foreach ($extensionManager->getInstalledExtensions() as $ext) {
+            $nominalModel->append(
+                new ExtensionModel($ext, $extensionManager->getModelIdByExtensionId($ext->getId()))
+            );
         }
-        
+
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
         self::logDiff($diff);
-        
-        $diff->applyTo($currentModel);
+
+        $diff->applyTo(ModelManager::getModel());
+    }
+
+    /**
+     * @param helpers_RdfDiff $diff
+     *
+     * @throws \common_exception_Error
+     */
+    protected static function logDiff(\helpers_RdfDiff $diff)
+    {
+        $folder = FILES_PATH . 'updates' . DIRECTORY_SEPARATOR;
+        $updateId = time();
+        while (file_exists($folder . $updateId)) {
+            $count = isset($count) ? $count + 1 : 0;
+            $updateId = time() . '_' . $count;
+        }
+        $path = $folder . $updateId;
+        if (!mkdir($path, 0700, true)) {
+            throw new \common_exception_Error('Unable to log update to ' . $path);
+        }
+
+        FileModel::toFile($path . DIRECTORY_SEPARATOR . 'add.rdf', $diff->getTriplesToAdd());
+        FileModel::toFile($path . DIRECTORY_SEPARATOR . 'remove.rdf', $diff->getTriplesToRemove());
+    }
+
+    /**
+     * @param $rdfFile
+     *
+     * @throws \common_exception_InconsistentData
+     * @throws \common_exception_MissingParameter
+     */
+    public static function correctModelId($rdfFile)
+    {
+        $modelFile = new FileModel(array('file' => $rdfFile));
+        $modelRdf = ModelManager::getModel()->getRdfInterface();
+        foreach ($modelFile->getRdfInterface() as $triple) {
+            $modelRdf->remove($triple);
+            $modelRdf->add($triple);
+        }
     }
 
     /**
@@ -79,9 +118,8 @@ class OntologyUpdater
      */
     public function syncModel($extensionId)
     {
-        $currentModel = ModelManager::getModel();
-
-        $extensionManager = common_ext_ExtensionsManager::singleton();
+        /** @var common_ext_ExtensionsManager $extensionManager */
+        $extensionManager = ServiceManager::getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID);
 
         $modelId = $extensionManager->getModelIdByExtensionId($extensionId);
 
@@ -98,43 +136,6 @@ class OntologyUpdater
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
 
         self::logDiff($diff);
-        $diff->applyTo($currentModel);
-    }
-
-    /**
-     * @param $rdfFile
-     * @throws \common_exception_InconsistentData
-     * @throws \common_exception_MissingParameter
-     */
-    public static function correctModelId($rdfFile)
-    {
-        $modelFile = new FileModel(array('file' => $rdfFile));
-        $modelRdf = ModelManager::getModel()->getRdfInterface();
-        foreach ($modelFile->getRdfInterface() as $triple) {
-            $modelRdf->remove($triple);
-            $modelRdf->add($triple);
-        }
-    }
-
-    /**
-     * @param helpers_RdfDiff $diff
-     *
-     * @throws \common_exception_Error
-     */
-    protected static function logDiff(\helpers_RdfDiff $diff)
-    {
-        $folder = FILES_PATH.'updates'.DIRECTORY_SEPARATOR;
-        $updateId = time();
-        while (file_exists($folder.$updateId)) {
-            $count = isset($count) ? $count + 1 : 0;
-            $updateId = time().'_'.$count;
-        }
-        $path = $folder.$updateId;
-        if (!mkdir($path, 0700, true)) {
-            throw new \common_exception_Error('Unable to log update to '.$path);
-        }
-        
-        FileModel::toFile($path.DIRECTORY_SEPARATOR.'add.rdf', $diff->getTriplesToAdd());
-        FileModel::toFile($path.DIRECTORY_SEPARATOR.'remove.rdf', $diff->getTriplesToRemove());
+        $diff->applyTo(ModelManager::getModel());
     }
 }

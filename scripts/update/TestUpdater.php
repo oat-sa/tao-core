@@ -27,9 +27,9 @@ class TestUpdater extends AbstractAction
     {
         $updater = new OntologyUpdater();
 
-        $updater->syncModel('taoLti');
+//        $updater->syncModel('taoLti');
 //        $updater->syncModel('taoDeliveryRdf');
-
+        OntologyUpdater::syncModels();
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Ok, cowboy');
     }
 }
