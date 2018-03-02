@@ -390,6 +390,9 @@ define([
                 }
 
                 function logHandlerStop(stoppedIn, event, err) {
+                    if(err instanceof Error){
+                        logger.error(err);
+                    }
                     logger.trace({ err: err, event: event.name, stoppedIn: stoppedIn }, event.name + ' handlers stopped');
                 }
 
