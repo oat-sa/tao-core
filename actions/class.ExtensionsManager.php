@@ -20,7 +20,6 @@
  * 
  */
 
-use oat\generis\model\data\NewModelIdFactory;
 use oat\tao\model\menu\MenuService;
 
 /**
@@ -80,7 +79,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
         $success = false;
 
         try {
-            $extInstaller = new tao_install_ExtensionInstaller(new NewModelIdFactory(), $this->getCurrentExtension());
+            $extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
             $extInstaller->install();
             $message = __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
             $success = true;

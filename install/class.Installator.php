@@ -20,10 +20,9 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-use oat\generis\model\data\NewModelIdFactory;
-use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\InstallHelper;
 use oat\tao\model\OperatedByService;
 
 /**
@@ -237,7 +236,7 @@ class tao_install_Installator {
 			// Create tao tables
 			$dbCreator->initTaoDataBase();	
             $this->log('i', 'Created tables', 'INSTALL');
-            
+
             $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
 				$this->log('i', 'Installing stored procedures for ' . $installData['db_driver'] . ' from file: ' . $storedProcedureFile, 'INSTALL');
@@ -272,7 +271,6 @@ class tao_install_Installator {
             );
 
             $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
-
 
 			$generisConfigWriter->writeConstants($constants);
             $this->log('d', 'The following constants were written in generis config:' . PHP_EOL . var_export($constants, true));
@@ -326,6 +324,21 @@ class tao_install_Installator {
             $this->log('d', 'Creating generis persistence..');
 			common_persistence_Manager::addPersistence('default', $dbConfiguration);
 
+
+            /*
+             * 7 - Finish Generis Install
+             */
+
+            $this->log('d', 'Finishing generis install..');
+            $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
+
+            $generisInstaller = new common_ext_GenerisInstaller(
+                $generis,
+                true
+            );
+            $generisInstaller->initContainer($this->getContainer());
+            $generisInstaller->install();
+
 			/*
 			 * 5d - Create generis user
 			*/
@@ -347,16 +360,6 @@ class tao_install_Installator {
                             }
                         }
 
-			/*
-			 * 7 - Finish Generis Install
-			 */
-
-            $this->log('d', 'Finishing generis install..');
-			$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-
-			$generisInstaller = new common_ext_GenerisInstaller(new NewModelIdFactory(), $generis, true);
-			$generisInstaller->initContainer($this->getContainer());
-			$generisInstaller->install();
 
 	        /*
 			 * 8 - Install the extensions

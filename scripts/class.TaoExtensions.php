@@ -20,8 +20,6 @@
  * 
  */
 
-use oat\generis\model\data\NewModelIdFactory;
-
 /**
  * This Script class aims at providing tools to manage TAO extensions.
  *
@@ -494,7 +492,7 @@ class tao_scripts_TaoExtensions
             try {
                 // Install the extension.
                 $this->outVerbose("Installing extension '${extensionId}'...");
-                $installer = new tao_install_ExtensionInstaller(new NewModelIdFactory(), $ext, $importLocalData);
+                $installer = new tao_install_ExtensionInstaller($ext, $importLocalData);
                 $installer->install();
                 $this->outVerbose("Extension successfully installed.");
             }
@@ -535,5 +533,3 @@ class tao_scripts_TaoExtensions
     }
 
 }
-
-?>

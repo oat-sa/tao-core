@@ -30,7 +30,6 @@ use oat\oatbox\user\User;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class AclProxy
 {
@@ -40,29 +39,20 @@ class AclProxy
     private static $implementations;
 
     /**
-     * get the current access control implementations
-     * 
+     * Get the current access control implementations.
+     *
      * @return array
      */
-    protected static function getImplementations() {
+    protected static function getImplementations()
+    {
         if (is_null(self::$implementations)) {
             self::$implementations = array(
                 new FuncProxy(),
                 new DataAccessControl()
             );
 
-            /*
-            $taoExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            self::$implementations = array();
-            foreach ($taoExt->getConfig('accessControl') as $acClass) {
-                if (class_exists($acClass) && in_array('oat\tao\model\accessControl\AccessControl', class_implements($acClass))) {
-                    self::$implementations[] = new $acClass();
-                } else {
-                    throw new \common_exception_Error('Unsupported class '.$acClass);
-                }
-            }
-            */
         }
+
         return self::$implementations;
     }
 
@@ -73,16 +63,17 @@ class AclProxy
      * @param string $controller
      * @param string $action
      * @param array $parameters
+     *
      * @return boolean
      */
     public static function hasAccess(User $user, $controller, $action, $parameters)
     {
         foreach (self::getImplementations() as $impl) {
-            \common_Logger::f('Check ' . get_class($impl));
             if (!$impl->hasAccess($user, $controller, $action, $parameters)) {
                 return false;
             }
         }
+
         return true;
     }
 }

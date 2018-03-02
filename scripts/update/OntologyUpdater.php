@@ -26,6 +26,8 @@ use common_ext_ExtensionsManager;
 use common_persistence_SqlPersistence;
 use core_kernel_persistence_smoothsql_SmoothIterator;
 use helpers_RdfDiff;
+use oat\generis\model\data\ModelIdManager;
+use oat\generis\model\data\ModelIdNotFoundException;
 use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\oatbox\service\ServiceManager;
@@ -34,6 +36,7 @@ use oat\tao\model\extension\ExtensionModel;
 class OntologyUpdater
 {
     /**
+     * @throws ModelIdNotFoundException
      * @throws \common_exception_Error
      * @throws \common_exception_InconsistentData
      * @throws \common_exception_InvalidArgumentType
@@ -47,9 +50,19 @@ class OntologyUpdater
         /** @var common_ext_ExtensionsManager $extensionManager */
         $extensionManager = ServiceManager::getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID);
 
+        /** @var ModelIdManager $modelIdManager */
+        $modelIdManager = ServiceManager::getServiceManager()->get(ModelIdManager::SERVICE_ID);
+
+        $installedModelIds = $modelIdManager->getModelIds(
+            $extensionManager->getInstalledExtensionsIds()
+        );
+
+        // remove null values
+        array_filter($installedModelIds, 'is_int');
+
         $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator(
             common_persistence_SqlPersistence::getPersistence('default'),
-            $extensionManager->getInstalledModelIds()
+            $installedModelIds
         );
 
         $nominalModel = new AppendIterator();
@@ -57,7 +70,7 @@ class OntologyUpdater
         /** @var \common_ext_Extension $ext */
         foreach ($extensionManager->getInstalledExtensions() as $ext) {
             $nominalModel->append(
-                new ExtensionModel($ext, $extensionManager->getModelIdByExtensionId($ext->getId()))
+                new ExtensionModel($ext, $modelIdManager->getModelId($ext->getId()))
             );
         }
 
@@ -115,13 +128,17 @@ class OntologyUpdater
      * @throws \common_ext_ExtensionException
      * @throws \common_ext_InstallationException
      * @throws \common_ext_ManifestNotFoundException
+     * @throws ModelIdNotFoundException
      */
     public function syncModel($extensionId)
     {
         /** @var common_ext_ExtensionsManager $extensionManager */
         $extensionManager = ServiceManager::getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID);
 
-        $modelId = $extensionManager->getModelIdByExtensionId($extensionId);
+        /** @var ModelIdManager $modelIdManager */
+        $modelIdManager = ServiceManager::getServiceManager()->get(ModelIdManager::SERVICE_ID);
+
+        $modelId = $modelIdManager->getModelId($extensionId);
 
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
 

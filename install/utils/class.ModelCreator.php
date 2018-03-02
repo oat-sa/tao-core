@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\generis\model\data\ModelIdManager;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * The ModelCreator enables you to import Ontologies into a TAO module
@@ -135,24 +137,29 @@ class tao_install_utils_ModelCreator{
 		return $this->insertModel($namespace, file_get_contents($file));
 	}
 
-	/**
-	 * Insert a model
-	 * @param string $model the XML data
-	 * @return boolean true if inserted
-	 */
-	public function insertModel($namespace, $model){
-
-		$returnValue = false;
+    /**
+     * Insert a model
+     *
+     * @param $namespace
+     * @param string $model the XML data
+     *
+     * @return boolean true if inserted
+     *
+     * @throws EasyRdf_Exception
+     * @throws core_kernel_persistence_Exception
+     */
+	public function insertModel($namespace, $model)
+    {
 		if(!preg_match("/#$/", $namespace)){
 			$namespace .= '#';
 		}
 
-		
-        $modFactory = new core_kernel_api_ModelFactory();
-        $returnValue = $modFactory->createModel($namespace, $model);
-               
+		/** @var ModelIdManager $modelManager */
+		$modelManager = ServiceManager::getServiceManager()->get(ModelIdManager::SERVICE_ID);
 
-        return $returnValue;
+        $modFactory = new core_kernel_api_ModelFactory($modelManager);
+
+        return $modFactory->createModel($namespace, $model);
 	}
 
     /**
@@ -194,4 +201,3 @@ class tao_install_utils_ModelCreator{
         }
     }
 }
-?>
