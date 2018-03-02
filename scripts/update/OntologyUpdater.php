@@ -58,7 +58,7 @@ class OntologyUpdater
         );
 
         // remove null values
-        array_filter($installedModelIds, 'is_int');
+        $installedModelIds = array_filter($installedModelIds, 'is_int');
 
         $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator(
             common_persistence_SqlPersistence::getPersistence('default'),
@@ -75,6 +75,7 @@ class OntologyUpdater
         }
 
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
+
         self::logDiff($diff);
 
         $diff->applyTo(ModelManager::getModel());
