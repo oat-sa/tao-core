@@ -115,7 +115,7 @@ define([
     var getEntry = function getEntry(store, key) {
         return new Promise(function(resolve, reject) {
             var success = function success(entry) {
-                if (!entry || !entry.value) {
+                if (!entry || typeof entry.value === 'undefined') {
                     return resolve(entry);
                 }
 
