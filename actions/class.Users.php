@@ -96,7 +96,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             'email' => GenerisRdf::PROPERTY_USER_MAIL,
             'dataLg' => GenerisRdf::PROPERTY_USER_DEFLG,
             'guiLg' => GenerisRdf::PROPERTY_USER_UILG,
-            'status' => GenerisRdf::PROPERTY_USER_STATUS
+            'status' => GenerisRdf::PROPERTY_USER_ACCOUNT_STATUS
         ];
 
         // sorting
@@ -153,8 +153,8 @@ class tao_actions_Users extends tao_actions_CommonModule
                 GenerisRdf::PROPERTY_USER_UILG,
                 GenerisRdf::PROPERTY_USER_ROLES,
 
-                GenerisRdf::PROPERTY_USER_STATUS,
-                GenerisRdf::PROPERTY_USER_BLOCKED_BY,
+                GenerisRdf::PROPERTY_USER_ACCOUNT_STATUS,
+                GenerisRdf::PROPERTY_USER_LOCKED_BY,
                 GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME
             ));
 
@@ -171,13 +171,13 @@ class tao_actions_Users extends tao_actions_CommonModule
             $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
             $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
             /** @var core_kernel_classes_Resource|null $blockedBy */
-            $blockedBy =  empty($propValues[GenerisRdf::PROPERTY_USER_BLOCKED_BY]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_BLOCKED_BY]);
+            $blockedBy =  empty($propValues[GenerisRdf::PROPERTY_USER_LOCKED_BY]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_LOCKED_BY]);
             $lastFailure = empty($propValues[GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME]);
 
-            $isUserActive = empty($propValues[GenerisRdf::PROPERTY_USER_STATUS]);
+            $isUserActive = empty($propValues[GenerisRdf::PROPERTY_USER_ACCOUNT_STATUS]);
 
             if ($isUserActive) {
-                $status = __('Active');
+                $status = __('Enabled');
             } elseif ($blockedBy) {
                 if ($blockedBy->getUri() === $user->getUri()) {
                     /** @var LoginService $loginService */
@@ -189,13 +189,13 @@ class tao_actions_Users extends tao_actions_CommonModule
                         $lastFailure->add(new DateInterval($lockoutPeriod));
                     }
 
-                    $status = __('Self-blocked, till %s', tao_helpers_Date::displayeDate($lastFailure));
+                    $status = __('Self-locked, till %s', tao_helpers_Date::displayeDate($lastFailure));
                 } else {
                     $blockedByUsername = $blockedBy->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_LOGIN));
-                    $status = __('Blocked by %s', $blockedByUsername);
+                    $status = __('Locked by %s', $blockedByUsername);
                 }
             } else {
-                $status = __('Blocked'); // fallback
+                $status = __('Locked'); // fallback
             }
 
             $response->data[$index]['id'] = $id;
@@ -404,31 +404,33 @@ class tao_actions_Users extends tao_actions_CommonModule
     }
 
     /**
+     * Removes all locks from user account
      * @throws Exception
      */
-    public function reset()
+    public function unlock()
     {
         $user = $this->handleRequestParams();
 
-        if ($this->getLoginService()->resetUser($user)) {
+        if ($this->getLoginService()->unlockUser($user)) {
             $this->returnJson([
-                'reseted' => true,
-                'message' => __('User successfully reseted')
+                'unlocked' => true,
+                'message' => __('User successfully unlocked')
             ]);
         }
     }
 
     /**
+     * Locks user account, he can not login in to the system anymore
      * @throws Exception
      */
-    public function block()
+    public function lock()
     {
         $user = $this->handleRequestParams();
 
-        if ($this->getLoginService()->blockUser($user)) {
+        if ($this->getLoginService()->lockUser($user)) {
             $this->returnJson([
-                'blocked' => true,
-                'message' => __('User successfully blocked')
+                'locked' => true,
+                'message' => __('User successfully locked')
             ]);
         }
     }

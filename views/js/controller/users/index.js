@@ -49,19 +49,19 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
 	};
 
     /**
-     * Blocks a user
+     * Locks a user
      * @param {String} uri - the user uri
      */
-    var blockUser = function blockUser(uri) {
-        runUserAction(uri, 'block', __('Please confirm user blocking'));
+    var lockUser = function lockUser(uri) {
+        runUserAction(uri, 'lock', __('Please confirm account locking'));
     };
 
     /**
-     * Reset (unblocks) a user
+     * Unlocks blocked user
      * @param {String} uri - the user uri
      */
-    var resetUser = function resetUser(uri) {
-        runUserAction(uri, 'reset', __('Please confirm user resetting'));
+    var unlockUser = function unlockUser(uri) {
+        runUserAction(uri, 'unlock', __('Please confirm account unlocking'));
     };
 
     /**
@@ -81,25 +81,25 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
             var actions = {
                 edit: editUser,
                 remove: removeUser,
-                lock: blockUser,
-                reset: resetUser
+                lock: lockUser,
+                unlock: unlockUser
             };
 
             // initialize the user manager component
             $userList.on('load.datatable', function (e, dataset) {
                 _.forEach(dataset.data, function(row) {
-                    var selector = row.blocked
+                    var selector = row.locked
                         ? '[data-item-identifier="' + row.id + '"] button.lock'
-                        : '[data-item-identifier="' + row.id + '"] button.reset';
+                        : '[data-item-identifier="' + row.id + '"] button.unlock';
                     $(selector, $userList).hide();
                 });
             }).datatable({
                 url: urlHelper.route('data', 'Users', 'tao'),
                 paginationStrategyBottom: 'pages',
-                selectable: true,
+                // selectable: true,
                 filter: true,
                 actions: actions,
-                tools: _.omit(actions, 'edit', 'remove'),
+                // tools: _.omit(actions, 'edit', 'remove'),
                 model: [
                     {
                         id : 'login',
@@ -131,7 +131,7 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                         sortable : true
                     }, {
                         id: 'status',
-                        label: __('User status'),
+                        label: __('Account status'),
                         sortable: true
                     }
                 ]
