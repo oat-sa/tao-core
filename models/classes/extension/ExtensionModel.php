@@ -28,11 +28,6 @@ use tao_models_classes_LanguageService;
 class ExtensionModel extends \common_ext_ExtensionModel
 {
     /**
-     * @var int
-     */
-    private $modelId;
-
-    /**
      * @param common_ext_Extension $extension
      * @param int $modelId
      *
