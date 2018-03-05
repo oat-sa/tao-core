@@ -104,22 +104,6 @@ class OntologyUpdater
     }
 
     /**
-     * @param $rdfFile
-     *
-     * @throws \common_exception_InconsistentData
-     * @throws \common_exception_MissingParameter
-     */
-    public static function correctModelId($rdfFile)
-    {
-        $modelFile = new FileModel(array('file' => $rdfFile));
-        $modelRdf = ModelManager::getModel()->getRdfInterface();
-        foreach ($modelFile->getRdfInterface() as $triple) {
-            $modelRdf->remove($triple);
-            $modelRdf->add($triple);
-        }
-    }
-
-    /**
      * @param string $extensionId
      *
      * @throws \common_exception_Error
