@@ -42,9 +42,8 @@ class ExtensionModel extends \common_ext_ExtensionModel
      * @throws \common_ext_InstallationException
      * @throws \common_ext_ManifestNotFoundException
      */
-    public function __construct(common_ext_Extension $extension, $modelId) {
-        $this->modelId = $modelId;
-
+    public function __construct(common_ext_Extension $extension, $modelId)
+    {
         parent::__construct($extension, $modelId);
         $this->addLanguages($extension);
     }
@@ -55,7 +54,8 @@ class ExtensionModel extends \common_ext_ExtensionModel
      * @throws \common_exception_Error
      * @throws \common_exception_InvalidArgumentType
      */
-    protected function addLanguages($extension) {
+    protected function addLanguages($extension)
+    {
         $langService = tao_models_classes_LanguageService::singleton();
         $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
 
