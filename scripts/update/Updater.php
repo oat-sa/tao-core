@@ -22,28 +22,30 @@
 namespace oat\tao\scripts\update;
 
 use common_Exception;
-use common_ext_ExtensionsManager;
-use League\Flysystem\Adapter\Local;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\data\Model;
 use oat\generis\model\data\ModelIdManager;
 use oat\generis\model\data\ModelIdManagerInterface;
-use oat\generis\model\fileReference\ResourceFileSerializer;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\helpers\Template;
-use oat\tao\model\accessControl\func\implementation\SimpleAccess;
-use oat\tao\model\asset\AssetService;
+use oat\oatbox\service\ServiceNotFoundException;
+use oat\oatbox\task\TaskService;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\actionQueue\implementation\InstantActionQueue;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
+use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\clientConfig\sources\ThemeConfig;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
@@ -51,85 +53,64 @@ use oat\tao\model\event\RoleRemovedEvent;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\extension\UpdateLogger;
+use oat\tao\model\i18n\ExtraPoService;
 use oat\tao\model\maintenance\Maintenance;
 use oat\tao\model\mvc\DefaultUrlService;
+use oat\tao\model\mvc\error\ExceptionInterpreterService;
+use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
+use oat\tao\model\oauth\DataStore;
+use oat\tao\model\oauth\nonce\NoNonce;
+use oat\tao\model\oauth\OauthService;
+use oat\tao\model\OperatedByService;
+use oat\tao\model\resources\ListResourceLookup;
+use oat\tao\model\resources\ResourceService;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\resources\TreeResourceLookup;
+use oat\tao\model\search\index\IndexService;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\Tree\GetTreeService;
-use oat\tao\scripts\install\AddArchiveService;
-use oat\tao\scripts\install\InstallNotificationTable;
-use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\UpdateRequiredActionUrl;
-use tao_helpers_data_GenerisAdapterRdf;
-use common_Logger;
-use oat\tao\model\ClientLibRegistry;
-use oat\generis\model\kernel\persistence\file\FileModel;
-use oat\generis\model\data\ModelManager;
-use oat\tao\model\lock\implementation\OntoLock;
-use oat\tao\model\lock\implementation\NoLock;
-use oat\tao\model\lock\LockManager;
-use oat\tao\model\accessControl\func\AclProxy;
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\websource\TokenWebSource;
-use oat\tao\model\websource\WebsourceManager;
-use oat\tao\model\websource\ActionWebSource;
-use oat\tao\model\websource\DirectWebSource;
-use oat\tao\model\search\strategy\GenerisSearch;
-use oat\tao\model\entryPoint\BackOfficeEntrypoint;
-use oat\tao\model\entryPoint\EntryPointService;
-use oat\tao\model\ThemeRegistry;
-use oat\tao\model\entryPoint\PasswordReset;
-use oat\oatbox\service\ServiceNotFoundException;
-use oat\tao\model\theme\ThemeService;
-use oat\tao\model\theme\DefaultTheme;
-use oat\tao\model\theme\CompatibilityTheme;
-use oat\tao\model\theme\Theme;
-use oat\tao\model\requiredAction\implementation\RequiredActionService;
-use oat\tao\model\extension\UpdateLogger;
-use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\clientConfig\ClientConfigService;
-use oat\tao\model\clientConfig\sources\ThemeConfig;
-use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\oatbox\task\TaskService;
-use oat\tao\model\i18n\ExtraPoService;
-use oat\tao\scripts\install\SetClientLoggerConfig;
-use oat\tao\model\mvc\error\ExceptionInterpreterService;
-use oat\tao\model\mvc\error\ExceptionInterpretor;
-use oat\tao\model\OperatedByService;
-use oat\tao\model\actionQueue\implementation\InstantActionQueue;
-use oat\tao\model\oauth\OauthService;
-use oat\tao\model\oauth\DataStore;
-use oat\tao\model\oauth\nonce\NoNonce;
-use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\model\resources\ResourceService;
-use oat\tao\model\resources\ListResourceLookup;
-use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
-use oat\generis\model\data\event\ResourceDeleted;
-use oat\tao\model\search\index\IndexService;
-use oat\tao\model\search\Search;
+use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\SetClientLoggerConfig;
+use oat\tao\scripts\install\UpdateRequiredActionUrl;
 
 /**
  *
  * @author Joel Bout <joel@taotesting.com>
  */
-class Updater extends \common_ext_ExtensionUpdater {
+class Updater extends \common_ext_ExtensionUpdater
+{
 
     /**
      *
      * @param $initialVersion
+     *
      * @return string $initialVersion
+     *
+     * @throws \Doctrine\DBAL\Schema\SchemaException
      * @throws \common_exception_Error
      * @throws \common_exception_InconsistentData
+     * @throws \common_exception_InvalidArgumentType
+     * @throws \common_exception_MissingParameter
+     * @throws \common_exception_NotImplemented
      * @throws \common_ext_ExtensionException
+     * @throws \common_ext_InstallationException
+     * @throws \common_ext_ManifestNotFoundException
+     * @throws \oat\generis\model\data\ModelIdNotFoundException
+     * @throws \oat\oatbox\service\exception\InvalidService
      * @throws common_Exception
      */
-    public function update($initialVersion) {
+    public function update($initialVersion)
+    {
 
         if ($this->isBetween('0.0.0', '2.21.0')) {
             throw new \common_exception_NotImplemented('Updates from versions prior to Tao 3.1 are not longer supported, please update to Tao 3.1 first');
@@ -700,6 +681,5 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             OntologyUpdater::syncModels();
         }
-
     }
 }
