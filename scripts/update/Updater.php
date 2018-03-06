@@ -655,17 +655,15 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $installedExtensionIds = array_keys($installedExtensionIds);
 
-            $mo = new ModelIdManager(
+            $modelIdManager = new ModelIdManager(
                 [
                     'modelIds' => [
                         'userSpace' => 1
                     ]
                 ]
             );
-            $mo->registerService(ModelIdManager::SERVICE_ID, $mo);
 
-            /** @var ModelIdManagerInterface $modelIdManager */
-            $modelIdManager = $this->getServiceManager()->get(ModelIdManager::SERVICE_ID);
+            $this->getServiceManager()->register(ModelIdManager::SERVICE_ID, $modelIdManager);
 
             $modelIds = $modelIdManager->getModelIds($installedExtensionIds);
 
