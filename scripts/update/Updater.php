@@ -648,14 +648,21 @@ class Updater extends \common_ext_ExtensionUpdater
 
         $this->skip('17.0.0', '17.6.0');
 
-        if ($this->isVersion('18.0.0')) {
+        if ($this->isVersion('17.6.0')) {
             /** @var ConfigurableService $installedExtensions */
             $installation = $this->getServiceManager()->get('generis/installation');
             $installedExtensionIds = $installation->getOption('config');
 
             $installedExtensionIds = array_keys($installedExtensionIds);
 
-            //TODO: install ModelIdManager before.
+            $mo = new ModelIdManager(
+                [
+                    'modelIds' => [
+                        'userSpace' => 1
+                    ]
+                ]
+            );
+            $mo->registerService(ModelIdManager::SERVICE_ID, $mo);
 
             /** @var ModelIdManagerInterface $modelIdManager */
             $modelIdManager = $this->getServiceManager()->get(ModelIdManager::SERVICE_ID);
@@ -680,6 +687,8 @@ class Updater extends \common_ext_ExtensionUpdater
             }
 
             OntologyUpdater::syncModels();
+
+            $this->setVersion('18.0.0');
         }
     }
 }
