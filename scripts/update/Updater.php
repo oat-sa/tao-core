@@ -27,10 +27,14 @@ use League\Flysystem\Adapter\Local;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
+use oat\generis\model\data\Model;
+use oat\generis\model\data\ModelIdManager;
+use oat\generis\model\data\ModelIdManagerInterface;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\Template;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
@@ -1086,6 +1090,40 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
         
         $this->skip('17.0.0', '17.5.1');
+
+        if ($this->isVersion('18.0.0')) {
+            /** @var ConfigurableService $installedExtensions */
+            $installation = $this->getServiceManager()->get('generis/installation');
+            $installedExtensionIds = $installation->getOption('config');
+
+            $installedExtensionIds = array_keys($installedExtensionIds);
+
+            //TODO: install ModelIdManager before.
+
+            /** @var ModelIdManagerInterface $modelIdManager */
+            $modelIdManager = $this->getServiceManager()->get(ModelIdManager::SERVICE_ID);
+
+            $modelIds = $modelIdManager->getModelIds($installedExtensionIds);
+
+            foreach ($modelIds as $extensionId => $modelId) {
+                if (is_null($modelId)) {
+                    $modelIdManager->setModelId($extensionId);
+                }
+            }
+
+            /** @var Model $ontologyModel */
+            $ontologyModel = $this->getServiceManager()->get('generis/ontology');
+            $readableModels = $ontologyModel->getReadableModels();
+
+            foreach ($readableModels as $readableModel) {
+                // Do not remove user data!
+                if ($readableModel != 1) {
+                    $ontologyModel->getRdfInterface()->removeByModelId($readableModel);
+                }
+            }
+
+            OntologyUpdater::syncModels();
+        }
     }
 
     private function migrateFsAccess() {
