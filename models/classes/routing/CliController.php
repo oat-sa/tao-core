@@ -76,6 +76,10 @@ class CliController implements ServiceManagerAwareInterface
 
         try {
             $report = call_user_func($action, $params);
+            if (empty($report)) {
+                $shortName = (new \ReflectionClass($action))->getName();
+                $report = new \common_report_Report(\common_report_Report::TYPE_INFO, ' - Script "' . $shortName . '" finished.');
+            }
         } catch (\Exception $e) {
             $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
 
