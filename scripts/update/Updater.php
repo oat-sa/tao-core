@@ -57,6 +57,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\user\UserLocksService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -662,5 +663,18 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('17.0.0', '17.6.0');
+
+        if ($this->isVersion('17.6.0')) {
+
+            OntologyUpdater::syncModels();
+
+            $this->getServiceManager()->register(UserLocksService::SERVICE_ID, new UserLocksService([
+                'use_hard_lockout' => false,
+                'lockout_failed_attempts' => 5,
+                'soft_lockout_period' => 'PT15M'
+            ]));
+
+            $this->setVersion('18.0.0');
+        }
     }
 }
