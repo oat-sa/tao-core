@@ -26,9 +26,8 @@ use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
-use oat\generis\model\data\Model;
 use oat\generis\model\data\ModelIdManager;
-use oat\generis\model\data\ModelIdManagerInterface;
+use oat\generis\model\data\ModelManager;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
@@ -653,8 +652,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $installation = $this->getServiceManager()->get('generis/installation');
             $installedExtensionIds = $installation->getOption('config');
 
-            $installedExtensionIds = array_keys($installedExtensionIds);
-
             $modelIdManager = new ModelIdManager(
                 [
                     'modelIds' => [
@@ -665,26 +662,32 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->getServiceManager()->register(ModelIdManager::SERVICE_ID, $modelIdManager);
 
-            $modelIds = $modelIdManager->getModelIds($installedExtensionIds);
+            if (is_array($installedExtensionIds)) {
+                $installedExtensionIds = array_keys($installedExtensionIds);
 
-            foreach ($modelIds as $extensionId => $modelId) {
-                if (is_null($modelId)) {
-                    $modelIdManager->setModelId($extensionId);
+                $modelIds = $modelIdManager->getModelIds($installedExtensionIds);
+
+                foreach ($modelIds as $extensionId => $modelId) {
+                    if (is_null($modelId)) {
+                        $modelIdManager->setModelId($extensionId);
+                    }
                 }
-            }
 
-            /** @var Model $ontologyModel */
-            $ontologyModel = $this->getServiceManager()->get('generis/ontology');
-            $readableModels = $ontologyModel->getReadableModels();
+                $ontologyModel = ModelManager::getModel();
 
-            foreach ($readableModels as $readableModel) {
-                // Do not remove user data!
-                if ($readableModel != 1) {
-                    $ontologyModel->getRdfInterface()->removeByModelId($readableModel);
+                $readableModels = $ontologyModel->getReadableModels();
+
+                foreach ($readableModels as $readableModel) {
+                    // User data has modelId == 1. Do not remove user data!
+                    if ($readableModel != 1) {
+                        $ontologyModel->getRdfInterface()->removeByModelId($readableModel);
+                    }
                 }
-            }
 
-            OntologyUpdater::syncModels();
+                OntologyUpdater::syncModels();
+            } else {
+                $this->logNotice(__('no extensions found'));
+            }
 
             $this->setVersion('18.0.0');
         }
