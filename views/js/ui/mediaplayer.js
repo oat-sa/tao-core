@@ -963,7 +963,7 @@ define([
             this._initSources(function() {
                 if (!self.is('youtube')) {
                     _.each(self.config.sources, function(source) {
-                        if (source.type.indexOf('audio') === 0) {
+                        if (source && source.type && source.type.indexOf('audio') === 0) {
                             self._setType(source.type);
                             self._initType();
                             return false;
@@ -1167,6 +1167,7 @@ define([
          * @returns {mediaplayer}
          */
         mute : function mute(state) {
+            console.log('CALL MUTE WITH', this.is('ready'), arguments);
             if (typeof(state) === 'undefined') {
                 state = true;
             }
@@ -1185,6 +1186,7 @@ define([
          * @returns {mediaplayer}
          */
         unmute : function unmute() {
+            console.log('Call UNMUTE');
             this.mute(false);
 
             return this;
