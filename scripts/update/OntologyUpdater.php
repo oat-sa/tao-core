@@ -36,7 +36,7 @@ use oat\tao\model\extension\ExtensionModel;
 class OntologyUpdater
 {
     /**
-     * @throws ModelIdNotFoundException
+     * @throws \common_Exception
      * @throws \common_exception_Error
      * @throws \common_exception_InconsistentData
      * @throws \common_exception_InvalidArgumentType
@@ -60,17 +60,26 @@ class OntologyUpdater
         // remove null values
         $installedModelIds = array_filter($installedModelIds, 'is_int');
 
-        $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator(
-            common_persistence_SqlPersistence::getPersistence('default'),
-            $installedModelIds
-        );
+        $smoothIterator = count($installedModelIds) > 0
+            ? new core_kernel_persistence_smoothsql_SmoothIterator(
+                common_persistence_SqlPersistence::getPersistence('default'),
+                $installedModelIds
+
+            )
+            : new AppendIterator(); // just a stub
 
         $nominalModel = new AppendIterator();
 
         /** @var \common_ext_Extension $ext */
         foreach ($extensionManager->getInstalledExtensions() as $ext) {
+            try {
+                $modelId = $modelIdManager->getModelId($ext->getId());
+            } catch (ModelIdNotFoundException $e) {
+                $modelId = $modelIdManager->setModelId($ext->getId());
+            }
+
             $nominalModel->append(
-                new ExtensionModel($ext, $modelIdManager->getModelId($ext->getId()))
+                new ExtensionModel($ext, $modelId)
             );
         }
 

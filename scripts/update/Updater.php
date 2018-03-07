@@ -663,8 +663,6 @@ class Updater extends \common_ext_ExtensionUpdater
             $installedExtensionIds = $extensionManager->getInstalledExtensionsIds();
 
             if (is_array($installedExtensionIds)) {
-                $installedExtensionIds = array_keys($installedExtensionIds);
-
                 $modelIds = $modelIdManager->getModelIds($installedExtensionIds);
 
                 foreach ($modelIds as $extensionId => $modelId) {
