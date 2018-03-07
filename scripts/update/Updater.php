@@ -681,6 +681,7 @@ class Updater extends \common_ext_ExtensionUpdater
                     // User data has modelId == 1. Do not remove user data!
                     if ($readableModel != 1) {
                         $ontologyModel->getRdfInterface()->removeByModelId($readableModel);
+                        $ontologyModel->cleanUpPermissions($readableModel);
                     }
                 }
 
