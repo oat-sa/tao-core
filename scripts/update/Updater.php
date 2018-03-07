@@ -658,9 +658,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->getServiceManager()->register(ModelIdManager::SERVICE_ID, $modelIdManager);
 
-            $extensionManager = new common_ext_ExtensionsManager();
-
-            $installedExtensionIds = $extensionManager->getInstalledExtensionsIds();
+            $installedExtensionIds = common_ext_ExtensionsManager::singleton()->getInstalledExtensionsIds();
 
             if (is_array($installedExtensionIds)) {
                 $modelIds = $modelIdManager->getModelIds($installedExtensionIds);
