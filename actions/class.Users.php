@@ -21,10 +21,12 @@
  */
 
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\user\UserLocksService;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -37,16 +39,11 @@ use oat\tao\model\TaoOntology;
 class tao_actions_Users extends tao_actions_CommonModule
 {
     use EventManagerAwareTrait;
+    use OntologyAwareTrait;
     /**
      * @var tao_models_classes_UserService
      */
     protected $userService = null;
-
-    /**
-     * Role User Management should not take into account
-     */
-
-    private $filteredRoles = array();
 
     /**
      * Constructor performs initializations actions
@@ -60,6 +57,14 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->defaultData();
 
         $extManager = common_ext_ExtensionsManager::singleton();
+    }
+
+    /**
+     * @return UserLocksService
+     */
+    public function getUserLocksService()
+    {
+        return $this->getServiceLocator()->get(UserLocksService::SERVICE_ID);
     }
 
     /**
@@ -169,6 +174,9 @@ class tao_actions_Users extends tao_actions_CommonModule
             $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
+            $response->data[$index]['status'] = $status;
+            $response->data[$index]['blocked'] = !$isUserActive;
+
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;
             }
@@ -187,6 +195,8 @@ class tao_actions_Users extends tao_actions_CommonModule
      * Remove a user
      * The request must contains the user's login to remove
      * @return void
+     * @throws Exception
+     * @throws common_exception_Error
      */
     public function delete()
     {
@@ -228,6 +238,9 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * form to add a user
      * @return void
+     * @throws Exception
+     * @throws \oat\generis\model\user\PasswordConstraintsException
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
      */
     public function add()
     {
@@ -287,6 +300,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * action used to check if a login can be used
      * @return void
+     * @throws Exception
      */
     public function checkLogin()
     {
@@ -306,15 +320,14 @@ class tao_actions_Users extends tao_actions_CommonModule
      * Form to edit a user
      * User login must be set in parameter
      * @return void
+     * @throws Exception
+     * @throws \oat\generis\model\user\PasswordConstraintsException
+     * @throws common_exception_Error
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
      */
     public function edit()
     {
-        if (!$this->hasRequestParameter('uri')) {
-            throw new Exception('Please set the user uri in request parameter');
-        }
-
-        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $this->checkUser($user->getUri());
+        $user = $this->handleRequestParams();
 
         $types = $user->getTypes();
         $myFormContainer = new tao_actions_form_Users(reset($types), $user);
@@ -358,6 +371,54 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->setData('formTitle', __('Edit a user'));
         $this->setData('myForm', $myForm->render());
         $this->setView('user/form.tpl');
+    }
+
+    /**
+     * Removes all locks from user account
+     * @throws Exception
+     */
+    public function unlock()
+    {
+        $user = $this->handleRequestParams();
+
+        if ($this->getUserLocksService()->unlockUser($user)) {
+            $this->returnJson([
+                'unlocked' => true,
+                'message' => __('User successfully unlocked')
+            ]);
+        }
+    }
+
+    /**
+     * Locks user account, he can not login in to the system anymore
+     * @throws Exception
+     */
+    public function lock()
+    {
+        $user = $this->handleRequestParams();
+
+        if ($this->getUserLocksService()->lockUser($user)) {
+            $this->returnJson([
+                'locked' => true,
+                'message' => __('User successfully locked')
+            ]);
+        }
+    }
+
+    /**
+     * @throws Exception
+     * @return core_kernel_classes_Resource
+     */
+    private function handleRequestParams()
+    {
+        if (!$this->hasRequestParameter('uri')) {
+            throw new Exception('Please set the user uri in request parameter');
+        }
+
+        $user = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $this->checkUser($user->getUri());
+
+        return $user;
     }
 
     /**

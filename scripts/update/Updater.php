@@ -41,6 +41,8 @@ use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\event\LoginFailedEvent;
+use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
 use oat\tao\model\event\RoleRemovedEvent;
@@ -673,6 +675,14 @@ class Updater extends \common_ext_ExtensionUpdater {
                 'lockout_failed_attempts' => 5,
                 'soft_lockout_period' => 'PT15M'
             ]));
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+
+            $eventManager->attach(LoginFailedEvent::class, [UserLocksService::class, 'catchFailedLogin']);
+            $eventManager->attach(LoginSucceedEvent::class, [UserLocksService::class, 'catchSucceedLogin']);
+
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
             $this->setVersion('18.0.0');
         }

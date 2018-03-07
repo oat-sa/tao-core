@@ -19,10 +19,20 @@
 
 namespace oat\tao\model\user;
 
+use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
+use core_kernel_users_Service;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\event\Event;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\event\LoginFailedEvent;
+use oat\tao\model\event\LoginSucceedEvent;
+use oat\tao\model\TaoOntology;
 
+/**
+ * Class UserLocksService
+ * @package oat\tao\model\user
+ */
 class UserLocksService extends ConfigurableService
 {
     use OntologyAwareTrait;
@@ -39,14 +49,33 @@ class UserLocksService extends ConfigurableService
     const OPTION_SOFT_LOCKOUT_PERIOD = 'soft_lockout_period';
 
     /**
+     * @param LoginFailedEvent $event
+     * @throws \core_kernel_persistence_Exception
+     */
+    public function catchFailedLogin(LoginFailedEvent $event)
+    {
+        $this->increaseLoginFails($event->getLogin());
+    }
+
+    /**
+     * @param LoginSucceedEvent $event
+     */
+    public function catchSucceedLogin(LoginSucceedEvent $event)
+    {
+        $this->resetLoginFails($event->getLogin());
+    }
+
+    /**
      * Resets count of login fails in case successful login
-     * @param $user
+     * @param $login
      */
     private function resetLoginFails($login)
     {
-        $this->getUser($login)->editPropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_LOGON_FAILURES), 0);
-        $this->getUser($login)->removePropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_STATUS));
-        $this->getUser($login)->removePropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_BLOCKED_BY));
+        $user = core_kernel_users_Service::singleton()->getOneUser($login);
+
+        $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOGON_FAILURES), 0);
+        $user->removePropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS));
+        $user->removePropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY));
     }
 
     /**
@@ -57,27 +86,26 @@ class UserLocksService extends ConfigurableService
     {
         $user = core_kernel_users_Service::singleton()->getOneUser($login);
 
-        $failedLoginCountProperty = $this->getProperty(GenerisRdf::PROPERTY_USER_LOGON_FAILURES);
+        $failedLoginCountProperty = $this->getProperty(TaoOntology::PROPERTY_USER_LOGON_FAILURES);
         $failedLoginCount = (intval((string)$user->getOnePropertyValue($failedLoginCountProperty))) + 1;
 
         if ($failedLoginCount >= intval($this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS))) {
-            $this->blockUser($user);
+            $this->lockUser($user);
         }
 
-        $user->editPropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME), time());
+        $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME), time());
         $user->editPropertyValues($failedLoginCountProperty, $failedLoginCount);
     }
 
     /**
-     * // should be public for using in controller
      * @param core_kernel_classes_Resource $user
      * @param core_kernel_classes_Resource $by
      * @return bool
      */
-    public function lockUser($user, $by = null)
+    public function lockUser($user, core_kernel_classes_Resource $by = null)
     {
-        $user->editPropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_STATUS), GenerisRdf::PROPERTY_USER_STATUS_BLOCKED);
-        $user->editPropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_BLOCKED_BY), $by ?: $user);
+        $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS), TaoOntology::PROPERTY_USER_STATUS_LOCKED);
+        $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY), $by ?: $user);
 
         return true;
     }
@@ -88,8 +116,8 @@ class UserLocksService extends ConfigurableService
      */
     public function unlockUser(core_kernel_classes_Resource $user)
     {
-        $user->removePropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_STATUS));
-        $user->removePropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_BLOCKED_BY));
+        $user->removePropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS));
+        $user->removePropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY));
 
         return true;
     }
@@ -104,7 +132,7 @@ class UserLocksService extends ConfigurableService
     {
         $user = core_kernel_users_Service::singleton()->getOneUser($login);
 
-        if (empty((string)$user->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_STATUS)))) {
+        if (empty((string)$user->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS)))) {
             return false;
         }
 
@@ -112,22 +140,22 @@ class UserLocksService extends ConfigurableService
         if ($this->getOption(self::OPTION_USE_HARD_LOCKOUT)) {
             return true;
         } else {
-            $lockoutPeriod = new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
+            $lockoutPeriod = new \DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
 
             /** @var core_kernel_classes_Literal $lastFailureTimePropertyValue */
-            $lastFailureTimePropertyValue = $user->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_LAST_LOGON_FAILURE_TIME));
+            $lastFailureTimePropertyValue = $user->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME));
 
-            $lastFailureTime = new DateTimeImmutable;
+            $lastFailureTime = new \DateTimeImmutable;
             $lastFailureTime = $lastFailureTime->setTimestamp($lastFailureTimePropertyValue->literal);
 
-            return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable();
+            return $lastFailureTime->add($lockoutPeriod) > new \DateTimeImmutable();
         }
     }
 
-    public function getActualStatus($login)
+    public function discoverStatus($login)
     {
-        if (!$this->isBlocked($login)) {
-            $this->resetUser($login);
+        if (!$this->isLocked($login)) {
+            $this->unlockUser($login);
         }
 
         // process status and return status info
