@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\update;
 
 use common_Exception;
+use common_ext_ExtensionsManager;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
@@ -30,7 +31,6 @@ use oat\generis\model\data\ModelIdManager;
 use oat\generis\model\data\ModelManager;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\oatbox\task\TaskService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -463,7 +463,7 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('10.28.0', '10.28.1');
 
         if($this->isVersion('10.28.1')) {
-            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $extension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             $config = $extension->getConfig('login');
 
             if (!array_key_exists('block_iframe_usage', $config)) {
@@ -480,7 +480,7 @@ class Updater extends \common_ext_ExtensionUpdater
             try {
                 $session = $this->getServiceManager()->get('tao/session');
             } catch (ServiceNotFoundException $e) {
-                \common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('session', false);
+                common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig('session', false);
             }
             $this->setVersion('12.2.2');
         }
@@ -648,10 +648,6 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('17.0.0', '17.6.0');
 
         if ($this->isVersion('17.6.0')) {
-            /** @var ConfigurableService $installedExtensions */
-            $installation = $this->getServiceManager()->get('generis/installation');
-            $installedExtensionIds = $installation->getOption('config');
-
             $modelIdManager = new ModelIdManager(
                 [
                     'modelIds' => [
@@ -661,6 +657,10 @@ class Updater extends \common_ext_ExtensionUpdater
             );
 
             $this->getServiceManager()->register(ModelIdManager::SERVICE_ID, $modelIdManager);
+
+            $extensionManager = new common_ext_ExtensionsManager();
+
+            $installedExtensionIds = $extensionManager->getInstalledExtensionsIds();
 
             if (is_array($installedExtensionIds)) {
                 $installedExtensionIds = array_keys($installedExtensionIds);
