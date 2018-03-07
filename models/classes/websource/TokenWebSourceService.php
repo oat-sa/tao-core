@@ -41,7 +41,6 @@ class TokenWebSourceService
     public static function spawnTokenWebsource($fileSystemId){
 
         /** @var FileSystemService $fsService */
-        $fsService = self::getServiceManager()->get(FileSystemService::SERVICE_ID);
         $websource = FlyTokenWebSource::spawnWebsource($fileSystemId,'');
 
         return $websource;
