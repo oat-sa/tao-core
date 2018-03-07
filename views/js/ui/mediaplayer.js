@@ -1167,7 +1167,6 @@ define([
          * @returns {mediaplayer}
          */
         mute : function mute(state) {
-            console.log('CALL MUTE WITH', this.is('ready'), arguments);
             if (typeof(state) === 'undefined') {
                 state = true;
             }
@@ -1186,7 +1185,6 @@ define([
          * @returns {mediaplayer}
          */
         unmute : function unmute() {
-            console.log('Call UNMUTE');
             this.mute(false);
 
             return this;
