@@ -239,12 +239,18 @@ class tao_actions_Users extends tao_actions_CommonModule
             if ($myForm->isValid()) {
                 $values = $myForm->getValues();
                 $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+                $plainPassword = $values['password1'];
                 unset($values['password1']);
                 unset($values['password2']);
 
+                $user = $myFormContainer->getUser();
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
 
                 if ($binder->bind($values)) {
+                    $this->getEventManager()->trigger(new UserUpdatedEvent(
+                            $user,
+                            array_merge($values, ['plainPassword' => $plainPassword]))
+                    );
                     $this->setData('message', __('User added'));
                     $this->setData('exit', true);
                 }
