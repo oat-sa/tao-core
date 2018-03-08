@@ -963,7 +963,7 @@ define([
             this._initSources(function() {
                 if (!self.is('youtube')) {
                     _.each(self.config.sources, function(source) {
-                        if (source.type.indexOf('audio') === 0) {
+                        if (source && source.type && source.type.indexOf('audio') === 0) {
                             self._setType(source.type);
                             self._initType();
                             return false;

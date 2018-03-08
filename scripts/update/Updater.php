@@ -80,7 +80,6 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
-use oat\tao\model\search\Search;
 
 /**
  *
@@ -633,9 +632,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.0.0');
         }
 
-        $this->skip('17.0.0', '17.6.1');
-        
-        if ($this->isVersion('17.6.1')) {
+        $this->skip('17.0.0', '17.8.1');
+
+        if ($this->isVersion('17.8.1')) {
             $this->getServiceManager()->register(
                 RestSessionFactory::SERVICE_ID,
                 new RestSessionFactory(array(
@@ -644,7 +643,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                     )
                 ))
             );
-            $this->setVersion('17.7.0');
+            $this->setVersion('17.9.0');
         }
+
     }
 }
