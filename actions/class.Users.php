@@ -404,8 +404,9 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function lock()
     {
         $user = $this->handleRequestParams();
+        $currentUser = tao_models_classes_UserService::singleton()->getCurrentUser();
 
-        if ($this->getUserLocksService()->lockUser($user)) {
+        if ($this->getUserLocksService()->lockUser($user, $currentUser)) {
             $this->returnJson([
                 'locked' => true,
                 'message' => __('User successfully locked')
