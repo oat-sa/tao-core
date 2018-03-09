@@ -88,7 +88,7 @@ class tao_actions_form_Login
 		$this->form->addElement($passElt);
 
 		if (isset($this->data['disableAutocomplete']) && !empty($this->data['disableAutocomplete'])) {
-			$loginElt->setAttributes(array('autocomplete' => 'off'));
+			$loginElt->setAttributes(array('autofocus' => 'autofocus', 'autocomplete' => 'off'));
 			$passElt->setAttributes(array('autocomplete' => 'off'));
 		}
     }

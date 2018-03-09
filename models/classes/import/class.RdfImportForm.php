@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\generis\Helper\SystemHelper;
+
 /**
  * Import form for RDF
  *
@@ -72,7 +74,7 @@ class tao_models_classes_import_RdfImportForm
 		}
 		$fileElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/xml', 'application/rdf+xml', 'application/xml'), 'extension' => array('rdf', 'rdfs'))),
-			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => tao_helpers_Environment::getFileUploadLimit()))
+			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => SystemHelper::getFileUploadLimit()))
 		));
 		
 		$this->form->addElement($fileElt);
