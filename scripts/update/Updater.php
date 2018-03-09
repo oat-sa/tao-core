@@ -679,8 +679,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
 
-            $eventManager->attach(LoginFailedEvent::class, [UserLocksService::class, 'catchFailedLogin']);
-            $eventManager->attach(LoginSucceedEvent::class, [UserLocksService::class, 'catchSucceedLogin']);
+            $eventManager->attach(LoginFailedEvent::class, [UserLocksService::SERVICE_ID, 'catchFailedLogin']);
+            $eventManager->attach(LoginSucceedEvent::class, [UserLocksService::SERVICE_ID, 'catchSucceedLogin']);
 
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
