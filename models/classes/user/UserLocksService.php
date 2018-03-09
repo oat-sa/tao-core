@@ -22,12 +22,15 @@ namespace oat\tao\model\user;
 use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
 use core_kernel_users_Service;
+use DateInterval;
+use DateTime;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\event\Event;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\TaoOntology;
+use tao_helpers_Date;
 
 /**
  * Class UserLocksService
@@ -102,7 +105,7 @@ class UserLocksService extends ConfigurableService
      * @param core_kernel_classes_Resource $by
      * @return bool
      */
-    public function lockUser($user, core_kernel_classes_Resource $by = null)
+    public function lockUser(core_kernel_classes_Resource $user, core_kernel_classes_Resource $by = null)
     {
         $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS), TaoOntology::PROPERTY_USER_STATUS_LOCKED);
         $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY), $by ?: $user);
@@ -152,15 +155,48 @@ class UserLocksService extends ConfigurableService
         }
     }
 
-    public function discoverStatus($login)
+    /**
+     * @param $login
+     * @return array
+     * @throws \Exception
+     * @throws \core_kernel_persistence_Exception
+     */
+    public function getStatusDetails($login)
     {
-        if (!$this->isLocked($login)) {
-            $this->unlockUser($login);
+        $user = core_kernel_users_Service::singleton()->getOneUser($login);
+
+        $isLocked = $this->isLocked($login);
+
+        if (!$isLocked) {
+            $this->unlockUser($user);
+
+            return ['locked' => false, 'status' => __('enabled')];
         }
 
-        // process status and return status info
-        //        проверить актуальный статус, если не актуально - обновить состояние и вернуть данные
+        $userProperties = $user->getPropertiesValues([
+            TaoOntology::PROPERTY_USER_LOCKED_BY,
+            TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME
+        ]);
 
+        $lockedBy = empty($userProperties[TaoOntology::PROPERTY_USER_LOCKED_BY]) ? null : current($userProperties[TaoOntology::PROPERTY_USER_LOCKED_BY]);
+        $lastFailure = empty($userProperties[TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME]) ? null : current($userProperties[TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME]);
 
+        if ($lockedBy->getUri() === $user->getUri()) {
+            if ($this->getOption(self::OPTION_USE_HARD_LOCKOUT)) {
+                $status = __('self-locked');
+            } else {
+                if ($lastFailure) {
+                    $lastFailure = (new DateTime('now'))->setTimestamp($lastFailure->literal);
+                    $lastFailure->add(new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD)));
+                }
+
+                $status = __('auto unlocked in %s minutes', tao_helpers_Date::displayeDate($lastFailure));
+            }
+        } else {
+            $blockedByUsername = $lockedBy->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_LOGIN));
+            $status = __('locked by %s', $blockedByUsername);
+        }
+
+        return ['locked' => $isLocked, 'status' => $status];
     }
 }

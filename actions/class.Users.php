@@ -79,6 +79,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * Provide the user list data via json
      * @return string|json
+     * @throws common_exception_InvalidArgumentType
      */
     public function data()
     {
@@ -135,11 +136,13 @@ class tao_actions_Users extends tao_actions_CommonModule
             'limit' => $limit
         ]), $filters);
 
-        $rolesProperty = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
+        $rolesProperty = $this->getProperty(GenerisRdf::PROPERTY_USER_ROLES);
 
         $response = new stdClass();
-        $readonly = array();
+        $readonly = [];
         $index = 0;
+
+        /** @var core_kernel_classes_Resource $user */
         foreach ($users as $user) {
 
             $propValues = $user->getPropertiesValues(array(
@@ -153,20 +156,21 @@ class tao_actions_Users extends tao_actions_CommonModule
             ));
 
             $roles = $user->getPropertyValues($rolesProperty);
-            $labels = array();
+            $labels = [];
+
             foreach ($roles as $uri) {
-                $r = new core_kernel_classes_Resource($uri);
-                $labels[] = $r->getLabel();
+                $labels[] = $this->getResource($uri)->getLabel();
             }
 
             $id = tao_helpers_Uri::encode($user->getUri());
+            $login = (string)current($propValues[GenerisRdf::PROPERTY_USER_LOGIN]);
             $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
             $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
             $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
             $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
 
             $response->data[$index]['id'] = $id;
-            $response->data[$index]['login'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_LOGIN]);
+            $response->data[$index]['login'] = $login;
             $response->data[$index]['firstname'] = $firstName;
             $response->data[$index]['lastname'] = $lastName;
             $response->data[$index]['email'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
@@ -174,12 +178,15 @@ class tao_actions_Users extends tao_actions_CommonModule
             $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
-            $response->data[$index]['status'] = $status;
-            $response->data[$index]['blocked'] = !$isUserActive;
+            $statusInfo = $this->getUserLocksService()->getStatusDetails($login);
+            $response->data[$index]['locked'] = $statusInfo['locked'];
+            $response->data[$index]['status'] = $statusInfo['status'];
 
+            // todo: exclude users with admin roles
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;
             }
+
             $index++;
         }
 
