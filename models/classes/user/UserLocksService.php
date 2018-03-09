@@ -185,12 +185,13 @@ class UserLocksService extends ConfigurableService
             if ($this->getOption(self::OPTION_USE_HARD_LOCKOUT)) {
                 $status = __('self-locked');
             } else {
-                if ($lastFailure) {
-                    $lastFailure = (new DateTime('now'))->setTimestamp($lastFailure->literal);
-                    $lastFailure->add(new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD)));
-                }
+                $unlockTime = (new DateTime('now'))
+                    ->setTimestamp($lastFailure->literal)
+                    ->add(new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD)));
 
-                $status = __('auto unlocked in %s minutes', tao_helpers_Date::displayeDate($lastFailure));
+                $status = __('auto unlocked in %s',
+                    tao_helpers_Date::displayInterval((new DateTime('now'))->diff($unlockTime))
+                );
             }
         } else {
             $blockedByUsername = $lockedBy->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_LOGIN));
