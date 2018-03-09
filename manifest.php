@@ -44,7 +44,7 @@ return array(
     'version' => '18.0.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.7.0'
+        'generis' => '>=6.9.0'
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -160,7 +160,16 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueData')),
     ),
     'constants' => array(
-
+        #TAO version number
+        'TAO_VERSION' => '3.3.0-sprint72',
+        #TAO version label
+        'TAO_VERSION_NAME' => '3.3.0-sprint72',
+        #the name to display
+        'PRODUCT_NAME' => 'TAO',
+        #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
+        'TAO_RELEASE_STATUS' => 'stable',
+        #TAO default character encoding (mainly used with multi-byte string functions).
+        'TAO_DEFAULT_ENCODING' => 'UTF-8',
         # actions directory
         "DIR_ACTIONS" => $extpath."actions".DIRECTORY_SEPARATOR,
 
