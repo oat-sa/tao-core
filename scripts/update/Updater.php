@@ -672,8 +672,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(UserLocksService::SERVICE_ID, new UserLocksService([
                 'use_hard_lockout' => false,
-                'lockout_failed_attempts' => 5,
-                'soft_lockout_period' => 'PT15M'
+                'lockout_failed_attempts' => 6,
+                'soft_lockout_period' => 'PT30M'
             ]));
 
             /** @var EventManager $eventManager */

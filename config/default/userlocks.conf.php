@@ -6,8 +6,8 @@ return new oat\tao\model\user\UserLocksService([
     'use_hard_lockout' => false,
 
     /** Amount of failed login attempts before lockout */
-    'lockout_failed_attempts' => 5,
+    'lockout_failed_attempts' => 6,
 
     /** Duration of soft lock out */
-    'soft_lockout_period' => 'PT15M'
+    'soft_lockout_period' => 'PT30M'
 ]);
