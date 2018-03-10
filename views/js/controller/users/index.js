@@ -18,7 +18,7 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                 data: data,
                 type: 'POST'
             }).done(function(response) {
-                if (response.deleted) {
+                if (response.success) {
                     feedback().success(response.message);
                 } else {
                     feedback().error(response.message);
@@ -132,7 +132,7 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                     }, {
                         id: 'status',
                         label: __('Account status'),
-                        sortable: true
+                        sortable: false
                     }
                 ]
             });
