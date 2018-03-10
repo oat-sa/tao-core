@@ -80,7 +80,9 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * Provide the user list data via json
      * @return string|json
+     * @throws Exception
      * @throws common_exception_InvalidArgumentType
+     * @throws core_kernel_persistence_Exception
      */
     public function data()
     {
@@ -183,7 +185,6 @@ class tao_actions_Users extends tao_actions_CommonModule
             $response->data[$index]['locked'] = $statusInfo['locked'];
             $response->data[$index]['status'] = $statusInfo['status'];
 
-            // todo: exclude users with admin roles
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;
             }
@@ -209,15 +210,16 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function delete()
     {
         // Csrf token validation
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
         if (! $tokenService->checkToken($token)) {
             \common_Logger::w('Xsrf validation failed');
-            return $this->returnJson([
-                'deleted' => false,
+            $this->returnJson([
+                'success' => false,
                 'message' => 'Not authorized to perform action'
             ]);
+            return;
         } else {
             $tokenService->revokeToken($token);
             $newToken = $tokenService->createToken();
@@ -225,9 +227,9 @@ class tao_actions_Users extends tao_actions_CommonModule
         }
 
         $deleted = false;
-        $message = __('An error occured during user deletion');
+        $message = __('An error occurred during user deletion');
         if (ApplicationHelper::isDemo()) {
-            $message = __('User deletion not permited on a demo instance');
+            $message = __('User deletion not permitted on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
             $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             $this->checkUser($user->getUri());
@@ -238,7 +240,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             }
         }
         $this->returnJson(array(
-            'deleted' => $deleted,
+            'success' => $deleted,
             'message' => $message
         ));
     }
@@ -261,6 +263,8 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
                 unset($values['password1']);
                 unset($values['password2']);
+
+                // todo: set locked properties and by who
 
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
 
@@ -391,7 +395,7 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         if ($this->getUserLocksService()->unlockUser($user)) {
             $this->returnJson([
-                'unlocked' => true,
+                'success' => true,
                 'message' => __('User successfully unlocked')
             ]);
         }
@@ -408,7 +412,7 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         if ($this->getUserLocksService()->lockUser($user, $currentUser)) {
             $this->returnJson([
-                'locked' => true,
+                'success' => true,
                 'message' => __('User successfully locked')
             ]);
         }
