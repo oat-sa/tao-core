@@ -106,7 +106,6 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[Shows account status, locked or not]]></rdfs:comment>
     <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus" />
-    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox"/>
   </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus">

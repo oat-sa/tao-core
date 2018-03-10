@@ -254,19 +254,17 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function add()
     {
-        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER));
-        $myForm = $myFormContainer->getForm();
+        $container = new tao_actions_form_Users($this->getClass(TaoOntology::CLASS_URI_TAO_USER));
+        $form = $container->getForm();
 
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-                $values = $myForm->getValues();
+        if ($form->isSubmited()) {
+            if ($form->isValid()) {
+                $values = $form->getValues();
                 $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
                 unset($values['password1']);
                 unset($values['password2']);
 
-                // todo: set locked properties and by who
-
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
+                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
 
                 if ($binder->bind($values)) {
                     $this->setData('message', __('User added'));
@@ -277,34 +275,36 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         $this->setData('loginUri', tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
         $this->setData('formTitle', __('Add a user'));
-        $this->setData('myForm', $myForm->render());
+        $this->setData('myForm', $form->render());
         $this->setView('user/form.tpl');
     }
 
+    /**
+     * @throws Exception
+     */
     public function addInstanceForm()
     {
         if (!tao_helpers_Request::isAjax()) {
             throw new Exception("wrong request mode");
         }
 
-        $clazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
+        $clazz = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
-        $myForm = $formContainer->getForm();
+        $form = $formContainer->getForm();
 
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
+        if ($form->isSubmited()) {
+            if ($form->isValid()) {
 
-                $properties = $myForm->getValues();
+                $properties = $form->getValues();
                 $instance = $this->createInstance(array($clazz), $properties);
 
                 $this->setData('message', __($instance->getLabel() . ' created'));
-                //$this->setData('reload', true);
                 $this->setData('selectTreeNode', $instance->getUri());
             }
         }
 
         $this->setData('formTitle', __('Create instance of ') . $clazz->getLabel());
-        $this->setData('myForm', $myForm->render());
+        $this->setData('myForm', $form->render());
 
         $this->setView('form.tpl', 'tao');
     }
