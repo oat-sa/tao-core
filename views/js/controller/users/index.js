@@ -132,7 +132,7 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                     }, {
                         id: 'status',
                         label: __('Account status'),
-                        sortable: false
+                        sortable: true
                     }
                 ]
             });
