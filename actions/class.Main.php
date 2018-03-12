@@ -187,7 +187,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                             $msg .= __('Please try in %s.',
                                 $diffInSeconds > 60
                                     ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
-                                    : $diffInSeconds . '_' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
+                                    : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
                             );
                         }
                     } else {
