@@ -410,6 +410,8 @@ class tao_actions_Users extends tao_actions_CommonModule
         $user = $this->handleRequestParams();
         $currentUser = tao_models_classes_UserService::singleton()->getCurrentUser();
 
+//        $user->
+
         if ($this->getUserLocksService()->lockUser($user, $currentUser)) {
             $this->returnJson([
                 'success' => true,
