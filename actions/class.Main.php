@@ -182,12 +182,12 @@ class tao_actions_Main extends tao_actions_CommonModule
                             $reference = new DateTimeImmutable;
                             $endTime = $reference->add($remaining);
 
-                            $seconds = $endTime->getTimestamp() - $reference->getTimestamp();
+                            $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
 
                             $msg .= __('Please try in %s.',
-                                $seconds > 60
+                                $diffInSeconds > 60
                                     ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
-                                    : $seconds . ' seconds'
+                                    : $diffInSeconds . '_' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
                             );
                         }
                     } else {
