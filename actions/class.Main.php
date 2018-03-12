@@ -174,13 +174,24 @@ class tao_actions_Main extends tao_actions_CommonModule
                     if ($statusDetails['auto']) {
                         $msg = __('You have been locked due to too many failed login attempts. ');
                         if ($userLocksService->getOption(UserLocksService::OPTION_USE_HARD_LOCKOUT)) {
-                            $msg .= __('Please, ask your administrator how to return access.');
+                            $msg .= __('Please contact your administrator.');
                         } else {
-                            $msg .= __('Please, try in %s.',
-                                tao_helpers_Date::displayInterval($statusDetails['remaining']));
+                            /** @var DateInterval $remaining */
+                            $remaining = $statusDetails['remaining'];
+
+                            $reference = new DateTimeImmutable;
+                            $endTime = $reference->add($remaining);
+
+                            $seconds = $endTime->getTimestamp() - $reference->getTimestamp();
+
+                            $msg .= __('Please try in %s.',
+                                $seconds > 60
+                                    ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
+                                    : $seconds . ' seconds'
+                            );
                         }
                     } else {
-                        $msg = __('You have been locked by the administrator. Please, ask your administrator how to return access.');
+                        $msg = __('Your account has been locked, please contact your administrator.');
                     }
 
                     $this->setData('errorMessage', $msg);
