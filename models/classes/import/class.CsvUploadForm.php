@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\generis\Helper\SystemHelper;
+
 /**
  * Export form for QTI packages
  *
@@ -89,7 +91,7 @@ class tao_models_classes_import_CsvUploadForm
                     'extension' => array('csv', 'txt')
                 )),
             tao_helpers_form_FormFactory::getValidator('FileSize',
-                array('max' => tao_helpers_Environment::getFileUploadLimit()))
+                array('max' => SystemHelper::getFileUploadLimit()))
         ));
 		
 		$this->form->addElement($fileElt);

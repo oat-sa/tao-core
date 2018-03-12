@@ -21,6 +21,7 @@
  */
 
 use oat\generis\model\GenerisRdf;
+use oat\tao\helpers\ApplicationHelper;
 
 /**
  * This controller provide the actions to manage the user settings
@@ -53,7 +54,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	public function password(){
 
 		$this->setData('formTitle'	, __("Change password"));
-		if (helpers_PlatformInstance::isDemo()) {
+		if (ApplicationHelper::isDemo()) {
             $this->setData('myForm'		, __('Unable to change passwords in demo mode'));
 		} else {
 		    $myFormContainer = new tao_actions_form_UserPassword();
