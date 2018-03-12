@@ -37,20 +37,9 @@ use tao_helpers_Date;
  * Class UserLocksService
  * @package oat\tao\model\user
  */
-class UserLocksService extends ConfigurableService
+class UserLocksService extends ConfigurableService implements UserLocks
 {
     use OntologyAwareTrait;
-
-    const SERVICE_ID = 'tao/userlocks';
-
-    /** Use hard lock for failed logon. Be default soft lock will be used */
-    const OPTION_USE_HARD_LOCKOUT = 'use_hard_lockout';
-
-    /** Amount of failed login attempts before lockout */
-    const OPTION_LOCKOUT_FAILED_ATTEMPTS = 'lockout_failed_attempts';
-
-    /** Duration of soft lock out */
-    const OPTION_SOFT_LOCKOUT_PERIOD = 'soft_lockout_period';
 
     /**
      * @param LoginFailedEvent $event
