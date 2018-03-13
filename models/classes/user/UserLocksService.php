@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\user;
 
+use common_Logger;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -26,6 +27,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\user\implementation\NoLockout;
 use oat\tao\model\user\implementation\RdfLockout;
 use tao_helpers_Date;
@@ -48,7 +50,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     {
         if (!$this->lockout || !$this->lockout instanceof Lockout) {
             $lockout = $this->getOption(self::OPTION_USER_LOCK_IMPLEMENTATION);
-            $this->lockout = $lockout and class_exists($lockout) ? new $lockout : new NoLockout();
+            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new NoLockout();
         }
 
         return $this->lockout;
@@ -99,6 +101,11 @@ class UserLocksService extends ConfigurableService implements UserLocks
         }
 
         $user = UserHelper::getUser($user);
+
+        if ($user->getIdentifier() === LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
+            common_Logger::i('Default user can not be locked');
+            return false;
+        }
 
         $this->getLockout()->setLockedStatus(UserHelper::getUserLogin($user));
         $this->getLockout()->setLockedBy(UserHelper::getUserLogin($user), $currentUser);

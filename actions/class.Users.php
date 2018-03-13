@@ -395,10 +395,9 @@ class tao_actions_Users extends tao_actions_CommonModule
         $user = $this->handleRequestParams();
 
         if ($this->getUserLocksService()->unlockUser($user)) {
-            $this->returnJson([
-                'success' => true,
-                'message' => __('User successfully unlocked')
-            ]);
+            $this->returnJson(['success' => true, 'message' => __('User %s successfully unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+        } else {
+            $this->returnJson(['success' => false, 'message' => __('User %s can not be unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
         }
     }
 
@@ -411,10 +410,9 @@ class tao_actions_Users extends tao_actions_CommonModule
         $user = $this->handleRequestParams();
 
         if ($this->getUserLocksService()->lockUser($user)) {
-            $this->returnJson([
-                'success' => true,
-                'message' => __('User %s successfully locked', UserHelper::getUserLogin(UserHelper::getUser($user)))
-            ]);
+            $this->returnJson(['success' => true, 'message' => __('User %s successfully locked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+        } else {
+            $this->returnJson(['success' => false, 'message' => __('User %s can not be locked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
         }
     }
 
