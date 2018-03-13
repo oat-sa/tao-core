@@ -206,6 +206,30 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param $login
+     * @return bool|int|mixed
+     */
+    public function getLockoutRemainingAttempts($login)
+    {
+        $user = UserHelper::getUser($this->getLockout()->getUser($login));
+
+        if ($user->getIdentifier() === LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
+            return false;
+        }
+
+        $allowedAttempts = $this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS);
+        $failedAttempts = $this->getLockout()->getFailures($login);
+
+        $rest = $allowedAttempts - $failedAttempts;
+
+        if ($rest < 0) {
+            return false;
+        }
+
+        return $rest;
+    }
+
+    /**
+     * @param $login
      * @return array
      * @throws \Exception
      */

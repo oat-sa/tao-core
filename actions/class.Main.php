@@ -211,7 +211,23 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                         common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
 
-                        $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
+                        $msg = __('Invalid login or password. Please try again.');
+
+                        if ($userLocksService->getOption(UserLocksService::OPTION_USE_HARD_LOCKOUT)) {
+                            $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
+                            if ($remainingAttempts !== false) {
+                                if ($remainingAttempts === 0) {
+                                    $msg = __('Invalid login or password. You are locked out.');
+                                } else {
+                                    $msg = $msg . ' ' .
+                                        ($remainingAttempts === 1 
+                                            ? __('You have 1 attempt left before the lock.')
+                                            : __('You have %d attempts left before the lock.', $remainingAttempts));
+                                }
+                            }
+                        }
+
+                        $this->setData('errorMessage', $msg);
                     }
                 }
 			}
