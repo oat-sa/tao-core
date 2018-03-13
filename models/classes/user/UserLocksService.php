@@ -42,6 +42,31 @@ class UserLocksService extends ConfigurableService implements UserLocks
     /** @var Lockout */
     private $lockout;
 
+    public function setHardLockout()
+    {
+        $this->setOption(self::OPTION_USE_HARD_LOCKOUT, true);
+    }
+
+    public function setSoftLockout()
+    {
+        $this->setOption(self::OPTION_USE_HARD_LOCKOUT, false);
+    }
+
+    public function setFailedAttemptsBeforeLockout($attempts = 6)
+    {
+        $this->setOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS, $attempts);
+    }
+
+    public function setPeriodOfSoftLockout($period = 'PT30M')
+    {
+        $this->setOption(self::OPTION_SOFT_LOCKOUT_PERIOD, $period);
+    }
+
+    public function setLockoutImplementation($implementation = NoLockout::class)
+    {
+        $this->setOption(self::OPTION_USER_LOCK_IMPLEMENTATION, $implementation);
+    }
+
     /**
      * Returns proper lockout implementation
      * @return RdfLockout|Lockout
