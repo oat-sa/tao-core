@@ -43,25 +43,28 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
     /**
      * Removes a user
      * @param {String} uri - the user uri
+     * @param row
      */
-    var removeUser = function removeUser(uri) {
-        runUserAction(uri, 'delete', __('Please confirm user deletion'));
+    var removeUser = function removeUser(uri, row) {
+        runUserAction(uri, 'delete', __('Please confirm deletion of user %s', row.login));
     };
 
     /**
      * Locks a user
      * @param {String} uri - the user uri
+     * @param row
      */
-    var lockUser = function lockUser(uri) {
-        runUserAction(uri, 'lock', __('Please confirm account locking'));
+    var lockUser = function lockUser(uri, row) {
+        runUserAction(uri, 'lock', __('Please confirm locking of account %s', row.login));
     };
 
     /**
      * Unlocks blocked user
      * @param {String} uri - the user uri
+     * @param row
      */
-    var unlockUser = function unlockUser(uri) {
-        runUserAction(uri, 'unlock', __('Please confirm account unlocking'));
+    var unlockUser = function unlockUser(uri, row) {
+        runUserAction(uri, 'unlock', __('Please confirm unlocking of account %s', row.login));
     };
 
     /**
@@ -96,10 +99,8 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
             }).datatable({
                 url: urlHelper.route('data', 'Users', 'tao'),
                 paginationStrategyBottom: 'pages',
-                // selectable: true,
                 filter: true,
                 actions: actions,
-                // tools: _.omit(actions, 'edit', 'remove'),
                 model: [
                     {
                         id : 'login',
