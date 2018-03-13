@@ -20,6 +20,7 @@
 namespace oat\tao\model\resources;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
@@ -50,8 +51,24 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     {
         /** @var Search $searchService */
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+
+        $parts = [];
+        foreach ($propertyFilters as $key => $propertyFilter) {
+            $label = $key == OntologyRdfs::RDFS_LABEL ? 'label' : \tao_helpers_Uri::encode($key);
+            $props = [];
+            if (is_array($propertyFilter)) {
+                foreach ($propertyFilter as $item) {
+                    $props[] = $label . ':' . (string) $item;
+                }
+            } else {
+                $props[] = $label . ':' . (string) $propertyFilter;
+            }
+            $parts[] = implode(' AND ', $props);
+        }
+
+        $queryString = implode(' AND ', $parts);
         /** @var ResultSet $result */
-        $result = $searchService->query(current($propertyFilters), $rootClass, $offset, $limit);
+        $result = $searchService->query($queryString, $rootClass, $offset, $limit);
         $count = $result->getTotalCount();
 
         $nodes = [];

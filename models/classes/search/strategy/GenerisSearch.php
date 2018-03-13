@@ -44,9 +44,7 @@ class GenerisSearch extends ConfigurableService implements Search
      */
     public function query($queryString, $type, $start = 0, $count = 10) {
         $rootClass = $this->getClass($type);
-        $results = $rootClass->searchInstances(array(
-            OntologyRdfs::RDFS_LABEL => $queryString
-        ), array(
+        $results = $rootClass->searchInstances($this->parseQuery($queryString), array(
             'recursive' => true,
             'like'      => true,
             'offset'    => $start,
@@ -58,9 +56,38 @@ class GenerisSearch extends ConfigurableService implements Search
         }
 
         return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
-
     }
-    
+
+    /**
+     * @param $queryString
+     * @return array
+     */
+    private function parseQuery($queryString)
+    {
+        $query = [];
+        $parts = explode('AND', $queryString);
+        foreach ($parts as $part) {
+            $delimiter = mb_strpos($part, ':');
+            $key = \tao_helpers_Uri::decode(trim(substr($part, 0, $delimiter)));
+            $key = $key == 'label' ? OntologyRdfs::RDFS_LABEL : $key;
+            $propVal = trim(substr($part, $delimiter+1));
+            if ($propVal == '*') {
+                continue;
+            }
+            if (!isset($query[$key])) {
+                $query[$key] = $propVal;
+            } else {
+                if (!is_array($query[$key])) {
+                    $val = $query[$key];
+                    $query[$key] = [];
+                    $query[$key][] = $val;
+                }
+                $query[$key][] = $propVal;
+            }
+        }
+        return $query;
+    }
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::flush()
