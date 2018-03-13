@@ -24,6 +24,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\helpers\ApplicationHelper;
+use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
@@ -408,12 +409,11 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function lock()
     {
         $user = $this->handleRequestParams();
-        $currentUser = tao_models_classes_UserService::singleton()->getCurrentUser();
 
-        if ($this->getUserLocksService()->lockUser($user, $currentUser)) {
+        if ($this->getUserLocksService()->lockUser($user)) {
             $this->returnJson([
                 'success' => true,
-                'message' => __('User successfully locked')
+                'message' => __('User %s successfully locked', UserHelper::getUserLogin(UserHelper::getUser($user)))
             ]);
         }
     }

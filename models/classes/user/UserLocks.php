@@ -19,7 +19,6 @@
 
 namespace oat\tao\model\user;
 
-use core_kernel_classes_Resource;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 
@@ -32,6 +31,8 @@ use oat\tao\model\event\LoginSucceedEvent;
 interface UserLocks
 {
     const SERVICE_ID = 'tao/userlocks';
+
+    const OPTION_USER_LOCK_IMPLEMENTATION = 'user_lock_implementation';
 
     /** Use hard lock for failed logon. Be default soft lock will be used */
     const OPTION_USE_HARD_LOCKOUT = 'use_hard_lockout';
@@ -56,18 +57,17 @@ interface UserLocks
 
     /**
      * Locks user by another user (administrator)
-     * @param core_kernel_classes_Resource $user
-     * @param core_kernel_classes_Resource|null $by
+     * @param $user
      * @return mixed
      */
-    public function lockUser(core_kernel_classes_Resource $user, core_kernel_classes_Resource $by = null);
+    public function lockUser($user);
 
     /**
      * Unlocks user
-     * @param core_kernel_classes_Resource $user
+     * @param $user
      * @return mixed
      */
-    public function unlockUser(core_kernel_classes_Resource $user);
+    public function unlockUser($user);
 
     /**
      * Returns true if user is locked else false
