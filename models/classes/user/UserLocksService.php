@@ -19,19 +19,16 @@
 
 namespace oat\tao\model\user;
 
-use core_kernel_classes_Literal;
-use core_kernel_classes_Resource;
-use core_kernel_users_Service;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\user\implementation\RdfLockout;
 use tao_helpers_Date;
+use tao_models_classes_UserService;
 
 /**
  * Class UserLocksService
@@ -39,12 +36,11 @@ use tao_helpers_Date;
  */
 class UserLocksService extends ConfigurableService implements UserLocks
 {
-    use OntologyAwareTrait;
-
     /** @var Lockout */
     private $lockout;
 
     /**
+     * Returns proper lockout implementation
      * @return RdfLockout|Lockout
      */
     protected function getLockout()
@@ -77,74 +73,86 @@ class UserLocksService extends ConfigurableService implements UserLocks
      */
     private function increaseLoginFails($login)
     {
-        $failures = $this->getLockout()->getLogonFailures($login);
+        $failures = $this->getLockout()->getFailures($login);
 
-        if (($failures++) >= intval($this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS))) {
-            $this->lockUser($login);
+        $failures++;
+
+        if ($failures >= intval($this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS))) {
+            $this->lockUser($this->getLockout()->getUser($login));
         }
 
-        $this->getLockout()->setLogonFailures($login, $failures);
+        $this->getLockout()->setFailures($login, $failures);
     }
 
     /**
-     * @param $login
-     * @param $by
+     * @param $user
      * @return bool
      */
-    public function lockUser($login, $by = null)
+    public function lockUser($user)
     {
-        return $this->getLockout()->lockUser($login, $by);
+        $currentUser = tao_models_classes_UserService::singleton()->getCurrentUser();
+
+        if (!$currentUser) {
+            $currentUser = $user;
+        }
+
+        $user = UserHelper::getUser($user);
+
+        $this->getLockout()->setLockedStatus(UserHelper::getUserLogin($user));
+        $this->getLockout()->setLockedBy(UserHelper::getUserLogin($user), $currentUser);
+
+        return true;
     }
 
     /**
-     * @param $login
+     * @param $user
      * @return bool
      */
-    public function unlockUser($login)
+    public function unlockUser($user)
     {
-        return $this->getLockout()->unlockUser($login);
+
+        $login = UserHelper::getUserLogin(UserHelper::getUser($user));
+
+        $this->getLockout()->setUnlockedStatus($login);
+        $this->getLockout()->setFailures($login, 0);
+        $this->getLockout()->setLockedBy($login, null);
+
+        return true;
     }
 
     /**
      * @param $login
      * @return bool
-     * @throws \core_kernel_persistence_Exception
      * @throws \Exception
      */
     public function isLocked($login)
     {
-        $user = core_kernel_users_Service::singleton()->getOneUser($login);
+        $status = $this->getLockout()->getStatus($login);
 
-        if (empty((string)$user->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS)))) {
+        if (empty($status)) {
             return false;
         }
 
         // hard lockout, only admin can reset
-        if ($this->getOption(self::OPTION_USE_HARD_LOCKOUT)) {
+        if ($status && $this->getOption(self::OPTION_USE_HARD_LOCKOUT)) {
             return true;
-        } else {
-
-            /** @var core_kernel_classes_Resource $lockedBy */
-            $lockedBy = $user->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY));
-
-            if (empty($lockedBy)) {
-                return false;
-            }
-
-            if ($lockedBy->getUri() !== $user->getUri()) {
-                return true;
-            }
-
-            $lockoutPeriod = new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
-
-            /** @var core_kernel_classes_Literal $lastFailureTimePropertyValue */
-            $lastFailureTimePropertyValue = $user->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME));
-
-            $lastFailureTime = new \DateTimeImmutable;
-            $lastFailureTime = $lastFailureTime->setTimestamp($lastFailureTimePropertyValue->literal);
-
-            return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable;
         }
+
+        $lockedBy = UserHelper::getUser($this->getLockout()->getLockedBy($login));
+        $user = UserHelper::getUser($this->getLockout()->getUser($login));
+
+        if (empty($lockedBy)) {
+            return false;
+        }
+
+        if ($lockedBy->getIdentifier() !== $user->getIdentifier()) {
+            return true;
+        }
+
+        $lockoutPeriod = new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
+        $lastFailureTime = (new DateTimeImmutable)->setTimestamp(intval((string)$this->getLockout()->getLastFailureTime($login)));
+
+        return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable;
     }
 
     /**
@@ -154,7 +162,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
      */
     public function getLockoutRemainingTime($login)
     {
-        $lastFailure = $this->getLockout()->getLastLogonFailureTime($login);
+        $lastFailure = $this->getLockout()->getLastFailureTime($login);
 
         $unlockTime = (new DateTime('now'))
             ->setTimestamp($lastFailure->literal)
@@ -167,14 +175,15 @@ class UserLocksService extends ConfigurableService implements UserLocks
      * @param $login
      * @return array
      * @throws \Exception
-     * @throws \core_kernel_persistence_Exception
      */
     public function getStatusDetails($login)
     {
+        $user = UserHelper::getUser($this->getLockout()->getUser($login));
+
         $isLocked = $this->isLocked($login);
 
         if (!$isLocked) {
-            $this->unlockUser($login);
+            $this->unlockUser($user);
 
             return [
                 'locked' => false,
@@ -185,19 +194,17 @@ class UserLocksService extends ConfigurableService implements UserLocks
         }
 
         $remaining = $this->getLockoutRemainingTime($login);
+        $lockedBy = UserHelper::getUser($this->getLockout()->getLockedBy($login));
+
         $autoLocked = false;
 
-        if ($this->getLockout()->isAutoLocked($login)) {
+        if ($lockedBy->getIdentifier() !== $user->getIdentifier()) {
+            $status = __('locked by %s', UserHelper::getUserLogin($lockedBy));
+        } else {
             $autoLocked = true;
             $status = $this->getOption(self::OPTION_USE_HARD_LOCKOUT)
                 ? __('self-locked')
                 : __('auto unlocked in %s', tao_helpers_Date::displayInterval($remaining));
-        } else {
-            
-//            $blockedByUsername = $lockedBy->getPropertyValues($this->getProperty(GenerisRdf::PROPERTY_USER_LOGIN));
-//            $blockedByUsername = $lockedBy->getOnePropertyValue($this->getProperty(GenerisRdf::PROPERTY_USER_LOGIN));
-//            $status = __('locked by %s', $blockedByUsername);
-            $status = __('locked by %s', 'undef');
         }
 
         return [

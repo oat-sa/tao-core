@@ -57,18 +57,17 @@ interface UserLocks
 
     /**
      * Locks user by another user (administrator)
-     * @param $login
-     * @param $by
+     * @param $user
      * @return mixed
      */
-    public function lockUser($login, $by = null);
+    public function lockUser($user);
 
     /**
      * Unlocks user
-     * @param $login
+     * @param $user
      * @return mixed
      */
-    public function unlockUser($login);
+    public function unlockUser($user);
 
     /**
      * Returns true if user is locked else false
