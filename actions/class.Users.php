@@ -28,6 +28,7 @@ use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\user\implementation\NoLockout;
 use oat\tao\model\user\UserLocksService;
 
 /**
@@ -185,6 +186,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $statusInfo = $this->getUserLocksService()->getStatusDetails($login);
             $response->data[$index]['locked'] = $statusInfo['locked'];
             $response->data[$index]['status'] = $statusInfo['status'];
+            $response->data[$index]['lockable'] = $this->getUserLocksService()->getOption(UserLocksService::OPTION_USER_LOCK_IMPLEMENTATION) !== NoLockout::class;
 
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;

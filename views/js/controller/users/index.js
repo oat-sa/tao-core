@@ -91,10 +91,15 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
             // initialize the user manager component
             $userList.on('load.datatable', function (e, dataset) {
                 _.forEach(dataset.data, function(row) {
-                    var selector = row.locked
-                        ? '[data-item-identifier="' + row.id + '"] button.lock'
-                        : '[data-item-identifier="' + row.id + '"] button.unlock';
-                    $(selector, $userList).hide();
+                    var lockBtn = '[data-item-identifier="' + row.id + '"] button.lock';
+                    var unlockBtn = '[data-item-identifier="' + row.id + '"] button.unlock';
+                    if (row.lockable) {
+                        $(row.locked ? lockBtn : unlockBtn, $userList).hide();
+                    } else {
+                        _.forEach([lockBtn, unlockBtn], function (btn) {
+                            $(btn, $userList).hide();
+                        });
+                    }
                 });
             }).datatable({
                 url: urlHelper.route('data', 'Users', 'tao'),
