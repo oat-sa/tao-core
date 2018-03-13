@@ -138,7 +138,13 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                     }, {
                         id: 'status',
                         label: __('Account status'),
-                        sortable: true
+                        sortable: true,
+                        transform: function (value) {
+                            var icon = value === 'enabled'
+                                ? 'result-ok'
+                                : 'lock';
+                            return '<span class="icon-' + icon + '"></span> ' + value;
+                        }
                     }
                 ]
             });
