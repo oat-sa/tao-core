@@ -15,12 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
 namespace oat\tao\model\websource;
 
-use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 
@@ -35,23 +34,14 @@ use oat\oatbox\service\ServiceManager;
  */
 class TokenWebSourceService
 {
-
     /**
      * @param $fileSystemId
-     * @return \tao_models_classes_fsAccess_AccessProvider
+     * @return FlyTokenWebSource
      */
     public static function spawnTokenWebsource($fileSystemId){
 
         /** @var FileSystemService $fsService */
-        $fsService = self::getServiceManager()->get(FileSystemService::SERVICE_ID);
-
-        $fs = $fsService->getFileSystem($fileSystemId);
-
-        if ($fs->getAdapter() instanceof Local) {
-            $websource = TokenWebSource::spawnWebsource($fileSystemId, $fs->getAdapter()->getPathPrefix());
-        } else {
-            $websource = FlyTokenWebSource::spawnWebsource($fileSystemId,'');
-        }
+        $websource = FlyTokenWebSource::spawnWebsource($fileSystemId,'');
 
         return $websource;
     }

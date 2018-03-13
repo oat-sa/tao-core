@@ -21,6 +21,7 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\user\PasswordConstraintsService;
+use oat\tao\helpers\ApplicationHelper;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -221,7 +222,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 			$this->form->addElement($pass2Element);
 		}
 		else {
-			if (helpers_PlatformInstance::isDemo()) {
+			if (ApplicationHelper::isDemo()) {
 				$warning  = tao_helpers_form_FormFactory::getElement('warningpass', 'Label');
 				$warning->setValue(__('Unable to change passwords in demo mode'));
 				$this->form->addElement($warning);

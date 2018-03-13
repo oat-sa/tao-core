@@ -37,4 +37,6 @@ interface TaoRoles
     const DELIVERY = 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole';
 
     const TAO_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole';
+
+    const REST_PUBLISHER = 'http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher';
 }

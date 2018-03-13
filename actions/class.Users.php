@@ -22,6 +22,7 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\helpers\ApplicationHelper;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
@@ -208,7 +209,7 @@ class tao_actions_Users extends tao_actions_CommonModule
 
         $deleted = false;
         $message = __('An error occured during user deletion');
-        if (helpers_PlatformInstance::isDemo()) {
+        if (ApplicationHelper::isDemo()) {
             $message = __('User deletion not permited on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
             $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));

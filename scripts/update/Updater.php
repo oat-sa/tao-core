@@ -22,18 +22,10 @@
 namespace oat\tao\scripts\update;
 
 use common_Exception;
-use common_ext_ExtensionsManager;
-use League\Flysystem\Adapter\Local;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
-use oat\generis\model\fileReference\ResourceFileSerializer;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\filesystem\Directory;
-use oat\tao\helpers\Template;
-use oat\tao\model\accessControl\func\implementation\SimpleAccess;
-use oat\tao\model\asset\AssetService;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -56,36 +48,16 @@ use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
+use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
+use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
-use tao_helpers_data_GenerisAdapterRdf;
-use common_Logger;
-use oat\tao\model\ClientLibRegistry;
-use oat\generis\model\kernel\persistence\file\FileModel;
-use oat\generis\model\data\ModelManager;
-use oat\tao\model\lock\implementation\OntoLock;
-use oat\tao\model\lock\implementation\NoLock;
-use oat\tao\model\lock\LockManager;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\websource\TokenWebSource;
-use oat\tao\model\websource\WebsourceManager;
-use oat\tao\model\websource\ActionWebSource;
-use oat\tao\model\websource\DirectWebSource;
-use oat\tao\model\search\strategy\GenerisSearch;
-use oat\tao\model\entryPoint\BackOfficeEntrypoint;
-use oat\tao\model\entryPoint\EntryPointService;
-use oat\tao\model\ThemeRegistry;
-use oat\tao\model\entryPoint\PasswordReset;
 use oat\oatbox\service\ServiceNotFoundException;
-use oat\tao\model\theme\ThemeService;
-use oat\tao\model\theme\DefaultTheme;
-use oat\tao\model\theme\CompatibilityTheme;
-use oat\tao\model\theme\Theme;
-use oat\tao\model\requiredAction\implementation\RequiredActionService;
 use oat\tao\model\extension\UpdateLogger;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\clientConfig\ClientConfigService;
@@ -108,7 +80,6 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
-use oat\tao\model\search\Search;
 
 /**
  *
@@ -661,6 +632,24 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.0.0');
         }
 
-        $this->skip('17.0.0', '17.6.1');
+        $this->skip('17.0.0', '17.8.1');
+
+        if ($this->isVersion('17.8.1')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('17.9.0');
+        }
+
+
+        if ($this->isVersion('17.9.0')) {
+            $this->getServiceManager()->register(
+                RestSessionFactory::SERVICE_ID,
+                new RestSessionFactory(array(
+                    RestSessionFactory::OPTION_BUILDERS => array(
+                        HttpBasicAuthBuilder::class
+                    )
+                ))
+            );
+            $this->setVersion('17.10.0');
+        }
     }
 }
