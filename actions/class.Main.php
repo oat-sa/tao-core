@@ -217,7 +217,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                             $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
                             if ($remainingAttempts !== false) {
                                 if ($remainingAttempts === 0) {
-                                    $msg = __('Invalid login or password. You are locked out.');
+                                    $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
                                 } else {
                                     $msg = $msg . ' ' .
                                         ($remainingAttempts === 1 

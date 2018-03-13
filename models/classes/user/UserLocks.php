@@ -84,6 +84,13 @@ interface UserLocks
     public function getLockoutRemainingTime($login);
 
     /**
+     * Returns remaining attempts that left before user will be locked
+     * @param $login
+     * @return mixed
+     */
+    public function getLockoutRemainingAttempts($login);
+
+    /**
      * Returns detailed information about user account status
      * @param $login
      * @return array
