@@ -26,6 +26,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
+use oat\tao\model\user\implementation\NoLockout;
 use oat\tao\model\user\implementation\RdfLockout;
 use tao_helpers_Date;
 use tao_models_classes_UserService;
@@ -46,7 +47,8 @@ class UserLocksService extends ConfigurableService implements UserLocks
     protected function getLockout()
     {
         if (!$this->lockout || !$this->lockout instanceof Lockout) {
-            $this->lockout = new RdfLockout(); // todo: set proper implementation of lockout based on configuration
+            $lockout = $this->getOption(self::OPTION_USER_LOCK_IMPLEMENTATION);
+            $this->lockout = $lockout and class_exists($lockout) ? new $lockout : new NoLockout();
         }
 
         return $this->lockout;
@@ -110,7 +112,6 @@ class UserLocksService extends ConfigurableService implements UserLocks
      */
     public function unlockUser($user)
     {
-
         $login = UserHelper::getUserLogin(UserHelper::getUser($user));
 
         $this->getLockout()->setUnlockedStatus($login);

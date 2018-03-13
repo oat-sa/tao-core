@@ -59,6 +59,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\user\implementation\NoLockout;
 use oat\tao\model\user\UserLocksService;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -671,9 +672,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
 
             $this->getServiceManager()->register(UserLocksService::SERVICE_ID, new UserLocksService([
-                'use_hard_lockout' => false,
-                'lockout_failed_attempts' => 6,
-                'soft_lockout_period' => 'PT30M'
+                UserLocksService::OPTION_USER_LOCK_IMPLEMENTATION => NoLockout::class,
+                UserLocksService::OPTION_USE_HARD_LOCKOUT => false,
+                UserLocksService::OPTION_LOCKOUT_FAILED_ATTEMPTS => 6,
+                UserLocksService::OPTION_SOFT_LOCKOUT_PERIOD => 'PT30M',
             ]));
 
             /** @var EventManager $eventManager */
