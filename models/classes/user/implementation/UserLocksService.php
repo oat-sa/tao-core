@@ -139,7 +139,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
             return false;
         }
 
-        if ($this->isLockable($user)) {
+        if (!$this->isLockable($user)) {
             return false;
         }
 
