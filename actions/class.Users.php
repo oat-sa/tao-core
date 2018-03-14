@@ -330,8 +330,8 @@ class tao_actions_Users extends tao_actions_CommonModule
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $values = $myForm->getValues();
-                $plainPassword =  $values['password2'];
                 if (!empty($values['password2']) && !empty($values['password3'])) {
+                    $plainPassword =  $values['password2'];
                     $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
                 }
 
