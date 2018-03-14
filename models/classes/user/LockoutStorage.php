@@ -27,13 +27,6 @@ namespace oat\tao\model\user;
 interface LockoutStorage
 {
     /**
-     * Returns actual user object by login
-     * @param $login
-     * @return mixed
-     */
-    public function getUser($login);
-
-    /**
      * Returns actual status of the user. Null if no any locks
      * @param $login
      * @return mixed
