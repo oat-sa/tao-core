@@ -167,68 +167,72 @@ class tao_actions_Main extends tao_actions_CommonModule
                 /** @var EventManager $eventManager */
                 $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-                if ($userLocksService->isLocked($form->getValue('login'))) {
-                    common_Logger::i("User '" . $form->getValue('login') . "' has been locked.");
+                if (!tao_models_classes_UserService::singleton()->loginAvailable($form->getValue('login'))) {
+                    if ($userLocksService->isLocked($form->getValue('login'))) {
+                        common_Logger::i("User '" . $form->getValue('login') . "' has been locked.");
 
-                    $statusDetails = $userLocksService->getStatusDetails($form->getValue('login'));
-                    if ($statusDetails['auto']) {
-                        $msg = __('You have been locked due to too many failed login attempts. ');
-                        if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
-                            $msg .= __('Please contact your administrator.');
-                        } else {
-                            /** @var DateInterval $remaining */
-                            $remaining = $statusDetails['remaining'];
+                        $statusDetails = $userLocksService->getStatusDetails($form->getValue('login'));
+                        if ($statusDetails['auto']) {
+                            $msg = __('You have been locked due to too many failed login attempts. ');
+                            if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
+                                $msg .= __('Please contact your administrator.');
+                            } else {
+                                /** @var DateInterval $remaining */
+                                $remaining = $statusDetails['remaining'];
 
-                            $reference = new DateTimeImmutable;
-                            $endTime = $reference->add($remaining);
+                                $reference = new DateTimeImmutable;
+                                $endTime = $reference->add($remaining);
 
-                            $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
+                                $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
 
-                            $msg .= __('Please try in %s.',
-                                $diffInSeconds > 60
-                                    ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
-                                    : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
-                            );
-                        }
-                    } else {
-                        $msg = __('Your account has been locked, please contact your administrator.');
-                    }
-
-                    $this->setData('errorMessage', $msg);
-                } else {
-                    if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
-                        $eventManager->trigger(new LoginSucceedEvent($form->getValue('login')));
-
-                        common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
-
-                        if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
-                            $this->redirect($_REQUEST['redirect']);
-                        } else {
-                            $this->forward('entry');
-                        }
-                    } else {
-                        $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
-
-                        common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
-
-                        $msg = __('Invalid login or password. Please try again.');
-
-                        if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
-                            $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
-                            if ($remainingAttempts !== false) {
-                                if ($remainingAttempts === 0) {
-                                    $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
-                                } else {
-                                    $msg = $msg . ' ' .
-                                        ($remainingAttempts === 1
-                                            ? __('Last attempt before your account is locked.')
-                                            : __('%d attempts left before your account is locked.', $remainingAttempts));
-                                }
+                                $msg .= __('Please try in %s.',
+                                    $diffInSeconds > 60
+                                        ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
+                                        : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
+                                );
                             }
+                        } else {
+                            $msg = __('Your account has been locked, please contact your administrator.');
                         }
 
                         $this->setData('errorMessage', $msg);
+                    } else {
+                        if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
+                            $eventManager->trigger(new LoginSucceedEvent($form->getValue('login')));
+
+                            common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
+
+                            if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
+                                $this->redirect($_REQUEST['redirect']);
+                            } else {
+                                $this->forward('entry');
+                            }
+                        } else {
+                            $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
+
+                            common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
+
+                            $msg = __('Invalid login or password. Please try again.');
+
+                            if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
+                                $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
+                                if ($remainingAttempts !== false) {
+                                    if ($remainingAttempts === 0) {
+                                        $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
+                                    } else {
+                                        $msg = $msg . ' ' .
+                                            ($remainingAttempts === 1
+                                                ? __('Last attempt before your account is locked.')
+                                                : __('%d attempts left before your account is locked.', $remainingAttempts));
+                                    }
+                                }
+                            }
+
+                            $this->setData('errorMessage', $msg);
+                        }
                     }
+                } else {
+                    $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
                 }
 			}
 		}
