@@ -42,6 +42,9 @@ interface UserLocks
     /** Duration of soft lock out */
     const OPTION_SOFT_LOCKOUT_PERIOD = 'soft_lockout_period';
 
+    /** List of roles whose users can not be blocked */
+    const OPTION_NON_LOCKING_ROLES = 'non_locking_roles';
+
     /**
      * Event listener that catches failed login events and makes decision to lock user or not
      * @param LoginFailedEvent $event
@@ -76,6 +79,13 @@ interface UserLocks
     public function isLocked($login);
 
     /**
+     * Returns true if user can be locked
+     * @param $user
+     * @return mixed
+     */
+    public function isLockable(User $user);
+
+    /**
      * Returns remaining time that left before user will be unlocked
      * @param $login
      * @return mixed
@@ -93,6 +103,11 @@ interface UserLocks
      * Returns detailed information about user account status
      * @param $login
      * @return array
+     *   boolean        array.locked - returns true if user is locked else false
+     *   boolean        array.auto - returns true if user auto locked (locked by himself) else false
+     *   string         array.status - human readable string with actual account status
+     *   DateInterval   array.remaining - returns valid period of time that left before user will be unlocked, may be null if not applicable
+     *   boolean        array.lockable - returns true if user can be locked else false
      */
     public function getStatusDetails($login);
 

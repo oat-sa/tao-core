@@ -181,9 +181,9 @@ class tao_actions_Users extends tao_actions_CommonModule
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
             $statusInfo = $this->getUserLocksService()->getStatusDetails($login);
+            $response->data[$index]['lockable'] = $statusInfo['lockable'];
             $response->data[$index]['locked'] = $statusInfo['locked'];
             $response->data[$index]['status'] = $statusInfo['status'];
-            $response->data[$index]['lockable'] = !$this->getUserLocksService() instanceof NoUserLocksService;
 
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;

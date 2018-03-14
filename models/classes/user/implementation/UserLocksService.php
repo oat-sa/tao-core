@@ -71,6 +71,11 @@ class UserLocksService extends ConfigurableService implements UserLocks
         $this->setOption(self::OPTION_LOCKOUT_STORAGE, $implementation);
     }
 
+    public function setNonLockingRoles(array $roles)
+    {
+        $this->setOption(self::OPTION_NON_LOCKING_ROLES, $roles);
+    }
+
     /**
      * Returns proper lockout implementation
      * @return LockoutStorage|RdfLockoutStorage
@@ -134,6 +139,10 @@ class UserLocksService extends ConfigurableService implements UserLocks
             return false;
         }
 
+        if ($this->isLockable($user)) {
+            return false;
+        }
+
         $this->getLockout()->setLockedStatus(UserHelper::getUserLogin($user), $currentUser->getIdentifier());
 
         return true;
@@ -189,6 +198,21 @@ class UserLocksService extends ConfigurableService implements UserLocks
     }
 
     /**
+     * @param $user
+     * @return bool
+     */
+    public function isLockable(User $user)
+    {
+        $nonLockingRoles = $this->getOption(self::OPTION_NON_LOCKING_ROLES);
+
+        if ($nonLockingRoles && is_array($nonLockingRoles) && count($nonLockingRoles)) {
+            return (bool) !count(array_intersect($user->getRoles(), $nonLockingRoles));
+        }
+
+        return true;
+    }
+
+    /**
      * @param $login
      * @return bool|DateInterval
      * @throws \Exception
@@ -216,6 +240,10 @@ class UserLocksService extends ConfigurableService implements UserLocks
             return false;
         }
 
+        if (!$this->isLockable($user)) {
+            return false;
+        }
+
         $allowedAttempts = $this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS);
         $failedAttempts = $this->getLockout()->getFailures($login);
 
@@ -231,10 +259,6 @@ class UserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param $login
      * @return array
-     *   boolean        array.locked - returns true if user is locked else false
-     *   boolean        array.auto - returns true if user auto locked (locked by himself) else false
-     *   string         array.status - human readable string with actual account status
-     *   DateInterval   array.remaining - returns valid period of time that left before user will be unlocked, may be null if not applicable
      * @throws \Exception
      */
     public function getStatusDetails($login)
@@ -250,7 +274,8 @@ class UserLocksService extends ConfigurableService implements UserLocks
                 'locked' => false,
                 'auto' => false,
                 'status' => __('enabled'),
-                'remaining' => null
+                'remaining' => null,
+                'lockable' => $this->isLockable($user)
             ];
         }
 
@@ -272,7 +297,8 @@ class UserLocksService extends ConfigurableService implements UserLocks
             'locked' => $isLocked,
             'auto' => $autoLocked,
             'status' => $status,
-            'remaining' => $remaining
+            'remaining' => $remaining,
+            'lockable' => $this->isLockable($user)
         ];
     }
 }

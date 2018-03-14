@@ -75,6 +75,15 @@ class NoUserLocksService extends UserLocksService implements UserLocks
     }
 
     /**
+     * @param $user
+     * @return bool|mixed
+     */
+    public function isLockable(User $user)
+    {
+        return false;
+    }
+
+    /**
      * @param $login
      * @return bool|int|mixed
      */
