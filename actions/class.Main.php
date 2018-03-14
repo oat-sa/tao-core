@@ -220,9 +220,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                                     $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
                                 } else {
                                     $msg = $msg . ' ' .
-                                        ($remainingAttempts === 1 
-                                            ? __('You have 1 attempt left before the lock.')
-                                            : __('You have %d attempts left before the lock.', $remainingAttempts));
+                                        ($remainingAttempts === 1
+                                            ? __('Last attempt before your account is locked.')
+                                            : __('%d attempts left before your account is locked.', $remainingAttempts));
                                 }
                             }
                         }
