@@ -657,7 +657,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.10.0');
         }
 
-        if ($this->isVersion('17.10.0')) {
+        $this->skip('17.10.0', '17.10.1');
+
+        if ($this->isVersion('17.10.1')) {
 
             OntologyUpdater::syncModels();
 
