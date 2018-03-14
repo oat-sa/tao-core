@@ -425,10 +425,10 @@ class tao_actions_Users extends tao_actions_CommonModule
             throw new Exception('Please set the user uri in request parameter');
         }
 
-        $user = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $this->checkUser($user->getUri());
+        $userUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+        $this->checkUser($userUri);
 
-        return $user;
+        return $this->getResource($userUri);
     }
 
     /**
