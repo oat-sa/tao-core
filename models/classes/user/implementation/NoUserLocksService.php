@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\user\implementation;
 
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
@@ -28,7 +29,7 @@ use oat\tao\model\user\UserLocks;
  * Class NoUserLocksService
  * @package oat\tao\model\user
  */
-class NoUserLocksService extends UserLocksService implements UserLocks
+class NoUserLocksService extends ConfigurableService implements UserLocks
 {
     /**
      * @param LoginFailedEvent $event
@@ -105,5 +106,14 @@ class NoUserLocksService extends UserLocksService implements UserLocks
             'status' => __('enabled'),
             'remaining' => null
         ];
+    }
+
+    /**
+     * @param $login
+     * @return mixed
+     */
+    public function getLockoutRemainingTime($login)
+    {
+        return false;
     }
 }
