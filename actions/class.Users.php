@@ -28,8 +28,8 @@ use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\user\implementation\NoLockout;
-use oat\tao\model\user\UserLocksService;
+use oat\tao\model\user\implementation\NoUserLocksService;
+use oat\tao\model\user\UserLocks;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -62,12 +62,10 @@ class tao_actions_Users extends tao_actions_CommonModule
         $extManager = common_ext_ExtensionsManager::singleton();
     }
 
-    /**
-     * @return UserLocksService
-     */
+    /** @return UserLocks */
     public function getUserLocksService()
     {
-        return $this->getServiceLocator()->get(UserLocksService::SERVICE_ID);
+        return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
     }
 
     /**
@@ -84,7 +82,6 @@ class tao_actions_Users extends tao_actions_CommonModule
      * @return string|json
      * @throws Exception
      * @throws common_exception_InvalidArgumentType
-     * @throws core_kernel_persistence_Exception
      */
     public function data()
     {
@@ -186,7 +183,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $statusInfo = $this->getUserLocksService()->getStatusDetails($login);
             $response->data[$index]['locked'] = $statusInfo['locked'];
             $response->data[$index]['status'] = $statusInfo['status'];
-            $response->data[$index]['lockable'] = $this->getUserLocksService()->getOption(UserLocksService::OPTION_USER_LOCK_IMPLEMENTATION) !== NoLockout::class;
+            $response->data[$index]['lockable'] = !$this->getUserLocksService() instanceof NoUserLocksService;
 
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;

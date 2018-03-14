@@ -37,7 +37,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\model\user\UserLocksService;
+use oat\tao\model\user\UserLocks;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -162,8 +162,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         if ($form->isSubmited()) {
             if ($form->isValid()) {
 
-                /** @var UserLocksService $userLocksService */
-                $userLocksService = $this->getServiceLocator()->get(UserLocksService::SERVICE_ID);
+                /** @var UserLocks $userLocksService */
+                $userLocksService = $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
                 /** @var EventManager $eventManager */
                 $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
@@ -173,7 +173,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $statusDetails = $userLocksService->getStatusDetails($form->getValue('login'));
                     if ($statusDetails['auto']) {
                         $msg = __('You have been locked due to too many failed login attempts. ');
-                        if ($userLocksService->getOption(UserLocksService::OPTION_USE_HARD_LOCKOUT)) {
+                        if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
                             $msg .= __('Please contact your administrator.');
                         } else {
                             /** @var DateInterval $remaining */
@@ -213,7 +213,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                         $msg = __('Invalid login or password. Please try again.');
 
-                        if ($userLocksService->getOption(UserLocksService::OPTION_USE_HARD_LOCKOUT)) {
+                        if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
                             $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
                             if ($remainingAttempts !== false) {
                                 if ($remainingAttempts === 0) {

@@ -62,20 +62,20 @@ class UserLocksService extends ConfigurableService implements UserLocks
         $this->setOption(self::OPTION_SOFT_LOCKOUT_PERIOD, $period);
     }
 
-    public function setLockoutImplementation($implementation = RdfLockout::class)
+    public function setLockoutImplementation($implementation = RdfLockoutStorage::class)
     {
-        $this->setOption(self::OPTION_USER_LOCK_IMPLEMENTATION, $implementation);
+        $this->setOption(self::OPTION_LOCKOUT_STORAGE, $implementation);
     }
 
     /**
      * Returns proper lockout implementation
-     * @return RdfLockout|Lockout
+     * @return LockoutStorage
      */
     protected function getLockout()
     {
-        if (!$this->lockout || !$this->lockout instanceof Lockout) {
-            $lockout = $this->getOption(self::OPTION_USER_LOCK_IMPLEMENTATION);
-            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new RdfLockout();
+        if (!$this->lockout || !$this->lockout instanceof LockoutStorage) {
+            $lockout = $this->getOption(self::OPTION_LOCKOUT_STORAGE);
+            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new RdfLockoutStorage();
         }
 
         return $this->lockout;

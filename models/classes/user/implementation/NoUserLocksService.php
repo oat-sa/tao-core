@@ -75,6 +75,15 @@ class NoUserLocksService extends UserLocksService implements UserLocks
 
     /**
      * @param $login
+     * @return bool|int|mixed
+     */
+    public function getLockoutRemainingAttempts($login)
+    {
+        return false;
+    }
+
+    /**
+     * @param $login
      * @return array
      * @throws \Exception
      */
