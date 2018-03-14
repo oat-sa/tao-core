@@ -167,7 +167,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 /** @var EventManager $eventManager */
                 $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-                if (!tao_models_classes_UserService::singleton()->loginAvailable($form->getValue('login'))) {
+                try {
                     if ($userLocksService->isLocked($form->getValue('login'))) {
                         common_Logger::i("User '" . $form->getValue('login') . "' has been locked.");
 
@@ -231,7 +231,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                             $this->setData('errorMessage', $msg);
                         }
                     }
-                } else {
+                } catch (core_kernel_users_Exception $e) {
                     $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
                 }
 			}

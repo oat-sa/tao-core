@@ -20,6 +20,7 @@
 namespace oat\tao\model\user\implementation;
 
 use core_kernel_classes_Resource;
+use core_kernel_users_Exception;
 use core_kernel_users_Service;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\TaoOntology;
@@ -36,9 +37,16 @@ class RdfLockoutStorage implements LockoutStorage
     /**
      * @param string $login
      * @return core_kernel_classes_Resource
+     * @throws core_kernel_users_Exception
      */
     public function getUser($login)
     {
+        $user = core_kernel_users_Service::singleton()->getOneUser($login);
+
+        if (is_null($user) or !$user->exists()) {
+            throw new core_kernel_users_Exception(sprintf('Requested user with login %s not found.', $login));
+        }
+
         return core_kernel_users_Service::singleton()->getOneUser($login);
     }
 
@@ -46,6 +54,7 @@ class RdfLockoutStorage implements LockoutStorage
      * @param $login
      * @return \core_kernel_classes_Container
      * @throws \core_kernel_persistence_Exception
+     * @throws core_kernel_users_Exception
      */
     public function getStatus($login)
     {
@@ -55,6 +64,7 @@ class RdfLockoutStorage implements LockoutStorage
     /**
      * @param $login
      * @param $by
+     * @throws core_kernel_users_Exception
      */
     public function setLockedStatus($login, $by)
     {
@@ -65,6 +75,7 @@ class RdfLockoutStorage implements LockoutStorage
 
     /**
      * @param $login
+     * @throws core_kernel_users_Exception
      */
     public function setUnlockedStatus($login)
     {
@@ -76,6 +87,7 @@ class RdfLockoutStorage implements LockoutStorage
      * @param string $login
      * @return int
      * @throws \core_kernel_persistence_Exception
+     * @throws core_kernel_users_Exception
      */
     public function getFailures($login)
     {
@@ -86,6 +98,7 @@ class RdfLockoutStorage implements LockoutStorage
      * @param string $login
      * @param $value
      * @return bool
+     * @throws core_kernel_users_Exception
      */
     public function setFailures($login, $value)
     {
@@ -104,6 +117,7 @@ class RdfLockoutStorage implements LockoutStorage
      * @param string $login
      * @return mixed
      * @throws \core_kernel_persistence_Exception
+     * @throws core_kernel_users_Exception
      */
     public function getLastFailureTime($login)
     {
@@ -114,6 +128,7 @@ class RdfLockoutStorage implements LockoutStorage
      * @param $login
      * @return \core_kernel_classes_Container
      * @throws \core_kernel_persistence_Exception
+     * @throws core_kernel_users_Exception
      */
     public function getLockedBy($login)
     {

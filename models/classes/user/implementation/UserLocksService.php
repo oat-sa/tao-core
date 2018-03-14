@@ -92,6 +92,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param LoginFailedEvent $event
+     * @throws \core_kernel_users_Exception
      */
     public function catchFailedLogin(LoginFailedEvent $event)
     {
@@ -100,6 +101,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param LoginSucceedEvent $event
+     * @throws \core_kernel_users_Exception
      */
     public function catchSucceedLogin(LoginSucceedEvent $event)
     {
@@ -108,6 +110,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param string $login
+     * @throws \core_kernel_users_Exception
      */
     private function increaseLoginFails($login)
     {
@@ -165,6 +168,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param $login
      * @return bool
+     * @throws \core_kernel_users_Exception
      * @throws \Exception
      */
     public function isLocked($login)
@@ -231,6 +235,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param $login
      * @return bool|int|mixed
+     * @throws \core_kernel_users_Exception
      */
     public function getLockoutRemainingAttempts($login)
     {
