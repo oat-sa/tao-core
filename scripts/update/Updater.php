@@ -661,12 +661,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             OntologyUpdater::syncModels();
 
-            $this->getServiceManager()->register(UserLocks::SERVICE_ID, new NoUserLocksService([
-                UserLocks::OPTION_LOCKOUT_STORAGE => RdfLockoutStorage::class,
-                UserLocks::OPTION_USE_HARD_LOCKOUT => false,
-                UserLocks::OPTION_LOCKOUT_FAILED_ATTEMPTS => 6,
-                UserLocks::OPTION_SOFT_LOCKOUT_PERIOD => 'PT30M'
-            ]));
+            $this->getServiceManager()->register(UserLocks::SERVICE_ID, new NoUserLocksService);
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
