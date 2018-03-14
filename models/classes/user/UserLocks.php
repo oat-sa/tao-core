@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\user;
 
+use oat\oatbox\user\User;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 
@@ -61,14 +62,14 @@ interface UserLocks
      * @param $user
      * @return mixed
      */
-    public function lockUser($user);
+    public function lockUser(User $user);
 
     /**
      * Unlocks user
      * @param $user
      * @return mixed
      */
-    public function unlockUser($user);
+    public function unlockUser(User $user);
 
     /**
      * Returns true if user is locked else false

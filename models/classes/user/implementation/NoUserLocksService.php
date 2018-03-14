@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\user\implementation;
 
+use oat\oatbox\user\User;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\user\UserLocks;
@@ -49,7 +50,7 @@ class NoUserLocksService extends UserLocksService implements UserLocks
      * @param $user
      * @return bool
      */
-    public function lockUser($user)
+    public function lockUser(User $user)
     {
         return true;
     }
@@ -58,7 +59,7 @@ class NoUserLocksService extends UserLocksService implements UserLocks
      * @param $user
      * @return bool
      */
-    public function unlockUser($user)
+    public function unlockUser(User $user)
     {
         return true;
     }
