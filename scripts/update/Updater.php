@@ -638,8 +638,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             OntologyUpdater::syncModels();
             $this->setVersion('17.9.0');
         }
-      
-      
+
+
         if ($this->isVersion('17.9.0')) {
             $this->getServiceManager()->register(
                 RestSessionFactory::SERVICE_ID,
@@ -651,5 +651,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $this->setVersion('17.10.0');
         }
+
+        $this->skip('17.10.0', '17.10.1');
     }
 }
