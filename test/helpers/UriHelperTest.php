@@ -29,11 +29,29 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 class UriHelperTest extends TaoPhpUnitTestRunner
 {
 
-    public function testUrlEncode()
+    public function uriDataProvider()
     {
-        $url = \tao_helpers_Uri::url('index', 'Main', 'tao', ['param' => 'test 1']);
-        $this->assertContains('test%201', $url);
-        $this->assertNotContains('+', $url);
+        return [
+            ['index', 'Main', 'tao', ['param' => 'test 1'], '/tao/Main/index?param=test%201'],
+            ['index', 'Main', 'tao', ['param' => 'test+1'], '/tao/Main/index?param=test%2B1'],
+            ['index', 'Main', 'tao', ['param' => 'test+1 2'], '/tao/Main/index?param=test%2B1%202'],
+            ['index', 'Main', 'tao', ['param' => 'test+1-2'], '/tao/Main/index?param=test%2B1-2'],
+            ['index', 'Main', 'tao', ['param' => 'test - test'], '/tao/Main/index?param=test%20-%20test'],
+            ['index', 'Main', 'tao', ['param' => 'multiple space case '], '/tao/Main/index?param=multiple%20space%20case'],
+            ['index', 'Main', 'tao', ['param' => 'https://tao.test/TaoTest.rdf#i123123123123'], '/tao/Main/index?param=https%3A%2F%2Ftao.test%2FTaoTest.rdf%23i123123123123'],
+            ['index', 'Main', 'tao', ['p1' => 't 1', 'p2' => 't 2'], '/tao/Main/index?p1=t%201&p2=t%202'],
+
+        ];
+    }
+
+    /**
+     * @dataProvider uriDataProvider
+     */
+    public function testUrlEncode($action, $module, $extension, $params, $expected)
+    {
+        $url = \tao_helpers_Uri::url($action, $module, $extension, $params);
+        $this->assertContains($expected, $url);
+
     }
 
 }
