@@ -25,7 +25,7 @@ use oat\oatbox\extension\InstallAction;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
-use oat\tao\model\user\UserLocksService;
+use oat\tao\model\user\UserLocks;
 
 /**
  * Class RegisterUserLockoutsEventListeners
@@ -47,8 +47,8 @@ class RegisterUserLockoutsEventListeners extends InstallAction
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
 
-        $eventManager->attach(LoginFailedEvent::class, [UserLocksService::SERVICE_ID, 'catchFailedLogin']);
-        $eventManager->attach(LoginSucceedEvent::class, [UserLocksService::SERVICE_ID, 'catchSucceedLogin']);
+        $eventManager->attach(LoginFailedEvent::class, [UserLocks::SERVICE_ID, 'catchFailedLogin']);
+        $eventManager->attach(LoginSucceedEvent::class, [UserLocks::SERVICE_ID, 'catchSucceedLogin']);
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
