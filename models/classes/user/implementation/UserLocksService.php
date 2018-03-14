@@ -40,6 +40,9 @@ use tao_models_classes_UserService;
  */
 class UserLocksService extends ConfigurableService implements UserLocks
 {
+    /** Which storage implementation to use for user lockouts */
+    const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
+
     /** @var LockoutStorage */
     private $lockout;
 
