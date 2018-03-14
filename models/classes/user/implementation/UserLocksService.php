@@ -229,6 +229,10 @@ class UserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param $login
      * @return array
+     *   boolean        array.locked - returns true if user is locked else false
+     *   boolean        array.auto - returns true if user auto locked (locked by himself) else false
+     *   string         array.status - human readable string with actual account status
+     *   DateInterval   array.remaining - returns valid period of time that left before user will be unlocked, may be null if not applicable
      * @throws \Exception
      */
     public function getStatusDetails($login)
