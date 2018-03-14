@@ -20,24 +20,67 @@
 namespace oat\tao\model\user;
 
 /**
+ * Describes interface for user lockouts storage implementations
  * Interface Lockout
  * @package oat\tao\model\user
  */
 interface LockoutStorage
 {
+    /**
+     * Returns actual user object by login
+     * @param $login
+     * @return mixed
+     */
     public function getUser($login);
 
+    /**
+     * Returns actual status of the user. Null if no any locks
+     * @param $login
+     * @return mixed
+     */
     public function getStatus($login);
 
+    /**
+     * Moves user account to locked state. Also writes who locked the user
+     * @param $login
+     * @param $by
+     * @return mixed
+     */
     public function setLockedStatus($login, $by);
 
+    /**
+     * Removes all records about user locking
+     * @param $login
+     * @return mixed
+     */
     public function setUnlockedStatus($login);
 
+    /**
+     * Returns count of failed login attempts
+     * @param $login
+     * @return mixed
+     */
     public function getFailures($login);
 
+    /**
+     * Writes actual value of login failures to user
+     * @param $login
+     * @param $value
+     * @return mixed
+     */
     public function setFailures($login, $value);
 
+    /**
+     * Returns time when last failed login happened
+     * @param $login
+     * @return mixed
+     */
     public function getLastFailureTime($login);
 
+    /**
+     * Returns by who user was blocked
+     * @param $login
+     * @return mixed
+     */
     public function getLockedBy($login);
 }
