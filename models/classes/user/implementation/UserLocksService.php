@@ -17,7 +17,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\user;
+namespace oat\tao\model\user\implementation;
 
 use common_Logger;
 use DateInterval;
@@ -28,8 +28,8 @@ use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\user\implementation\NoLockout;
-use oat\tao\model\user\implementation\RdfLockout;
+use oat\tao\model\user\LockoutStorage;
+use oat\tao\model\user\UserLocks;
 use tao_helpers_Date;
 use tao_models_classes_UserService;
 
@@ -39,7 +39,7 @@ use tao_models_classes_UserService;
  */
 class UserLocksService extends ConfigurableService implements UserLocks
 {
-    /** @var Lockout */
+    /** @var LockoutStorage */
     private $lockout;
 
     public function setHardLockout()
@@ -62,7 +62,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
         $this->setOption(self::OPTION_SOFT_LOCKOUT_PERIOD, $period);
     }
 
-    public function setLockoutImplementation($implementation = NoLockout::class)
+    public function setLockoutImplementation($implementation = RdfLockout::class)
     {
         $this->setOption(self::OPTION_USER_LOCK_IMPLEMENTATION, $implementation);
     }
@@ -75,7 +75,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
     {
         if (!$this->lockout || !$this->lockout instanceof Lockout) {
             $lockout = $this->getOption(self::OPTION_USER_LOCK_IMPLEMENTATION);
-            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new NoLockout();
+            $this->lockout = ($lockout and class_exists($lockout)) ? new $lockout : new RdfLockout();
         }
 
         return $this->lockout;
@@ -132,8 +132,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
             return false;
         }
 
-        $this->getLockout()->setLockedStatus(UserHelper::getUserLogin($user));
-        $this->getLockout()->setLockedBy(UserHelper::getUserLogin($user), $currentUser);
+        $this->getLockout()->setLockedStatus(UserHelper::getUserLogin($user), $currentUser);
 
         return true;
     }
@@ -148,7 +147,6 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
         $this->getLockout()->setUnlockedStatus($login);
         $this->getLockout()->setFailures($login, 0);
-        $this->getLockout()->setLockedBy($login, null);
 
         return true;
     }

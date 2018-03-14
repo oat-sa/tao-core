@@ -21,14 +21,15 @@ namespace oat\tao\model\user\implementation;
 
 use core_kernel_classes_Resource;
 use core_kernel_users_Service;
-use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdf;
-use oat\oatbox\user\User;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\user\Lockout;
+use oat\tao\model\user\LockoutStorage;
 
-class RdfLockout implements Lockout
+/**
+ * Class RdfLockoutStorage
+ * @package oat\tao\model\user\implementation
+ */
+class RdfLockoutStorage implements LockoutStorage
 {
     use OntologyAwareTrait;
 
@@ -53,10 +54,13 @@ class RdfLockout implements Lockout
 
     /**
      * @param $login
+     * @param $by
      */
-    public function setLockedStatus($login)
+    public function setLockedStatus($login, $by)
     {
         $this->getUser($login)->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS), TaoOntology::PROPERTY_USER_STATUS_LOCKED);
+        $this->getUser($login)->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY), $by);
+
     }
 
     /**
@@ -65,6 +69,7 @@ class RdfLockout implements Lockout
     public function setUnlockedStatus($login)
     {
         $this->getUser($login)->removePropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS));
+        $this->getUser($login)->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY), null);
     }
 
     /**
@@ -113,14 +118,5 @@ class RdfLockout implements Lockout
     public function getLockedBy($login)
     {
         return $this->getUser($login)->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY));
-    }
-
-    /**
-     * @param $login
-     * @param $by
-     */
-    public function setLockedBy($login, $by)
-    {
-        $this->getUser($login)->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY), $by);
     }
 }

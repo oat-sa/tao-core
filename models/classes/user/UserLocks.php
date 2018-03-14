@@ -32,7 +32,7 @@ interface UserLocks
 {
     const SERVICE_ID = 'tao/userlocks';
 
-    const OPTION_USER_LOCK_IMPLEMENTATION = 'user_lock_implementation';
+    const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
 
     /** Use hard lock for failed logon. Be default soft lock will be used */
     const OPTION_USE_HARD_LOCKOUT = 'use_hard_lockout';

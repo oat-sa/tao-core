@@ -26,6 +26,7 @@ use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -53,8 +54,9 @@ use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\Tree\GetTreeService;
-use oat\tao\model\user\implementation\NoLockout;
-use oat\tao\model\user\UserLocksService;
+use oat\tao\model\user\implementation\NoUserLocksService;
+use oat\tao\model\user\implementation\RdfLockoutStorage;
+use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -659,18 +661,18 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             OntologyUpdater::syncModels();
 
-            $this->getServiceManager()->register(UserLocksService::SERVICE_ID, new UserLocksService([
-                UserLocksService::OPTION_USER_LOCK_IMPLEMENTATION => NoLockout::class,
-                UserLocksService::OPTION_USE_HARD_LOCKOUT => false,
-                UserLocksService::OPTION_LOCKOUT_FAILED_ATTEMPTS => 6,
-                UserLocksService::OPTION_SOFT_LOCKOUT_PERIOD => 'PT30M',
+            $this->getServiceManager()->register(UserLocks::SERVICE_ID, new NoUserLocksService([
+                UserLocks::OPTION_LOCKOUT_STORAGE => RdfLockoutStorage::class,
+                UserLocks::OPTION_USE_HARD_LOCKOUT => false,
+                UserLocks::OPTION_LOCKOUT_FAILED_ATTEMPTS => 6,
+                UserLocks::OPTION_SOFT_LOCKOUT_PERIOD => 'PT30M'
             ]));
 
             /** @var EventManager $eventManager */
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
 
-            $eventManager->attach(LoginFailedEvent::class, [UserLocksService::SERVICE_ID, 'catchFailedLogin']);
-            $eventManager->attach(LoginSucceedEvent::class, [UserLocksService::SERVICE_ID, 'catchSucceedLogin']);
+            $eventManager->attach(LoginFailedEvent::class, [UserLocks::SERVICE_ID, 'catchFailedLogin']);
+            $eventManager->attach(LoginSucceedEvent::class, [UserLocks::SERVICE_ID, 'catchSucceedLogin']);
 
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 

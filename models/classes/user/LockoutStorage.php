@@ -17,30 +17,27 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\user\implementation;
+namespace oat\tao\model\user;
 
-use core_kernel_users_Service;
-use oat\tao\model\user\Lockout;
-
-class NoLockout implements Lockout
+/**
+ * Interface Lockout
+ * @package oat\tao\model\user
+ */
+interface LockoutStorage
 {
-    public function getUser($login) {
-        return core_kernel_users_Service::singleton()->getOneUser($login);
-    }
+    public function getUser($login);
 
-    public function getStatus($login) {}
+    public function getStatus($login);
 
-    public function setLockedStatus($login) {}
+    public function setLockedStatus($login, $by);
 
-    public function setUnlockedStatus($login) {}
+    public function setUnlockedStatus($login);
 
-    public function getFailures($login) {}
+    public function getFailures($login);
 
-    public function setFailures($login, $value) {}
+    public function setFailures($login, $value);
 
-    public function getLastFailureTime($login) {}
+    public function getLastFailureTime($login);
 
-    public function getLockedBy($login) {}
-
-    public function setLockedBy($login, $by) {}
+    public function getLockedBy($login);
 }
