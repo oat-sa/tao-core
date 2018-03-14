@@ -1,9 +1,9 @@
 <?php
 
-return new oat\tao\model\user\UserLocksService([
+return new oat\tao\model\user\implementation\NoUserLocksService([
 
     /** Implementation of user lockouts */
-    oat\tao\model\user\UserLocks::OPTION_USER_LOCK_IMPLEMENTATION => \oat\tao\model\user\implementation\NoLockout::class,
+    oat\tao\model\user\UserLocks::OPTION_LOCKOUT_STORAGE => \oat\tao\model\user\implementation\RdfLockoutStorage::class,
     
     /** Use hard lock for failed logon. By default soft lock will be used */
     oat\tao\model\user\UserLocks::OPTION_USE_HARD_LOCKOUT => false,
