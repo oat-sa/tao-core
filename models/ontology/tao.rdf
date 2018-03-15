@@ -97,7 +97,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[User]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[TAO User Class]]></rdfs:comment>
   </rdf:Description>
-  
+
   <!-- Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
@@ -160,6 +160,11 @@
     <rdfs:label xml:lang="en-US"><![CDATA[Task Queue Manager]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Task Queue Manager Role]]></rdfs:comment>
     <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[REST Publisher]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The REST API Publishing Role]]></rdfs:comment>
   </rdf:Description>
   <!-- Operational Administrator Role -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator">

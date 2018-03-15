@@ -22,21 +22,22 @@
  */
 
 use oat\generis\model\GenerisRdf;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\user\LoginService;
+use oat\tao\helpers\TaoCe;
+use oat\tao\model\accessControl\ActionResolver;
+use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
-use oat\oatbox\user\LoginService;
-use oat\tao\helpers\TaoCe;
-use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\tao\model\accessControl\ActionResolver;
-use oat\tao\model\entryPoint\EntryPointService;
-use oat\oatbox\event\EventManager;
 use oat\tao\model\mvc\DefaultUrlService;
-use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\user\UserLocks;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -119,17 +120,22 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    }
 	}
 
-	/**
-	 * Authentication form,
-	 * default page, main entry point to the user
-     *
-	 * @return void
-	 */
-	public function login()
+    /**
+     * Authentication form,
+     * default page, main entry point to the user
+     * @return void
+     * @throws Exception
+     * @throws common_ext_ExtensionException
+     * @throws core_kernel_persistence_Exception
+     */
+    public function login()
 	{
-        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+	    /** @var common_ext_ExtensionsManager $extensionManager */
+	    $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+        $extension = $extensionManager->getExtensionById('tao');
         $config = $extension->getConfig('login');
-        $disableAutocomplete = !empty($config['disableAutocomplete']);
+
+        $disableAutoComplete = !empty($config['disableAutocomplete']);
         $enablePasswordReveal = !empty($config['enablePasswordReveal']);
 
         $enableIframeProtection = !empty($config['block_iframe_usage']) && $config['block_iframe_usage'];
@@ -138,9 +144,10 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
 
 		$params = array(
-            'disableAutocomplete' => $disableAutocomplete,
+            'disableAutocomplete' => $disableAutoComplete,
             'enablePasswordReveal' => $enablePasswordReveal,
         );
+
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
 
@@ -148,39 +155,93 @@ class tao_actions_Main extends tao_actions_CommonModule
 				$params['redirect'] = $redirectUrl;
 			}
 		}
-		$myLoginFormContainer = new tao_actions_form_Login($params);
-		$myForm = $myLoginFormContainer->getForm();
 
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-			    $success = LoginService::login($myForm->getValue('login'), $myForm->getValue('password'));
-                $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+		$container = new tao_actions_form_Login($params);
+		$form = $container->getForm();
 
-				if($success){
-				    \common_Logger::i("Successful login of user '" . $myForm->getValue('login') . "'.");
+        if ($form->isSubmited()) {
+            if ($form->isValid()) {
 
-                    $eventManager->trigger(new LoginSucceedEvent($myForm->getValue('login')));
+                /** @var UserLocks $userLocksService */
+                $userLocksService = $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
+                /** @var EventManager $eventManager */
+                $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-					if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
-						$this->redirect($_REQUEST['redirect']);
-					} else {
-						$this->forward('entry');
-					}
-                } else {
-                    \common_Logger::i("Unsuccessful login of user '" . $myForm->getValue('login') . "'.");
+                try {
+                    if ($userLocksService->isLocked($form->getValue('login'))) {
+                        common_Logger::i("User '" . $form->getValue('login') . "' has been locked.");
 
-                    $eventManager->trigger(new LoginFailedEvent($myForm->getValue('login')));
+                        $statusDetails = $userLocksService->getStatusDetails($form->getValue('login'));
+                        if ($statusDetails['auto']) {
+                            $msg = __('You have been locked due to too many failed login attempts. ');
+                            if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
+                                $msg .= __('Please contact your administrator.');
+                            } else {
+                                /** @var DateInterval $remaining */
+                                $remaining = $statusDetails['remaining'];
 
-					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
-				}
+                                $reference = new DateTimeImmutable;
+                                $endTime = $reference->add($remaining);
+
+                                $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
+
+                                $msg .= __('Please try in %s.',
+                                    $diffInSeconds > 60
+                                        ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
+                                        : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
+                                );
+                            }
+                        } else {
+                            $msg = __('Your account has been locked, please contact your administrator.');
+                        }
+
+                        $this->setData('errorMessage', $msg);
+                    } else {
+                        if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
+                            $eventManager->trigger(new LoginSucceedEvent($form->getValue('login')));
+
+                            common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
+
+                            if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
+                                $this->redirect($_REQUEST['redirect']);
+                            } else {
+                                $this->forward('entry');
+                            }
+                        } else {
+                            $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
+
+                            common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
+
+                            $msg = __('Invalid login or password. Please try again.');
+
+                            if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
+                                $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
+                                if ($remainingAttempts !== false) {
+                                    if ($remainingAttempts === 0) {
+                                        $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
+                                    } else {
+                                        $msg = $msg . ' ' .
+                                            ($remainingAttempts === 1
+                                                ? __('Last attempt before your account is locked.')
+                                                : __('%d attempts left before your account is locked.', $remainingAttempts));
+                                    }
+                                }
+                            }
+
+                            $this->setData('errorMessage', $msg);
+                        }
+                    }
+                } catch (core_kernel_users_Exception $e) {
+                    $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
+                }
 			}
 		}
 
-        $renderedForm = $myForm->render();
+        $renderedForm = $form->render();
 
         // replace the login form by a fake form that will delegate the submit to the real form
         // this will allow to prevent the browser ability to cache login/password
-        if ($disableAutocomplete) {
+        if ($disableAutoComplete) {
             // make a copy of the form and replace the form attributes
             $fakeForm = preg_replace('/<form[^>]+>/', '<div class="form loginForm fakeForm">', $renderedForm);
             $fakeForm = str_replace('</form>', '</div>', $fakeForm);
@@ -209,12 +270,13 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('form', $renderedForm);
         $this->setData('title', __("TAO Login"));
 
-        $entryPointService = $this->getServiceManager()->getServiceManager()->get(EntryPointService::SERVICE_ID);
+        $entryPointService = $this->getServiceLocator()->get(EntryPointService::SERVICE_ID);
         $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
 
         if ($this->hasRequestParameter('msg')) {
             $this->setData('msg', $this->getRequestParameter('msg'));
         }
+
         $this->setData('content-template', array('blocks/login.tpl', 'tao'));
 
         $this->setView('layout.tpl', 'tao');

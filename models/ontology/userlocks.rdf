@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+        xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
+        xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
+>
+    <!-- User Security -->
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#accountStatus">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Is locked?]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Shows account status, locked or not]]></rdfs:comment>
+        <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+        <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus" />
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus">
+        <rdfs:label xml:lang="en-US"><![CDATA[Check Locked]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Check Locked]]></rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Locked">
+        <rdfs:label xml:lang="en-US"><![CDATA[Yes]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Yes]]></rdfs:comment>
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#logonFailures">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Logon failures]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Count of user logon failures]]></rdfs:comment>
+        <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Last logon failure]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Time when the last logon failure occurred]]></rdfs:comment>
+        <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#lockedBy">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Locked by]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Indicates by which user current user was locked]]></rdfs:comment>
+        <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    </rdf:Description>
+
+</rdf:RDF>
