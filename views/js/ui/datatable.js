@@ -337,7 +337,8 @@ define([
                             var $btn = $(this);
                             e.preventDefault();
                             if (!$btn.hasClass('disabled')) {
-                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
+                                var identifier = $btn.closest('[data-item-identifier]').data('item-identifier');
+                                action.apply($btn, [identifier, _.first(_.where(dataset.data, {id: identifier}))]);
                             }
                         });
                 });
