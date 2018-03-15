@@ -114,15 +114,22 @@ class UserLocksService extends ConfigurableService implements UserLocks
      */
     private function increaseLoginFails($login)
     {
+        $user = UserHelper::getUser($this->getLockout()->getUser($login));
+
         /** @var DateInterval $remaining */
         $remaining = $this->getLockoutRemainingTime($login);
 
-        $failures = !$remaining->invert ? $this->getLockout()->getFailures($login) : 0;  
+        if (!$remaining->invert) {
+            $failures = $this->getLockout()->getFailures($login);
+        } else {
+            $this->unlockUser($user);
+            $failures = 0;
+        }
 
         $failures++;
 
         if ($failures >= intval($this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS))) {
-            $this->lockUser(UserHelper::getUser($this->getLockout()->getUser($login)));
+            $this->lockUser($user);
         }
 
         $this->getLockout()->setFailures($login, $failures);
