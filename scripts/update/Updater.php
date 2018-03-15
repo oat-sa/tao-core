@@ -33,6 +33,8 @@ use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\event\LoginFailedEvent;
+use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
 use oat\tao\model\event\RoleRemovedEvent;
@@ -51,6 +53,8 @@ use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\user\implementation\NoUserLocksService;
+use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -639,7 +643,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.9.0');
         }
 
-
         if ($this->isVersion('17.9.0')) {
             $this->getServiceManager()->register(
                 RestSessionFactory::SERVICE_ID,
@@ -653,5 +656,22 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('17.10.0', '17.10.2');
+
+        if ($this->isVersion('17.10.2')) {
+
+            OntologyUpdater::syncModels();
+
+            $this->getServiceManager()->register(UserLocks::SERVICE_ID, new NoUserLocksService);
+
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+
+            $eventManager->attach(LoginFailedEvent::class, [UserLocks::SERVICE_ID, 'catchFailedLogin']);
+            $eventManager->attach(LoginSucceedEvent::class, [UserLocks::SERVICE_ID, 'catchSucceedLogin']);
+
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+
+            $this->setVersion('17.11.0');
+        }
     }
 }

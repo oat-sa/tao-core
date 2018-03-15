@@ -39,6 +39,7 @@ interface TaoOntology
     const PROPERTY_INSTALLATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#installator';
     const PROPERTY_USER_FIRST_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao';
     const PROPERTY_USER_LAST_EXTENSION = 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed';
+
     const PROPERTY_ABSTRACT_MODEL_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#AbstractModelStatus';
     const PROPERTY_LOCK = 'http://www.tao.lu/Ontologies/TAO.rdf#Lock';
     const PROPERTY_GUI_ORDER = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder';
