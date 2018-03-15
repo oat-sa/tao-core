@@ -22,7 +22,6 @@ namespace oat\tao\scripts\install;
 use common_report_Report as Report;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\extension\InstallAction;
-use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\user\UserLocks;
@@ -34,8 +33,6 @@ use oat\tao\model\user\UserLocks;
  */
 class RegisterUserLockoutsEventListeners extends InstallAction
 {
-    use OntologyAwareTrait;
-
     /**
      * @param $params
      * @return \common_report_Report

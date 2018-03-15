@@ -43,11 +43,11 @@ class RdfLockoutStorage implements LockoutStorage
     {
         $user = core_kernel_users_Service::singleton()->getOneUser($login);
 
-        if (is_null($user) or !$user->exists()) {
+        if (is_null($user)) {
             throw new core_kernel_users_Exception(sprintf('Requested user with login %s not found.', $login));
         }
 
-        return core_kernel_users_Service::singleton()->getOneUser($login);
+        return $user;
     }
 
     /**
