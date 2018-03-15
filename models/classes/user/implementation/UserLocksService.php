@@ -110,10 +110,14 @@ class UserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param string $login
      * @throws \core_kernel_users_Exception
+     * @throws \Exception
      */
     private function increaseLoginFails($login)
     {
-        $failures = $this->getLockout()->getFailures($login);
+        /** @var DateInterval $remaining */
+        $remaining = $this->getLockoutRemainingTime($login);
+
+        $failures = !$remaining->invert ? $this->getLockout()->getFailures($login) : 0;  
 
         $failures++;
 
