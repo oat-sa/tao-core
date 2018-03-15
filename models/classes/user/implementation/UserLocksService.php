@@ -137,11 +137,6 @@ class UserLocksService extends ConfigurableService implements UserLocks
             $currentUser = $user;
         }
 
-        if ($user->getIdentifier() === LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
-            common_Logger::i('Default user can not be locked');
-            return false;
-        }
-
         if (!$this->isLockable($user)) {
             return false;
         }
@@ -207,6 +202,10 @@ class UserLocksService extends ConfigurableService implements UserLocks
      */
     public function isLockable(User $user)
     {
+        if ($user->getIdentifier() === LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
+            return false;
+        }
+
         $nonLockingRoles = $this->getOption(self::OPTION_NON_LOCKING_ROLES);
 
         if ($nonLockingRoles && is_array($nonLockingRoles) && count($nonLockingRoles)) {
@@ -240,10 +239,6 @@ class UserLocksService extends ConfigurableService implements UserLocks
     public function getLockoutRemainingAttempts($login)
     {
         $user = UserHelper::getUser($this->getLockout()->getUser($login));
-
-        if ($user->getIdentifier() === LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
-            return false;
-        }
 
         if (!$this->isLockable($user)) {
             return false;
