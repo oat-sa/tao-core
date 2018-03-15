@@ -339,7 +339,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function edit()
     {
-        $user = $this->handleRequestParams();
+        $user = $this->getUserResource();
 
         $types = $user->getTypes();
         $myFormContainer = new tao_actions_form_Users(reset($types), $user);
@@ -391,7 +391,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function unlock()
     {
-        $user = UserHelper::getUser($this->handleRequestParams());
+        $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->unlockUser($user)) {
             $this->returnJson(['success' => true, 'message' => __('User %s successfully unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
@@ -406,7 +406,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function lock()
     {
-        $user = UserHelper::getUser($this->handleRequestParams());
+        $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->lockUser($user)) {
             $this->returnJson(['success' => true, 'message' => __('User %s successfully locked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
@@ -419,7 +419,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      * @throws Exception
      * @return core_kernel_classes_Resource
      */
-    private function handleRequestParams()
+    private function getUserResource()
     {
         if (!$this->hasRequestParameter('uri')) {
             throw new Exception('Please set the user uri in request parameter');

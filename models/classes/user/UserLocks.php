@@ -48,12 +48,14 @@ interface UserLocks
     /**
      * Event listener that catches failed login events and makes decision to lock user or not
      * @param LoginFailedEvent $event
+     * @throws \core_kernel_users_Exception
      */
     public function catchFailedLogin(LoginFailedEvent $event);
 
     /**
      * Event listener that catches succeed login events and makes decision to unlock user or not
      * @param LoginSucceedEvent $event
+     * @throws \core_kernel_users_Exception
      */
     public function catchSucceedLogin(LoginSucceedEvent $event);
 
@@ -75,6 +77,7 @@ interface UserLocks
      * Returns true if user is locked else false
      * @param $login
      * @return bool
+     * @throws \core_kernel_users_Exception
      */
     public function isLocked($login);
 
@@ -89,6 +92,7 @@ interface UserLocks
      * Returns remaining time that left before user will be unlocked
      * @param $login
      * @return mixed
+     * @throws \core_kernel_users_Exception
      */
     public function getLockoutRemainingTime($login);
 
@@ -96,6 +100,7 @@ interface UserLocks
      * Returns remaining attempts that left before user will be locked
      * @param $login
      * @return mixed
+     * @throws \core_kernel_users_Exception
      */
     public function getLockoutRemainingAttempts($login);
 
@@ -108,6 +113,7 @@ interface UserLocks
      *   string         array.status - human readable string with actual account status
      *   DateInterval   array.remaining - returns valid period of time that left before user will be unlocked, may be null if not applicable
      *   boolean        array.lockable - returns true if user can be locked else false
+     * @throws \core_kernel_users_Exception
      */
     public function getStatusDetails($login);
 
