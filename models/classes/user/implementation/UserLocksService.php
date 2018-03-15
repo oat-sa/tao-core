@@ -65,7 +65,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
         $this->setOption(self::OPTION_SOFT_LOCKOUT_PERIOD, $period);
     }
 
-    public function setLockoutImplementation($implementation = RdfLockoutStorage::class)
+    public function setLockStorage($implementation = RdfLockoutStorage::class)
     {
         $this->setOption(self::OPTION_LOCKOUT_STORAGE, $implementation);
     }
