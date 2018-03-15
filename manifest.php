@@ -63,7 +63,7 @@ return array(
             dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf',
             dirname(__FILE__). '/models/ontology/requiredaction.rdf',
             dirname(__FILE__). '/models/ontology/auth/basicauth.rdf',
-            dirname(__FILE__). '/models/ontology/auth/userlocks.rdf'
+            dirname(__FILE__). '/models/ontology/userlocks.rdf'
         ),
         'checks' => array(
                 array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),
