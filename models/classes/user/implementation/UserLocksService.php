@@ -19,7 +19,6 @@
 
 namespace oat\tao\model\user\implementation;
 
-use common_Logger;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;

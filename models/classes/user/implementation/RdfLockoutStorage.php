@@ -23,7 +23,6 @@ use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
 use core_kernel_users_Service;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\user\LockoutStorage;
 
 /**
@@ -33,6 +32,16 @@ use oat\tao\model\user\LockoutStorage;
 class RdfLockoutStorage implements LockoutStorage
 {
     use OntologyAwareTrait;
+
+    const PROPERTY_USER_ACCOUNT_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#accountStatus';
+
+    const PROPERTY_USER_STATUS_LOCKED = 'http://www.tao.lu/Ontologies/TAO.rdf#Locked';
+
+    const PROPERTY_USER_LOCKED_BY = 'http://www.tao.lu/Ontologies/TAO.rdf#lockedBy';
+
+    const PROPERTY_USER_LOGON_FAILURES = 'http://www.tao.lu/Ontologies/TAO.rdf#logonFailures';
+
+    const PROPERTY_USER_LAST_LOGON_FAILURE_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime';
 
     /**
      * @param string $login
@@ -58,7 +67,7 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function getStatus($login)
     {
-        return $this->getUser($login)->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS));
+        return $this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS));
     }
 
     /**
@@ -68,8 +77,8 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function setLockedStatus($login, $by)
     {
-        $this->getUser($login)->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS), TaoOntology::PROPERTY_USER_STATUS_LOCKED);
-        $this->getUser($login)->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY), $by);
+        $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS), self::PROPERTY_USER_STATUS_LOCKED);
+        $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_LOCKED_BY), $by);
 
     }
 
@@ -79,8 +88,8 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function setUnlockedStatus($login)
     {
-        $this->getUser($login)->removePropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_ACCOUNT_STATUS));
-        $this->getUser($login)->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY), null);
+        $this->getUser($login)->removePropertyValues($this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS));
+        $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_LOCKED_BY), null);
     }
 
     /**
@@ -91,7 +100,7 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function getFailures($login)
     {
-        return (intval((string)$this->getUser($login)->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_LOGON_FAILURES))));
+        return (intval((string)$this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_LOGON_FAILURES))));
     }
 
     /**
@@ -104,10 +113,10 @@ class RdfLockoutStorage implements LockoutStorage
     {
         $user = $this->getUser($login);
 
-        $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LOGON_FAILURES), $value);
+        $user->editPropertyValues($this->getProperty(self::PROPERTY_USER_LOGON_FAILURES), $value);
 
         if ($value) {
-            $user->editPropertyValues($this->getProperty(TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME), time());
+            $user->editPropertyValues($this->getProperty(self::PROPERTY_USER_LAST_LOGON_FAILURE_TIME), time());
         }
 
         return true;
@@ -121,7 +130,7 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function getLastFailureTime($login)
     {
-        return $this->getUser($login)->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_LAST_LOGON_FAILURE_TIME));
+        return $this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_LAST_LOGON_FAILURE_TIME));
     }
 
     /**
@@ -132,6 +141,6 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function getLockedBy($login)
     {
-        return $this->getUser($login)->getOnePropertyValue($this->getProperty(TaoOntology::PROPERTY_USER_LOCKED_BY));
+        return $this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_LOCKED_BY));
     }
 }
