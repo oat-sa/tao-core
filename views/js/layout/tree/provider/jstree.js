@@ -120,6 +120,7 @@ define([
 
                         //update the state with data to be used later (ie. filter value, etc.)
                         treeState = _.merge($container.data('tree-state') || {}, data);
+                        treeState = _.omit(treeState, 'selectNode');
 
                         if (data && data.loadNode) {
                             tree.deselect_branch(tree.selected);
@@ -130,7 +131,7 @@ define([
                             tree.settings.selected = false;
                         }
 
-                        $container.data('tree-state', treeState);
+                        setTreeState(treeState);
                         tree.refresh();
                     }
                 },
@@ -151,7 +152,7 @@ define([
                             tree.rollback(treeState.rollback);
 
                             //remove the rollback infos.
-                            $container.data('tree-state', _.omit(treeState, 'rollback'));
+                            setTreeState(_.omit(treeState, 'rollback'));
                         } else {
                             //trigger a full refresh
                             $container.trigger('refresh.taotree');
@@ -320,7 +321,7 @@ define([
                                 treeData = _.omit(treeData, 'loadNode');
                             }
 
-                            $container.data('tree-state', treeData);
+                            setTreeState(treeData);
                         }
                         return params;
                     },
@@ -538,7 +539,7 @@ define([
                         }
 
                         //set the rollback data
-                        $container.data('tree-state', _.merge($container.data('tree-state'), {rollback : rollback}));
+                        setTreeState(_.merge($container.data('tree-state'), {rollback : rollback}));
 
                         //execute the selectInstance action
                         actionManager.exec(options.actions.moveInstance, {
@@ -590,7 +591,7 @@ define([
                                     lastSelected = node;
                                 }
                                 //create the tree
-                                $container.data('tree-state', { loadNode: options.loadNode });
+                                setTreeState({ loadNode: options.loadNode });
                                 $container.tree(treeOptions);
                                 sectionManager.on('show.section', function (section) {
                                     if (options.sectionId === section.id) {
@@ -610,6 +611,14 @@ define([
                     });
                 });
             };
+
+            /**
+             * Set tree state
+             * @param treeState
+             */
+            function setTreeState(treeState) {
+                $container.data('tree-state', treeState);
+            }
 
             /**
              * Check if a node has access to a type of action regarding it's permissions
