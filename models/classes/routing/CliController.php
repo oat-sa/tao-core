@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -78,7 +78,7 @@ class CliController implements ServiceManagerAwareInterface
             $report = call_user_func($action, $params);
             if (empty($report)) {
                 $shortName = (new \ReflectionClass($action))->getName();
-                $report = new \common_report_Report(\common_report_Report::TYPE_INFO, ' - Script "' . $shortName . '" finished.');
+                $report = new \common_report_Report(\common_report_Report::TYPE_INFO, "Action '${shortName}' ended gracefully with no report returned.");
             }
         } catch (\Exception $e) {
             $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
