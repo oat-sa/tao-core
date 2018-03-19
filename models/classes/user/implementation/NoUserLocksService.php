@@ -104,7 +104,8 @@ class NoUserLocksService extends ConfigurableService implements UserLocks
             'locked' => false,
             'auto' => false,
             'status' => __('enabled'),
-            'remaining' => null
+            'remaining' => null,
+            'lockable' => false
         ];
     }
 
