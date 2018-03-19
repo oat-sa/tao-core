@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
@@ -271,7 +272,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 if ($binder->bind($values)) {
                     $this->getEventManager()->trigger(new UserUpdatedEvent(
                             $user,
-                            array_merge($values, ['plainPassword' => $plainPassword]))
+                            array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
                     );
                     $this->setData('message', __('User added'));
                     $this->setData('exit', true);
@@ -382,7 +383,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 if ($binder->bind($values)) {
                     $this->getEventManager()->trigger(new UserUpdatedEvent(
                         $user,
-                        array_merge($values, ['plainPassword' =>$plainPassword]))
+                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
                     );
                     $this->setData('message', __('User saved'));
                 }
