@@ -3,7 +3,7 @@ define([
     'ui/themeLoader'
 ], function($, themeLoader){
     'use strict';
-    
+
     var config = {
         base : 'base.css',
         default : 'blue',
@@ -21,6 +21,7 @@ define([
     var pink = 'rgb(255, 192, 203)';
     var blue = 'rgb(0, 0, 255)';
     var green= 'rgb(0, 128, 0)';
+    var red  = 'rgb(255, 0, 0)';
 
     var eventTriggered = '';
 
@@ -31,11 +32,13 @@ define([
     QUnit.module('Theme Loader API');
 
     QUnit.test('module', function(assert){
+        QUnit.expect(2);
         assert.ok(typeof themeLoader !== 'undefined', 'The module exports something');
         assert.ok(typeof themeLoader === 'function', 'The module exports a function');
     });
 
     QUnit.test('config format', function(assert){
+        QUnit.expect(4);
 
         assert.throws(function(){
             themeLoader();
@@ -66,6 +69,8 @@ define([
     QUnit.test('loader api', function(assert){
         var loader = themeLoader(config);
 
+        QUnit.expect(4);
+
         assert.ok(typeof loader === 'object', 'The theme loader returns an object');
         assert.ok(typeof loader.load === 'function', 'The loader exposes a method load');
         assert.ok(typeof loader.unload === 'function', 'The loader exposes a method unload');
@@ -80,9 +85,12 @@ define([
     });
 
 
-    QUnit.asyncTest('load', 6, function(assert){
+    QUnit.asyncTest('load', function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
+
+        QUnit.expect(6);
+
         assert.equal($container.length, 1, 'The container exists');
 
         loader.load();
@@ -103,10 +111,45 @@ define([
         }, 50);
     });
 
+    QUnit.asyncTest('preload', function(assert){
+        var preloadConfig = _.cloneDeep(config);
+        var $styleSheets = $('link[data-type^="custom-theme"]');
+        var $container = $('#qti-item');
+        var loader;
 
-    QUnit.asyncTest('unload', 11, function(assert){
+        preloadConfig.available.push({
+            id : 'red',
+            path : 'red.css',
+            name : 'Red'
+        });
+        loader = themeLoader(preloadConfig);
+
+        QUnit.expect(7);
+
+        $styleSheets.remove();
+        $styleSheets = $('link[data-type^="custom-theme"]');
+        assert.equal($styleSheets.length, 0, 'All styleSheets have been removed');
+        assert.equal($container.length, 1, 'The container exists');
+
+        loader.load(true);
+        setTimeout(function(){
+            $styleSheets = $('link[data-type^="custom-theme"]');
+            assert.equal($styleSheets.length, 4, 'All styleSheets have been inserted');
+            $styleSheets.each(function() {
+                assert.equal(this.getAttribute('disabled'), 'disabled', 'The loaded styleSheet is disabled');
+            });
+
+            QUnit.start();
+        }, 50);
+    });
+
+
+    QUnit.asyncTest('unload', function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
+
+        QUnit.expect(11);
+
         assert.equal($container.length, 1, 'The container exists');
 
         loader.load();
@@ -137,9 +180,11 @@ define([
     });
 
 
-    QUnit.asyncTest('change', 9, function(assert){
+    QUnit.asyncTest('change', function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
+
+        QUnit.expect(9);
 
         assert.equal($container.length, 1, 'The container exists');
 
@@ -171,9 +216,12 @@ define([
     });
 
 
-    QUnit.asyncTest('change back to default', 11, function(assert){
+    QUnit.asyncTest('change back to default', function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
+
+        QUnit.expect(11);
+
         assert.equal($container.length, 1, 'The container exists');
 
         loader.load();
@@ -213,9 +261,12 @@ define([
         }, 50);
     });
 
-    QUnit.asyncTest('reload and change', 16, function(assert){
+    QUnit.asyncTest('reload and change', function(assert){
         var loader = themeLoader(config);
         var $container = $('#qti-item');
+
+        QUnit.expect(16);
+
         assert.equal($container.length, 1, 'The container exists');
 
         loader.load();
@@ -231,12 +282,14 @@ define([
             loader.unload();
 
             setTimeout(function(){
+                var loader2;
+
                 assert.equal($('link[data-type^="custom-theme"]').length, 3, 'The stylesheets are stil there');
                 assert.ok($('link[data-id="base"]').prop('disabled'), 'The base stylesheet is disabled');
                 assert.ok($('link[data-id="blue"]').prop('disabled'), 'The blue stylesheet is disabled');
                 assert.ok($('link[data-id="green"]').prop('disabled'), 'The green stylesheet is disabled');
 
-                var loader2 = themeLoader(config);
+                loader2 = themeLoader(config);
                 loader2.load();
 
                 setTimeout(function(){
