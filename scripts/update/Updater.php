@@ -47,6 +47,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\search\index\IndexResourceIterator;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
@@ -675,5 +676,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('17.11.0', '17.12.1');
+
+        if ($this->isVersion('17.12.1')) {
+            $indexService = $this->getServiceManager()->get(IndexService::SERVICE_ID);
+            $indexService->setOption(IndexService::OPTION_PERSISTENCE, 'cache');
+            $this->getServiceManager()->register(IndexService::SERVICE_ID, $indexService);
+            $this->setVersion('17.13.0');
+        }
     }
 }

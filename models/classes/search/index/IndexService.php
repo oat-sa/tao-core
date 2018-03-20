@@ -23,13 +23,13 @@ namespace oat\tao\model\search\index;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\menu\MenuService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\search\helper\SupportedOperatorHelper;
 
 /**
  * Class IndexService
@@ -42,21 +42,33 @@ class IndexService extends ConfigurableService
     const SERVICE_ID = 'tao/IndexService';
     const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
+    const OPTION_PERSISTENCE = 'persistence';
+    const LAST_LAUNCH_TIME_KEY = 'tao/IndexService:lastLaunchTime';
 
     /** @var array */
     private $map;
 
     /**
      * Run a full reindexing
-     * @return int number of resources indexed 
+     * @return boolean
+     * @throws
      */
     public function runIndexing()
     {
-        $iterator = new \core_kernel_classes_ResourceIterator($this->getIndexedClasses());
+        $iterator = $this->getResourceIterator();
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        return $searchService->index($indexIterator);
+        $i = 0;
+        foreach($indexIterator as $item) {
+            $i++;
+        }
+        var_dump($this->getLastIndexTime());
+        var_dump($i);
+        $result = $searchService->index($indexIterator);
+        $this->updateLastIndexTime();
+        exit();
+        return $result;
     }
 
     /**
@@ -160,6 +172,43 @@ class IndexService extends ConfigurableService
         return $classes;
     }
 
+    /**
+     * Update time of the last indexation
+     * @throws \common_Exception
+     */
+    protected function updateLastIndexTime()
+    {
+        $this->getPersistence()->set(self::LAST_LAUNCH_TIME_KEY, microtime(true));
+    }
+
+    /**
+     * Get time of the last indexation. 0 if no time in the storage.
+     * @return integer
+     */
+    protected function getLastIndexTime()
+    {
+        $result = $this->getPersistence()->get(self::LAST_LAUNCH_TIME_KEY);
+        return $result ? $result : 0;
+    }
+
+    /**
+     * @return \Iterator
+     */
+    protected function getResourceIterator()
+    {
+        $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
+        $queryBuilder = $search->query();
+        $criteria = $queryBuilder->newQuery();
+        $criteria->addCriterion(
+            TaoOntology::PROPERTY_UPDATED_AT,
+            SupportedOperatorHelper::GREATER_THAN_EQUAL,
+            $this->getLastIndexTime()
+        );
+        $iterator = new IndexResourceIterator($this->getIndexedClasses(), $criteria);
+        $iterator->setServiceLocator($this->getServiceLocator());
+        return $iterator;
+    }
+
     protected function getIndexedClasses()
     {
         $classes = array();
@@ -174,5 +223,18 @@ class IndexService extends ConfigurableService
             }
         }
         return array_values($classes);
+    }
+
+    /**
+     * @return \common_persistence_KeyValuePersistence
+     * @throws
+     */
+    private function getPersistence()
+    {
+        if (!$this->hasOption(self::OPTION_PERSISTENCE)) {
+            throw new \InvalidArgumentException('Persistence for ' . self::SERVICE_ID . ' is not configured');
+        }
+        $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
+        return $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
     }
 }

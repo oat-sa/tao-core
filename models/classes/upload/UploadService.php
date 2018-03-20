@@ -59,7 +59,7 @@ class UploadService extends ConfigurableService
         $targetName     = uniqid('tmp', true) . '.' . $extension;
         $targetLocation = tao_helpers_File::concat([$folder, $targetName]);
 
-        $file = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
+        $file = $this->getUploadDir()->getFile($this-usact00det>getUserDirectoryHash() . $targetLocation);
 
         $returnValue['uploaded'] = $file->put(fopen($tmp_name, 'rb'));
         $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($file));
