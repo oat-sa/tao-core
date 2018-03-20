@@ -97,7 +97,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[User]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[TAO User Class]]></rdfs:comment>
   </rdf:Description>
-  
+
   <!-- Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>

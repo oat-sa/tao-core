@@ -22,6 +22,7 @@
  */
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetServiceFileStorage;
@@ -38,13 +39,13 @@ $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
 return array(
     'name' => 'tao',
-    'label' => 'Tao base',
+    'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '17.11.0',
+    'version' => '17.13.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.9.0'
+        'generis' => '>=6.17.1',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -62,6 +63,7 @@ return array(
             dirname(__FILE__). '/models/ontology/widegetdefinitions.rdf',
             dirname(__FILE__). '/models/ontology/requiredaction.rdf',
             dirname(__FILE__). '/models/ontology/auth/basicauth.rdf',
+            dirname(__FILE__). '/models/ontology/userlocks.rdf'
         ),
         'checks' => array(
                 array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.4')),
@@ -105,7 +107,8 @@ return array(
             SetContainerService::class,
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
-            RegisterActionService::class
+            RegisterActionService::class,
+            RegisterUserLockoutsEventListeners::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -161,9 +164,9 @@ return array(
     ),
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint72',
+        'TAO_VERSION' => '3.3.0-sprint72-½',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint72',
+        'TAO_VERSION_NAME' => '3.3.0-sprint72-½',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
