@@ -51,20 +51,6 @@ class IndexResourceIterator extends \core_kernel_classes_ResourceIterator implem
     }
 
     /**
-     * @inheritdoc
-     */
-    public function current()
-    {
-        if ($this->instanceCache === null) {
-            $this->ensureNotEmpty();
-        }
-
-        return isset($this->instanceCache[$this->currentInstance]) ?
-            new \core_kernel_classes_Resource($this->instanceCache[$this->currentInstance]) :
-            null;
-    }
-
-    /**
      * Load instances into cache
      *
      * @param \core_kernel_classes_Class $class
