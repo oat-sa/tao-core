@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint72\n"
-"PO-Revision-Date: 2018-03-15T14:05:34\n"
+"Project-Id-Version: TAO 3.3.0-sprint72-½\n"
+"PO-Revision-Date: 2018-03-21T14:04:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " et "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -38,6 +38,9 @@ msgid " requires a subgrid adapter"
 msgstr " requiert un adaptateur de sous-grille"
 
 msgid "%1$s expected but %2$s detected"
+msgstr ""
+
+msgid "%d attempts left before your account is locked."
 msgstr ""
 
 msgid "%d day"
@@ -145,6 +148,9 @@ msgstr "Accès refusé"
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez renouveler votre authentification !"
 
+msgid "Account status"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
@@ -215,8 +221,8 @@ msgstr "Version alpha"
 msgid "An email has been sent"
 msgstr "Un courriel vous a été envoyé"
 
-msgid "An error occured during user deletion"
-msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
+msgid "An error occurred during user deletion"
+msgstr ""
 
 msgid "An error occurred!"
 msgstr ""
@@ -263,6 +269,9 @@ msgstr "Créer l'item"
 msgid "Authoring"
 msgstr "Éditeur "
 
+msgid "auto unlocked in %s"
+msgstr ""
+
 msgid "Available"
 msgstr ""
 
@@ -293,11 +302,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -318,11 +327,11 @@ msgstr "Changer le mot de passe"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check All"
-msgstr "Cocher Tout"
-
 msgid "Check all"
 msgstr "Cocher tout"
+
+msgid "Check All"
+msgstr "Cocher Tout"
 
 msgid "Check-in"
 msgstr ""
@@ -519,6 +528,9 @@ msgstr "Élément supprimé."
 
 msgid "Email"
 msgstr "Email"
+
+msgid "enabled"
+msgstr ""
 
 msgid "End of document reached. Continuing from the beginning."
 msgstr ""
@@ -726,10 +738,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -771,6 +783,9 @@ msgstr ""
 msgid "Invalid login or password. Please try again."
 msgstr "Identifiant ou mot de passe invalide. Veuillez réessayer."
 
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
+
 msgid "invalid regular expression"
 msgstr "Expression régulière non valide"
 
@@ -782,6 +797,9 @@ msgstr "Libellé"
 
 msgid "Language"
 msgstr "Langue"
+
+msgid "Last attempt before your account is locked."
+msgstr ""
 
 msgid "Last Name"
 msgstr "Nom"
@@ -820,6 +838,9 @@ msgid "Loading status"
 msgstr ""
 
 msgid "Loading task status ..."
+msgstr ""
+
+msgid "locked by %s"
 msgstr ""
 
 msgid "Log in"
@@ -974,10 +995,10 @@ msgstr "Aucun fichier"
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Aucun aperçu disponible"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Aucun aperçu disponible"
 
 msgid "No results found"
@@ -1026,10 +1047,10 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "Ok"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Ok"
 
 msgid "Old Password"
@@ -1086,16 +1107,28 @@ msgstr "Veuillez confirmer la suppression."
 msgid "Please confirm deletion of %s."
 msgstr ""
 
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
+
 msgid "Please confirm property deletion!"
 msgstr "Veuillez confirmer la suppression de la propriété"
 
 msgid "Please confirm this operation."
 msgstr "Veuillez confirmer cette opération."
 
+msgid "Please confirm unlocking of account %s"
+msgstr ""
+
 msgid "Please confirm user deletion"
 msgstr "Veuillez confirmer la suppression de l'utilisateur."
 
 msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please contact your administrator."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1114,6 +1147,9 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
 msgid "Please select a delivery."
+msgstr ""
+
+msgid "Please try in %s."
 msgstr ""
 
 msgid "Please wait"
@@ -1286,6 +1322,9 @@ msgstr ""
 msgid "Search sub-classes"
 msgstr "Chercher des sous-classes"
 
+msgid "second"
+msgstr ""
+
 msgid "seconds"
 msgstr "secondes"
 
@@ -1327,6 +1366,9 @@ msgstr "Fichier sélectionné :"
 
 msgid "Selection saved successfully"
 msgstr "Sélection enregistrée avec succès"
+
+msgid "self-locked"
+msgstr ""
 
 #, tao-public
 msgid "Settings"
@@ -1593,10 +1635,10 @@ msgstr "Autoriser le téléchargement du fichier"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"
@@ -1647,14 +1689,26 @@ msgstr "Utiliser la valeur par défaut"
 msgid "User"
 msgstr "Utilisateur"
 
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
 msgid "User added"
 msgstr "Utilisateur ajouté"
 
 msgid "User deleted successfully"
 msgstr "Utilisateur supprimé avec succès."
 
-msgid "User deletion not permited on a demo instance"
-msgstr "Suppression d'un utilisateur non permis dans une instance de démonstration"
+msgid "User deletion not permitted on a demo instance"
+msgstr ""
 
 msgid "User not found"
 msgstr ""
@@ -1718,11 +1772,17 @@ msgstr "Vous n'avez actuellement pas accès à la plate-forme"
 msgid "You do not have the required rights to edit this resource."
 msgstr ""
 
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
+
 msgid "You have been logged out. Please login again"
 msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr "JavaScript doit être activé dans votre navigateur pour lancer cette applcation"
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
 
 msgid "Your browser does not meet the technical requirements to run TAO."
 msgstr ""
