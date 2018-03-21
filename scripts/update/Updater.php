@@ -675,9 +675,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.11.0');
         }
 
-        $this->skip('17.11.0', '17.12.1');
+        $this->skip('17.11.0', '17.12.2');
 
-        if ($this->isVersion('17.12.1')) {
+        if ($this->isVersion('17.12.2')) {
             $indexService = $this->getServiceManager()->get(IndexService::SERVICE_ID);
             $indexService->setOption(IndexService::OPTION_PERSISTENCE, 'cache');
             $this->getServiceManager()->register(IndexService::SERVICE_ID, $indexService);

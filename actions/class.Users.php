@@ -381,9 +381,13 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
                 if ($binder->bind($values)) {
+                    $data = [];
+                    if (isset($plainPassword)){
+                        $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
+                    }
                     $this->getEventManager()->trigger(new UserUpdatedEvent(
                         $user,
-                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                        array_merge($values, $data))
                     );
                     $this->setData('message', __('User saved'));
                 }
