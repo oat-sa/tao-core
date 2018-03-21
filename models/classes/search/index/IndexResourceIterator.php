@@ -26,6 +26,8 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\generis\model\OntologyRdf;
 use oat\search\helper\SupportedOperatorHelper;
+use core_kernel_classes_Resource;
+use core_kernel_classes_Class;
 
 /**
  * Class IndexResourceIterator
@@ -46,21 +48,19 @@ class IndexResourceIterator extends \core_kernel_classes_ResourceIterator implem
      */
     public function __construct($classes, QueryInterface $criteria = null)
     {
-        $this->classIterator = new \core_kernel_classes_ClassIterator($classes);
+        parent::__construct($classes);
         $this->criteria = $criteria;
     }
 
     /**
-     * Load instances into cache
+     * Load resources from storage
      *
-     * @param \core_kernel_classes_Class $class
-     * @param int $offset
-     * @return boolean
-     * @throws
+     * @param core_kernel_classes_Class $class
+     * @param integer $offset
+     * @return core_kernel_classes_Resource[]
      */
-    protected function load(\core_kernel_classes_Class $class, $offset)
+    protected function loadResources(core_kernel_classes_Class $class, $offset)
     {
-        /** @var ComplexSearchService $search */
         $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
         $queryBuilder = $search->query()->setLimit(self::CACHE_SIZE)->setOffset($offset);
         if ($this->criteria !== null) {
@@ -69,16 +69,6 @@ class IndexResourceIterator extends \core_kernel_classes_ResourceIterator implem
             $this->criteria = $search->searchType($queryBuilder, $class->getUri(), false);
         }
         $queryBuilder->setCriteria($this->criteria);
-        $results = $search->getGateway()->search($queryBuilder);
-
-        $this->instanceCache = [];
-        foreach ($results as $resource) {
-            $this->instanceCache[$offset] = $resource->getUri();
-            $offset++;
-        }
-
-        $this->endOfClass = count($results) < self::CACHE_SIZE;
-
-        return count($results) > 0;
+        return $search->getGateway()->search($queryBuilder);
     }
 }
