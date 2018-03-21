@@ -50,24 +50,18 @@ class IndexService extends ConfigurableService
 
     /**
      * Run a full reindexing
+     * @param boolean $sinceLast index resources updated/created since last indexation
      * @return boolean
      * @throws
      */
-    public function runIndexing()
+    public function runIndexing($sinceLast = true)
     {
-        $iterator = $this->getResourceIterator();
+        $iterator = $this->getResourceIterator($sinceLast);
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        $i = 0;
-        foreach($indexIterator as $item) {
-            $i++;
-        }
-        var_dump($this->getLastIndexTime());
-        var_dump($i);
         $result = $searchService->index($indexIterator);
         $this->updateLastIndexTime();
-        exit();
         return $result;
     }
 
@@ -193,16 +187,18 @@ class IndexService extends ConfigurableService
 
     /**
      * @return \Iterator
+     * @param boolean $sinceLast load resources updated/created since last indexation
      */
-    protected function getResourceIterator()
+    protected function getResourceIterator($sinceLast = true)
     {
         $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
         $queryBuilder = $search->query();
         $criteria = $queryBuilder->newQuery();
+        $since = $sinceLast ? $this->getLastIndexTime() : 0;
         $criteria->addCriterion(
             TaoOntology::PROPERTY_UPDATED_AT,
             SupportedOperatorHelper::GREATER_THAN_EQUAL,
-            $this->getLastIndexTime()
+            $since
         );
         $iterator = new IndexResourceIterator($this->getIndexedClasses(), $criteria);
         $iterator->setServiceLocator($this->getServiceLocator());
