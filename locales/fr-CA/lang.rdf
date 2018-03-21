@@ -7,7 +7,7 @@
     >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Langfr-CA">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:lang="en-US"><![CDATA[French Canadian]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[French Canadian]]></rdfs:label>
     <rdf:value><![CDATA[fr-CA]]></rdf:value>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
