@@ -11,6 +11,6 @@
     <rdf:value><![CDATA[fr-CA]]></rdf:value>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
-    <tao:LanguageOrientation xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>
+    <tao:LanguageOrientation rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>
   </rdf:Description>
 </rdf:RDF>
