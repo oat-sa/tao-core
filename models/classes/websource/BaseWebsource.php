@@ -124,6 +124,11 @@ implements Websource
         if (isset($pathParts['extension'])) {
             //manage bugs in finfo
             switch ($pathParts['extension']) {
+                case 'js':
+                    if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
+                        return $mimeType = 'text/javascript';
+                    }
+                    break;
                 case 'css':
                     //for css files mimetype can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
                     if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
