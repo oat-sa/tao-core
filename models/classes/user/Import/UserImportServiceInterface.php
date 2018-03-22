@@ -28,4 +28,10 @@ interface UserImportServiceInterface
      * @return mixed
      */
     public function import($filePath);
+
+    /**
+     * @param UserMapper $userMapper
+     * @return mixed
+     */
+    public function setMapper(UserMapper $userMapper);
 }

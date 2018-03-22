@@ -47,6 +47,8 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     /** @var array  */
     protected $headerColumns = [];
 
+    /** @var UserMapper */
+    private $mapper;
     /**
      * @param $filePath
      * @param array $extraProperties
@@ -164,6 +166,15 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     }
 
     /**
+     * @param UserMapper $userMapper
+     * @return mixed|void
+     */
+    public function setMapper(UserMapper $userMapper)
+    {
+        $this->mapper = $userMapper;
+    }
+
+    /**
      * @param \core_kernel_classes_Resource $user
      * @param $properties
      *
@@ -184,7 +195,11 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
      */
     protected function getUserMapper()
     {
-        return $this->getServiceLocator()->get(UserMapper::SERVICE_ID);
+        if (is_null($this->mapper)){
+            $this->mapper = $this->getServiceLocator()->get(UserMapper::SERVICE_ID);
+        }
+
+        return $this->mapper;
     }
 
 }
