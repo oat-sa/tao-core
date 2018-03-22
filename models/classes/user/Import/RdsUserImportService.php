@@ -83,7 +83,7 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
                     continue;
                 }
                 $combineRow = array_combine($this->headerColumns, $row);
-                $combineRow['roles'] = $extraProperties[UserRdf::PROPERTY_USER_ROLES];
+                $combineRow['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
 
                 $mapper = $this->getUserMapper()->map($combineRow)->combine($extraProperties);
                 if ($mapper->isEmpty()){
@@ -120,7 +120,7 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
 
             $class = $this->getClass($class);
             $results = $class->searchInstances([
-                UserRdf::PROPERTY_USER_LOGIN => $properties[UserRdf::PROPERTY_USER_LOGIN]
+                UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
             ], ['like' => false]);
 
             if(count($results) > 0){
@@ -142,7 +142,7 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
         } else {
             $class = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
             $results = $class->searchInstances([
-                UserRdf::PROPERTY_USER_LOGIN => $properties[UserRdf::PROPERTY_USER_LOGIN]
+                UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
             ], ['like' => false]);
 
             if(count($results) > 0){

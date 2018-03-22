@@ -38,15 +38,16 @@ class RegisterUserImporter extends InstallAction
             OntologyUserMapper::OPTION_SCHEMA => [
                 OntologyUserMapper::OPTION_SCHEMA_MANDATORY => [
                     'label' => OntologyRdfs::RDFS_LABEL,
-                    'interface language' => UserRdf::PROPERTY_USER_UILG,
-                    'login' => UserRdf::PROPERTY_USER_LOGIN,
-                    'roles' => UserRdf::PROPERTY_USER_ROLES,
-                    'password' => UserRdf::PROPERTY_USER_PASSWORD,
+                    'interface language' => UserRdf::PROPERTY_UILG,
+                    'login' => UserRdf::PROPERTY_LOGIN,
+                    'roles' => UserRdf::PROPERTY_ROLES,
+                    'password' => UserRdf::PROPERTY_PASSWORD,
                 ],
                 OntologyUserMapper::OPTION_SCHEMA_OPTIONAL => [
-                    'first name' => UserRdf::PROPERTY_USER_FIRSTNAME,
-                    'last name' =>UserRdf::PROPERTY_USER_LASTNAME,
-                    'mail' => UserRdf::PROPERTY_USER_MAIL,
+                    'interface language' => UserRdf::PROPERTY_DEFLG,
+                    'first name' => UserRdf::PROPERTY_FIRSTNAME,
+                    'last name' =>UserRdf::PROPERTY_LASTNAME,
+                    'mail' => UserRdf::PROPERTY_MAIL,
                 ]
             ]
         ]);

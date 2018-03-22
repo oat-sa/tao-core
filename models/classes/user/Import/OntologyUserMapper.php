@@ -49,7 +49,7 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
             if (empty($data[$key])){
                 throw new \Exception('Mandatory field '.$key.' should not be empty');
             }
-            if ($propertyKey === UserRdf::PROPERTY_USER_PASSWORD){
+            if ($propertyKey === UserRdf::PROPERTY_PASSWORD){
                 $this->userMapped['plainPassword'] = $data[$key];
             }
             $this->userMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
@@ -93,8 +93,8 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
      */
     public function isTestTaker()
     {
-        if (isset($this->userMapped[UserRdf::PROPERTY_USER_ROLES])){
-            $userRoles = $this->userMapped[UserRdf::PROPERTY_USER_ROLES];
+        if (isset($this->userMapped[UserRdf::PROPERTY_ROLES])){
+            $userRoles = $this->userMapped[UserRdf::PROPERTY_ROLES];
             if (in_array(TaoRoles::DELIVERY, $userRoles)){
                 return true;
             }
@@ -138,10 +138,10 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
     {
         switch ($key)
         {
-            case UserRdf::PROPERTY_USER_PASSWORD:
+            case UserRdf::PROPERTY_PASSWORD:
                 return \core_kernel_users_Service::getPasswordHash()->encrypt($value);
-            case UserRdf::PROPERTY_USER_UILG:
-            case UserRdf::PROPERTY_USER_DEFLG:
+            case UserRdf::PROPERTY_UILG:
+            case UserRdf::PROPERTY_DEFLG:
                 $val = \tao_models_classes_LanguageService::singleton()->getLanguageByCode($value);
                 return $val === null ? $value : $val->getUri();
             default:
