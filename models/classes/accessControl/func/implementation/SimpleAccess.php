@@ -20,6 +20,8 @@
 
 namespace oat\tao\model\accessControl\func\implementation;
 
+use oat\generis\model\GenerisRdf;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\model\accessControl\func\FuncAccessControl;
 use oat\tao\model\accessControl\func\AccessRule;
 use common_ext_ExtensionsManager;
@@ -68,7 +70,7 @@ class SimpleAccess extends ConfigurableService
     public function accessPossible(User $user, $controller, $action) {
         $isUser = false;
         foreach ($user->getRoles() as $role) {
-            if ($role == TaoOntology::PROPERTY_INSTANCE_ROLE_BASE_USER) {
+            if ($role == TaoRoles::BASE_USER) {
                 $isUser = true;
                 break;
             }
@@ -77,7 +79,7 @@ class SimpleAccess extends ConfigurableService
     }
     
     public function applyRule(AccessRule $rule) {
-        if ($rule->getRole()->getUri() == INSTANCE_ROLE_ANONYMOUS) {
+        if ($rule->getRole()->getUri() == GenerisRdf::INSTANCE_ROLE_ANONYMOUS) {
             $mask = $rule->getMask();
             
             if (is_string($mask)) {
@@ -108,7 +110,7 @@ class SimpleAccess extends ConfigurableService
     }
 
     public function revokeRule(AccessRule $rule){
-        if ($rule->getRole()->getUri() === INSTANCE_ROLE_ANONYMOUS) {
+        if ($rule->getRole()->getUri() === GenerisRdf::INSTANCE_ROLE_ANONYMOUS) {
             $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 
             $this->controllers = $ext->hasConfig(self::WHITELIST_KEY) ? $ext->getConfig(self::WHITELIST_KEY) : array();

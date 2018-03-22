@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -25,18 +25,19 @@ use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use common_report_Report as Report;
 use oat\oatbox\action\Help;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\cliArgument\ArgumentService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class CliController
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @package oat\tao\model\routing
  */
-class CliController implements ServiceLocatorAwareInterface
+class CliController implements ServiceManagerAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceManagerAwareTrait;
 
     /**
      * @var ActionService
@@ -69,14 +70,16 @@ class CliController implements ServiceLocatorAwareInterface
             $action = new Help($extId);
         }
 
-        if ($action instanceof ServiceLocatorAwareInterface) {
-            $action->setServiceLocator($this->getServiceLocator());
-        }
+        $this->propagate($action);
 
         $this->getServiceLocator()->get(ArgumentService::SERVICE_ID)->load($action, $params);
 
         try {
             $report = call_user_func($action, $params);
+            if (empty($report)) {
+                $shortName = (new \ReflectionClass($action))->getName();
+                $report = new \common_report_Report(\common_report_Report::TYPE_INFO, "Action '${shortName}' ended gracefully with no report returned.");
+            }
         } catch (\Exception $e) {
             $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
 

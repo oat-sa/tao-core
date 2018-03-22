@@ -405,36 +405,38 @@ class tao_helpers_File
         }
         return $md5;
     }
-    
+
     /**
      * Create a zip of a directory or file
-     * 
+     *
      * @param string $src path to the files to zip
-     * @throws common_Exception if unable to create the zip
+     * @param bool   $withEmptyDir
      * @return string path to the zip file
+     * @throws common_Exception if unable to create the zip
      */
-    public static function createZip($src) {
+    public static function createZip($src, $withEmptyDir = false) {
         $zipArchive = new \ZipArchive();
         $path = self::createTempDir().'file.zip';
         if ($zipArchive->open($path, \ZipArchive::CREATE)!==TRUE) {
             throw new common_Exception('Unable to create zipfile '.$path);
         }
-        self::addFilesToZip($zipArchive, $src, DIRECTORY_SEPARATOR);
+        self::addFilesToZip($zipArchive, $src, DIRECTORY_SEPARATOR, $withEmptyDir);
         $zipArchive->close();
         return $path;
     }
-    
+
     /**
      * Add files or folders (and their content) to the Zip Archive that will contain all the files to the current export session.
      * For instance, if you want to copy the file 'taoItems/data/i123/item.xml' as 'myitem.xml' to your archive call addFile('path_to_item_location/item.xml', 'myitem.xml').
      * As a result, you will get a file entry in the final ZIP archive at '/i123/myitem.xml'.
      *
      * @param ZipArchive $zipArchive the archive to add to
-     * @param string $src | StreamInterface The path to the source file or folder to copy into the ZIP Archive.
-     * @param string *dest The <u>relative</u> to the destination within the ZIP archive.
+     * @param string     $src        | StreamInterface The path to the source file or folder to copy into the ZIP Archive.
+     * @param            $dest
+     * @param bool       $withEmptyDir
      * @return integer The amount of files that were transfered from TAO to the ZIP archive within the method call.
      */
-    public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest) {
+    public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest, $withEmptyDir = false) {
         $returnValue = null;
     
         $done = 0;
@@ -452,14 +454,19 @@ class tao_helpers_File
         } elseif (is_dir($src)) {
             // Go deeper in folder hierarchy !
             $src = rtrim($src, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-            $dest = rtrim($dest, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;;
+            $dest = rtrim($dest, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+            if ($withEmptyDir) {
+                $zipArchive->addEmptyDir($dest);
+            }
+
             // Recursively copy.
             $content = scandir($src);
 
             foreach ($content as $file) {
                 // avoid . , .. , .svn etc ...
                 if (!preg_match("/^\./", $file)) {
-                    $done += self::addFilesToZip($zipArchive, $src . $file, $dest . $file);
+                    $done += self::addFilesToZip($zipArchive, $src . $file, $dest . $file, $withEmptyDir);
                 }
             }
         } else {

@@ -35,7 +35,19 @@ define([
 
     var ns = 'mediasizer';
     var dataNs = 'ui.' + ns;
+    var MediaSizer;
 
+    /**
+     * default setup
+     *
+     * optional values are:
+     * width | naturalWidth (alias)
+     * height | naturalHeight (alias)
+     * maxWidth
+     * parentSelector
+     *
+     * @type {Object}
+     */
     var defaults = {
         disableClass: 'disabled',
         applyToMedium: true,
@@ -46,25 +58,16 @@ define([
         showSync: true
     };
 
-    /**
-     * List of supported elements, image is used in the case of svg
-     *
-     * @type {string[]}
-     */
-    var supportedMedia = ['img', 'image'];
 
     /**
      * Round a decimal value to n digits
      *
-     * @param value
-     * @param precision
+     * @param {number} value
+     * @param {int} precision
      * @returns {number}
      * @private
      */
     function _round(value, precision) {
-        if (precision === undefined) {
-            precision = 0;
-        }
         var factor = Math.pow(10, precision);
         return Math.round(value * factor) / factor;
     }
@@ -74,7 +77,7 @@ define([
      * The MediaSizer component, that helps you to show/hide an element
      * @exports ui/toggler
      */
-    var MediaSizer = {
+    MediaSizer = {
 
         /**
          * Returns width, height, target element and the reset button
@@ -87,7 +90,7 @@ define([
          */
         _publicArgs: function ($elt, options) {
             var params = this._getValues($elt);
-            params.$target = options.target;
+            params.$target = options.target || $();
             params.$resetBtn = options.$resetBtn;
             return params;
         },
@@ -102,33 +105,48 @@ define([
         _getSizeProps: function ($elt) {
 
             var options = $elt.data(dataNs),
-                $medium = options.target,
-                mediumSize = (function() {
-                    var displaySize = $medium[0].getBoundingClientRect();
-                    return {
-                        width: displaySize.width,
-                        height: displaySize.height
-                    };
-                }()),
-                naturalWidth = $medium[0].naturalWidth || options.naturalWidth || mediumSize.width,
-                naturalHeight = $medium[0].naturalHeight || options.naturalHeight || mediumSize.height,
+                $medium,
+                naturalWidth,
+                naturalHeight,
+                containerWidth,
+                displaySize,
+                minWidth = _.isNumber(options.minWidth) ? options.minWidth : 0,
+                maxWidth;
+
+            if(options.hasTarget) {
+                $medium = options.target;
+                displaySize = $medium[0].getBoundingClientRect();
+                options.width = displaySize.width;
+                options.height = displaySize.height;
+                naturalWidth = $medium[0].naturalWidth || options.width;
+                naturalHeight = $medium[0].naturalHeight || options.height;
+
                 containerWidth = (function() {
-                    var $parentContainer = !!options.parentSelector ?
+                    var $parentContainer = options.parentSelector ?
                         $medium.parents(options.parentSelector) :
-                        $medium.parent().parent();//@todo this is ugly as it assumes a double container !!
+                        $medium.parent().parent(),
+                        _maxWidth;
 
                     if(options.maxWidth){
                         return options.maxWidth;
                     }
 
-                    var maxWidth = $parentContainer.css('max-width');
+                    _maxWidth = $parentContainer.css('max-width');
 
-                    if(maxWidth !== 'none'){
-                        return parseInt(maxWidth);
+                    if(_maxWidth !== 'none'){
+                        return parseInt(_maxWidth);
                     }
                     return $parentContainer.innerWidth();
                 }());
+            }
+            else {
+                // init() already makes sure width and height exist at this point
+                naturalWidth = options.width;
+                naturalHeight = options.height;
+                containerWidth = options.maxWidth || options.width;
+            }
 
+            maxWidth = Math.max(containerWidth, naturalWidth);
 
             return {
                 px: {
@@ -138,8 +156,8 @@ define([
                         height: naturalHeight
                     },
                     current: {
-                        width: mediumSize.width,
-                        height: mediumSize.height
+                        width: options.width,
+                        height: options.height
                     }
                 },
                 '%': {
@@ -148,25 +166,25 @@ define([
                         height: null
                     },
                     current: {
-                        width: mediumSize.width * 100 / containerWidth,
+                        width: options.width * 100 / containerWidth,
                         height: null // height does not work on % - this is just in case you have to loop or something
                     }
                 },
                 ratio: {
                     natural: naturalWidth / naturalHeight,
-                    current: mediumSize.width / mediumSize.height
+                    current: options.width / options.height
                 },
                 containerWidth: containerWidth,
                 sliders: {
                     '%': {
-                        min: 0,
+                        min: minWidth * 100 / maxWidth,
                         max: 100,
-                        start: mediumSize.width * 100 / containerWidth
+                        start: options.width * 100 / containerWidth
                     },
                     px: {
-                        min: 0,
-                        max: Math.max(containerWidth, naturalWidth),
-                        start: mediumSize.width
+                        min: minWidth,
+                        max: maxWidth,
+                        start: options.width
                     }
                 },
                 currentUnit: '%'
@@ -303,15 +321,15 @@ define([
                 _sliders[unit].noUiSlider({
                     start: options.sizeProps.sliders[unit].start,
                     range: {
-                        'min': 0,
+                        'min': options.sizeProps.sliders[unit].min,
                         'max': options.sizeProps.sliders[unit].max
                     }
                 })
                     .on('slide', function () {
                         var $slider = $(this),
-                            unit = $slider.prop('unit');
+                            _unit = $slider.prop('unit');
 
-                        options.$fields[unit].width.val(_round($slider.val())).trigger('sliderchange');
+                        options.$fields[_unit].width.val(_round($slider.val(), 0)).trigger('sliderchange');
                     });
             });
 
@@ -329,8 +347,6 @@ define([
         _sync: function ($elt, $field, eventType) {
             var self = this;
 
-            eventType = eventType === 'sliderchange' ? 'sliderEvent' : 'fieldEvent';
-
             var options = $elt.data(dataNs),
                 unit = $field.prop('unit'),
                 dimension = $field.prop('dimension'),
@@ -341,6 +357,8 @@ define([
                 otherBlockWidthValue,
                 otherBlockHeightValue,
                 currentValues;
+
+            eventType = eventType === 'sliderchange' ? 'sliderEvent' : 'fieldEvent';
 
             // invalid entries
             if (isNaN(value)) {
@@ -355,6 +373,7 @@ define([
             }
             ratio = options.denyCustomRatio ? options.sizeProps.ratio.natural : options.sizeProps.ratio.current;
 
+
             // There is only one scenario where dimension != width: manual input of the height in px
             // this is treated here separately because then we just need to deal with widths below
             if (dimension === 'height' && unit === 'px') {
@@ -362,7 +381,7 @@ define([
                 if (options.syncDimensions) {
                     options.sizeProps.px.current.width = value * ratio;
                     options.sizeProps.ratio.current = options.sizeProps.px.current.width / options.sizeProps.px.current.height;
-                    options.$fields.px.width.val(_round(options.sizeProps.px.current.width));
+                    options.$fields.px.width.val(_round(options.sizeProps.px.current.width, 0));
 
                     // now all values can be set to the width since width entry is now the only scenario
                     value = parseFloat(options.$fields.px.width.val());
@@ -402,10 +421,10 @@ define([
                 otherBlockHeightValue = otherBlockWidthValue / ratio;
                 //same block
                 options.sizeProps[unit].current.height = heightValue;
-                options.$fields[unit].height.val(_round(heightValue));
+                options.$fields[unit].height.val(_round(heightValue, 0));
                 //other block
                 options.sizeProps[otherBlockUnit].current.height = otherBlockHeightValue;
-                options.$fields[otherBlockUnit].height.val(_round(otherBlockHeightValue));
+                options.$fields[otherBlockUnit].height.val(_round(otherBlockHeightValue, 0));
             }
 
             /* sliders */
@@ -417,7 +436,7 @@ define([
             options.$sliders[otherBlockUnit].val(otherBlockWidthValue);
 
             // update other width field
-            options.$fields[otherBlockUnit].width.val(_round(otherBlockWidthValue));
+            options.$fields[otherBlockUnit].width.val(_round(otherBlockWidthValue, 0));
 
             // reset percent height to null
             options.sizeProps['%'].current.height = null;
@@ -426,7 +445,7 @@ define([
             if (options.applyToMedium) {
                 currentValues = this._getValues($elt);
                 options.target.attr('width', currentValues.width);
-                options.target.attr('height', currentValues.height);
+                options.target.attr('height', currentValues.height || 'auto');
             }
             $elt.trigger('sizechange.' + ns, self._publicArgs($elt, options));
         },
@@ -458,7 +477,7 @@ define([
                             unit: unit,
                             dimension: dim
                         });
-                        _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim]));
+                        _fields[unit][dim].val(_round(options.sizeProps[unit].current[dim], 0));
                         _fields[unit][dim].data({ min: 0, max: options.sizeProps.sliders[unit].max });
 
                         _fields[unit][dim].on('keydown', function (e) {
@@ -518,7 +537,7 @@ define([
                     value = '';
                 }
                 else {
-                    value = _round(value).toString();
+                    value = _round(value, 0).toString();
                 }
                 if (options.sizeProps.currentUnit === '%' && value !== '') {
                     value += options.sizeProps.currentUnit;
@@ -545,45 +564,65 @@ define([
             //get options using default
             options = $.extend(true, {}, defaults, options);
 
-            var self = MediaSizer;
-
             return this.each(function () {
-                var $elt = $(this),
-                    $target = options.target,
-                    type = $target[0].nodeName.toLowerCase();
+                var $elt = $(this);
 
+                options.hasTarget = options.target && options.target.length;
 
-                if (!_.contains(supportedMedia, type)) {
-                    throw new Error('MediaSizer::init() Unsupported element type ' + type);
+                // compatibility layer naturalWidth|Height vs. naturalHeight
+                // internally width/height are used
+                options.width         = options.width         || options.naturalWidth;
+                options.height        = options.height        || options.naturalHeight;
+                options.naturalWidth  = options.naturalWidth  || options.width;
+                options.naturalHeight = options.naturalHeight || options.height;
+
+                options.hasSize = options.width && options.height && _.isNumber(options.width) && _.isNumber(options.height);
+
+                // incomplete or conflicting configurations
+                // no target provided, also no width and/or no height
+                if(!options.hasTarget && !options.hasSize) {
+                    throw new Error('MediaSizer::init() You must either set width and height or a target element');
+                }
+
+                // no target provided, but applyToMedium = true
+                else if(!options.hasTarget && options.applyToMedium) {
+                    throw new Error('MediaSizer::init() options.applyToMedium can only be true if a target element is provided');
+                }
+
+                // target quietly takes precedence over width and height
+                else if(options.hasTarget && options.hasSize) {
+                    delete options.width;
+                    delete options.height;
+                    options.hasSize = false;
                 }
 
                 if (!$elt.data(dataNs)) {
 
                     $elt.html(tpl({
-                        responsive: (options.responsive !== undefined) ? !!options.responsive : true
+                        responsive: (typeof options.responsive !== 'undefined') ? !!options.responsive : true
                     }));
 
                     //add data to the element
                     $elt.data(dataNs, options);
 
-                    options.sizeProps = self._getSizeProps($elt);
+                    options.sizeProps = MediaSizer._getSizeProps($elt);
                     options.originalSizeProps = _.cloneDeep(options.sizeProps);
 
                     options.syncDimensions = $elt.find('.media-sizer').hasClass('media-sizer-synced');
 
-                    options.$blocks = self._initBlocks($elt);
-                    options.$fields = self._initFields($elt);
-                    options.$sliders = self._initSliders($elt);
+                    options.$blocks = MediaSizer._initBlocks($elt);
+                    options.$fields = MediaSizer._initFields($elt);
+                    options.$sliders = MediaSizer._initSliders($elt);
 
-                    options.$syncBtn = self._initSyncBtn($elt);
-                    options.$resetBtn = self._initResetBtn($elt);
+                    options.$syncBtn = MediaSizer._initSyncBtn($elt);
+                    options.$resetBtn = MediaSizer._initResetBtn($elt);
 
 
                     /**
                      * The plugin has been created
                      * @event MediaSizer#create.toggler
                      */
-                    $elt.trigger('create.' + ns, self._publicArgs($elt, options));
+                    $elt.trigger('create.' + ns, MediaSizer._publicArgs($elt, options));
                 }
             });
         },

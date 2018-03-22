@@ -22,18 +22,21 @@ namespace oat\tao\model\search;
 
 use oat\tao\model\menu\MenuService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\search\index\IndexIterator;
+use oat\tao\model\search\index\IndexService;
 
 /**
  * Search service
  * 
  * @author Joel Bout <joel@taotesting.com>
+ * @deprecated
  */
 class SearchService
 {	
     const CONFIG_KEY = 'search';
-    
+
     /**
-     * 
+     * @return Search
      */
     static public function getSearchImplementation() 
     {
@@ -57,29 +60,7 @@ class SearchService
      */
     static public function runIndexing() 
     {
-        $iterator = new \core_kernel_classes_ResourceIterator(self::getIndexedClasses());
-        return self::getSearchImplementation()->fullReIndex($iterator);
-    }
-    
-    /**
-     * returns the root classes to index
-     * 
-     * @return array
-     */
-    static protected function getIndexedClasses() 
-    {
-        $classes = array();
-        foreach (MenuService::getAllPerspectives() as $perspective) {
-            foreach ($perspective->getChildren() as $structure) {
-                foreach ($structure->getTrees() as $tree) {
-                    $rootNode = $tree->get('rootNode');
-                    if (!empty($rootNode)) {
-                        $classes[$rootNode] = new \core_kernel_classes_Class($rootNode);
-                    }
-                }
-            }
-        }
-        
-        return array_values($classes);
+        $indexService = ServiceManager::getServiceManager()->get(IndexService::SERVICE_ID);
+        return $indexService->runIndexing();
     }
 }

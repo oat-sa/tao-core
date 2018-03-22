@@ -27,7 +27,6 @@ define([
 
     QUnit.module('component');
 
-
     QUnit.test('module', function(assert) {
         QUnit.expect(3);
         assert.equal(typeof componentFactory, 'function', "The component module exposes a function");
@@ -36,30 +35,27 @@ define([
     });
 
 
-    var testReviewApi = [
-        { name : 'init', title : 'init' },
-        { name : 'destroy', title : 'destroy' },
-        { name : 'render', title : 'render' },
-        { name : 'setSize', title : 'setSize' },
-        { name : 'show', title : 'show' },
-        { name : 'hide', title : 'hide' },
-        { name : 'enable', title : 'enable' },
-        { name : 'disable', title : 'disable' },
-        { name : 'is', title : 'is' },
-        { name : 'setState', title : 'setState' },
-        { name : 'getContainer', title : 'getContainer' },
-        { name : 'getElement', title : 'getElement' },
-        { name : 'getTemplate', title : 'getTemplate' },
-        { name : 'setTemplate', title : 'setTemplate' }
-    ];
-
-    QUnit
-        .cases(testReviewApi)
-        .test('instance API ', function(data, assert) {
-            var instance = componentFactory();
-            QUnit.expect(1);
-            assert.equal(typeof instance[data.name], 'function', 'The component instance exposes a "' + data.name + '" function');
-        });
+    QUnit.cases([
+        { title : 'init' },
+        { title : 'destroy' },
+        { title : 'render' },
+        { title : 'setSize' },
+        { title : 'show' },
+        { title : 'hide' },
+        { title : 'enable' },
+        { title : 'disable' },
+        { title : 'is' },
+        { title : 'setState' },
+        { title : 'getContainer' },
+        { title : 'getElement' },
+        { title : 'getTemplate' },
+        { title : 'setTemplate' },
+        { title : 'getConfig' }
+    ]).test('instance API ', function(data, assert) {
+        var instance = componentFactory();
+        QUnit.expect(1);
+        assert.equal(typeof instance[data.title], 'function', 'The component instance exposes a "' + data.title + '" function');
+    });
 
 
     QUnit.test('init', function(assert) {
@@ -502,4 +498,28 @@ define([
         instance.yolo(expectedValue);
     });
 
+    QUnit.test('getConfig', function(assert) {
+        var defaults = {
+            label : 'default',
+            value : 12
+        };
+        var config = {
+            label: 'config',
+            init  : true
+        };
+        var instance;
+
+        QUnit.expect(2);
+
+        instance = componentFactory({}, defaults);
+        assert.deepEqual(instance.getConfig(), defaults, 'The component contains the default config');
+
+        instance.init(config);
+
+        assert.deepEqual(instance.getConfig(), {
+            label : 'config',
+            init  : true,
+            value : 12
+        }, 'The component contains the init config');
+    });
 });

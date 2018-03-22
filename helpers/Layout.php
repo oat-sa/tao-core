@@ -24,6 +24,7 @@ namespace oat\tao\helpers;
 use Jig\Utils\StringUtils;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\OperatedByService;
+use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
@@ -210,28 +211,38 @@ class Layout
     public static function getLogoUrl()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurableTheme) {
+        if (
+            $theme instanceof ConfigurableTheme ||
+            $theme instanceof ConfigurablePlatformTheme
+        ) {
             $logoFile = $theme->getLogoUrl();
             if (! empty($logoFile)) {
                 return $logoFile;
             }
         }
 
+        return static::getDefaultLogoUrl();
+    }
+
+    /**
+     * Returns the default logo url.
+     *
+     * @return string
+     */
+    public static function getDefaultLogoUrl()
+    {
         switch (TAO_RELEASE_STATUS) {
             case 'alpha':
             case 'demoA':
-                $logoFile = Template::img('tao-logo-alpha.png', 'tao');
+                return Template::img('tao-logo-alpha.png', 'tao');
                 break;
             case 'beta':
             case 'demoB':
-                $logoFile = Template::img('tao-logo-beta.png', 'tao');
-                break;
-            default:
-                $logoFile = Template::img('tao-logo.png', 'tao');
+                return Template::img('tao-logo-beta.png', 'tao');
                 break;
         }
 
-        return $logoFile;
+        return $logoFile = Template::img('tao-logo.png', 'tao');
     }
 
     /**
@@ -266,7 +277,10 @@ class Layout
     public static function getLinkUrl()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurableTheme) {
+        if (
+            $theme instanceof ConfigurableTheme ||
+            $theme instanceof ConfigurablePlatformTheme
+        ) {
             $link = $theme->getLink();
             if (! empty($link)) {
                 return $link;
@@ -302,7 +316,10 @@ class Layout
     public static function getMessage()
     {
         $theme = self::getCurrentTheme();
-        if ($theme instanceof ConfigurableTheme) {
+        if (
+            $theme instanceof ConfigurableTheme ||
+            $theme instanceof ConfigurablePlatformTheme
+        ) {
             $message = $theme->getMessage();
             if (! empty($message)) {
                 return $message;
@@ -329,15 +346,32 @@ class Layout
      * @return array
      */
     public static function getOperatedByData() {
-        $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
 
-        $name = $operatedByService->getName();
-        $email = $operatedByService->getEmail();
+        $name = '';
+        $email = '';
+
+        // find data in the theme, they will be there if installed with the taoStyles extension
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof ConfigurablePlatformTheme) {
+            $operatedBy = $theme->getOperatedBy();
+            $name  = $operatedBy['name'];
+            $email = $operatedBy['email'];
+        }
+
+        // otherwise they will be stored in config
+        if(!$name && !$email) {
+            $operatedByService = ServiceManager::getServiceManager()->get(OperatedByService::SERVICE_ID);
+            $name = $operatedByService->getName();
+            $email = $operatedByService->getEmail();
+        }
 
         $data = [
-            'name' => $name,
-            'email' => (empty($email)) ? '' : StringUtils::encodeText('mailto:' . $email)
+            'name'  => $name,
+            'email' => empty($email)
+                ? ''
+                : StringUtils::encodeText('mailto:' . $email)
         ];
+
         return $data;
     }
 
@@ -428,8 +462,14 @@ class Layout
 
         //search in the registry to get the custom template to render
         $tpl = self::getThemeTemplate($target, $templateId);
+        $theme = self::getCurrentTheme();
 
         if(!is_null($tpl)){
+            if ($theme instanceof ConfigurablePlatformTheme) {
+                // allow to use the getters from ConfigurablePlatformTheme
+                // to insert logo and such
+                $data['themeObj'] = $theme;
+            }
             //render the template
             $renderer = new \Renderer($tpl, $data);
             return $renderer->render();

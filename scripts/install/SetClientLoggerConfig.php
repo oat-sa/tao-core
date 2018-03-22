@@ -20,19 +20,25 @@
 namespace oat\tao\scripts\install;
 
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\oatbox\extension\InstallAction;
 
 /**
  * Defines the default client logger config
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class SetClientLoggerConfig extends \common_ext_action_InstallAction
+class SetClientLoggerConfig extends InstallAction
 {
     public function __invoke($params)
     {
+        ClientLibConfigRegistry::getRegistry()->remove('core/logger');
         ClientLibConfigRegistry::getRegistry()->register(
             'core/logger', [
-                'level'   => 'warn',
-                'loggers' =>  ['core/logger/console']
+                'level' => 'warn',
+                'loggers' =>  [
+                    'core/logger/console' => [
+                        'level' => 'warn',
+                    ]
+                ]
             ]
         );
     }

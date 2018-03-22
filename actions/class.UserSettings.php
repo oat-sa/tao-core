@@ -20,6 +20,9 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\tao\helpers\ApplicationHelper;
+
 /**
  * This controller provide the actions to manage the user settings
  *
@@ -51,7 +54,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	public function password(){
 
 		$this->setData('formTitle'	, __("Change password"));
-		if (helpers_PlatformInstance::isDemo()) {
+		if (ApplicationHelper::isDemo()) {
             $this->setData('myForm'		, __('Unable to change passwords in demo mode'));
 		} else {
 		    $myFormContainer = new tao_actions_form_UserPassword();
@@ -81,16 +84,16 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 
 				$currentUser = $this->userService->getCurrentUser();
 				$userSettings = array(
-				    PROPERTY_USER_UILG => $myForm->getValue('ui_lang'),
-				    PROPERTY_USER_DEFLG => $myForm->getValue('data_lang'),
-				    PROPERTY_USER_TIMEZONE => $myForm->getValue('timezone')
+				    GenerisRdf::PROPERTY_USER_UILG => $myForm->getValue('ui_lang'),
+				    GenerisRdf::PROPERTY_USER_DEFLG => $myForm->getValue('data_lang'),
+				    GenerisRdf::PROPERTY_USER_TIMEZONE => $myForm->getValue('timezone')
 				);
 				
 				$uiLang 	= new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
 				$dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
 
-				$userSettings[PROPERTY_USER_UILG] = $uiLang->getUri();
-				$userSettings[PROPERTY_USER_DEFLG] = $dataLang->getUri();
+				$userSettings[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
+				$userSettings[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
 
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
 				
@@ -131,19 +134,19 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	private function getUserSettings(){
 		$currentUser = $this->userService->getCurrentUser();
 		$props = $currentUser->getPropertiesValues(array(
-			new core_kernel_classes_Property(PROPERTY_USER_UILG),
-			new core_kernel_classes_Property(PROPERTY_USER_DEFLG),
-		    new core_kernel_classes_Property(PROPERTY_USER_TIMEZONE)
+			new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_UILG),
+			new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_DEFLG),
+		    new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_TIMEZONE)
 		));
 		$langs = array();
-		if (!empty($props[PROPERTY_USER_UILG])) {
-			$langs['ui_lang'] = current($props[PROPERTY_USER_UILG])->getUri();
+		if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
+			$langs['ui_lang'] = current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri();
 		}
-		if (!empty($props[PROPERTY_USER_DEFLG])) {
-			$langs['data_lang'] = current($props[PROPERTY_USER_DEFLG])->getUri();
+		if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
+			$langs['data_lang'] = current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri();
 		}
-		$langs['timezone'] = !empty($props[PROPERTY_USER_TIMEZONE])
-            ? current($props[PROPERTY_USER_TIMEZONE])
+		$langs['timezone'] = !empty($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
+            ? current($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
             : TIME_ZONE;
 		return $langs; 
 	}

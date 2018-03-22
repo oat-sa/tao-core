@@ -1,4 +1,7 @@
 <?php
+
+use oat\generis\model\OntologyRdfs;
+use oat\tao\helpers\ApplicationHelper;
 use oat\tao\model\menu\MenuService;
 /**  
  * This program is free software; you can redistribute it and/or
@@ -530,7 +533,7 @@ class tao_scripts_TaoTranslate
 
         			// Now that PO files & JS files are created, we can create the translation models
         			// if we find RDF models to load for this extension.
-        			$translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
+        			$translatableProperties = array(OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT);
         	
         			foreach ($this->getOntologyFiles() as $f){
        					common_Logger::d('reading rdf '.$f);
@@ -639,7 +642,7 @@ class tao_scripts_TaoTranslate
        	$poFileWriter->write();
         $this->outVerbose("PO translation file '" . basename($oldFilePath) . "' in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
 
-		$translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
+		$translatableProperties = array(OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT);
 
 		// We now deal with RDF models.
         foreach ($this->getOntologyFiles() as $f){
@@ -927,7 +930,7 @@ class tao_scripts_TaoTranslate
     public function preparePOFile( tao_helpers_translation_POFile $poFile, $poEditorReady = false)
     {
         
-        $poFile->addHeader('Project-Id-Version', PRODUCT_NAME . ' ' . TAO_VERSION_NAME);
+        $poFile->addHeader('Project-Id-Version', PRODUCT_NAME . ' ' . ApplicationHelper::getVersionName());
         $poFile->addHeader('PO-Revision-Date', date('Y-m-d') . 'T' . date('H:i:s'));
         $poFile->addHeader('Last-Translator', 'TAO Translation Team <translation@tao.lu>');
         $poFile->addHeader('MIME-Version', '1.0');

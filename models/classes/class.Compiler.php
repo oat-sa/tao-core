@@ -26,8 +26,10 @@
  * @package taoDelivery
  
  */
-abstract class tao_models_classes_Compiler
+abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\ServiceLocatorAwareInterface
 {
+    use \Zend\ServiceManager\ServiceLocatorAwareTrait;
+
     /**
      * Resource to be compiled
      * @var core_kernel_classes_Resource
@@ -128,6 +130,7 @@ abstract class tao_models_classes_Compiler
         }
         /** @var $compiler tao_models_classes_Compiler */
         $compiler = new $compilerClass($resource, $this->getStorage());
+        $compiler->setServiceLocator($this->getServiceLocator());
         $compiler->setContext($this->getContext());
         $report = $compiler->compile();
         return $report;

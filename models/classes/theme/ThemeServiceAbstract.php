@@ -52,15 +52,15 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     /**
      * @inheritdoc
      */
-    public function hasTheme($id)
+    public function hasTheme($themeId)
     {
         $themes = $this->getAllThemes();
-        if (array_key_exists($id, $themes)) {
+        if (array_key_exists($themeId, $themes)) {
             return true;
         }
 
         foreach ($themes as $currentTheme) {
-            if ($currentTheme->getId() === $id) {
+            if ($currentTheme->getId() === $themeId) {
                 return true;
             }
         }
@@ -71,20 +71,20 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     /**
      * @inheritdoc
      */
-    public function getThemeById($id)
+    public function getThemeById($themeId)
     {
         $themes = $this->getAllThemes();
-        if (array_key_exists($id, $themes)) {
-            return $themes[$id];
+        if (array_key_exists($themeId, $themes)) {
+            return $themes[$themeId];
         }
 
         foreach ($themes as $currentTheme) {
-            if ($currentTheme->getId() === $id) {
+            if ($currentTheme->getId() === $themeId) {
                 return $currentTheme;
             }
         }
 
-        throw new \common_exception_InconsistentData('The requested theme does not exist. (' . $id .')');
+        throw new \common_exception_InconsistentData('The requested theme does not exist. (' . $themeId .')');
     }
 
     /**

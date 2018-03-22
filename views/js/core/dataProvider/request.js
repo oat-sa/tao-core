@@ -31,8 +31,9 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
     'core/promise'
-], function($, _,  Promise){
+], function($, _, __, Promise){
     'use strict';
 
     /**
@@ -45,7 +46,7 @@ define([
     var createError = function createError(response, fallbackMessage, httpCode){
         var err;
         if(response && response.errorCode){
-            err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage));
+            err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage || response.error));
             err.response = response;
         } else {
             err = new Error(fallbackMessage);
@@ -62,9 +63,10 @@ define([
      * @param {Object} [data] - additional parameters
      * @param {String} [method = 'GET'] - the HTTP method
      * @param {Object} [headers] - the HTTP header
+     * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    return function request(url, data, method, headers){
+    return function request(url, data, method, headers, background){
         return new Promise(function(resolve, reject){
 
             if(_.isEmpty(url)){
@@ -76,7 +78,8 @@ define([
                 type: method || 'GET',
                 dataType: 'json',
                 headers: headers,
-                data : data
+                data : data,
+                global : !background//TODO fix this with TT-260
             })
             .done(function(response, status, xhr){
                 if (xhr.status === 204 || (response && response.errorCode === 204)){
@@ -90,7 +93,7 @@ define([
                 }
 
                 //the server has handled the error
-                return reject(createError(response, 'No response', xhr.status));
+                return reject(createError(response,  __('The server has sent an empty response'), xhr.status));
             })
             .fail(function(xhr){
                 var response;

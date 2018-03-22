@@ -23,6 +23,7 @@ namespace oat\tao\helpers;
 
 use common_session_SessionManager;
 use core_kernel_classes_Property;
+use oat\generis\model\GenerisRdf;
 use core_kernel_classes_Resource;
 use tao_helpers_Uri;
 use oat\tao\model\TaoOntology;
@@ -46,7 +47,7 @@ class TaoCe {
         $firstTime = common_session_SessionManager::getSession()->getUserPropertyValues(TaoOntology::PROPERTY_USER_FIRST_TIME);
 
         //for compatibility purpose we assume previous users are veterans 
-        return in_array(GENERIS_TRUE, $firstTime);
+        return in_array(GenerisRdf::GENERIS_TRUE, $firstTime);
 	}
     
     /**
@@ -65,7 +66,7 @@ class TaoCe {
                 // user in ontology
                 $success = $user->editPropertyValues(
                     new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_FIRST_TIME),
-                    new core_kernel_classes_Resource(GENERIS_FALSE)
+                    new core_kernel_classes_Resource(GenerisRdf::GENERIS_FALSE)
                 );
             } // else we fail;
         }

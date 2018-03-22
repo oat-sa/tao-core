@@ -149,7 +149,6 @@ define([
                     var $instance = $(e.currentTarget);
                     e.preventDefault();
                     e.stopPropagation();
-
                     if($instance.hasClass('selected')){
                         self.unselect($instance.data('uri'));
                     } else {
@@ -178,6 +177,11 @@ define([
             })
             .on('update', function(){
                 this.setState('loading', false);
+            })
+            .on('remove', function(uri){
+                if(this.is('rendered')){
+                    $('[data-uri="' + uri + '"]', this.getElement()).remove();
+                }
             });
 
         //always defer the initialization to let consumers listen for init and render events.

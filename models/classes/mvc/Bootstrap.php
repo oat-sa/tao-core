@@ -23,6 +23,8 @@ namespace oat\tao\model\mvc;
 
 use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\helpers\Template;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\maintenance\Maintenance;
@@ -36,8 +38,6 @@ use tao_helpers_Request;
 use tao_helpers_Uri;
 use Exception;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -60,9 +60,9 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
  */
-class Bootstrap implements ServiceLocatorAwareInterface
+class Bootstrap implements ServiceManagerAwareInterface
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceManagerAwareTrait;
 
     const CONFIG_SESSION_HANDLER = 'session';
 
@@ -212,6 +212,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
 	    } else {
             $actionIdentifier = array_shift($params);
             $cliController = new CliController();
+            $this->propagate($cliController);
             $report = $cliController->runAction($actionIdentifier, $params);
 	    }
 	     
@@ -327,6 +328,7 @@ class Bootstrap implements ServiceLocatorAwareInterface
     {
         $re = \common_http_Request::currentRequest();
         $fc = new TaoFrontController();
+        $this->propagate($fc);
         $fc->legacy($re);
     }
 
