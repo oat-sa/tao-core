@@ -25,6 +25,8 @@ use common_Exception;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
@@ -54,6 +56,8 @@ use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
+use oat\tao\model\user\Import\OntologyUserMapper;
+use oat\tao\model\user\Import\RdsUserImportService;
 use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -675,5 +679,34 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('17.11.0', '17.12.2');
+
+        if ($this->isVersion('17.12.2')){
+            $mapper = new OntologyUserMapper([
+                OntologyUserMapper::OPTION_SCHEMA => [
+                    OntologyUserMapper::OPTION_SCHEMA_MANDATORY => [
+                        'label' => OntologyRdfs::RDFS_LABEL,
+                        'interface language' => UserRdf::PROPERTY_USER_UILG,
+                        'login' => UserRdf::PROPERTY_USER_LOGIN,
+                        'roles' => UserRdf::PROPERTY_USER_ROLES,
+                        'password' => UserRdf::PROPERTY_USER_PASSWORD,
+                    ],
+                    OntologyUserMapper::OPTION_SCHEMA_OPTIONAL => [
+                        'first name' => UserRdf::PROPERTY_USER_FIRSTNAME,
+                        'last name' =>UserRdf::PROPERTY_USER_LASTNAME,
+                        'mail' => UserRdf::PROPERTY_USER_MAIL,
+                    ]
+                ]
+            ]);
+
+            $this->getServiceManager()->register(OntologyUserMapper::SERVICE_ID, $mapper);
+
+            $importService = new RdsUserImportService([
+                RdsUserImportService::OPTION_USER_MAPPER => OntologyUserMapper::SERVICE_ID,
+            ]);
+
+            $this->getServiceManager()->register(RdsUserImportService::SERVICE_ID, $importService);
+
+            $this->setVersion('17.13.0');
+        }
     }
 }

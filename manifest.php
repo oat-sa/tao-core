@@ -22,6 +22,7 @@
  */
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterUserImporter;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
@@ -42,10 +43,10 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '17.12.2',
+    'version' => '17.13.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.17.1',
+        'generis' => '>=6.19.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -108,7 +109,8 @@ return array(
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
             RegisterActionService::class,
-            RegisterUserLockoutsEventListeners::class
+            RegisterUserLockoutsEventListeners::class,
+            RegisterUserImporter::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
