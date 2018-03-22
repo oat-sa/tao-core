@@ -680,7 +680,14 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('17.11.0', '17.12.2');
 
-        if ($this->isVersion('17.12.2')){
+        if ($this->isVersion('17.12.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('17.13.0');
+        }
+
+        $this->skip('17.13.0', '17.13.1');
+
+        if ($this->isVersion('17.13.1')){
             $mapper = new OntologyUserMapper([
                 OntologyUserMapper::OPTION_SCHEMA => [
                     OntologyUserMapper::OPTION_SCHEMA_MANDATORY => [
@@ -706,7 +713,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(RdsUserImportService::SERVICE_ID, $importService);
 
-            $this->setVersion('17.13.0');
+            $this->setVersion('17.14.0');
         }
     }
 }
