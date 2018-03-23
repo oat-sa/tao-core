@@ -107,7 +107,7 @@ class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
     protected function getMapper()
     {
         $mapper = $this->getMockBuilder(OntologyUserMapper::class)
-            ->setMethods(['getPasswordHasService', 'getLanguageService'])
+            ->setMethods(['getPasswordHashService', 'getLanguageService'])
             ->getMockForAbstractClass();
 
         $passwordHasService = $this->getMockBuilder(helpers_PasswordHash::class)->disableOriginalConstructor()->getMock();
@@ -120,7 +120,7 @@ class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
         $languageService->method('getLanguageByCode')->willReturn($langResource);
 
         $mapper
-            ->method('getPasswordHasService')
+            ->method('getPasswordHashService')
             ->willReturn($passwordHasService);
 
         $mapper->method('getLanguageService')

@@ -1,0 +1,4 @@
+Label,"First Name","Last Name",Login,Mail,Password,"Interface Language"
+user1,"user first name1","user last name1",user1,user@mail.com1,user1,en-UK
+user2,"user first name2","user last name2",user2,user@mail.com2,user2,en-UK
+user3,,,,,,

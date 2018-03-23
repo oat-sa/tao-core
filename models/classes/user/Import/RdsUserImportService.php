@@ -85,7 +85,9 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
                     continue;
                 }
                 $combineRow = array_combine($this->headerColumns, $row);
-                $combineRow['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
+                if (isset($extraProperties[UserRdf::PROPERTY_ROLES])){
+                    $combineRow['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
+                }
 
                 $mapper = $this->getUserMapper()->map($combineRow)->combine($extraProperties);
                 if ($mapper->isEmpty()){
@@ -112,54 +114,32 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     {
         $plainPassword = $userMapper->getPlainPassword();
         $properties    = $userMapper->getProperties();
-
-        if ($userMapper->isTestTaker()){
+        $isTestTaker   = $userMapper->isTestTaker();
+        if ($isTestTaker){
             if (isset($properties[OntologyRdf::RDF_TYPE])){
                 $class = $properties[OntologyRdf::RDF_TYPE];
             } else {
                 $class = TaoOntology::CLASS_URI_SUBJECT;
             }
-
             $class = $this->getClass($class);
-            $results = $class->searchInstances([
-                UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
-            ], ['like' => false]);
-
-            if(count($results) > 0){
-                $resource = $this->mergeUserProperties(current($results), $properties);
-            } else {
-                $resource = $class->createInstanceWithProperties($properties);
-            }
-            $eventName = $this->getOption(static::OPTION_TEST_TAKER_EVENT);
-            if (!is_null($eventName)){
-                /** @var EventManager $eventManager */
-                $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-                $eventObj  = new $eventName($resource->getUri(), array_merge($properties,
-                    ['hashForKey' => UserHashForEncryption::hash($plainPassword)]
-                ));
-                if ($eventObj instanceof Event){
-                    $eventManager->trigger($eventObj);
-                }
-            }
         } else {
             $class = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
-            $results = $class->searchInstances([
-                UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
-            ], ['like' => false]);
+        }
 
-            if(count($results) > 0){
-                $resource = $this->mergeUserProperties(current($results), $properties);
-            } else {
-                $resource = $class->createInstanceWithProperties($properties);
-            }
+        $results = $class->searchInstances([
+            UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
+        ], ['like' => false]);
 
-            /** @var EventManager $eventManager */
-            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-            $eventManager->trigger(new UserUpdatedEvent($resource,
-                array_merge($properties,
-                    ['hashForKey' => UserHashForEncryption::hash($plainPassword)]
-                )
-            ));
+        if(count($results) > 0){
+            $resource = $this->mergeUserProperties(current($results), $properties);
+        } else {
+            $resource = $class->createInstanceWithProperties($properties);
+        }
+
+        if ($isTestTaker){
+            $this->triggerTestTakerEvent($resource, $properties, $plainPassword);
+        } else{
+            $this->triggerUserEvent($resource, $properties, $plainPassword);
         }
 
         return $resource;
@@ -172,6 +152,42 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     public function setMapper(UserMapper $userMapper)
     {
         $this->mapper = $userMapper;
+    }
+
+    /**
+     * @param \core_kernel_classes_Resource $resource
+     * @param array $properties
+     * @param string $plainPassword
+     */
+    protected function triggerTestTakerEvent($resource, $properties, $plainPassword)
+    {
+        $eventName = $this->getOption(static::OPTION_TEST_TAKER_EVENT);
+        if (!is_null($eventName)){
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+            $eventObj  = new $eventName($resource->getUri(), array_merge($properties,
+                ['hashForKey' => UserHashForEncryption::hash($plainPassword)]
+            ));
+            if ($eventObj instanceof Event){
+                $eventManager->trigger($eventObj);
+            }
+        }
+    }
+
+    /**
+     * @param \core_kernel_classes_Resource $resource
+     * @param array $properties
+     * @param string $plainPassword
+     */
+    protected function triggerUserEvent($resource, $properties, $plainPassword)
+    {
+        /** @var EventManager $eventManager */
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+        $eventManager->trigger(new UserUpdatedEvent($resource,
+            array_merge($properties,
+                ['hashForKey' => UserHashForEncryption::hash($plainPassword)]
+            )
+        ));
     }
 
     /**

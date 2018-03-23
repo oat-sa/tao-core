@@ -31,6 +31,9 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
 
     /** @var array */
     protected $userMapped = [];
+
+    /** @var string*/
+    protected $plainPassword;
     /**
      * @param array $data
      *
@@ -51,7 +54,7 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
                 throw new MandatoryFieldException('Mandatory field '.$key.' should not be empty.');
             }
             if ($propertyKey === UserRdf::PROPERTY_PASSWORD){
-                $this->userMapped['plainPassword'] = $data[$key];
+                $this->plainPassword = $data[$key];
             }
             $this->userMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
         }
@@ -99,8 +102,6 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
             if (in_array(TaoRoles::DELIVERY, $userRoles)){
                 return true;
             }
-
-            return false;
         }
 
         return false;
@@ -111,14 +112,7 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
      */
     public function getPlainPassword()
     {
-        $plainPassword = null;
-
-        if (isset($this->userMapped['plainPassword'])){
-            $plainPassword =  $this->userMapped['plainPassword'];
-            unset($this->userMapped['plainPassword']);
-        }
-
-        return $plainPassword;
+        return $this->plainPassword;
     }
 
     /**
@@ -126,10 +120,6 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
      */
     public function getProperties()
     {
-        if (isset($this->userMapped['plainPassword'])){
-            unset($this->userMapped['plainPassword']);
-        }
-
         return $this->userMapped;
     }
 
@@ -144,7 +134,7 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
         switch ($key)
         {
             case UserRdf::PROPERTY_PASSWORD:
-                return $this->getPasswordHasService()->encrypt($value);
+                return $this->getPasswordHashService()->encrypt($value);
             case UserRdf::PROPERTY_UILG:
             case UserRdf::PROPERTY_DEFLG:
                 $val = $this->getLanguageService()->getLanguageByCode($value);
@@ -157,7 +147,7 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
     /**
      * @return \helpers_PasswordHash
      */
-    protected function getPasswordHasService()
+    protected function getPasswordHashService()
     {
         return \core_kernel_users_Service::getPasswordHash();
     }
