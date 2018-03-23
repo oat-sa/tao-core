@@ -1,0 +1,256 @@
+<?php
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
+
+namespace oat\tao\test\user\Import;
+
+use core_kernel_classes_Resource;
+use helpers_PasswordHash;
+use oat\tao\model\user\Import\OntologyUserMapper;
+use oat\tao\model\user\TaoRoles;
+use tao_models_classes_LanguageService;
+
+class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @dataProvider provideBasicExample
+     * @param $schema
+     * @param $data
+     * @param $result
+     * @throws \Exception
+     */
+    public function testMapUserWithSuccess($schema, $data, $result)
+    {
+        $mapper = $this->getMapper();
+        $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
+
+        $mapper->map($data)->combine(['extraProperty' => 'extraProperty']);
+
+        $this->assertFalse($mapper->isTestTaker());
+        $this->assertFalse($mapper->isEmpty());
+        $this->assertSame('password', $mapper->getPlainPassword());
+
+        $this->assertEquals($result, $mapper->getProperties());
+    }
+
+    /**
+     * @dataProvider provideTestTakerExample
+     * @param $schema
+     * @param $data
+     * @param $result
+     * @throws \Exception
+     */
+    public function testMapTestTakerWithSuccess($schema, $data, $result)
+    {
+        $mapper = $this->getMapper();
+        $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
+
+        $mapper->map($data);
+        $this->assertTrue($mapper->isTestTaker());
+        $this->assertEquals($result, $mapper->getProperties());
+    }
+
+    /**
+     * @param $schema
+     * @param $data
+     * @param $result
+     *
+     * @dataProvider provideInsufficientDataExample
+     * @expectedException \oat\tao\model\user\Import\MandatoryFieldException
+     *
+     * @throws \Exception
+     */
+    public function testMapMandatoryShouldFail($schema, $data, $result)
+    {
+        $mapper = $this->getMapper();
+        $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
+
+        $mapper->map($data);
+    }
+
+    /**
+     * @param $schema
+     * @param $data
+     * @param $result
+     *
+     * @dataProvider provideEmptyFieldDataExample
+     * @expectedException \oat\tao\model\user\Import\MandatoryFieldException
+     *
+     * @throws \Exception
+     */
+    public function testMapMandatoryNotEmptyShouldFail($schema, $data, $result)
+    {
+        $mapper = $this->getMapper();
+        $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
+
+        $mapper->map($data);
+    }
+
+    /**
+     * @return OntologyUserMapper
+     */
+    protected function getMapper()
+    {
+        $mapper = $this->getMockBuilder(OntologyUserMapper::class)
+            ->setMethods(['getPasswordHasService', 'getLanguageService'])
+            ->getMockForAbstractClass();
+
+        $passwordHasService = $this->getMockBuilder(helpers_PasswordHash::class)->disableOriginalConstructor()->getMock();
+        $passwordHasService->method('encrypt')->willReturn('encrypted_password');
+
+        $langResource = $this->getMockBuilder(core_kernel_classes_Resource::class)->disableOriginalConstructor()->getMock();
+        $langResource->method('getUri')->willReturn('http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN');
+
+        $languageService = $this->getMockBuilder(tao_models_classes_LanguageService::class)->disableOriginalConstructor()->getMock();
+        $languageService->method('getLanguageByCode')->willReturn($langResource);
+
+        $mapper
+            ->method('getPasswordHasService')
+            ->willReturn($passwordHasService);
+
+        $mapper->method('getLanguageService')
+            ->willReturn($languageService);
+
+        return $mapper;
+    }
+
+    /**
+     * @return array
+     */
+    public function provideBasicExample()
+    {
+        return [
+            [
+                'schema' => [
+                    'mandatory' => array(
+                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                        'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userUILg',
+                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
+                        'roles' => 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
+                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password'
+                    ),
+                    'optional' => array(
+                        'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
+                        'first name' => 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
+                        'last name' => 'http://www.tao.lu/Ontologies/generis.rdf#userLastName',
+                        'mail' => 'http://www.tao.lu/Ontologies/generis.rdf#userMail'
+                    )
+                ],
+                'data' => [
+                    'label' => 'user label',
+                    'interface language' => 'en',
+                    'login' => 'userlogin',
+                    'password' => 'password',
+                    'first name' => 'user first',
+                    'last name' => 'user last',
+                    'roles' => ['role1'],
+                    'mail' => 'user@email.com',
+                ],
+                'result' => [
+                    'http://www.w3.org/2000/01/rdf-schema#label' => 'user label',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => ['role1'],
+                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@email.com',
+                    'extraProperty' => 'extraProperty'
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function provideTestTakerExample()
+    {
+        return [
+            [
+                'schema' => [
+                    'mandatory' => array(
+                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
+                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                        'roles' => 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
+                    ),
+                ],
+                'data' => [
+                    'label' => 'user label',
+                    'login' => 'userlogin',
+                    'password' => 'password',
+                    'roles' => [TaoRoles::DELIVERY]
+                ],
+                'result' => [
+                    'http://www.w3.org/2000/01/rdf-schema#label' => 'user label',
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => [TaoRoles::DELIVERY],
+                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
+                ]
+            ],
+        ];
+    }
+
+    public function provideInsufficientDataExample()
+    {
+        return [
+            [
+                'schema' => [
+                    'mandatory' => array(
+                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
+                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                    )
+                ],
+                'data' => [
+                    'login' => 'userlogin',
+                ],
+                'result' => [
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
+                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
+                ]
+            ],
+        ];
+    }
+
+    public function provideEmptyFieldDataExample()
+    {
+        return [
+            [
+                'schema' => [
+                    'mandatory' => array(
+                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
+                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
+                    )
+                ],
+                'data' => [
+                    'login' => 'userlogin',
+                    'label' => '',
+                    'password' => '',
+                ],
+                'result' => [
+                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
+                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
+                ]
+            ],
+        ];
+    }
+}

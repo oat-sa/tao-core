@@ -23,6 +23,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\user\TaoRoles;
+use tao_models_classes_LanguageService;
 
 class OntologyUserMapper extends ConfigurableService implements UserMapper
 {
@@ -44,10 +45,10 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
         foreach ($mandatoryFields as $key => $propertyKey)
         {
             if (!isset($data[$key])){
-                throw new \Exception('Mandatory field '.$key.' should exists: '. var_export(array_keys($mandatoryFields)));
+                throw new MandatoryFieldException('Mandatory field '.$key.' should exists.');
             }
             if (empty($data[$key])){
-                throw new \Exception('Mandatory field '.$key.' should not be empty');
+                throw new MandatoryFieldException('Mandatory field '.$key.' should not be empty.');
             }
             if ($propertyKey === UserRdf::PROPERTY_PASSWORD){
                 $this->userMapped['plainPassword'] = $data[$key];
@@ -125,6 +126,10 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
      */
     public function getProperties()
     {
+        if (isset($this->userMapped['plainPassword'])){
+            unset($this->userMapped['plainPassword']);
+        }
+
         return $this->userMapped;
     }
 
@@ -139,13 +144,29 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
         switch ($key)
         {
             case UserRdf::PROPERTY_PASSWORD:
-                return \core_kernel_users_Service::getPasswordHash()->encrypt($value);
+                return $this->getPasswordHasService()->encrypt($value);
             case UserRdf::PROPERTY_UILG:
             case UserRdf::PROPERTY_DEFLG:
-                $val = \tao_models_classes_LanguageService::singleton()->getLanguageByCode($value);
+                $val = $this->getLanguageService()->getLanguageByCode($value);
                 return $val === null ? $value : $val->getUri();
             default:
                 return $value;
         }
+    }
+
+    /**
+     * @return \helpers_PasswordHash
+     */
+    protected function getPasswordHasService()
+    {
+        return \core_kernel_users_Service::getPasswordHash();
+    }
+
+    /**
+     * @return tao_models_classes_LanguageService
+     */
+    protected function getLanguageService()
+    {
+        return tao_models_classes_LanguageService::singleton();
     }
 }
