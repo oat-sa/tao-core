@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
@@ -261,12 +262,18 @@ class tao_actions_Users extends tao_actions_CommonModule
             if ($form->isValid()) {
                 $values = $form->getValues();
                 $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+                $plainPassword = $values['password1'];
                 unset($values['password1']);
                 unset($values['password2']);
 
+                $user = $container->getUser();
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
 
                 if ($binder->bind($values)) {
+                    $this->getEventManager()->trigger(new UserUpdatedEvent(
+                            $user,
+                            array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                    );
                     $this->setData('message', __('User added'));
                     $this->setData('exit', true);
                 }
@@ -348,8 +355,8 @@ class tao_actions_Users extends tao_actions_CommonModule
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $values = $myForm->getValues();
-
                 if (!empty($values['password2']) && !empty($values['password3'])) {
+                    $plainPassword =  $values['password2'];
                     $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
                 }
 
@@ -374,7 +381,14 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
                 if ($binder->bind($values)) {
-                    $this->getEventManager()->trigger(new UserUpdatedEvent($user, $values));
+                    $data = [];
+                    if (isset($plainPassword)){
+                        $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
+                    }
+                    $this->getEventManager()->trigger(new UserUpdatedEvent(
+                        $user,
+                        array_merge($values, $data))
+                    );
                     $this->setData('message', __('User saved'));
                 }
             }
