@@ -678,10 +678,17 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('17.11.0', '17.12.2');
 
         if ($this->isVersion('17.12.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('17.13.0');
+        }
+
+        $this->skip('17.13.0', '17.13.1');
+
+        if ($this->isVersion('17.13.1')) {
             $indexService = $this->getServiceManager()->get(IndexService::SERVICE_ID);
             $indexService->setOption(IndexService::OPTION_PERSISTENCE, 'cache');
             $this->getServiceManager()->register(IndexService::SERVICE_ID, $indexService);
-            $this->setVersion('17.13.0');
+            $this->setVersion('17.14.0');
         }
     }
 }

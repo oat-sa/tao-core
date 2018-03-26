@@ -16,17 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
  */
+
 namespace oat\tao\model\websource;
 
+use GuzzleHttp\Psr7\Stream;
+use League\Flysystem\FileNotFoundException;
 use oat\oatbox\Configurable;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
-use League\Flysystem\FileNotFoundException;
 use Psr\Http\Message\StreamInterface;
-use GuzzleHttp\Psr7\Stream;
 
 /**
  * This is the base class of the Access Providers
@@ -37,10 +36,9 @@ use GuzzleHttp\Psr7\Stream;
  
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-abstract class BaseWebsource extends Configurable
-implements Websource
+abstract class BaseWebsource extends Configurable implements Websource
 {
-    const OPTION_ID            = 'id';
+    const OPTION_ID = 'id';
     const OPTION_FILESYSTEM_ID = 'fsUri';
     
 	/**
@@ -54,20 +52,21 @@ implements Websource
 	 * @var string
 	 */
 	private $id;
-	
-	/**
-	 * Used to instantiate new AccessProviders
-	 * 
-	 * @param string $fileSystem
-	 * @param array $customConfig
-	 * @return \tao_models_classes_fsAccess_AccessProvider
-	 */
-	protected static function spawn($fileSystemId, $customConfig = array()) {
+
+    /**
+     * Used to instantiate new AccessProviders
+     * @param $fileSystemId
+     * @param array $customConfig
+     * @return BaseWebsource
+     * @throws \common_Exception
+     */
+    protected static function spawn($fileSystemId, $customConfig = array()) {
 	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
 	    $customConfig[self::OPTION_ID] = uniqid();
-	    $websource = new static($customConfig);
-	    WebsourceManager::singleton()->addWebsource($websource);
-	    return $websource;
+	    $webSource = new static($customConfig);
+	    WebsourceManager::singleton()->addWebsource($webSource);
+
+	    return $webSource;
 	}
 
 	/**
@@ -80,7 +79,9 @@ implements Websource
 	}
 
     /**
-     * @return \League\Flysystem\Filesystem
+     * @return null|\oat\oatbox\filesystem\FileSystem
+     * @throws \common_exception_Error
+     * @throws \common_exception_NotFound
      */
     public function getFileSystem()
     {
@@ -94,8 +95,10 @@ implements Websource
 
     /**
      * @param $filePath
-     * @throws \tao_models_classes_FileNotFoundException
      * @return StreamInterface
+     * @throws \common_exception_Error
+     * @throws \common_exception_NotFound
+     * @throws \tao_models_classes_FileNotFoundException
      */
     public function getFileStream($filePath)
     {
@@ -115,6 +118,8 @@ implements Websource
      * Get a file's mime-type.
      * @param string $filePath The path to the file.
      * @return string|false The file mime-type or false on failure.
+     * @throws \common_exception_Error
+     * @throws \common_exception_NotFound
      */
     public function getMimetype($filePath)
     {
@@ -124,22 +129,28 @@ implements Websource
         if (isset($pathParts['extension'])) {
             //manage bugs in finfo
             switch ($pathParts['extension']) {
-                case 'css':
-                    //for css files mimetype can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
+                case 'js':
                     if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
-                        return $mimeType = 'text/css';
+                        return 'text/javascript';
+                    }
+                    break;
+                case 'css':
+                    //for css files mime type can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
+                    if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
+                        return 'text/css';
                     }
                     break;
                 case 'svg':
                     if ($mimeType === 'text/plain') {
-                        return $mimeType = 'image/svg+xml';
+                        return 'image/svg+xml';
                     }
                     break;
                 case 'mp3':
-                    return $mimeType = 'audio/mpeg';
+                    return 'audio/mpeg';
                     break;
             }
         }
+
         return $mimeType;
     }
 }
