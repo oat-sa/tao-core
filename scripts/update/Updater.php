@@ -686,7 +686,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('17.13.0', '17.13.1');
 
         if ($this->isVersion('17.13.1')) {
-            $rdfSamples = $this->getSamplePath('../../locales/fr-CA/lang.rdf');
+            $rdfSamples = dirname(__FILE__).DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR, '../../locales/fr-CA/lang.rdf');
             $iterator = new FileIterator($rdfSamples);
             $rdf = ModelManager::getModel()->getRdfInterface();
             /* @var \core_kernel_classes_Triple $triple */
@@ -700,11 +700,4 @@ class Updater extends \common_ext_ExtensionUpdater {
 
     }
 
-    /**
-     * @return string
-     */
-    protected function getSamplePath($relPath)
-    {
-        return dirname(__FILE__).DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR, $relPath);
-    }
 }
