@@ -686,9 +686,10 @@ class Updater extends \common_ext_ExtensionUpdater {
         $this->skip('17.13.0', '17.13.1');
 
         if ($this->isVersion('17.13.1')) {
-            $rdfSamples = dirname(__FILE__).DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR, '../../locales/fr-CA/lang.rdf');
-            $iterator = new FileIterator($rdfSamples);
+            $rdfLang = dirname(__FILE__).DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR, '../../locales/fr-CA/lang.rdf');
+            $iterator = new FileIterator($rdfLang);
             $rdf = ModelManager::getModel()->getRdfInterface();
+
             /* @var \core_kernel_classes_Triple $triple */
             foreach ($iterator as $triple) {
                 //make sure that the ontology is clear to avoid errors if triple is in multiple time
