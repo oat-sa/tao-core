@@ -27,7 +27,7 @@ namespace oat\tao\model\exceptions;
  * @package oat\tao\model\exceptions
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class UserErrorException extends \Exception implements \common_exception_UserReadableException
+class UserErrorException extends \tao_models_classes_UserException implements \common_exception_UserReadableException
 {
     public function getUserMessage()
     {
