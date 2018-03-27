@@ -60,8 +60,8 @@ class IndexService extends ConfigurableService
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        $result = $searchService->index($indexIterator);
         $this->updateLastIndexTime();
+        $result = $searchService->index($indexIterator);
         return $result;
     }
 
