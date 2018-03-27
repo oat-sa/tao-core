@@ -20,7 +20,6 @@
  */
 namespace oat\tao\model\search;
 
-use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
 use oat\tao\model\search\index\IndexIterator;
 
@@ -74,4 +73,12 @@ interface Search extends PhpSerializable
      * @return boolean
      */
     public function supportCustomIndex();
+
+    /**
+     * Allows to search by the properties
+     *
+     * @param array $properties
+     * @return $this
+     */
+    public function addFiltersByProperties($properties = []);
 }

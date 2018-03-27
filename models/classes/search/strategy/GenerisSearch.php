@@ -22,7 +22,6 @@ namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
@@ -39,12 +38,21 @@ class GenerisSearch extends ConfigurableService implements Search
     use OntologyAwareTrait;
 
     /**
+     * Additional filters
+     * @var array
+     */
+    private $propertyFilters = [];
+
+    /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
     public function query($queryString, $type, $start = 0, $count = 10) {
         $rootClass = $this->getClass($type);
-        $results = $rootClass->searchInstances($this->parseQuery($queryString), array(
+        $params = array_merge($this->propertyFilters, array(
+            OntologyRdfs::RDFS_LABEL => $queryString
+        ));
+        $results = $rootClass->searchInstances($params, array(
             'recursive' => true,
             'like'      => true,
             'offset'    => $start,
@@ -56,36 +64,6 @@ class GenerisSearch extends ConfigurableService implements Search
         }
 
         return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
-    }
-
-    /**
-     * @param $queryString
-     * @return array
-     */
-    private function parseQuery($queryString)
-    {
-        $query = [];
-        $parts = explode('AND', $queryString);
-        foreach ($parts as $part) {
-            $delimiter = mb_strpos($part, ':');
-            $key = \tao_helpers_Uri::decode(trim(substr($part, 0, $delimiter)));
-            $key = $key == 'label' ? OntologyRdfs::RDFS_LABEL : $key;
-            $propVal = trim(substr($part, $delimiter+1));
-            if ($propVal == '*') {
-                continue;
-            }
-            if (!isset($query[$key])) {
-                $query[$key] = $propVal;
-            } else {
-                if (!is_array($query[$key])) {
-                    $val = $query[$key];
-                    $query[$key] = [];
-                    $query[$key][] = $val;
-                }
-                $query[$key][] = $propVal;
-            }
-        }
-        return $query;
     }
 
     /**
@@ -153,5 +131,15 @@ class GenerisSearch extends ConfigurableService implements Search
     public function supportCustomIndex()
     {
         return false;
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::addFiltersByProperties()
+     */
+    public function addFiltersByProperties($properties = [])
+    {
+        $this->properties = $properties;
+        return $this;
     }
 }
