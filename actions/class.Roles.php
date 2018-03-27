@@ -24,6 +24,7 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\exceptions\UserErrorException;
 
 /**
  * Role Controller provide actions performed from url resolution
@@ -199,10 +200,10 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 							$deleted = $this->service->removeRole($role);
 						}else{
 							//set message error
-							throw new Exception(__('This role is still given to one or more users. Please remove the role to these users first.'));
+							throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
 						}
 				}else{
-					throw new Exception($role->getLabel() . ' could not be deleted');
+					throw new UserErrorException($role->getLabel() . ' could not be deleted');
 				}
 			}
 			
