@@ -266,7 +266,15 @@ define([
                             }
                         },
                         error : function (xhr, options, err){
-                            reject(err);
+                            var msg;
+                            var json;
+                            try {
+                                json = JSON.parse(xhr.responseText);
+                                msg = json.message ? json.message : err;
+                            } catch(e) {
+                                msg = err;
+                            }
+                            reject(msg);
                         }
                     });
                 }, reject);
