@@ -193,7 +193,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 						$userClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
 						$options = array('recursive' => true, 'like' => false);
 						$filters = array(GenerisRdf::PROPERTY_USER_ROLES => $role->getUri());
-						$users = $userClass->searchInstances($filters, array());
+						$users = $userClass->searchInstances($filters, $options);
 						if(empty($users)){
 							//delete role here:
 							$deleted = $this->service->removeRole($role);
