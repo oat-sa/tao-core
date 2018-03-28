@@ -58,6 +58,7 @@ use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\Import\OntologyUserMapper;
 use oat\tao\model\user\Import\RdsUserImportService;
+use oat\tao\model\user\Import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
@@ -687,33 +688,26 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('17.13.0', '17.13.1');
 
-        if ($this->isVersion('17.13.1')){
-            $mapper = new OntologyUserMapper([
-                OntologyUserMapper::OPTION_SCHEMA => [
+        if ($this->isVersion('17.13.1')) {
+
+            $service = new UserCsvImporterFactory(array(
+                UserCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
                     OntologyUserMapper::OPTION_SCHEMA_MANDATORY => [
                         'label' => OntologyRdfs::RDFS_LABEL,
                         'interface language' => UserRdf::PROPERTY_UILG,
                         'login' => UserRdf::PROPERTY_LOGIN,
-                        'roles' => UserRdf::PROPERTY_ROLES,
                         'password' => UserRdf::PROPERTY_PASSWORD,
                     ],
                     OntologyUserMapper::OPTION_SCHEMA_OPTIONAL => [
-                        'interface language' => UserRdf::PROPERTY_DEFLG,
+                        'default language' => UserRdf::PROPERTY_DEFLG,
                         'first name' => UserRdf::PROPERTY_FIRSTNAME,
                         'last name' =>UserRdf::PROPERTY_LASTNAME,
                         'mail' => UserRdf::PROPERTY_MAIL,
                     ]
-                ]
-            ]);
+                )
+            ));
 
-            $this->getServiceManager()->register(OntologyUserMapper::SERVICE_ID, $mapper);
-
-            $importService = new RdsUserImportService([
-                RdsUserImportService::OPTION_USER_MAPPER => OntologyUserMapper::SERVICE_ID,
-            ]);
-
-            $this->getServiceManager()->register(RdsUserImportService::SERVICE_ID, $importService);
-
+            $this->getServiceManager()->register(UserCsvImporterFactory::SERVICE_ID, $service);
             $this->setVersion('17.14.0');
         }
     }

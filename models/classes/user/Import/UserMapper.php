@@ -28,6 +28,8 @@ interface UserMapper
     const OPTION_SCHEMA_OPTIONAL = 'optional';
 
     /**
+     * Map CSV column to user properties
+     *
      * @param array $data
      * @throws \Exception
      * @return UserMapper
@@ -35,27 +37,30 @@ interface UserMapper
     public function map(array $data = []);
 
     /**
+     * Merge some $extraProperties to already mapped properties
+     *
      * @param array $extraProperties
      * @return UserMapper
      */
     public function combine(array $extraProperties);
 
     /**
+     * Check is current mapper achieve to extract data
+     *
      * @return bool
      */
     public function isEmpty();
 
     /**
-     * @return bool
-     */
-    public function isTestTaker();
-
-    /**
+     * Get the plain password
+     *
      * @return string|null
      */
     public function getPlainPassword();
 
     /**
+     * Get user mapped properties
+     *
      * @return array
      */
     public function getProperties();

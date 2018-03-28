@@ -21,9 +21,7 @@ namespace oat\tao\model\user\Import;
 
 use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdf;
 use oat\generis\model\user\UserRdf;
-use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -36,19 +34,19 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     use LoggerAwareTrait;
     use OntologyAwareTrait;
 
-    protected $options = [
+    /** @var array Default CSV controls */
+    protected $csvControls = [
         'delimiter' => ',',
-        'encloser' => '/',
+        'enclosure' => '"',
+        'escape' => '\\',
     ];
-
-    const OPTION_USER_MAPPER = 'userMapper';
-    const OPTION_TEST_TAKER_EVENT = 'testTakerEventToTrigger';
 
     /** @var array  */
     protected $headerColumns = [];
 
     /** @var UserMapper */
     private $mapper;
+
     /**
      * @param $filePath
      * @param array $extraProperties
@@ -59,46 +57,61 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
      */
     public function import($filePath, $extraProperties = [], $options = [])
     {
-        $this->options = array_merge($this->options, $options);
-
         $report = Report::createInfo('Starting importing users.');
-        if (!file_exists($filePath)){
-            throw new \Exception('File does not exists');
+        if (!file_exists($filePath) || !is_readable($filePath) || ($fileHandler = fopen($filePath, 'r')) === false) {
+            throw new \Exception('File to import cannot be loaded.');
         }
 
-        list($delimiter) = array_values($this->options);
+        $csvControls = $this->getCsvControls($options);
+        extract($csvControls);
 
-        $fileHandler = fopen($filePath, 'r');
         $index = 0;
-        while (!feof($fileHandler)) {
+        while (($line = fgetcsv($fileHandler, 0, $delimiter, $enclosure, $escape)) !== false) {
             $index++;
-            $line =  fgets($fileHandler);
+            $data = array_map('trim', $line);
 
-            if ($index === 1){
-                $this->headerColumns = array_map('strtolower', array_map('trim', str_getcsv($line, $delimiter)));
+            if (count($data) == 1) {
+                $csvControlsString = implode(', ', array_map(
+                    function ($v, $k) { return sprintf("%s: '%s'", $k, $v); },
+                    $csvControls,
+                    array_keys($csvControls)
+                ));
+                $report->add(Report::createFailure(
+                    'It seems that the csv is malformed. The delimiter \'' . $delimiter . '\' does not explode the line correctly (only one cell).' .
+                    "\n" . ' Csv controls are ' . $csvControlsString
+
+                ));
+                break;
+            }
+
+            if ($index === 1) {
+                $this->headerColumns = array_map('strtolower', $data);
                 continue;
             }
 
-            $row = array_map('trim', str_getcsv($line, $delimiter));
+            if (count($this->headerColumns) !== count($data)) {
+                $message = 'CSV file is malformed at line ' . $index . '. Data skipped';
+                $this->logWarning($message);
+                $report->add(Report::createFailure($message));
+                continue;
+            }
+
             try {
-                if (count($this->headerColumns) !== count($row)){
+                $combinedRow = $this->formatData($data, $extraProperties);
+
+                $mapper = $this->getUserMapper()->map($combinedRow)->combine($extraProperties);
+                if ($mapper->isEmpty()) {
+                    $message = 'Mapper doesn\'t achieve to extract data for line ' . $index . '. Data skipped';
+                    $this->logWarning($message);
+                    $report->add(Report::createFailure($message));
                     continue;
-                }
-                $combineRow = array_combine($this->headerColumns, $row);
-                if (isset($extraProperties[UserRdf::PROPERTY_ROLES])){
-                    $combineRow['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
                 }
 
-                $mapper = $this->getUserMapper()->map($combineRow)->combine($extraProperties);
-                if ($mapper->isEmpty()){
-                    continue;
-                }
                 $user = $this->persistUser($mapper);
-
-                $message = 'User import success: '. $user->getUri();
+                $message = 'User imported with success: '. $user->getUri();
                 $this->logInfo($message);
                 $report->add(Report::createSuccess($message));
-            } catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $report->add(Report::createFailure($exception->getMessage()));
             }
         }
@@ -107,6 +120,45 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     }
 
     /**
+     * Merge the given $options csv controls to default
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function getCsvControls(array $options)
+    {
+        $csvControls = $this->csvControls;
+        if (isset($options['delimiter'])) {
+            $csvControls['delimiter'] = $options['delimiter'];
+        }
+        if (isset($options['enclosure'])) {
+            $csvControls['enclosure'] = $options['enclosure'];
+        }
+        if (isset($options['escape'])) {
+            $csvControls['escape'] = $options['escape'];
+        }
+        return $csvControls;
+    }
+
+    /**
+     * Format the $data with $extraProperties
+     *
+     * @param array $data
+     * @param array $extraProperties
+     * @return array
+     */
+    protected function formatData(array $data, array $extraProperties)
+    {
+        $combinedRow = array_combine($this->headerColumns, $data);
+        if (isset($extraProperties[UserRdf::PROPERTY_ROLES])) {
+            $combinedRow['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
+        }
+        return $combinedRow;
+    }
+
+    /**
+     * Persist a user, create or update
+     *
      * @param UserMapper $userMapper
      * @return \core_kernel_classes_Resource
      */
@@ -114,21 +166,18 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     {
         $plainPassword = $userMapper->getPlainPassword();
         $properties    = $userMapper->getProperties();
-        $isTestTaker   = $userMapper->isTestTaker();
-        if ($isTestTaker){
-            if (isset($properties[OntologyRdf::RDF_TYPE])){
-                $class = $properties[OntologyRdf::RDF_TYPE];
-            } else {
-                $class = TaoOntology::CLASS_URI_SUBJECT;
-            }
-            $class = $this->getClass($class);
-        } else {
-            $class = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
-        }
 
-        $results = $class->searchInstances([
-            UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
-        ], ['like' => false]);
+        $class = $this->getUserClass($properties);
+
+        $results = $class->searchInstances(
+            [
+                UserRdf::PROPERTY_LOGIN => $properties[UserRdf::PROPERTY_LOGIN]
+            ],
+            [
+                'like' => false,
+                'recursive' => true
+            ]
+        );
 
         if(count($results) > 0){
             $resource = $this->mergeUserProperties(current($results), $properties);
@@ -136,67 +185,53 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
             $resource = $class->createInstanceWithProperties($properties);
         }
 
-        if ($isTestTaker){
-            $this->triggerTestTakerEvent($resource, $properties, $plainPassword);
-        } else{
-            $this->triggerUserEvent($resource, $properties, $plainPassword);
-        }
+        $this->triggerUserUpdated($resource, $properties, $plainPassword);
 
         return $resource;
     }
 
     /**
-     * @param UserMapper $userMapper
-     * @return mixed|void
+     * Get the user class
+     *
+     * @param array $properties
+     * @return \core_kernel_classes_Class
      */
-    public function setMapper(UserMapper $userMapper)
+    protected function getUserClass(array $properties)
     {
-        $this->mapper = $userMapper;
+        return $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
     }
 
     /**
+     * Trigger UserEvent at user update
+     *
      * @param \core_kernel_classes_Resource $resource
      * @param array $properties
      * @param string $plainPassword
      */
-    protected function triggerTestTakerEvent($resource, $properties, $plainPassword)
-    {
-        $eventName = $this->getOption(static::OPTION_TEST_TAKER_EVENT);
-        if (!is_null($eventName)){
-            /** @var EventManager $eventManager */
-            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-            $eventObj  = new $eventName($resource->getUri(), array_merge($properties,
-                ['hashForKey' => UserHashForEncryption::hash($plainPassword)]
-            ));
-            if ($eventObj instanceof Event){
-                $eventManager->trigger($eventObj);
-            }
-        }
-    }
-
-    /**
-     * @param \core_kernel_classes_Resource $resource
-     * @param array $properties
-     * @param string $plainPassword
-     */
-    protected function triggerUserEvent($resource, $properties, $plainPassword)
+    protected function triggerUserUpdated(\core_kernel_classes_Resource $resource, array $properties, $plainPassword)
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new UserUpdatedEvent($resource,
-            array_merge($properties,
-                ['hashForKey' => UserHashForEncryption::hash($plainPassword)]
+            array_merge(
+                $properties,
+                [
+                    'hashForKey' => UserHashForEncryption::hash($plainPassword)
+                ]
             )
         ));
     }
 
     /**
+     * Flush rdf properties to a resource
+     * - delete old
+     * - insert new
+     *
      * @param \core_kernel_classes_Resource $user
      * @param $properties
-     *
      * @return \core_kernel_classes_Resource
      */
-    protected function mergeUserProperties($user, $properties)
+    protected function mergeUserProperties(\core_kernel_classes_Resource $user, $properties)
     {
         foreach ($properties as $property => $value) {
             $user->removePropertyValues($this->getProperty($property));
@@ -207,15 +242,29 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     }
 
     /**
+     * Get the user mapper to map csv column to rdf properties
+     *
      * @return UserMapper
      */
     protected function getUserMapper()
     {
-        if (is_null($this->mapper)){
-            $this->mapper = $this->getServiceLocator()->get(UserMapper::SERVICE_ID);
+        if (is_null($this->mapper)) {
+            throw new \LogicException('Mapper is not initialized and importer cannot process.');
         }
 
         return $this->mapper;
+    }
+
+    /**
+     * Set the mapper
+     *
+     * @param UserMapper $userMapper
+     * @return RdsUserImportService
+     */
+    public function setMapper(UserMapper $userMapper)
+    {
+        $this->mapper = $userMapper;
+        return $this;
     }
 
 }

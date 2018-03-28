@@ -23,15 +23,21 @@ interface UserImportServiceInterface
 {
     const SERVICE_ID = 'tao/userImport';
 
-    /***
+    /**
+     * Launch the import of a csv file located at $filePath
+     *
      * @param $filePath
-     * @return mixed
+     * @param array $extraProperties Rdf properties that need to be injected (role, FirstTimeInTao...)
+     * @param array $options Contains technical options e.q. csvControls
+     * @return \common_report_Report
      */
-    public function import($filePath);
+    public function import($filePath, $extraProperties = [], $options = []);
 
     /**
+     * Set the mapper to use to map csv column to rdf properties
+     *
      * @param UserMapper $userMapper
-     * @return mixed
+     * @return $this
      */
     public function setMapper(UserMapper $userMapper);
 }

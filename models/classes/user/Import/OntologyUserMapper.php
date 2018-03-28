@@ -22,8 +22,8 @@ namespace oat\tao\model\user\Import;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\user\TaoRoles;
 use tao_models_classes_LanguageService;
+use oat\generis\model\user\PasswordConstraintsException;
 
 class OntologyUserMapper extends ConfigurableService implements UserMapper
 {
@@ -32,39 +32,40 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
     /** @var array */
     protected $userMapped = [];
 
-    /** @var string*/
+    /** @var string */
     protected $plainPassword;
+
     /**
      * @param array $data
-     *
-     * @return UserMapper
-     * @throws \Exception
+     * @return $this|UserMapper
+     * @throws MandatoryFieldException
+     * @throws PasswordConstraintsException
      */
     public function map(array $data = [])
     {
         $schema = $this->getOption(static::OPTION_SCHEMA);
         $mandatoryFields = isset($schema[static::OPTION_SCHEMA_MANDATORY]) ? $schema[static::OPTION_SCHEMA_MANDATORY] : [];
 
-        foreach ($mandatoryFields as $key => $propertyKey)
-        {
-            if (!isset($data[$key])){
-                throw new MandatoryFieldException('Mandatory field '.$key.' should exists.');
+        foreach ($mandatoryFields as $key => $propertyKey) {
+            if (!isset($data[$key])) {
+                throw new MandatoryFieldException('Mandatory field ' . $key . ' should exists.');
             }
-            if (empty($data[$key])){
-                throw new MandatoryFieldException('Mandatory field '.$key.' should not be empty.');
+            if (empty($data[$key])) {
+                throw new MandatoryFieldException('Mandatory field ' . $key . ' should not be empty.');
             }
-            if ($propertyKey === UserRdf::PROPERTY_PASSWORD){
+
+            if ($propertyKey === UserRdf::PROPERTY_PASSWORD) {
                 $this->plainPassword = $data[$key];
             }
+
             $this->userMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
         }
 
         $optionalFields = isset($schema[static::OPTION_SCHEMA_OPTIONAL]) ? $schema[static::OPTION_SCHEMA_OPTIONAL] : [];
 
-        foreach ($optionalFields as $key => $propertyKey)
-        {
-            if (!isset($data[$key]) || empty($data[$key])){
-               continue;
+        foreach ($optionalFields as $key => $propertyKey) {
+            if (!isset($data[$key]) || empty($data[$key])) {
+                continue;
             }
 
             $this->userMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
@@ -93,21 +94,6 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
     }
 
     /**
-     * @return bool
-     */
-    public function isTestTaker()
-    {
-        if (isset($this->userMapped[UserRdf::PROPERTY_ROLES])){
-            $userRoles = $this->userMapped[UserRdf::PROPERTY_ROLES];
-            if (in_array(TaoRoles::DELIVERY, $userRoles)){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * @return string|null
      */
     public function getPlainPassword()
@@ -131,8 +117,7 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
      */
     protected function formatValue($key, $value)
     {
-        switch ($key)
-        {
+        switch ($key) {
             case UserRdf::PROPERTY_PASSWORD:
                 return $this->getPasswordHashService()->encrypt($value);
             case UserRdf::PROPERTY_UILG:
