@@ -237,10 +237,10 @@ class IndexService extends ConfigurableService
      */
     private function getPersistence()
     {
-        if (!$this->hasOption(self::OPTION_PERSISTENCE)) {
+        if (!$this->hasOption(self::OPTION_LASTRUN_STORE)) {
             throw new \InvalidArgumentException('Persistence for ' . self::SERVICE_ID . ' is not configured');
         }
-        $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
+        $persistenceId = $this->getOption(self::OPTION_LASTRUN_STORE);
         return $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
     }
 }
