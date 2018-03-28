@@ -21,8 +21,6 @@ namespace oat\tao\model\user\Import;
 
 interface UserImportServiceInterface
 {
-    const SERVICE_ID = 'tao/userImport';
-
     /**
      * Launch the import of a csv file located at $filePath
      *

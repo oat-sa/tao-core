@@ -57,7 +57,6 @@ use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\Import\OntologyUserMapper;
-use oat\tao\model\user\Import\RdsUserImportService;
 use oat\tao\model\user\Import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;

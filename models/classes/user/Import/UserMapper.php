@@ -21,8 +21,6 @@ namespace oat\tao\model\user\Import;
 
 interface UserMapper
 {
-    const SERVICE_ID = 'tao/userImportMapper';
-
     const OPTION_SCHEMA = 'schema';
     const OPTION_SCHEMA_MANDATORY = 'mandatory';
     const OPTION_SCHEMA_OPTIONAL = 'optional';

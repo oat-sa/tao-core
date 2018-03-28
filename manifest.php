@@ -22,7 +22,6 @@
  */
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\RegisterUserImporter;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
@@ -110,7 +109,6 @@ return array(
             RegisterResourceEvents::class,
             RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
-            RegisterUserImporter::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
