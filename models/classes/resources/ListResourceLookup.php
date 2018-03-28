@@ -20,6 +20,7 @@
 namespace oat\tao\model\resources;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
@@ -48,29 +49,40 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
      */
     public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
-        /** @var Search $searchService */
-        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+        if (count($propertyFilters) == 1 && isset($propertyFilters[OntologyRdfs::RDFS_LABEL])) {
+            /** @var Search $searchService */
+            $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+            /** @var ResultSet $result */
+            $result = $searchService->query(current($propertyFilters), $rootClass, $offset, $limit);
+            $count = $result->getTotalCount();
 
-        /** @var ResultSet $result */
-        $result = $searchService
-            ->addFiltersByProperties($propertyFilters)
-            ->query(current($propertyFilters), $rootClass, $offset, $limit);
-        $count = $result->getTotalCount();
-
-        $nodes = [];
-        while ($result->valid()) {
-            $resource = $this->getResource($result->current());
-
-            if($resource->exists()){
-                $resourceTypes = array_keys($resource->getTypes());
-                $nodes[] = [
-                    'uri'        => $resource->getUri(),
-                    'classUri'   => $resourceTypes[0],
-                    'label'      => $resource->getLabel(),
-                    'type'       => 'instance'
-                ];
+            $nodes = [];
+            while ($result->valid()) {
+                $resource = $this->getResource($result->current());
+                $data = $this->getResourceData($resource);
+                if ($data) {
+                    $nodes[] = $data;
+                }
+                $result->next();
             }
-            $result->next();
+        } else {
+            $options = [
+                'recursive' => true,
+                'like'      => true,
+                'limit'     => $limit,
+                'offset'    => $offset
+            ];
+
+            $count = $rootClass->countInstances($propertyFilters, $options);
+            $resources = $rootClass->searchInstances($propertyFilters, $options);
+
+            $nodes = [];
+            foreach($resources as $resource){
+                $data = $this->getResourceData($resource);
+                if ($data) {
+                    $nodes[] = $data;
+                }
+            }
         }
 
         return [
@@ -79,6 +91,21 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
             'limit'  => $limit,
             'nodes'  => $nodes
         ];
+    }
+
+    private function getResourceData($resource)
+    {
+        $data = false;
+        if(!is_null($resource) && $resource->exists()) {
+            $resourceTypes = array_keys($resource->getTypes());
+             $data = [
+                'uri'        => $resource->getUri(),
+                'classUri'   => $resourceTypes[0],
+                'label'      => $resource->getLabel(),
+                'type'       => 'instance'
+            ];
+        }
+        return $data;
     }
 
     public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)

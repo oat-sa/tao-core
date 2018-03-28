@@ -38,21 +38,14 @@ class GenerisSearch extends ConfigurableService implements Search
     use OntologyAwareTrait;
 
     /**
-     * Additional filters
-     * @var array
-     */
-    private $propertyFilters = [];
-
-    /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
     public function query($queryString, $type, $start = 0, $count = 10) {
         $rootClass = $this->getClass($type);
-        $params = array_merge($this->propertyFilters, array(
+        $results = $rootClass->searchInstances([
             OntologyRdfs::RDFS_LABEL => $queryString
-        ));
-        $results = $rootClass->searchInstances($params, array(
+        ], array(
             'recursive' => true,
             'like'      => true,
             'offset'    => $start,
@@ -131,15 +124,5 @@ class GenerisSearch extends ConfigurableService implements Search
     public function supportCustomIndex()
     {
         return false;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::addFiltersByProperties()
-     */
-    public function addFiltersByProperties($properties = [])
-    {
-        $this->properties = $properties;
-        return $this;
     }
 }

@@ -73,12 +73,4 @@ interface Search extends PhpSerializable
      * @return boolean
      */
     public function supportCustomIndex();
-
-    /**
-     * Allows to search by the properties
-     *
-     * @param array $properties
-     * @return $this
-     */
-    public function addFiltersByProperties($properties = []);
 }
