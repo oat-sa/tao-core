@@ -20,7 +20,14 @@
  * Helper allows to get error message from failed ajax request
  *
  * Usage example:
- *
+ * ```
+ * $.ajax({
+ * ...
+ *    error : function (xhr, options, err){
+ *      reject(httpErrorParser.parse(xhr, options, err));
+ *    }
+ *  });
+ * ```
  *
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
