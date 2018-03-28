@@ -66,7 +66,9 @@ class IndexService extends ConfigurableService
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        $this->updateLastIndexTime($time);
+        if ($sinceLast) {
+            $this->updateLastIndexTime($time);
+        }
         $result = $searchService->index($indexIterator);
         return $result;
     }
