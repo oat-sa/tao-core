@@ -19,11 +19,10 @@
 
 namespace oat\tao\test\user\Import;
 
-
 use core_kernel_classes_Resource;
-use oat\generis\model\user\UserRdf;
 use oat\tao\model\user\Import\RdsUserImportService;
 use oat\tao\model\user\Import\UserMapper;
+use Psr\Log\NullLogger;
 
 class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,9 +35,7 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
     public function testImport($data)
     {
         $importService = $this->getImportService($data);
-        $report = $importService->import(__DIR__ . '/example.csv', [
-            UserRdf::PROPERTY_ROLES => ['role1']
-        ]);
+        $report = $importService->import(__DIR__ . '/example.csv');
 
         $this->assertTrue($report->hasChildren());
         $this->assertSame(2, count($report->getSuccesses()));
@@ -57,16 +54,15 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $dataProvider
      * @return RdsUserImportService
      */
     protected function getImportService($dataProvider)
     {
         $importService = $this->getMockBuilder(RdsUserImportService::class)
             ->setMethods([
-                'logInfo',
-                'triggerUserEvent',
-                'triggerTestTakerEvent',
                 'getClass',
+                'triggerUserUpdated'
             ])
             ->getMockForAbstractClass();
 
@@ -91,17 +87,13 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
             ));
 
         $importService
-            ->method('logInfo')
-            ->willReturn(true);
-        $importService
-            ->method('triggerUserEvent')
-            ->willReturn(true);
-        $importService
-            ->method('triggerTestTakerEvent')
-            ->willReturn(true);
-        $importService
             ->method('getClass')
             ->willReturn($resource);
+        $importService
+            ->method('triggerUserUpdated')
+            ->willReturn(true);
+
+        $importService->setLogger(new NullLogger());
 
         $mapper = $this->getMockBuilder(UserMapper::class)->getMock();
         $mapper
@@ -120,10 +112,6 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
 
         $mapper->method('combine')->willReturn($mapper);
         $mapper->method('isEmpty')->willReturn(false);
-        $mapper->method('isTestTaker')->will($this->onConsecutiveCalls(
-            $dataProvider[0]['isTestTaker'],
-            $dataProvider[1]['isTestTaker']
-        ));
 
         $importService->setMapper($mapper);
 
@@ -136,7 +124,6 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'mapper' => [
                     [
-                        'isTestTaker' => false,
                         'results' => [],
                         'properties' => [
                             'http://www.w3.org/2000/01/rdf-schema#label' => 'user1',
@@ -150,7 +137,6 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
                             'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@mail.com1',],
                     ],
                     [
-                        'isTestTaker' => true,
                         'results' => [ 'one'],
                         'properties' => [
                             'http://www.w3.org/2000/01/rdf-schema#label' => 'user2',

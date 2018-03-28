@@ -22,7 +22,6 @@ namespace oat\tao\test\user\Import;
 use core_kernel_classes_Resource;
 use helpers_PasswordHash;
 use oat\tao\model\user\Import\OntologyUserMapper;
-use oat\tao\model\user\TaoRoles;
 use tao_models_classes_LanguageService;
 
 class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
@@ -41,27 +40,9 @@ class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
 
         $mapper->map($data)->combine(['extraProperty' => 'extraProperty']);
 
-        $this->assertFalse($mapper->isTestTaker());
         $this->assertFalse($mapper->isEmpty());
         $this->assertSame('password', $mapper->getPlainPassword());
 
-        $this->assertEquals($result, $mapper->getProperties());
-    }
-
-    /**
-     * @dataProvider provideTestTakerExample
-     * @param $schema
-     * @param $data
-     * @param $result
-     * @throws \Exception
-     */
-    public function testMapTestTakerWithSuccess($schema, $data, $result)
-    {
-        $mapper = $this->getMapper();
-        $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
-
-        $mapper->map($data);
-        $this->assertTrue($mapper->isTestTaker());
         $this->assertEquals($result, $mapper->getProperties());
     }
 
@@ -172,37 +153,6 @@ class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
                     'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last',
                     'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@email.com',
                     'extraProperty' => 'extraProperty'
-                ]
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function provideTestTakerExample()
-    {
-        return [
-            [
-                'schema' => [
-                    'mandatory' => array(
-                        'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                        'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
-                        'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                        'roles' => 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
-                    ),
-                ],
-                'data' => [
-                    'label' => 'user label',
-                    'login' => 'userlogin',
-                    'password' => 'password',
-                    'roles' => [TaoRoles::DELIVERY]
-                ],
-                'result' => [
-                    'http://www.w3.org/2000/01/rdf-schema#label' => 'user label',
-                    'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => [TaoRoles::DELIVERY],
-                    'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
                 ]
             ],
         ];
