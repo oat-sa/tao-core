@@ -43,6 +43,7 @@ class IndexService extends ConfigurableService
     const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
     const OPTION_LASTRUN_STORE = 'lastrun_store';
+    const OPTION_INDEX_SINCE_LAST_RUN = 'index_since_last_run';
     const LAST_LAUNCH_TIME_KEY = 'tao/IndexService:lastLaunchTime';
 
     /** @var array */
@@ -50,13 +51,13 @@ class IndexService extends ConfigurableService
 
     /**
      * Run a full reindexing
-     * @param boolean $sinceLast index resources updated/created since last indexation
      * @return boolean
      * @throws
      */
-    public function runIndexing($sinceLast = true)
+    public function runIndexing()
     {
         $time = microtime(true);
+        $sinceLast = $this->hasOption(self::OPTION_INDEX_SINCE_LAST_RUN) ? $this->getOption(self::OPTION_INDEX_SINCE_LAST_RUN): false;
         if ($sinceLast) {
             $iterator = $this->getResourceIterator($this->getLastIndexTime(), $time);
         } else {

@@ -704,6 +704,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         if ($this->isVersion('17.13.3')) {
             $indexService = $this->getServiceManager()->get(IndexService::SERVICE_ID);
             $indexService->setOption(IndexService::OPTION_LASTRUN_STORE, 'cache');
+            $indexService->setOption(IndexService::OPTION_INDEX_SINCE_LAST_RUN, false);
             $this->getServiceManager()->register(IndexService::SERVICE_ID, $indexService);
             $this->setVersion('17.14.0');
         }
