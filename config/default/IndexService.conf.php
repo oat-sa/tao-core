@@ -5,5 +5,5 @@
 use oat\tao\model\search\index\IndexService;
 
 return new IndexService([
-    IndexService::OPTION_PERSISTENCE => 'cache'
+    IndexService::OPTION_LASTRUN_STORE => 'cache'
 ]);

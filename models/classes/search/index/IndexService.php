@@ -42,7 +42,7 @@ class IndexService extends ConfigurableService
     const SERVICE_ID = 'tao/IndexService';
     const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
-    const OPTION_PERSISTENCE = 'persistence';
+    const OPTION_LASTRUN_STORE = 'lastrun_store';
     const LAST_LAUNCH_TIME_KEY = 'tao/IndexService:lastLaunchTime';
 
     /** @var array */
@@ -56,11 +56,16 @@ class IndexService extends ConfigurableService
      */
     public function runIndexing($sinceLast = true)
     {
-        $iterator = $this->getResourceIterator($sinceLast);
+        $time = microtime(true);
+        if ($sinceLast) {
+            $iterator = $this->getResourceIterator($this->getLastIndexTime(), $time);
+        } else {
+            $iterator = $this->getResourceIterator();
+        }
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        $this->updateLastIndexTime();
+        $this->updateLastIndexTime($time);
         $result = $searchService->index($indexIterator);
         return $result;
     }
@@ -170,9 +175,9 @@ class IndexService extends ConfigurableService
      * Update time of the last indexation
      * @throws \common_Exception
      */
-    protected function updateLastIndexTime()
+    protected function updateLastIndexTime($time)
     {
-        $this->getPersistence()->set(self::LAST_LAUNCH_TIME_KEY, microtime(true));
+        $this->getPersistence()->set(self::LAST_LAUNCH_TIME_KEY, $time);
     }
 
     /**
@@ -189,16 +194,21 @@ class IndexService extends ConfigurableService
      * @return \Iterator
      * @param boolean $sinceLast load resources updated/created since last indexation
      */
-    protected function getResourceIterator($sinceLast = true)
+    protected function getResourceIterator($from = null, $to = null)
     {
-        $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
+        if ($from === null) {
+            $from = 0;
+        }
+        if ($to === null) {
+            $to = microtime(true);
+        }
+        $search = $this->getServiceLocator()->get(ComplexSearchService::class);
         $queryBuilder = $search->query();
         $criteria = $queryBuilder->newQuery();
-        $since = $sinceLast ? $this->getLastIndexTime() : 0;
         $criteria->addCriterion(
             TaoOntology::PROPERTY_UPDATED_AT,
-            SupportedOperatorHelper::GREATER_THAN_EQUAL,
-            $since
+            SupportedOperatorHelper::BETWEEN,
+            [$from, $to]
         );
         $iterator = new IndexResourceIterator($this->getIndexedClasses(), $criteria);
         $iterator->setServiceLocator($this->getServiceLocator());
