@@ -55,8 +55,8 @@ class UserCsvImporterFactory extends ConfigurableService
                 } else {
                     $mapper = new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
                 }
-                $importer->setMapper($this->propagate($mapper));
-                return $this->propagate($importer);
+                $importer->setMapper($mapper);
+                return $importer;
             }
         }
         throw new \common_exception_NotFound('Unable to load importer for type : ' . $type);
