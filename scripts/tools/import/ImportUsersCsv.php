@@ -17,7 +17,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\taoIave\scripts\tools;
+namespace oat\tao\scripts\tools\import;
 
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\extension\script\ScriptAction;
@@ -25,7 +25,7 @@ use oat\tao\model\TaoOntology;
 use oat\tao\model\user\Import\UserCsvImporterFactory;
 
 /**
- * sudo -u www-data php index.php 'oat\taoIave\scripts\tools\ImportUser' -t test-taker -f /txt.csv
+ * sudo -u www-data php index.php 'oat\tao\scripts\tools\import\ImportUsersCsv' -t test-taker -f /txt.csv
  */
 class ImportUsersCsv extends ScriptAction
 {

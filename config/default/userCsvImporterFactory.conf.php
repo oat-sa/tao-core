@@ -3,7 +3,7 @@
  * Default config header created during install
  */
 
-return new oat\tao\model\user\Import\UserCsvImporterFactory(array(
+return new oat\tao\model\user\import\UserCsvImporterFactory(array(
     'mappers' => array(
     ),
     'default-schema' => array(

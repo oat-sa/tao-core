@@ -17,11 +17,11 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\test\user\Import;
+namespace oat\tao\test\user\import;
 
 use core_kernel_classes_Resource;
 use helpers_PasswordHash;
-use oat\tao\model\user\Import\OntologyUserMapper;
+use oat\tao\model\user\import\OntologyUserMapper;
 use tao_models_classes_LanguageService;
 
 class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase

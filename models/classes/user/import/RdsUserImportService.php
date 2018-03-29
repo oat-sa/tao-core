@@ -17,7 +17,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\user\Import;
+namespace oat\tao\model\user\import;
 
 use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\OntologyAwareTrait;

@@ -17,11 +17,11 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\test\user\Import;
+namespace oat\tao\test\user\import;
 
 use core_kernel_classes_Resource;
-use oat\tao\model\user\Import\RdsUserImportService;
-use oat\tao\model\user\Import\UserMapper;
+use oat\tao\model\user\import\RdsUserImportService;
+use oat\tao\model\user\import\UserMapper;
 use Psr\Log\NullLogger;
 
 class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase

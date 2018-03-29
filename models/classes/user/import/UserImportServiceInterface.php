@@ -16,6 +16,26 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-namespace oat\tao\model\user\Import;
 
-class MandatoryFieldException extends \Exception{}
+namespace oat\tao\model\user\import;
+
+interface UserImportServiceInterface
+{
+    /**
+     * Launch the import of a csv file located at $filePath
+     *
+     * @param $filePath
+     * @param array $extraProperties Rdf properties that need to be injected (role, FirstTimeInTao...)
+     * @param array $options Contains technical options e.q. csvControls
+     * @return \common_report_Report
+     */
+    public function import($filePath, $extraProperties = [], $options = []);
+
+    /**
+     * Set the mapper to use to map csv column to rdf properties
+     *
+     * @param UserMapper $userMapper
+     * @return $this
+     */
+    public function setMapper(UserMapper $userMapper);
+}
