@@ -48,10 +48,10 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
 
         foreach ($mandatoryFields as $key => $propertyKey) {
             if (!isset($data[$key])) {
-                throw new MandatoryFieldException('Mandatory field ' . $key . ' should exists.');
+                throw new MandatoryFieldException('Mandatory field "' . $key . '" should exists.');
             }
             if (empty($data[$key])) {
-                throw new MandatoryFieldException('Mandatory field ' . $key . ' should not be empty.');
+                throw new MandatoryFieldException('Mandatory field "' . $key . '" should not be empty.');
             }
 
             if ($propertyKey === UserRdf::PROPERTY_PASSWORD) {

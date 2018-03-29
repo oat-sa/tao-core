@@ -120,6 +120,28 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     }
 
     /**
+     * Get the mapper
+     *
+     * @return UserMapper
+     */
+    public function getMapper()
+    {
+        return $this->mapper;
+    }
+
+    /**
+     * Set the mapper
+     *
+     * @param UserMapper $userMapper
+     * @return RdsUserImportService
+     */
+    public function setMapper(UserMapper $userMapper)
+    {
+        $this->mapper = $userMapper;
+        return $this;
+    }
+
+    /**
      * Merge the given $options csv controls to default
      *
      * @param array $options
@@ -254,17 +276,4 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
 
         return $this->mapper;
     }
-
-    /**
-     * Set the mapper
-     *
-     * @param UserMapper $userMapper
-     * @return RdsUserImportService
-     */
-    public function setMapper(UserMapper $userMapper)
-    {
-        $this->mapper = $userMapper;
-        return $this;
-    }
-
 }

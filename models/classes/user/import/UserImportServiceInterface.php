@@ -32,6 +32,13 @@ interface UserImportServiceInterface
     public function import($filePath, $extraProperties = [], $options = []);
 
     /**
+     * Get the mapper
+     *
+     * @return UserMapper|false
+     */
+    public function getMapper();
+
+    /**
      * Set the mapper to use to map csv column to rdf properties
      *
      * @param UserMapper $userMapper
