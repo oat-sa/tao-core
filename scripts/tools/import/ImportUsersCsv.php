@@ -22,7 +22,7 @@ namespace oat\tao\scripts\tools\import;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\user\Import\UserCsvImporterFactory;
+use oat\tao\model\user\import\UserCsvImporterFactory;
 
 /**
  * sudo -u www-data php index.php 'oat\tao\scripts\tools\import\ImportUsersCsv' -t test-taker -f /txt.csv
