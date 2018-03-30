@@ -30,16 +30,18 @@ define(['util/httpErrorParser'], function(httpErrorParser){
 
     QUnit.test('Parse error with responseText', function(assert){
         var xhr = {
-            responseText : '{"success":false,"type":"Exception","message":"Foo"}'
+            responseText : '{"success":false,"type":"Exception","message":"Foo"}',
+            status : 500
         };
         var errorThrown = 'Bad request';
         var err = httpErrorParser.parse(xhr, '', errorThrown);
 
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         assert.ok(err instanceof Error);
         assert.equal(err.message, 'Foo');
         assert.equal(err.response, xhr);
+        assert.equal(err.code, 500);
         assert.equal(err.errorThrown, errorThrown);
     });
 

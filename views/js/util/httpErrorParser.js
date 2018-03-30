@@ -59,6 +59,7 @@ define([
             }
             error = new Error(msg);
             error.response = xhr;
+            error.code = xhr.status;
             error.errorThrown  = errorThrown;
             return error;
         }
