@@ -49,6 +49,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
      */
     public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
+        // Searching by label parameter will utilize fulltext search
         if (count($propertyFilters) == 1 && isset($propertyFilters[OntologyRdfs::RDFS_LABEL])) {
             /** @var Search $searchService */
             $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
@@ -66,6 +67,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
                 $result->next();
             }
         } else {
+            // for searching by properties will be used RDF search
             $options = [
                 'recursive' => true,
                 'like'      => true,
@@ -93,12 +95,17 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         ];
     }
 
+    /**
+     * Preparing resource to be used in the ListLookup
+     * @param $resource
+     * @return array|bool
+     */
     private function getResourceData($resource)
     {
         $data = false;
         if(!is_null($resource) && $resource->exists()) {
             $resourceTypes = array_keys($resource->getTypes());
-             $data = [
+            $data = [
                 'uri'        => $resource->getUri(),
                 'classUri'   => $resourceTypes[0],
                 'label'      => $resource->getLabel(),
