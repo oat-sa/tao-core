@@ -42,10 +42,10 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '17.13.3',
+    'version' => '17.14.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=6.17.1',
+        'generis' => '>=6.19.0',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -108,7 +108,7 @@ return array(
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
             RegisterActionService::class,
-            RegisterUserLockoutsEventListeners::class
+            RegisterUserLockoutsEventListeners::class,
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
