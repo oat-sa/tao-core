@@ -726,6 +726,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(UserCsvImporterFactory::SERVICE_ID, $service);
             $this->setVersion('17.14.0');
         }
+
+        $this->skip('17.14.0', '17.15.0');
     }
 
 }
