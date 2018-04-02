@@ -106,7 +106,11 @@ class GenerisSearch extends ConfigurableService implements Search
     public function index($document = [])
     {
         // nothing to do
-        return true;
+        $i = 0;
+        foreach ($document as $resuource) {
+            $i++;
+        }
+        return $i;
     }
     
     /**
