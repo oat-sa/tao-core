@@ -64,7 +64,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     }
 
     /** @return UserLocks */
-    public function getUserLocksService()
+    private function getUserLocksService()
     {
         return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
     }
