@@ -601,6 +601,9 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      */
     public function checkCurrentUserAccess($roles)
     {
+        if ($this->getCurrentUser() === null) {
+            return;
+        }
         if ($roles instanceof core_kernel_classes_Resource) {
             $roles = [$roles->getUri()];
         }
