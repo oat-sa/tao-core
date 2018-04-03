@@ -728,6 +728,14 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('17.14.0', '17.15.1');
+
+        if ($this->isVersion('17.15.1')) {
+            $this->getServiceManager()->register(
+                \tao_models_classes_UserService::SERVICE_ID,
+                new \tao_models_classes_UserService([])
+            );
+            $this->setVersion('17.16.0');
+        }
     }
 
 }

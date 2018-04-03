@@ -88,11 +88,9 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 	 * Test the user service implementation
 	 * @see tao_models_classes_ServiceFactory::get
 	 */
-	public function testService(){
-
-		$this->assertInstanceOf( 'tao_models_classes_Service', $this->userService );
-		$this->assertInstanceOf( 'tao_models_classes_UserService', $this->userService );
-
+	public function testService()
+    {
+        $this->assertInstanceOf('tao_models_classes_UserService', $this->userService);
 	}
 
 	/**
