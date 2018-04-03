@@ -57,7 +57,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
     public function testSearchService()
     {
         $implementation = new GenerisSearch();
-        $this->assertIsA($implementation, 'oat\tao\model\search\Search');
+        $this->assertInstanceOf('oat\tao\model\search\Search', $implementation);
     }
     
     public function testRunIndex()
@@ -70,29 +70,29 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
     {
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         $id = 'test_index_'.helpers_Random::generateString(8);
-        
+
         $index = OntologyIndexService::createIndex($this->property, $id, $tokenizer, true, true);
-        
-        $this->assertIsA($index, 'oat\tao\model\search\index\OntologyIndex');
+
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
         $this->assertTrue($index->exists());
-        
+
         $indexToo = OntologyIndexService::getIndexById($id);
-        $this->assertIsA($indexToo, 'oat\tao\model\search\index\OntologyIndex');
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $indexToo);
         $this->assertTrue($index->equals($indexToo));
-        
+
         $this->assertEquals($id, $index->getIdentifier());
         $this->assertTrue($index->isDefaultSearchable());
         $this->assertTrue($index->isFuzzyMatching());
-        
+
         $tokenizer = $index->getTokenizer();
-        $this->assertIsA($tokenizer, 'oat\tao\model\search\tokenizer\Tokenizer');
-        
+        $this->assertInstanceOf('oat\tao\model\search\tokenizer\Tokenizer', $tokenizer);
+
         $indexes = OntologyIndexService::getIndexes($this->property);
         $this->assertTrue(is_array($indexes));
         $this->assertEquals(1, count($indexes));
-        
+
         $indexToo = reset($indexes);
-        $this->assertIsA($indexToo, 'oat\tao\model\search\index\OntologyIndex');
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $indexToo);
         $this->assertTrue($index->equals($indexToo));
 
         return $index;
@@ -104,7 +104,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testDublicateCreate($index)
     {
-        $this->assertIsA($index, 'oat\tao\model\search\index\OntologyIndex');
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
         
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         OntologyIndexService::createIndex($this->property, $index->getIdentifier(), $tokenizer, true, true);
@@ -115,11 +115,11 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testCreateSimilar($index)
     {
-        $this->assertIsA($index, 'oat\tao\model\search\index\OntologyIndex');
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
         
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         $similar = OntologyIndexService::createIndex($this->property, substr($index->getIdentifier(), 0, -2), $tokenizer, true, true);
-        $this->assertIsA($similar, 'oat\tao\model\search\index\OntologyIndex');
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $similar);
         
         return $similar;
     }
@@ -129,7 +129,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testDeleteSimilar($index)
     {
-        $this->assertIsA($index, 'oat\tao\model\search\index\OntologyIndex');
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
         $this->assertTrue($index->exists());
         $index->delete();
         $this->assertFalse($index->exists());
@@ -143,7 +143,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testDeleteIndex($index)
     {
-        $this->assertIsA($index, 'oat\tao\model\search\index\OntologyIndex');
+        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
         $this->assertTrue($index->exists());
         $index->delete();
         $this->assertFalse($index->exists());
