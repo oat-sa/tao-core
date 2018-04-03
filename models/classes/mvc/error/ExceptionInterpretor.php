@@ -22,6 +22,7 @@ namespace oat\tao\model\mvc\error;
 use Exception;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use oat\tao\model\exceptions\UserErrorException;
 
 /**
  * Description of ExceptionInterpretor
@@ -72,17 +73,21 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
     protected function interpretError() {
         $this->trace = $this->exception->getMessage();
         switch (get_class($this->exception)) {
+            case UserErrorException::class:
+                $this->returnHttpCode    = 400;
+                $this->responseClassName = 'MainResponse';
+            break;
             case 'tao_models_classes_AccessDeniedException':
-            case 'ResolverException':   
+            case 'ResolverException':
                 $this->returnHttpCode    = 403;
                 $this->responseClassName = 'RedirectResponse';
             break;
-            case 'tao_models_classes_UserException': 
+            case 'tao_models_classes_UserException':
                 $this->returnHttpCode    = 403;
                 $this->responseClassName = 'MainResponse';
             break;
             case 'ActionEnforcingException':
-            case 'tao_models_classes_FileNotFoundException':   
+            case 'tao_models_classes_FileNotFoundException':
                 $this->returnHttpCode    = 404;
                 $this->responseClassName = 'MainResponse';
             break;

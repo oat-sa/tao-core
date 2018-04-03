@@ -32,8 +32,9 @@ define([
     'ui/destination/selector',
     'uri',
     'ui/feedback',
-    'ui/dialog/confirm'
-], function(module, $, __, _, appContext, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog) {
+    'ui/dialog/confirm',
+    'util/httpErrorParser'
+], function(module, $, __, _, appContext, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog, httpErrorParser) {
     'use strict';
 
     /**
@@ -113,7 +114,7 @@ define([
                         return reject(new Error(__('Adding the new class has failed')));
                     },
                     error : function (xhr, options, err){
-                        reject(err);
+                        reject(httpErrorParser.parse(xhr, options, err));
                     }
                 });
             });
@@ -163,7 +164,7 @@ define([
                         return reject(new Error(__('Adding the new resource has failed')));
                     },
                     error : function (xhr, options, err){
-                        reject(err);
+                        reject(httpErrorParser.parse(xhr, options, err));
                     }
                 });
             });
@@ -216,7 +217,7 @@ define([
                         return reject(new Error(__('Node duplication has failed')));
                     },
                     error : function (xhr, options, err){
-                        reject(err);
+                        reject(httpErrorParser.parse(xhr, options, err));
                     }
                 });
             });
@@ -266,7 +267,7 @@ define([
                             }
                         },
                         error : function (xhr, options, err){
-                            reject(err);
+                            reject(httpErrorParser.parse(xhr, options, err));
                         }
                     });
                 }, reject);
@@ -338,7 +339,7 @@ define([
                             }
                         },
                         error : function (xhr, options, err){
-                            reject(err);
+                            reject(httpErrorParser.parse(xhr, options, err));
                         }
                     });
                 }, reject);

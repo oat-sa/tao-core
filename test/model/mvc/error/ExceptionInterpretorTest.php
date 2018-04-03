@@ -44,7 +44,7 @@ class ExceptionInterpretorTest extends TaoPhpUnitTestRunner
         return 
         [
             [new Exception('test message') , 500 , 'test message' , 'MainResponse'],
-            [new ResolverException('test message') , 403 , 'Extension or controller not found' , 'RedirectResponse'],
+            [new ResolverException('test message') , 403 , 'test message' , 'RedirectResponse'],
             [new tao_models_classes_UserException('test message') , 403 , 'test message' , 'MainResponse'],
             [new ActionEnforcingException('test message' , $module , $action ) , 404 , 'test message' , 'MainResponse'],
             [new tao_models_classes_FileNotFoundException('test message') , 404 , 'File test message not found' , 'MainResponse'],

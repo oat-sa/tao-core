@@ -203,7 +203,7 @@ class StorageDirectoryTest extends \PHPUnit_Framework_TestCase
     {
         $tmpFile = uniqid() . '.php';
 
-        $resource = fopen('http://www.google.org', 'r');
+        $resource = fopen('http://example.com', 'r');
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
         $this->setExpectedException(\common_Exception::class);
         $this->instance->getFile($tmpFile)->write($streamFixture);

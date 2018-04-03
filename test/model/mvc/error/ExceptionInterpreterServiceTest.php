@@ -22,6 +22,7 @@
 
 namespace oat\tao\test\model\mvc\error;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;
 use oat\tao\model\mvc\error\ExceptionInterpretor;
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -44,7 +45,8 @@ class ExceptionInterpreterServiceTest extends TaoPhpUnitTestRunner
                 DEx::class => DExInt::class,
             ]
         ]);
-
+        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
+        $service->setServiceLocator(new ServiceManager($config));
         $this->assertEquals(
             ExceptionInterpretor::class,
             get_class($service->getExceptionInterpreter(new \Exception()))
