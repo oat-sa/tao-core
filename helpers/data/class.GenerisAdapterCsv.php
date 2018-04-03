@@ -201,9 +201,15 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		    $report->setMessage(__('Imported %1$d/%2$d. Some records are invalid.', $createdResources, $toImport));
 		}
 
-        $uploadService->remove($uploadService->getUploadedFlyFile($source));
-		
-		return $report;
+        if (empty($report->getErrors())) {
+            if (file_exists($file) && is_file($file)) {
+                unlink($file);
+            } else {
+                $uploadService->remove($uploadService->getUploadedFlyFile($source));
+            }
+        }
+
+        return $report;
     }
 
     /**

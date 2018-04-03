@@ -582,6 +582,9 @@ class tao_models_classes_UserService
      */
     public function checkCurrentUserAccess($roles)
     {
+        if ($this->getCurrentUser() === null) {
+            return;
+        }
         if ($roles instanceof core_kernel_classes_Resource) {
             $roles = [$roles->getUri()];
         }

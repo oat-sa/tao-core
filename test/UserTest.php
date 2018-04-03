@@ -78,12 +78,12 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * tests initialization
 	 */
-	public function setUp(){		
-		$this->userService = tao_models_classes_UserService::singleton();
+	public function setUp(){
+        $this->userService = tao_models_classes_UserService::singleton();
 		$this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
 		$this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD]);
 	}
-	
+
 	/**
 	 * Test the user service implementation
 	 * @see tao_models_classes_ServiceFactory::get

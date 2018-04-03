@@ -54,33 +54,39 @@ class ClassServiceTest extends \oat\tao\test\TaoPhpUnitTestRunner {
     }
     
     public function testDeleteClass() {
-        
+
+        $resources =[
+            $this->prophesize(\core_kernel_classes_Resource::class)->reveal(),
+            $this->prophesize(\core_kernel_classes_Resource::class)->reveal(),
+        ];
+
         $fixtureRootClass = $this->prophesize(\core_kernel_classes_Class::class)->reveal();
-        
-        $instance = $this->getMockForAbstractClass(\tao_models_classes_ClassService::class, 
-                [], 
-                '', 
-                false, 
-                false, 
-                true,
-                ['getRootClass' , 'deleteClassProperty' ]
-                );
-        
+
+        $instance = $this->getMockForAbstractClass(\tao_models_classes_ClassService::class,
+            [],
+            '',
+            false,
+            false,
+            true,
+            ['getRootClass', 'deleteClassProperty', 'deleteResource']
+        );
+
         $instance->expects($this->exactly(2))->method('getRootClass')
                 ->willReturn($fixtureRootClass);
-        
-        $properties = 
+
+        $properties =
                 [
                     $this->prophesize(\core_kernel_classes_Property::class)->reveal(),
                     $this->prophesize(\core_kernel_classes_Property::class)->reveal(),
                     $this->prophesize(\core_kernel_classes_Property::class)->reveal(),
                     $this->prophesize(\core_kernel_classes_Property::class)->reveal(),
                 ];
-        
-        $subClasses = 
+
+        $subClasses =
                 [
                 ];
-        
+
+
         $instance->expects($this->exactly(4))
                 ->method('deleteClassProperty')
                 ->withConsecutive(
@@ -90,15 +96,24 @@ class ClassServiceTest extends \oat\tao\test\TaoPhpUnitTestRunner {
                         [$properties[3]]
                         )
                 ->willReturn(true);
-        
+
+        $instance->expects($this->exactly(2))
+                ->method('deleteResource')
+                ->withConsecutive(
+                    [$resources[0]],
+                    [$resources[1]]
+                )
+                ->willReturn(true);
+
         $classProphet  = $this->prophesize(\core_kernel_classes_Class::class);
         $classProphet->isSubClassOf($fixtureRootClass)->willReturn(true);
         $classProphet->equals($fixtureRootClass)->willReturn(false);
         $classProphet->getSubClasses(false)->willReturn($subClasses);
         $classProphet->getProperties()->willReturn($properties);
         $classProphet->delete()->willReturn(true);
-        
-        $classMock     = $classProphet->reveal();
+        $classProphet->getInstances()->willReturn($resources);
+
+        $classMock = $classProphet->reveal();
         
         $this->assertTrue($instance->deleteClass($classMock));
         

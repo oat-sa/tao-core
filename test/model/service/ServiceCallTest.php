@@ -71,6 +71,10 @@ class ServiceCallTest extends TaoPhpUnitTestRunner {
         $resource = $serviceCall3->toOntology();
         $serviceCall4 = \tao_models_classes_service_ServiceCall::fromResource($resource);
         $this->assertIsA($serviceCall3, \tao_models_classes_service_ServiceCall::class);
-        $this->assertEquals($serviceCall3, $serviceCall4);
+        $serviceCall4Array = $serviceCall4->jsonSerialize();
+        usort($serviceCall4Array['in'], function ($inParamA, $inParamB) {
+            return strcasecmp($inParamA->getValue(), $inParamB->getValue());
+        });
+        $this->assertEquals($serviceCall3->jsonSerialize(), $serviceCall4Array);
     }
 }
