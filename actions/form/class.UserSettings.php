@@ -91,12 +91,13 @@ class tao_actions_form_UserSettings
 
         $this->form->addElement($uiLangElement);
 
-        $dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Combobox');
-        $dataLangElement->setDescription(__('Data language'));
-        $dataLangElement->setOptions($dataOptions);
+        if ($langService->isDataLanguageEnabled()) {
+            $dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Combobox');
+            $dataLangElement->setDescription(__('Data language'));
+            $dataLangElement->setOptions($dataOptions);
+            $this->form->addElement($dataLangElement);
+        }
 
-        $this->form->addElement($dataLangElement);
-        
         $tzElement = tao_helpers_form_FormFactory::getElement('timezone', 'Combobox');
         $tzElement->setDescription(__('Time zone'));
         $options = array();
@@ -111,5 +112,3 @@ class tao_actions_form_UserSettings
     }
 
 }
-
-?>

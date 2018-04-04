@@ -50,7 +50,6 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     }
 
     const SERVICE_ID = 'tao/UserService';
-    const OPTION_LOCK_DATA_LANGUAGE = 'lock_data_language';
 
     /**
      * the core user service
@@ -515,14 +514,5 @@ class tao_models_classes_UserService extends ConfigurableService implements core
         ) {
             throw new common_exception_Error('Permission denied');
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isDataLanguageEnabled()
-    {
-        return (bool) $this->hasOption(self::OPTION_LOCK_DATA_LANGUAGE) ?
-            !$this->getOption(self::OPTION_LOCK_DATA_LANGUAGE) : false;
     }
 }

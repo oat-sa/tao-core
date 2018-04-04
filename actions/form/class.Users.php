@@ -22,7 +22,7 @@
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\user\PasswordConstraintsService;
 use oat\tao\helpers\ApplicationHelper;
-use oat\tao\model\TaoOntology;
+use oat\generis\model\user\UserRdf;
 
 /**
  * This container initialize the user edition form.
@@ -96,7 +96,12 @@ class tao_actions_form_Users extends tao_actions_form_Instance
     	if($forceAdd){
     		$options['mode'] = 'add';
     	}
-    	
+
+        $langService = tao_models_classes_LanguageService::singleton();
+    	if (!$langService->isDataLanguageEnabled()) {
+            $options['excludedProperties'][] = UserRdf::PROPERTY_DEFLG;
+        }
+
     	$options['topClazz'] = GenerisRdf::CLASS_GENERIS_USER;
     	
     	parent::__construct($clazz, $this->user, $options);
@@ -163,19 +168,19 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 			$loginElement->setAttributes(array('readonly' => 'readonly', 'disabled' => 'disabled'));
 		}
 		
-		
 		//set default lang to the languages fields
 		$langService = tao_models_classes_LanguageService::singleton();
-		
-		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_DEFLG));
-		$dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-    	$dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
-		$dataOptions = array();
-        foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
-			$dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
-		}
-		$dataLangElt->setOptions($dataOptions);
-		
+		if ($langService->isDataLanguageEnabled()) {
+            $dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_DEFLG));
+            $dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+            $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
+            $dataOptions = array();
+            foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
+                $dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
+            }
+            $dataLangElt->setOptions($dataOptions);
+        }
+
 		$uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
     	$guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);

@@ -68,8 +68,8 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function index()
     {
-        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
-        $this->setData('user-data-lang-enabled', $userService->isDataLanguageEnabled());
+        $langService = $this->getServiceLocator()->get(tao_models_classes_LanguageService::class);
+        $this->setData('user-data-lang-enabled', $langService->isDataLanguageEnabled());
         $this->setView('user/list.tpl');
     }
 
@@ -82,6 +82,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function data()
     {
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
+        $langService = $this->getServiceLocator()->get(tao_models_classes_LanguageService::class);
         $page = $this->getRequestParameter('page');
         $limit = $this->getRequestParameter('rows');
         $sortBy = $this->getRequestParameter('sortby');
@@ -98,7 +99,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             'guiLg' => GenerisRdf::PROPERTY_USER_UILG,
             'roles' => GenerisRdf::PROPERTY_USER_ROLES
         ];
-        if ($userService->isDataLanguageEnabled()) {
+        if ($langService->isDataLanguageEnabled()) {
             $fieldsMap['dataLg'] = GenerisRdf::PROPERTY_USER_DEFLG;
         }
 
@@ -161,7 +162,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
             $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
             $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
-            if ($userService->isDataLanguageEnabled()) {
+            if ($langService->isDataLanguageEnabled()) {
                 $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
                 $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             }
