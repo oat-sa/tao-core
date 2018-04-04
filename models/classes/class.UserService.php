@@ -204,68 +204,6 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     }
 
     /**
-     * Get the list of users by role(s)
-     * options are: order, orderDir, start, end, search
-     * with search consisting of: field, op, string
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array roles
-     * @param  array options the user list options to order the list and paginate the results
-     * @return array
-     */
-    public function getUsersByRoles($roles, $options = array())
-    {
-        $returnValue = array();
-
-        //the users we want are instances of the role
-		$fields = array('login' => GenerisRdf::PROPERTY_USER_LOGIN,
-						'password' => GenerisRdf::PROPERTY_USER_PASSWORD,
-						'uilg' => GenerisRdf::PROPERTY_USER_UILG,
-						'deflg' => GenerisRdf::PROPERTY_USER_DEFLG,
-						'mail' => GenerisRdf::PROPERTY_USER_MAIL,
-		    			'email' => GenerisRdf::PROPERTY_USER_MAIL,
-						'role' => OntologyRdf::RDF_TYPE,
-						'roles' => GenerisRdf::PROPERTY_USER_ROLES,
-						'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
-						'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
-						'name' => GenerisRdf::PROPERTY_USER_FIRSTNAME);
-		
-		$ops = array('eq' => "%s",
-					 'bw' => "%s*",
-					 'ew' => "*%s",
-					 'cn' => "*%s*");
-		
-		$opts = array('recursive' => true, 'like' => false);
-		if (isset($options['start'])) {
-			$opts['offset'] = $options['start'];
-		}
-		if (isset($options['limit'])) {
-			$opts['limit'] = $options['limit'];
-		}
-		
-		$crits = array(GenerisRdf::PROPERTY_USER_LOGIN => '*');
-		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
-			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
-		}
-		// restrict roles
-		$crits[GenerisRdf::PROPERTY_USER_ROLES] = $roles;
-		
-		if (isset($options['order'])) {
-			$opts['order'] = $fields[$options['order']]; 
-			if (isset($options['orderDir'])) {
-				$opts['orderdir'] = $options['orderDir']; 
-			}
-		}
-		
-		$userClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
-		
-		$returnValue = $userClass->searchInstances($crits, $opts);
-
-        return (array) $returnValue;
-    }
-
-    /**
      * Remove a user
      *
      * @access public
@@ -355,54 +293,6 @@ class tao_models_classes_UserService extends ConfigurableService implements core
 
 		return $userClass->countInstances($filters, $options);
 	}
-
-    /**
-     * returns the nr of users full filling the criteria,
-     * uses the same syntax as getUsersByRole
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array roles
-     * @param  array options
-     * @return int
-     */
-    public function getUserCount($roles, $options = array())
-    {
-        $returnValue = (int) 0;
-
-        $opts = array(
-        	'recursive' => true,
-        	'like' => false
-        );
-
-		$crits = array(GenerisRdf::PROPERTY_USER_LOGIN => '*');
-		if (isset($options['search']['string']) && isset($options['search']['op'])
-			&& !empty($options['search']['string']) && !empty($options['search']['op'])) {
-			$fields = array('login' => GenerisRdf::PROPERTY_USER_LOGIN,
-						'password' => GenerisRdf::PROPERTY_USER_PASSWORD,
-						'uilg' => GenerisRdf::PROPERTY_USER_UILG,
-						'deflg' => GenerisRdf::PROPERTY_USER_DEFLG,
-						'mail' => GenerisRdf::PROPERTY_USER_MAIL,
-		    			'email' => GenerisRdf::PROPERTY_USER_MAIL,
-						'role' => OntologyRdf::RDF_TYPE,
-						'roles' => GenerisRdf::PROPERTY_USER_ROLES,
-						'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
-						'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
-						'name' => GenerisRdf::PROPERTY_USER_FIRSTNAME);
-			$ops = array('eq' => "%s",
-					 'bw' => "%s*",
-					 'ew' => "*%s",
-					 'cn' => "*%s*");
-			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
-		}
-		
-		$crits[GenerisRdf::PROPERTY_USER_ROLES] = $roles;
-		
-		$userClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
-		$returnValue = $userClass->countInstances($crits, $opts);
-
-        return (int) $returnValue;
-    }
 
     /**
      * Short description of method toTree
@@ -625,5 +515,14 @@ class tao_models_classes_UserService extends ConfigurableService implements core
         ) {
             throw new common_exception_Error('Permission denied');
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isDataLanguageEnabled()
+    {
+        return (bool) $this->hasOption(self::OPTION_LOCK_DATA_LANGUAGE) ?
+            !$this->getOption(self::OPTION_LOCK_DATA_LANGUAGE) : false;
     }
 }

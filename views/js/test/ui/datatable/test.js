@@ -1184,4 +1184,41 @@ define([
             }]
         });
     });
+
+    QUnit.asyncTest('Disabled columns', function(assert){
+        var $container = $('#container-1');
+
+        QUnit.expect(4);
+
+        assert.equal($container.length, 1, 'Test the fixture is available');
+
+        $container.on('create.datatable', function() {
+
+            var $headerCells = $('.datatable thead th', $container);
+
+            assert.equal($headerCells.length, 2, 'The login head exists');
+            assert.equal($headerCells.eq(0).text().trim(), 'Login');
+            assert.equal($headerCells.eq(1).text().trim(), 'Email');
+
+            QUnit.start();
+        })
+            .datatable({
+                url : 'js/test/ui/datatable/data.json',
+                'model' : [{
+                    id: 'login',
+                    label: 'Login',
+                    sortable: true,
+                    enabled: true
+                }, {
+                    id: 'name',
+                    label: 'Name',
+                    sortable: true,
+                    enabled: false
+                }, {
+                    id: 'email',
+                    label: 'Email',
+                    sortable: false
+                }]
+            });
+    });
 });

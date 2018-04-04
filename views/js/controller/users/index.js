@@ -74,19 +74,60 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
     return {
         start : function(){
             var $userList = $('#user-list');
-
-            section.on('show', function (section) {
-                if (section.id === 'list_users') {
-                    $userList.datatable('refresh');
-                }
-            });
-
             var actions = {
                 edit: editUser,
                 remove: removeUser,
                 lock: lockUser,
                 unlock: unlockUser
             };
+            var columns = [
+                {
+                    id : 'login',
+                    label : __('Login'),
+                    sortable : true
+                },{
+                    id : 'firstname',
+                    label : __('First Name'),
+                    sortable : true
+                },{
+                    id : 'lastname',
+                    label : __('Last Name'),
+                    sortable : true
+                },{
+                    id : 'email',
+                    label : __('Email'),
+                    sortable : true
+                },{
+                    id : 'roles',
+                    label : __('Roles'),
+                    sortable : false
+                },{
+                    id : 'dataLg',
+                    label : __('Data Language'),
+                    sortable : true
+                },{
+                    id: 'guiLg',
+                    label : __('Interface Language'),
+                    sortable : true
+                }, {
+                    id: 'status',
+                    label: __('Account status'),
+                    sortable: true,
+                    transform: function (value) {
+                        var icon = value === 'enabled'
+                            ? 'result-ok'
+                            : 'lock';
+                        return '<span class="icon-' + icon + '"></span> ' + value;
+                    }
+                }
+            ]
+                console.log($userList.data('user-data-lang-enabled'));
+            section.on('show', function (section) {
+                if (section.id === 'list_users') {
+                    $userList.datatable('refresh');
+                }
+            });
+
 
             // initialize the user manager component
             $userList.on('load.datatable', function (e, dataset) {
@@ -106,47 +147,7 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                 paginationStrategyBottom: 'pages',
                 filter: true,
                 actions: actions,
-                model: [
-                    {
-                        id : 'login',
-                        label : __('Login'),
-                        sortable : true
-                    },{
-                        id : 'firstname',
-                        label : __('First Name'),
-                        sortable : true
-                    },{
-                        id : 'lastname',
-                        label : __('Last Name'),
-                        sortable : true
-                    },{
-                        id : 'email',
-                        label : __('Email'),
-                        sortable : true
-                    },{
-                        id : 'roles',
-                        label : __('Roles'),
-                        sortable : false
-                    },{
-                        id : 'dataLg',
-                        label : __('Data Language'),
-                        sortable : true
-                    },{
-                        id: 'guiLg',
-                        label : __('Interface Language'),
-                        sortable : true
-                    }, {
-                        id: 'status',
-                        label: __('Account status'),
-                        sortable: true,
-                        transform: function (value) {
-                            var icon = value === 'enabled'
-                                ? 'result-ok'
-                                : 'lock';
-                            return '<span class="icon-' + icon + '"></span> ' + value;
-                        }
-                    }
-                ]
+                model: columns
             });
         }
     };
