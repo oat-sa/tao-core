@@ -252,6 +252,7 @@ define([
             var $rows;
             var amount;
             var transforms;
+            var model = [];
 
             var join = function join(input) {
                 return typeof input !== 'object' ? input : input.join(', ');
@@ -278,8 +279,12 @@ define([
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
-            });
 
+                if (typeof field.enabled === 'undefined' || field.enabled !== false) {
+                    model.push(field);
+                }
+            });
+            options.model = model;
             if (options.sortby) {
                 options = this._sortOptions($elt, options.sortby, options.sortorder, options.sorttype);
             }
