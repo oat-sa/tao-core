@@ -130,7 +130,16 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                     },{
                         id : 'dataLg',
                         label : __('Data Language'),
-                        sortable : true
+                        sortable : true,
+                        enabled : (function () {
+                            var i = 0;
+                            return function () {
+                                i++;
+                                console.log(i%2===0);
+                                return i%2===0;
+                            };
+                        })()
+
                     },{
                         id: 'guiLg',
                         label : __('Interface Language'),
