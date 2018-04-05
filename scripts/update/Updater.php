@@ -736,9 +736,16 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $this->setVersion('17.16.0');
         }
-        $this->skip('17.16.0', '17.17.0');
+        $this->skip('17.16.0', '17.16.1');
 
-        if ($this->isVersion('17.17.0')) {
+        if ($this->isVersion('17.16.1')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')));
+            $this->setVersion('17.17.0');
+        }
+
+        $this->skip('17.17.0', '17.18.0');
+
+        if ($this->isVersion('17.18.0')) {
             $langService = new \tao_models_classes_LanguageService([
                 \tao_models_classes_LanguageService::OPTION_LOCK_DATA_LANGUAGE => false
             ]);

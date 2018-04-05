@@ -1185,7 +1185,7 @@ define([
         });
     });
 
-    QUnit.asyncTest('Disabled columns', function(assert){
+    QUnit.asyncTest('Hidden columns', function(assert){
         var $container = $('#container-1');
 
         QUnit.expect(5);
@@ -1209,12 +1209,12 @@ define([
                     id: 'login',
                     label: 'Login',
                     sortable: true,
-                    enabled: true
+                    visible: true
                 }, {
                     id: 'name',
                     label: 'Name',
                     sortable: true,
-                    enabled: false
+                    visible: false
                 }, {
                     id: 'email',
                     label: 'Email',
@@ -1223,14 +1223,14 @@ define([
                     id: 'roles',
                     label: 'Roles',
                     sortable: false,
-                    enabled: function () {
+                    visible: function () {
                         return false;
                     }
                 }, {
                     id: 'guiLg',
                     label: 'Data Language',
                     sortable: false,
-                    enabled: function () {
+                    visible: function () {
                         return true;
                     }
                 }]
