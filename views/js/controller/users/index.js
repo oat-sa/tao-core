@@ -130,7 +130,7 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                         id : 'dataLg',
                         label : __('Data Language'),
                         sortable : true,
-                        enabled : $userList.data('user-data-lang-enabled')
+                        visible : $userList.data('user-data-lang-enabled')
                     },{
                         id: 'guiLg',
                         label : __('Interface Language'),
