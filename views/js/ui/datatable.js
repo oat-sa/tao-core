@@ -280,11 +280,11 @@ define([
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
 
-                if (typeof field.enabled === 'undefined') {
+                if (typeof field.visible === 'undefined') {
                     model.push(field);
-                } else if (typeof field.enabled === 'function' && field.enabled()) {
+                } else if (typeof field.visible === 'function' && field.visible()) {
                     model.push(field);
-                } else if (field.enabled === true) {
+                } else if (field.visible === true) {
                     model.push(field);
                 }
             });
