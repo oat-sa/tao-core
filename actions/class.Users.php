@@ -31,6 +31,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\UserLocks;
+use oat\oatbox\user\UserLanguageServiceInterface;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -68,8 +69,8 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function index()
     {
-        $langService = $this->getServiceLocator()->get(tao_models_classes_LanguageService::class);
-        $this->setData('user-data-lang-enabled', $langService->isDataLanguageEnabled());
+        $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
+        $this->setData('user-data-lang-enabled', $userLangService->isDataLanguageEnabled());
         $this->setView('user/list.tpl');
     }
 
@@ -82,7 +83,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function data()
     {
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
-        $langService = $this->getServiceLocator()->get(tao_models_classes_LanguageService::class);
+        $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
         $page = $this->getRequestParameter('page');
         $limit = $this->getRequestParameter('rows');
         $sortBy = $this->getRequestParameter('sortby');
@@ -99,7 +100,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             'guiLg' => GenerisRdf::PROPERTY_USER_UILG,
             'roles' => GenerisRdf::PROPERTY_USER_ROLES
         ];
-        if ($langService->isDataLanguageEnabled()) {
+        if ($userLangService->isDataLanguageEnabled()) {
             $fieldsMap['dataLg'] = GenerisRdf::PROPERTY_USER_DEFLG;
         }
 
@@ -162,7 +163,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
             $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
             $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
-            if ($langService->isDataLanguageEnabled()) {
+            if ($userLangService->isDataLanguageEnabled()) {
                 $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
                 $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             }

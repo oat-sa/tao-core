@@ -239,7 +239,7 @@ define([
          */
         _render: function($elt, dataset) {
             var self = this;
-            var options = _.cloneDeep($elt.data(dataNs));
+            var options = $elt.data(dataNs);
             var $rendering;
             var $statusEmpty;
             var $statusAvailable;
@@ -252,7 +252,6 @@ define([
             var $rows;
             var amount;
             var transforms;
-            var model = [];
 
             var join = function join(input) {
                 return typeof input !== 'object' ? input : input.join(', ');
@@ -279,14 +278,6 @@ define([
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
-
-                if (typeof field.visible === 'undefined') {
-                    model.push(field);
-                } else if (typeof field.visible === 'function' && field.visible()) {
-                    model.push(field);
-                } else if (field.visible === true) {
-                    model.push(field);
-                }
             });
 
             if (options.sortby) {
@@ -303,7 +294,6 @@ define([
                 });
             }
 
-            options.model = model;
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));
 
@@ -347,8 +337,7 @@ define([
                             var $btn = $(this);
                             e.preventDefault();
                             if (!$btn.hasClass('disabled')) {
-                                var identifier = $btn.closest('[data-item-identifier]').data('item-identifier');
-                                action.apply($btn, [identifier, _.first(_.where(dataset.data, {id: identifier}))]);
+                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
                             }
                         });
                 });
@@ -701,7 +690,7 @@ define([
             //rebind options to the elt
             $elt.data(dataNs, options);
 
-            return _.cloneDeep(options);
+            return options;
         },
 
         /**

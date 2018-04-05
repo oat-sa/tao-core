@@ -23,6 +23,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\user\PasswordConstraintsService;
 use oat\tao\helpers\ApplicationHelper;
 use oat\generis\model\user\UserRdf;
+use oat\oatbox\user\UserLanguageServiceInterface;
 
 /**
  * This container initialize the user edition form.
@@ -97,8 +98,8 @@ class tao_actions_form_Users extends tao_actions_form_Instance
     		$options['mode'] = 'add';
     	}
 
-        $langService = tao_models_classes_LanguageService::singleton();
-    	if (!$langService->isDataLanguageEnabled()) {
+        $userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
+    	if (!$userLangService->isDataLanguageEnabled()) {
             $options['excludedProperties'][] = UserRdf::PROPERTY_DEFLG;
         }
 
@@ -170,7 +171,8 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		
 		//set default lang to the languages fields
 		$langService = tao_models_classes_LanguageService::singleton();
-		if ($langService->isDataLanguageEnabled()) {
+        $userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
+		if ($userLangService->isDataLanguageEnabled()) {
             $dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_DEFLG));
             $dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
             $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);

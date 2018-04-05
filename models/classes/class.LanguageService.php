@@ -24,8 +24,6 @@ use oat\generis\model\OntologyRdf;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\ServiceManager;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -35,8 +33,10 @@ use oat\oatbox\service\ServiceManager;
  * @package tao
  *
  */
-class tao_models_classes_LanguageService extends ConfigurableService
+class tao_models_classes_LanguageService
+    extends tao_models_classes_GenerisService
 {
+    // --- ASSOCIATIONS ---
 
     const OPTION_LOCK_DATA_LANGUAGE = 'lock_data_language';
     const SERVICE_ID = 'tao/LanguageService';
@@ -51,14 +51,6 @@ class tao_models_classes_LanguageService extends ConfigurableService
     const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
     const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     // --- OPERATIONS ---
-
-    /**
-     * @deprecated
-     */
-    public static function singleton()
-    {
-        return ServiceManager::getServiceManager()->get(self::class);
-    }
 
     /**
      * Short description of method createLanguage
@@ -250,14 +242,5 @@ class tao_models_classes_LanguageService extends ConfigurableService
     public function getDefaultLanguageByUsage( core_kernel_classes_Resource $usage)
     {
         throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isDataLanguageEnabled()
-    {
-        return (bool) $this->hasOption(self::OPTION_LOCK_DATA_LANGUAGE) ?
-            !$this->getOption(self::OPTION_LOCK_DATA_LANGUAGE) : false;
     }
 }

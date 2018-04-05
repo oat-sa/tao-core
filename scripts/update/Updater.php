@@ -743,15 +743,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.17.0');
         }
 
-        $this->skip('17.17.0', '17.18.0');
-
-        if ($this->isVersion('17.18.0')) {
-            $langService = new \tao_models_classes_LanguageService([
-                \tao_models_classes_LanguageService::OPTION_LOCK_DATA_LANGUAGE => false
-            ]);
-            $this->getServiceManager()->register(\tao_models_classes_LanguageService::SERVICE_ID, $langService);
-            $this->setVersion('18.0.0');
-        }
+        $this->skip('17.17.0', '18.0.0');
     }
 
 }

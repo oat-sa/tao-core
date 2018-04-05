@@ -22,6 +22,7 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\ApplicationHelper;
+use oat\oatbox\user\UserLanguageServiceInterface;
 
 /**
  * This controller provide the actions to manage the user settings
@@ -81,7 +82,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 		$myForm = $myFormContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-                $langService = $this->getServiceLocator()->get(\tao_models_classes_LanguageService::class);
+                $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
 
 				$currentUser = $this->userService->getCurrentUser();
                 $userSettings = [
@@ -90,7 +91,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 
                 $uiLang = new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
                 $userSettings[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
-                if ($langService->isDataLanguageEnabled()) {
+                if ($userLangService->isDataLanguageEnabled()) {
                     $dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
                     $userSettings[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
                 }
