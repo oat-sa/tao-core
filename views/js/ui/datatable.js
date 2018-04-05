@@ -239,7 +239,7 @@ define([
          */
         _render: function($elt, dataset) {
             var self = this;
-            var options = $elt.data(dataNs);
+            var options = _.cloneDeep($elt.data(dataNs));
             var $rendering;
             var $statusEmpty;
             var $statusAvailable;
@@ -280,11 +280,15 @@ define([
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
 
-                if (typeof field.enabled === 'undefined' || field.enabled !== false) {
+                if (typeof field.enabled === 'undefined') {
+                    model.push(field);
+                } else if (typeof field.enabled === 'function' && field.enabled()) {
+                    model.push(field);
+                } else if (field.enabled === true) {
                     model.push(field);
                 }
             });
-            options.model = model;
+
             if (options.sortby) {
                 options = this._sortOptions($elt, options.sortby, options.sortorder, options.sorttype);
             }
@@ -299,6 +303,7 @@ define([
                 });
             }
 
+            options.model = model;
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));
 
@@ -696,7 +701,7 @@ define([
             //rebind options to the elt
             $elt.data(dataNs, options);
 
-            return options;
+            return _.cloneDeep(options);
         },
 
         /**

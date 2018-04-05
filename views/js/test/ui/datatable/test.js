@@ -1188,7 +1188,7 @@ define([
     QUnit.asyncTest('Disabled columns', function(assert){
         var $container = $('#container-1');
 
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         assert.equal($container.length, 1, 'Test the fixture is available');
 
@@ -1196,9 +1196,10 @@ define([
 
             var $headerCells = $('.datatable thead th', $container);
 
-            assert.equal($headerCells.length, 2, 'The login head exists');
+            assert.equal($headerCells.length, 3, 'The login head exists');
             assert.equal($headerCells.eq(0).text().trim(), 'Login');
             assert.equal($headerCells.eq(1).text().trim(), 'Email');
+            assert.equal($headerCells.eq(2).text().trim(), 'Data Language');
 
             QUnit.start();
         })
@@ -1218,6 +1219,20 @@ define([
                     id: 'email',
                     label: 'Email',
                     sortable: false
+                }, {
+                    id: 'roles',
+                    label: 'Roles',
+                    sortable: false,
+                    enabled: function () {
+                        return false;
+                    }
+                }, {
+                    id: 'guiLg',
+                    label: 'Data Language',
+                    sortable: false,
+                    enabled: function () {
+                        return true;
+                    }
                 }]
             });
     });
