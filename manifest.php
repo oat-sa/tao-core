@@ -42,7 +42,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '17.17.0',
+    'version' => '17.18.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=6.19.0',
@@ -161,6 +161,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'ClientConfig')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#BaseUserRole', array('ext'=>'tao','mod' => 'Log', 'act' => 'log')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueData')),
+        array('grant', \oat\tao\model\user\TaoRoles::REST_PUBLISHER, array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')),
     ),
     'constants' => array(
         #TAO version number
