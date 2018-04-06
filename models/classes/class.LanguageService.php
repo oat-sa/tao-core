@@ -31,12 +31,15 @@ use oat\tao\helpers\translation\rdf\RdfPack;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
-
+ *
  */
 class tao_models_classes_LanguageService
     extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
+
+    const OPTION_LOCK_DATA_LANGUAGE = 'lock_data_language';
+    const SERVICE_ID = 'tao/LanguageService';
 
     // --- ATTRIBUTES ---
     const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
@@ -240,7 +243,4 @@ class tao_models_classes_LanguageService
     {
         throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
     }
-
 }
-
-?>

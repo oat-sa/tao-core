@@ -74,19 +74,18 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
     return {
         start : function(){
             var $userList = $('#user-list');
-
-            section.on('show', function (section) {
-                if (section.id === 'list_users') {
-                    $userList.datatable('refresh');
-                }
-            });
-
             var actions = {
                 edit: editUser,
                 remove: removeUser,
                 lock: lockUser,
                 unlock: unlockUser
             };
+
+            section.on('show', function (section) {
+                if (section.id === 'list_users') {
+                    $userList.datatable('refresh');
+                }
+            });
 
             // initialize the user manager component
             $userList.on('load.datatable', function (e, dataset) {
@@ -130,7 +129,8 @@ define(['module', 'jquery', 'i18n', 'util/url', 'layout/section', 'ui/feedback',
                     },{
                         id : 'dataLg',
                         label : __('Data Language'),
-                        sortable : true
+                        sortable : true,
+                        visible : $userList.data('user-data-lang-enabled')
                     },{
                         id: 'guiLg',
                         label : __('Interface Language'),
