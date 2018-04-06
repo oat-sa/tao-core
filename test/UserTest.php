@@ -46,7 +46,6 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 		GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
 		GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'John',
 		GenerisRdf::PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-		GenerisRdf::PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
 	);
@@ -60,7 +59,6 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 		GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Lecéfranc',
 		GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'François',
 		GenerisRdf::PROPERTY_USER_MAIL		=>	'f.lecé@tao.lu',
-		GenerisRdf::PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR',
 		GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
 	);

@@ -82,7 +82,6 @@ class PasswordRecoveryServiceTest extends TaoPhpUnitTestRunner
             GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
             GenerisRdf::PROPERTY_USER_FIRSTNAME => 'John',
             GenerisRdf::PROPERTY_USER_MAIL => 'jonhdoe@tao.lu',
-            GenerisRdf::PROPERTY_USER_DEFLG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
             GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
             GenerisRdf::PROPERTY_USER_ROLES => TaoRoles::BACK_OFFICE
         ));

@@ -29,7 +29,6 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
             GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
             GenerisRdf::PROPERTY_USER_FIRSTNAME => 'John',
             GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',
-            GenerisRdf::PROPERTY_USER_DEFLG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
             GenerisRdf::PROPERTY_USER_UILG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
             GenerisRdf::PROPERTY_USER_PASSWORD => 'test' . rand(),
             GenerisRdf::PROPERTY_USER_ROLES => array(
