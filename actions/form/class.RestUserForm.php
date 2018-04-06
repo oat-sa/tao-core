@@ -132,7 +132,6 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $validators = parent::getPropertyValidators($property);
 
         $notEmptyProperties = [
-            GenerisRdf::PROPERTY_USER_DEFLG,
             GenerisRdf::PROPERTY_USER_UILG,
             GenerisRdf::PROPERTY_USER_ROLES,
             OntologyRdfs::RDFS_LABEL,
