@@ -742,6 +742,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')));
             $this->setVersion('17.17.0');
         }
+
+        $this->skip('17.17.0', '17.18.0');
     }
 
 }
