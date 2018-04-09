@@ -414,15 +414,11 @@ define([
                         self._setPage($elt, this.getActivePage());
                     })
                     .on('prev', function () {
-                        /**
-                         * @event dataTable#backward.dataTable
-                         */
+                        /** @event dataTable#backward.dataTable */
                         $elt.trigger('backward.' + ns);
                     })
                     .on('next', function () {
-                        /**
-                         * @event dataTable#forward.dataTable
-                         */
+                        /** @event dataTable#forward.dataTable */
                         $elt.trigger('forward.' + ns);
                     })
                     .render($container);

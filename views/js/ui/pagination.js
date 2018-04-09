@@ -30,7 +30,8 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
     var _defaults = {
         mode: 'simple',
         activePage: 1,
-        totalPages: 1
+        totalPages: 1,
+        delay: 300
     };
 
     /**
@@ -75,12 +76,13 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
      * @param {String} [config.mode] - 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
      * @param {String} [config.activePage] - The initial active page (default: 1)
      * @param {Integer} [config.totalPages] - Count of the pages
+     * @param {Integer} [config.delay] - Waiting time for debouncing pagination buttons
      * @fires "render" after the pagination component rendering
      * @fires "destroy" after the pagination component destroying
      *
      * @returns {component|*}
      */
-    var paginationFactory = function paginationFactory(config) {
+    return function paginationFactory(config) {
 
         var paginationComponent;
         var pagination;
@@ -113,13 +115,8 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
             },
             getTotal: function getTotal() {
                 return totalPages;
-            }
-        };
-
-        paginationComponent = component(pagination);
-
-        paginationComponent
-            .on('change', function() {
+            },
+            actualizeButtons: function initButtons() {
                 if (this.getActivePage() === this.getTotal()) {
                     provider.disableButton(provider.forwardButton());
                     if (provider.lastPageButton() !== false) {
@@ -143,7 +140,10 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
                         provider.enableButton(provider.firstPageButton());
                     }
                 }
-            })
+            }
+        };
+
+        return component(pagination)
             .on('render', function () {
                 var self = this;
 
@@ -161,43 +161,45 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
                 provider = paginationStrategy(config.mode).init();
 
                 provider.render(this.getContainer());
-                this.setPage(this.getActivePage());
 
-                provider.forwardButton().off('click').on('click', function() {
+                provider.setPages(this.getActivePage(), this.getTotal());
+                pagination.actualizeButtons();
+
+                provider.forwardButton().off('click').on('click', _.debounce(function() {
                     if (self.getActivePage() >= self.getTotal()) {
                         return;
                     }
 
                     self.nextPage();
-                });
+                }, config.delay));
 
-                provider.backwardButton().off('click').on('click', function() {
+                provider.backwardButton().off('click').on('click', _.debounce(function() {
                     if (self.getActivePage() === 1) {
                         return;
                     }
 
                     self.previousPage();
-                });
+                }, config.delay));
 
                 if (provider.pageButtons() !== false) {
-                    provider.pageButtons().off('click').on('click', function () {
+                    provider.pageButtons().off('click').on('click', _.debounce(function () {
                         var page = parseInt($(this).text());
                         if (page) {
                             self.setPage(page);
                         }
-                    });
+                    }, config.delay));
                 }
 
                 if (provider.firstPageButton() !== false) {
-                    provider.firstPageButton().off('click').on('click', function () {
+                    provider.firstPageButton().off('click').on('click', _.debounce(function () {
                         self.setPage(1);
-                    });
+                    }, config.delay));
                 }
 
                 if (provider.lastPageButton() !== false) {
-                    provider.lastPageButton().off('click').on('click', function () {
+                    provider.lastPageButton().off('click').on('click', _.debounce(function () {
                         self.setPage(self.getTotal());
-                    });
+                    }, config.delay));
                 }
             })
             .on('disable', function() {
@@ -212,9 +214,5 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
                 provider.destroy();
             })
             .init(config);
-
-        return paginationComponent;
     };
-
-    return paginationFactory;
 });
