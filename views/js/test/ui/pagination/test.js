@@ -467,6 +467,8 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
     });
 
     QUnit.asyncTest('Refresh', function (assert) {
+        QUnit.expect(9);
+
         var $container;
         var pagination;
 
