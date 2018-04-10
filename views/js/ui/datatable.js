@@ -63,6 +63,34 @@ define([
     var hiddenCls = 'hidden';
 
     /**
+     * Pagination's assigned to this datatable
+     * @type {Array}
+     */
+    var paginations = [];
+
+    /**
+     * Deactivate pagination's
+     */
+    var disablePaginations = function disablePaginations () {
+        if (paginations.length) {
+            _.forEach(paginations, function (pagination) {
+                pagination.disable();
+            })
+        }
+    };
+
+    /**
+     * Activate pagination's
+     */
+    var enablePaginations = function enablePaginations () {
+        if (paginations.length) {
+            _.forEach(paginations, function (pagination) {
+                pagination.enable();
+            })
+        }
+    };
+
+    /**
      * The dataTable component makes you able to browse items and bind specific
      * actions to undertake for edition and removal of them.
      *
@@ -204,6 +232,9 @@ define([
                 type: options.querytype || 'GET'
             };
 
+            // disable pagination to not press multiple on it
+            disablePaginations();
+
             /**
              * @event dataTable#query.datatable
              * @param {Object} ajaxConfig - The config object used to setup the AJAX request
@@ -222,6 +253,7 @@ define([
                 var requestErr = new Error(errorDetails.message);
                 logger.error(errorDetails);
                 requestErr.code = response.status;
+                enablePaginations();
                 $elt.trigger('error.' + ns, [requestErr]);
 
                 self._render($elt, {});
@@ -394,7 +426,7 @@ define([
             });
 
             function renderPagination($container, mode) {
-                paginationComponent({
+                return paginationComponent({
                     mode: mode,
                     activePage: dataset.page,
                     totalPages: dataset.total
@@ -417,14 +449,16 @@ define([
                     .render($container);
             }
 
+            paginations = [];
             if (options.paginationStrategyTop !== 'none') {
                 // bind pagination component to the datatable
-                renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop);
+                paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
             }
             if (options.paginationStrategyBottom !== 'none') {
                 // bind pagination component to the datatable
-                renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom);
+                paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
             }
+            disablePaginations();
 
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
@@ -565,6 +599,9 @@ define([
             if (options.filter && options.filterquery) {
                 $rendering.find('[name=filter].focused').focus();
             }
+
+            // restore pagination's after data loaded
+            enablePaginations();
 
             /**
              * @event dataTable#load.dataTable
