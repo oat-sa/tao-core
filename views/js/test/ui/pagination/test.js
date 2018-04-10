@@ -465,4 +465,44 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
             })
             .render($container);
     });
+
+    QUnit.asyncTest('Refresh', function (assert) {
+        var $container;
+        var pagination;
+
+        $container = $('#qunit-fixture');
+        assert.equal($container.length, 1, 'The container exists');
+
+        pagination = paginationComponent({mode: 'simple', activePage: 1, totalPages: 2});
+        pagination
+            .on('render', function () {
+                // buttons
+                var $prev, $next;
+
+                assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
+
+                $prev = $('.icon-backward', $container).parents('button');
+                $next = $('.icon-forward', $container).parents('button');
+
+                assert.notEqual($next.attr('disabled'), 'disabled', 'Next button must not be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.disable();
+
+                assert.equal($next.attr('disabled'), 'disabled', 'Next button must be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.enable();
+
+                assert.notEqual($next.attr('disabled'), 'disabled', 'Next button must not be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.previousPage();
+            })
+            .on('prev', function () {
+                assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
+                QUnit.start();
+            })
+            .render($container);
+    });
 });
