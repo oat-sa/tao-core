@@ -176,8 +176,8 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.ok(true, 'Too much catched');
             })
             .on('change', function () {
-                assert.ok(pagination.getActivePage() <= 7 && pagination.getActivePage() >= 1, 'Current page is correct');
                 var renderedPageNum = parseInt($('.page', $container).text(), 10);
+                assert.ok(pagination.getActivePage() <= 7 && pagination.getActivePage() >= 1, 'Current page is correct');
                 assert.ok(renderedPageNum <= 7 && renderedPageNum >= 1, 'Current page in template is correct');
             })
             .render($container);
@@ -462,6 +462,48 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
 
                 assert.ok(!$prev.hasClass('disabled'), 'Next button not disabled');
                 assert.ok(!$next.hasClass('disabled'), 'Prev button not disabled');
+            })
+            .render($container);
+    });
+
+    QUnit.asyncTest('Refresh', function (assert) {
+        var pagination;
+        var $container;
+
+        QUnit.expect(9);
+
+        $container = $('#qunit-fixture');
+        assert.equal($container.length, 1, 'The container exists');
+
+        pagination = paginationComponent({mode: 'simple', activePage: 1, totalPages: 2});
+        pagination
+            .on('render', function () {
+                // buttons
+                var $prev, $next;
+
+                assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
+
+                $prev = $('.icon-backward', $container).parents('button');
+                $next = $('.icon-forward', $container).parents('button');
+
+                assert.notEqual($next.attr('disabled'), 'disabled', 'Next button must not be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.disable();
+
+                assert.equal($next.attr('disabled'), 'disabled', 'Next button must be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.enable();
+
+                assert.notEqual($next.attr('disabled'), 'disabled', 'Next button must not be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.previousPage();
+            })
+            .on('prev', function () {
+                assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
+                QUnit.start();
             })
             .render($container);
     });
