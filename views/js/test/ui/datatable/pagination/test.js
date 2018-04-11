@@ -21,62 +21,64 @@
 define([
     'jquery',
     'ui/datatable'
-], function($) {
+], function ($) {
     "use strict";
 
-    QUnit.asyncTest('Pagination disabled', function(assert){
-        QUnit.expect(6);
+    QUnit.module('Datatable pagination behavior');
 
+    QUnit.asyncTest('disabled', function (assert) {
         var $elt = $('#container-1');
+
+        QUnit.expect(6);
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
-        $elt.on('create.datatable', function(){
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
-            assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
+            assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward button');
+            assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward button');
             assert.ok($elt.find('.icon-backward').parents('button').prop('disabled'), 'the backward button is disabled');
             assert.ok($elt.find('.icon-forward').parents('button').prop('disabled'), 'the forward button is disabled');
             QUnit.start();
         });
 
         $elt.datatable({
-            url : 'js/test/ui/datatable/data.json',
-            'model' : [{
-                id : 'login',
-                label : 'Login',
-                sortable : true
-            },{
-                id : 'name',
-                label : 'Name',
-                sortable : true
-            },{
-                id : 'email',
-                label : 'Email',
-                sortable : true
-            },{
-                id : 'roles',
-                label :'Roles',
-                sortable : false
-            },{
-                id : 'dataLg',
-                label : 'Data Language',
-                sortable : true
-            },{
+            url: 'js/test/ui/datatable/data.json',
+            'model': [{
+                id: 'login',
+                label: 'Login',
+                sortable: true
+            }, {
+                id: 'name',
+                label: 'Name',
+                sortable: true
+            }, {
+                id: 'email',
+                label: 'Email',
+                sortable: true
+            }, {
+                id: 'roles',
+                label: 'Roles',
+                sortable: false
+            }, {
+                id: 'dataLg',
+                label: 'Data Language',
+                sortable: true
+            }, {
                 id: 'guiLg',
-                label : 'Interface Language',
-                sortable : true
+                label: 'Interface Language',
+                sortable: true
             }]
         });
     });
 
-    QUnit.asyncTest('Pagination enabled', function(assert){
-        QUnit.expect(7);
-
+    QUnit.asyncTest('enabled', function (assert) {
         var $elt = $('#container-1');
+
+        QUnit.expect(7);
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
 
-        $elt.on('create.datatable', function(){
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
             assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
             assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
@@ -86,71 +88,70 @@ define([
             QUnit.start();
         });
         $elt.datatable({
-            url : 'js/test/ui/datatable/largedata.json',
-            'model' : [{
-                id : 'login',
-                label : 'Login',
-                sortable : true
-            },{
-                id : 'password',
-                label : 'Pass',
-                sortable : true
-            },{
-                id : 'title',
-                label : 'Title',
-                sortable : true
-            },{
-                id : 'firstname',
-                label : 'First',
-                sortable : true
-            },{
-                id : 'lastname',
-                label :'Last',
-                sortable : true
-            },{
-                id : 'gender',
-                label : 'Gender',
-                sortable : true
-            },{
+            url: 'js/test/ui/datatable/largedata.json',
+            'model': [{
+                id: 'login',
+                label: 'Login',
+                sortable: true
+            }, {
+                id: 'password',
+                label: 'Pass',
+                sortable: true
+            }, {
+                id: 'title',
+                label: 'Title',
+                sortable: true
+            }, {
+                id: 'firstname',
+                label: 'First',
+                sortable: true
+            }, {
+                id: 'lastname',
+                label: 'Last',
+                sortable: true
+            }, {
+                id: 'gender',
+                label: 'Gender',
+                sortable: true
+            }, {
                 id: 'email',
-                label : 'Email',
-                sortable : true
-            },{
+                label: 'Email',
+                sortable: true
+            }, {
                 id: 'picture',
-                label : 'picture',
-                sortable : true
-            },{
+                label: 'picture',
+                sortable: true
+            }, {
                 id: 'address',
-                label : 'Address',
-                sortable : true
+                label: 'Address',
+                sortable: true
             }]
         });
     });
 
-    QUnit.asyncTest('Simple pagination blocker', function(assert){
-        QUnit.expect(13);
-
+    QUnit.asyncTest('Simple pagination blocker', function (assert) {
         var $elt = $('#container-1');
+        var forwardBtn, backwardBtn;
+
+        QUnit.expect(13);
         assert.ok($elt.length === 1, 'Test the fixture is available');
 
         QUnit.stop(3);
 
-        var forwardBtn, backwardBtn;
-
-        $elt.on('create.datatable', function(){
+        $elt.on('create.datatable', function () {
             assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
 
             backwardBtn = $elt.find('.icon-backward').parents('button');
             forwardBtn = $elt.find('.icon-forward').parents('button');
 
-            assert.ok(backwardBtn.length === 1, 'there is 1 backward buttons');
-            assert.ok(forwardBtn.length === 1, 'there is 1 forward buttons');
+            assert.ok(backwardBtn.length === 1, 'there is 1 backward button');
+            assert.ok(forwardBtn.length === 1, 'there is 1 forward button');
             assert.notEqual(forwardBtn.attr('disabled'), 'disabled', 'Next button must not be disabled');
             assert.equal(backwardBtn.attr('disabled'), 'disabled', 'Prev button must be disabled');
             QUnit.start();
         });
 
-        $elt.on('query.datatable', function(event, ajaxConfig) {
+        $elt.on('query.datatable', function (event, ajaxConfig) {
             assert.equal(typeof ajaxConfig, 'object', 'the query event is triggered and provides an object');
             assert.equal(typeof ajaxConfig.url, 'string', 'the query event provides an object containing the target url');
             assert.equal(typeof ajaxConfig.data, 'object', 'the query event provides an object containing the request parameters');
@@ -166,7 +167,7 @@ define([
             QUnit.start();
         });
 
-        $elt.on('beforeload.datatable', function(event, response) {
+        $elt.on('beforeload.datatable', function (event, response) {
             assert.equal(typeof response, 'object', 'the beforeload event is triggered and provides the response data');
 
             backwardBtn = $elt.find('.icon-backward').parents('button');
@@ -180,7 +181,7 @@ define([
             QUnit.start();
         });
 
-        $elt.on('load.datatable', function(event, response) {
+        $elt.on('load.datatable', function (event, response) {
             assert.equal(typeof response, 'object', 'the load event is triggered and provides the response data');
 
             backwardBtn = $elt.find('.icon-backward').parents('button');
@@ -193,43 +194,43 @@ define([
 
         // simple pagination provider by default
         $elt.datatable({
-            url : 'js/test/ui/datatable/largedata.json',
-            'model' : [{
-                id : 'login',
-                label : 'Login',
-                sortable : true
-            },{
-                id : 'password',
-                label : 'Pass',
-                sortable : true
-            },{
-                id : 'title',
-                label : 'Title',
-                sortable : true
-            },{
-                id : 'firstname',
-                label : 'First',
-                sortable : true
-            },{
-                id : 'lastname',
-                label :'Last',
-                sortable : true
-            },{
-                id : 'gender',
-                label : 'Gender',
-                sortable : true
-            },{
+            url: 'js/test/ui/datatable/largedata.json',
+            'model': [{
+                id: 'login',
+                label: 'Login',
+                sortable: true
+            }, {
+                id: 'password',
+                label: 'Pass',
+                sortable: true
+            }, {
+                id: 'title',
+                label: 'Title',
+                sortable: true
+            }, {
+                id: 'firstname',
+                label: 'First',
+                sortable: true
+            }, {
+                id: 'lastname',
+                label: 'Last',
+                sortable: true
+            }, {
+                id: 'gender',
+                label: 'Gender',
+                sortable: true
+            }, {
                 id: 'email',
-                label : 'Email',
-                sortable : true
-            },{
+                label: 'Email',
+                sortable: true
+            }, {
                 id: 'picture',
-                label : 'picture',
-                sortable : true
-            },{
+                label: 'picture',
+                sortable: true
+            }, {
                 id: 'address',
-                label : 'Address',
-                sortable : true
+                label: 'Address',
+                sortable: true
             }]
         });
     });

@@ -144,7 +144,7 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
         paginationComponent = component(pagination);
 
         paginationComponent
-            .on('change', function() {
+            .on('change enable', function() {
                 this.refresh();
             })
             .on('render', function () {
@@ -206,9 +206,6 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
             .on('disable', function() {
                 // all buttons will be disabled
                 provider.disable();
-            })
-            .on('enable', function() {
-                this.refresh();
             })
             .on('destroy', function () {
                 provider.destroy();
