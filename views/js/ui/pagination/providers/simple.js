@@ -68,13 +68,9 @@ define([
                 disable: function disable() {
                     this.disableButton(this.backwardButton());
                     this.disableButton(this.forwardButton());
-                },
-                enable: function enable() {
-                    this.enableButton(this.backwardButton());
-                    this.enableButton(this.forwardButton());
                 }
             };
-        },
+        }
     };
 
     return pagination;
