@@ -63,30 +63,24 @@ define([
     var hiddenCls = 'hidden';
 
     /**
-     * Pagination's assigned to this datatable
-     * @type {Array}
-     */
-    var paginations = [];
-
-    /**
      * Deactivate pagination's
      */
-    var disablePaginations = function disablePaginations () {
-        if (paginations.length) {
+    var disablePaginations = function disablePaginations (paginations) {
+        if (paginations && paginations.length) {
             _.forEach(paginations, function (pagination) {
                 pagination.disable();
-            })
+            });
         }
     };
 
     /**
      * Activate pagination's
      */
-    var enablePaginations = function enablePaginations () {
-        if (paginations.length) {
+    var enablePaginations = function enablePaginations (paginations) {
+        if (paginations && paginations.length) {
             _.forEach(paginations, function (pagination) {
                 pagination.enable();
-            })
+            });
         }
     };
 
@@ -150,6 +144,12 @@ define([
          * @returns {jQueryElement} for chaining
          */
         init: function(options, data) {
+            /**
+             * Pagination's assigned to this datatable
+             * @type {Array}
+             */
+            this.paginations = [];
+
             options = _.defaults(options, defaults);
 
             return this.each(function() {
@@ -233,7 +233,7 @@ define([
             };
 
             // disable pagination to not press multiple on it
-            disablePaginations();
+            disablePaginations(this.paginations);
 
             /**
              * @event dataTable#query.datatable
@@ -253,7 +253,7 @@ define([
                 var requestErr = new Error(errorDetails.message);
                 logger.error(errorDetails);
                 requestErr.code = response.status;
-                enablePaginations();
+                enablePaginations(this.paginations);
                 $elt.trigger('error.' + ns, [requestErr]);
 
                 self._render($elt, {});
@@ -460,16 +460,16 @@ define([
                     .render($container);
             }
 
-            paginations = [];
+            this.paginations = [];
             if (options.paginationStrategyTop !== 'none') {
                 // bind pagination component to the datatable
-                paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
+                this.paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
             }
             if (options.paginationStrategyBottom !== 'none') {
                 // bind pagination component to the datatable
-                paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
+                this.paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
             }
-            disablePaginations();
+            disablePaginations(this.paginations);
 
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
@@ -612,7 +612,7 @@ define([
             }
 
             // restore pagination's after data loaded
-            enablePaginations();
+            enablePaginations(this.paginations);
 
             /**
              * @event dataTable#load.dataTable
