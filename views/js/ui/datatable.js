@@ -156,6 +156,9 @@ define([
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
 
+                // implement encapsulated pages for the datatable
+                $elt.paginations = [];
+
                 if (!currentOptions) {
                     //add data to the element
                     $elt.data(dataNs, options);
@@ -233,7 +236,7 @@ define([
             };
 
             // disable pagination to not press multiple on it
-            disablePaginations();
+            disablePaginations($elt.paginations);
 
             /**
              * @event dataTable#query.datatable
@@ -449,16 +452,16 @@ define([
                     .render($container);
             }
 
-            paginations = [];
+            $elt.paginations = [];
             if (options.paginationStrategyTop !== 'none') {
                 // bind pagination component to the datatable
-                paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
+                $elt.paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
             }
             if (options.paginationStrategyBottom !== 'none') {
                 // bind pagination component to the datatable
-                paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
+                $elt.paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
             }
-            disablePaginations();
+            disablePaginations($elt.paginations);
 
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
@@ -601,7 +604,7 @@ define([
             }
 
             // restore pagination's after data loaded
-            enablePaginations();
+            enablePaginations($elt.paginations);
 
             /**
              * @event dataTable#load.dataTable
