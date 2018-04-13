@@ -45,7 +45,7 @@ interface Search extends PhpSerializable
      *
      * @return ResultSet
      */
-    public function query( $queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'ASC');
+    public function query( $queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC');
 
     /**
      * Delete all indexes
