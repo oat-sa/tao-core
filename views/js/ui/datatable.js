@@ -144,17 +144,14 @@ define([
          * @returns {jQueryElement} for chaining
          */
         init: function(options, data) {
-            /**
-             * Pagination's assigned to this datatable
-             * @type {Array}
-             */
-            this.paginations = [];
-
             options = _.defaults(options, defaults);
 
             return this.each(function() {
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
+
+                // implement encapsulated pages for the datatable
+                $elt.paginations = [];
 
                 if (!currentOptions) {
                     //add data to the element
@@ -233,7 +230,7 @@ define([
             };
 
             // disable pagination to not press multiple on it
-            disablePaginations(this.paginations);
+            disablePaginations($elt.paginations);
 
             /**
              * @event dataTable#query.datatable
@@ -460,16 +457,16 @@ define([
                     .render($container);
             }
 
-            this.paginations = [];
+            $elt.paginations = [];
             if (options.paginationStrategyTop !== 'none') {
                 // bind pagination component to the datatable
-                this.paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
+                $elt.paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
             }
             if (options.paginationStrategyBottom !== 'none') {
                 // bind pagination component to the datatable
-                this.paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
+                $elt.paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
             }
-            disablePaginations(this.paginations);
+            disablePaginations($elt.paginations);
 
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
@@ -612,7 +609,7 @@ define([
             }
 
             // restore pagination's after data loaded
-            enablePaginations(this.paginations);
+            enablePaginations($elt.paginations);
 
             /**
              * @event dataTable#load.dataTable
