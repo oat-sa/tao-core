@@ -63,30 +63,24 @@ define([
     var hiddenCls = 'hidden';
 
     /**
-     * Pagination's assigned to this datatable
-     * @type {Array}
-     */
-    var paginations = [];
-
-    /**
      * Deactivate pagination's
      */
-    var disablePaginations = function disablePaginations () {
-        if (paginations.length) {
+    var disablePaginations = function disablePaginations (paginations) {
+        if (paginations && paginations.length) {
             _.forEach(paginations, function (pagination) {
                 pagination.disable();
-            })
+            });
         }
     };
 
     /**
      * Activate pagination's
      */
-    var enablePaginations = function enablePaginations () {
-        if (paginations.length) {
+    var enablePaginations = function enablePaginations (paginations) {
+        if (paginations && paginations.length) {
             _.forEach(paginations, function (pagination) {
                 pagination.enable();
-            })
+            });
         }
     };
 
@@ -155,6 +149,9 @@ define([
             return this.each(function() {
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
+
+                // implement encapsulated pages for the datatable
+                $elt.paginations = [];
 
                 if (!currentOptions) {
                     //add data to the element
@@ -233,7 +230,7 @@ define([
             };
 
             // disable pagination to not press multiple on it
-            disablePaginations();
+            disablePaginations($elt.paginations);
 
             /**
              * @event dataTable#query.datatable
@@ -253,7 +250,7 @@ define([
                 var requestErr = new Error(errorDetails.message);
                 logger.error(errorDetails);
                 requestErr.code = response.status;
-                enablePaginations();
+                enablePaginations(this.paginations);
                 $elt.trigger('error.' + ns, [requestErr]);
 
                 self._render($elt, {});
@@ -460,16 +457,16 @@ define([
                     .render($container);
             }
 
-            paginations = [];
+            $elt.paginations = [];
             if (options.paginationStrategyTop !== 'none') {
                 // bind pagination component to the datatable
-                paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
+                $elt.paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
             }
             if (options.paginationStrategyBottom !== 'none') {
                 // bind pagination component to the datatable
-                paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
+                $elt.paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
             }
-            disablePaginations();
+            disablePaginations($elt.paginations);
 
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
@@ -612,7 +609,7 @@ define([
             }
 
             // restore pagination's after data loaded
-            enablePaginations();
+            enablePaginations($elt.paginations);
 
             /**
              * @event dataTable#load.dataTable
