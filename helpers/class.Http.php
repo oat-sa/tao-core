@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
+
+use oat\generis\Helper\SystemHelper;
 use oat\tao\helpers\FileUploadException;
 use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
@@ -155,10 +157,10 @@ class tao_helpers_Http
     {
 
         // for large file, the $_FILES may be empty so see this before checking for other updates
-        $limit = tao_helpers_Environment::getFileUploadLimit();
+        $limit = SystemHelper::getFileUploadLimit();
         $contentLength = intval($_SERVER['CONTENT_LENGTH']);
         if( $limit > 0 && $contentLength > $limit && count(self::getFiles())===0){
-            throw new FileUploadException('Exceeded filesize limit of ' . tao_helpers_Environment::getFileUploadLimit());
+            throw new FileUploadException('Exceeded filesize limit of ' . $limit);
         }
 
         $files = self::getFiles();
@@ -172,7 +174,7 @@ class tao_helpers_Http
                         throw new FileUploadException('No file sent.');
                     case UPLOAD_ERR_INI_SIZE:
                     case UPLOAD_ERR_FORM_SIZE:
-                        throw new FileUploadException('Exceeded filesize limit of ' . tao_helpers_Environment::getFileUploadLimit());
+                        throw new FileUploadException('Exceeded filesize limit of ' . $limit);
                     default:
                         throw new common_exception_Error('Upload fails, check errors');
                 }

@@ -499,109 +499,6 @@ define([
         });
     });
 
-    QUnit.asyncTest('Pagination disabled', function(assert){
-        QUnit.expect(6);
-
-        var $elt = $('#container-1');
-        assert.ok($elt.length === 1, 'Test the fixture is available');
-
-        $elt.on('create.datatable', function(){
-            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
-            assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
-            assert.ok($elt.find('.icon-backward').parents('button').prop('disabled'), 'the backward button is disabled');
-            assert.ok($elt.find('.icon-forward').parents('button').prop('disabled'), 'the forward button is disabled');
-            QUnit.start();
-        });
-
-        $elt.datatable({
-            url : 'js/test/ui/datatable/data.json',
-            'model' : [{
-                id : 'login',
-                label : 'Login',
-                sortable : true
-            },{
-                id : 'name',
-                label : 'Name',
-                sortable : true
-            },{
-                id : 'email',
-                label : 'Email',
-                sortable : true
-            },{
-                id : 'roles',
-                label :'Roles',
-                sortable : false
-            },{
-                id : 'dataLg',
-                label : 'Data Language',
-                sortable : true
-            },{
-                id: 'guiLg',
-                label : 'Interface Language',
-                sortable : true
-            }]
-        });
-    });
-
-    QUnit.asyncTest('Pagination enabled', function(assert){
-        QUnit.expect(7);
-
-        var $elt = $('#container-1');
-        assert.ok($elt.length === 1, 'Test the fixture is available');
-
-
-        $elt.on('create.datatable', function(){
-            assert.ok($elt.find('.datatable').length === 1, 'the layout has been inserted');
-            assert.ok($elt.find('.icon-backward').length === 1, 'there is 1 backward buttons');
-            assert.ok($elt.find('.icon-forward').length === 1, 'there is 1 forward buttons');
-            assert.ok($elt.find('.icon-forward:first').parents('button').prop('disabled') === false, 'the forward button is enabled');
-            assert.ok($elt.find('.icon-forward:last').parents('button').prop('disabled') === false, 'the forward button is disabled');
-            assert.ok($elt.find('.icon-backward:first').parents('button').prop('disabled'), 'the backward button is disabled (on the 1st page)');
-            QUnit.start();
-        });
-        $elt.datatable({
-            url : 'js/test/ui/datatable/largedata.json',
-            'model' : [{
-                id : 'login',
-                label : 'Login',
-                sortable : true
-            },{
-                id : 'password',
-                label : 'Pass',
-                sortable : true
-            },{
-                id : 'title',
-                label : 'Title',
-                sortable : true
-            },{
-                id : 'firstname',
-                label : 'First',
-                sortable : true
-            },{
-                id : 'lastname',
-                label :'Last',
-                sortable : true
-            },{
-                id : 'gender',
-                label : 'Gender',
-                sortable : true
-            },{
-                id: 'email',
-                label : 'Email',
-                sortable : true
-            },{
-                id: 'picture',
-                label : 'picture',
-                sortable : true
-            },{
-                id: 'address',
-                label : 'Address',
-                sortable : true
-            }]
-        });
-    });
-
     QUnit.asyncTest('Selection disabled', function(assert){
         QUnit.expect(4);
 
@@ -1183,5 +1080,57 @@ define([
                 sortable: false
             }]
         });
+    });
+
+    QUnit.asyncTest('Hidden columns', function(assert){
+        var $container = $('#container-1');
+
+        QUnit.expect(5);
+
+        assert.equal($container.length, 1, 'Test the fixture is available');
+
+        $container.on('create.datatable', function() {
+
+            var $headerCells = $('.datatable thead th', $container);
+
+            assert.equal($headerCells.length, 3, 'The login head exists');
+            assert.equal($headerCells.eq(0).text().trim(), 'Login');
+            assert.equal($headerCells.eq(1).text().trim(), 'Email');
+            assert.equal($headerCells.eq(2).text().trim(), 'Data Language');
+
+            QUnit.start();
+        })
+            .datatable({
+                url : 'js/test/ui/datatable/data.json',
+                'model' : [{
+                    id: 'login',
+                    label: 'Login',
+                    sortable: true,
+                    visible: true
+                }, {
+                    id: 'name',
+                    label: 'Name',
+                    sortable: true,
+                    visible: false
+                }, {
+                    id: 'email',
+                    label: 'Email',
+                    sortable: false
+                }, {
+                    id: 'roles',
+                    label: 'Roles',
+                    sortable: false,
+                    visible: function () {
+                        return false;
+                    }
+                }, {
+                    id: 'guiLg',
+                    label: 'Data Language',
+                    sortable: false,
+                    visible: function () {
+                        return true;
+                    }
+                }]
+            });
     });
 });

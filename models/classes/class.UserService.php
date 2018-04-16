@@ -29,18 +29,27 @@ use oat\tao\model\user\TaoRoles;
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\ClassServiceTrait;
+use oat\tao\model\GenerisServiceTrait;
+
 /**
  * This class provide service on user management
  *
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- 
  */
-class tao_models_classes_UserService
-    extends tao_models_classes_ClassService
-    implements core_kernel_users_UsersManagement
+class tao_models_classes_UserService extends ConfigurableService implements core_kernel_users_UsersManagement
 {
+
+    use ClassServiceTrait;
+    use GenerisServiceTrait {
+        createInstance as protected traitCreateInstance;
+    }
+
+    const SERVICE_ID = 'tao/UserService';
 
     /**
      * the core user service
@@ -50,16 +59,24 @@ class tao_models_classes_UserService
      */
     protected $generisUserService = null;
 
+    /**
+     * @deprecated
+     */
+    public static function singleton()
+    {
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
+    }
 
     /**
      * constructor
      *
-     * @access protected
+     * @param array $options
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return mixed
      */
-    protected function __construct()
+    public function __construct($options = [])
     {
+        parent::__construct($options);
 		$this->generisUserService = core_kernel_users_Service::singleton();
     }
 
@@ -186,68 +203,6 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Get the list of users by role(s)
-     * options are: order, orderDir, start, end, search
-     * with search consisting of: field, op, string
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array roles
-     * @param  array options the user list options to order the list and paginate the results
-     * @return array
-     */
-    public function getUsersByRoles($roles, $options = array())
-    {
-        $returnValue = array();
-
-        //the users we want are instances of the role
-		$fields = array('login' => GenerisRdf::PROPERTY_USER_LOGIN,
-						'password' => GenerisRdf::PROPERTY_USER_PASSWORD,
-						'uilg' => GenerisRdf::PROPERTY_USER_UILG,
-						'deflg' => GenerisRdf::PROPERTY_USER_DEFLG,
-						'mail' => GenerisRdf::PROPERTY_USER_MAIL,
-		    			'email' => GenerisRdf::PROPERTY_USER_MAIL,
-						'role' => OntologyRdf::RDF_TYPE,
-						'roles' => GenerisRdf::PROPERTY_USER_ROLES,
-						'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
-						'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
-						'name' => GenerisRdf::PROPERTY_USER_FIRSTNAME);
-		
-		$ops = array('eq' => "%s",
-					 'bw' => "%s*",
-					 'ew' => "*%s",
-					 'cn' => "*%s*");
-		
-		$opts = array('recursive' => true, 'like' => false);
-		if (isset($options['start'])) {
-			$opts['offset'] = $options['start'];
-		}
-		if (isset($options['limit'])) {
-			$opts['limit'] = $options['limit'];
-		}
-		
-		$crits = array(GenerisRdf::PROPERTY_USER_LOGIN => '*');
-		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
-			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
-		}
-		// restrict roles
-		$crits[GenerisRdf::PROPERTY_USER_ROLES] = $roles;
-		
-		if (isset($options['order'])) {
-			$opts['order'] = $fields[$options['order']]; 
-			if (isset($options['orderDir'])) {
-				$opts['orderdir'] = $options['orderDir']; 
-			}
-		}
-		
-		$userClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
-		
-		$returnValue = $userClass->searchInstances($crits, $opts);
-
-        return (array) $returnValue;
-    }
-
-    /**
      * Remove a user
      *
      * @access public
@@ -337,54 +292,6 @@ class tao_models_classes_UserService
 
 		return $userClass->countInstances($filters, $options);
 	}
-
-    /**
-     * returns the nr of users full filling the criteria,
-     * uses the same syntax as getUsersByRole
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array roles
-     * @param  array options
-     * @return int
-     */
-    public function getUserCount($roles, $options = array())
-    {
-        $returnValue = (int) 0;
-
-        $opts = array(
-        	'recursive' => true,
-        	'like' => false
-        );
-
-		$crits = array(GenerisRdf::PROPERTY_USER_LOGIN => '*');
-		if (isset($options['search']['string']) && isset($options['search']['op'])
-			&& !empty($options['search']['string']) && !empty($options['search']['op'])) {
-			$fields = array('login' => GenerisRdf::PROPERTY_USER_LOGIN,
-						'password' => GenerisRdf::PROPERTY_USER_PASSWORD,
-						'uilg' => GenerisRdf::PROPERTY_USER_UILG,
-						'deflg' => GenerisRdf::PROPERTY_USER_DEFLG,
-						'mail' => GenerisRdf::PROPERTY_USER_MAIL,
-		    			'email' => GenerisRdf::PROPERTY_USER_MAIL,
-						'role' => OntologyRdf::RDF_TYPE,
-						'roles' => GenerisRdf::PROPERTY_USER_ROLES,
-						'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
-						'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
-						'name' => GenerisRdf::PROPERTY_USER_FIRSTNAME);
-			$ops = array('eq' => "%s",
-					 'bw' => "%s*",
-					 'ew' => "*%s",
-					 'cn' => "*%s*");
-			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
-		}
-		
-		$crits[GenerisRdf::PROPERTY_USER_ROLES] = $roles;
-		
-		$userClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
-		$returnValue = $userClass->countInstances($crits, $opts);
-
-        return (int) $returnValue;
-    }
 
     /**
      * Short description of method toTree
@@ -544,10 +451,11 @@ class tao_models_classes_UserService
      * @param core_kernel_classes_Class $clazz
      * @param string $label
      * @return core_kernel_classes_Resource
+     * @throws common_exception_Error
      */
     public function createInstance(core_kernel_classes_Class $clazz, $label = '')
     {
-        $user = parent::createInstance($clazz, $label); // TODO: Change the autogenerated stub
+        $user = $this->traitCreateInstance($clazz, $label);
         $this->getEventManager()->trigger(new UserCreatedEvent($user));
         return $user;
     }
@@ -582,6 +490,9 @@ class tao_models_classes_UserService
      */
     public function checkCurrentUserAccess($roles)
     {
+        if ($this->getCurrentUser() === null) {
+            return;
+        }
         if ($roles instanceof core_kernel_classes_Resource) {
             $roles = [$roles->getUri()];
         }

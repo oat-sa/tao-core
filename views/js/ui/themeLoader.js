@@ -85,7 +85,6 @@ define(['jquery', 'lodash'], function($, _){
     /**
      * Is the stylesheet attached to the container ?
      * @param {String} id - the theme identifier
-     * @param {Boolean} [disabled = false] - is the stylesheet disabled
      */
     var isAttached = function isAttached(id){
         return getLink(id).length > 0;
@@ -107,7 +106,7 @@ define(['jquery', 'lodash'], function($, _){
      * @param {jQueryElement} $nodes - the nodes to disable
      * @returns {jQueryElement}
      */
-    var disable = function enable($nodes){
+    var disable = function disable($nodes){
         return $nodes.prop('disabled', true)
                      .attr('disabled', true);    //add attr only for easiest inspection
     };
@@ -183,12 +182,13 @@ define(['jquery', 'lodash'], function($, _){
 
             /**
              * Load the themes
+             * @param {Boolean} [preload=false] - Only preload the themes without activating them
              * @returns {Object} chains
              */
-            load : function load(){
+            load : function load(preload){
                 _.forEach(styles, function($link, id){
                     if(!isAttached(id)){
-                        if (id === activeTheme) {
+                        if (!preload && id === activeTheme) {
                             $link.on('load', function() {
                                 triggerThemeChange(id);
                             });
@@ -196,13 +196,15 @@ define(['jquery', 'lodash'], function($, _){
                         disable($link);
                         $container.append($link);
                     }
-                    if(id !== 'base' && id !== defaultTheme){
-                        disable($link);
-                    } else {
-                        enable($link);
+                    if (!preload) {
+                        if (id !== 'base' && id !== defaultTheme) {
+                            disable($link);
+                        } else {
+                            enable($link);
 
-                        activeTheme = id;
-                        triggerThemeChange(activeTheme);
+                            activeTheme = id;
+                            triggerThemeChange(activeTheme);
+                        }
                     }
                 });
                 return this;

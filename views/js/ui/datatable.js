@@ -63,6 +63,28 @@ define([
     var hiddenCls = 'hidden';
 
     /**
+     * Deactivate pagination's
+     */
+    var disablePaginations = function disablePaginations (paginations) {
+        if (paginations && paginations.length) {
+            _.forEach(paginations, function (pagination) {
+                pagination.disable();
+            });
+        }
+    };
+
+    /**
+     * Activate pagination's
+     */
+    var enablePaginations = function enablePaginations (paginations) {
+        if (paginations && paginations.length) {
+            _.forEach(paginations, function (pagination) {
+                pagination.enable();
+            });
+        }
+    };
+
+    /**
      * The dataTable component makes you able to browse items and bind specific
      * actions to undertake for edition and removal of them.
      *
@@ -127,6 +149,9 @@ define([
             return this.each(function() {
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
+
+                // implement encapsulated pages for the datatable
+                $elt.paginations = [];
 
                 if (!currentOptions) {
                     //add data to the element
@@ -204,6 +229,9 @@ define([
                 type: options.querytype || 'GET'
             };
 
+            // disable pagination to not press multiple on it
+            disablePaginations($elt.paginations);
+
             /**
              * @event dataTable#query.datatable
              * @param {Object} ajaxConfig - The config object used to setup the AJAX request
@@ -222,6 +250,7 @@ define([
                 var requestErr = new Error(errorDetails.message);
                 logger.error(errorDetails);
                 requestErr.code = response.status;
+                enablePaginations(this.paginations);
                 $elt.trigger('error.' + ns, [requestErr]);
 
                 self._render($elt, {});
@@ -239,7 +268,7 @@ define([
          */
         _render: function($elt, dataset) {
             var self = this;
-            var options = $elt.data(dataNs);
+            var options = _.cloneDeep($elt.data(dataNs));
             var $rendering;
             var $statusEmpty;
             var $statusAvailable;
@@ -252,6 +281,7 @@ define([
             var $rows;
             var amount;
             var transforms;
+            var model = [];
 
             var join = function join(input) {
                 return typeof input !== 'object' ? input : input.join(', ');
@@ -278,6 +308,14 @@ define([
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
+
+                if (typeof field.visible === 'undefined') {
+                    model.push(field);
+                } else if (typeof field.visible === 'function' && field.visible()) {
+                    model.push(field);
+                } else if (field.visible === true) {
+                    model.push(field);
+                }
             });
 
             if (options.sortby) {
@@ -294,6 +332,7 @@ define([
                 });
             }
 
+            options.model = model;
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));
 
@@ -337,7 +376,8 @@ define([
                             var $btn = $(this);
                             e.preventDefault();
                             if (!$btn.hasClass('disabled')) {
-                                action.apply($btn, [$btn.closest('[data-item-identifier]').data('item-identifier')]);
+                                var identifier = $btn.closest('[data-item-identifier]').data('item-identifier');
+                                action.apply($btn, [identifier, _.first(_.where(dataset.data, {id: identifier}))]);
                             }
                         });
                 });
@@ -394,7 +434,7 @@ define([
             });
 
             function renderPagination($container, mode) {
-                paginationComponent({
+                return paginationComponent({
                     mode: mode,
                     activePage: dataset.page,
                     totalPages: dataset.total
@@ -417,14 +457,16 @@ define([
                     .render($container);
             }
 
+            $elt.paginations = [];
             if (options.paginationStrategyTop !== 'none') {
                 // bind pagination component to the datatable
-                renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop);
+                $elt.paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
             }
             if (options.paginationStrategyBottom !== 'none') {
                 // bind pagination component to the datatable
-                renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom);
+                $elt.paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
             }
+            disablePaginations($elt.paginations);
 
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
@@ -566,6 +608,9 @@ define([
                 $rendering.find('[name=filter].focused').focus();
             }
 
+            // restore pagination's after data loaded
+            enablePaginations($elt.paginations);
+
             /**
              * @event dataTable#load.dataTable
              * @param {Object} dataset - The data set used to render the table
@@ -690,7 +735,7 @@ define([
             //rebind options to the elt
             $elt.data(dataNs, options);
 
-            return options;
+            return _.cloneDeep(options);
         },
 
         /**

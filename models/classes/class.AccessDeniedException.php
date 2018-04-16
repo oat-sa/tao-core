@@ -66,7 +66,7 @@ class tao_models_classes_AccessDeniedException
     } 
     
     public function getSeverity() {
-        return common_Logger::WARNING_LEVEL;
+        return common_Logger::INFO_LEVEL;
     }
     
     public function getUserMessage() {

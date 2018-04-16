@@ -181,7 +181,12 @@ define([
                 };
 
                 if(checkMinLevel(levels.error, level) || message instanceof Error){
-                    err = message instanceof Error ? message : new Error(message);
+                    if (message instanceof Error) {
+                        err = message;
+                    } else {
+                        message = _.isObject(message) ? JSON.stringify(message) : message;
+                        err = new Error(message);
+                    }
 
                     record.msg = err.message;
                     record.err = err;

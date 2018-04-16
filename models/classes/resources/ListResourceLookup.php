@@ -19,7 +19,10 @@
  */
 namespace oat\tao\model\resources;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\ResultSet;
+use oat\tao\model\search\Search;
 
 /**
  * Look up resources and format them as a flat list
@@ -28,6 +31,8 @@ use oat\oatbox\service\ConfigurableService;
  */
 class ListResourceLookup extends ConfigurableService implements ResourceLookup
 {
+
+    use OntologyAwareTrait;
 
     const SERVICE_ID = 'tao/ListResourceLookup';
 
@@ -43,20 +48,17 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
      */
     public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
-        $options = [
-            'recursive' => true,
-            'like'      => true,
-            'limit'     => $limit,
-            'offset'    => $offset
-        ];
-
-        $count = $rootClass->countInstances($propertyFilters, $options);
-        $resources = $rootClass->searchInstances($propertyFilters, $options);
+        /** @var Search $searchService */
+        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+        /** @var ResultSet $result */
+        $result = $searchService->query(current($propertyFilters), $rootClass, $offset, $limit);
+        $count = $result->getTotalCount();
 
         $nodes = [];
-        foreach($resources as $resource){
+        while ($result->valid()) {
+            $resource = $this->getResource($result->current());
 
-            if(!is_null($resource)){
+            if($resource->exists()){
                 $resourceTypes = array_keys($resource->getTypes());
                 $nodes[] = [
                     'uri'        => $resource->getUri(),
@@ -65,6 +67,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
                     'type'       => 'instance'
                 ];
             }
+            $result->next();
         }
 
         return [

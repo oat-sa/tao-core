@@ -47,7 +47,6 @@ class AuthTestCase extends TaoPhpUnitTestRunner {
 		GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
 		GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'Jane',
 		GenerisRdf::PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
-		GenerisRdf::PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_ROLES		=>	TaoRoles::BACK_OFFICE
 	);

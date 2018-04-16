@@ -21,6 +21,8 @@
  */
 
 use oat\generis\model\GenerisRdf;
+use oat\tao\helpers\ApplicationHelper;
+use oat\oatbox\user\UserLanguageServiceInterface;
 
 /**
  * This controller provide the actions to manage the user settings
@@ -53,7 +55,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	public function password(){
 
 		$this->setData('formTitle'	, __("Change password"));
-		if (helpers_PlatformInstance::isDemo()) {
+		if (ApplicationHelper::isDemo()) {
             $this->setData('myForm'		, __('Unable to change passwords in demo mode'));
 		} else {
 		    $myFormContainer = new tao_actions_form_UserPassword();
@@ -80,19 +82,19 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 		$myForm = $myFormContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
+                $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
 
 				$currentUser = $this->userService->getCurrentUser();
-				$userSettings = array(
-				    GenerisRdf::PROPERTY_USER_UILG => $myForm->getValue('ui_lang'),
-				    GenerisRdf::PROPERTY_USER_DEFLG => $myForm->getValue('data_lang'),
-				    GenerisRdf::PROPERTY_USER_TIMEZONE => $myForm->getValue('timezone')
-				);
-				
-				$uiLang 	= new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
-				$dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
+                $userSettings = [
+                    GenerisRdf::PROPERTY_USER_TIMEZONE => $myForm->getValue('timezone'),
+                ];
 
-				$userSettings[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
-				$userSettings[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
+                $uiLang = new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
+                $userSettings[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
+                if ($userLangService->isDataLanguageEnabled()) {
+                    $dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
+                    $userSettings[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
+                }
 
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
 				
