@@ -22,6 +22,7 @@ namespace oat\tao\model\session\restSessionFactory;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\LoginFailedException;
+use oat\tao\model\routing\Resolver;
 
 /**
  * Class RestSessionFactory
@@ -49,13 +50,16 @@ class RestSessionFactory extends ConfigurableService
      */
     public function createSessionFromRequest($request, $resolver)
     {
+        if (!$this->isRestController($resolver)) {
+            return false;
+        }
         /** @var SessionBuilder $builder */
         foreach ($this->getSessionBuilders() as $builder) {
-            if ($builder->isApplicable($request, $resolver)) {
+            if ($builder->isApplicable($request)) {
                 return \common_session_SessionManager::startSession($builder->getSession($request));
             }
         }
-        return false;
+        throw new LoginFailedException(array('Request cannot be authenticated.'));
     }
 
     /**
@@ -74,4 +78,16 @@ class RestSessionFactory extends ConfigurableService
         }
         return $adapters;
     }
+
+    /**
+     * Check if the requested controller is a RestController
+     *
+     * @param Resolver $resolver
+     * @return bool
+     */
+    protected function isRestController(Resolver $resolver)
+    {
+        return is_subclass_of($resolver->getControllerClass(), \tao_actions_RestController::class);
+    }
+
 }
