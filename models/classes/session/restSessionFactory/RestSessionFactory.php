@@ -56,10 +56,21 @@ class RestSessionFactory extends ConfigurableService
         /** @var SessionBuilder $builder */
         foreach ($this->getSessionBuilders() as $builder) {
             if ($builder->isApplicable($request)) {
-                return \common_session_SessionManager::startSession($builder->getSession($request));
+                return $this->startSession($builder->getSession($request));
             }
         }
         throw new LoginFailedException(array('Request cannot be authenticated.'));
+    }
+
+    /**
+     * Start a session through SessionManager
+     *
+     * @param $session
+     * @return bool
+     */
+    protected function startSession($session)
+    {
+        return \common_session_SessionManager::startSession($session);
     }
 
     /**
