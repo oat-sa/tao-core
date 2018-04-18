@@ -144,18 +144,6 @@ define([
 
                     this.disableButton(this.lastPageButton());
                     this.disableButton(this.forwardButton());
-                },
-                enable: function disable() {
-                    var self = this;
-                    this.enableButton(this.backwardButton());
-                    this.enableButton(this.firstPageButton());
-
-                    $('.page', $paginationTpl).each(function(){
-                        self.enableButton( $(this) );
-                    });
-
-                    this.enableButton(this.lastPageButton());
-                    this.enableButton(this.forwardButton());
                 }
             };
 
