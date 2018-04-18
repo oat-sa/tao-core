@@ -176,8 +176,8 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.ok(true, 'Too much catched');
             })
             .on('change', function () {
-                assert.ok(pagination.getActivePage() <= 7 && pagination.getActivePage() >= 1, 'Current page is correct');
                 var renderedPageNum = parseInt($('.page', $container).text(), 10);
+                assert.ok(pagination.getActivePage() <= 7 && pagination.getActivePage() >= 1, 'Current page is correct');
                 assert.ok(renderedPageNum <= 7 && renderedPageNum >= 1, 'Current page in template is correct');
             })
             .render($container);
@@ -291,6 +291,48 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
 
                 assert.notEqual($next.attr('disabled'), 'disabled', 'Next button not disabled');
                 assert.notEqual($prev.attr('disabled'), 'disabled', 'Prev button not disabled');
+            })
+            .render($container);
+    });
+
+    QUnit.asyncTest('Refresh', function (assert) {
+        var pagination;
+        var $container;
+
+        QUnit.expect(9);
+
+        $container = $('#qunit-fixture');
+        assert.equal($container.length, 1, 'The container exists');
+
+        pagination = paginationComponent({mode: 'simple', activePage: 1, totalPages: 2});
+        pagination
+            .on('render', function () {
+                // buttons
+                var $prev, $next;
+
+                assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
+
+                $prev = $('.icon-backward', $container).parents('button');
+                $next = $('.icon-forward', $container).parents('button');
+
+                assert.notEqual($next.attr('disabled'), 'disabled', 'Next button must not be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.disable();
+
+                assert.equal($next.attr('disabled'), 'disabled', 'Next button must be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.enable();
+
+                assert.notEqual($next.attr('disabled'), 'disabled', 'Next button must not be disabled');
+                assert.equal($prev.attr('disabled'), 'disabled', 'Prev button must be disabled');
+
+                pagination.previousPage();
+            })
+            .on('prev', function () {
+                assert.equal(pagination.getActivePage(), 1, 'Current page is correct');
+                QUnit.start();
             })
             .render($container);
     });
@@ -464,5 +506,102 @@ define(['jquery', 'lodash', 'ui/pagination'], function ($, _, paginationComponen
                 assert.ok(!$next.hasClass('disabled'), 'Prev button not disabled');
             })
             .render($container);
+    });
+
+    QUnit.module('Multi pages');
+
+    QUnit.asyncTest('simple simple', function (assert) {
+        var $container, pagination1, pagination2, $p1Container, $p2Container;
+
+        QUnit.expect(39);
+
+        $container = $('#qunit-fixture');
+        $p1Container = $('<div class="p1" />').appendTo($container);
+        $p2Container = $('<div class="p2" />').appendTo($container);
+        assert.equal($container.length, 1, 'The container exists');
+
+        pagination1 = paginationComponent({activePage: 3, totalPages: 7});
+        pagination2 = paginationComponent({activePage: 17, totalPages: 22});
+
+        pagination1
+            .on('render', function () {
+                assert.equal($('.total', $container).length, 2, 'p1 Count of the pagination elements is correct');
+                assert.equal(pagination1.getActivePage(), 3, 'p1 Current page of p1 is correct');
+                assert.equal(pagination2.getActivePage(), 17, 'p1 Current page of p2 is correct');
+                assert.equal($('.page', $p1Container).text(), 3, 'p1 Current page in template of p1 is correct');
+                assert.equal($('.page', $p2Container).text(), 17, 'p1 Current page in template of p2 is correct');
+                pagination1.nextPage();
+            })
+            .on('next', function () {
+                assert.equal(pagination1.getActivePage(), 4, 'p1n Current page is correct');
+                assert.equal(pagination2.getActivePage(), 17, 'p1n Current page is correct');
+                assert.equal($('.page', $p1Container).text(), 4, 'p1n Current page of p1 in template is correct');
+                assert.equal($('.page', $p2Container).text(), 17, 'p1n Current page of p2 in template is correct');
+                pagination1.previousPage();
+            })
+            .on('prev', function () {
+                assert.equal(pagination1.getActivePage(), 3, 'p1p Current page is correct');
+                assert.equal($('.page', $p1Container).text(), 3, 'p1p Current page in template of p1 is correct');
+                assert.equal(pagination2.getActivePage(), 17, 'p1p Current page is correct');
+                assert.equal($('.page', $p2Container).text(), 17, 'p1p Current page in template of p2 is correct');
+                pagination2.nextPage();
+            });
+
+        pagination2
+            .on('render', function () {
+                assert.equal($('.total', $container).length, 1, 'p2 Count of the pagination elements is correct');
+                assert.equal(typeof(pagination1.getActivePage()), 'undefined', 'p2 Pagination 1 have not been initialized');
+                assert.equal(pagination2.getActivePage(), 17, 'p2 Current page of p2 is correct');
+                assert.equal($('.page', $p1Container).text(), '', 'p2 Pagination 1 have not been initialized');
+                assert.equal($('.page', $p2Container).text(), 17, 'p2 Current page in template of p2 is correct');
+            })
+            .on('next', function () {
+                assert.equal(pagination1.getActivePage(), 3, 'p2 Current page of p1 is correct');
+                assert.equal(pagination2.getActivePage(), 18, 'p2 Current page of p2 is correct');
+                assert.equal($('.page', $p1Container).text(), 3, 'p2 Current page in template of p1 is correct');
+                assert.equal($('.page', $p2Container).text(), 18, 'p2 Current page in template of p2 is correct');
+                pagination2.previousPage();
+            })
+            .on('prev', function () {
+                var $prev1, $next1, $prev2, $next2;
+
+                assert.equal(pagination1.getActivePage(), 3, 'p2 Current page of p1 is correct');
+                assert.equal(pagination2.getActivePage(), 17, 'p2 Current page of p2 is correct');
+                assert.equal($('.page', $p1Container).text(), 3, 'p2 Current page in template of p1 is correct');
+                assert.equal($('.page', $p2Container).text(), 17, 'p2 Current page in template of p2 is correct');
+
+                // checking disable/enable
+                $prev1 = $('.icon-backward', $p1Container).parents('button');
+                $next1 = $('.icon-forward', $p1Container).parents('button');
+
+                $prev2 = $('.icon-backward', $p2Container).parents('button');
+                $next2 = $('.icon-forward', $p2Container).parents('button');
+
+                assert.notEqual($next1.attr('disabled'), 'disabled', 'p1 Next button not disabled');
+                assert.notEqual($prev1.attr('disabled'), 'disabled', 'p1 Prev button not disabled');
+
+                assert.notEqual($next2.attr('disabled'), 'disabled', 'p2 Next button not disabled');
+                assert.notEqual($prev2.attr('disabled'), 'disabled', 'p2 Prev button not disabled');
+
+                pagination1.disable();
+
+                assert.equal($next1.attr('disabled'), 'disabled', 'p1 Next button disabled');
+                assert.equal($prev1.attr('disabled'), 'disabled', 'p1 Prev button disabled');
+                assert.notEqual($next2.attr('disabled'), 'disabled', 'p2 Next button not disabled');
+                assert.notEqual($prev2.attr('disabled'), 'disabled', 'p2 Prev button not disabled');
+
+                pagination1.enable();
+
+                assert.notEqual($next1.attr('disabled'), 'disabled', 'p1 Next button not disabled');
+                assert.notEqual($prev1.attr('disabled'), 'disabled', 'p1 Prev button not disabled');
+                assert.notEqual($next2.attr('disabled'), 'disabled', 'p2 Next button not disabled');
+                assert.notEqual($prev2.attr('disabled'), 'disabled', 'p2 Prev button not disabled');
+
+                QUnit.start();
+            });
+
+
+        pagination2.render($p2Container);
+        pagination1.render($p1Container);
     });
 });

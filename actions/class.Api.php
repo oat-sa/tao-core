@@ -22,6 +22,8 @@
 ?>
 <?php
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -96,27 +98,27 @@ class tao_actions_Api extends tao_actions_CommonModule {
 
 			TaoOntology::CLASS_URI_PROCESS_EXECUTIONS => array(
 				'uri'		=> $processExecution->getUri(),
-				RDFS_LABEL	=> $processExecution->getLabel()
+                OntologyRdfs::RDFS_LABEL	=> $processExecution->getLabel()
 			),
 
-			TaoOntology::ITEM_CLASS_URI	=> array(
+			TaoOntology::CLASS_URI_ITEM	=> array(
 				'uri'		=> $item->getUri(),
-				RDFS_LABEL	=> $item->getLabel()
+                OntologyRdfs::RDFS_LABEL	=> $item->getLabel()
 			),
-			TaoOntology::TEST_CLASS_URI	=> array(
+			TaoOntology::CLASS_URI_TEST	=> array(
 				'uri'		=> $test->getUri(),
-				RDFS_LABEL	=> $test->getLabel()
+                OntologyRdfs::RDFS_LABEL	=> $test->getLabel()
 			),
-			TaoOntology::DELIVERY_CLASS_URI	=> array(
+			TaoOntology::CLASS_URI_DELIVERY	=> array(
 				'uri'		=> $delivery->getUri(),
-				RDFS_LABEL	=> $delivery->getLabel()
+                OntologyRdfs::RDFS_LABEL	=> $delivery->getLabel()
 			),
-            TaoOntology::SUBJECT_CLASS_URI => array(
+            TaoOntology::CLASS_URI_SUBJECT => array(
 				'uri'					=> $user->getUri(),
-				RDFS_LABEL				=> $user->getLabel(),
-				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
-				PROPERTY_USER_FIRSTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME)),
-				PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
+                OntologyRdfs::RDFS_LABEL				=> $user->getLabel(),
+				GenerisRdf::PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)),
+				GenerisRdf::PROPERTY_USER_FIRSTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_FIRSTNAME)),
+				GenerisRdf::PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LASTNAME))
 			)
 		);
 		
@@ -160,14 +162,14 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			'token' => self::createToken(),
 			TaoOntology::CLASS_URI_PROCESS_EXECUTIONS => array(
 				'uri'		=> $processExecution->getUri(),
-				RDFS_LABEL	=> $processExecution->getLabel()
+                OntologyRdfs::RDFS_LABEL	=> $processExecution->getLabel()
 			),
-			TaoOntology::SUBJECT_CLASS_URI => array(
+			TaoOntology::CLASS_URI_SUBJECT => array(
 				'uri'					=> $user->getUri(),
-				RDFS_LABEL				=> $user->getLabel(),
-				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
-				PROPERTY_USER_FIRSTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME)),
-				PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
+                OntologyRdfs::RDFS_LABEL				=> $user->getLabel(),
+				GenerisRdf::PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)),
+				GenerisRdf::PROPERTY_USER_FIRSTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_FIRSTNAME)),
+				GenerisRdf::PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LASTNAME))
 			)
 		);
 		$session->setAttribute($sessionKey, $executionEnvironment);

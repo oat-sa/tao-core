@@ -21,9 +21,10 @@
 
 
 use oat\oatbox\action\Action;
-use common_report_Report as Report;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\log\LoggerService;
+use oat\oatbox\log\logger\TaoLog;
 
 class tao_install_Setup implements Action
 {
@@ -95,16 +96,19 @@ class tao_install_Setup implements Action
             }
         }
 
-        // override logging during install
-        if (isset($parameters['configuration']['generis']['log'])) {
-            common_log_Dispatcher::singleton()->init($parameters['configuration']['generis']['log']);
-            $installLog = new common_log_SingleFileAppender();
-            $installLog->init([
-                'threshold' => common_Logger::TRACE_LEVEL,
-                'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log']
-            );
-            common_log_Dispatcher::singleton()->addAppender($installLog);
-        }
+        /** @var LoggerService $loggerService */
+        $loggerService = $this->getContainer()->offsetGet(LoggerService::SERVICE_ID);
+        $loggerService->addLogger(
+            new TaoLog(array(
+                'appenders' => array(
+                    array(
+                        'class' => 'SingleFileAppender',
+                        'threshold' => common_Logger::TRACE_LEVEL,
+                        'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log'
+                    )
+                )
+            ))
+        );
 
         $options = array (
             "db_driver"	=>			"mysql"

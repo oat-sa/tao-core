@@ -118,5 +118,11 @@ table.datatable{
         button{
             text-transform: capitalize;
         }
+        [class^="icon-"],
+        [class*=" icon-"] {
+            width: 14px;
+            display: inline-block;
+            text-align: center;
+        }
     }
 }

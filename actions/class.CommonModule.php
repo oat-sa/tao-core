@@ -65,7 +65,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @param array $parameters
      * @return boolean
      */
-    public function hasAccess($controllerClass, $action, $parameters = [])
+    protected function hasAccess($controllerClass, $action, $parameters = [])
     {
         $user = common_session_SessionManager::getSession()->getUser();
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
@@ -209,18 +209,20 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * 
      * @param common_report_Report $report
      */
-    protected function returnReport(common_report_Report $report, $refresh = true) {
-        if ($refresh) {
-            $data = $report->getdata();
-            if ($report->getType() == common_report_Report::TYPE_SUCCESS &&
-                !is_null($data) && $data instanceof \core_kernel_classes_Resource) {
-                $this->setData('message', $report->getMessage());
-                $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
-                $this->setData('reload', true);
-                return $this->setView('form.tpl', 'tao');
-            }
+    protected function returnReport(common_report_Report $report) {
+        $data = $report->getData();
+        $sucesses = $report->getSuccesses();
+
+        // if report has no data, try to get it from the sub report
+        while (is_null($data) && count($sucesses) > 0) {
+            $firstSubReport = current($sucesses);
+            $data = $firstSubReport->getData();
+            $sucesses = $firstSubReport->getSuccesses();
         }
-        
+
+        if (!is_null($data) && $data instanceof core_kernel_classes_Resource) {
+            $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
+        }
         $this->setData('report', $report);
         $this->setView('report.tpl', 'tao');
     }
@@ -260,7 +262,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @throws common_exception_MissingParameter
      * @return string
      */
-    public function getRawParameter($paramName)
+    protected function getRawParameter($paramName)
     {
         $raw = $this->getRequest()->getRawParameters();
         if (!isset($raw[$paramName])) {
@@ -272,7 +274,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
 
     /**
      * Get the flow controller
-     *
+     * 
      * Propagate the service (logger and service manager)
      *
      * @return mixed

@@ -42,7 +42,9 @@ class TokenService extends ConfigurableService
     //options keys
     const POOL_SIZE_OPT  = 'poolSize';
     const TIME_LIMIT_OPT = 'timeLimit';
-    const STORE_OPT      = 'store';
+    /** @deprecated use TokenService::OPTION_STORE */
+    const STORE_OPT    = 'store';
+    const OPTION_STORE = 'store';
 
     const DEFAULT_POOL_SIZE = 10;
     const DEFAULT_TIME_LIMIT = 0;
@@ -150,7 +152,16 @@ class TokenService extends ConfigurableService
      */
     public function getTokenName()
     {
-        return $this->getStore()->getTokenName();
+        $session = \PHPSession::singleton();
+
+        if ($session->hasAttribute(TokenStore::TOKEN_NAME)) {
+            $name = $session->getAttribute(TokenStore::TOKEN_NAME);
+        } else {
+            $name = 'tao_' . substr(md5(microtime()), rand(0, 25), 7);
+            $session->setAttribute(TokenStore::TOKEN_NAME, $name);
+        }
+
+        return $name;
     }
 
     /**

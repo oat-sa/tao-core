@@ -20,9 +20,7 @@
 
 namespace oat\tao\model\import;
 
-use oat\oatbox\filesystem\File;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\upload\UploadService;
+use oat\generis\model\GenerisRdf;
 
 /**
  * Abstract class the describe a csv import
@@ -82,7 +80,7 @@ abstract class CsvAbstractImporter
      */
     protected function getClassProperties($clazz)
     {
-        $topLevelClass = new \core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
+        $topLevelClass = new \core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
         $classProperties = \tao_models_classes_TaoService::singleton()->getClazzProperties($clazz, $topLevelClass);
 
         return $classProperties;

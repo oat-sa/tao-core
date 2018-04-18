@@ -32,6 +32,9 @@ $entryArrowHeight: 150;
     h1 {
         margin-bottom: 20px;
     }
+    .viewable-hiddenbox-input {
+        -webkit-appearance: none; // remove iOS default styling (inner shadow)
+    }
 }
 
 #entry-point-box, .entry-point-box {

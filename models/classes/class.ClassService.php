@@ -17,8 +17,6 @@
  * Copyright (c) 2013- (original work) Open Assessment Technologies SA;
  *
  */
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\TaoOntology;
 
 /**
  * This service represents the actions applicable from a root class
@@ -31,95 +29,5 @@ use oat\tao\model\TaoOntology;
 abstract class tao_models_classes_ClassService
     extends tao_models_classes_GenerisService
 {
-
-    /**
-     * Returns the root class of this service
-     *
-     * @return core_kernel_classes_Class
-     */
-    abstract public function getRootClass();
-
-    /**
-     * Delete a resource
-     *
-     * @param core_kernel_classes_Resource $resource            
-     * @return boolean
-     */
-    public function deleteResource(core_kernel_classes_Resource $resource)
-	{
-	    return $resource->delete();
-	}
-
-    /**
-     * Delete a subclass
-     *
-     * @access public
-     * @author Joel Bout, <joel@taotesting.com>
-     * @param core_kernel_classes_Class $clazz            
-     * @return boolean
-     */
-    public function deleteClass(core_kernel_classes_Class $clazz)
-    {
-        $returnValue = (bool) false;
-        
-        if ($clazz->isSubClassOf($this->getRootClass()) && ! $clazz->equals($this->getRootClass())) {
-            
-            $returnValue = true;
-            
-            $instances = $clazz->getInstances();
-            foreach ($instances as $instance) {
-                $this->deleteResource($instance);
-            }
-            
-            $subclasses = $clazz->getSubClasses(false);
-            foreach ($subclasses as $subclass) {
-                $returnValue = $returnValue && $this->deleteClass($subclass);
-            }
-            foreach ($clazz->getProperties() as $classProperty) {
-                $returnValue = $returnValue && $this->deleteClassProperty($classProperty);
-            }
-            $returnValue = $returnValue && $clazz->delete();
-            
-        } else {
-            common_Logger::w('Tried to delete class ' . $clazz->getUri() . ' as if it were a subclass of ' . $this->getRootClass()->getUri());
-        }
-        
-        return (bool) $returnValue;
-    }
-
-
-    /**
-     * remove a class property
-     * 
-     * @param core_kernel_classes_Property $property            
-     * @return bool
-     */
-    public function deleteClassProperty(core_kernel_classes_Property $property){
-        $indexes = $property->getPropertyValues(new core_kernel_classes_Property(TaoOntology::INDEX_PROPERTY));
-
-        //delete property and the existing values of this property
-        if($returnValue = $property->delete(true)){
-            //delete index linked to the property
-            foreach($indexes as $indexUri){
-                $index = new core_kernel_classes_Resource($indexUri);
-                $returnValue = $this->deletePropertyIndex($index);
-            }
-        }
-
-        return $returnValue;
-    }
-
-    /**
-     * * remove an index property
-     * @param core_kernel_classes_Resource $index
-     * @return bool
-     */
-    public function deletePropertyIndex(core_kernel_classes_Resource $index){
-        return $index->delete(true);
-    }
-    
-    public function getServiceManager()
-    {
-        return ServiceManager::getServiceManager();
-    }
+    use oat\tao\model\ClassServiceTrait;
 }

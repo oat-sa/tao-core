@@ -32,7 +32,7 @@ use oat\tao\model\websource\DirectWebSource;
 use oat\tao\model\websource\Websource;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\filesystem\FileSystemService;
-
+use oat\tao\model\user\TaoRoles;
 
 /**
  * @author Cédric Alfonsi, <taosupport@tudor.lu>
@@ -53,8 +53,11 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     {
         $this->disableCache();
         $pass = md5(rand());
-        $taoManagerRole = new core_kernel_classes_Resource(TaoOntology::PROPERTY_INSTANCE_ROLE_BACKOFFICE);
-        $this->testUser = tao_models_classes_UserService::singleton()->addUser('testUser', $pass, $taoManagerRole );
+        $taoManagerRole = new core_kernel_classes_Resource(TaoRoles::BACK_OFFICE);
+        $this->testUser = tao_models_classes_UserService::singleton()->getOneUser('testUser');
+        if (!$this->testUser) {
+            $this->testUser = tao_models_classes_UserService::singleton()->addUser('testUser', $pass, $taoManagerRole );
+        }
         $this->credentials = array(
             'loginForm_sent' => 1,
             'login' => 'testUser',

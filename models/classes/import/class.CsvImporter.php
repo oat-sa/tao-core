@@ -18,6 +18,7 @@
  *
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\CsvAbstractImporter;
@@ -66,44 +67,48 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
      */
     private function createImportFormContainer()
     {
-
         $sourceContainer = new tao_models_classes_import_CsvUploadForm();
         $sourceForm = $sourceContainer->getForm();
+        /** @var tao_helpers_form_FormElement $element */
         foreach ($sourceForm->getElements() as $element) {
             $element->feed();
         }
 
-        $properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
-        $rangedProperties = array();
-
-        $classUri = \tao_helpers_Uri::decode($_POST['classUri']);
-        $class = new core_kernel_classes_Class($classUri);
-        $classProperties = $this->getClassProperties($class);
-
-        foreach ($classProperties as $property) {
-            if (!in_array($property->getUri(), $this->getExludedProperties())) {
-                //@todo manage the properties with range
-                $range = $property->getRange();
-                $properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
-
-                if ($range instanceof core_kernel_classes_Resource && $range->getUri() != RDFS_LITERAL) {
-                    $rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
-                }
-            }
-        }
+        $sourceForm->getElement('source')->feed();
+        $fileInfo = $sourceForm->getValue('source');
 
         if (isset($_POST['importFile'])) {
-            $fileParameter = $_POST['importFile'];
+            $serial = $_POST['importFile'];
         } else {
-            $sourceForm->getElement('source')->feed();
-            $fileInfo = $sourceForm->getValue('source');
-            $fileParameter = $fileInfo['uploaded_file'];
+            $serial = $fileInfo['uploaded_file'];
+        }
+
+        if (!is_string($serial)) {
+            throw new InvalidArgumentException('Import file has to be a valid file serial.');
         }
 
         /** @var UploadService $uploadService */
         $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
-        $file = $uploadService->getUploadedFlyFile($fileParameter);
-        $serial = $uploadService->getSerializer()->serialize($file);
+        $file = $uploadService->getUploadedFlyFile($serial);
+
+        $properties = array(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL) => __('Label'));
+		$rangedProperties = array();
+
+		$classUri = \tao_helpers_Uri::decode($_POST['classUri']);
+		$class = new core_kernel_classes_Class($classUri);
+		$classProperties = $this->getClassProperties($class);
+
+		foreach($classProperties as $property){
+			if(!in_array($property->getUri(), $this->getExludedProperties())){
+				//@todo manage the properties with range
+				$range = $property->getRange();
+				$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+
+				if($range instanceof core_kernel_classes_Resource && $range->getUri() != OntologyRdfs::RDFS_LITERAL){
+					$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+				}
+			}
+		}
 
         //load the csv data from the file (uploaded in the upload form) to get the columns
         $csv_data = new tao_helpers_data_CsvFile($sourceForm->getValues());

@@ -963,7 +963,7 @@ define([
             this._initSources(function() {
                 if (!self.is('youtube')) {
                     _.each(self.config.sources, function(source) {
-                        if (source.type.indexOf('audio') === 0) {
+                        if (source && source.type && source.type.indexOf('audio') === 0) {
                             self._setType(source.type);
                             self._initType();
                             return false;
@@ -1725,8 +1725,10 @@ define([
                     }
 
                     //close the volume control after 15s
-                    _.delay(function(){
-                        self.$volumeControl.removeClass('up down');
+                    self.overingTimer = _.delay(function(){
+                        if(self.$volumeControl){
+                            self.$volumeControl.removeClass('up down');
+                        }
                         overing = false;
                     }, 15000);
                     self.$volumeControl.one('mouseleave' + _ns, function(){
@@ -1747,6 +1749,12 @@ define([
             this.$controls.off(_ns);
             this.$seek.off(_ns);
             this.$volume.off(_ns);
+
+            //if the volume is opened and the player destroyed,
+            //prevent the callback to run
+            if(this.overingTimer){
+                clearTimeout(this.overingTimer);
+            }
 
             $(document).off(_ns);
         },

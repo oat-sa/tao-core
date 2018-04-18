@@ -19,6 +19,7 @@
  */
 
 namespace oat\tao\model\import;
+use oat\generis\model\OntologyRdfs;
 
 
 /**
@@ -55,7 +56,7 @@ class CsvBasicImporter extends CsvAbstractImporter
         array_walk($modifiedHeader, function(&$value){
             $value = str_replace(' ', '', strtolower($value));
         });
-        $properties[] = new \core_kernel_classes_Property(RDFS_LABEL);
+        $properties[] = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
         $map = array();
         /** @var \core_kernel_classes_Property $property */
         foreach($properties as $property){
