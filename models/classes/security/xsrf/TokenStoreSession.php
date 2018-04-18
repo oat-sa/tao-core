@@ -28,9 +28,6 @@ use oat\oatbox\Configurable;
  */
 class TokenStoreSession extends Configurable implements TokenStore
 {
-    const TOKEN_KEY = 'XSRF_TOKEN';
-    const TOKEN_NAME = 'XSRF_TOKEN_NAME';
-
     /**
      * Retrieve the pool of tokens
      * @return array the tokens
@@ -66,23 +63,5 @@ class TokenStoreSession extends Configurable implements TokenStore
     {
         $session = \PHPSession::singleton();
         $session->setAttribute(self::TOKEN_KEY, []);
-    }
-
-    /**
-     * Get name/key of tokens
-     */
-    public function getTokenName()
-    {
-        $name;
-        $session = \PHPSession::singleton();
-
-        if ($session->hasAttribute(self::TOKEN_NAME)) {
-            $name = $session->getAttribute(self::TOKEN_NAME);
-        } else {
-            $name = 'tao_' . substr(md5(microtime()), rand(0, 26), 7);
-            $session->setAttribute(self::TOKEN_NAME, $name);
-        }
-
-        return $name;
     }
 }

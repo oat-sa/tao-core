@@ -20,36 +20,9 @@
  */
 
 /**
- *
- * Constant for TAO
- *
- * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- * @package tao
- *
- *
+ * 'TAO_VERSION' 'TAO_VERSION_NAME' 'PRODUCT_NAME' 'TAO_RELEASE_STATUS' 'TAO_DEFAULT_ENCODING'
+ * were moved to manifest
  */
-#TAO version number
-define('TAO_VERSION', '3.3.0-sprint66');
-
-$version = TAO_VERSION;
-
-#TAO version label
-if(is_readable(ROOT_PATH.'build')){
-    $content = file_get_contents(ROOT_PATH.'build');
-    $version = 'v' . $version;
-    $version = is_numeric($content) ? $version. '+build' . $content : $version;
-}
-define('TAO_VERSION_NAME', $version);
-
-#the name to display
-define('PRODUCT_NAME', 'TAO');
-
-#TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
-define('TAO_RELEASE_STATUS', 'stable');
-
-#TAO default character encoding (mainly used with multi-byte string functions).
-define('TAO_DEFAULT_ENCODING', 'UTF-8');
 
 /**
  * @deprecated

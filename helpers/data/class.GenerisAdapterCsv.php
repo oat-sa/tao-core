@@ -19,6 +19,7 @@
  *               2013- (update and modification) Open Assessment Technologies SA 
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\data\ValidationException;
 use oat\tao\model\upload\UploadService;
@@ -200,9 +201,15 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		    $report->setMessage(__('Imported %1$d/%2$d. Some records are invalid.', $createdResources, $toImport));
 		}
 
-        $uploadService->remove($uploadService->getUploadedFlyFile($source));
-		
-		return $report;
+        if (empty($report->getErrors())) {
+            if (file_exists($file) && is_file($file)) {
+                unlink($file);
+            } else {
+                $uploadService->remove($uploadService->getUploadedFlyFile($source));
+            }
+        }
+
+        return $report;
     }
 
     /**
@@ -233,13 +240,13 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
     {
         $range = $property->getRange();
         // assume literal if no range defined
-        $range = is_null($range) ? new core_kernel_classes_Class(RDFS_LITERAL) : $range;
+        $range = is_null($range) ? new core_kernel_classes_Class(OntologyRdfs::RDFS_LITERAL) : $range;
         
         $evaluatedValue = $this->applyCallbacks($value, $this->options, $property);
         // ensure it's an array
         $evaluatedValue = is_array($evaluatedValue) ? $evaluatedValue : array($evaluatedValue);
         
-        if ($range->getUri() != RDFS_LITERAL) {
+        if ($range->getUri() != OntologyRdfs::RDFS_LITERAL) {
             // validate resources
             foreach ($evaluatedValue as $key => $eVal) {
                 $resource = new core_kernel_classes_Resource($eVal);
@@ -304,7 +311,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         $resource = new core_kernel_classes_Resource($value);
         if ($resource->exists()) {
         	// Is the range correct ?
-        	$targetPropertyRanges = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(RDFS_RANGE));
+        	$targetPropertyRanges = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE));
         	$rangeCompliance = false;
         	
         	// If $targetPropertyRange->count = 0, we consider that the resouce

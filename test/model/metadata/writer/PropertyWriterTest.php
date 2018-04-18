@@ -11,9 +11,9 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['datavalue'];
 
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['setPropertyValue'], ['uriResource']);
+        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['editPropertyValues'], ['uriResource']);
         $resource->expects($this->once())
-            ->method('setPropertyValue')
+            ->method('editPropertyValues')
             ->willReturn(true);
 
         $property = $this->getMock(\core_kernel_classes_Property::class, [], ['uriProperty']);
@@ -77,9 +77,9 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['datavalue'];
 
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['setPropertyValue'], ['uriResource']);
+        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['editPropertyValues'], ['uriResource']);
         $resource->expects($this->once())
-            ->method('setPropertyValue')
+            ->method('editPropertyValues')
             ->willReturn(false);
 
         $property = $this->getMock(\core_kernel_classes_Property::class, [], ['uriProperty']);

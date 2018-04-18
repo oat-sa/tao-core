@@ -279,6 +279,8 @@ body > footer, .content-wrap:after {
 }
 
 body > footer {
+    z-index: 10000;
+    position: relative;
     font-size: 11px;
     padding: 10px;
     border-top: 1px $uiGeneralContentBorder solid;
@@ -411,7 +413,8 @@ body > footer {
             }
 
             .persistent-menu {
-                margin-right: 90px;
+                right: 90px;
+                position: absolute;
             }
         }
     }

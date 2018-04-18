@@ -96,6 +96,10 @@ define([
 
                         $selected
                             .text(classList[uri].label)
+                            .attr({
+                                'title'    : classList[uri].label,
+                                'data-uri' : uri
+                            })
                             .data('uri', uri)
                             .removeClass('empty');
 
@@ -128,6 +132,148 @@ define([
                     node =  classList[this.config.classUri];
                 }
                 return node;
+            },
+
+            /**
+             * Empty the component: remove the selection, set back the placeholder
+             * @returns {classSelector} chains
+             * @fires classSelector#change
+             */
+            empty : function empty(){
+                if(this.is('rendered') && $selected.length && this.config.classUri){
+                    this.config = _.omit(this.config, 'classUri');
+
+                    $selected
+                            .text(this.config.placeholder)
+                            .removeAttr('title')
+                            .data('uri', null)
+                            .removeAttr('data-uri')
+                            .addClass('empty');
+
+
+                    this.trigger('change');
+                }
+                return this;
+            },
+
+            /**
+             * Does the given node exists ?
+             *
+             * @param {Object|String} node - the node or directly the URI
+             * @param {String} [node.uri]
+             * @returns {Boolean}
+             */
+            hasNode : function hasNode(node){
+                var uri;
+                if(node && classList){
+                    uri = _.isString(node) ? node : node.uri;
+                    return _.has(classList, uri);
+                }
+                return false;
+            },
+
+            /**
+             * Removes the given node
+             *
+             * @param {Object|String} node - the node or directly the URI
+             * @param {String} [node.uri]
+             * @returns {Boolean}
+             */
+            removeNode : function removeNode(node){
+                var uri;
+                if(this.hasNode(node)){
+                    uri = _.isString(node) ? node : node.uri;
+
+                    //if the node is selected, we remove the selection
+                    if(uri === this.config.classUri){
+                        this.empty();
+                    }
+
+                    classList = _.omit(classList, uri);
+
+                    if(this.is('rendered')){
+                        $('[data-uri="' + uri + '"]', this.getElement()).parent('li').remove();
+                    }
+                    return !this.hasNode(node);
+                }
+                return false;
+            },
+
+            /**
+             * Add a node.
+             *
+             * @param {Object} node - the node to add
+             * @param {String} node.uri
+             * @param {String} node.label
+             * @param {Object[]} node.children - let's you add a sub hierarchy
+             * @param {String} [parentUri] - where to append the new node
+             * @returns {classSelector} chains
+             */
+            addNode : function addNode(node, parentUri){
+                var subTree;
+                var $parentNode;
+                if(this.is('rendered') && node && !this.hasNode(node)){
+
+                    //this will also update the classList
+                    subTree = buildTree([node]);
+
+                    if(parentUri){
+                        $parentNode = $('[data-uri="' + parentUri + '"]', $options);
+                    }
+                    if(!$parentNode || !$parentNode.length){
+                        $parentNode = $('[data-uri]:first-child', $options);
+                    }
+
+                    //attach the sub tree
+                    if($parentNode.parent('li').children('ul').length){
+                        $parentNode.parent('li').children('ul').append(subTree);
+                    } else {
+                        $parentNode.parent('li').append('<ul>' + subTree + '</ul>');
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Update a node (the label for now)
+             *
+             * @param {Object} node - the node to update
+             * @param {String} node.uri
+             * @param {String} node.label
+             * @returns {classSelector} chains
+             */
+            updateNode : function updateNode(node){
+                if(node && node.uri && this.hasNode(node)  && classList[node.uri].label !== node.label){
+                    classList[node.uri].label = node.label;
+                    if(this.is('rendered')){
+
+                        $('[data-uri="' + node.uri + '"]', this.getElement())
+                            .attr('title', node.label)
+                            .text(node.label);
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Update multiple nodes, recursively
+             * @see {classSelector#updateNode}
+             *
+             * @param {Object[]} node - the node to update
+             * @param {String} node.uri
+             * @param {String} node.label
+             * @param {Object[]} node.children
+             * @returns {classSelector} chains
+             */
+            updateNodes : function updateNodes(nodes){
+                var self = this;
+                _.forEach(nodes, function(node){
+                    if(node.children){
+                        self.updateNodes(node.children);
+                    }
+                    self.updateNode(node);
+                });
+                return this;
             }
 
         }, defaultConfig)
@@ -163,7 +309,6 @@ define([
 
                     $options.toggleClass('folded');
                 });
-
             })
             .on('destroy', function(){
                 classList = {};

@@ -21,7 +21,9 @@
 namespace oat\tao\test;
 
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use tao_models_classes_GenerisService;
 use \tao_models_classes_TaoService;
@@ -92,10 +94,12 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		foreach (MenuService::getAllPerspectives() as $perspective) {
 			$this->assertTrue(strlen($perspective->getExtension()) > 0);
 		    $this->assertTrue(strlen($perspective->getId()) > 0);
-			
-			foreach ($perspective->getChildren()  as $section) {
+			/** @var \oat\tao\model\menu\Section $section */
+            foreach ($perspective->getChildren()  as $section) {
 			    $this->assertTrue(strlen($section->getName()) > 0);
-			    $this->assertTrue(strlen($section->getUrl()) > 0);
+			    if ($section->getAction() !== null) {
+                    $this->assertTrue(strlen($section->getUrl()) > 0);
+                }
 			}
 		}
 	}
@@ -108,7 +112,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	public function testAbstractService(){
 		
 		//we create a temp object for the needs of the test
-		$generisResourceClass = new core_kernel_classes_Class(tao_models_classes_GenerisService::PROPERTY_GENERIS_RESOURCE);
+		$generisResourceClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
 		$testModelClass = $generisResourceClass->createSubClass('aModel', 'test model');
 		$this->assertIsA($testModelClass, 'core_kernel_classes_Class');
 		
@@ -145,7 +149,7 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
 		
 		//get the properties between 2 classes
-		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
+		$itemClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM);
 		$itemSubClasses = $itemClass->getSubClasses(false);
 		if(count($itemSubClasses) > 0){
 			foreach($itemSubClasses as $testClass){ break; }

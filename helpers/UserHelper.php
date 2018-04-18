@@ -21,6 +21,8 @@
 
 namespace oat\tao\helpers;
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\user\User;
 use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
@@ -39,12 +41,12 @@ class UserHelper
         // assume generis user
         $user = new core_kernel_classes_Resource($userId);
         $props = $user->getPropertiesValues(array(
-        	RDFS_LABEL,
-            PROPERTY_USER_MAIL
+            OntologyRdfs::RDFS_LABEL,
+            GenerisRdf::PROPERTY_USER_MAIL
         ));
-        $label = (isset($props[RDFS_LABEL]) && !empty($props[RDFS_LABEL])) ? (string)reset($props[RDFS_LABEL]) : '('.$userId.')';
+        $label = (isset($props[OntologyRdfs::RDFS_LABEL]) && !empty($props[OntologyRdfs::RDFS_LABEL])) ? (string)reset($props[OntologyRdfs::RDFS_LABEL]) : '('.$userId.')';
         $label = StringUtils::wrapLongWords($label);
-        $mail = (isset($props[PROPERTY_USER_MAIL]) && !empty($props[PROPERTY_USER_MAIL])) ? (string)reset($props[PROPERTY_USER_MAIL]) : '';
+        $mail = (isset($props[GenerisRdf::PROPERTY_USER_MAIL]) && !empty($props[GenerisRdf::PROPERTY_USER_MAIL])) ? (string)reset($props[GenerisRdf::PROPERTY_USER_MAIL]) : '';
         return !empty($mail)
             ? '<a href="mailto:'.$mail.'">'.$label.'</a>'
             : $label;
@@ -95,7 +97,7 @@ class UserHelper
      */
     public static function getUserLabel(User $user)
     {
-        return self::getUserStringProp($user, RDFS_LABEL);
+        return self::getUserStringProp($user, OntologyRdfs::RDFS_LABEL);
     }
 
     /**
@@ -105,7 +107,7 @@ class UserHelper
      */
     public static function getUserLogin(User $user)
     {
-        return self::getUserStringProp($user, PROPERTY_USER_LOGIN);
+        return self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_LOGIN);
     }
 
     /**
@@ -115,7 +117,7 @@ class UserHelper
      */
     public static function getUserMail(User $user)
     {
-        return self::getUserStringProp($user, PROPERTY_USER_MAIL);
+        return self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_MAIL);
     }
 
     /**
@@ -126,7 +128,7 @@ class UserHelper
      */
     public static function getUserFirstName(User $user, $defaultToLabel = false)
     {
-        $firstName = self::getUserStringProp($user, PROPERTY_USER_FIRSTNAME);
+        $firstName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_FIRSTNAME);
 
         if (empty($firstName) && $defaultToLabel) {
             $firstName = self::getUserLabel($user);
@@ -143,7 +145,7 @@ class UserHelper
      */
     public static function getUserLastName(User $user, $defaultToLabel = false)
     {
-        $lastName = self::getUserStringProp($user, PROPERTY_USER_LASTNAME);
+        $lastName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_LASTNAME);
 
         if (empty($lastName) && $defaultToLabel) {
             $lastName = self::getUserLabel($user);
@@ -160,8 +162,8 @@ class UserHelper
      */
     public static function getUserName(User $user, $defaultToLabel = false)
     {
-        $firstName = self::getUserStringProp($user, PROPERTY_USER_FIRSTNAME);
-        $lastName = self::getUserStringProp($user, PROPERTY_USER_LASTNAME);
+        $firstName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_FIRSTNAME);
+        $lastName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_LASTNAME);
         
         $userName = trim($firstName . ' ' . $lastName);
         

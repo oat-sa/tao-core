@@ -19,10 +19,12 @@
  */
 namespace oat\tao\model\routing;
 
-use Context;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
 use common_http_Request;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -31,8 +33,9 @@ use Psr\Http\Message\ServerRequestInterface;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class TaoFrontController
+class TaoFrontController implements ServiceManagerAwareInterface
 {
+    use ServiceManagerAwareTrait;
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response) {
         $request->getUri();
@@ -60,36 +63,28 @@ class TaoFrontController
         $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
         \tao_helpers_I18n::init($ext, $uiLang);
 
-        //if the controller is a rest controller we try to authenticate the user
-        $controllerClass = $resolver->getControllerClass();
+        try {
+            /** @var RestSessionFactory $service */
+            $service = $this->getServiceLocator()->get(RestSessionFactory::SERVICE_ID);
+            $service->createSessionFromRequest($pRequest, $resolver);
+        } catch (\common_user_auth_AuthFailedException $e) {
+            $data['success']	= false;
+            $data['errorCode']	= '401';
+            $data['errorMsg']	= 'You are not authorized to access this functionality.';
+            $data['version']	= TAO_VERSION;
 
-        if (is_subclass_of($controllerClass, \tao_actions_RestController::class)) {
-            $authAdapter = new \tao_models_classes_HttpBasicAuthAdapter(common_http_Request::currentRequest());
-            try {
-                $user = $authAdapter->authenticate();
-                $session = new \common_session_RestSession($user);
-                \common_session_SessionManager::startSession($session);
-            } catch (\common_user_auth_AuthFailedException $e) {
-                $data['success']	= false;
-                $data['errorCode']	= '401';
-                $data['errorMsg']	= 'You are not authorized to access this functionality.';
-                $data['version']	= TAO_VERSION;
-
-                header('HTTP/1.0 401 Unauthorized');
-                header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
-                echo json_encode($data);
-                exit(0);
-            }
+            header('HTTP/1.0 401 Unauthorized');
+            header('WWW-Authenticate: Basic realm="' . GENERIS_INSTANCE_NAME . '"');
+            echo json_encode($data);
+            exit(0);
         }
 
 
-        try
-        {
+        try {
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
+            $this->propagate($enforcer);
             $enforcer->execute();
-        }
-        catch (InterruptedActionException $iE)
-        {
+        } catch (InterruptedActionException $iE) {
             // Nothing to do here.
         }
     }

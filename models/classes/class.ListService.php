@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -59,7 +60,7 @@ class tao_models_classes_ListService
     {
         
         
-    	$this->parentListClass = new core_kernel_classes_Class(TaoOntology::LIST_CLASS_URI);
+    	$this->parentListClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST);
         
         
     }
@@ -77,7 +78,7 @@ class tao_models_classes_ListService
 
         
         
-        $returnValue[] = new core_kernel_classes_Class(GENERIS_BOOLEAN); 
+        $returnValue[] = new core_kernel_classes_Class(GenerisRdf::GENERIS_BOOLEAN);
         
         foreach($this->parentListClass->getSubClasses(false) as $list){
         	$returnValue[] = $list;
@@ -160,7 +161,7 @@ class tao_models_classes_ListService
         $returnValue = array();
 
     	if($sort){
-        	$levelProperty = new core_kernel_classes_Property(TaoOntology::LIST_LEVEL_PROP);
+        	$levelProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL);
         	foreach ($listClass->getInstances(false) as $element) {
         	    $literal = $element->getOnePropertyValue($levelProperty);
         	    $level = is_null($literal) ? 0 : (string) $literal;
@@ -272,7 +273,7 @@ class tao_models_classes_ListService
 	        	$label = __('Element') . ' ' . $level;
 	        }
 	        $returnValue = $this->createInstance($listClass, $label);
-	        $this->bindProperties($returnValue, array(TaoOntology::LIST_LEVEL_PROP => count($this->getListElements($listClass, false))));
+	        $this->bindProperties($returnValue, array(TaoOntology::PROPERTY_LIST_LEVEL => count($this->getListElements($listClass, false))));
         }
         
 
