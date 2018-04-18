@@ -1,6 +1,5 @@
 <?php
-use oat\oatbox\user\LoginService;
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -20,19 +19,19 @@ use oat\oatbox\user\LoginService;
  * 
  */
 
+use oat\oatbox\user\LoginService;
+use oat\oatbox\user\LoginFailedException;
+
 /**
  * HTTP Authentication implementation of RFC 2617 (http://tools.ietf.org/html/rfc2617)
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
-class tao_models_classes_HttpBasicAuthAdapter
-	implements common_user_auth_Adapter
+class tao_models_classes_HttpBasicAuthAdapter implements common_user_auth_Adapter
 {
     /**
-     * 
      * @var common_http_Request
      */
 	private $request;
@@ -42,21 +41,22 @@ class tao_models_classes_HttpBasicAuthAdapter
 	 * 
 	 * @param common_http_Request $request
 	 */
-	public function __construct(common_http_Request $request) {
+	public function __construct(common_http_Request $request)
+    {
 	    $this->request = $request;
 	}
-	
-	/**
-     * (non-PHPdoc)
+
+    /**
      * @see common_user_auth_Adapter::authenticate()
+     *
+     * @return common_user_User
+     * @throws LoginFailedException
      */
-    public function authenticate() {
-    	
-        //$headers = $this->request->getHeaders();
-        if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")){
-            throw new \oat\oatbox\user\LoginFailedException(array('Rest (Basic) login failed for user (missing login/password)'));
+    public function authenticate()
+    {
+        if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER']=="") {
+            throw new LoginFailedException(array('Rest (Basic) login failed for user (missing login/password)'));
         }
-        
         return LoginService::authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
     }
 }
