@@ -18,22 +18,22 @@
  *
  */
 
-namespace oat\tao\test\model\search\index;
+namespace oat\tao\test\model\resources;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-use oat\tao\model\search\index\IndexResourceIterator;
+use oat\tao\model\resources\ResourceIterator;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\oatbox\service\ServiceManager;
 
 /**
- * Class IndexResourceIterator
+ * Class ResourceIteratorTest
  * @package oat\tao\model\search\index
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class IndexResourceIteratorTest extends TaoPhpUnitTestRunner
+class ResourceIteratorTest extends TaoPhpUnitTestRunner
 {
 
     public function tearDown()
@@ -51,7 +51,7 @@ class IndexResourceIteratorTest extends TaoPhpUnitTestRunner
 
         $criteria = $queryBuilder->newQuery();
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 4);
-        $iterator = new IndexResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#IndexResourceIteratorTest'], $criteria);
+        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest'], $criteria);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $this->assertTrue($iterator->current() === null);
         $this->assertTrue($iterator->valid() === false);
@@ -59,7 +59,7 @@ class IndexResourceIteratorTest extends TaoPhpUnitTestRunner
 
         $criteria = $queryBuilder->newQuery();
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 2);
-        $iterator = new IndexResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#IndexResourceIteratorTest'], $criteria);
+        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest'], $criteria);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $resultArray = [];
         $resultArray[] = $iterator->current()->getLabel();
@@ -73,14 +73,14 @@ class IndexResourceIteratorTest extends TaoPhpUnitTestRunner
 
         $criteria = $queryBuilder->newQuery();
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 3);
-        $iterator = new IndexResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#IndexResourceIteratorTest'], $criteria);
+        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest'], $criteria);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $this->assertEquals('3', $iterator->current()->getLabel());
         $iterator->next();
         $this->assertTrue($iterator->valid() === false);
 
 
-        $iterator = new IndexResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#IndexResourceIteratorTest']);
+        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest']);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $resultArray = [];
         $resultArray[] = $iterator->current()->getLabel();
@@ -96,7 +96,7 @@ class IndexResourceIteratorTest extends TaoPhpUnitTestRunner
 
     private function removeResources()
     {
-        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#IndexResourceIteratorTest');
+        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest');
         foreach ($class->getInstances() as $instance) {
             $instance->delete();
         }
@@ -104,7 +104,7 @@ class IndexResourceIteratorTest extends TaoPhpUnitTestRunner
 
     private function loadResources()
     {
-        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#IndexResourceIteratorTest');
+        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest');
         $class->createInstance(1);
         $class->createInstance(2);
         $class->createInstance(3);

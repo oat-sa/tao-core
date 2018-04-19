@@ -20,7 +20,7 @@
  */
 
 use oat\tao\model\TaoOntology;
-
+use oat\oatbox\user\UserLanguageServiceInterface;
 /**
  * This container initialize the settings form.
  *
@@ -70,7 +70,8 @@ class tao_actions_form_UserSettings
     {
         
 		$langService = tao_models_classes_LanguageService::singleton();
-		
+		$userLangService = oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
+
     	// Retrieve languages available for a GUI usage.
     	$guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
 		$guiOptions = array();
@@ -91,12 +92,13 @@ class tao_actions_form_UserSettings
 
         $this->form->addElement($uiLangElement);
 
-        $dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Combobox');
-        $dataLangElement->setDescription(__('Data language'));
-        $dataLangElement->setOptions($dataOptions);
+        if ($userLangService->isDataLanguageEnabled()) {
+            $dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Combobox');
+            $dataLangElement->setDescription(__('Data language'));
+            $dataLangElement->setOptions($dataOptions);
+            $this->form->addElement($dataLangElement);
+        }
 
-        $this->form->addElement($dataLangElement);
-        
         $tzElement = tao_helpers_form_FormFactory::getElement('timezone', 'Combobox');
         $tzElement->setDescription(__('Time zone'));
         $options = array();
@@ -111,5 +113,3 @@ class tao_actions_form_UserSettings
     }
 
 }
-
-?>

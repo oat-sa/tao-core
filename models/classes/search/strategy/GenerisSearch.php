@@ -42,7 +42,7 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $type, $start = 0, $count = 10) {
+    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC') {
         $rootClass = $this->getClass($type);
         $results = $rootClass->searchInstances(array(
             OntologyRdfs::RDFS_LABEL => $queryString
@@ -106,7 +106,11 @@ class GenerisSearch extends ConfigurableService implements Search
     public function index($document = [])
     {
         // nothing to do
-        return true;
+        $i = 0;
+        foreach ($document as $resuource) {
+            $i++;
+        }
+        return $i;
     }
     
     /**

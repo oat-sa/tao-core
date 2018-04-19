@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\tao\model\search\index;
+namespace oat\tao\model\resources;
 
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\base\QueryInterface;
@@ -30,11 +30,11 @@ use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 
 /**
- * Class IndexResourceIterator
+ * Class ResourceIterator
  * @package oat\tao\model\search\index
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class IndexResourceIterator extends \core_kernel_classes_ResourceIterator implements ServiceLocatorAwareInterface
+class ResourceIterator extends \core_kernel_classes_ResourceIterator implements ServiceLocatorAwareInterface
 {
 
     use ServiceLocatorAwareTrait;

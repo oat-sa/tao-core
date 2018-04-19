@@ -30,6 +30,7 @@ use oat\tao\model\menu\MenuService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
+use oat\tao\model\resources\ResourceIterator;
 
 /**
  * Class IndexService
@@ -70,6 +71,7 @@ class IndexService extends ConfigurableService
             $this->updateLastIndexTime($time);
         }
         $result = $searchService->index($indexIterator);
+        $this->logDebug($result . ' resources have been indexed by ' . static::class);
         return $result;
     }
 
@@ -213,7 +215,7 @@ class IndexService extends ConfigurableService
             SupportedOperatorHelper::BETWEEN,
             [$from, $to]
         );
-        $iterator = new IndexResourceIterator($this->getIndexedClasses(), $criteria);
+        $iterator = new ResourceIterator($this->getIndexedClasses(), $criteria);
         $iterator->setServiceLocator($this->getServiceLocator());
         return $iterator;
     }
