@@ -16,7 +16,7 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2012-2017 (update and modification) Open Assessment Technologies SA;
+ *               2012-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
 
@@ -149,25 +149,27 @@ class tao_helpers_data_CsvFile
     }
 
     /**
-     * Short description of method load
+     * Load the file and parse csv lines
+     *
+     * Extract headers if `first_row_column_names` is in $this->options
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string path
+     * @param  string $source
      * @return void
      */
-    public function load($path)
+    public function load($source)
     {
-        if ($path instanceof File) {
-            $resource = $path->readStream();
+        if ($source instanceof File) {
+            $resource = $source->readStream();
         } else {
-            if (!is_file($path)) {
-                throw new InvalidArgumentException("Expected CSV file '${path}' could not be open.");
+            if (!is_file($source)) {
+                throw new InvalidArgumentException("Expected CSV file '" . $source . "' could not be open.");
             }
-            if (!is_readable($path)) {
-                throw new InvalidArgumentException("CSV file '${path}' is not readable.");
+            if (!is_readable($source)) {
+                throw new InvalidArgumentException("CSV file '" . $source . "' is not readable.");
             }
-            $resource = fopen($path, 'r');
+            $resource = fopen($source, 'r');
         }
 
         // More readable variables
@@ -285,7 +287,7 @@ class tao_helpers_data_CsvFile
      */
     public function count()
     {
-        return (int) count($this->getData());
+        return (int)count($this->getData());
     }
 
     /**
@@ -360,7 +362,7 @@ class tao_helpers_data_CsvFile
      */
     public function getColumnCount()
     {
-        return (int) $this->columnCount;
+        return (int)$this->columnCount;
     }
 
     /**
