@@ -43,6 +43,7 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
 
     public function testNext()
     {
+        $this->removeResources();
         $this->loadResources();
 
         /** @var ComplexSearchService $search */
@@ -51,15 +52,15 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
 
         $criteria = $queryBuilder->newQuery();
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 4);
-        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest'], $criteria);
+        $iterator = new ResourceIterator($this->getClasses(), $criteria);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $this->assertTrue($iterator->current() === null);
         $this->assertTrue($iterator->valid() === false);
 
-
+        $queryBuilder = $search->query();
         $criteria = $queryBuilder->newQuery();
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 2);
-        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest'], $criteria);
+        $iterator = new ResourceIterator($this->getClasses(), $criteria);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $resultArray = [];
         $resultArray[] = $iterator->current()->getLabel();
@@ -73,14 +74,14 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
 
         $criteria = $queryBuilder->newQuery();
         $criteria->addCriterion(OntologyRdfs::RDFS_LABEL, SupportedOperatorHelper::GREATER_THAN_EQUAL, 3);
-        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest'], $criteria);
+        $iterator = new ResourceIterator($this->getClasses(), $criteria);
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $this->assertEquals('3', $iterator->current()->getLabel());
         $iterator->next();
         $this->assertTrue($iterator->valid() === false);
 
 
-        $iterator = new ResourceIterator(['http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest']);
+        $iterator = new ResourceIterator($this->getClasses());
         $iterator->setServiceLocator(ServiceManager::getServiceManager());
         $resultArray = [];
         $resultArray[] = $iterator->current()->getLabel();
@@ -94,19 +95,42 @@ class ResourceIteratorTest extends TaoPhpUnitTestRunner
         $this->assertTrue($iterator->valid() === false);
     }
 
+    public function testLoadResources()
+    {
+        $this->removeResources();
+        $this->loadResources(ResourceIterator::CACHE_SIZE * 2);
+        $iterator = new ResourceIterator($this->getClasses());
+        $iterator->setServiceLocator(ServiceManager::getServiceManager());
+        $n = 0;
+        foreach ($iterator as $resource) {
+            $n++;
+        }
+        $this->assertEquals(ResourceIterator::CACHE_SIZE * 2, $n);
+    }
+
     private function removeResources()
     {
-        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest');
-        foreach ($class->getInstances() as $instance) {
-            $instance->delete();
+        $classes = $this->getClasses();
+        foreach ($classes as $class) {
+            foreach ($class->getInstances() as $instance) {
+                $instance->delete();
+            }
         }
     }
 
-    private function loadResources()
+    private function loadResources($amount = 3)
     {
-        $class = new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest');
-        $class->createInstance(1);
-        $class->createInstance(2);
-        $class->createInstance(3);
+        $classes = $this->getClasses();
+        for ($i = 1; $i <= $amount; $i++) {
+            $classes[$i%2]->createInstance($i);
+        }
+    }
+
+    private function getClasses()
+    {
+        return [
+            new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest1'),
+            new \core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#ResourceIteratorTest2'),
+        ];
     }
 }

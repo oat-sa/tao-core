@@ -24,8 +24,6 @@ use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\base\QueryInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use oat\generis\model\OntologyRdf;
-use oat\search\helper\SupportedOperatorHelper;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 
@@ -38,6 +36,8 @@ class ResourceIterator extends \core_kernel_classes_ResourceIterator implements 
 {
 
     use ServiceLocatorAwareTrait;
+
+    private $classessUsedInCriteria = [];
 
     /** @var QueryInterface */
     private $criteria;
@@ -63,12 +63,18 @@ class ResourceIterator extends \core_kernel_classes_ResourceIterator implements 
     {
         $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
         $queryBuilder = $search->query()->setLimit(self::CACHE_SIZE)->setOffset($offset);
+
+        $criteria = $search->searchType($queryBuilder, $class->getUri(), false);
         if ($this->criteria !== null) {
-            $this->criteria->addCriterion(OntologyRdf::RDF_TYPE, SupportedOperatorHelper::EQUAL, $class->getUri());
-        } else {
-            $this->criteria = $search->searchType($queryBuilder, $class->getUri(), false);
+            foreach ($this->criteria->getStoredQueryCriteria() as $storedQueryCriterion) {
+                $criteria->addCriterion(
+                    $storedQueryCriterion->getName(),
+                    $storedQueryCriterion->getOperator(),
+                    $storedQueryCriterion->getValue()
+                );
+            }
         }
-        $queryBuilder->setCriteria($this->criteria);
+        $queryBuilder = $queryBuilder->setCriteria($criteria);
         return $search->getGateway()->search($queryBuilder);
     }
 }
