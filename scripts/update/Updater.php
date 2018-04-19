@@ -744,14 +744,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.17.0');
         }
 
-        $this->skip('17.17.0', '18.1.1');
-
-        if ($this->isVersion('18.1.1')) {
-            $indexService = $this->getServiceManager()->get(IndexService::SERVICE_ID);
-            $indexService->setOption(IndexService::OPTION_INDEX_SINCE_LAST_RUN, false);
-            $this->getServiceManager()->register(IndexService::SERVICE_ID, $indexService);
-            $this->setVersion('18.2.0');
-        }
+        $this->skip('17.17.0', '18.2.0');
     }
 
 }

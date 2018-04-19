@@ -43,9 +43,6 @@ class IndexService extends ConfigurableService
     const SERVICE_ID = 'tao/IndexService';
     const INDEX_MAP_PROPERTY_DEFAULT = 'default';
     const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
-    const OPTION_LASTRUN_STORE = 'lastrun_store';
-    const OPTION_INDEX_SINCE_LAST_RUN = 'index_since_last_run';
-    const LAST_LAUNCH_TIME_KEY = 'tao/IndexService:lastLaunchTime';
 
     /** @var array */
     private $map;
@@ -57,19 +54,10 @@ class IndexService extends ConfigurableService
      */
     public function runIndexing()
     {
-        $time = microtime(true);
-        $sinceLast = $this->hasOption(self::OPTION_INDEX_SINCE_LAST_RUN) ? $this->getOption(self::OPTION_INDEX_SINCE_LAST_RUN): false;
-        if ($sinceLast) {
-            $iterator = $this->getResourceIterator($this->getLastIndexTime(), $time);
-        } else {
-            $iterator = $this->getResourceIterator();
-        }
+        $iterator = $this->getResourceIterator();
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        if ($sinceLast) {
-            $this->updateLastIndexTime($time);
-        }
         $result = $searchService->index($indexIterator);
         $this->logDebug($result . ' resources have been indexed by ' . static::class);
         return $result;
@@ -177,25 +165,6 @@ class IndexService extends ConfigurableService
     }
 
     /**
-     * Update time of the last indexation
-     * @throws \common_Exception
-     */
-    protected function updateLastIndexTime($time)
-    {
-        $this->getPersistence()->set(self::LAST_LAUNCH_TIME_KEY, $time);
-    }
-
-    /**
-     * Get time of the last indexation. 0 if no time in the storage.
-     * @return integer
-     */
-    protected function getLastIndexTime()
-    {
-        $result = $this->getPersistence()->get(self::LAST_LAUNCH_TIME_KEY);
-        return $result ? $result : 0;
-    }
-
-    /**
      * @return \Iterator
      * @param boolean $sinceLast load resources updated/created since last indexation
      */
@@ -234,18 +203,5 @@ class IndexService extends ConfigurableService
             }
         }
         return array_values($classes);
-    }
-
-    /**
-     * @return \common_persistence_KeyValuePersistence
-     * @throws
-     */
-    private function getPersistence()
-    {
-        if (!$this->hasOption(self::OPTION_LASTRUN_STORE)) {
-            throw new \InvalidArgumentException('Persistence for ' . self::SERVICE_ID . ' is not configured');
-        }
-        $persistenceId = $this->getOption(self::OPTION_LASTRUN_STORE);
-        return $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
     }
 }

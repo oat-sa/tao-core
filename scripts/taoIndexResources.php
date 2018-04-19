@@ -22,4 +22,4 @@ use oat\tao\model\search\SearchService;
 
 require_once dirname(__FILE__) .'/../includes/raw_start.php';
 
-var_dump(SearchService::runIndexing());
+SearchService::runIndexing();
