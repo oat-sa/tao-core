@@ -23,144 +23,12 @@ use oat\generis\Helper\UserHashForEncryption;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\TaoOntology;
-use common_report_Report as Report;
 
-class RdsUserImportService extends ConfigurableService implements UserImportServiceInterface
+class RdsUserImportService extends AbstractImportService implements UserImportServiceInterface
 {
-    use LoggerAwareTrait;
     use OntologyAwareTrait;
-
-    /** @var array Default CSV controls */
-    protected $csvControls = [
-        'delimiter' => ',',
-        'enclosure' => '"',
-        'escape' => '\\',
-    ];
-
-    /** @var array  */
-    protected $headerColumns = [];
-
-    /** @var UserMapper */
-    private $mapper;
-
-    /**
-     * @param $filePath
-     * @param array $extraProperties
-     * @param array $options
-     * @return Report
-     * @throws \Exception
-     * @throws \common_exception_Error
-     */
-    public function import($filePath, $extraProperties = [], $options = [])
-    {
-        $report = Report::createInfo('Starting importing users.');
-        if (!file_exists($filePath) || !is_readable($filePath) || ($fileHandler = fopen($filePath, 'r')) === false) {
-            throw new \Exception('File to import cannot be loaded.');
-        }
-
-        $csvControls = $this->getCsvControls($options);
-        extract($csvControls);
-
-        $index = 0;
-        while (($line = fgetcsv($fileHandler, 0, $delimiter, $enclosure, $escape)) !== false) {
-            $index++;
-            $data = array_map('trim', $line);
-
-            if (count($data) == 1) {
-                $csvControlsString = implode(', ', array_map(
-                    function ($v, $k) { return sprintf("%s: '%s'", $k, $v); },
-                    $csvControls,
-                    array_keys($csvControls)
-                ));
-                $report->add(Report::createFailure(
-                    'It seems that the csv is malformed. The delimiter \'' . $delimiter . '\' does not explode the line correctly (only one cell).' .
-                    "\n" . ' Csv controls are ' . $csvControlsString
-
-                ));
-                break;
-            }
-
-            if ($index === 1) {
-                $this->headerColumns = array_map('strtolower', $data);
-                continue;
-            }
-
-            if (count($this->headerColumns) !== count($data)) {
-                $message = 'CSV file is malformed at line ' . $index . '. Data skipped';
-                $this->logWarning($message);
-                $report->add(Report::createFailure($message));
-                continue;
-            }
-
-            try {
-                $combinedRow = $this->formatData($data, $extraProperties);
-
-                $mapper = $this->getUserMapper()->map($combinedRow)->combine($extraProperties);
-                if ($mapper->isEmpty()) {
-                    $message = 'Mapper doesn\'t achieve to extract data for line ' . $index . '. Data skipped';
-                    $this->logWarning($message);
-                    $report->add(Report::createFailure($message));
-                    continue;
-                }
-
-                $user = $this->persistUser($mapper);
-                $message = 'User imported with success: '. $user->getUri();
-                $this->logInfo($message);
-                $report->add(Report::createSuccess($message));
-            } catch (\Exception $exception) {
-                $report->add(Report::createFailure($exception->getMessage()));
-            }
-        }
-
-        return $report;
-    }
-
-    /**
-     * Get the mapper
-     *
-     * @return UserMapper
-     */
-    public function getMapper()
-    {
-        return $this->mapper;
-    }
-
-    /**
-     * Set the mapper
-     *
-     * @param UserMapper $userMapper
-     * @return RdsUserImportService
-     */
-    public function setMapper(UserMapper $userMapper)
-    {
-        $this->mapper = $userMapper;
-        return $this;
-    }
-
-    /**
-     * Merge the given $options csv controls to default
-     *
-     * @param array $options
-     * @return array
-     */
-    protected function getCsvControls(array $options)
-    {
-        $csvControls = $this->csvControls;
-        if (isset($options['delimiter'])) {
-            $csvControls['delimiter'] = $options['delimiter'];
-        }
-        if (isset($options['enclosure'])) {
-            $csvControls['enclosure'] = $options['enclosure'];
-        }
-        if (isset($options['escape'])) {
-            $csvControls['escape'] = $options['escape'];
-        }
-        return $csvControls;
-    }
 
     /**
      * Format the $data with $extraProperties
@@ -171,21 +39,26 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
      */
     protected function formatData(array $data, array $extraProperties)
     {
-        $combinedRow = array_combine($this->headerColumns, $data);
         if (isset($extraProperties[UserRdf::PROPERTY_ROLES])) {
-            $combinedRow['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
+            $data['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
         }
-        return $combinedRow;
+
+        return $data;
     }
 
     /**
      * Persist a user, create or update
      *
-     * @param UserMapper $userMapper
+     * @param ImportMapper $userMapper
      * @return \core_kernel_classes_Resource
+     * @throws \Exception
      */
-    protected function persistUser(UserMapper $userMapper)
+    protected function persist(ImportMapper $userMapper)
     {
+        if (!$userMapper instanceof UserMapper) {
+            throw new \Exception('Mapper should be a UserMapper');
+        }
+
         $plainPassword = $userMapper->getPlainPassword();
         $properties    = $userMapper->getProperties();
 
@@ -264,16 +137,24 @@ class RdsUserImportService extends ConfigurableService implements UserImportServ
     }
 
     /**
-     * Get the user mapper to map csv column to rdf properties
-     *
-     * @return UserMapper
+     * @param array $data
+     * @param array $csvControls
+     * @param string $delimiter
+     * @throws \Exception
      */
-    protected function getUserMapper()
+    protected function applyCsvImportRules(array $data, array $csvControls, $delimiter)
     {
-        if (is_null($this->mapper)) {
-            throw new \LogicException('Mapper is not initialized and importer cannot process.');
-        }
+        if (count($data) == 1) {
+            $csvControlsString = implode(', ', array_map(
+                function ($v, $k) { return sprintf("%s: '%s'", $k, $v); },
+                $csvControls,
+                array_keys($csvControls)
+            ));
+            throw new \Exception(
+                'It seems that the csv is malformed. The delimiter \'' . $delimiter . '\' does not explode the line correctly (only one cell).' .
+                "\n" . ' Csv controls are ' . $csvControlsString
 
-        return $this->mapper;
+            );
+        }
     }
 }

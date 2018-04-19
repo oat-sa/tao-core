@@ -16,15 +16,32 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-
 namespace oat\tao\model\user\import;
 
-interface UserMapper extends ImportMapper
+interface ImportServiceInterface
 {
     /**
-     * Get the plain password
+     * Launch the import of a csv file located at $filePath
      *
-     * @return string|null
+     * @param $filePath
+     * @param array $extraProperties Rdf properties that need to be injected (role, FirstTimeInTao...)
+     * @param array $options Contains technical options e.q. csvControls
+     * @return \common_report_Report
      */
-    public function getPlainPassword();
+    public function import($filePath, $extraProperties = [], $options = []);
+
+    /**
+     * Get the mapper
+     *
+     * @return ImportMapper|false
+     */
+    public function getMapper();
+
+    /**
+     * Set the mapper to use to map csv column to rdf properties
+     *
+     * @param ImportMapper $importMapper
+     * @return $this
+     */
+    public function setMapper(ImportMapper $importMapper);
 }
