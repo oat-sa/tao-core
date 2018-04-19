@@ -134,9 +134,10 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         	throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
 
+        /** @var UploadService $uploadService */
+        $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
+
         if (!$source instanceof File) {
-            /** @var UploadService $uploadService */
-            $uploadService = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID);
             $file = $uploadService->getUploadedFlyFile($source);
         } else {
             $file = $source;
@@ -212,8 +213,8 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 		    $report->setMessage(__('Imported %1$d/%2$d. Some records are invalid.', $createdResources, $toImport));
 		}
 
-        $file->delete();
-		
+		$uploadService->remove($file);
+
 		return $report;
     }
 
