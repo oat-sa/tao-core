@@ -166,25 +166,10 @@ class IndexService extends ConfigurableService
 
     /**
      * @return \Iterator
-     * @param boolean $sinceLast load resources updated/created since last indexation
      */
-    protected function getResourceIterator($from = null, $to = null)
+    protected function getResourceIterator()
     {
-        if ($from === null) {
-            $from = 0;
-        }
-        if ($to === null) {
-            $to = microtime(true);
-        }
-        $search = $this->getServiceLocator()->get(ComplexSearchService::class);
-        $queryBuilder = $search->query();
-        $criteria = $queryBuilder->newQuery();
-        $criteria->addCriterion(
-            TaoOntology::PROPERTY_UPDATED_AT,
-            SupportedOperatorHelper::BETWEEN,
-            [$from, $to]
-        );
-        $iterator = new ResourceIterator($this->getIndexedClasses(), $criteria);
+        $iterator = new ResourceIterator($this->getIndexedClasses());
         $iterator->setServiceLocator($this->getServiceLocator());
         return $iterator;
     }

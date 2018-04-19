@@ -20,7 +20,11 @@
 
 namespace oat\tao\model\search\index;
 
+use oat\tao\model\TaoOntology;
 use oat\tao\model\search\Search;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\search\helper\SupportedOperatorHelper;
+use oat\tao\model\resources\ResourceIterator;
 
 /**
  * Class IndexSinceLastRunService
@@ -46,6 +50,31 @@ class IndexSinceLastRunService extends IndexService
         $this->updateLastIndexTime($time);
         $this->logDebug($result . ' resources have been indexed by ' . static::class);
         return $result;
+    }
+
+    /**
+     * @return \Iterator
+     * @param boolean $sinceLast load resources updated/created since last indexation
+     */
+    protected function getResourceIterator($from = null, $to = null)
+    {
+        if ($from === null) {
+            $from = 0;
+        }
+        if ($to === null) {
+            $to = microtime(true);
+        }
+        $search = $this->getServiceLocator()->get(ComplexSearchService::class);
+        $queryBuilder = $search->query();
+        $criteria = $queryBuilder->newQuery();
+        $criteria->addCriterion(
+            TaoOntology::PROPERTY_UPDATED_AT,
+            SupportedOperatorHelper::BETWEEN,
+            [$from, $to]
+        );
+        $iterator = new ResourceIterator($this->getIndexedClasses(), $criteria);
+        $iterator->setServiceLocator($this->getServiceLocator());
+        return $iterator;
     }
 
     /**
