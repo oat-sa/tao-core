@@ -31,10 +31,9 @@ interface SessionBuilder
      * The $request and $resolver is used to know the context
      *
      * @param \common_http_Request $request
-     * @param Resolver $resolver
      * @return boolean
      */
-    public function isApplicable(\common_http_Request $request, Resolver $resolver);
+    public function isApplicable(\common_http_Request $request);
 
     /**
      * Construct the session based on request

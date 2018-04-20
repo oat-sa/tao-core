@@ -40,10 +40,12 @@ interface Search extends PhpSerializable
      * @param string $rootClass
      * @param int $start
      * @param int $count
+     * @param int $order
+     * @param int $dir
      *
      * @return ResultSet
      */
-    public function query( $queryString, $type, $start = 0, $count = 10 );
+    public function query( $queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC');
 
     /**
      * Delete all indexes
