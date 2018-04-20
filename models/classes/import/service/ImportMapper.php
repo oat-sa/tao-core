@@ -30,7 +30,7 @@ interface ImportMapper
      *
      * @param array $data
      * @throws \Exception
-     * @return UserMapper
+     * @return ImportMapper
      */
     public function map(array $data = []);
 
@@ -38,7 +38,7 @@ interface ImportMapper
      * Merge some $extraProperties to already mapped properties
      *
      * @param array $extraProperties
-     * @return UserMapper
+     * @return ImportMapper
      */
     public function combine(array $extraProperties);
 
