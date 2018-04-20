@@ -35,7 +35,7 @@ abstract class AbstractOntologyMapper extends ConfigurableService implements Imp
 
     /**
      * @param array $data
-     * @return $this|UserMapper
+     * @return $this|ImportMapper
      * @throws MandatoryFieldException
      */
     public function map(array $data = [])
