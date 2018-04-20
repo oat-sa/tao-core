@@ -66,7 +66,10 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
             ])
             ->getMockForAbstractClass();
 
-        $resource = $this->getMockBuilder(core_kernel_classes_Resource::class)->setMethods(['getUri', 'searchInstances', 'createInstanceWithProperties'])->disableOriginalConstructor()->getMock();
+        $resource = $this->getMockBuilder(core_kernel_classes_Resource::class)
+            ->setMethods(['getUri', 'searchInstances', 'createInstanceWithProperties', 'removePropertyValues', 'editPropertyValues'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $resource
             ->method('getUri')
             ->willReturn(rand(0, 1000));
