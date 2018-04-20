@@ -16,7 +16,7 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-namespace oat\tao\model\user\import;
+namespace oat\tao\model\import\service;
 
 interface ImportServiceInterface
 {

@@ -22,6 +22,7 @@ namespace oat\tao\model\user\import;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\import\service\ImporterFactory;
 
 class UserCsvImporterFactory extends ConfigurableService implements ImporterFactory
 {

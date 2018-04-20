@@ -17,42 +17,28 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\user\import;
+namespace oat\tao\model\import\service;
 
-interface ImportMapper
+use oat\oatbox\service\exception\InvalidService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+
+interface ImporterFactory
 {
-    const OPTION_SCHEMA = 'schema';
-    const OPTION_SCHEMA_MANDATORY = 'mandatory';
-    const OPTION_SCHEMA_OPTIONAL = 'optional';
+    const OPTION_DEFAULT_SCHEMA = 'default-schema';
+    const OPTION_MAPPERS = 'mappers';
+    const OPTION_MAPPERS_IMPORTER = 'importer';
+    const OPTION_MAPPERS_MAPPER = 'mapper';
 
     /**
-     * Map CSV column to user properties
+     * Create an importer for the given user type.
      *
-     * @param array $data
-     * @throws \Exception
-     * @return UserMapper
-     */
-    public function map(array $data = []);
-
-    /**
-     * Merge some $extraProperties to already mapped properties
+     * User type is defined in a config mapper and is associated to a role
      *
-     * @param array $extraProperties
-     * @return UserMapper
+     * @param $type
+     * @return mixed
+     * @throws \common_exception_NotFound
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
      */
-    public function combine(array $extraProperties);
-
-    /**
-     * Check is current mapper achieve to extract data
-     *
-     * @return bool
-     */
-    public function isEmpty();
-
-    /**
-     * Get user mapped properties
-     *
-     * @return array
-     */
-    public function getProperties();
+    public function getImporter($type);
 }

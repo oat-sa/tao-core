@@ -24,6 +24,8 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\UserUpdatedEvent;
+use oat\tao\model\import\service\AbstractImportService;
+use oat\tao\model\import\service\ImportMapper;
 use oat\tao\model\TaoOntology;
 
 class RdsUserImportService extends AbstractImportService implements UserImportServiceInterface

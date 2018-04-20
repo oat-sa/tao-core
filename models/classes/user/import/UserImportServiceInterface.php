@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\user\import;
 
+use oat\tao\model\import\service\ImportServiceInterface;
+
 interface UserImportServiceInterface extends ImportServiceInterface
 {
 }
