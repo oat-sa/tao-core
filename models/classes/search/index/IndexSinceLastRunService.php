@@ -59,7 +59,7 @@ class IndexSinceLastRunService extends IndexService
     protected function getResourceIterator($from = null, $to = null)
     {
         if ($from === null) {
-            $from = 0;
+            return parent::getResourceIterator();
         }
         if ($to === null) {
             $to = microtime(true);
