@@ -19,6 +19,7 @@
 
 namespace oat\tao\model\import\service;
 
+use oat\oatbox\filesystem\File;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use common_report_Report as Report;
@@ -65,18 +66,25 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     abstract protected function applyCsvImportRules(array $data, array $csvControls, $delimiter);
 
     /**
-     * @param $filePath
+     * @param $file
      * @param array $extraProperties
      * @param array $options
      * @return Report
      * @throws \Exception
      * @throws \common_exception_Error
      */
-    public function import($filePath, $extraProperties = [], $options = [])
+    public function import($file, $extraProperties = [], $options = [])
     {
         $reports = [];
         $hasFailure = false;
-        if (!file_exists($filePath) || !is_readable($filePath) || ($fileHandler = fopen($filePath, 'r')) === false) {
+
+        if ($file instanceof File){
+            if ($file->exists()){
+                $fileHandler = $file->readStream();
+            }else{
+                throw new \Exception('File to import cannot be loaded.');
+            }
+        } else if (!file_exists($file) || !is_readable($file) || ($fileHandler = fopen($file, 'r')) === false) {
             throw new \Exception('File to import cannot be loaded.');
         }
 

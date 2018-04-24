@@ -23,12 +23,12 @@ interface ImportServiceInterface
     /**
      * Launch the import of a csv file located at $filePath
      *
-     * @param $filePath
+     * @param $file
      * @param array $extraProperties Rdf properties that need to be injected (role, FirstTimeInTao...)
      * @param array $options Contains technical options e.q. csvControls
      * @return \common_report_Report
      */
-    public function import($filePath, $extraProperties = [], $options = []);
+    public function import($file, $extraProperties = [], $options = []);
 
     /**
      * Get the mapper
