@@ -26,7 +26,7 @@ class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
 
         if ($exception) {
-            $this->setExpectedException($exception);
+            $this->expectException($exception);
         }
 
         $ontologyInjector->setOptions($options);
@@ -137,7 +137,7 @@ class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $property->setValue($ontologyInjector, $readers);
 
-        $this->setExpectedException(MetadataInjectorReadException::class);
+        $this->expectException(MetadataInjectorReadException::class);
         $ontologyInjector->read($dataSourceFixture);
     }
 
@@ -209,7 +209,9 @@ class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
 
     public function testWrite()
     {
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, [], [], '', false);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
@@ -244,7 +246,9 @@ class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
 
     public function testWriteExceptionNotOntologyWriter()
     {
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, [], [], '', false);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
@@ -271,7 +275,9 @@ class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
 
     public function testWriteExceptionCannotValidate()
     {
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, [], [], '', false);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
@@ -298,7 +304,9 @@ class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
 
     public function testWriteExceptionCannotWriteValue()
     {
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, [], [], '', false);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 

@@ -47,7 +47,10 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
 
     protected function getResourceMockery()
     {
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['exists'], ['uri-test-' . uniqid()]);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uri-test-' . uniqid()])
+            ->setMethods(['exists'])
+            ->getMock();
         $resource->expects($this->any())
             ->method('exists')
             ->willReturn(true);
