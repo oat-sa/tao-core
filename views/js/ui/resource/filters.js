@@ -49,13 +49,41 @@ define([
         applyLabel: __('Apply'),
     };
 
+
+    /**
+     * Filter and possibly convert properties to supported widget types
+     *
+     * @param data
+     * @returns {Object}
+     */
+    var setupData = function setupProperties(data) {
+        var properties = [];
+
+        _.forEach(data.properties, function(property) {
+            if(_.contains(supportedWidgets, property.widget)) {
+                properties.push(property);
+            }
+            else if(data.ranges[property.range]) {
+                property.widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox';
+                property.range  = data.ranges[property.range];
+                properties.push(property);
+            }
+        });
+
+        return {
+            properties: properties,
+            values: data.ranges
+        };
+    };
+
+
+
     /**
      * Builds the filter component
      *
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
      * @param {String} config.classUri - the root Class URI
-     * @param {String} config.data - the root Class URI
      * @param {Object} config.data.properties - the list of properties used to filter
      * @param {Object} config.data.ranges - the property ranges
      * @param {String} [config.title] - the form title
@@ -116,22 +144,15 @@ define([
              */
             update : function update(data){
                 var self = this;
-                var properties;
                 if(this.is('rendered')){
 
                     this.getElement().empty();
 
-                    properties = _.filter(data.properties, function(property){
-                        return _.contains(supportedWidgets, property.widget);
-                    });
-
-                    this.form = generisFormFactory({
-                        properties : properties,
-                        values     : data.ranges
-                    }, {
-                        submitText : this.config.applyLabel,
-                        title      : this.config.title
-                    }).on('submit reset', function(){
+                    this.form = generisFormFactory(
+                        setupData(data), {
+                            submitText : this.config.applyLabel,
+                            title      : this.config.title
+                        }).on('submit reset', function(){
 
                         /**
                          * Apply the filter values
@@ -140,7 +161,7 @@ define([
                          */
                         self.trigger('change', this.getValues());
                     })
-                    .render(this.getElement());
+                        .render(this.getElement());
                 }
                 return this;
             },
