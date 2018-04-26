@@ -122,7 +122,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
         $this->assertEquals(2, count($mock->getInjectors()));
     }
 
-    public function testGetInjectorWhitoutValidInterface()
+    public function testGetInjectorWithoutValidInterface()
     {
         $importer = new MockeryTest_MetadataOntologyImport(array(
             'injectorWithInvalidInterface' => [],
@@ -133,7 +133,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
         $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
         $method->setAccessible(true);
 
-        $this->setExpectedException(InconsistencyConfigException::class);
+        $this->expectException(InconsistencyConfigException::class);
         $method->invoke($importer);
     }
 
@@ -150,7 +150,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
         $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
         $method->setAccessible(true);
 
-        $this->setExpectedException(InconsistencyConfigException::class);
+        $this->expectException(InconsistencyConfigException::class);
         $method->invoke($importer);
     }
 
