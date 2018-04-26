@@ -47,7 +47,10 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
 
     protected function getResourceMockery()
     {
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['exists'], ['uri-test-' . uniqid()]);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uri-test-' . uniqid()])
+            ->setMethods(['exists'])
+            ->getMock();
         $resource->expects($this->any())
             ->method('exists')
             ->willReturn(true);
@@ -119,7 +122,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
         $this->assertEquals(2, count($mock->getInjectors()));
     }
 
-    public function testGetInjectorWhitoutValidInterface()
+    public function testGetInjectorWithoutValidInterface()
     {
         $importer = new MockeryTest_MetadataOntologyImport(array(
             'injectorWithInvalidInterface' => [],
@@ -130,7 +133,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
         $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
         $method->setAccessible(true);
 
-        $this->setExpectedException(InconsistencyConfigException::class);
+        $this->expectException(InconsistencyConfigException::class);
         $method->invoke($importer);
     }
 
@@ -147,7 +150,7 @@ class OntologyMetadataTest extends TaoPhpUnitTestRunner
         $method = new \ReflectionMethod(get_class($importer), 'getInjectors');
         $method->setAccessible(true);
 
-        $this->setExpectedException(InconsistencyConfigException::class);
+        $this->expectException(InconsistencyConfigException::class);
         $method->invoke($importer);
     }
 
