@@ -27,7 +27,8 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetImporterDefined()
     {
         /** @var UserCsvImporterFactory $service */
-        $service = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()->setMethods(['buildService','getOption'])->getMock();
+        $service = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()
+            ->setMethods(['buildService','getOption', 'propagate'])->getMock();
 
         $service
             ->method('buildService')

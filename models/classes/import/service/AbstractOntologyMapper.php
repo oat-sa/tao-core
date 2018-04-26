@@ -37,6 +37,7 @@ abstract class AbstractOntologyMapper extends ConfigurableService implements Imp
      * @param array $data
      * @return $this|ImportMapper
      * @throws MandatoryFieldException
+     * @throws \Exception
      */
     public function map(array $data = [])
     {
@@ -47,21 +48,42 @@ abstract class AbstractOntologyMapper extends ConfigurableService implements Imp
             if (!isset($data[$key])) {
                 throw new MandatoryFieldException('Mandatory field "' . $key . '" should exists.');
             }
+
             if (empty($data[$key])) {
                 throw new MandatoryFieldException('Mandatory field "' . $key . '" should not be empty.');
             }
 
-            $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
+            $value = $data[$key];
+            if (is_array($propertyKey) && count($propertyKey) === 1){
+                $valueMapper = reset($propertyKey);
+                if ($valueMapper instanceof ImportValueMapperInterface){
+                    $propertyKey = key($propertyKey);
+                    $this->propagate($valueMapper);
+                    $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
+                }
+            } else {
+                $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
+            }
         }
 
         $optionalFields = isset($schema[static::OPTION_SCHEMA_OPTIONAL]) ? $schema[static::OPTION_SCHEMA_OPTIONAL] : [];
 
         foreach ($optionalFields as $key => $propertyKey) {
-            if (!isset($data[$key]) || empty($data[$key])) {
+            if (!isset($data[$key])) {
                 continue;
             }
 
-            $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
+            $value = $data[$key];
+            if (is_array($propertyKey) && count($propertyKey) === 1){
+                $valueMapper = reset($propertyKey);
+                if ($valueMapper instanceof ImportValueMapperInterface){
+                    $propertyKey = key($propertyKey);
+                    $this->propagate($valueMapper);
+                    $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
+                }
+            }else{
+                $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
+            }
         }
 
         return $this;

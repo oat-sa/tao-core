@@ -112,6 +112,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
 
                 $combinedRow = array_combine($this->headerColumns, $data);
                 $combinedRow = $this->formatData($combinedRow, $extraProperties);
+                $combinedRow = array_merge($combinedRow, $extraProperties);
 
                 $mapper = $this->getMapper()->map($combinedRow)->combine($extraProperties);
                 if ($mapper->isEmpty()) {
@@ -124,8 +125,12 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
 
                 $resource = $this->persist($mapper);
 
-                $message = 'Resource imported with success: '. $resource->getUri();
-                $this->logInfo($message);
+                if ($resource instanceof \core_kernel_classes_Resource){
+                    $message = 'Resource imported with success: '. $resource->getUri();
+                    $this->logInfo($message);
+                } else{
+                    $message = $resource;
+                }
 
                 $reports[] = Report::createSuccess($message);
             } catch (\Exception $exception) {

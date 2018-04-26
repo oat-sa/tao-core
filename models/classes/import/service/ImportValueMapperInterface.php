@@ -16,31 +16,20 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+namespace oat\tao\model\import\service;
 
-namespace oat\tao\model\user\import;
-
-use oat\tao\model\import\service\AbstractImporterFactory;
-use oat\tao\model\import\service\ImportMapper;
-
-class UserCsvImporterFactory extends AbstractImporterFactory
+interface ImportValueMapperInterface
 {
-    const SERVICE_ID = 'tao/userCsvImporterFactory';
+    /**
+     * @param string $value
+     * @return mixed
+     * @throws RdsResourceNotFoundException
+     */
+    public function map($value);
 
     /**
-     * @return string
+     * @param $option
+     * @return mixed
      */
-    protected function getImportServiceInterface()
-    {
-        return UserImportServiceInterface::class;
-    }
-
-    /**
-     * @return ImportMapper
-     */
-    protected function getDefaultMapper()
-    {
-        $mapper = new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
-
-        return $mapper;
-    }
+    public function getOption($option);
 }
