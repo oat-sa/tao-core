@@ -43,7 +43,7 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
                 try {
                     $mapValues[] = $valueMapper->map($value);
                 } catch (RdsResourceNotFoundException $e) {
-                    $this->logError($e->getMessage());
+                    $this->logWarning($e->getMessage());
                 }
             }else{
                 $mapValues[] = $value;
