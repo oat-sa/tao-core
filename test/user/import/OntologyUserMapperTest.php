@@ -52,7 +52,7 @@ class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
      * @param $result
      *
      * @dataProvider provideInsufficientDataExample
-     * @expectedException \oat\tao\model\user\Import\MandatoryFieldException
+     * @expectedException \oat\tao\model\import\service\MandatoryFieldException
      *
      * @throws \Exception
      */
@@ -70,7 +70,7 @@ class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
      * @param $result
      *
      * @dataProvider provideEmptyFieldDataExample
-     * @expectedException \oat\tao\model\user\Import\MandatoryFieldException
+     * @expectedException \oat\tao\model\import\service\MandatoryFieldException
      *
      * @throws \Exception
      */

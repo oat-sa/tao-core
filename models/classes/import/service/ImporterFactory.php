@@ -17,16 +17,18 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\user\import;
+namespace oat\tao\model\import\service;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
-use oat\tao\model\import\service\ImporterFactory;
 
-class UserCsvImporterFactory extends ConfigurableService implements ImporterFactory
+interface ImporterFactory
 {
-    const SERVICE_ID = 'tao/userCsvImporterFactory';
+    const OPTION_DEFAULT_SCHEMA = 'default-schema';
+    const OPTION_MAPPERS = 'mappers';
+    const OPTION_MAPPERS_IMPORTER = 'importer';
+    const OPTION_MAPPERS_MAPPER = 'mapper';
+
     /**
      * Create an importer for the given user type.
      *
@@ -38,23 +40,5 @@ class UserCsvImporterFactory extends ConfigurableService implements ImporterFact
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function getImporter($type)
-    {
-        $typeOptions = $this->getOption(self::OPTION_MAPPERS);
-        if (isset($typeOptions[$type])) {
-            $typeOption = $typeOptions[$type];
-            if (isset($typeOption[self::OPTION_MAPPERS_IMPORTER])) {
-                $importer = $this->buildService($typeOption[self::OPTION_MAPPERS_IMPORTER], UserImportServiceInterface::class);
-                if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
-                    $mapper = $this->buildService($typeOption[self::OPTION_MAPPERS_MAPPER]);
-                } else {
-                    $mapper = new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
-                }
-                $importer->setMapper($mapper);
-                return $importer;
-            }
-        }
-        throw new \common_exception_NotFound('Unable to load importer for type : ' . $type);
-    }
-
+    public function getImporter($type);
 }
