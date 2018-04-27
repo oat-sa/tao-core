@@ -171,7 +171,6 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 		
 		//set default lang to the languages fields
 		$langService = tao_models_classes_LanguageService::singleton();
-
 		$userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
         if ($userLangService->isDataLanguageEnabled()) {
             $dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_DEFLG));

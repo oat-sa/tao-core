@@ -112,7 +112,6 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
 
                 $combinedRow = array_combine($this->headerColumns, $data);
                 $combinedRow = $this->formatData($combinedRow, $extraProperties);
-                $combinedRow = array_merge($combinedRow, $extraProperties);
 
                 $mapper = $this->getMapper()->map($combinedRow)->combine($extraProperties);
                 if ($mapper->isEmpty()) {

@@ -315,9 +315,6 @@ abstract class tao_helpers_form_FormElement
      */
     public function setDescription($description)
     {
-        if($description === 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName'){
-            common_Logger::e($description);
-        }
 		$this->description = $description;
     }
 

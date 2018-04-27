@@ -69,7 +69,7 @@ abstract class AbstractOntologyMapper extends ConfigurableService implements Imp
         $optionalFields = isset($schema[static::OPTION_SCHEMA_OPTIONAL]) ? $schema[static::OPTION_SCHEMA_OPTIONAL] : [];
 
         foreach ($optionalFields as $key => $propertyKey) {
-            if (!isset($data[$key])) {
+            if (!isset($data[$key]) || $data[$key] === '') {
                 continue;
             }
 

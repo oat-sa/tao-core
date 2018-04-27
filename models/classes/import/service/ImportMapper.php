@@ -24,7 +24,6 @@ interface ImportMapper
     const OPTION_SCHEMA = 'schema';
     const OPTION_SCHEMA_MANDATORY = 'mandatory';
     const OPTION_SCHEMA_OPTIONAL = 'optional';
-    const OPTION_MULTI_VALUE_DELIMITER = 'multi-value-delimiter';
 
     /**
      * Map CSV column to user properties

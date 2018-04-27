@@ -39,8 +39,6 @@ class UserCsvImporterFactory extends AbstractImporterFactory
      */
     protected function getDefaultMapper()
     {
-        $mapper = new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
-
-        return $mapper;
+        return new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
     }
 }
