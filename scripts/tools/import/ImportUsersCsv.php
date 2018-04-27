@@ -63,9 +63,8 @@ class ImportUsersCsv extends ScriptAction
         /** @var UserCsvImporterFactory $userImporter */
         $userImporter = $this->getServiceLocator()->get(UserCsvImporterFactory::SERVICE_ID);
         $importer = $userImporter->getImporter($this->getOption('user-type'));
-        return $importer->import($this->getOption('file-path'), [
-            TaoOntology::PROPERTY_USER_FIRST_TIME => GenerisRdf::GENERIS_FALSE,
-        ]);
+
+        return $importer->import($this->getOption('file-path'));
     }
 
 }
