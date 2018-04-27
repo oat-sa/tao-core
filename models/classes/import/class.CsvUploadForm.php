@@ -32,6 +32,8 @@ use oat\generis\Helper\SystemHelper;
 class tao_models_classes_import_CsvUploadForm
     extends tao_helpers_form_FormContainer
 {
+    const IS_OPTION_FIRST_COLUMN_ENABLE = 'enable_option_first_columns';
+
     // --- ASSOCIATIONS ---
 
 
@@ -124,16 +126,39 @@ class tao_models_classes_import_CsvUploadForm
 		$optMulti->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($optMulti);
 		*/
-		
-		$optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Checkbox');
-		$optFirstColumn->setDescription( __("First row column names"));
-        $optFirstColumn->setOptions(array(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => ''));
-		$optFirstColumn->setValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES);
-		$this->form->addElement($optFirstColumn);
-		
-		$this->form->createGroup('options', __('CSV Options'), array(
-		    $optDelimiter, $optEncloser, /*$optMulti,*/ $optFirstColumn
-		));
+
+		if (isset($this->options[static::IS_OPTION_FIRST_COLUMN_ENABLE])){
+		    if ($this->options[static::IS_OPTION_FIRST_COLUMN_ENABLE] === true){
+                $optFirstColumn = $this->addFirstColumnElement();
+            }
+        }else{
+		    //backwards compatible
+            $optFirstColumn = $this->addFirstColumnElement();
+        }
+
+        $opts = [$optDelimiter, $optEncloser];
+
+        if (isset($optFirstColumn)){
+		    $opts[] = $optFirstColumn;
+        }
+
+		$this->form->createGroup('options', __('CSV Options'),$opts);
     }
-   
+
+    /**
+     * @return tao_helpers_form_FormElement
+     * @throws Exception
+     * @throws common_Exception
+     */
+    protected function addFirstColumnElement()
+    {
+        $optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Checkbox');
+        $optFirstColumn->setDescription( __("First row column names"));
+        $optFirstColumn->setOptions(array(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => ''));
+        $optFirstColumn->setValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES);
+        $this->form->addElement($optFirstColumn);
+
+        return $optFirstColumn;
+    }
+
 }
