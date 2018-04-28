@@ -649,7 +649,6 @@ define([
              * @returns {shortcut} this
              */
             set: function set(shortcut, options) {
-                console.log('Set:' + shortcut);
                 _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);
@@ -674,15 +673,11 @@ define([
              * @returns {shortcut} this
              */
             add: function add(shortcut, handler, options) {
-                console.log('Add:' + shortcut);
                 if (_.isFunction(handler)) {
                     _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                         var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                         var descriptor = parseCommand(normalized);
                         var command = normalizeCommand(descriptor);
-                        console.log('normalized:' + normalized);
-                        console.log('descriptor:' + descriptor);
-                        console.log('command:' + command);
 
                         setOptions(descriptor, options);
                         registerCommand(command, descriptor);
