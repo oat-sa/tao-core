@@ -117,12 +117,13 @@ define([
      * @param {Function} listener
      */
     function registerEvent(target, eventName, listener) {
+        var listenerFn = _.debounce(listener, 250);
         if (target.addEventListener) {
-            target.addEventListener(eventName, listener, false);
+            target.addEventListener(eventName, listenerFn, false);
         } else if (target.attachEvent) {
-            target.attachEvent('on' + eventName, listener);
+            target.attachEvent('on' + eventName, listenerFn);
         } else {
-            target['on' + eventName] = listener;
+            target['on' + eventName] = listenerFn;
         }
     }
 
@@ -648,6 +649,7 @@ define([
              * @returns {shortcut} this
              */
             set: function set(shortcut, options) {
+                console.log('Set:' + shortcut);
                 _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                     var descriptor = parseCommand(normalized);
                     var command = normalizeCommand(descriptor);
@@ -672,11 +674,15 @@ define([
              * @returns {shortcut} this
              */
             add: function add(shortcut, handler, options) {
+                console.log('Add:' + shortcut);
                 if (_.isFunction(handler)) {
                     _.forEach(namespaceHelper.split(shortcut, true), function (normalized) {
                         var namespace = namespaceHelper.getNamespace(normalized, defaultNs);
                         var descriptor = parseCommand(normalized);
                         var command = normalizeCommand(descriptor);
+                        console.log('normalized:' + normalized);
+                        console.log('descriptor:' + descriptor);
+                        console.log('command:' + command);
 
                         setOptions(descriptor, options);
                         registerCommand(command, descriptor);
