@@ -744,7 +744,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.17.0');
         }
 
-        $this->skip('17.17.0', '18.5.0');
+        $this->skip('17.17.0', '18.4.0');
+
+        if ($this->isVersion('18.4.0')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            $this->setVersion('18.4.1');
+        }
+
+        $this->skip('18.4.1', '18.5.0');
     }
 
 }
