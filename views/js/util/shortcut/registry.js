@@ -111,13 +111,19 @@ define([
     };
 
     /**
+     * The number of milliseconds to delay for debounce
+     * @type {number}
+     */
+    var debounceDelay = 250;
+
+    /**
      * Registers an event handler on a particular element
      * @param {Element|Window} target
      * @param {String} eventName
      * @param {Function} listener
      */
     function registerEvent(target, eventName, listener) {
-        var listenerFn = _.debounce(listener, 250);
+        var listenerFn = _.debounce(listener, debounceDelay);
         if (target.addEventListener) {
             target.addEventListener(eventName, listenerFn, false);
         } else if (target.attachEvent) {
