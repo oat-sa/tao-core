@@ -36,8 +36,9 @@
 define([
     'jquery',
     'lodash',
+    'module',
     'util/namespace'
-], function ($, _, namespaceHelper) {
+], function ($, _, module, namespaceHelper) {
     'use strict';
 
     /**
@@ -111,10 +112,14 @@ define([
     };
 
     /**
-     * The number of milliseconds to delay for debounce
-     * @type {number}
+     * The default configuration if nothing
+     * is found on the module config
      */
-    var debounceDelay = 250;
+    var defaultConfig = {
+        debounceDelay: 500
+    };
+
+    var config = _.defaults(module.config() || {}, defaultConfig);
 
     /**
      * Registers an event handler on a particular element
@@ -123,7 +128,7 @@ define([
      * @param {Function} listener
      */
     function registerEvent(target, eventName, listener) {
-        var listenerFn = _.debounce(listener, debounceDelay);
+        var listenerFn = _.debounce(listener, config.debounceDelay);
         if (target.addEventListener) {
             target.addEventListener(eventName, listenerFn, false);
         } else if (target.attachEvent) {
