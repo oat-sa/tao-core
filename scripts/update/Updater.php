@@ -750,6 +750,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
             $this->setVersion('18.4.1');
         }
+
+        if ($this->isVersion('18.4.1')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao', 'mod' => 'Health']));
+            $this->setVersion('18.5.0');
+        }
     }
 
 }
