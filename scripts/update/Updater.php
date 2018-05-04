@@ -752,10 +752,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         if ($this->isVersion('18.4.1')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao', 'mod' => 'Health']));
+            $this->setVersion('18.5.0');
+        }
+        $this->skip('18.5.0', '18.6.0');
+
+        if ($this->isVersion('18.6.0')) {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/shortcut/registry', ['debounceDelay' => 250]
             );
-            $this->setVersion('18.5.0');
+            $this->setVersion('18.7.0');
         }
     }
 
