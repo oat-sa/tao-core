@@ -24,7 +24,8 @@ use oat\oatbox\extension\InstallAction;
 use oat\tao\model\ClientLibConfigRegistry;
 
 /**
- * This post-installation script creates the ContainerService
+ * Class SetShortcutRegistryConfig
+ * @package oat\tao\scripts\install
  */
 class SetShortcutRegistryConfig extends InstallAction
 {
@@ -38,7 +39,7 @@ class SetShortcutRegistryConfig extends InstallAction
     public function __invoke($params)
     {
         ClientLibConfigRegistry::getRegistry()->register(
-            'util/shortcut/registry', ['debounceDelay' => 500]
+            'util/shortcut/registry', ['debounceDelay' => 250]
         );
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'The util/shortcut/registry configured');
