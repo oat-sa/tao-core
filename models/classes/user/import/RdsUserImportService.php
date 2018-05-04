@@ -33,22 +33,6 @@ class RdsUserImportService extends AbstractImportService implements UserImportSe
     use OntologyAwareTrait;
 
     /**
-     * Format the $data with $extraProperties
-     *
-     * @param array $data
-     * @param array $extraProperties
-     * @return array
-     */
-    protected function formatData(array $data, array $extraProperties)
-    {
-        if (isset($extraProperties[UserRdf::PROPERTY_ROLES])) {
-            $data['roles'] = $extraProperties[UserRdf::PROPERTY_ROLES];
-        }
-
-        return $data;
-    }
-
-    /**
      * Persist a user, create or update
      *
      * @param ImportMapperInterface $userMapper
@@ -136,27 +120,5 @@ class RdsUserImportService extends AbstractImportService implements UserImportSe
         }
 
         return $user;
-    }
-
-    /**
-     * @param array $data
-     * @param array $csvControls
-     * @param string $delimiter
-     * @throws \Exception
-     */
-    protected function applyCsvImportRules(array $data, array $csvControls, $delimiter)
-    {
-        if (count($data) == 1) {
-            $csvControlsString = implode(', ', array_map(
-                function ($v, $k) { return sprintf("%s: '%s'", $k, $v); },
-                $csvControls,
-                array_keys($csvControls)
-            ));
-            throw new \Exception(
-                'It seems that the csv is malformed. The delimiter \'' . $delimiter . '\' does not explode the line correctly (only one cell).' .
-                "\n" . ' Csv controls are ' . $csvControlsString
-
-            );
-        }
     }
 }
