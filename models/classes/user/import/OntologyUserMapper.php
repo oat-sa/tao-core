@@ -21,93 +21,15 @@ namespace oat\tao\model\user\import;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\user\UserRdf;
-use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\import\service\AbstractOntologyMapper;
 use tao_models_classes_LanguageService;
-use oat\generis\model\user\PasswordConstraintsException;
 
-class OntologyUserMapper extends ConfigurableService implements UserMapper
+class OntologyUserMapper extends AbstractOntologyMapper implements UserMapper
 {
     use OntologyAwareTrait;
 
-    /** @var array */
-    protected $userMapped = [];
-
     /** @var string */
     protected $plainPassword;
-
-    /**
-     * @param array $data
-     * @return $this|UserMapper
-     * @throws MandatoryFieldException
-     * @throws PasswordConstraintsException
-     */
-    public function map(array $data = [])
-    {
-        $schema = $this->getOption(static::OPTION_SCHEMA);
-        $mandatoryFields = isset($schema[static::OPTION_SCHEMA_MANDATORY]) ? $schema[static::OPTION_SCHEMA_MANDATORY] : [];
-
-        foreach ($mandatoryFields as $key => $propertyKey) {
-            if (!isset($data[$key])) {
-                throw new MandatoryFieldException('Mandatory field "' . $key . '" should exists.');
-            }
-            if (empty($data[$key])) {
-                throw new MandatoryFieldException('Mandatory field "' . $key . '" should not be empty.');
-            }
-
-            if ($propertyKey === UserRdf::PROPERTY_PASSWORD) {
-                $this->plainPassword = $data[$key];
-            }
-
-            $this->userMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
-        }
-
-        $optionalFields = isset($schema[static::OPTION_SCHEMA_OPTIONAL]) ? $schema[static::OPTION_SCHEMA_OPTIONAL] : [];
-
-        foreach ($optionalFields as $key => $propertyKey) {
-            if (!isset($data[$key]) || empty($data[$key])) {
-                continue;
-            }
-
-            $this->userMapped[$propertyKey] = $this->formatValue($propertyKey, $data[$key]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param array $extraProperties
-     * @return array|mixed
-     */
-    public function combine(array $extraProperties)
-    {
-        $this->userMapped = array_merge($this->userMapped, $extraProperties);
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isEmpty()
-    {
-        return empty($this->userMapped);
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    /**
-     * @return array
-     */
-    public function getProperties()
-    {
-        return $this->userMapped;
-    }
 
     /**
      * @param string $key
@@ -119,6 +41,7 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
     {
         switch ($key) {
             case UserRdf::PROPERTY_PASSWORD:
+                $this->plainPassword = $value;
                 return $this->getPasswordHashService()->encrypt($value);
             case UserRdf::PROPERTY_UILG:
             case UserRdf::PROPERTY_DEFLG:
@@ -143,5 +66,15 @@ class OntologyUserMapper extends ConfigurableService implements UserMapper
     protected function getLanguageService()
     {
         return tao_models_classes_LanguageService::singleton();
+    }
+
+    /**
+     * Get the plain password
+     *
+     * @return string|null
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
     }
 }

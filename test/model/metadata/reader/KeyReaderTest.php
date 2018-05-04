@@ -2,6 +2,7 @@
 
 namespace oat\tao\test\model\metadata\import;
 
+
 use oat\tao\model\metadata\exception\reader\MetadataReaderNotFoundException;
 use oat\tao\model\metadata\reader\KeyReader;
 
@@ -16,31 +17,19 @@ class KeyReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('key', $property->getValue($reader));
     }
 
-    /**
-     * @dataProvider getValueProvider
-     */
-    public function testGetValue($key, $data, $expected, $exception)
+    public function testGetValue()
     {
-        $reader = new KeyReader(array('key' => $key));
+        $reader = new KeyReader(array('key' => 'key'));
 
-        if ($exception) {
-            $this->setExpectedException($exception);
-            $reader->getValue($data);
-        } else {
-            $value = $reader->getValue($data);
-            $this->assertEquals($expected, $value);
-        }
+        $value = $reader->getValue(['key' => 'expected']);
+        $this->assertEquals('expected', $value);
     }
 
-    public function getValueProvider()
+    public function testGetValueException()
     {
-        return [
-            // Found
-            ['key', ['key' => 'expected'], 'expected', false],
-
-            //Not found
-            ['key', ['not-expected' => 'value'], '', MetadataReaderNotFoundException::class],
-        ];
+        $this->expectException(MetadataReaderNotFoundException::class);
+        $reader = new KeyReader(array('key' => 'key'));
+        $reader->getValue(['not-expected' => 'value']);
     }
 
     /**
