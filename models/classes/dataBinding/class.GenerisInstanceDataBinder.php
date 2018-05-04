@@ -20,6 +20,8 @@
  * 
  */
 
+use oat\generis\model\OntologyRdf;
+
 /**
  * A data binder focusing on binding a source of data to a generis instance
  *
@@ -99,76 +101,67 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
     {
         $returnValue = null;
 
-        
-        
-        // Some predicates must be excluded.
-        // e.g. 'tao.forms.instance' which is only a tag to identify
-        // forms dedicated to RDF Resources edition.
-        $excludedPredicates = array('tao.forms.instance', 'id');
-        
         try {
 	        $instance = $this->getTargetInstance();
 			$eventManager = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
 	        foreach($data as $propertyUri => $propertyValue){
-	        	
-	        	if (false === in_array($propertyUri, $excludedPredicates)){
-	        		if($propertyUri == RDF_TYPE){
-	        			foreach($instance->getTypes() as $type){
-	        				$instance->removeType($type);
-	        			}
-	        			if(!is_array($propertyValue)){
-	        				$types = array($propertyValue) ;
-	        			}
-	        			foreach($types as $type){
-	        				$instance->setType(new core_kernel_classes_Class($type));
-	        			}
-	        			continue;
-	        		}
-	        		 
-	        		$prop = new core_kernel_classes_Property( $propertyUri );
-	        		$values = $instance->getPropertyValuesCollection($prop);
-	        		if($values->count() > 0){
-	        			if(is_array($propertyValue)){
-	        				$instance->removePropertyValues($prop);
-	        				foreach($propertyValue as $aPropertyValue){
-	        					$instance->setPropertyValue(
-	        							$prop,
-	        							$aPropertyValue
-	        					);
-	        				}
 
-	        			}
-	        			else if (is_string($propertyValue)){
-	        				$instance->editPropertyValues(
-	        						$prop,
-	        						$propertyValue
-	        				);
-	        				if(strlen(trim($propertyValue))==0){
-	        					//if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
-	        					$instance->removePropertyValues($prop, array('pattern' => ''));
-	        				}
-	        			}
-	        		}
-	        		else{
-	        			 
-	        			if(is_array($propertyValue)){
-	        				 
-	        				foreach($propertyValue as $aPropertyValue){
-	        					$instance->setPropertyValue(
-	        							$prop,
-	        							$aPropertyValue
-	        					);
-	        				}
-	        			}
-	        			else if (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0 ){
-	        				$instance->setPropertyValue(
-	        						$prop,
-	        						$propertyValue
-	        				);
-	        			}
-	        		}
-					$eventManager->trigger(new \oat\tao\model\event\MetadataModified($instance, $propertyUri, $propertyValue));
-	        	}
+                if($propertyUri == OntologyRdf::RDF_TYPE){
+                    foreach($instance->getTypes() as $type){
+                        $instance->removeType($type);
+                    }
+                    if(!is_array($propertyValue)){
+                        $types = array($propertyValue) ;
+                    }
+                    foreach($types as $type){
+                        $instance->setType(new core_kernel_classes_Class($type));
+                    }
+                    continue;
+                }
+
+                $prop = new core_kernel_classes_Property( $propertyUri );
+                $values = $instance->getPropertyValuesCollection($prop);
+                if($values->count() > 0){
+                    if(is_array($propertyValue)){
+                        $instance->removePropertyValues($prop);
+                        foreach($propertyValue as $aPropertyValue){
+                            $instance->setPropertyValue(
+                                $prop,
+                                $aPropertyValue
+                            );
+                        }
+
+                    }
+                    else if (is_string($propertyValue)){
+                        $instance->editPropertyValues(
+                            $prop,
+                            $propertyValue
+                        );
+                        if(strlen(trim($propertyValue))==0){
+                            //if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
+                            $instance->removePropertyValues($prop, array('pattern' => ''));
+                        }
+                    }
+                }
+                else{
+
+                    if(is_array($propertyValue)){
+
+                        foreach($propertyValue as $aPropertyValue){
+                            $instance->setPropertyValue(
+                                $prop,
+                                $aPropertyValue
+                            );
+                        }
+                    }
+                    else if (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0 ){
+                        $instance->setPropertyValue(
+                            $prop,
+                            $propertyValue
+                        );
+                    }
+                }
+                $eventManager->trigger(new \oat\tao\model\event\MetadataModified($instance, $propertyUri, $propertyValue));
 	        }
 	        
 	        $returnValue = $instance;

@@ -23,10 +23,13 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
+    'lodash'
 ], function(_){
     'use strict';
 
+    var config = {
+        level: 'info'
+    };
     var mapping = {
         trace : 'debug',
         debug : 'debug',
@@ -41,16 +44,21 @@ define([
      * @returns {logger} the logger
      */
     return {
+        setConfig : function setConfig(newConfig){
+            config = _.defaults(newConfig || {}, config);
+        },
         log : function log(record){
             var level = record.level;
-            if(_.isFunction(window.console[mapping[level]])){
-                if(record.err){
-                    window.console[mapping[level]].call(window.console, record.name, record.msg, record.err, record);
+            if (this.checkMinLevel(config.level, level)) {
+                if(_.isFunction(window.console[mapping[level]])){
+                    if(record.err){
+                        window.console[mapping[level]].call(window.console, record.name, record.msg, record.err, record);
+                    } else {
+                        window.console[mapping[level]].call(window.console, record.name, record.msg, record);
+                    }
                 } else {
-                    window.console[mapping[level]].call(window.console, record.name, record.msg, record);
+                    window.console.log('['+ level.toUpperCase() + ']', record.name, record.msg, record);
                 }
-            } else {
-                window.console.log('['+ level.toUpperCase() + ']', record.name, record.msg, record);
             }
         }
     };

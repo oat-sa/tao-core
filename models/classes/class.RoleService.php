@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\RoleChangedEvent;
 use oat\tao\model\event\RoleCreatedEvent;
@@ -77,7 +79,7 @@ class tao_models_classes_RoleService
      */
     protected function initRole()
     {
-    	$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE);
+    	$this->roleClass = new core_kernel_classes_Class(GenerisRdf::CLASS_ROLE);
     }
 
     /**
@@ -129,7 +131,7 @@ class tao_models_classes_RoleService
         $returnValue = (bool) false;
         $userService = tao_models_classes_UserService::singleton();
 
-        $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+        $rolesProperty = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
     	foreach ($users as $u){
     		$u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
 
@@ -161,10 +163,10 @@ class tao_models_classes_RoleService
     {
         $returnValue = array();
 
-        $filters = array(PROPERTY_USER_ROLES => $role->getUri());
+        $filters = array(GenerisRdf::PROPERTY_USER_ROLES => $role->getUri());
         $options = array('like' => false, 'recursive' => true);
 
-        $userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+        $userClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
         $results = $userClass->searchInstances($filters, $options);
 
         $returnValue = array_keys($results);

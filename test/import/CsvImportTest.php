@@ -18,6 +18,8 @@
  *
  */
 
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\import\CsvBasicImporter;
 use Prophecy\Argument;
@@ -29,16 +31,14 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 	const CSV_FILE_USERS_HEADER_UNICODE = '/../samples/csv/users1-header.csv';
 	const CSV_FILE_USERS_NO_HEADER_UNICODE = '/../samples/csv/users1-no-header.csv';
 	
-	public function testImport(){
+	public function testImport()
+    {
 		$importer = new CsvBasicImporter();
-
 		$staticMap = array();
-		//copy file because it should be removed
-		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
-		$file = tao_helpers_File::createTempDir().'/copy.csv';
-		tao_helpers_File::copy($path,$file);
-		$this->assertFileExists($file);
 		$map = array();
+
+		$file = $this->getTempFileToUpload('csv/users1-header.csv');
+
 		$resource = $this->prophesize('\core_kernel_classes_Resource');
 		$class = $this->prophesize('\core_kernel_classes_Class');
 		$class->createInstanceWithProperties($staticMap)->willReturn($resource->reveal());
@@ -49,16 +49,16 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertInstanceOf('common_report_Report',$report);
 		$this->assertEquals(16,count($report->getSuccesses()));
 		$this->assertEquals(common_report_Report::TYPE_SUCCESS,$report->getType());
-		$this->assertFileNotExists($file);
-
+		$this->assertFalse($file->exists());
 	}
 
-	public function testCsvMapping(){
+	public function testCsvMapping()
+    {
 		$importer = new CsvBasicImporter();
 
 		$expectedHeaderMap = array('label','First Name','Last Name','Login','Mail','password','UserUILg');
 
-		$labelProperty = new \core_kernel_classes_Property(RDFS_LABEL);
+		$labelProperty = new \core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL);
 
 		$property1 = $this->prophesize('\core_kernel_classes_Property');
 		$property1->getUri()->willReturn('uriproperty1');
@@ -79,7 +79,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$properties = array($labelProperty, $property1->reveal(), $property2->reveal(), $property3->reveal(), $property4->reveal());
 		$class = $this->prophesize('\core_kernel_classes_Class');
 		$class->getProperties(false)->willReturn($properties);
-		$class->getUri()->willReturn(CLASS_GENERIS_RESOURCE);
+		$class->getUri()->willReturn(GenerisRdf::CLASS_GENERIS_RESOURCE);
 
 		//copy file because it should be removed
 		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
@@ -92,18 +92,18 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertArrayHasKey('mapping',$map);
 		$this->assertEquals($expectedHeaderMap,$map['headerList']);
 		$this->assertCount(5,$map['classProperties']);
-		$this->assertArrayHasKey(RDFS_LABEL,$map['classProperties']);
+		$this->assertArrayHasKey(OntologyRdfs::RDFS_LABEL,$map['classProperties']);
 		$this->assertArrayHasKey('uriproperty1',$map['classProperties']);
 		$this->assertArrayHasKey('uriproperty2',$map['classProperties']);
 		$this->assertArrayHasKey('http://tao.unit/test.rdf#fIrstnAmE',$map['classProperties']);
 		$this->assertArrayHasKey('http://tao.unit/test.rdf#email',$map['classProperties']);
-		$this->assertEquals('Label',$map['classProperties'][RDFS_LABEL]);
+		$this->assertEquals('Label',$map['classProperties'][OntologyRdfs::RDFS_LABEL]);
 		$this->assertEquals('lAst naMe',$map['classProperties']['uriproperty1']);
 		$this->assertEquals('Login',$map['classProperties']['uriproperty2']);
 		$this->assertEquals('labelproperty3',$map['classProperties']['http://tao.unit/test.rdf#fIrstnAmE']);
 		$this->assertEquals('labelproperty4',$map['classProperties']['http://tao.unit/test.rdf#email']);
 		$this->assertCount(5,$map['mapping']);
-		$this->assertEquals(0,$map['mapping'][RDFS_LABEL]);
+		$this->assertEquals(0,$map['mapping'][OntologyRdfs::RDFS_LABEL]);
 		$this->assertEquals(2,$map['mapping']['uriproperty1']);
 		$this->assertEquals(3,$map['mapping']['uriproperty2']);
 		$this->assertEquals(1,$map['mapping']['http://tao.unit/test.rdf#fIrstnAmE']);
@@ -111,8 +111,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 	}
 
-
-	public function testGetDataSample(){
+	public function testGetDataSample()
+    {
 		$importer = new CsvBasicImporter();
 
 		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
@@ -138,7 +138,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		}
 	}
 
-	public function testGetColumnMapping(){
+	public function testGetColumnMapping()
+    {
 		$file = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
 		$importer = new CsvBasicImporter();
 		$class = new ReflectionClass('oat\\tao\\model\\import\\CsvBasicImporter');
@@ -155,7 +156,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($expectedHeader, $map);
 	}
 
-	public function testGetClassProperties(){
+	public function testGetClassProperties()
+    {
 		$importer = new CsvBasicImporter();
 		$class = new ReflectionClass('oat\\tao\\model\\import\\CsvBasicImporter');
 		$method = $class->getMethod('getClassProperties');
@@ -167,21 +169,16 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 		$propertiesExpected = array($property1, $property2, $property3);
 		$clazz = $this->prophesize('\core_kernel_classes_Class');
-		$clazz->getUri()->willReturn(CLASS_GENERIS_RESOURCE);
+		$clazz->getUri()->willReturn(GenerisRdf::CLASS_GENERIS_RESOURCE);
 		$clazz->getProperties(false)->willReturn($propertiesExpected);
 		$properties = $method->invokeArgs($importer, array($clazz->reveal()));
 
 		$this->assertEquals($propertiesExpected, $properties);
 	}
 
-	public function testImportRules() {
-
-        $path = $this->getSamplePath('/csv/users1-header-rules-validator.csv');
-
-        $file = tao_helpers_File::createTempDir() . '/temp-import-rules-validator.csv';
-        tao_helpers_File::copy($path, $file);
-        $this->assertFileExists($file);
-
+	public function testImportRules()
+    {
+        $file = $this->getTempFileToUpload('csv/users1-header-rules-validator.csv');
 
         $importer = new CsvBasicImporter();
         
@@ -250,9 +247,21 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
         $this->assertCount(6, $report->getErrors());
         
         //cause import has errors
-        $this->assertFileExists($file);
-        tao_helpers_File::remove($file);
-        $this->assertFileNotExists($file);
+        $this->assertFalse($file->exists());
+    }
+
+    /**
+     * @param $path
+     * @return \oat\oatbox\filesystem\File
+     */
+    protected function getTempFileToUpload($path)
+    {
+        //copy file because it should be removed
+        $path = $this->getSamplePath($path);
+        $file = $this->getTempDirectory()->getFile('test-import');
+        $file->write(file_get_contents($path));
+        $this->assertTrue($file->exists());
+        return $file;
     }
 
     /**
@@ -261,7 +270,10 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
      */
     protected function getSamplePath($path)
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'samples' . str_replace('/', DIRECTORY_SEPARATOR, $path);
+        return __DIR__ . DIRECTORY_SEPARATOR .
+            '..'. DIRECTORY_SEPARATOR .
+            'samples' . DIRECTORY_SEPARATOR .
+            trim($path, '\\/');
     }
 	
 }

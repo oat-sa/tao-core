@@ -16,12 +16,13 @@
  * 
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
  *               
- */               
+ */
 
-use oat\tao\model\search\SearchService;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\SyntaxException;
-use oat\tao\model\search\IndexService;
+use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
+use oat\tao\model\search\Search;
 
 /**
  * Controller for indexed searches
@@ -46,8 +47,8 @@ class tao_actions_Search extends tao_actions_CommonModule {
     	    ),
 	        'filter' => array(),
 	        'model' => array(
-                RDFS_LABEL => array(
-                    'id' => RDFS_LABEL,
+                OntologyRdfs::RDFS_LABEL => array(
+                    'id' => OntologyRdfs::RDFS_LABEL,
                     'label' => __('Label'),
                     'sortable' => false	        	
 	            )
@@ -83,7 +84,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
 
             //  if there is no results based on considering the query as URI
             if (empty($results)) {
-                $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
+                $results = $this->getServiceLocator()->get(Search::SERVICE_ID)->query($query, $class->getUri(), $startRow, $rows);
             }
 
             $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
@@ -95,7 +96,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
                     $instance = new core_kernel_classes_Resource($uri);
                     $instanceProperties = array(
                         'id' => $instance->getUri(),
-                        RDFS_LABEL => $instance->getLabel() 
+                        OntologyRdfs::RDFS_LABEL => $instance->getLabel()
                     );
     
                     $response->data[] = $instanceProperties; 
@@ -119,7 +120,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
         
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
-            $indexes = IndexService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
+            $indexes = OntologyIndexService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
             $json = array();
             
             foreach ($indexes as $propertyUri => $index) {

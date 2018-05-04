@@ -19,6 +19,7 @@
  * 
  */
 
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -85,7 +86,7 @@ class tao_actions_form_Translate
 		
 		$dataLangElement = tao_helpers_form_FormFactory::getElement('translate_lang', 'Combobox');
 		$dataLangElement->setDescription(__('Translate to'));
-		$dataLangElement->setOptions(tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(TaoOntology::PROPERTY_STANCE_LANGUAGE_USAGE_DATA)));
+		$dataLangElement->setOptions(tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
 		$dataLangElement->setEmptyOption(__('Select a language'));
 		$dataLangElement->addValidator( tao_helpers_form_FormFactory::getValidator('NotEmpty') );
 		$this->form->addElement($dataLangElement);
@@ -114,7 +115,7 @@ class tao_actions_form_Translate
 					   $element instanceof tao_helpers_form_elements_TextArea ||
 					   $element instanceof tao_helpers_form_elements_HtmlArea
 					  ) ) ||
-					$propertyUri == RDFS_LABEL){	
+					$propertyUri == OntologyRdfs::RDFS_LABEL){
 				
 					$translatedElt = clone $element;
 					
@@ -132,7 +133,7 @@ class tao_actions_form_Translate
 					
 					$translatedElt->setDescription(' ');
 					$translatedElt->setValue('');
-					if($propertyUri == RDFS_LABEL){
+					if($propertyUri == OntologyRdfs::RDFS_LABEL){
 						$translatedElt->setForcedValid();
 					}
 				

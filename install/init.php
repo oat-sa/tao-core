@@ -39,17 +39,21 @@ $loggerService->addLogger(
     )
 );
 
+$loggerService->addLogger(
+    new \oat\oatbox\log\logger\TaoLog(array(
+        'appenders' => array(
+            array(
+                'class' => 'SingleFileAppender',
+                'threshold' => common_Logger::TRACE_LEVEL,
+                'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log'
+            )
+        )
+    ))
+);
+
 // Initializing the dependency container.
 $container = new \Pimple\Container(
     array(
         \oat\oatbox\log\LoggerService::SERVICE_ID => $loggerService,
     )
 );
-
-common_log_Dispatcher::singleton()->init(array(
-    array(
-        'class' => 'SingleFileAppender',
-        'threshold' => common_Logger::TRACE_LEVEL,
-        'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log'
-    )
-));

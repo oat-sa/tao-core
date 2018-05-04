@@ -37,6 +37,7 @@ module.exports = function(grunt) {
                     '../js/ui/animable/pulsable/css/pulse.css' : '../js/ui/animable/pulsable/scss/pulse.scss',
                     '../js/ui/badge/css/badge.css' : '../js/ui/badge/scss/badge.scss',
                     '../js/ui/loadingButton/css/button.css' : '../js/ui/loadingButton/scss/button.scss',
+                    '../js/ui/destination/css/selector.css' : '../js/ui/destination/scss/selector.scss',
                 }
             }
         },
