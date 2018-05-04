@@ -38,7 +38,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /** @var array  */
     protected $headerColumns = [];
 
-    /** @var ImportMapper */
+    /** @var ImportMapperInterface */
     protected $mapper;
 
     /**
@@ -51,10 +51,10 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     abstract protected function formatData(array $data, array $extraProperties);
 
     /**
-     * @param ImportMapper $mapper
+     * @param ImportMapperInterface $mapper
      * @return \core_kernel_classes_Resource
      */
-    abstract protected function persist(ImportMapper $mapper);
+    abstract protected function persist(ImportMapperInterface $mapper);
 
     /**
      * @param array $data
@@ -148,7 +148,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /**
      * Get the mapper
      *
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     public function getMapper()
     {
@@ -162,10 +162,10 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /**
      * Set the mapper
      *
-     * @param ImportMapper $mapper
+     * @param ImportMapperInterface $mapper
      * @return $this
      */
-    public function setMapper(ImportMapper $mapper)
+    public function setMapper(ImportMapperInterface $mapper)
     {
         $this->mapper = $mapper;
 

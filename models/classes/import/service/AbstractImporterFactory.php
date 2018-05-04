@@ -23,7 +23,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 
-abstract class AbstractImporterFactory extends ConfigurableService implements ImporterFactory
+abstract class AbstractImporterFactory extends ConfigurableService implements ImporterFactoryInterface
 {
     /**
      * @return string
@@ -31,7 +31,7 @@ abstract class AbstractImporterFactory extends ConfigurableService implements Im
     abstract protected function getImportServiceInterface();
 
     /**
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     abstract protected function getDefaultMapper();
 
@@ -46,7 +46,7 @@ abstract class AbstractImporterFactory extends ConfigurableService implements Im
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function getImporter($type)
+    public function create($type)
     {
         $typeOptions = $this->getOption(self::OPTION_MAPPERS);
         if (isset($typeOptions[$type])) {

@@ -24,7 +24,7 @@ use oat\generis\model\user\UserRdf;
 use oat\tao\model\import\service\AbstractOntologyMapper;
 use tao_models_classes_LanguageService;
 
-class OntologyUserMapper extends AbstractOntologyMapper implements UserMapper
+class OntologyUserMapper extends AbstractOntologyMapper implements UserMapperInterface
 {
     use OntologyAwareTrait;
 

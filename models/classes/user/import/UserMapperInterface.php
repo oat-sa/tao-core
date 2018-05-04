@@ -17,28 +17,16 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\model\import\service;
+namespace oat\tao\model\user\import;
 
-use oat\oatbox\service\exception\InvalidService;
-use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\import\service\ImportMapperInterface;
 
-interface ImporterFactory
+interface UserMapperInterface extends ImportMapperInterface
 {
-    const OPTION_DEFAULT_SCHEMA = 'default-schema';
-    const OPTION_MAPPERS = 'mappers';
-    const OPTION_MAPPERS_IMPORTER = 'importer';
-    const OPTION_MAPPERS_MAPPER = 'mapper';
-
     /**
-     * Create an importer for the given user type.
+     * Get the plain password
      *
-     * User type is defined in a config mapper and is associated to a role
-     *
-     * @param $type
-     * @return mixed
-     * @throws \common_exception_NotFound
-     * @throws InvalidService
-     * @throws InvalidServiceManagerException
+     * @return string|null
      */
-    public function getImporter($type);
+    public function getPlainPassword();
 }

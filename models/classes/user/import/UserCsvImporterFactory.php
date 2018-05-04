@@ -20,7 +20,7 @@
 namespace oat\tao\model\user\import;
 
 use oat\tao\model\import\service\AbstractImporterFactory;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 
 class UserCsvImporterFactory extends AbstractImporterFactory
 {
@@ -35,10 +35,10 @@ class UserCsvImporterFactory extends AbstractImporterFactory
     }
 
     /**
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     protected function getDefaultMapper()
     {
-        return new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
+        return new OntologyUserMapper([UserMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
     }
 }

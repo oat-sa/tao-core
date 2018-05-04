@@ -19,7 +19,7 @@
 
 namespace oat\tao\model\import\service;
 
-interface ImportMapper
+interface ImportMapperInterface
 {
     const OPTION_SCHEMA = 'schema';
     const OPTION_SCHEMA_MANDATORY = 'mandatory';
@@ -30,7 +30,7 @@ interface ImportMapper
      *
      * @param array $data
      * @throws \Exception
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     public function map(array $data = []);
 
@@ -38,7 +38,7 @@ interface ImportMapper
      * Merge some $extraProperties to already mapped properties
      *
      * @param array $extraProperties
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     public function combine(array $extraProperties);
 

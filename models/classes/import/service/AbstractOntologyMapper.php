@@ -21,7 +21,7 @@ namespace oat\tao\model\import\service;
 
 use oat\oatbox\service\ConfigurableService;
 
-abstract class AbstractOntologyMapper extends ConfigurableService implements ImportMapper
+abstract class AbstractOntologyMapper extends ConfigurableService implements ImportMapperInterface
 {
     /** @var array */
     protected $propertiesMapped = [];
@@ -35,7 +35,7 @@ abstract class AbstractOntologyMapper extends ConfigurableService implements Imp
 
     /**
      * @param array $data
-     * @return $this|ImportMapper
+     * @return $this|ImportMapperInterface
      * @throws MandatoryFieldException
      * @throws \Exception
      */

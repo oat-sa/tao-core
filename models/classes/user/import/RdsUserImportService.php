@@ -25,7 +25,7 @@ use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\import\service\AbstractImportService;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\TaoOntology;
 
 class RdsUserImportService extends AbstractImportService implements UserImportServiceInterface
@@ -51,13 +51,13 @@ class RdsUserImportService extends AbstractImportService implements UserImportSe
     /**
      * Persist a user, create or update
      *
-     * @param ImportMapper $userMapper
+     * @param ImportMapperInterface $userMapper
      * @return \core_kernel_classes_Resource
      * @throws \Exception
      */
-    protected function persist(ImportMapper $userMapper)
+    protected function persist(ImportMapperInterface $userMapper)
     {
-        if (!$userMapper instanceof UserMapper) {
+        if (!$userMapper instanceof UserMapperInterface) {
             throw new \Exception('Mapper should be a UserMapper');
         }
 

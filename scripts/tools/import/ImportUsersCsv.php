@@ -62,7 +62,7 @@ class ImportUsersCsv extends ScriptAction
     {
         /** @var UserCsvImporterFactory $userImporter */
         $userImporter = $this->getServiceLocator()->get(UserCsvImporterFactory::SERVICE_ID);
-        $importer = $userImporter->getImporter($this->getOption('user-type'));
+        $importer = $userImporter->create($this->getOption('user-type'));
 
         return $importer->import($this->getOption('file-path'));
     }

@@ -66,8 +66,8 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
             }));
 
 
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->getImporter('test-taker'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->getImporter('proctor'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->getImporter('test-center-admin'));
+        $this->assertInstanceOf(UserImportServiceInterface::class, $service->create('test-taker'));
+        $this->assertInstanceOf(UserImportServiceInterface::class, $service->create('proctor'));
+        $this->assertInstanceOf(UserImportServiceInterface::class, $service->create('test-center-admin'));
     }
 }
