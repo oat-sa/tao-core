@@ -756,5 +756,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('18.5.0');
         }
         $this->skip('18.5.0', '18.6.0');
+
+        if ($this->isVersion('18.6.0')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/shortcut/registry', ['debounceDelay' => 250]
+            );
+            $this->setVersion('18.7.0');
+        }
     }
+
 }
