@@ -621,19 +621,10 @@ define([
 
                 if (shortcutHandlers) {
                     _.forEach(shortcutHandlers, function (handler) {
-                        console.log('--------------');
-                        console.log(handler);
-                        console.log('--------------');
                         handler(event, command);
                     });
                 }
             }
-        }
-
-        function test(event, command) {
-            _.forEach(shortcutHandlers, function (handler) {
-                handler(event, command);
-            });
         }
 
         if (root.jquery) {
