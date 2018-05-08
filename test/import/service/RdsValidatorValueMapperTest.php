@@ -95,6 +95,7 @@ class RdsValidatorValueMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $instanceOf
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function mockResource($instanceOf)

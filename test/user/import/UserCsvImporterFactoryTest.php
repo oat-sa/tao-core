@@ -26,15 +26,15 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetImporterDefined()
     {
-        /** @var UserCsvImporterFactory $service */
-        $service = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()
+        /** @var UserCsvImporterFactory $factory */
+        $factory = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()
             ->setMethods(['buildService','getOption', 'propagate'])->getMock();
 
-        $service
+        $factory
             ->method('buildService')
             ->willReturn($this->getMockForAbstractClass(UserImportServiceInterface::class));
 
-        $service->expects($this->any())
+        $factory->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function ($prop){
                 switch ($prop){
@@ -66,8 +66,8 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
             }));
 
 
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->create('test-taker'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->create('proctor'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->create('test-center-admin'));
+        $this->assertInstanceOf(UserImportServiceInterface::class, $factory->create('test-taker'));
+        $this->assertInstanceOf(UserImportServiceInterface::class, $factory->create('proctor'));
+        $this->assertInstanceOf(UserImportServiceInterface::class, $factory->create('test-center-admin'));
     }
 }
