@@ -36,9 +36,8 @@
 define([
     'jquery',
     'lodash',
-    'module',
     'util/namespace'
-], function ($, _, module, namespaceHelper) {
+], function ($, _, namespaceHelper) {
     'use strict';
 
     /**
@@ -112,29 +111,18 @@ define([
     };
 
     /**
-     * The default configuration if nothing
-     * is found on the module config
-     */
-    var defaultConfig = {
-        debounceDelay: 250
-    };
-
-    var config = _.defaults(module.config() || {}, defaultConfig);
-
-    /**
      * Registers an event handler on a particular element
      * @param {Element|Window} target
      * @param {String} eventName
      * @param {Function} listener
      */
     function registerEvent(target, eventName, listener) {
-        var listenerFn = _.debounce(listener, config.debounceDelay);
         if (target.addEventListener) {
-            target.addEventListener(eventName, listenerFn, false);
+            target.addEventListener(eventName, listener, false);
         } else if (target.attachEvent) {
-            target.attachEvent('on' + eventName, listenerFn);
+            target.attachEvent('on' + eventName, listener);
         } else {
-            target['on' + eventName] = listenerFn;
+            target['on' + eventName] = listener;
         }
     }
 
@@ -630,6 +618,7 @@ define([
                 }
 
                 shortcutHandlers = getCommandHandlers(command);
+
                 if (shortcutHandlers) {
                     _.forEach(shortcutHandlers, function (handler) {
                         handler(event, command);
