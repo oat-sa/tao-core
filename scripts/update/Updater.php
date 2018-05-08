@@ -643,9 +643,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.0.0');
         }
 
-        $this->skip('17.0.0', '17.8.1');
+        $this->skip('17.0.0', '17.8.4');
 
-        if ($this->isVersion('17.8.1')) {
+        if ($this->isVersion('17.8.4')) {
             OntologyUpdater::syncModels();
             $this->setVersion('17.9.0');
         }
@@ -771,6 +771,8 @@ class Updater extends \common_ext_ExtensionUpdater {
                 'util/shortcut/registry');
             $this->setVersion('18.8.0');
         }
+
+        $this->skip('18.8.0', '18.8.1');
     }
 
 }
