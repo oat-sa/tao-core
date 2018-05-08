@@ -19,10 +19,10 @@
 
 namespace oat\tao\model\user\import;
 
-use oat\tao\model\import\service\AbstractImporterFactory;
+use oat\tao\model\import\service\ImporterFactory;
 use oat\tao\model\import\service\ImportMapperInterface;
 
-class UserCsvImporterFactory extends AbstractImporterFactory
+class UserCsvImporterFactory extends ImporterFactory
 {
     const SERVICE_ID = 'tao/userCsvImporterFactory';
 

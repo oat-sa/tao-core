@@ -23,7 +23,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 
-abstract class AbstractImporterFactory extends ConfigurableService implements ImporterFactoryInterface
+class ImporterFactory extends ConfigurableService implements ImporterFactoryInterface
 {
     /**
      * Create an importer
