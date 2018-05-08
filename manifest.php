@@ -35,7 +35,6 @@ use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
-use oat\tao\scripts\install\SetShortcutRegistryConfig;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -44,7 +43,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '18.7.2',
+    'version' => '18.8.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=7.2.0',
@@ -110,8 +109,7 @@ return array(
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
             RegisterActionService::class,
-            RegisterUserLockoutsEventListeners::class,
-            SetShortcutRegistryConfig::class
+            RegisterUserLockoutsEventListeners::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
