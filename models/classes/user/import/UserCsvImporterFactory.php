@@ -27,14 +27,6 @@ class UserCsvImporterFactory extends AbstractImporterFactory
     const SERVICE_ID = 'tao/userCsvImporterFactory';
 
     /**
-     * @return string
-     */
-    protected function getImportServiceInterface()
-    {
-        return UserImportServiceInterface::class;
-    }
-
-    /**
      * @return ImportMapperInterface
      */
     protected function getDefaultMapper()

@@ -19,8 +19,8 @@
 
 namespace oat\tao\test\user\import;
 
+use oat\tao\model\import\service\ImportServiceInterface;
 use oat\tao\model\user\import\UserCsvImporterFactory;
-use oat\tao\model\user\import\UserImportServiceInterface;
 
 class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory
             ->method('buildService')
-            ->willReturn($this->getMockForAbstractClass(UserImportServiceInterface::class));
+            ->willReturn($this->getMockForAbstractClass(ImportServiceInterface::class));
 
         $factory->expects($this->any())
             ->method('getOption')
@@ -41,13 +41,13 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
                     case 'mappers':
                         return array(
                             'test-taker' => array(
-                                'importer' => $this->getMockForAbstractClass(UserImportServiceInterface::class)
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
                             ),
                             'proctor' => array(
-                                'importer' => $this->getMockForAbstractClass(UserImportServiceInterface::class)
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
                             ),
                             'test-center-admin' => array(
-                                'importer' => $this->getMockForAbstractClass(UserImportServiceInterface::class)
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
                             )
                         );
                         break;
@@ -66,8 +66,8 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
             }));
 
 
-        $this->assertInstanceOf(UserImportServiceInterface::class, $factory->create('test-taker'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $factory->create('proctor'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $factory->create('test-center-admin'));
+        $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('test-taker'));
+        $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('proctor'));
+        $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('test-center-admin'));
     }
 }

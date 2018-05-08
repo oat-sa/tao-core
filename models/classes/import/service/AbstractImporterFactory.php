@@ -26,16 +26,6 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 abstract class AbstractImporterFactory extends ConfigurableService implements ImporterFactoryInterface
 {
     /**
-     * @return string
-     */
-    abstract protected function getImportServiceInterface();
-
-    /**
-     * @return ImportMapperInterface
-     */
-    abstract protected function getDefaultMapper();
-
-    /**
      * Create an importer
      *
      * User type is defined in a config mapper and is associated to a role
@@ -54,7 +44,7 @@ abstract class AbstractImporterFactory extends ConfigurableService implements Im
             if (isset($typeOption[self::OPTION_MAPPERS_IMPORTER])) {
                 $importer = $this->buildService(
                     $typeOption[self::OPTION_MAPPERS_IMPORTER],
-                    $this->getImportServiceInterface()
+                    ImportServiceInterface::class
                 );
 
                 if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
@@ -69,5 +59,15 @@ abstract class AbstractImporterFactory extends ConfigurableService implements Im
             }
         }
         throw new \common_exception_NotFound('Unable to load importer for type : ' . $type);
+    }
+
+    /**
+     * @return ImportMapperInterface
+     */
+    protected function getDefaultMapper()
+    {
+        return new OntologyMapper([
+            ImportMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
+        ]);
     }
 }

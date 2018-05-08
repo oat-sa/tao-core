@@ -28,7 +28,7 @@ use oat\tao\model\import\service\AbstractImportService;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\TaoOntology;
 
-class RdsUserImportService extends AbstractImportService implements UserImportServiceInterface
+class RdsUserImportService extends AbstractImportService
 {
     use OntologyAwareTrait;
 
