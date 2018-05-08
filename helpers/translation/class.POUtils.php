@@ -81,7 +81,7 @@ class tao_helpers_translation_POUtils
         $e = TAO_DEFAULT_ENCODING;
         
         if (preg_match_all('/(#[\.\:,\|]{0,1}\s+(?:[^\\n]*))/', $annotations, $matches) !== false){
-            if (isset($matches[1]) && count($matches[1] > 0)){
+            if (isset($matches[1]) && count($matches[1]) > 0){
                 foreach ($matches[1] as $match){
                     $match = trim($match);
                     $matchLen = mb_strlen($match, $e);
