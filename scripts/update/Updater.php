@@ -763,6 +763,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $this->setVersion('18.7.0');
         }
+
+        if ($this->isVersion('18.7.0')) {
+            ClientLibConfigRegistry::getRegistry()->remove(
+                'util/shortcut/registry');
+            $this->setVersion('18.8.0');
+        }
     }
 
 }
