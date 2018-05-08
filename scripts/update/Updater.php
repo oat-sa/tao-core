@@ -761,10 +761,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             ClientLibConfigRegistry::getRegistry()->register(
                 'util/shortcut/registry', ['debounceDelay' => 250]
             );
-            $this->setVersion('18.7.0');
+            $this->setVersion('18.7.1');
         }
 
-        if ($this->isVersion('18.7.0')) {
+        $this->skip('18.7.0', '18.7.1');
+
+        if ($this->isVersion('18.7.1')) {
             ClientLibConfigRegistry::getRegistry()->remove(
                 'util/shortcut/registry');
             $this->setVersion('18.8.0');
