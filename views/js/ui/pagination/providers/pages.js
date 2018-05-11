@@ -87,8 +87,12 @@ define([
                 $('.page', $paginationTpl).remove();
             };
 
+            var getForwardBtn = function () {
+                return $('.next', $paginationTpl);
+            };
+
             var bindPages = function bindPages(list) {
-                var $point = pagination.forwardButton();
+                var $point = getForwardBtn();
                 _.each(list, function($page) {
                     $page.insertBefore($point);
                 });
@@ -100,7 +104,7 @@ define([
                     $container.append($paginationTpl);
                 },
                 forwardButton: function forwardButton() {
-                    return $('.next', $paginationTpl);
+                    return getForwardBtn();
                 },
                 backwardButton: function backwardButton() {
                     return $('.previous', $paginationTpl);
@@ -133,7 +137,7 @@ define([
                 destroy: function destroy() {
                     $paginationTpl.remove();
                 },
-                disable: function enable() {
+                disable: function disable() {
                     var self = this;
                     this.disableButton(this.backwardButton());
                     this.disableButton(this.firstPageButton());
@@ -144,6 +148,13 @@ define([
 
                     this.disableButton(this.lastPageButton());
                     this.disableButton(this.forwardButton());
+                },
+                enable: function enable() {
+                    var self = this;
+                    // restore buttons
+                    $('.page', $paginationTpl).each(function(){
+                        self.enableButton( $(this) );
+                    });
                 }
             };
 
