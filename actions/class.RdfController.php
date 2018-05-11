@@ -21,15 +21,11 @@
  *
  */
 
-use oat\tao\model\accessControl\AclProxy;
-use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
-use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\resources\ResourceService;
 use oat\generis\model\OntologyRdfs;
 
@@ -709,7 +705,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->validateCsrf();
 
         $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
-        $deleted = $this->getClassService()->deleteResource($resource);
+        $deleted = $this->doDeleteResource($resource);
         return $this->returnJson(array(
             'deleted' => $deleted
         ));
@@ -839,5 +835,20 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     protected function getResourceService()
     {
         return $this->getServiceManager()->get(ResourceService::SERVICE_ID);
+    }
+
+    /**
+     * Do Delete Resource
+     *
+     * This method can be overidden in order to supersede the behaviour of
+     * resource deletion.
+     *
+     * @param core_kernel_classes_Resource $resource
+     * @return bool
+     * @throws common_exception_Error
+     */
+    protected function doDeleteResource(core_kernel_classes_Resource $resource)
+    {
+        return $this->getClassService()->deleteResource($resource);
     }
 }
