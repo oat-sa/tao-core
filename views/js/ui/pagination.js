@@ -145,8 +145,7 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
 
         paginationComponent
             .on('change enable', function() {
-                // to make pages active we need to rewrite them by the provider
-                provider.setPages(this.getActivePage(), this.getTotal());
+                provider.enable();
                 this.refresh();
             })
             .on('render', function () {
