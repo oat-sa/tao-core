@@ -1,5 +1,5 @@
 <?php
-$GLOBALS['__l10n']["An error occured during user deletion"]="Während dem Läschen vum User gouf et e Fehler";
+$GLOBALS['__l10n']["An error occurred during user deletion"]="Während dem Läschen vum User gouf et e Fehler";
 $GLOBALS['__l10n']["Create"]="Erstellen";
 $GLOBALS['__l10n']["CSV Options"]="CSV optiounen";
 $GLOBALS['__l10n']["Current language"]="Aktuell Sprooch";
@@ -30,15 +30,13 @@ $GLOBALS['__l10n']["New test"]="Neien test";
 $GLOBALS['__l10n']["New test-taker"]="New test taker";
 $GLOBALS['__l10n']["Old Password"]="Aalt Passwuert";
 $GLOBALS['__l10n']["Password"]="PAsswuert";
-$GLOBALS['__l10n']["Password *"]="Passwuert *";
 $GLOBALS['__l10n']["Please confirm deletion"]="Wirklech Läschen?";
 $GLOBALS['__l10n']["Please confirm property deletion!"]="W.e.g. konfirméiert d'Läschen vun der Proprietéit";
-$GLOBALS['__l10n']["Please confirm user deletion"]="W.e.g. konfirméiert Läschen vum User";
 $GLOBALS['__l10n']["Preview"]="Viirbléck";
 $GLOBALS['__l10n']["Remove"]="Ewech huelen";
 $GLOBALS['__l10n']["Rename"]="Embenennen";
 $GLOBALS['__l10n']["Repeat new password"]="Neit Passwuert widerhuelen";
-$GLOBALS['__l10n']["Repeat password *"]="Passwuert * wiederhuelen";
+$GLOBALS['__l10n']["Repeat password"]="Passwuert wiederhuelen";
 $GLOBALS['__l10n']["Resource saved"]="Ressource gespaichert";
 $GLOBALS['__l10n']["Right click the tree to manage your lists"]="Macht een Rietsklick op den Baam fier aer Lëschten ze verwalten";
 $GLOBALS['__l10n']["Save"]="Späicheren";
