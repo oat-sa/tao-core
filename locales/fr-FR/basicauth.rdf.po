@@ -10,13 +10,18 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Base User"
-msgstr "Base de l'utilisateur"
+msgid "Basic Auth Credentials"
+msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Base User Role"
-msgstr "Rôle de l'utilisateur de base"
+# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Login"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Password"
+msgstr ""
 
