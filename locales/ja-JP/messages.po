@@ -222,7 +222,7 @@ msgid "An email has been sent"
 msgstr "eメールを送信しました"
 
 msgid "An error occurred during user deletion"
-msgstr ""
+msgstr "ユーザーの削除中にエラーが発生しました"
 
 msgid "An error occurred!"
 msgstr ""
@@ -1144,7 +1144,7 @@ msgid "Please provide a reason"
 msgstr "その理由を記入してください"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
+msgstr "TAO Forumにバグ、アイデア、コメントやフィードバックを報告してください"
 
 msgid "Please try in %s."
 msgstr ""
@@ -1226,7 +1226,7 @@ msgid "Repeat new password"
 msgstr "パスワード再入力"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "パスワード再入力"
 
 msgid "Request a password reset via Email."
 msgstr "eメールでパスワードのリセットを要求します"
@@ -1705,7 +1705,7 @@ msgid "User deleted successfully"
 msgstr "ユーザを削除しました"
 
 msgid "User deletion not permitted on a demo instance"
-msgstr ""
+msgstr "ユーザ削除はデモインスタンスではできません"
 
 msgid "User not found"
 msgstr "ユーザが見つかりません"
