@@ -1225,7 +1225,7 @@ msgid "Repeat new password"
 msgstr "Endurtaka nýtt lykilorð"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "Endurtaka lykilorð"
 
 msgid "Request a password reset via Email."
 msgstr ""
@@ -1704,7 +1704,7 @@ msgid "User deleted successfully"
 msgstr "Tókst að eyða notanda"
 
 msgid "User deletion not permitted on a demo instance"
-msgstr ""
+msgstr "Ekki leyft að eyða notanda í sýnisham"
 
 msgid "User not found"
 msgstr "Notandi fannst ekki"
