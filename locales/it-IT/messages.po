@@ -222,7 +222,7 @@ msgid "An email has been sent"
 msgstr "Una email è stata inviata."
 
 msgid "An error occurred during user deletion"
-msgstr ""
+msgstr "Si è verificato un errore durante l'eliminazione"
 
 msgid "An error occurred!"
 msgstr ""
@@ -1142,7 +1142,7 @@ msgid "Please provide a reason"
 msgstr "Si prega di fornire una motivazione"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
+msgstr "Prego riportare bachi, idee, commenti o feedback sulla versione di TAO"
 
 msgid "Please try in %s."
 msgstr ""
@@ -1703,7 +1703,7 @@ msgid "User deleted successfully"
 msgstr "Utente cancellato con successo"
 
 msgid "User deletion not permitted on a demo instance"
-msgstr ""
+msgstr "Eliminazione utente non permessa nella versione demo"
 
 msgid "User not found"
 msgstr "Utente non trovato"
