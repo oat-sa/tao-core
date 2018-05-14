@@ -440,8 +440,6 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
      */
     public function sortBySource($sortingType)
     {
-        $returnValue = array();
-        
         $returnValue = $this->getTranslationUnits();
         switch ($sortingType) {
             case self::SORT_ASC:
@@ -468,7 +466,7 @@ class tao_helpers_translation_TranslationFile implements tao_helpers_translation
                 throw new common_Exception('Unknown sortingType ' . $sortingType);
         }
         usort($returnValue, $cmpFunction);
-        return (array) $returnValue;
+        return $returnValue;
     }
 
     /**
