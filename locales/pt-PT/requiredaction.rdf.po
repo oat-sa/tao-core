@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint76\n"
-"PO-Revision-Date: 2018-05-11T15:12:56\n"
+"PO-Revision-Date: 2018-05-11T15:12:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -10,43 +10,43 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Services Definition"
+msgid "Required Action Time Rule"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Services Definition"
+msgid "Required Action Time Rule"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Support Services"
+msgid "Required Action Name"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Support Services"
+msgid "Name Of Required Action"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Web Service"
+msgid "Executed At Date"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Web Service"
+msgid "Time of execution of required action"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Delivery Services"
+msgid "Executed by"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Delivery Services"
+msgid "Required action executed by user"
 msgstr ""
 
