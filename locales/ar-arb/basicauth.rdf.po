@@ -10,23 +10,18 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
+# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Web Service Url"
+msgid "Basic Auth Credentials"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Web Service Url"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
+# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Web Service"
+msgid "Login"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Embed a generic web service accessible via url in an iframe"
+# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Password"
 msgstr ""
 
