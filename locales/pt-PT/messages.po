@@ -222,7 +222,7 @@ msgid "An email has been sent"
 msgstr ""
 
 msgid "An error occurred during user deletion"
-msgstr ""
+msgstr "Ocorreu um erro durante a eliminação do utilizador"
 
 msgid "An error occurred!"
 msgstr ""
@@ -1226,7 +1226,7 @@ msgid "Repeat new password"
 msgstr "repita a nova palavra-passe"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "Repita a palavra-passe"
 
 msgid "Request a password reset via Email."
 msgstr ""
