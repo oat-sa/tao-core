@@ -222,7 +222,7 @@ msgid "An email has been sent"
 msgstr "电子邮件已被送出"
 
 msgid "An error occurred during user deletion"
-msgstr ""
+msgstr "删除用户时发生错误"
 
 msgid "An error occurred!"
 msgstr ""
@@ -1144,7 +1144,7 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
+msgstr "Forum上面报告错误,想法,意见或反馈"
 
 msgid "Please try in %s."
 msgstr ""
@@ -1226,7 +1226,7 @@ msgid "Repeat new password"
 msgstr "重复输入新密吗"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "重复输入密码"
 
 msgid "Request a password reset via Email."
 msgstr ""
@@ -1705,7 +1705,7 @@ msgid "User deleted successfully"
 msgstr "删除用户成功"
 
 msgid "User deletion not permitted on a demo instance"
-msgstr ""
+msgstr "试用实例不应许删除用户"
 
 msgid "User not found"
 msgstr "未找到用户"
