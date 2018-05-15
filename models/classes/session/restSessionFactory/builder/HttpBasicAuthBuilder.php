@@ -20,22 +20,20 @@
 
 namespace oat\tao\model\session\restSessionFactory\builder;
 
-use oat\tao\model\routing\Resolver;
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
 use \oat\oatbox\user\LoginFailedException;
 
 class HttpBasicAuthBuilder implements SessionBuilder
 {
     /**
-     * Check if current request concerns a RestController
+     * In RestController context, always applicable
      *
      * @param \common_http_Request $request
-     * @param Resolver $resolver
      * @return bool
      */
-    public function isApplicable(\common_http_Request $request, Resolver $resolver)
+    public function isApplicable(\common_http_Request $request)
     {
-        return is_subclass_of($resolver->getControllerClass(), \tao_actions_RestController::class);
+        return true;
     }
 
     /**

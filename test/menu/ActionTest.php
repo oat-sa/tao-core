@@ -59,7 +59,8 @@ class ActionTest extends TaoPhpUnitTestRunner {
                         'icon'      => new Icon(array( 'id' => 'search', 'src' => 'images/icon.svg', 'ext' => 'tao')),
                         'extension' => 'tao',
                         'controller' => 'Roles',
-                        'action' => 'search'
+                        'action' => 'search',
+                        'multiple' => false
                   )) 
             ),
             array('<action id="delete" name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" disabled="true"/>',
@@ -76,7 +77,8 @@ class ActionTest extends TaoPhpUnitTestRunner {
                         'icon'      => new Icon(array('id' => null, 'src' => 'actions/delete.png', 'ext' => 'tao')),
                         'extension' => 'tao',
                         'controller' => 'Roles',
-                        'action' => 'delete'
+                        'action' => 'delete',
+                        'multiple' => false
                   )) 
             )
         );

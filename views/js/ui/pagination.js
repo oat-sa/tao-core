@@ -113,13 +113,8 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
             },
             getTotal: function getTotal() {
                 return totalPages;
-            }
-        };
-
-        paginationComponent = component(pagination);
-
-        paginationComponent
-            .on('change', function() {
+            },
+            refresh: function refresh () {
                 if (this.getActivePage() === this.getTotal()) {
                     provider.disableButton(provider.forwardButton());
                     if (provider.lastPageButton() !== false) {
@@ -143,6 +138,15 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
                         provider.enableButton(provider.firstPageButton());
                     }
                 }
+            }
+        };
+
+        paginationComponent = component(pagination);
+
+        paginationComponent
+            .on('change enable', function() {
+                provider.enable();
+                this.refresh();
             })
             .on('render', function () {
                 var self = this;
@@ -203,10 +207,6 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
             .on('disable', function() {
                 // all buttons will be disabled
                 provider.disable();
-            })
-            .on('enable', function() {
-                // all buttons will be enabled
-                provider.enable();
             })
             .on('destroy', function () {
                 provider.destroy();

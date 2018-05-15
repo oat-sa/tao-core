@@ -66,5 +66,3 @@ class AssetServiceTest extends TaoPhpUnitTestRunner
         ];
     }
 }
-?>
-
