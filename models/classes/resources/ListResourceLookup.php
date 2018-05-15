@@ -53,18 +53,18 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         if (count($propertyFilters) == 1 && isset($propertyFilters[OntologyRdfs::RDFS_LABEL])) {
             /** @var Search $searchService */
             $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+            $searchString = current($propertyFilters);
             /** @var ResultSet $result */
-            $result = $searchService->query(current($propertyFilters), $rootClass, $offset, $limit);
+            $result = $searchService->query($searchString, $rootClass, $offset, $limit);
             $count = $result->getTotalCount();
 
             $nodes = [];
-            while ($result->valid()) {
-                $resource = $this->getResource($result->current());
+            foreach ($result as $item) {
+                $resource = $this->getResource($item);
                 $data = $this->getResourceData($resource);
                 if ($data) {
                     $nodes[] = $data;
                 }
-                $result->next();
             }
         } else {
             // for searching by properties will be used RDF search
