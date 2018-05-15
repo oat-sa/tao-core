@@ -51,42 +51,71 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     {
         // Searching by label parameter will utilize fulltext search
         if (count($propertyFilters) == 1 && isset($propertyFilters[OntologyRdfs::RDFS_LABEL])) {
-            /** @var Search $searchService */
-            $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
             $searchString = current($propertyFilters);
-            /** @var ResultSet $result */
-            $result = $searchService->query($searchString, $rootClass, $offset, $limit);
-            $count = $result->getTotalCount();
-
-            $nodes = [];
-            foreach ($result as $item) {
-                $resource = $this->getResource($item);
-                $data = $this->getResourceData($resource);
-                if ($data) {
-                    $nodes[] = $data;
-                }
-            }
+            return $this->searchByString($searchString, $rootClass, $offset, $limit);
         } else {
-            // for searching by properties will be used RDF search
-            $options = [
-                'recursive' => true,
-                'like'      => true,
-                'limit'     => $limit,
-                'offset'    => $offset
-            ];
+            return $this->searchByProperties($propertyFilters, $rootClass, $offset, $limit);
+        }
+    }
 
-            $count = $rootClass->countInstances($propertyFilters, $options);
-            $resources = $rootClass->searchInstances($propertyFilters, $options);
+    /**
+     * Search using an advanced search string
+     * @param string $searchString
+     * @param \core_kernel_classes_Class $rootClass
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    private function searchByString($searchString, $rootClass, $offset, $limit)
+    {
+        /** @var Search $searchService */
+        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+        /** @var ResultSet $result */
+        $result = $searchService->query($searchString, $rootClass, $offset, $limit);
+        $count = $result->getTotalCount();
+        return $this->format($result, $count, $offset, $limit);
+    }
 
-            $nodes = [];
-            foreach($resources as $resource){
-                $data = $this->getResourceData($resource);
-                if ($data) {
-                    $nodes[] = $data;
-                }
+    /**
+     * Search using properties
+     * @param string $searchString
+     * @param \core_kernel_classes_Class $rootClass
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    private function searchByProperties($propertyFilters, $rootClass, $offset, $limit)
+    {
+        // for searching by properties will be used RDF search
+        $options = [
+            'recursive' => true,
+            'like'      => true,
+            'limit'     => $limit,
+            'offset'    => $offset
+        ];
+        $count = $rootClass->countInstances($propertyFilters, $options);
+        $resources = $rootClass->searchInstances($propertyFilters, $options);
+        return $this->format($resources, $count, $offset, $limit);
+    }
+
+    /**
+     * Format the results according to the needs of ListLookup
+     * @param array $result
+     * @param int $count
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    private function format($result, $count, $offset, $limit)
+    {
+        $nodes = [];
+        foreach ($result as $item) {
+            $resource = $this->getResource($item);
+            $data = $this->getResourceData($resource);
+            if ($data) {
+                $nodes[] = $data;
             }
         }
-
         return [
             'total'  => $count,
             'offset' => $offset,
