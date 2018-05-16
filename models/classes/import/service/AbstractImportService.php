@@ -57,8 +57,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
      */
     public function import($file, $extraProperties = [], $options = [])
     {
-        $reports = [];
-        $hasFailure = false;
+        $report = \common_report_Report::createInfo();
 
         if ($file instanceof File){
             if ($file->exists()){
@@ -85,8 +84,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 if (count($this->headerColumns) !== count($data)) {
                     $message = 'CSV file is malformed at line ' . $index . '. Data skipped';
                     $this->logWarning($message);
-                    $reports[] = Report::createFailure($message);
-                    $hasFailure = true;
+                    $report->add(Report::createFailure($message));
                     continue;
                 }
 
@@ -94,32 +92,30 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 $combinedRow = array_merge($combinedRow, $extraProperties);
 
                 $mapper = $this->getMapper()->map($combinedRow)->combine($extraProperties);
+                $report->add($mapper->getReport());
+
                 if ($mapper->isEmpty()) {
                     $message = 'Mapper doesn\'t achieve to extract data for line ' . $index . '. Data skipped';
                     $this->logWarning($message);
-                    $reports[] = Report::createFailure($message);
-                    $hasFailure = true;
+                    $report->add(Report::createFailure($message));
                     continue;
                 }
 
                 $resource = $this->persist($mapper);
                 $message = 'Resource imported with success: '. $resource->getUri();
                 $this->logInfo($message);
-                $reports[] = Report::createSuccess($message);
+                $report->add(Report::createSuccess($message));
             } catch (\Exception $exception) {
-                $reports[] = Report::createFailure($exception->getMessage());
-                $hasFailure = true;
+                $report->add(Report::createFailure($exception->getMessage()));
             }
         }
 
-        if ($hasFailure){
-            $report = Report::createFailure(__('Import failed.'));
-        }else{
-            $report = Report::createSuccess(__('Import succeeded.'));
-        }
-
-        foreach ($reports as $r){
-            $report->add($r);
+        if ($report->containsError()){
+            $returnedReport = Report::createFailure(__('Import failed.'));
+            $returnedReport->add($report);
+        }else {
+            $returnedReport = Report::createSuccess(__('Import succeeded.'));
+            $returnedReport->add($report);
         }
 
         return $report;

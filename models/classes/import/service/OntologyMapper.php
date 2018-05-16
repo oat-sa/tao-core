@@ -20,11 +20,15 @@
 namespace oat\tao\model\import\service;
 
 use oat\oatbox\service\ConfigurableService;
+use common_report_Report as Report;
 
 class OntologyMapper extends ConfigurableService implements ImportMapperInterface
 {
     /** @var array */
     protected $propertiesMapped = [];
+
+    /** @var Report */
+    protected $report;
 
     /**
      * @param $property
@@ -44,6 +48,8 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
      */
     public function map(array $data = [])
     {
+        $this->report = Report::createInfo();
+
         $schema = $this->getOption(static::OPTION_SCHEMA);
         $this->buildMandatoryProperties($data, $schema);
         $this->buildOptionalProperties($data, $schema);
@@ -79,10 +85,19 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
     }
 
     /**
+     * @return Report
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    /**
      * @param array $data
      * @param array $schema
      * @throws MandatoryFieldException
      * @throws RdsResourceNotFoundException
+     * @throws \common_exception_Error
      */
     protected function buildMandatoryProperties(array $data, array $schema)
     {
@@ -105,6 +120,7 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
      * @param array $data
      * @param array $schema
      * @throws RdsResourceNotFoundException
+     * @throws \common_exception_Error
      */
     protected function buildOptionalProperties(array $data, array $schema)
     {
@@ -123,6 +139,7 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
      * @param string $propertyKey
      * @param string $value
      * @throws RdsResourceNotFoundException
+     * @throws \common_exception_Error
      */
     protected function addValue($propertyKey, $value)
     {
@@ -132,9 +149,11 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
                 $propertyKey = key($propertyKey);
                 $this->propagate($valueMapper);
                 $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
+                $this->report->add($valueMapper->getReport());
             }
         } else {
             $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
+            $this->report->add(Report::createSuccess('Property mapped with success: '. $propertyKey . ':' . $value));
         }
     }
 }
