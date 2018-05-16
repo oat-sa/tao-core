@@ -32,4 +32,9 @@ interface ImportValueMapperInterface
      * @return mixed
      */
     public function getOption($option);
+
+    /**
+     * @return \common_report_Report|null
+     */
+    public function getReport();
 }

@@ -18,6 +18,7 @@
  */
 namespace oat\tao\model\import\service;
 
+use common_report_Report;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
@@ -27,6 +28,9 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
 
     const OPTION_CLASS = 'class';
     const OPTION_PROPERTY = 'property';
+
+    /** @var common_report_Report */
+    protected $report;
 
     /**
      * @param string $value
@@ -57,6 +61,17 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
             throw new RdsResourceNotFoundException('Resource is not a class: '. $this->getOption(static::OPTION_CLASS));
         }
 
+        $this->report = common_report_Report::createSuccess('Resource mapped with success: '.$class.':'.$value);
+
         return $resource;
     }
+
+    /**
+     * @return common_report_Report
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
 }

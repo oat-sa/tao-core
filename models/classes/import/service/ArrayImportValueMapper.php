@@ -18,6 +18,7 @@
  */
 namespace oat\tao\model\import\service;
 
+use common_report_Report;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
@@ -29,19 +30,27 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
 
     const OPTION_VALUE_MAPPER = 'valueMapper';
 
+    /** @var common_report_Report */
+    protected $report;
+
     /**
      * @inheritdoc
      */
     public function map($value)
     {
-        $mapValues = [];
+        $mapValues   = [];
         $delimiter   = $this->getOption(static::OPTION_DELIMITER);
         $valueMapper = $this->getOption(static::OPTION_VALUE_MAPPER);
         $values      = explode($delimiter, $value);
 
+        $this->report = common_report_Report::createInfo();
+
         foreach ($values as $value) {
             if ($valueMapper instanceof ImportValueMapperInterface) {
-                $mapValues[] = $this->mapValueThroughMapper($valueMapper, $value);
+                $valueToBeMapped = $this->mapValueThroughMapper($valueMapper, $value);
+                if (!is_null($valueToBeMapped)){
+                    $mapValues[] = $valueToBeMapped;
+                }
             }else{
                 $mapValues[] = $value;
             }
@@ -51,15 +60,29 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
+
+    /**
      * @param ImportValueMapperInterface $valueMapper
      * @param string $value
      * @return mixed
+     * @throws \common_exception_Error
      */
     protected function mapValueThroughMapper($valueMapper, $value)
     {
         try {
-            return $valueMapper->map($value);
+            $returnValue = $valueMapper->map($value);
+            $this->report->add($valueMapper->getReport());
+
+            return $returnValue;
         } catch (RdsResourceNotFoundException $e) {
+            $this->report->add(common_report_Report::createFailure($e->getMessage()));
+
             $this->logWarning($e->getMessage());
         }
     }
