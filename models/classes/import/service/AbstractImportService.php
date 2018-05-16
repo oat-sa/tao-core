@@ -118,7 +118,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
             $returnedReport->add($report);
         }
 
-        return $report;
+        return $returnedReport;
     }
 
     /**
