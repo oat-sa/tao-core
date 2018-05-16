@@ -38,27 +38,30 @@ class ImporterFactory extends ConfigurableService implements ImporterFactoryInte
      */
     public function create($type)
     {
-        $typeOptions = $this->getOption(self::OPTION_MAPPERS);
-        if (isset($typeOptions[$type])) {
-            $typeOption = $typeOptions[$type];
-            if (isset($typeOption[self::OPTION_MAPPERS_IMPORTER])) {
-                $importer = $this->buildService(
-                    $typeOption[self::OPTION_MAPPERS_IMPORTER],
-                    ImportServiceInterface::class
-                );
+        $typeOptions    = $this->getOption(self::OPTION_MAPPERS);
+        $typeOption     = isset($typeOptions[$type]) ? $typeOptions[$type] : $this->throwException();
+        $importerString = isset($typeOption[self::OPTION_MAPPERS_IMPORTER]) ? $typeOption[self::OPTION_MAPPERS_IMPORTER] : $this->throwException();
+        $importer       = $this->buildService($importerString, ImportServiceInterface::class);
 
-                if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
-                    $mapper = $this->buildService($typeOption[self::OPTION_MAPPERS_MAPPER]);
-                } else {
-                    $mapper = $this->getDefaultMapper();
-                }
-                $this->propagate($mapper);
-                $importer->setMapper($mapper);
-
-                return $importer;
-            }
+        if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
+            $mapperString = $typeOption[self::OPTION_MAPPERS_MAPPER];
+            $mapper       = $this->buildService($mapperString);
+        } else {
+            $mapper = $this->getDefaultMapper();
         }
-        throw new \common_exception_NotFound('Unable to load importer for type : ' . $type);
+
+        $this->propagate($mapper);
+        $importer->setMapper($mapper);
+
+        return $importer;
+    }
+
+    /**
+     * @throws \common_exception_NotFound
+     */
+    protected function throwException()
+    {
+        throw new \common_exception_NotFound('Unable to load importer for type.');
     }
 
     /**

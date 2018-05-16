@@ -45,53 +45,11 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
     public function map(array $data = [])
     {
         $schema = $this->getOption(static::OPTION_SCHEMA);
-        $mandatoryFields = isset($schema[static::OPTION_SCHEMA_MANDATORY]) ? $schema[static::OPTION_SCHEMA_MANDATORY] : [];
-
-        foreach ($mandatoryFields as $key => $propertyKey) {
-            if (!isset($data[$key])) {
-                throw new MandatoryFieldException('Mandatory field "' . $key . '" should exists.');
-            }
-
-            if (empty($data[$key])) {
-                throw new MandatoryFieldException('Mandatory field "' . $key . '" should not be empty.');
-            }
-
-            $value = $data[$key];
-            if (is_array($propertyKey) && count($propertyKey) === 1){
-                $valueMapper = reset($propertyKey);
-                if ($valueMapper instanceof ImportValueMapperInterface){
-                    $propertyKey = key($propertyKey);
-                    $this->propagate($valueMapper);
-                    $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
-                }
-            } else {
-                $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
-            }
-        }
-
-        $optionalFields = isset($schema[static::OPTION_SCHEMA_OPTIONAL]) ? $schema[static::OPTION_SCHEMA_OPTIONAL] : [];
-
-        foreach ($optionalFields as $key => $propertyKey) {
-            if (!isset($data[$key]) || $data[$key] === '') {
-                continue;
-            }
-
-            $value = $data[$key];
-            if (is_array($propertyKey) && count($propertyKey) === 1){
-                $valueMapper = reset($propertyKey);
-                if ($valueMapper instanceof ImportValueMapperInterface){
-                    $propertyKey = key($propertyKey);
-                    $this->propagate($valueMapper);
-                    $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
-                }
-            }else{
-                $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
-            }
-        }
+        $this->buildMandatoryProperties($data, $schema);
+        $this->buildOptionalProperties($data, $schema);
 
         return $this;
     }
-
 
     /**
      * @param array $extraProperties
@@ -118,5 +76,65 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
     public function getProperties()
     {
         return $this->propertiesMapped;
+    }
+
+    /**
+     * @param array $data
+     * @param array $schema
+     * @throws MandatoryFieldException
+     * @throws RdsResourceNotFoundException
+     */
+    protected function buildMandatoryProperties(array $data, array $schema)
+    {
+        $mandatoryFields = isset($schema[static::OPTION_SCHEMA_MANDATORY]) ? $schema[static::OPTION_SCHEMA_MANDATORY] : [];
+
+        foreach ($mandatoryFields as $key => $propertyKey) {
+            if (!isset($data[$key])) {
+                throw new MandatoryFieldException('Mandatory field "' . $key . '" should exists.');
+            }
+
+            if (empty($data[$key])) {
+                throw new MandatoryFieldException('Mandatory field "' . $key . '" should not be empty.');
+            }
+
+            $this->addValue($propertyKey, $data[$key]);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param array $schema
+     * @throws RdsResourceNotFoundException
+     */
+    protected function buildOptionalProperties(array $data, array $schema)
+    {
+        $optionalFields = isset($schema[static::OPTION_SCHEMA_OPTIONAL]) ? $schema[static::OPTION_SCHEMA_OPTIONAL] : [];
+
+        foreach ($optionalFields as $key => $propertyKey) {
+            if (!isset($data[$key]) || $data[$key] === '') {
+                continue;
+            }
+
+            $this->addValue($propertyKey, $data[$key]);
+        }
+    }
+
+    /**
+     * @param string $propertyKey
+     * @param string $value
+     * @throws RdsResourceNotFoundException
+     */
+    protected function addValue($propertyKey, $value)
+    {
+        if (is_array($propertyKey) && count($propertyKey) === 1){
+            $valueMapper = reset($propertyKey);
+            if ($valueMapper instanceof ImportValueMapperInterface){
+                $propertyKey = key($propertyKey);
+                $this->propagate($valueMapper);
+                $this->propertiesMapped[$propertyKey] = $valueMapper->map($value);
+            }
+        } else {
+            $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
+        }
     }
 }

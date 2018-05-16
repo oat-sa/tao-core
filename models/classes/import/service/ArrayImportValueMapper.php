@@ -35,21 +35,32 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
     public function map($value)
     {
         $mapValues = [];
-        $values = explode($this->getOption(static::OPTION_DELIMITER), $value);
+        $delimiter   = $this->getOption(static::OPTION_DELIMITER);
+        $valueMapper = $this->getOption(static::OPTION_VALUE_MAPPER);
+        $values      = explode($delimiter, $value);
 
         foreach ($values as $value) {
-            $valueMapper = $this->getOption(static::OPTION_VALUE_MAPPER);
             if ($valueMapper instanceof ImportValueMapperInterface) {
-                try {
-                    $mapValues[] = $valueMapper->map($value);
-                } catch (RdsResourceNotFoundException $e) {
-                    $this->logWarning($e->getMessage());
-                }
+                $mapValues[] = $this->mapValueThroughMapper($valueMapper, $value);
             }else{
                 $mapValues[] = $value;
             }
         }
 
         return $mapValues;
+    }
+
+    /**
+     * @param ImportValueMapperInterface $valueMapper
+     * @param string $value
+     * @return mixed
+     */
+    protected function mapValueThroughMapper($valueMapper, $value)
+    {
+        try {
+            return $valueMapper->map($value);
+        } catch (RdsResourceNotFoundException $e) {
+            $this->logWarning($e->getMessage());
+        }
     }
 }
