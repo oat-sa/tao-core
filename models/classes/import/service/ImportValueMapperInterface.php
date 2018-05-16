@@ -16,17 +16,20 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+namespace oat\tao\model\import\service;
 
-namespace oat\tao\model\user\import;
-
-use oat\tao\model\import\service\ImportMapper;
-
-interface UserMapper extends ImportMapper
+interface ImportValueMapperInterface
 {
     /**
-     * Get the plain password
-     *
-     * @return string|null
+     * @param string $value
+     * @return mixed
+     * @throws RdsResourceNotFoundException
      */
-    public function getPlainPassword();
+    public function map($value);
+
+    /**
+     * @param $option
+     * @return mixed
+     */
+    public function getOption($option);
 }

@@ -16,32 +16,49 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\import\service;
 
-interface ImportServiceInterface
+interface ImportMapperInterface
 {
-    /**
-     * Launch the import of a csv file located at $filePath
-     *
-     * @param $file
-     * @param array $extraProperties Rdf properties that need to be injected (role, FirstTimeInTao...)
-     * @param array $options Contains technical options e.q. csvControls
-     * @return \common_report_Report
-     */
-    public function import($file, $extraProperties = [], $options = []);
+    const OPTION_SCHEMA = 'schema';
+    const OPTION_SCHEMA_MANDATORY = 'mandatory';
+    const OPTION_SCHEMA_OPTIONAL = 'optional';
 
     /**
-     * Get the mapper
+     * Map CSV column to user properties
      *
-     * @return ImportMapperInterface|false
+     * @param array $data
+     * @throws \Exception
+     * @return ImportMapperInterface
      */
-    public function getMapper();
+    public function map(array $data = []);
 
     /**
-     * Set the mapper to use to map csv column to rdf properties
+     * Merge some $extraProperties to already mapped properties
      *
-     * @param ImportMapperInterface $importMapper
-     * @return $this
+     * @param array $extraProperties
+     * @return ImportMapperInterface
      */
-    public function setMapper(ImportMapperInterface $importMapper);
+    public function combine(array $extraProperties);
+
+    /**
+     * Check is current mapper achieve to extract data
+     *
+     * @return bool
+     */
+    public function isEmpty();
+
+    /**
+     * Get user mapped properties
+     *
+     * @return array
+     */
+    public function getProperties();
+
+    /**
+     * @param $option
+     * @return mixed
+     */
+    public function getOption($option);
 }

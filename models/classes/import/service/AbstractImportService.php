@@ -38,32 +38,14 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /** @var array  */
     protected $headerColumns = [];
 
-    /** @var ImportMapper */
+    /** @var ImportMapperInterface */
     protected $mapper;
 
-
     /**
-     * Format the $data with $extraProperties
-     *
-     * @param array $data
-     * @param array $extraProperties
-     * @return array
+     * @param ImportMapperInterface $mapper
+     * @return \core_kernel_classes_Resource
      */
-    abstract protected function formatData(array $data, array $extraProperties);
-
-    /**
-     * @param ImportMapper $mapper
-     * @return mixed
-     */
-    abstract protected function persist(ImportMapper $mapper);
-
-    /**
-     * @param array $data
-     * @param array$csvControls
-     * @param string $delimiter
-     * @throws \Exception
-     */
-    abstract protected function applyCsvImportRules(array $data, array $csvControls, $delimiter);
+    abstract protected function persist(ImportMapperInterface $mapper);
 
     /**
      * @param $file
@@ -95,8 +77,6 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
             $index++;
             $data = array_map('trim', $line);
             try {
-                $this->applyCsvImportRules($data,$csvControls,$delimiter);
-
                 if ($index === 1) {
                     $this->headerColumns = array_map('strtolower', $data);
                     continue;
@@ -111,7 +91,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 }
 
                 $combinedRow = array_combine($this->headerColumns, $data);
-                $combinedRow = $this->formatData($combinedRow, $extraProperties);
+                $combinedRow = array_merge($combinedRow, $extraProperties);
 
                 $mapper = $this->getMapper()->map($combinedRow)->combine($extraProperties);
                 if ($mapper->isEmpty()) {
@@ -123,10 +103,8 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 }
 
                 $resource = $this->persist($mapper);
-
                 $message = 'Resource imported with success: '. $resource->getUri();
                 $this->logInfo($message);
-
                 $reports[] = Report::createSuccess($message);
             } catch (\Exception $exception) {
                 $reports[] = Report::createFailure($exception->getMessage());
@@ -150,7 +128,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /**
      * Get the mapper
      *
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     public function getMapper()
     {
@@ -164,10 +142,10 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /**
      * Set the mapper
      *
-     * @param ImportMapper $mapper
+     * @param ImportMapperInterface $mapper
      * @return $this
      */
-    public function setMapper(ImportMapper $mapper)
+    public function setMapper(ImportMapperInterface $mapper)
     {
         $this->mapper = $mapper;
 
