@@ -38,10 +38,11 @@ class ArrayImportValueMapper extends ConfigurableService implements ImportValueM
      */
     public function map($value)
     {
-        $mapValues = [];
+        $mapValues   = [];
         $delimiter   = $this->getOption(static::OPTION_DELIMITER);
         $valueMapper = $this->getOption(static::OPTION_VALUE_MAPPER);
         $values      = explode($delimiter, $value);
+
         $this->report = common_report_Report::createInfo();
 
         foreach ($values as $value) {
