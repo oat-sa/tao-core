@@ -63,7 +63,7 @@ interface ImportMapperInterface
     public function getOption($option);
 
     /**
-     * @return \common_report_Report
+     * @return \common_report_Report|null
      */
     public function getReport();
 }

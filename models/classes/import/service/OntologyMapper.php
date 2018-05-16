@@ -85,7 +85,7 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
     }
 
     /**
-     * @return Report
+     * @inheritdoc
      */
     public function getReport()
     {
