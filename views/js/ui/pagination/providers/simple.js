@@ -68,6 +68,9 @@ define([
                 disable: function disable() {
                     this.disableButton(this.backwardButton());
                     this.disableButton(this.forwardButton());
+                },
+                enable: function enable() {
+                    // for that provider everything will be done in the pagination.js
                 }
             };
         }
