@@ -145,6 +145,7 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
 
         paginationComponent
             .on('change enable', function() {
+                provider.enable();
                 this.refresh();
             })
             .on('render', function () {
