@@ -111,14 +111,14 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
         }
 
         if ($report->containsError()){
-            $returnedReport = Report::createFailure(__('Import failed.'));
-            $returnedReport->add($report);
+            $report->setMessage(__('Import failed.'));
+            $report->setType(Report::TYPE_ERROR);
         }else {
-            $returnedReport = Report::createSuccess(__('Import succeeded.'));
-            $returnedReport->add($report);
+            $report->setMessage(__('Import succeeded.'));
+            $report->setType(Report::TYPE_SUCCESS);
         }
 
-        return $returnedReport;
+        return $report;
     }
 
     /**
