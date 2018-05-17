@@ -16,32 +16,29 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\import\service;
 
-interface ImportServiceInterface
+use oat\oatbox\service\exception\InvalidService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+
+interface ImporterFactoryInterface
 {
-    /**
-     * Launch the import of a csv file located at $filePath
-     *
-     * @param $file
-     * @param array $extraProperties Rdf properties that need to be injected (role, FirstTimeInTao...)
-     * @param array $options Contains technical options e.q. csvControls
-     * @return \common_report_Report
-     */
-    public function import($file, $extraProperties = [], $options = []);
+    const OPTION_DEFAULT_SCHEMA = 'default-schema';
+    const OPTION_MAPPERS = 'mappers';
+    const OPTION_MAPPERS_IMPORTER = 'importer';
+    const OPTION_MAPPERS_MAPPER = 'mapper';
 
     /**
-     * Get the mapper
+     * Create an importer for the given user type.
      *
-     * @return ImportMapperInterface|false
-     */
-    public function getMapper();
-
-    /**
-     * Set the mapper to use to map csv column to rdf properties
+     * User type is defined in a config mapper and is associated to a role
      *
-     * @param ImportMapperInterface $importMapper
-     * @return $this
+     * @param $type
+     * @return mixed
+     * @throws \common_exception_NotFound
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
      */
-    public function setMapper(ImportMapperInterface $importMapper);
+    public function create($type);
 }
