@@ -75,7 +75,7 @@ define([
                 items : ['Bold', 'Italic', 'Underline','Subscript', 'Superscript']
             },{
                 name : 'insert',
-                items : ['SpecialChar']
+                items : ['SpecialChar', 'TaoTab', 'TaoUnTab']
             },{
                 name : 'paragraph',
                 items : ['NumberedList', 'BulletedList']
@@ -238,6 +238,9 @@ define([
         var _switchDtd = function _switchDtd(dtdMode) {
             dtdHandler.setMode(dtdMode);
             window.CKEDITOR.dtd = dtdHandler.getDtd();
+            // window.CKEDITOR.dtd.$removeEmpty.span = 0;
+            // window.CKEDITOR.config.allowedContent = true;
+            // window.CKEDITOR.config.disallowedContent = false;
         };
 
         /**
