@@ -743,7 +743,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')));
             $this->setVersion('17.17.0');
         }
-      
+
         $this->skip('17.17.0', '18.4.0');
 
         if ($this->isVersion('18.4.0')) {
@@ -773,7 +773,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('18.8.0');
         }
 
-        $this->skip('18.8.0', '19.0.1');
+        $this->skip('18.8.0', '19.1.0');
     }
 
 }
