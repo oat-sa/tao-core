@@ -51,7 +51,6 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\search\index\ResourceIterator;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
@@ -773,7 +772,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('18.8.0');
         }
 
-        $this->skip('18.8.0', '19.0.2');
+        $this->skip('18.8.0', '19.0.3');
     }
 
 }
