@@ -33,15 +33,15 @@ interface ImportServiceInterface
     /**
      * Get the mapper
      *
-     * @return ImportMapper|false
+     * @return ImportMapperInterface|false
      */
     public function getMapper();
 
     /**
      * Set the mapper to use to map csv column to rdf properties
      *
-     * @param ImportMapper $importMapper
+     * @param ImportMapperInterface $importMapper
      * @return $this
      */
-    public function setMapper(ImportMapper $importMapper);
+    public function setMapper(ImportMapperInterface $importMapper);
 }

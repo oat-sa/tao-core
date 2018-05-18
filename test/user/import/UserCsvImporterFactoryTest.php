@@ -19,34 +19,35 @@
 
 namespace oat\tao\test\user\import;
 
+use oat\tao\model\import\service\ImportServiceInterface;
 use oat\tao\model\user\import\UserCsvImporterFactory;
-use oat\tao\model\user\import\UserImportServiceInterface;
 
 class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetImporterDefined()
     {
-        /** @var UserCsvImporterFactory $service */
-        $service = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()->setMethods(['buildService','getOption'])->getMock();
+        /** @var UserCsvImporterFactory $factory */
+        $factory = $this->getMockBuilder(UserCsvImporterFactory::class)->disableOriginalConstructor()
+            ->setMethods(['buildService','getOption', 'propagate'])->getMock();
 
-        $service
+        $factory
             ->method('buildService')
-            ->willReturn($this->getMockForAbstractClass(UserImportServiceInterface::class));
+            ->willReturn($this->getMockForAbstractClass(ImportServiceInterface::class));
 
-        $service->expects($this->any())
+        $factory->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function ($prop){
                 switch ($prop){
                     case 'mappers':
                         return array(
                             'test-taker' => array(
-                                'importer' => $this->getMockForAbstractClass(UserImportServiceInterface::class)
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
                             ),
                             'proctor' => array(
-                                'importer' => $this->getMockForAbstractClass(UserImportServiceInterface::class)
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
                             ),
                             'test-center-admin' => array(
-                                'importer' => $this->getMockForAbstractClass(UserImportServiceInterface::class)
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
                             )
                         );
                         break;
@@ -65,8 +66,8 @@ class UserCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
             }));
 
 
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->getImporter('test-taker'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->getImporter('proctor'));
-        $this->assertInstanceOf(UserImportServiceInterface::class, $service->getImporter('test-center-admin'));
+        $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('test-taker'));
+        $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('proctor'));
+        $this->assertInstanceOf(ImportServiceInterface::class, $factory->create('test-center-admin'));
     }
 }

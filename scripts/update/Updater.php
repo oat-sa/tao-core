@@ -51,7 +51,6 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\search\index\ResourceIterator;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
@@ -755,6 +754,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao', 'mod' => 'Health']));
             $this->setVersion('18.5.0');
         }
+
         $this->skip('18.5.0', '18.6.0');
 
         if ($this->isVersion('18.6.0')) {
@@ -772,7 +772,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('18.8.0');
         }
 
-        $this->skip('18.8.0', '18.8.1');
+        $this->skip('18.8.0', '19.1.0');
     }
 
 }
