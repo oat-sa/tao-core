@@ -157,7 +157,6 @@ class FileHelperTest extends TaoPhpUnitTestRunner {
         $zipArchive->open($archivePath, ZipArchive::CREATE);
         $zipArchive->addFromString('path/to/data/text.txt', 'some text');
         $zipArchive->addFromString('path/to/log.log', 'some logs');
-
         $this->assertEquals(2, tao_helpers_File::renameInZip($zipArchive, 'path/to', 'road/to'));
         $zipArchive->close();
 
@@ -166,6 +165,26 @@ class FileHelperTest extends TaoPhpUnitTestRunner {
         $zipArchive->open($archivePath, ZipArchive::CREATE);
         $this->assertEquals('some text', $zipArchive->getFromName('road/to/data/text.txt'));
         $this->assertEquals('some logs', $zipArchive->getFromName('road/to/log.log'));
+        $zipArchive->close();
+    }
+
+    public function testExcludeFromZip()
+    {
+        // Prepare test archive.
+        $root = $this->envPath;
+        $archivePath = "${root}/exclude.zip";
+        $zipArchive = new ZipArchive();
+        $zipArchive->open($archivePath, ZipArchive::CREATE);
+        $zipArchive->addFromString('path/to/data/text.txt', 'some text');
+        $zipArchive->addFromString('path/to/log.log', 'some logs');
+        $this->assertEquals(1, tao_helpers_File::excludeFromZip($zipArchive, '/.log$/'));
+        $zipArchive->close();
+
+        // Actual test.
+        $zipArchive = new ZipArchive();
+        $zipArchive->open($archivePath, ZipArchive::CREATE);
+        $this->assertFalse($zipArchive->getFromName('path/to/log.log'));
+        $this->assertNotFalse($zipArchive->getFromName('path/to/data/text.txt'));
         $zipArchive->close();
     }
 }

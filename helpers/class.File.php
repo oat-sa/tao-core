@@ -490,8 +490,8 @@ class tao_helpers_File
      * affected by the directory renaming.
      *
      * @param ZipArchive $zipArchive
-     * @param $oldname
-     * @param $newname
+     * @param string $oldname
+     * @param string $newname
      * @return int The amount of renamed entries.
      */
     public static function renameInZip(ZipArchive $zipArchive, $oldname, $newname)
@@ -508,6 +508,31 @@ class tao_helpers_File
         }
 
         return $renameCount;
+    }
+
+    /**
+     * Exclude from Zip
+     *
+     * Exclude entries matching $pattern from a ZIP Archive.
+     *
+     * @param ZipArchive $zipArchive
+     * @param string $pattern A PCRE pattern.
+     * @return int The amount of excluded entries.
+     */
+    public static function excludeFromZip(ZipArchive $zipArchive, $pattern)
+    {
+        $i = 0;
+        $exclusionCount = 0;
+
+        while ($entryName = $zipArchive->getNameIndex($i)) {
+            if (preg_match($pattern, $entryName) === 1 && $zipArchive->deleteIndex($i)) {
+                $exclusionCount++;
+            }
+
+            $i++;
+        }
+
+        return $exclusionCount;
     }
     
     /**
