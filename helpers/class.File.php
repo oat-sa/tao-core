@@ -480,6 +480,35 @@ class tao_helpers_File
     
         return $returnValue;
     }
+
+    /**
+     * Rename in Zip
+     *
+     * Rename an item in a ZIP archive. Works for files and directories.
+     *
+     * In case of renaming directories, the return value of this method will be the amount of files
+     * affected by the directory renaming.
+     *
+     * @param ZipArchive $zipArchive
+     * @param $oldname
+     * @param $newname
+     * @return int The amount of renamed entries.
+     */
+    public static function renameInZip(ZipArchive $zipArchive, $oldname, $newname)
+    {
+        $i = 0;
+        $renameCount = 0;
+
+        while ($entryName = $zipArchive->getNameIndex($i)) {
+            $newEntryName = str_replace($oldname, $newname, $entryName);
+            if ($zipArchive->renameIndex($i, $newEntryName)) {
+                $renameCount++;
+            }
+            $i++;
+        }
+
+        return $renameCount;
+    }
     
     /**
      * Gets the local path to a publicly available resource
