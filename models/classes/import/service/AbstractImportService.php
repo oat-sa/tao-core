@@ -38,32 +38,14 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /** @var array  */
     protected $headerColumns = [];
 
-    /** @var ImportMapper */
+    /** @var ImportMapperInterface */
     protected $mapper;
 
-
     /**
-     * Format the $data with $extraProperties
-     *
-     * @param array $data
-     * @param array $extraProperties
-     * @return array
+     * @param ImportMapperInterface $mapper
+     * @return \core_kernel_classes_Resource
      */
-    abstract protected function formatData(array $data, array $extraProperties);
-
-    /**
-     * @param ImportMapper $mapper
-     * @return mixed
-     */
-    abstract protected function persist(ImportMapper $mapper);
-
-    /**
-     * @param array $data
-     * @param array$csvControls
-     * @param string $delimiter
-     * @throws \Exception
-     */
-    abstract protected function applyCsvImportRules(array $data, array $csvControls, $delimiter);
+    abstract protected function persist(ImportMapperInterface $mapper);
 
     /**
      * @param $file
@@ -75,8 +57,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
      */
     public function import($file, $extraProperties = [], $options = [])
     {
-        $reports = [];
-        $hasFailure = false;
+        $report = \common_report_Report::createInfo();
 
         if ($file instanceof File){
             if ($file->exists()){
@@ -95,8 +76,6 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
             $index++;
             $data = array_map('trim', $line);
             try {
-                $this->applyCsvImportRules($data,$csvControls,$delimiter);
-
                 if ($index === 1) {
                     $this->headerColumns = array_map('strtolower', $data);
                     continue;
@@ -105,43 +84,38 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
                 if (count($this->headerColumns) !== count($data)) {
                     $message = 'CSV file is malformed at line ' . $index . '. Data skipped';
                     $this->logWarning($message);
-                    $reports[] = Report::createFailure($message);
-                    $hasFailure = true;
+                    $report->add(Report::createFailure($message));
                     continue;
                 }
 
                 $combinedRow = array_combine($this->headerColumns, $data);
-                $combinedRow = $this->formatData($combinedRow, $extraProperties);
+                $combinedRow = array_merge($combinedRow, $extraProperties);
 
                 $mapper = $this->getMapper()->map($combinedRow)->combine($extraProperties);
+                $report->add($mapper->getReport());
+
                 if ($mapper->isEmpty()) {
                     $message = 'Mapper doesn\'t achieve to extract data for line ' . $index . '. Data skipped';
                     $this->logWarning($message);
-                    $reports[] = Report::createFailure($message);
-                    $hasFailure = true;
+                    $report->add(Report::createFailure($message));
                     continue;
                 }
 
                 $resource = $this->persist($mapper);
-
                 $message = 'Resource imported with success: '. $resource->getUri();
                 $this->logInfo($message);
-
-                $reports[] = Report::createSuccess($message);
+                $report->add(Report::createSuccess($message));
             } catch (\Exception $exception) {
-                $reports[] = Report::createFailure($exception->getMessage());
-                $hasFailure = true;
+                $report->add(Report::createFailure($exception->getMessage()));
             }
         }
 
-        if ($hasFailure){
-            $report = Report::createFailure(__('Import failed.'));
-        }else{
-            $report = Report::createSuccess(__('Import succeeded.'));
-        }
-
-        foreach ($reports as $r){
-            $report->add($r);
+        if ($report->containsError()){
+            $report->setMessage(__('Import failed.'));
+            $report->setType(Report::TYPE_ERROR);
+        }else {
+            $report->setMessage(__('Import succeeded.'));
+            $report->setType(Report::TYPE_SUCCESS);
         }
 
         return $report;
@@ -150,7 +124,7 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /**
      * Get the mapper
      *
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     public function getMapper()
     {
@@ -164,10 +138,10 @@ abstract class AbstractImportService extends ConfigurableService implements Impo
     /**
      * Set the mapper
      *
-     * @param ImportMapper $mapper
+     * @param ImportMapperInterface $mapper
      * @return $this
      */
-    public function setMapper(ImportMapper $mapper)
+    public function setMapper(ImportMapperInterface $mapper)
     {
         $this->mapper = $mapper;
 

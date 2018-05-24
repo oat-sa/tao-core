@@ -19,26 +19,58 @@
 
 namespace oat\tao\model\import\service;
 
+use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 
-interface ImporterFactory
+class ImporterFactory extends ConfigurableService implements ImporterFactoryInterface
 {
-    const OPTION_DEFAULT_SCHEMA = 'default-schema';
-    const OPTION_MAPPERS = 'mappers';
-    const OPTION_MAPPERS_IMPORTER = 'importer';
-    const OPTION_MAPPERS_MAPPER = 'mapper';
-
     /**
-     * Create an importer for the given user type.
+     * Create an importer
      *
      * User type is defined in a config mapper and is associated to a role
      *
      * @param $type
-     * @return mixed
+     * @return ImportServiceInterface
      * @throws \common_exception_NotFound
      * @throws InvalidService
      * @throws InvalidServiceManagerException
      */
-    public function getImporter($type);
+    public function create($type)
+    {
+        $typeOptions    = $this->getOption(self::OPTION_MAPPERS);
+        $typeOption     = isset($typeOptions[$type]) ? $typeOptions[$type] : $this->throwException();
+        $importerString = isset($typeOption[self::OPTION_MAPPERS_IMPORTER]) ? $typeOption[self::OPTION_MAPPERS_IMPORTER] : $this->throwException();
+        $importer       = $this->buildService($importerString, ImportServiceInterface::class);
+
+        if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
+            $mapperString = $typeOption[self::OPTION_MAPPERS_MAPPER];
+            $mapper       = $this->buildService($mapperString);
+        } else {
+            $mapper = $this->getDefaultMapper();
+        }
+
+        $this->propagate($mapper);
+        $importer->setMapper($mapper);
+
+        return $importer;
+    }
+
+    /**
+     * @throws \common_exception_NotFound
+     */
+    protected function throwException()
+    {
+        throw new \common_exception_NotFound('Unable to load importer for type.');
+    }
+
+    /**
+     * @return ImportMapperInterface
+     */
+    protected function getDefaultMapper()
+    {
+        return new OntologyMapper([
+            ImportMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
+        ]);
+    }
 }
