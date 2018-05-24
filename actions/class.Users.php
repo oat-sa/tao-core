@@ -301,7 +301,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $properties = $form->getValues();
                 $instance = $this->createInstance(array($clazz), $properties);
 
-                $this->setData('message', __($instance->getLabel() . ' created'));
+                $this->setData('message', __('%s created', $instance->getLabel()));
                 $this->setData('selectTreeNode', $instance->getUri());
             }
         }

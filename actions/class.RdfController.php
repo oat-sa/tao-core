@@ -429,7 +429,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 $properties = $myForm->getValues();
                 $instance = $this->createInstance(array($clazz), $properties);
 
-                $this->setData('message', __($instance->getLabel().' created'));
+                $this->setData('message', __('%s created', $instance->getLabel()));
                 $this->setData('reload', true);
                 //return $this->redirect(_url('editInstance', null, null, array('uri' => $instance)));
             }
