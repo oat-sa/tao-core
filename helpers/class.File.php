@@ -499,11 +499,14 @@ class tao_helpers_File
         $i = 0;
         $renameCount = 0;
 
-        while ($entryName = $zipArchive->getNameIndex($i)) {
-            $newEntryName = str_replace($oldname, $newname, $entryName);
-            if ($zipArchive->renameIndex($i, $newEntryName)) {
-                $renameCount++;
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                $newEntryName = str_replace($oldname, $newname, $entryName);
+                if ($zipArchive->renameIndex($i, $newEntryName)) {
+                    $renameCount++;
+                }
             }
+
             $i++;
         }
 
@@ -524,15 +527,34 @@ class tao_helpers_File
         $i = 0;
         $exclusionCount = 0;
 
-        while ($entryName = $zipArchive->getNameIndex($i)) {
-            if (preg_match($pattern, $entryName) === 1 && $zipArchive->deleteIndex($i)) {
-                $exclusionCount++;
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                // Not previously removed index.
+                if (preg_match($pattern, $entryName) === 1 && $zipArchive->deleteIndex($i)) {
+                    $exclusionCount++;
+                }
             }
 
             $i++;
         }
 
         return $exclusionCount;
+    }
+
+    public static function getAllZipNames(ZipArchive $zipArchive)
+    {
+        $i = 0;
+        $entries = [];
+
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                $entries[] = $entryName;
+            }
+
+            $i++;
+        }
+
+        return $entries;
     }
     
     /**
