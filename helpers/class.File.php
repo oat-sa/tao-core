@@ -489,7 +489,7 @@ class tao_helpers_File
      * In case of renaming directories, the return value of this method will be the amount of files
      * affected by the directory renaming.
      *
-     * @param ZipArchive $zipArchive
+     * @param ZipArchive $zipArchive An open ZipArchive object.
      * @param string $oldname
      * @param string $newname
      * @return int The amount of renamed entries.
@@ -518,7 +518,7 @@ class tao_helpers_File
      *
      * Exclude entries matching $pattern from a ZIP Archive.
      *
-     * @param ZipArchive $zipArchive
+     * @param ZipArchive $zipArchive An open ZipArchive object.
      * @param string $pattern A PCRE pattern.
      * @return int The amount of excluded entries.
      */
@@ -541,6 +541,15 @@ class tao_helpers_File
         return $exclusionCount;
     }
 
+    /**
+     * Get All Zip Names
+     *
+     * Retrieve all ZIP name entries in a ZIP archive. In others words, all the paths in the
+     * archive having an entry.
+     *
+     * @param ZipArchive $zipArchive An open ZipArchive object.
+     * @return array An array of strings.
+     */
     public static function getAllZipNames(ZipArchive $zipArchive)
     {
         $i = 0;
