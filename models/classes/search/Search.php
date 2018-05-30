@@ -20,7 +20,6 @@
  */
 namespace oat\tao\model\search;
 
-use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
 use oat\tao\model\search\index\IndexIterator;
 

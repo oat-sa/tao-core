@@ -36,7 +36,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     public function getTokens()
     {
-        $value = $this->getPersistence()->get(static::TOKENS_STORAGE_KEY);
+        $value = $this->getPersistence()->get($this->getKey());
         $pool = (string)$value === '' ? [] : json_decode($value, true);
 
         return $pool;
@@ -48,7 +48,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     public function setTokens(array $tokens = [])
     {
-        $this->getPersistence()->set(static::TOKENS_STORAGE_KEY, json_encode($tokens));
+        $this->getPersistence()->set($this->getKey(), json_encode($tokens));
     }
 
     /**
@@ -56,7 +56,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     public function removeTokens()
     {
-        return $this->getPersistence()->del(static::TOKENS_STORAGE_KEY);
+        return $this->getPersistence()->del($this->getKey());
     }
 
     /**
@@ -68,5 +68,14 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
             $this->persistence = common_persistence_KeyValuePersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
         }
         return $this->persistence;
+    }
+
+    /**
+     * @return string
+     * @throws \common_exception_Error
+     */
+    protected function getKey()
+    {
+        return \common_session_SessionManager::getSession()->getUser()->getIdentifier() . '_' . static::TOKENS_STORAGE_KEY;
     }
 }
