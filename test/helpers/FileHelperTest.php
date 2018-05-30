@@ -187,4 +187,17 @@ class FileHelperTest extends TaoPhpUnitTestRunner {
         $this->assertNotFalse($zipArchive->getFromName('path/to/data/text.txt'));
         $zipArchive->close();
     }
+
+    public function testGetAllZipNames()
+    {
+        // Prepare test archive.
+        $root = $this->envPath;
+        $archivePath = "${root}/rename.zip";
+        $zipArchive = new ZipArchive();
+        $zipArchive->open($archivePath, ZipArchive::CREATE);
+        $zipArchive->addFromString('path/to/data/text.txt', 'some text');
+        $zipArchive->addFromString('path/to/log.log', 'some logs');
+        $this->assertEquals(['path/to/data/text.txt', 'path/to/log.log'], tao_helpers_File::getAllZipNames($zipArchive));
+        $zipArchive->close();
+    }
 }
