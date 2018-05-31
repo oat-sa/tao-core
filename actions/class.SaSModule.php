@@ -129,7 +129,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 			$instance = $this->getCurrentInstance();
 			if(!is_null($instance)){
 				$this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
-				$message = $instance->getLabel().' '.__($this->getDataKind()).' '.__('selected');
+				$message = __('%s %s selected', $instance->getLabel(), $this->getDataKind());
 			}
 		}
 		$this->setData('message', $message);
