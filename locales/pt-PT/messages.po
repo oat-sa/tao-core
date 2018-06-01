@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:00:54\n"
+"Project-Id-Version: TAO 3.3.0-sprint76\n"
+"PO-Revision-Date: 2018-05-11T15:12:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -16,6 +16,9 @@ msgstr ""
 msgid ""
 msgstr ""
 
+msgid " AND "
+msgstr ""
+
 msgid " and "
 msgstr ""
 
@@ -25,6 +28,9 @@ msgstr "Foi eliminado com sucesso"
 msgid " has been installed"
 msgstr "foi instalado"
 
+msgid " is "
+msgstr ""
+
 msgid " next"
 msgstr "próximo"
 
@@ -32,6 +38,9 @@ msgid " requires a subgrid adapter"
 msgstr "adaptador de sub-rede necessário"
 
 msgid "%1$s expected but %2$s detected"
+msgstr ""
+
+msgid "%d attempts left before your account is locked."
 msgstr ""
 
 msgid "%d day"
@@ -64,6 +73,12 @@ msgstr "%s (%s kb)"
 msgid "%s Class saved"
 msgstr ""
 
+msgid "%s classes"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr ""
+
 msgid "%s could not be released"
 msgstr ""
 
@@ -74,6 +89,9 @@ msgid "%s has been deleted"
 msgstr ""
 
 msgid "%s has been released"
+msgstr ""
+
+msgid "%s instances"
 msgstr ""
 
 msgid "%s is of a type that cannot be published"
@@ -109,14 +127,20 @@ msgstr ">A extensão foi %s instalada com sucesso."
 msgid "> Installation done."
 msgstr "Instalação concluída"
 
+msgid "a class"
+msgstr ""
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr ""
+
 msgid "A fatal error occured during the installation process."
 msgstr "Ocorreu um erro fatal durante a instalação do processo"
 
-msgid "A message with further instructions has been sent to your email address: %s"
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
-msgid "A similar resource has already been versioned"
-msgstr "Um recurso similar já foi versionado"
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
 
 msgid "Access Denied"
 msgstr "Acesso Negado"
@@ -124,10 +148,19 @@ msgstr "Acesso Negado"
 msgid "Access denied. Please renew your authentication!"
 msgstr "Acesso negado. Por favor renove a sua autenticação!"
 
+msgid "Account status"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
-msgid "Action \"%s\" not found."
+msgid "Action %s - removed %s positions"
+msgstr ""
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr ""
+
+msgid "Action was not executed yet"
 msgstr ""
 
 msgid "Actions"
@@ -152,8 +185,23 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
+msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding the new class has failed"
+msgstr ""
+
+msgid "Adding the new resource has failed"
+msgstr ""
+
 msgid "Advanced Mode"
 msgstr "Modo avançado"
+
+msgid "Advanced search, add filters"
+msgstr ""
+
+msgid "aliases:"
+msgstr ""
 
 msgid "all"
 msgstr "todos"
@@ -173,10 +221,19 @@ msgstr "Versão Alpha"
 msgid "An email has been sent"
 msgstr ""
 
-msgid "An error occured during user deletion"
+msgid "An error occurred during user deletion"
 msgstr "Ocorreu um erro durante a eliminação do utilizador"
 
-msgid "An error occured while running \"%s\", please check your error log."
+msgid "An error occurred!"
+msgstr ""
+
+msgid "An exception occured while running \"%s"
+msgstr ""
+
+msgid "an instance"
+msgstr ""
+
+msgid "Apply"
 msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
@@ -185,6 +242,15 @@ msgstr "Tem a certeza que quer eliminar o recurso versionado?\n"
 "O histórico também será eliminado."
 
 msgid "Are you sure you want to delete it?"
+msgstr ""
+
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign User to role"
@@ -203,11 +269,17 @@ msgstr ""
 msgid "Authoring"
 msgstr "Criar"
 
+msgid "auto unlocked in %s"
+msgstr ""
+
 msgid "Available"
 msgstr ""
 
 msgid "Available Extensions"
 msgstr "Extensões disponíveis"
+
+msgid "Back"
+msgstr ""
 
 msgid "Back to listing"
 msgstr ""
@@ -215,8 +287,8 @@ msgstr ""
 msgid "Beta version"
 msgstr "Versão Beta"
 
-msgid "Browse"
-msgstr "Navegar"
+msgid "boolean"
+msgstr ""
 
 msgid "Browse folders:"
 msgstr ""
@@ -224,22 +296,28 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-msgid "buffer"
+msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "Calendário"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
 
 msgid "Cannot be edited"
+msgstr ""
+
+msgid "Cannot divide by zero"
+msgstr ""
+
+msgid "Case sensitive"
 msgstr ""
 
 #, tao-public
@@ -258,6 +336,12 @@ msgstr "Marcar Todos"
 msgid "Check-in"
 msgstr ""
 
+msgid "choices:"
+msgstr ""
+
+msgid "Choose a value..."
+msgstr ""
+
 msgid "Choose export format"
 msgstr "Seleccione o formato de exportação:"
 
@@ -267,14 +351,35 @@ msgstr "Escolha o formato de importação"
 msgid "class selected"
 msgstr "disciplina seleccionada"
 
-msgid "Close tab"
-msgstr "Fechar separador"
+msgid "Class uri provided is not a valid class."
+msgstr ""
 
-msgid "Collapse Message"
+msgid "Cleaning up tmp space complete"
+msgstr ""
+
+msgid "Cleaning up tmp space started"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Close message"
+msgstr ""
+
+msgid "Code Version"
+msgstr ""
+
+msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
 msgstr "Coluna"
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -282,8 +387,11 @@ msgstr ""
 msgid "Commit"
 msgstr ""
 
-msgid "Commit message : "
-msgstr "Mensagem de envio:"
+msgid "Completed"
+msgstr ""
+
+msgid "Completed - Error"
+msgstr ""
 
 msgid "Confirm"
 msgstr "Confirmar"
@@ -294,11 +402,26 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+msgid "Copy"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "count"
+msgstr ""
+
 msgid "Create"
 msgstr "Criar"
 
 msgid "Create instance of "
 msgstr "Criar a instância de"
+
+msgid "Created"
+msgstr ""
 
 msgid "CSV"
 msgstr "CSV"
@@ -309,6 +432,9 @@ msgstr "Opções de CSV"
 msgid "Current language"
 msgstr "Idioma actual"
 
+msgid "Current playback position"
+msgstr ""
+
 msgid "Data imported"
 msgstr ""
 
@@ -317,9 +443,6 @@ msgstr "Informação importada com sucesso"
 
 msgid "Data imported. Some records are invalid."
 msgstr ""
-
-msgid "Data Lang."
-msgstr "Infor. do Idioma"
 
 msgid "Data Language"
 msgstr "Informação do Idioma"
@@ -336,7 +459,7 @@ msgstr ""
 msgid "Default search"
 msgstr ""
 
-msgid "Default user cannot be deleted"
+msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -346,7 +469,13 @@ msgstr "Defina os valores omissos"
 msgid "Delete"
 msgstr "Eliminar"
 
+msgid "Deleting search index for %s"
+msgstr ""
+
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Disabled %s"
@@ -366,9 +495,6 @@ msgstr "Não atribua"
 msgid "Download"
 msgstr "Descarregar"
 
-msgid "Download content"
-msgstr "Descarregar conteúdo"
-
 msgid "Download this file"
 msgstr ""
 
@@ -380,9 +506,6 @@ msgstr ""
 
 msgid "Drop the files to upload"
 msgstr ""
-
-msgid "e-mail"
-msgstr "e-mail"
 
 msgid "Edit"
 msgstr "Editar"
@@ -406,14 +529,29 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+msgid "enabled"
+msgstr ""
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr ""
+
 msgid "Enter"
 msgstr ""
 
 msgid "Error"
 msgstr "Erro"
 
+msgid "Error adding search index for %s with message %s"
+msgstr ""
+
 msgid "Error during file import"
 msgstr "Erro durante a importação do ficheiro"
+
+msgid "Error(s) has occurred during export."
+msgstr ""
+
+msgid "Examples:"
+msgstr ""
 
 msgid "Exclusive (OR)"
 msgstr "Exclusivo (OU)"
@@ -435,6 +573,9 @@ msgstr "Extensão"
 msgid "Extensions manager"
 msgstr "Gestor de extensões"
 
+msgid "Failed to delete index for %s"
+msgstr ""
+
 msgid "False"
 msgstr ""
 
@@ -444,23 +585,20 @@ msgstr "Delimitador de campo"
 msgid "Field encloser"
 msgstr "Campo incluso"
 
+msgid "Fields must match"
+msgstr ""
+
 msgid "File"
 msgstr "Ficheiro"
+
+msgid "File download failed"
+msgstr ""
 
 msgid "File name"
 msgstr "Nome do ficheiro"
 
-msgid "File path"
-msgstr "Caminho do ficheiro"
-
 msgid "File Properties"
 msgstr ""
-
-msgid "File repository"
-msgstr "Repositório de ficheiros"
-
-msgid "File revision"
-msgstr "Revisão do ficheiro"
 
 msgid "file selected"
 msgstr ""
@@ -471,9 +609,11 @@ msgstr ""
 msgid "files selected"
 msgstr ""
 
-#, tao-public
 msgid "Filter"
 msgstr "Filtro"
+
+msgid "Filter by value"
+msgstr ""
 
 msgid "Filtering mode"
 msgstr "Modo de filtragem"
@@ -481,8 +621,14 @@ msgstr "Modo de filtragem"
 msgid "First Name"
 msgstr "Nome Próprio"
 
+msgid "First page"
+msgstr ""
+
 msgid "First row column names"
 msgstr "1ª linha Nomes da coluna"
+
+msgid "Fit to width"
+msgstr ""
 
 msgid "Force Release"
 msgstr ""
@@ -490,7 +636,16 @@ msgstr ""
 msgid "Forgot your password?"
 msgstr ""
 
+msgid "From"
+msgstr ""
+
 msgid "Fuzzy Matching"
+msgstr ""
+
+msgid "generated-value"
+msgstr ""
+
+msgid "Generis Form"
 msgstr ""
 
 msgid "Go Back"
@@ -505,10 +660,10 @@ msgstr ""
 msgid "Hide detailed report"
 msgstr ""
 
-msgid "hours"
+msgid "Highlight all"
 msgstr ""
 
-msgid "However, the action will not be applied to the following"
+msgid "hours"
 msgstr ""
 
 msgid "Identifier"
@@ -517,11 +672,17 @@ msgstr ""
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "Importar"
 
 msgid "Import "
 msgstr "Importar"
+
+msgid "Import failed."
+msgstr ""
 
 msgid "Import Metadata from CSV file"
 msgstr ""
@@ -529,10 +690,37 @@ msgstr ""
 msgid "Import Metadata from RDF file"
 msgstr ""
 
+msgid "Import succeeded."
+msgstr ""
+
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr ""
+
+msgid "Imported %d resources"
+msgstr ""
+
+msgid "Imported resource \"%s"
+msgstr ""
+
+msgid "impossible to update task status"
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr "Inclusive (AND)"
 
+msgid "Index has been deleted for %s"
+msgstr ""
+
 msgid "Indexing has been run"
+msgstr ""
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr ""
+
+msgid "Injector has to contains a valid \"source\" field."
 msgstr ""
 
 msgid "Install"
@@ -547,17 +735,20 @@ msgstr "Instalação..."
 msgid "Installed Extensions"
 msgstr "Extensões Instaladas"
 
+msgid "Installed Version"
+msgstr ""
+
 msgid "Installing extension %s..."
 msgstr "Extensões instaladas %s..."
 
 msgid "Instance saved"
 msgstr "Instância guardada"
 
-msgid "Interface Language"
-msgstr "Idioma do Interface"
-
 msgid "Interface language"
 msgstr "Idioma do interface"
+
+msgid "Interface Language"
+msgstr "Idioma do Interface"
 
 msgid "Invalid date range (must be after or the same as: %s)"
 msgstr ""
@@ -589,25 +780,37 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr "Tipo de ficheiro invalido!"
 
+msgid "Invalid input for function"
+msgstr ""
+
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Inicio de sessão ou palavra passe invalida. Por favor tente de novo"
 
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
+
 msgid "invalid regular expression"
+msgstr ""
+
+msgid "Invalid values:"
 msgstr ""
 
 msgid "Label"
 msgstr "Rotulo"
 
-msgid "Label *"
-msgstr ""
-
 msgid "Language"
 msgstr "Idioma"
+
+msgid "Last attempt before your account is locked."
+msgstr ""
 
 msgid "Last Name"
 msgstr "Apelido"
 
-msgid "length"
+msgid "Last page"
 msgstr ""
 
 msgid "less than a minute"
@@ -625,6 +828,9 @@ msgstr "Lista - Escolha única - Suspensa"
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Escolha única - Botão de opção"
 
+msgid "Load more"
+msgstr ""
+
 msgid "Loaded"
 msgstr "Carregado"
 
@@ -632,6 +838,15 @@ msgid "Loaded at Startup"
 msgstr "Carregado no inicio"
 
 msgid "Loading"
+msgstr ""
+
+msgid "Loading status"
+msgstr ""
+
+msgid "Loading task status ..."
+msgstr ""
+
+msgid "locked by %s"
 msgstr ""
 
 msgid "Log in"
@@ -645,6 +860,24 @@ msgstr "Iniciar sessão"
 
 msgid "Login available"
 msgstr "Inicio de sessão disponível"
+
+msgid "Login is already in use."
+msgstr ""
+
+msgid "Login is empty."
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance storage driver is not set"
+msgstr ""
+
+msgid "Manage class schema"
+msgstr ""
 
 msgid "Manage data list"
 msgstr "Gerir lista de informação"
@@ -666,10 +899,28 @@ msgstr "Gerir Ficheiro Versionado"
 msgid "Map the properties to the CSV columns"
 msgstr "Mapear propriedades das colunas CSV"
 
+msgid "Maximum selection reached"
+msgstr ""
+
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr ""
+
 msgid "Message"
 msgstr ""
 
+msgid "Messages"
+msgstr ""
+
+msgid "Metadata export is not available for the selected resource."
+msgstr ""
+
 msgid "minutes"
+msgstr ""
+
+msgid "missing config %s for the service %s"
+msgstr ""
+
+msgid "Missing Parameters"
 msgstr ""
 
 msgid "More"
@@ -694,6 +945,12 @@ msgstr "Delimitador de valores múltiplos"
 msgid "must be numeric"
 msgstr ""
 
+msgid "Mute"
+msgstr ""
+
+msgid "My custom text translation"
+msgstr ""
+
 #, tao-public
 msgid "My settings"
 msgstr "Os meus parâmetros"
@@ -714,17 +971,23 @@ msgstr ""
 msgid "Next"
 msgstr "Próximo"
 
+msgid "Next match"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
 msgid "No"
 msgstr "Não"
 
 msgid "No action specified"
 msgstr ""
 
+msgid "No client translation bundles updated"
+msgstr ""
+
 msgid "No extensions available."
 msgstr "Sem extensões disponíveis"
-
-msgid "no file"
-msgstr "Sem ficheiros"
 
 msgid "no file not found in this location"
 msgstr ""
@@ -738,13 +1001,28 @@ msgstr ""
 msgid "no label"
 msgstr "Sem rótulos"
 
-msgid "No preview available"
-msgstr ""
-
 msgid "No Preview available"
 msgstr ""
 
+msgid "No preview available"
+msgstr ""
+
 msgid "No results found"
+msgstr ""
+
+msgid "No Task yet"
+msgstr ""
+
+msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
+msgid "Not started"
 msgstr ""
 
 msgid "Nothing imported"
@@ -756,32 +1034,39 @@ msgstr "Nada para instalar!"
 msgid "Nothing to list!"
 msgstr ""
 
+#, tao-public
+msgid "Notifications"
+msgstr ""
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "Numero de elementos"
 
 msgid "of"
 msgstr ""
 
-msgid "offset"
-msgstr ""
-
-msgid "Ok"
+msgid "Off"
 msgstr ""
 
 msgid "OK"
 msgstr ""
 
+msgid "Ok"
+msgstr ""
+
 msgid "Old Password"
 msgstr "Palavra-passe antiga"
 
-msgid "Option instanceUri is not an option !!"
-msgstr "Opção instanciaUri não é uma opção!!"
+msgid "On"
+msgstr ""
 
-msgid "Option ownerUri is not an option !!"
-msgstr "Opção proprietarioUri não é uma opção!!"
-
-msgid "Option propertyUri is not an option !!"
-msgstr "Opção propriedadeUri não é uma opção!!"
+msgid "Operated By "
+msgstr ""
 
 msgid "or"
 msgstr ""
@@ -792,11 +1077,11 @@ msgstr ""
 msgid "Password"
 msgstr "Palavra-passe"
 
-msgid "Password *"
-msgstr "Palavra-passe*"
-
 msgid "Password changed"
 msgstr "Palavra-passe alterada"
+
+msgid "Password is empty."
+msgstr ""
 
 msgid "Password reset"
 msgstr ""
@@ -807,11 +1092,29 @@ msgstr ""
 msgid "Passwords are not matching"
 msgstr "As palavras-passes não são iguais"
 
+msgid "Pause"
+msgstr ""
+
+msgid "Permission denied to write in the selected class"
+msgstr ""
+
 msgid "platform"
+msgstr ""
+
+msgid "Play"
 msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Por favor confirme a eliminação"
+
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
 
 msgid "Please confirm property deletion!"
 msgstr "Por favor confirme a eliminação da propriedade"
@@ -819,10 +1122,19 @@ msgstr "Por favor confirme a eliminação da propriedade"
 msgid "Please confirm this operation."
 msgstr ""
 
-msgid "Please confirm user deletion"
-msgstr "Por favor confirme a eliminação do utilizador"
+msgid "Please confirm unlocking of account %s"
+msgstr ""
 
 msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please download the track and listen offline."
+msgstr ""
+
+msgid "Please download the video and view offline."
 msgstr ""
 
 msgid "Please give a message to your commit"
@@ -831,7 +1143,16 @@ msgstr ""
 msgid "Please provide a reason"
 msgstr ""
 
-msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Please wait while ..."
 msgstr ""
 
 msgid "Post install processing"
@@ -846,6 +1167,15 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
+msgid "Previous match"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Proceed"
+msgstr ""
+
 #, tao-public
 msgid "Properties"
 msgstr ""
@@ -856,10 +1186,13 @@ msgstr ""
 msgid "Provided URL is not valid"
 msgstr ""
 
+msgid "Range field is required"
+msgstr ""
+
 msgid "RDF"
 msgstr "RDF"
 
-msgid "readable"
+msgid "Refresh"
 msgstr ""
 
 msgid "Release"
@@ -868,19 +1201,22 @@ msgstr ""
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr ""
 
-msgid "remain"
-msgstr ""
-
 msgid "Remove"
 msgstr "Remover"
-
-msgid "Remove content"
-msgstr "Remover conteúdo"
 
 msgid "Remove Message"
 msgstr ""
 
 msgid "Remove this file"
+msgstr ""
+
+msgid "Removed %s directories"
+msgstr ""
+
+msgid "Removed %s files"
+msgstr ""
+
+msgid "Removing: %s"
 msgstr ""
 
 msgid "Rename"
@@ -889,10 +1225,16 @@ msgstr "Renomear"
 msgid "Repeat new password"
 msgstr "repita a nova palavra-passe"
 
-msgid "Repeat password *"
-msgstr "Repita a palavra-passe*"
+msgid "Repeat password"
+msgstr "Repita a palavra-passe"
 
 msgid "Request a password reset via Email."
+msgstr ""
+
+msgid "require notification ID"
+msgstr ""
+
+msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -904,7 +1246,22 @@ msgstr "Requerido"
 msgid "Reset"
 msgstr ""
 
+msgid "Reset the original size"
+msgstr ""
+
 msgid "Resource"
+msgstr ""
+
+msgid "Resource copied"
+msgstr ""
+
+msgid "Resource Identifier"
+msgstr ""
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr ""
+
+msgid "Resource Identifier has been copied to the clipboard"
 msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
@@ -916,7 +1273,13 @@ msgstr ""
 msgid "Resource saved"
 msgstr "Recurso guardado"
 
+msgid "resources"
+msgstr ""
+
 msgid "Responsive mode"
+msgstr ""
+
+msgid "Restore sound"
 msgstr ""
 
 msgid "Return to sign in page"
@@ -935,20 +1298,28 @@ msgstr "Papeis"
 msgid "Roles library"
 msgstr "Biblioteca de papeis"
 
+msgid "Row %s"
+msgstr ""
+
 msgid "Save"
 msgstr "Guardar"
 
 msgid "Scope"
 msgstr ""
 
-#, tao-public
 msgid "Search"
 msgstr "Procurar"
 
 msgid "Search %s"
 msgstr ""
 
+msgid "Search by properties"
+msgstr ""
+
 msgid "Search sub-classes"
+msgstr ""
+
+msgid "second"
 msgstr ""
 
 msgid "seconds"
@@ -960,8 +1331,17 @@ msgstr "seleccione"
 msgid "Select"
 msgstr "Seleccione"
 
+msgid "Select a class"
+msgstr ""
+
+msgid "Select a destination class"
+msgstr ""
+
 msgid "Select a language"
 msgstr "Seleccione uma língua"
+
+msgid "Select loaded %s"
+msgstr ""
 
 msgid "Select the element destination"
 msgstr "Seleccione o elemento de destino"
@@ -972,6 +1352,9 @@ msgstr ""
 msgid "select..."
 msgstr ""
 
+msgid "Selected"
+msgstr ""
+
 msgid "selected"
 msgstr "seleccionado"
 
@@ -980,6 +1363,9 @@ msgstr "Ficheiro seleccionado:"
 
 msgid "Selection saved successfully"
 msgstr "Selecção guardada com sucesso"
+
+msgid "self-locked"
+msgstr ""
 
 #, tao-public
 msgid "Settings"
@@ -997,6 +1383,18 @@ msgstr "Modo simples"
 msgid "Size"
 msgstr ""
 
+msgid "Start of document reached. Continuing from the end."
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Status of"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
 msgid "Success"
 msgstr ""
 
@@ -1009,6 +1407,9 @@ msgstr ""
 msgid "Successfully imported class \"%s"
 msgstr ""
 
+msgid "Successfully updated %s client translation bundles"
+msgstr ""
+
 msgid "Supported export formats"
 msgstr "Formatos de exportação suportados"
 
@@ -1019,6 +1420,18 @@ msgid "TAO Home"
 msgstr "Inicio TAO"
 
 msgid "TAO Login"
+msgstr ""
+
+msgid "task created"
+msgstr ""
+
+msgid "Task Listing"
+msgstr ""
+
+msgid "Task Name"
+msgstr ""
+
+msgid "Task not found"
 msgstr ""
 
 msgid "Text - Long - Box"
@@ -1036,13 +1449,16 @@ msgstr ""
 msgid "The action will be applied to the following"
 msgstr ""
 
+msgid "The action will not be applied to "
+msgstr ""
+
+msgid "The action will not be applied to the following"
+msgstr ""
+
 msgid "The column "
 msgstr "A coluna"
 
 msgid "The format of this field is not valid."
-msgstr ""
-
-msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
 msgstr ""
 
 msgid "The imported file is not properly UTF-8 encoded."
@@ -1052,6 +1468,9 @@ msgid "The index identifier should not be empty"
 msgstr ""
 
 msgid "The lock has been released"
+msgstr ""
+
+msgid "The server has sent an empty response"
 msgstr ""
 
 msgid "The uploaded file is too large (maximum %s bytes)"
@@ -1093,6 +1512,9 @@ msgstr ""
 msgid "This Login is already in use"
 msgstr "Esta sessão já se encontra em uso"
 
+msgid "This media cannot be played!"
+msgstr ""
+
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr ""
 
@@ -1111,16 +1533,34 @@ msgstr ""
 msgid "Time zone"
 msgstr ""
 
+msgid "Title"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr ""
 
 msgid "to translate"
 msgstr ""
 
+msgid "Toggle multiple/single selection"
+msgstr ""
+
 msgid "Tokenizer"
 msgstr ""
 
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
 msgid "Too many suggestions match your query. Only a few are listed"
+msgstr ""
+
+msgid "Total duration"
+msgstr ""
+
+msgid "Total:"
 msgstr ""
 
 msgid "Translate"
@@ -1144,8 +1584,8 @@ msgstr ""
 msgid "Type"
 msgstr "Tipo"
 
-msgid "UI Lang."
-msgstr "UI Língua"
+msgid "Type your search"
+msgstr ""
 
 msgid "Unable to access your account?"
 msgstr ""
@@ -1153,10 +1593,16 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr "Não é permitido mudar a palavra-passe em modo de demonstração"
 
+msgid "Unable to copy the resource"
+msgstr ""
+
 msgid "Unable to delete %s"
 msgstr ""
 
 msgid "Unable to delete the selected resource"
+msgstr ""
+
+msgid "Unable to delete the selected resources"
 msgstr ""
 
 msgid "Unable to open file %s"
@@ -1168,7 +1614,16 @@ msgstr ""
 msgid "Unable to remove the property."
 msgstr ""
 
+msgid "Unable to save resource."
+msgstr ""
+
+msgid "unable to search into notification."
+msgstr ""
+
 msgid "Unable to send the password reset request"
+msgstr ""
+
+msgid "Unable to update the asset service"
 msgstr ""
 
 msgid "Unable to upload file"
@@ -1183,7 +1638,16 @@ msgstr "Desmarcar Todos"
 msgid "Uncheck all"
 msgstr "Desmarcar todos"
 
+msgid "Undefined amount of the pages for pagination"
+msgstr ""
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr ""
+
 msgid "Undo"
+msgstr ""
+
+msgid "Unexpected error. Please contact administrator"
 msgstr ""
 
 msgid "Uninstall of %s failed"
@@ -1198,23 +1662,20 @@ msgstr ""
 msgid "Unknown Error"
 msgstr "Erro desconhecido"
 
+msgid "unkown task id %s"
+msgstr ""
+
 msgid "Update"
+msgstr ""
+
+msgid "Update ID : %s"
 msgstr ""
 
 msgid "Upload"
 msgstr "Enviar"
 
-msgid "Upload a new content"
-msgstr "Enviar um novo conteúdo"
-
-msgid "Upload File"
-msgstr "Enviar ficheiro"
-
 msgid "Upload into:"
 msgstr ""
-
-msgid "Upload the file to version"
-msgstr "Enviar ficheiro para versão"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
@@ -1225,13 +1686,25 @@ msgstr "Usar o valor padrão"
 msgid "User"
 msgstr ""
 
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
 msgid "User added"
 msgstr "Utilizador adicionado"
 
 msgid "User deleted successfully"
 msgstr "Utilizador eliminado com sucesso"
 
-msgid "User deletion not permited on a demo instance"
+msgid "User deletion not permitted on a demo instance"
 msgstr ""
 
 msgid "User not found"
@@ -1254,11 +1727,35 @@ msgstr "Utilizadores"
 msgid "Version"
 msgstr "Versão"
 
+msgid "View report"
+msgstr ""
+
+msgid "View resources as a list"
+msgstr ""
+
+msgid "View resources as a tree"
+msgstr ""
+
+msgid "Wait is over"
+msgstr ""
+
+msgid "Waiting"
+msgstr ""
+
 msgid "Width"
+msgstr ""
+
+msgid "Wrong or missing parameter extension, module or action"
+msgstr ""
+
+msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "Yes"
 msgstr "Sim"
+
+msgid "You are not allowed to write in the class %s"
+msgstr ""
 
 msgid "You are not authorised to remove this lock"
 msgstr ""
@@ -1272,10 +1769,28 @@ msgstr ""
 msgid "You do not have the required rights to edit this resource."
 msgstr ""
 
-msgid "You don't have sufficient permissions to access"
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
+
+msgid "You have been logged out. Please login again"
 msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
+msgstr ""
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr ""
+
+msgid "Your browser does not support copying to the clipboard"
+msgstr ""
+
+msgid "Your browser doesn’t support the audio player."
+msgstr ""
+
+msgid "Your browser doesn’t support the video player."
 msgstr ""
 
 msgid "Your mail"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint72-½\n"
-"PO-Revision-Date: 2018-03-21T14:04:13\n"
+"Project-Id-Version: TAO 3.3.0-sprint76\n"
+"PO-Revision-Date: 2018-05-14T07:34:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " et "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " et "
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -681,11 +681,17 @@ msgstr "Importer"
 msgid "Import "
 msgstr "Import"
 
+msgid "Import failed."
+msgstr ""
+
 msgid "Import Metadata from CSV file"
 msgstr "Importer des méta-données à partir d'un fichier CSV"
 
 msgid "Import Metadata from RDF file"
 msgstr "Importer des méta-données à partir d'un fichier RDF"
+
+msgid "Import succeeded."
+msgstr ""
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
 msgstr ""
@@ -738,10 +744,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1047,19 +1053,16 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "Ok"
 
-msgid "OK"
+msgid "Ok"
 msgstr "Ok"
 
 msgid "Old Password"
 msgstr "Ancien mot de passe"
 
 msgid "On"
-msgstr ""
-
-msgid "Only one delivery can be selected."
 msgstr ""
 
 msgid "Operated By "
@@ -1122,9 +1125,6 @@ msgstr "Veuillez confirmer cette opération."
 msgid "Please confirm unlocking of account %s"
 msgstr ""
 
-msgid "Please confirm user deletion"
-msgstr "Veuillez confirmer la suppression de l'utilisateur."
-
 msgid "Please contact %s or an administrator to release it"
 msgstr ""
 
@@ -1144,9 +1144,6 @@ msgid "Please provide a reason"
 msgstr ""
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
-msgstr ""
-
-msgid "Please select a delivery."
 msgstr ""
 
 msgid "Please try in %s."
@@ -1355,11 +1352,11 @@ msgstr "Sélectionner le fichier"
 msgid "select..."
 msgstr ""
 
-msgid "selected"
-msgstr "sélectionné"
-
 msgid "Selected"
 msgstr ""
+
+msgid "selected"
+msgstr "sélectionné"
 
 msgid "Selected file:"
 msgstr "Fichier sélectionné :"
@@ -1635,10 +1632,10 @@ msgstr "Autoriser le téléchargement du fichier"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"

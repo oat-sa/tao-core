@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T12:59:56\n"
+"Project-Id-Version: TAO 3.3.0-sprint76\n"
+"PO-Revision-Date: 2018-05-12T15:30:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,6 +16,9 @@ msgstr ""
 msgid ""
 msgstr ""
 
+msgid " AND "
+msgstr ""
+
 msgid " and "
 msgstr " og "
 
@@ -25,6 +28,9 @@ msgstr " hefur tekist að eyða"
 msgid " has been installed"
 msgstr " hefur verið sett upp"
 
+msgid " is "
+msgstr ""
+
 msgid " next"
 msgstr " næsta"
 
@@ -32,6 +38,9 @@ msgid " requires a subgrid adapter"
 msgstr ""
 
 msgid "%1$s expected but %2$s detected"
+msgstr ""
+
+msgid "%d attempts left before your account is locked."
 msgstr ""
 
 msgid "%d day"
@@ -64,6 +73,12 @@ msgstr "%s (%s kb)"
 msgid "%s Class saved"
 msgstr ""
 
+msgid "%s classes"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr ""
+
 msgid "%s could not be released"
 msgstr ""
 
@@ -74,6 +89,9 @@ msgid "%s has been deleted"
 msgstr ""
 
 msgid "%s has been released"
+msgstr ""
+
+msgid "%s instances"
 msgstr ""
 
 msgid "%s is of a type that cannot be published"
@@ -109,13 +127,19 @@ msgstr "> Viðbót %s sett upp."
 msgid "> Installation done."
 msgstr "> Uppsetningu lokið."
 
+msgid "a class"
+msgstr ""
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr ""
+
 msgid "A fatal error occured during the installation process."
 msgstr "Kerfisvilla kom upp í uppsetningarferlinu."
 
-msgid "A message with further instructions has been sent to your email address: %s"
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
-msgid "A similar resource has already been versioned"
+msgid "A message with further instructions has been sent to your email address: %s"
 msgstr ""
 
 msgid "Access Denied"
@@ -124,10 +148,19 @@ msgstr "Aðgangur óheimill."
 msgid "Access denied. Please renew your authentication!"
 msgstr "Aðgangur óheimill. Endurnýjaðu aðgangsheimildir þínar!"
 
+msgid "Account status"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
-msgid "Action \"%s\" not found."
+msgid "Action %s - removed %s positions"
+msgstr ""
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr ""
+
+msgid "Action was not executed yet"
 msgstr ""
 
 msgid "Actions"
@@ -152,8 +185,23 @@ msgstr "Bæta við skrá(m)"
 msgid "Add property"
 msgstr "Bæta við stillingu"
 
+msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding the new class has failed"
+msgstr ""
+
+msgid "Adding the new resource has failed"
+msgstr ""
+
 msgid "Advanced Mode"
 msgstr "Ítarlegri hamur"
+
+msgid "Advanced search, add filters"
+msgstr ""
+
+msgid "aliases:"
+msgstr ""
 
 msgid "all"
 msgstr "allt"
@@ -173,10 +221,19 @@ msgstr "Alpha útgáfa"
 msgid "An email has been sent"
 msgstr "Tölvupóstur hefur verið sendur"
 
-msgid "An error occured during user deletion"
+msgid "An error occurred during user deletion"
 msgstr ""
 
-msgid "An error occured while running \"%s\", please check your error log."
+msgid "An error occurred!"
+msgstr ""
+
+msgid "An exception occured while running \"%s"
+msgstr ""
+
+msgid "an instance"
+msgstr ""
+
+msgid "Apply"
 msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
@@ -185,6 +242,15 @@ msgstr ""
 
 msgid "Are you sure you want to delete it?"
 msgstr "Ertu viss um að þú viljir eyða þessu?"
+
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "array"
+msgstr ""
 
 msgid "Assign User to role"
 msgstr "Úthluta notanda hlutverki"
@@ -202,11 +268,17 @@ msgstr "Hanna atriði"
 msgid "Authoring"
 msgstr "Hönnun"
 
+msgid "auto unlocked in %s"
+msgstr ""
+
 msgid "Available"
 msgstr ""
 
 msgid "Available Extensions"
 msgstr "Viðbætur í boði"
+
+msgid "Back"
+msgstr ""
 
 msgid "Back to listing"
 msgstr "Til baka í lista"
@@ -214,8 +286,8 @@ msgstr "Til baka í lista"
 msgid "Beta version"
 msgstr "Beta útgáfa"
 
-msgid "Browse"
-msgstr "Vafra"
+msgid "boolean"
+msgstr ""
 
 msgid "Browse folders:"
 msgstr "Vafra í möppum:"
@@ -223,23 +295,29 @@ msgstr "Vafra í möppum:"
 msgid "Browse..."
 msgstr "Vafra..."
 
-msgid "buffer"
+msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
 
 msgid "Cannot be edited"
 msgstr "Ekki hægt að breyta"
+
+msgid "Cannot divide by zero"
+msgstr ""
+
+msgid "Case sensitive"
+msgstr ""
 
 #, tao-public
 msgid "Change password"
@@ -257,6 +335,12 @@ msgstr "Merkja við allt"
 msgid "Check-in"
 msgstr ""
 
+msgid "choices:"
+msgstr ""
+
+msgid "Choose a value..."
+msgstr ""
+
 msgid "Choose export format"
 msgstr "Veldu útflutningssnið"
 
@@ -266,14 +350,35 @@ msgstr "Veldu innflutningssnið"
 msgid "class selected"
 msgstr "flokkur valinn"
 
-msgid "Close tab"
-msgstr "Loka flipa"
+msgid "Class uri provided is not a valid class."
+msgstr ""
 
-msgid "Collapse Message"
-msgstr "Loka Skeyti"
+msgid "Cleaning up tmp space complete"
+msgstr ""
+
+msgid "Cleaning up tmp space started"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Close message"
+msgstr ""
+
+msgid "Code Version"
+msgstr ""
+
+msgid "Collecting of abandoned actions in the action queue ..."
+msgstr ""
 
 msgid "Column"
 msgstr "Dálkur"
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -281,8 +386,11 @@ msgstr ""
 msgid "Commit"
 msgstr "Senda"
 
-msgid "Commit message : "
-msgstr "Senda skilaboð: "
+msgid "Completed"
+msgstr ""
+
+msgid "Completed - Error"
+msgstr ""
 
 msgid "Confirm"
 msgstr "Staðfesta"
@@ -293,10 +401,25 @@ msgstr "Tengjast TAO svæðum."
 msgid "Continue"
 msgstr "Áfram"
 
+msgid "Copy"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "count"
+msgstr ""
+
 msgid "Create"
 msgstr "Búa til"
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "Created"
 msgstr ""
 
 msgid "CSV"
@@ -308,6 +431,9 @@ msgstr "CSV valmöguleikar"
 msgid "Current language"
 msgstr "Núverandi tungumál"
 
+msgid "Current playback position"
+msgstr ""
+
 msgid "Data imported"
 msgstr "Innflutningur gagna"
 
@@ -316,9 +442,6 @@ msgstr "Innflutningur gagna tókst"
 
 msgid "Data imported. Some records are invalid."
 msgstr ""
-
-msgid "Data Lang."
-msgstr "Mál Gagna"
 
 msgid "Data Language"
 msgstr "Tungumál Gagna"
@@ -335,8 +458,8 @@ msgstr "Dagsetning"
 msgid "Default search"
 msgstr "Sjálfgefin leit"
 
-msgid "Default user cannot be deleted"
-msgstr "Ekki hægt að eyða sjálfgefnum notanda"
+msgid "default:"
+msgstr ""
 
 msgid "Define the default values"
 msgstr "Skilgreindu sjálfgefin gildi"
@@ -345,7 +468,13 @@ msgstr "Skilgreindu sjálfgefin gildi"
 msgid "Delete"
 msgstr "Eyða"
 
+msgid "Deleting search index for %s"
+msgstr ""
+
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Disabled %s"
@@ -365,9 +494,6 @@ msgstr ""
 msgid "Download"
 msgstr "Sækja"
 
-msgid "Download content"
-msgstr "Sækja efni"
-
 msgid "Download this file"
 msgstr "Sækja þessa skrá"
 
@@ -379,9 +505,6 @@ msgstr "Draga skrá hingað"
 
 msgid "Drop the files to upload"
 msgstr "Sleppa skrám sem á að hlaða upp"
-
-msgid "e-mail"
-msgstr "netfang"
 
 msgid "Edit"
 msgstr "Breyta"
@@ -405,14 +528,29 @@ msgstr ""
 msgid "Email"
 msgstr "Netfang"
 
+msgid "enabled"
+msgstr ""
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr ""
+
 msgid "Enter"
 msgstr "Enter"
 
 msgid "Error"
 msgstr "Villa"
 
+msgid "Error adding search index for %s with message %s"
+msgstr ""
+
 msgid "Error during file import"
 msgstr "Villa við innflutning skráar"
+
+msgid "Error(s) has occurred during export."
+msgstr ""
+
+msgid "Examples:"
+msgstr ""
 
 msgid "Exclusive (OR)"
 msgstr ""
@@ -434,6 +572,9 @@ msgstr "Viðbót "
 msgid "Extensions manager"
 msgstr "Viðbótastjóri"
 
+msgid "Failed to delete index for %s"
+msgstr ""
+
 msgid "False"
 msgstr "Rangt"
 
@@ -443,23 +584,20 @@ msgstr "Afmarkari sviða"
 msgid "Field encloser"
 msgstr ""
 
+msgid "Fields must match"
+msgstr ""
+
 msgid "File"
 msgstr "Skrá"
+
+msgid "File download failed"
+msgstr ""
 
 msgid "File name"
 msgstr "Skráarheiti"
 
-msgid "File path"
-msgstr "Skráarslóð"
-
 msgid "File Properties"
 msgstr "Skráarstillingar"
-
-msgid "File repository"
-msgstr "Skráageymsla"
-
-msgid "File revision"
-msgstr "Skráaupprifjun"
 
 msgid "file selected"
 msgstr "skrá valin"
@@ -470,9 +608,11 @@ msgstr "Upphleðsla Skráa"
 msgid "files selected"
 msgstr "valdar skrár"
 
-#, tao-public
 msgid "Filter"
 msgstr "Sía"
+
+msgid "Filter by value"
+msgstr ""
 
 msgid "Filtering mode"
 msgstr "Síuhamur"
@@ -480,7 +620,13 @@ msgstr "Síuhamur"
 msgid "First Name"
 msgstr "Nafn"
 
+msgid "First page"
+msgstr ""
+
 msgid "First row column names"
+msgstr ""
+
+msgid "Fit to width"
 msgstr ""
 
 msgid "Force Release"
@@ -489,7 +635,16 @@ msgstr ""
 msgid "Forgot your password?"
 msgstr "Gleymt aðgangsorð?"
 
+msgid "From"
+msgstr ""
+
 msgid "Fuzzy Matching"
+msgstr ""
+
+msgid "generated-value"
+msgstr ""
+
+msgid "Generis Form"
 msgstr ""
 
 msgid "Go Back"
@@ -504,11 +659,11 @@ msgstr ""
 msgid "Hide detailed report"
 msgstr "Fela nákvæma skýrslu"
 
+msgid "Highlight all"
+msgstr ""
+
 msgid "hours"
 msgstr "klukkustundir"
-
-msgid "However, the action will not be applied to the following"
-msgstr ""
 
 msgid "Identifier"
 msgstr "Auðkenni"
@@ -516,11 +671,17 @@ msgstr "Auðkenni"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Ef þú vilt ekki endurtilla aðgangsorð þitt, skaltu hunsa þennan tölvupóst og aðgangsorðið þitt verður óbreytt."
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "Flytja inn"
 
 msgid "Import "
 msgstr "Flytja inn "
+
+msgid "Import failed."
+msgstr ""
 
 msgid "Import Metadata from CSV file"
 msgstr ""
@@ -528,10 +689,37 @@ msgstr ""
 msgid "Import Metadata from RDF file"
 msgstr ""
 
+msgid "Import succeeded."
+msgstr ""
+
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr ""
+
+msgid "Imported %d resources"
+msgstr ""
+
+msgid "Imported resource \"%s"
+msgstr ""
+
+msgid "impossible to update task status"
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr ""
 
+msgid "Index has been deleted for %s"
+msgstr ""
+
 msgid "Indexing has been run"
+msgstr ""
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr ""
+
+msgid "Injector has to contains a valid \"source\" field."
 msgstr ""
 
 msgid "Install"
@@ -546,16 +734,19 @@ msgstr "Uppsetning..."
 msgid "Installed Extensions"
 msgstr "Uppsettar Viðbætur"
 
+msgid "Installed Version"
+msgstr ""
+
 msgid "Installing extension %s..."
 msgstr "Set upp viðbætur %s..."
 
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -588,25 +779,37 @@ msgstr ""
 msgid "Invalid file type!"
 msgstr "Ógild skráarstærð!"
 
+msgid "Invalid input for function"
+msgstr ""
+
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Ógild innskráning eða aðgangsorð. Reyndu aftur."
+
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
 
 msgid "invalid regular expression"
 msgstr "ógild regluleg segð"
 
+msgid "Invalid values:"
+msgstr ""
+
 msgid "Label"
 msgstr "Merki"
-
-msgid "Label *"
-msgstr "Merki *"
 
 msgid "Language"
 msgstr "Tungumál"
 
+msgid "Last attempt before your account is locked."
+msgstr ""
+
 msgid "Last Name"
 msgstr "Eftirnafn"
 
-msgid "length"
+msgid "Last page"
 msgstr ""
 
 msgid "less than a minute"
@@ -624,6 +827,9 @@ msgstr "Listi - Einfalt val - Felligluggi"
 msgid "List - Single choice - Radio button"
 msgstr "Listi - Einfalt val - "
 
+msgid "Load more"
+msgstr ""
+
 msgid "Loaded"
 msgstr "Hlaðið"
 
@@ -631,6 +837,15 @@ msgid "Loaded at Startup"
 msgstr "Hlaðið við Ræsingu"
 
 msgid "Loading"
+msgstr ""
+
+msgid "Loading status"
+msgstr ""
+
+msgid "Loading task status ..."
+msgstr ""
+
+msgid "locked by %s"
 msgstr ""
 
 msgid "Log in"
@@ -644,6 +859,24 @@ msgstr "Innskráning"
 
 msgid "Login available"
 msgstr "Innskráning möguleg"
+
+msgid "Login is already in use."
+msgstr ""
+
+msgid "Login is empty."
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance storage driver is not set"
+msgstr ""
+
+msgid "Manage class schema"
+msgstr ""
 
 msgid "Manage data list"
 msgstr "Sýsla með gagnalista"
@@ -665,11 +898,29 @@ msgstr ""
 msgid "Map the properties to the CSV columns"
 msgstr ""
 
+msgid "Maximum selection reached"
+msgstr ""
+
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr ""
+
 msgid "Message"
 msgstr "Skilaboð"
 
+msgid "Messages"
+msgstr ""
+
+msgid "Metadata export is not available for the selected resource."
+msgstr ""
+
 msgid "minutes"
 msgstr "mínútur"
+
+msgid "missing config %s for the service %s"
+msgstr ""
+
+msgid "Missing Parameters"
+msgstr ""
 
 msgid "More"
 msgstr "Meira"
@@ -693,6 +944,12 @@ msgstr ""
 msgid "must be numeric"
 msgstr "verður að vera tölulegt"
 
+msgid "Mute"
+msgstr ""
+
+msgid "My custom text translation"
+msgstr ""
+
 #, tao-public
 msgid "My settings"
 msgstr "Mínar stillingar"
@@ -713,17 +970,23 @@ msgstr "Nýtt hlutverk"
 msgid "Next"
 msgstr "Áfram"
 
+msgid "Next match"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
 msgid "No"
 msgstr "Nei"
 
 msgid "No action specified"
 msgstr ""
 
+msgid "No client translation bundles updated"
+msgstr ""
+
 msgid "No extensions available."
 msgstr "Engar viðbætur tiltækar."
-
-msgid "no file"
-msgstr "engin skrá"
 
 msgid "no file not found in this location"
 msgstr ""
@@ -737,14 +1000,29 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
 msgid "No results found"
 msgstr "Engar niðurstöður fundust"
+
+msgid "No Task yet"
+msgstr ""
+
+msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
+msgid "Not started"
+msgstr ""
 
 msgid "Nothing imported"
 msgstr "Ekkert flutt inn"
@@ -755,31 +1033,38 @@ msgstr "Ekkert til að setja inn !"
 msgid "Nothing to list!"
 msgstr ""
 
+#, tao-public
+msgid "Notifications"
+msgstr ""
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr ""
 
 msgid "of"
 msgstr ""
 
-msgid "offset"
-msgstr ""
-
-msgid "Ok"
+msgid "Off"
 msgstr ""
 
 msgid "OK"
 msgstr ""
 
+msgid "Ok"
+msgstr ""
+
 msgid "Old Password"
 msgstr "Gamalt lykilorð"
 
-msgid "Option instanceUri is not an option !!"
+msgid "On"
 msgstr ""
 
-msgid "Option ownerUri is not an option !!"
-msgstr ""
-
-msgid "Option propertyUri is not an option !!"
+msgid "Operated By "
 msgstr ""
 
 msgid "or"
@@ -791,11 +1076,11 @@ msgstr "Síða"
 msgid "Password"
 msgstr "Lykilorð"
 
-msgid "Password *"
-msgstr "Lykilorð *"
-
 msgid "Password changed"
 msgstr "Lykilorð breytt"
+
+msgid "Password is empty."
+msgstr ""
 
 msgid "Password reset"
 msgstr ""
@@ -806,11 +1091,29 @@ msgstr "Tókst að breyta lykilorði"
 msgid "Passwords are not matching"
 msgstr "Lykilorðin stemma ekki"
 
+msgid "Pause"
+msgstr ""
+
+msgid "Permission denied to write in the selected class"
+msgstr ""
+
 msgid "platform"
+msgstr ""
+
+msgid "Play"
 msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "Staðfesta eyðingu"
+
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
 
 msgid "Please confirm property deletion!"
 msgstr ""
@@ -818,10 +1121,19 @@ msgstr ""
 msgid "Please confirm this operation."
 msgstr "Staðfesta þessa aðgerð."
 
-msgid "Please confirm user deletion"
-msgstr "Staðfesta eyðingu notanda"
+msgid "Please confirm unlocking of account %s"
+msgstr ""
 
 msgid "Please contact %s or an administrator to release it"
+msgstr ""
+
+msgid "Please contact your administrator."
+msgstr ""
+
+msgid "Please download the track and listen offline."
+msgstr ""
+
+msgid "Please download the video and view offline."
 msgstr ""
 
 msgid "Please give a message to your commit"
@@ -830,7 +1142,16 @@ msgstr ""
 msgid "Please provide a reason"
 msgstr ""
 
-msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Please wait while ..."
 msgstr ""
 
 msgid "Post install processing"
@@ -845,6 +1166,15 @@ msgstr "Forsýning"
 msgid "Previous"
 msgstr "Fyrri"
 
+msgid "Previous match"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Proceed"
+msgstr ""
+
 #, tao-public
 msgid "Properties"
 msgstr "Stillingar"
@@ -855,10 +1185,13 @@ msgstr ""
 msgid "Provided URL is not valid"
 msgstr ""
 
+msgid "Range field is required"
+msgstr ""
+
 msgid "RDF"
 msgstr "RDF"
 
-msgid "readable"
+msgid "Refresh"
 msgstr ""
 
 msgid "Release"
@@ -867,14 +1200,8 @@ msgstr ""
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr ""
 
-msgid "remain"
-msgstr ""
-
 msgid "Remove"
 msgstr "Fjarlægja"
-
-msgid "Remove content"
-msgstr "Fjarlægja efni"
 
 msgid "Remove Message"
 msgstr "Fjarlægja skilaboð"
@@ -882,16 +1209,31 @@ msgstr "Fjarlægja skilaboð"
 msgid "Remove this file"
 msgstr "Fjarlægja þessa skrá"
 
+msgid "Removed %s directories"
+msgstr ""
+
+msgid "Removed %s files"
+msgstr ""
+
+msgid "Removing: %s"
+msgstr ""
+
 msgid "Rename"
 msgstr "Endurnefna"
 
 msgid "Repeat new password"
 msgstr "Endurtaka nýtt lykilorð"
 
-msgid "Repeat password *"
-msgstr "Endurtaka lykilorð *"
+msgid "Repeat password"
+msgstr "Endurtaka lykilorð"
 
 msgid "Request a password reset via Email."
+msgstr ""
+
+msgid "require notification ID"
+msgstr ""
+
+msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -903,8 +1245,23 @@ msgstr ""
 msgid "Reset"
 msgstr "Endurstilla"
 
+msgid "Reset the original size"
+msgstr ""
+
 msgid "Resource"
 msgstr "Tilfang"
+
+msgid "Resource copied"
+msgstr ""
+
+msgid "Resource Identifier"
+msgstr ""
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr ""
+
+msgid "Resource Identifier has been copied to the clipboard"
+msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
 msgstr ""
@@ -915,8 +1272,14 @@ msgstr ""
 msgid "Resource saved"
 msgstr "Tilfang vistað"
 
+msgid "resources"
+msgstr ""
+
 msgid "Responsive mode"
 msgstr "Svarhamur"
+
+msgid "Restore sound"
+msgstr ""
 
 msgid "Return to sign in page"
 msgstr "Snúa aftur til innskráningarsíðu"
@@ -934,21 +1297,29 @@ msgstr "Hlutverk"
 msgid "Roles library"
 msgstr "Hlutverkasafn"
 
+msgid "Row %s"
+msgstr ""
+
 msgid "Save"
 msgstr "Vista"
 
 msgid "Scope"
 msgstr "Umfang"
 
-#, tao-public
 msgid "Search"
 msgstr "Leita"
 
 msgid "Search %s"
 msgstr ""
 
+msgid "Search by properties"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr "Leita í undirflokkum"
+
+msgid "second"
+msgstr ""
 
 msgid "seconds"
 msgstr "sekúndur"
@@ -959,8 +1330,17 @@ msgstr "velja"
 msgid "Select"
 msgstr "Velja"
 
+msgid "Select a class"
+msgstr ""
+
+msgid "Select a destination class"
+msgstr ""
+
 msgid "Select a language"
 msgstr "Veldu tungumál"
+
+msgid "Select loaded %s"
+msgstr ""
 
 msgid "Select the element destination"
 msgstr "Veldu hvert þáttur á að fara"
@@ -971,6 +1351,9 @@ msgstr "Veldu þessa skrá"
 msgid "select..."
 msgstr ""
 
+msgid "Selected"
+msgstr ""
+
 msgid "selected"
 msgstr "valið"
 
@@ -979,6 +1362,9 @@ msgstr "Valin skrá:"
 
 msgid "Selection saved successfully"
 msgstr "Tókst að vista val"
+
+msgid "self-locked"
+msgstr ""
 
 #, tao-public
 msgid "Settings"
@@ -996,6 +1382,18 @@ msgstr "Einfaldur hamur"
 msgid "Size"
 msgstr "Stærð"
 
+msgid "Start of document reached. Continuing from the end."
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Status of"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
 msgid "Success"
 msgstr "Í lagi"
 
@@ -1006,6 +1404,9 @@ msgid "Successfully imported %s tripples"
 msgstr ""
 
 msgid "Successfully imported class \"%s"
+msgstr ""
+
+msgid "Successfully updated %s client translation bundles"
 msgstr ""
 
 msgid "Supported export formats"
@@ -1019,6 +1420,18 @@ msgstr "Tao Heimasvæði"
 
 msgid "TAO Login"
 msgstr "TAO Innskráning"
+
+msgid "task created"
+msgstr ""
+
+msgid "Task Listing"
+msgstr ""
+
+msgid "Task Name"
+msgstr ""
+
+msgid "Task not found"
+msgstr ""
 
 msgid "Text - Long - Box"
 msgstr ""
@@ -1035,14 +1448,17 @@ msgstr ""
 msgid "The action will be applied to the following"
 msgstr ""
 
+msgid "The action will not be applied to "
+msgstr ""
+
+msgid "The action will not be applied to the following"
+msgstr ""
+
 msgid "The column "
 msgstr "Dálkurinn "
 
 msgid "The format of this field is not valid."
 msgstr ""
-
-msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
-msgstr "Stærð myndarinnar breytist ásamt ramma hennar, t.d. merkir 50% hálf stærð ramma en ekki hálf stærð myndar."
 
 msgid "The imported file is not properly UTF-8 encoded."
 msgstr ""
@@ -1052,6 +1468,9 @@ msgstr "Yfirlitsheitið ætti ekki að vera autt"
 
 msgid "The lock has been released"
 msgstr "Lásinn hefur verið opnaður"
+
+msgid "The server has sent an empty response"
+msgstr ""
 
 msgid "The uploaded file is too large (maximum %s bytes)"
 msgstr ""
@@ -1092,6 +1511,9 @@ msgstr "þetta er nauðsynlegt"
 msgid "This Login is already in use"
 msgstr "Notandanafn er nú þegar í notkun"
 
+msgid "This media cannot be played!"
+msgstr ""
+
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "Endurstillihlekkur þessa aðgangsorðs er ekki lengur í gildi. Hugsanlega hefur hann þegar verið notaður. Ef þú vilt samt endurstilla aðgangsorð þitt pantaðu nýjan hlekk"
 
@@ -1110,17 +1532,35 @@ msgstr ""
 msgid "Time zone"
 msgstr "Tímabelti"
 
+msgid "Title"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
 msgstr "Til að endurstilla aðgangsorð þitt, smelltu á hlekkinn fyrir neðan, eða límdu hann inn í vafrann þinn. Þá verður þú beðinn að búa til nýtt aðgangsorð."
 
 msgid "to translate"
 msgstr "að þýða"
 
+msgid "Toggle multiple/single selection"
+msgstr ""
+
 msgid "Tokenizer"
 msgstr "Táknsetning"
 
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Of margar uppástungur eiga við spurn þína. Aðeins nokkrar eru skráðar"
+
+msgid "Total duration"
+msgstr ""
+
+msgid "Total:"
+msgstr ""
 
 msgid "Translate"
 msgstr "Þýða"
@@ -1143,8 +1583,8 @@ msgstr "Satt"
 msgid "Type"
 msgstr "Gerð"
 
-msgid "UI Lang."
-msgstr "Tungumál notendaviðmóts"
+msgid "Type your search"
+msgstr ""
 
 msgid "Unable to access your account?"
 msgstr "Kemstu ekki inn á reikning þinn?"
@@ -1152,11 +1592,17 @@ msgstr "Kemstu ekki inn á reikning þinn?"
 msgid "Unable to change passwords in demo mode"
 msgstr "Ekki hægt að breyta aðgangsorðum í sýnisham"
 
+msgid "Unable to copy the resource"
+msgstr ""
+
 msgid "Unable to delete %s"
 msgstr ""
 
 msgid "Unable to delete the selected resource"
 msgstr "Ekki hægt að eyða völdu tilfangi"
+
+msgid "Unable to delete the selected resources"
+msgstr ""
 
 msgid "Unable to open file %s"
 msgstr ""
@@ -1167,8 +1613,17 @@ msgstr "Ekki hægt að taka lás af"
 msgid "Unable to remove the property."
 msgstr "Ekki hægt að fjarlægja eigindin."
 
+msgid "Unable to save resource."
+msgstr ""
+
+msgid "unable to search into notification."
+msgstr ""
+
 msgid "Unable to send the password reset request"
 msgstr "Ekki hægt að senda beiðni um að endurstilla aðgangsorð"
+
+msgid "Unable to update the asset service"
+msgstr ""
 
 msgid "Unable to upload file"
 msgstr "Get ekki hlaðið upp skrá"
@@ -1182,8 +1637,17 @@ msgstr ""
 msgid "Uncheck all"
 msgstr ""
 
+msgid "Undefined amount of the pages for pagination"
+msgstr ""
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr ""
+
 msgid "Undo"
 msgstr "Afturkalla"
+
+msgid "Unexpected error. Please contact administrator"
+msgstr ""
 
 msgid "Uninstall of %s failed"
 msgstr ""
@@ -1197,23 +1661,20 @@ msgstr "óþekkt"
 msgid "Unknown Error"
 msgstr "Óþekkt villa"
 
+msgid "unkown task id %s"
+msgstr ""
+
 msgid "Update"
+msgstr ""
+
+msgid "Update ID : %s"
 msgstr ""
 
 msgid "Upload"
 msgstr "Hlaða upp"
 
-msgid "Upload a new content"
-msgstr "Hlaða upp nýju efni"
-
-msgid "Upload File"
-msgstr "Hlaða upp skrá"
-
 msgid "Upload into:"
 msgstr "Senda til:"
-
-msgid "Upload the file to version"
-msgstr "Hlaða upp skránni í útgáfu"
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
@@ -1224,13 +1685,25 @@ msgstr "Nota sjálfgefið gildi"
 msgid "User"
 msgstr "Notandi"
 
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
 msgid "User added"
 msgstr "Notanda bætt við"
 
 msgid "User deleted successfully"
 msgstr "Tókst að eyða notanda"
 
-msgid "User deletion not permited on a demo instance"
+msgid "User deletion not permitted on a demo instance"
 msgstr "Ekki leyft að eyða notanda í sýnisham"
 
 msgid "User not found"
@@ -1253,11 +1726,35 @@ msgstr "Notendur"
 msgid "Version"
 msgstr "Útgáfunúmer"
 
+msgid "View report"
+msgstr ""
+
+msgid "View resources as a list"
+msgstr ""
+
+msgid "View resources as a tree"
+msgstr ""
+
+msgid "Wait is over"
+msgstr ""
+
+msgid "Waiting"
+msgstr ""
+
 msgid "Width"
 msgstr "Breidd"
 
+msgid "Wrong or missing parameter extension, module or action"
+msgstr ""
+
+msgid "Wrong parameter shownExtension"
+msgstr ""
+
 msgid "Yes"
 msgstr "Já"
+
+msgid "You are not allowed to write in the class %s"
+msgstr ""
 
 msgid "You are not authorised to remove this lock"
 msgstr "Þú hefur ekki leyfi til að fjarlægja þennan lás"
@@ -1271,11 +1768,29 @@ msgstr ""
 msgid "You do not have the required rights to edit this resource."
 msgstr "Þú hefur ekki réttindi sem þarf til að breyta þessu tilfangi."
 
-msgid "You don't have sufficient permissions to access"
-msgstr "Þú hefur ekki næg réttindi til að fá aðgang"
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
+
+msgid "You have been logged out. Please login again"
+msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr "Þú þarft að virkja JavaScript í vafranum þínum til að keyra þetta forrit."
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr ""
+
+msgid "Your browser does not support copying to the clipboard"
+msgstr ""
+
+msgid "Your browser doesn’t support the audio player."
+msgstr ""
+
+msgid "Your browser doesn’t support the video player."
+msgstr ""
 
 msgid "Your mail"
 msgstr "Pósturinn þinn"
