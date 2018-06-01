@@ -111,7 +111,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 				}
 			}
 		}
-		$userLabel=$this->userService->getCurrentUser()->getLabel(); $this->setData('formTitle', sprintf(__("My settings (%s)"), __($userLabel)));
+		$userLabel = $this->userService->getCurrentUser()->getLabel();
+		$this->setData('formTitle', __("My settings (%s)", $userLabel));
 		$this->setData('myForm', $myForm->render());
 
 		//$this->setView('form.tpl');
