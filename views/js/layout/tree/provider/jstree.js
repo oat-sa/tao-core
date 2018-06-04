@@ -755,7 +755,7 @@ define([
                         });
                         tree.deselect_branch($node);
                         tree.remove($node);
-                        if(left - response.length > 0){
+                        if(left - treeData.length > 0){
                             tree.create(moreNode, $parentNode);
                         }
                     }

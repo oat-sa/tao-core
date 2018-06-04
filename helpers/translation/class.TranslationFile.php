@@ -1,4 +1,5 @@
 <?php
+
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,21 +28,13 @@
  * @access public
  * @author Jerome Bogaerts
  * @package tao
- * @see tao_model_classes_TranslationUnit
-tao_model_classes_TranslationFileReader
-tao_model_classes_TranslationFileWriter
+ * @see tao_model_classes_TranslationUnit tao_model_classes_TranslationFileReader
+ *      tao_model_classes_TranslationFileWriter
  * @since 2.2
- 
  * @version 1.0
  */
-class tao_helpers_translation_TranslationFile
-        implements tao_helpers_translation_Annotable
+class tao_helpers_translation_TranslationFile implements tao_helpers_translation_Annotable
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
     /**
      * Short description of attribute sourceLanguage
      *
@@ -106,8 +99,6 @@ class tao_helpers_translation_TranslationFile
      */
     private $annotations = array();
 
-    // --- OPERATIONS ---
-
     /**
      * Sets the collection of annotations bound to this Translation Object.
      *
@@ -118,9 +109,7 @@ class tao_helpers_translation_TranslationFile
      */
     public function setAnnotations($annotations)
     {
-        
         $this->annotations = $annotations;
-        
     }
 
     /**
@@ -134,16 +123,15 @@ class tao_helpers_translation_TranslationFile
     public function getAnnotations()
     {
         $returnValue = array();
-
         
         $returnValue = $this->annotations;
         
-
         return (array) $returnValue;
     }
 
     /**
-     * Adds an annotation with a given name and value. If value is not provided,
+     * Adds an annotation with a given name and value.
+     * If value is not provided,
      * annotation will be taken into account as a flag.
      *
      * @access public
@@ -154,9 +142,7 @@ class tao_helpers_translation_TranslationFile
      */
     public function addAnnotation($name, $value = '')
     {
-        
         $this->annotations[$name] = $value;
-        
     }
 
     /**
@@ -169,15 +155,14 @@ class tao_helpers_translation_TranslationFile
      */
     public function removeAnnotation($name)
     {
-        
-        if (isset($this->annotations[$name])){
+        if (isset($this->annotations[$name])) {
             unset($this->annotations[$name]);
         }
-        
     }
 
     /**
-     * Get an annotation for a given annotation name. Returns an associative
+     * Get an annotation for a given annotation name.
+     * Returns an associative
      * where keys are 'name' and 'value'.
      *
      * @access public
@@ -188,15 +173,16 @@ class tao_helpers_translation_TranslationFile
     public function getAnnotation($name)
     {
         $returnValue = array();
-
         
-        if (isset($this->annotations[$name])){
-            $returnValue = array('name' => $name, 'value' => $this->annotations[$name]);
-        }else{
+        if (isset($this->annotations[$name])) {
+            $returnValue = array(
+                'name' => $name,
+                'value' => $this->annotations[$name]
+            );
+        } else {
             $returnValue = null;
         }
         
-
         return (array) $returnValue;
     }
 
@@ -210,11 +196,9 @@ class tao_helpers_translation_TranslationFile
      */
     public function __construct()
     {
-        
         $this->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         $this->setTargetLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         $this->setTranslationUnits(array());
-        
     }
 
     /**
@@ -227,11 +211,9 @@ class tao_helpers_translation_TranslationFile
     public function getSourceLanguage()
     {
         $returnValue = (string) '';
-
         
         return $this->sourceLanguage;
         
-
         return (string) $returnValue;
     }
 
@@ -245,11 +227,9 @@ class tao_helpers_translation_TranslationFile
     public function getTargetLanguage()
     {
         $returnValue = (string) '';
-
         
         return $this->targetLanguage;
         
-
         return (string) $returnValue;
     }
 
@@ -263,11 +243,9 @@ class tao_helpers_translation_TranslationFile
     public function getTranslationUnits()
     {
         $returnValue = array();
-
         
         return $this->translationUnits;
         
-
         return (array) $returnValue;
     }
 
@@ -281,10 +259,8 @@ class tao_helpers_translation_TranslationFile
      */
     public function setSourceLanguage($sourceLanguage)
     {
-        
         $this->sourceLanguage = $sourceLanguage;
         $this->addAnnotation('sourceLanguage', $sourceLanguage);
-        
     }
 
     /**
@@ -292,15 +268,14 @@ class tao_helpers_translation_TranslationFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string targetLanguage
+     * @param
+     *            string targetLanguage
      * @return mixed
      */
     public function setTargetLanguage($targetLanguage)
     {
-        
         $this->targetLanguage = $targetLanguage;
         $this->addAnnotation('targetLanguage', $targetLanguage);
-        
     }
 
     /**
@@ -313,13 +288,12 @@ class tao_helpers_translation_TranslationFile
      */
     public function setTranslationUnits($translationUnits)
     {
-        
         $this->translationUnits = $translationUnits;
-        
     }
 
     /**
-     * Adds a TranslationUnit instance to the file. It is appenned at the end of
+     * Adds a TranslationUnit instance to the file.
+     * It is appenned at the end of
      * collection.
      *
      * @access public
@@ -327,31 +301,30 @@ class tao_helpers_translation_TranslationFile
      * @param  TranslationUnit translationUnit
      * @return mixed
      */
-    public function addTranslationUnit( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function addTranslationUnit(tao_helpers_translation_TranslationUnit $translationUnit)
     {
         
         // If the translation unit exists, we replace the target with the new one if it exists.
-        foreach($this->getTranslationUnits() as $tu) {
+        foreach ($this->getTranslationUnits() as $tu) {
             
-        	if ($tu->getSource() == $translationUnit->getSource()) {
-        	    // If we are here, it means that this TU is being overriden by
-        	    // another one having the same source...
-        	    //
-        	    // Let's make sure we don't override the existing one with an empty target!
-        	    if ($translationUnit->getTarget() !== '') {
-        	        $tu->setTarget($translationUnit->getTarget());
-        	        $tu->setAnnotations($translationUnit->getAnnotations());
-        	    }
-    			
-        		return;
-        	}
+            if ($tu->getSource() == $translationUnit->getSource()) {
+                // If we are here, it means that this TU is being overriden by
+                // another one having the same source...
+                //
+                // Let's make sure we don't override the existing one with an empty target!
+                if ($translationUnit->getTarget() !== '') {
+                    $tu->setTarget($translationUnit->getTarget());
+                    $tu->setAnnotations($translationUnit->getAnnotations());
+                }
+
+                return;
+            }
         }
         
         // If we are here, it means that this TU does not exist.
         $translationUnit->setSourceLanguage($this->getSourceLanguage());
         $translationUnit->setTargetLanguage($this->getTargetLanguage());
         array_push($this->translationUnits, $translationUnit);
-
     }
 
     /**
@@ -363,19 +336,17 @@ class tao_helpers_translation_TranslationFile
      * @param  TranslationUnit translationUnit
      * @return mixed
      */
-    public function removeTranslationUnit( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function removeTranslationUnit(tao_helpers_translation_TranslationUnit $translationUnit)
     {
-        
         $tus = $this->getTranslationUnits();
-        for ($i = 0; $i < count($tus); $i++) {
-        	if ($tus[$i] === $translationUnit) {
-        		unset($tus[$i]);
-        		break;
-        	}
+        for ($i = 0; $i < count($tus); $i ++) {
+            if ($tus[$i] === $translationUnit) {
+                unset($tus[$i]);
+                break;
+            }
         }
         
         throw new tao_helpers_translation_TranslationException('Cannot remove Translation Unit. Not Found.');
-        
     }
 
     /**
@@ -388,20 +359,19 @@ class tao_helpers_translation_TranslationFile
     public function __toString()
     {
         $returnValue = (string) '';
-
         
-    	$returnValue = $this->getSourceLanguage() . '->' . $this->getTargetLanguage() . ':';
+        $returnValue = $this->getSourceLanguage() . '->' . $this->getTargetLanguage() . ':';
         foreach ($this->getTranslationUnits() as $tu) {
-        	$returnValue .= $tu;
+            $returnValue .= $tu;
         }
         
-
         return (string) $returnValue;
     }
 
     /**
      * Adds a set of TranslationUnits to the existing set of TranslationUnits
-     * in the TranslationFile. No duplicate entries will be made based on the
+     * in the TranslationFile.
+     * No duplicate entries will be made based on the
      * of the translation units.
      *
      * @access public
@@ -411,11 +381,9 @@ class tao_helpers_translation_TranslationFile
      */
     public function addTranslationUnits($translationUnits)
     {
-        
         foreach ($translationUnits as $tu) {
-        	$this->addTranslationUnit($tu);
+            $this->addTranslationUnit($tu);
         }
-        
     }
 
     /**
@@ -426,18 +394,16 @@ class tao_helpers_translation_TranslationFile
      * @param  TranslationUnit translationUnit
      * @return boolean
      */
-    public function hasSameSource( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function hasSameSource(tao_helpers_translation_TranslationUnit $translationUnit)
     {
         $returnValue = (bool) false;
 
-        
         foreach ($this->getTranslationUnits() as $tu) {
-        	if ($tu->hasSameTranslationUnitSource($translationUnit)) {
-        		$returnValue = true;
-        		break;
-        	}
+            if ($tu->hasSameTranslationUnitSource($translationUnit)) {
+                $returnValue = true;
+                break;
+            }
         }
-        
 
         return (bool) $returnValue;
     }
@@ -450,19 +416,17 @@ class tao_helpers_translation_TranslationFile
      * @param  TranslationUnit translationUnit
      * @return boolean
      */
-    public function hasSameTarget( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function hasSameTarget(tao_helpers_translation_TranslationUnit $translationUnit)
     {
         $returnValue = (bool) false;
-
         
         foreach ($this->getTranslationUnits() as $tu) {
-        	if ($tu->hasSameTranslationUnitTarget($translationUnit)) {
-        		$returnValue = true;
-        		break;
-        	}
+            if ($tu->hasSameTranslationUnitTarget($translationUnit)) {
+                $returnValue = true;
+                break;
+            }
         }
         
-
         return (bool) $returnValue;
     }
 
@@ -476,32 +440,33 @@ class tao_helpers_translation_TranslationFile
      */
     public function sortBySource($sortingType)
     {
-        $returnValue = array();
-
-        
         $returnValue = $this->getTranslationUnits();
         switch ($sortingType) {
-        	case self::SORT_ASC:
-        	case self::SORT_ASC_I:
-        		// Ascending algorithm.
-        		$aCode = (($sortingType == self::SORT_ASC_I) ? 'mb_strtolower($a->getSource(), "UTF-8")' : '$a->getSource()');
-        		$bCode = (($sortingType == self::SORT_ASC_I) ? 'mb_strtolower($b->getSource(), "UTF-8")' : '$b->getSource()');
-        		$cmpFunction = create_function('$a,$b', 'return strcmp(' . $aCode . ', ' . $bCode . ');');
-        		usort($returnValue, $cmpFunction);
-        	break;
-        	
-        	case self::SORT_DESC:
-        	case self::SORT_DESC_I:
-        		// Ascending algorithm.
-        		$aCode = (($sortingType == self::SORT_DESC_I) ? 'mb_strtolower($a->getSource(), "UTF-8")' : '$a->getSource()');
-        		$bCode = (($sortingType == self::SORT_DESC_I) ? 'mb_strtolower($b->getSource(), "UTF-8")' : '$b->getSource()');
-        		$cmpFunction = create_function('$a,$b', 'return -1 * strcmp(' . $aCode . ', ' . $bCode . ');');
-        		usort($returnValue, $cmpFunction);
-        	break;
+            case self::SORT_ASC:
+                $cmpFunction = function ($a, $b) {
+                    return strcmp($a->getSource(), $b->getSource());
+                };
+                break;
+            case self::SORT_ASC_I:
+                $cmpFunction = function ($a, $b) {
+                    return strcmp(mb_strtolower($a->getSource(), "UTF-8"), mb_strtolower($b->getSource(), "UTF-8"));
+                };
+                break;
+            case self::SORT_DESC:
+                $cmpFunction = function ($a, $b) {
+                    return - 1 * strcmp($a->getSource(), $b->getSource());
+                };
+                break;
+            case self::SORT_DESC_I:
+                $cmpFunction = function ($a, $b) {
+                    return - 1 * strcmp(mb_strtolower($a->getSource(), "UTF-8"), mb_strtolower($b->getSource(), "UTF-8"));
+                };
+                break;
+            default:
+                throw new common_Exception('Unknown sortingType ' . $sortingType);
         }
-        
-
-        return (array) $returnValue;
+        usort($returnValue, $cmpFunction);
+        return $returnValue;
     }
 
     /**
@@ -515,11 +480,9 @@ class tao_helpers_translation_TranslationFile
     public function sortByTarget($sortingType)
     {
         $returnValue = array();
-
         
         throw new tao_helpers_translation_TranslationException("Not yet implemtented.");
         
-
         return (array) $returnValue;
     }
 
@@ -531,18 +494,16 @@ class tao_helpers_translation_TranslationFile
      * @param  TranslationUnit translationUnit
      * @return tao_helpers_translation_TranslationUnit
      */
-    public function getBySource( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function getBySource(tao_helpers_translation_TranslationUnit $translationUnit)
     {
         $returnValue = null;
-
         
         foreach ($this->getTranslationUnits() as $tu) {
-        	if ($tu->hasSameTranslationUnitSource($translationUnit)) {
-        		$returnValue = $tu;
-        		break;
-        	}
+            if ($tu->hasSameTranslationUnitSource($translationUnit)) {
+                $returnValue = $tu;
+                break;
+            }
         }
-        
 
         return $returnValue;
     }
@@ -555,18 +516,16 @@ class tao_helpers_translation_TranslationFile
      * @param  TranslationUnit translationUnit
      * @return tao_helpers_translation_TranslationUnit
      */
-    public function getByTarget( tao_helpers_translation_TranslationUnit $translationUnit)
+    public function getByTarget(tao_helpers_translation_TranslationUnit $translationUnit)
     {
         $returnValue = null;
 
-        
-    	foreach ($this->getTranslationUnits() as $tu) {
-        	if ($tu->hasSameTranslationUnitTarget($translationUnit)) {
-        		$returnValue = $tu;
-        		break;
-        	}
+        foreach ($this->getTranslationUnits() as $tu) {
+            if ($tu->hasSameTranslationUnitTarget($translationUnit)) {
+                $returnValue = $tu;
+                break;
+            }
         }
-        
 
         return $returnValue;
     }
@@ -580,15 +539,7 @@ class tao_helpers_translation_TranslationFile
      */
     public function count()
     {
-        $returnValue = (int) 0;
-
-        
-        $returnValue = count($this->getTranslationUnits());
-        
-
-        return (int) $returnValue;
+        return count($this->getTranslationUnits());
     }
-
 }
-
 ?>

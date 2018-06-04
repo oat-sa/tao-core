@@ -19,42 +19,18 @@
 
 namespace oat\tao\model\user\import;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\exception\InvalidService;
-use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\tao\model\import\service\ImporterFactory;
+use oat\tao\model\import\service\ImportMapperInterface;
 
-class UserCsvImporterFactory extends ConfigurableService implements ImporterFactory
+class UserCsvImporterFactory extends ImporterFactory
 {
     const SERVICE_ID = 'tao/userCsvImporterFactory';
-    /**
-     * Create an importer for the given user type.
-     *
-     * User type is defined in a config mapper and is associated to a role
-     *
-     * @param $type
-     * @return mixed
-     * @throws \common_exception_NotFound
-     * @throws InvalidService
-     * @throws InvalidServiceManagerException
-     */
-    public function getImporter($type)
-    {
-        $typeOptions = $this->getOption(self::OPTION_MAPPERS);
-        if (isset($typeOptions[$type])) {
-            $typeOption = $typeOptions[$type];
-            if (isset($typeOption[self::OPTION_MAPPERS_IMPORTER])) {
-                $importer = $this->buildService($typeOption[self::OPTION_MAPPERS_IMPORTER], UserImportServiceInterface::class);
-                if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
-                    $mapper = $this->buildService($typeOption[self::OPTION_MAPPERS_MAPPER]);
-                } else {
-                    $mapper = new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
-                }
-                $importer->setMapper($mapper);
-                return $importer;
-            }
-        }
-        throw new \common_exception_NotFound('Unable to load importer for type : ' . $type);
-    }
 
+    /**
+     * @return ImportMapperInterface
+     */
+    protected function getDefaultMapper()
+    {
+        return new OntologyUserMapper([UserMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
+    }
 }

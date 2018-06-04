@@ -51,7 +51,6 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\search\index\ResourceIterator;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
@@ -643,9 +642,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.0.0');
         }
 
-        $this->skip('17.0.0', '17.8.1');
+        $this->skip('17.0.0', '17.8.4');
 
-        if ($this->isVersion('17.8.1')) {
+        if ($this->isVersion('17.8.4')) {
             OntologyUpdater::syncModels();
             $this->setVersion('17.9.0');
         }
@@ -755,6 +754,25 @@ class Updater extends \common_ext_ExtensionUpdater {
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao', 'mod' => 'Health']));
             $this->setVersion('18.5.0');
         }
-        $this->skip('18.5.0', '18.7.0');
+
+        $this->skip('18.5.0', '18.6.0');
+
+        if ($this->isVersion('18.6.0')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/shortcut/registry', ['debounceDelay' => 250]
+            );
+            $this->setVersion('18.7.0');
+        }
+
+        $this->skip('18.7.0', '18.7.2');
+
+        if ($this->isVersion('18.7.2')) {
+            ClientLibConfigRegistry::getRegistry()->remove(
+                'util/shortcut/registry');
+            $this->setVersion('18.8.0');
+        }
+
+        $this->skip('18.8.0', '19.4.0');
     }
+
 }
