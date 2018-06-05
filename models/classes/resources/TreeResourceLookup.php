@@ -44,7 +44,6 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
      */
     public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
     {
-
         $openNodes = [];
         if(count($selectedUris) > 0){
             $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
@@ -58,6 +57,20 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         return $this->formatTreeData([$treeData]);
     }
 
+    public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
+    {
+         $openNodes = [];
+        if(count($selectedUris) > 0){
+            $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
+        }
+        if (!in_array($rootClass->getUri(), $openNodes)) {
+            $openNodes[] = $rootClass->getUri();
+        }
+        $factory = new GenerisTreeFactory(false, $openNodes, $limit, $offset, $selectedUris, $propertyFilters);
+        $treeData = $factory->buildTree($rootClass);
+
+        return $this->formatTreeData([$treeData]);
+    }
 
     /**
      * Reformat the the tree : state and count

@@ -62,5 +62,3 @@ class LayoutTest extends TaoPhpUnitTestRunner
         ];
     }
 }
-?>
-

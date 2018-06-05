@@ -618,6 +618,7 @@ define([
                 }
 
                 shortcutHandlers = getCommandHandlers(command);
+
                 if (shortcutHandlers) {
                     _.forEach(shortcutHandlers, function (handler) {
                         handler(event, command);

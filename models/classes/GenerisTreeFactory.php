@@ -133,25 +133,37 @@ class GenerisTreeFactory
     private function classToNode(core_kernel_classes_Class $class, core_kernel_classes_Class $parent = null) {
         $returnValue = $this->buildClassNode($class, $parent);
 
-        $options = array_merge(['recursive' => false], $this->optionsFilter);
-        $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
-        $search = $this->getSearchService();
-        $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
-        $instancesCount = $search->getGateway()->count($queryBuilder);
-
         // allow the class to be opened if it contains either instances or subclasses
         $subclasses = $this->getSubClasses($class);
-        if ($instancesCount > 0 || count($subclasses) > 0) {
-	        if (in_array($class->getUri(), $this->openNodes)) {
-                $returnValue['state']	= 'open';
-                $returnValue['children'] = $this->buildChildNodes($class, $subclasses);
-            } else {
-                $returnValue['state']	= 'closed';
-            }
 
-            // only show the resources count if we allow resources to be viewed
-	        if ($this->showResources) {
+        if($this->showResources) {
+            $options = array_merge(['recursive' => false], $this->optionsFilter);
+            $queryBuilder = $this->getQueryBuilder($class, $this->propertyFilter, $options);
+            $search = $this->getSearchService();
+            $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
+            $instancesCount = $search->getGateway()->count($queryBuilder);
+
+            if ($instancesCount > 0 || count($subclasses) > 0) {
+                if (in_array($class->getUri(), $this->openNodes)) {
+                    $returnValue['state']	= 'open';
+                    $returnValue['children'] = $this->buildChildNodes($class, $subclasses);
+                } else {
+                    $returnValue['state']	= 'closed';
+                }
+
+                // only show the resources count if we allow resources to be viewed
                 $returnValue['count'] = $instancesCount;
+            }
+        } else {
+            if(count($subclasses) > 0) {
+                if (in_array($class->getUri(), $this->openNodes)) {
+                    $returnValue['state'] = 'open';
+                    $returnValue['children'] = $this->buildChildNodes($class, $subclasses);
+                } else {
+                    $returnValue['state'] = 'closed';
+                }
+
+                $returnValue['count'] = 0;
             }
         }
         return $returnValue;

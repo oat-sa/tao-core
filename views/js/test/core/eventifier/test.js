@@ -1573,4 +1573,118 @@ define([
         emitter.trigger('foo');
         emitter.trigger('bar');
     });
+
+
+    QUnit.module('error and rejection', {
+        setup : function setup(){
+            testLogger.reset();
+        }
+    });
+
+    QUnit.asyncTest('cancel by rejection produces no errors', function (assert) {
+        var emitter = eventifier();
+
+        QUnit.expect(5);
+
+        emitter
+            .before('foo', function(){
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo handler is called');
+                        reject();
+                    }, 10);
+                });
+            })
+            .after('foo', function(){
+                assert.ok(false, 'The after foo handler should not be called');
+            })
+            .trigger('foo');
+
+        setTimeout(function() {
+            var allTraces = testLogger.getMessages().trace;
+            var allErrors = testLogger.getMessages().error;
+            var stopTraces = allTraces.filter(function(trace) {
+                return trace.stoppedIn;
+            });
+
+            assert.equal(allErrors.length, 0, 'no error logged');
+            assert.equal(stopTraces.length, 1, 'one stop trace has been logged');
+            assert.equal(stopTraces[0].stoppedIn, 'before', 'trace has been logged in the right place');
+            assert.equal(stopTraces[0].event, 'foo', 'event has the correct name');
+
+            QUnit.start();
+        }, 20);
+    });
+
+    QUnit.asyncTest('a runtime error rejects and log the error', function (assert) {
+        var emitter = eventifier();
+
+        var dummy = {};
+        var runtimeError = function runtimeError(){
+            return new Promise(function(resolve){
+                var result = dummy.foo.bar();
+                return resolve(result);
+            });
+        };
+
+        QUnit.expect(4);
+
+        emitter
+            .before('foo', function(){
+
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo handler is called');
+
+                        runtimeError()
+                            .then(resolve)
+                            .catch(reject);
+                    }, 10);
+                });
+            })
+            .after('foo', function(){
+                assert.ok(false, 'The after foo handler should not be called');
+            })
+            .trigger('foo');
+
+        setTimeout(function() {
+            var allErrors = testLogger.getMessages().error;
+
+            assert.equal(allErrors.length, 1, 'the error is logged');
+            assert.equal(typeof allErrors[0].err, 'object', 'the log entry contains the error');
+            assert.ok(allErrors[0].err instanceof TypeError, 'the log entry contains the thrown error');
+            QUnit.start();
+        }, 20);
+    });
+
+    QUnit.asyncTest('a thrown error rejects and log the error', function (assert) {
+        var emitter = eventifier();
+
+        QUnit.expect(4);
+
+        emitter
+            .before('foo', function(){
+
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function() {
+                        assert.ok(true, 'The foo handler is called');
+
+                        reject(new RangeError('The value is not in the range'));
+                    }, 10);
+                });
+            })
+            .after('foo', function(){
+                assert.ok(false, 'The after foo handler should not be called');
+            })
+            .trigger('foo');
+
+        setTimeout(function() {
+            var allErrors = testLogger.getMessages().error;
+
+            assert.equal(allErrors.length, 1, 'the error is logged');
+            assert.equal(typeof allErrors[0].err, 'object', 'the log entry contains the error');
+            assert.ok(allErrors[0].err instanceof RangeError, 'the log entry contains the thrown error');
+            QUnit.start();
+        }, 20);
+    });
 });

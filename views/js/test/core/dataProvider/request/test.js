@@ -144,7 +144,7 @@ define([
         title : '200 error fallback',
         url : '//200/error/fallback',
         reject : true,
-        err : new Error('No response')
+        err : new Error('The server has sent an empty response')
     }];
 
     QUnit

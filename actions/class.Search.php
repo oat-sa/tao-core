@@ -19,10 +19,10 @@
  */
 
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SyntaxException;
-use oat\tao\model\search\IndexService;
+use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
+use oat\tao\model\search\Search;
 
 /**
  * Controller for indexed searches
@@ -84,7 +84,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
 
             //  if there is no results based on considering the query as URI
             if (empty($results)) {
-                $results = SearchService::getSearchImplementation()->query($query, $class, $startRow, $rows);
+                $results = $this->getServiceLocator()->get(Search::SERVICE_ID)->query($query, $class->getUri(), $startRow, $rows);
             }
 
             $totalPages = is_null($rows) ? 1 : ceil( $results->getTotalCount() / $rows );
@@ -120,7 +120,7 @@ class tao_actions_Search extends tao_actions_CommonModule {
         
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
-            $indexes = IndexService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
+            $indexes = OntologyIndexService::getIndexesByClass(new core_kernel_classes_Class($rootNodeUri));
             $json = array();
             
             foreach ($indexes as $propertyUri => $index) {

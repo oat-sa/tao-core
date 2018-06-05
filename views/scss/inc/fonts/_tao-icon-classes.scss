@@ -18,6 +18,8 @@
                                 <*_/   <*/
                                  
 [class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-tab:before { @include icon-tab; }
+.icon-untab:before { @include icon-untab; }
 .icon-multi-select:before { @include icon-multi-select; }
 .icon-clipboard:before { @include icon-clipboard; }
 .icon-filebox:before { @include icon-filebox; }

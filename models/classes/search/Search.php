@@ -20,9 +20,8 @@
  */
 namespace oat\tao\model\search;
 
-use core_kernel_classes_Resource;
-use core_kernel_classes_Class;
 use oat\oatbox\PhpSerializable;
+use oat\tao\model\search\index\IndexIterator;
 
 /**
  * Search interface
@@ -37,28 +36,29 @@ interface Search extends PhpSerializable
      * Search for instances using a Lucene query
      *
      * @param string $queryString
-     * @param core_kernel_classes_Class $rootClass
+     * @param string $rootClass
      * @param int $start
      * @param int $count
+     * @param int $order
+     * @param int $dir
      *
      * @return ResultSet
      */
-    public function query( $queryString, $rootClass = null, $start = 0, $count = 10 );
+    public function query( $queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC');
 
     /**
-     * Index the resources given as a traversable
-     *
-     * @param \Traversable $resourceTraversable
+     * Delete all indexes
      */
-    public function fullReIndex(\Traversable $resourceTraversable);
+    public function flush();
 
     /**
-     * (Re)Generate the index for a given resource
+     * (Re)Generate the index for a given document
+     * If index is already exist, then it will merge the fields in index with the existing document
      *
-     * @param core_kernel_classes_Resource $resource
+     * @param IndexIterator|array $documents
      * @return boolean true if successfully indexed
      */
-    public function index(core_kernel_classes_Resource $resource);
+    public function index($documents);
 
     /**
      * Remove a resource from the index

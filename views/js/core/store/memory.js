@@ -63,7 +63,7 @@ define([
              * @returns {Promise} with the result in resolve, undfined if nothing
              */
             getItem : function getItem(key){
-                if(!memoryStore[storeName]){
+                if (! _.isPlainObject(memoryStore[storeName])) {
                     return Promise.resolve();
                 }
                 return Promise.resolve( memoryStore[storeName][key] );
@@ -76,7 +76,7 @@ define([
              * @returns {Promise} with true in resolve if added/updated
              */
             setItem : function setItem(key, value){
-                if(!memoryStore[storeName]){
+                if (! _.isPlainObject(memoryStore[storeName])) {
                     memoryStore[storeName] = {};
                 }
                 memoryStore[storeName][key] = value;
@@ -91,6 +91,14 @@ define([
             removeItem : function removeItem(key){
                 memoryStore[storeName] = _.omit(memoryStore[storeName], key);
                 return Promise.resolve(typeof memoryStore[storeName][key] === 'undefined');
+            },
+
+            /**
+             * Get all store items
+             * @returns {Promise<Object>} with a collection of items
+             */
+            getItems : function getItems(){
+                return Promise.resolve(memoryStore[storeName]);
             },
 
             /**
@@ -126,6 +134,28 @@ define([
             return validate ? validate(storeName) : true;
         });
         return Promise.resolve(true);
+    };
+
+    /**
+     * Get all stores
+     * @param {Function} [validate] - An optional callback that validates the stores to retrieve
+     * @returns {Promise<String[]>} resolves with the list of stores
+     */
+    memoryStorageBackend.getAll = function getAll(validate) {
+        var storeNames = [];
+        if (!_.isFunction(validate)) {
+            validate = null;
+        }
+        storeNames = _(memoryStore)
+            .map(function(store, storeName){
+                return storeName;
+            })
+            .filter(function(storeName){
+                return validate ? validate(storeName) : true;
+            })
+            .value();
+
+        return Promise.resolve(storeNames);
     };
 
     /**

@@ -38,6 +38,9 @@ define([
         trigger: noop,
         getElement : function(){
             return $('#qunit-fixture .component');
+        },
+        getConfig : function(){
+            return {};
         }
     };
     var nodesMock = [

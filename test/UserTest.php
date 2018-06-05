@@ -46,7 +46,6 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 		GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Doe',
 		GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'John',
 		GenerisRdf::PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-		GenerisRdf::PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
 	);
@@ -60,7 +59,6 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 		GenerisRdf::PROPERTY_USER_LASTNAME	=>	'Lecéfranc',
 		GenerisRdf::PROPERTY_USER_FIRSTNAME	=>	'François',
 		GenerisRdf::PROPERTY_USER_MAIL		=>	'f.lecé@tao.lu',
-		GenerisRdf::PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		GenerisRdf::PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR',
 		GenerisRdf::PROPERTY_USER_ROLES		=>  'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
 	);
@@ -78,21 +76,19 @@ class UserTestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * tests initialization
 	 */
-	public function setUp(){		
-		$this->userService = tao_models_classes_UserService::singleton();
+	public function setUp(){
+        $this->userService = tao_models_classes_UserService::singleton();
 		$this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
 		$this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD]);
 	}
-	
+
 	/**
 	 * Test the user service implementation
 	 * @see tao_models_classes_ServiceFactory::get
 	 */
-	public function testService(){
-
-		$this->assertInstanceOf( 'tao_models_classes_Service', $this->userService );
-		$this->assertInstanceOf( 'tao_models_classes_UserService', $this->userService );
-
+	public function testService()
+    {
+        $this->assertInstanceOf('tao_models_classes_UserService', $this->userService);
 	}
 
 	/**

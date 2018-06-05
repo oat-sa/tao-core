@@ -29,9 +29,10 @@ define([
     'core/logger',
     'layout/actions',
     'layout/generisRouter',
+    'layout/permissions',
     'provider/resources',
     'ui/resource/selector'
-], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, resourceProviderFactory, resourceSelectorFactory){
+], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, permissionsManager, resourceProviderFactory, resourceSelectorFactory){
     'use strict';
 
     var logger = loggerFactory('layout/tree/provider/resourceSelector');
@@ -115,6 +116,9 @@ define([
                                 self.addNode(node, node.classUri);
                                 self.select(node);
                             });
+                            actionManager.on('copyTo', function(actionContext, node){
+                                self.refresh(node || defaultNode);
+                            });
                             actionManager.on('refresh', function(node){
                                 self.refresh(node || defaultNode);
                             });
@@ -136,7 +140,7 @@ define([
                             }
 
                             //ask the server the resources from the component query
-                            resourceProvider.getResources(params)
+                            resourceProvider.getResources(params, true)
                                 .then(function(resources) {
                                     self.update(resources, params);
                                 })
@@ -158,7 +162,7 @@ define([
                             var getContext = function getContext(resource) {
                                 return _.defaults(resource, {
                                     id : resource.uri,
-                                    permissions:  {}
+                                    rootClassUri : self.classUri
                                 });
                             };
 

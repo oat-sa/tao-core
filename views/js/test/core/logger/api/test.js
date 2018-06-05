@@ -161,10 +161,11 @@ define(['core/logger/api'], function(loggerFactory){
         { title: 'info num format', name : 'noo', level : 'info', args : [{a : true}, 'hello %d %s', 12, 'bar'], expected: { level : 'info', name : 'noo', msg : 'hello 12 bar'} },
         { title: 'error', name : 'eoo', level : 'error', args : [new Error('oops')], expected: { level : 'error', name : 'eoo', msg : 'oops'} },
         { title: 'error', name : 'eoo', level : 'error', args : [{a : true}, new TypeError('oops')], expected: { level : 'error', name : 'eoo', msg : 'oops'} },
+        { title: 'error', name : 'eoo', level : 'error', args : [{'a' : true}, {'object' : true}], expected: { level : 'error', name : 'eoo', msg : JSON.stringify({'object' : true})} },
     ])
     .test('message logs ', function(data, assert){
         var logger;
-        QUnit.expect(8);
+        QUnit.expect(9);
 
         loggerFactory.register({
             log : function log(message){
@@ -177,6 +178,7 @@ define(['core/logger/api'], function(loggerFactory){
                 assert.equal(message.level, data.expected.level, 'the level match');
                 assert.equal(message.name, data.expected.name, 'The message name match');
                 assert.equal(message.msg, data.expected.msg, 'The message match');
+                assert.equal(typeof message.msg, 'string', 'The message is string');
             }
         });
 
@@ -196,7 +198,7 @@ define(['core/logger/api'], function(loggerFactory){
         });
 
         logger = loggerFactory('foo', 'warn');
-        console.log(logger);
+
         logger.trace('nothing');
         logger.debug('nothing');
         logger.info('nothing');

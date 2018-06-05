@@ -31,16 +31,14 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 	const CSV_FILE_USERS_HEADER_UNICODE = '/../samples/csv/users1-header.csv';
 	const CSV_FILE_USERS_NO_HEADER_UNICODE = '/../samples/csv/users1-no-header.csv';
 	
-	public function testImport(){
+	public function testImport()
+    {
 		$importer = new CsvBasicImporter();
-
 		$staticMap = array();
-		//copy file because it should be removed
-		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
-		$file = tao_helpers_File::createTempDir().'/copy.csv';
-		tao_helpers_File::copy($path,$file);
-		$this->assertFileExists($file);
 		$map = array();
+
+		$file = $this->getTempFileToUpload('csv/users1-header.csv');
+
 		$resource = $this->prophesize('\core_kernel_classes_Resource');
 		$class = $this->prophesize('\core_kernel_classes_Class');
 		$class->createInstanceWithProperties($staticMap)->willReturn($resource->reveal());
@@ -51,11 +49,11 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertInstanceOf('common_report_Report',$report);
 		$this->assertEquals(16,count($report->getSuccesses()));
 		$this->assertEquals(common_report_Report::TYPE_SUCCESS,$report->getType());
-		$this->assertFileNotExists($file);
-
+		$this->assertFalse($file->exists());
 	}
 
-	public function testCsvMapping(){
+	public function testCsvMapping()
+    {
 		$importer = new CsvBasicImporter();
 
 		$expectedHeaderMap = array('label','First Name','Last Name','Login','Mail','password','UserUILg');
@@ -113,8 +111,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 
 	}
 
-
-	public function testGetDataSample(){
+	public function testGetDataSample()
+    {
 		$importer = new CsvBasicImporter();
 
 		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
@@ -140,7 +138,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		}
 	}
 
-	public function testGetColumnMapping(){
+	public function testGetColumnMapping()
+    {
 		$file = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
 		$importer = new CsvBasicImporter();
 		$class = new ReflectionClass('oat\\tao\\model\\import\\CsvBasicImporter');
@@ -157,7 +156,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($expectedHeader, $map);
 	}
 
-	public function testGetClassProperties(){
+	public function testGetClassProperties()
+    {
 		$importer = new CsvBasicImporter();
 		$class = new ReflectionClass('oat\\tao\\model\\import\\CsvBasicImporter');
 		$method = $class->getMethod('getClassProperties');
@@ -176,14 +176,9 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
 		$this->assertEquals($propertiesExpected, $properties);
 	}
 
-	public function testImportRules() {
-
-        $path = $this->getSamplePath('/csv/users1-header-rules-validator.csv');
-
-        $file = tao_helpers_File::createTempDir() . '/temp-import-rules-validator.csv';
-        tao_helpers_File::copy($path, $file);
-        $this->assertFileExists($file);
-
+	public function testImportRules()
+    {
+        $file = $this->getTempFileToUpload('csv/users1-header-rules-validator.csv');
 
         $importer = new CsvBasicImporter();
         
@@ -252,9 +247,21 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
         $this->assertCount(6, $report->getErrors());
         
         //cause import has errors
-        $this->assertFileExists($file);
-        tao_helpers_File::remove($file);
-        $this->assertFileNotExists($file);
+        $this->assertFalse($file->exists());
+    }
+
+    /**
+     * @param $path
+     * @return \oat\oatbox\filesystem\File
+     */
+    protected function getTempFileToUpload($path)
+    {
+        //copy file because it should be removed
+        $path = $this->getSamplePath($path);
+        $file = $this->getTempDirectory()->getFile('test-import');
+        $file->write(file_get_contents($path));
+        $this->assertTrue($file->exists());
+        return $file;
     }
 
     /**
@@ -263,7 +270,10 @@ class CsvImportTest extends TaoPhpUnitTestRunner {
      */
     protected function getSamplePath($path)
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'samples' . str_replace('/', DIRECTORY_SEPARATOR, $path);
+        return __DIR__ . DIRECTORY_SEPARATOR .
+            '..'. DIRECTORY_SEPARATOR .
+            'samples' . DIRECTORY_SEPARATOR .
+            trim($path, '\\/');
     }
 	
 }
