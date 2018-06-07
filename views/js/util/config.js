@@ -22,7 +22,7 @@
  */
 define([
     'lodash'
-], function (__) {
+], function (_) {
     'use strict';
 
     return {
@@ -34,8 +34,7 @@ define([
          * @throws Error if a required entry is missing
          */
         build: function build(config, defaults) {
-            config = _.assign({}, config);
-            return _.defaults(config, defaults);
+            return _.defaults(config || {}, defaults);
         },
 
         /**
