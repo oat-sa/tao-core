@@ -29,7 +29,7 @@ require([
     'ui/feedback',
     'util/url',
     'layout/actions',
-    'test/core/taskQueue/stub/taskQueue',//TODO replace by 'core/taskQueue/taskQueue' when ready for backend integration
+    'core/taskQueue/taskQueue',
     'ui/taskQueueButton/standardButton'
 ], function($, __, feedback, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
 
@@ -39,8 +39,6 @@ require([
         $uploader = $form.find('.file-uploader'),
         importUrl = urlHelper.route("<?=get_data('import_action')?>", "<?=get_data('import_module')?>", "<?=get_data('import_extension')?>");
 
-    //TODO remove this when ready for backend integration
-    var importUrl = '/tao/views/js/test/core/taskQueue/samples/newTaskCreationResult.json';
     taskQueue.setEndpoints({
         get: '/tao/views/js/test/core/taskQueue/samples/getSingle-completed-import.json'
     });

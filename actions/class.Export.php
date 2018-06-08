@@ -150,17 +150,6 @@ class tao_actions_Export extends tao_actions_CommonModule
     }
 
     /**
-     * Stub to test front end integration only, to be removed after back end migration!
-     */
-    public function fakeDownload(){
-        header('Set-Cookie: fileDownload=true'); //used by jquery file download to find out the download has been triggered ...
-        setcookie("fileDownload", "true", 0, "/");
-        header('Content-Disposition: attachment; filename="dummy_export_' . date('YmdHis') . '.xml"');
-        header('Content-Type: application/xml');
-        echo '<fakeDownload>OK!<fakeDownload>';
-    }
-
-    /**
      * Is the metadata of the given resource is exportable?
      *
      * @author Gyula Szucs, <gyula@taotesting.com>

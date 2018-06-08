@@ -26,10 +26,10 @@ define([
      */
     return taskQueueModelFactory({
         url : {
-            get: urlHelper.route('get', 'TaskQueueWebApi', 'taoTaskQueue'),
-            archive: urlHelper.route('archive', 'TaskQueueWebApi', 'taoTaskQueue'),
-            all : urlHelper.route('getAll', 'TaskQueueWebApi', 'taoTaskQueue'),
-            download : urlHelper.route('download', 'TaskQueueWebApi', 'taoTaskQueue')
+            get: urlHelper.route('get', 'TaskQueueWebApi', 'tao'),
+            archive: urlHelper.route('archive', 'TaskQueueWebApi', 'tao'),
+            all : urlHelper.route('getAll', 'TaskQueueWebApi', 'tao'),
+            download : urlHelper.route('download', 'TaskQueueWebApi', 'tao')
         },
         pollSingleIntervals : [
             {iteration: 3, interval:1000}

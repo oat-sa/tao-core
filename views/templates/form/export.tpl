@@ -17,7 +17,7 @@
                 'uiForm',
                 'ui/tooltip',
                 'ui/feedback',
-                'test/core/taskQueue/stub/taskQueue',//TODO replace by 'core/taskQueue/taskQueue' when ready for backend integration
+                'core/taskQueue/taskQueue',
                 'ui/taskQueueButton/standardButton',
                 'jquery.fileDownload'
             ],
@@ -30,9 +30,6 @@
                     exportUrl = urlHelper.route("<?=get_data('export_action')?>", "<?=get_data('export_module')?>", "<?=get_data('export_extension')?>"),
                     $oldSubmitter = $form.find('.form-submitter'),
                     $sent = $form.find(":input[name='" + $form.attr('name') + "_sent']");
-
-                //TODO remove this when ready for backend integration
-                var exportUrl = '/tao/views/js/test/core/taskQueue/samples/newTaskCreationResult.json';
 
                 //find the old submitter and replace it with the new component
                 var taskCreationButton = taskCreationButtonFactory({
