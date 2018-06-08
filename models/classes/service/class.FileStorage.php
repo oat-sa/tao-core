@@ -24,6 +24,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\websource\Websource;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\service\ServiceFileStorage;
 
 /**
  * Represents the file storage used in services 
@@ -33,10 +34,8 @@ use oat\oatbox\filesystem\FileSystemService;
  * @package tao
  
  */
-class tao_models_classes_service_FileStorage extends ConfigurableService
+class tao_models_classes_service_FileStorage extends ConfigurableService implements ServiceFileStorage
 {
-    const SERVICE_ID = 'tao/ServiceFileStorage';
-    
     const OPTION_PUBLIC_FS = 'public';
     const OPTION_PRIVATE_FS = 'private';
     const OPTION_ACCESS_PROVIDER = 'provider';
