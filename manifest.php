@@ -22,6 +22,8 @@
  */
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterTaskLogService;
+use oat\tao\scripts\install\RegisterTaskQueueService;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
@@ -43,7 +45,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '19.4.0',
+    'version' => '19.5.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=7.2.0',
@@ -109,7 +111,9 @@ return array(
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
             RegisterActionService::class,
-            RegisterUserLockoutsEventListeners::class
+            RegisterUserLockoutsEventListeners::class,
+            RegisterTaskQueueService::class,
+            RegisterTaskLogService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -164,6 +168,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueData')),
         array('grant', \oat\tao\model\user\TaoRoles::REST_PUBLISHER, array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('ext'=>'tao','mod' => 'Health')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',      array('ext'=>'tao','mod' => 'TaskQueueWebApi')),
     ),
     'constants' => array(
         #TAO version number

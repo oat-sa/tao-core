@@ -56,6 +56,7 @@ use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
@@ -64,6 +65,8 @@ use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterTaskLogService;
+use oat\tao\scripts\install\RegisterTaskQueueService;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -773,6 +776,22 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('18.8.0', '19.4.0');
+
+        if ($this->isVersion('19.4.0')) {
+            // register new task log service with default values
+            $taskLogRegister = new RegisterTaskLogService();
+            $this->getServiceManager()->propagate($taskLogRegister);
+            $taskLogRegister([]);
+
+            // register new queue dispatcher service with default values
+            $dispatcherRegister = new RegisterTaskQueueService();
+            $this->getServiceManager()->propagate($dispatcherRegister);
+            $dispatcherRegister([]);
+
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueWebApi']));
+
+            $this->setVersion('19.5.0');
+        }
     }
 
 }
