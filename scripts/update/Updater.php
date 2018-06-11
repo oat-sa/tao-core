@@ -775,9 +775,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('18.8.0');
         }
 
-        $this->skip('18.8.0', '19.4.0');
+        $this->skip('18.8.0', '19.7.0');
 
-        if ($this->isVersion('19.4.0')) {
+        if ($this->isVersion('19.7.0')) {
             // register new task log service with default values
             $taskLogRegister = new RegisterTaskLogService();
             $this->getServiceManager()->propagate($taskLogRegister);
@@ -790,7 +790,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueWebApi']));
 
-            $this->setVersion('19.5.0');
+            $this->setVersion('19.8.0');
         }
     }
 

@@ -28,8 +28,7 @@
 	],
 	"description" : "TAO core extension ",
 	"support" : {
-		"forum" : "http://forum.taotesting.com",
-		"issues" : "http://forge.taotesting.com"
+		"forum" : "https://forum.taocloud.org"
 	},
 	"homepage" : "http://www.taotesting.com",
 	"license" : "GPL-2.0-only",
