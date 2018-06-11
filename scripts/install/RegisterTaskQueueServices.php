@@ -26,15 +26,27 @@ use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\Queue\TaskSelector\WeightStrategy;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLogInterface;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
  */
-class RegisterTaskQueueService extends InstallAction
+class RegisterTaskQueueServices extends InstallAction
 {
     public function __invoke($params)
     {
+        $taskLogService = new TaskLog([
+            TaskLogInterface::OPTION_TASK_LOG_BROKER => new TaskLog\Broker\RdsTaskLogBroker('default')
+        ]);
+        $this->registerService(TaskLogInterface::SERVICE_ID, $taskLogService);
+
+        try {
+            $taskLogService->createContainer();
+        } catch (\Exception $e) {
+            return \common_report_Report::createFailure('Creating task log container failed');
+        }
+
         $queueService = new QueueDispatcher([
             QueueDispatcherInterface::OPTION_QUEUES       => [
                 new Queue('queue', new InMemoryQueueBroker())
