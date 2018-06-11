@@ -39,10 +39,6 @@ require([
         $uploader = $form.find('.file-uploader'),
         importUrl = urlHelper.route("<?=get_data('import_action')?>", "<?=get_data('import_module')?>", "<?=get_data('import_extension')?>");
 
-    taskQueue.setEndpoints({
-        get: '/tao/views/js/test/core/taskQueue/samples/getSingle-completed-import.json'
-    });
-
     /**
      * wrapped the old jstree API used to refresh the tree and optionally select a resource
      * @param {String} [uriResource] - the uri resource node to be selected
