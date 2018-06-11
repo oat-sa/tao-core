@@ -773,9 +773,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('18.8.0');
         }
 
-        $this->skip('18.8.0', '19.7.0');
+        $this->skip('18.8.0', '19.7.1');
 
-        if ($this->isVersion('19.7.0')) {
+        if ($this->isVersion('19.7.1')) {
             // register new queue dispatcher service with default values
             $dispatcherRegister = new RegisterTaskQueueServices();
             $this->getServiceManager()->propagate($dispatcherRegister);
