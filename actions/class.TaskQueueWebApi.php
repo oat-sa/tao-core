@@ -21,11 +21,11 @@
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLog\Decorator\CategoryEntityDecorator;
+use oat\tao\model\taskQueue\TaskLog\Decorator\HasFileEntityDecorator;
+use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\taoTaskQueue\model\Entity\Decorator\CategoryEntityDecorator;
-use oat\taoTaskQueue\model\Entity\Decorator\HasFileEntityDecorator;
-use oat\taoTaskQueue\model\TaskLog\Decorator\SimpleManagementCollectionDecorator;
 
 /**
  * API controller to get task queue data by our WEB front-end.
