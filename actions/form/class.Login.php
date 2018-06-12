@@ -79,7 +79,7 @@ class tao_actions_form_Login
 
 		$passwordWidgetId = (isset($this->data['enablePasswordReveal']) && !empty($this->data['enablePasswordReveal']))
             ? 'ViewableHiddenbox'
-            : 'Hiddenbox';
+            : 'Textbox';
 		$passElt = tao_helpers_form_FormFactory::getElement('password', $passwordWidgetId);
 		$passElt->setDescription(Layout::getPasswordLabel());
 		$passElt->addValidator(
