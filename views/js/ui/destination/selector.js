@@ -50,6 +50,9 @@ define([
      * @param {String} [config.description] - a description sentence
      * @param {String} [config.actionName] - the action button text
      * @param {String} [config.icon] - the action button icon
+     * @param {Object} [config.taskQueue] - define the taskQueue model to be used (only useful if the triggered action uses the task queue)
+     * @param {String} [config.taskCreationUrl] - the task creation endpoint (only required if the option taskQueue is defined)
+     * @param {Object} [config.taskCreationData] - optionally define the data that will be sent to the task creation endpoint
      * @param {Function} [config.preventSelection] - prevent selection callback (@see ui/resource/selectable)
      * @returns {destinationSelector} the component itself
      */
@@ -79,6 +82,10 @@ define([
                 var button, self = this;
                 var $component = this.getElement();
 
+                /**
+                 * Get the current selected class uri
+                 * @returns {String} the selected uri
+                 */
                 var getSelectedUri = function getSelectedUri(){
                     var select = self.resourceSelector.getSelection();
                     var uris;
@@ -143,7 +150,11 @@ define([
                 this.resourceSelector.on('change', function(selected){
                     if(selected && _.size(selected) > 0){
                         button.enable();
-                        button.config.taskCreationData.classUri = getSelectedUri();
+
+                        //append the selected class URI to the task creation data
+                        if(_.isPlainObject(button.config.taskCreationData)){
+                            button.config.taskCreationData.classUri = getSelectedUri();
+                        }
                     } else {
                         button.disable();
                     }
