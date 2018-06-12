@@ -19,9 +19,17 @@
 define([
     'jquery',
     'lodash',
-    'core/taskQueue/taskQueueModel'
-], function($, _, taskQueueModelFactory) {
+    'core/taskQueue/taskQueueModel',
+    'json!test/core/taskQueue/samples/newTaskCreationResult.json',
+    'lib/jquery.mockjax/jquery.mockjax'
+], function($, _, taskQueueModelFactory, newTaskCreationResultData) {
     'use strict';
+
+    //mock the POST method that is rejected by some server config such as nginx
+    $.mockjax({
+        url: "/tao/views/js/test/core/taskQueue/samples/newTaskCreationResult.json",
+        responseText: newTaskCreationResultData
+    });
 
     QUnit.module('API');
 
