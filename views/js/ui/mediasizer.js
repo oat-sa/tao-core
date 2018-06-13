@@ -22,6 +22,8 @@
  * @author Dieter Raber <dieter@taotesting.com>
  * @requires jquery
  * @requires core/pluginifier
+ *
+ * @deprecated instead use ui/mediaEditor/mediaSizer
  */
 define([
     'jquery',

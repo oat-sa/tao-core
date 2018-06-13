@@ -16,7 +16,7 @@
   "dependencies": {},
   "devDependencies": {
     "almond": "^0.3.3",
-    "grunt": "^1.0.0",
+    "grunt": "^1.0.3",
     "grunt-aws-s3": "^0.14.0",
     "grunt-concurrent": "^2.1.0",
     "grunt-contrib-clean": "^1.0.0",
@@ -26,14 +26,14 @@
     "grunt-contrib-qunit": "^1.0.0",
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
-    "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-eslint": "^19.0.0",
     "grunt-notify": "^0.4.3",
     "grunt-qunit-junit": "^0.3.0",
     "grunt-replace": "^0.11.0",
     "grunt-sass": "^2.0.0",
     "load-grunt-tasks": "^3.4.0",
-    "lodash": "^4.13.1",
+    "lodash": "^4.17.10",
     "time-grunt": "^1.0.0"
   }
 }
