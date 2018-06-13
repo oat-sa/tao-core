@@ -53,6 +53,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			if($myForm->isValid()){
 				$report = $importer->import($this->getCurrentClass(), $myForm);
                 $this->onAfterImport($report);
+                //TODO create a task and return the task data using TaskLogActionTrait::returnTaskJson()
 				return $this->returnReport($report);
 			}
 		}
