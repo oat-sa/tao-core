@@ -56,6 +56,14 @@ use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\taskQueue\Queue;
+use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
+use oat\tao\model\taskQueue\Queue\TaskSelector\WeightStrategy;
+use oat\tao\model\taskQueue\QueueDispatcher;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\TaskLog;
+use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
@@ -64,6 +72,7 @@ use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -773,6 +782,35 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('18.8.0', '19.7.1');
+
+        if ($this->isVersion('19.7.1')) {
+            // register new queue dispatcher service with default values
+            $taskLogService = new TaskLog([
+                TaskLogInterface::OPTION_TASK_LOG_BROKER => new RdsTaskLogBroker('default')
+            ]);
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+
+            try {
+                $taskLogService->createContainer();
+            } catch (\Exception $e) {
+                return \common_report_Report::createFailure('Creating task log container failed');
+            }
+
+            $queueService = new QueueDispatcher([
+                QueueDispatcherInterface::OPTION_QUEUES       => [
+                    new Queue('queue', new InMemoryQueueBroker())
+                ],
+                QueueDispatcherInterface::OPTION_TASK_LOG     => TaskLogInterface::SERVICE_ID,
+                QueueDispatcherInterface::OPTION_TASK_TO_QUEUE_ASSOCIATIONS => [],
+                QueueDispatcherInterface::OPTION_TASK_SELECTOR_STRATEGY => new WeightStrategy()
+            ]);
+
+            $this->getServiceManager()->register(QueueDispatcherInterface::SERVICE_ID, $queueService);
+
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao','mod' => 'TaskQueueWebApi']));
+
+            $this->setVersion('19.8.0');
+        }
     }
 
 }

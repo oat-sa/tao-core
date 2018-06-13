@@ -25,6 +25,9 @@ use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\implementation\SyncQueue;
 
+/**
+ * @deprecated Can be removed along with the old queue
+ */
 class tao_actions_QueueAction extends \tao_actions_SaSModule
 {
 
