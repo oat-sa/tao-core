@@ -124,7 +124,7 @@ define([
             assert.equal($element.children('h2').text().trim(), 'Select a foo class');
             assert.equal($element.children('div').children('p').text().trim(), 'in oder to move a bar in a foo class');
             assert.equal($('.actions button', $element).length, 1, 'The action button is rendered');
-            assert.equal($('.actions button', $element).text().trim(), 'foo it');
+            assert.equal($('.actions button .action-label', $element).text().trim(), 'foo it');
 
             this.on('update', function(){
 

@@ -813,11 +813,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.8.0');
         }
 
-        if ($this->isVersion('19.8.0')) {
+        $this->skip('19.8.0', '19.9.0');
+
+       if ($this->isVersion('19.9.0')) {
             $service = new MetricsService();
             $service->setOption(MetricsService::OPTION_METRICS, []);
             $this->getServiceManager()->register(MetricsService::SERVICE_ID, $service);
-            $this->setVersion('19.9.0');
+            $this->setVersion('19.10.0');
         }
     }
 
