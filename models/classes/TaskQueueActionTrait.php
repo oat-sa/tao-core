@@ -23,6 +23,9 @@ namespace oat\tao\model;
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
 
+/**
+ * @deprecated Can be removed along with the old queue
+ */
 trait TaskQueueActionTrait
 {
 

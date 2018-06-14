@@ -16,20 +16,20 @@
  *
  */
 
+use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\TaskQueueActionTrait;
 
 /**
  * Rest API controller for task queue
  *
- * Class tao_actions_TaskQueue
  * @package oat\tao\controller\api
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
- *
- * @deprecated Please use the new endpoint in taoTaskQueue extension
  */
 class tao_actions_TaskQueue extends \tao_actions_RestController
 {
-
     use TaskQueueActionTrait;
 
     const TASK_ID_PARAM = 'id';
@@ -46,43 +46,60 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
 
             $taskId = $this->getRequestParameter(self::TASK_ID_PARAM);
 
-            /** @var \common_ext_ExtensionsManager $extensionManager */
-            $extensionManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+            /** @var TaskLogInterface $taskLog */
+            $taskLog = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
 
-            // get data from the new task queue
-            if ($extensionManager->isInstalled('taoTaskQueue')) {
-                /** @var \oat\taoTaskQueue\model\TaskLogInterface $taskLog */
-                $taskLog = $this->getServiceManager()->get(\oat\taoTaskQueue\model\TaskLogInterface::SERVICE_ID);
+            $filter = (new TaskLogFilter())
+                ->eq(TaskLogBrokerInterface::COLUMN_ID, $taskId);
 
-                $filter = (new \oat\taoTaskQueue\model\TaskLog\TaskLogFilter())
-                    ->eq(\oat\taoTaskQueue\model\TaskLogBroker\TaskLogBrokerInterface::COLUMN_ID, $taskId);
+            // trying to get data from the new task queue first
+            $collection = $taskLog->search($filter);
 
-                $collection = $taskLog->search($filter);
-
-                if ($collection->isEmpty()) {
-                    // if we don't have the task in the new queue, try to load the data from the old one
-                    $data = $this->getTaskData($taskId);
-                } else {
-                    $entity = $collection->first();
-                    $status = (string)$entity->getStatus();
-
-                    if ($entity->getStatus()->isInProgress()) {
-                        $status = \oat\oatbox\task\Task::STATUS_RUNNING;
-                    } elseif ($entity->getStatus()->isCompleted() || $entity->getStatus()->isFailed()) {
-                        $status = \oat\oatbox\task\Task::STATUS_FINISHED;
-                    }
-
-                    $data['id'] = $entity->getId();
-                    $data['status'] = $status;
-                    //convert to array for xml response.
-                    $data['report'] = json_decode(json_encode($entity->getReport()));
-                }
-            } else {
-                // load data from the old queue
+            if ($collection->isEmpty()) {
+                // if we don't have the task in the new queue,
+                // loading the data from the old one
                 $data = $this->getTaskData($taskId);
+            } else {
+                // we have the task in the new queue
+                $entity = $collection->first();
+                $status = (string) $entity->getStatus();
+
+                if ($entity->getStatus()->isInProgress()) {
+                    $status = \oat\oatbox\task\Task::STATUS_RUNNING;
+                } elseif ($entity->getStatus()->isCompleted() || $entity->getStatus()->isFailed()) {
+                    $status = \oat\oatbox\task\Task::STATUS_FINISHED;
+                }
+
+                $data['id'] = $entity->getId();
+                $data['status'] = $status;
+                //convert to array for xml response.
+                $data['report'] = json_decode(json_encode($entity->getReport()));
             }
 
             $this->returnSuccess($data);
+        } catch (\Exception $e) {
+            $this->returnFailure($e);
+        }
+    }
+
+    /**
+     * Returns only the status of a task, independently from the owner.
+     *
+     * NOTE: only works for tasks handled by the new task queue.
+     */
+    public function getStatus()
+    {
+        try {
+            if (!$this->hasRequestParameter(self::TASK_ID_PARAM)) {
+                throw new \common_exception_MissingParameter(self::TASK_ID_PARAM, $this->getRequestURI());
+            }
+
+            /** @var TaskLogInterface $taskLogService */
+            $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+
+            $entity = $taskLogService->getById((string) $this->getRequestParameter(self::TASK_ID_PARAM));
+
+            $this->returnSuccess((string) $entity->getStatus());
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
