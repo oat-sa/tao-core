@@ -52,16 +52,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         $result = false;
         $actionConfig = $this->getActionConfig($action);
         $restrictions = $this->getRestrictions($actionConfig);
-        $allowExecution = true;
-
-        foreach ($restrictions as $restriction => $value) {
-            if (class_exists($restriction) && is_subclass_of($restriction, basicRestriction::class)){
-                /** @var basicRestriction $r */
-                $r = new $restriction();
-                $this->propagate($r);
-                $allowExecution = $allowExecution && $r->doesComplies($value);
-            }
-        }
+        $allowExecution = $this->checkRestrictions($restrictions);
 
         if ($allowExecution) {
             $actionResult = $action([]);
@@ -194,5 +185,24 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     private function getRestrictions(array $actionConfig)
     {
         return array_key_exists('restrictions', $actionConfig) ? $actionConfig['restrictions'] : [];
+    }
+
+    /**
+     * @param array $restrictions
+     * @return bool
+     */
+    private function checkRestrictions(array $restrictions)
+    {
+        $allowExecution = true;
+
+        foreach ($restrictions as $restriction => $value) {
+            if (class_exists($restriction) && is_subclass_of($restriction, basicRestriction::class)) {
+                /** @var basicRestriction $r */
+                $r = new $restriction();
+                $this->propagate($r);
+                $allowExecution = $allowExecution && $r->doesComplies($value);
+            }
+        }
+        return $allowExecution;
     }
 }
