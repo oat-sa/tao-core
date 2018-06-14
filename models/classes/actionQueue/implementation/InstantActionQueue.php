@@ -26,6 +26,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\actionQueue\QueuedAction;
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
+use oat\tao\model\actionQueue\restriction\basicRestriction;
 
 /**
  *
@@ -50,8 +51,19 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         }
         $result = false;
         $actionConfig = $this->getActionConfig($action);
-        $limit = intval(isset($actionConfig[self::ACTION_PARAM_LIMIT]) ? $actionConfig[self::ACTION_PARAM_LIMIT] : 0);
-        if ($limit === 0 || $limit > $action->getNumberOfActiveActions()) {
+        $restrictions = $this->getRestrictions($actionConfig);
+        $allowExecution = true;
+
+        foreach ($restrictions as $restriction => $value) {
+            if (class_exists($restriction) && is_subclass_of($restriction, basicRestriction::class)){
+                /** @var basicRestriction $r */
+                $r = new $restriction();
+                $this->propagate($r);
+                $allowExecution = $allowExecution && $r->doesComplies($value);
+            }
+        }
+
+        if ($allowExecution) {
             $actionResult = $action([]);
             $action->setResult($actionResult);
             $result = true;
@@ -173,5 +185,14 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             $positions = [];
         }
         return $positions;
+    }
+
+    /**
+     * @param array $actionConfig
+     * @return array
+     */
+    private function getRestrictions(array $actionConfig)
+    {
+        return array_key_exists('restrictions', $actionConfig) ? $actionConfig['restrictions'] : [];
     }
 }
