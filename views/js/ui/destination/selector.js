@@ -28,7 +28,7 @@ define([
     'ui/component',
     'ui/resource/selector',
     'ui/loadingButton/loadingButton',
-    'taoTaskQueue/component/button/standardButton',
+    'ui/taskQueueButton/standardButton',
     'tpl!ui/destination/tpl/selector',
     'css!ui/destination/css/selector.css'
 ], function ($, _, __, component, resourceSelectorFactory, loadingButtonFactory, taskCreationButtonFactory, selectorTpl) {
