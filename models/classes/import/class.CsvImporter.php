@@ -19,7 +19,9 @@
  */
 
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\event\CsvImportEvent;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\CsvAbstractImporter;
 
@@ -32,6 +34,7 @@ use oat\tao\model\import\CsvAbstractImporter;
  */
 class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements tao_models_classes_import_ImportHandler
 {
+    use EventManagerAwareTrait;
 
     const OPTION_POSTFIX = '_O';
 
@@ -171,9 +174,13 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         }
         $options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 
-        $result = parent::importFile($class, $options);
+        $report = parent::importFile($class, $options);
 
-        return $result;
+        if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+            $this->getEventManager()->trigger(new CsvImportEvent($report));
+        }
+
+        return $report;
     }
 
     /**
