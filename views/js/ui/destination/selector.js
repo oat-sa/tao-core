@@ -27,14 +27,16 @@ define([
     'i18n',
     'ui/component',
     'ui/resource/selector',
+    'ui/loadingButton/loadingButton',
+    'ui/taskQueueButton/standardButton',
     'tpl!ui/destination/tpl/selector',
     'css!ui/destination/css/selector.css'
-], function ($, _, __, component, resourceSelectorFactory, selectorTpl) {
+], function ($, _, __, component, resourceSelectorFactory, loadingButtonFactory, taskCreationButtonFactory, selectorTpl) {
     'use strict';
 
     var defaultConfig = {
         title : __('Copy to'),
-        description : __('Select a destination class'),
+        description : __('Select a destination'),
         actionName : __('Copy'),
         icon : 'copy'
     };
@@ -48,6 +50,9 @@ define([
      * @param {String} [config.description] - a description sentence
      * @param {String} [config.actionName] - the action button text
      * @param {String} [config.icon] - the action button icon
+     * @param {Object} [config.taskQueue] - define the taskQueue model to be used (only useful if the triggered action uses the task queue)
+     * @param {String} [config.taskCreationUrl] - the task creation endpoint (only required if the option taskQueue is defined)
+     * @param {Object} [config.taskCreationData] - optionally define the data that will be sent to the task creation endpoint
      * @param {Function} [config.preventSelection] - prevent selection callback (@see ui/resource/selectable)
      * @returns {destinationSelector} the component itself
      */
@@ -74,9 +79,59 @@ define([
                 this.render($container);
             })
             .on('render', function(){
-                var self = this;
+                var button, self = this;
                 var $component = this.getElement();
-                var $action    = $('.action', $component);
+
+                /**
+                 * Get the current selected class uri
+                 * @returns {String} the selected uri
+                 */
+                var getSelectedUri = function getSelectedUri(){
+                    var select = self.resourceSelector.getSelection();
+                    var uris;
+                    //validate the selection
+                    if(_.isPlainObject(select)) {
+                        uris = _.pluck(select, 'uri');
+                        if(uris.length){
+                            return uris[0];
+                        }
+                    }
+                };
+
+                if(this.config.taskQueue){
+                    button = taskCreationButtonFactory({
+                        type : 'info',
+                        icon : this.config.icon,
+                        label : this.config.actionName,
+                        terminatedLabel : 'Interrupted',
+                        taskQueue: this.config.taskQueue,
+                        taskCreationData: this.config.taskCreationData || {},
+                        taskCreationUrl: this.config.taskCreationUrl,
+                        taskReportContainer: $container
+                    }).on('finished', function(result){
+                        self.trigger('finished', result, button);
+                        this.reset();//reset the button
+                    }).on('continue', function(){
+                        self.trigger('continue');
+                    });
+                }else{
+                    button = loadingButtonFactory({
+                        type : 'info',
+                        icon : this.config.icon,
+                        label : this.config.actionName,
+                        terminatedLabel : 'Interrupted'
+                    });
+                }
+
+                button.on('started', function(){
+                    /**
+                     * @event destinationSelector#select
+                     * @param {String} classUri - the destination class
+                     */
+                    self.trigger('select', getSelectedUri());
+                }).on('error', function(err){
+                    self.trigger('error', err);
+                }).render($component.find('.actions')).disable();
 
                 //set up the inner resource selector
                 this.resourceSelector = resourceSelectorFactory($('.selector-container', $component), {
@@ -94,28 +149,14 @@ define([
                 //enable disable the action button
                 this.resourceSelector.on('change', function(selected){
                     if(selected && _.size(selected) > 0){
-                        $action.removeProp('disabled');
-                    } else {
-                        $action.prop('disabled', true);
-                    }
-                });
+                        button.enable();
 
-                //validate the selection
-                $action.on('click', function(e){
-                    var uris;
-                    var selection = self.resourceSelector.getSelection();
-                    e.preventDefault();
-
-                    if(_.isPlainObject(selection)) {
-                        uris = _.pluck(selection, 'uri');
-                        if(uris.length){
-
-                            /**
-                             * @event destinationSelector#select
-                             * @param {String} classUri - the destination class
-                             */
-                            self.trigger('select', uris[0]);
+                        //append the selected class URI to the task creation data
+                        if(_.isPlainObject(button.config.taskCreationData)){
+                            button.config.taskCreationData.classUri = getSelectedUri();
                         }
+                    } else {
+                        button.disable();
                     }
                 });
             });

@@ -1,0 +1,5 @@
+{
+    "success": false,
+    "errorCode": 500,
+    "errorMsg": "oops, big bad error"
+}

@@ -27,7 +27,7 @@ class ApplicationHelper
      *
      * @return boolean
      */
-    public static  function isDemo() {
+    public static function isDemo() {
         return in_array(TAO_RELEASE_STATUS, array('demo', 'demoA', 'demoB', 'demoS'));
     }
 
@@ -45,5 +45,13 @@ class ApplicationHelper
         }
 
         return $version;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getProductName()
+    {
+        return PRODUCT_NAME;
     }
 }
