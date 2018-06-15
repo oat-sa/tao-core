@@ -46,6 +46,7 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\metrics\MetricsService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
@@ -813,6 +814,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('19.8.0', '19.9.0');
+
+       if ($this->isVersion('19.9.0')) {
+            $service = new MetricsService();
+            $service->setOption(MetricsService::OPTION_METRICS, []);
+            $this->getServiceManager()->register(MetricsService::SERVICE_ID, $service);
+            $this->setVersion('19.10.0');
+        }
+
+        $this->skip('19.10.0', '19.11.0');
     }
 
 }
