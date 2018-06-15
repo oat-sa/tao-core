@@ -1,0 +1,292 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2018  (original work) Open Assessment Technologies SA;
+ *
+ */
+
+
+// not sure that this needs to be a comppnent but provider possible TODO make it as a component so I can use it for the other component as a state static object with paramenters to count everything in there
+define([
+    'ui/component'
+], function (component) {
+
+    /**
+     * Size properties of the media
+     * @typedef {Object} sizeProps
+     * @property px {{
+     *        natural: {
+     *          width: number,
+     *          height: number
+     *        },
+     *        current: {
+     *          width: number,
+     *          height: number
+     *        }
+     *      }}
+     * @property '%' {{
+     *        natural: {
+     *          width: number,
+     *          height: number
+     *        },
+     *        current: {
+     *          width: number,
+     *          height: number
+     *        }
+     *      }}
+     * @property ratio {{
+     *   natural: number,
+     *   current: number
+     * }}
+     * @property currentUtil string
+     */
+
+    /**
+     * Size properties of the media control panel
+     * @typedef {Object} mediaSizeProps
+     * @property responsive boolean
+     * @property sizeProps sizeProps
+     * @property originalSizeProps sizeProps
+     * @property syncDimensions boolean
+     * @property denyCustomRatio boolean
+     */
+
+    /**
+     * Configuration
+     * @type {mediaSizeProps}
+     * @private
+     */
+    var _config;
+
+    /**
+     * Default values
+     *
+     * @type {{
+     *    responsive: boolean,
+     *    showSync: boolean,
+     *    showReset: boolean,
+     *    denyCustomRatio: boolean,
+     *    width: number,
+     *    height: number,
+     *    minWidth: number,
+     *    maxWidth: number,
+     *    sizeProps: SizeProps
+     * }}
+     * @private
+     */
+    var _defaults = {
+        responsive: true,
+        showSync: true,
+        showReset: true,
+        sizeProps: {},
+        denyCustomRatio: false,
+        width: 0,
+        height: 0,
+        minWidth: 0,
+        maxWidth: 0
+    };
+
+    /**
+     * Creates control panel state component
+     *
+     * @param {Object} config
+     * @fires "changed" - on State changed
+     *
+     * @returns {component|*}
+     */
+    return function controlPanelStateFactory (config) {
+
+        /**
+         * Round a decimal value to n digits
+         *
+         * @param {number} value
+         * @param {int} precision
+         * @returns {number}
+         * @private
+         */
+        var _round = function _round(value, precision) {
+            var factor = Math.pow(10, precision);
+            return Math.round(value * factor) / factor;
+        };
+
+        /**
+         * Getting number from the Input
+         * @returns {number}
+         * @private
+         */
+        var _parseVal = function _parseVal(val) {
+            if (typeof val === 'string') {
+                val = parseFloat(val);
+            }
+            if (typeof val !== 'number') {
+                val = 5; // min 5% maybe I need to make it configurable
+            }
+            return _round(val, 0);
+        };
+
+        /**
+         * Re-calculate current ratio
+         * change scenario: someone has typed height and width in pixels while syncing was off
+         * whether current or natural ratio eventually will be used depends on options.denyCustomRatio
+         * @returns {number}
+         * @private
+         */
+        var _getActualRatio = function _getActualRatio() {
+            var ratio;
+
+            if (_config.sizeProps.px.current.width > 0 && _config.sizeProps.px.current.height > 0) {
+                _config.sizeProps.ratio.current = _config.sizeProps.px.current.width / _config.sizeProps.px.current.height;
+            }
+            ratio = _config.denyCustomRatio ? _config.sizeProps.ratio.natural : _config.sizeProps.ratio.current;
+            return ratio ? ratio : 1;
+        };
+
+        var stateControl = {
+            /**
+             * Set property of the control panel
+             * @param key
+             * @param val
+             */
+            setProp: function setProp(key, val) {
+                _config[key] = val;
+            },
+
+            /**
+             * Get control panel property
+             * @param key
+             */
+            getProp: function getProp(key) {
+                return _config.hasOwnProperty(key) ? _config[key] : null;
+            },
+
+            /**
+             * Set property of the media
+             * @param key
+             * @param val
+             */
+            setSizeProp: function setSizeProp(key, val) {
+                _config.sizeProps[key] = val;
+            },
+
+            /**
+             * Check if responsive mode
+             * @returns {boolean}
+             */
+            isResponsive: function isResponsive() {
+                return (typeof _config.responsive !== 'undefined') ? !!_config.responsive : true;
+            },
+
+            recalculateRatio: function recalculateRatio() {
+                return this.getProp('sizeProps').ratio.current =_round(this.getProp('sizeProps').sizeProps.px.current.width / this.getProp('sizeProps').sizeProps.px.current.height, 0);
+            },
+
+            /**
+             * Value in the percent
+             * @param val
+             */
+            percentChange: function percentChange(val) {
+                val = _parseVal(val);
+                // set current % value
+                this.getProp('sizeProps')['%'].current.width = val;
+                // set to % input
+                this.getProp('sizeProps')['%'].width.val(val);
+                // set to sliders
+                this.getProp('$sliders')['%'].val(val);
+                this.getProp('$sliders')['px'].val(val);
+
+                // recalculate px width
+                this.getProp(sizeProps)['px'].current.width = _round( (this.getProp(sizeProps)['px'].natural.width * 100 / val) * this.getProp(sizeProps).ratio.current, 0);
+                // recalculate px height
+                this.getProp(sizeProps)['px'].current.height = _round(this.getProp(sizeProps)['px'].natural.height * 100 / val, 0);
+
+                this.trigger('changed');
+            },
+
+            /**
+             * Width in pixels
+             * @param val
+             */
+            widthChange: function widthChange(val) {
+                var ratio = _getActualRatio();
+                var prevPercent = this.getProp('sizeProps')['%'].current.width;
+                var prevVal = this.getProp('sizeProps')['px'].current.width;
+                val = _parseVal(val);
+                this.getProp('sizeProps')['px'].current.width = val;
+                this.getProp('sizeProps')['px'].width.val(val);
+
+                // if sync
+                if (this.getProp('syncDimensions')) {
+                    // calculate height
+                    this.getProp('sizeProps').px.current.height = value * ratio;
+                    // set new height to the px input
+                    this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.height);
+
+                    // calculate percent
+                    this.getProp('sizeProps')['%'].current.width = _round(prevPercent * val / prevVal, 0);
+                    // set to % input
+                    this.getProp('sizeProps')['%'].width.val(val);
+                } else {
+                    this.recalculateRatio();
+                }
+                this.trigger('changed');
+            },
+
+            /**
+             * Height in pixels
+             * @param val
+             */
+            heightChange: function heightChange(val) {
+                var ratio = _getActualRatio();
+                var prevPercent = this.getProp('sizeProps')['%'].current.width;
+                var prevVal = this.getProp('sizeProps')['px'].current.height;
+                val = _parseVal(val);
+                // set height
+                this.getProp('sizeProps')['px'].current.height = val;
+                // set height to px input
+                this.getProp('sizeProps')['px'].height.val(val);
+
+                // if sync
+                if (this.getProp('syncDimensions')) {
+                    // calculate width
+                    this.getProp('sizeProps').px.current.width = _round(value / ratio, 0);
+                    // set new width to the px input
+                    this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.width);
+
+                    // calculate percent
+                    this.getProp('sizeProps')['%'].current.width = _round(prevPercent * val / prevVal, 0);
+                    // set to % input
+                    this.getProp('sizeProps')['%'].width.val(val);
+                } else {
+                    this.recalculateRatio();
+                }
+
+                this.trigger('changed');
+            }
+        };
+
+        var controlPanelStateComponent = component(stateControl);
+
+        _config = _.defaults(config || {}, _defaults);
+        if (!_config || !_config.sizeProps) {
+            throw new Error('Control panel of the media editor is required sizeProps parameter');
+        }
+        _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
+
+        controlPanelStateComponent
+            .init(_config);
+
+        return controlPanelStateComponent;
+    };
+});
