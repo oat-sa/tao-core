@@ -18,10 +18,11 @@
  */
 
 
-// not sure that this needs to be a comppnent but provider possible TODO make it as a component so I can use it for the other component as a state static object with paramenters to count everything in there
 define([
+    'lodash',
     'ui/component'
-], function (component) {
+], function (_, component) {
+    'use strict';
 
     /**
      * Size properties of the media
@@ -189,7 +190,8 @@ define([
             },
 
             recalculateRatio: function recalculateRatio() {
-                return this.getProp('sizeProps').ratio.current =_round(this.getProp('sizeProps').sizeProps.px.current.width / this.getProp('sizeProps').sizeProps.px.current.height, 0);
+                return this.getProp('sizeProps').ratio.current =
+                    _round(this.getProp('sizeProps').sizeProps.px.current.width / this.getProp('sizeProps').sizeProps.px.current.height, 0);
             },
 
             /**
@@ -201,15 +203,16 @@ define([
                 // set current % value
                 this.getProp('sizeProps')['%'].current.width = val;
                 // set to % input
-                this.getProp('sizeProps')['%'].width.val(val);
+                // todo move upper this.getProp('sizeProps')['%'].width.val(val);
                 // set to sliders
-                this.getProp('$sliders')['%'].val(val);
-                this.getProp('$sliders')['px'].val(val);
+                // todo move upper this.getProp('$sliders')['%'].val(val);
+                // todo move upper this.getProp('$sliders')['px'].val(val);
 
                 // recalculate px width
-                this.getProp(sizeProps)['px'].current.width = _round( (this.getProp(sizeProps)['px'].natural.width * 100 / val) * this.getProp(sizeProps).ratio.current, 0);
+                this.getProp('sizeProps')['px'].current.width =
+                    _round( (this.getProp('sizeProps')['px'].natural.width * val / 100) * this.getProp('sizeProps').ratio.current, 0);
                 // recalculate px height
-                this.getProp(sizeProps)['px'].current.height = _round(this.getProp(sizeProps)['px'].natural.height * 100 / val, 0);
+                this.getProp('sizeProps')['px'].current.height = _round(this.getProp('sizeProps')['px'].natural.height * val / 100, 0);
 
                 this.trigger('changed');
             },
@@ -224,19 +227,19 @@ define([
                 var prevVal = this.getProp('sizeProps')['px'].current.width;
                 val = _parseVal(val);
                 this.getProp('sizeProps')['px'].current.width = val;
-                this.getProp('sizeProps')['px'].width.val(val);
+                // todo move upper this.getProp('sizeProps')['px'].width.val(val);
 
                 // if sync
                 if (this.getProp('syncDimensions')) {
                     // calculate height
-                    this.getProp('sizeProps').px.current.height = value * ratio;
+                    this.getProp('sizeProps').px.current.height = val * ratio;
                     // set new height to the px input
-                    this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.height);
+                    // todo move upper this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.height);
 
                     // calculate percent
                     this.getProp('sizeProps')['%'].current.width = _round(prevPercent * val / prevVal, 0);
                     // set to % input
-                    this.getProp('sizeProps')['%'].width.val(val);
+                    // todo move upper this.getProp('sizeProps')['%'].width.val(val);
                 } else {
                     this.recalculateRatio();
                 }
@@ -255,19 +258,19 @@ define([
                 // set height
                 this.getProp('sizeProps')['px'].current.height = val;
                 // set height to px input
-                this.getProp('sizeProps')['px'].height.val(val);
+                // todo move upper this.getProp('sizeProps')['px'].height.val(val);
 
                 // if sync
                 if (this.getProp('syncDimensions')) {
                     // calculate width
-                    this.getProp('sizeProps').px.current.width = _round(value / ratio, 0);
+                    this.getProp('sizeProps').px.current.width = _round(val / ratio, 0);
                     // set new width to the px input
-                    this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.width);
+                    // todo move upper this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.width);
 
                     // calculate percent
                     this.getProp('sizeProps')['%'].current.width = _round(prevPercent * val / prevVal, 0);
                     // set to % input
-                    this.getProp('sizeProps')['%'].width.val(val);
+                    // todo move upper this.getProp('sizeProps')['%'].width.val(val);
                 } else {
                     this.recalculateRatio();
                 }

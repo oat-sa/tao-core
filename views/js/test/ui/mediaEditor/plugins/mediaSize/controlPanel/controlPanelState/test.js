@@ -19,9 +19,8 @@
 
 define([
     'jquery',
-    'lodash',
-    'ui/mediaEditor/plugins/mediaSize/controlPanelSyncHelper'
-], function ($, _, ControlPanelSyncHelper) {
+    'ui/mediaEditor/plugins/mediaSize/controlPanelStateComponent'
+], function ($, ControlPanelStateComponent) {
     'use strict';
 
     var workingConfiguration = {
@@ -68,13 +67,24 @@ define([
         }
     };
 
-    QUnit.module('Helper');
+    QUnit.module('Component');
 
-    QUnit.asyncTest('percent change', function (assert) {
-        ControlPanelSyncHelper.percentChange(1);
-        //var sync = ControlPanelSyncHelper(), conf;
-        //QUnit.expect(1);
+    QUnit.test('percent change', function (assert) {
+        var conf = _.cloneDeep(workingConfiguration);
+        var comp = ControlPanelStateComponent(conf)
+            .on('changed', function() {
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 1, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps').px.current.width, 1, 'The width changed according to percent');
+                assert.equal(comp.getProp('sizeProps').px.current.height, 1, 'The height changed according to percent');
+            });
 
-        // conf = _.cloneDeep(workingConfiguration);
+        QUnit.expect(6);
+
+        // before change
+        assert.equal(comp.getProp('sizeProps')['%'].current.width, 100, 'The percent set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.width, 100, 'The width set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.height, 100, 'The height set at init is correct');
+
+        comp.percentChange(1);
     });
 });

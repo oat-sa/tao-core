@@ -37,7 +37,7 @@ define([
     'ui/mediaEditor/plugins/mediaSize/controlPanelStateComponent',
     'nouislider',
     'ui/tooltip'
-], function ($, component, tpl, controlPanelStateComponent) {
+], function ($, _, component, tpl, controlPanelStateComponent) {
     'use strict';
 
     /**
