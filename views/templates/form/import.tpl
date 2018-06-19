@@ -62,16 +62,14 @@ $msg .= '<ul>';
             },
             taskReportContainer : $container
         }).on('finished', function(result){
-            console.log(result);
             if (result.task
                 && result.task.report
                 && _.isArray(result.task.report.children)
                 && result.task.report.children.length
                 && result.task.report.children[0]) {
-                if(result.task.report.children[0].data
-                    && result.task.report.children[0].data.uriResource){
-                    this.selectedNode = result.task.report.children[0].data.uriResource;
-                    this.displayReport(result.task.report, __('Import Completed'));
+                if(result.task.report.children[0]){
+                    this.selectedNode = result.task.report.children[0].children[0].data.uriResource;
+                    this.displayReport(result.task.report.children[0], __('Import Completed'));
                 }else{
                     this.displayReport(result.task.report, __('Error'));
                 }
@@ -81,7 +79,7 @@ $msg .= '<ul>';
         }).on('error', function(err){
             //format and display error message to user
             feedback().error(err);
-        }).render($oldSubmitter.closest('.form-toolbar')).disable();
+        }).render($oldSubmitter.closest('.form-toolbar'));
 
         //replace the old submitter with the new one and apply its style
         $oldSubmitter.replaceWith(taskCreationButton.getElement().css({float: 'right'}));
