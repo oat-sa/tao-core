@@ -1,0 +1,56 @@
+{
+    "success": true,
+    "data": [
+        {
+            "id": "rdf#i1508337970199318643",
+            "taskName": "Task Name",
+            "taskLabel": "Task label",
+            "status": "completed",
+            "owner": "userId",
+            "createdAt": "1510149684",
+            "updatedAt": "1510149694",
+            "file": false,
+            "category": "import",
+            "report": {
+                "type": "success",
+                "message": "completed task rdf#i1508337970199318643",
+                "data": null,
+                "children": []
+            }
+        },
+        {
+            "id": "rdf#i15083379701993186432222",
+            "taskName": "Task Name 2",
+            "taskLabel": "Task label 2",
+            "status": "completed",
+            "owner": "userId",
+            "createdAt": "1510149584",
+            "updatedAt": "1510149574",
+            "file": false,
+            "category": "publish",
+            "report": {
+                "type": "info",
+                "message": "running task rdf#i15083379701993186432222",
+                "data": null,
+                "children": []
+            }
+        },
+        {
+            "id": "rdf#i1508337970190342",
+            "taskName": "Task Name 2",
+            "taskLabel": "Task label 2",
+            "status": "completed",
+            "owner": "userId",
+            "createdAt": "1510149584",
+            "updatedAt": "1510049574",
+            "file": true,
+            "category": "export",
+            "report": {
+                "type": "error",
+                "message": "running task rdf#i1508337970190342",
+                "data": null,
+                "children": []
+            }
+        }
+    ]
+}
