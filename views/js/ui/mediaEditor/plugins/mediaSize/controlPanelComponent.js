@@ -37,7 +37,7 @@ define([
     'ui/mediaEditor/plugins/mediaSize/controlPanelStateComponent',
     'nouislider',
     'ui/tooltip'
-], function ($, _, component, tpl, controlPanelStateComponent) {
+], function ($, _, component, tpl, controlPanelStateComponentFactory) {
     'use strict';
 
     /**
@@ -92,12 +92,53 @@ define([
         /**
          * State of the component
          */
-        var controlPanelStateComponent = controlPanelStateComponent(config);
+        var controlPanelStateComponent = controlPanelStateComponentFactory(config)
+            .on('change', function () {
+                // console.warn('changed');
+            });
 
         /**
          * Current component
          */
         var controlPanelComponent = component();
+
+        /**
+         * Retrieve current size values in current unit
+         *
+         * @returns {{}}
+         * @private
+         */
+        var _getValues = function _getValues() {
+            var attr = {};
+            _.forOwn(controlPanelStateComponent.getProp('sizeProps')[controlPanelStateComponent.getProp('sizeProps').currentUtil].current,
+                function (value, dimension) {
+                    if (_.isNull(value)) {
+                        value = '';
+                    }
+                    else {
+                        value = value.toString();
+                    }
+                    if (controlPanelStateComponent.getProp('sizeProps').currentUnit === '%' && value !== '') {
+                        value += controlPanelStateComponent.getProp('sizeProps').currentUnit;
+                    }
+                    attr[dimension] = value;
+                });
+            return attr;
+        };
+
+        /**
+         * Returns width, height, target element and the reset button
+         * It's meant to be used when triggering an event
+         *
+         * @returns {{}}
+         * @private
+         */
+        var _publicArgs = function _publicArgs() {
+            var params = _getValues();
+            params.$target = controlPanelStateComponent.getProp('target') || $();
+            params.$resetBtn = controlPanelStateComponent.getProp('$resetBtn');
+            return params;
+        };
 
         /**
          * Blocks are the two different parts of the form (either width|height or size)
@@ -190,7 +231,7 @@ define([
         var _initResetBtn = function($elt) {
             var $resetBtn = $elt.find('.media-sizer-reset');
 
-            if(!_config.showReset) {
+            if(!controlPanelStateComponent.isResetAllowed()) {
                 $elt.find('.media-sizer').addClass('media-sizer-reset-off');
             }
 
@@ -208,11 +249,10 @@ define([
         /**
          * Initialize the fields
          *
-         * @param $elt
          * @returns {{}}
          * @private
          */
-        var _initFields = function ($elt) {
+        var _initFields = function () {
 
             var dimensions = ['width', 'height'],
                 field, _fields = {};
@@ -243,9 +283,9 @@ define([
                                     }
                                     return chars;
                                 }()),
-                            allowed = (_.contains(specChars, c) ||
-                                (c >= 48 && c <= 57) ||
-                                (c >= 96 && c <= 105));
+                                allowed = (_.contains(specChars, c) ||
+                                    (c >= 48 && c <= 57) ||
+                                    (c >= 96 && c <= 105));
 
                             if (!allowed) {
                                 e.preventDefault();
@@ -253,7 +293,7 @@ define([
                             return allowed;
                         });
 
-                        _fields[unit][dim].on('keyup blur sliderchange', function (e) {
+                        _fields[unit][dim].on('keyup blur sliderchange', function () {
                             var $field = $(this),
                                 value = $field.val().replace(/,/g, '.');
 
@@ -272,7 +312,7 @@ define([
                                 if ($field.prop('dimension') === 'height') {
                                     controlPanelStateComponent.heightChange(value);
                                 } else {
-                                    controlPanelStateComponent.widthChange(value)
+                                    controlPanelStateComponent.widthChange(value);
                                 }
                             }
 
@@ -315,43 +355,6 @@ define([
             return _sliders;
         };
 
-        /**
-         * Returns width, height, target element and the reset button
-         * It's meant to be used when triggering an event
-         *
-         * @returns {{}}
-         * @private
-         */
-        var _publicArgs = function _publicArgs() {
-            var params = _getValues();
-            params.$target = controlPanelStateComponent.getProp('target') || $();
-            params.$resetBtn = controlPanelStateComponent.getProp('$resetBtn');
-            return params;
-        };
-
-        /**
-         * Retrieve current size values in current unit
-         *
-         * @returns {{}}
-         * @private
-         */
-        var _getValues = function _getValues() {
-            var attr = {};
-            _.forOwn(controlPanelStateComponent.getProp('sizeProps')[controlPanelStateComponent.getProp('sizeProps').currentUnit].current, function (value, dimension) {
-                if (_.isNull(value)) {
-                    value = '';
-                }
-                else {
-                    value = value.toString();
-                }
-                if (controlPanelStateComponent.getProp('sizeProps').currentUnit === '%' && value !== '') {
-                    value += controlPanelStateComponent.getProp('sizeProps').currentUnit;
-                }
-                attr[dimension] = value;
-            });
-            return attr;
-        };
-
         controlPanelComponent
             .on('render', function () {
                 var $tpl = $(tpl({
@@ -373,5 +376,6 @@ define([
             .init(_config);
 
         return controlPanelComponent;
-    }
+    };
+
 });

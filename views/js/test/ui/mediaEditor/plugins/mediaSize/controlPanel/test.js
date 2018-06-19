@@ -256,7 +256,7 @@ define([
     QUnit.test('Required properties', function (assert) {
         QUnit.expect(1);
         assert.throws(
-            function () { controlPanelComponent({}) },
+            function () { controlPanelComponent({}); },
             function( err ) {
                 return err.toString() === 'Error: Control panel of the media editor is required sizeProps parameter';
             },
@@ -273,7 +273,8 @@ define([
         conf.showResponsiveToggle = true;
         controlPanelComponent(conf)
             .on('render', function () {
-                assert.equal($('.media-sizer', $container).hasClass('media-sizer-responsivetoggle-off'), false, 'Media sizer has not a class to hide the responsive toggle');
+                assert.equal($('.media-sizer', $container).hasClass('media-sizer-responsivetoggle-off'), false,
+                    'Media sizer does not have a class to hide the responsive toggle');
                 QUnit.start();
             })
             .render($container);

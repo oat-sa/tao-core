@@ -62,6 +62,8 @@ define([
      * @property originalSizeProps sizeProps
      * @property syncDimensions boolean
      * @property denyCustomRatio boolean
+     * @property precision number
+     * @property showReset boolean
      */
 
     /**
@@ -73,6 +75,7 @@ define([
 
     /**
      * Default values
+     * precision - precision for all calculations (0.00001)
      *
      * @type {{
      *    responsive: boolean,
@@ -83,7 +86,8 @@ define([
      *    height: number,
      *    minWidth: number,
      *    maxWidth: number,
-     *    sizeProps: SizeProps
+     *    sizeProps: SizeProps,
+     *    precision: number
      * }}
      * @private
      */
@@ -96,7 +100,8 @@ define([
         width: 0,
         height: 0,
         minWidth: 0,
-        maxWidth: 0
+        maxWidth: 0,
+        precision: 5
     };
 
     /**
@@ -113,12 +118,11 @@ define([
          * Round a decimal value to n digits
          *
          * @param {number} value
-         * @param {int} precision
          * @returns {number}
          * @private
          */
-        var _round = function _round(value, precision) {
-            var factor = Math.pow(10, precision);
+        var _round = function _round(value) {
+            var factor = Math.pow(10, _config.precision);
             return Math.round(value * factor) / factor;
         };
 
@@ -131,10 +135,7 @@ define([
             if (typeof val === 'string') {
                 val = parseFloat(val);
             }
-            if (typeof val !== 'number') {
-                val = 5; // min 5% maybe I need to make it configurable
-            }
-            return _round(val, 0);
+            return _round(val);
         };
 
         /**
@@ -189,9 +190,13 @@ define([
                 return (typeof _config.responsive !== 'undefined') ? !!_config.responsive : true;
             },
 
+            isResetAllowed: function isResetAllowed() {
+                return _config.showReset;
+            },
+
             recalculateRatio: function recalculateRatio() {
-                return this.getProp('sizeProps').ratio.current =
-                    _round(this.getProp('sizeProps').sizeProps.px.current.width / this.getProp('sizeProps').sizeProps.px.current.height, 0);
+                return _config.sizeProps.ratio.current =
+                    _round(_config.sizeProps.px.current.width / _config.sizeProps.sizeProps.px.current.height);
             },
 
             /**
@@ -201,18 +206,18 @@ define([
             percentChange: function percentChange(val) {
                 val = _parseVal(val);
                 // set current % value
-                this.getProp('sizeProps')['%'].current.width = val;
+                _config.sizeProps['%'].current.width = val;
                 // set to % input
-                // todo move upper this.getProp('sizeProps')['%'].width.val(val);
+                // todo move upper _config.sizeProps['%'].width.val(val);
                 // set to sliders
                 // todo move upper this.getProp('$sliders')['%'].val(val);
                 // todo move upper this.getProp('$sliders')['px'].val(val);
 
                 // recalculate px width
-                this.getProp('sizeProps')['px'].current.width =
-                    _round( (this.getProp('sizeProps')['px'].natural.width * val / 100) * this.getProp('sizeProps').ratio.current, 0);
+                _config.sizeProps['px'].current.width =
+                    _round( (_config.sizeProps['px'].natural.width * val / 100) * _config.sizeProps.ratio.current);
                 // recalculate px height
-                this.getProp('sizeProps')['px'].current.height = _round(this.getProp('sizeProps')['px'].natural.height * val / 100, 0);
+                _config.sizeProps['px'].current.height = _round(_config.sizeProps['px'].natural.height * val / 100);
 
                 this.trigger('changed');
             },
@@ -223,23 +228,23 @@ define([
              */
             widthChange: function widthChange(val) {
                 var ratio = _getActualRatio();
-                var prevPercent = this.getProp('sizeProps')['%'].current.width;
-                var prevVal = this.getProp('sizeProps')['px'].current.width;
+                var prevPercent = _config.sizeProps['%'].current.width;
+                var prevVal = _config.sizeProps.px.current.width;
                 val = _parseVal(val);
-                this.getProp('sizeProps')['px'].current.width = val;
-                // todo move upper this.getProp('sizeProps')['px'].width.val(val);
+                _config.sizeProps.px.current.width = val;
+                // todo move upper _config.sizeProps['px'].width.val(val);
 
                 // if sync
                 if (this.getProp('syncDimensions')) {
                     // calculate height
-                    this.getProp('sizeProps').px.current.height = val * ratio;
+                    _config.sizeProps.px.current.height = _round(val * ratio);
                     // set new height to the px input
-                    // todo move upper this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.height);
+                    // todo move upper this.getProp('$fields').px.width.val(_config.sizeProps.px.current.height);
 
                     // calculate percent
-                    this.getProp('sizeProps')['%'].current.width = _round(prevPercent * val / prevVal, 0);
+                    _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
                     // set to % input
-                    // todo move upper this.getProp('sizeProps')['%'].width.val(val);
+                    // todo move upper _config.sizeProps['%'].width.val(val);
                 } else {
                     this.recalculateRatio();
                 }
@@ -252,25 +257,25 @@ define([
              */
             heightChange: function heightChange(val) {
                 var ratio = _getActualRatio();
-                var prevPercent = this.getProp('sizeProps')['%'].current.width;
-                var prevVal = this.getProp('sizeProps')['px'].current.height;
+                var prevPercent = _config.sizeProps['%'].current.width;
+                var prevVal = _config.sizeProps['px'].current.height;
                 val = _parseVal(val);
                 // set height
-                this.getProp('sizeProps')['px'].current.height = val;
+                _config.sizeProps['px'].current.height = val;
                 // set height to px input
-                // todo move upper this.getProp('sizeProps')['px'].height.val(val);
+                // todo move upper _config.sizeProps['px'].height.val(val);
 
                 // if sync
                 if (this.getProp('syncDimensions')) {
                     // calculate width
-                    this.getProp('sizeProps').px.current.width = _round(val / ratio, 0);
+                    _config.sizeProps.px.current.width = _round(val / ratio);
                     // set new width to the px input
-                    // todo move upper this.getProp('$fields').px.width.val(this.getProp('sizeProps').px.current.width);
+                    // todo move upper this.getProp('$fields').px.width.val(_config.sizeProps.px.current.width);
 
                     // calculate percent
-                    this.getProp('sizeProps')['%'].current.width = _round(prevPercent * val / prevVal, 0);
+                    _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
                     // set to % input
-                    // todo move upper this.getProp('sizeProps')['%'].width.val(val);
+                    // todo move upper _config.sizeProps['%'].width.val(val);
                 } else {
                     this.recalculateRatio();
                 }
@@ -282,7 +287,7 @@ define([
         var controlPanelStateComponent = component(stateControl);
 
         _config = _.defaults(config || {}, _defaults);
-        if (!_config || !_config.sizeProps) {
+        if (!_config || !_config.hasOwnProperty('sizeProps') || _.isEmpty(_config.sizeProps)) {
             throw new Error('Control panel of the media editor is required sizeProps parameter');
         }
         _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
