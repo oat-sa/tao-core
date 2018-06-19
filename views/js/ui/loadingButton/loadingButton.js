@@ -95,14 +95,20 @@ define([
          */
         return component(buttonApi)
             .setTemplate(buttonTpl)
+            .on('enable', function(){
+                this.getElement().removeProp('disabled');
+            })
+            .on('disable', function(){
+                this.getElement().prop('disabled', true);
+            })
             .on('render', function() {
                 var self = this;
-                this.getElement().on('click', function(){
+                this.getElement().on('click', function(e){
+                    e.preventDefault();
                     if(!self.is('disabled') && !self.is('started') && !self.is('terminated')){
                         self.start();
                     }
                 });
-
             })
             .init(initConfig);
     };

@@ -63,7 +63,10 @@ interface TaskLogInterface extends LoggerAwareInterface
 
     const DEFAULT_LIMIT = 20;
 
-    const SUPER_USER = 'SuperUser';
+    /**
+     * It's not related to the user management, just a placeholder to distinguish the user running the script from CLI.
+     */
+    const SUPER_USER = 'cli-user';
 
     /**
      * @return void

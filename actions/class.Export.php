@@ -133,8 +133,7 @@ class tao_actions_Export extends tao_actions_CommonModule
             if ($html !== '') {
                 echo $html;
             } elseif (! is_null($file) && file_exists($file)) {
-                //TODO create a task and return the task data using TaskLogActionTrait::returnTaskJson()
-                $this->sendFileToClient($file, $selectedResource);
+                $this->sendFileToClient($file);
             }
             return;
 
@@ -227,7 +226,7 @@ class tao_actions_Export extends tao_actions_CommonModule
     /**
      * @param $file
      */
-    protected function sendFileToClient($file, $test)
+    protected function sendFileToClient($file)
     {
         setcookie("fileDownload", "true", 0, "/");
         tao_helpers_Export::outputFile(tao_helpers_Export::getRelativPath($file));
