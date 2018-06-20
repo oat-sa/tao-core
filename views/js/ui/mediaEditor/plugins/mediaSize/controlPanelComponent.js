@@ -105,6 +105,18 @@ define([
         var controlPanelComponent = component();
 
         /**
+         * Check that input in progress and we don't need to change anything
+         * @param val
+         * @returns {RegExpMatchArray | null}
+         */
+        var isInsignificantEnd = function isInsignificantEnd (val) {
+            if (typeof val !== 'string') {
+                val = val + '';
+            }
+            return val.match(/\.[0]*$/);
+        };
+
+        /**
          * Retrieve current size values in current unit
          *
          * @returns {{}}
@@ -300,6 +312,10 @@ define([
                                 value = $field.val().replace(/,/g, '.');
 
                             $field.val(value);
+                            if (isInsignificantEnd(value)) {
+                                // do nothing if .00 or something insignificant at the end of line
+                                return;
+                            }
 
                             if (value > $field.data('max')) {
                                 $field.val($field.data('max'));

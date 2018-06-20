@@ -159,19 +159,6 @@ define([
         };
 
         /**
-         * TODO move this check to the control panel, because this is only for the input GUI not a state to the keyup I guess?
-         * Check that input in progress and we don't need to change anything
-         * @param val
-         * @returns {RegExpMatchArray | null}
-         */
-        var isInsignificantEnd = function isInsignificantEnd (val) {
-            if (typeof val !== 'string') {
-                val = val + '';
-            }
-            return val.match(/\.[0]*$/);
-        };
-
-        /**
          * Additional components features
          * @type {{
          *  setProp: setProp,
@@ -242,10 +229,6 @@ define([
              * @param val
              */
             percentChange: function percentChange(val) {
-                if (isInsignificantEnd(val)) {
-                    return false;
-                }
-
                 val = _parseVal(val);
                 // set current % value
                 _config.sizeProps['%'].current.width = val;
@@ -266,9 +249,6 @@ define([
                 var ratio = _getActualRatio();
                 var prevPercent = _config.sizeProps['%'].current.width;
                 var prevVal = _config.sizeProps.px.current.width;
-                if (isInsignificantEnd(val)) {
-                    return false;
-                }
                 val = _parseVal(val);
                 _config.sizeProps.px.current.width = val;
                 // if sync
@@ -291,9 +271,6 @@ define([
                 var ratio = _getActualRatio();
                 var prevPercent = _config.sizeProps['%'].current.width;
                 var prevVal = _config.sizeProps['px'].current.height;
-                if (isInsignificantEnd(val)) {
-                    return false;
-                }
                 val = _parseVal(val);
                 // set height
                 _config.sizeProps['px'].current.height = val;
