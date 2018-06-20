@@ -42,14 +42,14 @@ trait ImportHandlerHelperTrait
             $fileInfo = $form->getValue('source');
 
             /** @var string $file */
-            $file = $form->getValue('importFile') ?: $fileInfo['uploaded_file'];
+            $file = $form->getValue('importFile') ?: $fileInfo['uploaded_file']; // key "importFile" used in CSV import
         } else if (isset($form['uploaded_file'])) {
             /** @var File $file */
             $file = $this->getUploadService()->getUploadDir()->getFile($form['uploaded_file']);
         }
 
         if (!$file) {
-            throw new \common_exception_Error('File to be imported not provided');
+            throw new \common_exception_Error('No source file for import');
         }
 
         return $file;
@@ -61,5 +61,15 @@ trait ImportHandlerHelperTrait
     protected function getUploadService()
     {
         return $this->getServiceLocator()->get(UploadService::SERVICE_ID);
+    }
+
+    public function getTaskParameters(\tao_helpers_form_Form $importForm)
+    {
+        // key "importFile" used in CSV import
+        $file = $this->getUploadService()->getUploadedFlyFile($importForm->getValue('importFile') ?: $importForm->getValue('source')['uploaded_file']);
+
+        return [
+            'uploaded_file' => $file->getPrefix(), // because of Async, we need the full path of the uploaded file
+        ];
     }
 }

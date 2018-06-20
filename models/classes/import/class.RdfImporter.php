@@ -24,6 +24,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\RdfImportEvent;
 use oat\tao\model\import\ImportHandlerHelperTrait;
+use oat\tao\model\import\TaskParameterProviderInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
@@ -33,7 +34,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @author  Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_import_RdfImporter implements tao_models_classes_import_ImportHandler, ServiceLocatorAwareInterface
+class tao_models_classes_import_RdfImporter implements tao_models_classes_import_ImportHandler, ServiceLocatorAwareInterface, TaskParameterProviderInterface
 {
     use EventManagerAwareTrait;
     use ImportHandlerHelperTrait;

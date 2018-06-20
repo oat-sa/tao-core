@@ -38,7 +38,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements tao_models_classes_import_ImportHandler, ServiceLocatorAwareInterface, TaskParameterProviderInterface
 {
     use EventManagerAwareTrait;
-    use ImportHandlerHelperTrait;
+    use ImportHandlerHelperTrait { getTaskParameters as getDefaultTaskParameters; }
 
     const OPTION_POSTFIX = '_O';
 
@@ -200,10 +200,13 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
      */
     public function getTaskParameters(tao_helpers_form_Form $form)
     {
-        return array_merge($form->getValues(), [
-            'property_mapping' => $form->getValues('property_mapping'),
-            'ranged_property' => $form->getValues('ranged_property')
-        ]);
+        return array_merge(
+            $form->getValues(),
+            [
+                'property_mapping' => $form->getValues('property_mapping'),
+                'ranged_property' => $form->getValues('ranged_property')
+            ],
+            $this->getDefaultTaskParameters($form));
     }
 
     /**

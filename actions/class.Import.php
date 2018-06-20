@@ -25,7 +25,6 @@ use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
-use oat\tao\model\upload\UploadService;
 
 /**
  * This controller provide the actions to import resources
@@ -49,6 +48,8 @@ class tao_actions_Import extends tao_actions_CommonModule
     {
         $importer = $this->getCurrentImporter();
 
+        $this->propagate($importer);
+
         $formContainer = new tao_actions_form_Import(
             $importer,
             $this->getAvailableImportHandlers(),
@@ -60,23 +61,11 @@ class tao_actions_Import extends tao_actions_CommonModule
             /** @var QueueDispatcher $queueDispatcher */
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
 
-            /** @var  UploadService $uploadService */
-            $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
-            $file = $uploadService->getUploadedFlyFile($importForm->getValue('importFile') ?: $importForm->getValue('source')['uploaded_file']);
-
-            $formValues = [
-                'uploaded_file' => $file->getPrefix(), // for Async, we need the full path of the uploaded file
-            ];
-
-            if ($importer instanceof TaskParameterProviderInterface) {
-                $formValues = array_merge($importer->getTaskParameters($importForm), $formValues);
-            }
-
             $task = $queueDispatcher->createTask(
                 new ImportByHandler(),
                 [
                     ImportByHandler::PARAM_IMPORT_HANDLER => get_class($importer),
-                    ImportByHandler::PARAM_FORM_VALUES => $formValues,
+                    ImportByHandler::PARAM_FORM_VALUES => $importer instanceof TaskParameterProviderInterface ? $importer->getTaskParameters($importForm) : [],
                     ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri()
                 ],
                 __('Import a "%s" into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
