@@ -218,6 +218,24 @@ define([
         }
     };
 
+    var getFields = function getFields($container) {
+        var $fields = {
+            '%': {width: null},
+            px: {
+                width: null,
+                height: null
+            }
+        };
+        var $percentBlock = $('.media-sizer-percent', $container);
+        var $percentEditorContainer = $('.item-editor-unit-input-box', $percentBlock);
+        var $pxBlock = $('.media-sizer-pixel', $container);
+        var $pxEditorContainer = $('.item-editor-unit-input-box', $pxBlock);
+        $fields['%'].width = $('input[name=width]', $percentEditorContainer);
+        $fields.px.width = $('input[name=width]', $pxEditorContainer);
+        $fields.px.height = $('input[name=height]', $pxEditorContainer);
+        return $fields;
+    };
+
     QUnit.module('API');
 
     QUnit.test('factory', function (assert) {
@@ -340,7 +358,7 @@ define([
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
-        conf.currentUtil = '%';
+        conf.sizeProps.currentUtil = '%';
         controlPanelComponent(conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', $container);
@@ -349,22 +367,23 @@ define([
                 var $sliderBox = $('.media-sizer-slider-box', $percentBlock);
                 var $sliderPosEl = $('.noUi-origin', $sliderBox);
                 var $sliderEl = $('.media-sizer-slider', $percentBlock);
-                var press = jQuery.Event("keyup", { keyCode: 51 });
 
+                // init with 100
                 assert.equal($percentInput.val(), 100, 'Width value is set to 100 percent');
                 assert.equal($sliderPosEl.prop('style').left, '100%', 'Slider has been set to 100%');
 
                 // percent changed in input to change the slider position as a result
                 $percentInput.val(3);
-                $percentInput.trigger(press);
-                assert.equal($percentInput.val(), 3, 'Width value is set to 100 percent');
-                assert.equal($sliderPosEl.prop('style').left, '3%', 'Slider has been set to 100%');
+                $percentInput.trigger('keyup');
+
+                assert.equal($percentInput.val(), 3, 'Width value is set to 3%');
+                assert.equal($sliderPosEl.prop('style').left, '3%', 'Slider has been set to 3%');
 
                 // and now if change slider value it will change value of the input
-                conf.$sliders['%'].val(37);
+                $sliderEl.val(37);
                 assert.equal($sliderPosEl.prop('style').left, '37%', 'Slider has been set to 37%');
                 assert.equal($percentInput.val(), 3, 'Input was not updated and still equals 3');
-                conf.$sliders['%'].trigger('slide');
+                $sliderEl.trigger('slide');
                 assert.equal($percentInput.val(), 37, 'Input was updated to 37');
 
                 $sliderEl.val(12);
@@ -379,7 +398,7 @@ define([
 
     QUnit.asyncTest('Allowed symbols in the input fields', function (assert) {
         var $container, conf;
-        QUnit.expect(52);
+        QUnit.expect(54);
 
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
@@ -388,21 +407,23 @@ define([
         controlPanelComponent(conf)
             .on('render', function () {
 
+                var $fields = getFields($container);
+
                 var checkInput = function checkInput (unit, dim, checker) {
-                    var input = conf.$fields[unit][dim];
+                    var input = $fields[unit][dim];
                     var keyup, keydown, code;
                     var i;
                     checker.value = '' + checker.value;
                     input.val('');
                     for (i = 0; i < checker.value.length; i++) {
-                        // get charcode doesn't work because of numpad
+                        // get charcode doesn't work because of numpad keys (charcode returns ascii)
                         code = keyboardKeyCodes['KEYCODES'].hasOwnProperty(checker.value[i]) ? parseInt(keyboardKeyCodes['KEYCODES'][checker.value[i]]) : 0;
-                        keydown = jQuery.Event("keydown", { keyCode: code });
+                        keydown = $.Event("keydown", { keyCode: code });
                         input.trigger(keydown);
                         if ( !keydown.isDefaultPrevented() ) {
                             input.val(input.val() + checker.value[i]);
                         }
-                        keyup = jQuery.Event("keyup", { keyCode: code });
+                        keyup = $.Event("keyup", { keyCode: code });
                         input.trigger(keyup);
                     }
                     assert.equal(input.val(), checker.expected, '[' + unit + '][' + dim + '] The value "' + checker.value + '" transformed to ' + checker.expected);
@@ -412,6 +433,21 @@ define([
                 var dims = ['height', 'width'];
 
                 var valuesToCheck = [{
+                    value: '0.000005',
+                    expected: 0.00001
+                }, {
+                    value: '0.000001',
+                    expected: 0
+                }, {
+                    value: '0.001',
+                    expected: 0.001
+                }, {
+                    value: '1234.0000000000',
+                    expected: 100 // because we have max in the field which allows us only 100 as a maximum
+                }, {
+                    value: '',
+                    expected: 0
+                }, {
                     value: '%',
                     expected: 0
                 }, {
@@ -455,8 +491,11 @@ define([
                 _.forEach(valuesToCheck, function(val) {
                     _.forEach(units, function (unit) {
                         _.forEach(dims, function (dim) {
+                            if (unit === '%' && dim === 'height') {
+                                return;
+                            }
                             checkInput(unit, dim, val);
-                        })
+                        });
                     });
                 });
 
@@ -467,12 +506,13 @@ define([
 
     QUnit.asyncTest('Pixels mode', function (assert) {
         var $container, conf;
-        // QUnit.expect(9);
+        QUnit.expect(14);
 
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
-        conf.currentUtil = 'px';
+        conf.sizeProps.currentUtil = 'px';
+        conf.syncDimensions = true;
         controlPanelComponent(conf)
             .on('render', function () {
                 var $pixelBlock = $('.media-sizer-pixel', $container);
@@ -482,44 +522,89 @@ define([
                 var $sliderBox = $('.media-sizer-slider-box', $pixelBlock);
                 var $sliderPosEl = $('.noUi-origin', $sliderBox);
                 var $sliderEl = $('.media-sizer-slider', $sliderBox);
-                var press = jQuery.Event("keyup", { keyCode: 51 });
 
                 assert.equal($widthInput.val(), 100, 'Width value is set to 100');
                 assert.equal($sliderPosEl.prop('style').left, '100%', 'Slider has been set to 100%');
 
                 // slider value change will change value of the inputs
-                conf.$sliders['px'].val(37);
+                $sliderEl.val(37);
                 assert.equal($sliderPosEl.prop('style').left, '37%', 'Slider has been set to 37%');
                 assert.equal($widthInput.val(), 100, 'Width input was not updated and still equals 100');
                 assert.equal($heightInput.val(), 100, 'Height input was not updated and still equals 100');
-                conf.$sliders['px'].trigger('slide');
+                $sliderEl.trigger('slide');
                 assert.equal($widthInput.val(), 37, 'Width input was updated to 37');
                 assert.equal($heightInput.val(), 37, 'Height input was updated to 37');
 
-                // change percent in input to change the slider position as a result
-                /*$percentInput.val(3);
-                $percentInput.trigger(press);
-                assert.equal($percentInput.val(), 3, 'Width value is set to 100 percent');
-                assert.equal($sliderPosEl.prop('style').left, '3%', 'Slider has been set to 100%');*/
+                // change width in input to change the slider position as a result (and height input value)
+                $widthInput.val(3);
+                $widthInput.trigger('keyup');
+                assert.equal($heightInput.val(), 3, 'Height value is set to 3');
+                assert.equal($sliderPosEl.prop('style').left, '3%', 'Slider has been set to 3%');
 
-                /*$sliderEl.val(12);
+                // same with height
+                $heightInput.val(5);
+                $heightInput.trigger('keyup');
+                assert.equal($widthInput.val(), 5, 'Height value is set to 3');
+                assert.equal($sliderPosEl.prop('style').left, '5%', 'Slider has been set to 5%');
+
+                $sliderEl.val(12);
                 assert.equal($sliderPosEl.prop('style').left, '12%', 'Slider has been set to 12%');
                 $sliderPosEl.trigger('slide');
-                assert.equal($percentInput.val(), 12, 'Input was updated to 12');*/
+                assert.equal($widthInput.val(), 12, 'Input was updated to 12');
+                assert.equal($heightInput.val(), 12, 'Input was updated to 12');
 
                 QUnit.start();
             })
             .render($container);
     });
 
-    QUnit.asyncTest('Sync method', function (assert) {
+
+    /**
+     * Workflow:
+     * - component created without synchronisation in the px mode [100x100 & 100% & ratio=1]
+     * - change width to 27 [27x100 & 100% & ratio=27/100=0.27]
+     * -
+     */
+    QUnit.asyncTest('Mixed [px & %] mode', function (assert) {
         var $container, conf;
-        // QUnit.expect(9);
+        // QUnit.expect(14);
 
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
+
+        conf.showResponsiveToggle = true;
+        conf.sizeProps.currentUtil = 'px';
+        conf.syncDimensions = false;
+
         controlPanelComponent(conf)
             .on('render', function () {
+                var $pixelBlock = $('.media-sizer-pixel', $container);
+                var $pxEditorContainer = $('.item-editor-unit-input-box', $pixelBlock);
+                var $widthInput = $('input[name=width]', $pxEditorContainer);
+                var $heightInput = $('input[name=height]', $pxEditorContainer);
+                var $pxSliderBox = $('.media-sizer-slider-box', $pixelBlock);
+                var $pxSliderPosEl = $('.noUi-origin', $pxSliderBox);
+                var $pxSliderEl = $('.media-sizer-slider', $pxSliderBox);
+
+                var $percentBlock = $('.media-sizer-percent', $container);
+                var $pcEditorContainer = $('.item-editor-unit-input-box', $percentBlock);
+                var $pcInput = $('input[name=width]', $pcEditorContainer);
+                var $pcSliderBox = $('.media-sizer-slider-box', $percentBlock);
+                var $pcSliderPosEl = $('.noUi-origin', $pcSliderBox);
+                var $pcSliderEl = $('.media-sizer-slider', $percentBlock);
+
+                assert.equal($widthInput.val(), 100, 'Width = 100');
+                assert.equal($heightInput.val(), 100, 'Height = 100');
+                assert.equal($pcInput.val(), 100, 'Height = 100');
+                assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
+                assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
+
+                $widthInput.val(27);
+                assert.equal($heightInput.val(), 100, 'Height = 100');
+                assert.equal($pcInput.val(), 100, 'Height = 100');
+                assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
+                assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
+
 
 
                 QUnit.start();

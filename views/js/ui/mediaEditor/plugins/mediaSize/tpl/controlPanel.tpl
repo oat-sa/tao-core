@@ -50,7 +50,6 @@
 
         <div class="media-sizer-slider-box">
             <div class="media-sizer-slider"></div>
-            <div class="media-sizer-cover"></div>
         </div>
     </div>
 </div>

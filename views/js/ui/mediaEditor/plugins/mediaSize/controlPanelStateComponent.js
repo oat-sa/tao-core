@@ -135,6 +135,9 @@ define([
             if (typeof val === 'string') {
                 val = parseFloat(val);
             }
+            if (!val) {
+                val = 0;
+            }
             return _round(val);
         };
 
@@ -155,6 +158,33 @@ define([
             return ratio ? ratio : 1;
         };
 
+        /**
+         * TODO move this check to the control panel, because this is only for the input GUI not a state to the keyup I guess?
+         * Check that input in progress and we don't need to change anything
+         * @param val
+         * @returns {RegExpMatchArray | null}
+         */
+        var isInsignificantEnd = function isInsignificantEnd (val) {
+            if (typeof val !== 'string') {
+                val = val + '';
+            }
+            return val.match(/\.[0]*$/);
+        };
+
+        /**
+         * Additional components features
+         * @type {{
+         *  setProp: setProp,
+          * getProp: (function(*=): null),
+          * setSizeProp: setSizeProp,
+          * isResponsive: (function(): boolean),
+          * isResetAllowed: (function()),
+          * recalculateRatio: (function(): number),
+          * percentChange: percentChange,
+          * widthChange: widthChange,
+          * heightChange: heightChange
+          * }}
+         */
         var stateControl = {
             /**
              * Set property of the control panel
@@ -190,13 +220,21 @@ define([
                 return (typeof _config.responsive !== 'undefined') ? !!_config.responsive : true;
             },
 
+            /**
+             * Check if it is possible to reset to default values
+             * @return {boolean}
+             */
             isResetAllowed: function isResetAllowed() {
                 return _config.showReset;
             },
 
+            /**
+             * Ratio for the further changes
+             * @returns {number}
+             */
             recalculateRatio: function recalculateRatio() {
                 return _config.sizeProps.ratio.current =
-                    _round(_config.sizeProps.px.current.width / _config.sizeProps.sizeProps.px.current.height);
+                    _round(_config.sizeProps.px.current.width / _config.sizeProps.px.current.height);
             },
 
             /**
@@ -204,15 +242,13 @@ define([
              * @param val
              */
             percentChange: function percentChange(val) {
+                if (isInsignificantEnd(val)) {
+                    return false;
+                }
+
                 val = _parseVal(val);
                 // set current % value
                 _config.sizeProps['%'].current.width = val;
-                // set to % input
-                // todo move upper _config.sizeProps['%'].width.val(val);
-                // set to sliders
-                // todo move upper this.getProp('$sliders')['%'].val(val);
-                // todo move upper this.getProp('$sliders')['px'].val(val);
-
                 // recalculate px width
                 _config.sizeProps['px'].current.width =
                     _round( (_config.sizeProps['px'].natural.width * val / 100) * _config.sizeProps.ratio.current);
@@ -230,21 +266,17 @@ define([
                 var ratio = _getActualRatio();
                 var prevPercent = _config.sizeProps['%'].current.width;
                 var prevVal = _config.sizeProps.px.current.width;
+                if (isInsignificantEnd(val)) {
+                    return false;
+                }
                 val = _parseVal(val);
                 _config.sizeProps.px.current.width = val;
-                // todo move upper _config.sizeProps['px'].width.val(val);
-
                 // if sync
-                if (this.getProp('syncDimensions')) {
+                if (_config.syncDimensions) {
                     // calculate height
                     _config.sizeProps.px.current.height = _round(val * ratio);
-                    // set new height to the px input
-                    // todo move upper this.getProp('$fields').px.width.val(_config.sizeProps.px.current.height);
-
                     // calculate percent
                     _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
-                    // set to % input
-                    // todo move upper _config.sizeProps['%'].width.val(val);
                 } else {
                     this.recalculateRatio();
                 }
@@ -259,27 +291,21 @@ define([
                 var ratio = _getActualRatio();
                 var prevPercent = _config.sizeProps['%'].current.width;
                 var prevVal = _config.sizeProps['px'].current.height;
+                if (isInsignificantEnd(val)) {
+                    return false;
+                }
                 val = _parseVal(val);
                 // set height
                 _config.sizeProps['px'].current.height = val;
-                // set height to px input
-                // todo move upper _config.sizeProps['px'].height.val(val);
-
                 // if sync
                 if (this.getProp('syncDimensions')) {
                     // calculate width
                     _config.sizeProps.px.current.width = _round(val / ratio);
-                    // set new width to the px input
-                    // todo move upper this.getProp('$fields').px.width.val(_config.sizeProps.px.current.width);
-
                     // calculate percent
                     _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
-                    // set to % input
-                    // todo move upper _config.sizeProps['%'].width.val(val);
                 } else {
                     this.recalculateRatio();
                 }
-
                 this.trigger('changed');
             }
         };

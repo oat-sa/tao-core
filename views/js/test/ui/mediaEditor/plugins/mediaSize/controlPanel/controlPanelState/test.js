@@ -107,7 +107,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, 1, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 1, 'The percent changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, 1, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, 1, 'The height changed according to percent');
             });
@@ -126,7 +126,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, 3, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 3, 'The percent changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, 236.85, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, 162.9, 'The height changed according to percent');
             });
@@ -157,7 +157,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, 0, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 0, 'The percent changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, 0, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, 0, 'The height changed according to percent');
             });
@@ -176,7 +176,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, 120, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 120, 'The percent changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, 120, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, 120, 'The height changed according to percent');
             });
@@ -197,7 +197,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, 50, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 50, 'The percent changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, 50, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, 50, 'The height changed according to percent');
             });
@@ -218,7 +218,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, 250, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 250, 'The percent changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, 250, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, 250, 'The height changed according to percent');
             });
@@ -254,7 +254,6 @@ define([
         assert.equal(comp.getProp('sizeProps').px.current.width, 100, 'The width set at init is correct');
         assert.equal(comp.getProp('sizeProps').px.current.height, 100, 'The height set at init is correct');
 
-        // over the range
         comp.widthChange(22.345676);
     });
 
@@ -262,7 +261,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, 0.27866, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 0.27866, 'The percent was changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, 22, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, 31.98711, 'The height changed according to percent');
             });
@@ -287,7 +286,6 @@ define([
         assert.equal(comp.getProp('sizeProps').px.current.width, 7895, 'The width set at init is correct');
         assert.equal(comp.getProp('sizeProps').px.current.height, 5430, 'The height set at init is correct');
 
-        // over the range
         comp.widthChange(22);
     });
 
@@ -295,7 +293,7 @@ define([
         var conf = _.cloneDeep(workingConfiguration);
         var comp = ControlPanelStateComponent(conf)
             .on('changed', function() {
-                assert.equal(comp.getProp('sizeProps')['%'].current.width, -0.28433, 'The percent were changed');
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, -0.28433, 'The percent was changed');
                 assert.equal(comp.getProp('sizeProps').px.current.width, -22.4477, 'The width changed according to percent');
                 assert.equal(comp.getProp('sizeProps').px.current.height, -32.63805, 'The height changed according to percent');
             });
@@ -320,7 +318,104 @@ define([
         assert.equal(comp.getProp('sizeProps').px.current.width, 7895, 'The width set at init is correct');
         assert.equal(comp.getProp('sizeProps').px.current.height, 5430, 'The height set at init is correct');
 
-        // over the range
         comp.widthChange(-22.4477);
+    });
+
+    QUnit.module('Without synchronization');
+
+    QUnit.test('Change percent', function (assert) {
+        var conf = _.cloneDeep(workingConfiguration);
+        var comp = ControlPanelStateComponent(conf)
+            .on('changed', function() {
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 20, 'The percent was changed');
+                assert.equal(comp.getProp('sizeProps').px.current.width, 1579, 'The width changed according to percent');
+                assert.equal(comp.getProp('sizeProps').px.current.height, 1086, 'The height changed according to percent');
+            });
+
+        QUnit.expect(6);
+
+        conf.syncDimensions = false;
+        // make calculation more difficult
+        conf.sizeProps.px = {
+            natural: {
+                width: 7895,
+                height: 5430
+            },
+            current: {
+                width: 7895,
+                height: 5430
+            }
+        };
+
+        // before change
+        assert.equal(comp.getProp('sizeProps')['%'].current.width, 100, 'The percent set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.width, 7895, 'The width set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.height, 5430, 'The height set at init is correct');
+
+        comp.percentChange(20);
+    });
+
+    QUnit.test('Change width', function (assert) {
+        var conf = _.cloneDeep(workingConfiguration);
+        var comp = ControlPanelStateComponent(conf)
+            .on('changed', function() {
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 100, 'The percent was NOT changed');
+                assert.equal(comp.getProp('sizeProps').px.current.width, 20, 'The width was changed');
+                assert.equal(comp.getProp('sizeProps').px.current.height, 5430, 'The height was NOT changed');
+            });
+
+        QUnit.expect(6);
+
+        conf.syncDimensions = false;
+        // make calculation more difficult
+        conf.sizeProps.px = {
+            natural: {
+                width: 7895,
+                height: 5430
+            },
+            current: {
+                width: 7895,
+                height: 5430
+            }
+        };
+
+        // before change
+        assert.equal(comp.getProp('sizeProps')['%'].current.width, 100, 'The percent set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.width, 7895, 'The width set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.height, 5430, 'The height set at init is correct');
+
+        comp.widthChange(20);
+    });
+
+    QUnit.test('Change height', function (assert) {
+        var conf = _.cloneDeep(workingConfiguration);
+        var comp = ControlPanelStateComponent(conf)
+            .on('changed', function() {
+                assert.equal(comp.getProp('sizeProps')['%'].current.width, 100, 'The percent was NOT changed');
+                assert.equal(comp.getProp('sizeProps').px.current.width, 7895, 'The width was changed');
+                assert.equal(comp.getProp('sizeProps').px.current.height, 20, 'The height was NOT changed');
+            });
+
+        QUnit.expect(6);
+
+        conf.syncDimensions = false;
+        // make calculation more difficult
+        conf.sizeProps.px = {
+            natural: {
+                width: 7895,
+                height: 5430
+            },
+            current: {
+                width: 7895,
+                height: 5430
+            }
+        };
+
+        // before change
+        assert.equal(comp.getProp('sizeProps')['%'].current.width, 100, 'The percent set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.width, 7895, 'The width set at init is correct');
+        assert.equal(comp.getProp('sizeProps').px.current.height, 5430, 'The height set at init is correct');
+
+        comp.heightChange(20);
     });
 });

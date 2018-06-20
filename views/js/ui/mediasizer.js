@@ -194,7 +194,6 @@ define([
 
         },
 
-
         /**
          * Toggle width/height synchronization
          *

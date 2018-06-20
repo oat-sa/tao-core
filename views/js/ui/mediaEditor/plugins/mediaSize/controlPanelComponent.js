@@ -80,8 +80,8 @@ define([
      *
      * @param {Object} config
      * @param {Boolean} [config.responsive] - If media can be responsive
-     * @param {Boolean} [config.showSync] - todo
-     * @param {Boolean} [config.showReset] - todo
+     * @param {Boolean} [config.showSync]
+     * @param {Boolean} [config.showReset]
      * @fires "render" after the component rendering
      * @fires "destroy" after the component destroying
      *
@@ -90,12 +90,14 @@ define([
     return function controlPanelFactory (config) {
 
         /**
+         * Collections of the jquery elements grouped by type
+         */
+        var $blocks, $sliders, $fields, $syncBtn, $resetBtn;
+
+        /**
          * State of the component
          */
-        var controlPanelStateComponent = controlPanelStateComponentFactory(config)
-            .on('change', function () {
-                // console.warn('changed');
-            });
+        var controlPanelStateComponent = controlPanelStateComponentFactory(config);
 
         /**
          * Current component
@@ -135,8 +137,9 @@ define([
          */
         var _publicArgs = function _publicArgs() {
             var params = _getValues();
+            // todo I don't need a target in the state
             params.$target = controlPanelStateComponent.getProp('target') || $();
-            params.$resetBtn = controlPanelStateComponent.getProp('$resetBtn');
+            params.$resetBtn = $resetBtn;
             return params;
         };
 
@@ -147,7 +150,7 @@ define([
          * @returns {{}}
          * @private
          */
-        var _initBlocks = function ($elt) {
+        var _initBlocks = function _initBlocks ($elt) {
             var _blocks = {},
                 $responsiveToggleField = $elt.find('.media-mode-switch'),
                 _checkMode = function () {
@@ -155,10 +158,11 @@ define([
                         _blocks.px.hide();
                         _blocks['%'].show();
                         controlPanelStateComponent.setSizeProp('currentUtil', '%');
-                        if (controlPanelStateComponent.getProp('$fields')
-                            && controlPanelStateComponent.getProp('$fields')['%'].width.val() > controlPanelStateComponent.getProp('$sliders')['%'].max) {
-                            controlPanelStateComponent.getProp('$fields')['%'].width.val(_config.sizeProps.sliders['%'].max);
-                            controlPanelStateComponent.percentChange(controlPanelStateComponent.getProp('$fields')['%'].width.val());
+                        if ($fields
+                            && $fields['%'].width.val() > $sliders['%'].max
+                        ) {
+                            $fields['%'].width.val(controlPanelStateComponent.getProp('sizeProps').sliders['%'].max);
+                            controlPanelStateComponent.percentChange($fields['%'].width.val());
                         }
                     } else {
                         _blocks['%'].hide();
@@ -186,7 +190,7 @@ define([
                 $elt.trigger('sizechange', _publicArgs());
             });
 
-            $responsiveToggleField.prop('checked', controlPanelStateComponent.isResponsive());
+            $responsiveToggleField.prop('checked', controlPanelStateComponent.getProp('sizeProps').currentUtil === '%');
 
             // initialize it properly
             _checkMode();
@@ -201,24 +205,22 @@ define([
          * @returns {*}
          * @private
          */
-        var _initSyncBtn = function ($elt) {
+        var _initSyncBtn = function _initSyncBtn ($elt) {
             var $mediaSizer = $elt.find('.media-sizer'),
-                $syncBtn = $elt.find('.media-sizer-sync');
+                $btn = $elt.find('.media-sizer-sync');
 
             if(!controlPanelStateComponent.getProp('showSync')) {
-                $syncBtn.hide();
+                $btn.hide();
                 $mediaSizer.addClass('media-sizer-sync-off');
             }
             // this stays intact even if hidden in case it will be
             // displayed from somewhere else
-            $syncBtn.on('click', function () {
-                $mediaSizer.toggleClass('media-sizer-synced');
-                controlPanelStateComponent.setProp('syncDimensions', $mediaSizer.hasClass('media-sizer-synced'));
-                if ($mediaSizer.hasClass('media-sizer-synced')) {
-                    controlPanelStateComponent.percentChange(controlPanelStateComponent.getProp('$fields').px.width);
-                }
+            $btn.on('click', function () {
+                var $sizerEl = $(this).parents('.media-sizer');
+                $sizerEl.toggleClass('media-sizer-synced');
+                controlPanelStateComponent.setProp('syncDimensions', $sizerEl.hasClass('media-sizer-synced'));
             });
-            return $syncBtn;
+            return $btn;
         };
 
         /**
@@ -228,8 +230,8 @@ define([
          * @returns {*}
          * @private
          */
-        var _initResetBtn = function($elt) {
-            var $resetBtn = $elt.find('.media-sizer-reset');
+        var _initResetBtn = function _initResetBtn ($elt) {
+            var $btn = $elt.find('.media-sizer-reset');
 
             if(!controlPanelStateComponent.isResetAllowed()) {
                 $elt.find('.media-sizer').addClass('media-sizer-reset-off');
@@ -237,13 +239,13 @@ define([
 
             // this stays intact even if hidden in case it will be
             // displayed from somewhere else
-            $resetBtn.on('click', function() {
+            $btn.on('click', function() {
                 // this will take care of all other size changes
-                controlPanelStateComponent.getProp('$fields').px.width
+                $fields.px.width
                         .val(controlPanelStateComponent.getProp('originalSizeProps').px.current.width)
                         .trigger('sliderchange');
             });
-            return $resetBtn;
+            return $btn;
         };
 
         /**
@@ -252,17 +254,17 @@ define([
          * @returns {{}}
          * @private
          */
-        var _initFields = function () {
+        var _initFields = function _initFields () {
 
             var dimensions = ['width', 'height'],
                 field, _fields = {};
 
-            _(controlPanelStateComponent.getProp('$blocks')).forOwn(function ($block, unit) {
+            _($blocks).forOwn(function ($block, unit) {
                 _fields[unit] = {};
 
-                controlPanelStateComponent.getProp('$blocks')[unit].find('input').each(function () {
+                $blocks[unit].find('input').each(function () {
                     _(dimensions).forEach(function (dim) {
-                        field = controlPanelStateComponent.getProp('$blocks')[unit].find('[name="' + dim + '"]');
+                        field = $blocks[unit].find('[name="' + dim + '"]');
                         // there is no 'height' field for % - $('<input>') is a dummy to avoid checking if the field exists all the time
                         _fields[unit][dim] = field.length ? field : $('<input>');
                         _fields[unit][dim].prop({
@@ -301,9 +303,11 @@ define([
 
                             if (value > $field.data('max')) {
                                 $field.val($field.data('max'));
+                                value = $field.data('max')+'';
                             }
                             else if (value < $field.data('min')) {
                                 $field.val($field.data('min'));
+                                value = $field.data('min')+'';
                             }
 
                             if ($field.prop('unit') === '%') {
@@ -315,7 +319,6 @@ define([
                                     controlPanelStateComponent.widthChange(value);
                                 }
                             }
-
                         });
                     });
                 });
@@ -330,10 +333,10 @@ define([
          * @returns {{}}
          * @private
          */
-        var _initSliders = function () {
+        var _initSliders = function _initSliders () {
             var _sliders = {};
 
-            _(controlPanelStateComponent.getProp('$blocks')).forOwn(function ($block, unit) {
+            _($blocks).forOwn(function ($block, unit) {
                 _sliders[unit] = $block.find('.media-sizer-slider');
                 _sliders[unit].prop('unit', unit);
                 _sliders[unit].noUiSlider({
@@ -345,30 +348,47 @@ define([
                 })
                     .on('slide', function () {
                         var $slider = $(this);
-                        controlPanelStateComponent.percentChange($slider.val());
-                        /*controlPanelStateComponent.getProp('sizeProps').$fields[_unit].width
-                            .val($slider.val())
-                            .trigger('sliderchange');*/
+                        var sliderVal = $slider.val();
+                        // to avoid .00
+                        sliderVal = parseFloat(sliderVal) + '';
+                        controlPanelStateComponent.percentChange(sliderVal);
                     });
             });
 
             return _sliders;
         };
 
+        controlPanelStateComponent.on('changed', function () {
+            // slide sliders
+            $sliders['%'].val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
+            $sliders.px.val(controlPanelStateComponent.getProp('sizeProps').px.current.width);
+            // percent Input
+            $fields['%'].width.val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
+            // px inputs
+            $fields.px.width.val(controlPanelStateComponent.getProp('sizeProps').px.current.width);
+            $fields.px.height.val(controlPanelStateComponent.getProp('sizeProps').px.current.height);
+        });
+
         controlPanelComponent
             .on('render', function () {
                 var $tpl = $(tpl({
                     responsive: controlPanelStateComponent.isResponsive()
                 }));
+                var $mediaSizer = $tpl.find('.media-sizer');
 
                 $tpl.appendTo(this.getContainer());
 
-                controlPanelStateComponent.setProp('syncDimensions', $tpl.find('.media-sizer').hasClass('media-sizer-synced'));
-                controlPanelStateComponent.setProp('$blocks', _initBlocks($tpl));
-                controlPanelStateComponent.setProp('$sliders', _initSliders());
-                controlPanelStateComponent.setProp('$fields', _initFields($tpl));
-                controlPanelStateComponent.setProp('$syncBtn', _initSyncBtn($tpl));
-                controlPanelStateComponent.setProp('$resetBtn', _initResetBtn($tpl));
+                if (controlPanelStateComponent.getProp('syncDimensions') === true
+                    && !$mediaSizer.hasClass('media-sizer-synced')
+                ) {
+                    $mediaSizer.addClass('media-sizer-synced');
+                }
+
+                $blocks = _initBlocks($tpl);
+                $sliders = _initSliders();
+                $fields = _initFields();
+                $syncBtn = _initSyncBtn($tpl);
+                $resetBtn = _initResetBtn($tpl);
 
                 // control state
                 _publicArgs();
