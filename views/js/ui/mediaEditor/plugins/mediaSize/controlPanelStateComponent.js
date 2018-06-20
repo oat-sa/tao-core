@@ -30,21 +30,23 @@ define([
      * @property px {{
      *        natural: {
      *          width: number,
-     *          height: number
+     *          height: number,
      *        },
      *        current: {
      *          width: number,
-     *          height: number
+     *          height: number,
      *        }
      *      }}
      * @property '%' {{
      *        natural: {
      *          width: number,
-     *          height: number
+     *          height: number,
+     *          slider: number
      *        },
      *        current: {
      *          width: number,
-     *          height: number
+     *          height: number,
+     *          slider: number
      *        }
      *      }}
      * @property ratio {{
@@ -97,6 +99,7 @@ define([
         showReset: true,
         sizeProps: {},
         denyCustomRatio: false,
+        syncDimensions: true,
         width: 0,
         height: 0,
         minWidth: 0,
@@ -217,10 +220,9 @@ define([
 
             /**
              * Ratio for the further changes
-             * @returns {number}
              */
             recalculateRatio: function recalculateRatio() {
-                return _config.sizeProps.ratio.current =
+                _config.sizeProps.ratio.current =
                     _round(_config.sizeProps.px.current.width / _config.sizeProps.px.current.height);
             },
 
@@ -251,14 +253,11 @@ define([
                 var prevVal = _config.sizeProps.px.current.width;
                 val = _parseVal(val);
                 _config.sizeProps.px.current.width = val;
-                // if sync
-                if (_config.syncDimensions) {
-                    // calculate height
-                    _config.sizeProps.px.current.height = _round(val * ratio);
-                    // calculate percent
-                    _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
-                } else {
+                if (!_config.syncDimensions) {
                     this.recalculateRatio();
+                } else {
+                    _config.sizeProps.px.current.height = _round(val * ratio);
+                    _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
                 }
                 this.trigger('changed');
             },
@@ -274,15 +273,20 @@ define([
                 val = _parseVal(val);
                 // set height
                 _config.sizeProps['px'].current.height = val;
-                // if sync
-                if (this.getProp('syncDimensions')) {
-                    // calculate width
-                    _config.sizeProps.px.current.width = _round(val / ratio);
-                    // calculate percent
-                    _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
-                } else {
+                if (!_config.syncDimensions) {
                     this.recalculateRatio();
+                } else {
+                    _config.sizeProps.px.current.width = _round(val / ratio);
+                    _config.sizeProps['%'].current.width = _round(prevPercent * val / prevVal);
                 }
+                this.trigger('changed');
+            },
+
+            /**
+             * Restore default state
+             */
+            reset: function reset () {
+                _config.sizeProps = _config.originalSizeProps;
                 this.trigger('changed');
             }
         };
@@ -295,9 +299,7 @@ define([
         }
         _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
 
-        controlPanelStateComponent
-            .init(_config);
-
+        controlPanelStateComponent.init(_config);
         return controlPanelStateComponent;
     };
 });

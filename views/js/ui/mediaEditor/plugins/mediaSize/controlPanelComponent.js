@@ -92,7 +92,7 @@ define([
         /**
          * Collections of the jquery elements grouped by type
          */
-        var $blocks, $sliders, $fields, $syncBtn, $resetBtn;
+        var $blocks, $sliders, $fields, $resetBtn;
 
         /**
          * State of the component
@@ -149,7 +149,7 @@ define([
          */
         var _publicArgs = function _publicArgs() {
             var params = _getValues();
-            // todo I don't need a target in the state
+            // todo I don't need a target in the state or anywhere else
             params.$target = controlPanelStateComponent.getProp('target') || $();
             params.$resetBtn = $resetBtn;
             return params;
@@ -252,10 +252,7 @@ define([
             // this stays intact even if hidden in case it will be
             // displayed from somewhere else
             $btn.on('click', function() {
-                // this will take care of all other size changes
-                $fields.px.width
-                        .val(controlPanelStateComponent.getProp('originalSizeProps').px.current.width)
-                        .trigger('sliderchange');
+                controlPanelStateComponent.reset();
             });
             return $btn;
         };
@@ -377,7 +374,7 @@ define([
         controlPanelStateComponent.on('changed', function () {
             // slide sliders
             $sliders['%'].val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
-            $sliders.px.val(controlPanelStateComponent.getProp('sizeProps').px.current.width);
+            $sliders.px.val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
             // percent Input
             $fields['%'].width.val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
             // px inputs
@@ -403,7 +400,7 @@ define([
                 $blocks = _initBlocks($tpl);
                 $sliders = _initSliders();
                 $fields = _initFields();
-                $syncBtn = _initSyncBtn($tpl);
+                _initSyncBtn($tpl);
                 $resetBtn = _initResetBtn($tpl);
 
                 // control state

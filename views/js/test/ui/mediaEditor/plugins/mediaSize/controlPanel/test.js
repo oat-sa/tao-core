@@ -536,8 +536,7 @@ define([
                 assert.equal($heightInput.val(), 37, 'Height input was updated to 37');
 
                 // change width in input to change the slider position as a result (and height input value)
-                $widthInput.val(3);
-                $widthInput.trigger('keyup');
+                $widthInput.val(3).trigger('keyup');
                 assert.equal($heightInput.val(), 3, 'Height value is set to 3');
                 assert.equal($sliderPosEl.prop('style').left, '3%', 'Slider has been set to 3%');
 
@@ -558,16 +557,17 @@ define([
             .render($container);
     });
 
-
     /**
      * Workflow:
      * - component created without synchronisation in the px mode [100x100 & 100% & ratio=1]
      * - change width to 27 [27x100 & 100% & ratio=27/100=0.27]
-     * -
+     * - change percent by PX slider to 50% [13.5x50 & 50% & ratio=0.27]
+     * - change height to 27 [27x27 & 50% & ratio=27/27=1]
+     * - change percent by PC slider to 100% [100x100 & 100% & ratio=1
      */
     QUnit.asyncTest('Mixed [px & %] mode', function (assert) {
         var $container, conf;
-        // QUnit.expect(14);
+        QUnit.expect(26);
 
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
@@ -593,19 +593,42 @@ define([
                 var $pcSliderPosEl = $('.noUi-origin', $pcSliderBox);
                 var $pcSliderEl = $('.media-sizer-slider', $percentBlock);
 
+                assert.ok(true, 'component created without synchronisation in the px mode [100x100 & 100% & ratio=1]');
                 assert.equal($widthInput.val(), 100, 'Width = 100');
                 assert.equal($heightInput.val(), 100, 'Height = 100');
-                assert.equal($pcInput.val(), 100, 'Height = 100');
+                assert.equal($pcInput.val(), 100, 'Percent input = 100');
                 assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
                 assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
 
+                assert.ok(true, 'change width to 27 [27x100 & 100% & ratio=27/100=0.27]');
                 $widthInput.val(27);
+                $widthInput.trigger('keyup'); // to apply changes in State
                 assert.equal($heightInput.val(), 100, 'Height = 100');
-                assert.equal($pcInput.val(), 100, 'Height = 100');
+                assert.equal($pcInput.val(), 100, 'Percent input = 100');
                 assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
                 assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
 
+                assert.ok(true, 'change percent by PX slider to 50% [13.5x50 & 50% & ratio=0.27]');
+                $pxSliderEl.val(50);
+                assert.equal($pxSliderPosEl.prop('style').left, '50%', 'Slider px = 50%');
+                $pxSliderPosEl.trigger('slide');
+                assert.equal($pcSliderPosEl.prop('style').left, '50%', 'Slider pc = 50%');
+                assert.equal($widthInput.val(), 13.5, 'Width = 13.5');
+                assert.equal($heightInput.val(), 50, 'Height = 50');
 
+                assert.ok(true, 'change height to 13.5 [13.5x13.5 & 50% & ratio=27/27=1]');
+                $heightInput.val(13.5).trigger('keyup');
+                assert.equal($widthInput.val(), 13.5, 'Width = 13.5');
+                assert.equal($pcInput.val(), 50, 'Percent input = 50');
+                assert.equal($pxSliderPosEl.prop('style').left, '50%', 'Slider px = 50%');
+                assert.equal($pcSliderPosEl.prop('style').left, '50%', 'Slider pc = 50%');
+
+                assert.ok(true, 'change percent by PC slider to 100% [100x100 & 100% & ratio=1]');
+                $pcSliderEl.val(100).trigger('slide');
+                assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
+                assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
+                assert.equal($widthInput.val(), 100, 'Width = 100');
+                assert.equal($heightInput.val(), 100, 'Height = 100');
 
                 QUnit.start();
             })
@@ -614,7 +637,7 @@ define([
 
     QUnit.module('Demo');
 
-    QUnit.test('preview components workflow', function (assert) {
+    QUnit.test('Preview components workflow', function (assert) {
         var $container, conf;
         var $demoContainer = $('<div class="demo-container" style="position: relative; max-width: 185px">');
 
