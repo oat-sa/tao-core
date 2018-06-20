@@ -32,6 +32,11 @@ use oat\oatbox\event\EventManagerAwareTrait;
  */
 class tao_actions_Import extends tao_actions_CommonModule
 {
+    /**
+     * @var tao_models_classes_import_ImportHandler[]
+     */
+    private $availableHandlers = [];
+
     use EventManagerAwareTrait;
 
     /**
@@ -67,37 +72,40 @@ class tao_actions_Import extends tao_actions_CommonModule
     }
 
     /**
-     * Returns the currently selecte importhandler
-     * or the importhandler to use by default
+     * Returns the currently selected import handler
+     * or the import handler to use by default
      *
      * @return tao_models_classes_import_ImportHandler
      */
     protected function getCurrentImporter()
     {
         if ($this->hasRequestParameter('importHandler')) {
-            //$importHandlerClass = $this->getRequestParameter('importHandler');
-            $importHandlerClass = $_POST['importHandler'];
             foreach ($this->getAvailableImportHandlers() as $importHandler) {
-                if (get_class($importHandler) == $importHandlerClass) {
+                if (get_class($importHandler) == $_POST['importHandler']) {
                     return $importHandler;
                 }
             }
         }
 
-        return current($this->getAvailableImportHandlers());
+        return reset($this->getAvailableImportHandlers());
     }
 
     /**
      * Gets the available import handlers for this module
-     * Should be overwritten by extensions that want to provide
-     * additional Importhandlers
+     * Should be overwritten by extensions that want to provide additional ImportHandlers
+     *
+     * @return tao_models_classes_import_ImportHandler[]
      */
     protected function getAvailableImportHandlers()
     {
-        return [
-            new tao_models_classes_import_RdfImporter(),
-            new tao_models_classes_import_CsvImporter()
-        ];
+        if (empty($this->availableHandlers)) {
+            $this->availableHandlers = [
+                new tao_models_classes_import_RdfImporter(),
+                new tao_models_classes_import_CsvImporter()
+            ];
+        }
+
+        return $this->availableHandlers;
     }
 
     /**
