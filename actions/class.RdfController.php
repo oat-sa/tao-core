@@ -357,7 +357,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             }
         }
 
-        $this->setData('formTitle', __('Edit class %s', $clazz->getLabel()));
+        $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($clazz->getLabel())));
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
@@ -429,7 +429,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 $properties = $myForm->getValues();
                 $instance = $this->createInstance(array($clazz), $properties);
 
-                $this->setData('message', __($instance->getLabel().' created'));
+                $this->setData('message', __('%s created', $instance->getLabel()));
                 $this->setData('reload', true);
                 //return $this->redirect(_url('editInstance', null, null, array('uri' => $instance)));
             }

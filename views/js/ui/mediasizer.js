@@ -372,7 +372,7 @@ define([
                 options.sizeProps.ratio.current = options.sizeProps.px.current.width / options.sizeProps.px.current.height;
             }
             ratio = options.denyCustomRatio ? options.sizeProps.ratio.natural : options.sizeProps.ratio.current;
-
+            ratio = ratio ? ratio : 1;
 
             // There is only one scenario where dimension != width: manual input of the height in px
             // this is treated here separately because then we just need to deal with widths below

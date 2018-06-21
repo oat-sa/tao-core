@@ -27,6 +27,8 @@
  * .on('finished')
  * .render('body')
  * .start();
+ *
+ * @deprecated may be removed along the old task queue
  */
 define([
     'jquery',

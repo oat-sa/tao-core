@@ -70,11 +70,10 @@ define([
                     this.disableButton(this.forwardButton());
                 },
                 enable: function enable() {
-                    this.enableButton(this.backwardButton());
-                    this.enableButton(this.forwardButton());
+                    // for that provider everything will be done in the pagination.js
                 }
             };
-        },
+        }
     };
 
     return pagination;

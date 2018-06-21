@@ -48,6 +48,7 @@
  * });
  *
  * @author Sam <sam@taotesting.com>
+ * @deprected this is the legacy task queue management api, please use views/js/core/taskQueue/taskQueue.js instead
  */
 define([
     'lodash',

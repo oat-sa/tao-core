@@ -1,0 +1,15 @@
+{
+    "success": true,
+    "data": {
+        "id": "rdf#i15083379701993186432222",
+        "taskName": "Task Name 2",
+        "taskLabel": "Task label 2",
+        "status": "in_progress",
+        "owner": "userId",
+        "createdAt": "1510149584",
+        "updatedAt": "1510149574",
+        "file": false,
+        "category": "publish",
+        "report": null
+    }
+}

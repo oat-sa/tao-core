@@ -22,7 +22,6 @@ namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
@@ -42,11 +41,11 @@ class GenerisSearch extends ConfigurableService implements Search
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $type, $start = 0, $count = 10) {
+    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC') {
         $rootClass = $this->getClass($type);
-        $results = $rootClass->searchInstances(array(
+        $results = $rootClass->searchInstances([
             OntologyRdfs::RDFS_LABEL => $queryString
-        ), array(
+        ], array(
             'recursive' => true,
             'like'      => true,
             'offset'    => $start,
@@ -58,9 +57,8 @@ class GenerisSearch extends ConfigurableService implements Search
         }
 
         return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
-
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::flush()
@@ -106,7 +104,11 @@ class GenerisSearch extends ConfigurableService implements Search
     public function index($document = [])
     {
         // nothing to do
-        return true;
+        $i = 0;
+        foreach ($document as $resuource) {
+            $i++;
+        }
+        return $i;
     }
     
     /**

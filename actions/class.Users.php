@@ -31,6 +31,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\UserLocks;
+use oat\oatbox\user\UserLanguageServiceInterface;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -44,10 +45,6 @@ class tao_actions_Users extends tao_actions_CommonModule
 {
     use EventManagerAwareTrait;
     use OntologyAwareTrait;
-    /**
-     * @var tao_models_classes_UserService
-     */
-    protected $userService = null;
 
     /**
      * Constructor performs initializations actions
@@ -56,15 +53,12 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function __construct()
     {
         parent::__construct();
-
-        $this->userService = tao_models_classes_UserService::singleton();
         $this->defaultData();
-
         $extManager = common_ext_ExtensionsManager::singleton();
     }
 
     /** @return UserLocks */
-    public function getUserLocksService()
+    private function getUserLocksService()
     {
         return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
     }
@@ -75,6 +69,8 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function index()
     {
+        $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
+        $this->setData('user-data-lang-enabled', $userLangService->isDataLanguageEnabled());
         $this->setView('user/list.tpl');
     }
 
@@ -86,6 +82,8 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function data()
     {
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
+        $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
         $page = $this->getRequestParameter('page');
         $limit = $this->getRequestParameter('rows');
         $sortBy = $this->getRequestParameter('sortby');
@@ -99,9 +97,12 @@ class tao_actions_Users extends tao_actions_CommonModule
             'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
             'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
             'email' => GenerisRdf::PROPERTY_USER_MAIL,
-            'dataLg' => GenerisRdf::PROPERTY_USER_DEFLG,
-            'guiLg' => GenerisRdf::PROPERTY_USER_UILG
+            'guiLg' => GenerisRdf::PROPERTY_USER_UILG,
+            'roles' => GenerisRdf::PROPERTY_USER_ROLES
         ];
+        if ($userLangService->isDataLanguageEnabled()) {
+            $fieldsMap['dataLg'] = GenerisRdf::PROPERTY_USER_DEFLG;
+        }
 
         // sorting
         $order = array_key_exists($sortBy, $fieldsMap) ? $fieldsMap[$sortBy] : $fieldsMap['login'];
@@ -131,10 +132,10 @@ class tao_actions_Users extends tao_actions_CommonModule
         );
 
         // get total user count...
-        $total = $this->userService->getCountUsers($options, $filters);
+        $total = $userService->getCountUsers($options, $filters);
 
         // get the users using requested paging...
-        $users = $this->userService->getAllUsers(array_merge($options, [
+        $users = $userService->getAllUsers(array_merge($options, [
             'offset' => $start,
             'limit' => $limit
         ]), $filters);
@@ -148,15 +149,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         /** @var core_kernel_classes_Resource $user */
         foreach ($users as $user) {
 
-            $propValues = $user->getPropertiesValues(array(
-                GenerisRdf::PROPERTY_USER_LOGIN,
-                GenerisRdf::PROPERTY_USER_FIRSTNAME,
-                GenerisRdf::PROPERTY_USER_LASTNAME,
-                GenerisRdf::PROPERTY_USER_MAIL,
-                GenerisRdf::PROPERTY_USER_DEFLG,
-                GenerisRdf::PROPERTY_USER_UILG,
-                GenerisRdf::PROPERTY_USER_ROLES
-            ));
+            $propValues = $user->getPropertiesValues(array_values($fieldsMap));
 
             $roles = $user->getPropertyValues($rolesProperty);
             $labels = [];
@@ -170,7 +163,10 @@ class tao_actions_Users extends tao_actions_CommonModule
             $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
             $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
             $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
-            $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
+            if ($userLangService->isDataLanguageEnabled()) {
+                $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
+                $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
+            }
 
             $response->data[$index]['id'] = $id;
             $response->data[$index]['login'] = $login;
@@ -178,7 +174,6 @@ class tao_actions_Users extends tao_actions_CommonModule
             $response->data[$index]['lastname'] = $lastName;
             $response->data[$index]['email'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
             $response->data[$index]['roles'] = implode(', ', $labels);
-            $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
             $statusInfo = $this->getUserLocksService()->getStatusDetails($login);
@@ -210,6 +205,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         // Csrf token validation
         $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
@@ -235,7 +231,7 @@ class tao_actions_Users extends tao_actions_CommonModule
             $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             $this->checkUser($user->getUri());
 
-            if ($this->userService->removeUser($user)) {
+            if ($userService->removeUser($user)) {
                 $deleted = true;
                 $message = __('User deleted successfully');
             }
@@ -305,7 +301,7 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $properties = $form->getValues();
                 $instance = $this->createInstance(array($clazz), $properties);
 
-                $this->setData('message', __($instance->getLabel() . ' created'));
+                $this->setData('message', __('%s created', $instance->getLabel()));
                 $this->setData('selectTreeNode', $instance->getUri());
             }
         }
@@ -323,13 +319,14 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function checkLogin()
     {
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         if (!tao_helpers_Request::isAjax()) {
             throw new Exception("wrong request mode");
         }
 
         $data = array('available' => false);
         if ($this->hasRequestParameter('login')) {
-            $data['available'] = $this->userService->loginAvailable($this->getRequestParameter('login'));
+            $data['available'] = $userService->loginAvailable($this->getRequestParameter('login'));
         }
 
         $this->returnJson($data);
@@ -346,6 +343,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function edit()
     {
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         $user = $this->getUserResource();
 
         $types = $user->getTypes();
@@ -370,20 +368,24 @@ class tao_actions_Users extends tao_actions_CommonModule
                     unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
                 }
 
-                $this->userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
+                $userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
 
                 // leave roles which are not in the allowed list for current user
-                $oldRoles = $this->userService->getUserRoles($user);
-                $allowedRoles = $this->userService->getPermittedRoles($this->userService->getCurrentUser(), $oldRoles, false);
+                $oldRoles = $userService->getUserRoles($user);
+                $allowedRoles = $userService->getPermittedRoles($userService->getCurrentUser(), $oldRoles, false);
                 $staticRoles = array_diff($oldRoles, $allowedRoles);
                 $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
 
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
                 if ($binder->bind($values)) {
+                    $data = [];
+                    if (isset($plainPassword)){
+                        $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
+                    }
                     $this->getEventManager()->trigger(new UserUpdatedEvent(
                         $user,
-                        array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                        array_merge($values, $data))
                     );
                     $this->setData('message', __('User saved'));
                 }

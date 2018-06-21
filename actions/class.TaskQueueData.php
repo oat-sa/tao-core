@@ -27,8 +27,8 @@ use oat\oatbox\filesystem\FileSystemService;
 /**
  * Rest API controller for task queue
  *
- * Class tao_actions_TaskQueue
- * @package oat\tao\controller\api
+ * @deprecated Can be removed along with the old queue.
+ *
  * @author GARCIA Christophe <christophe.garcia@taotesting.com>
  */
 class tao_actions_TaskQueueData extends \tao_actions_CommonModule

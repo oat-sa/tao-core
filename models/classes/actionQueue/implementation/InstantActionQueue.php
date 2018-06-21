@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -26,6 +26,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\actionQueue\QueuedAction;
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
+use oat\tao\model\actionQueue\restriction\basicRestriction;
 
 /**
  *
@@ -35,6 +36,8 @@ use oat\oatbox\user\User;
  */
 class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
+
+    const QUEUE_TREND = 'queue_trend';
 
     /**
      * @param QueuedAction $action
@@ -50,8 +53,10 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         }
         $result = false;
         $actionConfig = $this->getActionConfig($action);
-        $limit = intval(isset($actionConfig[self::ACTION_PARAM_LIMIT]) ? $actionConfig[self::ACTION_PARAM_LIMIT] : 0);
-        if ($limit === 0 || $limit > $action->getNumberOfActiveActions()) {
+        $restrictions = $this->getRestrictions($actionConfig);
+        $allowExecution = $this->checkRestrictions($restrictions);
+
+        if ($allowExecution) {
             $actionResult = $action([]);
             $action->setResult($actionResult);
             $result = true;
@@ -90,7 +95,17 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             return $val > $edgeTime;
         });
         $this->getPersistence()->set($key, json_encode($newPositions));
+        $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 0);
         return count($positions) - count($newPositions);
+    }
+
+    /**
+     * @return int
+     */
+    public function getTrend(QueuedAction $action)
+    {
+        $trend = $this->getPersistence()->get(get_class($action) . self::QUEUE_TREND);
+        return (int)$trend;
     }
 
     /**
@@ -103,6 +118,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         $positions = $this->getPositions($action);
         $positions[$user->getIdentifier()] = time();
         $this->getPersistence()->set($key, json_encode($positions));
+        if ($this->getTrend($action) >= 0) {
+            $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, -1);
+        }
     }
 
     /**
@@ -114,6 +132,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         $key = $this->getQueueKey($action);
         $positions = $this->getPositions($action);
         unset($positions[$user->getIdentifier()]);
+        if ($this->getTrend($action) <= 0) {
+            $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
+        }
         $this->getPersistence()->set($key, json_encode($positions));
     }
 
@@ -173,5 +194,33 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             $positions = [];
         }
         return $positions;
+    }
+
+    /**
+     * @param array $actionConfig
+     * @return array
+     */
+    private function getRestrictions(array $actionConfig)
+    {
+        return array_key_exists('restrictions', $actionConfig) ? $actionConfig['restrictions'] : [];
+    }
+
+    /**
+     * @param array $restrictions
+     * @return bool
+     */
+    private function checkRestrictions(array $restrictions)
+    {
+        $allowExecution = true;
+
+        foreach ($restrictions as $restriction => $value) {
+            if (class_exists($restriction) && is_subclass_of($restriction, basicRestriction::class)) {
+                /** @var basicRestriction $r */
+                $r = new $restriction();
+                $this->propagate($r);
+                $allowExecution = $allowExecution && $r->doesComplies($value);
+            }
+        }
+        return $allowExecution;
     }
 }
