@@ -84,6 +84,7 @@ define([
      * @param {Boolean} [config.showReset]
      * @fires "render" after the component rendering
      * @fires "destroy" after the component destroying
+     * @fires "change" on size changed
      *
      * @returns {component|*}
      */
@@ -281,7 +282,6 @@ define([
                             dimension: dim
                         });
                         _fields[unit][dim].val(controlPanelStateComponent.getProp('sizeProps')[unit].current[dim]);
-                        _fields[unit][dim].data({ min: 0, max: controlPanelStateComponent.getProp('sizeProps').sliders[unit].max });
 
                         _fields[unit][dim].on('keydown', function (e) {
                             var $field = $(this),
@@ -314,6 +314,8 @@ define([
                                 return;
                             }
 
+                            /*
+                            TODO if it is needed - set as an edge of values using values of the container
                             if (value > $field.data('max')) {
                                 $field.val($field.data('max'));
                                 value = $field.data('max')+'';
@@ -321,7 +323,7 @@ define([
                             else if (value < $field.data('min')) {
                                 $field.val($field.data('min'));
                                 value = $field.data('min')+'';
-                            }
+                            }*/
 
                             if ($field.prop('unit') === '%') {
                                 controlPanelStateComponent.percentChange(value);
@@ -380,6 +382,8 @@ define([
             // px inputs
             $fields.px.width.val(controlPanelStateComponent.getProp('sizeProps').px.current.width);
             $fields.px.height.val(controlPanelStateComponent.getProp('sizeProps').px.current.height);
+
+            controlPanelComponent.trigger('change', controlPanelStateComponent);
         });
 
         controlPanelComponent

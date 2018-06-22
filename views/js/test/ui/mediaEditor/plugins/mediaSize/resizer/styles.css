@@ -1,0 +1,12 @@
+.demo-container .control-container {
+    background-color: white;
+    max-width: 185px;
+}
+
+.demo-container .editable-container {
+    max-width: 800px;
+    border: grey 2px solid;
+    position: relative;
+    margin: auto;
+    background-color: #0b77b7;
+}

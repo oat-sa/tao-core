@@ -29,8 +29,46 @@
  *  *- change colors
  *  *- etc.
  */
-define(['jquery', 'lodash'], function ($, _) {
+define([
+    'jquery',
+    'lodash',
+    'ui/component'
+], function ($, _, component) {
     'use strict';
 
+    /**
+     * target - jQuery element with media $()
+     * container - container to which an target is attached
+     *
+     * @type {{target: null, container: null}}
+     * @private
+     */
+    var _defaults = {
+        target: null,
+        targetContainer: null,
+        mediaSizer: true,
+        mediaSizerControlPanelContainer: null,
+        mediaAlignment: false,
+        mediaAlignmentControlPanelContainer: null
+    };
 
+    /**
+     * Creates media editor
+     *
+     * @param {Object} config
+     * @returns {component|*}
+     */
+    return function mediaEditorFactory(config) {
+
+        var _config;
+
+        /**
+         * Current component
+         */
+        var mediaEditorComponent = component();
+
+        _config = _.defaults(config || {}, _defaults);
+        mediaEditorComponent.init(_config);
+        return mediaEditorComponent;
+    };
 });

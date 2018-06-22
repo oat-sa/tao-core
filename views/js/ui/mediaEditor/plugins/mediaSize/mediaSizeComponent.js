@@ -23,8 +23,9 @@
  */
 define([
     'lodash',
-    'ui/component'
-], function (_, component) {
+    'ui/component',
+    'ui/mediaEditor/plugins/mediaSize/controlPanelComponent'
+], function (_, component, controlPanelComponentFactory) {
     'use strict';
 
     /**
@@ -38,9 +39,26 @@ define([
      * @private
      */
     var _defaults = {
-        editableMedia: null,
-        controlPanel: null,
+        editableMediaEl: null,
+        controlPanelEl: null,
         responsive: true
+    };
+
+    /**
+     * Reloading image to get real size
+     * @param srcPath string
+     * @param next Function
+     * @return {{width: null, height: null}}
+     */
+    var loadRealImageSize = function loadRealImageSize (srcPath, next) {
+        var img = new Image();
+        img.onload = function() {
+            next({
+                width: this.width,
+                height: this.height
+            });
+        };
+        img.src = srcPath;
     };
 
     /**
@@ -57,14 +75,69 @@ define([
      */
     return function mediaSizeFactory (config) {
 
+        var controlPanelComponent;
+
         var mediaSizeComponent;
 
         config = _.defaults(config || {}, _defaults);
 
         mediaSizeComponent = component();
 
-        mediaSizeComponent.init(config);
+        mediaSizeComponent
+            .on('render', function () {
+                var sizesConfig;
+
+                loadRealImageSize(config.editableMediaEl.attr('src'), function (size) {
+
+                    sizesConfig = {
+                        showResponsiveToggle: true,
+                        sizeProps: {
+                            px: {
+                                natural: size,
+                                current: _.cloneDeep(size)
+                            },
+                            '%': {
+                                natural: {
+                                    width: 100,
+                                    height: null
+                                },
+                                current: {
+                                    width: 100,
+                                    height: null
+                                }
+                            },
+                            ratio: {
+                                natural: 1,
+                                current: 1
+                            },
+                            currentUtil: '%',
+                            containerWidth: 700, // todo
+                            sliders: {
+                                '%': {
+                                    min: 0,
+                                    max: 100,
+                                    start: 100
+                                },
+                                px: {
+                                    min: 0,
+                                    max: 100,
+                                    start: 100
+                                }
+                            }
+                        }
+                    };
+
+                    controlPanelComponent = controlPanelComponentFactory(sizesConfig);
+                    controlPanelComponent
+                        .on('change', function (stateComponent) {
+                            config.editableMediaEl.css('width', stateComponent.getProp('sizeProps').px.current.width);
+                            config.editableMediaEl.css('height', stateComponent.getProp('sizeProps').px.current.height);
+                        })
+                        .render(config.controlPanelEl);
+                });
+            })
+            .init(config);
 
         return mediaSizeComponent;
-    }
+    };
 });

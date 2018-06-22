@@ -236,7 +236,8 @@ define([
                 _config.sizeProps['%'].current.width = val;
                 // recalculate px width
                 _config.sizeProps['px'].current.width =
-                    _round( (_config.sizeProps['px'].natural.width * val / 100) * _config.sizeProps.ratio.current);
+                    _round( (_config.sizeProps['px'].natural.width * val / 100) * _config.sizeProps.ratio.natural );
+
                 // recalculate px height
                 _config.sizeProps['px'].current.height = _round(_config.sizeProps['px'].natural.height * val / 100);
 

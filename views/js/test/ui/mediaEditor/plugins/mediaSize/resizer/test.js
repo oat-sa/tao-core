@@ -18,7 +18,12 @@
  * @author Oleksander Zagovorychev <zagovorichev@gmail.com>
  */
 
-define(['jquery', 'lodash', 'ui/mediaEditor/plugins/mediaSize/mediaSizeComponent'], function ($, _, mediaSizeComponent) {
+define([
+    'jquery',
+    'lodash',
+    'ui/mediaEditor/plugins/mediaSize/mediaSizeComponent',
+    'css!test/ui/mediaEditor/plugins/mediaSize/resizer/styles',
+], function ($, _, mediaSizeComponent) {
     'use strict';
 
     QUnit.module('API');
@@ -72,8 +77,9 @@ define(['jquery', 'lodash', 'ui/mediaEditor/plugins/mediaSize/mediaSizeComponent
         $editableContainer.append($img);
 
         mediaSizeComponent({
-            editableMedia: $img,
-            controlPanel: $controlContainer
+            editableMediaEl: $img,
+            controlPanelEl: $controlContainer,
+            responsive: true
         })
             .on('render', function () {
                 // check that control panel initialized and works
