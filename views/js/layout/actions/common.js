@@ -270,7 +270,9 @@ define([
                             reject(httpErrorParser.parse(xhr, options, err));
                         }
                     });
-                }, reject);
+                }, function cancel(){
+                    reject({ cancel : true });
+                });
             });
         });
 
@@ -342,7 +344,9 @@ define([
                             reject(httpErrorParser.parse(xhr, options, err));
                         }
                     });
-                }, reject);
+                }, function cancel(){
+                    reject({ cancel : true });
+                });
             });
         });
 

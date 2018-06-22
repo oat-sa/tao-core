@@ -262,6 +262,9 @@ define([
                         self.trigger(events.join(' '), context || resourceContext, actionData);
                     })
                     .catch( function actionError(err){
+                        if(err && err.cancel){
+                            return self.trigger('cancel', action.id);
+                        }
                         self.trigger('error', err);
                     });
             }
