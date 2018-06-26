@@ -15,15 +15,13 @@
  *
  * Copyright (c) 2018  (original work) Open Assessment Technologies SA;
  *
- * @author Oleksander Zagovorychev <zagovorichev@gmail.com>
  */
 
 define([
     'jquery',
     'lodash',
-    'ui/mediaEditor/plugins/mediaSize/controlPanelComponent',
-    'nouislider'
-], function ($, _, controlPanelComponent) {
+    'ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent'
+], function ($, _, mediaDimensionComponent) {
     'use strict';
 
     var workingConfiguration = {
@@ -55,17 +53,10 @@ define([
             },
             currentUtil: '%',
             containerWidth: 700,
-            sliders: {
-                '%': {
-                    min: 0,
-                    max: 100,
-                    start: 100
-                },
-                px: {
-                    min: 0,
-                    max: 100,
-                    start: 100
-                }
+            slider: {
+                min: 0,
+                max: 100,
+                start: 100
             }
         }
     };
@@ -241,9 +232,9 @@ define([
     QUnit.test('factory', function (assert) {
         QUnit.expect(3);
 
-        assert.ok(typeof controlPanelComponent === 'function', 'the module exposes a function');
-        assert.ok(typeof controlPanelComponent({sizeProps: 'fake'}) === 'object', 'the factory creates an object');
-        assert.notEqual(controlPanelComponent({sizeProps: 'fake'}), controlPanelComponent({sizeProps: 'fake'}), 'the factory creates new objects');
+        assert.ok(typeof mediaDimensionComponent === 'function', 'the module exposes a function');
+        assert.ok(typeof mediaDimensionComponent({sizeProps: 'fake'}) === 'object', 'the factory creates an object');
+        assert.notEqual(mediaDimensionComponent({sizeProps: 'fake'}), mediaDimensionComponent({sizeProps: 'fake'}), 'the factory creates new objects');
     });
 
     QUnit.test('component', function (assert) {
@@ -251,7 +242,7 @@ define([
 
         QUnit.expect(2);
 
-        component = controlPanelComponent({sizeProps: 'fake'});
+        component = mediaDimensionComponent({sizeProps: 'fake'});
 
         assert.ok(typeof component.render === 'function', 'the component has a render method');
         assert.ok(typeof component.destroy === 'function', 'the component has a destroy method');
@@ -262,7 +253,7 @@ define([
 
         QUnit.expect(3);
 
-        component = controlPanelComponent({sizeProps: 'fake'});
+        component = mediaDimensionComponent({sizeProps: 'fake'});
 
         assert.ok(typeof component.on === 'function', 'the component has a on method');
         assert.ok(typeof component.off === 'function', 'the component has a off method');
@@ -274,9 +265,9 @@ define([
     QUnit.test('Required properties', function (assert) {
         QUnit.expect(1);
         assert.throws(
-            function () { controlPanelComponent({}); },
+            function () { mediaDimensionComponent({}); },
             function( err ) {
-                return err.toString() === 'Error: Control panel of the media editor is required sizeProps parameter';
+                return err.toString() === 'Error: mediaEditorComponent requires sizeProps parameter';
             },
             'Throws an error on the initialization without required parameters'
         );
@@ -289,7 +280,7 @@ define([
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = true;
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 assert.equal($('.media-sizer', $container).hasClass('media-sizer-responsivetoggle-off'), false,
                     'Media sizer does not have a class to hide the responsive toggle');
@@ -305,7 +296,7 @@ define([
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 assert.ok($('.media-sizer', $container).hasClass('media-sizer-responsivetoggle-off'), 'Media sizer has a class to hide the responsive toggle');
                 QUnit.start();
@@ -321,7 +312,7 @@ define([
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
         conf.sizeProps.currentUtil = '%';
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', $container);
                 var $pixelBlock = $('.media-sizer-pixel', $container);
@@ -340,7 +331,7 @@ define([
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
         conf.sizeProps.currentUtil = 'px';
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', $container);
                 var $pixelBlock = $('.media-sizer-pixel', $container);
@@ -359,7 +350,7 @@ define([
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
         conf.sizeProps.currentUtil = '%';
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', $container);
                 var $editorContainer = $('.item-editor-unit-input-box', $percentBlock);
@@ -404,7 +395,7 @@ define([
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
         conf.currentUtil = '%';
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
 
                 var $fields = getFields($container);
@@ -441,9 +432,6 @@ define([
                 }, {
                     value: '0.001',
                     expected: 0.001
-                }, {
-                    value: '1234.0000000000',
-                    expected: 100 // because we have max in the field which allows us only 100 as a maximum
                 }, {
                     value: '',
                     expected: 0
@@ -483,9 +471,6 @@ define([
                 }, {
                     value: 1.1111,
                     expected: 1.1111
-                }, {
-                    value: '2333',
-                    expected: 100
                 }];
 
                 _.forEach(valuesToCheck, function(val) {
@@ -499,6 +484,13 @@ define([
                     });
                 });
 
+                checkInput('%', 'width', {value: '1234.0000000000', expected: 100});
+                checkInput('px', 'width', {value: '1234.0000000000', expected: 1234});
+                checkInput('px', 'height', {value: '1234.0000000000', expected: 1234});
+                checkInput('%', 'width', {value: '2333', expected: 100});
+                checkInput('px', 'height', {value: '2333', expected: 2333});
+                checkInput('px', 'width', {value: '2333', expected: 2333});
+
                 QUnit.start();
             })
             .render($container);
@@ -506,68 +498,39 @@ define([
 
     QUnit.asyncTest('Pixels mode', function (assert) {
         var $container, conf;
-        QUnit.expect(14);
+        QUnit.expect(3);
 
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
         conf.showResponsiveToggle = false;
         conf.sizeProps.currentUtil = 'px';
         conf.syncDimensions = true;
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 var $pixelBlock = $('.media-sizer-pixel', $container);
                 var $editorContainer = $('.item-editor-unit-input-box', $pixelBlock);
                 var $widthInput = $('input[name=width]', $editorContainer);
                 var $heightInput = $('input[name=height]', $editorContainer);
-                var $sliderBox = $('.media-sizer-slider-box', $pixelBlock);
-                var $sliderPosEl = $('.noUi-origin', $sliderBox);
-                var $sliderEl = $('.media-sizer-slider', $sliderBox);
 
                 assert.equal($widthInput.val(), 100, 'Width value is set to 100');
-                assert.equal($sliderPosEl.prop('style').left, '100%', 'Slider has been set to 100%');
-
-                // slider value change will change value of the inputs
-                $sliderEl.val(37);
-                assert.equal($sliderPosEl.prop('style').left, '37%', 'Slider has been set to 37%');
-                assert.equal($widthInput.val(), 100, 'Width input was not updated and still equals 100');
-                assert.equal($heightInput.val(), 100, 'Height input was not updated and still equals 100');
-                $sliderEl.trigger('slide');
-                assert.equal($widthInput.val(), 37, 'Width input was updated to 37');
-                assert.equal($heightInput.val(), 37, 'Height input was updated to 37');
 
                 // change width in input to change the slider position as a result (and height input value)
                 $widthInput.val(3).trigger('keyup');
                 assert.equal($heightInput.val(), 3, 'Height value is set to 3');
-                assert.equal($sliderPosEl.prop('style').left, '3%', 'Slider has been set to 3%');
 
                 // same with height
                 $heightInput.val(5);
                 $heightInput.trigger('keyup');
                 assert.equal($widthInput.val(), 5, 'Height value is set to 3');
-                assert.equal($sliderPosEl.prop('style').left, '5%', 'Slider has been set to 5%');
-
-                $sliderEl.val(12);
-                assert.equal($sliderPosEl.prop('style').left, '12%', 'Slider has been set to 12%');
-                $sliderPosEl.trigger('slide');
-                assert.equal($widthInput.val(), 12, 'Input was updated to 12');
-                assert.equal($heightInput.val(), 12, 'Input was updated to 12');
 
                 QUnit.start();
             })
             .render($container);
     });
 
-    /**
-     * Workflow:
-     * - component created without synchronisation in the px mode [100x100 & 100% & ratio=1]
-     * - change width to 27 [27x100 & 100% & ratio=27/100=0.27]
-     * - change percent by PX slider to 50% [13.5x50 & 50% & ratio=0.27]
-     * - change height to 27 [27x27 & 50% & ratio=27/27=1]
-     * - change percent by PC slider to 100% [100x100 & 100% & ratio=1
-     */
-    QUnit.asyncTest('Mixed [px & %] mode', function (assert) {
+    QUnit.asyncTest('Workflow', function (assert) {
         var $container, conf;
-        QUnit.expect(26);
+        QUnit.expect(17);
 
         $container = $('#qunit-fixture');
         conf = _.cloneDeep(workingConfiguration);
@@ -576,15 +539,12 @@ define([
         conf.sizeProps.currentUtil = 'px';
         conf.syncDimensions = false;
 
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 var $pixelBlock = $('.media-sizer-pixel', $container);
                 var $pxEditorContainer = $('.item-editor-unit-input-box', $pixelBlock);
                 var $widthInput = $('input[name=width]', $pxEditorContainer);
                 var $heightInput = $('input[name=height]', $pxEditorContainer);
-                var $pxSliderBox = $('.media-sizer-slider-box', $pixelBlock);
-                var $pxSliderPosEl = $('.noUi-origin', $pxSliderBox);
-                var $pxSliderEl = $('.media-sizer-slider', $pxSliderBox);
 
                 var $percentBlock = $('.media-sizer-percent', $container);
                 var $pcEditorContainer = $('.item-editor-unit-input-box', $percentBlock);
@@ -597,7 +557,6 @@ define([
                 assert.equal($widthInput.val(), 100, 'Width = 100');
                 assert.equal($heightInput.val(), 100, 'Height = 100');
                 assert.equal($pcInput.val(), 100, 'Percent input = 100');
-                assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
                 assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
 
                 assert.ok(true, 'change width to 27 [27x100 & 100% & ratio=27/100=0.27]');
@@ -605,30 +564,19 @@ define([
                 $widthInput.trigger('keyup'); // to apply changes in State
                 assert.equal($heightInput.val(), 100, 'Height = 100');
                 assert.equal($pcInput.val(), 100, 'Percent input = 100');
-                assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
                 assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
 
-                assert.ok(true, 'change percent by PX slider to 50% [13.5x50 & 50% & ratio=0.27]');
-                $pxSliderEl.val(50);
-                assert.equal($pxSliderPosEl.prop('style').left, '50%', 'Slider px = 50%');
-                $pxSliderPosEl.trigger('slide');
-                assert.equal($pcSliderPosEl.prop('style').left, '50%', 'Slider pc = 50%');
-                assert.equal($widthInput.val(), 13.5, 'Width = 13.5');
-                assert.equal($heightInput.val(), 50, 'Height = 50');
-
-                assert.ok(true, 'change height to 13.5 [13.5x13.5 & 50% & ratio=27/27=1]');
+                assert.ok(true, 'change height to 13.5 [13.5x27 & 100% & ratio=13.5/27=0.5]');
                 $heightInput.val(13.5).trigger('keyup');
-                assert.equal($widthInput.val(), 13.5, 'Width = 13.5');
-                assert.equal($pcInput.val(), 50, 'Percent input = 50');
-                assert.equal($pxSliderPosEl.prop('style').left, '50%', 'Slider px = 50%');
-                assert.equal($pcSliderPosEl.prop('style').left, '50%', 'Slider pc = 50%');
-
-                assert.ok(true, 'change percent by PC slider to 100% [100x100 & 100% & ratio=1]');
-                $pcSliderEl.val(100).trigger('slide');
+                assert.equal($widthInput.val(), 27, 'Width = 27');
+                assert.equal($pcInput.val(), 100, 'Percent input = 100');
                 assert.equal($pcSliderPosEl.prop('style').left, '100%', 'Slider pc = 100%');
-                assert.equal($pxSliderPosEl.prop('style').left, '100%', 'Slider px = 100%');
-                assert.equal($widthInput.val(), 100, 'Width = 100');
-                assert.equal($heightInput.val(), 100, 'Height = 100');
+
+                assert.ok(true, 'change percent by PC slider to 20% [100x100 & 20% & ratio=1]');
+                $pcSliderEl.val(20).trigger('slide');
+                assert.equal($pcSliderPosEl.prop('style').left, '20%', 'Slider pc = 20%');
+                assert.equal($widthInput.val(), 27, 'Width = 27');
+                assert.equal($heightInput.val(), 13.5, 'Height = 13.5');
 
                 QUnit.start();
             })
@@ -645,7 +593,7 @@ define([
         assert.equal($container.length, 1, 'The container exists');
         $demoContainer.insertAfter($container);
         conf = _.cloneDeep(workingConfiguration);
-        controlPanelComponent(conf)
+        mediaDimensionComponent(conf)
             .on('render', function () {
                 // check that control panel initialized and works
                 // check that image is shown and manageable

@@ -21,9 +21,9 @@
 define([
     'jquery',
     'lodash',
-    'ui/mediaEditor/plugins/mediaSize/mediaSizeComponent',
-    'css!test/ui/mediaEditor/plugins/mediaSize/resizer/styles',
-], function ($, _, mediaSizeComponent) {
+    'ui/mediaEditor/mediaEditorComponent',
+    'css!test/ui/mediaEditor/mediaEditorComponent/styles'
+], function ($, _, mediaEditorComponent) {
     'use strict';
 
     QUnit.module('API');
@@ -31,9 +31,9 @@ define([
     QUnit.test('factory', function (assert) {
         QUnit.expect(3);
 
-        assert.ok(typeof mediaSizeComponent === 'function', 'the module exposes a function');
-        assert.ok(typeof mediaSizeComponent(false, []) === 'object', 'the factory creates an object');
-        assert.notEqual(mediaSizeComponent({}), mediaSizeComponent({}), 'the factory creates new objects');
+        assert.ok(typeof mediaEditorComponent === 'function', 'the module exposes a function');
+        assert.ok(typeof mediaEditorComponent(false, []) === 'object', 'the factory creates an object');
+        assert.notEqual(mediaEditorComponent({}), mediaEditorComponent({}), 'the factory creates new objects');
     });
 
     QUnit.test('component', function (assert) {
@@ -41,7 +41,7 @@ define([
 
         QUnit.expect(2);
 
-        component = mediaSizeComponent({});
+        component = mediaEditorComponent({});
 
         assert.ok(typeof component.render === 'function', 'the component has a render method');
         assert.ok(typeof component.destroy === 'function', 'the component has a destroy method');
@@ -52,7 +52,7 @@ define([
 
         QUnit.expect(3);
 
-        component = mediaSizeComponent({});
+        component = mediaEditorComponent({});
 
         assert.ok(typeof component.on === 'function', 'the component has a on method');
         assert.ok(typeof component.off === 'function', 'the component has a off method');
@@ -76,10 +76,14 @@ define([
         $editableContainer.append($controlContainer);
         $editableContainer.append($img);
 
-        mediaSizeComponent({
-            editableMediaEl: $img,
-            controlPanelEl: $controlContainer,
-            responsive: true
+        mediaEditorComponent({
+            $media: $img,
+            tools: {
+                mediaDimension: {
+                    $container: $controlContainer,
+                    active: true
+                }
+            }
         })
             .on('render', function () {
                 // check that control panel initialized and works

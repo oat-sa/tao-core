@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Ui Test - Media Size Control Panel UI Component</title>
-    <base href="../../../../../../../"/>
+    <title>Ui Test - Media Editor Component</title>
+    <base href="../../../../../"/>
     <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
     <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
-    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/mediaEditor/plugins/mediaSize/controlPanelComponent.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/mediaEditor/mediaEditorComponent.js"></script>
 
     <script type="text/javascript">
 
@@ -19,7 +19,7 @@
         require(['/tao/ClientConfig/config'], function () {
 
             //load the test
-            require(['test/ui/mediaEditor/plugins/mediaSize/controlPanel/test'], function () {
+            require(['test/ui/mediaEditor/mediaEditorComponent/test'], function () {
 
                 //Tests loaded, run tests
                 QUnit.start();

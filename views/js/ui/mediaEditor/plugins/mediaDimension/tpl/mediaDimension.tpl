@@ -47,9 +47,5 @@
         <div class="media-sizer-reset media-sizer-reset-pixel" data-unit="pixel">
             <span class="icon-reset"></span>
         </div>
-
-        <div class="media-sizer-slider-box">
-            <div class="media-sizer-slider"></div>
-        </div>
     </div>
 </div>

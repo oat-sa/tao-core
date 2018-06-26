@@ -14,58 +14,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2018  (original work) Open Assessment Technologies SA;
- *
- * @author Oleksander Zagovorychev <zagovorichev@gmail.com>
  */
 
 /**
- * Control Panel for the media sizer
- *
- * Usage:
- * controlPanelComponent({
- *  sizeProps: sizeProps,
- * })
- * .on('render', function () {
- * })
- * .render($demoContainer);
+ * Controls media size
  */
 define([
     'jquery',
     'lodash',
     'ui/component',
-    'tpl!ui/mediaEditor/plugins/mediaSize/tpl/controlPanel',
-    'ui/mediaEditor/plugins/mediaSize/controlPanelStateComponent',
+    'tpl!ui/mediaEditor/plugins/mediaDimension/tpl/mediaDimension',
+    'ui/mediaEditor/plugins/mediaDimension/helper',
     'nouislider',
     'ui/tooltip'
-], function ($, _, component, tpl, controlPanelStateComponentFactory) {
+], function ($, _, component, tpl, helper) {
     'use strict';
 
     /**
-     * Configuration instance for the current initialization
-     * @private
-     */
-    var _config;
-
-    /**
-     * @typedef {Object} SizeProps
+     * Size properties of the media
+     * @typedef {Object} sizeProps
      * @property px {{
      *        natural: {
      *          width: number,
-     *          height: number
+     *          height: number,
      *        },
      *        current: {
      *          width: number,
-     *          height: number
+     *          height: number,
      *        }
      *      }}
      * @property '%' {{
      *        natural: {
      *          width: number,
-     *          height: number
+     *          height: number,
+     *          slider: number
      *        },
      *        current: {
      *          width: number,
-     *          height: number
+     *          height: number,
+     *          slider: number
      *        }
      *      }}
      * @property ratio {{
@@ -76,34 +63,84 @@ define([
      */
 
     /**
-     * Creates control panel for mediaSizer plugin
-     *
-     * @param {Object} config
-     * @param {Boolean} [config.responsive] - If media can be responsive
-     * @param {Boolean} [config.showSync]
-     * @param {Boolean} [config.showReset]
-     * @fires "render" after the component rendering
-     * @fires "destroy" after the component destroying
-     * @fires "change" on size changed
-     *
-     * @returns {component|*}
+     * Size properties of the media control panel
+     * @typedef {Object} mediaSizeProps
+     * @property responsive boolean
+     * @property sizeProps sizeProps
+     * @property originalSizeProps sizeProps
+     * @property syncDimensions boolean
+     * @property denyCustomRatio boolean
+     * @property precision number
+     * @property showReset boolean
      */
-    return function controlPanelFactory (config) {
 
+    /**
+     * Configuration
+     * @type {mediaSizeProps}
+     * @private
+     */
+    var _config;
+
+    /**
+     * Default values
+     * precision - precision for all calculations (0.00001)
+     *
+     * @type {{
+     *    responsive: boolean,
+     *    showSync: boolean,
+     *    showReset: boolean,
+     *    denyCustomRatio: boolean,
+     *    width: number,
+     *    height: number,
+     *    minWidth: number,
+     *    maxWidth: number,
+     *    sizeProps: sizeProps,
+     *    precision: number
+     * }}
+     * @private
+     */
+    var _defaults = {
+        responsive: true,
+        showSync: true,
+        showReset: true,
+        sizeProps: {},
+        denyCustomRatio: false,
+        syncDimensions: true,
+        width: 0,
+        height: 0,
+        minWidth: 0,
+        maxWidth: 0,
+        precision: 5
+    };
+
+    /**
+     * Creates mediaDimension component
+     * @param config
+     * @fires "changed" - on State changed
+     * return {component|*}
+     */
+    return function mediaDimensionFactory(config) {
         /**
          * Collections of the jquery elements grouped by type
          */
-        var $blocks, $sliders, $fields, $resetBtn;
-
-        /**
-         * State of the component
-         */
-        var controlPanelStateComponent = controlPanelStateComponentFactory(config);
+        var $blocks, $slider, $fields;
 
         /**
          * Current component
          */
-        var controlPanelComponent = component();
+        var mediaDimensionComponent = component({
+            update: function update() {
+                // slide sliders
+                $slider.val(_config.sizeProps['%'].current.width);
+                // percent Input
+                $fields['%'].width.val(_config.sizeProps['%'].current.width);
+                // px inputs
+                $fields.px.width.val(_config.sizeProps.px.current.width);
+                $fields.px.height.val(_config.sizeProps.px.current.height);
+
+                this.trigger('changed', _config);
+            }
+        });
 
         /**
          * Check that input in progress and we don't need to change anything
@@ -115,45 +152,6 @@ define([
                 val = val + '';
             }
             return val.match(/\.[0]*$/);
-        };
-
-        /**
-         * Retrieve current size values in current unit
-         *
-         * @returns {{}}
-         * @private
-         */
-        var _getValues = function _getValues() {
-            var attr = {};
-            _.forOwn(controlPanelStateComponent.getProp('sizeProps')[controlPanelStateComponent.getProp('sizeProps').currentUtil].current,
-                function (value, dimension) {
-                    if (_.isNull(value)) {
-                        value = '';
-                    }
-                    else {
-                        value = value.toString();
-                    }
-                    if (controlPanelStateComponent.getProp('sizeProps').currentUnit === '%' && value !== '') {
-                        value += controlPanelStateComponent.getProp('sizeProps').currentUnit;
-                    }
-                    attr[dimension] = value;
-                });
-            return attr;
-        };
-
-        /**
-         * Returns width, height, target element and the reset button
-         * It's meant to be used when triggering an event
-         *
-         * @returns {{}}
-         * @private
-         */
-        var _publicArgs = function _publicArgs() {
-            var params = _getValues();
-            // todo I don't need a target in the state or anywhere else
-            params.$target = controlPanelStateComponent.getProp('target') || $();
-            params.$resetBtn = $resetBtn;
-            return params;
         };
 
         /**
@@ -170,21 +168,22 @@ define([
                     if ($responsiveToggleField.is(':checked')) {
                         _blocks.px.hide();
                         _blocks['%'].show();
-                        controlPanelStateComponent.setSizeProp('currentUtil', '%');
-                        if ($fields
-                            && $fields['%'].width.val() > $sliders['%'].max
-                        ) {
-                            $fields['%'].width.val(controlPanelStateComponent.getProp('sizeProps').sliders['%'].max);
-                            controlPanelStateComponent.percentChange($fields['%'].width.val());
+                        _config.sizeProps.currentUtil = '%';
+                        if ($fields && $fields['%'].width.val() > $slider.max) {
+                            $fields['%'].width.val($slider.max);
+                            mediaDimensionComponent.update({percent: $fields['%'].width.val()});
+                        } else {
+                            mediaDimensionComponent.trigger('changed', _config);
                         }
                     } else {
                         _blocks['%'].hide();
                         _blocks.px.show();
-                        controlPanelStateComponent.setProp('currentUnit', 'px');
+                        _config.sizeProps.currentUtil = 'px';
+                        mediaDimensionComponent.trigger('changed', _config);
                     }
                 };
 
-            if(!controlPanelStateComponent.getProp('showResponsiveToggle')) {
+            if(!_config.showResponsiveToggle) {
                 $elt.addClass('media-sizer-responsivetoggle-off');
             }
 
@@ -200,10 +199,9 @@ define([
             $responsiveToggleField.on('click', function () {
                 _checkMode();
                 $elt.trigger('responsiveswitch', [$responsiveToggleField.is(':checked')]);
-                $elt.trigger('sizechange', _publicArgs());
             });
 
-            $responsiveToggleField.prop('checked', controlPanelStateComponent.getProp('sizeProps').currentUtil === '%');
+            $responsiveToggleField.prop('checked', _config.sizeProps.currentUtil === '%');
 
             // initialize it properly
             _checkMode();
@@ -222,7 +220,7 @@ define([
             var $mediaSizer = $elt.find('.media-sizer'),
                 $btn = $elt.find('.media-sizer-sync');
 
-            if(!controlPanelStateComponent.getProp('showSync')) {
+            if(!_config.showSync) {
                 $btn.hide();
                 $mediaSizer.addClass('media-sizer-sync-off');
             }
@@ -231,7 +229,7 @@ define([
             $btn.on('click', function () {
                 var $sizerEl = $(this).parents('.media-sizer');
                 $sizerEl.toggleClass('media-sizer-synced');
-                controlPanelStateComponent.setProp('syncDimensions', $sizerEl.hasClass('media-sizer-synced'));
+                _config.syncDimensions = $sizerEl.hasClass('media-sizer-synced');
             });
             return $btn;
         };
@@ -246,15 +244,17 @@ define([
         var _initResetBtn = function _initResetBtn ($elt) {
             var $btn = $elt.find('.media-sizer-reset');
 
-            if(!controlPanelStateComponent.isResetAllowed()) {
+            if(!_config.showReset) {
                 $elt.find('.media-sizer').addClass('media-sizer-reset-off');
             }
 
             // this stays intact even if hidden in case it will be
             // displayed from somewhere else
             $btn.on('click', function() {
-                controlPanelStateComponent.reset();
+                _config.sizeProps = _config.originalSizeProps;
+                mediaDimensionComponent.update();
             });
+
             return $btn;
         };
 
@@ -281,7 +281,7 @@ define([
                             unit: unit,
                             dimension: dim
                         });
-                        _fields[unit][dim].val(controlPanelStateComponent.getProp('sizeProps')[unit].current[dim]);
+                        _fields[unit][dim].val(_config.sizeProps[unit].current[dim]);
 
                         _fields[unit][dim].on('keydown', function (e) {
                             var $field = $(this),
@@ -306,7 +306,8 @@ define([
 
                         _fields[unit][dim].on('keyup blur sliderchange', function () {
                             var $field = $(this),
-                                value = $field.val().replace(/,/g, '.');
+                                value = $field.val().replace(/,/g, '.'),
+                                newDimensions;
 
                             $field.val(value);
                             if (isInsignificantEnd(value)) {
@@ -314,8 +315,6 @@ define([
                                 return;
                             }
 
-                            /*
-                            TODO if it is needed - set as an edge of values using values of the container
                             if (value > $field.data('max')) {
                                 $field.val($field.data('max'));
                                 value = $field.data('max')+'';
@@ -323,17 +322,20 @@ define([
                             else if (value < $field.data('min')) {
                                 $field.val($field.data('min'));
                                 value = $field.data('min')+'';
-                            }*/
+                            }
 
                             if ($field.prop('unit') === '%') {
-                                controlPanelStateComponent.percentChange(value);
+                                _config.sizeProps['%'].current.width = value;
+                                newDimensions = { percent: value };
                             } else {
                                 if ($field.prop('dimension') === 'height') {
-                                    controlPanelStateComponent.heightChange(value);
+                                    newDimensions = { height: value };
                                 } else {
-                                    controlPanelStateComponent.widthChange(value);
+                                    newDimensions = { width: value };
                                 }
                             }
+                            _config = helper.applyDimensions(_config, newDimensions);
+                            mediaDimensionComponent.update();
                         });
                     });
                 });
@@ -348,71 +350,53 @@ define([
          * @returns {{}}
          * @private
          */
-        var _initSliders = function _initSliders () {
-            var _sliders = {};
+        var _initSlider = function _initSlider ($elt) {
+            var _slider;
 
-            _($blocks).forOwn(function ($block, unit) {
-                _sliders[unit] = $block.find('.media-sizer-slider');
-                _sliders[unit].prop('unit', unit);
-                _sliders[unit].noUiSlider({
-                    start: controlPanelStateComponent.getProp('sizeProps').sliders[unit].start,
-                    range: {
-                        'min': controlPanelStateComponent.getProp('sizeProps').sliders[unit].min,
-                        'max': controlPanelStateComponent.getProp('sizeProps').sliders[unit].max
-                    }
-                })
-                    .on('slide', function () {
-                        var $slider = $(this);
-                        var sliderVal = $slider.val();
-                        // to avoid .00
-                        sliderVal = parseFloat(sliderVal) + '';
-                        controlPanelStateComponent.percentChange(sliderVal);
-                    });
-            });
+            _slider = $elt.find('.media-sizer-slider');
+            _slider.prop('unit', '%');
+            _slider.noUiSlider({
+                start: _config.sizeProps.slider.start,
+                range: {
+                    'min': _config.sizeProps.slider.min,
+                    'max': _config.sizeProps.slider.max
+                }
+            })
+                .on('slide', function () {
+                    // to avoid .00
+                    _config.sizeProps['%'].current.width = parseFloat($(this).val()+'');
+                    mediaDimensionComponent.update();
+                });
 
-            return _sliders;
+            return _slider;
         };
 
-        controlPanelStateComponent.on('changed', function () {
-            // slide sliders
-            $sliders['%'].val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
-            $sliders.px.val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
-            // percent Input
-            $fields['%'].width.val(controlPanelStateComponent.getProp('sizeProps')['%'].current.width);
-            // px inputs
-            $fields.px.width.val(controlPanelStateComponent.getProp('sizeProps').px.current.width);
-            $fields.px.height.val(controlPanelStateComponent.getProp('sizeProps').px.current.height);
-
-            controlPanelComponent.trigger('change', controlPanelStateComponent);
-        });
-
-        controlPanelComponent
+        _config = _.defaults(config || {}, _defaults);
+        if (!_config || !_config.hasOwnProperty('sizeProps') || _.isEmpty(_config.sizeProps)) {
+            throw new Error('mediaEditorComponent requires sizeProps parameter');
+        }
+        _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
+        mediaDimensionComponent
             .on('render', function () {
                 var $tpl = $(tpl({
-                    responsive: controlPanelStateComponent.isResponsive()
+                    responsive: (typeof _config.responsive !== 'undefined') ? !!_config.responsive : true
                 }));
                 var $mediaSizer = $tpl.find('.media-sizer');
 
                 $tpl.appendTo(this.getContainer());
 
-                if (controlPanelStateComponent.getProp('syncDimensions') === true
-                    && !$mediaSizer.hasClass('media-sizer-synced')
-                ) {
+                if (_config.syncDimensions === true && !$mediaSizer.hasClass('media-sizer-synced')) {
                     $mediaSizer.addClass('media-sizer-synced');
                 }
 
                 $blocks = _initBlocks($tpl);
-                $sliders = _initSliders();
+                $slider = _initSlider($tpl);
                 $fields = _initFields();
                 _initSyncBtn($tpl);
-                $resetBtn = _initResetBtn($tpl);
-
-                // control state
-                _publicArgs();
+                _initResetBtn($tpl);
             })
             .init(_config);
 
-        return controlPanelComponent;
+        return mediaDimensionComponent;
     };
-
 });

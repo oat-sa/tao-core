@@ -32,24 +32,27 @@
 define([
     'jquery',
     'lodash',
-    'ui/component'
-], function ($, _, component) {
+    'ui/component',
+    'ui/mediaEditor/mediaHelper',
+    'ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent'
+], function ($, _, component, helper, mediaDimensionComponent) {
     'use strict';
 
     /**
      * target - jQuery element with media $()
      * container - container to which an target is attached
      *
-     * @type {{target: null, container: null}}
+     * @type {{$media: null, tools: {mediaDimension: {$container: null, active: boolean}}}}
      * @private
      */
     var _defaults = {
-        target: null,
-        targetContainer: null,
-        mediaSizer: true,
-        mediaSizerControlPanelContainer: null,
-        mediaAlignment: false,
-        mediaAlignmentControlPanelContainer: null
+        $media: null,
+        tools: {
+            mediaDimension: {
+                $container: null,
+                active: false
+            }
+        }
     };
 
     /**
@@ -68,7 +71,32 @@ define([
         var mediaEditorComponent = component();
 
         _config = _.defaults(config || {}, _defaults);
-        mediaEditorComponent.init(_config);
+        mediaEditorComponent
+            .on('init', function () {
+                if (this.getConfig().$media && this.getConfig().$media.length) {
+                    helper.init(this.getConfig().$media, {}, function (prop) {
+                        if (_config.tools.mediaDimension.active && _config.tools.mediaDimension.$container.length) {
+                            mediaDimensionComponent(prop.getMedia())
+                                .on('changed', function (media) {
+                                    if (media.sizeProps.currentUtil === 'px') {
+                                        _config.$media.css({
+                                            width: media.sizeProps.px.current.width,
+                                            height: media.sizeProps.px.current.height
+                                        });
+                                    } else {
+                                        // percent
+                                        _config.$media.css({
+                                            height: '',
+                                            width: media.sizeProps['%'].current.width + '%'
+                                        });
+                                    }
+                                })
+                                .render(_config.tools.mediaDimension.$container);
+                        }
+                    });
+                }
+            })
+            .init(_config);
         return mediaEditorComponent;
     };
 });
