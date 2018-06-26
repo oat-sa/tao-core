@@ -230,10 +230,11 @@ define([
         /**
          * Execute the operation bound to an action (via {@link layout/actions/binder#register});
          * @param {String|Object} action - can be either the id, the name or the action directly
-         * @param {ActionContext} [context] - an action conext, use the current otherwise
-         * @returns {Promise?}
+         * @param {ActionContext} [context] - an action context, use the current otherwise
+         * @returns {Promise?} always resolves
          * @fires ActionManger#error if the executed action fails
          * @fires ActionManger#{actionId} an event with the action id
+         * @fires ActionManger#cancel if the action has been canceled
          */
         exec : function exec(action, context){
             var self = this;
@@ -259,12 +260,28 @@ define([
                     .resolve(binder.exec(action, context || resourceContext))
                     .then(function actionDone(actionData){
                         var events = [action.id, action.binding];
+
+                        /**
+                         * @event ActionManger#{actionId}
+                         * @param {ActionContext} context - the context the action received
+                         * @param {Object} [actionData] - the data produced by the action
+                         */
                         self.trigger(events.join(' '), context || resourceContext, actionData);
                     })
                     .catch( function actionError(err){
                         if(err && err.cancel){
+
+                            /**
+                             * @event ActionManger#cancel
+                             * @param {String} actionId - the id of the canceled action
+                             */
                             return self.trigger('cancel', action.id);
                         }
+
+                        /**
+                         * @event ActionManger#error
+                         * @param {Error} err - the source error
+                         */
                         self.trigger('error', err);
                     });
             }
