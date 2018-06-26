@@ -37,6 +37,7 @@ define(['jquery', 'layout/actions', 'layout/actions/binder'], function($, action
         { title : 'trigger' },
         { title : 'before' },
         { title : 'after' },
+        { title : 'removeAllListeners' },
     ]).test('Eventifier API ', function(data, assert) {
         assert.equal(typeof actionsManager[data.title], 'function', 'The module exposes the eventifier method "' + data.title);
     });
@@ -51,7 +52,12 @@ define(['jquery', 'layout/actions', 'layout/actions/binder'], function($, action
         assert.equal(typeof actionsManager[data.title], 'function', 'The module exposes the method "' + data.title + '"');
     });
 
-    QUnit.module('Behavior');
+
+    QUnit.module('Behavior', {
+        teardown : function(){
+            actionsManager.removeAllListeners();
+        }
+    });
 
     QUnit.test('Load actions and update context', function(assert){
 
@@ -80,7 +86,7 @@ define(['jquery', 'layout/actions', 'layout/actions/binder'], function($, action
         assert.deepEqual(actionsManager.getBy('foo-delete'), {
             id      : 'foo-delete',
             name    : 'Delete',
-            binding : 'removeFoo',
+            binding : 'deleteFoo',
             url     : 'https://foo.org/taoFoo/Foo/delete',
             context : 'instance',
             multiple : false,
@@ -123,7 +129,7 @@ define(['jquery', 'layout/actions', 'layout/actions/binder'], function($, action
             uri  : 'https://foo.org/Foo#123'
         };
 
-        QUnit.expect(3);
+        QUnit.expect(4);
 
         binder.register('addFoo', function(receivedContext){
 
@@ -150,13 +156,84 @@ define(['jquery', 'layout/actions', 'layout/actions/binder'], function($, action
         actionsManager.init($('#qunit-fixture'));
         actionsManager.updateContext(context);
 
-        actionsManager.exec('foo-new')
-            .then(function(){
-                assert.ok(true, 'exec resolves once the action is done');
+        actionsManager
+            .on('foo-new', function(receivedContext){
+                assert.deepEqual(context, receivedContext, 'The received context matches the current');
+            })
+            .on('error', function(err){
+                assert.ok(false, err.message);
                 QUnit.start();
             })
-            .catch(function(err){
-                assert.ok(false, err.message);
+            .exec('foo-new')
+            .then(function(){
+                assert.ok(true, 'exec always return a resolved promise');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('cancel an action', function(assert){
+
+        QUnit.expect(3);
+
+        binder.register('deleteFoo', function(){
+            return new Promise( function(resolve, reject){
+                assert.ok(true, 'The delete action is executed');
+                setTimeout(function(){
+                    reject({ cancel : true });
+                }, 10);
+            });
+        });
+
+        actionsManager.init($('#qunit-fixture'));
+        actionsManager
+            .on('foo-delete', function(){
+                assert.ok(false, 'The action is canceled so the event should not be triggered');
+                QUnit.start();
+            })
+            .on('error', function(){
+                assert.ok(false, 'The action is canceled so the error event should not be triggered');
+                QUnit.start();
+            })
+            .on('cancel', function(actionId){
+                assert.equal(actionId, 'foo-delete', 'The correct action has been canceled');
+            })
+            .exec('foo-delete')
+            .then(function(){
+                assert.ok(true, 'exec always return a resolved promise');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('fail an action', function(assert){
+
+        QUnit.expect(4);
+
+        binder.register('deleteFoo', function(){
+            return new Promise( function(resolve, reject){
+                assert.ok(true, 'The delete action is executed');
+                setTimeout(function(){
+                    reject(new TypeError('out of bound'));
+                }, 10);
+            });
+        });
+
+        actionsManager.init($('#qunit-fixture'));
+        actionsManager
+            .on('foo-delete', function(){
+                assert.ok(false, 'The action fail so the action event should not be triggered');
+                QUnit.start();
+            })
+            .on('error', function(err){
+                assert.ok(err instanceof TypeError, 'The action rejects with the correct error.');
+                assert.equal(err.message, 'out of bound', 'The error message matches.');
+            })
+            .on('cancel', function(){
+                assert.ok(false, 'The action should not cancel');
+                QUnit.start();
+            })
+            .exec('foo-delete')
+            .then(function(){
+                assert.ok(true, 'exec always return a resolved promise, even if failed');
                 QUnit.start();
             });
     });
