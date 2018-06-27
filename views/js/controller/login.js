@@ -27,8 +27,9 @@ define([
     'module',
     'ui/feedback',
     'layout/loading-bar',
-    'layout/version-warning'
-], function ($, _, __, module, feedback, loadingBar, versionWarning) {
+    'layout/version-warning',
+    'babel/module'
+], function ($, _, __, module, feedback, loadingBar, versionWarning, es6module) {
     'use strict';
 
     /**
@@ -47,6 +48,8 @@ define([
             var $loginForm = $context.find('#loginForm');
             var $fakeForm = $context.find('.fakeForm');
             var $loginBtn = $context.find('[name=connect]');
+
+            es6module.testEs6('shall we login???');
 
             /**
             * Submits the form after a copy of all the inputs the user has made in the fake form
