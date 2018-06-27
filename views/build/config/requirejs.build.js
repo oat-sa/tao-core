@@ -8,6 +8,8 @@ require.config({
         'json'              : 'lib/text/json',
         'css'               : 'lib/require-css/css',
         'tpl'               : 'tpl',
+        'es6'               : '/www/tao/tao/views/build/node_modules/requirejs-babel-plugin/es6',
+        'babel'             : '/www/tao/tao/views/build/node_modules/babel-standalone/babel.min',
 
 //jquery and plugins
         'jquery'            : 'lib/jquery-1.8.0.min',
@@ -58,5 +60,13 @@ require.config({
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
         'c3'                    : { deps : ['css!lib/c3js/c3.css']}
+    },
+
+    es6: {
+        fileExtension: '.js'
+    },
+
+    babel: {
+        presets: ['es2015'] // can we use 'env' here ?
     }
 });

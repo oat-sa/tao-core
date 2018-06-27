@@ -16,6 +16,9 @@
   "dependencies": {},
   "devDependencies": {
     "almond": "^0.3.3",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-standalone": "^6.26.0",
     "grunt": "^1.0.0",
     "grunt-aws-s3": "^0.14.0",
     "grunt-concurrent": "^2.1.0",
@@ -34,6 +37,7 @@
     "grunt-sass": "^2.0.0",
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
+    "requirejs-babel-plugin": "^0.5.0",
     "time-grunt": "^1.0.0"
   }
 }

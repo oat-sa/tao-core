@@ -28,7 +28,7 @@ define([
     'ui/feedback',
     'layout/loading-bar',
     'layout/version-warning',
-    'babel/module'
+    'es6!babel/es6module'
 ], function ($, _, __, module, feedback, loadingBar, versionWarning, es6module) {
     'use strict';
 

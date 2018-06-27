@@ -20,7 +20,7 @@
  */
 define([
     'jquery',
-    'tao/babel/module'
+    'babel/es6module'
 ], function ($, es6module) {
     'use strict';
 
