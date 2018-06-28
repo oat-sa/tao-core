@@ -176,25 +176,25 @@ define([
 
         conf.syncDimensions = false;
         conf = helper.applyDimensions(conf, {width: 150});
-        assert.equal(conf.sizeProps['%'].current.width, 100, 'The percent can not be changed');
+        assert.equal(conf.sizeProps['%'].current.width, 21.42857, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 150, 'The width updated');
         assert.equal(conf.sizeProps.px.current.height, 100, 'The height not touched');
 
         conf.syncDimensions = true;
         conf = helper.applyDimensions(conf, {height: 150});
-        assert.equal(conf.sizeProps['%'].current.width, 100, 'The percent can not be changed');
+        assert.equal(conf.sizeProps['%'].current.width, 21.42857, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 225, 'The width changed');
         assert.equal(conf.sizeProps.px.current.height, 150, 'The height changed');
 
         conf.syncDimensions = false;
         conf = helper.applyDimensions(conf, {height: 200});
-        assert.equal(conf.sizeProps['%'].current.width, 100, 'The percent can not be changed');
+        assert.equal(conf.sizeProps['%'].current.width, 21.42857, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 225, 'The width not changed');
         assert.equal(conf.sizeProps.px.current.height, 200, 'The height changed');
 
         conf.syncDimensions = true;
         conf = helper.applyDimensions(conf, {width: 200});
-        assert.equal(conf.sizeProps['%'].current.width, 100, 'The percent can not be changed');
+        assert.equal(conf.sizeProps['%'].current.width, 28.57143, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 200, 'The width changed');
         assert.equal(conf.sizeProps.px.current.height, 177.77778 , 'The height changed');
     });
