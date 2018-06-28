@@ -33,70 +33,90 @@ define([
     'jquery',
     'lodash',
     'ui/component',
-    'ui/mediaEditor/mediaHelper',
-    'ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent'
-], function ($, _, component, helper, mediaDimensionComponent) {
+    'ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent',
+    'tpl!ui/mediaEditor/tpl/editor'
+], function ($, _, component, mediaDimensionComponent, tpl) {
     'use strict';
+
+    /**
+     * @typedef {Object} mediaObject
+     * @property $node
+     * @property type
+     * @property src
+     * @property width
+     * @property height
+     */
+
+    /**
+     * @typedef {Object} mediaEditorConfig
+     * @property mediaDimension {{$container: object, active: boolean}}
+     * @property mediaAlignment {{$container: object, active: boolean}}
+     */
 
     /**
      * target - jQuery element with media $()
      * container - container to which an target is attached
      *
-     * @type {{$media: null, tools: {mediaDimension: {$container: null, active: boolean}}}}
+     * @type mediaEditorConfig
      * @private
      */
     var _defaults = {
-        $media: null,
-        tools: {
-            mediaDimension: {
-                $container: null,
-                active: false
-            }
+        mediaDimension: {
+            $container: null,
+            active: false
         }
     };
 
     /**
      * Creates media editor
      *
-     * @param {Object} config
+     * @param {Object} $container - jQuery pointer
+     * @param {mediaObject} media
+     * @param {mediaEditorConfig} config
      * @returns {component|*}
      */
-    return function mediaEditorFactory(config) {
-
-        var _config;
+    return function mediaEditorFactory($container, media, config) {
 
         /**
          * Current component
          */
-        var mediaEditorComponent = component();
+        var mediaEditorComponent = component({}, _defaults);
 
-        _config = _.defaults(config || {}, _defaults);
         mediaEditorComponent
+            .setTemplate(tpl)
             .on('init', function () {
-                if (this.getConfig().$media && this.getConfig().$media.length) {
-                    helper.init(this.getConfig().$media, {}, function (prop) {
-                        if (_config.tools.mediaDimension.active && _config.tools.mediaDimension.$container.length) {
-                            mediaDimensionComponent(prop.getMedia())
-                                .on('changed', function (media) {
-                                    if (media.sizeProps.currentUtil === 'px') {
-                                        _config.$media.css({
-                                            width: media.sizeProps.px.current.width,
-                                            height: media.sizeProps.px.current.height
-                                        });
-                                    } else {
-                                        // percent
-                                        _config.$media.css({
-                                            height: '',
-                                            width: media.sizeProps['%'].current.width + '%'
-                                        });
-                                    }
-                                })
-                                .render(_config.tools.mediaDimension.$container);
-                        }
-                    });
+                if (!media || !media.$node || !media.$node.length) {
+                    throw new Error('mediaEditorComponent requires media $node');
                 }
+
+                this.render($container);
             })
-            .init(_config);
+            .on('render', function () {
+                if (this.getConfig().mediaDimension.active && this.getConfig().mediaDimension.$container
+                    && this.getConfig().mediaDimension.$container
+                ) {
+                    mediaDimensionComponent(this.getConfig().mediaDimension.$container, media, {})
+                        .on('change', function (conf) {
+                            if (conf.sizeProps.currentUtil === 'px') {
+                                media.$node.css({
+                                    width: conf.sizeProps.px.current.width,
+                                    height: conf.sizeProps.px.current.height
+                                });
+                            } else {
+                                // percent
+                                media.$node.css({
+                                    height: 'auto',
+                                    width: conf.sizeProps['%'].current.width + '%'
+                                });
+                            }
+                        });
+                }
+            });
+
+        _.defer(function(){
+            mediaEditorComponent.init(config);
+        });
+
         return mediaEditorComponent;
     };
 });

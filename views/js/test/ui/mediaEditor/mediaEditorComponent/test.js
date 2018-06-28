@@ -22,42 +22,10 @@ define([
     'jquery',
     'lodash',
     'ui/mediaEditor/mediaEditorComponent',
+    'util/image',
     'css!test/ui/mediaEditor/mediaEditorComponent/styles'
-], function ($, _, mediaEditorComponent) {
+], function ($, _, mediaEditorComponent, imageUtil) {
     'use strict';
-
-    QUnit.module('API');
-
-    QUnit.test('factory', function (assert) {
-        QUnit.expect(3);
-
-        assert.ok(typeof mediaEditorComponent === 'function', 'the module exposes a function');
-        assert.ok(typeof mediaEditorComponent(false, []) === 'object', 'the factory creates an object');
-        assert.notEqual(mediaEditorComponent({}), mediaEditorComponent({}), 'the factory creates new objects');
-    });
-
-    QUnit.test('component', function (assert) {
-        var component;
-
-        QUnit.expect(2);
-
-        component = mediaEditorComponent({});
-
-        assert.ok(typeof component.render === 'function', 'the component has a render method');
-        assert.ok(typeof component.destroy === 'function', 'the component has a destroy method');
-    });
-
-    QUnit.test('eventifier', function (assert) {
-        var component;
-
-        QUnit.expect(3);
-
-        component = mediaEditorComponent({});
-
-        assert.ok(typeof component.on === 'function', 'the component has a on method');
-        assert.ok(typeof component.off === 'function', 'the component has a off method');
-        assert.ok(typeof component.trigger === 'function', 'the component has a trigger method');
-    });
 
     QUnit.module('Demo');
 
@@ -76,7 +44,7 @@ define([
         $editableContainer.append($controlContainer);
         $editableContainer.append($img);
 
-        mediaEditorComponent({
+        /*mediaEditorComponent({
             $media: $img,
             tools: {
                 mediaDimension: {
@@ -89,6 +57,23 @@ define([
                 // check that control panel initialized and works
                 // check that image is shown and manageable
             })
-            .render();
+            .render($demoContainer);*/
+
+        imageUtil.getSize($img.attr('src'), function(size){
+            var media = {
+                $node: $img,
+                type: 'image/jpeg',
+                src: $img.attr('src'),
+                width: size.width,
+                height: size.height
+            };
+
+            mediaEditorComponent($demoContainer, media, {
+                mediaDimension: {
+                    $container: $controlContainer,
+                    active: true
+                }
+            });
+        });
     });
 });

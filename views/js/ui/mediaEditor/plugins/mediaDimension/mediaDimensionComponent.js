@@ -47,12 +47,10 @@ define([
      *        natural: {
      *          width: number,
      *          height: number,
-     *          slider: number
      *        },
      *        current: {
      *          width: number,
      *          height: number,
-     *          slider: number
      *        }
      *      }}
      * @property ratio {{
@@ -65,6 +63,7 @@ define([
     /**
      * Size properties of the media control panel
      * @typedef {Object} mediaSizeProps
+     * @property showResponsiveToggle boolean
      * @property responsive boolean
      * @property sizeProps sizeProps
      * @property originalSizeProps sizeProps
@@ -86,6 +85,7 @@ define([
      * precision - precision for all calculations (0.00001)
      *
      * @type {{
+     *    showResponsiveToggle: boolean,
      *    responsive: boolean,
      *    showSync: boolean,
      *    showReset: boolean,
@@ -100,12 +100,37 @@ define([
      * @private
      */
     var _defaults = {
+        showResponsiveToggle: true,
         responsive: true,
         showSync: true,
         showReset: true,
-        sizeProps: {},
+        sizeProps: {
+            px: {
+                current: {
+                    width: 0,
+                    height: 0
+                }
+            },
+            '%': {
+                current: {
+                    width: 0,
+                    height: null
+                }
+            },
+            ratio: {
+                natural: 1,
+                current: 1
+            },
+            currentUtil: '%',
+            slider: {
+                min: 1,
+                max: 100,
+                start: 100
+            }
+        },
         denyCustomRatio: false,
         syncDimensions: true,
+        containerWidth: 0,
         width: 0,
         height: 0,
         minWidth: 0,
@@ -119,7 +144,7 @@ define([
      * @fires "changed" - on State changed
      * return {component|*}
      */
-    return function mediaDimensionFactory(config) {
+    return function mediaDimensionFactory($container, media, config) {
         /**
          * Collections of the jquery elements grouped by type
          */
@@ -133,14 +158,25 @@ define([
                 // slide sliders
                 $slider.val(_config.sizeProps['%'].current.width);
                 // percent Input
-                $fields['%'].width.val(_config.sizeProps['%'].current.width);
+                $fields['%'].width.val(helper.round(_config.sizeProps['%'].current.width, 0));
                 // px inputs
-                $fields.px.width.val(_config.sizeProps.px.current.width);
-                $fields.px.height.val(_config.sizeProps.px.current.height);
+                $fields.px.width.val(helper.round(_config.sizeProps.px.current.width, 0));
+                $fields.px.height.val(helper.round(_config.sizeProps.px.current.height, 0));
 
-                this.trigger('changed', _config);
+                this.trigger('change', _config);
             }
-        });
+        }, _defaults);
+
+        /**
+         * Calculate propSizes to have correct sizes for the shown image
+         */
+        var calculateCurrentSizes = function calculateCurrentSizes() {
+            _config.sizeProps.containerWidth = media.$node.parents().innerWidth();
+            _config = helper.applyDimensions(_config, {
+                width: (_config.sizeProps.containerWidth < media.width ? _config.sizeProps.containerWidth : media.width)
+            });
+            mediaDimensionComponent.update();
+        };
 
         /**
          * Check that input in progress and we don't need to change anything
@@ -199,6 +235,7 @@ define([
             $responsiveToggleField.on('click', function () {
                 _checkMode();
                 $elt.trigger('responsiveswitch', [$responsiveToggleField.is(':checked')]);
+                mediaDimensionComponent.update({percent: $fields['%'].width.val()});
             });
 
             $responsiveToggleField.prop('checked', _config.sizeProps.currentUtil === '%');
@@ -252,6 +289,7 @@ define([
             // displayed from somewhere else
             $btn.on('click', function() {
                 _config.sizeProps = _config.originalSizeProps;
+                calculateCurrentSizes();
                 mediaDimensionComponent.update();
             });
 
@@ -358,30 +396,55 @@ define([
             _slider.noUiSlider({
                 start: _config.sizeProps.slider.start,
                 range: {
-                    'min': _config.sizeProps.slider.min,
-                    'max': _config.sizeProps.slider.max
+                    min: _config.sizeProps.slider.min,
+                    max: _config.sizeProps.slider.max
                 }
             })
                 .on('slide', function () {
                     // to avoid .00
-                    _config.sizeProps['%'].current.width = parseFloat($(this).val()+'');
+                    var percent = parseFloat($(this).val()+'');
+                    helper.applyDimensions(_config, { percent: percent });
                     mediaDimensionComponent.update();
                 });
 
             return _slider;
         };
 
-        _config = _.defaults(config || {}, _defaults);
-        if (!_config || !_config.hasOwnProperty('sizeProps') || _.isEmpty(_config.sizeProps)) {
-            throw new Error('mediaEditorComponent requires sizeProps parameter');
-        }
-        _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
         mediaDimensionComponent
+            .on('init', function () {
+                var mediaProps = {
+                    px: {
+                        current: {
+                            width: media.width,
+                            height: media.height
+                        },
+                        natural: {
+                            width: media.width,
+                            height: media.height
+                        }
+                    },
+                    '%': {
+                        current: {
+                            width: 100
+                        }
+                    }
+                };
+
+                // rewrite with defined values
+                _config = this.getConfig();
+                _config.sizeProps = _.defaults(mediaProps, _config.sizeProps, _defaults.sizeProps);
+                _config.sizeProps.ratio.natural = helper.getCurrentRatio(_config);
+                _config.sizeProps.ratio.current = helper.getCurrentRatio(_config);
+                _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
+                this.render($container);
+            })
             .on('render', function () {
-                var $tpl = $(tpl({
+                var $tpl, $mediaSizer;
+
+                $tpl = $(tpl({
                     responsive: (typeof _config.responsive !== 'undefined') ? !!_config.responsive : true
                 }));
-                var $mediaSizer = $tpl.find('.media-sizer');
+                $mediaSizer = $tpl.find('.media-sizer');
 
                 $tpl.appendTo(this.getContainer());
 
@@ -394,8 +457,13 @@ define([
                 $fields = _initFields();
                 _initSyncBtn($tpl);
                 _initResetBtn($tpl);
-            })
-            .init(_config);
+
+                calculateCurrentSizes();
+            });
+
+        _.defer(function(){
+            mediaDimensionComponent.init(config);
+        });
 
         return mediaDimensionComponent;
     };

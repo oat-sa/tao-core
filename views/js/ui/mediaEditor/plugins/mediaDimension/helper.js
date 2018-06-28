@@ -67,6 +67,19 @@ define([], function () {
         return ratio ? ratio : 1;
     };
 
+    var applyNewPercent = function setNewPercent (val, conf) {
+        conf.sizeProps['%'].current.width = val;
+        if (conf.sizeProps['%'].current.width > 100) {
+            conf.sizeProps['%'].current.width = 100;
+        }
+
+        if (conf.sizeProps['%'].current.width < 1) {
+            conf.sizeProps['%'].current.width = 1;
+        }
+
+        return conf;
+    };
+
     /**
      *
      * @param conf
@@ -77,6 +90,7 @@ define([], function () {
         var ratio = _getActualRatio(conf);
         var val = _parseVal(width, conf.precision);
         conf.sizeProps.px.current.width = val;
+        conf = applyNewPercent(_round(val * 100 / conf.sizeProps.containerWidth, conf.precision), conf);
         if (!conf.syncDimensions) {
             _getActualRatio(conf);
         } else {
@@ -100,6 +114,7 @@ define([], function () {
             _getActualRatio(conf);
         } else {
             conf.sizeProps.px.current.width = _round(val * ratio, conf.precision);
+            conf = applyNewPercent(_round(val * 100 / conf.sizeProps.containerWidth, conf.precision), conf);
         }
         return conf;
     };
@@ -118,7 +133,12 @@ define([], function () {
             percent = 100;
         }
 
-        conf.sizeProps['%'].current.width = _round(percent, conf.precision);
+        conf = applyNewPercent(_round(percent, conf.precision), conf);
+        conf.sizeProps.ratio.current = conf.sizeProps.ratio.natural;
+        // changing non-responsive mode accordingly
+        conf.sizeProps.px.current.width =
+            _round( conf.sizeProps.containerWidth * conf.sizeProps['%'].current.width / 100, conf.precision);
+        conf.sizeProps.px.current.height =  _round(conf.sizeProps.px.current.width / conf.sizeProps.ratio.natural, conf.precision);
         return conf;
     };
 
@@ -139,6 +159,12 @@ define([], function () {
                 }
             }
             return conf;
+        },
+        getCurrentRatio: function updateRatio (conf) {
+            return _getActualRatio(conf);
+        },
+        round: function round(val, precision) {
+            return _round(val, precision);
         }
     };
 });
