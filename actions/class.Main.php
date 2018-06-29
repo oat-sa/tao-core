@@ -21,7 +21,7 @@
  *
  */
 
-use oat\generis\model\GenerisRdf;
+use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
@@ -198,7 +198,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                         $this->setData('errorMessage', $msg);
                     } else {
                         if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
-                            $eventManager->trigger(new LoginSucceedEvent($form->getValue('login')));
+                            $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
+
+                            $eventManager->trigger(new LoginSucceedEvent(current($logins)));
 
                             common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
 
@@ -290,7 +292,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(GenerisRdf::PROPERTY_USER_LOGIN);
+        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
         $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
 
 
