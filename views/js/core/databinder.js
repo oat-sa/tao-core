@@ -1,4 +1,21 @@
 /**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013-2018 Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ */
+/**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @requires jquery
  * @requires lodash
@@ -6,8 +23,8 @@
  * @requires core/encoder/encoders
  */
 define([
-'jquery', 'lodash', 'handlebars', 'core/encoder/encoders', 'core/filter/filters'],
-function($, _, Handlebars, Encoders, Filters){
+    'jquery', 'lodash', 'handlebars', 'core/encoder/encoders', 'core/filter/filters'
+], function($, _, Handlebars, Encoders, Filters){
     'use strict';
 
     /**
@@ -24,10 +41,10 @@ function($, _, Handlebars, Encoders, Filters){
 
         if (size >= 1) {
             result = obj[nodes[0]];
-            if (result !== undefined) {
+            if (typeof result !== 'undefined') {
                 for (i = 1; i < size; i++) {
                     result = result[nodes[i]];
-                    if (result === undefined) {
+                    if (typeof result === 'undefined') {
                         break;
                     }
                 }
@@ -45,7 +62,8 @@ function($, _, Handlebars, Encoders, Filters){
     var update = function update(obj, path, value) {
         var nodes = path.split('.');
         var size = nodes.length;
-        for (var i = 0; i < size; i++) {
+        var i;
+        for (i = 0; i < size; i++) {
             if (i === (size - 1)) {
                 obj[nodes[i]] = value;
                 return;
@@ -70,7 +88,8 @@ function($, _, Handlebars, Encoders, Filters){
     var remove = function remove(obj, path) {
         var nodes = path.split('.');
         var size = nodes.length;
-        for (var i = 0; i < size; i++) {
+        var i;
+        for (i = 0; i < size; i++) {
             if (i === (size - 1)) {
                 if(_.isArray(obj)){
                     obj.splice(parseInt(nodes[i], 10), 1);
@@ -164,6 +183,23 @@ function($, _, Handlebars, Encoders, Filters){
     };
 
     /**
+     * Unbind event registered using <i>this._bind</i> function.
+     * @param {jQueryElement} $node - the node to bind
+     * @param {jQueryElement} $container - the node container
+     * @param {String} eventName - the name of the event to bind
+     * @private
+     */
+    var _unbind = function _unbind($node, $container, eventName) {
+        var bounds;
+        if ($node.length > 0) {
+            bounds = $._data($node[0], 'events');
+            if (bounds && _(bounds[eventName]).where({namespace : 'internalbinder'}).size() > 0 ) {
+                toBind($node, $container).off(eventName + '.internalbinder');
+            }
+        }
+    };
+
+    /**
      * Bind wrapper to ensure the event is bound only once using a namespace
      * @param {jQueryElement} $node - the node to bind
      * @param {jQueryElement} $container - the node container
@@ -183,32 +219,6 @@ function($, _, Handlebars, Encoders, Filters){
                 });
             }
         }
-    };
-
-
-    /**
-     * Unbind event registered using <i>this._bind</i> function.
-     * @param {jQueryElement} $node - the node to bind
-     * @param {jQueryElement} $container - the node container
-     * @param {String} eventName - the name of the event to bind
-     * @private
-     */
-    var _unbind = function _unbind($node, $container, eventName) {
-        var bounds;
-        if ($node.length > 0) {
-            bounds = $._data($node[0], 'events');
-            if (bounds && _(bounds[eventName]).where({namespace : 'internalbinder'}).size() > 0 ) {
-                toBind($node, $container).off(eventName + '.internalbinder');
-            }
-        }
-    }
-
-    /**
-     * The default configuration
-     */
-    var bindDefault = {
-        domFirst : false,
-        rebind : false
     };
 
     /**
@@ -254,7 +264,7 @@ function($, _, Handlebars, Encoders, Filters){
     DataBinder.prototype._bindNode = function _bindNode($node, path, model, domFirst) {
         if(!$node.data('bound')){
             if(domFirst === true || locate(model, path) === undefined){
-                  update(model, path, this._getNodeValue($node));
+                update(model, path, this._getNodeValue($node));
             }
 
             this._setNodeValue($node, locate(model, path));
@@ -276,11 +286,13 @@ function($, _, Handlebars, Encoders, Filters){
      * @param {boolean} [domFirst = false] - if the node content must be assigned to the model value first
      */
     DataBinder.prototype._bindArrayNode = function _bindArrayNode($node, path, model, domFirst) {
-
         var self = this;
+        var template;
+        var values;
+
         if(!$node.data('bound')){
-            var template;
-            var values = locate(model, path);
+
+            values = locate(model, path);
 
             //the item content is either defined by an external template or as the node content
             if($node.data('bind-tmpl')){
@@ -291,20 +303,20 @@ function($, _, Handlebars, Encoders, Filters){
                     template = Handlebars.compile($($node.data('bind-tmpl')).html());
                 }
             } else {
-                 template = Handlebars.compile($node.html());
+                template = Handlebars.compile($node.html());
             }
 
             if(!values || !_.isArray(values)){
-                 //create the array in the model if not exists
-                 update(model, path, []);
-             } else if($node.data('bind-filter')) {
-                 //apply filtering
-                 values = this.filters.filter($node.data('bind-filter'), values);
-             }
+                //create the array in the model if not exists
+                update(model, path, []);
+            } else if($node.data('bind-filter')) {
+                //apply filtering
+                values = this.filters.filter($node.data('bind-filter'), values);
+            }
 
-             $node.empty();
+            $node.empty();
 
-             _.forEach(values, function(value, index){
+            _.forEach(values, function(value, index){
                 var $newNode;
 
                 value.index = index;                        //the model as an index property, used for reordering
@@ -319,13 +331,13 @@ function($, _, Handlebars, Encoders, Filters){
 
                  //listen for removal on the item node
                 self._listenRemoves($newNode, path + '.' + index, self.model);
-             });
+            });
 
-             //listen for reordering and item addition on the list node
-             self._listenUpdates($node, path, model);
-             self._listenAdds($node, path, model);
+            //listen for reordering and item addition on the list node
+            self._listenUpdates($node, path, model);
+            self._listenAdds($node, path, model);
 
-             $node.data('bound', path);
+            $node.data('bound', path);
         }
     };
 
@@ -343,7 +355,7 @@ function($, _, Handlebars, Encoders, Filters){
             this._listenUpdates($node, path, model);
 
             if(domFirst === true){
-                  $node.trigger('change');
+                $node.trigger('change');
             }
 
             $node.data('bound', path);
@@ -362,28 +374,28 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._listenUpdates = function _listenUpdates($node, path, model) {
         var self = this;
+        var value;
         _bindOnce($node, this.$container, 'change', function() {
             if($node.is('[data-bind-each]')){
 
-                 //sort the model, sync the indexes and rebind the content
-                 order(model, path, $node);
-                 resyncIndexes(model, path, $node);
+                //sort the model, sync the indexes and rebind the content
+                order(model, path, $node);
+                resyncIndexes(model, path, $node);
 
-                 $node.data('bind-each', path);
-                 self._rebind($node);
+                $node.data('bind-each', path);
+                self._rebind($node);
 
                  /**
                   * The model has been sorted
                   * @event DataBinder#order.binder
                   * @param {Object} model - the up to date model
                   */
-                 self.$container.trigger('order.binder', [self.model]);
+                self.$container.trigger('order.binder', [self.model]);
 
-            }
-            else if($node.is('[data-bind-rm]')){
+            } else if($node.is('[data-bind-rm]')){
 
                 //remove the model element if the node value is true
-                var value = self._getNodeValue($node);
+                value = self._getNodeValue($node);
                 if(value === true){
                     remove(model, path);
                 }
@@ -417,7 +429,7 @@ function($, _, Handlebars, Encoders, Filters){
              * @event DataBinder#change.binder
              * @param {Object} model - the up to date model
              */
-             self.$container.trigger('change.binder', [self.model]);
+            self.$container.trigger('change.binder', [self.model]);
         });
     };
 
@@ -439,15 +451,12 @@ function($, _, Handlebars, Encoders, Filters){
                 self._resyncIndexOnceRm($node, path);
 
                 $node.parent()
-                  .off('deleted.deleter')
-                  .on('deleted.deleter', function(){
-                    doRemoval();
-                });
+                  .one('deleted.deleter', function(){
+                      doRemoval();
+                  });
 
                 if ($node.is('[data-bind-index]')) {
-                    $node
-                      .off('undo.deleter')
-                      .one('undo.deleter', function(){
+                    $node.one('undo.deleter', function(){
                         var $parentNode = $node.parent().closest('[data-bind-each]');
                         var parentPath = path.replace(/\.[0-9]+$/, '');
                         resyncIndexes(self.model, parentPath, $parentNode);
@@ -480,7 +489,7 @@ function($, _, Handlebars, Encoders, Filters){
      * @private
      * @param {jQueryElement} $node - the elements to bind
      * @param {string} path - the path to the model value to bind
-     * @param {Object} model - the model bound
+     * @param {Object} [model] - the model bound
      * @fires DataBinder#add.binder
      * @fires DataBinder#change.binder
      */
@@ -529,28 +538,32 @@ function($, _, Handlebars, Encoders, Filters){
      * @param {string} path - the path to the model value to bind
      */
     DataBinder.prototype._resyncIndexOnceRm = function _resyncIndexOnceRm($node, path){
-         var self = this;
-         if ($node.is('[data-bind-index]')) {
-                var removedIndex = parseInt($node.data('bind-index'), 10);
-                var $parentNode = $node.parent().closest('[data-bind-each]');
-                var parentPath = path.replace(/\.[0-9]+$/, '');
+        var self = this;
+        var removedIndex;
+        var $parentNode;
+        var parentPath;
 
-                resyncIndexes(self.model, parentPath);
+        if ($node.is('[data-bind-index]')) {
+            removedIndex = parseInt($node.data('bind-index'), 10);
+            $parentNode = $node.parent().closest('[data-bind-each]');
+            parentPath = path.replace(/\.[0-9]+$/, '');
 
-                if(($parentNode.children('[data-bind-index]').length - 1) !== removedIndex){ //if removed not the last element
-                    //we need to rebind after sync because the path are not valid anymore
-                    $parentNode.children('[data-bind-index]').filter(':gt(' + removedIndex + ')').each(function() {
-                        var $item = $(this);
-                        var newIndex = parseInt($item.data('bind-index'), 10) - 1;
-                        //we also update the indexes
-                        $item.attr('data-bind-index', newIndex)
-                                .data('bind-index', newIndex + '');
-                    });
-                }
+            resyncIndexes(self.model, parentPath);
 
-                //we need to rebind the model to the new paths
-                self._rebind($parentNode, parentPath.replace($parentNode.data('bind-each'), ''));
+            if(($parentNode.children('[data-bind-index]').length - 1) !== removedIndex){ //if removed not the last element
+                //we need to rebind after sync because the path are not valid anymore
+                $parentNode.children('[data-bind-index]').filter(':gt(' + removedIndex + ')').each(function() {
+                    var $item = $(this);
+                    var newIndex = parseInt($item.data('bind-index'), 10) - 1;
+                    //we also update the indexes
+                    $item.attr('data-bind-index', newIndex)
+                            .data('bind-index', newIndex + '');
+                });
             }
+
+            //we need to rebind the model to the new paths
+            self._rebind($parentNode, parentPath.replace($parentNode.data('bind-each'), ''));
+        }
     };
 
     /**
@@ -563,11 +576,11 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._setNodeValue = function _setNodeValue($node, value) {
         var self = this;
-        if (value !== undefined) {
+        if (typeof value !== 'undefined') {
 
              //decode value
             if ($node.data('bind-encoder')) {
-                 value = this.encoders.encode($node.data('bind-encoder'), value);
+                value = this.encoders.encode($node.data('bind-encoder'), value);
             }
 
             //assign value
@@ -628,7 +641,7 @@ function($, _, Handlebars, Encoders, Filters){
 
         //decode value
         if ($node.data('bind-encoder')) {
-           value = this.encoders.decode($node.data('bind-encoder'), value);
+            value = this.encoders.decode($node.data('bind-encoder'), value);
         }
 
         return value;
@@ -645,24 +658,25 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype.bind = function bind($elt, model, prefix, domFirst) {
         var self = this;
-        $elt = $elt || this.$container;
-        model = model || this.model;
-        prefix = prefix || '';
-        domFirst = domFirst || false;
 
         /**
          * Find dataAttrName
          * @param {type} $elt
          * @param {type} dataAttrName
          */
-        var bindElements = function bindElements($elt, dataAttrName, binding){
+        var bindElements = function bindElements($boundElt, dataAttrName, binding){
             var selector = '[data-' + dataAttrName + ']';
-            $elt.find(selector).andSelf().filter(selector).each(function(){
+            $boundElt.find(selector).andSelf().filter(selector).each(function(){
                 var $node = $(this);
                 var path = prefix + $node.data(dataAttrName);
                 self[binding]($node, path, model, domFirst);
             });
         };
+
+        $elt = $elt || this.$container;
+        model = model || this.model;
+        prefix = prefix || '';
+        domFirst = domFirst || false;
 
         //Array binding
         bindElements($elt, 'bind-each', '_bindArrayNode');
@@ -681,43 +695,43 @@ function($, _, Handlebars, Encoders, Filters){
      * @param {jQueryElement} $elt - the container of the elements to bind (also itself boundable)
      * @param {string} [prefix = ''] - a prefix into the model path, used internally on rebound
      */
-     DataBinder.prototype._rebind = function _rebind($elt, prefix){
-
+    DataBinder.prototype._rebind = function _rebind($elt, prefix){
         var self = this;
+        var path;
+        var values;
         prefix = prefix || '';
 
         if( $elt.is('[data-bind-each]')){
-             var path = prefix + $elt.data('bind-each');
-             var values = locate(self.model, path);
+            path = prefix + $elt.data('bind-each');
+            values = locate(self.model, path);
 
-             _.forEach(values, function(value, index){
+            _.forEach(values, function(value, index){
                 var $childNode = $elt.children('[data-bind-index="' + index + '"]');
 
                 self._rebind($childNode, path + '.' + index + '.');
 
                 self._listenRemoves($childNode, path + '.' + index, self.model);
-             });
+            });
 
              //listen for reordering and item addition on the list node
-             if (values !== undefined) {
-                 self._listenUpdates($elt, path, self.model);
-                 self._listenAdds($elt, path, self.model);
-             }
+            if (typeof values !== 'undefined') {
+                self._listenUpdates($elt, path, self.model);
+                self._listenAdds($elt, path, self.model);
+            }
 
-         } else {
-             $elt.find('[data-bind]').each(function(){
-                    var $node = $(this);
-                    var path =  prefix + $node.data('bind');
+        } else {
+            $elt.find('[data-bind]').each(function(){
+                var $node = $(this);
+                var boundPath =  prefix + $node.data('bind');
 
-                    self._listenUpdates($node, path, self.model);
-                    self._listenRemoves($node, path, self.model);
-                });
-             $elt.find('[data-bind-each]').each(function(){
-                    self._rebind($(this), prefix);
-                });
-         }
-
-     };
+                self._listenUpdates($node, boundPath, self.model);
+                self._listenRemoves($node, boundPath, self.model);
+            });
+            $elt.find('[data-bind-each]').each(function(){
+                self._rebind($(this), prefix);
+            });
+        }
+    };
 
     //only the DataBinder is exposed
     return DataBinder;
