@@ -44,21 +44,6 @@ define([
         $editableContainer.append($controlContainer);
         $editableContainer.append($img);
 
-        /*mediaEditorComponent({
-            $media: $img,
-            tools: {
-                mediaDimension: {
-                    $container: $controlContainer,
-                    active: true
-                }
-            }
-        })
-            .on('render', function () {
-                // check that control panel initialized and works
-                // check that image is shown and manageable
-            })
-            .render($demoContainer);*/
-
         imageUtil.getSize($img.attr('src'), function(size){
             var media = {
                 $node: $img,
@@ -68,7 +53,7 @@ define([
                 height: size.height
             };
 
-            mediaEditorComponent($demoContainer, media, {
+            mediaEditorComponent($editableContainer, media, {
                 mediaDimension: {
                     $container: $controlContainer,
                     active: true

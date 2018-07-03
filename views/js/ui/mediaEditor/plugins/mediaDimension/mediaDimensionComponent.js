@@ -63,6 +63,7 @@ define([
     /**
      * Size properties of the media control panel
      * @typedef {Object} mediaSizeProps
+     * @property $editableContainer object
      * @property showResponsiveToggle boolean
      * @property responsive boolean
      * @property sizeProps sizeProps
@@ -85,6 +86,7 @@ define([
      * precision - precision for all calculations (0.00001)
      *
      * @type {{
+     *    $editableContainer: object,
      *    showResponsiveToggle: boolean,
      *    responsive: boolean,
      *    showSync: boolean,
@@ -100,6 +102,7 @@ define([
      * @private
      */
     var _defaults = {
+        $editableContainer: null,
         showResponsiveToggle: true,
         responsive: true,
         showSync: true,
@@ -130,7 +133,6 @@ define([
         },
         denyCustomRatio: false,
         syncDimensions: true,
-        containerWidth: 0,
         width: 0,
         height: 0,
         minWidth: 0,
@@ -171,9 +173,8 @@ define([
          * Calculate propSizes to have correct sizes for the shown image
          */
         var calculateCurrentSizes = function calculateCurrentSizes() {
-            _config.sizeProps.containerWidth = media.$node.parents().innerWidth();
             _config = helper.applyDimensions(_config, {
-                width: (_config.sizeProps.containerWidth < media.width ? _config.sizeProps.containerWidth : media.width)
+                width: (helper.containerWidth(_config) < media.width ? helper.containerWidth(_config) : media.width)
             });
             mediaDimensionComponent.update();
         };
@@ -202,20 +203,23 @@ define([
                 $responsiveToggleField = $elt.find('.media-mode-switch'),
                 _checkMode = function () {
                     if ($responsiveToggleField.is(':checked')) {
+                        _config.responsive = true;
                         _blocks.px.hide();
                         _blocks['%'].show();
                         _config.sizeProps.currentUtil = '%';
-                        if ($fields && $fields['%'].width.val() > $slider.max) {
-                            $fields['%'].width.val($slider.max);
-                            mediaDimensionComponent.update({percent: $fields['%'].width.val()});
-                        } else {
-                            mediaDimensionComponent.trigger('changed', _config);
-                        }
                     } else {
+                        _config.responsive = false;
                         _blocks['%'].hide();
                         _blocks.px.show();
                         _config.sizeProps.currentUtil = 'px';
-                        mediaDimensionComponent.trigger('changed', _config);
+                    }
+
+                    if ($fields) {
+                        if ($fields['%'].width.val() > $slider.max) {
+                            $fields['%'].width.val($slider.max);
+                        }
+                        _config = helper.applyDimensions(_config, {percent: $fields['%'].width.val()});
+                        mediaDimensionComponent.update();
                     }
                 };
 
@@ -235,10 +239,9 @@ define([
             $responsiveToggleField.on('click', function () {
                 _checkMode();
                 $elt.trigger('responsiveswitch', [$responsiveToggleField.is(':checked')]);
-                mediaDimensionComponent.update({percent: $fields['%'].width.val()});
             });
 
-            $responsiveToggleField.prop('checked', _config.sizeProps.currentUtil === '%');
+            $responsiveToggleField.prop('checked', _config.responsive);
 
             // initialize it properly
             _checkMode();
@@ -436,18 +439,21 @@ define([
                 _config.sizeProps.ratio.natural = helper.getCurrentRatio(_config);
                 _config.sizeProps.ratio.current = helper.getCurrentRatio(_config);
                 _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
+                if (!_config.$editableContainer || !_config.$editableContainer.length) {
+                    _config.$editableContainer = media.$node.parents();
+                }
                 this.render($container);
             })
             .on('render', function () {
                 var $tpl, $mediaSizer;
 
                 $tpl = $(tpl({
-                    responsive: (typeof _config.responsive !== 'undefined') ? !!_config.responsive : true
+                    responsive: (typeof _config.responsive !== 'undefined') ? _config.responsive : true
                 }));
-                $mediaSizer = $tpl.find('.media-sizer');
 
                 $tpl.appendTo(this.getContainer());
 
+                $mediaSizer = $tpl.find('.media-sizer');
                 if (_config.syncDimensions === true && !$mediaSizer.hasClass('media-sizer-synced')) {
                     $mediaSizer.addClass('media-sizer-synced');
                 }
@@ -458,7 +464,24 @@ define([
                 _initSyncBtn($tpl);
                 _initResetBtn($tpl);
 
-                calculateCurrentSizes();
+                if (typeof media.$node.attr('width') === 'undefined') {
+                    // if no sizes are set then control panel initialization
+                    calculateCurrentSizes();
+                } else {
+                    if (_config.responsive) {
+                        // initialize by percent on the responsive mode
+                        _config = helper.applyDimensions(_config, {percent: media.$node.attr('width')});
+                    } else {
+                        // non-responsive mode
+                        _config.sizeProps.px.current = {
+                            width: media.$node.prop('width'),
+                            height: media.$node.prop('height')
+                        };
+                        // calculate percent
+                        _config.sizeProps['%'].current.width = helper.round(media.$node.prop('width') * 100 / helper.containerWidth(_config), _config.precision);
+                    }
+                }
+                mediaDimensionComponent.update();
             });
 
         _.defer(function(){

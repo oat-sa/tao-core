@@ -67,7 +67,13 @@ define([], function () {
         return ratio ? ratio : 1;
     };
 
-    var applyNewPercent = function setNewPercent (val, conf) {
+    /**
+     * Percent verification
+     * @param val
+     * @param conf
+     * @return {*}
+     */
+    var applyNewPercent = function applyNewPercent (val, conf) {
         conf.sizeProps['%'].current.width = val;
         if (conf.sizeProps['%'].current.width > 100) {
             conf.sizeProps['%'].current.width = 100;
@@ -81,6 +87,16 @@ define([], function () {
     };
 
     /**
+     * Getting container width
+     * @param conf
+     * @return {*}
+     * @private
+     */
+    var _getContainerWidth = function _getContainerWidth (conf) {
+        return conf.$editableContainer.innerWidth();
+    };
+
+    /**
      *
      * @param conf
      * @param width
@@ -90,7 +106,7 @@ define([], function () {
         var ratio = _getActualRatio(conf);
         var val = _parseVal(width, conf.precision);
         conf.sizeProps.px.current.width = val;
-        conf = applyNewPercent(_round(val * 100 / conf.sizeProps.containerWidth, conf.precision), conf);
+        conf = applyNewPercent(_round(val * 100 / _getContainerWidth(conf), conf.precision), conf);
         if (!conf.syncDimensions) {
             _getActualRatio(conf);
         } else {
@@ -114,7 +130,7 @@ define([], function () {
             _getActualRatio(conf);
         } else {
             conf.sizeProps.px.current.width = _round(val * ratio, conf.precision);
-            conf = applyNewPercent(_round(val * 100 / conf.sizeProps.containerWidth, conf.precision), conf);
+            conf = applyNewPercent(_round(val * 100 / _getContainerWidth(conf), conf.precision), conf);
         }
         return conf;
     };
@@ -125,7 +141,7 @@ define([], function () {
      * @param percent
      * @return {*}
      */
-    var setPercent = function getValidPercent(conf, percent) {
+    var setPercent = function setPercent(conf, percent) {
         percent = _parseVal(percent, conf.precision);
         if (percent < 0) {
             percent = 0;
@@ -137,16 +153,14 @@ define([], function () {
         conf.sizeProps.ratio.current = conf.sizeProps.ratio.natural;
         // changing non-responsive mode accordingly
         conf.sizeProps.px.current.width =
-            _round( conf.sizeProps.containerWidth * conf.sizeProps['%'].current.width / 100, conf.precision);
+            _round( _getContainerWidth(conf) * conf.sizeProps['%'].current.width / 100, conf.precision);
         conf.sizeProps.px.current.height =  _round(conf.sizeProps.px.current.width / conf.sizeProps.ratio.natural, conf.precision);
         return conf;
     };
 
     return {
         applyDimensions: function applyDimensions (conf, dimensions) {
-
             conf.precision = !conf || !conf.hasOwnProperty('precision') ? 5 : parseInt(conf.precision);
-
             if (dimensions) {
                 if (dimensions.hasOwnProperty('width')) {
                     conf = calculateByWidth(conf, dimensions.width);
@@ -165,6 +179,9 @@ define([], function () {
         },
         round: function round(val, precision) {
             return _round(val, precision);
+        },
+        containerWidth: function containerWidth(conf) {
+            return _getContainerWidth(conf);
         }
     };
 });

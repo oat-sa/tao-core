@@ -10,3 +10,8 @@
     margin: auto;
     background-color: #0b77b7;
 }
+
+html img {
+    height: initial !important;
+    max-width: initial;
+}

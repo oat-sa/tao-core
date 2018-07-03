@@ -63,7 +63,8 @@ define([
     var _defaults = {
         mediaDimension: {
             $container: null,
-            active: false
+            active: false,
+            responsive: true
         }
     };
 
@@ -81,34 +82,43 @@ define([
          * Current component
          */
         var mediaEditorComponent = component({}, _defaults);
-
         mediaEditorComponent
             .setTemplate(tpl)
             .on('init', function () {
                 if (!media || !media.$node || !media.$node.length) {
                     throw new Error('mediaEditorComponent requires media $node');
                 }
-
                 this.render($container);
             })
             .on('render', function () {
-                if (this.getConfig().mediaDimension.active && this.getConfig().mediaDimension.$container
+                var self = this;
+                if (this.getConfig().mediaDimension.active
+                    && this.getConfig().mediaDimension.$container
                     && this.getConfig().mediaDimension.$container
                 ) {
-                    mediaDimensionComponent(this.getConfig().mediaDimension.$container, media, {})
+                    mediaDimensionComponent(this.getConfig().mediaDimension.$container, media, {
+                        responsive: this.getConfig().mediaDimension.responsive,
+                        $editableContainer: this.getContainer()
+                    })
                         .on('change', function (conf) {
-                            if (conf.sizeProps.currentUtil === 'px') {
+                            if (conf.responsive) {
+                                // percent
+                                media.$node.css({
+                                    width: conf.sizeProps['%'].current.width + '%',
+                                    height: 'auto'
+                                });
+                                media.$node.attr('width', conf.sizeProps['%'].current.width + '%');
+                                media.$node.attr('height', '');
+                            } else {
                                 media.$node.css({
                                     width: conf.sizeProps.px.current.width,
                                     height: conf.sizeProps.px.current.height
                                 });
-                            } else {
-                                // percent
-                                media.$node.css({
-                                    height: 'auto',
-                                    width: conf.sizeProps['%'].current.width + '%'
-                                });
+                                media.$node.attr('width', conf.sizeProps.px.current.width);
+                                media.$node.attr('height', conf.sizeProps.px.current.height);
                             }
+
+                            self.trigger('change', conf);
                         });
                 }
             });
