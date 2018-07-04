@@ -69,8 +69,8 @@ $msg .= '<ul>';
                 && result.task.report.children[0]) {
                 if(result.task.report.children[0]){
                     this.selectedNode = result.task.report.children[0].children[0]
-                        ? result.task.report.children[0].children[0].data.uriResource // for group and test taker import
-                        : result.task.report.children[0].data.uriResource; // for item import
+                        ? result.task.report.children[0].children[0].data.uriResource // for group, test taker and media (zip) import
+                        : result.task.report.children[0].data.uriResource; // for item, test and media (single file) import
                     this.displayReport(result.task.report.children[0], __('Import Completed'));
                 }else{
                     this.displayReport(result.task.report, __('Error'));

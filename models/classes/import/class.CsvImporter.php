@@ -206,7 +206,8 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
                 'property_mapping' => $form->getValues('property_mapping'),
                 'ranged_property' => $form->getValues('ranged_property')
             ],
-            $this->getDefaultTaskParameters($form));
+            $this->getDefaultTaskParameters($form)
+        );
     }
 
     /**

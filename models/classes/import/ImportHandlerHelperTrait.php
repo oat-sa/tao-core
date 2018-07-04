@@ -29,6 +29,8 @@ trait ImportHandlerHelperTrait
     use ServiceLocatorAwareTrait;
 
     /**
+     * Helps to get the uploaded file data during upload or during processing of the import task.
+     *
      * @param array|\tao_helpers_form_Form $form
      * @return File|string
      * @throws \common_exception_Error

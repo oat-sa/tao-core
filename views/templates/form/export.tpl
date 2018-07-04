@@ -1,8 +1,8 @@
 <div class="main-container flex-container-form-main" id="export-container">
     <h2><?=get_data('formTitle')?></h2>
-    <?php if(has_data('myForm')):?>
+    <?php if(has_data('exportForm')):?>
     <div class="form-content">
-        <?=get_data('myForm')?>
+        <?=get_data('exportForm')?>
     </div>
     <?php endif;?>
 </div>
@@ -82,7 +82,6 @@
 
             //if the export form has some elements to select, activate the submitter toggler
             if($form.find('.form-group :checkbox').length){
-                console.log('toggle');
                 updateSubmitter();
                 $form.on('change', ':checkbox', updateSubmitter);
             }
