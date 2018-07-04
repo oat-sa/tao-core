@@ -30,6 +30,7 @@ use oat\generis\model\user\UserRdf;
 use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -57,6 +58,8 @@ use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\task\ExportByHandler;
+use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\Queue;
 use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\Queue\TaskSelector\WeightStrategy;
@@ -815,7 +818,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         $this->skip('19.8.0', '19.9.0');
 
-       if ($this->isVersion('19.9.0')) {
+        if ($this->isVersion('19.9.0')) {
             $service = new MetricsService();
             $service->setOption(MetricsService::OPTION_METRICS, []);
             $this->getServiceManager()->register(MetricsService::SERVICE_ID, $service);
@@ -823,5 +826,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('19.10.0', '19.12.0');
+
+        if ($this->isVersion('19.12.0')) {
+            /** @var TaskLogInterface|ConfigurableService $taskLogService */
+            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
+
+            $taskLogService->linkTaskToCategory(ImportByHandler::class, TaskLogInterface::CATEGORY_IMPORT);
+            $taskLogService->linkTaskToCategory(ExportByHandler::class, TaskLogInterface::CATEGORY_EXPORT);
+
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+            $this->setVersion('19.13.0');
+        }
     }
 }
