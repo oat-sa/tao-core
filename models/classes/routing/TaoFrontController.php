@@ -59,10 +59,6 @@ class TaoFrontController implements ServiceManagerAwareInterface
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
         \Context::getInstance()->setExtensionName($resolver->getExtensionId());
 
-        // load translations
-        $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
-        \tao_helpers_I18n::init($ext, $uiLang);
-
         try {
             /** @var RestSessionFactory $service */
             $service = $this->getServiceLocator()->get(RestSessionFactory::SERVICE_ID);
@@ -79,6 +75,9 @@ class TaoFrontController implements ServiceManagerAwareInterface
             exit(0);
         }
 
+        // load translations
+        $uiLang = \common_session_SessionManager::getSession()->getInterfaceLanguage();
+        \tao_helpers_I18n::init($ext, $uiLang);
 
         try {
             $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $pRequest->getParams());
