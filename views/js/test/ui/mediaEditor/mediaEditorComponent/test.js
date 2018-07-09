@@ -50,13 +50,31 @@ define([
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: size.width,
-                height: size.height
+                height: size.height,
+                responsive: true
             };
 
             mediaEditorComponent($editableContainer, media, {
                 mediaDimension: {
                     $container: $controlContainer,
                     active: true
+                }
+            }).on('change', function(nMedia){
+                media = nMedia;
+                if (media.responsive) {
+                    media.$node.css({
+                        width: media.width + '%',
+                        height: 'auto'
+                    });
+                    media.$node.attr('width', media.width + '%');
+                    media.$node.attr('height', '');
+                } else {
+                    media.$node.css({
+                        width: media.width,
+                        height: media.height
+                    });
+                    media.$node.attr('width', media.width);
+                    media.$node.attr('height', media.height);
                 }
             });
         });

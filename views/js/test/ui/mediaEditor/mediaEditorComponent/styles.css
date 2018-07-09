@@ -12,6 +12,6 @@
 }
 
 html img {
-    height: initial !important;
+    height: initial;
     max-width: initial;
 }

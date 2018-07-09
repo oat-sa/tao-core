@@ -174,7 +174,7 @@ define([
          */
         var calculateCurrentSizes = function calculateCurrentSizes() {
             _config = helper.applyDimensions(_config, {
-                width: (helper.containerWidth(_config) < media.width ? helper.containerWidth(_config) : media.width)
+                width: (helper.containerWidth(_config) < _config.sizeProps.px.natural.width ? helper.containerWidth(_config) : _config.sizeProps.px.natural.width)
             });
             mediaDimensionComponent.update();
         };
@@ -291,9 +291,8 @@ define([
             // this stays intact even if hidden in case it will be
             // displayed from somewhere else
             $btn.on('click', function() {
-                _config.sizeProps = _config.originalSizeProps;
+                _config.sizeProps = _.cloneDeep(_config.originalSizeProps);
                 calculateCurrentSizes();
-                mediaDimensionComponent.update();
             });
 
             return $btn;

@@ -63,8 +63,7 @@ define([
     var _defaults = {
         mediaDimension: {
             $container: null,
-            active: false,
-            responsive: true
+            active: false
         }
     };
 
@@ -97,28 +96,20 @@ define([
                     && this.getConfig().mediaDimension.$container
                 ) {
                     mediaDimensionComponent(this.getConfig().mediaDimension.$container, media, {
-                        responsive: this.getConfig().mediaDimension.responsive,
-                        $editableContainer: this.getContainer()
+                        $editableContainer: this.getContainer(),
+                        responsive: media.responsive
                     })
                         .on('change', function (conf) {
+                            media.responsive = conf.responsive;
                             if (conf.responsive) {
                                 // percent
-                                media.$node.css({
-                                    width: conf.sizeProps['%'].current.width + '%',
-                                    height: 'auto'
-                                });
-                                media.$node.attr('width', conf.sizeProps['%'].current.width + '%');
-                                media.$node.attr('height', '');
+                                media.width = conf.sizeProps['%'].current.width;
                             } else {
-                                media.$node.css({
-                                    width: conf.sizeProps.px.current.width,
-                                    height: conf.sizeProps.px.current.height
-                                });
-                                media.$node.attr('width', conf.sizeProps.px.current.width);
-                                media.$node.attr('height', conf.sizeProps.px.current.height);
+                                media.width = conf.sizeProps.px.current.width;
+                                media.height = conf.sizeProps.px.current.height;
                             }
 
-                            self.trigger('change', conf);
+                            self.trigger('change', media);
                         });
                 }
             });
