@@ -37,6 +37,7 @@ class tao_models_classes_LanguageService
     extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
+    const TRANSLATION_PREFIX = __CLASS__.':all';
 
     // --- ATTRIBUTES ---
     const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
@@ -164,6 +165,12 @@ class tao_models_classes_LanguageService
         }
     }
 
+    public function generateAll()
+    {
+        $this->generateServerBundles();
+        $files = $this->generateClientBundles();
+        return $files;
+    }
 
     /**
      *
@@ -225,6 +232,36 @@ class tao_models_classes_LanguageService
         common_Logger::i($generated . ' translation bundles have been (re)generated');
 
         return $returnValue;
+    }
+
+    public function generateServerBundles()
+    {
+        $usage = $this->getResource(self::INSTANCE_LANGUAGE_USAGE_GUI);
+        foreach ($this->getAvailableLanguagesByUsage($usage) as $language) {
+            $langCode = $this->getCode($language);
+            $this->getServerBundle($langCode);
+        }
+    }
+
+    public function getServerBundle($langCode)
+    {
+        $cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
+        try {
+            $translations = $cache->get(self::TRANSLATION_PREFIX.$langCode);
+        } catch (common_cache_NotFoundException $ex) {
+            $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+            $extensions = helpers_ExtensionHelper::sortByDependencies($extensions);
+            $translations = [];
+            foreach ($extensions as $extension) {
+                $file = $extension->getDir(). 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages.po';
+                $new = l10n::getPoFile($file);
+                if (is_array($new)) {
+                    $translations = array_merge($translations, $new);
+                }
+            }
+            $cache->put($translations, self::TRANSLATION_PREFIX.$langCode);
+        }
+        return $translations;
     }
 
     /**
