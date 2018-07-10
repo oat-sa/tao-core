@@ -369,7 +369,7 @@ class tao_install_Installator {
              */
 			$this->log('i', 'Generates client side translation bundles', 'INSTALL');
             
-			$files = tao_models_classes_LanguageService::singleton()->generateClientBundles();
+			$files = tao_models_classes_LanguageService::singleton()->generateAll();
 
 			/*
 			 *  9 - Insert Super User
