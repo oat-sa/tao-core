@@ -9,9 +9,9 @@
 
     {{#with options.status}}
     <h2>
-        <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{options.labels.empty}}{{/if}}</span>
-        <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{options.labels.available}}{{/if}}</span>: <span class="count">{{count}}</span></span>
-        <span class="loading">{{#if loading}}{{loading}}{{else}}{{options.labels.loading}}{{/if}}...</span>
+        <span class="empty-list hidden">{{#if empty}}{{empty}}{{else}}{{../../options.labels.empty}}{{/if}}</span>
+        <span class="available-list hidden"><span class="text">{{#if available}}{{available}}{{else}}{{../../options.labels.available}}{{/if}}</span>: <span class="count">{{count}}</span></span>
+        <span class="loading">{{#if loading}}{{loading}}{{else}}{{../../options.labels.loading}}{{/if}}...</span>
     </h2>
     {{/with}}
 
