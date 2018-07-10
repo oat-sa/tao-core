@@ -165,10 +165,14 @@ class tao_models_classes_LanguageService
         }
     }
 
-    public function generateAll()
+    /**
+     * Regenerates client and server translation
+     * @return string[] list of client files regenerated
+     */
+    public function generateAll($checkPreviousBundle = false)
     {
         $this->generateServerBundles();
-        $files = $this->generateClientBundles();
+        $files = $this->generateClientBundles($checkPreviousBundle);
         return $files;
     }
 
@@ -234,33 +238,54 @@ class tao_models_classes_LanguageService
         return $returnValue;
     }
 
+    /**
+     * Generate server translation file, forching a cache overwrite
+     */
     public function generateServerBundles()
     {
         $usage = $this->getResource(self::INSTANCE_LANGUAGE_USAGE_GUI);
         foreach ($this->getAvailableLanguagesByUsage($usage) as $language) {
             $langCode = $this->getCode($language);
-            $this->getServerBundle($langCode);
+            $this->buildServerBundle($langCode);
         }
     }
 
+    /**
+     * Returns the translation strings for a given language
+     * Conflicting translations get resolved by order of dependencies
+     * @param string $langCode
+     * @return array translation strings
+     */
     public function getServerBundle($langCode)
     {
         $cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
         try {
             $translations = $cache->get(self::TRANSLATION_PREFIX.$langCode);
         } catch (common_cache_NotFoundException $ex) {
-            $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
-            $extensions = helpers_ExtensionHelper::sortByDependencies($extensions);
-            $translations = [];
-            foreach ($extensions as $extension) {
-                $file = $extension->getDir(). 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages.po';
-                $new = l10n::getPoFile($file);
-                if (is_array($new)) {
-                    $translations = array_merge($translations, $new);
-                }
-            }
-            $cache->put($translations, self::TRANSLATION_PREFIX.$langCode);
+            $translations = $this->buildServerBundle($langCode);
         }
+        return $translations;
+    }
+
+    /**
+     * Rebuild the translation cache from the POs situated in each installed extension
+     * @param string $langCode
+     * @return array translation
+     */
+    protected function buildServerBundle($langCode)
+    {
+        $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        $extensions = helpers_ExtensionHelper::sortByDependencies($extensions);
+        $translations = [];
+        foreach ($extensions as $extension) {
+            $file = $extension->getDir(). 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages.po';
+            $new = l10n::getPoFile($file);
+            if (is_array($new)) {
+                $translations = array_merge($translations, $new);
+            }
+        }
+        $cache = $this->getServiceLocator()->get(common_cache_Cache::SERVICE_ID);
+        $cache->put($translations, self::TRANSLATION_PREFIX.$langCode);
         return $translations;
     }
 

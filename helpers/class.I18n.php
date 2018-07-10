@@ -64,28 +64,9 @@ class tao_helpers_I18n
     	}
     	
 		//init the ClearFw l10n tools
-		l10n::init();
-		
-		$translations = tao_models_classes_LanguageService::singleton()->getServerBundle($langCode);
-		$GLOBALS['__l10n'] = array_merge($GLOBALS['__l10n'],$translations);
-		/*
-		$basePath = $extension->getDir();
+        $translations = tao_models_classes_LanguageService::singleton()->getServerBundle($langCode);
+        l10n::init($translations);
 
-		if (!empty($_GET['ext']) && is_string($_GET['ext'])){
-			$shownExtension = common_ext_ExtensionsManager::singleton()->getExtensionById($_GET['ext']);
-			if (!empty($shownExtension)){
-				try{
-					$basePath = $shownExtension->getDir();
-					$baseUrl = $shownExtension->getConstant('BASE_URL');
-				}
-				catch (common_exception_Error $e){
-					// let the current base path be used...
-				}
-			}
-		}
-		
-		l10n::set($basePath . 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages');
-        */
         $serviceManager = \oat\oatbox\service\ServiceManager::getServiceManager();
         $extraPoService = $serviceManager->get(\oat\tao\model\i18n\ExtraPoService::SERVICE_ID);
         $extraPoCount = $extraPoService->requirePos();
