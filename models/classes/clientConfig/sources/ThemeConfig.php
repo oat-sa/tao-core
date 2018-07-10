@@ -22,6 +22,8 @@ namespace oat\tao\model\clientConfig\sources;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\clientConfig\ClientConfig;
 use oat\tao\model\ThemeRegistry;
+use oat\taoLti\models\classes\TaoLtiSession;
+
 /**
  * 
  * @author Joel Bout
@@ -33,6 +35,65 @@ class ThemeConfig extends ConfigurableService implements ClientConfig {
      * @see \oat\tao\model\clientConfig\ClientConfig::getConfig()
      */
     public function getConfig() {
-        return ThemeRegistry::getRegistry()->getAvailableThemes();
+        $config = ThemeRegistry::getRegistry()->getAvailableThemes();
+
+        $sessionSingleton = \PHPSession::singleton();
+
+        $deliveryExecutionUri = $this->getDeliveryExecutionFromReferer();
+
+        if (null !== $deliveryExecutionUri) {
+            $deliveryUriAttribute = $this->getDeliveryUriAttribute($deliveryExecutionUri);
+
+            if (false !== $sessionSingleton->hasAttribute($deliveryUriAttribute)) {
+                $deliveryUri = $sessionSingleton->getAttribute($deliveryUriAttribute);
+
+                $delivery = new \core_kernel_classes_Resource($deliveryUri);
+
+                $themeName = $delivery->getOnePropertyValue(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#ThemeName'));
+
+                if (null !== $themeName) {
+                    $config["activeNamespace"] = (string)$themeName;
+                }
+            }
+        }
+
+        return $config;
+    }
+
+    /**
+     * Gets deliveryExecution URI from referer of current request
+     *
+     * @return null
+     */
+    private function getDeliveryExecutionFromReferer()
+    {
+        $currentRequest = \Context::getInstance()->getRequest();
+        $referer = $currentRequest->getHeader('referer');
+
+        if (!empty($referer)) {
+            $parsedString = parse_url($referer);
+
+            if (array_key_exists('query', $parsedString) && !empty($parsedString['query'])) {
+                $queryString = $parsedString['query'];
+                parse_str($queryString, $parsedQuery);
+
+                if (array_key_exists('deliveryExecution', $parsedQuery) && !empty($parsedQuery['deliveryExecution'])) {
+                    return $parsedQuery['deliveryExecution'];
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets session key for delivery URI
+     *
+     * @param $deliveryExecutionId
+     * @return string
+     */
+    private function getDeliveryUriAttribute($deliveryExecutionId)
+    {
+        return 'deliveryIdForDeliveryExecution:' . $deliveryExecutionId;
     }
 }
