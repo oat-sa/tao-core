@@ -100,7 +100,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
         
         // try to regenerate languages bundles
         try {
-            tao_models_classes_LanguageService::singleton()->generateClientBundles(true);
+            tao_models_classes_LanguageService::singleton()->generateAll(true);
         } catch (common_exception_Error $e) {
             $message = $e->getMessage();
             $success = false;

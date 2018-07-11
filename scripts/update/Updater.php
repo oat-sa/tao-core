@@ -823,9 +823,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.10.0');
         }
 
-        $this->skip('19.10.0', '19.12.1');
+        $this->skip('19.10.0', '19.13.0');
 
-        if ($this->isVersion('19.12.1')) {
+        if ($this->isVersion('19.13.0')) {
             /** @var $taskLogService TaskLogInterface */
             $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
 
@@ -847,7 +847,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 }
             }
 
-            $this->setVersion('19.13.0');
+            $this->setVersion('19.14.0');
         }
     }
 }
