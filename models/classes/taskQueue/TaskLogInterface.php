@@ -102,14 +102,15 @@ interface TaskLogInterface extends LoggerAwareInterface
     public function getStatus($taskId);
 
     /**
-     * Saves the report and a status for a task.
+     * Saves the report, status and redirect url for a task.
      *
      * @param string $taskId
      * @param Report $report
      * @param string|null $newStatus
+     * @param string|null $redirectUrl This url can be used to redirect the user after the task is processed.
      * @return TaskLogInterface
      */
-    public function setReport($taskId, Report $report, $newStatus = null);
+    public function setReport($taskId, Report $report, $newStatus = null, $redirectUrl = null);
 
     /**
      * Gets the report for a task if that exists.

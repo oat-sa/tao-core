@@ -138,6 +138,14 @@ abstract class TaskLogEntityDecorator implements EntityInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getRedirectUrl()
+    {
+        return $this->entity->getRedirectUrl();
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()

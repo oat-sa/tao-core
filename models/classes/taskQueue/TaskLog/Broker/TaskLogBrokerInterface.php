@@ -44,6 +44,7 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
     const COLUMN_STATUS = 'status';
     const COLUMN_OWNER = 'owner';
     const COLUMN_REPORT = 'report';
+    const COLUMN_REDIRECT_URL = 'redirect_url';
     const COLUMN_CREATED_AT = 'created_at';
     const COLUMN_UPDATED_AT = 'updated_at';
 
@@ -97,9 +98,10 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      * @param string      $taskId
      * @param Report      $report
      * @param null|string $newStatus
+     * @param null|string $redirectUrl
      * @return int
      */
-    public function addReport($taskId, Report $report, $newStatus = null);
+    public function addReport($taskId, Report $report, $newStatus = null, $redirectUrl = null);
 
     /**
      * Gets a report for a task.
