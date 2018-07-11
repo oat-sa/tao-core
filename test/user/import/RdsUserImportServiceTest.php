@@ -21,7 +21,7 @@ namespace oat\tao\test\user\import;
 
 use core_kernel_classes_Resource;
 use oat\tao\model\user\import\RdsUserImportService;
-use oat\tao\model\user\import\UserMapper;
+use oat\tao\model\user\import\UserMapperInterface;
 use Psr\Log\NullLogger;
 
 class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
@@ -66,7 +66,10 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
             ])
             ->getMockForAbstractClass();
 
-        $resource = $this->getMockBuilder(core_kernel_classes_Resource::class)->setMethods(['getUri', 'searchInstances', 'createInstanceWithProperties'])->disableOriginalConstructor()->getMock();
+        $resource = $this->getMockBuilder(core_kernel_classes_Resource::class)
+            ->setMethods(['getUri', 'searchInstances', 'createInstanceWithProperties', 'removePropertyValues', 'editPropertyValues'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $resource
             ->method('getUri')
             ->willReturn(rand(0, 1000));
@@ -95,7 +98,7 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
 
         $importService->setLogger(new NullLogger());
 
-        $mapper = $this->getMockBuilder(UserMapper::class)->getMock();
+        $mapper = $this->getMockBuilder(UserMapperInterface::class)->getMock();
         $mapper
             ->method('map')
             ->will($this->onConsecutiveCalls(

@@ -21,8 +21,6 @@
 namespace oat\tao\model\import;
 
 use oat\generis\model\GenerisRdf;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\upload\UploadService;
 
 /**
  * Abstract class the describe a csv import
@@ -164,7 +162,11 @@ abstract class CsvAbstractImporter
      *	staticMap => optional
      * @return \common_report_Report
      */
-    public function importFile($class, $options) {
+    public function importFile($class, $options)
+    {
+        if (!isset($options['file'])) {
+            throw new \BadFunctionCallException("Import file is missing");
+        }
 
         if(!isset($options['staticMap']) || !is_array($options['staticMap'])){
             $options['staticMap'] = $this->getStaticData();
@@ -173,21 +175,13 @@ abstract class CsvAbstractImporter
         }
         $options = array_merge($options, $this->getAdditionAdapterOptions());
 
-        // Check if we have a proper UTF-8 file.
-        if (@preg_match('//u', file_get_contents($options['file'])) === false) {
-            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
-        }
-
-
+        //import the file
         $adapter = new \tao_helpers_data_GenerisAdapterCsv($options);
         $adapter->setValidators($this->getValidators());
-
-        //import it!
         $report = $adapter->import($options['file'], $class);
 
 
         if ($report->getType() == \common_report_Report::TYPE_SUCCESS) {
-            ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->remove($options['file']);
             $report->setData($adapter->getOptions());
         }
         return $report;

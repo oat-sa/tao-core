@@ -19,10 +19,10 @@
  *
  */
 namespace oat\tao\model\search\tasks;
+
 use oat\oatbox\action\Action;
-use oat\tao\model\search\SearchService;
-use oat\taoTaskQueue\model\Task\TaskAwareInterface;
-use oat\taoTaskQueue\model\Task\TaskAwareTrait;
+use oat\tao\model\taskQueue\Task\TaskAwareInterface;
+use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\generis\model\OntologyAwareTrait;

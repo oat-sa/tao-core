@@ -73,8 +73,27 @@ define([
 
     QUnit.module('Behavior');
 
+    QUnit.asyncTest('enable/disable', function(assert) {
+        var $container = $('#qunit-fixture');
+        QUnit.expect(3);
+        loadingButtonFactory()
+            .on('render', function(){
+                assert.equal(this.getElement().prop('disabled'), false, 'initially enabled');
+
+                this.disable();
+                assert.equal(this.getElement().prop('disabled'), true, 'initially disabled');
+
+                this.enable();
+                assert.equal(this.getElement().prop('disabled'), false, 'enabled again');
+
+                QUnit.start();
+            })
+            .render($container);
+    });
+
     QUnit.asyncTest('click and start', function(assert) {
         var $container = $('#qunit-fixture');
+        QUnit.expect(2);
         loadingButtonFactory({})
             .on('render', function(){
                 assert.ok(true, 'rendered');

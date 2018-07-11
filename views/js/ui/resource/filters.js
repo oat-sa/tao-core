@@ -41,7 +41,8 @@ define([
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea'
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget'
     ];
 
     var defaultConfig = {

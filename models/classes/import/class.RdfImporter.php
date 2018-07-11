@@ -21,6 +21,10 @@
 
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\event\RdfImportEvent;
+use oat\tao\model\upload\UploadService;
 
 /**
  * importhandler for RDF
@@ -31,6 +35,7 @@ use oat\generis\model\OntologyRdfs;
  */
 class tao_models_classes_import_RdfImporter implements tao_models_classes_import_ImportHandler
 {
+    use EventManagerAwareTrait;
 
     /**
      * (non-PHPdoc)
@@ -70,9 +75,13 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             $report = $this->flatImport($parser->getContent(), $class);
 
             if (!$report->containsError()) {
-                \oat\oatbox\service\ServiceManager::getServiceManager()
-                    ->get(\oat\tao\model\upload\UploadService::SERVICE_ID)
-                        ->remove($parser->getSource());
+                ServiceManager::getServiceManager()
+                    ->get(UploadService::SERVICE_ID)
+                    ->remove($parser->getSource());
+            }
+
+            if ($report->getType() == common_report_Report::TYPE_SUCCESS) {
+                $this->getEventManager()->trigger(new RdfImportEvent($report));
             }
 
             return $report;

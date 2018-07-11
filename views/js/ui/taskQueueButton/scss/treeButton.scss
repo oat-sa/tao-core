@@ -1,0 +1,35 @@
+@import "inc/bootstrap";
+
+.tree-button-component{
+    .spinner-icon{
+        @include font-size(17);
+        width: 17px;
+        height: 17px;
+        display: none;
+        margin: 12px auto 4px;
+    }
+    &.started{
+        background: #ddd;
+        color: #666;
+        .li-inner{
+            cursor: progress;
+        }
+        .spinner-icon{
+            display: block;
+            @include vendor-prefix(transform, translateZ(0));
+            @include vendor-prefix(transform-origin, 50% 50%);
+            @include animation(tree-button-rotate 1.4s infinite linear);
+            @include keyframes(tree-button-rotate) {
+                0% {
+                    @include vendor-prefix(transform, rotate(0deg));
+                }
+                100% {
+                    @include vendor-prefix(transform, rotate(360deg));
+                }
+            }
+        }
+        .start-icon{
+            display: none !important;
+        }
+    }
+}

@@ -480,6 +480,91 @@ class tao_helpers_File
     
         return $returnValue;
     }
+
+    /**
+     * Rename in Zip
+     *
+     * Rename an item in a ZIP archive. Works for files and directories.
+     *
+     * In case of renaming directories, the return value of this method will be the amount of files
+     * affected by the directory renaming.
+     *
+     * @param ZipArchive $zipArchive An open ZipArchive object.
+     * @param string $oldname
+     * @param string $newname
+     * @return int The amount of renamed entries.
+     */
+    public static function renameInZip(ZipArchive $zipArchive, $oldname, $newname)
+    {
+        $i = 0;
+        $renameCount = 0;
+
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                $newEntryName = str_replace($oldname, $newname, $entryName);
+                if ($zipArchive->renameIndex($i, $newEntryName)) {
+                    $renameCount++;
+                }
+            }
+
+            $i++;
+        }
+
+        return $renameCount;
+    }
+
+    /**
+     * Exclude from Zip
+     *
+     * Exclude entries matching $pattern from a ZIP Archive.
+     *
+     * @param ZipArchive $zipArchive An open ZipArchive object.
+     * @param string $pattern A PCRE pattern.
+     * @return int The amount of excluded entries.
+     */
+    public static function excludeFromZip(ZipArchive $zipArchive, $pattern)
+    {
+        $i = 0;
+        $exclusionCount = 0;
+
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                // Not previously removed index.
+                if (preg_match($pattern, $entryName) === 1 && $zipArchive->deleteIndex($i)) {
+                    $exclusionCount++;
+                }
+            }
+
+            $i++;
+        }
+
+        return $exclusionCount;
+    }
+
+    /**
+     * Get All Zip Names
+     *
+     * Retrieve all ZIP name entries in a ZIP archive. In others words, all the paths in the
+     * archive having an entry.
+     *
+     * @param ZipArchive $zipArchive An open ZipArchive object.
+     * @return array An array of strings.
+     */
+    public static function getAllZipNames(ZipArchive $zipArchive)
+    {
+        $i = 0;
+        $entries = [];
+
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                $entries[] = $entryName;
+            }
+
+            $i++;
+        }
+
+        return $entries;
+    }
     
     /**
      * Gets the local path to a publicly available resource

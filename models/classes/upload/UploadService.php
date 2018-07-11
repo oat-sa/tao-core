@@ -99,7 +99,7 @@ class UploadService extends ConfigurableService
      *
      * @return \oat\generis\model\fileReference\UrlFileSerializer
      */
-    protected function getSerializer()
+    public function getSerializer()
     {
         if (!$this->uriSerializer) {
             $this->uriSerializer = new UrlFileSerializer();

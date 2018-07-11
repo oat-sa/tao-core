@@ -11,14 +11,23 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['datavalue'];
 
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['editPropertyValues'], ['uriResource']);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uriResource'])
+            ->setMethods(['editPropertyValues'])
+            ->getMock();
         $resource->expects($this->once())
             ->method('editPropertyValues')
             ->willReturn(true);
 
-        $property = $this->getMock(\core_kernel_classes_Property::class, [], ['uriProperty']);
+        $property = $this->getMockBuilder(\core_kernel_classes_Property::class)
+            ->setConstructorArgs(['uriProperty'])
+            ->getMock();
 
-        $writer = $this->getMock(PropertyWriter::class, ['validate', 'getPropertyToWrite'], [], '', false);
+        $writer = $this->getMockBuilder(PropertyWriter::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->getMock();
+
         $writer->expects($this->once())
             ->method('validate')
             ->willReturn(true);
@@ -34,11 +43,18 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['datavalue'];
 
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, [], [], '', false);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $property = $this->getMock(\core_kernel_classes_Property::class, [], ['uriProperty']);
+        $property = $this->getMockBuilder(\core_kernel_classes_Property::class)
+            ->setConstructorArgs(['uriProperty'])
+            ->getMock();
 
-        $writer = $this->getMock(PropertyWriter::class, ['validate', 'getPropertyToWrite'], [], '', false);
+        $writer = $this->getMockBuilder(PropertyWriter::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->getMock();
         $writer->expects($this->once())
             ->method('validate')
             ->willReturn(false);
@@ -47,7 +63,7 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
             ->method('getPropertyToWrite')
             ->willReturn($property);
 
-        $this->setExpectedException(MetadataWriterException::class);
+        $this->expectException(MetadataWriterException::class);
         $writer->write($resource, $data);
     }
 
@@ -55,13 +71,21 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['datavalue'];
 
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['setPropertyValue'], ['uriResource']);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uriResource'])
+            ->setMethods(['setPropertyValue'])
+            ->getMock();
         $resource->expects($this->never())
             ->method('setPropertyValue');
 
-        $property = $this->getMock(\core_kernel_classes_Property::class, [], ['uriProperty']);
+        $property = $this->getMockBuilder(\core_kernel_classes_Property::class)
+            ->setConstructorArgs(['uriProperty'])
+            ->getMock();
 
-        $writer = $this->getMock(PropertyWriter::class, ['validate', 'getPropertyToWrite'], [], '', false);
+        $writer = $this->getMockBuilder(PropertyWriter::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->getMock();
         $writer->expects($this->once())
             ->method('validate')
             ->willReturn(true);
@@ -77,14 +101,22 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['datavalue'];
 
-        $resource = $this->getMock(\core_kernel_classes_Resource::class, ['editPropertyValues'], ['uriResource']);
+        $resource = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uriResource'])
+            ->setMethods(['editPropertyValues'])
+            ->getMock();
         $resource->expects($this->once())
             ->method('editPropertyValues')
             ->willReturn(false);
 
-        $property = $this->getMock(\core_kernel_classes_Property::class, [], ['uriProperty']);
+        $property = $this->getMockBuilder(\core_kernel_classes_Property::class)
+            ->setConstructorArgs(['uriProperty'])
+            ->getMock();
 
-        $writer = $this->getMock(PropertyWriter::class, ['validate', 'getPropertyToWrite'], [], '', false);
+        $writer = $this->getMockBuilder(PropertyWriter::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['validate', 'getPropertyToWrite'])
+            ->getMock();
         $writer->expects($this->once())
             ->method('validate')
             ->willReturn(true);
@@ -93,7 +125,7 @@ class PropertyWriterTest extends \PHPUnit_Framework_TestCase
             ->method('getPropertyToWrite')
             ->willReturn($property);
 
-        $this->setExpectedException(MetadataWriterException::class);
+        $this->expectException(MetadataWriterException::class);
         $writer->write($resource, $data);
     }
 
