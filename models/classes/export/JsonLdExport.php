@@ -43,6 +43,7 @@ class JsonLdExport implements \JsonSerializable
      */
     private $types;
 
+    /** @var string */
     private $uri;
 
     /**
@@ -88,16 +89,25 @@ class JsonLdExport implements \JsonSerializable
         }
     }
 
+    /**
+     * @param \core_kernel_classes_ContainerCollection $triples
+     */
     public function setTriples(\core_kernel_classes_ContainerCollection $triples)
     {
         $this->triples = $triples;
     }
 
+    /**
+     * @param array $types
+     */
     public function setTypes($types)
     {
         $this->types = $types;
     }
 
+    /**
+     * @param string $uri
+     */
     public function setUri($uri)
     {
         $this->uri = $uri;
