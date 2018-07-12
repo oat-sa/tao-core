@@ -86,6 +86,30 @@ define([
                 available = themes.available;
             }
             return available;
+        },
+
+        /**
+         * Get active namespace for themes
+         *
+         * Get activeNamespace property value from the config
+         *
+         * @returns {String} activeNamespace
+         */
+        getActiveNamespace: function getActiveNamespace(){
+            var config = module.config();
+            return config.activeNamespace;
+        },
+
+        /**
+         * Set active namespace for themes
+         *
+         * Explicitly sets activeNamespace property into config.
+         *
+         * @param {String} ns - activeNamespace value to be set into config
+         */
+        setActiveNamespace: function setActiveNamespace(ns){
+            var config = module.config();
+            config.activeNamespace = ns;
         }
     };
 });
