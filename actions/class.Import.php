@@ -87,7 +87,10 @@ class tao_actions_Import extends tao_actions_CommonModule
             }
         }
 
-        return reset($this->getAvailableImportHandlers());
+        $availableImportHandlers = $this->getAvailableImportHandlers();
+        $currentImporter = reset($availableImportHandlers);
+
+        return $currentImporter;
     }
 
     /**
