@@ -91,7 +91,7 @@ interface EntityInterface extends \JsonSerializable
     /**
      * @return string
      */
-    public function getRedirectUrl();
+    public function getResourceUriFromReport();
 
     /**
      * @return array

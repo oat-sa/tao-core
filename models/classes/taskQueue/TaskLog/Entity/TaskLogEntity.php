@@ -55,10 +55,6 @@ class TaskLogEntity implements EntityInterface
     /** @var  Report */
     private $report;
 
-    /** @var  string */
-    private $redirectUrl;
-
-
     /** @var  DateTime */
     private $createdAt;
 
@@ -79,7 +75,6 @@ class TaskLogEntity implements EntityInterface
      * @param DateTime|null            $createdAt
      * @param DateTime|null            $updatedAt
      * @param Report|null              $report
-     * @param string|null              $redirectUrl
      */
     public function __construct(
         $id,
@@ -92,7 +87,6 @@ class TaskLogEntity implements EntityInterface
         DateTime $createdAt = null,
         DateTime $updatedAt = null,
         Report $report = null,
-        $redirectUrl = null,
         $masterStatus = false
     ) {
         $this->id = $id;
@@ -103,7 +97,6 @@ class TaskLogEntity implements EntityInterface
         $this->label = $label;
         $this->owner = $owner;
         $this->report = $report;
-        $this->redirectUrl = $redirectUrl;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->masterStatus = $masterStatus;
@@ -127,7 +120,6 @@ class TaskLogEntity implements EntityInterface
             isset($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]) ? DateTime::createFromFormat('Y-m-d H:i:s', $row[TaskLogBrokerInterface::COLUMN_CREATED_AT], new \DateTimeZone('UTC')) : null,
             isset($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT]) ? DateTime::createFromFormat('Y-m-d H:i:s', $row[TaskLogBrokerInterface::COLUMN_UPDATED_AT], new \DateTimeZone('UTC')) : null,
             Report::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
-            isset($row[TaskLogBrokerInterface::COLUMN_REDIRECT_URL]) ? $row[TaskLogBrokerInterface::COLUMN_REDIRECT_URL] : '',
             isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]) ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS] : false
         );
     }
@@ -249,12 +241,25 @@ class TaskLogEntity implements EntityInterface
         return $filename;
     }
 
-    /**
-     * @return string
-     */
-    public function getRedirectUrl()
+
+    public function getResourceUriFromReport()
     {
-        return $this->redirectUrl;
+        $uri = '';
+
+        if ($this->getStatus()->isFailed() || is_null($this->getReport())) {
+            return $uri;
+        }
+
+        /** @var Report  $successReport */
+        foreach ($this->getReport()->getSuccesses() as $successReport) {
+            $data = $successReport->getData();
+            if (is_array($data) && isset($data['uriResource'])) {
+                $uri = $data['uriResource'];
+                break;
+            }
+        }
+
+        return $uri;
     }
 
     /**
@@ -296,10 +301,6 @@ class TaskLogEntity implements EntityInterface
 
         if ($this->report instanceof Report) {
             $rs['report'] = $this->report->toArray();
-        }
-
-        if ($this->getRedirectUrl()) {
-            $rs['redirectUrl'] = $this->getRedirectUrl();
         }
 
         return $rs;

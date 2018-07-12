@@ -24,9 +24,7 @@ use common_report_Report as Report;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
-use oat\tao\model\taskQueue\Task\RedirectUrlAwareInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
-use oat\tao\model\taskQueue\Task\ResourceUrlAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -123,12 +121,7 @@ abstract class AbstractWorker implements WorkerInterface
         }
 
         if (!$cloneCreated) {
-            $this->taskLog->setReport(
-                $task->getId(),
-                $report,
-                $status,
-                $this->isRedirectUrlAware($task) ? $this->getRedirectUrl($task) : null
-            );
+            $this->taskLog->setReport($task->getId(), $report, $status);
         } else {
             // if there is a clone, delete the old task log
             //TODO: once we have the centralized way of cleaning up the log table, this should be refactored
@@ -173,23 +166,5 @@ abstract class AbstractWorker implements WorkerInterface
     private function getRemoteStatus(TaskInterface $task)
     {
         return $task instanceof CallbackTaskInterface ? $task->getCallable()->getRemoteStatus() : $task->getRemoteStatus();
-    }
-
-    /**
-     * @param TaskInterface $task
-     * @return bool
-     */
-    private function isRedirectUrlAware(TaskInterface $task)
-    {
-        return $task instanceof RedirectUrlAwareInterface || ($task instanceof CallbackTaskInterface && $task->getCallable() instanceof RedirectUrlAwareInterface);
-    }
-
-    /**
-     * @param TaskInterface|RedirectUrlAwareInterface $task
-     * @return string
-     */
-    private function getRedirectUrl(TaskInterface $task)
-    {
-        return $task instanceof CallbackTaskInterface ? $task->getCallable()->getRedirectUrl() : $task->getRedirectUrl();
     }
 }

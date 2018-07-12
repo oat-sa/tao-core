@@ -23,9 +23,11 @@ use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Decorator\CategoryEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Decorator\HasFileEntityDecorator;
+use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\taoBackOffice\model\routing\ResourceUrlBuilder;
 
 /**
  * API controller to get task queue data by our WEB front-end.
@@ -76,10 +78,14 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
         /** @var FileSystemService $fs */
         $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
 
+        /** @var ResourceUrlBuilder $urlBuilder */
+        $urlBuilder = $this->getServiceLocator()->get(ResourceUrlBuilder::SERVICE_ID);
+
         $collection = new SimpleManagementCollectionDecorator(
             $taskLogService->findAvailableByUser($this->userId, $limit, $offset),
             $taskLogService,
             $fs,
+            $urlBuilder,
             false
         );
 
@@ -104,6 +110,9 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
         /** @var FileSystemService $fs */
         $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
 
+        /** @var ResourceUrlBuilder $urlBuilder */
+        $urlBuilder = $this->getServiceLocator()->get(ResourceUrlBuilder::SERVICE_ID);
+
         try {
             $this->assertTaskIdExists();
 
@@ -114,7 +123,8 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
             return $this->returnJson([
                 'success' => true,
-                'data' => (new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $taskLogService), $fs))->toArray()
+                'data' => (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $taskLogService), $fs), $urlBuilder))
+                    ->toArray()
             ]);
         } catch (\Exception $e) {
             return $this->returnJson([

@@ -128,7 +128,6 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
             $table->addColumn(self::COLUMN_MASTER_STATUS, 'boolean', ["default" => 0]);
             $table->addColumn(self::COLUMN_OWNER, 'string', ["notnull" => false, "length" => 255, "default" => null]);
             $table->addColumn(self::COLUMN_REPORT, 'text', ["notnull" => false, "default" => null]);
-            $table->addColumn(self::COLUMN_REDIRECT_URL, 'string', ["notnull" => false, "length" => 255, "default" => null]);
             $table->addColumn(self::COLUMN_CREATED_AT, 'datetime', ['notnull' => true]);
             $table->addColumn(self::COLUMN_UPDATED_AT, 'datetime', ['notnull' => false]);
             $table->setPrimaryKey(['id']);
@@ -201,19 +200,17 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @inheritdoc
      */
-    public function addReport($taskId, Report $report, $newStatus = null, $redirectUrl = null)
+    public function addReport($taskId, Report $report, $newStatus = null)
     {
         $qb = $this->getQueryBuilder()
             ->update($this->getTableName())
             ->set(self::COLUMN_REPORT, ':report')
             ->set(self::COLUMN_STATUS, ':status_new')
-            ->set(self::COLUMN_REDIRECT_URL, ':url')
             ->set(self::COLUMN_UPDATED_AT, ':updated_at')
             ->andWhere(self::COLUMN_ID .' = :id')
             ->setParameter('id', (string) $taskId)
             ->setParameter('report', json_encode($report))
             ->setParameter('status_new', (string) $newStatus)
-            ->setParameter('url', (string) $redirectUrl)
             ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
 
         return $qb->execute();

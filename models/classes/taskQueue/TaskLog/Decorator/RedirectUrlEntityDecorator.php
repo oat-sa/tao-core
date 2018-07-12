@@ -20,26 +20,27 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
-use oat\oatbox\filesystem\Directory;
-use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\taoBackOffice\model\routing\ResourceUrlBuilder;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
  */
-class HasFileEntityDecorator extends TaskLogEntityDecorator
+class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
 {
-    /**
-     * @var FileSystemService
-     */
-    private $fileSystemService;
+    use OntologyAwareTrait;
 
-    public function __construct(EntityInterface $entity, FileSystemService $fileSystemService)
+    /**
+     * @var ResourceUrlBuilder
+     */
+    private $urlBuilder;
+
+    public function __construct(EntityInterface $entity, ResourceUrlBuilder $urlBuilder)
     {
         parent::__construct($entity);
 
-        $this->fileSystemService = $fileSystemService;
+        $this->urlBuilder = $urlBuilder;
     }
 
     /**
@@ -51,7 +52,7 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
     }
 
     /**
-     * Add 'hasFile' to the result. Required by our frontend.
+     * Add 'redirectUrl' to the result.
      *
      * @return array
      */
@@ -59,19 +60,11 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
     {
         $result = parent::toArray();
 
-        $result['hasFile'] = false;
+        $uri = $this->getResourceUriFromReport();
 
-        $fileName = $this->getFileNameFromReport();
-
-        if ($fileName) {
-            /** @var Directory $queueStorage */
-            $queueStorage = $this->fileSystemService
-                ->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
-
-            if ($queueStorage->getFile($fileName)->exists()) {
-                $result['hasFile'] = true;
-            }
-        }
+        $result['redirectUrl'] = $uri
+            ? $this->urlBuilder->buildUrl($this->getResource($uri))
+            : '';
 
         return $result;
     }

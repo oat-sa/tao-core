@@ -48,7 +48,6 @@ class TaskLogEntityTest extends \PHPUnit_Framework_TestCase
                 'data' => NULL,
                 'children' => []
             ],
-            'redirect_url' => 'http://fakedomain.tao.com',
             'master_status' => true
         ]);
 
@@ -79,7 +78,6 @@ class TaskLogEntityTest extends \PHPUnit_Framework_TestCase
                 'data' => NULL,
                 'children' => []
             ],
-            'redirectUrl' => 'http://fakedomain.tao.com',
             'masterStatus' => true
         ], $entity->jsonSerialize());
     }

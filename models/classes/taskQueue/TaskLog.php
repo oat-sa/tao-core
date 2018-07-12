@@ -148,12 +148,12 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     /**
      * @inheritdoc
      */
-    public function setReport($taskId, Report $report, $newStatus = null, $redirectUrl = null)
+    public function setReport($taskId, Report $report, $newStatus = null)
     {
         try {
             $this->validateStatus($newStatus);
 
-            if (!$this->getBroker()->addReport($taskId, $report, $newStatus, $redirectUrl)) {
+            if (!$this->getBroker()->addReport($taskId, $report, $newStatus)) {
                 throw new \RuntimeException("Report is not saved.");
             }
         } catch (\Exception $e) {

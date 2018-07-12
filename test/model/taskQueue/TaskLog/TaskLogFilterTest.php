@@ -48,7 +48,6 @@ class TaskLogFilterTest extends \PHPUnit_Framework_TestCase
             TaskLogBrokerInterface::COLUMN_STATUS,
             TaskLogBrokerInterface::COLUMN_MASTER_STATUS,
             TaskLogBrokerInterface::COLUMN_REPORT,
-            TaskLogBrokerInterface::COLUMN_REDIRECT_URL,
             TaskLogBrokerInterface::COLUMN_PARAMETERS,
             TaskLogBrokerInterface::COLUMN_LABEL,
             TaskLogBrokerInterface::COLUMN_OWNER,

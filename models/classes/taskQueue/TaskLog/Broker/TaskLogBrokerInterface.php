@@ -98,10 +98,9 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      * @param string      $taskId
      * @param Report      $report
      * @param null|string $newStatus
-     * @param null|string $redirectUrl
      * @return int
      */
-    public function addReport($taskId, Report $report, $newStatus = null, $redirectUrl = null);
+    public function addReport($taskId, Report $report, $newStatus = null);
 
     /**
      * Gets a report for a task.

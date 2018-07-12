@@ -823,31 +823,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.10.0');
         }
 
-        $this->skip('19.10.0', '19.13.0');
-
-        if ($this->isVersion('19.13.0')) {
-            /** @var $taskLogService TaskLogInterface */
-            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
-
-            if ($taskLogService->isRds()) {
-                /** @var \common_persistence_SqlPersistence $persistence */
-                $persistence = \common_persistence_Manager::getPersistence('default');
-                $schemaManager = $persistence->getSchemaManager();
-                $fromSchema = $schemaManager->createSchema();
-                $toSchema = clone $fromSchema;
-
-                $table = $toSchema->getTable($taskLogService->getBroker()->getTableName());
-                if (!$table->hasColumn(TaskLogBrokerInterface::COLUMN_REDIRECT_URL)) {
-                    $table->addColumn(TaskLogBrokerInterface::COLUMN_REDIRECT_URL, 'string', ["notnull" => false, "length" => 255, "default" => null]);
-                }
-
-                $queries = $persistence->getPlatform()->getMigrateSchemaSql($fromSchema, $toSchema);
-                foreach ($queries as $query) {
-                    $persistence->exec($query);
-                }
-            }
-
-            $this->setVersion('19.14.0');
-        }
+        $this->skip('19.10.0', '19.14.0');
     }
 }

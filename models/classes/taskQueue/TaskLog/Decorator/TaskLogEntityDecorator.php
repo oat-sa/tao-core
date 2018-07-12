@@ -140,9 +140,9 @@ abstract class TaskLogEntityDecorator implements EntityInterface
     /**
      * @inheritdoc
      */
-    public function getRedirectUrl()
+    public function getResourceUriFromReport()
     {
-        return $this->entity->getRedirectUrl();
+        return $this->entity->getResourceUriFromReport();
     }
 
     /**

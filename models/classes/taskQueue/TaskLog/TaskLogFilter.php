@@ -50,8 +50,7 @@ class TaskLogFilter
         TaskLogBrokerInterface::COLUMN_TASK_NAME,
         TaskLogBrokerInterface::COLUMN_STATUS,
         TaskLogBrokerInterface::COLUMN_MASTER_STATUS,
-        TaskLogBrokerInterface::COLUMN_REPORT,
-        TaskLogBrokerInterface::COLUMN_REDIRECT_URL
+        TaskLogBrokerInterface::COLUMN_REPORT
     ];
 
     private $optionalColumns = [
