@@ -36,6 +36,12 @@ define([
      */
     return {
 
+        /**
+         * Gets module config clone. Checks if there are differences between actual module config and a clone. If needed -
+         * clones it again.
+         *
+         * @returns {Object}
+         */
         getConfig : function getConfig() {
             var moduleConfig = module.config();
 
