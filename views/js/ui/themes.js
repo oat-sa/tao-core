@@ -28,7 +28,7 @@ define([
 ], function(_, module){
     'use strict';
 
-    var themesConfig = _.cloneDeep(module.config());
+    var themesConfig;
 
     /**
      * Let you access to platform themes
@@ -43,37 +43,36 @@ define([
          * @returns {Object}
          */
         getConfig : function getConfig() {
-            var moduleConfig = module.config();
+            var initialConfig;
 
-            if (!_.isEqual(themesConfig, moduleConfig)) {
-                themesConfig = _.cloneDeep(moduleConfig);
-                return themesConfig;
-            } else {
-                return themesConfig;
+            if(!themesConfig){
+                initialConfig = module.config();
+                themesConfig = _.cloneDeep(initialConfig);
             }
+            return themesConfig;
         },
 
         /**
          * Get the themes config.
          * @example themes().get('items');
-         * 
-         * If the config contains a activeNamespace property (for example, 'ns1'), then it will appended to the requested key 
+         *
+         * If the config contains a activeNamespace property (for example, 'ns1'), then it will appended to the requested key
          * For example, this will actually returns entries registered in 'items_ns1'
          * @example themes().get('items');
-         * 
+         *
          * Namespace can by manually specified by a parameter. In that case, activeNamespace property is ignored.
          * @example themes().get('items', 'ns2');
-         *  
+         *
          * @param {String} what - themes are classified, what is the theme for ?
          * @param {String} [ns] - namespace of the 'what'
          * @returns {Object?} the themes config
          */
         get : function get(what, ns){
             var config = this.getConfig();
-            
+
             if (ns) {
                 what += '_' + ns;
-                
+
             } else if (config.activeNamespace && config[what + '_' + config.activeNamespace]) {
                 what += '_' + config.activeNamespace;
             }
@@ -115,7 +114,7 @@ define([
          * @returns {String} activeNamespace
          */
         getActiveNamespace : function getActiveNamespace(){
-            return themesConfig.activeNamespace;
+            return this.getConfig().activeNamespace;
         },
 
         /**
@@ -126,7 +125,7 @@ define([
          * @param {String} ns - activeNamespace value to be set into config
          */
         setActiveNamespace : function setActiveNamespace(ns){
-            themesConfig.activeNamespace = ns;
+            this.getConfig().activeNamespace = ns;
         }
     };
 });
