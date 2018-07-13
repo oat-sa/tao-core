@@ -96,7 +96,7 @@ define([
         assert.deepEqual(themesHandler.get('items', 'ns1'), config[itemsNs1], 'returns "items_ns" entry if namespace is specified, ignoring active namespace');
         assert.deepEqual(themesHandler.get('items', 'unknown'), undefined, 'returns undefined if namespace is not found');
     });
-    
+
     QUnit.test('getAvailable(what)', function(assert){
         QUnit.expect(6);
 
@@ -126,6 +126,23 @@ define([
         mockThemeConfig(config);
         assert.deepEqual(themesHandler.getAvailable('items', 'ns1'), config[itemsNs1].available, 'returns available items themes of entry "items_ns1"');
         assert.deepEqual(themesHandler.getAvailable('items', 'unknown'), [], 'returns empty array if namespace is not found');
+    });
+
+    QUnit.test('getActiveNamespace()', function(assert){
+        QUnit.expect(1);
+
+        config.activeNamespace = 'ns2';
+        mockThemeConfig(config);
+        assert.deepEqual(themesHandler.getActiveNamespace(), 'ns2', 'Returns active namespace from the config');
+    });
+
+    QUnit.test('setActiveNamespace(ns)', function(assert){
+        QUnit.expect(1);
+
+        config.activeNamespace = itemsNs2;
+        mockThemeConfig(config);
+        themesHandler.setActiveNamespace(itemsNs1);
+        assert.deepEqual(themesHandler.getActiveNamespace(), itemsNs1, 'Returns items_ns1 as it was just set through setActiveNamespace call');
     });
 
 });
