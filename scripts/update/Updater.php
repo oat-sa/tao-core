@@ -821,7 +821,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(MetricsService::SERVICE_ID, $service);
             $this->setVersion('19.10.0');
         }
-
-        $this->skip('19.10.0', '19.12.0');
+        
+        $this->skip('19.10.0', '19.14.0');
     }
 }

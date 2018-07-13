@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ui Test - DataTable Demo</title>
+        <base href="../../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" href="css/tao-main-style.css"/>
+        <link rel="stylesheet" href="css/tao-3.css"/>
+        <style>
+            #demo {}
+            .feature {
+                margin: 10px;
+                padding: 0;
+                border: 1px solid #eee;
+            }
+            .feature .text {
+                align-self: flex-start;
+            }
+            .feature .action {
+                flex: 1;
+                align-self: flex-end;
+            }
+            .feature .action[data-control=hide] {
+                display: none;
+            }
+            .feature .settings {
+                margin-right: 10px;
+                padding: 0 5px;
+            }
+            .feature .title {
+                margin: 0;
+                padding: 0 10px;
+                background: #0b4a74;
+                color: #fff;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+            }
+            .feature .content {
+                display: none;
+            }
+            .feature .config {
+                font-family: "Courier New", Courier, monospace;
+                font-size: 9pt;
+                white-space: pre;
+                max-height: 400px;
+                overflow-y: auto;
+                border-bottom: 5px solid #eee;
+                display: none;
+            }
+            .feature .widget {
+                margin: 20px 40px;
+                padding: 10px;
+                border: 3px solid #eee;
+                border-radius: 4px;
+            }
+            .feature .query {
+                margin: 5px 40px;
+                padding: 8px;
+                border: 1px solid #eee;
+            }
+            table.file {
+                width: 100%;
+            }
+            table.file th {
+                width: 100px;
+                text-align: right;
+                padding-right: 10px;
+            }
+        </style>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-only="datatable.js"></script>
+        <script  type="text/javascript">
+
+            // don't start the test now
+            QUnit.config.autostart = false;
+
+            // load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                // load the test
+                require(['test/ui/datatable/demo/test'], function(){
+                    // Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <div id="demo"></div>
+    </body>
+</html>
