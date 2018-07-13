@@ -28,11 +28,24 @@ define([
 ], function(_, module){
     'use strict';
 
+    var themesConfig = _.cloneDeep(module.config());
+
     /**
      * Let you access to platform themes
      * @exports ui/themes
      */
     return {
+
+        getConfig : function getConfig() {
+            var moduleConfig = module.config();
+
+            if (!_.isEqual(themesConfig, moduleConfig)) {
+                themesConfig = _.cloneDeep(moduleConfig);
+                return themesConfig;
+            } else {
+                return themesConfig;
+            }
+        },
 
         /**
          * Get the themes config.
@@ -50,7 +63,7 @@ define([
          * @returns {Object?} the themes config
          */
         get : function get(what, ns){
-            var config = module.config();
+            var config = this.getConfig();
             
             if (ns) {
                 what += '_' + ns;
@@ -95,9 +108,8 @@ define([
          *
          * @returns {String} activeNamespace
          */
-        getActiveNamespace: function getActiveNamespace(){
-            var config = module.config();
-            return config.activeNamespace;
+        getActiveNamespace : function getActiveNamespace(){
+            return themesConfig.activeNamespace;
         },
 
         /**
@@ -107,9 +119,8 @@ define([
          *
          * @param {String} ns - activeNamespace value to be set into config
          */
-        setActiveNamespace: function setActiveNamespace(ns){
-            var config = module.config();
-            config.activeNamespace = ns;
+        setActiveNamespace : function setActiveNamespace(ns){
+            themesConfig.activeNamespace = ns;
         }
     };
 });
