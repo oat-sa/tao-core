@@ -29,6 +29,7 @@ define([
     'use strict';
 
     var themesConfig;
+    var defaultNamespacePrefix = 'items';
 
     /**
      * Let you access to platform themes
@@ -50,6 +51,10 @@ define([
                 themesConfig = _.cloneDeep(initialConfig);
             }
             return themesConfig;
+        },
+
+        getDefaultNamespacePrefix : function getDefaultNamespacePrefix() {
+            return defaultNamespacePrefix;
         },
 
         /**
@@ -126,6 +131,16 @@ define([
          */
         setActiveNamespace : function setActiveNamespace(ns){
             this.getConfig().activeNamespace = ns;
+        },
+
+        getCurrentThemeData : function getCurrentThemeData(themeName, what){
+            var key = '';
+            if (!what) {
+                what = this.getDefaultNamespacePrefix();
+            }
+            key = what + '_' + themeName;
+
+            return this.getConfig()[key];
         }
     };
 });
