@@ -133,11 +133,19 @@ define([
             this.getConfig().activeNamespace = ns;
         },
 
-        getCurrentThemeData : function getCurrentThemeData(themeName, what){
+        /**
+         * Gets the current theme data from config
+         *
+         * @param what
+         * @returns {*}
+         */
+        getCurrentThemeData : function getCurrentThemeData(what){
+            var themeNamespace = this.getActiveNamespace();
+
             if (!what) {
                 what = this.getDefaultNamespacePrefix();
             }
-            return this.get(what, themeName);
+            return this.get(what, themeNamespace);
         }
     };
 });
