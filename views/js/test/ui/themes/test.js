@@ -145,4 +145,17 @@ define([
         assert.deepEqual(themesHandler.getActiveNamespace(), itemsNs1, 'Returns items_ns1 as it was just set through setActiveNamespace call');
     });
 
+    QUnit.test('getCurrentThemeData(what)', function(assert){
+        QUnit.expect(3);
+
+        mockThemeConfig(config);
+        themesHandler.setActiveNamespace('');
+        assert.deepEqual(themesHandler.getCurrentThemeData('items'), config.items, 'returns items themes');
+
+        mockThemeConfig(config);
+        themesHandler.setActiveNamespace('ns1');
+        assert.deepEqual(themesHandler.getCurrentThemeData('items'), config[itemsNs1], 'returns items_ns1 themes');
+        assert.deepEqual(themesHandler.getCurrentThemeData(), config[itemsNs1], 'returns items_ns1 themes');
+    });
+
 });
