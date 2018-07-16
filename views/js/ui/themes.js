@@ -136,8 +136,14 @@ define([
         /**
          * Gets the current theme data from config
          *
-         * @param what
-         * @returns {*}
+         * @param {String} what - if provided themes data is loaded for provided argument. If not - will return "default" data - for `items`
+         *
+         * @example themes().getCurrentThemeData('items');
+         * @example themes().getCurrentThemeData();
+         * Both examples will return same data. Next example will load the theme data for 'platform' (if it exists):
+         * @example themes().getCurrentThemeData('platform');
+         *
+         * @returns {Object} the current theme data
          */
         getCurrentThemeData : function getCurrentThemeData(what){
             var themeNamespace = this.getActiveNamespace();
