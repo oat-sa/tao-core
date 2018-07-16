@@ -29,6 +29,7 @@ define([
     'use strict';
 
     var themesConfig;
+    var defaultNamespacePrefix = 'items';
 
     /**
      * Let you access to platform themes
@@ -50,6 +51,15 @@ define([
                 themesConfig = _.cloneDeep(initialConfig);
             }
             return themesConfig;
+        },
+
+        /**
+         * Gets default namespace prefix - currently 'items'
+         *
+         * @returns {string}
+         */
+        getDefaultNamespacePrefix : function getDefaultNamespacePrefix() {
+            return defaultNamespacePrefix;
         },
 
         /**
@@ -126,6 +136,27 @@ define([
          */
         setActiveNamespace : function setActiveNamespace(ns){
             this.getConfig().activeNamespace = ns;
+        },
+
+        /**
+         * Gets the current theme data from config
+         *
+         * @param {String} what - if provided themes data is loaded for provided argument. If not - will return "default" data - for `items`
+         *
+         * @example themes().getCurrentThemeData('items');
+         * @example themes().getCurrentThemeData();
+         * Both examples will return same data. Next example will load the theme data for 'platform' (if it exists):
+         * @example themes().getCurrentThemeData('platform');
+         *
+         * @returns {Object} the current theme data
+         */
+        getCurrentThemeData : function getCurrentThemeData(what){
+            var themeNamespace = this.getActiveNamespace();
+
+            if (!what) {
+                what = this.getDefaultNamespacePrefix();
+            }
+            return this.get(what, themeNamespace);
         }
     };
 });
