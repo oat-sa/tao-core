@@ -53,6 +53,11 @@ define([
             return themesConfig;
         },
 
+        /**
+         * Gets default namespace prefix - currently 'items'
+         *
+         * @returns {string}
+         */
         getDefaultNamespacePrefix : function getDefaultNamespacePrefix() {
             return defaultNamespacePrefix;
         },
