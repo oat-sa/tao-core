@@ -134,13 +134,10 @@ define([
         },
 
         getCurrentThemeData : function getCurrentThemeData(themeName, what){
-            var key = '';
             if (!what) {
                 what = this.getDefaultNamespacePrefix();
             }
-            key = what + '_' + themeName;
-
-            return this.getConfig()[key];
+            return this.get(what, themeName);
         }
     };
 });
