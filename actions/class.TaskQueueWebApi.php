@@ -18,6 +18,7 @@
  *
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
@@ -36,6 +37,8 @@ use oat\taoBackOffice\model\routing\ResourceUrlBuilder;
  */
 class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
+
     const PARAMETER_TASK_ID = 'taskId';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_OFFSET = 'offset';
@@ -78,14 +81,11 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
         /** @var FileSystemService $fs */
         $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
 
-        /** @var ResourceUrlBuilder $urlBuilder */
-        $urlBuilder = $this->getServiceLocator()->get(ResourceUrlBuilder::SERVICE_ID);
 
         $collection = new SimpleManagementCollectionDecorator(
             $taskLogService->findAvailableByUser($this->userId, $limit, $offset),
             $taskLogService,
             $fs,
-            $urlBuilder,
             false
         );
 
@@ -110,9 +110,6 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
         /** @var FileSystemService $fs */
         $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
 
-        /** @var ResourceUrlBuilder $urlBuilder */
-        $urlBuilder = $this->getServiceLocator()->get(ResourceUrlBuilder::SERVICE_ID);
-
         try {
             $this->assertTaskIdExists();
 
@@ -123,7 +120,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
             return $this->returnJson([
                 'success' => true,
-                'data' => (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $taskLogService), $fs), $urlBuilder))
+                'data' => (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $taskLogService), $fs)))
                     ->toArray()
             ]);
         } catch (\Exception $e) {
@@ -133,6 +130,30 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                 'errorCode' => $e->getCode(),
             ]);
         }
+    }
+
+    /**
+     * Forward to an resource generated in a task.
+     */
+    public function redirectToInstance()
+    {
+        $this->assertTaskIdExists();
+
+        /** @var TaskLogInterface $taskLogService */
+        $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+
+        $entity = $taskLogService->getByIdAndUser(
+            $this->getRequestParameter(self::PARAMETER_TASK_ID),
+            $this->userId,
+            true // in Sync mode, task is archived straightaway
+        );
+
+        $uri = $entity->getResourceUriFromReport();
+
+        /** @var ResourceUrlBuilder $urlBuilder */
+        $urlBuilder = $this->getServiceLocator()->get(ResourceUrlBuilder::SERVICE_ID);
+
+        return $this->redirect($urlBuilder->buildUrl($this->getResource($uri)));
     }
 
     /**

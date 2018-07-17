@@ -164,11 +164,11 @@ interface TaskLogInterface extends LoggerAwareInterface
     /**
      * @param string $taskId
      * @param string $userId
+     * @param bool   $archivedAllowed
      * @return EntityInterface
      *
-     * @throws \common_exception_NotFound
      */
-    public function getByIdAndUser($taskId, $userId);
+    public function getByIdAndUser($taskId, $userId, $archivedAllowed = false);
 
     /**
      * @param EntityInterface $entity

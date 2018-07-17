@@ -20,27 +20,16 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
-use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
-use oat\taoBackOffice\model\routing\ResourceUrlBuilder;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
  */
 class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
 {
-    use OntologyAwareTrait;
-
-    /**
-     * @var ResourceUrlBuilder
-     */
-    private $urlBuilder;
-
-    public function __construct(EntityInterface $entity, ResourceUrlBuilder $urlBuilder)
+    public function __construct(EntityInterface $entity)
     {
         parent::__construct($entity);
-
-        $this->urlBuilder = $urlBuilder;
     }
 
     /**
@@ -52,20 +41,16 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
     }
 
     /**
-     * Add 'redirectUrl' to the result.
+     * Add 'redirectUrl' to the result if the task has been processed.
      *
      * @return array
      */
     public function toArray()
     {
-        $result = parent::toArray();
-
-        $uri = $this->getResourceUriFromReport();
-
-        $result['redirectUrl'] = $uri
-            ? $this->urlBuilder->buildUrl($this->getResource($uri))
-            : '';
-
-        return $result;
+        return $this->getStatus()->isCompleted() || $this->getStatus()->isArchived()
+            ? array_merge(parent::toArray(), [
+                'redirectUrl' => _url('redirectToInstance', 'TaskQueueWebApi', 'tao', ['taskId' => $this->getId()])
+              ])
+            : parent::toArray();
     }
 }

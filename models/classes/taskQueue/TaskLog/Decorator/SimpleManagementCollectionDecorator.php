@@ -23,7 +23,6 @@ namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
-use oat\taoBackOffice\model\routing\ResourceUrlBuilder;
 
 /**
  * Containing all necessary modification required by the simple UI component.
@@ -52,12 +51,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
      */
     private $reportIncluded;
 
-    /**
-     * @var ResourceUrlBuilder
-     */
-    private $urlBuilder;
-
-    public function __construct(CollectionInterface $collection, TaskLogInterface $taskLogService, FileSystemService $fileSystemService, ResourceUrlBuilder $urlBuilder, $reportIncluded)
+    public function __construct(CollectionInterface $collection, TaskLogInterface $taskLogService, FileSystemService $fileSystemService, $reportIncluded)
     {
         parent::__construct($collection);
 
@@ -65,7 +59,6 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         $this->collection = $collection;
         $this->taskLogService = $taskLogService;
         $this->reportIncluded = (bool) $reportIncluded;
-        $this->urlBuilder = $urlBuilder;
     }
 
     /**
@@ -76,7 +69,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         $data = [];
 
         foreach ($this->getIterator() as $entity) {
-            $entityData = (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $this->taskLogService), $this->fileSystemService), $this->urlBuilder))
+            $entityData = (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $this->taskLogService), $this->fileSystemService)))
                 ->toArray();
 
             if (!$this->reportIncluded && array_key_exists('report', $entityData)) {

@@ -44,8 +44,7 @@ class CategorizedStatus
             TaskLogInterface::STATUS_CHILD_RUNNING
         ],
         self::STATUS_COMPLETED   => [
-            TaskLogInterface::STATUS_COMPLETED,
-            TaskLogInterface::STATUS_ARCHIVED
+            TaskLogInterface::STATUS_COMPLETED
         ],
         self::STATUS_FAILED      => [
             TaskLogInterface::STATUS_FAILED,

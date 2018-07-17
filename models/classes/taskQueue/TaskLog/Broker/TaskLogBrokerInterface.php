@@ -44,7 +44,6 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
     const COLUMN_STATUS = 'status';
     const COLUMN_OWNER = 'owner';
     const COLUMN_REPORT = 'report';
-    const COLUMN_REDIRECT_URL = 'redirect_url';
     const COLUMN_CREATED_AT = 'created_at';
     const COLUMN_UPDATED_AT = 'updated_at';
 
