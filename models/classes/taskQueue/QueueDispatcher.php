@@ -89,9 +89,6 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      */
     public function __toPhpCode()
     {
-        // to propagate the required services
-        $this->getQueues();
-
         return parent::__toPhpCode();
     }
 
