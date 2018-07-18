@@ -109,19 +109,11 @@ class TimeRule implements RequiredActionRuleInterface
     public function __toPhpCode()
     {
         $class = get_class($this);
-        $executionTime = $this->getExecutionTime();
-        if ($executionTime === null) {
-            $serializedExecutionTime = 'null';
-        } else {
-            $serializedExecutionTime = 'new \DateTime(' . $executionTime->getTimestamp() . ')';
-        }
-
         $interval = $this->getInterval();
         $serializedInterval = 'new \DateInterval("' . $interval->format('P%yY%mM%dDT%hH%iM%sS') . '")';
 
         return "new $class(
-            $serializedInterval,
-            $serializedExecutionTime
+            $serializedInterval
         )";
     }
 
