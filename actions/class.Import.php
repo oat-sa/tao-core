@@ -73,7 +73,7 @@ class tao_actions_Import extends tao_actions_CommonModule
                     ImportByHandler::PARAM_FORM_VALUES => $importer instanceof TaskParameterProviderInterface ? $importer->getTaskParameters($importForm) : [],
                     ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri()
                 ],
-                __('Import a "%s" into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
+                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
 
             return $this->returnTaskJson($task);
         }

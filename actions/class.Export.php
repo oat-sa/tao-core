@@ -106,7 +106,7 @@ class tao_actions_Export extends tao_actions_CommonModule
                     ExportByHandler::PARAM_EXPORT_HANDLER => get_class($exporter),
                     ExportByHandler::PARAM_EXPORT_DATA => $exportData
                 ],
-                __('Export "%s" in "%s" format', $selectedResource->getLabel(), $exporter->getLabel())
+                __('Export "%s" in %s', $selectedResource->getLabel(), $exporter->getLabel())
             );
 
             return $this->returnTaskJson($task);
