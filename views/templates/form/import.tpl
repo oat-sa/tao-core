@@ -86,17 +86,24 @@ $msg .= '<ul>';
         //replace the old submitter with the new one and apply its style
         $oldSubmitter.replaceWith(taskCreationButton.getElement().css({float: 'right'}));
 
-        //toggle submitter according to the number of selected files
-        $uploader.on('change reset.uploaded end.uploader undo.deleter', function(){
-            var data = $uploader.data('ui.uploader');
-            if(data && data.files && data.files.length){
-                taskCreationButton.enable();
-            }else{
-                taskCreationButton.disable();
-            }
-        }).on('delete deleted.deleter', function() {
+
+        if($uploader.length){
+
+            //start disabled and wait for file selection before allowing to create tasks
             taskCreationButton.disable();
-        });
+
+            //toggle submitter according to the number of selected files
+            $uploader.on('change reset.uploaded end.uploader undo.deleter', function(){
+                var data = $uploader.data('ui.uploader');
+                if(data && data.files && data.files.length){
+                    taskCreationButton.enable();
+                }else{
+                    taskCreationButton.disable();
+                }
+            }).on('delete deleted.deleter', function() {
+                taskCreationButton.disable();
+            });
+        }
 
         //by changing the format, the form is sent
         $(":radio[name='importHandler']").change(function(){
