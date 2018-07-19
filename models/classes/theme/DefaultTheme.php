@@ -24,8 +24,6 @@ use oat\tao\helpers\Template;
 /**
  * Class DefaultTheme
  *
- * @deprecated use ConfigurablePlatformTheme instead
- *
  * @package oat\tao\model\theme
  */
 class DefaultTheme extends ConfigurableTheme
