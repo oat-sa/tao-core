@@ -55,8 +55,8 @@ class TimeRule implements RequiredActionRuleInterface
 
     /**
      * TimeRule constructor.
-     * @param DateTime|null $executionTime Time when the action was executed last time
      * @param DateInterval|null $interval Interval to specify how often action should be performed
+     * @param DateTime|null $executionTime Time when the action was executed last time
      */
     public function __construct(DateInterval $interval = null, DateTime $executionTime = null)
     {
