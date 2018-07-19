@@ -85,14 +85,6 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     }
 
     /**
-     * @inheritdoc
-     */
-    public function __toPhpCode()
-    {
-        return parent::__toPhpCode();
-    }
-
-    /**
      * @param TaskInterface $task
      * @return QueueInterface
      */
