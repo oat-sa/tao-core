@@ -20,7 +20,9 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
+use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\taoBackOffice\controller\Redirector;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
@@ -47,9 +49,20 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
      */
     public function toArray()
     {
-        return $this->getStatus()->isCompleted() || $this->getStatus()->isArchived()
+        $params = [
+            'taskId' => $this->getId()
+        ];
+
+        $hasAccess = AclProxy::hasAccess(
+            \common_session_SessionManager::getSession()->getUser(),
+            Redirector::class,
+            'redirectTaskToInstance',
+            $params
+        );
+
+        return $hasAccess && ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())
             ? array_merge(parent::toArray(), [
-                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $this->getId()])
+                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
               ])
             : parent::toArray();
     }
