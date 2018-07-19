@@ -49,21 +49,26 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
      */
     public function toArray()
     {
-        $params = [
-            'taskId' => $this->getId()
-        ];
-
-        $hasAccess = AclProxy::hasAccess(
-            \common_session_SessionManager::getSession()->getUser(),
-            Redirector::class,
-            'redirectTaskToInstance',
-            $params
-        );
-
-        return $hasAccess && ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())
-            ? array_merge(parent::toArray(), [
-                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
-              ])
-            : parent::toArray();
+        $data = parent::toArray();
+        if ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) {
+            $user = \common_session_SessionManager::getSession()->getUser();
+            $params = [
+                'taskId' => $this->getId()
+            ];
+            $hasAccess = AclProxy::hasAccess(
+                $user,
+                Redirector::class,
+                'redirectTaskToInstance',
+                $params
+            );
+            if ($hasAccess) {
+                $data = array_merge(parent::toArray(), [
+                    'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
+                ]);
+            } else {
+                \common_Logger::w('User \''.$user->getIdentifier().'\' does not have access to redirectTaskToInstance');
+            }
+        }
+        return $data;
     }
 }
