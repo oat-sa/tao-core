@@ -20,26 +20,18 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
-use oat\oatbox\filesystem\Directory;
-use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\taoBackOffice\controller\Redirector;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
  */
-class HasFileEntityDecorator extends TaskLogEntityDecorator
+class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
 {
-    /**
-     * @var FileSystemService
-     */
-    private $fileSystemService;
-
-    public function __construct(EntityInterface $entity, FileSystemService $fileSystemService)
+    public function __construct(EntityInterface $entity)
     {
         parent::__construct($entity);
-
-        $this->fileSystemService = $fileSystemService;
     }
 
     /**
@@ -51,28 +43,32 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
     }
 
     /**
-     * Add 'hasFile' to the result. Required by our frontend.
+     * Add 'redirectUrl' to the result if the task has been processed.
      *
      * @return array
      */
     public function toArray()
     {
-        $result = parent::toArray();
-
-        $result['hasFile'] = false;
-
-        $fileName = $this->getFileNameFromReport();
-
-        if ($fileName) {
-            /** @var Directory $queueStorage */
-            $queueStorage = $this->fileSystemService
-                ->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
-
-            if ($queueStorage->getFile($fileName)->exists()) {
-                $result['hasFile'] = true;
+        $data = parent::toArray();
+        if ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) {
+            $user = \common_session_SessionManager::getSession()->getUser();
+            $params = [
+                'taskId' => $this->getId()
+            ];
+            $hasAccess = AclProxy::hasAccess(
+                $user,
+                Redirector::class,
+                'redirectTaskToInstance',
+                $params
+            );
+            if ($hasAccess) {
+                $data = array_merge(parent::toArray(), [
+                    'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
+                ]);
+            } else {
+                \common_Logger::w('User \''.$user->getIdentifier().'\' does not have access to redirectTaskToInstance');
             }
         }
-
-        return $result;
+        return $data;
     }
 }

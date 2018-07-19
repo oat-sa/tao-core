@@ -64,6 +64,7 @@ use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
+use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
