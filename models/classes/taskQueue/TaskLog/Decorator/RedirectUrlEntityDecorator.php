@@ -49,7 +49,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
     {
         return $this->getStatus()->isCompleted() || $this->getStatus()->isArchived()
             ? array_merge(parent::toArray(), [
-                'redirectUrl' => _url('redirectToInstance', 'TaskQueueWebApi', 'tao', ['taskId' => $this->getId()])
+                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $this->getId()])
               ])
             : parent::toArray();
     }
