@@ -44,7 +44,7 @@
 	"require" : {
 		"php" : ">=5.5",
 		"phpdocumentor/reflection-docblock" : "2.*",
-		"oat-sa/oatbox-extension-installer" : "dev-master",
+		"oat-sa/oatbox-extension-installer" : "~1.1||dev-master",
 		"oat-sa/extension-builder": "^0.1",
 		"phpmailer/phpmailer" : "dev-master",
 		"oat-sa/jig" : "~0.1",
