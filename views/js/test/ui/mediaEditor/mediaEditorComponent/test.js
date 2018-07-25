@@ -20,63 +20,52 @@
 
 define([
     'jquery',
-    'lodash',
-    'ui/mediaEditor/mediaEditorComponent',
-    'util/image',
-    'css!test/ui/mediaEditor/mediaEditorComponent/styles'
-], function ($, _, mediaEditorComponent, imageUtil) {
+    'ui/mediaEditor/mediaEditorComponent'
+], function ($, mediaEditorComponent) {
     'use strict';
 
     QUnit.module('Demo');
 
     QUnit.test('elements workflow', function (assert) {
         var $container;
-        var $demoContainer = $('<div class="demo-container">');
-        var $controlContainer = $('<div class="control-container">');
-        var $editableContainer = $('<div class="editable-container">');
-        var $img = $('<img src="js/test/ui/mediaEditor/sample/space.jpg">');
+        var $demoContainer = $('.demo-container');
+        var $controlContainer = $('.control-container', $demoContainer);
+        var $editableContainer = $('.editable-container', $controlContainer);
+        var $img = $('.picture', $editableContainer);
+        var media = {
+            $node: $img,
+            type: 'image/jpeg',
+            src: $img.attr('src'),
+            width: 500,
+            height: 735,
+            responsive: true
+        };
 
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
-        $demoContainer.insertAfter($container);
-        $demoContainer.append($editableContainer);
-        $editableContainer.append($controlContainer);
-        $editableContainer.append($img);
-
-        imageUtil.getSize($img.attr('src'), function(size){
-            var media = {
-                $node: $img,
-                type: 'image/jpeg',
-                src: $img.attr('src'),
-                width: size.width,
-                height: size.height,
-                responsive: true
-            };
-
-            mediaEditorComponent($editableContainer, media, {
-                mediaDimension: {
-                    $container: $controlContainer,
-                    active: true
-                }
-            }).on('change', function(nMedia){
-                media = nMedia;
-                if (media.responsive) {
-                    media.$node.css({
-                        width: media.width + '%',
-                        height: 'auto'
-                    });
-                    media.$node.attr('width', media.width + '%');
-                    media.$node.attr('height', '');
-                } else {
-                    media.$node.css({
-                        width: media.width,
-                        height: media.height
-                    });
-                    media.$node.attr('width', media.width);
-                    media.$node.attr('height', media.height);
-                }
-            });
+        mediaEditorComponent($editableContainer, media, {
+            mediaDimension: {
+                $container: $controlContainer,
+                active: true
+            }
+        }).on('change', function(nMedia){
+            media = nMedia;
+            if (media.responsive) {
+                media.$node.css({
+                    width: media.width + '%',
+                    height: 'auto'
+                });
+                media.$node.attr('width', media.width + '%');
+                media.$node.attr('height', '');
+            } else {
+                media.$node.css({
+                    width: media.width,
+                    height: media.height
+                });
+                media.$node.attr('width', media.width);
+                media.$node.attr('height', media.height);
+            }
         });
     });
 });

@@ -60,7 +60,7 @@ define([
      * @type mediaEditorConfig
      * @private
      */
-    var _defaults = {
+    var defaultConfig = {
         mediaDimension: {
             $container: null,
             active: false
@@ -80,7 +80,7 @@ define([
         /**
          * Current component
          */
-        var mediaEditorComponent = component({}, _defaults);
+        var mediaEditorComponent = component({}, defaultConfig);
         mediaEditorComponent
             .setTemplate(tpl)
             .on('init', function () {
@@ -90,13 +90,15 @@ define([
                 this.render($container);
             })
             .on('render', function () {
-                var self = this;
+                var self = this, $selfContainer;
                 if (this.getConfig().mediaDimension.active
                     && this.getConfig().mediaDimension.$container
-                    && this.getConfig().mediaDimension.$container
                 ) {
+                    $selfContainer = this.getContainer();
                     mediaDimensionComponent(this.getConfig().mediaDimension.$container, media, {
-                        $editableContainer: this.getContainer(),
+                        getContainerWidth: function getContainerWidth() {
+                            return $selfContainer.innerWidth();
+                        },
                         responsive: media.responsive
                     })
                         .on('change', function (conf) {

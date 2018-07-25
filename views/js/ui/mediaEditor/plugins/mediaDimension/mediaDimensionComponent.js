@@ -26,7 +26,8 @@ define([
     'tpl!ui/mediaEditor/plugins/mediaDimension/tpl/mediaDimension',
     'ui/mediaEditor/plugins/mediaDimension/helper',
     'nouislider',
-    'ui/tooltip'
+    'ui/tooltip',
+    'css!ui/mediaEditor/plugins/mediaDimension/style'
 ], function ($, _, component, tpl, helper) {
     'use strict';
 
@@ -61,32 +62,11 @@ define([
      */
 
     /**
-     * Size properties of the media control panel
-     * @typedef {Object} mediaSizeProps
-     * @property $editableContainer object
-     * @property showResponsiveToggle boolean
-     * @property responsive boolean
-     * @property sizeProps sizeProps
-     * @property originalSizeProps sizeProps
-     * @property syncDimensions boolean
-     * @property denyCustomRatio boolean
-     * @property precision number
-     * @property showReset boolean
-     */
-
-    /**
-     * Configuration
-     * @type {mediaSizeProps}
-     * @private
-     */
-    var _config;
-
-    /**
      * Default values
      * precision - precision for all calculations (0.00001)
      *
      * @type {{
-     *    $editableContainer: object,
+     *    getContainerWidth: function,
      *    showResponsiveToggle: boolean,
      *    responsive: boolean,
      *    showSync: boolean,
@@ -101,8 +81,8 @@ define([
      * }}
      * @private
      */
-    var _defaults = {
-        $editableContainer: null,
+    var defaultConfig = {
+        getContainerWidth: null,
         showResponsiveToggle: true,
         responsive: true,
         showSync: true,
@@ -142,6 +122,8 @@ define([
 
     /**
      * Creates mediaDimension component
+     * @param $container
+     * @param media
      * @param config
      * @fires "changed" - on State changed
      * return {component|*}
@@ -153,31 +135,78 @@ define([
         var $blocks, $slider, $fields;
 
         /**
-         * Current component
+         * Template of the dimension controller
          */
-        var mediaDimensionComponent = component({
-            update: function update() {
-                // slide sliders
-                $slider.val(_config.sizeProps['%'].current.width);
-                // percent Input
-                $fields['%'].width.val(helper.round(_config.sizeProps['%'].current.width, 0));
-                // px inputs
-                $fields.px.width.val(helper.round(_config.sizeProps.px.current.width, 0));
-                $fields.px.height.val(helper.round(_config.sizeProps.px.current.height, 0));
+        var $template;
 
-                this.trigger('change', _config);
-            }
-        }, _defaults);
+        /**
+         * Size properties of the media control panel
+         * @typedef {Object} mediaSizeProps
+         * @property getContainerWidth function
+         * @property showResponsiveToggle boolean
+         * @property responsive boolean
+         * @property sizeProps sizeProps
+         * @property originalSizeProps sizeProps
+         * @property syncDimensions boolean
+         * @property denyCustomRatio boolean
+         * @property precision number
+         * @property showReset boolean
+         */
+
+        /**
+         * Configuration
+         * @type {mediaSizeProps}
+         * @private
+         */
+        var initialConfig;
 
         /**
          * Calculate propSizes to have correct sizes for the shown image
          */
-        var calculateCurrentSizes = function calculateCurrentSizes() {
-            _config = helper.applyDimensions(_config, {
-                width: (helper.containerWidth(_config) < _config.sizeProps.px.natural.width ? helper.containerWidth(_config) : _config.sizeProps.px.natural.width)
+        var calculateCurrentSizes = function calculateCurrentSizes(conf) {
+            return helper.applyDimensions(conf, {
+                width: (conf.getContainerWidth() < conf.sizeProps.px.natural.width
+                    ? conf.getContainerWidth() : conf.sizeProps.px.natural.width)
             });
-            mediaDimensionComponent.update();
         };
+
+        /**
+         * Current component
+         */
+        var mediaDimensionComponent = component({
+            /**
+             * Reset the component to the initial state
+             */
+            reset: function reset() {
+                if(this.is('rendered')){
+
+                    //update the config
+                    initialConfig.sizeProps = _.cloneDeep(initialConfig.originalSizeProps);
+
+                    // apply changes
+                    initialConfig = calculateCurrentSizes(initialConfig);
+                    mediaDimensionComponent.update();
+
+                    // trigger event
+                    this.trigger('reset', initialConfig);
+                }
+                return this;
+            },
+            /**
+             * Apply configurations to the view
+             */
+            update: function update() {
+                // slide sliders
+                $slider.val(initialConfig.sizeProps['%'].current.width);
+                // percent Input
+                $fields['%'].width.val(Math.round(initialConfig.sizeProps['%'].current.width));
+                // px inputs
+                $fields.px.width.val(Math.round(initialConfig.sizeProps.px.current.width));
+                $fields.px.height.val(Math.round(initialConfig.sizeProps.px.current.height));
+
+                this.trigger('change', initialConfig);
+            }
+        }, defaultConfig);
 
         /**
          * Check that input in progress and we don't need to change anything
@@ -198,32 +227,32 @@ define([
          * @returns {{}}
          * @private
          */
-        var _initBlocks = function _initBlocks ($elt) {
+        var initBlocks = function initBlocks ($elt) {
             var _blocks = {},
                 $responsiveToggleField = $elt.find('.media-mode-switch'),
-                _checkMode = function () {
+                checkMode = function checkMode() {
                     if ($responsiveToggleField.is(':checked')) {
-                        _config.responsive = true;
+                        initialConfig.responsive = true;
                         _blocks.px.hide();
                         _blocks['%'].show();
-                        _config.sizeProps.currentUtil = '%';
+                        initialConfig.sizeProps.currentUtil = '%';
                     } else {
-                        _config.responsive = false;
+                        initialConfig.responsive = false;
                         _blocks['%'].hide();
                         _blocks.px.show();
-                        _config.sizeProps.currentUtil = 'px';
+                        initialConfig.sizeProps.currentUtil = 'px';
                     }
 
                     if ($fields) {
                         if ($fields['%'].width.val() > $slider.max) {
                             $fields['%'].width.val($slider.max);
                         }
-                        _config = helper.applyDimensions(_config, {percent: $fields['%'].width.val()});
+                        initialConfig = helper.applyDimensions(initialConfig, {percent: $fields['%'].width.val()});
                         mediaDimensionComponent.update();
                     }
                 };
 
-            if(!_config.showResponsiveToggle) {
+            if(!initialConfig.showResponsiveToggle) {
                 $elt.addClass('media-sizer-responsivetoggle-off');
             }
 
@@ -237,14 +266,14 @@ define([
             });
 
             $responsiveToggleField.on('click', function () {
-                _checkMode();
+                checkMode();
                 $elt.trigger('responsiveswitch', [$responsiveToggleField.is(':checked')]);
             });
 
-            $responsiveToggleField.prop('checked', _config.responsive);
+            $responsiveToggleField.prop('checked', initialConfig.responsive);
 
             // initialize it properly
-            _checkMode();
+            checkMode();
 
             return _blocks;
         };
@@ -256,11 +285,11 @@ define([
          * @returns {*}
          * @private
          */
-        var _initSyncBtn = function _initSyncBtn ($elt) {
+        var initSyncBtn = function initSyncBtn ($elt) {
             var $mediaSizer = $elt.find('.media-sizer'),
                 $btn = $elt.find('.media-sizer-sync');
 
-            if(!_config.showSync) {
+            if(!initialConfig.showSync) {
                 $btn.hide();
                 $mediaSizer.addClass('media-sizer-sync-off');
             }
@@ -269,7 +298,7 @@ define([
             $btn.on('click', function () {
                 var $sizerEl = $(this).parents('.media-sizer');
                 $sizerEl.toggleClass('media-sizer-synced');
-                _config.syncDimensions = $sizerEl.hasClass('media-sizer-synced');
+                initialConfig.syncDimensions = $sizerEl.hasClass('media-sizer-synced');
             });
             return $btn;
         };
@@ -281,18 +310,19 @@ define([
          * @returns {*}
          * @private
          */
-        var _initResetBtn = function _initResetBtn ($elt) {
+        var initResetBtn = function initResetBtn($elt) {
             var $btn = $elt.find('.media-sizer-reset');
 
-            if(!_config.showReset) {
+            if(!initialConfig.showReset) {
                 $elt.find('.media-sizer').addClass('media-sizer-reset-off');
             }
 
             // this stays intact even if hidden in case it will be
             // displayed from somewhere else
-            $btn.on('click', function() {
-                _config.sizeProps = _.cloneDeep(_config.originalSizeProps);
-                calculateCurrentSizes();
+            $btn.on('click', function(e) {
+                e.preventDefault();
+                mediaDimensionComponent.reset();
+                return false;
             });
 
             return $btn;
@@ -304,7 +334,7 @@ define([
          * @returns {{}}
          * @private
          */
-        var _initFields = function _initFields () {
+        var initFields = function initFields () {
 
             var dimensions = ['width', 'height'],
                 field, _fields = {};
@@ -321,7 +351,7 @@ define([
                             unit: unit,
                             dimension: dim
                         });
-                        _fields[unit][dim].val(_config.sizeProps[unit].current[dim]);
+                        _fields[unit][dim].val(initialConfig.sizeProps[unit].current[dim]);
 
                         _fields[unit][dim].on('keydown', function (e) {
                             var $field = $(this),
@@ -365,7 +395,7 @@ define([
                             }
 
                             if ($field.prop('unit') === '%') {
-                                _config.sizeProps['%'].current.width = value;
+                                initialConfig.sizeProps['%'].current.width = value;
                                 newDimensions = { percent: value };
                             } else {
                                 if ($field.prop('dimension') === 'height') {
@@ -374,7 +404,7 @@ define([
                                     newDimensions = { width: value };
                                 }
                             }
-                            _config = helper.applyDimensions(_config, newDimensions);
+                            initialConfig = helper.applyDimensions(initialConfig, newDimensions);
                             mediaDimensionComponent.update();
                         });
                     });
@@ -390,26 +420,26 @@ define([
          * @returns {{}}
          * @private
          */
-        var _initSlider = function _initSlider ($elt) {
-            var _slider;
+        var initSlider = function initSlider($elt) {
+            var slider;
 
-            _slider = $elt.find('.media-sizer-slider');
-            _slider.prop('unit', '%');
-            _slider.noUiSlider({
-                start: _config.sizeProps.slider.start,
+            slider = $elt.find('.media-sizer-slider');
+            slider.prop('unit', '%');
+            slider.noUiSlider({
+                start: initialConfig.sizeProps.slider.start,
                 range: {
-                    min: _config.sizeProps.slider.min,
-                    max: _config.sizeProps.slider.max
+                    min: initialConfig.sizeProps.slider.min,
+                    max: initialConfig.sizeProps.slider.max
                 }
             })
                 .on('slide', function () {
                     // to avoid .00
                     var percent = parseFloat($(this).val()+'');
-                    helper.applyDimensions(_config, { percent: percent });
+                    helper.applyDimensions(initialConfig, { percent: percent });
                     mediaDimensionComponent.update();
                 });
 
-            return _slider;
+            return slider;
         };
 
         mediaDimensionComponent
@@ -433,54 +463,62 @@ define([
                 };
 
                 // rewrite with defined values
-                _config = this.getConfig();
-                _config.sizeProps = _.defaults(mediaProps, _config.sizeProps, _defaults.sizeProps);
-                _config.sizeProps.ratio.natural = helper.getCurrentRatio(_config);
-                _config.sizeProps.ratio.current = helper.getCurrentRatio(_config);
-                _config.originalSizeProps = _.cloneDeep(_config.sizeProps);
-                if (!_config.$editableContainer || !_config.$editableContainer.length) {
-                    _config.$editableContainer = media.$node.parents();
+                initialConfig = this.getConfig();
+                initialConfig.sizeProps = _.defaults(mediaProps, initialConfig.sizeProps, defaultConfig.sizeProps);
+                initialConfig.sizeProps.ratio.natural = helper.getCurrentRatio(initialConfig);
+                initialConfig.responsive = (typeof initialConfig.responsive !== 'undefined') ? initialConfig.responsive : true;
+                initialConfig.sizeProps.currentUtil = initialConfig.responsive ? '%' : 'px';
+                initialConfig.originalSizeProps = _.cloneDeep(initialConfig.sizeProps);
+                if (typeof initialConfig.getContainerWidth !== 'function') {
+                    initialConfig.getContainerWidth = function() {
+                        return 0; // media.$node.parents().innerWidth();
+                    };
                 }
                 this.render($container);
             })
             .on('render', function () {
-                var $tpl, $mediaSizer;
+                var $mediaSizer;
 
-                $tpl = $(tpl({
-                    responsive: (typeof _config.responsive !== 'undefined') ? _config.responsive : true
+                initialConfig = this.getConfig();
+                $template = $(tpl({
+                    responsive: initialConfig.responsive
                 }));
 
-                $tpl.appendTo(this.getContainer());
+                $template.appendTo(this.getContainer());
 
-                $mediaSizer = $tpl.find('.media-sizer');
-                if (_config.syncDimensions === true && !$mediaSizer.hasClass('media-sizer-synced')) {
+                $mediaSizer = $template.find('.media-sizer');
+                if (initialConfig.syncDimensions === true && !$mediaSizer.hasClass('media-sizer-synced')) {
                     $mediaSizer.addClass('media-sizer-synced');
                 }
 
-                $blocks = _initBlocks($tpl);
-                $slider = _initSlider($tpl);
-                $fields = _initFields();
-                _initSyncBtn($tpl);
-                _initResetBtn($tpl);
+                $blocks = initBlocks($template);
+                $slider = initSlider($template);
+                $fields = initFields();
+                initSyncBtn($template);
+                initResetBtn($template);
 
                 if (typeof media.$node.attr('width') === 'undefined') {
                     // if no sizes are set then control panel initialization
-                    calculateCurrentSizes();
+                    initialConfig = calculateCurrentSizes(initialConfig);
                 } else {
-                    if (_config.responsive) {
+                    if (initialConfig.responsive) {
                         // initialize by percent on the responsive mode
-                        _config = helper.applyDimensions(_config, {percent: media.$node.attr('width')});
+                        initialConfig = helper.applyDimensions(initialConfig, {percent: media.$node.attr('width')});
                     } else {
                         // non-responsive mode
-                        _config.sizeProps.px.current = {
+                        initialConfig.sizeProps.px.current = {
                             width: media.$node.prop('width'),
                             height: media.$node.prop('height')
                         };
                         // calculate percent
-                        _config.sizeProps['%'].current.width = helper.round(media.$node.prop('width') * 100 / helper.containerWidth(_config), _config.precision);
+                        initialConfig.sizeProps['%'].current.width = helper.round(media.$node.prop('width') * 100 / initialConfig.getContainerWidth(), initialConfig.precision);
                     }
                 }
+
                 mediaDimensionComponent.update();
+            })
+            .on('destroy', function() {
+                $template.remove();
             });
 
         _.defer(function(){

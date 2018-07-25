@@ -16,21 +16,8 @@
  * Copyright (c) 2018  (original work) Open Assessment Technologies SA;
  */
 
-define([], function () {
+define(['lib/gamp/gamp'], function (gamp) {
     'use strict';
-
-    /**
-     * Round a decimal value to n digits
-     *
-     * @param {number} value
-     * @param {number} precision
-     * @returns {number}
-     * @private
-     */
-    var _round = function _round(value, precision) {
-        var factor = Math.pow(10, precision);
-        return Math.round(value * factor) / factor;
-    };
 
     /**
      * Getting number from the Input
@@ -39,14 +26,14 @@ define([], function () {
      * @returns {number}
      * @private
      */
-    var _parseVal = function _parseVal(val, precision) {
+    var parseVal = function parseVal(val, precision) {
         if (typeof val === 'string') {
             val = parseFloat(val);
         }
         if (!val) {
             val = 0;
         }
-        return _round(val, precision);
+        return gamp.round(val, precision);
     };
 
     /**
@@ -57,11 +44,11 @@ define([], function () {
      * @returns {number}
      * @private
      */
-    var _getActualRatio = function _getActualRatio(conf) {
+    var getActualRatio = function getActualRatio(conf) {
         var ratio;
 
         if (conf.sizeProps.px.current.width > 0 && conf.sizeProps.px.current.height > 0) {
-            conf.sizeProps.ratio.current = _round(conf.sizeProps.px.current.width / conf.sizeProps.px.current.height, conf.precision);
+            conf.sizeProps.ratio.current = gamp.round(conf.sizeProps.px.current.width / conf.sizeProps.px.current.height, conf.precision);
         }
         ratio = conf.denyCustomRatio ? conf.sizeProps.ratio.natural : conf.sizeProps.ratio.current;
         return ratio ? ratio : 1;
@@ -87,80 +74,75 @@ define([], function () {
     };
 
     /**
-     * Getting container width
-     * @param conf
-     * @return {*}
-     * @private
-     */
-    var _getContainerWidth = function _getContainerWidth (conf) {
-        return conf.$editableContainer.innerWidth();
-    };
-
-    /**
-     *
+     * Calculates the values of the dependent fields by a given width
      * @param conf
      * @param width
      * @private
      */
     var calculateByWidth = function calculateByWidth (conf, width) {
-        var ratio = _getActualRatio(conf);
-        var val = _parseVal(width, conf.precision);
+        var ratio = getActualRatio(conf);
+        var val = parseVal(width, conf.precision);
         conf.sizeProps.px.current.width = val;
-        conf = applyNewPercent(_round(val * 100 / _getContainerWidth(conf), conf.precision), conf);
+        conf = applyNewPercent(gamp.round(val * 100 / conf.getContainerWidth(), conf.precision), conf);
         if (!conf.syncDimensions) {
-            _getActualRatio(conf);
+            getActualRatio(conf);
         } else {
-            conf.sizeProps.px.current.height = _round(val / ratio, conf.precision);
+            conf.sizeProps.px.current.height = gamp.round(val / ratio, conf.precision);
         }
         return conf;
     };
 
     /**
-     *
+     * Calculates the values of the dependent fields by a given height
      * @param conf
      * @param height
      * @private
      */
     var calculateByHeight = function calculateByHeight(conf, height) {
-        var ratio = _getActualRatio(conf);
-        var val = _parseVal(height, conf.precision);
+        var ratio = getActualRatio(conf);
+        var val = parseVal(height, conf.precision);
         // set height
         conf.sizeProps.px.current.height = val;
         if (!conf.syncDimensions) {
-            _getActualRatio(conf);
+            getActualRatio(conf);
         } else {
-            conf.sizeProps.px.current.width = _round(val * ratio, conf.precision);
-            conf = applyNewPercent(_round(val * 100 / _getContainerWidth(conf), conf.precision), conf);
+            conf.sizeProps.px.current.width = gamp.round(val * ratio, conf.precision);
+            conf = applyNewPercent(gamp.round(val * 100 / conf.getContainerWidth(), conf.precision), conf);
         }
         return conf;
     };
 
     /**
-     *
+     * Calculates the values of the dependent fields by a given percent
      * @param conf
      * @param percent
      * @return {*}
      */
     var setPercent = function setPercent(conf, percent) {
-        percent = _parseVal(percent, conf.precision);
+        percent = parseVal(percent, conf.precision);
         if (percent < 0) {
             percent = 0;
         } else if (percent > 100) {
             percent = 100;
         }
 
-        conf = applyNewPercent(_round(percent, conf.precision), conf);
+        conf = applyNewPercent(gamp.round(percent, conf.precision), conf);
         conf.sizeProps.ratio.current = conf.sizeProps.ratio.natural;
         // changing non-responsive mode accordingly
         conf.sizeProps.px.current.width =
-            _round( _getContainerWidth(conf) * conf.sizeProps['%'].current.width / 100, conf.precision);
-        conf.sizeProps.px.current.height =  _round(conf.sizeProps.px.current.width / conf.sizeProps.ratio.natural, conf.precision);
+            gamp.round( conf.getContainerWidth() * conf.sizeProps['%'].current.width / 100, conf.precision);
+        conf.sizeProps.px.current.height =  gamp.round(conf.sizeProps.px.current.width / conf.sizeProps.ratio.natural, conf.precision);
         return conf;
     };
 
+    /**
+     * MediaDimension helper
+     *
+     * returns helper to control dimensions calculation
+     */
     return {
         applyDimensions: function applyDimensions (conf, dimensions) {
-            conf.precision = !conf || !conf.hasOwnProperty('precision') ? 5 : parseInt(conf.precision);
+            conf.precision = !conf || !conf.hasOwnProperty('precision') ? 5 : parseInt(conf.precision, 10);
             if (dimensions) {
                 if (dimensions.hasOwnProperty('width')) {
                     conf = calculateByWidth(conf, dimensions.width);
@@ -175,13 +157,10 @@ define([], function () {
             return conf;
         },
         getCurrentRatio: function updateRatio (conf) {
-            return _getActualRatio(conf);
+            return getActualRatio(conf);
         },
         round: function round(val, precision) {
-            return _round(val, precision);
-        },
-        containerWidth: function containerWidth(conf) {
-            return _getContainerWidth(conf);
+            return gamp.round(val, precision > 0 && precision < 100 ? precision : 5);
         }
     };
 });

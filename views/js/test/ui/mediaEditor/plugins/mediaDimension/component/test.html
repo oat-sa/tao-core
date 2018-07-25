@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
     <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent.js"></script>
 
     <script type="text/javascript">
@@ -30,5 +31,15 @@
 <body>
 <div id="qunit"></div>
 <div id="qunit-fixture"></div>
+<div class="template">
+    <div class="visible-test">
+        <div class="editable-container" style="width: 900px">
+            <div class="control-container" style="position: relative; max-width: 185px">
+                <img src="js/test/ui/mediaEditor/sample/space.jpg" style="display: none" class="picture">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sandbox"></div>
 </body>
 </html>

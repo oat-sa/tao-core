@@ -28,7 +28,7 @@ define([
     var paginationProvider;
 
     /**
-     * Pagination filter strategy
+     * Datatable filter strategy
      * @param {String} mode
      */
     var paginationStrategy = function paginationStrategy(mode) {

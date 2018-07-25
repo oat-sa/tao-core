@@ -73,7 +73,7 @@ define(['jquery', 'lodash', 'i18n', 'ui/component', 'ui/pagination/paginationStr
      *
      * @param {Object} config
      * @param {String} [config.mode] - 'pages' | 'simple' -- 'simple' by default (next/prev), 'pages' show pages and extended control for pagination
-     * @param {Integer} [config.activePage] - The initial active page (default: 1)
+     * @param {String} [config.activePage] - The initial active page (default: 1)
      * @param {Integer} [config.totalPages] - Count of the pages
      * @fires "render" after the pagination component rendering
      * @fires "destroy" after the pagination component destroying
