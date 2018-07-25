@@ -267,7 +267,6 @@ define([
 
             $responsiveToggleField.on('click', function () {
                 checkMode();
-                $elt.trigger('responsiveswitch', [$responsiveToggleField.is(':checked')]);
             });
 
             $responsiveToggleField.prop('checked', initialConfig.responsive);
