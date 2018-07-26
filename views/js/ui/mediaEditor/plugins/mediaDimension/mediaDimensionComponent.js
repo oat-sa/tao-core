@@ -496,7 +496,7 @@ define([
                 initSyncBtn($template);
                 initResetBtn($template);
 
-                if (typeof media.$node.attr('width') === 'undefined') {
+                if (typeof media.$node.attr('width') === 'undefined' || /\d+/.test(media.$node.attr('width')) === false) {
                     // if no sizes are set then control panel initialization
                     initialConfig = calculateCurrentSizes(initialConfig);
                 } else {
