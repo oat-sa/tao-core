@@ -171,6 +171,19 @@ define([
         assert.equal(conf.sizeProps.px.current.height, 800, 'The height changed according to percent');
     });
 
+    QUnit.test('Change percent should not update the percent height', function (assert) {
+        var conf = _.cloneDeep(workingConfiguration);
+        conf.syncDimensions = true;
+        QUnit.expect(4);
+
+        conf = helper.applyDimensions(conf, {percent: 15});
+
+        assert.equal(conf.sizeProps['%'].current.width, 15, 'The percent changed');
+        assert.equal(conf.sizeProps['%'].current.height, null, 'The height is null');
+        assert.equal(conf.sizeProps.px.current.width, 120, 'The width changed');
+        assert.equal(conf.sizeProps.px.current.height, 120, 'The height changed according to percent');
+    });
+
     QUnit.module('Without synchronization');
 
     QUnit.test('SyncDimensions switching', function (assert) {

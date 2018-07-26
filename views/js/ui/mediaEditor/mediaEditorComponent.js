@@ -106,6 +106,7 @@ define([
                             if (conf.responsive) {
                                 // percent
                                 media.width = conf.sizeProps['%'].current.width;
+                                media.height = null;
                             } else {
                                 media.width = conf.sizeProps.px.current.width;
                                 media.height = conf.sizeProps.px.current.height;
