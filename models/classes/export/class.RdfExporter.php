@@ -19,6 +19,9 @@
  * 
  */
 
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\event\RdfExportEvent;
+
 /**
  * The tao default rdf export
  *
@@ -29,6 +32,7 @@
  */
 class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
 {
+    use EventManagerAwareTrait;
 
     /**
      * (non-PHPdoc)
@@ -71,6 +75,8 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 		        $path = tao_helpers_File::concat(array($destination, $name));
 				if(file_put_contents($path, $rdf)){
 					$file = $path;
+
+					$this->getEventManager()->trigger(new RdfExportEvent($class));
 				}
 			}
 		       

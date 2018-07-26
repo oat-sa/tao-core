@@ -241,6 +241,27 @@ class TaskLogEntity implements EntityInterface
         return $filename;
     }
 
+
+    public function getResourceUriFromReport()
+    {
+        $uri = '';
+
+        if ($this->getStatus()->isFailed() || is_null($this->getReport())) {
+            return $uri;
+        }
+
+        /** @var Report  $successReport */
+        foreach ($this->getReport()->getSuccesses() as $successReport) {
+            $data = $successReport->getData();
+            if (is_array($data) && isset($data['uriResource'])) {
+                $uri = $data['uriResource'];
+                break;
+            }
+        }
+
+        return $uri;
+    }
+
     /**
      * @return array
      */

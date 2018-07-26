@@ -49,7 +49,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         $report = parent::__invoke($params);
 
         // regenrate locals
-        $files = \tao_models_classes_LanguageService::singleton()->generateClientBundles();
+        $files = \tao_models_classes_LanguageService::singleton()->generateAll();
         if (count($files) > 0) {
             $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS,__('Successfully updated %s client translation bundles', count($files))));
         } else {

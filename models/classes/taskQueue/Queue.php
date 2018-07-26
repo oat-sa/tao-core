@@ -80,11 +80,11 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     public function __toPhpCode()
     {
         return 'new '. get_called_class() .'('
-            . \common_Utils::toHumanReadablePhpString($this->getName())
+            . \common_Utils::toHumanReadablePhpString($this->name)
             .', '
-            . \common_Utils::toHumanReadablePhpString($this->getBroker())
+            . \common_Utils::toHumanReadablePhpString($this->broker)
             .', '
-            . \common_Utils::toHumanReadablePhpString($this->getWeight())
+            . \common_Utils::toHumanReadablePhpString($this->weight)
             .')';
     }
 
