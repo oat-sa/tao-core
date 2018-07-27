@@ -36,7 +36,7 @@ class AdaptersTestCase extends \PHPUnit_Framework_TestCase {
 	public function testCsvFileParsing() {
 		// + Subtest 1: Unicode CSV file with header row.
 		// --------------------------------------------------------------------------------
-		$path = dirname(__FILE__) . '/..' . self::CSV_FILE_USERS_HEADER_UNICODE;
+		$path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
 		$csvFile = new tao_helpers_data_CsvFile();
 		$csvFile->load($path);
 
@@ -69,7 +69,7 @@ class AdaptersTestCase extends \PHPUnit_Framework_TestCase {
 		
 		// + Subtest 2: Unicode CSV file withouth header row.
 		// --------------------------------------------------------------------------------
-		$path = dirname(__FILE__) . '/..' . self::CSV_FILE_USERS_NO_HEADER_UNICODE;
+		$path = dirname(__FILE__) . self::CSV_FILE_USERS_NO_HEADER_UNICODE;
 		$csvFile = new tao_helpers_data_CsvFile($options = array('first_row_column_names' => false));
 		$csvFile->load($path);
 		
@@ -101,7 +101,7 @@ class AdaptersTestCase extends \PHPUnit_Framework_TestCase {
 
 	public function testCSVFileParsingWithMultipleFieldValues() {
 
-        $path = dirname(__FILE__) . '/..' . self::CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE;
+        $path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE;
         // Without multi values
         //---------------------------------------------------------------------------------
         $csvFile = new tao_helpers_data_CsvFile();
