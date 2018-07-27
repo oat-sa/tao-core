@@ -254,10 +254,10 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     /**
      * @inheritdoc
      */
-    public function getByIdAndUser($taskId, $userId)
+    public function getByIdAndUser($taskId, $userId, $archivedAllowed = false)
     {
         $filter = (new TaskLogFilter())
-            ->addAvailableFilters($userId)
+            ->addAvailableFilters($userId, $archivedAllowed)
             ->eq(TaskLogBrokerInterface::COLUMN_ID, $taskId);
 
         $collection = $this->search($filter);

@@ -193,12 +193,15 @@ class TaskLogFilter
     /**
      * Add a basic filter to query only rows belonging to a given user and not having status ARCHIVED.
      *
-     * @param $userId
+     * @param string $userId
+     * @param bool $archivedAllowed
      * @return $this
      */
-    public function addAvailableFilters($userId)
+    public function addAvailableFilters($userId, $archivedAllowed = false)
     {
-        $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ARCHIVED);
+        if (!$archivedAllowed) {
+            $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ARCHIVED);
+        }
 
         if ($userId !== TaskLogInterface::SUPER_USER) {
             $this->eq(TaskLogBrokerInterface::COLUMN_OWNER, $userId);
