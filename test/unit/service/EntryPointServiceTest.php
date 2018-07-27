@@ -18,7 +18,7 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-namespace oat\tao\test\service;
+namespace oat\tao\test\unit\service;
 
 use oat\tao\model\entryPoint\EntryPointService;
 
