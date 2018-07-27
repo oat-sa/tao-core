@@ -25,7 +25,7 @@ use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
-use oat\tao\test\model\taskQueue\Asset\CallableFixture;
+use oat\tao\test\Asset\CallableFixture;
 
 class QueueDispatcherTest extends \PHPUnit_Framework_TestCase
 {

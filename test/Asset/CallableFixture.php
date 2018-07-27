@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\tao\test\model\taskQueue\Asset;
+namespace oat\tao\test\Asset;
 
 class CallableFixture
 {
