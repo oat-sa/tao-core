@@ -203,6 +203,7 @@ class StorageDirectoryTest extends \PHPUnit_Framework_TestCase
     {
         $tmpFile = uniqid() . '.php';
 
+        // @todo requesting example.com is not a good idea as test should ideally be isolated from external world
         $resource = fopen('http://example.com', 'r');
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
         $this->setExpectedException(\common_Exception::class);
