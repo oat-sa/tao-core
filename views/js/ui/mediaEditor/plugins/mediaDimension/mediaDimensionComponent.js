@@ -146,7 +146,6 @@ define([
          * @property showResponsiveToggle boolean
          * @property responsive boolean
          * @property sizeProps sizeProps
-         * @property originalSizeProps sizeProps
          * @property syncDimensions boolean
          * @property denyCustomRatio boolean
          * @property precision number
@@ -180,8 +179,9 @@ define([
             reset: function reset() {
                 if(this.is('rendered')){
 
-                    //update the config
-                    initialConfig.sizeProps = _.cloneDeep(initialConfig.originalSizeProps);
+                    // revert the sizes to the original of the image
+                    initialConfig.sizeProps.px.current.width = media.originalWidth;
+                    initialConfig.sizeProps.px.current.height = media.originalHeight;
 
                     // apply changes
                     initialConfig = calculateCurrentSizes(initialConfig);
@@ -450,8 +450,8 @@ define([
                             height: media.height
                         },
                         natural: {
-                            width: media.width,
-                            height: media.height
+                            width: media.originalWidth ? media.originalWidth : media.width,
+                            height: media.originalHeight ? media.originalHeight : media.height
                         }
                     },
                     '%': {
@@ -464,13 +464,12 @@ define([
                 // rewrite with defined values
                 initialConfig = this.getConfig();
                 initialConfig.sizeProps = _.defaults(mediaProps, initialConfig.sizeProps, defaultConfig.sizeProps);
-                initialConfig.sizeProps.ratio.natural = helper.getCurrentRatio(initialConfig);
+                initialConfig.sizeProps.ratio.natural = helper.round(initialConfig.sizeProps.px.natural.width / initialConfig.sizeProps.px.natural.height, initialConfig.precision);
                 initialConfig.responsive = (typeof initialConfig.responsive !== 'undefined') ? initialConfig.responsive : true;
                 initialConfig.sizeProps.currentUtil = initialConfig.responsive ? '%' : 'px';
-                initialConfig.originalSizeProps = _.cloneDeep(initialConfig.sizeProps);
                 if (typeof initialConfig.getContainerWidth !== 'function') {
                     initialConfig.getContainerWidth = function() {
-                        return 0; // media.$node.parents().innerWidth();
+                        throw new Error('mediaDimensionComponent requires method getContainerWidth to edit media');
                     };
                 }
                 this.render($container);
@@ -496,21 +495,21 @@ define([
                 initSyncBtn($template);
                 initResetBtn($template);
 
-                if (typeof media.$node.attr('width') === 'undefined' || /\d+/.test(media.$node.attr('width')) === false) {
-                    // if no sizes are set then control panel initialization
+                if (typeof media.width === 'undefined') {
+                    // if sizes are not set then control panel initialization
                     initialConfig = calculateCurrentSizes(initialConfig);
                 } else {
                     if (initialConfig.responsive) {
                         // initialize by percent on the responsive mode
-                        initialConfig = helper.applyDimensions(initialConfig, {percent: media.$node.attr('width')});
+                        initialConfig = helper.applyDimensions(initialConfig, { percent: media.width });
                     } else {
                         // non-responsive mode
                         initialConfig.sizeProps.px.current = {
-                            width: media.$node.prop('width'),
-                            height: media.$node.prop('height')
+                            width: media.width,
+                            height: media.height
                         };
                         // calculate percent
-                        initialConfig.sizeProps['%'].current.width = helper.round(media.$node.prop('width') * 100 / initialConfig.getContainerWidth(), initialConfig.precision);
+                        initialConfig.sizeProps['%'].current.width = helper.round(media.width * 100 / initialConfig.getContainerWidth(), initialConfig.precision);
                     }
                 }
 

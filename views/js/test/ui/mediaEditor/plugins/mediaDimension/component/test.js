@@ -348,7 +348,7 @@ define([
             };
         QUnit.expect(2);
         conf.showResponsiveToggle = false;
-        conf.sizeProps.currentUtil = '%';
+        conf.responsive = true;
         mediaDimensionComponent($controlContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
@@ -445,7 +445,10 @@ define([
                 width: 500,
                 height: 735
             };
+
         QUnit.expect(5);
+
+        conf.responsive = false;
         mediaDimensionComponent($controlContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
@@ -485,7 +488,7 @@ define([
             };
         QUnit.expect(9);
         conf.showResponsiveToggle = false;
-        conf.sizeProps.currentUtil = '%';
+        conf.responsive = false;
         mediaDimensionComponent($controlContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
@@ -495,7 +498,6 @@ define([
                 var $sliderPosEl = $('.noUi-origin', $sliderBox);
                 var $sliderEl = $('.media-sizer-slider', $percentBlock);
 
-                // init with 100
                 assert.equal($percentInput.val(), 71, 'Width value is set to 71 percent');
                 assert.equal($sliderPosEl.prop('style').left, '71.429%', 'Slider has been set to 71.429%');
 
@@ -670,8 +672,9 @@ define([
                 height: 735
             };
         QUnit.expect(17);
+
         conf.showResponsiveToggle = true;
-        conf.sizeProps.currentUtil = 'px';
+        conf.responsive = false;
         conf.syncDimensions = false;
 
         mediaDimensionComponent($controlContainer, media, conf)
@@ -735,7 +738,7 @@ define([
                 height: 735
             };
         conf.showResponsiveToggle = true;
-        conf.sizeProps.currentUtil = '%';
+        conf.responsive = true;
         conf.syncDimensions = true;
         mediaDimensionComponent($controlContainer, media, conf);
         QUnit.ok(true);
