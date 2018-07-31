@@ -32,6 +32,9 @@ class ArrayImportValueMapperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['val1', 'val2', 'val3'], $arrayImporter->map('val1|val2|val3'));
     }
 
+    /**
+     * @todo fix test (common_exception_Error: Tried to add NULL to report)
+     */
     public function testMapWithValueMapper()
     {
         $mapper = $this->getMockForAbstractClass(ImportValueMapperInterface::class);

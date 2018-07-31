@@ -35,6 +35,8 @@ class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
     public function testImport($data)
     {
         $importService = $this->getImportService($data);
+
+        // @todo fix "Tried to add NULL to report" in import()
         $report = $importService->import(__DIR__ . '/example.csv');
 
         $this->assertTrue($report->hasChildren());

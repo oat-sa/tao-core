@@ -52,6 +52,9 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $this->assertTrue($actionQueue->perform($action, $user));
     }
 
+    /**
+     * @todo fix test
+     */
     public function testGetPosition()
     {
         $actionQueue = $this->getInstance();
@@ -81,6 +84,9 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $this->assertEquals(0, $actionQueue->getPosition($action));
     }
 
+    /**
+     * @todo fix test
+     */
     public function testClearAbandonedPositions()
     {
         $user_1 = new GenerisUser(new \core_kernel_classes_Resource(\common_Utils::getNewUri()));
@@ -105,6 +111,7 @@ class InstantActionTest extends TaoPhpUnitTestRunner
     }
 
     /**
+     * @todo fix test
      * @expectedException \oat\tao\model\actionQueue\ActionQueueException
      */
     public function testPerformException()
