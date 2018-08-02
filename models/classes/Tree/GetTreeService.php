@@ -4,7 +4,6 @@ namespace oat\tao\model\Tree;
 
 use common_exception_IsAjaxAction;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\GenerisTreeFactory;
 use tao_helpers_Request;
 
 class GetTreeService extends ConfigurableService
@@ -23,7 +22,10 @@ class GetTreeService extends ConfigurableService
 			throw new common_exception_IsAjaxAction(__FUNCTION__);
 		}
 
-		$factory = new GenerisTreeFactory(
+        /** @var GenerisTreeFactoryBuilderService $treeBuilder */
+        $treeBuilder = $this->getServiceLocator()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
+
+		$factory = $treeBuilder->build(
 			$request->isShowInstance(),
 			$request->getOpenNodes(),
 			$request->getLimit(),

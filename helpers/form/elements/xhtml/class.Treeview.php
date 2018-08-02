@@ -18,8 +18,10 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-use oat\tao\model\GenerisTreeFactory;
+
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
+use oat\tao\model\Tree\GenerisTreeFactoryBuilderService;
 
 /**
  * Short description of class tao_helpers_form_elements_xhtml_Treeview
@@ -207,7 +209,10 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
             return $carry;
         });
         $openNodes[] = $range->getUri();
-        $factory = new GenerisTreeFactory(true, $openNodes, 10, 0);
+
+        /** @var GenerisTreeFactoryBuilderService $treeBuilder */
+        $treeBuilder = ServiceManager::getServiceManager()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
+        $factory = $treeBuilder->build(true, $openNodes, 10, 0);
         $array = $factory->buildTree($range);
         return $array;
     }
