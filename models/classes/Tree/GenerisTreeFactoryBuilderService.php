@@ -27,6 +27,9 @@ class GenerisTreeFactoryBuilderService extends ConfigurableService
     const SERVICE_ID = 'tao/GenerisTreeFactoryBuilder';
 
     const OPTION_SHOW_NO_LABEL_RESOURCES = 'showNoLabelResources';
+
+    /** @var bool */
+    private $showNoLabel;
     /**
      * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
      * @param array $openNodes Class uris for which children array should be build as well
@@ -68,6 +71,20 @@ class GenerisTreeFactoryBuilderService extends ConfigurableService
      */
     public function isShowNoLabel()
     {
-        return (bool) $this->getOption(static::OPTION_SHOW_NO_LABEL_RESOURCES);
+        if (is_null($this->showNoLabel)) {
+            $this->showNoLabel = (bool) $this->getOption(static::OPTION_SHOW_NO_LABEL_RESOURCES);
+        }
+        return $this->showNoLabel;
+    }
+
+    /**
+     * @param $flag
+     * @return $this
+     */
+    public function setShowLabel($flag)
+    {
+        $this->showNoLabel = $flag;
+
+        return $this;
     }
 }
