@@ -34,6 +34,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use core_kernel_classes_ResourceFactory;
 use core_kernel_classes_Property;
+use oat\tao\model\Tree\GenerisTreeFactoryBuilderService;
 
 /**
  * Trait GenerisServiceTrait
@@ -525,8 +526,11 @@ trait GenerisServiceTrait
                 $openNodes[] = $clazz->getUri();
             }
 
-            $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse, $this->getDefaultFilters(), $searchOptions);
-            $tree = $factory->buildTree($clazz);
+            /** @var GenerisTreeFactoryBuilderService $treeBuilder */
+            $treeBuilder = $this->getServiceLocator()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
+            $factory     = $treeBuilder->build($instances, $openNodes, $limit, $offset, $browse, $this->getDefaultFilters(), $searchOptions);
+            $tree        = $factory->buildTree($clazz);
+
             $returnValue = $chunk
                 ? (isset($tree['children']) ? $tree['children'] : array())
                 : $tree;

@@ -66,6 +66,7 @@ use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use oat\tao\model\Tree\GenerisTreeFactoryBuilderService;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
@@ -824,5 +825,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('19.10.0', '19.17.1');
+
+       if ($this->isVersion('19.17.1')) {
+           $generisTreeBuilder = new GenerisTreeFactoryBuilderService([
+               GenerisTreeFactoryBuilderService::OPTION_SHOW_NO_LABEL_RESOURCES => true
+           ]);
+
+           $this->getServiceManager()->register(GenerisTreeFactoryBuilderService::SERVICE_ID, $generisTreeBuilder);
+
+           $this->setVersion('19.18.0');
+       }
     }
 }

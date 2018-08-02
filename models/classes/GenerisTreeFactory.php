@@ -82,18 +82,32 @@ class GenerisTreeFactory
 
     /** @var array  */
     private $extraProperties = [];
-	/**
-	 * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
-	 * @param array $openNodes Class uris for which children array should be build as well
-	 * @param int $limit Limit of resources to be shown in one class
-	 * @param int $offset Offset for resources in one class
-	 * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
-	 * @param array $propertyFilter Additional property filters to apply to the tree
-	 * @param array $optionsFilter
-	 * @param array $extraProperties
-	 */
-    public function __construct($showResources, array $openNodes = [], $limit = 10, $offset = 0, array $resourceUrisToShow = [], array $propertyFilter = [], array $optionsFilter = [], array $extraProperties = [])
-    {
+
+    /** @var bool  */
+    private $showNoLabel = true;
+
+    /**
+     * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
+     * @param array $openNodes Class uris for which children array should be build as well
+     * @param int $limit Limit of resources to be shown in one class
+     * @param int $offset Offset for resources in one class
+     * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
+     * @param array $propertyFilter Additional property filters to apply to the tree
+     * @param array $optionsFilter
+     * @param array $extraProperties
+     * @param bool $showNoLabel
+     */
+    public function __construct(
+        $showResources,
+        array $openNodes = [],
+        $limit = 10,
+        $offset = 0,
+        array $resourceUrisToShow = [],
+        array $propertyFilter = [],
+        array $optionsFilter = [],
+        array $extraProperties = [],
+        $showNoLabel = true
+    ) {
         $this->limit          = (int) $limit;
         $this->offset         = (int) $offset;
         $this->openNodes      = $openNodes;
@@ -101,6 +115,7 @@ class GenerisTreeFactory
         $this->propertyFilter = $propertyFilter;
         $this->optionsFilter  = $optionsFilter;
         $this->extraProperties = $extraProperties;
+        $this->showNoLabel     = $showNoLabel;
 
         $types = array();
         foreach ($resourceUrisToShow as $uri) {
@@ -152,7 +167,11 @@ class GenerisTreeFactory
                 }
 
                 // only show the resources count if we allow resources to be viewed
-                $returnValue['count'] = $instancesCount;
+                if (isset($returnValue['children'])) {
+                    $returnValue['count'] = count($returnValue['children']);
+                } else {
+                    $returnValue['count'] = $instancesCount;
+                }
             }
         } else {
             if(count($subclasses) > 0) {
@@ -205,6 +224,11 @@ class GenerisTreeFactory
             $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
             $searchResult = $search->getGateway()->search($queryBuilder);
             foreach ($searchResult as $instance){
+                $label = $instance->getLabel();
+                if ($this->showNoLabel === false && empty($label)) {
+                    continue;
+                }
+
                 $children[] = TreeHelper::buildResourceNode($instance, $class, $this->extraProperties);
             }
         }
