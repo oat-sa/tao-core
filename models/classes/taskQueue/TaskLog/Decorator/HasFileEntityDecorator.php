@@ -61,12 +61,14 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
 
         $result['hasFile'] = false;
 
-        if ($this->getFileNameFromReport()) {
+        $fileName = $this->getFileNameFromReport();
+
+        if ($fileName) {
             /** @var Directory $queueStorage */
             $queueStorage = $this->fileSystemService
                 ->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
 
-            if ($queueStorage->getFile($this->getFileNameFromReport())->exists()) {
+            if ($queueStorage->getFile($fileName)->exists()) {
                 $result['hasFile'] = true;
             }
         }

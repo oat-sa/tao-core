@@ -346,10 +346,10 @@ class tao_models_classes_Parser
                         break;
                     case self::SOURCE_FLYFILE:
                         if (! $this->source->exists()) {
-                            throw new common_Exception('Source file does not exists ("' . $this->source->getBasename() . '").');
+                            throw new Exception('Source file does not exists ("' . $this->source->getBasename() . '").');
                         }
                         if (! $this->content = $this->source->read()) {
-                            throw new common_Exception('Unable to read file ("' . $this->source->getBasename() . '").');
+                            throw new Exception('Unable to read file ("' . $this->source->getBasename() . '").');
                         }
                         break;
                 }

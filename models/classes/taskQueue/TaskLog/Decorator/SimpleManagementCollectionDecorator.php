@@ -69,7 +69,8 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         $data = [];
 
         foreach ($this->getIterator() as $entity) {
-            $entityData = (new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $this->taskLogService), $this->fileSystemService))->toArray();
+            $entityData = (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $this->taskLogService), $this->fileSystemService)))
+                ->toArray();
 
             if (!$this->reportIncluded && array_key_exists('report', $entityData)) {
                 unset($entityData['report']);

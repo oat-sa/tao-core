@@ -160,7 +160,7 @@ abstract class AbstractWorker implements WorkerInterface
     }
 
     /**
-     * @param TaskInterface $task
+     * @param TaskInterface|RemoteTaskSynchroniserInterface $task
      * @return mixed
      */
     private function getRemoteStatus(TaskInterface $task)

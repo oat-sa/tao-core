@@ -67,6 +67,7 @@ use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
+use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
@@ -825,9 +826,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.10.0');
         }
 
-        $this->skip('19.10.0', '19.16.0');
+        $this->skip('19.10.0', '19.17.2');
 
-        if ($this->isVersion('19.16.0')) {
+        if ($this->isVersion('19.17.2')) {
             /** @var TaskLogInterface|ConfigurableService $taskLogService */
             $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
 
@@ -835,7 +836,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $taskLogService->linkTaskToCategory(ExportByHandler::class, TaskLogInterface::CATEGORY_EXPORT);
 
             $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
-            $this->setVersion('19.17.0');
+            $this->setVersion('19.18.0');
         }
     }
 }

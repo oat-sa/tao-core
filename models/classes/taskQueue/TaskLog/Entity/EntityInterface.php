@@ -89,6 +89,11 @@ interface EntityInterface extends \JsonSerializable
     public function getFileNameFromReport();
 
     /**
+     * @return string
+     */
+    public function getResourceUriFromReport();
+
+    /**
      * @return array
      */
     public function toArray();
