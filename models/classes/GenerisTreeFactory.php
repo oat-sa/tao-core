@@ -286,7 +286,7 @@ class GenerisTreeFactory
      */
     private function getSearchService()
     {
-        return ServiceManager::getServiceManager()->get(ComplexSearchService::SERVICE_ID);
+        return $this->getModel()->getSearchInterface();
     }
 
     /**
