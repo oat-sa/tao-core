@@ -33,16 +33,7 @@ class ExportByHandler extends AbstractAction
 
     public function __invoke($params)
     {
-        if (!isset($params[self::PARAM_EXPORT_HANDLER])
-            || !class_exists($params[self::PARAM_EXPORT_HANDLER])
-            || !is_a($params[self::PARAM_EXPORT_HANDLER], \tao_models_classes_export_ExportHandler::class, true)
-        ) {
-            throw new \InvalidArgumentException('Please provide a valid export handler');
-        }
-
-        if (!isset($params[self::PARAM_EXPORT_DATA]) || !is_array($params[self::PARAM_EXPORT_DATA])) {
-            throw new \InvalidArgumentException('Please provide the export data as array');
-        }
+        $this->validateParams($params);
 
         /** @var \tao_models_classes_export_ExportHandler $exporter */
         $exporter = new $params[self::PARAM_EXPORT_HANDLER];
@@ -60,32 +51,64 @@ class ExportByHandler extends AbstractAction
                     : Report::createFailure(__('Export failed.'));
             }
 
-            // copy the locally stored file under filesystem of task queue storage (user will be able to download it from there)
-            if ($filePath) {
-                $newFileName = basename($filePath);
-
-                /** @var Directory $queueStorage */
-                $queueStorage = $this->getServiceLocator()
-                    ->get(FileSystemService::SERVICE_ID)
-                    ->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
-
-                // saving the file under the storage
-                $file = $queueStorage->getFile($newFileName);
-                $stream = fopen($filePath, 'r');
-                $file->put($stream);
-                fclose($stream);
-
+            if ($filePath && ($newFileName = $this->storeFile($filePath))) {
                 // set the new file name
                 $report->setData($newFileName);
-
-                // delete the local file
-                unlink($filePath);
             }
-
         } catch (\common_exception_UserReadableException $e) {
             $report = Report::createFailure($e->getUserMessage());
         }
 
         return $report;
+    }
+
+    /**
+     * @param array $params
+     * @throws \InvalidArgumentException
+     */
+    private function validateParams($params)
+    {
+        if (!isset($params[self::PARAM_EXPORT_HANDLER])
+            || !class_exists($params[self::PARAM_EXPORT_HANDLER])
+            || !is_a($params[self::PARAM_EXPORT_HANDLER], \tao_models_classes_export_ExportHandler::class, true)
+        ) {
+            throw new \InvalidArgumentException('Please provide a valid export handler');
+        }
+
+        if (!isset($params[self::PARAM_EXPORT_DATA]) || !is_array($params[self::PARAM_EXPORT_DATA])) {
+            throw new \InvalidArgumentException('Please provide the export data as array');
+        }
+    }
+
+    /**
+     * Copies the locally stored file under filesystem of task queue storage
+     * (users will be able to download it from there)
+     *
+     * @param string $filePath
+     * @return string
+     */
+    private function storeFile($filePath)
+    {
+        if (!file_exists($filePath)) {
+            return '';
+        }
+
+        $newFileName = basename($filePath);
+
+        /** @var Directory $queueStorage */
+        $queueStorage = $this->getServiceLocator()
+            ->get(FileSystemService::SERVICE_ID)
+            ->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
+
+        // saving the file under the storage
+        $file = $queueStorage->getFile($newFileName);
+        $stream = fopen($filePath, 'r');
+        $file->put($stream);
+        fclose($stream);
+
+        // delete the local file
+        unlink($filePath);
+
+        return $newFileName;
     }
 }
