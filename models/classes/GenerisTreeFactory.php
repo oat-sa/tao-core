@@ -282,7 +282,7 @@ class GenerisTreeFactory
     }
 
     /**
-     * @throws \common_ext_ExtensionException
+     * @return
      */
     private function getSearchService()
     {
