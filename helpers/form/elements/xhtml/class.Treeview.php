@@ -21,6 +21,7 @@
 
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
+use oat\tao\model\Tree\GenerisTreeFactoryBuilderRequest;
 use oat\tao\model\Tree\GenerisTreeFactoryBuilderService;
 
 /**
@@ -212,7 +213,9 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
 
         /** @var GenerisTreeFactoryBuilderService $treeBuilder */
         $treeBuilder = ServiceManager::getServiceManager()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
-        $factory = $treeBuilder->build(true, $openNodes, 10, 0);
+        $factory = $treeBuilder->build(
+            new GenerisTreeFactoryBuilderRequest(true, $openNodes, 10, 0)
+        );
         $array = $factory->buildTree($range);
         return $array;
     }

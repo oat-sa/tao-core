@@ -26,15 +26,17 @@ class GetTreeService extends ConfigurableService
         $treeBuilder = $this->getServiceLocator()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
 
 		$factory = $treeBuilder->build(
-			$request->isShowInstance(),
-			$request->getOpenNodes(),
-			$request->getLimit(),
-			$request->getOffset(),
-			$request->getResourceUrisToShow(),
-			$request->getFilters(),
-			$request->getFiltersOptions(),
-			[]
-		);
+            new GenerisTreeFactoryBuilderRequest(
+                $request->isShowInstance(),
+                $request->getOpenNodes(),
+                $request->getLimit(),
+                $request->getOffset(),
+                $request->getResourceUrisToShow(),
+                $request->getFilters(),
+                $request->getFiltersOptions(),
+                []
+		    )
+        );
 
 		$treeWrapper = new TreeWrapper($factory->buildTree($request->getClass()));
 

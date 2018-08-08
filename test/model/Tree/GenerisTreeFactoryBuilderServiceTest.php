@@ -21,6 +21,7 @@
 namespace oat\test\model\Tree;
 
 use oat\tao\model\GenerisTreeFactory;
+use oat\tao\model\Tree\GenerisTreeFactoryBuilderRequest;
 use oat\tao\model\Tree\GenerisTreeFactoryBuilderService;
 
 class GenerisTreeFactoryBuilderServiceTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +29,9 @@ class GenerisTreeFactoryBuilderServiceTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $service = new GenerisTreeFactoryBuilderService();
-        $treeFactory = $service->build(true, [], 10, 0);
+        $treeFactory = $service->build(
+            new GenerisTreeFactoryBuilderRequest(true, [], 10, 0)
+        );
 
         $this->assertInstanceOf(GenerisTreeFactory::class, $treeFactory);
     }

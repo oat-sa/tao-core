@@ -21,6 +21,7 @@ namespace oat\tao\model\resources;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\TreeHelper;
+use oat\tao\model\Tree\GenerisTreeFactoryBuilderRequest;
 use oat\tao\model\Tree\GenerisTreeFactoryBuilderService;
 
 /**
@@ -54,7 +55,9 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
 
         /** @var GenerisTreeFactoryBuilderService $treeBuilder */
         $treeBuilder = $this->getServiceLocator()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
-        $factory     = $treeBuilder->build(true, $openNodes, $limit, $offset, $selectedUris, $propertyFilters);
+        $factory     = $treeBuilder->build(
+            new GenerisTreeFactoryBuilderRequest(true, $openNodes, $limit, $offset, $selectedUris, $propertyFilters)
+        );
         $treeData    = $factory->buildTree($rootClass);
 
         return $this->formatTreeData([$treeData]);
@@ -71,7 +74,9 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         }
         /** @var GenerisTreeFactoryBuilderService $treeBuilder */
         $treeBuilder = $this->getServiceLocator()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
-        $factory     = $treeBuilder->build(false, $openNodes, $limit, $offset, $selectedUris, $propertyFilters);
+        $factory     = $treeBuilder->build(
+            new GenerisTreeFactoryBuilderRequest(false, $openNodes, $limit, $offset, $selectedUris, $propertyFilters)
+        );
         $treeData    = $factory->buildTree($rootClass);
 
         return $this->formatTreeData([$treeData]);

@@ -30,38 +30,22 @@ class GenerisTreeFactoryBuilderService extends ConfigurableService
 
     /** @var bool */
     private $showNoLabel;
+
     /**
-     * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
-     * @param array $openNodes Class uris for which children array should be build as well
-     * @param int $limit Limit of resources to be shown in one class
-     * @param int $offset Offset for resources in one class
-     * @param array $resourceUrisToShow All siblings of this resources will be loaded, independent of current limit
-     * @param array $propertyFilter Additional property filters to apply to the tree
-     * @param array $optionsFilter
-     * @param array $extraProperties
-     *
+     * @param GenerisTreeFactoryBuilderRequest $request
      * @return GenerisTreeFactory
      */
-    public function build(
-        $showResources,
-        array $openNodes = [],
-        $limit = 10,
-        $offset = 0,
-        array $resourceUrisToShow = [],
-        array $propertyFilter = [],
-        array $optionsFilter = [],
-        array $extraProperties = []
-    ) {
+    public function build(GenerisTreeFactoryBuilderRequest $request) {
 
         return new GenerisTreeFactory(
-            $showResources,
-            $openNodes,
-            $limit,
-            $offset,
-            $resourceUrisToShow,
-            $propertyFilter,
-            $optionsFilter,
-            $extraProperties,
+            $request->isShowResources(),
+            $request->getOpenNodes(),
+            $request->getLimit(),
+            $request->getOffset(),
+            $request->getResourceUrisToShow(),
+            $request->getPropertyFilter(),
+            $request->getOptionsFilter(),
+            $request->getExtraProperties(),
             $this->isShowNoLabel()
         );
     }

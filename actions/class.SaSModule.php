@@ -19,6 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\tao\model\Tree\GenerisTreeFactoryBuilderRequest;
 use oat\tao\model\Tree\GenerisTreeFactoryBuilderService;
 
 /**
@@ -252,7 +254,9 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 
 		/** @var GenerisTreeFactoryBuilderService $treeBuilder */
 		$treeBuilder = $this->getServiceLocator()->get(GenerisTreeFactoryBuilderService::SERVICE_ID);
-		$factory     = $treeBuilder->build($showInstances, array($clazz->getUri()), $limit, $offset);
+		$factory     = $treeBuilder->build(new GenerisTreeFactoryBuilderRequest(
+            $showInstances, array($clazz->getUri()), $limit, $offset
+        ));
 
 		$tree = $factory->buildTree($clazz);
 		
