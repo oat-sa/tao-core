@@ -282,7 +282,7 @@ class GenerisTreeFactory
     }
 
     /**
-     * @return
+     * @return ComplexSearchService
      */
     private function getSearchService()
     {
