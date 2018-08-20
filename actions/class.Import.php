@@ -21,6 +21,10 @@
  */
 
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\import\TaskParameterProviderInterface;
+use oat\tao\model\task\ImportByHandler;
+use oat\tao\model\taskQueue\QueueDispatcher;
+use oat\tao\model\taskQueue\TaskLogActionTrait;
 
 /**
  * This controller provide the actions to import resources
@@ -38,16 +42,19 @@ class tao_actions_Import extends tao_actions_CommonModule
     private $availableHandlers = [];
 
     use EventManagerAwareTrait;
+    use TaskLogActionTrait;
 
     /**
      * initialize the classUri and execute the upload action
      *
      * @requiresRight id WRITE
-     * @return void
      */
     public function index()
     {
         $importer = $this->getCurrentImporter();
+
+        $this->propagate($importer);
+
         $formContainer = new tao_actions_form_Import(
             $importer,
             $this->getAvailableImportHandlers(),
@@ -56,9 +63,19 @@ class tao_actions_Import extends tao_actions_CommonModule
         $importForm = $formContainer->getForm();
 
         if ($importForm->isSubmited() && $importForm->isValid()) {
-            $report = $importer->import($this->getCurrentClass(), $importForm);
+            /** @var QueueDispatcher $queueDispatcher */
+            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
 
-            return $this->returnReport($report);
+            $task = $queueDispatcher->createTask(
+                new ImportByHandler(),
+                [
+                    ImportByHandler::PARAM_IMPORT_HANDLER => get_class($importer),
+                    ImportByHandler::PARAM_FORM_VALUES => $importer instanceof TaskParameterProviderInterface ? $importer->getTaskParameters($importForm) : [],
+                    ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri()
+                ],
+                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
+
+            return $this->returnTaskJson($task);
         }
 
         $context = Context::getInstance();
@@ -79,8 +96,10 @@ class tao_actions_Import extends tao_actions_CommonModule
      */
     protected function getCurrentImporter()
     {
+        $handlers = $this->getAvailableImportHandlers();
+
         if ($this->hasRequestParameter('importHandler')) {
-            foreach ($this->getAvailableImportHandlers() as $importHandler) {
+            foreach ($handlers as $importHandler) {
                 if (get_class($importHandler) == $_POST['importHandler']) {
                     return $importHandler;
                 }

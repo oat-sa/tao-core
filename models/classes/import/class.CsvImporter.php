@@ -22,8 +22,11 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\CsvImportEvent;
+use oat\tao\model\import\ImportHandlerHelperTrait;
+use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\CsvAbstractImporter;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * Basic import of csv files
@@ -32,9 +35,10 @@ use oat\tao\model\import\CsvAbstractImporter;
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements tao_models_classes_import_ImportHandler
+class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements tao_models_classes_import_ImportHandler, ServiceLocatorAwareInterface, TaskParameterProviderInterface
 {
     use EventManagerAwareTrait;
+    use ImportHandlerHelperTrait { getTaskParameters as getDefaultTaskParameters; }
 
     const OPTION_POSTFIX = '_O';
 
@@ -134,24 +138,25 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
      * @param core_kernel_classes_Class $class
-     * @param tao_helpers_form_Form $form
+     * @param tao_helpers_form_Form|array $form
      * @return common_report_Report
      * @throws \oat\oatbox\service\ServiceNotFoundException
      * @throws \common_Exception
      */
     public function import($class, $form)
     {
-        $options = $form->getValues();
+        // for backward compatibility
+        $options = $form instanceof \tao_helpers_form_Form ? $form->getValues() : $form;
 
-        /** @var UploadService $uploadService */
-        $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
-        $options['file'] = $uploadService->getUploadedFlyFile($options['importFile']);
+        $options['file'] = $this->fetchUploadedFile($form);
 
         // Clean "csv_select" values from form view.
         // Transform any "csv_select" in "csv_null" in order to
         // have the same importation behaviour for both because
         // semantics are the same.
-        $map = $form->getValues('property_mapping');
+
+        // for backward compatibility
+        $map = $form instanceof \tao_helpers_form_Form ? $form->getValues('property_mapping') : $form['property_mapping'];
         $newMap = array();
 
         foreach ($map as $k => $m) {
@@ -166,7 +171,11 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         $options['map'] = $newMap;
 
         $staticMap = array();
-        foreach ($form->getValues('ranged_property') as $propUri => $value) {
+
+        // for backward compatibility
+        $rangedProperties = $form instanceof \tao_helpers_form_Form ? $form->getValues('ranged_property') : $form['ranged_property'];
+
+        foreach ($rangedProperties as $propUri => $value) {
             if (strpos($propUri, tao_models_classes_import_CSVMappingForm::DEFAULT_VALUES_SUFFIX) !== false) {
                 $cleanUri = str_replace(tao_models_classes_import_CSVMappingForm::DEFAULT_VALUES_SUFFIX, '', $propUri);
                 $staticMap[$cleanUri] = $value;
@@ -181,6 +190,24 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         }
 
         return $report;
+    }
+
+    /**
+     * Defines the task parameters to be stored for later use.
+     *
+     * @param tao_helpers_form_Form $form
+     * @return array
+     */
+    public function getTaskParameters(tao_helpers_form_Form $form)
+    {
+        return array_merge(
+            $form->getValues(),
+            [
+                'property_mapping' => $form->getValues('property_mapping'),
+                'ranged_property' => $form->getValues('ranged_property')
+            ],
+            $this->getDefaultTaskParameters($form)
+        );
     }
 
     /**

@@ -36,6 +36,7 @@ use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\scripts\install\SetUpQueueTasks;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -44,7 +45,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '19.19.0',
+    'version' => '19.20.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=7.8.0',
@@ -111,7 +112,8 @@ return array(
             RegisterResourceEvents::class,
             RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
-            RegisterTaskQueueServices::class
+            RegisterTaskQueueServices::class,
+            SetUpQueueTasks::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
