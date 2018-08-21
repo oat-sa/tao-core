@@ -70,6 +70,7 @@ use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
+use oat\tao\model\upload\UploadService;
 use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\import\OntologyUserMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
@@ -837,6 +838,15 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
             $this->setVersion('19.20.0');
+        }
+
+        if ($this->isVersion('19.20.0')) {
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->detach('\oat\tao\model\event\FileUploadedEvent', [UploadService::class, 'listenUploadEvent']);
+            $eventManager->detach('\oat\tao\model\event\UploadLocalCopyCreatedEvent', [UploadService::class, 'listenLocalCopyEvent']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->setVersion('19.21.0');
         }
     }
 }

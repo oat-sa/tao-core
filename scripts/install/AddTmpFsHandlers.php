@@ -36,28 +36,16 @@ class AddTmpFsHandlers extends InstallAction
      * @param $params
      * @throws \common_Exception
      * @throws \oat\oatbox\service\ServiceNotFoundException
-     * @throws \common_exception_Error
      */
     public function __invoke($params)
     {
+        $this->registerService(UploadService::SERVICE_ID, new UploadService([]));
+
         /** @var FileSystemService $fsm */
-        $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
-
-        $this->getServiceManager()->register(UploadService::SERVICE_ID, new UploadService([]));
-
-        $uploadFSId = UploadService::$tmpFilesystemId;
-
-        if (!array_key_exists($uploadFSId, $fsm->getOption(FileSystemService::OPTION_ADAPTERS))
-        ) {
-            $fsm->createFileSystem($uploadFSId, 'tmp');
-            $this->getServiceManager()->register(FileSystemService::SERVICE_ID, $fsm);
+        $fsm = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+        if (!array_key_exists(UploadService::$tmpFilesystemId, $fsm->getOption(FileSystemService::OPTION_ADAPTERS))) {
+            $fsm->createFileSystem(UploadService::$tmpFilesystemId, 'tmp');
+            $this->registerService(FileSystemService::SERVICE_ID, $fsm);
         }
-
-        /** @var EventManager $eventManager */
-        $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
-        $eventManager->attach(FileUploadedEvent::class, [UploadService::class, 'listenUploadEvent']);
-        $eventManager->attach(UploadLocalCopyCreatedEvent::class, [UploadService::class, 'listenLocalCopyEvent']);
-        $this->getServiceManager()->register(EventManager::CONFIG_ID, $eventManager);
     }
-
 }

@@ -4,20 +4,20 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
@@ -29,7 +29,7 @@ use oat\tao\model\upload\UploadService;
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
+
  */
 class tao_models_classes_Parser
 {
@@ -40,7 +40,7 @@ class tao_models_classes_Parser
      * @var string
      */
     protected $content = null;
-    
+
     /**
      * Short description of attribute source
      *
@@ -135,12 +135,6 @@ class tao_models_classes_Parser
                 $sourceType = self::SOURCE_URL;
             } elseif(is_file($source)) {
                 $sourceType = self::SOURCE_FILE;
-            } else {
-                $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
-                if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
-                    $sourceType = self::SOURCE_FLYFILE;
-                    $source = $uploadFile;
-                }
             }
         }
 
@@ -155,7 +149,7 @@ class tao_models_classes_Parser
             $this->fileExtension = $options['extension'];
         }
     }
-    
+
     public function getSource(){
         return $this->source;
     }
@@ -173,7 +167,7 @@ class tao_models_classes_Parser
         //You know sometimes you think you have enough time, but it is not always true ...
         //(timeout in hudson with the generis-hard test suite)
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::MEDIUM);
-        
+
         $content = $this->getContent();
         if (!empty($content)) {
             try {
@@ -182,7 +176,7 @@ class tao_models_classes_Parser
                 $dom = new DomDocument();
                 $dom->formatOutput = true;
                 $dom->preserveWhiteSpace = false;
-                
+
                 $this->valid = $dom->loadXML($content);
 
                 if ($this->valid && !empty($schema)) {
@@ -197,15 +191,15 @@ class tao_models_classes_Parser
                 $this->addError($de);
             }
         }
-        
-        
+
+
         helpers_TimeOutHelper::reset();
         return (bool) $this->valid;
     }
-    
+
     /**
      * Excecute parser validation and stops at the first valid one, and returns the identified schema
-     * 
+     *
      * @param array $xsds
      * @return string
      */
@@ -223,7 +217,7 @@ class tao_models_classes_Parser
 
         return $returnValue;
     }
-    
+
     /**
      * Short description of method isValid
      *
@@ -304,7 +298,7 @@ class tao_models_classes_Parser
             );
         }
     }
-    
+
     /**
      * Get XML content.
      *
@@ -357,10 +351,10 @@ class tao_models_classes_Parser
                 $this->addError($e);
             }
         }
-        
+
         return $this->content;
     }
-    
+
     /**
      * Short description of method addErrors
      *

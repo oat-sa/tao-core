@@ -1,25 +1,26 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
+use \oat\oatbox\filesystem\File;
 
 /**
  * The description of a file at upload time.
@@ -80,8 +81,10 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
     {
         parent::__construct($name, $size);
         $this->type = $type;
-        if ($tmpPath) {
-            $this->tmpPath = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($tmpPath);
+        if ($tmpPath instanceof File) {
+            $this->tmpPath = $tmpPath;
+        } else {
+            $this->tmpPath = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->getUploadedFlyFile($tmpPath);
         }
         $this->action = is_null($action) ? self::FORM_ACTION_ADD : $action;
     }

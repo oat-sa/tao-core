@@ -29,7 +29,7 @@ class FileUploadedEvent implements Event
 
     public function __construct(File $file)
     {
-        \common_Logger::d('TMP - file has been uploaded' . $file->getPrefix());
+        \common_Logger::d('TMP - file has been uploaded : ' . $file->getPrefix());
         $this->file = $file;
     }
 

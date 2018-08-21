@@ -109,44 +109,10 @@ class UploadService extends ConfigurableService
     }
 
     /**
-     * Detects
-     * @param $file
-     * @return File|string
-     * @deprecated
-     * @throws \common_Exception
-     */
-    public function universalizeUpload($file)
-    {
-        if ((is_string($file) && is_file($file)) || $file instanceof File) {
-            return $file;
-        }
-
-        return $this->getUploadedFlyFile($file);
-    }
-
-    /**
-     * Either create local copy or use original location for tile
-     * Returns absolute path to the file, to be compatible with legacy methods
-     * @deprecated
-     * @param string|File $serial
-     * @return string
-     * @throws \common_Exception
-     */
-    public function getUploadedFile($serial)
-    {
-        $file = $this->universalizeUpload($serial);
-        if ($file instanceof File) {
-            $file = $this->getLocalCopy($file);
-        }
-        return $file;
-    }
-
-    /**
-     * @param string $serial
-     *
-     * @throws \common_exception_NotAcceptable   When the uploaded file url contains a wrong system id.
-     *
-     * @return File
+     * @param $serial
+     * @return null|File
+     * @throws \common_exception_Error
+     * @throws \common_exception_NotAcceptable
      */
     public function getUploadedFlyFile($serial)
     {
@@ -178,53 +144,13 @@ class UploadService extends ConfigurableService
     }
 
     /**
-     * Deprecated, for compatibility with legacy code
+     * Remove an uploaded file
+     *
      * @param $file
-     * @return string
-     * @throws \common_Exception
      */
-    private function getLocalCopy(File $file)
-    {
-        $tmpName = \tao_helpers_File::concat([\tao_helpers_File::createTempDir(), $file->getBasename()]);
-        if (($resource = fopen($tmpName, 'wb')) !== false) {
-            stream_copy_to_stream($file->readStream(), $resource);
-            fclose($resource);
-            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent($file,
-                $tmpName));
-            return $tmpName;
-        }
-        throw new \common_Exception('Impossible to make local file copy at ' . $tmpName);
-    }
-
-    /**
-     * @param FileUploadedEvent $event
-     */
-    public static function listenUploadEvent(FileUploadedEvent $event)
-    {
-        $storage = TempFlyStorageAssociation::getStorage();
-        $storage->setUpload($event->getFile());
-    }
-
-    /**
-     * @param UploadLocalCopyCreatedEvent $event
-     */
-    public static function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
-    {
-        $storage = TempFlyStorageAssociation::getStorage();
-        $storage->addLocalCopies($event->getFile(), $event->getTmpPath());
-    }
-
     public function remove($file)
     {
-        $storage = TempFlyStorageAssociation::getStorage();
-
         if ($file instanceof File) {
-
-            $storedLocalTmps = $storage->getLocalCopies($file);
-            foreach ((array)$storedLocalTmps as $tmp) {
-                tao_helpers_File::remove($tmp);
-            }
-            $storage->removeFiles($file);
             $file->delete();
         }
     }
@@ -233,6 +159,7 @@ class UploadService extends ConfigurableService
      * Returns the username directory hash.
      *
      * @return string
+     * @throws \common_exception_Error
      */
     public function getUserDirectoryHash()
     {
@@ -246,8 +173,8 @@ class UploadService extends ConfigurableService
      * Is the uploaded filename looks as an uploaded file.
      *
      * @param $filePath
-     *
      * @return bool
+     * @throws \common_exception_Error
      */
     public function isUploadedFile($filePath)
     {
