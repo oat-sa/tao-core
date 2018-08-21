@@ -14,12 +14,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA
  *
  */
 
 namespace oat\tao\model\upload;
-
 
 use oat\generis\model\fileReference\UrlFileSerializer;
 use oat\oatbox\event\EventManager;
@@ -28,7 +27,6 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\FileUploadedEvent;
-use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use tao_helpers_File;
 
 class UploadService extends ConfigurableService
@@ -62,7 +60,7 @@ class UploadService extends ConfigurableService
         $file = $this->getUploadDir()->getFile($this->getUserDirectoryHash() . $targetLocation);
 
         $returnValue['uploaded'] = $file->put(fopen($tmp_name, 'rb'));
-        $this->getServiceManager()->get(EventManager::CONFIG_ID)->trigger(new FileUploadedEvent($file));
+        $this->getServiceLocator()->get(EventManager::SERVICE_ID)->trigger(new FileUploadedEvent($file));
         tao_helpers_File::remove($tmp_name);
 
         $data['type'] = $file->getMimetype();
