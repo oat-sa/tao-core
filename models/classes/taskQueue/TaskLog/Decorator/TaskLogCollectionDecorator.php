@@ -21,6 +21,7 @@
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
+use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
@@ -41,7 +42,7 @@ abstract class TaskLogCollectionDecorator implements CollectionInterface
     }
 
     /**
-     * @inheritdoc
+     * @return \Traversable|EntityInterface[]
      */
     public function getIterator()
     {

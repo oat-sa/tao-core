@@ -31,6 +31,7 @@ use oat\tao\helpers\Template;
  * Class to easily configure a platform theme, the configuration is written to
  * /config/tao/theming.conf
  *
+ * @deprecated until operation issues as resolved
  * @package oat\tao\model\theme
  */
 class ConfigurablePlatformTheme extends Configurable implements Theme

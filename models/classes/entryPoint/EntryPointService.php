@@ -165,7 +165,11 @@ class EntryPointService extends ConfigurableService
     {
         $ids = $this->hasOption($target) ? $this->getOption($target) : array();
         $existing = $this->getOption(self::OPTION_ENTRYPOINTS);
-        
+
+        if ($target === self::OPTION_ENTRYPOINTS) {
+            return $existing;
+        }
+
         $entryPoints = array();
         foreach ($ids as $id) {
             $entryPoints[$id] = $existing[$id];
