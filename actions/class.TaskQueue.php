@@ -21,6 +21,8 @@ use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\TaskQueueActionTrait;
+use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
+use oat\oatbox\filesystem\FileSystemService;
 
 /**
  * Rest API controller for task queue
@@ -33,7 +35,8 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
     use TaskQueueActionTrait;
 
     const TASK_ID_PARAM = 'id';
-
+    const PARAMETER_LIMIT = 'limit';
+    const PARAMETER_OFFSET = 'offset';
     /**
      * Get task data by identifier
      */
@@ -80,6 +83,36 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
+    }
+
+    /**
+     * @throws \common_exception_NotImplemented
+     */
+    public function getAll()
+    {
+        /** @var TaskLogInterface $taskLogService */
+        $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+        $limit = $offset = null;
+
+        if ($this->hasRequestParameter(self::PARAMETER_LIMIT)) {
+            $limit = (int) $this->getRequestParameter(self::PARAMETER_LIMIT);
+        }
+
+        if ($this->hasRequestParameter(self::PARAMETER_OFFSET)) {
+            $offset = (int) $this->getRequestParameter(self::PARAMETER_OFFSET);
+        }
+
+        /** @var FileSystemService $fs */
+        $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+        $userId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
+        $collection = new SimpleManagementCollectionDecorator(
+            $taskLogService->findAvailableByUser($userId, $limit, $offset),
+            $taskLogService,
+            $fs,
+            false
+        );
+
+        $this->returnSuccess($collection->toArray());
     }
 
     /**
