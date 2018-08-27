@@ -1,7 +1,6 @@
 <?php
 namespace oat\tao\test\integration;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 abstract class RestTestCase extends RestTestRunner
 {

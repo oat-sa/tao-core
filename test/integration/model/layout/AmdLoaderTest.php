@@ -22,7 +22,6 @@ namespace oat\tao\test\integration\model\layout;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\layout\AmdLoader;
 
-include_once dirname(__FILE__) . '/../../../../includes/raw_start.php';
 
 /**
  * Test case for oat\tao\model\layout\AmdLoader
