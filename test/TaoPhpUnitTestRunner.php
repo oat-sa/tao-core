@@ -104,6 +104,25 @@ abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements
     }
 
     /**
+     * Returns a persistence Manager with a mocked kv persistence
+     *
+     * @param string $key identifier of the persistence
+     * @return \common_persistence_Manager
+     */
+    public function getKvMock($key)
+    {
+        if (!extension_loaded('pdo_sqlite')) {
+            $this->markTestSkipped('sqlite not found, tests skipped.');
+        }
+        $driver = new \common_persistence_InMemoryKvDriver();
+        $persistence = $driver->connect($key, []);
+        $pmProphecy = $this->prophesize(\common_persistence_Manager::class);
+        $pmProphecy->setServiceLocator(Argument::any())->willReturn(null);
+        $pmProphecy->getPersistenceById($key)->willReturn($persistence);
+        return $pmProphecy->reveal();
+    }
+
+    /**
      * Returns a persistence Manager with a mocked sql persistence
      *
      * @param string $key identifier of the persistence

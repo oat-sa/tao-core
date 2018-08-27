@@ -1,13 +1,11 @@
 @import "inc/bootstrap";
 
-
 $navHeight: 64;
 
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
-        -webkit-transition: opacity .7s, top 0s;
-        transition: opacity .5s, top 0s;
-        transition-delay: .5s;
+        @include vendor-prefix(transition, opacity .1s, top 0s);
+        @include vendor-prefix(transition-delay, .2s);
         opacity: 1;
         top: $navHeight * 1px;
     }
@@ -60,16 +58,6 @@ $navHeight: 64;
     background: $darkBar;
     color: $darkBarTxt;
 
-    // when resizing the window .settings-menu can slip under .main-menu
-    // until the JS class toggle kicks in
-    overflow-y: hidden;
-
-    // this makes sure that after the previous fix
-    // sub menus are still available
-    &:hover {
-        overflow-y: visible;
-    }
-
     a {
         color: $darkBarTxt;
         &:hover {
@@ -107,7 +95,7 @@ $navHeight: 64;
             }
             & > a {
                 &:hover {
-                    @include vendor-prefix(transition, background-color 1s ease);
+                    @include vendor-prefix(transition, background-color 0.2s ease);
                     background-color: rgba($info, .5);
                     text-decoration: none;
                     span {
@@ -162,7 +150,12 @@ $navHeight: 64;
             }
         }
 
-        .main-menu, .settings-menu {
+        .plugin-box-menu{
+            position: relative;
+        }
+
+        .main-menu, .settings-menu, .persistent-menu {
+
             background:inherit;
             ul {
                 background:inherit;
@@ -191,6 +184,7 @@ $navHeight: 64;
             }
         }
 
+
         .main-menu {
             li {
                 min-width: 80px;
@@ -206,10 +200,29 @@ $navHeight: 64;
             }
         }
         .settings-menu {
+
+            //creates a stacking index to have the setting menu always on top of the others
+            z-index: 1;
+            position: relative;
+
+            // when resizing the window .settings-menu can slip under .main-menu
+            // until the JS class toggle kicks in
+            overflow-y: hidden;
+
+            // this makes sure that after the previous fix
+            // sub menus are still available
+            &:hover {
+                overflow-y: visible;
+                ~ .persistent-menu .overflown-element{// replace task-listing by the more generic class e.g. overflown-element
+                    filter: grayscale(0.7) contrast(60%) brightness(1.2);
+                }
+            }
             .reduced-menu-trigger {
                 display:none;
             }
             padding-right: 20px;
+        }
+        .settings-menu, .persistent-menu{
             li {
                 min-width: 25px;
 
@@ -243,7 +256,12 @@ $navHeight: 64;
                     right: -1px;
                 }
             }
+        }
+    }
 
+    .title-box {
+        &:empty{
+            display:none;
         }
     }
 }
@@ -261,6 +279,8 @@ body > footer, .content-wrap:after {
 }
 
 body > footer {
+    z-index: 10000;
+    position: relative;
     font-size: 11px;
     padding: 10px;
     border-top: 1px $uiGeneralContentBorder solid;
@@ -391,13 +411,19 @@ body > footer {
                 }
 
             }
+
+            .persistent-menu {
+                right: 90px;
+                position: absolute;
+            }
         }
     }
 }
 
+
 @media (max-width: 1024px) {
     body {
-        &:not(.delivery-scope), &:not(.small-navi) {
+        &:not(.delivery-scope):not(.small-navi) {
             @include mobile-navi();
         }
     }
@@ -406,8 +432,9 @@ body > footer {
 // works in conjunction with layout/nav.js
 body {
     &.oversized-nav {
-        &:not(.delivery-scope), &:not(.small-navi) {
+        &:not(.delivery-scope):not(.small-navi) {
             @include mobile-navi();
         }
     }
 }
+

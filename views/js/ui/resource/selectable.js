@@ -39,10 +39,12 @@ define([
      * Creates a selectable context
      *
      * @param {component} component - the component instance to make selectable
+     * @param {Object} [config] - default configuration, use the component's config otherwise
+     * @param {preventSelection} [config.preventSelection] - callback to prevent the selectin of a node
      * @returns {selectable} the augmented component
      * @throws {TypeError} without a propert component
      */
-    return function selectableFactory(component){
+    return function selectableFactory(component, config){
 
         var selection = {};
         var nodes     = {};
@@ -51,6 +53,10 @@ define([
         var isAComponent = _.all(['on', 'trigger', 'init', 'render', 'is', 'getElement'], function(method){
             return _.isFunction(component[method]);
         });
+
+        var getConfig = function getConfig(){
+            return _.defaults(component.getConfig() || {}, config || {});
+        };
 
         if(!_.isObject(component) || !isAComponent){
             throw  new TypeError('Selectable expects a component');
@@ -67,6 +73,14 @@ define([
              */
             getNodes : function getNodes(){
                 return nodes;
+            },
+
+            /**
+             * Get a given node
+             * @returns {Object?} the node
+             */
+            getNode : function getNode(uri){
+                return uri && _.isPlainObject(nodes[uri]) ? nodes[uri] : false;
             },
 
             /**
@@ -91,15 +105,30 @@ define([
              * Add a node
              * @param {String} uri - the key
              * @param {Object} node - the node to add
+             * @returns {Boolean}
+             * @fires selectable#add
              */
             addNode : function addNode(uri, node){
-                nodes[uri] = node;
+                if(_.isPlainObject(node)){
+                    nodes[uri] = node;
+
+                    /**
+                     * @event selectable#add a node is added
+                     * @param {String} uri - the URI of the added node
+                     */
+                    this.trigger('add', uri, node);
+
+                    return true;
+                }
+                return false;
             },
 
 
             /**
              * Remove a node
              * @param {String} uri - the URI of the node to remove
+             * @returns {Boolean}
+             * @fires selectable#remove
              */
             removeNode : function removeNode(uri){
                 if(this.hasNode(uri)){
@@ -108,7 +137,16 @@ define([
                         this.unselect(uri);
                     }
                     nodes = _.omit(nodes, uri);
+
+                    /**
+                     * @event selectable#remove a node is removed
+                     * @param {String} uri - the URI of the removed node
+                     */
+                    this.trigger('remove', uri);
+
+                    return true;
                 }
+                return false;
             },
 
             /**
@@ -153,7 +191,7 @@ define([
              */
             select : function select(uris, only){
                 var $component;
-                var changed = false;
+                var currentConfig  = getConfig();
 
                 if(this.is('rendered')){
                     $component = this.getElement();
@@ -171,16 +209,27 @@ define([
                         })
                         .forEach(function(uri){
                             var $node = $('[data-uri="' + uri + '"]', $component);
-                            if($node.length){
-                                changed = true;
+                            var selectNode = $node.length;
+                            if(selectNode && currentConfig  && _.isFunction(currentConfig.preventSelection)){
+
+                                /**
+                                 * @callback preventSelection
+                                 * @param {String} uri
+                                 * @param {Object} node
+                                 * @param {jQueryElement} $node
+                                 * @returns {Boolean} true to prevent the node to be selected
+                                 */
+                                if(currentConfig.preventSelection(uri, nodes[uri], $node)) {
+                                    selectNode = false;
+                                }
+                            }
+                            if(selectNode){
                                 $node.addClass(selectedClass);
 
                                 selection[uri] = nodes[uri];
                             }
                         });
-                    if(changed){
-                        this.trigger('change', selection);
-                    }
+                    this.trigger('change', selection);
                 }
                 return this;
             },
@@ -193,7 +242,6 @@ define([
              */
             unselect : function unselect(uris){
                 var $component;
-                var changed = false;
 
                 if(this.is('rendered')){
                     $component = this.getElement();
@@ -208,15 +256,12 @@ define([
                         .forEach(function(uri){
                             var $node = $('[data-uri="' + uri + '"]', $component);
                             if($node.length){
-                                changed = true;
                                 $node.removeClass(selectedClass);
 
                                 selection = _.omit(selection, uri);
                             }
                         });
-                    if(changed){
-                        this.trigger('change', selection);
-                    }
+                    this.trigger('change', selection);
                 }
                 return this;
             },

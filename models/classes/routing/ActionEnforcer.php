@@ -22,8 +22,9 @@ namespace oat\tao\model\routing;
 
 use IExecutable;
 use ActionEnforcingException;
+use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use ReflectionMethod;
-use common_Logger;
 
 use common_session_SessionManager;
 use tao_models_classes_AccessDeniedException;
@@ -34,6 +35,8 @@ use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\BeforeAction;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\log\TaoLoggerAwareInterface;
 
 /**
  * ActionEnforcer class
@@ -42,8 +45,11 @@ use oat\tao\model\event\BeforeAction;
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
  */
-class ActionEnforcer implements IExecutable
-{	
+class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLoggerAwareInterface
+{
+    use ServiceManagerAwareTrait;
+    use LoggerAwareTrait;
+
     private $extension;
     
     private $controller;
@@ -79,7 +85,9 @@ class ActionEnforcer implements IExecutable
     {
         $controllerClass = $this->getControllerClass();
         if(class_exists($controllerClass)) {
-            return new $controllerClass();
+            $controller = new $controllerClass();
+            $this->propagate($controller);
+            return $controller;
         } else {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
         }
@@ -130,14 +138,14 @@ class ActionEnforcer implements IExecutable
 	            if (isset($parameters[$param->getName()])) {
 	               $tabParam[$param->getName()] = $parameters[$param->getName()];
 	            } elseif (!$param->isDefaultValueAvailable()) {
-	                \common_Logger::w('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+	                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
 	            }
 	        }
 	
 	        // Action method is invoked, passing request parameters as
 	        // method parameters.
 	        $user = common_session_SessionManager::getSession()->getUser();
-	        common_Logger::d('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+	        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
 
             $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
             $eventManager->trigger(new BeforeAction());

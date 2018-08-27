@@ -87,7 +87,7 @@ define([
         data.children = children;
         data.actions = actions;
         return feedbackTpl(data);
-    }
+    };
 
     var report = {
         /**
@@ -99,7 +99,7 @@ define([
         },
         /**
          * Show the report details
-         * 
+         *
          * @returns {this}
          * @fires reportComponent#showDetails
          */
@@ -169,17 +169,18 @@ define([
                     self.trigger('action', actionId);
                 });
 
-                $checkbox.click(function(){
+                //ensure multiple fast clicks only activate the toggle once
+                $checkbox.on('change', _.throttle(function(){
                     if(self.isDetailed()){
                         self.hideDetails();
                     }else{
                         self.showDetails();
                     }
-                });
+                }, 100));
 
             })
             .init(initConfig);
-    }
+    };
 
     return reportComponentFactory;
 });

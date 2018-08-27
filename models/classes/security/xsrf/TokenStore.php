@@ -26,7 +26,8 @@ namespace oat\tao\model\security\xsrf;
  */
 interface TokenStore
 {
-
+    const TOKEN_KEY = 'XSRF_TOKEN';
+    const TOKEN_NAME = 'XSRF_TOKEN_NAME';
     /**
      * Retrieve the pool of tokens
      * @return array the tokens

@@ -19,10 +19,19 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\generis\Helper\UserHashForEncryption;
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\helpers\ApplicationHelper;
+use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\user\implementation\NoUserLocksService;
+use oat\tao\model\user\UserLocks;
+use oat\oatbox\user\UserLanguageServiceInterface;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -35,16 +44,7 @@ use oat\tao\model\TaoOntology;
 class tao_actions_Users extends tao_actions_CommonModule
 {
     use EventManagerAwareTrait;
-    /**
-     * @var tao_models_classes_UserService
-     */
-    protected $userService = null;
-
-    /**
-     * Role User Management should not take into account
-     */
-
-    private $filteredRoles = array();
+    use OntologyAwareTrait;
 
     /**
      * Constructor performs initializations actions
@@ -53,11 +53,14 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function __construct()
     {
         parent::__construct();
-
-        $this->userService = tao_models_classes_UserService::singleton();
         $this->defaultData();
-
         $extManager = common_ext_ExtensionsManager::singleton();
+    }
+
+    /** @return UserLocks */
+    private function getUserLocksService()
+    {
+        return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
     }
 
     /**
@@ -66,15 +69,21 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function index()
     {
+        $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
+        $this->setData('user-data-lang-enabled', $userLangService->isDataLanguageEnabled());
         $this->setView('user/list.tpl');
     }
 
     /**
      * Provide the user list data via json
      * @return string|json
+     * @throws Exception
+     * @throws common_exception_InvalidArgumentType
      */
     public function data()
     {
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
+        $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
         $page = $this->getRequestParameter('page');
         $limit = $this->getRequestParameter('rows');
         $sortBy = $this->getRequestParameter('sortby');
@@ -84,20 +93,23 @@ class tao_actions_Users extends tao_actions_CommonModule
         $start = $limit * $page - $limit;
 
         $fieldsMap = [
-            'login' => PROPERTY_USER_LOGIN,
-            'firstname' => PROPERTY_USER_FIRSTNAME,
-            'lastname' => PROPERTY_USER_LASTNAME,
-            'email' => PROPERTY_USER_MAIL,
-            'dataLg' => PROPERTY_USER_DEFLG,
-            'guiLg' => PROPERTY_USER_UILG
+            'login' => GenerisRdf::PROPERTY_USER_LOGIN,
+            'firstname' => GenerisRdf::PROPERTY_USER_FIRSTNAME,
+            'lastname' => GenerisRdf::PROPERTY_USER_LASTNAME,
+            'email' => GenerisRdf::PROPERTY_USER_MAIL,
+            'guiLg' => GenerisRdf::PROPERTY_USER_UILG,
+            'roles' => GenerisRdf::PROPERTY_USER_ROLES
         ];
+        if ($userLangService->isDataLanguageEnabled()) {
+            $fieldsMap['dataLg'] = GenerisRdf::PROPERTY_USER_DEFLG;
+        }
 
         // sorting
         $order = array_key_exists($sortBy, $fieldsMap) ? $fieldsMap[$sortBy] : $fieldsMap['login'];
 
         // filtering
         $filters = [
-            PROPERTY_USER_LOGIN => '*',
+            GenerisRdf::PROPERTY_USER_LOGIN => '*',
         ];
         
         if ($filterQuery) {
@@ -120,56 +132,59 @@ class tao_actions_Users extends tao_actions_CommonModule
         );
 
         // get total user count...
-        $total = $this->userService->getCountUsers($options, $filters);
+        $total = $userService->getCountUsers($options, $filters);
 
         // get the users using requested paging...
-        $users = $this->userService->getAllUsers(array_merge($options, [
+        $users = $userService->getAllUsers(array_merge($options, [
             'offset' => $start,
             'limit' => $limit
         ]), $filters);
 
-        $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+        $rolesProperty = $this->getProperty(GenerisRdf::PROPERTY_USER_ROLES);
 
         $response = new stdClass();
-        $readonly = array();
+        $readonly = [];
         $index = 0;
+
+        /** @var core_kernel_classes_Resource $user */
         foreach ($users as $user) {
 
-            $propValues = $user->getPropertiesValues(array(
-                PROPERTY_USER_LOGIN,
-                PROPERTY_USER_FIRSTNAME,
-                PROPERTY_USER_LASTNAME,
-                PROPERTY_USER_MAIL,
-                PROPERTY_USER_DEFLG,
-                PROPERTY_USER_UILG,
-                PROPERTY_USER_ROLES
-            ));
+            $propValues = $user->getPropertiesValues(array_values($fieldsMap));
 
             $roles = $user->getPropertyValues($rolesProperty);
-            $labels = array();
+            $labels = [];
+
             foreach ($roles as $uri) {
-                $r = new core_kernel_classes_Resource($uri);
-                $labels[] = $r->getLabel();
+                $labels[] = $this->getResource($uri)->getLabel();
             }
 
             $id = tao_helpers_Uri::encode($user->getUri());
-            $firstName = empty($propValues[PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
-            $lastName = empty($propValues[PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
-            $uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
-            $dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
+            $login = (string)current($propValues[GenerisRdf::PROPERTY_USER_LOGIN]);
+            $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
+            $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
+            $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
+            if ($userLangService->isDataLanguageEnabled()) {
+                $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
+                $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
+            }
 
             $response->data[$index]['id'] = $id;
-            $response->data[$index]['login'] = (string)current($propValues[PROPERTY_USER_LOGIN]);
+            $response->data[$index]['login'] = $login;
             $response->data[$index]['firstname'] = $firstName;
             $response->data[$index]['lastname'] = $lastName;
-            $response->data[$index]['email'] = (string)current($propValues[PROPERTY_USER_MAIL]);
+            $response->data[$index]['email'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
             $response->data[$index]['roles'] = implode(', ', $labels);
-            $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
+
+            $statusInfo = $this->getUserLocksService()->getStatusDetails($login);
+            $response->data[$index]['lockable'] = $statusInfo['lockable'];
+            $response->data[$index]['locked'] = $statusInfo['locked'];
+            $response->data[$index]['status'] = $statusInfo['status'];
 
             if ($user->getUri() == LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX) {
                 $readonly[$id] = true;
             }
+
             $index++;
         }
 
@@ -185,19 +200,23 @@ class tao_actions_Users extends tao_actions_CommonModule
      * Remove a user
      * The request must contains the user's login to remove
      * @return void
+     * @throws Exception
+     * @throws common_exception_Error
      */
     public function delete()
     {
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         // Csrf token validation
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
         if (! $tokenService->checkToken($token)) {
             \common_Logger::w('Xsrf validation failed');
-            return $this->returnJson([
-                'deleted' => false,
+            $this->returnJson([
+                'success' => false,
                 'message' => 'Not authorized to perform action'
             ]);
+            return;
         } else {
             $tokenService->revokeToken($token);
             $newToken = $tokenService->createToken();
@@ -205,20 +224,20 @@ class tao_actions_Users extends tao_actions_CommonModule
         }
 
         $deleted = false;
-        $message = __('An error occured during user deletion');
-        if (helpers_PlatformInstance::isDemo()) {
-            $message = __('User deletion not permited on a demo instance');
+        $message = __('An error occurred during user deletion');
+        if (ApplicationHelper::isDemo()) {
+            $message = __('User deletion not permitted on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
             $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             $this->checkUser($user->getUri());
 
-            if ($this->userService->removeUser($user)) {
+            if ($userService->removeUser($user)) {
                 $deleted = true;
                 $message = __('User deleted successfully');
             }
         }
         $this->returnJson(array(
-            'deleted' => $deleted,
+            'success' => $deleted,
             'message' => $message
         ));
     }
@@ -226,58 +245,69 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * form to add a user
      * @return void
+     * @throws Exception
+     * @throws \oat\generis\model\user\PasswordConstraintsException
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
      */
     public function add()
     {
-        $myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER));
-        $myForm = $myFormContainer->getForm();
+        $container = new tao_actions_form_Users($this->getClass(TaoOntology::CLASS_URI_TAO_USER));
+        $form = $container->getForm();
 
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-                $values = $myForm->getValues();
-                $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+        if ($form->isSubmited()) {
+            if ($form->isValid()) {
+                $values = $form->getValues();
+                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+                $plainPassword = $values['password1'];
                 unset($values['password1']);
                 unset($values['password2']);
 
-                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
+                $user = $container->getUser();
+                $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($container->getUser());
 
                 if ($binder->bind($values)) {
+                    $this->getEventManager()->trigger(new UserUpdatedEvent(
+                            $user,
+                            array_merge($values, ['hashForKey' => UserHashForEncryption::hash($plainPassword)]))
+                    );
                     $this->setData('message', __('User added'));
                     $this->setData('exit', true);
                 }
             }
         }
 
-        $this->setData('loginUri', tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
+        $this->setData('loginUri', tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
         $this->setData('formTitle', __('Add a user'));
-        $this->setData('myForm', $myForm->render());
+        $this->setData('myForm', $form->render());
         $this->setView('user/form.tpl');
     }
 
+    /**
+     * @throws Exception
+     */
     public function addInstanceForm()
     {
         if (!tao_helpers_Request::isAjax()) {
             throw new Exception("wrong request mode");
         }
 
-        $clazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
+        $clazz = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
         $formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
-        $myForm = $formContainer->getForm();
+        $form = $formContainer->getForm();
 
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
+        if ($form->isSubmited()) {
+            if ($form->isValid()) {
 
-                $properties = $myForm->getValues();
+                $properties = $form->getValues();
                 $instance = $this->createInstance(array($clazz), $properties);
 
-                $this->setData('message', __($instance->getLabel() . ' created'));
-                //$this->setData('reload', true);
+                $this->setData('message', __('%s created', $instance->getLabel()));
                 $this->setData('selectTreeNode', $instance->getUri());
             }
         }
 
         $this->setData('formTitle', __('Create instance of ') . $clazz->getLabel());
-        $this->setData('myForm', $myForm->render());
+        $this->setData('myForm', $form->render());
 
         $this->setView('form.tpl', 'tao');
     }
@@ -285,16 +315,18 @@ class tao_actions_Users extends tao_actions_CommonModule
     /**
      * action used to check if a login can be used
      * @return void
+     * @throws Exception
      */
     public function checkLogin()
     {
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         if (!tao_helpers_Request::isAjax()) {
             throw new Exception("wrong request mode");
         }
 
         $data = array('available' => false);
         if ($this->hasRequestParameter('login')) {
-            $data['available'] = $this->userService->loginAvailable($this->getRequestParameter('login'));
+            $data['available'] = $userService->loginAvailable($this->getRequestParameter('login'));
         }
 
         $this->returnJson($data);
@@ -304,15 +336,15 @@ class tao_actions_Users extends tao_actions_CommonModule
      * Form to edit a user
      * User login must be set in parameter
      * @return void
+     * @throws Exception
+     * @throws \oat\generis\model\user\PasswordConstraintsException
+     * @throws common_exception_Error
+     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
      */
     public function edit()
     {
-        if (!$this->hasRequestParameter('uri')) {
-            throw new Exception('Please set the user uri in request parameter');
-        }
-
-        $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $this->checkUser($user->getUri());
+        $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
+        $user = $this->getUserResource();
 
         $types = $user->getTypes();
         $myFormContainer = new tao_actions_form_Users(reset($types), $user);
@@ -321,25 +353,40 @@ class tao_actions_Users extends tao_actions_CommonModule
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
                 $values = $myForm->getValues();
-
                 if (!empty($values['password2']) && !empty($values['password3'])) {
-                    $values[PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
+                    $plainPassword =  $values['password2'];
+                    $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($values['password2']);
                 }
 
                 unset($values['password2']);
                 unset($values['password3']);
 
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_UILG]))) {
-                    unset($values[PROPERTY_USER_UILG]);
+                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_UILG]))) {
+                    unset($values[GenerisRdf::PROPERTY_USER_UILG]);
                 }
-                if (!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_DEFLG]))) {
-                    unset($values[PROPERTY_USER_DEFLG]);
+                if (!preg_match("/[A-Z]{2,4}$/", trim($values[GenerisRdf::PROPERTY_USER_DEFLG]))) {
+                    unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
                 }
+
+                $userService->checkCurrentUserAccess($values[GenerisRdf::PROPERTY_USER_ROLES]);
+
+                // leave roles which are not in the allowed list for current user
+                $oldRoles = $userService->getUserRoles($user);
+                $allowedRoles = $userService->getPermittedRoles($userService->getCurrentUser(), $oldRoles, false);
+                $staticRoles = array_diff($oldRoles, $allowedRoles);
+                $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
 
                 $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
 
                 if ($binder->bind($values)) {
-                    $this->getEventManager()->trigger(new UserUpdatedEvent($user, $values));
+                    $data = [];
+                    if (isset($plainPassword)){
+                        $data = ['hashForKey' => UserHashForEncryption::hash($plainPassword)];
+                    }
+                    $this->getEventManager()->trigger(new UserUpdatedEvent(
+                        $user,
+                        array_merge($values, $data))
+                    );
                     $this->setData('message', __('User saved'));
                 }
             }
@@ -348,6 +395,52 @@ class tao_actions_Users extends tao_actions_CommonModule
         $this->setData('formTitle', __('Edit a user'));
         $this->setData('myForm', $myForm->render());
         $this->setView('user/form.tpl');
+    }
+
+    /**
+     * Removes all locks from user account
+     * @throws Exception
+     */
+    public function unlock()
+    {
+        $user = UserHelper::getUser($this->getUserResource());
+
+        if ($this->getUserLocksService()->unlockUser($user)) {
+            $this->returnJson(['success' => true, 'message' => __('User %s successfully unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+        } else {
+            $this->returnJson(['success' => false, 'message' => __('User %s can not be unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+        }
+    }
+
+    /**
+     * Locks user account, he can not login in to the system anymore
+     * @throws Exception
+     */
+    public function lock()
+    {
+        $user = UserHelper::getUser($this->getUserResource());
+
+        if ($this->getUserLocksService()->lockUser($user)) {
+            $this->returnJson(['success' => true, 'message' => __('User %s successfully locked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+        } else {
+            $this->returnJson(['success' => false, 'message' => __('User %s can not be locked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+        }
+    }
+
+    /**
+     * @throws Exception
+     * @return core_kernel_classes_Resource
+     */
+    private function getUserResource()
+    {
+        if (!$this->hasRequestParameter('uri')) {
+            throw new Exception('Please set the user uri in request parameter');
+        }
+
+        $userUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+        $this->checkUser($userUri);
+
+        return $this->getResource($userUri);
     }
 
     /**

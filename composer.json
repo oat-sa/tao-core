@@ -28,11 +28,10 @@
 	],
 	"description" : "TAO core extension ",
 	"support" : {
-		"forum" : "http://forum.taotesting.com",
-		"issues" : "http://forge.taotesting.com"
+		"forum" : "https://forum.taocloud.org"
 	},
 	"homepage" : "http://www.taotesting.com",
-	"license" : "GPL-2.0",
+	"license" : "GPL-2.0-only",
 	"keywords" : [
 		"tao",
 		"oat",
@@ -45,18 +44,16 @@
 	"require" : {
 		"php" : ">=5.5",
 		"phpdocumentor/reflection-docblock" : "2.*",
-		"oat-sa/oatbox-extension-installer" : "dev-master",
-		"oat-sa/extension-builder": "^0.1",
-		"phpmailer/phpmailer" : "dev-master",
+		"oat-sa/oatbox-extension-installer" : "~1.1||dev-master",
 		"oat-sa/jig" : "~0.1",
 		"psr/http-message" : "~1.0",
 		"slim/slim" : "^3.0",
 		"guzzlehttp/guzzle" : "~6.0",
 		"ezyang/htmlpurifier": "^4.9",
 		"justinrainbow/json-schema": "5.2.1",
-		"pimple/pimple": "^3.0"
+		"pimple/pimple": "^3.0",
+		"imsglobal/lti": "^3.0"
 	},
-	"minimum-stability" : "dev",
 	"autoload" : {
 		"psr-4" : {
 			"oat\\tao\\model\\" : "models/classes/",

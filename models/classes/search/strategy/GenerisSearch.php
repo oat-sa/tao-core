@@ -21,10 +21,11 @@
 namespace oat\tao\model\search\strategy;
 
 use core_kernel_classes_Class;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\Search;
-use oat\oatbox\Configurable;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -34,15 +35,17 @@ use oat\oatbox\service\ConfigurableService;
  */
 class GenerisSearch extends ConfigurableService implements Search
 {
+    use OntologyAwareTrait;
 
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::query()
      */
-    public function query($queryString, $rootClass = null, $start = 0, $count = 10) {
-        $results = $rootClass->searchInstances(array(
-        	RDFS_LABEL => $queryString
-        ), array(
+    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC') {
+        $rootClass = $this->getClass($type);
+        $results = $rootClass->searchInstances([
+            OntologyRdfs::RDFS_LABEL => $queryString
+        ], array(
             'recursive' => true,
             'like'      => true,
             'offset'    => $start,
@@ -54,14 +57,21 @@ class GenerisSearch extends ConfigurableService implements Search
         }
 
         return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
-
     }
-    
+
     /**
      * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::fullReIndex()
+     * @see \oat\tao\model\search\Search::flush()
      */
-    public function fullReIndex(\Traversable $resourceTraversable) {
+    public function flush() {
+        // no flushing required
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::addIndexes()
+     */
+    public function addIndexes(\Traversable $IndexIterator) {
         // no indexation required
         return 0;
     }
@@ -78,7 +88,7 @@ class GenerisSearch extends ConfigurableService implements Search
     {
         return $rootClass->countInstances(
             array(
-                RDFS_LABEL => $queryString
+                OntologyRdfs::RDFS_LABEL => $queryString
             ),
             array(
                 'recursive' => true,
@@ -88,15 +98,17 @@ class GenerisSearch extends ConfigurableService implements Search
     }
     
     /**
-     * (Re)Generate the index for a given resource
-     *
-     * @param core_kernel_classes_Resource $resource
-     * @return boolean true if successfully indexed
-    */
-    public function index(\core_kernel_classes_Resource $resource)
+     * (non-PHPdoc)
+     * @see \oat\tao\model\search\Search::index()
+     */
+    public function index($document = [])
     {
         // nothing to do
-        return true;
+        $i = 0;
+        foreach ($document as $resuource) {
+            $i++;
+        }
+        return $i;
     }
     
     /**

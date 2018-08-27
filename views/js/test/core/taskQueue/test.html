@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Test - Task Queue API</title>
-    <base href="../../../../" />
-    <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
-    <script type="text/javascript" src="js/lib/require.js"></script>
-    <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
-    <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="core/taskQueue.js"></script>
+    <head>
+        <meta charset="utf-8">
+        <title>Task Queue Model</title>
+        <base href="../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+        <link rel="stylesheet" type="text/css" href="js/ui/resource/css/selector.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="taskQueue.js"></script>
 
-    <script  type="text/javascript">
-        QUnit.config.autostart = false;
-        require(['/tao/ClientConfig/config'], function(){
-            require(['test/core/taskQueue/test'], function(){
-                QUnit.start();
+        <script  type="text/javascript">
+            QUnit.config.autostart = false;
+            require(['/tao/ClientConfig/config'], function(){
+                require(['test/core/taskQueue/test'], function(){
+                    QUnit.start();
+                });
             });
-        });
-    </script>
-</head>
-<body>
-<div id="qunit"></div>
-<div id="qunit-fixture"></div>
-<div id="qunit-fixture-external"></div>
-</body>
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <div id="visual">
+        </div>
+    </body>
 </html>

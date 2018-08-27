@@ -18,6 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+use oat\generis\model\OntologyRdfs;
+
 /**
  * This container initialize the form used to map class properties to data to be
  *
@@ -93,7 +96,8 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
     	
     	// We build the list of CSV columns that can be mapped to
     	// the target class properties. 
-    	if ($this->options[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]){
+    	if (isset($this->options[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES])
+    	    && $this->options[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]){
 	    	foreach($this->options['csv_column'] as $i => $column){
 	    		$columnsOptions[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' ' . ($i + 1) . ' : ' . $column;
                 $columnsOptionsLabels[$i.tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = $this->prepareString($column);
@@ -129,7 +133,7 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
             $propElt->setValue($value);
 
 			/** Add mandatory label */
-			if (tao_helpers_Uri::decode($propertyUri)==RDFS_LABEL) {
+			if (tao_helpers_Uri::decode($propertyUri)==OntologyRdfs::RDFS_LABEL) {
 				$elementEqualsToCsvSelect = new tao_helpers_form_elements_xhtml_Hidden();
 				$elementEqualsToCsvSelect->setValue('csv_select');
 				$elementEqualsToCsvSelect->setDescription(' to null');
@@ -143,8 +147,9 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 
     		$this->form->addElement($propElt);
     	}
-    	$this->form->createGroup('property_mapping', __('Map the properties to the CSV columns'), array_keys($this->options['class_properties']));
-    	
+        if(count($this->options['class_properties']) > 0){
+            $this->form->createGroup('property_mapping', __('Map the properties to the CSV columns'), array_keys($this->options['class_properties']));
+        }
     	$ranged = array();
     	foreach($this->options['ranged_properties'] as $propertyUri => $propertyLabel){
     		$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyUri));
@@ -176,9 +181,15 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
 		$optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Hidden');
 		$this->form->addElement($optMulti);
 
-		$optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Hidden');
-		$this->form->addElement($optFirstColumn);
-
+		if (isset($this->options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE])){
+		    if ($this->options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE] === true){
+                $optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Hidden');
+                $this->form->addElement($optFirstColumn);
+            }
+        }else{
+            $optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Hidden');
+            $this->form->addElement($optFirstColumn);
+        }
     }
 
     protected function prepareString($value)

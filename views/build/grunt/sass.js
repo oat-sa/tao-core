@@ -32,7 +32,14 @@ module.exports = function(grunt) {
                     '../js/ui/generis/form/form.css' : '../js/ui/generis/form/form.scss',
                     '../js/ui/generis/widget/widget.css' : '../js/ui/generis/widget/widget.scss',
                     '../js/ui/generis/validator/validator.css' : '../js/ui/generis/validator/validator.scss',
-                    '../js/ui/switch/css/switch.css' : '../js/ui/switch/scss/switch.scss'
+                    '../js/ui/switch/css/switch.css' : '../js/ui/switch/scss/switch.scss',
+                    '../js/ui/animable/absorbable/css/absorb.css' : '../js/ui/animable/absorbable/scss/absorb.scss',
+                    '../js/ui/animable/pulsable/css/pulse.css' : '../js/ui/animable/pulsable/scss/pulse.scss',
+                    '../js/ui/badge/css/badge.css' : '../js/ui/badge/scss/badge.scss',
+                    '../js/ui/loadingButton/css/button.css' : '../js/ui/loadingButton/scss/button.scss',
+                    '../js/ui/destination/css/selector.css' : '../js/ui/destination/scss/selector.scss',
+                    '../js/ui/taskQueueButton/css/taskable.css' : '../js/ui/taskQueueButton/scss/taskable.scss',
+                    '../js/ui/taskQueueButton/css/treeButton.css' : '../js/ui/taskQueueButton/scss/treeButton.scss'
                 }
             }
         },

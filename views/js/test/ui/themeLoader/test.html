@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="../../../../css/tao-main-style.css">
         <script type="text/javascript" src="../../../lib/require.js"></script>
         <script type="text/javascript" src="../../../lib/qunit/qunit.js"></script>
-        <script type="text/javascript" src="../../../lib/blanket/blanket.min.js" data-cover-only="ui/themeLoader"></script>
+        <script type="text/javascript" src="../../../lib/blanket/blanket.min.js" data-cover-only="js/ui/themeLoader"></script>
 
         <script  type="text/javascript">
 
@@ -20,7 +20,7 @@
             require(['/tao/ClientConfig/config'], function(){
 
                 //load the test
-                require(['test/ui/themes/test'], function(){
+                require(['test/ui/themeLoader/test'], function(){
 
                     //Tests loaded, run tests
                     QUnit.config.reorder = false;

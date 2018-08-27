@@ -7,10 +7,12 @@ use core_kernel_classes_Class;
 use oat\tao\helpers\TreeHelper;
 use Request;
 use tao_helpers_Uri;
+use oat\generis\model\OntologyRdfs;
 
 class GetTreeRequest
 {
 	const DEFAULT_LIMIT = 10;
+	const DEFAULT_ORDERDIR = 'asc';
 
 	/** @var  core_kernel_classes_Class */
 	protected $class;
@@ -48,8 +50,10 @@ class GetTreeRequest
 	 * @param bool $hideNode
 	 * @param array $openNodes
 	 * @param array $resourceUrisToShow
+	 * @param array $filtersOptions
+	 * @param \core_kernel_classes_Property[] $filters Properties to filter tree resources
 	 */
-	public function __construct($class, $limit, $offset, $showInstance, $hideNode, array $openNodes, array $resourceUrisToShow = [])
+	public function __construct($class, $limit, $offset, $showInstance, $hideNode, array $openNodes, array $resourceUrisToShow = [], $filtersOptions = [], array $filters = [])
 	{
 		$this->class = $class;
 		$this->limit = $limit;
@@ -58,6 +62,8 @@ class GetTreeRequest
 		$this->hideNode = $hideNode;
 		$this->openNodes = $openNodes;
 		$this->resourceUrisToShow = $resourceUrisToShow;
+		$this->filters = $filters;
+		$this->filtersOptions = $filtersOptions;
 	}
 
 	/**
@@ -94,8 +100,32 @@ class GetTreeRequest
 		$limit = $request->hasParameter('limit') ? $request->getParameter('limit') : self::DEFAULT_LIMIT;
 		$offset = $request->hasParameter('offset') ? $request->getParameter('offset') : 0;
 		$showInstance = $request->hasParameter('hideInstances') ? !$request->getParameter('hideInstances') : true;
+		$orderProp = $request->hasParameter('order') ? $request->getParameter('order') : OntologyRdfs::RDFS_LABEL;
+		$orderDir = $request->hasParameter('orderdir') ? $request->getParameter('orderdir') : self::DEFAULT_ORDERDIR;
 
-		return new self($class, $limit, $offset, $showInstance, $hideNode, $openNodes);
+        $filterProperties = [];
+		if ($request->hasParameter('filterProperties')) {
+		    $filterProperties = $request->getParameter('filterProperties');
+		    if (!is_array($filterProperties)) {
+		        $filterProperties = [];
+            }
+        }
+
+		return new self(
+		    $class,
+            $limit,
+            $offset,
+            $showInstance,
+            $hideNode,
+            $openNodes,
+            [],
+            [
+                'order' => [
+                    $orderProp => $orderDir
+                ]
+            ],
+            $filterProperties
+        );
 	}
 
 	/**

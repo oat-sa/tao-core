@@ -405,36 +405,38 @@ class tao_helpers_File
         }
         return $md5;
     }
-    
+
     /**
      * Create a zip of a directory or file
-     * 
+     *
      * @param string $src path to the files to zip
-     * @throws common_Exception if unable to create the zip
+     * @param bool   $withEmptyDir
      * @return string path to the zip file
+     * @throws common_Exception if unable to create the zip
      */
-    public static function createZip($src) {
+    public static function createZip($src, $withEmptyDir = false) {
         $zipArchive = new \ZipArchive();
         $path = self::createTempDir().'file.zip';
         if ($zipArchive->open($path, \ZipArchive::CREATE)!==TRUE) {
             throw new common_Exception('Unable to create zipfile '.$path);
         }
-        self::addFilesToZip($zipArchive, $src, DIRECTORY_SEPARATOR);
+        self::addFilesToZip($zipArchive, $src, DIRECTORY_SEPARATOR, $withEmptyDir);
         $zipArchive->close();
         return $path;
     }
-    
+
     /**
      * Add files or folders (and their content) to the Zip Archive that will contain all the files to the current export session.
      * For instance, if you want to copy the file 'taoItems/data/i123/item.xml' as 'myitem.xml' to your archive call addFile('path_to_item_location/item.xml', 'myitem.xml').
      * As a result, you will get a file entry in the final ZIP archive at '/i123/myitem.xml'.
      *
      * @param ZipArchive $zipArchive the archive to add to
-     * @param string $src | StreamInterface The path to the source file or folder to copy into the ZIP Archive.
-     * @param string *dest The <u>relative</u> to the destination within the ZIP archive.
+     * @param string     $src        | StreamInterface The path to the source file or folder to copy into the ZIP Archive.
+     * @param            $dest
+     * @param bool       $withEmptyDir
      * @return integer The amount of files that were transfered from TAO to the ZIP archive within the method call.
      */
-    public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest) {
+    public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest, $withEmptyDir = false) {
         $returnValue = null;
     
         $done = 0;
@@ -452,14 +454,19 @@ class tao_helpers_File
         } elseif (is_dir($src)) {
             // Go deeper in folder hierarchy !
             $src = rtrim($src, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-            $dest = rtrim($dest, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;;
+            $dest = rtrim($dest, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+            if ($withEmptyDir) {
+                $zipArchive->addEmptyDir($dest);
+            }
+
             // Recursively copy.
             $content = scandir($src);
 
             foreach ($content as $file) {
                 // avoid . , .. , .svn etc ...
                 if (!preg_match("/^\./", $file)) {
-                    $done += self::addFilesToZip($zipArchive, $src . $file, $dest . $file);
+                    $done += self::addFilesToZip($zipArchive, $src . $file, $dest . $file, $withEmptyDir);
                 }
             }
         } else {
@@ -472,6 +479,91 @@ class tao_helpers_File
         $returnValue = $done;
     
         return $returnValue;
+    }
+
+    /**
+     * Rename in Zip
+     *
+     * Rename an item in a ZIP archive. Works for files and directories.
+     *
+     * In case of renaming directories, the return value of this method will be the amount of files
+     * affected by the directory renaming.
+     *
+     * @param ZipArchive $zipArchive An open ZipArchive object.
+     * @param string $oldname
+     * @param string $newname
+     * @return int The amount of renamed entries.
+     */
+    public static function renameInZip(ZipArchive $zipArchive, $oldname, $newname)
+    {
+        $i = 0;
+        $renameCount = 0;
+
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                $newEntryName = str_replace($oldname, $newname, $entryName);
+                if ($zipArchive->renameIndex($i, $newEntryName)) {
+                    $renameCount++;
+                }
+            }
+
+            $i++;
+        }
+
+        return $renameCount;
+    }
+
+    /**
+     * Exclude from Zip
+     *
+     * Exclude entries matching $pattern from a ZIP Archive.
+     *
+     * @param ZipArchive $zipArchive An open ZipArchive object.
+     * @param string $pattern A PCRE pattern.
+     * @return int The amount of excluded entries.
+     */
+    public static function excludeFromZip(ZipArchive $zipArchive, $pattern)
+    {
+        $i = 0;
+        $exclusionCount = 0;
+
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                // Not previously removed index.
+                if (preg_match($pattern, $entryName) === 1 && $zipArchive->deleteIndex($i)) {
+                    $exclusionCount++;
+                }
+            }
+
+            $i++;
+        }
+
+        return $exclusionCount;
+    }
+
+    /**
+     * Get All Zip Names
+     *
+     * Retrieve all ZIP name entries in a ZIP archive. In others words, all the paths in the
+     * archive having an entry.
+     *
+     * @param ZipArchive $zipArchive An open ZipArchive object.
+     * @return array An array of strings.
+     */
+    public static function getAllZipNames(ZipArchive $zipArchive)
+    {
+        $i = 0;
+        $entries = [];
+
+        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i,ZipArchive::FL_UNCHANGED))) {
+            if ($entryName) {
+                $entries[] = $entryName;
+            }
+
+            $i++;
+        }
+
+        return $entries;
     }
     
     /**

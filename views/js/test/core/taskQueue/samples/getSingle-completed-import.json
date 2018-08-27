@@ -1,0 +1,29 @@
+{
+    "success": true,
+    "data": {
+        "id": "rdf#i15083379701993186432222",
+        "taskName": "Task Name 2",
+        "taskLabel": "Task label 2",
+        "status": "completed",
+        "owner": "userId",
+        "createdAt": "1510149584",
+        "updatedAt": "1510149574",
+        "hasFile": false,
+        "category": "import",
+        "report": {
+            "type": "success",
+            "message": "1 Item(s) of 1 imported from the given IMS QTI Package.",
+            "data": null,
+            "children": [{
+                "type": "success",
+                "message": "The IMS QTI Item referenced as i1516639498655816 in the IMS Manifest file was successfully imported.",
+                "data": {
+                    "uriResource" : "http://tao.local/mytao.rdf#i1516872339419092"
+                },
+                "children": []
+            }]
+        }
+    }
+}
+
+

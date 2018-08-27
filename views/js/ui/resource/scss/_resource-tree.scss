@@ -8,7 +8,8 @@
     }
 
     &.multiple ul li.instance:before{
-        display: block;
+        opacity: 1;
+        @include transition(all, 200ms, linear);
     }
 
     ul {
@@ -29,14 +30,6 @@
                 text-overflow: ellipsis;
                 border-bottom: solid 1px $uiGeneralContentBorder;
                 color : $textColor;
-            }
-            &:before {
-                @include tao-icon-setup;
-                position: absolute;
-                right: 17px;
-                top: 12px;
-                width: 14px;
-                text-align:center;
             }
             &.class {
                 .class-toggler {
@@ -62,9 +55,11 @@
                         }
                     }
                 }
+                &.empty .class-toggler{
+                    display: none;
+                }
                 & > a {
-                    &:before {
-                        @include tao-icon-setup;
+                    & > span:before {
                         @include icon-folder-open;
                         color: $warning;
                         margin-right: 4px;
@@ -100,7 +95,7 @@
                     & > .class-toggler:before {
                         @include icon-right;
                     }
-                    & > a:before {
+                    & > a > span:before {
                         @include icon-folder;
                     }
                     & > ul {
@@ -114,9 +109,15 @@
             }
             &.instance {
                 &:before {
-                    display: none;
+                    @include tao-icon-setup;
                     @include icon-checkbox;
                     color: $info;
+                    position: absolute;
+                    right: 17px;
+                    top: 12px;
+                    width: 14px;
+                    text-align:center;
+                    opacity : 0;
                 }
                 &.selected:before {
                     @include icon-checkbox-checked;
@@ -139,7 +140,27 @@
                     @include transition(all, 200ms, linear);
                 }
             }
-
+            &[data-access=denied] > a, &[data-access=partial] > a {
+                [class^="icon-"], [class*=" icon-"] {
+                    position: relative;
+                    &:after {
+                        @include icon-lock;
+                        color: #555;
+                        position: absolute;
+                        left: 7px;
+                        top: 6px;
+                    }
+                }
+            }
+            &[data-access=denied] {
+                color: $uiClickableActiveBg;
+                background-color: $textHighlight;
+                &:hover, &:hover > a, & > a, [class^="icon-"]:before, [class*=" icon-"]:before  {
+                    cursor: auto;
+                    background-color: $textHighlight;
+                    color: $uiClickableActiveBg !important;
+                }
+            }
             a:hover {
                 text-decoration: none;
             }
