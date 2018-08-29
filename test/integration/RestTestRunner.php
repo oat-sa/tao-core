@@ -6,6 +6,7 @@ use \common_persistence_Manager;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 
 abstract class RestTestRunner extends \PHPUnit_Framework_TestCase
@@ -116,6 +117,16 @@ abstract class RestTestRunner extends \PHPUnit_Framework_TestCase
                 "Accept: application/json"
             )
         );
+    }
+
+    protected function disableCache()
+    {
+        // just to avoid stopping tests with error "Call to undefined method disableCache()"
+    }
+
+    protected function restoreCache()
+    {
+        // just to avoid stopping tests with error "Call to undefined method restoreCache()"
     }
 
 }
