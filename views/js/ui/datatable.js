@@ -249,6 +249,7 @@ define([
 
             $.ajax(ajaxConfig).done(function (response) {
                 self._render($elt, response);
+                loadingBar.stop();
             }).fail(function (response, option, err) {
                 var requestErr = httpErrorParser.parse(response, option, err);
                 logger.error(requestErr.message);
@@ -257,6 +258,7 @@ define([
                 $elt.trigger('error.' + ns, [requestErr]);
 
                 self._render($elt, {});
+                loadingBar.stop();
             });
         },
 
@@ -619,7 +621,6 @@ define([
              * @param {Object} dataset - The data set used to render the table
              */
             $elt.trigger('load.' + ns, [dataset]);
-            loadingBar.stop();
         },
 
         /**
