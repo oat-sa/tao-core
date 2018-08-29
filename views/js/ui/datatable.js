@@ -27,8 +27,9 @@ define([
     'ui/pagination',
     'ui/feedback',
     'layout/logout-event',
+    'layout/loading-bar',
     'core/logger'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loggerFactory){
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loadingBar, loggerFactory){
 
     'use strict';
 
@@ -213,6 +214,8 @@ define([
             var parameters;
             var ajaxConfig;
 
+            loadingBar.start();
+
             if (!$filter) {
                 $filter = $('.filter', $elt);
             }
@@ -246,8 +249,15 @@ define([
             $.ajax(ajaxConfig).done(function (response) {
                 self._render($elt, response);
             }).fail(function (response) {
-                var errorDetails = JSON.parse(response.responseText);
-                var requestErr = new Error(errorDetails.message);
+                var requestErr;
+                var errorDetails;
+                try {
+                    errorDetails = JSON.parse(response.responseText);
+                    requestErr = new Error(errorDetails.message);
+                } catch (e) {
+                    requestErr = new Error(e.message);
+                }
+
                 logger.error(errorDetails);
                 requestErr.code = response.status;
                 enablePaginations(this.paginations);
@@ -616,6 +626,7 @@ define([
              * @param {Object} dataset - The data set used to render the table
              */
             $elt.trigger('load.' + ns, [dataset]);
+            loadingBar.stop();
         },
 
         /**
