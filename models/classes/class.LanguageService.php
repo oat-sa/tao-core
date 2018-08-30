@@ -304,7 +304,7 @@ class tao_models_classes_LanguageService
     }
 
     /**
-     * Filter a value of a language to tranform it into uri
+     * Filter a value of a language to transform it into uri
      *
      * If it's an uri, returns it
      * If it's a language code returns the associated uri
@@ -312,11 +312,17 @@ class tao_models_classes_LanguageService
      *
      * @param $value
      * @return core_kernel_classes_Resource|string
+     * @throws common_exception_Error
      */
     public static function filterLanguage($value)
     {
         if (filter_var($value, FILTER_VALIDATE_URL) === true) {
-            return $value;
+            $language = new core_kernel_classes_Resource($value);
+            if ($language->exists()) {
+                return $value;
+            } else {
+                $value = DEFAULT_LANG;
+            }
         }
 
         if (is_null($langUri = \tao_models_classes_LanguageService::singleton()->getLanguageByCode($value))) {
