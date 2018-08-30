@@ -303,6 +303,33 @@ class tao_models_classes_LanguageService
         throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
     }
 
-}
+    /**
+     * Filter a value of a language to transform it into uri
+     *
+     * If it's an uri, returns it
+     * If it's a language code returns the associated uri
+     * Else returns the default language
+     *
+     * @param $value
+     * @return core_kernel_classes_Resource|string
+     * @throws common_exception_Error
+     */
+    public static function filterLanguage($value)
+    {
+        if (filter_var($value, FILTER_VALIDATE_URL) === true) {
+            $language = new core_kernel_classes_Resource($value);
+            if ($language->exists()) {
+                return $value;
+            } else {
+                $value = DEFAULT_LANG;
+            }
+        }
 
-?>
+        if (is_null($langUri = \tao_models_classes_LanguageService::singleton()->getLanguageByCode($value))) {
+            $langUri = \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG);
+        }
+
+        return $langUri;
+    }
+
+}
