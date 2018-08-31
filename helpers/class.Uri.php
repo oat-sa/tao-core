@@ -157,19 +157,17 @@ class tao_helpers_Uri
 
 		$returnValue = self::getRootUrl(). $extension . '/'. $module . '/' . $action;
 
-		if(count($params) > 0){
-			$returnValue .= '?';
-			if(is_string($params)){
-				$returnValue .= $params;
-			}
-			if(is_array($params)){
-				foreach($params as $key => $value){
-					$returnValue .= $key . '=' . rawurlencode($value) . '&';
-				}
-				$returnValue = substr($returnValue, 0, -1);
-			}
-		}
-        
+        if (is_string($params) && strlen($params) > 0) {
+            $returnValue .= '?' . $params;
+        }
+
+        if (is_array($params)) {
+            $returnValue .= '?';
+            foreach ($params as $key => $value) {
+                $returnValue .= $key . '=' . rawurlencode($value) . '&';
+            }
+            $returnValue = substr($returnValue, 0, -1);
+        }
 
         return (string) $returnValue;
     }
