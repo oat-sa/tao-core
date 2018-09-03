@@ -34,7 +34,7 @@ class tao_helpers_Uri
      * @access private
      * @var string
      */
-    private static $base;
+    private static $base = '';
 
     /**
      * Short description of attribute root
@@ -42,7 +42,7 @@ class tao_helpers_Uri
      * @access private
      * @var string
      */
-    private static $root;
+    private static $root ='';
 
     /**
      * Short description of attribute ENCODE_ARRAY_KEYS
