@@ -26,9 +26,6 @@ define([
 
     var workingConfiguration = {
         showResponsiveToggle: true,
-        getContainerWidth: function() {
-            return 700;
-        },
         sizeProps: {
             px: {
                 natural: {
@@ -218,9 +215,11 @@ define([
         var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -230,8 +229,8 @@ define([
         QUnit.expect(3);
 
         assert.ok(typeof mediaDimensionComponent === 'function', 'the module exposes a function');
-        assert.ok(typeof mediaDimensionComponent($controlContainer, media, conf).on('render', function(){this.destroy();}) === 'object', 'the factory creates an object');
-        assert.notEqual(mediaDimensionComponent($controlContainer, media, conf).on('render', function(){this.destroy();}), mediaDimensionComponent($controlContainer, media, conf).on('render', function(){this.destroy();}), 'the factory creates new objects');
+        assert.ok(typeof mediaDimensionComponent($toolsContainer, media, conf).on('render', function(){this.destroy();}) === 'object', 'the factory creates an object');
+        assert.notEqual(mediaDimensionComponent($toolsContainer, media, conf).on('render', function(){this.destroy();}), mediaDimensionComponent($toolsContainer, media, conf).on('render', function(){this.destroy();}), 'the factory creates new objects');
         $visibleContainer.remove();
     });
 
@@ -242,8 +241,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -251,7 +252,7 @@ define([
             };
         QUnit.expect(2);
 
-        component = mediaDimensionComponent($controlContainer, media, conf).on('render', function(){this.destroy();});
+        component = mediaDimensionComponent($toolsContainer, media, conf).on('render', function(){this.destroy();});
 
         assert.ok(typeof component.render === 'function', 'the component has a render method');
         assert.ok(typeof component.destroy === 'function', 'the component has a destroy method');
@@ -265,8 +266,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -274,7 +277,7 @@ define([
             };
         QUnit.expect(3);
 
-        component = mediaDimensionComponent($controlContainer, media, conf).on('render', function(){this.destroy();});
+        component = mediaDimensionComponent($toolsContainer, media, conf).on('render', function(){this.destroy();});
 
         assert.ok(typeof component.on === 'function', 'the component has a on method');
         assert.ok(typeof component.off === 'function', 'the component has a off method');
@@ -290,8 +293,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -299,7 +304,7 @@ define([
             };
         QUnit.expect(1);
         conf.showResponsiveToggle = true;
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 assert.equal($('.media-sizer', this.getContainer()).hasClass('media-sizer-responsivetoggle-off'), false,
                     'Media sizer does not have a class to hide the responsive toggle');
@@ -315,8 +320,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -324,7 +331,7 @@ define([
             };
         QUnit.expect(1);
         conf.showResponsiveToggle = false;
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 assert.ok($('.media-sizer', this.getContainer()).hasClass('media-sizer-responsivetoggle-off'), 'Media sizer has a class to hide the responsive toggle');
                 this.destroy();
@@ -339,8 +346,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -349,7 +358,7 @@ define([
         QUnit.expect(2);
         conf.showResponsiveToggle = false;
         conf.responsive = true;
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
                 var $pixelBlock = $('.media-sizer-pixel', this.getContainer());
@@ -367,16 +376,19 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
                 height: 735
             };
+
         QUnit.expect(2);
         conf.responsive = false;
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
                 var $pixelBlock = $('.media-sizer-pixel', this.getContainer());
@@ -389,14 +401,16 @@ define([
             });
     });
 
-    QUnit.asyncTest('Picture bigger than container', function (assert) {
+    QUnit.asyncTest('Picture is bigger than the container', function (assert) {
         var $tmlContainer = $('.template .visible-test');
         var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -405,10 +419,8 @@ define([
 
         QUnit.expect(5);
 
-        conf.getContainerWidth = function () {
-            return 200;
-        };
-        mediaDimensionComponent($controlContainer, media, conf)
+        $controlContainer.width(200);
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
                 var $editorContainer = $('.item-editor-unit-input-box', $percentBlock);
@@ -438,8 +450,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -449,7 +463,7 @@ define([
         QUnit.expect(5);
 
         conf.responsive = false;
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
                 var $editorContainer = $('.item-editor-unit-input-box', $percentBlock);
@@ -479,8 +493,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -489,7 +505,7 @@ define([
         QUnit.expect(9);
         conf.showResponsiveToggle = false;
         conf.responsive = false;
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
                 var $editorContainer = $('.item-editor-unit-input-box', $percentBlock);
@@ -562,8 +578,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -571,7 +589,8 @@ define([
             };
 
         QUnit.expect(1);
-        mediaDimensionComponent($controlContainer, media, conf)
+        conf.responsive = params.unit === '%';
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $fields = {
                     '%': {width: null},
@@ -582,7 +601,7 @@ define([
                 };
                 var $percentBlock = $('.media-sizer-percent', this.getContainer());
                 var $percentEditorContainer = $('.item-editor-unit-input-box', $percentBlock);
-                var $pxBlock = $('.media-sizer-pixel', $controlContainer);
+                var $pxBlock = $('.media-sizer-pixel', this.getContainer());
                 var $pxEditorContainer = $('.item-editor-unit-input-box', $pxBlock);
 
                 var checkInput = function checkInput (unit, dim, value, expected) {
@@ -623,18 +642,21 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
                 height: 735
             };
         QUnit.expect(3);
+
         conf.showResponsiveToggle = false;
         conf.responsive = false;
         conf.syncDimensions = true;
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $pixelBlock = $('.media-sizer-pixel', this.getContainer());
                 var $editorContainer = $('.item-editor-unit-input-box', $pixelBlock);
@@ -664,8 +686,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -677,7 +701,7 @@ define([
         conf.responsive = false;
         conf.syncDimensions = false;
 
-        mediaDimensionComponent($controlContainer, media, conf)
+        mediaDimensionComponent($toolsContainer, media, conf)
             .on('render', function () {
                 var $pixelBlock = $('.media-sizer-pixel', this.getContainer());
                 var $pxEditorContainer = $('.item-editor-unit-input-box', $pixelBlock);
@@ -730,8 +754,10 @@ define([
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
+            $toolsContainer = $('.tools-container', $visibleContainer),
             media = {
                 $node: $img,
+                $container: $controlContainer,
                 type: 'image/jpeg',
                 src: $img.attr('src'),
                 width: 500,
@@ -740,7 +766,7 @@ define([
         conf.showResponsiveToggle = true;
         conf.responsive = true;
         conf.syncDimensions = true;
-        mediaDimensionComponent($controlContainer, media, conf);
+        mediaDimensionComponent($toolsContainer, media, conf);
         QUnit.ok(true);
     });
 });

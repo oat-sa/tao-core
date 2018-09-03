@@ -31,9 +31,11 @@ define([
         var $demoContainer = $('.demo-container');
         var $controlContainer = $('.control-container', $demoContainer);
         var $editableContainer = $('.editable-container', $controlContainer);
+        var $toolsContainer = $('.tools-container', $demoContainer);
         var $img = $('.picture', $editableContainer);
         var media = {
             $node: $img,
+            $container: $editableContainer,
             type: 'image/jpeg',
             src: $img.attr('src'),
             width: 500,
@@ -44,9 +46,8 @@ define([
         $container = $('#qunit-fixture');
         assert.equal($container.length, 1, 'The container exists');
 
-        mediaEditorComponent($editableContainer, media, {
+        mediaEditorComponent($toolsContainer, media, {
             mediaDimension: {
-                $container: $controlContainer,
                 active: true
             }
         }).on('change', function(nMedia){

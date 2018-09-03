@@ -66,9 +66,7 @@ define([
      * precision - precision for all calculations (0.00001)
      *
      * @type {{
-     *    getContainerWidth: function,
      *    showResponsiveToggle: boolean,
-     *    responsive: boolean,
      *    showSync: boolean,
      *    showReset: boolean,
      *    denyCustomRatio: boolean,
@@ -82,9 +80,7 @@ define([
      * @private
      */
     var defaultConfig = {
-        getContainerWidth: null,
         showResponsiveToggle: true,
-        responsive: true,
         showSync: true,
         showReset: true,
         sizeProps: {
@@ -142,7 +138,6 @@ define([
         /**
          * Size properties of the media control panel
          * @typedef {Object} mediaSizeProps
-         * @property getContainerWidth function
          * @property showResponsiveToggle boolean
          * @property responsive boolean
          * @property sizeProps sizeProps
@@ -163,9 +158,11 @@ define([
          * Calculate propSizes to have correct sizes for the shown image
          */
         var calculateCurrentSizes = function calculateCurrentSizes(conf) {
+            var mediaContainerWidth = helper.getMediaContainerWidth(media);
             return helper.applyDimensions(conf, {
-                width: (conf.getContainerWidth() < conf.sizeProps.px.natural.width
-                    ? conf.getContainerWidth() : conf.sizeProps.px.natural.width)
+                width: ( mediaContainerWidth < conf.sizeProps.px.natural.width
+                    ? mediaContainerWidth : conf.sizeProps.px.natural.width),
+                maxWidth: helper.getMediaContainerWidth(media)
             });
         };
 
@@ -247,7 +244,10 @@ define([
                         if ($fields['%'].width.val() > $slider.max) {
                             $fields['%'].width.val($slider.max);
                         }
-                        initialConfig = helper.applyDimensions(initialConfig, {percent: $fields['%'].width.val()});
+                        initialConfig = helper.applyDimensions(initialConfig, {
+                            percent: $fields['%'].width.val(),
+                            maxWidth: helper.getMediaContainerWidth(media)
+                        });
                         mediaDimensionComponent.update();
                     }
                 };
@@ -403,6 +403,7 @@ define([
                                     newDimensions = { width: value };
                                 }
                             }
+                            newDimensions.maxWidth = helper.getMediaContainerWidth(media);
                             initialConfig = helper.applyDimensions(initialConfig, newDimensions);
                             mediaDimensionComponent.update();
                         });
@@ -434,7 +435,7 @@ define([
                 .on('slide', function () {
                     // to avoid .00
                     var percent = parseFloat($(this).val()+'');
-                    helper.applyDimensions(initialConfig, { percent: percent });
+                    helper.applyDimensions(initialConfig, { percent: percent, maxWidth: helper.getMediaContainerWidth(media) });
                     mediaDimensionComponent.update();
                 });
 
@@ -467,11 +468,6 @@ define([
                 initialConfig.sizeProps.ratio.natural = helper.round(initialConfig.sizeProps.px.natural.width / initialConfig.sizeProps.px.natural.height, initialConfig.precision);
                 initialConfig.responsive = (typeof initialConfig.responsive !== 'undefined') ? initialConfig.responsive : true;
                 initialConfig.sizeProps.currentUtil = initialConfig.responsive ? '%' : 'px';
-                if (typeof initialConfig.getContainerWidth !== 'function') {
-                    initialConfig.getContainerWidth = function() {
-                        throw new Error('mediaDimensionComponent requires method getContainerWidth to edit media');
-                    };
-                }
                 this.render($container);
             })
             .on('render', function () {
@@ -501,7 +497,7 @@ define([
                 } else {
                     if (initialConfig.responsive) {
                         // initialize by percent on the responsive mode
-                        initialConfig = helper.applyDimensions(initialConfig, { percent: media.width });
+                        initialConfig = helper.applyDimensions(initialConfig, { percent: media.width, maxWidth: helper.getMediaContainerWidth(media) });
                     } else {
                         // non-responsive mode
                         initialConfig.sizeProps.px.current = {
@@ -509,7 +505,7 @@ define([
                             height: media.height
                         };
                         // calculate percent
-                        initialConfig.sizeProps['%'].current.width = helper.round(media.width * 100 / initialConfig.getContainerWidth(), initialConfig.precision);
+                        initialConfig.sizeProps['%'].current.width = helper.round(media.width * 100 / helper.getMediaContainerWidth(media), initialConfig.precision);
                     }
                 }
 

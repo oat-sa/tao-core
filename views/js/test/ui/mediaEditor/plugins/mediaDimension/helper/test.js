@@ -25,9 +25,6 @@ define([
     'use strict';
 
     var workingConfiguration = {
-        getContainerWidth: function getContainerWidth(){
-            return 800;
-        },
         showResponsiveToggle: true,
         sizeProps: {
             px: {
@@ -83,7 +80,7 @@ define([
         assert.equal(conf.sizeProps.px.current.width, 100, 'The width set at init is correct');
         assert.equal(conf.sizeProps.px.current.height, 100, 'The height set at init is correct');
 
-        conf = helper.applyDimensions(conf, {width: 50});
+        conf = helper.applyDimensions(conf, { width: 50, maxWidth: 800 });
 
         assert.equal(conf.sizeProps['%'].current.width, 6.25, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 50, 'The width changed according to percent');
@@ -95,7 +92,7 @@ define([
         conf.syncDimensions = true;
         QUnit.expect(3);
 
-        conf = helper.applyDimensions(conf, {width: 250});
+        conf = helper.applyDimensions(conf, { width: 250, maxWidth: 800 });
 
         assert.equal(conf.sizeProps['%'].current.width, 31.25, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 250, 'The width changed according to percent');
@@ -107,7 +104,7 @@ define([
         QUnit.expect(3);
 
         conf.syncDimensions = true;
-        conf = helper.applyDimensions(conf, {height: 250});
+        conf = helper.applyDimensions(conf, { height: 250, maxWidth: 800 });
 
         assert.equal(conf.sizeProps['%'].current.width, 31.25, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 250, 'The width changed according to percent');
@@ -119,7 +116,7 @@ define([
         conf.syncDimensions = true;
         QUnit.expect(9);
 
-        conf = helper.applyDimensions(conf, {width: 22.345676});
+        conf = helper.applyDimensions(conf, { width: 22.345676, maxWidth: 800 });
 
         assert.equal(conf.sizeProps['%'].current.width, 2.7933, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 22.346, 'The width changed according to percent');
@@ -136,7 +133,7 @@ define([
             }
         };
 
-        conf = helper.applyDimensions(conf, {width: 22});
+        conf = helper.applyDimensions(conf, { width: 22, maxWidth: 800 });
 
         assert.equal(conf.sizeProps['%'].current.width, 2.75, 'The percent not changed');
         assert.equal(conf.sizeProps.px.current.width, 22, 'The width changed according to percent');
@@ -153,7 +150,7 @@ define([
             }
         };
 
-        conf = helper.applyDimensions(conf, {width: -22.448});
+        conf = helper.applyDimensions(conf, { width: -22.448, maxWidth: 800 });
         assert.equal(conf.sizeProps['%'].current.width, 1, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, -22.448, 'The width changed according to percent');
         assert.equal(conf.sizeProps.px.current.height, -15.439, 'The height changed according to percent');
@@ -164,7 +161,7 @@ define([
         conf.syncDimensions = true;
         QUnit.expect(3);
 
-        conf = helper.applyDimensions(conf, {percent: 150});
+        conf = helper.applyDimensions(conf, { percent: 150, maxWidth: 800 });
 
         assert.equal(conf.sizeProps['%'].current.width, 100, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 800, 'The width changed');
@@ -176,7 +173,7 @@ define([
         conf.syncDimensions = true;
         QUnit.expect(4);
 
-        conf = helper.applyDimensions(conf, {percent: 15});
+        conf = helper.applyDimensions(conf, { percent: 15, maxWidth: 800 });
 
         assert.equal(conf.sizeProps['%'].current.width, 15, 'The percent changed');
         assert.equal(conf.sizeProps['%'].current.height, null, 'The height is null');
@@ -191,25 +188,25 @@ define([
         QUnit.expect(12);
 
         conf.syncDimensions = false;
-        conf = helper.applyDimensions(conf, {width: 150});
+        conf = helper.applyDimensions(conf, { width: 150, maxWidth: 800 });
         assert.equal(conf.sizeProps['%'].current.width, 18.75, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 150, 'The width updated');
         assert.equal(conf.sizeProps.px.current.height, 100, 'The height not touched');
 
         conf.syncDimensions = true;
-        conf = helper.applyDimensions(conf, {height: 150});
+        conf = helper.applyDimensions(conf, { height: 150, maxWidth: 800 });
         assert.equal(conf.sizeProps['%'].current.width, 18.75, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 225, 'The width changed');
         assert.equal(conf.sizeProps.px.current.height, 150, 'The height changed');
 
         conf.syncDimensions = false;
-        conf = helper.applyDimensions(conf, {height: 200});
+        conf = helper.applyDimensions(conf, { height: 200, maxWidth: 800 });
         assert.equal(conf.sizeProps['%'].current.width, 18.75, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 225, 'The width not changed');
         assert.equal(conf.sizeProps.px.current.height, 200, 'The height changed');
 
         conf.syncDimensions = true;
-        conf = helper.applyDimensions(conf, {width: 200});
+        conf = helper.applyDimensions(conf, { width: 200, maxWidth: 800 });
         assert.equal(conf.sizeProps['%'].current.width, 25, 'The percent changed');
         assert.equal(conf.sizeProps.px.current.width, 200, 'The width changed');
         assert.equal(conf.sizeProps.px.current.height, 177.78 , 'The height changed');

@@ -41,6 +41,7 @@ define([
     /**
      * @typedef {Object} mediaObject
      * @property $node
+     * @property $container
      * @property type
      * @property src
      * @property width
@@ -51,8 +52,8 @@ define([
 
     /**
      * @typedef {Object} mediaEditorConfig
-     * @property mediaDimension {{$container: object, active: boolean}}
-     * @property mediaAlignment {{$container: object, active: boolean}}
+     * @property mediaDimension {{active: boolean}}
+     * @property mediaAlignment {{active: boolean}}
      */
 
     /**
@@ -64,7 +65,6 @@ define([
      */
     var defaultConfig = {
         mediaDimension: {
-            $container: null,
             active: false
         }
     };
@@ -87,22 +87,18 @@ define([
             .setTemplate(tpl)
             .on('init', function () {
                 if (!media || !media.$node || !media.$node.length) {
-                    throw new Error('mediaEditorComponent requires media $node');
+                    throw new Error('mediaEditorComponent requires media.$node');
+                }
+                if (!media || !media.$container || !media.$container.length) {
+                    throw new Error('mediaEditorComponent requires media.$container');
                 }
                 this.render($container);
             })
             .on('render', function () {
-                var self = this, $selfContainer;
-                if (this.getConfig().mediaDimension.active
-                    && this.getConfig().mediaDimension.$container
-                ) {
-                    $selfContainer = this.getContainer();
-                    mediaDimensionComponent(this.getConfig().mediaDimension.$container, media, {
-                        getContainerWidth: function getContainerWidth() {
-                            return $selfContainer.innerWidth();
-                        },
-                        responsive: media.responsive
-                    })
+                var self = this;
+                var $dimensionTools = $('.media-dimension', this.getTemplate());
+                if (this.getConfig().mediaDimension.active) {
+                    mediaDimensionComponent($dimensionTools, media)
                         .on('change', function (conf) {
                             media.responsive = conf.responsive;
                             if (conf.responsive) {
