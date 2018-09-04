@@ -77,7 +77,7 @@ class tao_helpers_Uri
      */
     public static function getBaseUrl()
     {
-        if (is_null(self::$base) && defined('BASE_URL')) {
+        if (empty(self::$base) && defined('BASE_URL')) {
             self::$base = BASE_URL;
             if (!preg_match("/\/$/", self::$base)) {
                 self::$base .= '/';
@@ -96,7 +96,7 @@ class tao_helpers_Uri
      */
     public static function getRootUrl()
     {
-        if (is_null(self::$root) && defined('ROOT_URL')) {
+        if (empty(self::$root) && defined('ROOT_URL')) {
             self::$root = ROOT_URL;
             if (!preg_match("/\/$/", self::$root)) {
                 self::$root .= '/';
