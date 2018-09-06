@@ -47,10 +47,10 @@ define([
         var err;
         if(response && response.errorCode){
             err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage || response.error));
-            err.response = response;
         } else {
             err = new Error(fallbackMessage);
         }
+        err.response = response;
         if (httpCode) {
             err.code = httpCode;
         }
@@ -100,7 +100,7 @@ define([
                 try {
                     response = JSON.parse(xhr.responseText);
                 } catch(parseErr){
-                    _.noop();
+                    response = xhr.responseText;
                 }
 
                 return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
