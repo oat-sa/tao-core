@@ -334,7 +334,7 @@ class Bootstrap implements ServiceManagerAwareInterface
 
     /**
      * Load external resources for the current context
-     * @see tao_helpers_Scriptloader
+     * @see \tao_helpers_Scriptloader
      */
     protected function scripts()
     {

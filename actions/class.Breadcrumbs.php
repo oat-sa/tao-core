@@ -55,6 +55,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
         }
 
         $resolvedRoute = new Resolver(new \common_http_Request($route));
+        $this->propagate($resolvedRoute);
         $parsedRoute['extension']         = $resolvedRoute->getExtensionId();
         $parsedRoute['controller']        = $resolvedRoute->getControllerShortName();
         $parsedRoute['controller_class']  = $resolvedRoute->getControllerClass();

@@ -172,15 +172,4 @@ class Resolver implements ServiceLocatorAwareInterface
         $className = $routeData['class'];
         return new $className($extension, trim($routeId, '/'), $routeData);
     }
-
-    /**
-     * @return ServiceLocatorAwareInterface
-     */
-    public function getServiceLocator()
-    {
-        if ($this->serviceLocator === null) {
-            $this->serviceLocator = ServiceManager::getServiceManager();
-        }
-        return $this->serviceLocator;
-    }
 }
