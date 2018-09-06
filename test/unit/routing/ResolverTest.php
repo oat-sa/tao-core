@@ -23,9 +23,9 @@ namespace oat\tao\test\unit\routing;
 use oat\generis\test\TestCase;
 use oat\tao\model\routing\Resolver;
 use oat\tao\test\unit\routing\samples\FooControllerA;
-use oat\oatbox\service\ServiceManager;
 use common_ext_Manifest as Manifest;
 use common_ext_ExtensionsManager as ExtensionsManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class ResolverTest
@@ -96,7 +96,7 @@ class ResolverTest extends TestCase
     }
 
     /**
-     * @return ServiceManager
+     * @return ServiceLocatorInterface
      * @throws \common_Exception
      * @throws \common_ext_MalformedManifestException
      * @throws \common_ext_ManifestNotFoundException
@@ -125,15 +125,14 @@ class ResolverTest extends TestCase
         $fooExt->method('getManifest')
             ->willReturn(new Manifest(__DIR__ . DIRECTORY_SEPARATOR . 'samples/fooManifest.php'));
 
-
         $extensionsManagerMock->method('getExtensionById')
             ->will($this->returnValueMap([
                 ['legacy', $legacyExt],
                 ['foo', $fooExt],
             ]));
 
-        $config = new \common_persistence_KeyValuePersistence([], new \common_persistence_InMemoryKvDriver());
-        $config->set(ExtensionsManager::SERVICE_ID, $extensionsManagerMock);
-        return new ServiceManager($config);
+        $slProphecy = $this->prophesize(ServiceLocatorInterface::class);
+        $slProphecy->get(ExtensionsManager::SERVICE_ID)->willReturn($extensionsManagerMock);
+        return $slProphecy->reveal();
     }
 }
