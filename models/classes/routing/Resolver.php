@@ -51,7 +51,8 @@ class Resolver implements ServiceLocatorAwareInterface
     
     private $action;
 
-    static $extRoutes = [];
+    /** @var array array of available routes indexed by extension identifier */
+    private static $extRoutes = [];
 
     /**
      * Resolves a request to a method
