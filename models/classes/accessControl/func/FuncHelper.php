@@ -23,6 +23,7 @@ namespace oat\tao\model\accessControl\func;
 use oat\tao\model\routing\Resolver;
 use common_http_Request;
 use common_exception_Error;
+use oat\oatbox\service\ServiceManager;
 
 /**
  */
@@ -34,7 +35,7 @@ class FuncHelper
      * @param string $extension 
      * @param string $shortname
      * @return string the full class name (as defined in PHP) 
-     * @throws ResolverException
+     * @throws \ResolverException::
      */
     public static function getClassName($extension, $shortName) {
         $url = _url('index', $shortName, $extension);
@@ -44,7 +45,7 @@ class FuncHelper
     /**
      * Helps you to get the name of the class for a given URL. The controller class name is used in privileges definition.
      * @param string $url 
-     * @throws ResolverException
+     * @throws \ResolverException
      * @return string the className
      */
     public static function getClassNameByUrl($url){
@@ -52,6 +53,7 @@ class FuncHelper
         if(!empty($url)){
             try{
                 $route = new Resolver(new common_http_Request($url));
+                $route->setServiceLocator(ServiceManager::getServiceManager());
                 $class = $route->getControllerClass();
             } catch(\ResolverException $re){
                 throw new common_exception_Error('The url "'.$url.'" could not be mapped to a controller : ' . $re->getMessage());
