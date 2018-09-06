@@ -28,11 +28,11 @@ use common_ext_Manifest as Manifest;
 use common_ext_ExtensionsManager as ExtensionsManager;
 
 /**
- * Class TestResolver
+ * Class ResolverTest
  * @package oat\tao\test\unit\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class TestResolver extends TestCase
+class ResolverTest extends TestCase
 {
 
     public function testGetExtensionId()
