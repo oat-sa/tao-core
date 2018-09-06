@@ -23,6 +23,8 @@ namespace oat\tao\model\accessControl;
 use oat\tao\model\routing\Resolver;
 use common_http_Request;
 use common_exception_Error;
+use oat\oatbox\service\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Wrap the {@link Resolver} for the needs of access controls in order to get controller and action from a url.
@@ -43,8 +45,8 @@ class ActionResolver
      * Build the helper from the controller className
      * @param string $extension 
      * @param string $shortname
-     * @return ActionHelper 
-     * @throws ResolverException
+     * @return ActionResolver
+     * @throws \ResolverException
      */
     public static function getByControllerName($shortName, $extension) {
         $url = _url('index', $shortName, $extension);
@@ -52,10 +54,11 @@ class ActionResolver
     }
 
     /**
-     * @throws ResolverException
+     * @throws \ResolverException
      */
     private function loadFromUrl($url){
         $route = new Resolver(new common_http_Request($url));
+        $route->setServiceLocator($this->getServiceLocator());
         $this->controller   = $route->getControllerClass();
         $this->action       = $route->getMethodName();
     }
@@ -66,5 +69,13 @@ class ActionResolver
 
     public function getController(){
         return $this->controller;
+    }
+
+    /**
+     * @return ServiceLocatorInterface
+     */
+    public function getServiceLocator()
+    {
+        return ServiceManager::getServiceManager();
     }
 }
