@@ -36,6 +36,7 @@ class UpdateRequiredActionUrl extends InstallAction
         foreach ($actions as $key => $action) {
             if (is_a($action, 'oat\tao\model\requiredAction\implementation\RequiredActionRedirect')) {
                 $request = new Resolver(new \common_http_Request($action->getUrl()));
+                $this->propagate($request);
                 $actions[$key] = new RequiredActionRedirectUrlPart(
                     $action->getName(),
                     $action->getRules(),
