@@ -77,8 +77,12 @@ $msg .= '<ul>';
         }).on('continue', function(){
             refreshTree(this.selectedNode);
         }).on('error', function(err){
-            //format and display error message to user
-            feedback().error(err);
+            if (err.code === 200) {
+                $container.html(err.response)
+            } else {
+                //format and display error message to user
+                feedback().error(err);
+            }
         }).render($oldSubmitter.closest('.form-toolbar'));
 
         //replace the old submitter with the new one and apply its style

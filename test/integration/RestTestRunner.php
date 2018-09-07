@@ -8,6 +8,7 @@ use \common_persistence_Manager;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 
 abstract class RestTestRunner extends TaoPhpUnitTestRunner

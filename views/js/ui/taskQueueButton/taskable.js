@@ -132,6 +132,7 @@ define([
             }).catch(function (err) {
                 //in case of error display it and continue task queue activity
                 taskQueue.pollAll();
+                loadingBar.stop();
                 self.trigger('error', err);
             });
         },

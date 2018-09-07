@@ -161,6 +161,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         );
         try {
             $route = new Resolver(new common_http_Request($url));
+            $this->propagate($route);
         } catch (ResolverException $re){
             throw new Exception(__('Wrong or missing parameter extension, module or action'), $re);
         }

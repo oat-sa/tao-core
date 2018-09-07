@@ -54,6 +54,7 @@ class TaoFrontController implements ServiceManagerAwareInterface
      */
     public function legacy(common_http_Request $pRequest) {
         $resolver = new Resolver($pRequest);
+        $this->propagate($resolver);
 
         // load the responsible extension
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());

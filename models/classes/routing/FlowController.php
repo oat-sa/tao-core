@@ -70,7 +70,8 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
 
         //resolve the given URL for routing
         $resolver = new Resolver(new common_http_Request($parsedUrl['path'], $request->getMethod(), $params));
-        
+        $this->propagate($resolver);
+
 	    $context = Context::getInstance();
 
         // load the responsible extension
