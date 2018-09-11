@@ -281,6 +281,12 @@ try{
     	}
     	else{
 	    	switch ($input['type']){
+                case 'Install':
+                    if (tao_install_utils_System::isTAOInstalled() && !tao_install_utils_System::isTAOInDebugMode()) {
+                        $errorMessage = 'System is already installed in production mode and can not be reinstalled.';
+                        throw new tao_install_api_NotAllowedAPICallException($errorMessage);
+                    }
+
 	            case 'CheckPHPConfig':
 	            case 'CheckPHPRuntime':
 	            case 'CheckPHPINIValue':
@@ -290,7 +296,6 @@ try{
 	            case 'CheckDatabaseConnection':
                 case 'CheckTAOForgeConnection':
 	            case 'CheckCustom':
-	            case 'Install':
 	                $data = new tao_install_services_Data($rawInput);
 	                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
 	                $service = $class->newInstance($data);
@@ -329,6 +334,11 @@ catch (tao_install_api_InvalidAPICallException $e){
     header("HTTP/1.0 400 Bad Request");
     header("Content-Type:text; charset=UTF-8");
     echo $e->getMessage();
+}
+catch (tao_install_api_NotAllowedAPICallException $e) {
+    header('HTTP/1.0 405 Method Not Allowed');
+    header('Content-Type:text; charset=UTF-8');
+    echo "Error: " . $e->getMessage();
 }
 catch (Exception $e){
     header('HTTP/1.0 500 Internal Server Error');

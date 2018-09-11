@@ -31,7 +31,16 @@
  
  */
 class tao_install_utils_System{
-	
+
+    /**
+     * Checks if system is installed in Debug mode.
+     *
+     * @return bool
+     */
+    public static function isTAOInDebugMode(){
+        return defined('DEBUG_MODE') && (bool) DEBUG_MODE;
+    }
+
 	/**
 	 * Get informations on the host system.
      * 
