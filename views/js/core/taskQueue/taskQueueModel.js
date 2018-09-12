@@ -179,6 +179,22 @@ define([
             },
 
             /**
+             * Get the task data, but try the cache first!
+             * @returns {Promise}
+             */
+            getCached : function getCached(taskId) {
+                var self = this;
+
+                return new Promise(function (resolve) {
+                    if (_cache && _cache[taskId]) {
+                        resolve(_cache[taskId]);
+                    } else {
+                        return self.get(taskId);
+                    }
+                });
+            },
+
+            /**
              * Get the status of all task identified by their unique task id
              *
              * @returns {Promise} - resolved when the server response has been received
@@ -483,6 +499,25 @@ define([
                             reject(err);
                         }
                     });
+                });
+            },
+
+            /**
+             * Call the task result redirection endpoint
+             * @param {String} taskId - the task id
+             * @returns {Promise}
+             */
+            redirect : function download(taskId){
+                return this.getCached(taskId).then(function(taskData) {
+                    var redirectUrl = (taskData || {}).redirectUrl;
+                    if(!redirectUrl){
+                        throw new TypeError('config.redirectUrl is not configured while redirect() is being called');
+                    }
+
+                    if(redirectUrl.indexOf('http') !== 0) {
+                        throw new TypeError('redirectUrl does not look like a proper url: ' + redirectUrl);
+                    }
+                    window.location.href = taskData.redirectUrl;
                 });
             }
         });
