@@ -24,13 +24,4 @@
 /**
  * An Exception that represents a correct called Application Programming Interface which is not allowed.
  */
-class tao_install_api_NotAllowedAPICallException extends Exception{
-    
-    /**
-     * Creates a new instance of NotAllowedAPICallException.
-     * @param string $message A message explaining why this is a bad API call.
-     */
-    public function __construct($message){
-        parent::__construct($message);
-    }
-}
+class tao_install_api_NotAllowedAPICallException extends Exception{}

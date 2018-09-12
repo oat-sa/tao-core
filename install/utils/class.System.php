@@ -38,7 +38,7 @@ class tao_install_utils_System{
      * @return bool
      */
     public static function isTAOInDebugMode(){
-        return defined('DEBUG_MODE') && (bool) DEBUG_MODE;
+        return defined('DEBUG_MODE') && DEBUG_MODE;
     }
 
 	/**
