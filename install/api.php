@@ -336,7 +336,7 @@ catch (tao_install_api_InvalidAPICallException $e){
     echo $e->getMessage();
 }
 catch (tao_install_api_NotAllowedAPICallException $e) {
-    header('HTTP/1.0 405 Method Not Allowed');
+    header('HTTP/1.0 403 Forbidden');
     header('Content-Type:text; charset=UTF-8');
     echo "Error: " . $e->getMessage();
 }
