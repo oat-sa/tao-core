@@ -229,6 +229,20 @@ session_destroy();
 // initialize what we need.
 require_once('init.php');
 
+/**
+ * @param string $rawInput
+ * @param string $serviceName
+ * @return tao_install_services_Service
+ * @throws ReflectionException
+ */
+function getService($rawInput, $serviceName)
+{
+    $data = new tao_install_services_Data($rawInput);
+    $class = new ReflectionClass('tao_install_services_' . $serviceName . 'Service');
+
+    return $class->newInstance($data);
+}
+
 try{
     
     // Deal with the 'CheckProtocol' service first.
@@ -268,15 +282,13 @@ try{
     	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
     		switch($input['type']){
     			case 'CheckPHPConfig':
-					$data = new tao_install_services_Data(json_encode($input));
-	                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
-	                $service = $class->newInstance($data);
-    			break;
+    			    $service = getService(json_encode($input), $input['type']);
+    			    break;
     			
     			default:
 	                // Unknown service.
 	                throw new tao_install_services_UnknownServiceException($input['type']);
-	            break;
+	                break;
     		}
     	}
     	else{
@@ -285,6 +297,9 @@ try{
                     if (tao_install_utils_System::isTAOInstalled() && !tao_install_utils_System::isTAOInDebugMode()) {
                         throw new tao_install_api_NotAllowedAPICallException('The requested service is forbidden.');
                     }
+
+                    $service = getService($rawInput, $input['type']);
+                    break;
 
 	            case 'CheckPHPConfig':
 	            case 'CheckPHPRuntime':
@@ -295,15 +310,13 @@ try{
 	            case 'CheckDatabaseConnection':
                 case 'CheckTAOForgeConnection':
 	            case 'CheckCustom':
-	                $data = new tao_install_services_Data($rawInput);
-	                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
-	                $service = $class->newInstance($data);
-	            break;
+                    $service = getService($rawInput, $input['type']);
+                    break;
 	            
 	            default:
 	                // Unknown service.
 	                throw new tao_install_services_UnknownServiceException($input['type']);
-	            break;
+	                break;
 	        }	
     	}
     
