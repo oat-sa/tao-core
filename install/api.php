@@ -283,8 +283,7 @@ try{
 	    	switch ($input['type']){
                 case 'Install':
                     if (tao_install_utils_System::isTAOInstalled() && !tao_install_utils_System::isTAOInDebugMode()) {
-                        $errorMessage = 'System is already installed in production mode and can not be reinstalled.';
-                        throw new tao_install_api_NotAllowedAPICallException($errorMessage);
+                        throw new tao_install_api_NotAllowedAPICallException('The requested service is forbidden.');
                     }
 
 	            case 'CheckPHPConfig':
