@@ -233,14 +233,17 @@ require_once('init.php');
  * @param string $rawInput
  * @param string $serviceName
  * @return tao_install_services_Service
- * @throws ReflectionException
+ * @throws Exception
  */
 function getService($rawInput, $serviceName)
 {
     $data = new tao_install_services_Data($rawInput);
-    $class = new ReflectionClass('tao_install_services_' . $serviceName . 'Service');
+    $className = "tao_install_services_{$serviceName}Service";
+    if (!class_exists($className)) {
+        throw new Exception("Service does not exist.");
+    }
 
-    return $class->newInstance($data);
+    return new $className($data);
 }
 
 try{
@@ -295,7 +298,7 @@ try{
 	    	switch ($input['type']){
                 case 'Install':
                     if (tao_install_utils_System::isTAOInstalled() && !tao_install_utils_System::isTAOInDebugMode()) {
-                        throw new tao_install_api_NotAllowedAPICallException('The requested service is forbidden.');
+                        throw new \oat\tao\install\api\NotAllowedAPICallException('The requested service is forbidden.');
                     }
 
                     $service = getService($rawInput, $input['type']);
