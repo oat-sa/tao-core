@@ -514,6 +514,36 @@ class tao_helpers_File
     }
 
     /**
+     * Helps prevent decompression attacks.
+     * Since this method checks archive file size, it needs filename property to be set,
+     * so ZipArchive object should be already opened.
+     *
+     * @param \ZipArchive $archive
+     * @return bool
+     * @throws common_Exception
+     *
+     * @link https://en.wikipedia.org/wiki/Zip_bomb
+     */
+    public static function checkWhetherArchiveIsBomb(\ZipArchive $archive)
+    {
+        if (!$archive->filename) {
+            throw new common_Exception('ZIP archive should be opened before checking for a ZIP bomb');
+        }
+
+        $contentSize = 0;
+        for ($fileIndex = 0; $fileIndex < $archive->numFiles; $fileIndex++) {
+            $stats = $archive->statIndex($fileIndex);
+            $contentSize += $stats['size'];
+        }
+
+        $archiveFileSize = filesize($archive->filename);
+
+        $minCompressionRatioToBeBomb = 200;
+
+        return $archiveFileSize * $minCompressionRatioToBeBomb < $contentSize;
+    }
+
+    /**
      * Exclude from Zip
      *
      * Exclude entries matching $pattern from a ZIP Archive.
