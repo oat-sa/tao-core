@@ -30,7 +30,9 @@ class NamespaceRoute extends Route
 {
     const OPTION_NAMESPACE = 'namespace';
     
-    public function resolve($relativeUrl) {
+    public function resolve($request) {
+        $relativeUrl = \tao_helpers_Request::getRelativeUrl($request->getRequestTarget());
+        $parts = explode('/', $relativeUrl);
         $slash = strpos($relativeUrl, '/');
         if ($slash !== false && substr($relativeUrl, 0, $slash) == $this->getId()) {
 	        $config = $this->getConfig();

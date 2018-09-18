@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\routing;
 
+use Psr\Http\Message\ServerRequestInterface;
 /**
  * Class AbstractApiRoute
  * Route for RestApi controllers
@@ -32,10 +33,11 @@ abstract class AbstractApiRoute extends Route
      * @param $relativeUrl
      * @return string
      */
-    public function resolve($relativeUrl)
+    public function resolve(ServerRequestInterface $request)
     {
+        $relativeUrl = \tao_helpers_Request::getRelativeUrl($request->getRequestTarget());
         try {
-            return $this->getController($relativeUrl) . '@' . $this->getAction();
+            return $this->getController($relativeUrl) . '@' . $this->getAction($request->getMethod());
         } catch (\common_exception_BadRequest $e) {
             return null;
         } catch (\common_exception_PreConditionFailure $e) {
@@ -73,10 +75,8 @@ abstract class AbstractApiRoute extends Route
      * @return string
      * @throws \common_exception_BadRequest
      */
-    protected function getAction()
+    protected function getAction($method)
     {
-        $method = \Context::getInstance()->getRequest()->getMethod();
-
         switch ($method) {
             case "GET":
                 $action = 'get';
