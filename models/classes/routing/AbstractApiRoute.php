@@ -38,6 +38,8 @@ abstract class AbstractApiRoute extends Route
             return $this->getController($relativeUrl) . '@' . $this->getAction();
         } catch (\common_exception_BadRequest $e) {
             return null;
+        } catch (\common_exception_PreConditionFailure $e) {
+            return null;
         }
     }
 
@@ -45,11 +47,16 @@ abstract class AbstractApiRoute extends Route
      * @param $relativeUrl
      * @return string
      * @throws \common_exception_BadRequest
+     * @throws \common_exception_PreConditionFailure
      */
     protected function getController($relativeUrl)
     {
         $parts = explode('/', $relativeUrl);
         $prefix = $this->getControllerPrefix();
+        if (strpos($relativeUrl, $this->getId()) !== 0) {
+            throw new \common_exception_PreConditionFailure('Path does not match');
+        }
+
         if (!isset($parts[2])) {
             throw new \common_exception_BadRequest('Missed controller name in uri: ' . $relativeUrl);
         }
@@ -57,6 +64,7 @@ abstract class AbstractApiRoute extends Route
         if (!class_exists($prefix . ucfirst($parts[2]))) {
             throw new \common_exception_BadRequest('Controller ' . $parts[2] . ' does not exists');
         }
+
 
         return $prefix . ucfirst($parts[2]);
     }
