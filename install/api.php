@@ -219,6 +219,8 @@
  *            "name": "db_connection"}}
  */
 
+use oat\tao\install\api\NotAllowedAPICallException;
+
 // use unicode.
 header('Content-Type:text/html; charset=UTF-8');
 
@@ -298,7 +300,7 @@ try{
 	    	switch ($input['type']){
                 case 'Install':
                     if (tao_install_utils_System::isTAOInstalled() && !tao_install_utils_System::isTAOInDebugMode()) {
-                        throw new \oat\tao\install\api\NotAllowedAPICallException('The requested service is forbidden.');
+                        throw new NotAllowedAPICallException('The requested service is forbidden.');
                     }
 
                     $service = getService($rawInput, $input['type']);
@@ -350,7 +352,7 @@ catch (tao_install_api_InvalidAPICallException $e){
     header("Content-Type:text; charset=UTF-8");
     echo $e->getMessage();
 }
-catch (tao_install_api_NotAllowedAPICallException $e) {
+catch (NotAllowedAPICallException $e) {
     header('HTTP/1.0 403 Forbidden');
     header('Content-Type:text; charset=UTF-8');
     echo "Error: " . $e->getMessage();
