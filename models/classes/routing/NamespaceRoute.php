@@ -20,6 +20,7 @@
  */
 namespace oat\tao\model\routing;
 
+use Psr\Http\Message\ServerRequestInterface;
 /**
  * A simple router, that maps a relative Url to
  * namespaced Controller class
@@ -30,7 +31,7 @@ class NamespaceRoute extends Route
 {
     const OPTION_NAMESPACE = 'namespace';
     
-    public function resolve($request) {
+    public function resolve(ServerRequestInterface $request) {
         $relativeUrl = \tao_helpers_Request::getRelativeUrl($request->getRequestTarget());
         $parts = explode('/', $relativeUrl);
         $slash = strpos($relativeUrl, '/');
