@@ -20,6 +20,7 @@
 namespace oat\tao\model\routing;
 
 use common_ext_Extension;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Interface of a router, that based on a relative Url
@@ -94,6 +95,6 @@ abstract class Route
      * 
      * @return string
      */
-    public abstract function resolve($relativeUrl);
+    public abstract function resolve(ServerRequestInterface $request);
     
 }

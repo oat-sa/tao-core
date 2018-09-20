@@ -21,10 +21,11 @@
 namespace oat\tao\model\routing;
 
 use common_http_Request;
-use oat\oatbox\service\ServiceManager;
 use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Resolves a http request to a controller and method
@@ -63,6 +64,19 @@ class Resolver implements ServiceLocatorAwareInterface
        $this->request = $request;
     }
     
+    /**
+     * Return the PSR7 request
+     * @return ServerRequestInterface
+     */
+    public function getRequest() {
+        return new ServerRequest(
+            $this->request->getMethod(),
+            $this->request->getUrl(),
+            $this->request->getHeaders(),
+            $this->request->getBody()
+        );
+    }
+
     public function getExtensionId() {
         if (is_null($this->extensionId)) {
             $this->resolve();
@@ -103,14 +117,13 @@ class Resolver implements ServiceLocatorAwareInterface
      */
     protected function resolve()
     {
-        $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
         $extensionsManager = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
         $installed = $extensionsManager->getInstalledExtensionsIds();
         foreach ($installed as $extId) {
             $extension = $extensionsManager->getExtensionById($extId);
             foreach ($this->getRoutes($extension) as $entry) {
                 $route = $entry['route'];
-                $called = $route->resolve($relativeUrl);
+                $called = $route->resolve($this->getRequest());
                 if (!is_null($called)) {
                     list($controller, $action) = explode('@', $called);
                     $this->controller = $controller;
