@@ -21,6 +21,7 @@
 namespace oat\tao\model\routing;
 
 use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Class AbstractApiRoute
  * Route for RestApi controllers
@@ -30,8 +31,9 @@ use Psr\Http\Message\ServerRequestInterface;
 abstract class AbstractApiRoute extends Route
 {
     /**
-     * @param $relativeUrl
-     * @return string
+     * @param ServerRequestInterface $request
+     * @return null|string
+     * @throws \ResolverException
      */
     public function resolve(ServerRequestInterface $request)
     {
@@ -66,7 +68,6 @@ abstract class AbstractApiRoute extends Route
         if (!class_exists($prefix . ucfirst($parts[2]))) {
             throw new \common_exception_BadRequest('Controller ' . $parts[2] . ' does not exists');
         }
-
 
         return $prefix . ucfirst($parts[2]);
     }
