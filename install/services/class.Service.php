@@ -126,7 +126,7 @@ abstract class tao_install_services_Service{
      * in their implementation.
      * @return tao_install_services_Data The resulting Data.
      */
-    protected abstract function execute();
+    public abstract function execute();
     
     /**
      * Contains the logic of checking the input data for a given service implementation.

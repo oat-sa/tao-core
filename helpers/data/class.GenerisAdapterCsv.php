@@ -166,7 +166,7 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 
                 // validate csv values
                 foreach ($this->options['map'] as $propUri => $csvColumn) {
-                    $this->validate($destination, $propUri, $csvRow, $csvColumn);
+                    $this->validate($destination, $propUri, $csvRow, $csvColumn, $evaluatedData);
                 }
 
                 // evaluate csv values
@@ -341,19 +341,23 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @param $propUri
      * @param $csvRow
      * @param $csvColumn
+     * @param $evaluatedData
      * @throws ValidationException
      * @return bool
      */
-    protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn)
+    protected function validate(core_kernel_classes_Class $destination, $propUri, $csvRow, $csvColumn, $evaluatedData)
     {
         /**  @var tao_helpers_form_Validator $validator */
         $validators = $this->getValidator($propUri);
         foreach ((array)$validators as $validator) {
 
             $validator->setOptions(array_merge(array('resourceClass' => $destination, 'property' => $propUri), $validator->getOptions()));
-
-            if (!$validator->evaluate($csvRow[$csvColumn])) {
-                throw new ValidationException(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn], $validator->getMessage());
+            $value = isset($csvRow[$csvColumn]) ? $csvRow[$csvColumn] : null;
+            if ($value === null) {
+                $value = isset($evaluatedData[$propUri]) ? $evaluatedData[$propUri] : null;
+            }
+            if (!$validator->evaluate($value)) {
+                throw new ValidationException(new core_kernel_classes_Property($propUri), $value, $validator->getMessage());
             }
         }
         return true;

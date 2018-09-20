@@ -36,6 +36,7 @@ use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\scripts\install\SetUpQueueTasks;
 
 $extpath = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
@@ -44,7 +45,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '19.17.1',
+    'version' => '19.24.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=7.8.0',
@@ -111,7 +112,8 @@ return array(
             RegisterResourceEvents::class,
             RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
-            RegisterTaskQueueServices::class
+            RegisterTaskQueueServices::class,
+            SetUpQueueTasks::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
@@ -170,9 +172,9 @@ return array(
     ),
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint81',
+        'TAO_VERSION' => '3.3.0-sprint85',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint81',
+        'TAO_VERSION_NAME' => '3.3.0-sprint85',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

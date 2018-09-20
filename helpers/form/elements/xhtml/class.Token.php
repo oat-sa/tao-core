@@ -33,7 +33,9 @@ class tao_helpers_form_elements_xhtml_Token extends tao_helpers_form_elements_xh
         $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
 
         //always add a new token
-        $this->setValue($tokenService->createToken());
+        $newToken = $tokenService->createToken();
+        $this->setValue($newToken);
+        Context::getInstance()->getResponse()->setCookie($tokenService->getTokenName(), $newToken, null, '/');
 
        return parent::render();
     }
