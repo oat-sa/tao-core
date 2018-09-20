@@ -98,7 +98,7 @@ define([
                 var self = this;
                 var $dimensionTools = $('.media-dimension', this.getTemplate());
                 if (this.getConfig().mediaDimension.active) {
-                    mediaDimensionComponent($dimensionTools, media)
+                    mediaDimensionComponent($dimensionTools, media, {responsive: media.responsive})
                         .on('change', function (conf) {
                             media.responsive = conf.responsive;
                             if (conf.responsive) {
