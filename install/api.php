@@ -219,6 +219,8 @@
  *            "name": "db_connection"}}
  */
 
+use oat\tao\install\api\NotAllowedAPICallException;
+
 // use unicode.
 header('Content-Type:text/html; charset=UTF-8');
 
@@ -228,6 +230,23 @@ session_destroy();
  
 // initialize what we need.
 require_once('init.php');
+
+/**
+ * @param string $rawInput
+ * @param string $serviceName
+ * @return tao_install_services_Service
+ * @throws Exception
+ */
+function getService($rawInput, $serviceName)
+{
+    $data = new tao_install_services_Data($rawInput);
+    $className = "tao_install_services_{$serviceName}Service";
+    if (!class_exists($className)) {
+        throw new Exception("Service does not exist.");
+    }
+
+    return new $className($data);
+}
 
 try{
     
@@ -268,19 +287,25 @@ try{
     	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
     		switch($input['type']){
     			case 'CheckPHPConfig':
-					$data = new tao_install_services_Data(json_encode($input));
-	                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
-	                $service = $class->newInstance($data);
-    			break;
+    			    $service = getService(json_encode($input), $input['type']);
+    			    break;
     			
     			default:
 	                // Unknown service.
 	                throw new tao_install_services_UnknownServiceException($input['type']);
-	            break;
+	                break;
     		}
     	}
     	else{
 	    	switch ($input['type']){
+                case 'Install':
+                    if (tao_install_utils_System::isTAOInstalled() && !tao_install_utils_System::isTAOInDebugMode()) {
+                        throw new NotAllowedAPICallException('The requested service is forbidden.');
+                    }
+
+                    $service = getService($rawInput, $input['type']);
+                    break;
+
 	            case 'CheckPHPConfig':
 	            case 'CheckPHPRuntime':
 	            case 'CheckPHPINIValue':
@@ -290,16 +315,13 @@ try{
 	            case 'CheckDatabaseConnection':
                 case 'CheckTAOForgeConnection':
 	            case 'CheckCustom':
-	            case 'Install':
-	                $data = new tao_install_services_Data($rawInput);
-	                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
-	                $service = $class->newInstance($data);
-	            break;
+                    $service = getService($rawInput, $input['type']);
+                    break;
 	            
 	            default:
 	                // Unknown service.
 	                throw new tao_install_services_UnknownServiceException($input['type']);
-	            break;
+	                break;
 	        }	
     	}
     
@@ -329,6 +351,11 @@ catch (tao_install_api_InvalidAPICallException $e){
     header("HTTP/1.0 400 Bad Request");
     header("Content-Type:text; charset=UTF-8");
     echo $e->getMessage();
+}
+catch (NotAllowedAPICallException $e) {
+    header('HTTP/1.0 403 Forbidden');
+    header('Content-Type:text; charset=UTF-8');
+    echo "Error: " . $e->getMessage();
 }
 catch (Exception $e){
     header('HTTP/1.0 500 Internal Server Error');
