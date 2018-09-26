@@ -23,21 +23,23 @@
 (function(){
     'use strict';
 
+    var parse = function parse(value, defaultOutput){
+        try{
+            return JSON.parse(value);
+        } catch(e){
+            return typeof defaultOutput !== 'undefined' ? defaultOutput : null;
+        }
+    };
+
     var loaderScript = document.getElementById('amd-loader');
-    var configUrl = loaderScript.getAttribute('data-config');
-    var bundle  = loaderScript.getAttribute('data-bundle');
+    var loaderData   = loaderScript.dataset || {};
+    var bundles      = parse(loaderData.bundle, []);
 
     var loadController = function loadController(){
         var started = false;
-        var controllerOptions = {};
-        var controllerPath = loaderScript.getAttribute('data-controller');
-        var params = loaderScript.getAttribute('data-params');
-        try{
-            controllerOptions = JSON.parse(params);
-        } catch(err){
-            controllerOptions = {};
-        }
-        require([controllerPath], function(controller) {
+        var controllerOptions = parse(loaderData.params, {});
+
+        require([loaderData.controller], function(controller) {
             var startController = function startController(){
                 if(!started){
                     started = true;
@@ -50,9 +52,19 @@
             }
         });
     };
-    require([configUrl], function() {
-        if(bundle){
-            require([bundle], loadController);
+
+
+
+    if(!Array.isArray(bundles)){
+        bundles = [bundles];
+    }
+    require([loaderData.config], function() {
+        //we allow to define the bundle dependencies, externally
+        if(window.combinedBundles && window.combinedBundles.length){
+            bundles = window.combinedBundles;
+        }
+        if(bundles && bundles.length){
+            require(bundles, loadController);
         } else {
             loadController();
         }

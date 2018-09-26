@@ -13,11 +13,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  *
  */
-define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, context, UrlParser, async) {
+define([
+    'jquery',
+    'lodash',
+    'context',
+    'urlParser',
+    'async'
+], function ($, _, context, UrlParser, asyncHelper) {
     'use strict';
 
     /**
@@ -39,14 +45,16 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
          * @param {Array|String} url - the urls to try to dispatch
          * @param {Function} cb - a callback executed once dispatched
          */
-         dispatch : function(urls, cb){
-             if(!_.isArray(urls)){
-                 urls = [urls];
-             }
+        dispatch : function dispatch(urls, cb){
+            var routed = false;
+            var counter = 0;
+            var size;
+            if(!_.isArray(urls)){
+                urls = [urls];
+            }
 
-             var routed = false;
-             var counter = 0, size = urls.length;
-             async.whilst(
+            size = urls.length;
+            asyncHelper.whilst(
                 function whileTest () { return routed === false && counter < size; },
                 function tryToDispatch (done) {
                     _dispatch(urls[counter], function(){
@@ -63,7 +71,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                     }
                 }
              );
-         }
+        }
     };
 
     /**
@@ -98,81 +106,85 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
         //parse the URL
         var route = parseMvcUrl(url);
         var routeModule;
+        var routeBundle;
         if(route){
+            routeBundle = route.extension === 'tao' ? 'loader/tao.min' : route.extension + '/loader/' + route.extension + '.min';
+            require([routeBundle], function(){
 
-            routeModule = route.extension === 'tao' ? 'controller/routes' : route.extension + '/controller/routes';
+                routeModule = route.extension === 'tao' ? 'controller/routes' : route.extension + '/controller/routes';
 
-            //loads the routing for the current extensino
-            require([routeModule], function(routes){
-
-                if(routes && routes[route.module]){
-
-                    //get the dependencies for the current context
-                    var moduleRoutes = routes[route.module];
+                //loads the routing for the current extensino
+                require([routeModule], function(routes){
+                    var moduleRoutes;
                     var dependencies = [];
                     var styles       = [];
                     var action;
                     var mapStyle = function mapStyle(style){
                         return 'css!' + route.extension + 'Css/' +  style;
                     };
+                    if(routes && routes[route.module]){
 
-                    //resolve controller dependencies
-                    if(moduleRoutes.deps){
-                       dependencies = dependencies.concat(moduleRoutes.deps);
-                    }
-                    if(moduleRoutes.css){
-                        styles = _.isArray(moduleRoutes.css) ? moduleRoutes.css : [moduleRoutes.css];
-                        dependencies = dependencies.concat(_.map(styles, mapStyle));
-                    }
+                        //get the dependencies for the current context
+                        moduleRoutes = routes[route.module];
 
-                    //resolve actions dependencies
-                    if( (moduleRoutes.actions && moduleRoutes.actions[route.action]) || moduleRoutes[route.action]){
-                        action = moduleRoutes.actions[route.action] || moduleRoutes[route.action];
-                        if(_.isString(action) || _.isArray(action)){
-                            dependencies = dependencies.concat(action);
+                        //resolve controller dependencies
+                        if(moduleRoutes.deps){
+                        dependencies = dependencies.concat(moduleRoutes.deps);
                         }
-                        if(action.deps){
-                            dependencies = dependencies.concat(action.deps);
-                        }
-                        if(action.css){
-                            styles = _.isArray(action.css) ? action.css : [action.css];
+                        if(moduleRoutes.css){
+                            styles = _.isArray(moduleRoutes.css) ? moduleRoutes.css : [moduleRoutes.css];
                             dependencies = dependencies.concat(_.map(styles, mapStyle));
                         }
-                    }
 
-                    //alias controller/ to extension/controller
-                    dependencies = _.map(dependencies, function(dep){
-                        return (/^controller/.test(dep) && route.extension !== 'tao') ?  route.extension + '/' + dep : dep;
-                    });
+                        //resolve actions dependencies
+                        if( (moduleRoutes.actions && moduleRoutes.actions[route.action]) || moduleRoutes[route.action]){
+                            action = moduleRoutes.actions[route.action] || moduleRoutes[route.action];
+                            if(_.isString(action) || _.isArray(action)){
+                                dependencies = dependencies.concat(action);
+                            }
+                            if(action.deps){
+                                dependencies = dependencies.concat(action.deps);
+                            }
+                            if(action.css){
+                                styles = _.isArray(action.css) ? action.css : [action.css];
+                                dependencies = dependencies.concat(_.map(styles, mapStyle));
+                            }
+                        }
 
-                    //URL parameters are given by default to the required module (through module.confid())
-                    if(!_.isEmpty(route.params)){
-                        var moduleConfig =  {};
-                        _.forEach(dependencies, function(dependency){
-
-                            //inject parameters using the curent requirejs contex. This rely on a private api...
-                            moduleConfig[dependency] = _.merge(_.clone(requirejs.s.contexts._.config.config[dependency] || {}), route.params);
+                        //alias controller/ to extension/controller
+                        dependencies = _.map(dependencies, function(dep){
+                            return (/^controller/.test(dep) && route.extension !== 'tao') ?  route.extension + '/' + dep : dep;
                         });
-                        requirejs.config({ config : moduleConfig });
-                    }
 
-                    //loads module and action's dependencies and start the controllers.
-                    if(dependencies.length > 0){
-                        require(dependencies, function(){
-                            _.forEach(arguments, function(dependency){
-                                if(dependency && _.isFunction(dependency.start)){
-                                    dependency.start();
+                        //URL parameters are given by default to the required module (through module.confid())
+                        if(!_.isEmpty(route.params)){
+                            var moduleConfig =  {};
+                            _.forEach(dependencies, function(dependency){
+
+                                //inject parameters using the curent requirejs contex. This rely on a private api...
+                                moduleConfig[dependency] = _.merge(_.clone(requirejs.s.contexts._.config.config[dependency] || {}), route.params);
+                            });
+                            requirejs.config({ config : moduleConfig });
+                        }
+
+                        //loads module and action's dependencies and start the controllers.
+                        if(dependencies.length > 0){
+                            require(dependencies, function(){
+                                _.forEach(arguments, function(dependency){
+                                    if(dependency && _.isFunction(dependency.start)){
+                                        dependency.start();
+                                    }
+                                });
+                                if(_.isFunction(cb)){
+                                    cb();
                                 }
                             });
-                            if(_.isFunction(cb)){
-                                cb();
-                            }
-                        });
+                        }
                     }
-                }
-                if(_.isFunction(done)){
-                    done();
-                }
+                    if(_.isFunction(done)){
+                        done();
+                    }
+                });
             });
         }
     };

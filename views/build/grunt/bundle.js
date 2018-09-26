@@ -1,110 +1,66 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technlogies SA
+ *
+ */
+
+/**
+ * Main bundle configuration, as well as for the TAO extension
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 module.exports = function(grunt) {
     'use strict';
-
-    var root        = grunt.option('root');
-    var libs        = grunt.option('mainlibs');
-    var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var out         = 'output';
+    const root        = grunt.option('root');
+    const workDir     = grunt.option('output');
 
     grunt.config.merge({
-        requirejs : {
-            //general options for all requirejs tasks
-            options : {
-                optimize: 'uglify2',
-                uglify2: {
-                    mangle : false,
-                    output: {
-                        'max_line_len': 666
-                    }
-                },
-                //optimize : 'none',
-                preserveLicenseComments: false,
-                optimizeAllPluginResources: true,
-                findNestedDependencies : true,
-                skipDirOptimize: true,
-                optimizeCss : 'none',
-                buildCss : false,
-                inlineText: true,
-                skipPragmas : true,
-                generateSourceMaps : true,
-                removeCombined : true,
-                baseUrl : '../js',
-                mainConfigFile : './config/requirejs.build.js',
+        bundle : {
+            //options that apply for all extensions
+            options: {
+                rootExtension        : 'tao',
+                getExtensionPath     : extension => `${root}/${extension}/views/js`,
+                getExtensionCssPath  : extension => `${root}/${extension}/views/css`,
+                amd                  : require('../config/requirejs.build.json'),
+                workDir              : workDir,
+                outputDir            : 'loader'
             },
 
-            taobundle : {
-                options: {
-                    dir : out,
-                    modules : [{
-                        name: 'controller/login',
-                        include: ['lib/require', 'loader/bootstrap'],
-                        exclude : ['json!i18ntr/messages.json']
-                    }, {
-                        name: 'controller/backoffice',
-                        include: ['lib/require', 'loader/bootstrap'].concat(libs),
-                        exclude: ['json!i18ntr/messages.json',  'mathJax', 'ckeditor']
-                    }, {
-                        name: 'controller/app',
-                        include: ['lib/require', 'loader/bootstrap'].concat(libs),
-                        exclude : ['json!i18ntr/messages.json']
-                    }, {
-                        name: 'controller/routes',
-                        include : ext.getExtensionsControllers(['tao']),
-                        exclude : ['mathJax', 'controller/login', 'controller/backoffice'].concat(libs)
-                    }]
-                }
-            }
-        },
-
-        clean: {
-            options : {
-                force : true
-            },
-            bundle : [out]
-        },
-
-        copy : {
-            options : {
-                process: function (content, srcpath) {
-                    //because we change the bundle names during copy
-                    if(/routes\.js$/.test(srcpath)){
-                        return content.replace('routes.js.map', 'controllers.min.js.map');
-                    }
-                    return content;
-                }
-            },
-
-            taobundle : {
-                files: [
-                    { src: [out + '/controller/login.js'],            dest: '../js/loader/login.min.js' },
-                    { src: [out + '/controller/login.js.map'],        dest: '../js/loader/login.min.js.map' },
-                    { src: [out + '/controller/backoffice.js'],       dest: '../js/loader/backoffice.min.js' },
-                    { src: [out + '/controller/backoffice.js.map'],   dest: '../js/loader/backoffice.min.js.map' },
-                    { src: [out + '/controller/app.js'],              dest: '../js/loader/app.min.js' },
-                    { src: [out + '/controller/app.js.map'],          dest: '../js/loader/app.min.js.map' },
-                    { src: [out + '/controller/routes.js'],           dest: '../js/controllers.min.js' },
-                    { src: [out + '/controller/routes.js.map'],       dest: '../js/controllers.min.js.map' }
-                ],
+            tao : {
                 options : {
-                    process: function (content, srcpath) {
-                        //because we change the bundle names during copy
-                        if(/login\.js$/.test(srcpath)){
-                            return content.replace('login.js.map', 'login.min.js.map');
-                        }
-                        if(/backoffice\.js$/.test(srcpath)){
-                            return content.replace('backoffice.js.map', 'backoffice.min.js.map');
-                        }
-                        if(/routes\.js$/.test(srcpath)){
-                            return content.replace('routes.js.map', 'controllers.min.js.map');
-                        }
-
-                        return content;
-                    }
+                    extension : 'tao',
+                    bundles : [{
+                        name   : 'vendor',
+                        vendor : true
+                    }, {
+                        name      : 'login',
+                        bootstrap : true,
+                        default   : false,
+                        entryPoint: 'controller/login'
+                    }, {
+                        name      : 'tao',
+                        bootstrap : true,
+                        default   : true,
+                        include   : ['layout/**/*', 'form/**/*', 'lock', 'report', 'users']
+                    }]
                 }
             }
         }
     });
 
-    // bundle task
-    grunt.registerTask('taobundle', ['clean:bundle', 'requirejs:taobundle', 'copy:taobundle']);
+    // bundle task alias
+    grunt.registerTask('taobundle', ['bundle:tao']);
 };
