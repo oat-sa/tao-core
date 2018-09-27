@@ -167,9 +167,11 @@ class MenuService {
 		        }
 		    } 
 		}
-		
-        $sortCb = create_function('$a,$b', "return \$a->getLevel() - \$b->getLevel(); ");
-		usort($perspectives, $sortCb);
+
+        usort($perspectives, function ($a, $b) {
+            return $a->getLevel() - $b->getLevel();
+        });
+
 		return array(
 			'perspectives' => $perspectives
 		);

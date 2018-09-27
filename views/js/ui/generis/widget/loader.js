@@ -35,6 +35,7 @@ define([
     var _widgetFactories = {
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox': checkBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox': comboBoxFactory,
+        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget': comboBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox': hiddenBoxFactory,
         'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox': textBoxFactory
     };

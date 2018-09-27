@@ -32,12 +32,20 @@ use oat\generis\model\OntologyRdf;
  */
 class JsonLdExport implements \JsonSerializable
 {
+
     /**
-     * Resoruce to export
-     * @var core_kernel_classes_Resource
+     * @var \core_kernel_classes_ContainerCollection
      */
-    private $resource;
-    
+    private $triples;
+
+    /**
+     * @var \core_kernel_classes_Class[]
+     */
+    private $types;
+
+    /** @var string */
+    private $uri;
+
     /**
      * List of uris to exclude during export:
      * 
@@ -72,9 +80,37 @@ class JsonLdExport implements \JsonSerializable
      * 
      * @param core_kernel_classes_Resource $resource
      */
-    public function __construct(core_kernel_classes_Resource $resource)
+    public function __construct(core_kernel_classes_Resource $resource = null)
     {
-        $this->resource = $resource;
+        if(!is_null($resource)){
+            $this->setTriples($resource->getRdfTriples());
+            $this->setTypes($resource->getTypes());
+            $this->setUri($resource->getUri());
+        }
+    }
+
+    /**
+     * @param \core_kernel_classes_ContainerCollection $triples
+     */
+    public function setTriples(\core_kernel_classes_ContainerCollection $triples)
+    {
+        $this->triples = $triples;
+    }
+
+    /**
+     * @param array $types
+     */
+    public function setTypes($types)
+    {
+        $this->types = $types;
+    }
+
+    /**
+     * @param string $uri
+     */
+    public function setUri($uri)
+    {
+        $this->uri = $uri;
     }
 
     /**
@@ -83,7 +119,7 @@ class JsonLdExport implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        $triples = $this->resource->getRdfTriples()->toArray();
+        $triples = $this->triples->toArray();
         foreach ($triples as $key => $triple) {
             if (in_array($triple->predicate, $this->getBlackList())) {
                 unset($triples[$key]);
@@ -107,10 +143,10 @@ class JsonLdExport implements \JsonSerializable
         
         $data = array(
             '@context' => array_flip($map),
-            '@id' => $this->resource->getUri()
+            '@id' => $this->uri
         );
         
-        $types = $this->resource->getTypes();
+        $types = $this->types;
         if (!empty($types)) {
             $data['@type'] = $this->transfromArray($types);
         }

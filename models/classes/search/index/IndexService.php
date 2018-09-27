@@ -23,13 +23,14 @@ namespace oat\tao\model\search\index;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\extension\script\MissingOptionException;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\SearchService;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\TaoOntology;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\menu\MenuService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\search\helper\SupportedOperatorHelper;
+use oat\tao\model\resources\ResourceIterator;
 
 /**
  * Class IndexService
@@ -48,15 +49,18 @@ class IndexService extends ConfigurableService
 
     /**
      * Run a full reindexing
-     * @return int number of resources indexed 
+     * @return boolean
+     * @throws
      */
     public function runIndexing()
     {
-        $iterator = new \core_kernel_classes_ResourceIterator($this->getIndexedClasses());
+        $iterator = $this->getResourceIterator();
         $indexIterator = new IndexIterator($iterator);
         $indexIterator->setServiceLocator($this->getServiceLocator());
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        return $searchService->index($indexIterator);
+        $result = $searchService->index($indexIterator);
+        $this->logDebug($result . ' resources have been indexed by ' . static::class);
+        return $result;
     }
 
     /**
@@ -158,6 +162,16 @@ class IndexService extends ConfigurableService
         }
 
         return $classes;
+    }
+
+    /**
+     * @return \Iterator
+     */
+    protected function getResourceIterator()
+    {
+        $iterator = new ResourceIterator($this->getIndexedClasses());
+        $iterator->setServiceLocator($this->getServiceLocator());
+        return $iterator;
     }
 
     protected function getIndexedClasses()

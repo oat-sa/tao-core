@@ -25,7 +25,12 @@ use common_Exception;
 use oat\funcAcl\models\ModuleAccessService;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceUpdated;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\user\UserRdf;
+use oat\generis\model\data\ModelManager;
+use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -42,6 +47,7 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\metrics\MetricsService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
@@ -52,12 +58,26 @@ use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
+use oat\tao\model\task\ExportByHandler;
+use oat\tao\model\task\ImportByHandler;
+use oat\tao\model\taskQueue\Queue;
+use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
+use oat\tao\model\taskQueue\Queue\TaskSelector\WeightStrategy;
+use oat\tao\model\taskQueue\QueueDispatcher;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\TaskLog;
+use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
+use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\Tree\GetTreeService;
 use oat\tao\model\user\implementation\NoUserLocksService;
+use oat\tao\model\user\import\OntologyUserMapper;
+use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\tao\model\user\UserLocks;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -636,9 +656,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.0.0');
         }
 
-        $this->skip('17.0.0', '17.8.1');
+        $this->skip('17.0.0', '17.8.4');
 
-        if ($this->isVersion('17.8.1')) {
+        if ($this->isVersion('17.8.4')) {
             OntologyUpdater::syncModels();
             $this->setVersion('17.9.0');
         }
@@ -674,6 +694,151 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('17.11.0');
         }
 
-        $this->skip('17.11.0', '17.11.2');
+        $this->skip('17.11.0', '17.12.2');
+
+        if ($this->isVersion('17.12.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('17.13.0');
+        }
+
+        $this->skip('17.13.0', '17.13.1');
+
+        if ($this->isVersion('17.13.1')) {
+            $rdfLang = dirname(__FILE__).DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR, '../../locales/fr-CA/lang.rdf');
+            $iterator = new FileIterator($rdfLang);
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                //make sure that the ontology is clear to avoid errors if triple is in multiple time
+                $rdf->remove($triple);
+                $rdf->add($triple);
+            }
+            $this->setVersion('17.13.2');
+        }
+        $this->skip('17.13.2', '17.13.3');
+
+        if ($this->isVersion('17.13.3')) {
+
+            $service = new UserCsvImporterFactory(array(
+                UserCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
+                    OntologyUserMapper::OPTION_SCHEMA_MANDATORY => [
+                        'label' => OntologyRdfs::RDFS_LABEL,
+                        'interface language' => UserRdf::PROPERTY_UILG,
+                        'login' => UserRdf::PROPERTY_LOGIN,
+                        'password' => UserRdf::PROPERTY_PASSWORD,
+                    ],
+                    OntologyUserMapper::OPTION_SCHEMA_OPTIONAL => [
+                        'default language' => UserRdf::PROPERTY_DEFLG,
+                        'first name' => UserRdf::PROPERTY_FIRSTNAME,
+                        'last name' =>UserRdf::PROPERTY_LASTNAME,
+                        'mail' => UserRdf::PROPERTY_MAIL,
+                    ]
+                )
+            ));
+
+            $this->getServiceManager()->register(UserCsvImporterFactory::SERVICE_ID, $service);
+            $this->setVersion('17.14.0');
+        }
+
+        $this->skip('17.14.0', '17.15.1');
+
+        if ($this->isVersion('17.15.1')) {
+            $this->getServiceManager()->register(
+                \tao_models_classes_UserService::SERVICE_ID,
+                new \tao_models_classes_UserService([])
+            );
+            $this->setVersion('17.16.0');
+        }
+        $this->skip('17.16.0', '17.16.1');
+
+        if ($this->isVersion('17.16.1')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::REST_PUBLISHER, array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')));
+            $this->setVersion('17.17.0');
+        }
+
+        $this->skip('17.17.0', '18.4.0');
+
+        if ($this->isVersion('18.4.0')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao', 'mod' => 'Log', 'act' => 'log']));
+            $this->setVersion('18.4.1');
+        }
+
+        if ($this->isVersion('18.4.1')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', ['ext'=>'tao', 'mod' => 'Health']));
+            $this->setVersion('18.5.0');
+        }
+
+        $this->skip('18.5.0', '18.6.0');
+
+        if ($this->isVersion('18.6.0')) {
+            ClientLibConfigRegistry::getRegistry()->register(
+                'util/shortcut/registry', ['debounceDelay' => 250]
+            );
+            $this->setVersion('18.7.0');
+        }
+
+        $this->skip('18.7.0', '18.7.2');
+
+        if ($this->isVersion('18.7.2')) {
+            ClientLibConfigRegistry::getRegistry()->remove(
+                'util/shortcut/registry');
+            $this->setVersion('18.8.0');
+        }
+
+        $this->skip('18.8.0', '19.7.1');
+
+        if ($this->isVersion('19.7.1')) {
+            // register new queue dispatcher service with default values
+            $taskLogService = new TaskLog([
+                TaskLogInterface::OPTION_TASK_LOG_BROKER => new RdsTaskLogBroker('default')
+            ]);
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+
+            try {
+                $taskLogService->createContainer();
+            } catch (\Exception $e) {
+                return \common_report_Report::createFailure('Creating task log container failed');
+            }
+
+            $queueService = new QueueDispatcher([
+                QueueDispatcherInterface::OPTION_QUEUES       => [
+                    new Queue('queue', new InMemoryQueueBroker())
+                ],
+                QueueDispatcherInterface::OPTION_TASK_LOG     => TaskLogInterface::SERVICE_ID,
+                QueueDispatcherInterface::OPTION_TASK_TO_QUEUE_ASSOCIATIONS => [],
+                QueueDispatcherInterface::OPTION_TASK_SELECTOR_STRATEGY => new WeightStrategy()
+            ]);
+
+            $this->getServiceManager()->register(QueueDispatcherInterface::SERVICE_ID, $queueService);
+
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::BASE_USER, ['ext'=>'tao','mod' => 'TaskQueueWebApi']));
+
+            $this->setVersion('19.8.0');
+        }
+
+        $this->skip('19.8.0', '19.9.0');
+
+        if ($this->isVersion('19.9.0')) {
+            $service = new MetricsService();
+            $service->setOption(MetricsService::OPTION_METRICS, []);
+            $this->getServiceManager()->register(MetricsService::SERVICE_ID, $service);
+            $this->setVersion('19.10.0');
+        }
+
+        $this->skip('19.10.0', '19.19.0');
+
+        if ($this->isVersion('19.19.0')) {
+            /** @var TaskLogInterface|ConfigurableService $taskLogService */
+            $taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
+
+            $taskLogService->linkTaskToCategory(ImportByHandler::class, TaskLogInterface::CATEGORY_IMPORT);
+            $taskLogService->linkTaskToCategory(ExportByHandler::class, TaskLogInterface::CATEGORY_EXPORT);
+
+            $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
+            $this->setVersion('19.20.0');
+        }
+
+        $this->skip('19.20.0', '20.0.1');
     }
 }

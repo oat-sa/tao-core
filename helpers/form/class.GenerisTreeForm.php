@@ -150,6 +150,7 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 	    } else {
 	        common_Logger::w('No post parameter instances in '.__FUNCTION__);
 	    }
-	    return $values;
+	    // Make sure we return a set of unique URIs.
+	    return array_unique($values);
 	}
 }

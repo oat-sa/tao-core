@@ -17,6 +17,7 @@
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
+use oat\tao\model\service\ServiceFileStorage;
 
 /**
  * An abstract compiler
@@ -24,7 +25,6 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoDelivery
- 
  */
 abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\ServiceLocatorAwareInterface
 {
@@ -48,10 +48,10 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
     private $context;
     
     /**
-     * 
      * @param core_kernel_classes_Resource $resource
+     * @param ServiceFileStorage $storage
      */
-    public function __construct(core_kernel_classes_Resource $resource, tao_models_classes_service_FileStorage $storage) {
+    public function __construct(core_kernel_classes_Resource $resource, ServiceFileStorage $storage) {
         $this->resource = $resource;
         $this->compilationStorage = $storage;
     }

@@ -65,7 +65,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @param array $parameters
      * @return boolean
      */
-    public function hasAccess($controllerClass, $action, $parameters = [])
+    protected function hasAccess($controllerClass, $action, $parameters = [])
     {
         $user = common_session_SessionManager::getSession()->getUser();
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
@@ -262,7 +262,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @throws common_exception_MissingParameter
      * @return string
      */
-    public function getRawParameter($paramName)
+    protected function getRawParameter($paramName)
     {
         $raw = $this->getRequest()->getRawParameters();
         if (!isset($raw[$paramName])) {

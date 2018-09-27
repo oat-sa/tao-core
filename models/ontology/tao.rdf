@@ -20,7 +20,7 @@
     <rdfs:label xml:lang="en-US"><![CDATA[System Object]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Any system resource related to etesting]]></rdfs:comment>
   </rdf:Description>
-  
+
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#List">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
     <rdfs:label xml:lang="en-US"><![CDATA[List]]></rdfs:label>
@@ -66,7 +66,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Data Usage]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[Data language usage]]></rdfs:comment>
   </rdf:Description>
-  
+
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations">
   	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
   	<rdfs:label xml:lang="en-US"><![CDATA[Language orientation]]></rdfs:label>
@@ -90,7 +90,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Right-to-left orientation]]></rdfs:label>
   	<rdfs:comment xml:lang="en-US"><![CDATA[Right-to-left language orientation]]></rdfs:comment>
   </rdf:Description>
-    
+
   <!-- Users -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#User">
   	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
@@ -104,7 +104,7 @@
     <rdfs:label xml:lang="en-US"><![CDATA[Management]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Management Role Class]]></rdfs:comment>
   </rdf:Description>
-  
+
   <!-- Top Level Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
@@ -136,7 +136,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Metadata Manager Role]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Metadata Manager Role allows you to modify the properties of the classes.]]></rdfs:comment>
   </rdf:Description>
-  
+
   <!-- BackOffice Sub Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#UserRole"/>
@@ -180,7 +180,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Test Taker]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Test Taker Role]]></rdfs:comment>
   </rdf:Description>
-  
+
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder">
   	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
   	<rdfs:label xml:lang="en-US"><![CDATA[Form Field Order]]></rdfs:label>

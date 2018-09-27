@@ -734,7 +734,7 @@ define([
                     'classUri'      : $parentNode.attr('id'),
                     'subclasses'    : 0,
                     'offset'        : current,
-                    'limit'         : left < pageRange ? left : pageRange
+                    'limit'         : left < 0 ? pageRange : (left < pageRange ? left : pageRange)
                 }, serverParams);
 
                 $.ajax(tree.settings.data.opts.url, {
@@ -755,7 +755,7 @@ define([
                         });
                         tree.deselect_branch($node);
                         tree.remove($node);
-                        if(left - response.length > 0){
+                        if(left - treeData.length > 0){
                             tree.create(moreNode, $parentNode);
                         }
                     }

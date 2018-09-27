@@ -27,8 +27,10 @@ define([
     'ui/pagination',
     'ui/feedback',
     'layout/logout-event',
-    'core/logger'
-], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loggerFactory){
+    'layout/loading-bar',
+    'core/logger',
+    'util/httpErrorParser'
+], function($, _, __, Pluginifier, layout, btnTpl, filterStrategyFactory, paginationComponent, feedback, logoutEvent, loadingBar, loggerFactory, httpErrorParser){
 
     'use strict';
 
@@ -61,6 +63,28 @@ define([
      * @type {String}
      */
     var hiddenCls = 'hidden';
+
+    /**
+     * Deactivate pagination's
+     */
+    var disablePaginations = function disablePaginations (paginations) {
+        if (paginations && paginations.length) {
+            _.forEach(paginations, function (pagination) {
+                pagination.disable();
+            });
+        }
+    };
+
+    /**
+     * Activate pagination's
+     */
+    var enablePaginations = function enablePaginations (paginations) {
+        if (paginations && paginations.length) {
+            _.forEach(paginations, function (pagination) {
+                pagination.enable();
+            });
+        }
+    };
 
     /**
      * The dataTable component makes you able to browse items and bind specific
@@ -128,6 +152,9 @@ define([
                 var $elt = $(this);
                 var currentOptions = $elt.data(dataNs);
 
+                // implement encapsulated pages for the datatable
+                $elt.paginations = [];
+
                 if (!currentOptions) {
                     //add data to the element
                     $elt.data(dataNs, options);
@@ -188,6 +215,8 @@ define([
             var parameters;
             var ajaxConfig;
 
+            loadingBar.start();
+
             if (!$filter) {
                 $filter = $('.filter', $elt);
             }
@@ -204,6 +233,9 @@ define([
                 type: options.querytype || 'GET'
             };
 
+            // disable pagination to not press multiple on it
+            disablePaginations($elt.paginations);
+
             /**
              * @event dataTable#query.datatable
              * @param {Object} ajaxConfig - The config object used to setup the AJAX request
@@ -217,14 +249,16 @@ define([
 
             $.ajax(ajaxConfig).done(function (response) {
                 self._render($elt, response);
-            }).fail(function (response) {
-                var errorDetails = JSON.parse(response.responseText);
-                var requestErr = new Error(errorDetails.message);
-                logger.error(errorDetails);
+                loadingBar.stop();
+            }).fail(function (response, option, err) {
+                var requestErr = httpErrorParser.parse(response, option, err);
+                logger.error(requestErr.message);
                 requestErr.code = response.status;
+                enablePaginations(this.paginations);
                 $elt.trigger('error.' + ns, [requestErr]);
 
                 self._render($elt, {});
+                loadingBar.stop();
             });
         },
 
@@ -239,7 +273,7 @@ define([
          */
         _render: function($elt, dataset) {
             var self = this;
-            var options = $elt.data(dataNs);
+            var options = _.cloneDeep($elt.data(dataNs));
             var $rendering;
             var $statusEmpty;
             var $statusAvailable;
@@ -252,6 +286,7 @@ define([
             var $rows;
             var amount;
             var transforms;
+            var model = [];
 
             var join = function join(input) {
                 return typeof input !== 'object' ? input : input.join(', ');
@@ -278,6 +313,14 @@ define([
                 if (field.transform) {
                     field.transform = _.isFunction(field.transform) ? field.transform : join;
                 }
+
+                if (typeof field.visible === 'undefined') {
+                    model.push(field);
+                } else if (typeof field.visible === 'function' && field.visible()) {
+                    model.push(field);
+                } else if (field.visible === true) {
+                    model.push(field);
+                }
             });
 
             if (options.sortby) {
@@ -294,6 +337,7 @@ define([
                 });
             }
 
+            options.model = model;
             // Call the rendering
             $rendering = $(layout({options: options, dataset: dataset}));
 
@@ -395,7 +439,7 @@ define([
             });
 
             function renderPagination($container, mode) {
-                paginationComponent({
+                return paginationComponent({
                     mode: mode,
                     activePage: dataset.page,
                     totalPages: dataset.total
@@ -418,14 +462,16 @@ define([
                     .render($container);
             }
 
+            $elt.paginations = [];
             if (options.paginationStrategyTop !== 'none') {
                 // bind pagination component to the datatable
-                renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop);
+                $elt.paginations.push(renderPagination($('.datatable-pagination-top', $rendering), options.paginationStrategyTop));
             }
             if (options.paginationStrategyBottom !== 'none') {
                 // bind pagination component to the datatable
-                renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom);
+                $elt.paginations.push(renderPagination($('.datatable-pagination-bottom', $rendering), options.paginationStrategyBottom));
             }
+            disablePaginations($elt.paginations);
 
             // Now $rendering takes the place of $elt...
             $rows = $rendering.find('tbody tr');
@@ -567,6 +613,9 @@ define([
                 $rendering.find('[name=filter].focused').focus();
             }
 
+            // restore pagination's after data loaded
+            enablePaginations($elt.paginations);
+
             /**
              * @event dataTable#load.dataTable
              * @param {Object} dataset - The data set used to render the table
@@ -691,7 +740,7 @@ define([
             //rebind options to the elt
             $elt.data(dataNs, options);
 
-            return options;
+            return _.cloneDeep(options);
         },
 
         /**

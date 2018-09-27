@@ -156,11 +156,11 @@ class tao_helpers_translation_RDFUtils
         $valueNode->appendChild($doc->createCDATASection($code));
         $descriptionNode->appendChild($valueNode);
         
-        $guiUsageNode = $doc->createElementNS($base, 'tao:languageUsages');
+        $guiUsageNode = $doc->createElementNS($base, 'tao:LanguageUsages');
         $guiUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
         $descriptionNode->appendChild($guiUsageNode);
-        
-        $dataUsageNode = $doc->createElementNS($base, 'tao:languageUsages');
+
+        $dataUsageNode = $doc->createElementNS($base, 'tao:LanguageUsages');
         $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
         $descriptionNode->appendChild($dataUsageNode);
         

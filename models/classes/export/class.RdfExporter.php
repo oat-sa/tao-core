@@ -19,106 +19,121 @@
  * 
  */
 
+use oat\oatbox\event\EventManagerAwareTrait;
+use oat\tao\model\event\RdfExportEvent;
+
 /**
  * The tao default rdf export
  *
- * @access public
- * @author Joel Bout, <joel@taotesting.com>
+ * @access  public
+ * @author  Joel Bout, <joel@taotesting.com>
  * @package tao
- 
  */
 class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
 {
+    use EventManagerAwareTrait;
 
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_export_ExportHandler::getLabel()
      */
-    public function getLabel() {
-    	return __('RDF');
+    public function getLabel()
+    {
+        return __('RDF');
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_export_ExportHandler::getExportForm()
      */
-    public function getExportForm(core_kernel_classes_Resource $resource) {
+    public function getExportForm(core_kernel_classes_Resource $resource)
+    {
         if ($resource instanceof core_kernel_classes_Class) {
-            $formData= array('class' => $resource);
+            $formData = ['class' => $resource];
         } else {
-            $formData= array('instance' => $resource);
+            $formData = ['instance' => $resource];
         }
-    	$form = new tao_models_classes_export_RdfExportForm($formData);
-    	return $form->getForm();
-    }
-    
-    /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::export()
-     */
-    public function export($formValues, $destination) {
-        
-    	$file = null;
-    	if(isset($formValues['filename']) && isset($formValues['resource'])){
 
-		    $class = new core_kernel_classes_Class($formValues['resource']);
-		    common_Logger::i('Exporting '.$class->getUri());
-		    $adapter = new tao_helpers_data_GenerisAdapterRdf();
-		    $rdf = $adapter->export($class);
-		    
-		    if(!empty($rdf)){
-		        $name = $formValues['filename'].'_'.time().'.rdf';
-		        $path = tao_helpers_File::concat(array($destination, $name));
-				if(file_put_contents($path, $rdf)){
-					$file = $path;
-				}
-			}
-		       
-		}
-		return $file;
+        return (new tao_models_classes_export_RdfExportForm($formData))
+            ->getForm();
     }
-    
+
+    /**
+     * @param array  $formValues
+     * @param string $destination
+     * @return string
+     * @throws EasyRdf_Exception
+     * @throws common_exception_Error
+     */
+    public function export($formValues, $destination)
+    {
+        if (isset($formValues['filename']) && isset($formValues['resource'])) {
+            $class = new core_kernel_classes_Class($formValues['resource']);
+            $adapter = new tao_helpers_data_GenerisAdapterRdf();
+            $rdf = $adapter->export($class);
+
+            if (!empty($rdf)) {
+                $name = $formValues['filename'] . '_' . time() . '.rdf';
+                $path = tao_helpers_File::concat([$destination, $name]);
+
+                if(!tao_helpers_File::securityCheck($path, true)){
+                    throw new Exception('Unauthorized file name');
+                }
+
+                if (file_put_contents($path, $rdf)) {
+                    $this->getEventManager()->trigger(new RdfExportEvent($class));
+
+                    return $path;
+                }
+            }
+        }
+
+        return '';
+    }
+
     /**
      * exports an array of instances into an rdf string
-     * 
+     *
      * @param array $instances
      * @return string
      */
-    public function getRdfString($instances) {
+    public function getRdfString($instances)
+    {
         $api = core_kernel_impl_ApiModelOO::singleton();
-        $xmls = array();
-        foreach($instances as $instance){
+        $xmls = [];
+        foreach ($instances as $instance) {
             $xmls[] = $api->getResourceDescriptionXML($instance->getUri());
         }
-        
-        if(count($xmls) == 1){
+
+        if (count($xmls) == 1) {
             $rdf = $xmls[0];
         } elseif (count($xmls) > 1) {
-        
+
             //merge the xml of each instances...
-    
+
             $baseDom = new DomDocument();
             $baseDom->formatOutput = true;
             $baseDom->loadXML($xmls[0]);
-    
-            for($i = 1; $i < count($xmls); $i++){
-    
+
+            for ($i = 1; $i < count($xmls); $i++) {
+
                 $xmlDoc = new SimpleXMLElement($xmls[$i]);
-                foreach($xmlDoc->getNamespaces() as $nsName => $nsUri){
-                    if(!$baseDom->documentElement->hasAttribute('xmlns:'.$nsName)){
-                        $baseDom->documentElement->setAttribute('xmlns:'.$nsName, $nsUri);
+                foreach ($xmlDoc->getNamespaces() as $nsName => $nsUri) {
+                    if (!$baseDom->documentElement->hasAttribute('xmlns:' . $nsName)) {
+                        $baseDom->documentElement->setAttribute('xmlns:' . $nsName, $nsUri);
                     }
                 }
                 $newDom = new DOMDocument();
                 $newDom->loadXml($xmls[$i]);
-                foreach($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc){
+                foreach ($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc) {
                     $newNode = $baseDom->importNode($desc, true);
                     $baseDom->documentElement->appendChild($newNode);
                 }
             }
-    
+
             $rdf = $baseDom->saveXml();
         }
+
         return $rdf;
     }
 
