@@ -59,6 +59,8 @@ require.config({
         'c3'                : 'lib/c3js/c3.min',
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
+//backward compat aliases
+        'router'            : 'core/router',
 //extension aliases, and controller loading in prod mode
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',

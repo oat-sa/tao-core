@@ -26,7 +26,7 @@ define([
     'jquery',
     'lodash',
     'context',
-    'router',
+    'core/router',
     'helpers',
     'uiForm',
     'util/url',
@@ -176,10 +176,8 @@ define([
             uiForm.init();
 
             //dispatch also extra registered controllers
-            if(config && _.isArray(config.extraRoutes)){
-                _.forEach(config.extraRoutes, function(route){
-                    router.dispatch(route);
-                });
+            if(config && _.isArray(config.extraRoutes) && config.extraRoutes.length){
+                router.dispatch(config.extraRoutes);
             }
         }
     };

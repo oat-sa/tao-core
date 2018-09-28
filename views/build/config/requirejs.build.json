@@ -34,7 +34,8 @@
     "c3": "lib/c3js/c3.min",
     "css-builder": "lib/require-css/css-builder",
     "normalize": "lib/require-css/normalize",
-    "i18ntr": "../locales/en-US"
+    "i18ntr": "../locales/en-US",
+    "router": "core/router"
   },
 
   "shim": {

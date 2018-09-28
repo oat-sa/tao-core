@@ -20,7 +20,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash', 'i18n', 'context', 'helpers', 'router', 'ui', 'core/history', 'ui/feedback', 'layout/logout-event'
+    'jquery', 'lodash', 'i18n', 'context', 'helpers', 'core/router', 'ui', 'core/history', 'ui/feedback', 'layout/logout-event'
 ], function ($, _, __, context, helpers, router, ui, history, feedback, logoutEvent) {
     'use strict';
 
