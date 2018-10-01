@@ -20,6 +20,8 @@
  *
  */
 
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\service\ApplicationService;
 
 /**
  * Utility class focusing on display methods.
@@ -44,8 +46,9 @@ class tao_helpers_Display
     {
         $returnValue = (string) '';
 
-		if (mb_strlen($input, TAO_DEFAULT_ENCODING) > $maxLength){
-			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, TAO_DEFAULT_ENCODING)."[...]</span>";
+        $encoding = self::getApplicationService()->getDefaultEncoding();
+		if (mb_strlen($input, $encoding) > $maxLength){
+			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, $encoding)."[...]</span>";
 		}
 
 		$returnValue = $input;
@@ -104,7 +107,7 @@ class tao_helpers_Display
     {
         $returnValue = (string) '';
 
-        $returnValue = htmlentities($input, ENT_COMPAT, TAO_DEFAULT_ENCODING);
+        $returnValue = htmlentities($input, ENT_COMPAT, self::getApplicationService()->getDefaultEncoding());
 
         return (string) $returnValue;
     }
@@ -151,5 +154,12 @@ class tao_helpers_Display
 
         $purifier = new HTMLPurifier($config);
         return  $purifier->purify( $input );
+    }
+
+    /**
+     * @return ApplicationService
+     */
+    private static function getApplicationService() {
+        return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID);
     }
 }

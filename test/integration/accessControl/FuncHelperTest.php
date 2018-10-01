@@ -23,33 +23,22 @@
  */
 
 use oat\tao\model\accessControl\func\FuncHelper;
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\GenerisPhpUnitTestRunner;
 
 /**
  * Unit test the  oat\tao\model\menu\Section class 
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionTest extends TaoPhpUnitTestRunner {
-    
-   
-    /**
-     * Provides data for testGetClassNameByUrl : url and expected controller class name
-     * @return array() the data
-     */     
-    public function getClassNameByUrlProvider(){
-        return array(
-            array(ROOT_URL. 'tao/Main/index', 'tao_actions_Main')
-        );
-    }   
- 
+class ActionTest extends GenerisPhpUnitTestRunner {
+
     /**
      * Test {@link FuncHelper::getClassNameByUrl}}
-     * @dataProvider getClassNameByUrlProvider 
-     * @param string $url
-     * @param string $expectedClassName
      */
-    public function testGetClassNameByUrl($url, $expectedClassName){    
+    public function testGetClassNameByUrl() {
+        $url = ROOT_URL. 'tao/Main/index';
+        $expectedClassName = 'tao_actions_Main';
+
         $className = FuncHelper::getClassNameByUrl($url);
 
         $this->assertTrue(is_string($className));
