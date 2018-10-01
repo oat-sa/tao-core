@@ -23,7 +23,8 @@
  */
 
 use oat\tao\model\accessControl\ActionResolver;
-use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\tao\model\routing\Resolver;
+use oat\tao\test\TaoPhpUnitTestRunner;
 
 /**
  * Test {@link oat\tao\model\accessControl\ActionResolver}
@@ -31,16 +32,28 @@ use oat\generis\test\GenerisPhpUnitTestRunner;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionResolverTest extends GenerisPhpUnitTestRunner {
+class ActionResolverTest extends TaoPhpUnitTestRunner {
+    
+   
+    /**
+     * Provides data for {@link self::testActionResolver} : url, expected controller class name and actioni
+     * @todo add a row with a namespaced controller
+     * @return array[] the data
+     */     
+    public function actionResolverProvider(){
+        return array(
+            array(ROOT_URL . 'tao/Main/index', 'tao_actions_Main', 'index'),
+        );
+    }   
+ 
     /**
      * Test {@link ActionResolver} construction from url
-     *
-     * @TODO: Test resolver with PSR-4 style controller when it's present.
+     * @dataProvider actionResolverProvider
+     * @param string $url
+     * @param string $expectedClassName
+     * @param string $expectedAction
      */
-    public function testActionResolver(){
-        $url = ROOT_URL . 'tao/Main/index';
-        $expectedClassName = 'tao_actions_Main';
-        $expectedAction = 'index';
+    public function testActionResolver($url, $expectedClassName, $expectedAction){ 
 
         $resolver = new ActionResolver($url);
 

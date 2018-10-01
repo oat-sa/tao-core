@@ -2,10 +2,10 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
-use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
 
-class CsvMappingFormTest extends GenerisPhpUnitTestRunner
+class CsvMappingFormTestCase extends TaoPhpUnitTestRunner
 {
     public function testMapping()
     {

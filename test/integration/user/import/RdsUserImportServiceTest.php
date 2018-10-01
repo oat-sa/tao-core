@@ -20,12 +20,11 @@
 namespace oat\tao\test\integration\user\import;
 
 use core_kernel_classes_Resource;
-use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\user\import\RdsUserImportService;
 use oat\tao\model\user\import\UserMapperInterface;
 use Psr\Log\NullLogger;
 
-class RdsUserImportServiceTest extends GenerisPhpUnitTestRunner
+class RdsUserImportServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideMapperProperties
@@ -37,6 +36,7 @@ class RdsUserImportServiceTest extends GenerisPhpUnitTestRunner
     {
         $importService = $this->getImportService($data);
 
+        // @todo fix "Tried to add NULL to report" in import()
         $report = $importService->import(__DIR__ . '/example.csv');
 
         $this->assertTrue($report->hasChildren());
@@ -100,16 +100,15 @@ class RdsUserImportServiceTest extends GenerisPhpUnitTestRunner
 
         $importService->setLogger(new NullLogger());
 
-        $reportMock = $this->prophesize(\common_report_Report::class)->reveal();
-        $mapper = $this->getMock(UserMapperInterface::class);
-        $mapper->method('map')
+        $mapper = $this->getMockBuilder(UserMapperInterface::class)->getMock();
+        $mapper
+            ->method('map')
             ->will($this->onConsecutiveCalls(
                 $mapper,
                 $mapper,
                 $this->throwException(new \Exception())
             ));
-        $mapper->method('getReport')
-            ->willReturn($reportMock);
+
         $mapper->method('getPlainPassword')->willReturn('plainPassword');
         $mapper->method('getProperties')->will($this->onConsecutiveCalls(
             $dataProvider[0]['properties'],

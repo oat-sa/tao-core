@@ -18,33 +18,33 @@
  *
  *
  */
-namespace oat\tao\test\integration\routing;
+namespace oat\tao\test\unit\routing;
 
-use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\tao\model\routing\Resolver;
-use oat\tao\test\integration\routing\samples\FooControllerA;
+use oat\tao\test\unit\routing\samples\FooControllerA;
 use common_ext_Manifest as Manifest;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use common_http_Request;
 
 /**
  * Class ResolverTest
- * @package oat\tao\test\integration\routing
+ * @package oat\tao\test\unit\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class ResolverTest extends GenerisPhpUnitTestRunner {
+class ResolverTest extends TestCase
+{
 
     public function testGetExtensionId()
     {
         $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new \common_http_Request('http://tao.com/foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('foo', $resolver->getExtensionId());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new \common_http_Request('http://tao.com/legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('legacy', $resolver->getExtensionId());
@@ -54,12 +54,12 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
     {
         $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new \common_http_Request('http://tao.com/foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals(FooControllerA::class, $resolver->getControllerClass());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new \common_http_Request('http://tao.com/legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('legacy_actions_LegacyController', $resolver->getControllerClass());
@@ -69,12 +69,12 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
     {
         $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new \common_http_Request('http://tao.com/foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('index', $resolver->getMethodName());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new \common_http_Request('http://tao.com/legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('index', $resolver->getMethodName());
@@ -84,12 +84,12 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
     {
          $serviceLocator = $this->getServiceManager();
 
-        $fooRequest = new common_http_Request('http://tao.com/foo/FooControllerA/index');
+        $fooRequest = new \common_http_Request('http://tao.com/foo/FooControllerA/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('FooControllerA', $resolver->getControllerShortName());
 
-        $fooRequest = new common_http_Request('http://tao.com/legacy/LegacyController/index');
+        $fooRequest = new \common_http_Request('http://tao.com/legacy/LegacyController/index');
         $resolver = new Resolver($fooRequest);
         $resolver->setServiceLocator($serviceLocator);
         $this->assertEquals('LegacyController', $resolver->getControllerShortName());
@@ -131,10 +131,8 @@ class ResolverTest extends GenerisPhpUnitTestRunner {
                 ['foo', $fooExt],
             ]));
 
-        $serviceLocatorMock =  $this->getServiceLocatorMock([
-            ExtensionsManager::SERVICE_ID => $extensionsManagerMock
-        ]);
-
-        return $serviceLocatorMock;
+        $slProphecy = $this->prophesize(ServiceLocatorInterface::class);
+        $slProphecy->get(ExtensionsManager::SERVICE_ID)->willReturn($extensionsManagerMock);
+        return $slProphecy->reveal();
     }
 }

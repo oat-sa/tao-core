@@ -19,8 +19,8 @@
  */
 namespace oat\tao\test\integration;
 
+use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\ThemeRegistry;
-use oat\generis\test\GenerisPhpUnitTestRunner;
 
 
 use oat\tao\model\websource\WebsourceManager;
@@ -29,8 +29,16 @@ use oat\tao\model\websource\WebsourceManager;
  *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
-class ThemeRegistryTest extends GenerisPhpUnitTestRunner
+class ThemeRegistryTest extends \PHPUnit_Framework_TestCase
 {
+
+    /**
+     *
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
+    public function setUp()
+    {
+    }
 
     public function tearDown()
     {

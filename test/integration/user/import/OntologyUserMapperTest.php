@@ -21,21 +21,19 @@ namespace oat\tao\test\integration\user\import;
 
 use core_kernel_classes_Resource;
 use helpers_PasswordHash;
-use oat\generis\test\GenerisPhpUnitTestRunner;
-use oat\tao\model\import\service\MandatoryFieldException;
 use oat\tao\model\user\import\OntologyUserMapper;
 use tao_models_classes_LanguageService;
 
-class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
+class OntologyUserMapperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideBasicExample
      * @param $schema
      * @param $data
-     * @param $expected
+     * @param $result
      * @throws \Exception
      */
-    public function testMapUserWithSuccess($schema, $data, $expected)
+    public function testMapUserWithSuccess($schema, $data, $result)
     {
         $mapper = $this->getMapper();
         $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
@@ -45,21 +43,21 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         $this->assertFalse($mapper->isEmpty());
         $this->assertSame('password', $mapper->getPlainPassword());
 
-        $this->assertEquals($expected, $mapper->getProperties());
+        $this->assertEquals($result, $mapper->getProperties());
     }
 
     /**
      * @param $schema
      * @param $data
-     * @param $expected
+     * @param $result
      *
      * @dataProvider provideInsufficientDataExample
+     * @expectedException \oat\tao\model\import\service\MandatoryFieldException
      *
      * @throws \Exception
      */
-    public function testMapMandatoryShouldFail($schema, $data, $expected)
+    public function testMapMandatoryShouldFail($schema, $data, $result)
     {
-        $this->expectException(MandatoryFieldException::class);
         $mapper = $this->getMapper();
         $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
 
@@ -69,14 +67,14 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
     /**
      * @param $schema
      * @param $data
-     * @param $expected
+     * @param $result
      *
      * @dataProvider provideEmptyFieldDataExample
      * @expectedException \oat\tao\model\import\service\MandatoryFieldException
      *
      * @throws \Exception
      */
-    public function testMapMandatoryNotEmptyShouldFail($schema, $data, $expected)
+    public function testMapMandatoryNotEmptyShouldFail($schema, $data, $result)
     {
         $mapper = $this->getMapper();
         $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
@@ -91,10 +89,10 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
     {
         $mapper = $this->getMockBuilder(OntologyUserMapper::class)
             ->setMethods(['getPasswordHashService', 'getLanguageService'])
-            ->getMock();
+            ->getMockForAbstractClass();
 
-        $passwordHashService = $this->getMockBuilder(helpers_PasswordHash::class)->disableOriginalConstructor()->getMock();
-        $passwordHashService->method('encrypt')->willReturn('encrypted_password');
+        $passwordHasService = $this->getMockBuilder(helpers_PasswordHash::class)->disableOriginalConstructor()->getMock();
+        $passwordHasService->method('encrypt')->willReturn('encrypted_password');
 
         $langResource = $this->getMockBuilder(core_kernel_classes_Resource::class)->disableOriginalConstructor()->getMock();
         $langResource->method('getUri')->willReturn('http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN');
@@ -102,8 +100,10 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         $languageService = $this->getMockBuilder(tao_models_classes_LanguageService::class)->disableOriginalConstructor()->getMock();
         $languageService->method('getLanguageByCode')->willReturn($langResource);
 
-        $mapper->method('getPasswordHashService')
-            ->willReturn($passwordHashService);
+        $mapper
+            ->method('getPasswordHashService')
+            ->willReturn($passwordHasService);
+
         $mapper->method('getLanguageService')
             ->willReturn($languageService);
 

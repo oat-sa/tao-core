@@ -2,11 +2,10 @@
 
 namespace oat\tao\test\integration;
 
-use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\FileSystemService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-abstract class FileStorageTestCase extends GenerisPhpUnitTestRunner
+abstract class FileStorageTestCase extends \PHPUnit_Framework_TestCase
 {
     protected $privateDir;
     protected $adapterFixture;

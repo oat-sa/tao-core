@@ -11,6 +11,6 @@ return [
     'models' => [],
     'install' => [],
     'routes' => [
-        '/foo' => 'oat\\tao\\test\\integration\\routing\\samples'
+        '/foo' => 'oat\\tao\\test\\unit\\routing\\samples'
     ],
 ];

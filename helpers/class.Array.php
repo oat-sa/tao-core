@@ -291,7 +291,7 @@ class tao_helpers_Array
     {
         $consistentCount = 0;
         
-        if (!self::isValidMatrix($matrix)) {
+        if (!is_array($matrix) || count($matrix) === 0) {
             return $consistentCount;
         }
         
@@ -318,17 +318,5 @@ class tao_helpers_Array
         }
         
         return $consistentCount;
-    }
-
-    /**
-     * Checks if provided matrix satisfies requirements.
-     *   - as of PHP 7.2 count() expect array or countable object and will emit an E_WARNING in other cases.
-     *
-     * @param array $matrix
-     * @return bool
-     */
-    private static function isValidMatrix(array $matrix)
-    {
-        return is_array($matrix) && count($matrix) > 0 && is_array($matrix[0]);
     }
 }

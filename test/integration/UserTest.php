@@ -19,19 +19,9 @@
  * 
  */
 
-namespace oat\tao\test\integration;
-
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\user\PasswordConstraintsService;
 use oat\tao\model\TaoOntology;
-use oat\generis\test\GenerisPhpUnitTestRunner;
-use tao_models_classes_UserService;
-use core_kernel_classes_Resource;
-use core_kernel_users_Service;
-use core_kernel_classes_Class;
-use core_kernel_classes_Property;
-use core_kernel_classes_Literal;
-use ReflectionClass;
 
 /**
  * Test the user management 
@@ -40,7 +30,7 @@ use ReflectionClass;
  * @package tao
  
  */
-class UserTest extends GenerisPhpUnitTestRunner {
+class UserTestCase extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * @var tao_models_classes_UserService
@@ -98,7 +88,7 @@ class UserTest extends GenerisPhpUnitTestRunner {
 	 */
 	public function testService()
     {
-        $this->assertInstanceOf(tao_models_classes_UserService::class, $this->userService);
+        $this->assertInstanceOf('tao_models_classes_UserService', $this->userService);
 	}
 
 	/**
@@ -120,12 +110,17 @@ class UserTest extends GenerisPhpUnitTestRunner {
 		
 		//check inserted data
 		$this->testUser = $this->getUserByLogin($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN]);
-		$this->assertInstanceOf( core_kernel_classes_Resource::class, $this->testUser );
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUser );
 		foreach($this->testUserData as $prop => $value){
-            $p = new core_kernel_classes_Property($prop);
-            $v = $this->testUser->getUniquePropertyValue($p);
-            $v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
-            $this->assertEquals($value, $v);
+			try{
+				$p = new core_kernel_classes_Property($prop);
+				$v = $this->testUser->getUniquePropertyValue($p);
+				$v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
+				$this->assertEquals($value, $v);
+			}
+			catch(common_Exception $ce){ 
+				$this->fail($ce);
+			}
 		}
 	}
 	
@@ -146,12 +141,17 @@ class UserTest extends GenerisPhpUnitTestRunner {
 		
 		//check inserted data
 		$this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]);
-		$this->assertInstanceOf( core_kernel_classes_Resource::class, $this->testUserUtf8 );
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUserUtf8 );
 		foreach($this->testUserUtf8Data as $prop => $value){
-            $p = new core_kernel_classes_Property($prop);
-            $v = $this->testUserUtf8->getUniquePropertyValue($p);
-            $v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
-            $this->assertEquals($value, $v);
+			try{
+				$p = new core_kernel_classes_Property($prop);
+				$v = $this->testUserUtf8->getUniquePropertyValue($p);
+				$v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
+				$this->assertEquals($value, $v);
+			}
+			catch(common_Exception $ce){ 
+				$this->fail($ce);
+			}
 		}
 	}
 	
@@ -177,13 +177,13 @@ class UserTest extends GenerisPhpUnitTestRunner {
 	 */
 	public function testDelete(){
 		$this->testUser = $this->getUserByLogin($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN]);
-		$this->assertInstanceOf( core_kernel_classes_Resource::class, $this->testUser );
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUser );
 		$this->assertTrue($this->userService->removeUser($this->testUser));
 		$this->assertTrue($this->userService->loginAvailable($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN]));
 		
 		
 		$this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]);
-		$this->assertInstanceOf( core_kernel_classes_Resource::class, $this->testUserUtf8 );
+		$this->assertInstanceOf( 'core_kernel_classes_Resource', $this->testUserUtf8 );
 		$this->assertTrue($this->userService->removeUser($this->testUserUtf8));
 		$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]));
 	}

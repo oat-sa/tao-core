@@ -22,7 +22,6 @@
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
-use oat\tao\helpers\ApplicationHelper;
 
 /**
  * This class provide the services for the Tao extension
@@ -88,11 +87,10 @@ class tao_models_classes_TaoService
     /**
      * Get the tao platform version
      * @return string
-     * @deprecated
      */
     public function getPlatformVersion()
     {
-        return $this->getServiceLocator()->get(ApplicationHelper::SERVICE_ID)->getPlatformVersion();
+        return TAO_VERSION;
     }
 
 }

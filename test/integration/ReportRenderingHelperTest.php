@@ -19,13 +19,9 @@
  * 
  */
 
-namespace oat\tao\test\integration;
 
-use oat\generis\test\GenerisPhpUnitTestRunner;
-use common_report_Report;
-use tao_helpers_report_Rendering;
 
-class ReportRenderingHelperTest extends GenerisPhpUnitTestRunner {
+class ReportRenderingHelperTest extends \PHPUnit_Framework_TestCase {
 	
     public function testRenderSingle() {
        
