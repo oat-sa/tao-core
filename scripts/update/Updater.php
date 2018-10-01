@@ -55,6 +55,7 @@ use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
@@ -839,6 +840,12 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.20.0');
         }
 
-        $this->skip('19.20.0', '19.23.4');
+        $this->skip('19.20.0', '19.24.1');
+
+        if ($this->isVersion('19.24.1')) {
+            $applicationService = new ApplicationService();
+            $this->getServiceManager()->register(ApplicationService::SERVICE_ID, $applicationService);
+            $this->setVersion('19.25.0');
+        }
     }
 }
