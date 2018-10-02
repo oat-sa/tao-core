@@ -840,12 +840,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.20.0');
         }
 
-        $this->skip('19.20.0', '19.24.1');
-
-        if ($this->isVersion('19.24.1')) {
+        $this->skip('19.20.0', '20.0.1');
+        if ($this->isVersion('20.0.1')) {
             $applicationService = new ApplicationService();
             $this->getServiceManager()->register(ApplicationService::SERVICE_ID, $applicationService);
-            $this->setVersion('19.25.0');
+            $this->setVersion('20.1.0');
         }
     }
 }
