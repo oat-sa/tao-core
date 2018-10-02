@@ -3,10 +3,8 @@ $autofillFocusBorderColor: $colorWheel-01;
 $autofillBgColor: rgb(250, 255, 189); // = Chrome default setting
 
 @mixin focus-style {
-    border: 1px solid $info !important;
-    &:-webkit-autofill {
-        border-color: $autofillFocusBorderColor !important;
-    }
+    box-shadow: 0 0 9px 3px $info !important;
+    transition: box-shadow 200ms ease-out;
 }
 input,
 select,
