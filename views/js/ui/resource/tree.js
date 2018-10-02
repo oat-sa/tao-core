@@ -169,6 +169,7 @@ define([
                 var $component;
 
                 function reduceNode(acc , node){
+                    node.selectable = false;
 
                     //filter already added nodes or classes when loading "more"
                     if(self.hasNode(node.uri) || (params && params.offset > 0 && node.type === 'class') ||
@@ -178,12 +179,14 @@ define([
 
                     if(node.type === 'class' && self.config.selectClass){
                         node.classUri = node.uri;
+                        node.selectable = true;
                         if(!node.state){
                             node.state = 'empty';
                         }
                         self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
                     }
                     if(node.type === 'instance'){
+                        node.selectable = true;
                         self.addNode(node.uri,  _.omit(node, ['count', 'state', 'children']));
                         node.icon = config.icon;
                     }
@@ -221,7 +224,7 @@ define([
                     }
 
                     needMore($root);
-                    indentChildren($component.children('ul'), 1);
+                    indentChildren($component.children('ul'), 0);
 
                     $root.removeClass('closed');
 
