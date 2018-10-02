@@ -29,6 +29,10 @@ if(function_exists("date_default_timezone_set")){
 
 require_once ($root . 'vendor/autoload.php');
 
+if (tao_install_utils_System::isTAOInstalled()) {
+    require_once ($root . '/config/generis.conf.php');
+}
+
 // Logger service initialization.
 $loggerService = new \oat\oatbox\log\LoggerService();
 $loggerService->addLogger(
