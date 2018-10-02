@@ -46,8 +46,6 @@ define([
      * @property src
      * @property width
      * @property height
-     * @property originalWidth
-     * @property originalHeight
      */
 
     /**

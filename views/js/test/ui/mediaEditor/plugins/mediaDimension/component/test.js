@@ -211,8 +211,8 @@ define([
     QUnit.module('API');
 
     QUnit.test('factory', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $toolsContainer = $('.tools-container', $visibleContainer),
@@ -235,8 +235,8 @@ define([
     });
 
     QUnit.test('component', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             component,
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
@@ -260,8 +260,8 @@ define([
     });
 
     QUnit.test('eventifier', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             component,
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
@@ -288,8 +288,8 @@ define([
     QUnit.module('Component');
 
     QUnit.asyncTest('On showResponsiveToggle property', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -315,8 +315,8 @@ define([
     });
 
     QUnit.asyncTest('Off showResponsiveToggle property', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -341,8 +341,8 @@ define([
     });
 
     QUnit.asyncTest('Parameter currentUtil set to percent', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -371,8 +371,8 @@ define([
     });
 
     QUnit.asyncTest('Parameter currentUtil set to pixel', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -402,8 +402,8 @@ define([
     });
 
     QUnit.asyncTest('Picture is bigger than the container', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -445,8 +445,8 @@ define([
     });
 
     QUnit.asyncTest('Picture smaller than container', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -488,8 +488,8 @@ define([
     });
 
     QUnit.asyncTest('Responsive slider mode [percent]', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -573,8 +573,8 @@ define([
         {unit: 'px', dim: 'width', value: 1.1111, expected: 1111},
         {unit: 'px', dim: 'height', value: 1.1111, expected: 1111},
     ]).asyncTest('Allowed symbols in the input fields', function (params, assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -637,8 +637,8 @@ define([
     });
 
     QUnit.asyncTest('Pixels mode', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -681,8 +681,8 @@ define([
     });
 
     QUnit.asyncTest('Workflow', function (assert) {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
@@ -749,8 +749,8 @@ define([
     QUnit.module('Demo');
 
     QUnit.test('Preview components workflow', function () {
-        var $tmlContainer = $('.template .visible-test');
-        var $visibleContainer = $tmlContainer.clone().appendTo('.sandbox'),
+        var $tmplContainer = $('.template .visible-test');
+        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
             conf = _.cloneDeep(workingConfiguration),
             $controlContainer = $('.control-container', $visibleContainer),
             $img = $('.picture', $visibleContainer),
