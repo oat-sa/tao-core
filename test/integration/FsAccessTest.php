@@ -94,7 +94,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             $serviceManager = ServiceManager::getServiceManager();
             /** @var FileSystemService $fsm */
             $fsm = $serviceManager->get(FileSystemService::SERVICE_ID);
-            $fsm->unregisterFileSystem($this->fileSystem);
+            $fsm->unregisterFileSystem($this->fileSystem->getId());
             $serviceManager->register(FileSystemService::SERVICE_ID, $fsm);
         }
     }
