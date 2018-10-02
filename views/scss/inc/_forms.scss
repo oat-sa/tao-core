@@ -5,6 +5,9 @@ $autofillBgColor: rgb(250, 255, 189); // = Chrome default setting
 @mixin focus-style {
     box-shadow: 0 0 9px 3px $info !important;
     transition: box-shadow 200ms ease-out;
+    &:-webkit-autofill {
+        box-shadow: 0 0 9px 3px $autofillFocusBorderColor !important;
+    }
 }
 input,
 select,
