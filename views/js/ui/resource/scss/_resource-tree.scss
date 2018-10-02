@@ -11,21 +11,21 @@
     }
 
     &.multiple ul li.selectable {
-        & > a:before {
+        & > a:after {
             @include transition(all, 200ms, linear);
             @include tao-icon-setup;
             @include icon-checkbox;
             color: $info;
             position: absolute;
-            right: 17px;
+            right: 13px;
             top: 12px;
             width: 14px;
             text-align:center;
         }
-        &.selected > a:before {
+        &.selected > a:after {
             @include icon-checkbox-checked;
         }
-        &.selected > a:before, & > a:hover:before {
+        &.selected > a:after, & > a:hover:after {
             color: $textHighlight;
         }
     }
@@ -42,7 +42,7 @@
                 line-height: $nodeHeight;
                 display: block;
                 width: 100%;
-                padding-right: 25px;
+                padding-right: 30px;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
