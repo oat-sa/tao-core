@@ -472,7 +472,6 @@ define([
             })
             .on('render', function () {
                 var $mediaSizer;
-
                 initialConfig = this.getConfig();
                 $template = $(tpl({
                     responsive: initialConfig.responsive

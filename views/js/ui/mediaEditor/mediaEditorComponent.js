@@ -78,6 +78,12 @@ define([
     return function mediaEditorFactory($container, media, config) {
 
         /**
+         * Active Plugins
+         * @type {Array}
+         */
+        var plugins = [];
+
+        /**
          * Current component
          */
         var mediaEditorComponent = component({}, defaultConfig);
@@ -95,8 +101,9 @@ define([
             .on('render', function () {
                 var self = this;
                 var $dimensionTools = $('.media-dimension', this.getTemplate());
+                var plugin;
                 if (this.getConfig().mediaDimension.active) {
-                    mediaDimensionComponent($dimensionTools, media, {responsive: media.responsive})
+                    plugin = mediaDimensionComponent($dimensionTools, media, {responsive: media.responsive})
                         .on('change', function (conf) {
                             media.responsive = conf.responsive;
                             if (conf.responsive) {
@@ -110,7 +117,14 @@ define([
 
                             self.trigger('change', media);
                         });
+
+                    plugins.push(plugin);
                 }
+            })
+            .on('destroy', function () {
+                _.forEach(plugins, function(plugin) {
+                    plugin.destroy();
+                });
             });
 
         _.defer(function(){
