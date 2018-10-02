@@ -177,8 +177,8 @@ define([
                 if(this.is('rendered')){
 
                     // revert the sizes to the original of the image
-                    initialConfig.sizeProps.px.current.width = media.$node.naturalWidth;
-                    initialConfig.sizeProps.px.current.height = media.$node.naturalHeight;
+                    initialConfig.sizeProps.px.current.width = media.originalWidth;
+                    initialConfig.sizeProps.px.current.height = media.originalHeight;
 
                     // apply changes
                     initialConfig = calculateCurrentSizes(initialConfig);
@@ -451,8 +451,8 @@ define([
                             height: media.height
                         },
                         natural: {
-                            width: media.$node.naturalWidth ? media.$node.naturalWidth : media.width,
-                            height: media.$node.naturalHeight ? media.$node.naturalHeight : media.height
+                            width: media.originalWidth ? media.originalWidth : media.width,
+                            height: media.originalHeight ? media.originalHeight : media.height
                         }
                     },
                     '%': {
@@ -472,6 +472,7 @@ define([
             })
             .on('render', function () {
                 var $mediaSizer;
+
                 initialConfig = this.getConfig();
                 $template = $(tpl({
                     responsive: initialConfig.responsive
