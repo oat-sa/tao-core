@@ -22,7 +22,6 @@ namespace oat\tao\test\integration\model\asset;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\asset\AssetService;
 
-include_once dirname(__FILE__) . '/../../../../includes/raw_start.php';
 
 /**
  * Test case for the Service {@link oat\tao\model\asset\AssetService}

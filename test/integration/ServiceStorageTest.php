@@ -19,7 +19,7 @@
  * 
  */
 
-
+include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 class ServiceStorageTestCase extends \PHPUnit_Framework_TestCase {
 

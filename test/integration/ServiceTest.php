@@ -34,8 +34,6 @@ use \common_cache_FileCache;
 use \common_ext_ExtensionsManager;
 use Prophecy\Prophet;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
 /**
  * This class enable you to test the models managment of the tao extension
  *
