@@ -177,8 +177,8 @@ define([
                 if(this.is('rendered')){
 
                     // revert the sizes to the original of the image
-                    initialConfig.sizeProps.px.current.width = media.originalWidth;
-                    initialConfig.sizeProps.px.current.height = media.originalHeight;
+                    initialConfig.sizeProps.px.current.width = media.$node[0].naturalWidth;
+                    initialConfig.sizeProps.px.current.height = media.$node[0].naturalHeight;
 
                     // apply changes
                     initialConfig = calculateCurrentSizes(initialConfig);
@@ -451,8 +451,8 @@ define([
                             height: media.height
                         },
                         natural: {
-                            width: media.originalWidth ? media.originalWidth : media.width,
-                            height: media.originalHeight ? media.originalHeight : media.height
+                            width: media.$node[0].naturalWidth ? media.$node[0].naturalWidth : media.width,
+                            height: media.$node[0].naturalHeight ? media.$node[0].naturalHeight : media.height
                         }
                     },
                     '%': {
