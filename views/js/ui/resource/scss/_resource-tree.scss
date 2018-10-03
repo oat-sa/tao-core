@@ -1,6 +1,6 @@
 .resource-tree{
     $nodeHeight: 40px;
-    $classTogglerWidth: 25px;
+    $actionWidth: 25px;
 
     position: relative;
     height: 100%;
@@ -11,22 +11,29 @@
     }
 
     &.multiple ul li.selectable {
-        & > a:after {
-            @include transition(all, 200ms, linear);
-            @include tao-icon-setup;
-            @include icon-checkbox;
-            color: $info;
-            position: absolute;
-            right: 13px;
-            top: 12px;
-            width: 14px;
-            text-align:center;
+        & > a > .selector {
+            display: inline-block;
         }
-        &.selected > a:after {
-            @include icon-checkbox-checked;
+    }
+
+    .clickable {
+        &:hover {
+            cursor: pointer!important;
+            font-weight: bold!important;
+            &:before {
+                content: " ";
+                display: inline-block;
+                position: absolute;
+                width: $actionWidth;
+                height: $nodeHeight - 10px;
+                top: 5px;
+                left: 0;
+                border-radius: 50%;
+                background-color: whiten($uiClickableHoverBg, .2);
+            }
         }
-        &.selected > a:after, & > a:hover:after {
-            color: $textHighlight;
+        &:focus {
+            outline: 0 none!important;
         }
     }
 
@@ -52,22 +59,15 @@
             &.class {
                 .class-toggler {
                     display: inline-block;
-                    width: $classTogglerWidth;
+                    position: relative;
+                    width: $actionWidth;
                     height: $nodeHeight;
                     text-align: center;
-                    &:before {
+                    &:after {
                         @include tao-icon-setup;
                         @include icon-down;
                         @include font-size(15);
-                    }
-                    &:hover {
-                        cursor: pointer;
-                        &:before{
-                            font-weight: bold;
-                        }
-                    }
-                    &:focus {
-                        outline: 0 none;
+                        position: relative;
                     }
                 }
                 &.empty .class-toggler{
@@ -82,7 +82,7 @@
                     &:hover {
                         background-color: $uiClickableHoverBg;
                         color: $textHighlight;
-                        &:before {
+                        &:before, &:after {
                             color: $textHighlight;
                         }
                         @include transition(all, 200ms, linear);
@@ -93,14 +93,14 @@
                     & > a {
                         background-color: $uiClickableHoverBg;
                         color: $textHighlight;
-                        &:before {
+                        &:before, &:after {
                             color: $textHighlight;
                         }
                         @include transition(all, 200ms, linear);
                     }
                 }
                 &.closed {
-                    & > a > .class-toggler:before {
+                    & > a > .class-toggler:after {
                         @include icon-right;
                     }
                     & > a > .icon-folder:before {
@@ -112,20 +112,46 @@
                 }
             }
             &.instance {
-                & > a > span  {
+                & > a > [class^="icon-"], & > a > [class*=" icon-"] {
                     color: $info;
                     margin-right: 4px;
-                    padding-left: $classTogglerWidth;
+                    padding-left: $actionWidth;
                     @include font-size(16);
                 }
                 &.selected, &:hover {
                     cursor: pointer;
                     background-color: $uiClickableHoverBg;
-                    & > a, & > a > span {
+                    & > a, & > a > [class^="icon-"], & > a > [class*=" icon-"] {
                         color: $textHighlight;
                     }
                     @include transition(all, 200ms, linear);
                 }
+            }
+            & > a > .selector {
+                display: none;
+                position: absolute;
+                top: 0;
+                right: 8px;
+                line-height: $nodeHeight;
+                height: $nodeHeight;
+                width: $actionWidth;
+                text-align:center;
+
+                &:after {
+                    @include transition(all, 200ms, linear);
+                    @include tao-icon-setup;
+                    @include icon-checkbox;
+                    @include font-size(15);
+                    color: $info;
+                    line-height: $nodeHeight;
+                    position: relative;
+                }
+            }
+            &.selected > a > .selector:after {
+                @include icon-checkbox-checked;
+            }
+            &.selected > a > .selector:after, & > a:hover > .selector:after {
+                color: $textHighlight;
             }
             &[data-access=denied] > a, &[data-access=partial] > a {
                 [class^="icon-"], [class*=" icon-"] {
