@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -23,26 +23,23 @@
 (function(){
     'use strict';
 
-    var parse = function parse(value, defaultOutput){
-        try{
-            return JSON.parse(value);
-        } catch(e){
-            return typeof defaultOutput !== 'undefined' ? defaultOutput : null;
-        }
-    };
-
     var loaderScript = document.getElementById('amd-loader');
-    var loaderData   = loaderScript.dataset || {};
-    var bundles      = parse(loaderData.bundle, []);
+    var configUrl = loaderScript.getAttribute('data-config');
+    var bundle  = loaderScript.getAttribute('data-bundle');
 
     var loadController = function loadController(){
-        var started = false;
-        var controllerOptions = parse(loaderData.params, {});
-
-        require([loaderData.controller], function(controller) {
+        var controllerOptions = {};
+        var controllerPath = loaderScript.getAttribute('data-controller');
+        var params = loaderScript.getAttribute('data-params');
+        try{
+            controllerOptions = JSON.parse(params);
+        } catch(err){
+            controllerOptions = {};
+        }
+        window.require([controllerPath], function(controller) {
             var startController = function startController(){
-                if(!started){
-                    started = true;
+                if(!window.started){
+                    window.started = true;
                     controller.start(controllerOptions);
                 }
             };
@@ -52,18 +49,22 @@
             }
         });
     };
-
-
-
-    if(!Array.isArray(bundles)){
-        bundles = [bundles];
-    }
-    require([loaderData.config], function() {
-        //we allow to define the bundle dependencies, externally
-        if(window.combinedBundles && window.combinedBundles.length){
-            bundles = window.combinedBundles;
+    window.require([configUrl], function() {
+        var bundles = [];
+        if(bundle){
+            bundles.push(bundle);
         }
-        if(bundles && bundles.length){
+
+        //each bundle can define it's dependencies
+        if(window.bundles && window.bundles.length){
+            bundles = bundles.concat(window.bundles);
+            //unique values
+            bundles = bundles.filter( function(item, index){
+                return bundles.indexOf(item) === index;
+            });
+        }
+
+        if(bundles.length){
             require(bundles, loadController);
         } else {
             loadController();
