@@ -27,7 +27,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ApplicationService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/applicationService';
+    const SERVICE_ID = 'tao/ApplicationService';
 
     /**
      * Returns a whenever or not the current instance is used as demo instance
