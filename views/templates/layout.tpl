@@ -25,10 +25,6 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 
     <?= tao_helpers_Scriptloader::render() ?>
 
-
-    <?php if(\tao_helpers_Mode::is('production')): ?>
-    <script src="<?= Template::js('loader/vendor.min.js', 'tao')?>"></script>
-    <?php endif; ?>
     <?= Layout::getAmdLoader(Template::js('loader/tao.min.js', 'tao'), 'controller/backoffice') ?>
     <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
 </head>

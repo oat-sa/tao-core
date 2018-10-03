@@ -164,7 +164,8 @@ class Layout
         }
 
         if($bundleMode){
-            return $loader->getBundleLoader($bundle, $controller, $params);
+            return "<script src='" . Template::js('loader/vendor.min.js', 'tao') . "'></script>\n" .
+                    $loader->getBundleLoader($bundle, $controller, $params);
         }
 
         return $loader->getDynamicLoader($controller, $params);
@@ -391,7 +392,7 @@ class Layout
      * Turn TAO_VERSION in a more verbose form.
      * If TAO_VERSION diverges too much from the usual patterns TAO_VERSION will be returned unaltered.
      *
-     * Examples (TAO_VERSION => return value): 
+     * Examples (TAO_VERSION => return value):
      * 3.2.0-sprint52      => Sprint52 rev 3.2.0
      * v3.2.0-sprint52     => Sprint52 rev 3.2.0
      * 3.2.0sprint52       => Sprint52 rev 3.2.0

@@ -53,7 +53,16 @@ module.exports = function(grunt) {
                         name      : 'tao',
                         bootstrap : true,
                         default   : true,
-                        include   : ['layout/**/*', 'form/**/*', 'lock', 'report', 'users', 'serviceApi/**/*']
+                        include   : [
+                            'layout/**/*',
+                            'form/**/*',
+                            'lock',
+                            'report',
+                            'users',
+                            'serviceApi/**/*',
+                            'generis.tree',
+                            'generis.tree.select'
+                        ]
                     }]
                 }
             }

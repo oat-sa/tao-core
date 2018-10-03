@@ -75,6 +75,8 @@
     "interact",
     "jquery.fileDownload",
     "lib/farbtastic/farbtastic",
+    "jquery.tree",
+    "lib/jsTree/plugins/jquery.tree.checkbox",
     "d3",
     "c3",
     "core/**/*",
