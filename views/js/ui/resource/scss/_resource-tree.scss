@@ -18,8 +18,6 @@
 
     .clickable {
         &:hover {
-            cursor: pointer!important;
-            font-weight: bold!important;
             &:before {
                 content: " ";
                 display: inline-block;
@@ -29,11 +27,11 @@
                 top: 5px;
                 left: 0;
                 border-radius: 50%;
-                background-color: whiten($uiClickableHoverBg, .2);
+                background-color: blacken($uiSelectableHoverBg, .1);
             }
         }
         &:focus {
-            outline: 0 none!important;
+            outline: 0 none;
         }
     }
 
@@ -44,6 +42,8 @@
 
         li {
             position: relative;
+            cursor: pointer;
+
             & > a {
                 height: $nodeHeight;
                 line-height: $nodeHeight;
@@ -80,23 +80,28 @@
                         margin-right: 4px;
                     }
                     &:hover {
-                        background-color: $uiClickableHoverBg;
-                        color: $textHighlight;
-                        &:before, &:after {
-                            color: $textHighlight;
-                        }
+                        background-color: $uiSelectableHoverBg;
+                        color : $textColor;
                         @include transition(all, 200ms, linear);
                     }
                 }
 
                 &.selected {
                     & > a {
-                        background-color: $uiClickableHoverBg;
+                        background-color: $uiSelectableSelectedBg;
                         color: $textHighlight;
                         &:before, &:after {
                             color: $textHighlight;
                         }
                         @include transition(all, 200ms, linear);
+
+                        &:hover {
+                            background-color: $uiSelectableSelectedHoverBg;
+                            @include transition(all, 200ms, linear);
+                        }
+                        .clickable:hover:before {
+                            background-color: whiten($uiSelectableSelectedHoverBg, .2);
+                        }
                     }
                 }
                 &.closed {
@@ -118,13 +123,25 @@
                     padding-left: $actionWidth;
                     @include font-size(16);
                 }
-                &.selected, &:hover {
-                    cursor: pointer;
-                    background-color: $uiClickableHoverBg;
+                &:hover {
+                    background-color: $uiSelectableHoverBg;
+                    color : $textColor;
+                    @include transition(all, 200ms, linear);
+                }
+                &.selected {
+                    background-color: $uiSelectableSelectedBg;
                     & > a, & > a > [class^="icon-"], & > a > [class*=" icon-"] {
                         color: $textHighlight;
                     }
                     @include transition(all, 200ms, linear);
+
+                    &:hover {
+                        background-color: $uiSelectableSelectedHoverBg;
+                        @include transition(all, 200ms, linear);
+                    }
+                    .clickable:hover:before {
+                        background-color: whiten($uiSelectableSelectedHoverBg, .2);
+                    }
                 }
             }
             & > a > .selector {
@@ -150,7 +167,7 @@
             &.selected > a > .selector:after {
                 @include icon-checkbox-checked;
             }
-            &.selected > a > .selector:after, & > a:hover > .selector:after {
+            &.selected > a > .selector:after, &.selected > a:hover > .selector:after {
                 color: $textHighlight;
             }
             &[data-access=denied] > a, &[data-access=partial] > a {
