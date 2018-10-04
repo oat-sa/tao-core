@@ -32,8 +32,6 @@ class QueueDispatcherTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-
-        require_once __DIR__ .'/../../../../includes/raw_start.php';
     }
 
     /**

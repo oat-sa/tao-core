@@ -21,8 +21,6 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use \oat\generis\model\user\PasswordConstraintsService;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
 /**
  * This class enable you to test the validators
  *

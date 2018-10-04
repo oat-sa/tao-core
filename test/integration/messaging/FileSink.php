@@ -23,8 +23,6 @@ use oat\tao\model\messaging\Message;
 use oat\tao\model\messaging\transportStrategy\FileSink;
 use Prophecy\Prediction\CallTimesPrediction;
 
-include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
-
 /**
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package tao
