@@ -72,133 +72,134 @@ define([
                         resourceProvider.getClassProperties(options.rootClassUri),
                         treeStore.getItem(options.id)
                     ])
-                    .then(function(results) {
-                        var classes     = results[0];
-                        var filters     = results[1];
-                        var defaultNode = results[2];
-                        var preloadNode = typeof options.loadNode !== 'undefined';
+                        .then(function(results) {
+                            var classes     = results[0];
+                            var filters     = results[1];
+                            var defaultNode = results[2];
+                            var preloadNode = typeof options.loadNode !== 'undefined';
 
-                        resourceSelectorFactory($container, {
-                            icon : options.icon || 'test',
-                            searchPlaceholder : __('Filter'),
-                            selectionMode: 'both',
-                            selectClass : true,
-                            classUri: options.rootClassUri,
-                            classes: classes,
-                            filters: filters
-                        })
-                        .on('init', function(){
-                            actionManager.exec(options.actions.init, {
-                                uri: options.rootClassUri
-                            });
-                        })
-                        .on('render', function() {
-                            var self = this;
-
-                            actionManager.on('removeNodes', function(actionContext, nodes){
-
-                                //make the component in loading state
-                                //to prevent handling intermediate changes
-                                self.setState('loading', true);
-
-                                _.forEach(nodes, self.removeNode, self);
-                                self.changeSelectionMode('single');
-
-                                self.setState('loading', false);
-                                self.selectDefaultNode(defaultNode);
-                            });
-                            actionManager.on('removeNode', function(actionContext, node){
-                                self.removeNode(node);
-                                self.selectDefaultNode(defaultNode);
-                            });
-                            actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
-                                self.changeSelectionMode('single');
-                                self.addNode(node, node.classUri);
-                                self.select(node);
-                            });
-                            actionManager.on('copyTo', function(actionContext, node){
-                                self.refresh(node || defaultNode);
-                            });
-                            actionManager.on('refresh', function(node){
-                                self.refresh(node || defaultNode);
-                            });
-
-                            generisRouter.on('urichange', function(nodeUri, sectionId) {
-                                if (options.sectionId === sectionId) {
-                                    self.refresh(nodeUri);
-                                }
-                            });
-
-                            resolve();
-                        })
-                        .on('query', function(params) {
-                            var self = this;
-
-                            if(preloadNode){
-                                params.selectedUri = options.loadNode;
-                                preloadNode = false;
-                            }
-
-                            //ask the server the resources from the component query
-                            resourceProvider.getResources(params, true)
-                                .then(function(resources) {
-                                    self.update(resources, params);
+                            resourceSelectorFactory($container, {
+                                icon : options.icon || 'test',
+                                searchPlaceholder : __('Filter'),
+                                selectionMode: 'both',
+                                selectClass : true,
+                                classUri: options.rootClassUri,
+                                classes: classes,
+                                filters: filters
+                            })
+                                .on('init', function(){
+                                    actionManager.exec(options.actions.init, {
+                                        uri: options.rootClassUri
+                                    });
                                 })
-                                .catch(function(err) {
+                                .on('render', function() {
+                                    var self = this;
+
+                                    actionManager.on('removeNodes', function(actionContext, nodes){
+
+                                        //make the component in loading state
+                                        //to prevent handling intermediate changes
+                                        self.setState('loading', true);
+
+                                        _.forEach(nodes, self.removeNode, self);
+                                        self.changeSelectionMode('single');
+
+                                        self.setState('loading', false);
+                                        self.selectDefaultNode(defaultNode);
+                                    });
+                                    actionManager.on('removeNode', function(actionContext, node){
+                                        self.removeNode(node);
+                                        self.selectDefaultNode(defaultNode);
+                                    });
+                                    actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
+                                        self.changeSelectionMode('single');
+                                        self.addNode(node, node.classUri);
+                                        self.query({ classUri : node.classUri });
+                                        self.select(node);
+                                    });
+                                    actionManager.on('copyTo', function(actionContext, node){
+                                        self.refresh(node || defaultNode);
+                                    });
+                                    actionManager.on('refresh', function(node){
+                                        self.refresh(node || defaultNode);
+                                    });
+
+                                    generisRouter.on('urichange', function(nodeUri, sectionId) {
+                                        if (options.sectionId === sectionId) {
+                                            self.refresh(nodeUri);
+                                        }
+                                    });
+
+                                    resolve();
+                                })
+                                .on('query', function(params) {
+                                    var self = this;
+
+                                    if(preloadNode){
+                                        params.selectedUri = options.loadNode;
+                                        preloadNode = false;
+                                    }
+
+                                    //ask the server the resources from the component query
+                                    resourceProvider.getResources(params, true)
+                                        .then(function(resources) {
+                                            self.update(resources, params);
+                                        })
+                                        .catch(function(err) {
+                                            logger.error(err);
+                                        });
+                                })
+                                .on('update.first', function(){
+
+                                    this.off('update.first');
+
+                                    //on the 1st update we select the default node
+                                    //or fallback on 1st instance, or even 1st class
+                                    this.selectDefaultNode(options.loadNode || defaultNode);
+                                })
+                                .on('change', function(selection) {
+                                    var self   = this;
+                                    var length = _.size(selection);
+                                    var getContext = function getContext(resource) {
+                                        return _.defaults(resource, {
+                                            id : resource.uri,
+                                            rootClassUri : self.classUri
+                                        });
+                                    };
+
+                                    //ignore changes while loading or modifying the selector
+                                    if(self.is('loading')){
+                                        return;
+                                    }
+
+                                    if(length === 1){
+                                        _.forEach(selection, function(resource) {
+                                            var selectedContext = getContext(resource);
+                                            actionManager.updateContext(selectedContext);
+
+                                            if(selectedContext.type === 'class'){
+                                                actionManager.exec(options.actions.selectClass, selectedContext);
+                                            }
+                                            if(selectedContext.type === 'instance'){
+                                                actionManager.exec(options.actions.selectInstance, selectedContext);
+                                            }
+
+                                            generisRouter.pushNodeState(location.href, resource.uri);
+
+                                            defaultNode = resource;
+                                            treeStore.setItem(options.id, defaultNode);
+                                        });
+                                    } else if (length > 1){
+                                        actionManager.updateContext( _.transform(selection, function(acc, resource){
+                                            acc.push(getContext(resource));
+                                            return acc;
+                                        }, []));
+                                    }
+                                })
+                                .on('error', function(err){
                                     logger.error(err);
                                 });
-                        })
-                        .on('update.first', function(){
-
-                            this.off('update.first');
-
-                            //on the 1st update we select the default node
-                            //or fallback on 1st instance, or even 1st class
-                            this.selectDefaultNode(options.loadNode || defaultNode);
-                        })
-                        .on('change', function(selection) {
-                            var self   = this;
-                            var length = _.size(selection);
-                            var getContext = function getContext(resource) {
-                                return _.defaults(resource, {
-                                    id : resource.uri,
-                                    rootClassUri : self.classUri
-                                });
-                            };
-
-                            //ignore changes while loading or modifying the selector
-                            if(self.is('loading')){
-                                return;
-                            }
-
-                            if(length === 1){
-                                _.forEach(selection, function(resource) {
-                                    var selectedContext = getContext(resource);
-                                    actionManager.updateContext(selectedContext);
-
-                                    if(selectedContext.type === 'class'){
-                                        actionManager.exec(options.actions.selectClass, selectedContext);
-                                    }
-                                    if(selectedContext.type === 'instance'){
-                                        actionManager.exec(options.actions.selectInstance, selectedContext);
-                                    }
-
-                                    generisRouter.pushNodeState(location.href, resource.uri);
-
-                                    defaultNode = resource;
-                                    treeStore.setItem(options.id, defaultNode);
-                                });
-                            } else if (length > 1){
-                                actionManager.updateContext( _.transform(selection, function(acc, resource){
-                                    acc.push(getContext(resource));
-                                    return acc;
-                                }, []));
-                            }
-                        })
-                        .on('error', function(err){
-                            logger.error(err);
                         });
-                    });
                 });
             });
         }
