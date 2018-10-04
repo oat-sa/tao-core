@@ -28,8 +28,6 @@ use oat\tao\model\menu\Action;
 use oat\tao\model\menu\Icon;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
-
 /**
  * Unit test the  oat\tao\model\menu\Action 
  * @author Bertrand Chevrier <bertrand@taotesting.com>

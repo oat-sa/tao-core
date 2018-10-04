@@ -23,8 +23,6 @@ use oat\generis\model\OntologyRdf;
 use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
 /**
  * Aims at testing languages/locales in TAO.
  * 
