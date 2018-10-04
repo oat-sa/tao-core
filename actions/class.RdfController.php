@@ -587,6 +587,100 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     }
 
     /**
+     * Move instances to another class
+     *
+     * {
+     *   "destinationClassUri": "http://test.it",
+     *   "ids": [
+     *     "http://resource1",
+     *     "http://resource2",
+     *     "http://class1",
+     *     "http://class2"
+     *   ]
+     * }
+     * @requiresRight destinationClassUri WRITE
+     *
+     * @throws common_exception_MethodNotAllowed If it is not POST method
+     * @throws common_exception_Error
+     */
+    public function moveAllInstances()
+    {
+        if (!$this->isRequestPost()) {
+            throw new common_exception_MethodNotAllowed('Only POST method is allowed to move instances.');
+        }
+        try {
+
+            if (!$this->hasRequestParameter('destinationClassUri')) {
+                throw new InvalidArgumentException('Destination class must be specified');
+            }
+
+            if (!$this->hasRequestParameter('ids')) {
+                throw new InvalidArgumentException('Resource ids must be specified.');
+            }
+
+            $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+            if (!$destinationClass->isClass()) {
+                throw new InvalidArgumentException('Destination class must be a valid class');
+            }
+
+    //        $destinationRootClass = $this->getDestinationRootClass($destinationClass);
+
+            $classes = $statuses = [];
+            $instances = $this->getRequestParameter('ids');
+            if (empty($instances)) {
+                throw new InvalidArgumentException('No instances specified.');
+            }
+
+            foreach ($instances as $key => $instance) {
+                $instance = new core_kernel_classes_Resource($instance);
+                if ($instance->isClass()) {
+                    $instance = new core_kernel_classes_Class($instance);
+                    $classes[] = $instance;
+                } else {
+                    if (!$instance->exists()) {
+                        throw new InvalidArgumentException(sprintf('Instance "%s" does not exist', $instance->getUri()));
+                    }
+                }
+                $instances[$key] = $instance;
+
+                // Check if source and destination root class are the same to scope move to same class?
+    //            $instanceRootClass = $this->getDestinationRootClass($instance);
+    //            if ($rootClass->getUri() != $instanceRootClass->getUri()) {
+    //                throw new InvalidArgumentException('An instance cannot be moved to another root class');
+    //            }
+            }
+
+            // Check if a class belong to class to move
+            /** @var core_kernel_classes_Resource|core_kernel_classes_Class $instance */
+            foreach ($instances as $instance) {
+                foreach ($classes as $class) {
+                    if ($instance instanceof core_kernel_classes_Resource) {
+                        if ($instance->isInstanceOf($class)) {
+                            throw new InvalidArgumentException(
+                                sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri())
+                            );
+                        }
+                    } else {
+                        if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
+                              throw new InvalidArgumentException(
+                                  sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri())
+                              );
+                        }
+                    }
+                }
+            }
+
+            foreach ($instances as $instance) {
+                $statuses[$instance->getUri()] = $this->getClassService()->changeClass($instance, $destinationClass);
+            }
+
+            $this->returnJson($statuses);
+        } catch (\InvalidArgumentException $e) {
+            $this->returnJson($e->getMessage(), 500);
+        }
+    }
+
+    /**
      * Render the  form to translate a Resource instance
      * @return void
      * @requiresRight id WRITE
