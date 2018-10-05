@@ -44,8 +44,6 @@ class tao_helpers_Display
      */
     public static function textCutter($input, $maxLength = 75)
     {
-        $returnValue = (string) '';
-
         $encoding = self::getApplicationService()->getDefaultEncoding();
 		if (mb_strlen($input, $encoding) > $maxLength){
 			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, $encoding)."[...]</span>";
@@ -68,7 +66,7 @@ class tao_helpers_Display
      */
     public static function textCleaner($input, $joker = '_', $maxLength = -1)
     {
-        $returnValue = (string) '';
+        $returnValue = '';
 
         $randJoker = ($joker == '*');
         $length =  ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input));
@@ -105,8 +103,6 @@ class tao_helpers_Display
      */
     public static function htmlize($input)
     {
-        $returnValue = (string) '';
-
         $returnValue = htmlentities($input, ENT_COMPAT, self::getApplicationService()->getDefaultEncoding());
 
         return (string) $returnValue;
