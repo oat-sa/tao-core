@@ -23,6 +23,8 @@
 (function(){
     'use strict';
 
+
+
     var loaderScript = document.getElementById('amd-loader');
     var configUrl = loaderScript.getAttribute('data-config');
     var bundle  = loaderScript.getAttribute('data-bundle');
@@ -49,23 +51,38 @@
             }
         });
     };
+
+    //always start to load the config
     window.require([configUrl], function() {
-        var bundles = [];
-        if(bundle){
-            bundles.push(bundle);
+
+        //define the global loading mechanism
+        if(!window.loadBundles){
+            //keep tracl of loaded bundles, even if require does it,
+            //this prevent some unecessary cycles
+            window.loaded = {};
+
+            /**
+             * Loading entry point for inter bundle dependency,
+             * always take the bundles from the params and window.bundles
+             * @param {String[]} [bundles] - an optional list of bundle to load
+             */
+            window.loadBundles = function loadBundles(bundles){
+                bundles = bundles || [];
+                bundles = bundles.concat(window.bundles)
+                bundles = bundles.filter( function(item, index){
+                    return item && bundles.indexOf(item) === index && window.loaded[item] !== true;
+                });
+                require(bundles, function(){
+                    bundles.forEach( function( item ) {
+                        window.loaded[item] = true;
+                    });
+                    loadController();
+                });
+            }
         }
 
-        //each bundle can define it's dependencies
-        if(window.bundles && window.bundles.length){
-            bundles = bundles.concat(window.bundles);
-            //unique values
-            bundles = bundles.filter( function(item, index){
-                return bundles.indexOf(item) === index;
-            });
-        }
-
-        if(bundles.length){
-            require(bundles, loadController);
+        if(bundle || (window.bundles && window.bundles.length)) {
+            window.loadBundles([bundle]);
         } else {
             loadController();
         }
