@@ -281,3 +281,12 @@ Usage:
 @mixin disableSelect() {
     @include vendor-prefix(user-select, none, property);
 }
+
+// Harmonize focus style between browsers
+@mixin focus-style {
+    box-shadow: 0 0 9px 3px $info !important;
+    transition: box-shadow 200ms ease-out;
+    &:-webkit-autofill {
+        box-shadow: 0 0 9px 3px $autofillFocusBorderColor !important;
+    }
+}

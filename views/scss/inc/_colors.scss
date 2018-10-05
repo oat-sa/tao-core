@@ -73,3 +73,10 @@ $colorWheel-09: #BA122B;
 $colorWheel-10: #C34713;
 $colorWheel-11: #C36F13;
 $colorWheel-12: #C39413;
+
+// Harmonize focus style between browsers
+$autofillFocusBorderColor: $colorWheel-01;
+$autofillBgColor: rgb(250, 255, 189); // = Chrome default setting
+
+$selectableHover: $lightGrey;
+$activeHover: $lightBlueGrey;
