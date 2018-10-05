@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint15\n"
-"PO-Revision-Date: 2015-12-23T13:00:35\n"
+"Project-Id-Version: TAO 3.3.0-sprint86\n"
+"PO-Revision-Date: 2018-09-26T12:04:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -13,285 +13,355 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"
-msgstr ""
+msgstr "TAO gebruikers object"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any user-level resource related to etesting"
-msgstr ""
+msgstr "Enig gebruikersniveau bron gerelateerd aan e-testing"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SystemObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "System Object"
-msgstr ""
+msgstr "Systeem object"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SystemObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any system resource related to etesting"
-msgstr ""
+msgstr "Enig systeem bron gerelateerd aan e-testing"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#List
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "List"
+msgstr "Lijst"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Updated"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Last updated date"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#level
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "level"
-msgstr ""
+msgstr "niveau"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Languages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Languages"
-msgstr ""
+msgstr "Talen"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Usage"
-msgstr ""
+msgstr "Gebruik"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Usage of a language"
-msgstr ""
+msgstr "Gebruik van een taal"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Language Usage"
-msgstr ""
+msgstr "Taal gebruik"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Language usage class"
-msgstr ""
+msgstr "Taalgebruiker klasse"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "GUI Usage"
-msgstr ""
+msgstr "GUI gebruik"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Graphical User Interface language usage"
-msgstr ""
+msgstr "Taal gebruikt voor Graphical User interface "
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Data Usage"
-msgstr ""
+msgstr "Data gebruik"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Data language usage"
-msgstr ""
+msgstr "Taal gebruikt voor data"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Language orientation"
-msgstr ""
+msgstr "Taal oriëntatie "
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Language orientation class"
-msgstr ""
+msgstr "Taal gebruikt voor de klasse oriëntatie "
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Orientation"
-msgstr ""
+msgstr "Oriëntatie"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Orientation of a language"
-msgstr ""
+msgstr "Taal oriëntatie "
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Left-to-right orientation"
-msgstr ""
+msgstr "Oriëntatie van links naar rechts"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Left-to-right language orientation"
-msgstr ""
+msgstr "Taaloriëntatie van links naar rechts"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Right-to-left orientation"
-msgstr ""
+msgstr "Oriëntatie van rechts naar links"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Right-to-left language orientation"
-msgstr ""
+msgstr "Taaloriëntatie van rechts naar links"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#User
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "User"
-msgstr ""
+msgstr "Gebruiker"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#User
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "TAO User Class"
-msgstr ""
+msgstr "TAO gebruikers klasse"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Management"
-msgstr ""
+msgstr "Beheer"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Management Role Class"
-msgstr ""
+msgstr "The beheerders rol klasse"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
-msgstr ""
+msgstr "Back Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The BackOffice Role"
-msgstr ""
+msgstr "De Back Office rol "
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr ""
+msgstr "Front office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The FrontOffice Role"
-msgstr ""
+msgstr "De Front office rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Service"
-msgstr ""
+msgstr "Dienst"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
+# dienst isdirect translation. maybe change if i see the context
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Service Role"
-msgstr ""
+msgstr "De dienst rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Manager"
-msgstr ""
+msgstr "TAO beheerder"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The TAO Manager Role"
-msgstr ""
+msgstr "De TAO beheerders rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Metadata Manager Role"
-msgstr ""
+msgstr "Metadata beheerders rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Metadata Manager Role allows you to modify the properties of the classes."
-msgstr ""
+msgstr "De metadata beheerder rol geeft u de mogelijkheid om eigenschappen van klassen aan te passen"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Global Manager"
-msgstr ""
+msgstr "Globaal beheerder"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Global Manager Role"
-msgstr ""
+msgstr "De globaal beheerder rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Lock Manager"
-msgstr ""
+msgstr "Blokkade beheerder"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The role that can unlock all resources"
-msgstr ""
+msgstr "De rol die alle bronnen kan vrijgeven"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "System Administrator"
-msgstr ""
+msgstr "Systeembeheerder"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The System Administrator Role"
+msgstr "De systeembeheerder rol"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Task Queue Manager"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
+# http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The Task Queue Manager Role"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "REST Publisher"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The REST API Publishing Role"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Operational Administrator"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The Operational Administrator role"
+msgstr ""
+
+# At least if this is the one taking an exam and not a system tester
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Taker"
-msgstr ""
+msgstr "Test kandidaat"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
+# at least if this is exam candaidate and not a system tester
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Test Taker Role"
-msgstr ""
+msgstr "De kandidaat rol"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Form Field Order"
-msgstr ""
+msgstr "Volgorde van velden op formulier"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The order of the property within the class"
-msgstr ""
+msgstr "De volgorde van de eigenschap binnen een klasse"
 
 # http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Password recovery token"
-msgstr ""
+msgstr "Wachtwoord herstel token"
 
 # http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Password recovery token"
-msgstr ""
+msgstr "Wachtwoord herstel token"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Lock
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Lock"
-msgstr ""
+msgstr "Vergrendelen"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Lock
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Lock information related to the resource"
+msgstr "Blokkeer informatie gerelateerd aan de bron"
+
+# http://www.tao.lu/Ontologies/generis.rdf#validationRule
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Validation Rules"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/generis.rdf#validationRule
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Validation rules for the values of this property"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Validation"
+msgstr ""
+
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Select the validation rules"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "LastExtensionUsed"
-msgstr ""
+msgstr "LaatsteExtensieGebruikt"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Saves the last extension the user had visited."
-msgstr ""
+msgstr "Slaat de laatste extensie op die de gebruiker had bezocht."
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "First Time In Tao"
-msgstr ""
+msgstr "Eerste keer in Tao"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Is it the first the user connects to TAO?"
+msgstr "Is dit de eerste keer dat de gebruiker connectie maakt met TAO?"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "assessmentObject"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Object to represent assessment contents"
 msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Object"
-msgstr ""
+msgstr "TAO object"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any resource related to etesting"
-msgstr ""
+msgstr "Elke bron gerelateerd aan e-testing"
 

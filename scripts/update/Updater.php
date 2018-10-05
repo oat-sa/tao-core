@@ -840,8 +840,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.20.0');
         }
 
-        $this->skip('19.20.0', '20.0.2');
-        if ($this->isVersion('20.0.2')) {
+        $this->skip('19.20.0', '20.0.4');
+        if ($this->isVersion('20.0.4')) {
             $options = [];
             if(defined('ROOT_PATH') && is_readable(ROOT_PATH.'build')){
                 $content = file_get_contents(ROOT_PATH.'build');
