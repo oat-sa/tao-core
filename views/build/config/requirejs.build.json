@@ -74,6 +74,7 @@
     "scale.raphael",
     "interact",
     "jquery.fileDownload",
+    "jquery.autocomplete",
     "lib/farbtastic/farbtastic",
     "jquery.tree",
     "lib/jsTree/plugins/jquery.tree.checkbox",
