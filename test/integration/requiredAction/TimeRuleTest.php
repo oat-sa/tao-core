@@ -22,7 +22,6 @@
 use oat\tao\test\TaoPhpUnitTestRunner;
 use  oat\tao\model\requiredAction\implementation\TimeRule;
 
-include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
 class TimeRuleTest extends TaoPhpUnitTestRunner
 {

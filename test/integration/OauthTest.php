@@ -24,8 +24,6 @@ use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\oauth\DataStore;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
 /**
  * @author Jerome Bogaerts, <taosupport@tudor.lu>
  * @package tao

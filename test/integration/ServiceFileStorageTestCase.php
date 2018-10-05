@@ -21,17 +21,8 @@
 
 //TODO simpletest testcase that need to be migrate to phpunit
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+class ServiceFileStorageTestCase extends PHPUnit_Framework_TestCase {
 
-class ServiceFileStorageTestCase extends UnitTestCase {
-
-	/**
-	 * tests initialization
-	 */
-	public function setUp(){
-		TaoTestRunner::initTest();
-	}
-	
 	public function testFileStorage() {
 	    $storage = tao_models_classes_service_FileStorage::singleton();
 	    
