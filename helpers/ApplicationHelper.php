@@ -27,7 +27,7 @@ use oat\tao\model\service\ApplicationService;
  * Class ApplicationHelper
  * @package oat\tao\helpers
  *
- * @deprecated
+ * @deprecated Use oat\tao\model\service\ApplicationService instead
  */
 class ApplicationHelper
 {

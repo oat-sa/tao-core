@@ -29,6 +29,8 @@ class ApplicationService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/ApplicationService';
 
+    const OPTION_BUILD_NUMBER = 'taoBuildNumber';
+
     /**
      * Returns a whenever or not the current instance is used as demo instance
      *
@@ -47,10 +49,10 @@ class ApplicationService extends ConfigurableService
     {
         $version = $this->getPlatformVersion();
 
-        if(defined('ROOT_PATH') && is_readable(ROOT_PATH.'build')){
-            $content = file_get_contents(ROOT_PATH.'build');
+        if ($this->hasOption(self::OPTION_BUILD_NUMBER)) {
+            $buildNumber = $this->getOption(self::OPTION_BUILD_NUMBER);
             $version = 'v' . $version;
-            $version = is_numeric($content) ? $version. '+build' . $content : $version;
+            $version = is_numeric($buildNumber) ? "{$version}+build{$buildNumber}" : $version;
         }
 
         return $version;

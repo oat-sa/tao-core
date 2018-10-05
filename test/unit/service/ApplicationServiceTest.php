@@ -20,8 +20,6 @@
 namespace oat\tao\test\unit\service;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
-use oat\generis\test\TestCase;
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\service\ApplicationService;
 use common_ext_Extension;
@@ -163,6 +161,33 @@ class ApplicationServiceTest extends GenerisPhpUnitTestRunner
         $this->assertEquals($expectedProductName, $productName, 'Product name must be as expected.');
     }
 
+    /**
+     * Test for getVersionName method
+     *
+     * @dataProvider providerGetVersionName
+     *
+     * @param $buildNumber
+     * @param $taoVersion
+     * @param $expected
+     * @throws \common_ext_ExtensionException
+     * @throws common_exception_Error
+     */
+    public function testGetVersionName($buildNumber, $taoVersion, $expected) {
+        $this->extensionMock->expects($this->once())
+            ->method('getConstant')
+            ->with('TAO_VERSION')
+            ->willReturn($taoVersion);
+        $this->mockServiceLocator();
+
+        if (!is_null($buildNumber)) {
+            $this->instance->setOption(ApplicationService::OPTION_BUILD_NUMBER, $buildNumber);
+        }
+
+        $versionName = $this->instance->getVersionName();
+
+        $this->assertEquals($expected, $versionName, 'Version name must be as expected.');
+    }
+
     public function isDemoProvider()
     {
         return [
@@ -185,6 +210,36 @@ class ApplicationServiceTest extends GenerisPhpUnitTestRunner
             [
                 'releaseStatus' => 'demoS',
                 'expectedResult' => true,
+            ],
+        ];
+    }
+
+    /**
+     * Data provider for testGetVersionName
+     *
+     * @return array
+     */
+    public function providerGetVersionName() {
+        return [
+            'Without build number' => [
+                'buildNumber' => null,
+                'taoVersion' => 'TAO_VERSION',
+                'expected' => 'TAO_VERSION'
+            ],
+            'With empty number' => [
+                'buildNumber' => '',
+                'taoVersion' => 'TAO_VERSION',
+                'expected' => 'vTAO_VERSION'
+            ],
+            'With not numeric number' => [
+                'buildNumber' => 'NOT_NUMERIC_NUMBER',
+                'taoVersion' => 'TAO_VERSION',
+                'expected' => 'vTAO_VERSION'
+            ],
+            'With numeric number' => [
+                'buildNumber' => '123',
+                'taoVersion' => 'TAO_VERSION',
+                'expected' => 'vTAO_VERSION+build123'
             ],
         ];
     }
