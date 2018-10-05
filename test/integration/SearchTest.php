@@ -19,26 +19,31 @@
  * 
  */
 
+namespace oat\tao\test\integration;
+
 use oat\generis\model\GenerisRdf;
-use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\search\SearchService;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tokenizer\RawValue;
 use oat\tao\model\search\strategy\GenerisSearch;
+use oat\generis\test\GenerisPhpUnitTestRunner;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
+use helpers_Random;
+use oat\tao\model\search\Search;
+use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\search\tokenizer\Tokenizer;
 
 
 /**
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class SearchTestCase extends \PHPUnit_Framework_TestCase {
+class SearchTest extends GenerisPhpUnitTestRunner {
     
     private $class;
     
     private $property;
-    
-    public function __construct() {
-    }
 	
     public function setUp()
     {		
@@ -57,13 +62,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
     public function testSearchService()
     {
         $implementation = new GenerisSearch();
-        $this->assertInstanceOf('oat\tao\model\search\Search', $implementation);
-    }
-    
-    public function testRunIndex()
-    {
-        $count = SearchService::runIndexing();
-        $this->assertTrue(is_numeric($count), 'Indexing did not return a numeric value');
+        $this->assertInstanceOf(Search::class, $implementation);
     }
     
     public function testCreateIndex()
@@ -73,11 +72,11 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
 
         $index = OntologyIndexService::createIndex($this->property, $id, $tokenizer, true, true);
 
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
+        $this->assertInstanceOf(OntologyIndex::class, $index);
         $this->assertTrue($index->exists());
 
         $indexToo = OntologyIndexService::getIndexById($id);
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $indexToo);
+        $this->assertInstanceOf(OntologyIndex::class, $indexToo);
         $this->assertTrue($index->equals($indexToo));
 
         $this->assertEquals($id, $index->getIdentifier());
@@ -85,14 +84,14 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($index->isFuzzyMatching());
 
         $tokenizer = $index->getTokenizer();
-        $this->assertInstanceOf('oat\tao\model\search\tokenizer\Tokenizer', $tokenizer);
+        $this->assertInstanceOf(Tokenizer::class, $tokenizer);
 
         $indexes = OntologyIndexService::getIndexes($this->property);
         $this->assertTrue(is_array($indexes));
         $this->assertEquals(1, count($indexes));
 
         $indexToo = reset($indexes);
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $indexToo);
+        $this->assertInstanceOf(OntologyIndex::class, $indexToo);
         $this->assertTrue($index->equals($indexToo));
 
         return $index;
@@ -104,7 +103,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testDublicateCreate($index)
     {
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
+        $this->assertInstanceOf(OntologyIndex::class, $index);
         
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         OntologyIndexService::createIndex($this->property, $index->getIdentifier(), $tokenizer, true, true);
@@ -115,11 +114,11 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testCreateSimilar($index)
     {
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
+        $this->assertInstanceOf(OntologyIndex::class, $index);
         
         $tokenizer = new core_kernel_classes_Resource(RawValue::URI);
         $similar = OntologyIndexService::createIndex($this->property, substr($index->getIdentifier(), 0, -2), $tokenizer, true, true);
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $similar);
+        $this->assertInstanceOf(OntologyIndex::class, $similar);
         
         return $similar;
     }
@@ -129,7 +128,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testDeleteSimilar($index)
     {
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
+        $this->assertInstanceOf(OntologyIndex::class, $index);
         $this->assertTrue($index->exists());
         $index->delete();
         $this->assertFalse($index->exists());
@@ -143,7 +142,7 @@ class SearchTestCase extends \PHPUnit_Framework_TestCase {
      */
     public function testDeleteIndex($index)
     {
-        $this->assertInstanceOf('oat\tao\model\search\index\OntologyIndex', $index);
+        $this->assertInstanceOf(OntologyIndex::class, $index);
         $this->assertTrue($index->exists());
         $index->delete();
         $this->assertFalse($index->exists());
