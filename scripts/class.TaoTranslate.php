@@ -90,14 +90,6 @@ class tao_scripts_TaoTranslate
      */
     const DEF_LANG_FILENAME = 'lang.rdf';
 
-    /**
-     * Short description of attribute DEF_PHP_FILENAME
-     *
-     * @access public
-     * @var string
-     */
-    const DEF_PHP_FILENAME = 'messages.lang.php';
-
     private static $WHITE_LIST = array(
         'actions',
         'helpers',
@@ -1332,11 +1324,6 @@ class tao_scripts_TaoTranslate
 					// Sort the TranslationUnits.
 					$sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
 					$compiledTranslationFile->setTranslationUnits($compiledTranslationFile->sortBySource($sortingMethod));
-					
-					$phpPath = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_PHP_FILENAME;
-					$phpFileWriter = new tao_helpers_translation_PHPFileWriter($phpPath, $compiledTranslationFile);
-					$phpFileWriter->write();
-					$this->outVerbose("PHP compiled translations for extension '${extension}' with '${language}' written.");
 					
 					$jsPath = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_JS_FILENAME;
 					$jsFileWriter = new tao_helpers_translation_JSFileWriter($jsPath, $compiledTranslationFile);

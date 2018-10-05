@@ -24,8 +24,6 @@ use tao_helpers_Date;
 use DateInterval;
 use DateTime;
 
-require_once __DIR__.'/../../../includes/raw_start.php';
-
 class DateHelperTest extends TaoPhpUnitTestRunner
 {
 

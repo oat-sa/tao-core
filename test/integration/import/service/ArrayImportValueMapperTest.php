@@ -18,10 +18,11 @@
  */
 namespace oat\tao\test\integration\import\service;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\import\service\ArrayImportValueMapper;
 use oat\tao\model\import\service\ImportValueMapperInterface;
 
-class ArrayImportValueMapperTest extends \PHPUnit_Framework_TestCase
+class ArrayImportValueMapperTest extends TestCase
 {
     public function testMap()
     {
@@ -32,15 +33,15 @@ class ArrayImportValueMapperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['val1', 'val2', 'val3'], $arrayImporter->map('val1|val2|val3'));
     }
 
-    /**
-     * @todo fix test (common_exception_Error: Tried to add NULL to report)
-     */
     public function testMapWithValueMapper()
     {
+        $reportMock = $this->prophesize(\common_report_Report::class)->reveal();
+
         $mapper = $this->getMockForAbstractClass(ImportValueMapperInterface::class);
-        $mapper
-            ->method('map')
+        $mapper->method('map')
             ->willReturnOnConsecutiveCalls('valueMappedInDB1','valueMappedInDB2');
+        $mapper->method('getReport')
+            ->willReturn($reportMock);
 
         $arrayImporter = new ArrayImportValueMapper([
             ArrayImportValueMapper::OPTION_DELIMITER => '|',

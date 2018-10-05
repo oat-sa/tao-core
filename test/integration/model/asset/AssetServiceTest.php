@@ -19,30 +19,42 @@
  */
 namespace oat\tao\test\integration\model\asset;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\service\ApplicationService;
 
-include_once dirname(__FILE__) . '/../../../../includes/raw_start.php';
 
 /**
  * Test case for the Service {@link oat\tao\model\asset\AssetService}
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class AssetServiceTest extends TaoPhpUnitTestRunner
+class AssetServiceTest extends GenerisPhpUnitTestRunner
 {
+    const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
+
     /**
      * Test the method AssetService->getAsset
+     *
      * @dataProvider getAssetProvider
      */
     public function testGetAsset($baseUrl, $buster, $path, $extension, $expected)
     {
+        $appServiceProphecy = $this->prophesize(ApplicationService::class);
+        $appServiceProphecy->getPlatformVersion()->willReturn(self::TEST_TAO_VERSION);
+        $appServiceMock = $appServiceProphecy->reveal();
+
+        $serviceLocatorMock = $this->getServiceLocatorMock([
+            ApplicationService::SERVICE_ID => $appServiceMock,
+        ]);
+
         $options = [
             'base'   => $baseUrl,
             'buster' => $buster
         ];
 
         $assetService = new AssetService($options);
+        $assetService->setServiceLocator($serviceLocatorMock);
 
         $url = $assetService->getAsset($path, $extension);
 
@@ -60,7 +72,7 @@ class AssetServiceTest extends TaoPhpUnitTestRunner
             ['https://test.taotesting.com/', 'AF034B', 'js/lib/require.js', 'tao', 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
             ['https://test.taotesting.com/', 'AF034B', 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
             ['https://test.taotesting.com/', 'éHo?/©', 'js/core/eventifier.js', 'tao', 'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'],
-            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster='.urlencode(TAO_VERSION)],
+            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster='.urlencode(self::TEST_TAO_VERSION)],
             ['https://test.taotesting.com', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css'],
             ['https://test.taotesting.com', '7654321', 'js/path/to/library/', 'tao', 'https://test.taotesting.com/tao/views/js/path/to/library/']
         ];

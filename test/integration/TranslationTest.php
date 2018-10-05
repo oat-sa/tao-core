@@ -20,7 +20,29 @@
  * 
  */
 
-use oat\tao\model\TaoOntology;
+namespace oat\tao\test\integration;
+
+use oat\generis\test\GenerisPhpUnitTestRunner;
+use tao_helpers_translation_TranslationUnit;
+use tao_helpers_translation_TranslationFile;
+use tao_helpers_translation_Utils;
+use tao_helpers_translation_POUtils;
+use tao_helpers_translation_POFileReader;
+use tao_helpers_translation_POFileWriter;
+use tao_helpers_translation_POTranslationUnit;
+use tao_helpers_translation_JSFileWriter;
+use tao_helpers_translation_PHPFileWriter;
+use tao_helpers_translation_StructureExtractor;
+use tao_helpers_translation_SourceCodeExtractor;
+use tao_helpers_translation_RDFExtractor;
+use tao_helpers_translation_RDFFileReader;
+use tao_helpers_translation_RDFFileWriter;
+use tao_helpers_translation_RDFTranslationFile;
+use tao_helpers_translation_RDFTranslationUnit;
+use tao_helpers_translation_RDFUtils;
+use tao_models_classes_LanguageService;
+use DOMXPath;
+use ReflectionClass;
 
 /**
  * This test case aims at testing the Translation classes of TAO, the reading and
@@ -32,7 +54,7 @@ use oat\tao\model\TaoOntology;
  * @package tao
 
  */
-class TranslationTest extends \PHPUnit_Framework_TestCase {
+class TranslationTest extends GenerisPhpUnitTestRunner {
 
 	const RAW_PO = '/samples/sample_raw.po';
 	const RAW_PO_WITH_CONTEXT = '/samples/sample_raw_with_context.po';
@@ -366,10 +388,6 @@ class TranslationTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(' Please select the input data format to import ', $tus[2]->getSource());
 		$this->assertEquals('Please upload a CSV file formated as "defined" %min by %max the options above.', $tus[5]->getSource());
 		$this->assertEquals("Please upload \t an RDF file.\n\n", $tus[8]->getsource());
-	}
-
-	public function testRDFTranslationModel() {
-
 	}
 
 	public function testRDFTranslationExtraction(){
