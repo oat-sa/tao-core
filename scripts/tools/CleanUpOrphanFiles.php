@@ -19,24 +19,32 @@
 
 namespace oat\tao\scripts\tools;
 
-use common_report_Report;
+use common_report_Report as Report;
+use core_kernel_classes_Resource;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\FileSystemHandler;
 
 /**
  * sudo -u www-data php index.php 'oat\tao\scripts\tools\CleanUpOrphanFiles'
  */
 class CleanUpOrphanFiles extends ScriptAction
 {
+
+    use OntologyAwareTrait;
+
     private $wetRun = false;
     private $verbose = false;
     private $removedCount = 0;
+    private $redundantCount = 0;
+    private $affectedCount = 0;
+    private $errorsCount = 0;
+    private $report;
 
-    use OntologyAwareTrait;
 
     protected function provideOptions()
     {
@@ -71,7 +79,7 @@ class CleanUpOrphanFiles extends ScriptAction
     }
 
     /**
-     * @return common_report_Report
+     * @return Report
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      * @throws \oat\search\base\exception\SearchGateWayExeption
      * @throws \common_exception_Error
@@ -80,7 +88,7 @@ class CleanUpOrphanFiles extends ScriptAction
     {
         $this->init();
 
-        $report = common_report_Report::createInfo('Following files');
+        $this->report = Report::createInfo('Following files');
 
         /** @var ResourceFileSerializer $serializer */
         $serializer = $this->getServiceManager()->get(ResourceFileSerializer::SERVICE_ID);
@@ -95,62 +103,29 @@ class CleanUpOrphanFiles extends ScriptAction
 
         $resultSet = $search->getGateway()->search($builder);
 
-        $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, sprintf('%s Total Files Found in RDS, where: ', $resultSet->total())));
+        $this->report->add(new Report(Report::TYPE_SUCCESS, sprintf('%s Total Files Found in RDS, where: ', $resultSet->total())));
 
-        $affectedCount = 0;
-        $errorsCount = 0;
-        $orphansCount = 0;
-        $redundantCount = 0;
-
-        /** @var \core_kernel_classes_Resource $resource */
+        /** @var core_kernel_classes_Resource $resource */
         foreach ($resultSet as $resource) {
-
             try {
-
                 $file = $serializer->unserialize($resource);
 
-                $isDirectory = $file instanceof Directory;
-                $isRedundant = !$isDirectory && in_array($file->getBasename(), $this->getRedundantFiles());
-
-                if ($isRedundant) {
-                    $redundantCount++;
-                    if ($this->verbose) {
-                        $report->add(new common_report_Report(common_report_Report::TYPE_INFO, sprintf('URI %s : File %s', $resource->getUri(), $file->getPrefix())));
-                    }
-                    $this->remove($resource);
+                if ($this->isRedundant($file)) {
+                    $this->manageRedundant($resource, $file);
                     continue;
                 }
 
-                $isOrphan = $this->isOrphan($resource);
+                $this->manageOrpane($resource, $file);
 
-                if ($isOrphan) {
-                    $orphansCount++;
-
-                    if (!$file->exists()) {
-                        if ($this->verbose) {
-                            $report->add(new common_report_Report(common_report_Report::TYPE_INFO, sprintf('URI %s : File %s', $resource->getUri(), $file->getPrefix())));
-                        }
-                        $this->remove($resource);
-                        $affectedCount++;
-                    }
-                }
             } catch (\Exception $exception) {
-                $errorsCount++;
-                $report->add(common_report_Report::createFailure($exception->getMessage()));
+                $this->errorsCount++;
+                $this->report->add(Report::createFailure($exception->getMessage()));
             }
-
         }
-        $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, sprintf('%s redundant at RDS', $redundantCount)));
-        $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, sprintf('%s orphans at FS', $orphansCount)));
-        $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, sprintf('%s missing at FS', $affectedCount)));
-        $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, sprintf('%s removed at FS', $this->removedCount)));
 
-        if ($errorsCount) {
-            $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, sprintf('%s errors happened, check details above', $errorsCount)));
-        }
-//        $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, memory_get_peak_usage()/1024/1024));
+        $this->prepareReport();
 
-        return $report;
+        return $this->report;
     }
 
     private function init()
@@ -168,10 +143,10 @@ class CleanUpOrphanFiles extends ScriptAction
     }
 
     /**
-     * @param \core_kernel_classes_Resource $resource
+     * @param core_kernel_classes_Resource $resource
      * @return bool
      */
-    private function isOrphan(\core_kernel_classes_Resource $resource)
+    private function isOrphan(core_kernel_classes_Resource $resource)
     {
         $sql = 'SELECT subject FROM statements s WHERE s.object=?';
         $stmt = $this->getPersistence()->query($sql, [$resource->getUri()]);
@@ -182,7 +157,7 @@ class CleanUpOrphanFiles extends ScriptAction
 
     private function getPersistence()
     {
-        return $this->getServiceManager()
+        return $this->getServiceLocator()
             ->get(\common_persistence_Manager::SERVICE_ID)
             ->getPersistenceById('default');
     }
@@ -198,12 +173,67 @@ class CleanUpOrphanFiles extends ScriptAction
      * @param $resource
      * @return void
      */
-    protected function remove(\core_kernel_classes_Resource $resource)
+    protected function remove(core_kernel_classes_Resource $resource)
     {
         if ($this->wetRun) {
             $resource->delete();
             $this->removedCount++;
             $this->getLogger()->info(sprintf('%s has been removed', $resource->getUri()));
+        }
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $resource
+     * @param FileSystemHandler $file
+     */
+    protected function manageRedundant(core_kernel_classes_Resource $resource, FileSystemHandler $file)
+    {
+        $this->redundantCount++;
+        $message = sprintf('resource URI %s : attached file %s', $resource->getUri(), $file->getPrefix());
+        if ($this->verbose) {
+            $this->report->add(new Report(Report::TYPE_INFO, $message));
+        }
+        $this->getLogger()->info($message);
+        $this->remove($resource);
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $resource
+     * @param FileSystemHandler $file
+     */
+    protected function manageOrpane(core_kernel_classes_Resource $resource, FileSystemHandler $file)
+    {
+        $isOrphan = $this->isOrphan($resource);
+
+        if ($isOrphan && !$file->exists()) {
+            if ($this->verbose) {
+                $this->report->add(new Report(Report::TYPE_INFO, sprintf('URI %s : File %s', $resource->getUri(), $file->getPrefix())));
+            }
+            $this->remove($resource);
+            $this->affectedCount++;
+        }
+    }
+
+    /**
+     * @param $file
+     * @return bool
+     */
+    protected function isRedundant(FileSystemHandler $file)
+    {
+        $isDirectory = $file instanceof Directory;
+        $isRedundant = !$isDirectory && in_array($file->getBasename(), $this->getRedundantFiles());
+        return $isRedundant;
+    }
+
+
+    private function prepareReport()
+    {
+        $this->report->add(new Report(Report::TYPE_SUCCESS, sprintf('%s redundant at RDS', $this->redundantCount)));
+        $this->report->add(new Report(Report::TYPE_SUCCESS, sprintf('%s missing at FS', $this->affectedCount)));
+        $this->report->add(new Report(Report::TYPE_SUCCESS, sprintf('%s removed at FS', $this->removedCount)));
+
+        if ($this->errorsCount) {
+            $this->report->add(new Report(Report::TYPE_ERROR, sprintf('%s errors happened, check details above', $this->errorsCount)));
         }
     }
 
