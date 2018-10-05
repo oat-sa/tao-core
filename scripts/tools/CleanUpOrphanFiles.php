@@ -110,7 +110,9 @@ class CleanUpOrphanFiles extends ScriptAction
             try {
                 $file = $serializer->unserialize($resource);
 
-                if ($this->isRedundant($file)) {
+                $isRedundant = $this->isRedundant($file);
+
+                if ($isRedundant) {
                     $this->manageRedundant($resource, $file);
                     continue;
                 }
