@@ -2,10 +2,11 @@
 
 namespace oat\tao\test\unit\model\metadata\import;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\metadata\exception\writer\MetadataWriterException;
 use oat\tao\model\metadata\writer\ontologyWriter\PropertyWriter;
 
-class PropertyWriterTest extends \PHPUnit_Framework_TestCase
+class PropertyWriterTest extends TestCase
 {
     public function testWrite()
     {

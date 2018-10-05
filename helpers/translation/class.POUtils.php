@@ -19,6 +19,9 @@
  * 
  */
 
+use oat\tao\model\service\ApplicationService;
+use oat\oatbox\service\ServiceManager;
+
 /**
  * Short description of class tao_helpers_translation_POUtils
  *
@@ -78,54 +81,54 @@ class tao_helpers_translation_POUtils
 
         
         $matches = array();
-        $e = TAO_DEFAULT_ENCODING;
+        $encoding = self::getApplicationHelper()->getDefaultEncoding();
         
         if (preg_match_all('/(#[\.\:,\|]{0,1}\s+(?:[^\\n]*))/', $annotations, $matches) !== false){
             if (isset($matches[1]) && count($matches[1]) > 0){
                 foreach ($matches[1] as $match){
                     $match = trim($match);
-                    $matchLen = mb_strlen($match, $e);
+                    $matchLen = mb_strlen($match, $encoding);
                     $annotationId = null;
                     $annotationValue = null;
                     
-                    switch (mb_substr($match, 1, 1, $e)){
+                    switch (mb_substr($match, 1, 1, $encoding)){
                         case "\t":
                         case ' ':
                             // Translator comment.
                             $annotationId = tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS;
-                            $annotationValue = mb_substr($match, 2, $matchLen - 2, $e);
+                            $annotationValue = mb_substr($match, 2, $matchLen - 2, $encoding);
                         break;
                         
                         case '.':
                             $annotationId = tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS;
-                            $annotationValue = mb_substr($match, 3, $matchLen - 3, $e);
+                            $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
                         break;
                         
                         case ':':
                             $annotationId = tao_helpers_translation_POTranslationUnit::REFERENCE;
-                            $annotationValue = mb_substr($match, 3, $matchLen - 3, $e);
+                            $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
                         break;
                         
                         case ',':
                             $annotationId = tao_helpers_translation_POTranslationUnit::FLAGS;
-                            $annotationValue = mb_substr($match, 3, $matchLen - 3, $e);
+                            $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
                         break;
                         
                         case '|':
-                            if (($pos = mb_strpos($match, 'msgid_plural', 0, $e)) !== false){
-                                $pos += mb_strlen('msgid_plural', $e) + 1;
+                            if (($pos = mb_strpos($match, 'msgid_plural', 0, $encoding)) !== false){
+                                $pos += mb_strlen('msgid_plural', $encoding) + 1;
                                 $annotationId = tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID_PLURAL;
-                                $annotationValue = mb_substr($match, $pos, $matchLen - $pos, $e);
+                                $annotationValue = mb_substr($match, $pos, $matchLen - $pos, $encoding);
                             }
-                            else if(($pos = mb_strpos($match, 'msgid', 0, $e)) !== false){
-                                $pos += mb_strlen('msgid', $e) + 1;
+                            else if(($pos = mb_strpos($match, 'msgid', 0, $encoding)) !== false){
+                                $pos += mb_strlen('msgid', $encoding) + 1;
                                 $annotationId = tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID;
-                                $annotationValue = mb_substr($match, $pos, $matchLen - $pos, $e);
+                                $annotationValue = mb_substr($match, $pos, $matchLen - $pos, $encoding);
                             }
-                            else if(($pos = mb_strpos($match, 'msgctxt', 0, $e)) !== false){
-                                $pos += mb_strlen('msgctxt', $e) + 1;
+                            else if(($pos = mb_strpos($match, 'msgctxt', 0, $encoding)) !== false){
+                                $pos += mb_strlen('msgctxt', $encoding) + 1;
                                 $annotationId = tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT;
-                                $annotationValue = mb_substr($match, $pos, $matchLen - $pos, $e);
+                                $annotationValue = mb_substr($match, $pos, $matchLen - $pos, $encoding);
                             }
                         break;
                     }
@@ -224,15 +227,19 @@ class tao_helpers_translation_POUtils
         
         $returnValue = $comment;
         $flag = trim($flag);
-        
-        if (mb_strpos($returnValue, $flag, 0, TAO_DEFAULT_ENCODING) === false){
-            $returnValue .= ((mb_strlen($returnValue, TAO_DEFAULT_ENCODING) > 0) ? " ${flag}" : $flag);
+        $encoding = self::getApplicationHelper()->getDefaultEncoding();
+        if (mb_strpos($returnValue, $flag, 0, $encoding) === false){
+            $returnValue .= ((mb_strlen($returnValue, $encoding) > 0) ? " ${flag}" : $flag);
         }
         
 
         return (string) $returnValue;
     }
 
-}
+    // @TODO: Required to be able to mock tao extension constants in tests.
+    //        Remove after injecting ApplicationService as a dependency.
+    private static function getApplicationHelper() {
+        return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID);
+    }
 
-?>
+}
