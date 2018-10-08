@@ -22,12 +22,13 @@
                 content: " ";
                 display: inline-block;
                 position: absolute;
-                width: $actionWidth;
+                width: $nodeHeight - 10px;//$actionWidth;
                 height: $nodeHeight - 10px;
                 top: 5px;
-                left: 0;
+                left: -2.5px;
                 border-radius: 50%;
-                background-color: blacken($uiSelectableHoverBg, .1);
+                background-color: blacken($uiSelectableHoverBg, .2);
+                opacity: .5;
             }
         }
         &:focus {
