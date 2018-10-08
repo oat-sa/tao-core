@@ -40,9 +40,7 @@ abstract class AbstractApiRoute extends Route
         $relativeUrl = \tao_helpers_Request::getRelativeUrl($request->getRequestTarget());
         try {
             return $this->getController($relativeUrl) . '@' . $this->getAction($request->getMethod());
-        } catch (\common_exception_BadRequest $e) {
-            return null;
-        } catch (\common_exception_PreConditionFailure $e) {
+        } catch (RouterException $e) {
             return null;
         }
     }
@@ -50,31 +48,31 @@ abstract class AbstractApiRoute extends Route
     /**
      * @param $relativeUrl
      * @return string
-     * @throws \common_exception_BadRequest
-     * @throws \common_exception_PreConditionFailure
+     * @throws RouterException
      */
     protected function getController($relativeUrl)
     {
         $parts = explode('/', $relativeUrl);
         $prefix = $this->getControllerPrefix();
         if (strpos($relativeUrl, $this->getId()) !== 0) {
-            throw new \common_exception_PreConditionFailure('Path does not match');
+            throw new RouterException('Path does not match');
         }
 
         if (!isset($parts[2])) {
-            throw new \common_exception_BadRequest('Missed controller name in uri: ' . $relativeUrl);
+            throw new RouterException('Missed controller name in uri: ' . $relativeUrl);
         }
 
         if (!class_exists($prefix . ucfirst($parts[2]))) {
-            throw new \common_exception_BadRequest('Controller ' . $parts[2] . ' does not exists');
+            throw new RouterException('Controller ' . $parts[2] . ' does not exists');
         }
 
         return $prefix . ucfirst($parts[2]);
     }
 
     /**
+     * @param $method
      * @return string
-     * @throws \common_exception_BadRequest
+     * @throws RouterException
      */
     protected function getAction($method)
     {
@@ -92,7 +90,7 @@ abstract class AbstractApiRoute extends Route
                 $action = 'delete';
                 break;
             default:
-                throw new \common_exception_BadRequest('Method `' . $method . ' is not supported');
+                throw new RouterException('Method `' . $method . ' is not supported');
         }
 
         return $action;
