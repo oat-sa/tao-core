@@ -1,6 +1,7 @@
 .resource-tree{
     $nodeHeight: 40px;
     $actionWidth: 25px;
+    $hoverWidth: $nodeHeight - 15px;
 
     position: relative;
     height: 100%;
@@ -22,10 +23,10 @@
                 content: " ";
                 display: inline-block;
                 position: absolute;
-                width: $nodeHeight - 10px;
-                height: $nodeHeight - 10px;
-                top: 5px;
-                left: -2.5px;
+                width: $hoverWidth;
+                height: $hoverWidth;
+                top: 7.5px;
+                left: 0;
                 border-radius: 50%;
                 background-color: blacken($uiSelectableHoverBg, .2);
                 opacity: .5;
