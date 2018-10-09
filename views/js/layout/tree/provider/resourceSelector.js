@@ -112,10 +112,13 @@ define([
                                         self.selectDefaultNode(defaultNode);
                                     });
                                     actionManager.on('subClass instanciate duplicateNode', function(actionContext, node){
-                                        self.changeSelectionMode('single');
-                                        self.addNode(node, node.classUri);
-                                        self.query({ classUri : node.classUri });
-                                        self.select(node);
+                                        self
+                                            .after('update.add', function() {
+                                                self.off('update.add');
+                                                self.select(node);
+                                            })
+                                            .changeSelectionMode('single')
+                                            .query({classUri: node.classUri});
                                     });
                                     actionManager.on('copyTo', function(actionContext, node){
                                         self.refresh(node || defaultNode);
