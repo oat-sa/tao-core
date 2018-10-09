@@ -82,10 +82,10 @@ define(['module', 'moment'], function (module, moment) {
             }
 
             var parts = number.split(this.getDecimalSeparator(), 2);
-            var ones = parts[0];
+            var ones = parts[0] || '0';     // covers case where value starts with '.'
 
             if (this.getThousandsSeparator().length) {
-                ones = parts[0].replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
+                ones = ones.replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
             }
 
             return parseFloat(ones) + parseFloat('0.' + parts[1]);

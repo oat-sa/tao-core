@@ -35,6 +35,7 @@ define(['module', 'util/locale'], function(module, locale) {
         assert.equal(locale.parseFloat('6.000'), 6.0, 'the valid float value with dot as decimal separator');
         assert.equal(locale.parseFloat('6,000'), 6000.0, 'the valid float value with comma as thousands separator');
         assert.equal(locale.parseFloat('6,000.123'), 6000.123, 'the valid float value with dot as decimal separator and comma as thousands separator');
+        assert.equal(locale.parseFloat('.6'), 0.6, 'the valid float value with initial dot as decimal separator');
 
         assert.equal(locale.parseInt('6000'), 6000, 'the valid integer value without separators');
         assert.equal(locale.parseInt('6.000'), 6, 'the valid integer value with dot as decimal separator');
@@ -50,6 +51,7 @@ define(['module', 'util/locale'], function(module, locale) {
         assert.equal(locale.parseFloat('6.000'), 6.0, 'the valid float value with dot as decimal separator');
         assert.equal(locale.parseFloat('6,000'), 6.0, 'the valid float value with comma as thousands separator');
         assert.equal(locale.parseFloat('6,000.123'), 6.0, 'the valid float value with dot as decimal separator and comma as thousands separator');
+        assert.equal(locale.parseFloat(',6'), 0.6, 'the valid float value with initial comma as decimal separator');
 
         assert.equal(locale.parseInt('6000'), 6000, 'the valid integer value without separators');
         assert.equal(locale.parseInt('6.000'), 6, 'the valid integer value with dot as decimal separator');
