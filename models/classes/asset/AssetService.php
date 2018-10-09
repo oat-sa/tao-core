@@ -23,6 +23,7 @@ namespace oat\tao\model\asset;
 
 use oat\oatbox\service\ConfigurableService;
 use Jig\Utils\FsUtils;
+use oat\tao\model\service\ApplicationService;
 
 /**
  * Asset service to retrieve assets easily based on a config
@@ -112,7 +113,11 @@ class AssetService extends ConfigurableService
      */
     public function getCacheBuster()
     {
-        return $this->hasOption(self::BUSTER_OPTION_KEY) ? $this->getOption(self::BUSTER_OPTION_KEY) : TAO_VERSION;
+        if ($this->hasOption(self::BUSTER_OPTION_KEY)) {
+            return $this->getOption(self::BUSTER_OPTION_KEY);
+        } else {
+            return $this->getServiceLocator()->get(ApplicationService::SERVICE_ID)->getPlatformVersion();
+        }
     }
 
     /**
