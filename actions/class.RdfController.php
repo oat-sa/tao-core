@@ -623,7 +623,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 throw new InvalidArgumentException('Destination class must be a valid class');
             }
 
-    //        $destinationRootClass = $this->getDestinationRootClass($destinationClass);
+            $destinationRootClass = $this->getClassService()->getRootClass();
 
             $classes = $statuses = [];
             $instances = $this->getRequestParameter('ids');
@@ -641,13 +641,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                         throw new InvalidArgumentException(sprintf('Instance "%s" does not exist', $instance->getUri()));
                     }
                 }
-                $instances[$key] = $instance;
 
-                // Check if source and destination root class are the same to scope move to same class?
-    //            $instanceRootClass = $this->getDestinationRootClass($instance);
-    //            if ($rootClass->getUri() != $instanceRootClass->getUri()) {
-    //                throw new InvalidArgumentException('An instance cannot be moved to another root class');
-    //            }
+                if (!$instance->isInstanceOf($destinationRootClass)) {
+                    throw new InvalidArgumentException('An instance cannot be moved to another root class');
+                }
+                $instances[$key] = $instance;
             }
 
             // Check if a class belong to class to move
