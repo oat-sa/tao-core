@@ -96,6 +96,9 @@ define([
          */
         log : function log(message) {
             if (this.checkMinLevel(config.level, message.level)) {
+                if (message.err instanceof Error) {
+                    message.err = JSON.stringify(message.err, ["message", "arguments", "type", "name", "stack"]);
+                }
                 push(message);
                 debouncedFlush();
             }
