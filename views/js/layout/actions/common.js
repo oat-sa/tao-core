@@ -561,17 +561,19 @@ define([
             }
 
             return new Promise(function (resolve, reject) {
+                var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
                 var forbiddenDestinations = _.pluck(actionContext, 'classUri');
+                var selectedUri = _.pluck(actionContext, 'uri');
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
                     title: __('Move to'),
                     actionName: __('Move'),
                     icon: 'move-item',
-                    classUri: _.pluck(actionContext, 'rootClassUri').pop(),
+                    classUri: rootClassUri,
                     confirm: messages.confirmMove,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
-                        var uriList;
+                        var uriList = [];
 
                         //prevent selection on nodes without WRITE permissions
                         if ($node.length && $node.data('access') === 'partial' || $node.data('access') === 'denied') {
@@ -583,11 +585,13 @@ define([
 
                         uriList = [nodeUri];
                         $node.parents('.class').each(function() {
-                            uriList.push(this.dataset.uri);
+                            if (this.dataset.uri !== rootClassUri) {
+                                uriList.push(this.dataset.uri);
+                            }
                         });
 
                         //prevent selection on nodes that are already the containers of the resources or the resources themselves
-                        if (_.intersection(forbiddenDestinations, uriList).length) {
+                        if (_.indexOf(forbiddenDestinations, nodeUri) >= 0 || _.intersection(selectedUri, uriList).length) {
                             feedback().warning(__('You cannot move the selected resources in the class %s', node.label));
                             return true;
                         }
@@ -617,7 +621,7 @@ define([
                             this.disable();
 
                             resourceProvider
-                                .moveTo(_.pluck(actionContext, 'uri'), destinationClassUri)
+                                .moveTo(selectedUri, destinationClassUri)
                                 .then(function (results) {
                                     var failed = [];
                                     var success = [];
