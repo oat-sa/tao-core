@@ -630,7 +630,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 throw new InvalidArgumentException('No instances specified.');
             }
 
-            $errors = $successes = $instances = $classes = [];
+            $statuses = $instances = $classes = [];
 
             foreach ($ids as $key => $instance) {
                 $instance = new core_kernel_classes_Resource($instance);
@@ -639,13 +639,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                     $classes[] = $instance;
                 } else {
                     if (!$instance->exists()) {
-                        $errors[$instance->getUri()] =  sprintf('Instance "%s" does not exist', $instance->getUri());
+                        $statuses[$instance->getUri()] = [
+                            'success' => false,
+                            'message' => sprintf('Instance "%s" does not exist', $instance->getUri()),
+                        ];
                         break;
                     }
                 }
 
                 if (!$instance->isInstanceOf($destinationRootClass)) {
-                    $errors[$instance->getUri()] = sprintf('Instance "%s" cannot be moved to another root class', $instance->getUri());
+                    $statuses[$instance->getUri()] = [
+                        'success' => false,
+                        'message' => sprintf('Instance "%s" cannot be moved to another root class', $instance->getUri()),
+                    ];
                     break;
                 }
                 $instances[$key] = $instance;
@@ -659,12 +665,18 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 foreach ($classes as $class) {
                     if ($instance instanceof core_kernel_classes_Class) {
                         if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
-                            $errors[$instance->getUri()] = sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri());
+                            $statuses[$instance->getUri()] = [
+                                'success' => false,
+                                'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                            ];
                             break;
                         }
                     } else {
                         if ($instance->isInstanceOf($class)) {
-                            $errors[$instance->getUri()] = sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri());
+                            $statuses[$instance->getUri()] = [
+                                'success' => false,
+                                'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                            ];
                             break;
                         }
                     }
@@ -674,19 +686,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
             /** @var core_kernel_classes_Resource $movableInstance */
             foreach ($movableInstances as $movableInstance) {
-                if ($this->getClassService()->changeClass($movableInstance, $destinationClass)) {
-                    $successes[$movableInstance->getUri()] = sprintf('Instance "%s" has been successfully moved "%s"', $movableInstance->getUri());
+                $statuses[$instance->getUri()] = [
+                    'success' => $success = $this->getClassService()->changeClass($movableInstance, $destinationClass),
+                ];
+                if ($success === true) {
+                    $statuses[$instance->getUri()]['message'] = sprintf('Instance "%s" has been successfully moved "%s"', $movableInstance->getUri());
                 } else {
-                    $errors[$movableInstance->getUri()] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
+                    $statuses[$instance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
                 }
             }
 
             $response = [
-                'success' => empty($errors),
-                'data' => [
-                    'successes' => $successes,
-                    'errors' => $errors,
-                ],
+                'success' => true,
+                'data' => $statuses
             ];
 
             $this->returnJson($response);
@@ -695,8 +707,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 'success' => false,
                 'data' => [
                     'errorMessage' => $e->getMessage(),
-                    'successes' => [],
-                    'errors' => [],
                 ],
             ];
             $this->returnJson($response, 406);
