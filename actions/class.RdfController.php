@@ -682,18 +682,22 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             }
 
             $response = [
-                'status' => (int) empty($errors),
-                'successes' => $successes,
-                'errors' => $errors,
+                'success' => empty($errors),
+                'data' => [
+                    'successes' => $successes,
+                    'errors' => $errors,
+                ],
             ];
 
             $this->returnJson($response);
         } catch (\InvalidArgumentException $e) {
             $response = [
-                'status' => 0,
-                'errorMessage' => $e->getMessage(),
-                'successes' => [],
-                'errors' => [],
+                'success' => false,
+                'data' => [
+                    'errorMessage' => $e->getMessage(),
+                    'successes' => [],
+                    'errors' => [],
+                ],
             ];
             $this->returnJson($response, 406);
         }
