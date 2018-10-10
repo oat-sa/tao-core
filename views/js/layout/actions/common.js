@@ -37,6 +37,10 @@ define([
 ], function(module, $, __, _, appContext, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog, httpErrorParser) {
     'use strict';
 
+    var messages = {
+        confirmMove: __('Beware, the moved resources will inherit the properties from the destination class. Any property that does not exist on the destination class will be removed from the moved resources. Continue anyway?')
+    };
+
     /**
      * Register common actions.
      *
@@ -44,7 +48,7 @@ define([
      *
      * @exports layout/actions/common
      */
-    var commonActions = function(){
+    var commonActions = function commonActions(){
 
         /**
          * Register the load action: load the url and into the content container
@@ -521,6 +525,107 @@ define([
                     }
                 })
                 .on('error', reject);
+            });
+        });
+
+        /**
+         * Register the moveAll action: select a destination class to move resources
+         *
+         * @this the action (once register it is bound to an action object)
+         *
+         * @param {Object[]} actionContexts - multiple action contexts
+         * @returns {Promise<String>} with the new resource URI
+         */
+        binder.register('moveTo',  function moveAll (actionContexts){
+            var $container;
+
+            //get the resource provider configured with the action URL
+            var resourceProvider = resourceProviderFactory({
+                moveTo : {
+                    url : this.url
+                }
+            });
+
+            //create the container manually...
+            section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
+            $container = $(section.selected.panel).find('.main-container');
+
+            return new Promise( function (resolve, reject){
+
+                //set up a destination selector
+                destinationSelectorFactory($container, {
+                    title: __('Move to'),
+                    actionName : __('Move'),
+                    icon : 'move-item',
+                    classUri: _.pluck(actionContexts, 'rootClassUri').pop(),
+                    confirm: messages.confirmMove,
+                    preventSelection : function preventSelection(nodeUri, node, $node){
+                        //prevent selection on nodes without WRITE permissions
+                        if( $node.length &&  $node.data('access') === 'partial' || $node.data('access') === 'denied'){
+                            if(! permissionsManager.hasPermission(nodeUri, 'WRITE') ) {
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label));
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                })
+                    .on('query', function(params) {
+                        var self = this;
+
+                        //asks only classes
+                        params.classOnly = true;
+                        resourceProvider
+                            .getResources(params, true)
+                            .then(function(resources){
+                                //ask the server the resources from the component query
+                                self.update(resources, params);
+                            })
+                            .catch(function(err){
+                                self.trigger('error', err);
+                            });
+                    })
+                    .on('select', function(destinationClassUri){
+                        var self = this;
+
+                        if(!_.isEmpty(destinationClassUri)){
+                            this.disable();
+
+                            resourceProvider
+                                .moveTo(_.pluck(actionContexts, 'uri'), destinationClassUri)
+                                .then(function(results){
+                                    var failed = [];
+                                    var success = [];
+
+                                    _.forEach(results, function(result, uri) {
+                                        var resource = _.find(actionContexts, {uri: uri});
+                                        if (result.success) {
+                                            success.push(resource);
+                                        } else {
+                                            failed.push(result.message);
+                                        }
+                                    });
+
+                                    if (!success.length) {
+                                        feedback().error(__('Unable to move the resources'));
+                                    } else if (failed.length) {
+                                        feedback().warning(__('Some resources have not been moved: %s', failed.join(', ')));
+                                    } else {
+                                        feedback().success(__('Resources moved'));
+                                    }
+
+                                    //backward compatible for jstree
+                                    if(actionContexts.tree){
+                                        $(actionContexts.tree).trigger('refresh.taotree', [destinationClassUri]);
+                                    }
+                                    return resolve(destinationClassUri);
+                                })
+                                .catch(function(err){
+                                    self.trigger('error', err);
+                                });
+                        }
+                    })
+                    .on('error', reject);
             });
         });
     };

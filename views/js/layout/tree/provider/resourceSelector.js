@@ -120,7 +120,7 @@ define([
                                             .changeSelectionMode('single')
                                             .query({classUri: node.classUri});
                                     });
-                                    actionManager.on('copyTo', function(actionContext, node){
+                                    actionManager.on('copyTo moveTo', function(actionContext, node){
                                         self.refresh(node || defaultNode);
                                     });
                                     actionManager.on('refresh', function(node){
