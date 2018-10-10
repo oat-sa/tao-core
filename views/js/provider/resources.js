@@ -47,6 +47,10 @@ define([
         copyTo : {
             //unset because it belongs to sub controllers, see /taoItems/Items/copyInstance,
             //so it needs to be defined
+        },
+        moveTo : {
+            //unset because it belongs to sub controllers, see /taoItems/Items/moveResource,
+            //so it needs to be defined
         }
     };
 
@@ -165,7 +169,31 @@ define([
                     uri : uri,
                     destinationClassUri : destinationClassUri
                 }, 'POST');
+            },
 
+            /**
+             * Move resources into another class
+             * @param {String|String[]} ids - the resources to move
+             * @param {String} destinationClassUri - the destination class
+             * @returns {Promise<Object>} resolves with the data of the new resource
+             */
+            moveTo: function moveTo(ids, destinationClassUri) {
+                if (_.isEmpty(config.moveTo.url)) {
+                    return Promise.reject('Please define the action URL');
+                }
+                if (ids && !_.isArray(ids)) {
+                    ids = [ids];
+                }
+                if (_.isEmpty(ids) || _.some(ids, _.isEmpty)) {
+                    return Promise.reject('The URI of the resource to move must be defined');
+                }
+                if (_.isEmpty(destinationClassUri)) {
+                    return Promise.reject('The URI of the destination class must be defined');
+                }
+                return request(config.moveTo.url, {
+                    ids: ids,
+                    destinationClassUri: destinationClassUri
+                }, 'POST');
             }
         };
     };

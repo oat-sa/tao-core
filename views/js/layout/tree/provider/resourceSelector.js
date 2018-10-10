@@ -116,7 +116,7 @@ define([
                                 self.addNode(node, node.classUri);
                                 self.select(node);
                             });
-                            actionManager.on('copyTo', function(actionContext, node){
+                            actionManager.on('copyTo moveTo', function(actionContext, node){
                                 self.refresh(node || defaultNode);
                             });
                             actionManager.on('refresh', function(node){
