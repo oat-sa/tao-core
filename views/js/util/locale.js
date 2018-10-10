@@ -73,22 +73,23 @@ define(['module', 'moment'], function (module, moment) {
 
         /**
          * Parse float values with process locale features
-         * @param number
+         * @param numStr
          * @returns {Number}
          */
-        parseFloat: function (number) {
-            if (!number) {
-                return parseFloat(number);
-            }
-
-            var parts = number.split(this.getDecimalSeparator(), 2);
-            var ones = parts[0] || '0';     // covers case where value starts with '.'
-
+        parseFloat: function (numStr) {
+            // discard all thousand separators:
             if (this.getThousandsSeparator().length) {
-                ones = ones.replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
+                numStr = numStr.replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
             }
-
-            return parseFloat(ones) + parseFloat('0.' + parts[1]);
+        
+            // standardise the decimal separator as '.':
+            if (this.getDecimalSeparator() != '.') {
+                numStr = numStr.replace(new RegExp('\\' + '.', 'g'), '_')
+                               .replace(new RegExp('\\' + this.getDecimalSeparator(), 'g'), '.');
+            }
+        
+            // now the numeric string can be correctly parsed with the native parseFloat:
+            return parseFloat(numStr);
         },
 
         /**
