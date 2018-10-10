@@ -83,7 +83,7 @@ define(['module', 'moment'], function (module, moment) {
             }
         
             // standardise the decimal separator as '.':
-            if (this.getDecimalSeparator() != '.') {
+            if (this.getDecimalSeparator() !== '.') {
                 numStr = numStr.replace(new RegExp('\\' + '.', 'g'), '_')
                                .replace(new RegExp('\\' + this.getDecimalSeparator(), 'g'), '.');
             }
