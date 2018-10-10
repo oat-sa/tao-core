@@ -556,10 +556,12 @@ define([
                 }
             });
 
+            if (!_.isArray(actionContext)) {
+                actionContext = [actionContext];
+            }
+
             return new Promise(function (resolve, reject) {
-                if (!_.isArray(actionContext)) {
-                    actionContext = [actionContext];
-                }
+                var forbiddenDestinations = _.pluck(actionContext, 'classUri');
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
@@ -569,6 +571,8 @@ define([
                     classUri: _.pluck(actionContext, 'rootClassUri').pop(),
                     confirm: messages.confirmMove,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
+                        var uriList;
+
                         //prevent selection on nodes without WRITE permissions
                         if ($node.length && $node.data('access') === 'partial' || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
@@ -576,6 +580,18 @@ define([
                                 return true;
                             }
                         }
+
+                        uriList = [nodeUri];
+                        $node.parents('.class').each(function() {
+                            uriList.push(this.dataset.uri);
+                        });
+
+                        //prevent selection on nodes that are already the containers of the resources or the resources themselves
+                        if (_.intersection(forbiddenDestinations, uriList).length) {
+                            feedback().warning(__('You cannot move the selected resources in the class %s', node.label));
+                            return true;
+                        }
+
                         return false;
                     }
                 })
