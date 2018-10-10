@@ -226,7 +226,8 @@ define([
                     needMore($root);
                     indentChildren($component.children('ul'), 0);
 
-                    $root.removeClass('closed');
+                    $root.removeClass('closed')
+                        .toggleClass('empty', !$root.children('ul').children('li').length);
 
                     /**
                      * The tree has been updated
@@ -355,14 +356,17 @@ define([
                 this.setState('loading', false);
             })
             .on('remove', function(uri){
-                var $node;
-                var $parent;
+                var $node, $parents, $parent;
 
                 if(this.is('rendered') && uri){
                     $node = $('[data-uri="' + uri + '"]', this.getElement());
+                    $parents = $node.parents('.class');
                     if($node.hasClass('instance')){
-                        $parent = $node.parents('.class');
-                        updateCount($parent, -1);
+                        updateCount($parents, -1);
+                    }
+                    $parent = $parents.first();
+                    if ($parent.children('ul').children('li').length === 1) {
+                        $parent.removeClass('closed').addClass('empty');
                     }
                     $node.remove();
                 }
