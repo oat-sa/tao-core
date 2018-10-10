@@ -172,7 +172,7 @@ define([
                 _.forEach(actions, function(action){
                     //if some has not the permissions we deny
                     var hasPermissionDenied = _.some(context, function(resource){
-                        return permissionsManager.isContextAllowed(action.rights, resource);
+                        return !permissionsManager.isContextAllowed(action.rights, resource);
                     });
 
                     if( context.length &&
