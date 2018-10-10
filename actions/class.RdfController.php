@@ -625,56 +625,77 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
             $destinationRootClass = $this->getClassService()->getRootClass();
 
-            $classes = $statuses = [];
-            $instances = $this->getRequestParameter('ids');
-            if (empty($instances)) {
+            $ids = $this->getRequestParameter('ids');
+            if (empty($ids)) {
                 throw new InvalidArgumentException('No instances specified.');
             }
 
-            foreach ($instances as $key => $instance) {
+            $errors = $successes = $instances = $classes = [];
+
+            foreach ($ids as $key => $instance) {
                 $instance = new core_kernel_classes_Resource($instance);
                 if ($instance->isClass()) {
                     $instance = new core_kernel_classes_Class($instance);
                     $classes[] = $instance;
                 } else {
                     if (!$instance->exists()) {
-                        throw new InvalidArgumentException(sprintf('Instance "%s" does not exist', $instance->getUri()));
+                        $errors[$instance->getUri()] =  sprintf('Instance "%s" does not exist', $instance->getUri());
+                        break;
                     }
                 }
 
                 if (!$instance->isInstanceOf($destinationRootClass)) {
-                    throw new InvalidArgumentException('An instance cannot be moved to another root class');
+                    $errors[$instance->getUri()] = sprintf('Instance "%s" cannot be moved to another root class', $instance->getUri());
+                    break;
                 }
                 $instances[$key] = $instance;
             }
+
+            $movableInstances = [];
 
             // Check if a class belong to class to move
             /** @var core_kernel_classes_Resource|core_kernel_classes_Class $instance */
             foreach ($instances as $instance) {
                 foreach ($classes as $class) {
-                    if ($instance instanceof core_kernel_classes_Resource) {
-                        if ($instance->isInstanceOf($class)) {
-                            throw new InvalidArgumentException(
-                                sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri())
-                            );
+                    if ($instance instanceof core_kernel_classes_Class) {
+                        if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
+                            $errors[$instance->getUri()] = sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri());
+                            break;
                         }
                     } else {
-                        if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
-                              throw new InvalidArgumentException(
-                                  sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri())
-                              );
+                        if ($instance->isInstanceOf($class)) {
+                            $errors[$instance->getUri()] = sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri());
+                            break;
                         }
                     }
+                    $movableInstances[$instance->getUri()] = $instance;
                 }
             }
 
-            foreach ($instances as $instance) {
-                $statuses[$instance->getUri()] = $this->getClassService()->changeClass($instance, $destinationClass);
+            /** @var core_kernel_classes_Resource $movableInstance */
+            foreach ($movableInstances as $movableInstance) {
+                if ($this->getClassService()->changeClass($movableInstance, $destinationClass)) {
+                    $successes[$movableInstance->getUri()] = sprintf('Instance "%s" has been successfully moved "%s"', $movableInstance->getUri());
+                } else {
+                    $errors[$movableInstance->getUri()] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
+                }
             }
 
-            $this->returnJson($statuses);
+            $response = [
+                'status' => (int) empty($errors),
+                'successes' => $successes,
+                'errors' => $errors,
+            ];
+
+            $this->returnJson($response);
         } catch (\InvalidArgumentException $e) {
-            $this->returnJson($e->getMessage(), 500);
+            $response = [
+                'status' => 0,
+                'errorMessage' => $e->getMessage(),
+                'successes' => [],
+                'errors' => [],
+            ];
+            $this->returnJson($response, 406);
         }
     }
 
