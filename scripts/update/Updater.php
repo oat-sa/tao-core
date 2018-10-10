@@ -853,6 +853,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('20.1.0');
         }
 
-        $this->skip('20.1.0', '20.2.0');
+        $this->skip('20.1.0', '20.3.0');
     }
 }
