@@ -178,11 +178,23 @@ define([
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
             moveTo: function moveTo(ids, destinationClassUri) {
+                var params = {
+                    destinationClassUri: destinationClassUri
+                };
+
+                if (!ids) {
+                    ids = [];
+                } else if (!_.isArray(ids)) {
+                    ids = [ids];
+                }
+                if (ids.length === 1) {
+                    params.uri = ids[0];
+                } else {
+                    params.ids = ids;
+                }
+
                 if (_.isEmpty(config.moveTo.url)) {
                     return Promise.reject('Please define the action URL');
-                }
-                if (ids && !_.isArray(ids)) {
-                    ids = [ids];
                 }
                 if (_.isEmpty(ids) || _.some(ids, _.isEmpty)) {
                     return Promise.reject('The URI of the resource to move must be defined');
@@ -190,10 +202,8 @@ define([
                 if (_.isEmpty(destinationClassUri)) {
                     return Promise.reject('The URI of the destination class must be defined');
                 }
-                return request(config.moveTo.url, {
-                    ids: ids,
-                    destinationClassUri: destinationClassUri
-                }, 'POST');
+
+                return request(config.moveTo.url, params, 'POST');
             }
         };
     };

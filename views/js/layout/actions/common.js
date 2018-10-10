@@ -533,16 +533,19 @@ define([
          *
          * @this the action (once register it is bound to an action object)
          *
-         * @param {Object[]} actionContexts - multiple action contexts
+         * @param {Object|Object[]} actionContexts - multiple action contexts
          * @returns {Promise<String>} with the new resource URI
          */
-        binder.register('moveTo',  function moveAll (actionContexts){
+        binder.register('moveTo', function moveAll(actionContexts) {
             var $container;
+
+            //backward compatible for jstree
+            var tree = actionContexts.tree;
 
             //get the resource provider configured with the action URL
             var resourceProvider = resourceProviderFactory({
-                moveTo : {
-                    url : this.url
+                moveTo: {
+                    url: this.url
                 }
             });
 
@@ -550,19 +553,22 @@ define([
             section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
             $container = $(section.selected.panel).find('.main-container');
 
-            return new Promise( function (resolve, reject){
+            return new Promise(function (resolve, reject) {
+                if (!_.isArray(actionContexts)) {
+                    actionContexts = [actionContexts];
+                }
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
                     title: __('Move to'),
-                    actionName : __('Move'),
-                    icon : 'move-item',
+                    actionName: __('Move'),
+                    icon: 'move-item',
                     classUri: _.pluck(actionContexts, 'rootClassUri').pop(),
                     confirm: messages.confirmMove,
-                    preventSelection : function preventSelection(nodeUri, node, $node){
+                    preventSelection: function preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
-                        if( $node.length &&  $node.data('access') === 'partial' || $node.data('access') === 'denied'){
-                            if(! permissionsManager.hasPermission(nodeUri, 'WRITE') ) {
+                        if ($node.length && $node.data('access') === 'partial' || $node.data('access') === 'denied') {
+                            if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
                                 feedback().warning(__('You are not allowed to write in the class %s', node.label));
                                 return true;
                             }
@@ -570,34 +576,34 @@ define([
                         return false;
                     }
                 })
-                    .on('query', function(params) {
+                    .on('query', function (params) {
                         var self = this;
 
                         //asks only classes
                         params.classOnly = true;
                         resourceProvider
                             .getResources(params, true)
-                            .then(function(resources){
+                            .then(function (resources) {
                                 //ask the server the resources from the component query
                                 self.update(resources, params);
                             })
-                            .catch(function(err){
+                            .catch(function (err) {
                                 self.trigger('error', err);
                             });
                     })
-                    .on('select', function(destinationClassUri){
+                    .on('select', function (destinationClassUri) {
                         var self = this;
 
-                        if(!_.isEmpty(destinationClassUri)){
+                        if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
                                 .moveTo(_.pluck(actionContexts, 'uri'), destinationClassUri)
-                                .then(function(results){
+                                .then(function (results) {
                                     var failed = [];
                                     var success = [];
 
-                                    _.forEach(results, function(result, uri) {
+                                    _.forEach(results, function (result, uri) {
                                         var resource = _.find(actionContexts, {uri: uri});
                                         if (result.success) {
                                             success.push(resource);
@@ -615,12 +621,12 @@ define([
                                     }
 
                                     //backward compatible for jstree
-                                    if(actionContexts.tree){
-                                        $(actionContexts.tree).trigger('refresh.taotree', [destinationClassUri]);
+                                    if (tree) {
+                                        $(tree).trigger('refresh.taotree', [destinationClassUri]);
                                     }
                                     return resolve(destinationClassUri);
                                 })
-                                .catch(function(err){
+                                .catch(function (err) {
                                     self.trigger('error', err);
                                 });
                         }
