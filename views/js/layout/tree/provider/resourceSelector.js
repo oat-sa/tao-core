@@ -156,6 +156,11 @@ define([
                             //or fallback on 1st instance, or even 1st class
                             this.selectDefaultNode(options.loadNode || defaultNode);
                         })
+                        .on('selectionmodechange', function(mode) {
+                            if (mode === 'single' && defaultNode) {
+                                this.selectDefaultNode(defaultNode);
+                            }
+                        })
                         .on('change', function(selection) {
                             var self   = this;
                             var length = _.size(selection);
@@ -188,7 +193,7 @@ define([
                                     defaultNode = resource;
                                     treeStore.setItem(options.id, defaultNode);
                                 });
-                            } else if (length > 1){
+                            } else {
                                 actionManager.updateContext( _.transform(selection, function(acc, resource){
                                     acc.push(getContext(resource));
                                     return acc;

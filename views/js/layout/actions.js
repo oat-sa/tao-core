@@ -24,10 +24,11 @@ define([
     'core/eventifier',
     'core/promise',
     'lib/uuid',
+    'layout/section',
     'layout/actions/binder',
     'layout/actions/common',
     'layout/permissions'
-], function($, _, eventifier, Promise, uuid, binder, commonActions, permissionsManager){
+], function($, _, eventifier, Promise, uuid, section, binder, commonActions, permissionsManager){
     'use strict';
 
     /**
@@ -156,21 +157,26 @@ define([
          */
         updateContext : function updateContext(context){
             var self = this;
-            var current;
+            var hasClasses, hasInstances, current;
 
             context = context || {};
 
             if(_.isArray(context) ) {
-                _.forEach(actions, function(action){
-                    var hasClasses = _.some(context, { type : 'class' });
-                    var hasInstances = _.some(context, { type : 'instance' });
+                hasClasses = _.some(context, { type : 'class' });
+                hasInstances = _.some(context, { type : 'instance' });
 
+                if (context.length !== 1) {
+                    section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
+                }
+
+                _.forEach(actions, function(action){
                     //if some has not the permissions we deny
                     var hasPermissionDenied = _.some(context, function(resource){
                         return permissionsManager.isContextAllowed(action.rights, resource);
                     });
 
-                    if( action.multiple &&
+                    if( context.length &&
+                        action.multiple &&
                         !hasPermissionDenied &&
                         action.context !== 'none' &&
                         ( (action.context === '*' || action.context === 'resource') ||

@@ -42,6 +42,15 @@ define([
     };
 
     /**
+     * Cleans up the main panel and creates a container
+     * @returns {jQuery}
+     */
+    var emptyPanel = function cleanupPanel() {
+        section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
+        return $(section.selected.panel).find('.main-container');
+    };
+
+    /**
      * Register common actions.
      *
      * TODO this common actions may be re-structured, split in different files or moved in a more obvious location.
@@ -451,11 +460,12 @@ define([
          *
          * @this the action (once register it is bound to an action object)
          *
-         * @param {Object[]|Object} actionContexts - single or multiple action contexts
+         * @param {Object[]|Object} actionContext - single or multiple action contexts
          * @returns {Promise<String>} with the new resource URI
          */
         binder.register('copyTo',  function copyTo (actionContext){
-            var $container;
+            //create the container manually...
+            var $container = emptyPanel();
 
             //get the resource provider configured with the action URL
             var resourceProvider = resourceProviderFactory({
@@ -463,10 +473,6 @@ define([
                     url : this.url
                 }
             });
-
-            //create the container manually...
-            section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
-            $container = $(section.selected.panel).find('.main-container');
 
             return new Promise( function (resolve, reject){
 
@@ -533,14 +539,15 @@ define([
          *
          * @this the action (once register it is bound to an action object)
          *
-         * @param {Object|Object[]} actionContexts - multiple action contexts
+         * @param {Object|Object[]} actionContext - multiple action contexts
          * @returns {Promise<String>} with the new resource URI
          */
-        binder.register('moveTo', function moveAll(actionContexts) {
-            var $container;
+        binder.register('moveTo', function moveTo(actionContext) {
+            //create the container manually...
+            var $container = emptyPanel();
 
             //backward compatible for jstree
-            var tree = actionContexts.tree;
+            var tree = actionContext.tree;
 
             //get the resource provider configured with the action URL
             var resourceProvider = resourceProviderFactory({
@@ -549,13 +556,9 @@ define([
                 }
             });
 
-            //create the container manually...
-            section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
-            $container = $(section.selected.panel).find('.main-container');
-
             return new Promise(function (resolve, reject) {
-                if (!_.isArray(actionContexts)) {
-                    actionContexts = [actionContexts];
+                if (!_.isArray(actionContext)) {
+                    actionContext = [actionContext];
                 }
 
                 //set up a destination selector
@@ -563,7 +566,7 @@ define([
                     title: __('Move to'),
                     actionName: __('Move'),
                     icon: 'move-item',
-                    classUri: _.pluck(actionContexts, 'rootClassUri').pop(),
+                    classUri: _.pluck(actionContext, 'rootClassUri').pop(),
                     confirm: messages.confirmMove,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
@@ -598,13 +601,13 @@ define([
                             this.disable();
 
                             resourceProvider
-                                .moveTo(_.pluck(actionContexts, 'uri'), destinationClassUri)
+                                .moveTo(_.pluck(actionContext, 'uri'), destinationClassUri)
                                 .then(function (results) {
                                     var failed = [];
                                     var success = [];
 
                                     _.forEach(results, function (result, uri) {
-                                        var resource = _.find(actionContexts, {uri: uri});
+                                        var resource = _.find(actionContext, {uri: uri});
                                         if (result.success) {
                                             success.push(resource);
                                         } else {
