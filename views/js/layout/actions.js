@@ -24,11 +24,10 @@ define([
     'core/eventifier',
     'core/promise',
     'lib/uuid',
-    'layout/section',
     'layout/actions/binder',
     'layout/actions/common',
     'layout/permissions'
-], function($, _, eventifier, Promise, uuid, section, binder, commonActions, permissionsManager){
+], function($, _, eventifier, Promise, uuid, binder, commonActions, permissionsManager){
     'use strict';
 
     /**
@@ -165,10 +164,6 @@ define([
             if(_.isArray(context) ) {
                 hasClasses = _.some(context, { type : 'class' });
                 hasInstances = _.some(context, { type : 'instance' });
-
-                if (context.length !== 1) {
-                    section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
-                }
 
                 _.forEach(actions, function(action){
                     //if some has not the permissions we deny
