@@ -59,6 +59,17 @@ module.exports = function(grunt) {
      // Load local tasks.
     grunt.loadTasks('tasks');
 
+    //instantiate sass module
+    const sass = require('node-sass');
+    //set initial config for sass to make 3.x.x branches of grunt-sass work, see https://github.com/nodejs/nan/issues/504#issuecomment-385296082, https://github.com/sourcey/spectacle/issues/156#issuecomment-401731543
+    grunt.initConfig({
+        sass: {
+                options: {
+                           implementation: sass
+                }
+        }
+    });
+
     /*
      * Load separated configs into each extension
      */
