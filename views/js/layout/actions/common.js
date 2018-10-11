@@ -535,12 +535,12 @@ define([
         });
 
         /**
-         * Register the moveAll action: select a destination class to move resources
+         * Register the moveTo action: select a destination class to move resources
          *
          * @this the action (once register it is bound to an action object)
          *
          * @param {Object|Object[]} actionContext - multiple action contexts
-         * @returns {Promise<String>} with the new resource URI
+         * @returns {Promise<String>} with the destination class URI
          */
         binder.register('moveTo', function moveTo(actionContext) {
             //create the container manually...
