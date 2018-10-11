@@ -38,7 +38,7 @@ define([
     'use strict';
 
     var messages = {
-        confirmMove: __('Beware, the moved resources will inherit the properties from the destination class. Any property that does not exist on the destination class will be removed from the moved resources. Continue anyway?')
+        confirmMove: __('The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?')
     };
 
     /**
