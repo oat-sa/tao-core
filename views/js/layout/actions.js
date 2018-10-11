@@ -196,7 +196,7 @@ define([
                 _.forEach(actions, function(action){
 
                     var allowed = permissionsManager.isContextAllowed(action.rights, context);
-
+1
                     if( action.multiple || allowed === false ||
                         (current === 'none' && action.context !== '*') ||
                         (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
