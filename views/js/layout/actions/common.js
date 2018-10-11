@@ -38,7 +38,7 @@ define([
     'use strict';
 
     var messages = {
-        confirmMove: __('Beware, the moved resources will inherit the properties from the destination class. Any property that does not exist on the destination class will be removed from the moved resources. Continue anyway?')
+        confirmMove: __('The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?')
     };
 
     /**
@@ -535,12 +535,12 @@ define([
         });
 
         /**
-         * Register the moveAll action: select a destination class to move resources
+         * Register the moveTo action: select a destination class to move resources
          *
          * @this the action (once register it is bound to an action object)
          *
          * @param {Object|Object[]} actionContext - multiple action contexts
-         * @returns {Promise<String>} with the new resource URI
+         * @returns {Promise<String>} with the destination class URI
          */
         binder.register('moveTo', function moveTo(actionContext) {
             //create the container manually...
@@ -562,7 +562,6 @@ define([
 
             return new Promise(function (resolve, reject) {
                 var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
-                var forbiddenDestinations = _.pluck(actionContext, 'classUri');
                 var selectedUri = _.pluck(actionContext, 'uri');
 
                 //set up a destination selector
@@ -591,7 +590,7 @@ define([
                         });
 
                         //prevent selection on nodes that are already the containers of the resources or the resources themselves
-                        if (_.indexOf(forbiddenDestinations, nodeUri) >= 0 || _.intersection(selectedUri, uriList).length) {
+                        if (_.intersection(selectedUri, uriList).length) {
                             feedback().warning(__('You cannot move the selected resources in the class %s', node.label));
                             return true;
                         }
