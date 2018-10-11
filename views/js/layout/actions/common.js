@@ -562,7 +562,6 @@ define([
 
             return new Promise(function (resolve, reject) {
                 var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
-                var forbiddenDestinations = _.pluck(actionContext, 'classUri');
                 var selectedUri = _.pluck(actionContext, 'uri');
 
                 //set up a destination selector
@@ -591,7 +590,7 @@ define([
                         });
 
                         //prevent selection on nodes that are already the containers of the resources or the resources themselves
-                        if (_.indexOf(forbiddenDestinations, nodeUri) >= 0 || _.intersection(selectedUri, uriList).length) {
+                        if (_.intersection(selectedUri, uriList).length) {
                             feedback().warning(__('You cannot move the selected resources in the class %s', node.label));
                             return true;
                         }
