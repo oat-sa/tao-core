@@ -20,6 +20,15 @@
 
 namespace oat\tao\helpers;
 
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\service\ApplicationService;
+
+/**
+ * Class ApplicationHelper
+ * @package oat\tao\helpers
+ *
+ * @deprecated Use oat\tao\model\service\ApplicationService instead
+ */
 class ApplicationHelper
 {
     /**
@@ -28,7 +37,7 @@ class ApplicationHelper
      * @return boolean
      */
     public static function isDemo() {
-        return in_array(TAO_RELEASE_STATUS, array('demo', 'demoA', 'demoB', 'demoS'));
+        return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->isDemo();
     }
 
     /**
@@ -36,22 +45,24 @@ class ApplicationHelper
      */
     public static function getVersionName()
     {
-        $version = TAO_VERSION;
-
-        if(is_readable(ROOT_PATH.'build')){
-            $content = file_get_contents(ROOT_PATH.'build');
-            $version = 'v' . $version;
-            $version = is_numeric($content) ? $version. '+build' . $content : $version;
-        }
-
-        return $version;
+        return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->getVersionName();
     }
 
     /**
      * @return string
+     * @throws \common_exception_Error
+     * @throws \common_ext_ExtensionException
      */
-    public static function getProductName()
-    {
-        return PRODUCT_NAME;
+    public function getProductName() {
+        return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->getProductName();
+    }
+
+    /**
+     * @return string
+     * @throws \common_exception_Error
+     * @throws \common_ext_ExtensionException
+     */
+    public function getPlatformVersion() {
+        return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID)->getPlatformVersion();
     }
 }

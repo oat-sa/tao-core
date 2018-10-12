@@ -4,6 +4,11 @@
   "uri": "http:\/\/bertao\/tao.rdf#i1491898694361191",
   "state": "open",
   "children": [{
+    "label": "Algebra",
+    "type": "class",
+    "uri": "http:\/\/bertao\/tao.rdf#i1491898702297492",
+    "state": "empty"
+  }, {
     "label": "Geometry",
     "type": "class",
     "uri": "http:\/\/bertao\/tao.rdf#i1491898712953393",
@@ -22,5 +27,5 @@
     "type": "instance",
     "uri": "http:\/\/bertao\/tao.rdf#i14918988061562101"
   }],
-  "count": 5
+  "count": 6
 }]

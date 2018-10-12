@@ -30,7 +30,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\test\integration\controllerMap\stubs\ValidNamespacedController;
 
 //include_once __DIR__ . '/stubs/class.ValidController.php';
-include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
 /* stubs for controller class name validation */
 class FakeStandaloneController {
