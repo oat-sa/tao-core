@@ -606,13 +606,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);
         } catch (\InvalidArgumentException $e) {
-            $response = [
-                'success' => false,
-                'data' => [
-                    'errorMessage' => $e->getMessage(),
-                ],
-            ];
-            $this->returnJson($response, 406);
+            $this->returnJsonError($e->getMessage());
         }
     }
 
@@ -621,6 +615,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      *
      * @throws common_exception_Error
      * @throws common_exception_MethodNotAllowed
+     * @requiresRight ids WRITE
      */
     public function moveAll()
     {
@@ -636,17 +631,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
             $this->validateMoveRequest();
 
-            $ids = $this->getRequestParameter('ids');
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);
         } catch (\InvalidArgumentException $e) {
-            $response = [
-                'success' => false,
-                'data' => [
-                    'errorMessage' => $e->getMessage(),
-                ],
-            ];
-            $this->returnJson($response, 406);
+            $this->returnJsonError($e->getMessage());
         }
     }
 
@@ -1006,6 +994,22 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             'success' => true,
             'data' => $statuses
         ];
+    }
+
+    /**
+     * Return a formatted error message with code 406
+     *
+     * @param $message
+     */
+    protected function returnJsonError($message)
+    {
+        $response = [
+            'success' => false,
+            'data' => [
+                'errorMessage' => $message,
+            ],
+        ];
+        $this->returnJson($response, 406);
     }
 
     /**
