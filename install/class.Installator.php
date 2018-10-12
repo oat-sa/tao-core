@@ -160,7 +160,7 @@ class tao_install_Installator {
 				$installData['db_name'] = $installData['db_host'];
 				$installData['db_host'] = '';
 			}
-			$dbConfiguration = array(
+			$dbConnectionParams = array(
 						'driver' => $installData['db_driver'],
 						'host' => $installData['db_host'],
 						'dbname' => $installData['db_name'],
@@ -170,20 +170,20 @@ class tao_install_Installator {
 			);
 			$hostParts = explode(':', $installData['db_host']);
 			if (count($hostParts) == 2) {
-                $dbConfiguration['host'] = $hostParts[0];
-			    $dbConfiguration['port'] = $hostParts[1];
+                $dbConnectionParams['host'] = $hostParts[0];
+			    $dbConnectionParams['port'] = $hostParts[1];
 			}
 				
 			if($installData['db_driver'] == 'pdo_mysql'){
-			    $dbConfiguration['dbname'] = '';
+			    $dbConnectionParams['dbname'] = '';
 			}
 			if($installData['db_driver'] == 'pdo_oci'){
-				$dbConfiguration['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
-				$dbConfiguration['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
-				$dbConfiguration['fetch_case'] = PDO::CASE_LOWER;
+				$dbConnectionParams['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
+				$dbConnectionParams['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
+				$dbConnectionParams['fetch_case'] = PDO::CASE_LOWER;
 			}
 				
-			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
+			$dbCreator = new tao_install_utils_DbalDbCreator($dbConnectionParams);
 			
 			$this->log('d', "DbCreator spawned", 'INSTALL');
 
@@ -230,7 +230,7 @@ class tao_install_Installator {
 			
 			// reset db name for mysql
 			if ($installData['db_driver'] == 'pdo_mysql'){
-			    $dbConfiguration['dbname'] = $installData['db_name'];
+			    $dbConnectionParams['dbname'] = $installData['db_name'];
 			}
 	
 			// Create tao tables
@@ -323,6 +323,11 @@ class tao_install_Installator {
 			 * 5c - Create generis persistence 
 			 */
             $this->log('d', 'Creating generis persistence..');
+
+            $dbConfiguration = array(
+                'driver' => 'dbal',
+                'connection' => $dbConnectionParams,
+            );
 			common_persistence_Manager::addPersistence('default', $dbConfiguration);
 
 			/*
