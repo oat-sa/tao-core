@@ -2,13 +2,13 @@
 
 namespace oat\tao\test\integration\model\metadata\import;
 
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\metadata\import\OntologyMetadataImporter;
 use oat\tao\model\metadata\injector\Injector;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
-class OntologyMetadataTest extends TaoPhpUnitTestRunner
+class OntologyMetadataTest extends TestCase
 {
 
     public function testImport()

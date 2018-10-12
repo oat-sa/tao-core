@@ -153,7 +153,9 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
             }
         } else {
             $this->propertiesMapped[$propertyKey] = $this->formatValue($propertyKey, $value);
-            $this->report->add(Report::createSuccess('Property mapped with success: '. $propertyKey . ':' . $value));
+            $successMessage = 'Property mapped with success: '. $propertyKey . ':';
+            $successMessage .= is_array($value) ? implode(',', $value) : $value;
+            $this->report->add(Report::createSuccess($successMessage));
         }
     }
 }
