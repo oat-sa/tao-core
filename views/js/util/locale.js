@@ -77,15 +77,18 @@ define(['module', 'moment'], function (module, moment) {
          * @returns {Number}
          */
         parseFloat: function (numStr) {
+            var thousandsSeparator = this.getThousandsSeparator(),
+                decimalSeparator = this.getDecimalSeparator();
+
             // discard all thousand separators:
-            if (this.getThousandsSeparator().length) {
-                numStr = numStr.replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
+            if (thousandsSeparator.length) {
+                numStr = numStr.replace(new RegExp('\\' + thousandsSeparator, 'g'), '');
             }
         
             // standardise the decimal separator as '.':
-            if (this.getDecimalSeparator() !== '.') {
+            if (decimalSeparator !== '.') {
                 numStr = numStr.replace(new RegExp('\\' + '.', 'g'), '_')
-                               .replace(new RegExp('\\' + this.getDecimalSeparator(), 'g'), '.');
+                               .replace(new RegExp('\\' + decimalSeparator, 'g'), '.');
             }
         
             // now the numeric string can be correctly parsed with the native parseFloat:
@@ -99,9 +102,10 @@ define(['module', 'moment'], function (module, moment) {
          * @returns {Number}
          */
         parseInt: function (number, numericBase) {
+            var thousandsSeparator = this.getThousandsSeparator();
 
-            if (this.getThousandsSeparator().length) {
-                number = number.replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
+            if (thousandsSeparator.length) {
+                number = number.replace(new RegExp('\\' + thousandsSeparator, 'g'), '');
             }
 
             return parseInt(number, numericBase);
