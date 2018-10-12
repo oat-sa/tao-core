@@ -634,7 +634,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 throw new InvalidArgumentException('No instances specified.');
             }
 
-            $this->validateWritePrivileges($ids);
             $this->validateMoveRequest();
 
             $ids = $this->getRequestParameter('ids');
@@ -913,22 +912,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     }
 
     /**
-     * Check if session user has write access to resource in $uris
-     * @param array $uris
-     * @throws common_exception_Error|InvalidArgumentException
-     */
-    protected function validateWritePrivileges(array $uris)
-    {
-        $privileges = [];
-        foreach ($uris as $uri) {
-            $privileges[$uri] = 'WRITE';
-        }
-        if (!DataAccessControl::hasPrivileges(common_session_SessionManager::getSession()->getUser(), $privileges)) {
-            throw new InvalidArgumentException('Resources to move have restricted access.');
-        }
-    }
-
-    /**
      * Move instances to another class
      *
      * {
@@ -941,6 +924,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      *   ]
      * }
      * @requiresRight destinationClassUri WRITE
+     * @params array $ids The list of instance uris to move
      *
      * @throws common_exception_Error
      */
