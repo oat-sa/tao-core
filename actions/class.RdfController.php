@@ -921,7 +921,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $rootClass = $this->getClassService()->getRootClass();
         $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
 
-        if (!$destinationClass->isSubClassOf($rootClass)) {
+        if (!$destinationClass->isSubClassOf($rootClass) && $destinationClass->getUri() != $rootClass->getUri()) {
             throw new InvalidArgumentException(sprintf('Instance "%s" cannot be moved to another root class', $destinationClass->getUri()));
         }
 
