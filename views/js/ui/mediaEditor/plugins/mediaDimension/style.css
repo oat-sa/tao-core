@@ -94,6 +94,7 @@
 
 .media-sizer .unit-indicator {
     width: 24px;
+    margin: -20px;
 }
 
 .media-sizer .media-sizer-slider-box {
