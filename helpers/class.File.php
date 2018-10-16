@@ -519,12 +519,13 @@ class tao_helpers_File
      * so ZipArchive object should be already opened.
      *
      * @param \ZipArchive $archive
+     * @param int $minCompressionRatioToBeBomb archive content size / archive size
      * @return bool
      * @throws common_Exception
      *
      * @link https://en.wikipedia.org/wiki/Zip_bomb
      */
-    public static function checkWhetherArchiveIsBomb(\ZipArchive $archive)
+    public static function checkWhetherArchiveIsBomb(\ZipArchive $archive, $minCompressionRatioToBeBomb = 200)
     {
         if (!$archive->filename) {
             throw new common_Exception('ZIP archive should be opened before checking for a ZIP bomb');
@@ -537,8 +538,6 @@ class tao_helpers_File
         }
 
         $archiveFileSize = filesize($archive->filename);
-
-        $minCompressionRatioToBeBomb = 200;
 
         return $archiveFileSize * $minCompressionRatioToBeBomb < $contentSize;
     }
