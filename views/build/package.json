@@ -11,8 +11,9 @@
     "lintfile": "grunt eslint:file --no-color --force"
   },
   "engines": {
-    "node": ">=8.12.0"
+    "node": ">=0.12.8"
   },
+  "dependencies": {},
   "devDependencies": {
     "almond": "^0.3.3",
     "grunt": "^1.0.0",
@@ -30,10 +31,11 @@
     "grunt-notify": "^0.4.3",
     "grunt-qunit-junit": "^0.3.0",
     "grunt-replace": "^0.11.0",
-    "grunt-sass": "^2.0.0",
+    "grunt-sass": "^3.0.0",
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
     "time-grunt": "^1.0.0",
+    "node-sass": "^4.9.3",
     "@oat-sa/grunt-tao-bundle" : "^0.1.0"
   }
 }

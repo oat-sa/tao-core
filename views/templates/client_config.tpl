@@ -76,7 +76,8 @@ require.config({
             exports : "MathJax",
             init : function(){
                 if(window.MathJax){
-                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});
+                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false,
+                        menuSettings: { inTabOrder: false } });
                     MathJax.Hub.Startup.onload();
                     return MathJax;
                 }

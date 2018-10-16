@@ -3,12 +3,17 @@ module.exports = function(grunt) {
 
     var livereloadPort = grunt.option('livereloadPort');
 
+    //instantiate sass module
+    const sass = require('node-sass');
+
     grunt.config.merge({
         sass : {
             options: {
                 includePaths : [ '../scss/', '../js/lib/' ],
                 outputStyle : 'compressed',
-                sourceMap : true
+                sourceMap : true,
+                //set implementation for sass to make 3.x.x branches of grunt-sass work, see https://github.com/nodejs/nan/issues/504#issuecomment-385296082, https://github.com/sourcey/spectacle/issues/156#issuecomment-401731543
+                implementation: sass
             },
             tao: {
                 files : {
