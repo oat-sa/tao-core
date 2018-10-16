@@ -149,7 +149,7 @@ class Layout
      * @param array  $params additional parameters
      * @return string the script tag
      */
-    public static function getAmdLoader($bundle = null, $controller = null, $params = null){
+    public static function getAmdLoader($bundle = null, $controller = null, $params = null, $allowAnonymous = false){
 
         $bundleMode   = \tao_helpers_Mode::is('production');
         $configUrl    = get_data('client_config_url');
@@ -158,7 +158,7 @@ class Layout
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 
-        if(\common_session_SessionManager::isAnonymous()) {
+        if(\common_session_SessionManager::isAnonymous() && !$allowAnonymous) {
             $controller = 'controller/login';
             $bundle = Template::js('loader/login.min.js', 'tao');
         }
