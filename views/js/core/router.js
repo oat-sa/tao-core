@@ -111,12 +111,17 @@ define([
          * @returns {Promise} once loaded
          */
         loadRouteBundle : function loadRouteBundle(route){
-            if(route && route.extension && context.bundle){
-                return new  Promise( function(resolve, reject){
-                    var routeBundle;
-                    routeBundle = route.extension === 'tao' ? 'loader/tao.min' : route.extension + '/loader/' + route.extension + '.min';
+            //only for bundle mode and route which are not TAO (self contained)
+            if(route && route.extension && context.bundle && route.extension !== 'tao') {
+                return new  Promise( function(resolve){
+                    var routeBundle = route.extension + '/loader/' + route.extension + '.min';
 
-                    window.require([routeBundle], resolve, reject);
+                    window.require([routeBundle], resolve, function(err){
+                        //do not break in case of error, module loading will take over
+                        logger.warn('Unable to load ' + routeBundle + ' : ' + err.message);
+
+                        resolve();
+                    });
                 });
             }
             return Promise.resolve();
