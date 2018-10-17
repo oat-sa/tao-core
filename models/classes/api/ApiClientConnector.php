@@ -68,7 +68,7 @@ class ApiClientConnector extends Configurable implements ClientInterface
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public function request($method, $uri, array $options = [])
+    public function request($method, $uri = null, array $options = [])
     {
         return $this->getClient()->request($method, $uri, $options);
     }
