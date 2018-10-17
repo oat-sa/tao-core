@@ -252,7 +252,8 @@ define([
         function compute() {
             var expression = $input.val();
             var result = evaluate(expression);
-            $screen.append('<p>' + result + '</p>');
+            $screen.append('<p class="expression">' + expression + '</p>');
+            $screen.append('<p class="result">' + result + '</p>');
         }
 
         $keyboard.on('click', 'button', function() {
