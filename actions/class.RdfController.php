@@ -925,6 +925,25 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             throw new InvalidArgumentException(sprintf('Instance "%s" cannot be moved to another root class', $destinationClass->getUri()));
         }
 
+        list($statuses, $instances, $classes) = $this->getInstancesList($ids);
+        $movableInstances = $this->getMovableInstances($classes, $instances);
+
+        $statuses = $this->move($destinationClass, $movableInstances, $statuses);
+
+        return [
+            'success' => true,
+            'data' => $statuses
+        ];
+    }
+
+    /**
+     * Gets list of existing instances/classes
+     *
+     * @param array $ids list of ids asked to be moved
+     * @return array
+     */
+    private function getInstancesList(array $ids)
+    {
         $statuses = $instances = $classes = [];
 
         foreach ($ids as $key => $instance) {
@@ -944,6 +963,23 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             $instances[$key] = $instance;
         }
 
+        return [
+            $statuses,
+            $instances,
+            $classes
+        ];
+    }
+
+    /**
+     * Get movable instances from the list of instances
+     *
+     * @param array $classes
+     * @param array $instances
+     *
+     * @return array
+     */
+    private function getMovableInstances(array $classes = [], array $instances = [])
+    {
         $movableInstances = [];
 
         // Check if a class belong to class to move
@@ -976,24 +1012,35 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             }
         }
 
+        return $movableInstances;
+    }
+
+    /**
+     * Move movableInstances to the destinationClass
+     *
+     * @param core_kernel_classes_Class $destinationClass class to move to
+     * @param array $movableInstances list of instances available to move
+     * @param array $statuses list of statuses for instances asked to be moved
+     *
+     * @return array $statuses updated list of statuses
+     */
+    private function move(\core_kernel_classes_Class $destinationClass, array $movableInstances = [], array $statuses = [])
+    {
         /** @var core_kernel_classes_Resource $movableInstance */
         foreach ($movableInstances as $movableInstance) {
-            $statuses[$instance->getUri()] = [
+            $statuses[$movableInstance->getUri()] = [
                 'success' => $success = $this->getClassService()->changeClass($movableInstance, $destinationClass),
             ];
             if ($success === true) {
-                $statuses[$instance->getUri()]['message'] = sprintf(
+                $statuses[$movableInstance->getUri()]['message'] = sprintf(
                     'Instance "%s" has been successfully moved to "%s"', $movableInstance->getUri(), $destinationClass->getUri()
                 );
             } else {
-                $statuses[$instance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
+                $statuses[$movableInstance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
             }
         }
 
-        return [
-            'success' => true,
-            'data' => $statuses
-        ];
+        return $statuses;
     }
 
     /**
