@@ -42,14 +42,17 @@ class DataAccessControl implements AccessControl
         try {
             foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
                 if (isset($parameters[$paramName])) {
-                    if (preg_match('/^[a-z]*_2_/', $parameters[$paramName]) != 0) {
-                        common_Logger::w('url encoded parameter detected for '.$paramName);
-                        $cleanName = \tao_helpers_Uri::decode($parameters[$paramName]);
+                    if (is_array($parameters[$paramName])) {
+                        foreach ($parameters[$paramName] as $key => $paramVal) {
+                            $cleanName = $this->getCleanName($paramName, $paramVal);
+
+                            $required[$cleanName] = $privileges;
+                        }
                     } else {
-                        $cleanName = $parameters[$paramName];
+                        $cleanName = $this->getCleanName($paramName, $parameters[$paramName]);
+
+                        $required[$cleanName] = $privileges;
                     }
-        
-                    $required[$cleanName] = $privileges;
                 } else {
                     throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
                 }
@@ -62,6 +65,24 @@ class DataAccessControl implements AccessControl
         return empty($required)
             ? true
             : self::hasPrivileges($user, $required);
+    }
+
+    /**
+     * Gets the cleaned paramName from paramValue ($cleanName)
+     *
+     * @param string $paramName just for logging purposes
+     * @param string $cleanName param to be cleared
+     *
+     * @return string
+     */
+    private function getCleanName($paramName, $cleanName)
+    {
+        if (preg_match('/^[a-z]*_2_/', $cleanName) != 0) {
+            common_Logger::w('url encoded parameter detected for '.$paramName);
+            $cleanName = \tao_helpers_Uri::decode($cleanName);
+        }
+
+        return $cleanName;
     }
     
     /**
