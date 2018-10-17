@@ -16,8 +16,9 @@
 
     <div class="media-sizer-percent">
         <label for="media-sizer-percent-width">{{__ 'Size'}}</label>
-        <span class="item-editor-unit-input-box">
+        <span class="item-editor-unit-input-box" style="display:-moz-box;">
             <input type="text" name="width" id="media-sizer-percent-width" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
+            <span class="unit-indicator">%</span>
         </span>
 
         <div class="media-sizer-reset media-sizer-reset-percent" data-unit="percent">
@@ -30,20 +31,23 @@
     </div>
 
     <div class="media-sizer-pixel">
-        <label for="media-sizer-pixel-width">{{__ 'Width'}}</label>
-        <span class="item-editor-unit-input-box">
-            <input type="text" name="width" id="media-sizer-pixel-width" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
-        </span>
-
-        <label for="media-sizer-pixel-height">{{__ 'Height'}}</label>
-        <span class="item-editor-unit-input-box">
-            <input type="text" name="height" id="media-sizer-pixel-height" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
-        </span>
-
         <div class="media-sizer-sync">
             <span class="icon-link"></span>
         </div>
-
+        <div>
+            <label for="media-sizer-pixel-width">{{__ 'Width'}}</label>
+            <span class="item-editor-unit-input-box" style="display:-moz-box;">
+                <input type="text" name="width" id="media-sizer-pixel-width" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
+                <span class="unit-indicator">px</span>
+            </span>
+            </div>
+        <div>
+            <label for="media-sizer-pixel-height">{{__ 'Height'}}</label>
+            <span class="item-editor-unit-input-box" style="display:-moz-box;">
+                <input type="text" name="height" id="media-sizer-pixel-height" data-validate="$numeric" data-validate-option="$allowEmpty;"/>
+                <span class="unit-indicator">px</span>
+            </span>
+        </div>
         <div class="media-sizer-reset media-sizer-reset-pixel" data-unit="pixel">
             <span class="icon-reset"></span>
         </div>

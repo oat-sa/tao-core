@@ -259,10 +259,7 @@ define([
             _(['px', '%']).forEach(function (unit) {
                 _blocks[unit] = $elt.find('.media-sizer-' + (unit === 'px' ? 'pixel' : 'percent'));
                 _blocks[unit].prop('unit', unit);
-                _blocks[unit].find('input').data('unit', unit).after($('<span>', {
-                    'class': 'unit-indicator',
-                    text: unit
-                }));
+                _blocks[unit].find('input').data('unit', unit);
             });
 
             $responsiveToggleField.on('click', function () {
