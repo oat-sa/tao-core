@@ -174,15 +174,21 @@ define([
              * Reset the component to the initial state
              */
             reset: function reset() {
+                var syncDim = initialConfig.syncDimensions;
                 if(this.is('rendered')){
-
                     // revert the sizes to the original of the image
                     initialConfig.sizeProps.px.current.width = media.$node[0].naturalWidth;
                     initialConfig.sizeProps.px.current.height = media.$node[0].naturalHeight;
+                    initialConfig.sizeProps.ratio.current = initialConfig.sizeProps.ratio.natural;
+
+                    // reset needs to restore everything
+                    initialConfig.syncDimensions = true;
 
                     // apply changes
                     initialConfig = calculateCurrentSizes(initialConfig);
                     mediaDimensionComponent.update();
+                    // restore current mode
+                    initialConfig.syncDimensions = syncDim;
 
                     // trigger event
                     this.trigger('reset', initialConfig);
