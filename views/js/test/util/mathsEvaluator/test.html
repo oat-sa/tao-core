@@ -26,9 +26,103 @@
                 });
             });
         </script>
+
+        <style>
+            #visual-test {
+                display: block;
+                position: relative;
+                width: 800px;
+                padding: 20px;
+                margin: 10px;
+                border: 2px solid #448;
+            }
+            #visual-test .screen {
+                border: 1px solid #888;
+                position: relative;
+                height: 10rem;
+                overflow-x: hidden;
+                overflow-y: scroll;
+            }
+            #visual-test .screen p {
+                padding: 0;
+                margin: 3px 0;
+                text-align: right;
+                font-family: monospace;
+                white-space: pre;
+                font-size: 1.2rem;
+            }
+            #visual-test .input {
+                padding: 10px 0;
+                display: flex;
+            }
+            #visual-test .input * {
+                margin: 2px;
+            }
+            #visual-test .input input {
+                flex: 1 0 auto;
+                font-family: monospace;
+                white-space: pre;
+                font-size: 1.2rem;
+            }
+            #visual-test .input button {
+                flex: 0 0 auto;
+            }
+            #visual-test .keyboard {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: stretch;
+            }
+            #visual-test .keyboard .row {
+                position: relative;
+                height: 2rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: stretch;
+            }
+            #visual-test .keyboard .row * {
+                margin: 2px;
+                flex: 1 1 auto;
+            }
+        </style>
     </head>
     <body>
         <div id="qunit"></div>
         <div id="qunit-fixture"></div>
+        <div id="visual-test">
+            <div class="screen"></div>
+            <div class="input">
+                <input type="text" name="expr" class="expression" placeholder="type your expression...">
+                <button class="action compute">calc</button>
+            </div>
+            <div class="keyboard">
+                <div class="row">
+                    <button class="operand num-1" data-operator="1">1</button>
+                    <button class="operand num-2" data-operator="2">2</button>
+                    <button class="operand num-3" data-operator="3">3</button>
+                    <button class="operator lpar" data-operator="(">(</button>
+                    <button class="operator rpar" data-operator=")">)</button>
+                </div>
+                <div class="row">
+                    <button class="operand num-4" data-operator="4">4</button>
+                    <button class="operand num-5" data-operator="5">5</button>
+                    <button class="operand num-6" data-operator="6">6</button>
+                    <button class="operator plus" data-operator="+">+</button>
+                    <button class="operator minus" data-operator="-">-</button>
+                </div>
+                <div class="row">
+                    <button class="operand num-7" data-operator="7">7</button>
+                    <button class="operand num-8" data-operator="8">8</button>
+                    <button class="operand num-9" data-operator="9">9</button>
+                    <button class="operator mul" data-operator="*">*</button>
+                    <button class="operator div" data-operator="/">/</button>
+                </div>
+                <div class="row">
+                    <button class="operand num-0" data-operator="0">0</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

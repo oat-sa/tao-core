@@ -19,8 +19,9 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+    'jquery',
     'util/mathsEvaluator'
-], function (mathsEvaluatorFactory) {
+], function ($, mathsEvaluatorFactory) {
     'use strict';
 
     QUnit.module('API');
@@ -205,5 +206,70 @@ define([
             assert.equal(evaluate(data.expression, data.variables), data.expected, "The expression " + data.expression + " is correctly computed");
         });
 
+    /** Visual Test **/
+
+    $.fn.extend({
+        /**
+         * Inserts a text at the cursor position inside a textbox.
+         * Code from: http://stackoverflow.com/questions/946534/insert-text-into-textarea-with-jquery/946556#946556
+         * @param {String} myValue
+         * @returns {jQuery}
+         */
+        insertAtCaret : function(myValue) {
+            return this.each(function(i) {
+                if (document.selection) {
+                    //For browsers like Internet Explorer
+                    this.focus();
+                    var sel = document.selection.createRange();
+                    sel.text = myValue;
+                    this.focus();
+                } else if (this.selectionStart || this.selectionStart == '0') {
+                    //For browsers like Firefox and Webkit based
+                    var startPos = this.selectionStart;
+                    var endPos = this.selectionEnd;
+                    var scrollTop = this.scrollTop;
+                    this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos,this.value.length);
+                    this.focus();
+                    this.selectionStart = startPos + myValue.length;
+                    this.selectionEnd = startPos + myValue.length;
+                    this.scrollTop = scrollTop;
+                } else {
+                    this.value += myValue;
+                    this.focus();
+                }
+            });
+        }
+    });
+
+    QUnit.test('Visual test', function(assert) {
+        var evaluate = mathsEvaluatorFactory();
+        var $container = $('#visual-test');
+        var $screen = $container.find('.screen');
+        var $input = $container.find('.input input');
+        var $calc = $container.find('.input button');
+        var $keyboard = $container.find('.keyboard');
+
+        function compute() {
+            var expression = $input.val();
+            var result = evaluate(expression);
+            $screen.append('<p>' + result + '</p>');
+        }
+
+        $keyboard.on('click', 'button', function() {
+            $input.insertAtCaret(this.dataset.operator);
+        });
+
+        $calc.on('click', function() {
+            compute();
+        });
+        $input.on('keydown', function(e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                compute();
+            }
+        });
+
+        assert.ok(true, 'Visual test ready');
+    })
 
 });
