@@ -128,6 +128,10 @@ define([
                     mapTo: 'sqrt'
                 },
                 {
+                    entry: 'cbrt',
+                    mapTo: 'cbrt'
+                },
+                {
                     entry: 'log',
                     mapTo: 'log'
                 },
@@ -309,6 +313,18 @@ define([
                 {
                     entry: 'roundTo',
                     filter: useOrigin
+                },
+                {
+                    entry: 'nthrt',
+                    filter: function (x, n) {
+                        x = decimalNumber(x);
+                        n = parseInt(n, 10);
+                        if (x.isNeg() && n % 2 !== 1) {
+                            // not a real number (complex not supported)
+                            return decimalNumber(NaN);
+                        }
+                        return x.abs().pow(decimalNumber(1).div(n)).mul(Decimal.sign(x));
+                    }
                 }
             ]
         };

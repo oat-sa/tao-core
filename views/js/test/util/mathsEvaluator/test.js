@@ -86,6 +86,34 @@ define([
             title: 'round',
             expression: 'round(3.14)',
             expected: '3'
+        }, {
+            title: 'square root',
+            expression: 'sqrt(9)',
+            expected: '3'
+        }, {
+            title: 'cube root',
+            expression: 'cbrt(27)',
+            expected: '3'
+        }, {
+            title: 'nth root 2',
+            expression: 'nthrt(16, 2)',
+            expected: '4'
+        }, {
+            title: 'nth root 3',
+            expression: 'nthrt(27, 3)',
+            expected: '3'
+        }, {
+            title: 'negative nth root 3',
+            expression: 'nthrt(-27, 3)',
+            expected: '-3'
+        }, {
+            title: 'nth root 4',
+            expression: 'nthrt(81, 4)',
+            expected: '3'
+        }, {
+            title: 'negative nth root 4',
+            expression: 'nthrt(-81, 4)',
+            expected: 'NaN'
         }])
         .test('arithmetic expression', function (data, assert) {
             var evaluate = mathsEvaluatorFactory();
