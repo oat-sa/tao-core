@@ -129,6 +129,11 @@
                 {{/each}}
             </tbody>
         </table>
+        {{#unless dataset.data}}
+        <div class="empty">
+            {{ __ 'No results found for search criteria entered' }}
+        </div>
+        {{/unless}}
     </div>
     <div class="datatable-pagination-bottom"></div>
 </div>
