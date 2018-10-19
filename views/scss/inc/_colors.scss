@@ -33,6 +33,10 @@ $uiClickableHoverBg: whiten($info, .2);
 $uiClickableActiveBg: whiten($websiteBorder, .2);
 //$uiClickableActiveBg: #aaa;
 
+$uiSelectableSelectedBg: whiten($info, .2);
+$uiSelectableSelectedHoverBg: whiten($info, .1);
+$uiSelectableHoverBg: whiten($info, .9);
+
 $uiOverlay: $lightBlueGrey;
 
 // sidebars etc.

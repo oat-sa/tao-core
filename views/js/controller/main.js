@@ -119,6 +119,12 @@ define([
                 logger.error(err);
                 feedback().error(err);
             });
+            actionManager.on('contextchange', function(actionContext) {
+                // in case of multi selection, the main panel should be empty
+                if (_.isArray(actionContext) && actionContext.length !== 1) {
+                    sections.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
+                }
+            });
 
             //initialize sections
             sections.on('activate', function(section) {

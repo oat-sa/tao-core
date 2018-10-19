@@ -36,6 +36,8 @@ $root = dirname(__DIR__);
 $bootstrap = new Bootstrap($root .DIRECTORY_SEPARATOR. 'config' .DIRECTORY_SEPARATOR . 'generis.conf.php');
 
 $serviceManager = $bootstrap->getServiceLocator();
+common_Logger::singleton()->register();
+
 /** @var common_ext_ExtensionsManager $e */
 $e =  $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
 $config = $e->getExtensionById('tao')->getConfig('websource_' . $webSourceId);

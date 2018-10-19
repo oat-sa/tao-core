@@ -37,6 +37,19 @@ define([
 ], function(module, $, __, _, appContext, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog, httpErrorParser) {
     'use strict';
 
+    var messages = {
+        confirmMove: __('The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?')
+    };
+
+    /**
+     * Cleans up the main panel and creates a container
+     * @returns {jQuery}
+     */
+    var emptyPanel = function cleanupPanel() {
+        section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
+        return $(section.selected.panel).find('.main-container');
+    };
+
     /**
      * Register common actions.
      *
@@ -44,7 +57,7 @@ define([
      *
      * @exports layout/actions/common
      */
-    var commonActions = function(){
+    var commonActions = function commonActions(){
 
         /**
          * Register the load action: load the url and into the content container
@@ -447,11 +460,12 @@ define([
          *
          * @this the action (once register it is bound to an action object)
          *
-         * @param {Object[]|Object} actionContexts - single or multiple action contexts
+         * @param {Object[]|Object} actionContext - single or multiple action contexts
          * @returns {Promise<String>} with the new resource URI
          */
         binder.register('copyTo',  function copyTo (actionContext){
-            var $container;
+            //create the container manually...
+            var $container = emptyPanel();
 
             //get the resource provider configured with the action URL
             var resourceProvider = resourceProviderFactory({
@@ -459,10 +473,6 @@ define([
                     url : this.url
                 }
             });
-
-            //create the container manually...
-            section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
-            $container = $(section.selected.panel).find('.main-container');
 
             return new Promise( function (resolve, reject){
 
@@ -521,6 +531,129 @@ define([
                     }
                 })
                 .on('error', reject);
+            });
+        });
+
+        /**
+         * Register the moveTo action: select a destination class to move resources
+         *
+         * @this the action (once register it is bound to an action object)
+         *
+         * @param {Object|Object[]} actionContext - multiple action contexts
+         * @returns {Promise<String>} with the destination class URI
+         */
+        binder.register('moveTo', function moveTo(actionContext) {
+            //create the container manually...
+            var $container = emptyPanel();
+
+            //backward compatible for jstree
+            var tree = actionContext.tree;
+
+            //get the resource provider configured with the action URL
+            var resourceProvider = resourceProviderFactory({
+                moveTo: {
+                    url: this.url
+                }
+            });
+
+            if (!_.isArray(actionContext)) {
+                actionContext = [actionContext];
+            }
+
+            return new Promise(function (resolve, reject) {
+                var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
+                var selectedUri = _.pluck(actionContext, 'uri');
+
+                //set up a destination selector
+                destinationSelectorFactory($container, {
+                    title: __('Move to'),
+                    actionName: __('Move'),
+                    icon: 'move-item',
+                    classUri: rootClassUri,
+                    confirm: messages.confirmMove,
+                    preventSelection: function preventSelection(nodeUri, node, $node) {
+                        var uriList = [];
+
+                        //prevent selection on nodes without WRITE permissions
+                        if ($node.length && $node.data('access') === 'partial' || $node.data('access') === 'denied') {
+                            if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label));
+                                return true;
+                            }
+                        }
+
+                        uriList = [nodeUri];
+                        $node.parents('.class').each(function() {
+                            if (this.dataset.uri !== rootClassUri) {
+                                uriList.push(this.dataset.uri);
+                            }
+                        });
+
+                        //prevent selection on nodes that are already the containers of the resources or the resources themselves
+                        if (_.intersection(selectedUri, uriList).length) {
+                            feedback().warning(__('You cannot move the selected resources in the class %s', node.label));
+                            return true;
+                        }
+
+                        return false;
+                    }
+                })
+                    .on('query', function (params) {
+                        var self = this;
+
+                        //asks only classes
+                        params.classOnly = true;
+                        resourceProvider
+                            .getResources(params, true)
+                            .then(function (resources) {
+                                //ask the server the resources from the component query
+                                self.update(resources, params);
+                            })
+                            .catch(function (err) {
+                                self.trigger('error', err);
+                            });
+                    })
+                    .on('select', function (destinationClassUri) {
+                        var self = this;
+
+                        if (!_.isEmpty(destinationClassUri)) {
+                            this.disable();
+
+                            resourceProvider
+                                .moveTo(selectedUri, destinationClassUri)
+                                .then(function (results) {
+                                    var failed = [];
+                                    var success = [];
+
+                                    _.forEach(results, function (result, uri) {
+                                        var resource = _.find(actionContext, {uri: uri});
+                                        if (result.success) {
+                                            success.push(resource);
+                                        } else {
+                                            failed.push(result.message);
+                                        }
+                                    });
+
+                                    if (!success.length) {
+                                        feedback().error(__('Unable to move the resources'));
+                                    } else if (failed.length) {
+                                        feedback().warning(__('Some resources have not been moved: %s', failed.join(', ')));
+                                    } else {
+                                        feedback().success(__('Resources moved'));
+                                    }
+
+                                    //backward compatible for jstree
+                                    if (tree) {
+                                        $(tree).trigger('refresh.taotree', [destinationClassUri]);
+                                    }
+                                    return resolve(destinationClassUri);
+                                })
+                                .catch(function (err) {
+                                    self.trigger('error', err);
+                                });
+                        }
+                    })
+                    .on('error', reject);
             });
         });
     };

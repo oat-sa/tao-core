@@ -127,7 +127,7 @@ define([
             assert.ok($('> ul > li', $element).hasClass('open'), 'The root node is opened');
             assert.ok(! $('> ul > li', $element).hasClass('closed'), 'The root node is open');
             assert.equal($('> ul > li > ul', $element).children('.instance').length, 3, 'The root node has 3 instance children');
-            assert.equal($('> ul > li > ul', $element).children('.class').length, 1, 'The root node has 1 child class');
+            assert.equal($('> ul > li > ul', $element).children('.class').length, 2, 'The root node has 2 child class');
 
             QUnit.start();
         });
@@ -293,7 +293,7 @@ define([
             var $node      = $('[data-uri="'+uri+'"]', this.getElement());
 
             assert.equal($classNode.length, 1, 'The class node is in the DOM');
-            assert.equal($classNode.data('count'), 5, 'The instances count is correct');
+            assert.equal($classNode.data('count'), 6, 'The instances count is correct');
 
             this.after('remove', function(removedUri){
                 assert.equal(removedUri, uri, 'The removedUri is correct');
@@ -301,7 +301,7 @@ define([
                 assert.ok( ! this.hasNode(uri), 'The node is not registerd anymore');
                 assert.equal($('[data-uri="'+uri+'"]', this.getElement()).length, 0, 'The node is not in the DOM anymore');
 
-                assert.equal($classNode.data('count'), 4, 'The class count has been updated');
+                assert.equal($classNode.data('count'), 5, 'The class count has been updated');
 
                 QUnit.start();
             });

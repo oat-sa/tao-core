@@ -73,22 +73,26 @@ define(['module', 'moment'], function (module, moment) {
 
         /**
          * Parse float values with process locale features
-         * @param number
+         * @param numStr
          * @returns {Number}
          */
-        parseFloat: function (number) {
-            if (!number) {
-                return parseFloat(number);
+        parseFloat: function (numStr) {
+            var thousandsSeparator = this.getThousandsSeparator(),
+                decimalSeparator = this.getDecimalSeparator();
+
+            // discard all thousand separators:
+            if (thousandsSeparator.length) {
+                numStr = numStr.replace(new RegExp('\\' + thousandsSeparator, 'g'), '');
             }
-
-            var parts = number.split(this.getDecimalSeparator(), 2);
-            var ones = parts[0];
-
-            if (this.getThousandsSeparator().length) {
-                ones = parts[0].replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
+        
+            // standardise the decimal separator as '.':
+            if (decimalSeparator !== '.') {
+                numStr = numStr.replace(new RegExp('\\' + '.', 'g'), '_')
+                               .replace(new RegExp('\\' + decimalSeparator, 'g'), '.');
             }
-
-            return parseFloat(ones) + parseFloat('0.' + parts[1]);
+        
+            // now the numeric string can be correctly parsed with the native parseFloat:
+            return parseFloat(numStr);
         },
 
         /**
@@ -98,9 +102,10 @@ define(['module', 'moment'], function (module, moment) {
          * @returns {Number}
          */
         parseInt: function (number, numericBase) {
+            var thousandsSeparator = this.getThousandsSeparator();
 
-            if (this.getThousandsSeparator().length) {
-                number = number.replace(new RegExp('\\' + this.getThousandsSeparator(), 'g'), '');
+            if (thousandsSeparator.length) {
+                number = number.replace(new RegExp('\\' + thousandsSeparator, 'g'), '');
             }
 
             return parseInt(number, numericBase);
