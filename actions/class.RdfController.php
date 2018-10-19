@@ -849,7 +849,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     protected function hasWriteAccess($resourceId)
     {
         $user = common_session_SessionManager::getSession()->getUser();
-        return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
+        return (new DataAccessControl())->hasPrivileges($user, array($resourceId => 'WRITE'));
     }
 
     /**
@@ -919,6 +919,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     protected function moveAllInstances(array $ids)
     {
         $rootClass = $this->getClassService()->getRootClass();
+
+        if (in_array($rootClass->getUri(), $ids)) {
+            throw new InvalidArgumentException(sprintf('Root class "%s" cannot be moved', $rootClass->getUri()));
+        }
+
         $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
 
         if (!$destinationClass->isSubClassOf($rootClass) && $destinationClass->getUri() != $rootClass->getUri()) {
@@ -926,7 +931,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         }
 
         list($statuses, $instances, $classes) = $this->getInstancesList($ids);
-        $movableInstances = $this->getMovableInstances($classes, $instances);
+        $movableInstances = $this->getInstancesToMove($classes, $instances, $statuses);
 
         $statuses = $this->move($destinationClass, $movableInstances, $statuses);
 
@@ -951,14 +956,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             if ($instance->isClass()) {
                 $instance = new core_kernel_classes_Class($instance);
                 $classes[] = $instance;
-            } else {
-                if (!$instance->exists()) {
-                    $statuses[$instance->getUri()] = [
-                        'success' => false,
-                        'message' => sprintf('Instance "%s" does not exist', $instance->getUri()),
-                    ];
-                    break;
-                }
+            } elseif (!$instance->exists()) {
+                $statuses[$instance->getUri()] = [
+                    'success' => false,
+                    'message' => sprintf('Instance "%s" does not exist', $instance->getUri()),
+                ];
+                break;
             }
             $instances[$key] = $instance;
         }
@@ -978,7 +981,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      *
      * @return array
      */
-    private function getMovableInstances(array $classes = [], array $instances = [])
+    private function getInstancesToMove(array $classes = [], array $instances = [], array &$statuses = [])
     {
         $movableInstances = [];
 
@@ -988,6 +991,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             $isValid = true;
             foreach ($classes as $class) {
                 if ($instance instanceof core_kernel_classes_Class) {
+                    //Disallow moving a class to $class. True only for classes which are already subclasses of $class
                     if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
                         $statuses[$instance->getUri()] = [
                             'success' => false,
@@ -997,6 +1001,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                         break;
                     }
                 } else {
+                    //Disallow moving instances to $class. True only for instances which already belongs to $class
                     if ($instance->isInstanceOf($class)) {
                         $statuses[$instance->getUri()] = [
                             'success' => false,
