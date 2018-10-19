@@ -324,6 +324,13 @@ define([
                     } else {
                         hider.hide($selectCtrlLabel);
                     }
+
+                    /**
+                     * The selection mode has changed
+                     * @event resourceSelector#selectionmodechange
+                     * @param {String} mode - the new selection mode
+                     */
+                    this.trigger('selectionmodechange', newMode);
                 }
                 return this;
             },

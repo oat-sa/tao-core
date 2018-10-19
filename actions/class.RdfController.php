@@ -586,6 +586,58 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $this->returnJson($response);
     }
 
+
+    /**
+     * Move a single resource to another class
+     *
+     * @requiresRight uri WRITE
+     *
+     * @throws common_exception_Error
+     * @throws common_exception_MethodNotAllowed
+     */
+    public function moveResource()
+    {
+        try {
+            if (!$this->hasRequestParameter('uri')) {
+                throw new InvalidArgumentException('Resource uri must be specified.');
+            }
+            $ids = [$this->getRequestParameter('uri')];
+            $this->validateMoveRequest();
+            $response = $this->moveAllInstances($ids);
+            $this->returnJson($response);
+        } catch (\InvalidArgumentException $e) {
+            $this->returnJsonError($e->getMessage());
+        }
+    }
+
+    /**
+     * Move all specififed resources to the given destination root class
+     *
+     * @throws common_exception_Error
+     * @throws common_exception_MethodNotAllowed
+     * @requiresRight ids WRITE
+     */
+    public function moveAll()
+    {
+        try {
+            if (!$this->hasRequestParameter('ids')) {
+                throw new InvalidArgumentException('Resource ids must be specified.');
+            }
+
+            $ids = $this->getRequestParameter('ids');
+            if (empty($ids)) {
+                throw new InvalidArgumentException('No instances specified.');
+            }
+
+            $this->validateMoveRequest();
+
+            $response = $this->moveAllInstances($ids);
+            $this->returnJson($response);
+        } catch (\InvalidArgumentException $e) {
+            $this->returnJsonError($e->getMessage());
+        }
+    }
+
     /**
      * Render the  form to translate a Resource instance
      * @return void
@@ -797,7 +849,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     protected function hasWriteAccess($resourceId)
     {
         $user = common_session_SessionManager::getSession()->getUser();
-        return DataAccessControl::hasPrivileges($user, array($resourceId => 'WRITE'));
+        return (new DataAccessControl())->hasPrivileges($user, array($resourceId => 'WRITE'));
     }
 
     /**
@@ -822,6 +874,193 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
         \common_Logger::w('Csrf validation failed');
         throw new \common_exception_Unauthorized();
+    }
+
+    /**
+     * Validate request with all required parameters
+     *
+     * @throws common_exception_Error
+     * @throws common_exception_MethodNotAllowed If it is not POST method
+     * @throws InvalidArgumentException If parameters are not correct
+     */
+    protected function validateMoveRequest()
+    {
+        if (!$this->isRequestPost()) {
+            throw new common_exception_MethodNotAllowed('Only POST method is allowed to move instances.');
+        }
+
+        if (!$this->hasRequestParameter('destinationClassUri')) {
+            throw new InvalidArgumentException('Destination class must be specified');
+        }
+
+        $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+        if (!$destinationClass->isClass()) {
+            throw new InvalidArgumentException('Destination class must be a valid class');
+        }
+    }
+
+    /**
+     * Move instances to another class
+     *
+     * {
+     *   "destinationClassUri": "http://test.it",
+     *   "ids": [
+     *     "http://resource1",
+     *     "http://resource2",
+     *     "http://class1",
+     *     "http://class2"
+     *   ]
+     * }
+     * @requiresRight destinationClassUri WRITE
+     * @params array $ids The list of instance uris to move
+     *
+     * @throws common_exception_Error
+     */
+    protected function moveAllInstances(array $ids)
+    {
+        $rootClass = $this->getClassService()->getRootClass();
+
+        if (in_array($rootClass->getUri(), $ids)) {
+            throw new InvalidArgumentException(sprintf('Root class "%s" cannot be moved', $rootClass->getUri()));
+        }
+
+        $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+
+        if (!$destinationClass->isSubClassOf($rootClass) && $destinationClass->getUri() != $rootClass->getUri()) {
+            throw new InvalidArgumentException(sprintf('Instance "%s" cannot be moved to another root class', $destinationClass->getUri()));
+        }
+
+        list($statuses, $instances, $classes) = $this->getInstancesList($ids);
+        $movableInstances = $this->getInstancesToMove($classes, $instances, $statuses);
+
+        $statuses = $this->move($destinationClass, $movableInstances, $statuses);
+
+        return [
+            'success' => true,
+            'data' => $statuses
+        ];
+    }
+
+    /**
+     * Gets list of existing instances/classes
+     *
+     * @param array $ids list of ids asked to be moved
+     * @return array
+     */
+    private function getInstancesList(array $ids)
+    {
+        $statuses = $instances = $classes = [];
+
+        foreach ($ids as $key => $instance) {
+            $instance = new core_kernel_classes_Resource($instance);
+            if ($instance->isClass()) {
+                $instance = new core_kernel_classes_Class($instance);
+                $classes[] = $instance;
+            } elseif (!$instance->exists()) {
+                $statuses[$instance->getUri()] = [
+                    'success' => false,
+                    'message' => sprintf('Instance "%s" does not exist', $instance->getUri()),
+                ];
+                break;
+            }
+            $instances[$key] = $instance;
+        }
+
+        return [
+            $statuses,
+            $instances,
+            $classes
+        ];
+    }
+
+    /**
+     * Get movable instances from the list of instances
+     *
+     * @param array $classes
+     * @param array $instances
+     *
+     * @return array
+     */
+    private function getInstancesToMove(array $classes = [], array $instances = [], array &$statuses = [])
+    {
+        $movableInstances = [];
+
+        // Check if a class belong to class to move
+        /** @var core_kernel_classes_Resource|core_kernel_classes_Class $instance */
+        foreach ($instances as $instance) {
+            $isValid = true;
+            foreach ($classes as $class) {
+                if ($instance instanceof core_kernel_classes_Class) {
+                    //Disallow moving a class to $class. True only for classes which are already subclasses of $class
+                    if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
+                        $statuses[$instance->getUri()] = [
+                            'success' => false,
+                            'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                        ];
+                        $isValid = false;
+                        break;
+                    }
+                } else {
+                    //Disallow moving instances to $class. True only for instances which already belongs to $class
+                    if ($instance->isInstanceOf($class)) {
+                        $statuses[$instance->getUri()] = [
+                            'success' => false,
+                            'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                        ];
+                        $isValid = false;
+                        break;
+                    }
+                }
+            }
+            if ($isValid) {
+                $movableInstances[$instance->getUri()] = $instance;
+            }
+        }
+
+        return $movableInstances;
+    }
+
+    /**
+     * Move movableInstances to the destinationClass
+     *
+     * @param core_kernel_classes_Class $destinationClass class to move to
+     * @param array $movableInstances list of instances available to move
+     * @param array $statuses list of statuses for instances asked to be moved
+     *
+     * @return array $statuses updated list of statuses
+     */
+    private function move(\core_kernel_classes_Class $destinationClass, array $movableInstances = [], array $statuses = [])
+    {
+        /** @var core_kernel_classes_Resource $movableInstance */
+        foreach ($movableInstances as $movableInstance) {
+            $statuses[$movableInstance->getUri()] = [
+                'success' => $success = $this->getClassService()->changeClass($movableInstance, $destinationClass),
+            ];
+            if ($success === true) {
+                $statuses[$movableInstance->getUri()]['message'] = sprintf(
+                    'Instance "%s" has been successfully moved to "%s"', $movableInstance->getUri(), $destinationClass->getUri()
+                );
+            } else {
+                $statuses[$movableInstance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
+            }
+        }
+
+        return $statuses;
+    }
+
+    /**
+     * Return a formatted error message with code 406
+     *
+     * @param $message
+     */
+    protected function returnJsonError($message)
+    {
+        $response = [
+            'success'  => false,
+            'errorCode' => 406,
+            'errorMessage' =>  $message
+        ];
+        $this->returnJson($response, 406);
     }
 
     /**
