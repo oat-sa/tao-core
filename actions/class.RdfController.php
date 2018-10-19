@@ -1056,10 +1056,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     protected function returnJsonError($message)
     {
         $response = [
-            'success' => false,
-            'data' => [
-                'errorMessage' => $message,
-            ],
+            'success'  => false,
+            'errorCode' => 406,
+            'errorMessage' =>  $message
         ];
         $this->returnJson($response, 406);
     }
