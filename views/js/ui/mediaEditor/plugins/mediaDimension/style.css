@@ -1,0 +1,141 @@
+.media-sizer {
+    max-width: 300px;
+}
+
+.media-sizer label {
+    min-width: 80px;
+    line-height: 22px;
+}
+
+.media-sizer input[type="text"] {
+    width: 68px !important;
+    min-width: 68px !important;
+    text-align: right;
+    padding-right: 24px;
+}
+
+.media-sizer .media-sizer-pixel-width,
+.media-sizer .media-sizer-pixel-height
+{
+    width: 80px;
+}
+
+.media-sizer.media-sizer-reset-off .item-editor-unit-input-box {
+    right: -22px;
+}
+
+.media-sizer.media-sizer-reset-off .media-sizer-sync {
+    right: 69px;
+}
+
+.media-sizer.media-sizer-responsivetoggle-off .media-sizer-responsive-toggle,
+.media-sizer.media-sizer-sync-off .media-sizer-sync,
+.media-sizer.media-sizer-reset-off .media-sizer-reset
+{
+    display:none;
+}
+
+.media-sizer .item-editor-unit-input-box {
+    position: relative;
+    display:-moz-box; /* fix for FF */
+    right: -3px;
+}
+
+.media-sizer .media-sizer-reset,
+.media-sizer .media-sizer-sync {
+    border: 2px solid transparent;
+    border-radius: 2px;
+    position: absolute;
+    top: 10px;
+    height: 38px;
+    width: 12px;
+    z-index: 1000;
+    opacity: .85;
+    cursor: pointer;
+}
+
+.media-sizer .media-sizer-reset:hover,
+.media-sizer .media-sizer-sync:hover {
+    color: #3e7da7;
+}
+
+.media-sizer .media-sizer-reset span,
+.media-sizer .media-sizer-sync span
+{
+    position: absolute;
+    top: 8px;
+    background: #f3f1ef;
+    padding: 3px;
+    border-radius: 8px
+}
+
+.media-sizer .media-sizer-sync {
+    border-right: none;
+    left: 70px;
+}
+
+.media-sizer .media-sizer-sync span {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    left: -11px;
+}
+
+.media-sizer .media-sizer-reset {
+    border-left: none;
+    border-color: #ccc;
+    left: 160px;
+}
+
+.media-sizer .media-sizer-reset span {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    right: -11px;
+}
+
+.media-sizer .media-sizer-reset.media-sizer-reset-percent {
+    border: none;
+    height: 12px;
+    top: -4px;
+}
+
+.media-sizer .unit-indicator {
+    margin: -24px;
+}
+
+.media-sizer .media-sizer-slider-box {
+    padding-top: 10px;
+    position: relative;
+}
+
+.media-sizer .media-sizer-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: #f3f1ef;
+    opacity: .55;
+    display: block;
+    z-index: 15;
+}
+
+.media-sizer .media-sizer-pixel {
+    display: none;
+    position: relative;
+}
+
+.media-sizer .media-sizer-percent {
+    display: block;
+    position: relative;
+}
+
+.media-sizer.media-sizer-synced .media-sizer-cover {
+    display:none;
+}
+
+.media-sizer.media-sizer-synced .media-sizer-sync {
+    border-color: #ccc;
+    opacity: 1;
+}
