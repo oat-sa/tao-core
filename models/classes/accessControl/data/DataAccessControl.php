@@ -64,7 +64,7 @@ class DataAccessControl implements AccessControl
         
         return empty($required)
             ? true
-            : self::hasPrivileges($user, $required);
+            : $this->hasPrivileges($user, $required);
     }
 
     /**
@@ -95,18 +95,18 @@ class DataAccessControl implements AccessControl
      * @param array $required
      * @return boolean
      */
-    static public function hasPrivileges(User $user, array $required) {
+    public function hasPrivileges(User $user, array $required) {
         foreach ($required as $resourceId=>$right) {
-            if ($right === 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
+            if ($right === 'WRITE' && !$this->hasWritePrivilege($user, $resourceId)) {
                 common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$resourceId.'\'');
                 return false;
             }
-            if (!in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())) {
+            if (!in_array($right, $this->getPermissionProvider()->getSupportedRights())) {
                 $required[$resourceId] = PermissionInterface::RIGHT_UNSUPPORTED;
             }
         }
         
-        $permissions = PermissionManager::getPermissionModel()->getPermissions($user, array_keys($required));
+        $permissions = $this->getPermissionProvider()->getPermissions($user, array_keys($required));
         foreach ($required as $id => $right) {
             if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
                 common_Logger::d('User \''.$user->getIdentifier().'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
@@ -116,9 +116,14 @@ class DataAccessControl implements AccessControl
         return true;
     }
     
-    static private function hasWritePrivilege(User $user, $resourceId) {
+    private function hasWritePrivilege(User $user, $resourceId) {
         $resource = new \core_kernel_classes_Resource($resourceId);
         $lock = LockManager::getImplementation()->getLockData($resource);
         return is_null($lock) || $lock->getOwnerId() == $user->getIdentifier();
+    }
+
+    public function getPermissionProvider()
+    {
+        return PermissionManager::getPermissionModel();
     }
 }
