@@ -91,6 +91,12 @@
                 margin: 2px;
                 flex: 1 1 auto;
             }
+            #visual-test .keyboard .row .btn-1 {
+                width: 24%;
+            }
+            #visual-test .keyboard .row .btn-2 {
+                width: calc(49% + 4px);
+            }
         </style>
     </head>
     <body>
@@ -104,28 +110,31 @@
             </div>
             <div class="keyboard">
                 <div class="row">
-                    <button class="operand num-1" data-operator="1">1</button>
-                    <button class="operand num-2" data-operator="2">2</button>
-                    <button class="operand num-3" data-operator="3">3</button>
-                    <button class="operator lpar" data-operator="(">(</button>
-                    <button class="operator rpar" data-operator=")">)</button>
+                    <button class="btn-1 operand num-1" data-operator="1">1</button>
+                    <button class="btn-1 operand num-2" data-operator="2">2</button>
+                    <button class="btn-1 operand num-3" data-operator="3">3</button>
+                    <button class="btn-1 operator lpar" data-operator="(">(</button>
+                    <button class="btn-1 operator rpar" data-operator=")">)</button>
                 </div>
                 <div class="row">
-                    <button class="operand num-4" data-operator="4">4</button>
-                    <button class="operand num-5" data-operator="5">5</button>
-                    <button class="operand num-6" data-operator="6">6</button>
-                    <button class="operator plus" data-operator="+">+</button>
-                    <button class="operator minus" data-operator="-">-</button>
+                    <button class="btn-1 operand num-4" data-operator="4">4</button>
+                    <button class="btn-1 operand num-5" data-operator="5">5</button>
+                    <button class="btn-1 operand num-6" data-operator="6">6</button>
+                    <button class="btn-1 operator plus" data-operator="+">+</button>
+                    <button class="btn-1 operator minus" data-operator="-">-</button>
                 </div>
                 <div class="row">
-                    <button class="operand num-7" data-operator="7">7</button>
-                    <button class="operand num-8" data-operator="8">8</button>
-                    <button class="operand num-9" data-operator="9">9</button>
-                    <button class="operator mul" data-operator="*">*</button>
-                    <button class="operator div" data-operator="/">/</button>
+                    <button class="btn-1 operand num-7" data-operator="7">7</button>
+                    <button class="btn-1 operand num-8" data-operator="8">8</button>
+                    <button class="btn-1 operand num-9" data-operator="9">9</button>
+                    <button class="btn-1 operator mul" data-operator="*">*</button>
+                    <button class="btn-1 operator div" data-operator="/">/</button>
                 </div>
                 <div class="row">
-                    <button class="operand num-0" data-operator="0">0</button>
+                    <button class="btn-2 operand num-0" data-operator="0">0</button>
+                    <button class="btn-1 operand dot" data-operator=".">.</button>
+                    <button class="btn-1 operator pow" data-operator="^">^</button>
+                    <button class="btn-1 operator modulo" data-operator="%">%</button>
                 </div>
             </div>
         </div>

@@ -47,6 +47,10 @@ define([
             expression: '(.1+.2)*10^20',
             expected: '30000000000000000000'
         }, {
+            title: 'round off root and exp',
+            expression: 'nthrt(2, 4)^4',
+            expected: '2'
+        }, {
             title: 'unary +',
             expression: '+.2',
             expected: '0.2'
@@ -245,17 +249,18 @@ define([
          */
         insertAtCaret : function(myValue) {
             return this.each(function(i) {
+                var sel, startPos, endPos, scrollTop;
                 if (document.selection) {
                     //For browsers like Internet Explorer
                     this.focus();
-                    var sel = document.selection.createRange();
+                    sel = document.selection.createRange();
                     sel.text = myValue;
                     this.focus();
                 } else if (this.selectionStart || this.selectionStart == '0') {
                     //For browsers like Firefox and Webkit based
-                    var startPos = this.selectionStart;
-                    var endPos = this.selectionEnd;
-                    var scrollTop = this.scrollTop;
+                    startPos = this.selectionStart;
+                    endPos = this.selectionEnd;
+                    scrollTop = this.scrollTop;
                     this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos,this.value.length);
                     this.focus();
                     this.selectionStart = startPos + myValue.length;

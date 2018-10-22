@@ -332,25 +332,19 @@ define([
         /**
          * Cast a Decimal to native type
          * @param {Number|String|Decimal} number
-         * @param {Boolean} [string=false]
          * @returns {Number|Boolean|String} - Always returns a native type
          */
-        function native(number, string) {
+        function native(number) {
             if (Decimal.isDecimal(number)) {
-                number = number.toString();
+                return number.toNumber();
             }
-            if (number === 'true' || number === true) {
+            else if (number === 'true' || number === true) {
                 return true;
             }
             else if (number === 'false' || number === false) {
                 return false;
             }
-            else if (string) {
-                return String(number);
-            }
-            else {
-                return parseFloat(number);
-            }
+            return number;
         }
 
         /**
@@ -443,8 +437,13 @@ define([
          * @returns {String}
          */
         function evaluate(expression, variables) {
-            var result = parser.parse(expression).evaluate(variables);
-            return native(result, true);
+            var expr = parser.parse(expression);
+            var result = expr.evaluate(variables);
+            var value = native(result);
+            if (typeof value === "boolean") {
+                return value;
+            }
+            return String(value);
         }
 
         // replace built-in operators and functions in expr-eval by those from decimal.js
