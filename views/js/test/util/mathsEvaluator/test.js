@@ -20,8 +20,9 @@
  */
 define([
     'jquery',
+    'ui/scroller',
     'util/mathsEvaluator'
-], function ($, mathsEvaluatorFactory) {
+], function ($, scrollHelper, mathsEvaluatorFactory) {
     'use strict';
 
     QUnit.module('API');
@@ -285,8 +286,11 @@ define([
         function compute() {
             var expression = $input.val();
             var result = evaluate(expression);
-            $screen.append('<p class="expression">' + expression + '</p>');
-            $screen.append('<p class="result">' + result + '</p>');
+            var $expr = $('<p class="expression">' + expression + '</p>');
+            var $res = $('<p class="result">' + result + '</p>');
+            $screen.append($expr);
+            $screen.append($res);
+            scrollHelper.scrollTo($expr, $screen);
         }
 
         $keyboard.on('click', 'button', function() {
