@@ -153,24 +153,26 @@ define([
         /**
          * Update the current context. Context update may change the visibility of the actions.
          * @param {ActionContext|ActionContext[]} context - the new context
+         * @fires ActionManager#contextchange event with the new context
          */
         updateContext : function updateContext(context){
             var self = this;
-            var current;
+            var hasClasses, hasInstances, current;
 
             context = context || {};
 
             if(_.isArray(context) ) {
-                _.forEach(actions, function(action){
-                    var hasClasses = _.some(context, { type : 'class' });
-                    var hasInstances = _.some(context, { type : 'instance' });
+                hasClasses = _.some(context, { type : 'class' });
+                hasInstances = _.some(context, { type : 'instance' });
 
+                _.forEach(actions, function(action){
                     //if some has not the permissions we deny
                     var hasPermissionDenied = _.some(context, function(resource){
                         return !permissionsManager.isContextAllowed(action.rights, resource);
                     });
 
-                    if( action.multiple &&
+                    if( context.length &&
+                        action.multiple &&
                         !hasPermissionDenied &&
                         action.context !== 'none' &&
                         ( (action.context === '*' || action.context === 'resource') ||
@@ -194,7 +196,7 @@ define([
                 _.forEach(actions, function(action){
 
                     var allowed = permissionsManager.isContextAllowed(action.rights, context);
-
+1
                     if( action.multiple || allowed === false ||
                         (current === 'none' && action.context !== '*') ||
                         (action.context !== '*' && action.context !== 'resource' && current !== action.context) ){
@@ -208,6 +210,13 @@ define([
             }
 
             resourceContext = context;
+
+            /**
+             * @event ActionManager#contextchange
+             * @param {ActionContext|ActionContext[]} context - the new context
+             */
+            self.trigger('contextchange', context);
+
             self.updateState();
         },
 
@@ -232,9 +241,9 @@ define([
          * @param {String|Object} action - can be either the id, the name or the action directly
          * @param {ActionContext} [context] - an action context, use the current otherwise
          * @returns {Promise?} always resolves
-         * @fires ActionManger#error if the executed action fails
-         * @fires ActionManger#{actionId} an event with the action id
-         * @fires ActionManger#cancel if the action has been canceled
+         * @fires ActionManager#error if the executed action fails
+         * @fires ActionManager#{actionId} an event with the action id
+         * @fires ActionManager#cancel if the action has been canceled
          */
         exec : function exec(action, context){
             var self = this;
@@ -262,7 +271,7 @@ define([
                         var events = [action.id, action.binding];
 
                         /**
-                         * @event ActionManger#{actionId}
+                         * @event ActionManager#{actionId}
                          * @param {ActionContext} context - the context the action received
                          * @param {Object} [actionData] - the data produced by the action
                          */
@@ -272,14 +281,14 @@ define([
                         if(err && err.cancel){
 
                             /**
-                             * @event ActionManger#cancel
+                             * @event ActionManager#cancel
                              * @param {String} actionId - the id of the canceled action
                              */
                             return self.trigger('cancel', action.id);
                         }
 
                         /**
-                         * @event ActionManger#error
+                         * @event ActionManager#error
                          * @param {Error} err - the source error
                          */
                         self.trigger('error', err);

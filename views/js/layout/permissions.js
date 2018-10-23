@@ -162,6 +162,11 @@ define([
             return _.all(requiredRights, function(right, requiredParameter){
                 var parameterValue;
 
+                // translate muti-id into single-id
+                if (requiredParameter === 'ids') {
+                    requiredParameter = 'id';
+                }
+
                 if(typeof resourceContext[requiredParameter] === 'undefined' || !self.isSupported(right)){
                     return false;
                 }
