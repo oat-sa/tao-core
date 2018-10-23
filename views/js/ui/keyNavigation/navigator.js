@@ -477,7 +477,7 @@ define([
                 });
 
             navigable.getElement()
-            //keyup event to fix inputs on space key
+            //keydown event to fix inputs on space key
                 .on('keydown'+_ns, function keyupSpace(e){
                     var keyCode = e.keyCode ? e.keyCode : e.charCode;
                     if(keyCode === 32){
