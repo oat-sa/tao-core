@@ -22,6 +22,7 @@ namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\taoBackOffice\controller\Redirector;
 
 /**
@@ -29,9 +30,15 @@ use oat\taoBackOffice\controller\Redirector;
  */
 class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
 {
-    public function __construct(EntityInterface $entity)
+    /**
+     * @var TaskLogInterface
+     */
+    private $taskLogService;
+
+    public function __construct(EntityInterface $entity, TaskLogInterface $taskLogService)
     {
         parent::__construct($entity);
+        $this->taskLogService = $taskLogService;
     }
 
     /**
@@ -43,14 +50,17 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
     }
 
     /**
-     * Add 'redirectUrl' to the result if the task has been processed.
+     * Add 'redirectUrl' to the result if the task has been processed
+     * and it is not an export or delete task
      *
      * @return array
      */
     public function toArray()
     {
         $data = parent::toArray();
-        if ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) {
+
+        if (($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())
+            && !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), [TaskLogInterface::CATEGORY_DELETE, TaskLogInterface::CATEGORY_EXPORT, TaskLogInterface::CATEGORY_UNKNOWN])) {
             $user = \common_session_SessionManager::getSession()->getUser();
             $params = [
                 'taskId' => $this->getId()
@@ -69,6 +79,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
                 \common_Logger::w('User \''.$user->getIdentifier().'\' does not have access to redirectTaskToInstance');
             }
         }
+
         return $data;
     }
 }

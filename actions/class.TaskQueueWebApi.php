@@ -116,7 +116,10 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
             return $this->returnJson([
                 'success' => true,
-                'data' => (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $taskLogService), $fs)))
+                'data' => (new RedirectUrlEntityDecorator(
+                    new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $taskLogService), $fs),
+                    $taskLogService
+                ))
                     ->toArray()
             ]);
         } catch (\Exception $e) {
