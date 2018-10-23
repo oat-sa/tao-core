@@ -55,6 +55,7 @@ use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
@@ -166,6 +167,20 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('5.9.2');
 
         }
+
+        // Hotfix to register ApplicationService for instances with old tao-core version
+        // ApplicationService was introduced in tao-core version 20.1.0
+        if ($this->isBetween('6.0.1', '20.0.4')) {
+            $options = [];
+            if(defined('ROOT_PATH') && is_readable(ROOT_PATH.'build')){
+                $content = file_get_contents(ROOT_PATH.'build');
+                $options[ApplicationService::OPTION_BUILD_NUMBER] = $content;
+            }
+
+            $applicationService = new ApplicationService($options);
+            $this->getServiceManager()->register(ApplicationService::SERVICE_ID, $applicationService);
+        }
+
         $this->skip('5.9.2', '6.0.1');
 
         if ($this->isVersion('6.0.1')) {
@@ -839,6 +854,6 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.20.0');
         }
 
-        $this->skip('19.20.0', '19.23.4');
+        $this->skip('19.20.0', '20.5.0');
     }
 }

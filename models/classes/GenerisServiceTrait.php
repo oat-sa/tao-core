@@ -303,22 +303,29 @@ trait GenerisServiceTrait
      */
     public function changeClass(core_kernel_classes_Resource $instance, core_kernel_classes_Class $destinationClass)
     {
-        $returnValue = (bool) false;
-        try {
-            foreach ($instance->getTypes() as $type) {
-                $instance->removeType($type);
+        if ($instance->isClass()) {
+            try {
+                /** @var core_kernel_classes_Class $instance */
+                return $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
+            } catch (\Exception $e) {
+                return false;
             }
-            $instance->setType($destinationClass);
-            foreach ($instance->getTypes() as $type) {
-                if ($type->getUri() == $destinationClass->getUri()) {
-                    $returnValue = true;
-                    break;
+        } else {
+            try {
+                foreach ($instance->getTypes() as $type) {
+                    $instance->removeType($type);
                 }
+                $instance->setType($destinationClass);
+                foreach ($instance->getTypes() as $type) {
+                    if ($type->getUri() == $destinationClass->getUri()) {
+                        return true;
+                    }
+                }
+            } catch (\common_Exception $ce) {
+                print $ce;
+                return false;
             }
-        } catch (\common_Exception $ce) {
-            print $ce;
         }
-        return (bool) $returnValue;
     }
 
     /**

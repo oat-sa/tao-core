@@ -110,6 +110,19 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
 
     /**
      * @param QueuedAction $action
+     * @return int
+     * @throws ActionQueueException
+     */
+    public function getLimits(QueuedAction $action)
+    {
+        $actionConfig = $this->getActionConfig($action);
+        $restrictions = $this->getRestrictions($actionConfig);
+        $limit = $restrictions ? array_sum($restrictions) : 0;
+        return $limit;
+    }
+
+    /**
+     * @param QueuedAction $action
      * @param User $user
      */
     protected function queue(QueuedAction $action, User $user)

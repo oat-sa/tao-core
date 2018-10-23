@@ -38,6 +38,7 @@ class RestExceptionHandler
 			case \common_exception_InvalidArgumentType::class:
 			case \common_exception_InconsistentData::class:
 			case \common_exception_ValidationFailed::class:
+			case \common_exception_RestApi::class:
 				header("HTTP/1.0 400 Bad Request");
 				break;
 
