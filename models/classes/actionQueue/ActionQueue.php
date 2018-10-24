@@ -93,4 +93,10 @@ interface ActionQueue
      */
     public function clearAbandonedPositions(QueuedAction $action);
 
+    /**
+     * @param QueuedAction $action
+     * @return integer Number of limits
+     */
+    public function getLimits(QueuedAction $action);
+
 }
