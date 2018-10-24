@@ -2,7 +2,7 @@ input,
 select,
 textarea {
     &:focus {
-        outline: none;
+        @include focus-style;
     }
     &:not(.error):focus {
         @include focus-style;
