@@ -129,6 +129,13 @@
                 {{/each}}
             </tbody>
         </table>
+        {{#unless dataset.data}}
+            {{#if options.emptyText}}
+                <div class="empty">
+                    {{ options.emptyText }}
+                </div>
+            {{/if}}
+        {{/unless}}
     </div>
     <div class="datatable-pagination-bottom"></div>
 </div>
