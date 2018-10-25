@@ -18,6 +18,9 @@ require.config({
         '<?=$name?>'        : <?=json_encode($config)?>,
     <?php endforeach?>
     },
+    onNodeCreated: function(node, config, name, url){
+        node.setAttribute('crossorigin', 'anonymous');
+    },
     paths : {
 //require-js plugins
         'text'              : 'lib/text/text',
