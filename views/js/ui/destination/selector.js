@@ -26,12 +26,13 @@ define([
     'lodash',
     'i18n',
     'ui/component',
+    'ui/dialog/confirm',
     'ui/resource/selector',
     'ui/loadingButton/loadingButton',
     'ui/taskQueueButton/standardButton',
     'tpl!ui/destination/tpl/selector',
     'css!ui/destination/css/selector.css'
-], function ($, _, __, component, resourceSelectorFactory, loadingButtonFactory, taskCreationButtonFactory, selectorTpl) {
+], function ($, _, __, component, confirmDialog, resourceSelectorFactory, loadingButtonFactory, taskCreationButtonFactory, selectorTpl) {
     'use strict';
 
     var defaultConfig = {
@@ -48,6 +49,7 @@ define([
      * @param {String} [config.classUri] - the root classUri
      * @param {String} [config.title] - header
      * @param {String} [config.description] - a description sentence
+     * @param {String} [config.confirm] - when defined, confirmation message that will be displayed before triggering the action
      * @param {String} [config.actionName] - the action button text
      * @param {String} [config.icon] - the action button icon
      * @param {Object} [config.taskQueue] - define the taskQueue model to be used (only useful if the triggered action uses the task queue)
@@ -124,11 +126,22 @@ define([
                 }
 
                 button.on('started', function(){
-                    /**
-                     * @event destinationSelector#select
-                     * @param {String} classUri - the destination class
-                     */
-                    self.trigger('select', getSelectedUri());
+                    function triggerAction() {
+                        /**
+                         * @event destinationSelector#select
+                         * @param {String} classUri - the destination class
+                         */
+                        self.trigger('select', getSelectedUri());
+                    }
+
+                    if (self.config.confirm) {
+                        confirmDialog(self.config.confirm, triggerAction, function() {
+                            button.terminate()
+                                .reset();
+                        });
+                    } else {
+                        triggerAction();
+                    }
                 }).on('error', function(err){
                     self.trigger('error', err);
                 }).render($component.find('.actions')).disable();

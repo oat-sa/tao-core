@@ -41,6 +41,7 @@ list ($subPath, $file) = $parts;
 
 $bootStrap = new oat\tao\model\mvc\Bootstrap('../config/generis.conf.php');
 $config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('websource_' . $ap);
+common_Logger::singleton()->register();
 
 $compiledPath = $config['options']['path'];
 $secretPassphrase = $config['options']['secret'];
