@@ -130,9 +130,11 @@
             </tbody>
         </table>
         {{#unless dataset.data}}
-        <div class="empty">
-            {{ __ 'No results found for search criteria entered' }}
-        </div>
+            {{#if options.emptyText}}
+                <div class="empty">
+                    {{ options.emptyText }}
+                </div>
+            {{/if}}
         {{/unless}}
     </div>
     <div class="datatable-pagination-bottom"></div>
