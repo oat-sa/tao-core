@@ -23,7 +23,7 @@
 define([
     'jquery',
     'lodash',
-    'router',
+    'core/router',
     'core/eventifier',
     'core/statifier',
     'core/promise'
@@ -100,26 +100,28 @@ define([
             dispatch : function dispatch(state, replace){
                 var self = this;
                 function doDispatch() {
-                    return new Promise(function(resolve, reject) {
-                        if(_.isString(state)){
-                            state = { url : state };
-                        }
-                        if(!state || !state.url){
-                            return reject(new TypeError("The state should contain an URL!"));
-                        }
+                    if(_.isString(state)){
+                        state = { url : state };
+                    }
+                    if(!state || !state.url){
+                        return Promise.reject(new TypeError("The state should contain an URL!"));
+                    }
 
-                        /**
-                         * @event historyRouter#dispatching
-                         * @param {String} url
-                         */
-                        self.setState('dispatching')
-                            .trigger('dispatching', state.url);
+                    /**
+                      * @event historyRouter#dispatching
+                      * @param {String} url
+                      */
+                    self.setState('dispatching')
+                        .trigger('dispatching', state.url);
 
-                        if(replace === true){
-                            window.history.replaceState(state, '', state.url);
-                        }
+                    if(replace === true){
+                        window.history.replaceState(state, '', state.url);
+                    }
 
-                        router.dispatch(state.url, function(){
+                    return router
+                        .dispatch(state.url)
+                        .then(function(){
+
                             /**
                              * @event historyRouter#dispatched
                              * @param {String} url
@@ -127,9 +129,8 @@ define([
                             self.trigger('dispatched', state.url)
                                 .setState('dispatching', false);
 
-                            resolve(state.url);
+                            return state.url;
                         });
-                    });
                 }
 
                 if (pendingPromise) {
