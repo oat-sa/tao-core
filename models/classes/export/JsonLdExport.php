@@ -119,39 +119,35 @@ class JsonLdExport implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        $triples = $this->triples->toArray();
-        foreach ($triples as $key => $triple) {
-            if (in_array($triple->predicate, $this->getBlackList())) {
-                unset($triples[$key]);
-            }
-        }
-        
-        $map = array();
-        foreach ($triples as $triple) {
-            if (! isset($map[$triple->predicate])) {
-                $id = $this->generateId($triple->predicate);
-                if (in_array($id, $map)) {
-                    $nr = 0;
-                    while (in_array($id . '_' . $nr, $map)) {
-                        $nr ++;
-                    }
-                    $id = $id . '_' . $nr;
-                }
-                $map[$triple->predicate] = $id;
-            }
-        }
-        
-        $data = array(
-            '@context' => array_flip($map),
-            '@id' => $this->uri
-        );
-        
+        $data = [
+            '@context' => [],
+            '@id' => $this->uri,
+        ];
         $types = $this->types;
         if (!empty($types)) {
             $data['@type'] = $this->transfromArray($types);
         }
-        
-        foreach ($triples as $triple) {
+
+        $triples = $this->triples->toArray();
+        $map = [];
+        foreach ($triples as $key => $triple) {
+            if (in_array($triple->predicate, $this->blackList)) {
+                continue;
+            }
+
+            if (!isset($map[$triple->predicate])) {
+                $id = $this->generateId($triple->predicate);
+                if (in_array($id, $map)) {
+                    $nr = 0;
+                    while (in_array($id . '_' . $nr, $map)) {
+                        $nr++;
+                    }
+                    $id = $id . '_' . $nr;
+                }
+                $map[$triple->predicate] = $id;
+                $data['@context'][$id] = $triple->predicate;
+            }
+
             $key = $map[$triple->predicate];
             if (isset($data[$key])) {
                 if (!is_array($data[$key])) {
@@ -162,6 +158,7 @@ class JsonLdExport implements \JsonSerializable
                 $data[$key] = $this->encodeValue($triple->object, $triple->predicate);
             }
         }
+
         return $data;
     }
     
