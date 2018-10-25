@@ -59,16 +59,11 @@ require.config({
         'c3'                : 'lib/c3js/c3.min',
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
+//backward compat aliases
+        'router'            : 'core/router',
 //extension aliases, and controller loading in prod mode
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
-        <?php if(tao_helpers_Mode::is('production')):?>
-            <?php if($name == 'tao'): ?>
-                'controller/routes' : '<?=$path?>/controllers.min',
-            <?php else : ?>
-                '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
-            <?php endif ?>
-        <?php endif?>
     <?php endforeach?>
    },
    shim : {
@@ -87,6 +82,6 @@ require.config({
                     return MathJax;
                 }
             }
-        }
+        },
     }
 });
