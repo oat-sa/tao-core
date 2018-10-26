@@ -26,7 +26,8 @@ module.exports = function(grunt) {
 
             //global options
             options : {
-                inject: './config/phantomjs-bridge.js',
+                inject: './config/chrome-bridge.js',
+                timeout: 30000,
                 force: true
             },
 
@@ -34,7 +35,6 @@ module.exports = function(grunt) {
             single : {
                 options : {
                     console: true,
-                    force:   false,
                     urls:    [baseUrl + grunt.option('test')]
                 }
             },
