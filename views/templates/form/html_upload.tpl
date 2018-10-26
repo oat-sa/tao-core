@@ -7,7 +7,8 @@ use oat\tao\helpers\Template;
 	<title><?=__('File Uploader')?></title>
 	<link rel="shortcut icon" href="<?= Template::img('favicon.ico')?>" type="image/x-icon" />
 
-	<script type='text/javascript' src="<?= Template::js('lib/jquery-1.8.0.min.js')?>"></script>
+	<script type='text/javascript' src="<?= Template::js('lib/jquery-1.9.1.min.js')?>"></script>
+	<script type='text/javascript' src="<?= Template::js('lib/jquery-migrate-1.4.1.min.js')?>"></script>
 
 	<?php if(get_data('uploaded') === true):?>
 
