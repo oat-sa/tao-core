@@ -20,9 +20,10 @@
  */
 define([
     'jquery',
+    'lodash',
     'ui/scroller',
     'util/mathsEvaluator'
-], function ($, scrollHelper, mathsEvaluatorFactory) {
+], function ($, _, scrollHelper, mathsEvaluatorFactory) {
     'use strict';
 
     QUnit.module('API');
@@ -249,7 +250,7 @@ define([
          * @returns {jQuery}
          */
         insertAtCaret : function(myValue) {
-            return this.each(function(i) {
+            return this.each(function() {
                 var sel, startPos, endPos, scrollTop;
                 if (document.selection) {
                     //For browsers like Internet Explorer
@@ -257,7 +258,7 @@ define([
                     sel = document.selection.createRange();
                     sel.text = myValue;
                     this.focus();
-                } else if (this.selectionStart || this.selectionStart == '0') {
+                } else if (this.selectionStart || this.selectionStart === '0') {
                     //For browsers like Firefox and Webkit based
                     startPos = this.selectionStart;
                     endPos = this.selectionEnd;
@@ -280,26 +281,48 @@ define([
         var $container = $('#visual-test');
         var $screen = $container.find('.screen');
         var $input = $container.find('.input input');
-        var $calc = $container.find('.input button');
         var $keyboard = $container.find('.keyboard');
 
-        function compute() {
-            var expression = $input.val();
-            var result = evaluate(expression);
+        function showResult(expression, result) {
             var $expr = $('<p class="expression">' + expression + '</p>');
-            var $res = $('<p class="result">' + result + '</p>');
+            var  $res = $('<p class="result">' + result + '</p>');
             $screen.append($expr);
             $screen.append($res);
             scrollHelper.scrollTo($expr, $screen);
         }
 
+        function compute() {
+            var input = $input.val();
+            var parts = input.split('$');
+            var expression = (parts.shift() || '').trim();
+            var lines = [];
+            var variables = _.reduce(parts, function(acc, part) {
+                var s = part.split('=');
+                var name = (s[0] || '').trim();
+                var value = (s[1] || '').trim();
+                if (name && value) {
+                    value = evaluate(value);
+                    acc[name] = value;
+                    lines.push(name + '=' + value);
+                }
+                return acc;
+            }, {});
+            lines.push(expression);
+            showResult(lines.join('<br >'), evaluate(expression, variables));
+        }
+
         $keyboard.on('click', 'button', function() {
-            $input.insertAtCaret(this.dataset.operator);
+            switch(this.dataset.action) {
+                case 'compute':
+                    compute();
+                case 'clear':
+                    $input.val('');
+                    break;
+                default:
+                    $input.insertAtCaret(this.dataset.operator);
+            }
         });
 
-        $calc.on('click', function() {
-            compute();
-        });
         $input.on('keydown', function(e) {
             if (e.keyCode === 13) {
                 e.preventDefault();
@@ -307,7 +330,8 @@ define([
             }
         });
 
+        QUnit.expect(1);
         assert.ok(true, 'Visual test ready');
-    })
+    });
 
 });

@@ -21,8 +21,7 @@
 define([
     'lodash',
     'lib/decimal/decimal',
-    'lib/expr-eval/expr-eval',
-    'i18n'
+    'lib/expr-eval/expr-eval'
 ], function (_, Decimal, exprEval) {
     'use strict';
 
@@ -173,7 +172,7 @@ define([
                 },
                 {
                     entry: '+',
-                    filter: decimalNumber
+                    action: decimalNumber
                 },
                 {
                     entry: 'exp',
@@ -181,13 +180,13 @@ define([
                 },
                 {
                     entry: 'not',
-                    filter: function(a) {
+                    action: function(a) {
                         return !native(a);
                     }
                 },
                 {
                     entry: '!',
-                    filter: useOrigin
+                    action: useOrigin
                 }
             ],
             binary: [
@@ -221,7 +220,7 @@ define([
                 },
                 {
                     entry: '!=',
-                    filter: function (a, b) {
+                    action: function (a, b) {
                         return !binaryOperator('equals', a, b);
                     }
                 },
@@ -243,19 +242,19 @@ define([
                 },
                 {
                     entry: 'and',
-                    filter: function(a, b) {
+                    action: function(a, b) {
                         return Boolean(native(a) && native(b));
                     }
                 },
                 {
                     entry: 'or',
-                    filter: function(a, b) {
+                    action: function(a, b) {
                         return Boolean(native(a) || native(b));
                     }
                 },
                 {
                     entry: 'in',
-                    filter: function(array, obj) {
+                    action: function(array, obj) {
                         obj = native(obj);
                         return 'undefined' !== typeof _.find(array, function(el) {
                             return native(el) === obj;
@@ -265,18 +264,18 @@ define([
             ],
             ternaryOps: [{
                 entry: '?',
-                filter: useOrigin
+                action: useOrigin
             }],
             functions: [
                 {
                     entry: 'random',
-                    filter: function(dp) {
+                    action: function(dp) {
                         return ConfiguredDecimal.random(dp);
                     }
                 },
                 {
                     entry: 'fac',
-                    filter: useOrigin
+                    action: useOrigin
                 },
                 {
                     entry: 'min',
@@ -288,11 +287,11 @@ define([
                 },
                 {
                     entry: 'hypot',
-                    filter: useOrigin
+                    action: useOrigin
                 },
                 {
                     entry: 'pyt',
-                    filter: useOrigin
+                    action: useOrigin
                 },
                 {
                     entry: 'pow',
@@ -304,19 +303,19 @@ define([
                 },
                 {
                     entry: 'if',
-                    filter: useOrigin
+                    action: useOrigin
                 },
                 {
                     entry: 'gamma',
-                    filter: useOrigin
+                    action: useOrigin
                 },
                 {
                     entry: 'roundTo',
-                    filter: useOrigin
+                    action: useOrigin
                 },
                 {
                     entry: 'nthrt',
-                    filter: function (x, n) {
+                    action: function (x, n) {
                         x = decimalNumber(x);
                         n = parseInt(n, 10);
                         if (x.isNeg() && n % 2 !== 1) {
@@ -326,7 +325,11 @@ define([
                         return x.abs().pow(decimalNumber(1).div(n)).mul(Decimal.sign(x));
                     }
                 }
-            ]
+            ],
+            consts: [{
+                entry: 'PI',
+                value: ConfiguredDecimal.acos(-1)
+            }]
         };
 
         /**
@@ -421,8 +424,11 @@ define([
          */
         function mapping(wrapper, origin, api) {
             var fn;
-            if (api.filter) {
-                fn = _.partialRight(api.filter, origin[api.entry]);
+            if (api.value) {
+                fn = api.value;
+            }
+            else if (api.action) {
+                fn = _.partialRight(api.action, origin[api.entry]);
             } else {
                 fn = _.partial(wrapper, api.mapTo);
             }
@@ -451,6 +457,7 @@ define([
         _.forEach(mapAPI.binary, _.partial(mapping, binaryOperator, parser.binaryOps));
         _.forEach(mapAPI.ternaryOps, _.partial(mapping, functionOperator, parser.ternaryOps));
         _.forEach(mapAPI.functions, _.partial(mapping, functionOperator, parser.functions));
+        _.forEach(mapAPI.consts, _.partial(mapping, null, parser.consts));
 
         return evaluate;
     }
