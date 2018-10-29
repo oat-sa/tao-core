@@ -25,8 +25,7 @@ require.config({
         'css'               : 'lib/require-css/css',
         'tpl'               : 'tpl',
 //jquery and plugins
-        'jquery-core'       : 'lib/jquery-1.9.1.min',
-        'jquery'            : 'lib/jquery-migrate-1.4.1.min',
+        'jquery'            : 'lib/jquery-1.8.0.min',
         'jqueryui'          : 'lib/jquery-ui-1.9.2.custom.min',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
@@ -72,10 +71,6 @@ require.config({
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
-        'jquery'                : {
-                                    deps : ['jquery-core'],
-                                    exports:'jquery'
-                                  },
         'c3'                    : { deps : ['css!lib/c3js/c3.css']},
         'mathJax' : {
             exports : "MathJax",
