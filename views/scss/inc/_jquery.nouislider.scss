@@ -133,9 +133,10 @@
     background: $uiClickableActiveBg;
     color: $uiClickableActiveBg;
     cursor: default;
+    outline: none;
 }
 
-.noUi-active, .noUi-handle:hover{
+.noUi-active, .noUi-handle:hover, .noUi-handle:focus{
     background:$uiClickableHoverBg;
     color: $uiClickableHoverBg;
 }
