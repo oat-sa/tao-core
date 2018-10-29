@@ -66,6 +66,7 @@ use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\Queue\TaskSelector\WeightStrategy;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
@@ -855,5 +856,12 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('19.20.0', '21.1.1');
+
+        if ($this->isVersion('21.1.1')) {
+            $taskSerializer = new TaskSerializerService();
+            $this->getServiceManager()->register(TaskSerializerService::SERVICE_ID, $taskSerializer);
+
+            $this->setVersion('21.2.0');
+        }
     }
 }
