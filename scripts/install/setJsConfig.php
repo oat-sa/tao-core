@@ -20,6 +20,7 @@
  */
 $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 $config = array(
-    'timeout' => 30
+    'timeout' => 30,
+    'crossorigin' => false
 );
 $ext->setConfig('js', $config);
