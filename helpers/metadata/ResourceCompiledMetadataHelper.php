@@ -25,6 +25,11 @@ namespace oat\tao\helpers\metadata;
  */
 class ResourceCompiledMetadataHelper
 {
+    /**
+     * Compiled resource metadata.
+     *
+     * @var array
+     */
     private $metaData = [];
 
     /**

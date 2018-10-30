@@ -128,6 +128,10 @@ class JsonLdExport implements \JsonSerializable
             $data['@type'] = $this->transfromArray($types);
         }
 
+        if (!$this->triples instanceof \core_kernel_classes_ContainerCollection) {
+            return $data;
+        }
+
         $triples = $this->triples->toArray();
         $map = [];
         foreach ($triples as $key => $triple) {
