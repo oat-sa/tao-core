@@ -855,13 +855,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.20.0');
         }
 
-        $this->skip('19.20.0', '21.1.0');
+        $this->skip('19.20.0', '21.2.0');
 
-        if ($this->isVersion('21.1.0')) {
+        if ($this->isVersion('21.2.0')) {
             $resourceJsonMetadataCompiler = new ResourceJsonMetadataCompiler();
             $this->getServiceManager()->register(ResourceJsonMetadataCompiler::SERVICE_ID, $resourceJsonMetadataCompiler);
 
-            $this->setVersion('21.2.0');
+            $this->setVersion('21.3.0');
         }
     }
 }
