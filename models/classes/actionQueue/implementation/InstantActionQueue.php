@@ -60,8 +60,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         $restrictions = $this->getRestrictions($actionConfig);
         $allowExecution = $this->checkRestrictions($restrictions);
 
-        // TODO do not forget to delete false from here!!!
-        if (false && $allowExecution) {
+        if ($allowExecution) {
             $actionResult = $action([]);
             $action->setResult($actionResult);
             $result = true;
