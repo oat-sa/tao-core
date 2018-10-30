@@ -11,7 +11,6 @@ module.exports = function(grunt) {
     var ext      = require('../tasks/helpers/extensions')(grunt, root);   //extension helper
     var out      = 'output';
 
-
     clean.s3 = [out];
 
     var patterns = [];
@@ -23,8 +22,6 @@ module.exports = function(grunt) {
         patterns.push(extension + '/views/media/**/*');
         patterns.push('!'  + extension + '/views/js/test/**/*');
     });
-
-    grunt.log.debug(grunt.file.expand({ cwd : root }, patterns));
 
     compress.s3 = {
         options: {
