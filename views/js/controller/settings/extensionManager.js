@@ -133,10 +133,10 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
 
             $('#available-extensions-container').empty().append($noAvailableExtElement);
     }
-    
+
     return {
         start : function(){
-            
+
             // Table styling.
             styleTables();
 
@@ -201,6 +201,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
                                     click: function() {
                                             //Run the install one by one
                                             progressConsole(__('Preparing installation...'));
+                                            $('.ui-widget-overlay').css({"height":"100%","width":"100%", "position":"fixed"});
                                             $('.ui-dialog-buttonpane').remove();
                                             installError = 0;
                                             indexCurrentToInstall = 0;
@@ -208,6 +209,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'ui/feedback'], function($, __, 
                                     }
                                 }]
                     });
+                    $('.ui-dialog').css({"position":"fixed","top":"33%"});
                     event.preventDefault();
             });
         }
