@@ -1,14 +1,14 @@
-/*! decimal.js v6.0.0 https://github.com/MikeMcl/decimal.js/LICENCE */
+/*! decimal.js v10.0.1 https://github.com/MikeMcl/decimal.js/LICENCE */
 ;(function (globalScope) {
   'use strict';
 
 
   /*
-   *  decimal.js v6.0.0
+   *  decimal.js v10.0.1
    *  An arbitrary-precision Decimal type for JavaScript.
    *  https://github.com/MikeMcl/decimal.js
-   *  Copyright (c) 2016 Michael Mclaughlin <M8ch88l@gmail.com>
-   *  MIT Expat Licence
+   *  Copyright (c) 2017 Michael Mclaughlin <M8ch88l@gmail.com>
+   *  MIT Licence
    */
 
 
@@ -34,10 +34,10 @@
 
 
     // The initial configuration properties of the Decimal constructor.
-    Decimal = {
+    DEFAULTS = {
 
       // These values must be integers within the stated ranges (inclusive).
-      // Most of these values can be changed at run-time using `Decimal.config`.
+      // Most of these values can be changed at run-time using the `Decimal.config` method.
 
       // The maximum number of significant digits of the result of a calculation or base conversion.
       // E.g. `Decimal.config({ precision: 20 });`
@@ -92,20 +92,20 @@
       maxE: EXP_LIMIT,                       // 1 to EXP_LIMIT
 
       // Whether to use cryptographically-secure random number generation, if available.
-      crypto: void 0                         // true/false/undefined
+      crypto: false                          // true/false
     },
 
 
   // ----------------------------------- END OF EDITABLE DEFAULTS ------------------------------- //
 
 
-    inexact, noConflict, quadrant,
-    cryptoObject = typeof crypto != 'undefined' ? crypto : null,
+    Decimal, inexact, noConflict, quadrant,
     external = true,
 
     decimalError = '[DecimalError] ',
     invalidArgument = decimalError + 'Invalid argument: ',
     precisionLimitExceeded = decimalError + 'Precision limit exceeded',
+    cryptoUnavailable = decimalError + 'crypto unavailable',
 
     mathfloor = Math.floor,
     mathpow = Math.pow,
@@ -123,7 +123,7 @@
     PI_PRECISION = PI.length - 1,
 
     // Decimal.prototype object
-    P = {};
+    P = { name: '[object Decimal]' };
 
 
   // Decimal prototype methods
@@ -1909,9 +1909,6 @@
     if (carry) ++e;
     else r.shift();
 
-    // Remove trailing zeros.
-    for (i = r.length; !r[--i];) r.pop();
-
     y.d = r;
     y.e = getBase10Exponent(r, e);
 
@@ -2117,14 +2114,8 @@
 
 
   /*
-   * Returns a new Decimal whose value is the nearest multiple of the magnitude of `y` to the value
-   * of this Decimal.
-   *
-   * If the value of this Decimal is equidistant from two multiples of `y`, the rounding mode `rm`,
-   * or `Decimal.rounding` if `rm` is omitted, determines the direction of the nearest multiple.
-   *
-   * In the context of this method, rounding mode 4 (ROUND_HALF_UP) is the same as rounding mode 0
-   * (ROUND_UP), and so on.
+   * Returns a new Decimal whose value is the nearest multiple of `y` in the direction of rounding
+   * mode `rm`, or `Decimal.rounding` if `rm` is omitted, to the value of this Decimal.
    *
    * The return value will always have the same sign as this Decimal, unless either this Decimal
    * or `y` is NaN, in which case the return value will be also be NaN.
@@ -2153,7 +2144,11 @@
       rm = Ctor.rounding;
     } else {
       y = new Ctor(y);
-      if (rm !== void 0) checkInt32(rm, 0, 8);
+      if (rm === void 0) {
+        rm = Ctor.rounding;
+      } else {
+        checkInt32(rm, 0, 8);
+      }
 
       // If x is not finite, return x if y is not NaN, else NaN.
       if (!x.d) return y.s ? x : y;
@@ -2168,7 +2163,6 @@
     // If y is not zero, calculate the nearest multiple of y to x.
     if (y.d[0]) {
       external = false;
-      if (rm < 4) rm = [4, 5, 7, 8][rm];
       x = divide(x, y, 0, rm, 1).times(y);
       external = true;
       finalise(x);
@@ -2252,13 +2246,13 @@
    *
    */
   P.toPower = P.pow = function (y) {
-    var e, k, pr, r, rm, sign, yIsInt,
+    var e, k, pr, r, rm, s,
       x = this,
       Ctor = x.constructor,
       yn = +(y = new Ctor(y));
 
     // Either ±Infinity, NaN or ±0?
-    if (!x.d || !y.d || !x.d[0] || !y.d[0]) return  new Ctor(mathpow(+x, yn));
+    if (!x.d || !y.d || !x.d[0] || !y.d[0]) return new Ctor(mathpow(+x, yn));
 
     x = new Ctor(x);
 
@@ -2269,22 +2263,32 @@
 
     if (y.eq(1)) return finalise(x, pr, rm);
 
+    // y exponent
     e = mathfloor(y.e / LOG_BASE);
-    k = y.d.length - 1;
-    yIsInt = e >= k;
-    sign = x.s;
-
-    if (!yIsInt) {
-      if (sign < 0) return new Ctor(NaN);
 
     // If y is a small integer use the 'exponentiation by squaring' algorithm.
-    } else if ((k = yn < 0 ? -yn : yn) <= MAX_SAFE_INTEGER) {
+    if (e >= y.d.length - 1 && (k = yn < 0 ? -yn : yn) <= MAX_SAFE_INTEGER) {
       r = intPow(Ctor, x, k, pr);
       return y.s < 0 ? new Ctor(1).div(r) : finalise(r, pr, rm);
     }
 
-    // Result is negative if x is negative and the last digit of integer y is odd.
-    sign = sign < 0 && y.d[Math.max(e, k)] & 1 ? -1 : 1;
+    s = x.s;
+
+    // if x is negative
+    if (s < 0) {
+
+      // if y is not an integer
+      if (e < y.d.length - 1) return new Ctor(NaN);
+
+      // Result is positive if x is negative and the last digit of integer y is even.
+      if ((y.d[e] & 1) == 0) s = 1;
+
+      // if x.eq(-1)
+      if (x.e == 0 && x.d[0] == 1 && x.d.length == 1) {
+        x.s = s;
+        return x;
+      }
+    }
 
     // Estimate result exponent.
     // x^y = 10^e,  where e = y * log10(x)
@@ -2295,10 +2299,10 @@
       ? mathfloor(yn * (Math.log('0.' + digitsToString(x.d)) / Math.LN10 + x.e + 1))
       : new Ctor(k + '').e;
 
-    // Estimate may be incorrect e.g. x: 0.999999999999999999, y: 2.29, e: 0, r.e: -1.
+    // Exponent estimate may be incorrect e.g. x: 0.999999999999999999, y: 2.29, e: 0, r.e: -1.
 
     // Overflow/underflow?
-    if (e > Ctor.maxE + 1 || e < Ctor.minE - 1) return new Ctor(e > 0 ? sign / 0 : 0);
+    if (e > Ctor.maxE + 1 || e < Ctor.minE - 1) return new Ctor(e > 0 ? s / 0 : 0);
 
     external = false;
     Ctor.rounding = x.s = 1;
@@ -2312,24 +2316,28 @@
     // r = x^y = exp(y*ln(x))
     r = naturalExponential(y.times(naturalLogarithm(x, pr + k)), pr);
 
-    // Truncate to the required precision plus five rounding digits.
-    r = finalise(r, pr + 5, 1);
+    // r may be Infinity, e.g. (0.9999999999999999).pow(-1e+40)
+    if (r.d) {
 
-    // If the rounding digits are [49]9999 or [50]0000 increase the precision by 10 and recalculate
-    // the result.
-    if (checkRoundingDigits(r.d, pr, rm)) {
-      e = pr + 10;
+      // Truncate to the required precision plus five rounding digits.
+      r = finalise(r, pr + 5, 1);
 
-      // Truncate to the increased precision plus five rounding digits.
-      r = finalise(naturalExponential(y.times(naturalLogarithm(x, e + k)), e), e + 5, 1);
+      // If the rounding digits are [49]9999 or [50]0000 increase the precision by 10 and recalculate
+      // the result.
+      if (checkRoundingDigits(r.d, pr, rm)) {
+        e = pr + 10;
 
-      // Check for 14 nines from the 2nd rounding digit (the first rounding digit may be 4 or 9).
-      if (+digitsToString(r.d).slice(pr + 1, pr + 15) + 1 == 1e14) {
-        r = finalise(r, pr + 1, 0);
+        // Truncate to the increased precision plus five rounding digits.
+        r = finalise(naturalExponential(y.times(naturalLogarithm(x, e + k)), e), e + 5, 1);
+
+        // Check for 14 nines from the 2nd rounding digit (the first rounding digit may be 4 or 9).
+        if (+digitsToString(r.d).slice(pr + 1, pr + 15) + 1 == 1e14) {
+          r = finalise(r, pr + 1, 0);
+        }
       }
     }
 
-    r.s = sign;
+    r.s = s;
     external = true;
     Ctor.rounding = rm;
 
@@ -3127,14 +3135,15 @@
 
   // Calculate the base 10 exponent from the base 1e7 exponent.
   function getBase10Exponent(digits, e) {
+    var w = digits[0];
 
-    // First get the number of digits of the first word of the digits array.
-    for (var i = 1, w = digits[0]; w >= 10; w /= 10) i++;
-    return i + e * LOG_BASE - 1;
+    // Add the number of digits of the first word of the digits array.
+    for ( e *= LOG_BASE; w >= 10; w /= 10) e++;
+    return e;
   }
 
 
-   function getLn10(Ctor, sd, pr) {
+  function getLn10(Ctor, sd, pr) {
     if (sd > LN10_PRECISION) {
 
       // Reset global state in case the exception is caught.
@@ -3936,6 +3945,7 @@
    *  pow
    *  random
    *  round
+   *  set
    *  sign
    *  sin
    *  sinh
@@ -4146,7 +4156,8 @@
    *   maxE       {number}
    *   minE       {number}
    *   modulo     {number}
-   *   crypto     {boolean|number|undefined}
+   *   crypto     {boolean|number}
+   *   defaults   {true}
    *
    * E.g. Decimal.config({ precision: 20, rounding: 4 })
    *
@@ -4154,6 +4165,7 @@
   function config(obj) {
     if (!obj || typeof obj !== 'object') throw Error(decimalError + 'Object expected');
     var i, p, v,
+      useDefaults = obj.defaults === true,
       ps = [
         'precision', 1, MAX_DIGITS,
         'rounding', 0, 8,
@@ -4165,18 +4177,26 @@
       ];
 
     for (i = 0; i < ps.length; i += 3) {
-      if ((v = obj[p = ps[i]]) !== void 0) {
+      if (p = ps[i], useDefaults) this[p] = DEFAULTS[p];
+      if ((v = obj[p]) !== void 0) {
         if (mathfloor(v) === v && v >= ps[i + 1] && v <= ps[i + 2]) this[p] = v;
         else throw Error(invalidArgument + p + ': ' + v);
       }
     }
 
-    if (obj.hasOwnProperty(p = 'crypto')) {
-      if ((v = obj[p]) === void 0) {
-        this[p] = v;
-      } else if (v === true || v === false || v === 0 || v === 1) {
-        this[p] = !!(v && cryptoObject &&
-            (cryptoObject.getRandomValues || cryptoObject.randomBytes));
+    if (p = 'crypto', useDefaults) this[p] = DEFAULTS[p];
+    if ((v = obj[p]) !== void 0) {
+      if (v === true || v === false || v === 0 || v === 1) {
+        if (v) {
+          if (typeof crypto != 'undefined' && crypto &&
+            (crypto.getRandomValues || crypto.randomBytes)) {
+            this[p] = true;
+          } else {
+            throw Error(cryptoUnavailable);
+          }
+        } else {
+          this[p] = false;
+        }
       } else {
         throw Error(invalidArgument + p + ': ' + v);
       }
@@ -4306,8 +4326,9 @@
     Decimal.ROUND_HALF_FLOOR = 8;
     Decimal.EUCLID = 9;
 
-    Decimal.config = config;
+    Decimal.config = Decimal.set = config;
     Decimal.clone = clone;
+    Decimal.isDecimal = isDecimalInstance;
 
     Decimal.abs = abs;
     Decimal.acos = acos;
@@ -4348,8 +4369,10 @@
 
     if (obj === void 0) obj = {};
     if (obj) {
-      ps = ['precision', 'rounding', 'toExpNeg', 'toExpPos', 'maxE', 'minE', 'modulo', 'crypto'];
-      for (i = 0; i < ps.length;) if (!obj.hasOwnProperty(p = ps[i++])) obj[p] = this[p];
+      if (obj.defaults !== true) {
+        ps = ['precision', 'rounding', 'toExpNeg', 'toExpPos', 'maxE', 'minE', 'modulo', 'crypto'];
+        for (i = 0; i < ps.length;) if (!obj.hasOwnProperty(p = ps[i++])) obj[p] = this[p];
+      }
     }
 
     Decimal.config(obj);
@@ -4423,6 +4446,16 @@
     external = true;
 
     return t.sqrt();
+  }
+
+
+  /*
+   * Return true if object is a Decimal instance (where Decimal is any Decimal constructor),
+   * otherwise return false.
+   *
+   */
+  function isDecimalInstance(obj) {
+    return obj instanceof Decimal || obj && obj.name === '[object Decimal]' || false;
   }
 
 
@@ -4557,12 +4590,12 @@
 
     k = Math.ceil(sd / LOG_BASE);
 
-    if (this.crypto === false) {
+    if (!this.crypto) {
       for (; i < k;) rd[i++] = Math.random() * 1e7 | 0;
 
     // Browsers supporting crypto.getRandomValues.
-    } else if (cryptoObject && cryptoObject.getRandomValues) {
-      d = cryptoObject.getRandomValues(new Uint32Array(k));
+    } else if (crypto.getRandomValues) {
+      d = crypto.getRandomValues(new Uint32Array(k));
 
       for (; i < k;) {
         n = d[i];
@@ -4570,7 +4603,7 @@
         // 0 <= n < 4294967296
         // Probability n >= 4.29e9, is 4967296 / 4294967296 = 0.00116 (1 in 865).
         if (n >= 4.29e9) {
-          d[i] = cryptoObject.getRandomValues(new Uint32Array(1))[0];
+          d[i] = crypto.getRandomValues(new Uint32Array(1))[0];
         } else {
 
           // 0 <= n <= 4289999999
@@ -4580,10 +4613,10 @@
       }
 
     // Node.js supporting crypto.randomBytes.
-    } else if (cryptoObject && cryptoObject.randomBytes) {
+    } else if (crypto.randomBytes) {
 
       // buffer
-      d = cryptoObject.randomBytes(k *= 4);
+      d = crypto.randomBytes(k *= 4);
 
       for (; i < k;) {
 
@@ -4592,7 +4625,7 @@
 
         // Probability n >= 2.14e9, is 7483648 / 2147483648 = 0.0035 (1 in 286).
         if (n >= 2.14e9) {
-          cryptoObject.randomBytes(4).copy(d, i);
+          crypto.randomBytes(4).copy(d, i);
         } else {
 
           // 0 <= n <= 2139999999
@@ -4603,10 +4636,8 @@
       }
 
       i = k / 4;
-    } else if (this.crypto) {
-      throw Error(decimalError + 'crypto unavailable');
     } else {
-      for (; i < k;) rd[i++] = Math.random() * 1e7 | 0;
+      throw Error(cryptoUnavailable);
     }
 
     k = rd[--i];
@@ -4758,7 +4789,9 @@
 
 
   // Create and configure initial Decimal constructor.
-  Decimal = clone(Decimal);
+  Decimal = clone(DEFAULTS);
+
+  Decimal['default'] = Decimal.Decimal = Decimal;
 
   // Create the internal constants from their string values.
   LN10 = new Decimal(LN10);
@@ -4778,19 +4811,10 @@
   } else if (typeof module != 'undefined' && module.exports) {
     module.exports = Decimal;
 
-    if (!cryptoObject) {
-      try {
-        cryptoObject = require('cry' + 'pto');
-      } catch (e) {
-        // Ignore.
-      }
-    }
-
   // Browser.
   } else {
     if (!globalScope) {
-      globalScope = typeof self != 'undefined' && self && self.self == self
-        ? self : Function('return this')();
+      globalScope = typeof self != 'undefined' && self && self.self == self ? self : window;
     }
 
     noConflict = globalScope.Decimal;
