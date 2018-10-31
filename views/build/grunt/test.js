@@ -28,7 +28,17 @@ module.exports = function(grunt) {
             options : {
                 inject: './config/chrome-bridge.js',
                 timeout: 30000,
-                force: true
+                force: true,
+                puppeteer : {
+                    ignoreHTTPSErrors: true,
+                    timeout: 30000,
+                    args: [ "--no-sandbox", "--disable-gpu", "--disable-popup-blocking" ],
+                    defaultViewport:  {
+                        width: 1280,
+                        height: 720,
+                        deviceScaleFactor: 1
+                    }
+                }
             },
 
             //run a single test (requires the options test=${testUrl})
@@ -55,17 +65,17 @@ module.exports = function(grunt) {
 
                 fileNamer : function(url){
                     return url
-                        .replace(testUrl + '/', '')
-                        .replace('/test.html', '')
-                        .replace(/\//g, '.');
+                    .replace(testUrl + '/', '')
+                    .replace('/test.html', '')
+                    .replace(/\//g, '.');
                 },
 
                 classNamer : function (moduleName, url) {
                     return url
-                        .replace(testUrl + '/', '')
-                        .replace('views/js/test/', '')
-                        .replace('/test.html', '')
-                        .replace(/\//g, '.');
+                    .replace(testUrl + '/', '')
+                    .replace('views/js/test/', '')
+                    .replace('/test.html', '')
+                    .replace(/\//g, '.');
                 }
             }
         },
