@@ -47,17 +47,17 @@
     /**
      * A test case get started
      */
-    QUnit.testStart( ({ name }) =>  {
+    QUnit.testStart( ({ testName }) =>  {
 
         //start a timeout and
         //keep it in the map under the test name
-        runningTestsTimeouts.set(name,
+        runningTestsTimeouts.set(testName,
             setTimeout( () => {
-                emit('fail.timeout', name);
-                runningTestsTimeouts.delete(name);
+                emit('fail.timeout', testName);
+                runningTestsTimeouts.delete(testName);
             }, testTimeoutMs)
         );
-        emit('qunit.testStart', name);
+        emit('qunit.testStart', testName);
     });
 
     /**
@@ -79,7 +79,15 @@
     /**
      * The test case is done
      */
-    QUnit.testDone( logs => emit('qunit.testDone', logs.name, logs.failed, logs.passed, logs.total, logs.runtime, logs.skipped, 0) );
+    QUnit.testDone(logs => {
+        const testName = logs.name;
+        if(runningTestsTimeouts.has(testName)){
+            clearTimeout(runningTestsTimeouts.get(testName));
+            runningTestsTimeouts.delete(testName);
+        }
+
+        emit('qunit.testDone', logs.name, logs.failed, logs.passed, logs.total, logs.runtime, logs.skipped, 0);
+    });
 
     /**
      * The module is done
