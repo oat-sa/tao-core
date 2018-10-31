@@ -74,6 +74,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
 
         $this->setData('locale', $langCode);
         $this->setData('client_timeout', $this->getClientTimeout());
+        $this->setData('crossorigin', $this->isCrossorigin());
         $this->setData('tao_base_www', $tao_base_www);
 
         $this->setData('context', json_encode([
@@ -110,6 +111,20 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         } catch(common_ext_ExtensionException $cee){
             throw new Exception(__('Wrong parameter shownExtension'), $cee);
         }
+    }
+
+    /**
+     * @return bool
+     * @throws common_ext_ExtensionException
+     */
+    protected function isCrossorigin()
+    {
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $config = $ext->getConfig('js');
+        if ($config != null && isset($config['crossorigin'])) {
+            return $config['crossorigin'];
+        }
+        return false;
     }
 
     /**
