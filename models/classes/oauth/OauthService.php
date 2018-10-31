@@ -19,6 +19,7 @@
  */
 namespace oat\tao\model\oauth;
 
+use IMSGlobal\LTI\OAuth\OAuthConsumer;
 use IMSGlobal\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 use IMSGlobal\LTI\OAuth\OAuthRequest;
 use IMSGlobal\LTI\OAuth\OAuthServer;
@@ -43,8 +44,15 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @param $authorizationHeader Move the signature parameters into the Authorization header of the request
+     *
+     *
+     * @param common_http_Request $request
+     * @param \common_http_Credentials $credentials
+     * @param bool $authorizationHeader Move the signature parameters into the Authorization header of the request
+     *
      * @return common_http_Request
+     *
+     * @throws \tao_models_classes_oauth_Exception
      */
     public function sign(common_http_Request $request, \common_http_Credentials $credentials, $authorizationHeader = false) {
         
@@ -52,57 +60,110 @@ class OauthService extends ConfigurableService implements \common_http_Signature
             throw new \tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
         }
         
-        
-        $oauthRequest = $this->getOauthRequest($request); 
         $dataStore = $this->getDataStore();
         $consumer = $dataStore->getOauthConsumer($credentials);
         $token = $dataStore->new_request_token($consumer);
 
+        return $this->signFromConsumerAndToken($request, $consumer, $token, $authorizationHeader);
+    }
+
+    /**
+     * @param common_http_Request $request
+     * @param OAuthConsumer $consumer
+     * @param $token
+     * @param bool $authorizationHeader
+     *
+     * @return common_http_Request
+     */
+    public function signFromConsumerAndToken(common_http_Request $request, OAuthConsumer $consumer, $token = null, $authorizationHeader = false)
+    {
+        $oauthRequest = $this->getOauthRequest($request);
+
+        $allInitialParameters = $this->getAllInitialParameters($request, $authorizationHeader);
+        $signedRequest = $this->signRequest($consumer, $token, $oauthRequest, $allInitialParameters);
+
+        return $this->finalizeSignedRequest($signedRequest, $request, $allInitialParameters, $authorizationHeader);
+    }
+
+    /**
+     * @param common_http_Request $originalRequest
+     * @param bool $authorizationHeader
+     *
+     * @return array
+     */
+    protected function getAllInitialParameters(common_http_Request $originalRequest, $authorizationHeader)
+    {
         $allInitialParameters = array();
-        $allInitialParameters = array_merge($allInitialParameters, $request->getParams());
-        $allInitialParameters = array_merge($allInitialParameters, $request->getHeaders());
-        
+        $allInitialParameters = array_merge($allInitialParameters, $originalRequest->getParams());
+        $allInitialParameters = array_merge($allInitialParameters, $originalRequest->getHeaders());
+
         //oauth_body_hash is used for the signing computation
         if ($authorizationHeader) {
-        $oauth_body_hash = base64_encode(sha1($request->getBody(), true));//the signature should be ciomputed from encoded versions
-        $allInitialParameters = array_merge($allInitialParameters, array("oauth_body_hash" =>$oauth_body_hash));
+            $oauth_body_hash = base64_encode(sha1($originalRequest->getBody(), true));//the signature should be ciomputed from encoded versions
+            $allInitialParameters = array_merge($allInitialParameters, array("oauth_body_hash" =>$oauth_body_hash));
         }
 
+        return $allInitialParameters;
+    }
+
+    /**
+     * @param OAuthConsumer $consumer
+     * @param $token
+     * @param OAuthRequest $oauthRequest
+     * @param array $parameters
+     *
+     * @return OAuthRequest
+     */
+    protected function signRequest(OAuthConsumer $consumer, $token, OAuthRequest $oauthRequest, array $parameters)
+    {
         $signedRequest = OAuthRequest::from_consumer_and_token(
             $consumer,
             $token,
             $oauthRequest->get_normalized_http_method(),
             $oauthRequest->to_url(),
-            $allInitialParameters
+            $parameters
         );
+
         $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
         $signedRequest->sign_request($signature_method, $consumer, $token);
-        //common_logger::d('Base string from TAO/Joel: '.$signedRequest->get_signature_base_string());
 
+        return $signedRequest;
+    }
+
+    /**
+     * @param OAuthRequest $signedRequest
+     * @param common_http_Request $originalRequest
+     * @param array $parameters
+     * @param bool $authorizationHeader
+     *
+     * @return common_http_Request
+     */
+    protected function finalizeSignedRequest(OAuthRequest $signedRequest, common_http_Request $originalRequest, array $parameters, $authorizationHeader)
+    {
         if ($authorizationHeader) {
             $combinedParameters = $signedRequest->get_parameters();
-            $signatureParameters = array_diff_assoc($combinedParameters, $allInitialParameters);
-           
-            $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), true));
+            $signatureParameters = array_diff_assoc($combinedParameters, $parameters);
+
+            $signatureParameters["oauth_body_hash"] = base64_encode(sha1($originalRequest->getBody(), true));
             $signatureHeaders = array("Authorization" => $this->buildAuthorizationHeader($signatureParameters));
-            $signedRequest = new common_http_Request(
+            $finalizedSignedRequest = new common_http_Request(
                 $signedRequest->to_url(),
                 $signedRequest->get_normalized_http_method(),
-                $request->getParams(),
-                array_merge($signatureHeaders, $request->getHeaders()),
-                $request->getBody()
+                $originalRequest->getParams(),
+                array_merge($signatureHeaders, $originalRequest->getHeaders()),
+                $originalRequest->getBody()
             );
         } else {
-            $signedRequest =  new common_http_Request(
+            $finalizedSignedRequest =  new common_http_Request(
                 $signedRequest->to_url(),
                 $signedRequest->get_normalized_http_method(),
                 $signedRequest->get_parameters(),
-                $request->getHeaders(),
-                $request->getBody()
+                $originalRequest->getHeaders(),
+                $originalRequest->getBody()
             );
         }
 
-        return $signedRequest;
+        return $finalizedSignedRequest;
     }
 
     /**
