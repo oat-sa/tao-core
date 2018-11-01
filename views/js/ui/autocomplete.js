@@ -299,18 +299,18 @@ define([
          * @returns {Object} Returns the list of plugin options and their values.
          */
         parseOptions : function(options) {
-            var that = this;
+            var self = this;
             var pluginOptions = {};
 
             // filter the options
             _.forOwn(options, function(value, name) {
                 var setterName = 'set' + capitalize(name);
-                if (that[setterName]) {
+                if (self[setterName]) {
                     // a setter exists for this option
-                    that[setterName](value);
+                    self[setterName](value);
                 } else if (name.substr(0, 2) === 'on') {
                     // this option is an event handler
-                    that.on(name.substr(2), value);
+                    self.on(name.substr(2), value);
                 } else {
                     // not a component option, forward it to the plugin instance
                     options[name] = value;
@@ -408,8 +408,7 @@ define([
          * @returns {*} Returns the call result
          */
         trigger : function(eventName, params) {
-            arguments[0] = adjustEventName(eventName);
-            return this.applyElement('triggerHandler', arguments);
+            return this.applyElement('triggerHandler', [adjustEventName(eventName), params]);
         },
 
         /**
@@ -419,8 +418,7 @@ define([
          * @returns {autocompleter} this
          */
         on : function(eventName, callback) {
-            arguments[0] = adjustEventName(eventName);
-            this.applyElement('on', arguments);
+            this.applyElement('on', [adjustEventName(eventName), callback]);
             return this;
         },
 
@@ -431,8 +429,7 @@ define([
          * @returns {autocompleter} this
          */
         off : function(eventName, callback) {
-            arguments[0] = adjustEventName(eventName);
-            this.applyElement('off', arguments);
+            this.applyElement('off', [adjustEventName(eventName), callback]);
             return this;
         },
 
@@ -945,7 +942,7 @@ define([
          * @returns {{suggestions: Array}}
          */
         _transformResult : function(response) {
-            var that = this;
+            var self = this;
             var results = {
                 suggestions: []
             };
@@ -956,8 +953,8 @@ define([
             if (response.records) {
                 results.suggestions = _.map(response.data, function(dataItem) {
                     return {
-                        value : dataItem[that.labelField],
-                        data : dataItem[that.valueField]
+                        value : dataItem[self.labelField],
+                        data : dataItem[self.valueField]
                     };
                 });
             }
