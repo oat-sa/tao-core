@@ -1,26 +1,37 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA ;
  */
-$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-$config = array(
-    'timeout' => 30,
-    'crossorigin' => false
-);
-$ext->setConfig('js', $config);
+
+namespace oat\tao\model\metadata\compiler;
+
+use core_kernel_classes_Resource;
+
+/**
+ * Interface ResourceMetadataCompilerInterface
+ * @package oat\tao\model\metadata\compiler
+ */
+interface ResourceMetadataCompilerInterface
+{
+    /**
+     * Compile resource's metadata into array structure.
+     *
+     * @param core_kernel_classes_Resource $resource
+     * @return array
+     */
+    public function compile(core_kernel_classes_Resource $resource);
+}
