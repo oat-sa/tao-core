@@ -307,8 +307,8 @@ define([
                     field.filterable = false;
                 }
 
-                if (!field.order) {
-                    field.order = key;
+                if (_.isUndefined(field.order)) {
+                    field.order = key + 1;
                 }
 
                 if (field.filterable && typeof field.filterable !== 'object') {
