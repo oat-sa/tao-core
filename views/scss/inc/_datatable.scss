@@ -52,6 +52,10 @@
 }
 .datatable-container {
     overflow-y: auto;
+    .empty {
+        text-align: center;
+        margin: 2rem 0;
+    }
 }
 table.datatable{
     &.matrix {
