@@ -79,7 +79,7 @@ module.exports = function(grunt) {
                 base: root,
                 middleware: function(connect, options, middlewares) {
 
-                    var rjsConfig = require('../config/requirejs.test.json');
+                    var rjsConfig = require('../config/requirejs.build.json');
                     rjsConfig.baseUrl = baseUrl + '/tao/views/js';
                     ext.getExtensions().forEach(function(extension){
                         rjsConfig.paths[extension] = '../../../' + extension + '/views/js';
