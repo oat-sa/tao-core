@@ -47,6 +47,7 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
 use oat\tao\model\metrics\MetricsService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
@@ -855,13 +856,22 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.20.0');
         }
 
-        $this->skip('19.20.0', '21.1.1');
+        $this->skip('19.20.0', '21.2.0');
 
-        if ($this->isVersion('21.1.1')) {
+        if ($this->isVersion('21.2.0')) {
+            $resourceJsonMetadataCompiler = new ResourceJsonMetadataCompiler();
+            $this->getServiceManager()->register(ResourceJsonMetadataCompiler::SERVICE_ID, $resourceJsonMetadataCompiler);
+
+            $this->setVersion('21.3.0');
+        }
+
+        $this->skip('21.3.0', '21.4.0');
+
+        if ($this->isVersion('21.4.0')) {
             $taskSerializer = new TaskSerializerService();
             $this->getServiceManager()->register(TaskSerializerService::SERVICE_ID, $taskSerializer);
 
-            $this->setVersion('21.2.0');
+            $this->setVersion('21.5.0');
         }
     }
 }
