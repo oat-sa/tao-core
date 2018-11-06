@@ -197,8 +197,11 @@ class Layout
      */
     public static function getContentTemplate() {
         $templateData = (array)get_data('content-template');
+        $contentExtension = get_data('content-extension');
         $contentTemplate['path'] = $templateData[0];
-        $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
+        $contentTemplate['ext']  = isset($templateData[1])
+            ? $templateData[1]
+            : ($contentExtension ? $contentExtension : 'tao');
         return $contentTemplate;
     }
 
