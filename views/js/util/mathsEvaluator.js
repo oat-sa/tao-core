@@ -28,12 +28,36 @@ define([
     var Parser = exprEval.Parser;
 
     /**
-     * Defaults config for the Decimal constructor
+     * Defaults config for the evaluator
      * @type {Object}
      */
     var defaultConfig = {
+        piPrecision: 100,
+        degree: false
+    };
+
+    /**
+     * Defaults config for the Decimal constructor
+     * @type {Object}
+     */
+    var defaultDecimalConfig = {
         defaults: true
     };
+
+    /**
+     * List of config entries the Decimal constructor accepts
+     * @type {String[]}
+     */
+    var decimalConfigEntries = [
+        'precision',
+        'rounding',
+        'toExpNeg',
+        'toExpPos',
+        'maxE',
+        'minE',
+        'modulo',
+        'crypto'
+    ];
 
     /**
      * Builds a maths expression parser.
@@ -53,20 +77,26 @@ define([
      * // parametric expression
      * var result = evaluate("2*a*x+b", {a:5, x:3, b:15}); // will return '45';
      *
-     * @param {Object} [config] - Config for the Decimal constructor.
+     * @param {Object} [config] - Config entries, mostly for the Decimal constructor.
      * @param {Number} [config.precision=20] - The maximum number of significant digits of the result of an operation.
+     * @param {Number} [config.piPrecision=100] - Arbitrary decimal precision for PI related computations (sin, cos, tan).
      * @param {Number} [config.rounding=4] - The default rounding mode used when rounding the result of an operation to precision significant digits.
      * @param {Number} [config.toExpNeg=-7] - The negative exponent value at and below which toString returns exponential notation.
      * @param {Number} [config.toExpPos=21] - The positive exponent value at and above which toString returns exponential notation.
      * @param {Number} [config.maxE=9e15] - The positive exponent limit, i.e. the exponent value above which overflow to Infinity occurs.
      * @param {Number} [config.minE=-9e15] - The negative exponent limit, i.e. the exponent value below which underflow to zero occurs.
      * @param {Number} [config.modulo=1] - The modulo mode used when calculating the modulus: a mod n.
-     * @param {Number} [config.crypto=false] - The value that determines whether cryptographically-secure pseudo-random number generation is used.
+     * @param {Boolean} [config.crypto=false] - The value that determines whether cryptographically-secure pseudo-random number generation is used.
+     * @param {Boolean} [config.degree=false] - Converts trigonometric values from radians to degrees.
      * @returns {Function<expression, variables>} - The maths expression parser
      */
     function mathsEvaluatorFactory(config) {
         var parser = new Parser();
-        var ConfiguredDecimal = Decimal.set(config || defaultConfig);
+        var localConfig = _.defaults({}, config, defaultConfig);
+        var decimalConfig = _.pick(localConfig, decimalConfigEntries);
+        var ConfiguredDecimal = Decimal.set(_.isEmpty(decimalConfig) ? defaultDecimalConfig : decimalConfig);
+        var EPSILON = (new ConfiguredDecimal(2)).pow(-52);
+        var PI = ConfiguredDecimal.set({precision: localConfig.piPrecision}).acos(-1);
 
         /**
          * Map expr-eval API to decimal.js
@@ -76,27 +106,39 @@ define([
             unary: [
                 {
                     entry: 'sin',
-                    mapTo: 'sin'
+                    action: function (a) {
+                        return trigoOperator('sin', a);
+                    }
                 },
                 {
                     entry: 'cos',
-                    mapTo: 'cos'
+                    action: function (a) {
+                        return trigoOperator('cos', a);
+                    }
                 },
                 {
                     entry: 'tan',
-                    mapTo: 'tan'
+                    action: function (a) {
+                        return trigoOperator('tan', a);
+                    }
                 },
                 {
                     entry: 'asin',
-                    mapTo: 'asin'
+                    action: function (a) {
+                        return inverseTrigoOperator('asin', a);
+                    }
                 },
                 {
                     entry: 'acos',
-                    mapTo: 'acos'
+                    action: function (a) {
+                        return inverseTrigoOperator('acos', a);
+                    }
                 },
                 {
                     entry: 'atan',
-                    mapTo: 'atan'
+                    action: function (a) {
+                        return inverseTrigoOperator('atan', a);
+                    }
                 },
                 {
                     entry: 'sinh',
@@ -180,7 +222,7 @@ define([
                 },
                 {
                     entry: 'not',
-                    action: function(a) {
+                    action: function (a) {
                         return !native(a);
                     }
                 },
@@ -242,21 +284,21 @@ define([
                 },
                 {
                     entry: 'and',
-                    action: function(a, b) {
+                    action: function (a, b) {
                         return Boolean(native(a) && native(b));
                     }
                 },
                 {
                     entry: 'or',
-                    action: function(a, b) {
+                    action: function (a, b) {
                         return Boolean(native(a) || native(b));
                     }
                 },
                 {
                     entry: 'in',
-                    action: function(array, obj) {
+                    action: function (array, obj) {
                         obj = native(obj);
-                        return 'undefined' !== typeof _.find(array, function(el) {
+                        return 'undefined' !== typeof _.find(array, function (el) {
                             return native(el) === obj;
                         });
                     }
@@ -269,7 +311,7 @@ define([
             functions: [
                 {
                     entry: 'random',
-                    action: function(dp) {
+                    action: function (dp) {
                         return ConfiguredDecimal.random(dp);
                     }
                 },
@@ -299,7 +341,10 @@ define([
                 },
                 {
                     entry: 'atan2',
-                    mapTo: 'atan2'
+                    action: function (y, x) {
+                        var result = functionOperator('atan2', y, x);
+                        return localConfig.degree ? radianToDegree(result) : result;
+                    }
                 },
                 {
                     entry: 'if',
@@ -328,9 +373,25 @@ define([
             ],
             consts: [{
                 entry: 'PI',
-                value: ConfiguredDecimal.acos(-1)
+                value: PI
+            }, {
+                entry: 'EPSILON',
+                value: EPSILON
             }]
         };
+
+        /**
+         * Takes care of zero-like values.
+         * i.e. value smaller than the smallest double precision datatype value is considered equal to zero
+         * @param {Decimal} number
+         * @returns {Decimal}
+         */
+        function checkZero(number) {
+            if (number.absoluteValue().lessThan(EPSILON)) {
+                return new ConfiguredDecimal(0);
+            }
+            return number;
+        }
 
         /**
          * Cast a Decimal to native type
@@ -339,7 +400,7 @@ define([
          */
         function native(number) {
             if (Decimal.isDecimal(number)) {
-                return number.toNumber();
+                return checkZero(number).toNumber();
             }
             else if (number === 'true' || number === true) {
                 return true;
@@ -370,6 +431,24 @@ define([
                 number = new ConfiguredDecimal(number);
             }
             return number;
+        }
+
+        /**
+         * Converts degrees to radians
+         * @param {Number|String|Decimal} value
+         * @returns {Decimal} - Always returns a Decimal
+         */
+        function degreeToRadian(value) {
+            return decimalNumber(value).mul(PI).div(180);
+        }
+
+        /**
+         * Converts radians to degrees
+         * @param {Number|String|Decimal} value
+         * @returns {Decimal} - Always returns a Decimal
+         */
+        function radianToDegree(value) {
+            return decimalNumber(value).mul(180).div(PI);
         }
 
         /**
@@ -414,6 +493,37 @@ define([
             }
 
             return ConfiguredDecimal[operator].apply(ConfiguredDecimal, operands.map(decimalNumber));
+        }
+
+        /**
+         * Apply the mentioned trigonometric operator on an operand, taking care of the unit (degree or radian)
+         * @param {String} operator - The operator to apply
+         * @param {Number|String|Decimal} operand - The operand on which apply the operator
+         * @returns {Decimal} - Always returns a Decimal
+         */
+        function trigoOperator(operator, operand) {
+            if (!_.isFunction(Decimal[operator])) {
+                throw new TypeError(operator + ' is not a valid operator!');
+            }
+
+            if (localConfig.degree) {
+                operand = degreeToRadian(operand);
+            } else {
+                operand = decimalNumber(operand);
+            }
+
+            return checkZero(Decimal.set({precision: 1000 - operand.precision()})[operator](operand));
+        }
+
+        /**
+         * Apply the mentioned inverse trigonometric operator on an operand, taking care of the unit (degree or radian)
+         * @param {String} operator - The operator to apply
+         * @param {Number|String|Decimal} operand - The operand on which apply the operator
+         * @returns {Decimal} - Always returns a Decimal
+         */
+        function inverseTrigoOperator(operator, operand) {
+            var result = checkZero(unaryOperator(operator, operand));
+            return localConfig.degree ? radianToDegree(result) : result;
         }
 
         /**

@@ -217,6 +217,14 @@ define([
             expression: '2+2==4 and 3-1==2',
             expected: true
         }, {
+            title: 'not: true',
+            expression: 'not true',
+            expected: false
+        }, {
+            title: 'not: false',
+            expression: 'not false',
+            expected: true
+        }, {
             title: 'pipe',
             expression: '10-6 || sqrt(4)',
             expected: '42'
@@ -231,11 +239,442 @@ define([
         .cases([{
             title: '2*a*x+b',
             expression: '2*a*x+b',
-            variables: {a:5, x:3, b:15},
+            variables: {a: 5, x: 3, b: 15},
             expected: '45'
         }])
         .test('parametric expression', function (data, assert) {
             var evaluate = mathsEvaluatorFactory();
+            QUnit.expect(1);
+            assert.equal(evaluate(data.expression, data.variables), data.expected, "The expression " + data.expression + " is correctly computed");
+        });
+
+    QUnit
+        .cases([{
+            title: 'PI',
+            expression: 'PI',
+            config: {degree: false},
+            expected: '3.141592653589793'
+        }, {
+            title: 'cos 0',
+            expression: 'cos 0',
+            config: {degree: false},
+            expected: '1'
+        }, {
+            title: 'cos 1',
+            expression: 'cos 1',
+            config: {degree: false},
+            expected: '0.5403023058681398'
+        }, {
+            title: 'cos PI',
+            expression: 'cos PI',
+            config: {degree: false},
+            expected: '-1'
+        }, {
+            title: 'sin 0',
+            expression: 'sin 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'sin 1',
+            expression: 'sin 1',
+            config: {degree: false},
+            expected: '0.8414709848078965'
+        }, {
+            title: 'sin PI',
+            expression: 'sin PI',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'sin (PI*3)*10^20',
+            expression: 'sin (PI*3)*10^20',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'tan 0',
+            expression: 'tan 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'tan 1',
+            expression: 'tan 1',
+            config: {degree: false},
+            expected: '1.5574077246549023'
+        }, {
+            title: 'tan PI',
+            expression: 'tan PI',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'acos -1',
+            expression: 'acos -1',
+            config: {degree: false},
+            expected: '3.141592653589793'
+        }, {
+            title: 'acos 0',
+            expression: 'acos 0',
+            config: {degree: false},
+            expected: '1.5707963267948966'
+        }, {
+            title: 'acos 1',
+            expression: 'acos 1',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'asin -1',
+            expression: 'asin -1',
+            config: {degree: false},
+            expected: '-1.5707963267948966'
+        }, {
+            title: 'asin 0',
+            expression: 'asin 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'asin 1',
+            expression: 'asin 1',
+            config: {degree: false},
+            expected: '1.5707963267948966'
+        }, {
+            title: 'atan -1',
+            expression: 'atan -1',
+            config: {degree: false},
+            expected: '-0.7853981633974483'
+        }, {
+            title: 'atan 0',
+            expression: 'atan 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'atan 1',
+            expression: 'atan 1',
+            config: {degree: false},
+            expected: '0.7853981633974483'
+        }, {
+            title: 'cosh 0',
+            expression: 'cosh 0',
+            config: {degree: false},
+            expected: '1'
+        }, {
+            title: 'cosh 1',
+            expression: 'cosh 1',
+            config: {degree: false},
+            expected: '1.5430806348152437'
+        }, {
+            title: 'cosh PI',
+            expression: 'cosh PI',
+            config: {degree: false},
+            expected: '11.59195327552152'
+        }, {
+            title: 'sinh 0',
+            expression: 'sinh 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'sinh 1',
+            expression: 'sinh 1',
+            config: {degree: false},
+            expected: '1.1752011936438014'
+        }, {
+            title: 'sinh PI',
+            expression: 'sinh PI',
+            config: {degree: false},
+            expected: '11.548739357257748'
+        }, {
+            title: '(sinh 0)*10^20',
+            expression: '(sinh 0)*10^20',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'tanh 0',
+            expression: 'tanh 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'tanh 1',
+            expression: 'tanh 1',
+            config: {degree: false},
+            expected: '0.7615941559557649'
+        }, {
+            title: 'tanh PI',
+            expression: 'tanh PI',
+            config: {degree: false},
+            expected: '0.99627207622075'
+        }, {
+            title: 'acosh 0',
+            expression: 'acosh 0',
+            config: {degree: false},
+            expected: 'NaN'
+        }, {
+            title: 'acosh 1',
+            expression: 'acosh 1',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'acosh 2',
+            expression: 'acosh 2',
+            config: {degree: false},
+            expected: '1.3169578969248168'
+        }, {
+            title: 'asinh -1',
+            expression: 'asinh -1',
+            config: {degree: false},
+            expected: '-0.881373587019543'
+        }, {
+            title: 'asinh 0',
+            expression: 'asinh 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'asinh 1',
+            expression: 'asinh 1',
+            config: {degree: false},
+            expected: '0.881373587019543'
+        }, {
+            title: 'atanh -1',
+            expression: 'atanh -1',
+            config: {degree: false},
+            expected: '-Infinity'
+        }, {
+            title: 'atanh 0',
+            expression: 'atanh 0',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'atanh 0.5',
+            expression: 'atanh 0.5',
+            config: {degree: false},
+            expected: '0.5493061443340549'
+        }, {
+            title: 'atanh 1',
+            expression: 'atanh 1',
+            config: {degree: false},
+            expected: 'Infinity'
+        }])
+        .test('trigo - radian', function (data, assert) {
+            var evaluate = mathsEvaluatorFactory(data.config);
+            QUnit.expect(1);
+            assert.equal(evaluate(data.expression, data.variables), data.expected, "The expression " + data.expression + " is correctly computed");
+        });
+
+    QUnit
+        .cases([{
+            title: 'PI',
+            expression: 'PI',
+            config: {degree: true},
+            expected: '3.141592653589793'
+        }, {
+            title: 'cos 0',
+            expression: 'cos 0',
+            config: {degree: true},
+            expected: '1'
+        }, {
+            title: 'cos 1',
+            expression: 'cos 1',
+            config: {degree: true},
+            expected: '0.9998476951563913'
+        }, {
+            title: 'cos PI',
+            expression: 'cos PI',
+            config: {degree: true},
+            expected: '0.9984971498638638'
+        }, {
+            title: 'cos 180',
+            expression: 'cos 180',
+            config: {degree: true},
+            expected: '-1'
+        }, {
+            title: 'sin 0',
+            expression: 'sin 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'sin 1',
+            expression: 'sin 1',
+            config: {degree: true},
+            expected: '0.01745240643728351'
+        }, {
+            title: 'sin PI',
+            expression: 'sin PI',
+            config: {degree: true},
+            expected: '0.05480366514878953'
+        }, {
+            title: 'sin 180',
+            expression: 'sin 180',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: '(sin 720)*10^20',
+            expression: '(sin 720)*10^20',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'tan 0',
+            expression: 'tan 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'tan 1',
+            expression: 'tan 1',
+            config: {degree: true},
+            expected: '0.017455064928217585'
+        }, {
+            title: 'tan PI',
+            expression: 'tan PI',
+            config: {degree: true},
+            expected: '0.054886150808003326'
+        }, {
+            title: 'tan 180',
+            expression: 'tan 180',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'acos -1',
+            expression: 'acos -1',
+            config: {degree: true},
+            expected: '180'
+        }, {
+            title: 'acos 0',
+            expression: 'acos 0',
+            config: {degree: true},
+            expected: '90'
+        }, {
+            title: 'acos 1',
+            expression: 'acos 1',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'asin -1',
+            expression: 'asin -1',
+            config: {degree: true},
+            expected: '-90'
+        }, {
+            title: 'asin 0',
+            expression: 'asin 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'asin 1',
+            expression: 'asin 1',
+            config: {degree: true},
+            expected: '90'
+        }, {
+            title: 'atan -1',
+            expression: 'atan -1',
+            config: {degree: true},
+            expected: '-45'
+        }, {
+            title: 'atan 0',
+            expression: 'atan 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'atan 1',
+            expression: 'atan 1',
+            config: {degree: true},
+            expected: '45'
+        }, {
+            title: 'cosh 0',
+            expression: 'cosh 0',
+            config: {degree: true},
+            expected: '1'
+        }, {
+            title: 'cosh 1',
+            expression: 'cosh 1',
+            config: {degree: true},
+            expected: '1.5430806348152437'
+        }, {
+            title: 'cosh PI',
+            expression: 'cosh PI',
+            config: {degree: true},
+            expected: '11.59195327552152'
+        }, {
+            title: 'sinh 0',
+            expression: 'sinh 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'sinh 1',
+            expression: 'sinh 1',
+            config: {degree: true},
+            expected: '1.1752011936438014'
+        }, {
+            title: 'sinh PI',
+            expression: 'sinh PI',
+            config: {degree: true},
+            expected: '11.548739357257748'
+        }, {
+            title: '(sinh 0)*10^20',
+            expression: '(sinh 0)*10^20',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'tanh 0',
+            expression: 'tanh 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'tanh 1',
+            expression: 'tanh 1',
+            config: {degree: true},
+            expected: '0.7615941559557649'
+        }, {
+            title: 'tanh PI',
+            expression: 'tanh PI',
+            config: {degree: true},
+            expected: '0.99627207622075'
+        }, {
+            title: 'acosh 0',
+            expression: 'acosh 0',
+            config: {degree: true},
+            expected: 'NaN'
+        }, {
+            title: 'acosh 1',
+            expression: 'acosh 1',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'acosh 2',
+            expression: 'acosh 2',
+            config: {degree: true},
+            expected: '1.3169578969248168'
+        }, {
+            title: 'asinh -1',
+            expression: 'asinh -1',
+            config: {degree: true},
+            expected: '-0.881373587019543'
+        }, {
+            title: 'asinh 0',
+            expression: 'asinh 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'asinh 1',
+            expression: 'asinh 1',
+            config: {degree: true},
+            expected: '0.881373587019543'
+        }, {
+            title: 'atanh -1',
+            expression: 'atanh -1',
+            config: {degree: true},
+            expected: '-Infinity'
+        }, {
+            title: 'atanh 0',
+            expression: 'atanh 0',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'atanh 0.5',
+            expression: 'atanh 0.5',
+            config: {degree: true},
+            expected: '0.5493061443340549'
+        }, {
+            title: 'atanh 1',
+            expression: 'atanh 1',
+            config: {degree: true},
+            expected: 'Infinity'
+        }])
+        .test('trigo - degree', function (data, assert) {
+            var evaluate = mathsEvaluatorFactory(data.config);
             QUnit.expect(1);
             assert.equal(evaluate(data.expression, data.variables), data.expected, "The expression " + data.expression + " is correctly computed");
         });
@@ -249,8 +688,8 @@ define([
          * @param {String} myValue
          * @returns {jQuery}
          */
-        insertAtCaret : function(myValue) {
-            return this.each(function() {
+        insertAtCaret: function (myValue) {
+            return this.each(function () {
                 var sel, startPos, endPos, scrollTop;
                 if (document.selection) {
                     //For browsers like Internet Explorer
@@ -263,7 +702,7 @@ define([
                     startPos = this.selectionStart;
                     endPos = this.selectionEnd;
                     scrollTop = this.scrollTop;
-                    this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos,this.value.length);
+                    this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
                     this.focus();
                     this.selectionStart = startPos + myValue.length;
                     this.selectionEnd = startPos + myValue.length;
@@ -276,16 +715,31 @@ define([
         }
     });
 
-    QUnit.test('Visual test', function(assert) {
+    QUnit.test('Visual test', function (assert) {
         var evaluate = mathsEvaluatorFactory();
         var $container = $('#visual-test');
         var $screen = $container.find('.screen');
         var $input = $container.find('.input input');
         var $keyboard = $container.find('.keyboard');
+        var degree = false;
+
+        function setupMathsEvaluator() {
+            evaluate = mathsEvaluatorFactory({
+                degree: degree
+            });
+        }
+
+        function processExpression(expr, variables) {
+            try {
+                return evaluate(expr, variables);
+            } catch (err) {
+                return 'Syntax error!';
+            }
+        }
 
         function showResult(expression, result) {
             var $expr = $('<p class="expression">' + expression + '</p>');
-            var  $res = $('<p class="result">' + result + '</p>');
+            var $res = $('<p class="result">' + result + '</p>');
             $screen.append($expr);
             $screen.append($res);
             scrollHelper.scrollTo($expr, $screen);
@@ -296,37 +750,58 @@ define([
             var parts = input.split('$');
             var expression = (parts.shift() || '').trim();
             var lines = [];
-            var variables = _.reduce(parts, function(acc, part) {
+            var variables = _.reduce(parts, function (acc, part) {
                 var s = part.split('=');
                 var name = (s[0] || '').trim();
                 var value = (s[1] || '').trim();
                 if (name && value) {
-                    value = evaluate(value);
+                    value = processExpression(value);
                     acc[name] = value;
                     lines.push(name + '=' + value);
                 }
                 return acc;
             }, {});
             lines.push(expression);
-            showResult(lines.join('<br >'), evaluate(expression, variables));
+            showResult(lines.join('<br >'), processExpression(expression, variables));
         }
 
-        $keyboard.on('click', 'button', function() {
-            switch(this.dataset.action) {
-                case 'compute':
-                    compute();
-                case 'clear':
-                    $input.val('');
-                    break;
-                default:
-                    $input.insertAtCaret(this.dataset.operator);
-            }
-        });
+        function clear() {
+            $input.val('');
+        }
 
-        $input.on('keydown', function(e) {
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                compute();
+        $keyboard.find('[data-switch="radian"]').click();
+
+        $keyboard
+            .on('change', 'input', function () {
+                switch (this.name) {
+                    case 'degree':
+                        degree = !!parseInt(this.value, 10);
+                        setupMathsEvaluator();
+                }
+            })
+            .on('click', 'button', function () {
+                switch (this.dataset.action) {
+                    case 'compute':
+                        compute();
+                    case 'clear':
+                        clear();
+                        break;
+                    default:
+                        $input.insertAtCaret(this.dataset.operator);
+                }
+            });
+
+        $input.on('keydown', function (e) {
+            switch (e.keyCode) {
+                case 13:
+                    e.preventDefault();
+                    compute();
+                    break;
+
+                case 27:
+                    e.preventDefault();
+                    clear();
+                    break;
             }
         });
 
