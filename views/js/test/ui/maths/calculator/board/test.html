@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ui Test - Calculator Board</title>
+    <base href="../../../../../../" />
+    <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+    <script type="text/javascript" src="js/lib/require.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/maths/calculator/board.js"></script>
+
+    <script  type="text/javascript">
+
+        //don't start the test now
+        QUnit.config.autostart = false;
+
+        //load the config
+        require(['/tao/ClientConfig/config'], function(){
+
+            //load the test
+            require(['test/ui/maths/calculator/board/test'], function(){
+
+                //Tests loaded, run tests
+                QUnit.start();
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture">
+    <div id=fixture-api></div>
+    <div id=fixture-init></div>
+    <div id=fixture-render></div>
+    <div id=fixture-destroy></div>
+    <div id=fixture-plugins></div>
+    <div id=fixture-expression></div>
+    <div id=fixture-position></div>
+    <div id=fixture-variable></div>
+    <div id=fixture-variables></div>
+    <div id=fixture-addterm></div>
+    <div id=fixture-useterm></div>
+    <div id=fixture-usevariable></div>
+    <div id=fixture-command></div>
+    <div id=fixture-evaluate></div>
+</div>
+</body>
+</html>
