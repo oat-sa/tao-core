@@ -81,10 +81,21 @@ define([
         {title: 'getVariables'},
         {title: 'setVariables'},
         {title: 'deleteVariables'},
+        {title: 'getCommand'},
+        {title: 'hasCommand'},
+        {title: 'getCommands'},
+        {title: 'setCommand'},
+        {title: 'deleteCommand'},
+        {title: 'addTerm'},
+        {title: 'useTerm'},
+        {title: 'useVariable'},
+        {title: 'useCommand'},
+        {title: 'evaluate'},
         {title: 'runPlugins'},
         {title: 'getPlugins'},
         {title: 'getPlugin'},
-        {title: 'getAreaBroker'}
+        {title: 'getAreaBroker'},
+        {title: 'setupMathsEvaluator'}
     ]).test('calculatorBoard API ', function (data, assert) {
         var instance = calculatorBoardFactory('#fixture-api');
         QUnit.expect(1);
@@ -392,6 +403,62 @@ define([
                         })
                         .setExpression(newExpression)
                         .setPosition(newPosition);
+                });
+            })
+            .after('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                this.destroy();
+            })
+            .after('destroy', function () {
+                QUnit.start();
+            })
+            .on('error', function(err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('command', function (assert) {
+        var expectedCommand = {
+            name: 'FOO',
+            label: 'bar',
+            description: 'Command FOO bar'
+        }
+        var $container = $('#fixture-command');
+        var instance;
+
+        QUnit.expect(14);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = calculatorBoardFactory($container);
+        instance
+            .on('init', function () {
+                var self = this;
+                assert.equal(this, instance, 'The instance has been initialized');
+                assert.equal(this.getExpression(), '', 'The expression is empty');
+                return new Promise(function (resolve) {
+                    assert.equal(typeof self.getCommand('FOO'), 'undefined', 'The command FOO does not exist');
+                    assert.ok(!self.hasCommand('FOO'), 'The command FOO is not registered');
+                    assert.deepEqual(self.getCommands(), {}, 'No command registered');
+                    self
+                        .on('commandadd', function(name) {
+                            assert.equal(name, 'FOO', 'Command FOO added');
+                            assert.ok(self.hasCommand('FOO'), 'The command FOO is now registered');
+                            assert.deepEqual(self.getCommand('FOO'), expectedCommand, 'A descriptor is defined for command FOO');
+                            assert.deepEqual(self.getCommands(), {FOO: expectedCommand}, 'Can get the list of registered commands');
+
+                            self.deleteCommand('FOO');
+                        })
+                        .on('commanddelete', function(name) {
+                            assert.equal(name, 'FOO', 'Command FOO deleted');
+                            assert.equal(typeof self.getCommand('FOO'), 'undefined', 'The command FOO does not exist anymore');
+                            assert.ok(!self.hasCommand('FOO'), 'The command FOO is not registered');
+
+                            resolve();
+                        })
+                        .setCommand(expectedCommand.name, expectedCommand.label, expectedCommand.description);
                 });
             })
             .after('ready', function () {
@@ -877,7 +944,7 @@ define([
             });
     });
 
-    QUnit.asyncTest('command', function (assert) {
+    QUnit.asyncTest('useCommand - success', function (assert) {
         var $container = $('#fixture-command');
         var instance;
 
@@ -919,9 +986,62 @@ define([
 
                                     resolve();
                                 })
-                                .command('bar', 'tip', 'top', 42);
+                                .useCommand('bar', 'tip', 'top', 42);
                         })
-                        .command('foo');
+                        .setCommand('foo')
+                        .setCommand('bar')
+                        .useCommand('foo');
+                });
+            })
+            .after('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                this.destroy();
+            })
+            .after('destroy', function () {
+                QUnit.start();
+            })
+            .on('error commanderror', function(err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('useCommand - failure', function (assert) {
+        var $container = $('#fixture-command');
+        var instance;
+
+        QUnit.expect(8);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = calculatorBoardFactory($container);
+        instance
+            .on('init', function () {
+                var self = this;
+                assert.equal(this, instance, 'The instance has been initialized');
+                assert.equal(this.getExpression(), '', 'The expression is empty');
+                assert.equal(this.getPosition(), 0, 'Position is at beginning');
+
+                return new Promise(function (resolve) {
+                    self
+                        .on('command.test', function () {
+                            self.off('command.test');
+
+                            assert.ok(false, 'The command should not be called!');
+
+                            resolve();
+                        })
+                        .on('commanderror.test', function (e) {
+                            self.off('commanderror.test');
+
+                            assert.ok(e instanceof TypeError, 'The command cannot be called');
+                            assert.equal(self.getExpression(), '', 'Expression did not change');
+                            assert.equal(self.getPosition(), 0, 'Position did not change');
+
+                            resolve();
+                        })
+                        .useCommand('foo');
                 });
             })
             .after('ready', function () {

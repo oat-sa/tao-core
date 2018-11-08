@@ -83,6 +83,12 @@ define([
         var variables = new collections.Map();
 
         /**
+         * A list of registered commands that can be used inside the calculator
+         * @type {Map}
+         */
+        var commands = new collections.Map();
+
+        /**
          * The current position in the current expression (i.e. the position of the caret)
          * @type {Number}
          */
@@ -155,12 +161,12 @@ define([
              * @param {String} name - The variable name
              * @param {String} value - The value. Can be another expression.
              * @returns {calculator}
-             * @fires variableset after the variable has been set
+             * @fires variableadd after the variable has been set
              */
             setVariable: function setVariable(name, value) {
                 variables.set(name, value);
                 /**
-                 * @event variableset
+                 * @event variableadd
                  * @param {String} name
                  * @param {String} value
                  */
@@ -200,7 +206,7 @@ define([
              * Sets a list of variables that can be used by the expression.
              * @param {Object} defs - A list variables to set.
              * @returns {calculator}
-             * @fires variableset after each variable has been set
+             * @fires variableadd after each variable has been set
              */
             setVariables: function setVariables(defs) {
                 var self = this;
@@ -222,6 +228,73 @@ define([
                  * @param {null} name
                  */
                 this.trigger('variabledelete', null);
+                return this;
+            },
+
+            /**
+             * Registers a command
+             * @param {String} name
+             * @param {String} [label]
+             * @param {String} [description]
+             * @returns {calculator}
+             * @fires commandadd after the command has been set
+             */
+            setCommand: function setCommand(name, label, description) {
+                commands.set(name, {
+                    name: name,
+                    label: label,
+                    description: description
+                });
+                /**
+                 * @event commandadd
+                 * @param {String} name
+                 */
+                this.trigger('commandadd', name);
+                return this;
+            },
+
+            /**
+             * Gets the definition of a registered command
+             * @returns {Object} The registered command
+             */
+            getCommand: function getCommand(name) {
+                return commands.get(name);
+            },
+
+            /**
+             * Gets the list of registered commands
+             * @returns {Object} The list of registered commands
+             */
+            getCommands: function getCommands() {
+                var defs = {};
+                commands.forEach(function(value, name) {
+                    defs[name] = value;
+                });
+                return defs;
+            },
+
+            /**
+             * Checks if a command is registered
+             * @param {String} name
+             * @returns {Boolean}
+             */
+            hasCommand: function hasCommand(name) {
+                return commands.has(name);
+            },
+
+            /**
+             * Delete a registered command
+             * @param {String} name
+             * @returns {calculator}
+             * @fires commanddelete after the command has been deleted
+             */
+            deleteCommand: function deleteCommand(name) {
+                commands.delete(name);
+                /**
+                 * @event commanddelete
+                 * @param {String} name
+                 */
+                this.trigger('commanddelete', name);
                 return this;
             },
 
@@ -305,8 +378,17 @@ define([
              * @param {*} ... - additional params for the command
              * @returns {calculator}
              * @fires command with the name and the parameters of the command
+             * @fires commanderror if the command is invalid
              */
-            command: function command(name) {
+            useCommand: function useCommand(name) {
+                if (!commands.has(name)) {
+                    /**
+                     * @event commanderror
+                     * @param {TypeError} err
+                     */
+                    return this.trigger('commanderror', new TypeError('Invalid command: ' + name));
+                }
+
                 /**
                  * @event command
                  * @param {String} name - The name of the called command
