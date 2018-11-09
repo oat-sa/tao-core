@@ -720,7 +720,7 @@ define([
         var $container = $('#fixture-useterm');
         var instance;
 
-        QUnit.expect(22);
+        QUnit.expect(26);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -777,7 +777,19 @@ define([
                                             assert.equal(self.getExpression(), '-42', 'Expression has been properly updated');
                                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
-                                            resolve();
+                                            self
+                                                .on('termadd.test', function (n4, term4) {
+                                                    self.off('termadd.test');
+
+                                                    assert.equal(n4, 'SIN', 'The right term has been received');
+                                                    assert.equal(term4, registeredTerms.SIN, 'The right term has been added');
+                                                    assert.equal(self.getExpression(), 'sin -42', 'Expression has been properly updated');
+                                                    assert.equal(self.getPosition(), 4, 'New position has been set');
+
+                                                    resolve();
+                                                })
+                                                .setPosition(0)
+                                                .useTerm('SIN');
                                         })
                                         .setPosition(0)
                                         .useTerm('SUB');

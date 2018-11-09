@@ -315,6 +315,7 @@ define([
              * @fires termadd-<name> when the term has been added
              */
             addTerm: function addTerm(name, term) {
+                var value;
                 if (!_.isPlainObject(term) || 'undefined' === typeof term.value) {
                     /**
                      * @event termerror
@@ -323,8 +324,12 @@ define([
                     return this.trigger('termerror', new TypeError('Invalid term: ' + name));
                 }
 
-                this.setExpression(expression.substr(0, position) + term.value + expression.substr(position));
-                this.setPosition(position + term.value.length);
+                value = term.value;
+                if (term.type === 'function') {
+                    value += ' ';
+                }
+                this.setExpression(expression.substr(0, position) + value + expression.substr(position));
+                this.setPosition(position + value.length);
 
                 /**
                  * @event termadd
