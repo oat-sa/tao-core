@@ -352,7 +352,7 @@ define([
         var $container = $('#fixture-expression');
         var instance;
 
-        QUnit.expect(6);
+        QUnit.expect(7);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -363,6 +363,8 @@ define([
                 var newExpression = '3+1';
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
+                this.setExpression();
+                assert.equal(this.getExpression(), '', 'The expression is still empty');
                 return new Promise(function (resolve) {
                     self
                         .on('expressionchange.set1', function (expression) {
@@ -392,7 +394,7 @@ define([
         var $container = $('#fixture-position');
         var instance;
 
-        QUnit.expect(9);
+        QUnit.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -405,6 +407,8 @@ define([
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
                 assert.equal(this.getPosition(), 0, 'The position is 0');
+                this.setPosition();
+                assert.equal(this.getPosition(), 0, 'The position is still 0');
                 return new Promise(function (resolve) {
                     self
                         .on('positionchange.set1', function (position) {
