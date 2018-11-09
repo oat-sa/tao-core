@@ -121,7 +121,7 @@ define([
              * @fires expressionchange after the expression has been changed
              */
             setExpression: function setExpression(expr) {
-                expression = String(expr);
+                expression = String(expr || '');
                 /**
                  * @event expressionchange
                  * @param {String} expression
@@ -145,7 +145,7 @@ define([
              * @fires positionchange after the position has been changed
              */
             setPosition: function setPosition(pos) {
-                position = Math.max(0, Math.min(parseInt(pos, 10), expression.length));
+                position = Math.max(0, Math.min(parseInt(pos, 10) || 0, expression.length));
                 /**
                  * @event positionchange
                  * @param {Number} position
@@ -533,7 +533,7 @@ define([
              * @returns {calculator}
              */
             setupMathsEvaluator: function setupMathsEvaluator() {
-                mathsEvaluator = mathsEvaluatorFactory(this.config.maths);
+                mathsEvaluator = mathsEvaluatorFactory(this.getConfig().maths);
                 return this;
             }
         };
