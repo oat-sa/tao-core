@@ -53,6 +53,14 @@ define([
             expression: 'nthrt(2, 4)^4',
             expected: '2'
         }, {
+            title: 'precision below native data type',
+            expression: '2^-100',
+            expected: '7.888609052210118e-31'
+        }, {
+            title: 'internal precision',
+            expression: '(3^-300)*10^140',
+            expected: '0.000730505658114782'
+        }, {
             title: 'unary +',
             expression: '+.2',
             expected: '0.2'
