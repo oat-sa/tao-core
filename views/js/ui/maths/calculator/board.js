@@ -29,8 +29,9 @@ define([
     'ui/maths/calculator/areaBroker',
     'ui/maths/calculator/terms',
     'util/mathsEvaluator',
+    'util/namespace',
     'tpl!ui/maths/calculator/tpl/board'
-], function ($, _, __, Promise, collections, componentFactory, areaBrokerFactory, registeredTerms, mathsEvaluatorFactory, boardTpl) {
+], function ($, _, __, Promise, collections, componentFactory, areaBrokerFactory, registeredTerms, mathsEvaluatorFactory, nsHelper, boardTpl) {
     'use strict';
 
     /**
@@ -41,6 +42,12 @@ define([
         expression: '',
         position: 0
     };
+
+    /**
+     * The internal namespace for built-in events listeners
+     * @type {String}
+     */
+    var ns = 'calculator';
 
     /**
      * Build the basic UI for a calculator
@@ -196,7 +203,7 @@ define([
              */
             getVariables: function getVariables() {
                 var defs = {};
-                variables.forEach(function(value, name) {
+                variables.forEach(function (value, name) {
                     defs[name] = value;
                 });
                 return defs;
@@ -210,7 +217,7 @@ define([
              */
             setVariables: function setVariables(defs) {
                 var self = this;
-                _.forEach(defs, function(value, name) {
+                _.forEach(defs, function (value, name) {
                     self.setVariable(name, value);
                 });
                 return this;
@@ -267,7 +274,7 @@ define([
              */
             getCommands: function getCommands() {
                 var defs = {};
-                commands.forEach(function(value, name) {
+                commands.forEach(function (value, name) {
                     defs[name] = value;
                 });
                 return defs;
@@ -305,6 +312,7 @@ define([
              * @returns {calculator}
              * @fires termerror if the term to add is invalid
              * @fires termadd when the term has been added
+             * @fires termadd-<name> when the term has been added
              */
             addTerm: function addTerm(name, term) {
                 if (!_.isPlainObject(term) || 'undefined' === typeof term.value) {
@@ -324,6 +332,12 @@ define([
                  * @param {Object} term - The descriptor of the added term
                  */
                 this.trigger('termadd', name, term);
+
+                /**
+                 * @event termadd-<name>
+                 * @param {Object} term - The descriptor of the added term
+                 */
+                this.trigger('termadd-' + name, term);
 
                 return this;
             },
@@ -378,6 +392,7 @@ define([
              * @param {*} ... - additional params for the command
              * @returns {calculator}
              * @fires command with the name and the parameters of the command
+             * @fires command-<name> with the parameters of the command
              * @fires commanderror if the command is invalid
              */
             useCommand: function useCommand(name) {
@@ -392,9 +407,55 @@ define([
                 /**
                  * @event command
                  * @param {String} name - The name of the called command
-                 * @param {Array} params - The params for the command (by default none)
+                 * @param {*} ... - additional params for the command
                  */
-                this.trigger('command', name, [].slice.call(arguments, 1));
+                this.trigger.apply(this, ['command'].concat([].slice.call(arguments)));
+
+                /**
+                 * @event command-<name>
+                 * @param {*} ... - additional params for the command
+                 */
+                this.trigger.apply(this, ['command-' + name].concat([].slice.call(arguments, 1)));
+
+                return this;
+            },
+
+            /**
+             * Replaces the expression and move the cursor at the end.
+             * @param {String} expr - The new expression to set
+             * @returns {calculator}
+             * @fires replace after the expression has been replaced
+             */
+            replace: function replace(expr) {
+                var oldExpression = this.getExpression();
+                var oldPosition = this.getPosition();
+
+                this.setExpression(expr)
+                    .setPosition(this.getExpression().length);
+
+                /**
+                 * @event replace
+                 * @param {String} expression - the replaced expression
+                 * @param {Number} position - the replaced position
+                 */
+                this.trigger('replace', oldExpression, oldPosition);
+
+                return this;
+            },
+
+            /**
+             * Clears the expression
+             * @returns {calculator}
+             * @fires clear after the expression has been cleared
+             */
+            clear: function clear() {
+                this.setExpression('')
+                    .setPosition(0);
+
+                /**
+                 * @event clear
+                 */
+                this.trigger('clear');
 
                 return this;
             },
@@ -490,6 +551,13 @@ define([
                 if (this.config.position) {
                     this.setPosition(this.config.position);
                 }
+
+                // built-in commands
+                this.setCommand('clear', __('Clear'), __('Clear expression'))
+                    .setCommand('clearAll', __('Clear All'), __('Clear all data'))
+                    .setCommand('execute', __('Execute'), __('Compute the expression'))
+                    .on(nsHelper.namespaceAll('command-execute', ns), this.evaluate.bind(this))
+                    .on(nsHelper.namespaceAll('command-clear command-clearAll', ns), this.clear.bind(this));
             })
             .after('init', function () {
                 this.render($container);
@@ -524,8 +592,10 @@ define([
                     });
             })
             .on('destroy', function () {
+                var self = this;
                 return this.runPlugins('destroy')
                     .then(function () {
+                        self.off('.' + ns);
                         areaBroker = null;
                         mathsEvaluator = null;
                         variables.clear();
