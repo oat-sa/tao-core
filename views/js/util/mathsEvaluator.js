@@ -400,7 +400,7 @@ define([
          */
         function native(number) {
             if (Decimal.isDecimal(number)) {
-                return checkZero(number).toNumber();
+                return number.toNumber();
             }
             else if (number === 'true' || number === true) {
                 return true;
