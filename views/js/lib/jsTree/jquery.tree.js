@@ -517,9 +517,9 @@ define(['jquery'], function($) {
 					this.container.css({ position : "relative" });
 					this.offset = this.container.offset();
 					var tmp = 0;
-					tmp = parseInt($.curCSS(this.container.get(0), "paddingTop", true),10);
+					tmp = parseInt($.css(this.container.get(0), "paddingTop", true),10);
 					if(tmp) this.offset.top += tmp;
-					tmp = parseInt($.curCSS(this.container.get(0), "borderTopWidth", true),10);
+					tmp = parseInt($.css(this.container.get(0), "borderTopWidth", true),10);
 					if(tmp) this.offset.top += tmp;
 					this.container.css({ position : "" });
 				}

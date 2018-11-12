@@ -2,12 +2,9 @@
 
 An arbitrary-precision Decimal type for JavaScript.
 
-<br>
 [![Build Status](https://travis-ci.org/MikeMcl/decimal.js.svg)](https://travis-ci.org/MikeMcl/decimal.js)
+[![CDNJS](https://img.shields.io/cdnjs/v/decimal.js.svg)](https://cdnjs.com/libraries/decimal.js)
 
-*For a smaller library without the trigonometric functions see the
-[v4.x.x](https://github.com/MikeMcl/decimal.js/tree/v4.x.x) branch where version 4 of this library
-continues to be supported, or see [decimal.js-light](https://github.com/MikeMcl/decimal.js-light/), which is smaller still.*
 <br>
 
 ## Features
@@ -20,11 +17,12 @@ continues to be supported, or see [decimal.js-light](https://github.com/MikeMcl/
   - No dependencies
   - Wide platform compatibility: uses JavaScript 1.5 (ECMAScript 3) features only
   - Comprehensive [documentation](http://mikemcl.github.io/decimal.js/) and test set
+  - Includes a TypeScript declaration file: *decimal.d.ts*
 
 ![API](https://raw.githubusercontent.com/MikeMcl/decimal.js/gh-pages/API.png)
 
 The library is similar to [bignumber.js](https://github.com/MikeMcl/bignumber.js/), but here
-precision is specified in terms of significant digits instead of decimal places, and all
+precision is specified in terms of significant digits rather than decimal places, and all
 calculations are rounded to the precision (similar to Python's decimal module) rather than just
 those involving division.
 
@@ -32,29 +30,36 @@ This library also adds the trigonometric functions, among others, and supports n
 which makes it a significantly larger library than *bignumber.js* and the even smaller
 [big.js](https://github.com/MikeMcl/big.js/).
 
+For a lighter version of this library without the trigonometric functions see [decimal.js-light](https://github.com/MikeMcl/decimal.js-light/).
+
 ## Load
 
 The library is the single JavaScript file *decimal.js* (or minified, *decimal.min.js*).
 
-It can be loaded using a script tag in an HTML document for the browser
+Browser:
 
 ```html
 <script src='path/to/decimal.js'></script>
 ```
 
-or as a [Node.js](http://nodejs.org) module using `require`.
+[Node.js](http://nodejs.org):
+
+```bash
+$ npm install --save decimal.js
+```
 
 ```js
 var Decimal = require('decimal.js');
 ```
 
-For Node, the library is available from the [npm](https://npmjs.org/) registry
+ES6 module (*decimal.mjs*):
 
-```bash
-$ npm install decimal.js
+```js
+//import Decimal from 'decimal.js';
+import {Decimal} from 'decimal.js';
 ```
 
-To load with AMD loader libraries such as [requireJS](http://requirejs.org/):
+AMD loader libraries such as [requireJS](http://requirejs.org/):
 
 ```js
 require(['decimal'], function(Decimal) {
@@ -87,6 +92,12 @@ z = x.plus(y)                        // '427.9375'
 
 z.toBinary()                         // '0b110101011.1111'
 z.toBinary(13)                       // '0b1.101010111111p+8'
+```
+
+Using binary exponential notation to create a Decimal with the value of `Number.MAX_VALUE`:
+
+```js
+x = new Decimal('0b1.1111111111111111111111111111111111111111111111111111p+1023')
 ```
 
 A Decimal is immutable in the sense that it is not changed by its methods.
@@ -148,21 +159,21 @@ pi.toFraction(1000)          // [ '355', '113' ]
 All calculations are rounded according to the number of significant digits and rounding mode
 specified by the `precision` and `rounding` properties of the Decimal constructor.
 
-Multiple Decimal constructors can be created, each with their own independent configuration which
+For advanced usage, multiple Decimal constructors can be created, each with their own independent configuration which
 applies to all Decimal numbers created from it.
 
 ```js
 // Set the precision and rounding of the default Decimal constructor
-Decimal.config({ precision: 5, rounding: 4 })
+Decimal.set({ precision: 5, rounding: 4 })
 
 // Create another Decimal constructor, optionally passing in a configuration object
-Decimal10 = Decimal.clone({ precision: 10, rounding: 1 })
+Decimal9 = Decimal.clone({ precision: 9, rounding: 1 })
 
 x = new Decimal(5)
-y = new Decimal10(5)
+y = new Decimal9(5)
 
 x.div(3)                           // '1.6667'
-y.div(3)                           // '1.666666666'
+y.div(3)                           // '1.66666666'
 ```
 
 The value of a Decimal is stored in a floating point format in terms of its digits, exponent and sign.
@@ -217,14 +228,8 @@ npm run build
 
 will create *decimal.min.js*, and a source map will also be added to the *doc* directory.
 
-## Feedback
-
-<a href='mailto:M8ch88l@gmail.com'>M8ch88l@gmail.com</a>
-
-BTC 16MjxmTB5EZxY5Uk9xyhfsu4n9gYxEJYkY
-
 ## Licence
 
-MIT Expat.
+MIT.
 
 See *LICENCE.md*

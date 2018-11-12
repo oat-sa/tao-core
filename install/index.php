@@ -37,7 +37,7 @@ if(tao_install_utils_System::isTAOInstalled()){
     <title>TAO Installation</title>
     <link rel="stylesheet" type="text/css" href="../views/css/reset.css" />
     <link rel="stylesheet" type="text/css" href="css/installation_main.css" />
-    <link rel="stylesheet" type="text/css" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../views/css/custom-theme/jquery-ui-1.9.2.custom.css" />
 
     <script type="text/javascript" src="../views/js/lib/require.js" data-main="js/install"></script>
 </head>
