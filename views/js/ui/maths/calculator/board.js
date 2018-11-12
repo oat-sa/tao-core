@@ -28,10 +28,11 @@ define([
     'ui/component',
     'ui/maths/calculator/areaBroker',
     'ui/maths/calculator/terms',
+    'ui/maths/calculator/tokenizer',
     'util/mathsEvaluator',
     'util/namespace',
     'tpl!ui/maths/calculator/tpl/board'
-], function ($, _, __, Promise, collections, componentFactory, areaBrokerFactory, registeredTerms, mathsEvaluatorFactory, nsHelper, boardTpl) {
+], function ($, _, __, Promise, collections, componentFactory, areaBrokerFactory, registeredTerms, tokenizerFactory, mathsEvaluatorFactory, nsHelper, boardTpl) {
     'use strict';
 
     /**
@@ -102,6 +103,18 @@ define([
         var position = 0;
 
         /**
+         * The tokenizer utilized to split down the expression
+         * @type {calculatorTokenizer}
+         */
+        var tokenizer = tokenizerFactory();
+
+        /**
+         * The list of tokens extracted from the expression
+         * @type {Array|null}
+         */
+        var tokens = null;
+
+        /**
          *
          * @type {Object}}
          */
@@ -122,6 +135,7 @@ define([
              */
             setExpression: function setExpression(expr) {
                 expression = String(expr || '');
+                tokens = null;
                 /**
                  * @event expressionchange
                  * @param {String} expression
@@ -155,12 +169,56 @@ define([
             },
 
             /**
+             * Gets the tokens from the current expression
+             * @returns {Array}
+             */
+            getTokens: function getTokens() {
+                if (tokens === null) {
+                    tokens = tokenizer.tokenize(expression);
+                }
+                return tokens;
+            },
+
+            /**
+             * Gets the tokens from the current expression
+             * @returns {Object|null} Returns the token at the current position, or null if none
+             */
+            getToken: function getToken() {
+                var tkns = this.getTokens();
+                var index = this.getTokenIndex();
+                return tkns[index] || null;
+            },
+
+            /**
+             * Gets token index from the current position in the expression.
+             * @returns {Number} Returns the index of the token at the current position.
+             */
+            getTokenIndex: function getTokenIndex() {
+                var index = 0;
+                _.forEach(this.getTokens(), function (token, idx) {
+                    if (position >= token.offset) {
+                        index = idx;
+                    }
+                });
+                return index;
+            },
+
+            /**
              * Gets a variable defined for the expression.
              * @param {String} name - The variable name
              * @returns {String} The value. Can be another expression.
              */
             getVariable: function getVariable(name) {
                 return variables.get(name);
+            },
+
+            /**
+             * Checks if a variable is registered
+             * @param {String} name
+             * @returns {Boolean}
+             */
+            hasVariable: function hasVariable(name) {
+                return variables.has(name);
             },
 
             /**
@@ -328,8 +386,7 @@ define([
                 if (term.type === 'function') {
                     value += ' ';
                 }
-                this.setExpression(expression.substr(0, position) + value + expression.substr(position));
-                this.setPosition(position + value.length);
+                this.insert(value);
 
                 /**
                  * @event termadd
@@ -449,6 +506,29 @@ define([
             },
 
             /**
+             * Inserts a sub-expression in the current expression and move the cursor.
+             * @param {String} expr - The sub-expression to insert
+             * @returns {calculator}
+             * @fires insert after the expression has been inserted
+             */
+            insert: function insert(expr) {
+                var oldExpression = this.getExpression();
+                var oldPosition = this.getPosition();
+
+                this.setExpression(expression.substr(0, position) + expr + expression.substr(position))
+                    .setPosition(position + expr.length);
+
+                /**
+                 * @event insert
+                 * @param {String} expression - the replaced expression
+                 * @param {Number} position - the replaced position
+                 */
+                this.trigger('insert', oldExpression, oldPosition);
+
+                return this;
+            },
+
+            /**
              * Clears the expression
              * @returns {calculator}
              * @fires clear after the expression has been cleared
@@ -561,6 +641,10 @@ define([
                 this.setCommand('clear', __('Clear'), __('Clear expression'))
                     .setCommand('clearAll', __('Clear All'), __('Clear all data'))
                     .setCommand('execute', __('Execute'), __('Compute the expression'))
+                    .setCommand('var', __('Variable'), __('Use a variable'))
+                    .setCommand('term', __('Term'), __('Use a term'))
+                    .on(nsHelper.namespaceAll('command-term', ns), this.useTerm.bind(this))
+                    .on(nsHelper.namespaceAll('command-var', ns), this.useVariable.bind(this))
                     .on(nsHelper.namespaceAll('command-execute', ns), this.evaluate.bind(this))
                     .on(nsHelper.namespaceAll('command-clear command-clearAll', ns), this.clear.bind(this));
             })
@@ -601,6 +685,7 @@ define([
                 return this.runPlugins('destroy')
                     .then(function () {
                         self.off('.' + ns);
+                        tokenizer = null;
                         areaBroker = null;
                         mathsEvaluator = null;
                         variables.clear();

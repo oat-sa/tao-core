@@ -19,10 +19,11 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+    'jquery',
     'lodash',
     'ui/maths/calculator/board',
     'ui/maths/calculator/plugins/core/degrad'
-], function (_, calculatorBoardFactory, degradPluginFactory) {
+], function ($, _, calculatorBoardFactory, degradPluginFactory) {
     'use strict';
 
     QUnit.module('module');
