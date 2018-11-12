@@ -61,7 +61,7 @@ define([
         var _style = window.getComputedStyle(elem, null),
             matrix = _style.getPropertyValue('transform') ||
                 _style.getPropertyValue('-webkit-transform') ||
-                _style.getPropertyValue('-ms-transform'),
+                _style.getPropertyValue('-ms-transform') || "",
             obj = _unmatrix(matrix);
 
         return { matrix: matrix, obj: obj };
