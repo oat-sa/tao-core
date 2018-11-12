@@ -19,11 +19,12 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+    'jquery',
     'lodash',
     'core/promise',
     'ui/maths/calculator/board',
     'ui/maths/calculator/plugins/core/history'
-], function (_, Promise, calculatorBoardFactory, historyPluginFactory) {
+], function ($, _, Promise, calculatorBoardFactory, historyPluginFactory) {
     'use strict';
 
     QUnit.module('module');
