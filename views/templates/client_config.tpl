@@ -88,5 +88,10 @@ require.config({
                 }
             }
         },
+    },
+        map: {
+            '*': {
+                'popper.js': 'lib/popper/popper.min'
+            }
     }
 });

@@ -16,44 +16,40 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-define(['jquery', 'lodash', 'core/dataattrhandler', 'qtip'], function($, _, DataAttrHandler){
+define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper.min', 'lib/popper/tooltip.min', 'css!lib/popper/popper.css'], function($, _, DataAttrHandler, Popper, Tooltip ){
     'use strict';
 
     var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],
         themesMap = {
-            'default' : 'qtip-rounded qtip-plain',
-            'dark' : 'qtip-rounded qtip-dark',
-            'error' : 'qtip-rounded qtip-red',
-            'success' :'qtip-rounded qtip-green',
-            'info' : 'qtip-rounded qtip-blue',
-            'warning' : 'qtip-rounded qtip-orange',
-            'danger' : 'qtip-rounded qtip-danger'
+            'default' : '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            'dark' : '<div class="tooltip qtip-rounded qtip-dark" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            'error' : '<div class="tooltip qtip-rounded qtip-red" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            'success' :'<div class="tooltip qtip-rounded qtip-green" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            'info' : '<div class="tooltip qtip-rounded qtip-blue" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            'warning' : '<div class="tooltip qtip-rounded qtip-orange" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+            'danger' : '<div class="tooltip qtip-rounded qtip-danger" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
         },
         defaultOptions = {
-            theme : 'warning',
-            position: {
-                my : 'bottom center',
-                at : 'top center',
-                viewport: $(window),
-            },
+            template:themesMap['default'],
+            popperOptions:{
+                positionFixed: true
+            }
         };
 
-    var qtipConstructor = $.fn.qtip;
-
-    $.fn.qtip = function (options, notation, newValue) {
-
+    /**
+     * redefinition of jquery.qtip plugin http://qtip2.com/
+     * the goal is to substitude outdated lib code with new solution (https://popper.js.org/)
+     * leaving its original interfaces that are widely used through project.
+     * https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/tooltip-documentation.md
+     */
+    $.fn.qtip = function (options, newValue) {
+        
+        var reference = this;
         if('object' === typeof options) {
             options = _.merge({}, defaultOptions, options);
-            if (options.theme && themesMap[options.theme]) {
-                if (options.style === undefined) {
-                    options.style = {};
-                }
-                options.style.classes = themesMap[options.theme];
-                options = _.omit(options, ['theme']);
-            }
         }
 
-        return qtipConstructor.call(this, options, notation, newValue);
+        return new Tooltip(reference, options);
     };
 
     /**
@@ -63,17 +59,23 @@ define(['jquery', 'lodash', 'core/dataattrhandler', 'qtip'], function($, _, Data
      * @param {jQueryElement} $container - the root context to lookup inside
      */
     return function lookupSelector($container){
+
         $('[data-tooltip]', $container).each(function(){
             var $elt = $(this),
-                $target = DataAttrHandler.getTarget('tooltip', $elt),
-                theme = _.contains(themes, $elt.data('tooltip-theme')) ? $elt.data('tooltip-theme') : 'default';
+                $content = DataAttrHandler.getTarget('tooltip', $elt),
+                themeName = _.contains(themes, $elt.data('tooltip-theme')) ? $elt.data('tooltip-theme') : 'default';
+            if($content.length){
 
-            $elt.qtip({
-                theme : theme,
-                content: {
-                    text: $target
-                }
-            });
+                var options = {
+                    html:true,
+                    placement:'bottom ',
+                    title: $content[0],
+                    template:themesMap[themeName]
+                };
+
+            }
+
+            $elt.qtip(options);
         });
     };
 });
