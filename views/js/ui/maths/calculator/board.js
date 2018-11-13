@@ -58,6 +58,7 @@ define([
      * @param {String} [config.expression=''] - The initial expression
      * @param {Number} [config.position=0] - The initial position in the expression
      * @param {Object} [config.maths] - Optional config for the maths evaluator (@see util/mathsEvaluator)
+     * @param {Object} [config.plugins] - Optional config for each plugins
      * @returns {calculator}
      */
     function calculatorBoardFactory($container, pluginFactories, config) {
@@ -653,6 +654,7 @@ define([
             })
             .before('render', function () {
                 var self = this;
+                var pluginsConfig = this.getConfig().plugins || {};
                 var $element = this.getElement();
 
                 areaBroker = areaBrokerFactory($element, {
@@ -663,6 +665,10 @@ define([
 
                 _.forEach(pluginFactories, function (pluginFactory) {
                     var plugin = pluginFactory(self, self.getAreaBroker());
+                    var pluginName = plugin.getName();
+                    if (pluginsConfig[pluginName]) {
+                        plugin.setConfig(pluginsConfig[pluginName]);
+                    }
                     plugins[plugin.getName()] = plugin;
                 });
 
