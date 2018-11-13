@@ -39,6 +39,12 @@ define([
     };
 
     /**
+     * Match keywords
+     * @type {RegExp}
+     */
+    var reKeyword = /[a-zA-Z_][a-zA-Z_0-9]*/;
+
+    /**
      * List of keywords (functions from the list of registered terms).
      * @type {Object}
      */
@@ -48,26 +54,16 @@ define([
      * List of symbols (operators and operands from the list of registered terms).
      * @type {Object}
      */
-    var symbols = _.pick(registeredTerms, filterSymbol);
+    var symbols = _.omit(registeredTerms, filterKeyword);
 
     /**
-     * Filter function that check if the provided term is a keyword.
-     * Keywords are all functions from the list of terms.
+     * Filter function that checks if the provided term is a keyword.
+     * Keywords are all terms that have alphanumeric non digit value from the list of terms.
      * @param term
      * @returns {boolean}
      */
     function filterKeyword(term) {
-        return term.type === 'function';
-    }
-
-    /**
-     * Filter function that check if the provided term is a symbol.
-     * Symbols are all operators and operands but functions from the list of terms.
-     * @param term
-     * @returns {boolean}
-     */
-    function filterSymbol(term) {
-        return term.type !== 'function';
+        return term.value.match(reKeyword);
     }
 
     /**
@@ -108,7 +104,7 @@ define([
         // Lexer used to tokenize the expression
         lexer = moo.compile(_.defaults({}, ignoredTokens, {
             term: {
-                match: /[a-zA-Z]+/,
+                match: reKeyword,
                 type: moo.keywords(config.keywords)
             },
             syntaxError: moo.error
