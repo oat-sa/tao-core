@@ -268,10 +268,25 @@ define([
             config: {degree: false},
             expected: '1'
         }, {
+            title: 'cos 0 + cos 0',
+            expression: 'cos 0 + cos 0',
+            config: {degree: false},
+            expected: '2'
+        }, {
             title: 'cos 1',
             expression: 'cos 1',
             config: {degree: false},
             expected: '0.5403023058681398'
+        }, {
+            title: 'cos (PI/2)',
+            expression: 'cos (PI/2)',
+            config: {degree: false},
+            expected: '0'
+        }, {
+            title: 'cos (PI/2) + cos (PI/2)',
+            expression: 'cos (PI/2) + cos (PI/2)',
+            config: {degree: false},
+            expected: '0'
         }, {
             title: 'cos PI',
             expression: 'cos PI',
@@ -293,6 +308,11 @@ define([
             config: {degree: false},
             expected: '0'
         }, {
+            title: 'sin (PI/2)',
+            expression: 'sin (PI/2)',
+            config: {degree: false},
+            expected: '1'
+        }, {
             title: 'sin (PI*3)*10^20',
             expression: 'sin (PI*3)*10^20',
             config: {degree: false},
@@ -312,6 +332,11 @@ define([
             expression: 'tan PI',
             config: {degree: false},
             expected: '0'
+        }, {
+            title: 'tan (PI/2)',
+            expression: 'tan (PI/2)',
+            config: {degree: false},
+            expected: 'NaN'
         }, {
             title: 'acos -1',
             expression: 'acos -1',
@@ -486,10 +511,30 @@ define([
             config: {degree: true},
             expected: '0.9984971498638638'
         }, {
+            title: 'cos 90',
+            expression: 'cos 90',
+            config: {degree: true},
+            expected: '0'
+        }, {
+            title: 'cos 90 + cos 90',
+            expression: 'cos 90 + cos 90',
+            config: {degree: true},
+            expected: '0'
+        }, {
             title: 'cos 180',
             expression: 'cos 180',
             config: {degree: true},
             expected: '-1'
+        }, {
+            title: 'cos 180 + cos 180',
+            expression: 'cos 180 + cos 180',
+            config: {degree: true},
+            expected: '-2'
+        }, {
+            title: 'cos 0 + cos 30 + cos 45 + cos 60 + cos 90',
+            expression: 'cos 0 + cos 30 + cos 45 + cos 60 + cos 90',
+            config: {degree: true},
+            expected: '3.0731321849709863'
         }, {
             title: 'sin 0',
             expression: 'sin 0',
@@ -505,6 +550,11 @@ define([
             expression: 'sin PI',
             config: {degree: true},
             expected: '0.05480366514878953'
+        }, {
+            title: 'sin 90',
+            expression: 'sin 90',
+            config: {degree: true},
+            expected: '1'
         }, {
             title: 'sin 180',
             expression: 'sin 180',
@@ -530,6 +580,11 @@ define([
             expression: 'tan PI',
             config: {degree: true},
             expected: '0.054886150808003326'
+        }, {
+            title: 'tan 90',
+            expression: 'tan 90',
+            config: {degree: true},
+            expected: 'NaN'
         }, {
             title: 'tan 180',
             expression: 'tan 180',
