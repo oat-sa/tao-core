@@ -512,7 +512,11 @@ define([
                 operand = decimalNumber(operand);
             }
 
-            return checkZero(Decimal.set({precision: 1000 - operand.precision()})[operator](operand));
+            if (operator === 'tan' && operand.equals(PI.div(2))) {
+                return new ConfiguredDecimal(NaN);
+            }
+
+            return checkZero(ConfiguredDecimal.set({precision: localConfig.piPrecision})[operator](operand));
         }
 
         /**
