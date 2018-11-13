@@ -69,7 +69,7 @@ define([
     QUnit.asyncTest('install', function (assert) {
         var $container = $('#fixture-install');
         var calculator = calculatorBoardFactory($container)
-            .on('init', function () {
+            .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory(calculator, areaBroker);
 
@@ -113,7 +113,7 @@ define([
     QUnit.asyncTest('init', function (assert) {
         var $container = $('#fixture-init');
         var calculator = calculatorBoardFactory($container)
-            .on('init', function () {
+            .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory(calculator, areaBroker);
 
@@ -289,7 +289,7 @@ define([
     QUnit.asyncTest('destroy', function (assert) {
         var $container = $('#fixture-destroy');
         var calculator = calculatorBoardFactory($container)
-            .on('init', function () {
+            .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory(calculator, areaBroker);
 

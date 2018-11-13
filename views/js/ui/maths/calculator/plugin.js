@@ -26,8 +26,10 @@ define(['lodash', 'core/plugin'], function(_, pluginFactory){
      * A pluginFactory configured for the calculator
      * @returns {Function} the preconfigured plugin factory
      */
-    return _.partialRight(pluginFactory, {
-        //alias getHost to getCalculator
-        hostName : 'calculator'
-    });
+    return function calculatorPluginFactory(provider, defaultConfig) {
+        return pluginFactory(provider, _.defaults({
+            //alias getHost to getCalculator
+            hostName : 'calculator'
+        }, defaultConfig));
+    };
 });
