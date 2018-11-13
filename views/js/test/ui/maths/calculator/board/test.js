@@ -278,6 +278,16 @@ define([
 
     QUnit.asyncTest('plugins', function (assert) {
         var $container = $('#fixture-plugins');
+        var config = {
+            plugins: {
+                plugin1: {
+                    foo: 'bar'
+                },
+                plugin2: {
+                    bar: 'foo'
+                }
+            }
+        }
         var plugins = [
             pluginFactory({
                 name: 'plugin1',
@@ -324,11 +334,11 @@ define([
         ];
         var instance;
 
-        QUnit.expect(20);
+        QUnit.expect(22);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = calculatorBoardFactory($container, plugins);
+        instance = calculatorBoardFactory($container, plugins, config);
         instance
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
@@ -339,6 +349,8 @@ define([
                 assert.equal(this.getPlugins().length, 2, 'Plugins are registered');
                 assert.equal(this.getPlugin('plugin1').getName(), 'plugin1', 'Plugin1 is registered');
                 assert.equal(this.getPlugin('plugin2').getName(), 'plugin2', 'Plugin2 is registered');
+                assert.deepEqual(this.getPlugin('plugin1').getConfig(), config.plugins.plugin1, 'Plugin1 has the expected config');
+                assert.deepEqual(this.getPlugin('plugin2').getConfig(), config.plugins.plugin2, 'Plugin2 has the expected config');
 
                 this.runPlugins('disable')
                     .then(function () {
