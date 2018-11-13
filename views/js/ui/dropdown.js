@@ -35,8 +35,6 @@ define([
         headerItem: {text: 'Menu'},    // li component or just html
         innerItems: [], // array of li components or html items
         activatedBy: 'hover'    // can be hover or click
-        //vDirection: 'down', // not implemented
-        //hAlign: 'right',    // not implemented
     };
 
     var dropdownSpecs = {
@@ -156,6 +154,23 @@ define([
         },
 
         /**
+         * Inserts a HTML list item to the dropdown list
+         *
+         * @param {String} html - HTML content to insert inside new list item
+         * @param {Number} index - list index to insert before
+         */
+        insertHtmlItem: function(html, index) {
+            if (typeof html === 'string') {
+                if (index >= 0 && index < this.config.innerItems.length) {
+                    this.config.innerItems.splice(index, 1, {
+                        html: html
+                    });
+                    //this.render();
+                }
+            }
+        },
+
+        /**
          * Removes a list item from the dropdown list
          *
          * @param {Number} index - list index to remove
@@ -194,12 +209,6 @@ define([
         .setTemplate(dropdownTpl)
         // dropdown-specific init:
         .on('init', function() {
-            // where is focus?
-            // if (!window.debugLoop) {
-            //     window.debugLoop = setInterval(function() {
-            //         console.info('activeElement:', document.activeElement);
-            //     }, 3000);
-            // }
         })
         // renders the component
         .on('render', function () {

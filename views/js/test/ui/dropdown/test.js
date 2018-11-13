@@ -153,6 +153,33 @@ define([
 
     });
 
+    // adding html
+
+    QUnit.test('removing data', function(assert) {
+        var dd = dropdown({
+            renderTo: '#qunit-fixture',
+            isOpen: false
+        });
+        dd.render();
+
+        QUnit.expect(4);
+
+        assert.equal(dd.getElement().find('.dropdown-submenu li').length, 0);
+
+        dd.addItem(dataItem);
+        dd.addItem(dataItem);
+        dd.addItem(dataItem);
+        dd.render();
+        assert.equal(dd.getElement().find('.dropdown-submenu li').length, 3);
+
+        dd.removeItem(dataItem);
+        dd.render();
+        assert.equal(dd.getElement().find('.dropdown-submenu li').length, 2);
+
+        dd.clearItems();
+        dd.render();
+        assert.equal(dd.getElement().find('.dropdown-submenu li').length, 0);
+    });
 
     /* QUnit.asyncTest('buttons', function(assert) {
         var message = 'test';

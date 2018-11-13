@@ -17,7 +17,7 @@
             {{{this.html}}}
             {{else}}
             <li class="{{#if this.cls}}{{this.cls}}{{/if}}">
-                {{#if this.link}}<a href="{{this.link}}"{{else}}<span class="a"{{/if}} tabindex="0">
+                {{#if this.link}}<a href="{{this.link}}"{{else}}<span class="a clickable"{{/if}} tabindex="0">
                     {{#if this.icon}}<span class="icon icon-{{this.icon}}"></span>{{/if}}
                     <span class="text">{{this.text}}</span>
                 {{#if this.link}}</a>{{else}}</span>{{/if}}
