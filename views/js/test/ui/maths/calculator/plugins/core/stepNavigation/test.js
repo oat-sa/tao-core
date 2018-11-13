@@ -69,7 +69,7 @@ define([
     QUnit.asyncTest('install', function (assert) {
         var $container = $('#fixture-install');
         var calculator = calculatorBoardFactory($container)
-            .on('init', function () {
+            .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
@@ -114,7 +114,7 @@ define([
         var expression = ' (.1+.2) * 10^3 / cos PI - sin sqrt 2';
         var $container = $('#fixture-init');
         var calculator = calculatorBoardFactory($container)
-            .on('init', function () {
+            .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
@@ -387,7 +387,7 @@ define([
     QUnit.asyncTest('destroy', function (assert) {
         var $container = $('#fixture-destroy');
         var calculator = calculatorBoardFactory($container)
-            .on('init', function () {
+            .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = stepNavigationPluginFactory(calculator, areaBroker);
 
