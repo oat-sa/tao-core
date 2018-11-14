@@ -21,6 +21,7 @@
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\task\Task;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
 
@@ -34,17 +35,17 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     use OntologyAwareTrait;
 
     /**
-     * @var Queue
+     * @var QueueDispatcherInterface
      */
     protected $queueService;
 
     /**
-     * @return Queue
+     * @return QueueDispatcherInterface
      */
     protected function getQueueService()
     {
         if (!$this->queueService) {
-            $this->queueService = $this->getServiceManager()->get(Queue::SERVICE_ID);
+            $this->queueService = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         }
         return $this->queueService;
     }
@@ -56,7 +57,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     protected function isAsyncQueue()
     {
         $queue = $this->getQueueService();
-        return !($queue instanceof SyncQueue);
+        return !($queue->isSync());
     }
 
     /**
