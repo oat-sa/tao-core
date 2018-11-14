@@ -87,11 +87,6 @@ require.config({
                     return MathJax;
                 }
             }
-        },
-    },
-        map: {
-            '*': {
-                'popper.js': 'lib/popper/popper.min'
-            }
+        }
     }
 });

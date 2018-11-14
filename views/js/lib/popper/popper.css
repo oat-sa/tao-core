@@ -48,12 +48,14 @@ p.bold {
     position: absolute;
     /*background: #FFC107;*/
     color: black;
-    min-width: 150px;
+    min-width: 100px;
+    max-width: 250px;
     border-radius: 3px;
     box-shadow: 0 0 2px rgba(0,0,0,0.5);
     padding: 10px;
     text-align: left;
     font-size: .8em;
+    z-index: 2000;
 
 }
 .style5 .tooltip {
