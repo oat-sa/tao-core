@@ -128,6 +128,30 @@ define([
             title: 'negative nth root 4',
             expression: 'nthrt(-81, 4)',
             expected: 'NaN'
+        }, {
+            title: 'log 0',
+            expression: 'log 0',
+            expected: '-Infinity'
+        }, {
+            title: 'log 1',
+            expression: 'log 1',
+            expected: '0'
+        }, {
+            title: 'log 10',
+            expression: 'log 10',
+            expected: '1'
+        }, {
+            title: 'ln 0',
+            expression: 'ln 0',
+            expected: '-Infinity'
+        }, {
+            title: 'ln 1',
+            expression: 'ln 1',
+            expected: '0'
+        }, {
+            title: 'ln e',
+            expression: 'ln E',
+            expected: '1'
         }])
         .test('arithmetic expression', function (data, assert) {
             var evaluate = mathsEvaluatorFactory();
@@ -796,6 +820,7 @@ define([
             try {
                 return evaluate(expr, variables);
             } catch (err) {
+                console.log(err);
                 return 'Syntax error!';
             }
         }
