@@ -855,7 +855,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogService);
             $this->setVersion('19.20.0');
         }
-
+        
         $this->skip('19.20.0', '21.2.0');
 
         if ($this->isVersion('21.2.0')) {
@@ -873,6 +873,7 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('21.5.0');
         }
-        $this->skip('21.5.0', '21.7.3');
+
+        $this->skip('21.5.0', '21.8.1');
     }
 }
