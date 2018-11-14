@@ -23,7 +23,6 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\task\Task;
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
-use oat\oatbox\task\implementation\SyncQueue;
 
 /**
  * @deprecated Can be removed along with the old queue
