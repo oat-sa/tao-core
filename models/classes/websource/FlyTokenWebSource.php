@@ -53,7 +53,7 @@ class FlyTokenWebSource extends TokenWebSource
 
         $parts = explode('*/', $subPath, 2);
         if (count($parts) < 2) {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
+            throw new \tao_models_classes_FileNotFoundException('`'.$subPath.'` - (wrong number of path parts)');
         }
         list ($subPath, $file) = $parts;
 
@@ -62,9 +62,13 @@ class FlyTokenWebSource extends TokenWebSource
 
         $correctToken = md5($timestamp . $subPath . $secret);
 
-        if (time() - $timestamp > $ttl || $token != $correctToken) {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
+        if (time() - $timestamp > $ttl) {
+            throw new \tao_models_classes_FileNotFoundException('`' . $subPath . $file . '` - (file link expired)');
         }
+        if ($token != $correctToken) {
+            throw new \tao_models_classes_FileNotFoundException('`' . $subPath . $file . '` - (wrong token)');
+        }
+
 
         $path = array();
         foreach (explode('/', $subPath . $file) as $ele) {
