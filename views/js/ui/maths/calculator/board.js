@@ -621,6 +621,14 @@ define([
             setupMathsEvaluator: function setupMathsEvaluator() {
                 mathsEvaluator = mathsEvaluatorFactory(this.getConfig().maths);
                 return this;
+            },
+
+            /**
+             * Gets access to the mathsEvaluator
+             * @returns {Function}
+             */
+            getMathsEvaluator: function getMathsEvaluator() {
+                return mathsEvaluator;
             }
         };
 
@@ -647,6 +655,7 @@ define([
                     .on(nsHelper.namespaceAll('command-term', ns), this.useTerm.bind(this))
                     .on(nsHelper.namespaceAll('command-var', ns), this.useVariable.bind(this))
                     .on(nsHelper.namespaceAll('command-execute', ns), this.evaluate.bind(this))
+                    .on(nsHelper.namespaceAll('command-clearAll', ns), this.deleteVariables.bind(this))
                     .on(nsHelper.namespaceAll('command-clear command-clearAll', ns), this.clear.bind(this));
             })
             .after('init', function () {

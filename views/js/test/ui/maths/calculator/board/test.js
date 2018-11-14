@@ -130,7 +130,8 @@ define([
         {title: 'getPlugins'},
         {title: 'getPlugin'},
         {title: 'getAreaBroker'},
-        {title: 'setupMathsEvaluator'}
+        {title: 'setupMathsEvaluator'},
+        {title: 'getMathsEvaluator'}
     ]).test('calculatorBoard API ', function (data, assert) {
         var instance = calculatorBoardFactory('#fixture-api');
         QUnit.expect(1);
@@ -1811,6 +1812,45 @@ define([
                         .useCommand('term', 'ADD')
                         .useCommand('var', 'x');
                 });
+            })
+            .after('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                this.destroy();
+            })
+            .after('destroy', function () {
+                QUnit.start();
+            })
+            .on('error syntaxerror', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('mathsEvaluator', function (assert) {
+        var $container = $('#fixture-evaluator');
+        var instance;
+
+        QUnit.expect(11);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = calculatorBoardFactory($container);
+        instance
+            .on('init', function () {
+                var mathsEvaluator = this.getMathsEvaluator();
+                assert.equal(this, instance, 'The instance has been initialized');
+                assert.equal(this.getExpression(), '', 'The expression is initialized');
+                assert.equal(this.getPosition(), 0, 'The expression is initialized');
+                assert.equal(typeof mathsEvaluator, 'function', 'The mathsEvaluator is provided');
+                assert.equal(mathsEvaluator('sin(PI/2)'), '1', 'The mathsEvaluator works in radian');
+
+                this.getConfig().maths = {degree: true};
+                assert.equal(this.setupMathsEvaluator(), this, 'setupMathsEvaluator returns the instance');
+                assert.notEqual(this.getMathsEvaluator(), mathsEvaluator, 'The mathsEvaluator should have been replaced');
+                mathsEvaluator = this.getMathsEvaluator();
+                assert.notEqual(mathsEvaluator('sin(PI/2)'), '1', 'The mathsEvaluator should not work in radian anymore');
+                assert.equal(mathsEvaluator('sin 90'), '1', 'The mathsEvaluator now works in degree');
             })
             .after('ready', function () {
                 assert.equal($container.children().length, 1, 'The container contains an element');
