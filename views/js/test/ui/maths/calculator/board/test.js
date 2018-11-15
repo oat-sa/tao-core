@@ -120,6 +120,7 @@ define([
         {title: 'deleteCommand'},
         {title: 'addTerm'},
         {title: 'useTerm'},
+        {title: 'useTerms'},
         {title: 'useVariable'},
         {title: 'useCommand'},
         {title: 'replace'},
@@ -443,7 +444,7 @@ define([
                         .on('positionchange.set1', function (position) {
                             self.off('positionchange.set1');
 
-                            assert.equal(position, newPosition, 'New position as been provided');
+                            assert.equal(position, newPosition, 'New position has been provided');
                             assert.equal(self.getPosition(), newPosition, 'New position has been set');
 
                             self.setPosition(-1);
@@ -849,7 +850,7 @@ define([
         var $container = $('#fixture-useterm');
         var instance;
 
-        QUnit.expect(26);
+        QUnit.expect(28);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -866,52 +867,58 @@ define([
                             self.off('termadd-NUM2.test');
 
                             assert.ok(true, 'The term NUM2 has been added');
-                            assert.equal(term, registeredTerms.NUM2, 'The right term descriptor has been received');
+                            assert.equal(term, registeredTerms.NUM2, 'The right term descriptor has been received for NUM2');
                         })
                         .on('termadd-NUM4.test', function (term) {
                             self.off('termadd-NUM4.test');
 
                             assert.ok(true, 'The term NUM4 has been added');
-                            assert.equal(term, registeredTerms.NUM4, 'The right term descriptor has been received');
+                            assert.equal(term, registeredTerms.NUM4, 'The right term descriptor has been received for NUM4');
                         })
                         .on('termadd-SUB.test', function (term) {
                             self.off('termadd-SUB.test');
 
                             assert.ok(true, 'The term SUB has been added');
-                            assert.equal(term, registeredTerms.SUB, 'The right term descriptor has been received');
+                            assert.equal(term, registeredTerms.SUB, 'The right term descriptor has been received for SUB');
                         })
-                        .on('termadd.test', function (n1, term1) {
-                            self.off('termadd.test');
+                        .on('termadd-SIN.test', function (term) {
+                            self.off('termadd-SIN.test');
 
-                            assert.equal(n1, 'NUM4', 'The right term has been received');
-                            assert.equal(term1, registeredTerms.NUM4, 'The right term has been added');
+                            assert.ok(true, 'The term SIN has been added');
+                            assert.equal(term, registeredTerms.SIN, 'The right term descriptor has been received for SIN');
+                        })
+                        .on('termadd.NUM4', function (n1, term1) {
+                            self.off('termadd.NUM4');
+
+                            assert.equal(n1, 'NUM4', 'The term NUM4 has been received');
+                            assert.equal(term1, registeredTerms.NUM4, 'The term NUM4 has been added');
                             assert.equal(self.getExpression(), '4', 'Expression has been properly updated');
                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                             self
-                                .on('termadd.test', function (n2, term2) {
-                                    self.off('termadd.test');
+                                .on('termadd.NUM2', function (n2, term2) {
+                                    self.off('termadd.NUM2');
 
-                                    assert.equal(n2, 'NUM2', 'The right term has been received');
-                                    assert.equal(term2, registeredTerms.NUM2, 'The right term has been added');
+                                    assert.equal(n2, 'NUM2', 'The term NUM2 has been received');
+                                    assert.equal(term2, registeredTerms.NUM2, 'The term NUM2 has been added');
                                     assert.equal(self.getExpression(), '42', 'Expression has been properly updated');
                                     assert.equal(self.getPosition(), 2, 'New position has been set');
 
                                     self
-                                        .on('termadd.test', function (n3, term3) {
-                                            self.off('termadd.test');
+                                        .on('termadd.SUB', function (n3, term3) {
+                                            self.off('termadd.SUB');
 
-                                            assert.equal(n3, 'SUB', 'The right term has been received');
-                                            assert.equal(term3, registeredTerms.SUB, 'The right term has been added');
+                                            assert.equal(n3, 'SUB', 'The term SUB has been received');
+                                            assert.equal(term3, registeredTerms.SUB, 'The term SUB has been added');
                                             assert.equal(self.getExpression(), '-42', 'Expression has been properly updated');
                                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                                             self
-                                                .on('termadd.test', function (n4, term4) {
-                                                    self.off('termadd.test');
+                                                .on('termadd.SIN', function (n4, term4) {
+                                                    self.off('termadd.SIN');
 
-                                                    assert.equal(n4, 'SIN', 'The right term has been received');
-                                                    assert.equal(term4, registeredTerms.SIN, 'The right term has been added');
+                                                    assert.equal(n4, 'SIN', 'The term SIN has been received');
+                                                    assert.equal(term4, registeredTerms.SIN, 'The term SIN has been added');
                                                     assert.equal(self.getExpression(), 'sin -42', 'Expression has been properly updated');
                                                     assert.equal(self.getPosition(), 4, 'New position has been set');
 
@@ -959,26 +966,27 @@ define([
 
                 return new Promise(function (resolve) {
                     self
-                        .on('termadd.test', function (name, term) {
-                            self.off('termadd.test');
+                        .on('termadd.NUM4', function (name, term) {
+                            self.off('termadd.NUM4');
 
-                            assert.equal(name, 'NUM4', 'The right term has been received');
-                            assert.equal(term, registeredTerms.NUM4, 'The right term has been added');
+                            assert.equal(name, 'NUM4', 'The term NUM4 has been received');
+                            assert.equal(term, registeredTerms.NUM4, 'The term NUM4 has been added');
                             assert.equal(self.getExpression(), '4', 'Expression has been properly updated');
                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                             self
-                                .on('termadd.test', function () {
-                                    self.off('termadd.test');
+                                .on('termadd.foo', function (n) {
+                                    self.off('termadd.foo');
 
-                                    assert.ok(false, 'The term should not be added!');
+                                    assert.equal(n, 'foo', 'The term foo has been received');
+                                    assert.ok(false, 'The term foo should not be added!');
 
                                     resolve();
                                 })
-                                .on('termerror.test', function (e) {
-                                    self.off('termerror.test');
+                                .on('termerror.foo', function (e) {
+                                    self.off('.foo');
 
-                                    assert.ok(e instanceof TypeError, 'The term cannot be added');
+                                    assert.ok(e instanceof TypeError, 'The term foo cannot be added');
                                     assert.equal(self.getExpression(), '4', 'Expression did not change');
                                     assert.equal(self.getPosition(), 1, 'Position did not change');
 
@@ -988,6 +996,244 @@ define([
                         })
                         .useTerm('NUM4');
                 });
+            })
+            .after('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                this.destroy();
+            })
+            .after('destroy', function () {
+                QUnit.start();
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('useTerms - success', function (assert) {
+        var $container = $('#fixture-useterms');
+        var instance;
+
+        QUnit.expect(41);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = calculatorBoardFactory($container);
+        instance
+            .on('init', function () {
+                var self = this;
+                assert.equal(this, instance, 'The instance has been initialized');
+
+                return Promise.resolve()
+                    .then(function() {
+                        self.clear();
+                        assert.equal(self.getExpression(), '', 'The expression is empty');
+                        return new Promise(function (resolve) {
+                            self
+                                .on('termadd-NUM4.test', function (term) {
+                                    self.off('termadd-NUM4.test');
+
+                                    assert.ok(true, 'The term NUM4 has been added');
+                                    assert.equal(term, registeredTerms.NUM4, 'The right term descriptor has been received for NUM4');
+                                })
+                                .on('termadd-SUB.test', function (term) {
+                                    self.off('termadd-SUB.test');
+
+                                    assert.ok(true, 'The term SUB has been added');
+                                    assert.equal(term, registeredTerms.SUB, 'The right term descriptor has been received for SUB');
+                                })
+                                .on('termadd-NUM2.test', function (term) {
+                                    self.off('termadd-NUM2.test');
+
+                                    assert.ok(true, 'The term NUM2 has been added');
+                                    assert.equal(term, registeredTerms.NUM2, 'The right term descriptor has been received for NUM2');
+                                })
+                                .on('termadd.NUM4', function (n1, term1) {
+                                    self.off('termadd.NUM4');
+
+                                    assert.equal(n1, 'NUM4', 'The term NUM4 has been received');
+                                    assert.equal(term1, registeredTerms.NUM4, 'The term NUM4 has been added');
+                                    assert.equal(self.getExpression(), '4', 'Expression has been properly updated');
+                                    assert.equal(self.getPosition(), 1, 'New position has been set');
+
+                                    self.on('termadd.SUB', function (n2, term2) {
+                                        self.off('termadd.SUB');
+
+                                        assert.equal(n2, 'SUB', 'The term SUB has been received');
+                                        assert.equal(term2, registeredTerms.SUB, 'The term SUB has been added');
+                                        assert.equal(self.getExpression(), '4-', 'Expression has been properly updated');
+                                        assert.equal(self.getPosition(), 2, 'New position has been set');
+
+                                        self.on('termadd.NUM2', function (n3, term3) {
+                                            self.off('termadd.NUM2');
+
+                                            assert.equal(n3, 'NUM2', 'The term NUM2 has been received');
+                                            assert.equal(term3, registeredTerms.NUM2, 'The term NUM2 has been added');
+                                            assert.equal(self.getExpression(), '4-2', 'Expression has been properly updated');
+                                            assert.equal(self.getPosition(), 3, 'New position has been set');
+
+                                            resolve();
+                                        });
+                                    });
+                                })
+                                .useTerms('NUM4 SUB NUM2');
+                        });
+                    })
+                    .then(function() {
+                        self.clear();
+                        assert.equal(self.getExpression(), '', 'The expression is empty');
+                        return new Promise(function (resolve) {
+                            self
+                                .on('termadd-NUM3.test', function (term) {
+                                    self.off('termadd-NUM3.test');
+
+                                    assert.ok(true, 'The term NUM3 has been added');
+                                    assert.equal(term, registeredTerms.NUM3, 'The right term descriptor has been received for NUM3');
+                                })
+                                .on('termadd-ADD.test', function (term) {
+                                    self.off('termadd-ADD.test');
+
+                                    assert.ok(true, 'The term ADD has been added');
+                                    assert.equal(term, registeredTerms.ADD, 'The right term descriptor has been received for ADD');
+                                })
+                                .on('termadd-NUM5.test', function (term) {
+                                    self.off('termadd-NUM5.test');
+
+                                    assert.ok(true, 'The term NUM5 has been added');
+                                    assert.equal(term, registeredTerms.NUM5, 'The right term descriptor has been received for NUM5');
+                                })
+                                .on('termadd.NUM3', function (n1, term1) {
+                                    self.off('termadd.NUM3');
+
+                                    assert.equal(n1, 'NUM3', 'The term NUM3 has been received');
+                                    assert.equal(term1, registeredTerms.NUM3, 'The term NUM3 has been added');
+                                    assert.equal(self.getExpression(), '3', 'Expression has been properly updated');
+                                    assert.equal(self.getPosition(), 1, 'New position has been set');
+
+                                    self.on('termadd.ADD', function (n2, term2) {
+                                        self.off('termadd.ADD');
+
+                                        assert.equal(n2, 'ADD', 'The term ADD has been received');
+                                        assert.equal(term2, registeredTerms.ADD, 'The term ADD has been added');
+                                        assert.equal(self.getExpression(), '3+', 'Expression has been properly updated');
+                                        assert.equal(self.getPosition(), 2, 'New position has been set');
+
+                                        self.on('termadd.NUM5', function (n3, term3) {
+                                            self.off('termadd.NUM5');
+
+                                            assert.equal(n3, 'NUM5', 'The term NUM5 has been received');
+                                            assert.equal(term3, registeredTerms.NUM5, 'The term NUM5 has been added');
+                                            assert.equal(self.getExpression(), '3+5', 'Expression has been properly updated');
+                                            assert.equal(self.getPosition(), 3, 'New position has been set');
+
+                                            resolve();
+                                        });
+                                    });
+                                })
+                                .useTerms(['NUM3', 'ADD', 'NUM5']);
+                        });
+                    });
+            })
+            .after('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
+                this.destroy();
+            })
+            .after('destroy', function () {
+                QUnit.start();
+            })
+            .on('error termerror', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('useTerms - failure', function (assert) {
+        var $container = $('#fixture-useterms');
+        var instance;
+
+        QUnit.expect(19);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = calculatorBoardFactory($container);
+        instance
+            .on('init', function () {
+                var self = this;
+                assert.equal(this, instance, 'The instance has been initialized');
+
+                return Promise.resolve()
+                    .then(function() {
+                        self.clear();
+                        assert.equal(self.getExpression(), '', 'The expression is empty');
+                        return new Promise(function (resolve) {
+                            self
+                                .on('termadd.NUM4', function (name, term) {
+                                    self.off('termadd.NUM4');
+
+                                    assert.equal(name, 'NUM4', 'The term NUM4 has been received');
+                                    assert.equal(term, registeredTerms.NUM4, 'The term NUM4 has been added');
+                                    assert.equal(self.getExpression(), '4', 'Expression has been properly updated to 4');
+                                    assert.equal(self.getPosition(), 1, 'Position has been set to 1');
+
+                                    self
+                                        .on('termadd.foo', function (n) {
+                                            self.off('termadd.foo');
+
+                                            assert.equal(n, 'foo', 'The term foo has been received');
+                                            assert.ok(false, 'The term foo should not be added!');
+
+                                            resolve();
+                                        })
+                                        .on('termerror.foo', function (e) {
+                                            self.off('.foo');
+
+                                            assert.ok(e instanceof TypeError, 'The term foo cannot be added');
+                                            assert.equal(self.getExpression(), '4', 'Expression did not change');
+                                            assert.equal(self.getPosition(), 1, 'Position did not change');
+
+                                            resolve();
+                                        });
+                                })
+                                .useTerms('NUM4 foo');
+                        });
+                    })
+                    .then(function() {
+                        self.clear();
+                        assert.equal(self.getExpression(), '', 'The expression is empty');
+                        return new Promise(function (resolve) {
+                            self
+                                .on('termadd.NUM2', function (name, term) {
+                                    self.off('termadd.NUM2');
+
+                                    assert.equal(name, 'NUM2', 'The term NUM2 has been received');
+                                    assert.equal(term, registeredTerms.NUM2, 'The term NUM2 has been added');
+                                    assert.equal(self.getExpression(), '2', 'Expression has been properly updated to 2');
+                                    assert.equal(self.getPosition(), 1, 'Position has been set to 1');
+
+                                    self
+                                        .on('termadd.bar', function (n) {
+                                            self.off('termadd.bar');
+
+                                            assert.equal(n, 'bar', 'The term bar has been received');
+                                            assert.ok(false, 'The term bar should not be added!');
+
+                                            resolve();
+                                        })
+                                        .on('termerror.bar', function (e) {
+                                            self.off('.bar');
+
+                                            assert.ok(e instanceof TypeError, 'The term bar cannot be added');
+                                            assert.equal(self.getExpression(), '2', 'Expression did not change');
+                                            assert.equal(self.getPosition(), 1, 'Position did not change');
+
+                                            resolve();
+                                        });
+                                })
+                                .useTerms(['NUM2', 'bar']);
+                        });
+                    });
             })
             .after('ready', function () {
                 assert.equal($container.children().length, 1, 'The container contains an element');
@@ -1053,8 +1299,8 @@ define([
                             assert.equal(term.label, 'foo', 'The expected term has been added');
                             assert.equal(term.value, 'foo', 'The expected term value has been added');
                         })
-                        .on('termadd.test', function (n1, term1) {
-                            self.off('termadd.test');
+                        .on('termadd.VAR_X', function (n1, term1) {
+                            self.off('termadd.VAR_X');
 
                             assert.equal(n1, 'VAR_X', 'The right term has been received');
                             assert.equal(typeof term1, 'object', 'A term has been added');
@@ -1064,8 +1310,8 @@ define([
                             assert.equal(self.getPosition(), 1, 'New position has been set');
 
                             self
-                                .on('termadd.test', function (n2, term2) {
-                                    self.off('termadd.test');
+                                .on('termadd.VAR_Y', function (n2, term2) {
+                                    self.off('termadd.VAR_Y');
 
                                     assert.equal(n2, 'VAR_Y', 'The right term has been received');
                                     assert.equal(typeof term2, 'object', 'A term has been added');
@@ -1075,8 +1321,8 @@ define([
                                     assert.equal(self.getPosition(), 2, 'New position has been set');
 
                                     self
-                                        .on('termadd.test', function (n3, term3) {
-                                            self.off('termadd.test');
+                                        .on('termadd.VAR_FOO', function (n3, term3) {
+                                            self.off('termadd.VAR_FOO');
 
                                             assert.equal(n3, 'VAR_FOO', 'The right term has been received');
                                             assert.equal(term3.label, 'foo', 'The expected term has been added');
@@ -1126,15 +1372,16 @@ define([
 
                 return new Promise(function (resolve) {
                     self
-                        .on('termadd.test', function () {
-                            self.off('termadd.test');
+                        .on('termadd.varx', function (name) {
+                            self.off('termadd.varx');
 
-                            assert.ok(false, 'The term should not be added!');
+                            assert.equal(name, 'VAR_X', 'The term foo has been received');
+                            assert.ok(false, 'The term VAR_X should not be added!');
 
                             resolve();
                         })
-                        .on('termerror.test', function (e) {
-                            self.off('termerror.test');
+                        .on('termerror.varx', function (e) {
+                            self.off('.varx');
 
                             assert.ok(e instanceof TypeError, 'The term cannot be added');
                             assert.equal(self.getExpression(), '', 'Expression did not change');
@@ -1247,10 +1494,11 @@ define([
 
                 return new Promise(function (resolve) {
                     self
-                        .on('command.test', function () {
+                        .on('command.test', function (name) {
                             self.off('command.test');
 
-                            assert.ok(false, 'The command should not be called!');
+                            assert.equal(name, 'foo', 'The command foo should not be received!');
+                            assert.ok(false, 'The command foo should not be called!');
 
                             resolve();
                         })
@@ -1791,8 +2039,8 @@ define([
     QUnit.asyncTest('built-in commands - var and term', function (assert) {
         var $container = $('#fixture-builtin');
         var initExpression = '.1+.2';
-        var expectedExpression = '.1+.2+x';
-        var expectedResult = '0.6';
+        var expectedExpression = '.1+.2+x^2';
+        var expectedResult = '9.3';
         var instance;
 
         QUnit.expect(8);
@@ -1811,22 +2059,18 @@ define([
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
                 return new Promise(function (resolve) {
                     self
-                        .after('command-var.test', function () {
-                            self.off('command-var.test');
+                        .after('evaluate.test', function (result) {
+                            self.off('evaluate.test');
                             assert.equal(self.getExpression(), expectedExpression, 'The expression has been updated');
                             assert.equal(self.getPosition(), expectedExpression.length, 'The position has been updated');
-
-                            self
-                                .after('evaluate.test', function (result) {
-                                    self.off('evaluate.test');
-                                    assert.equal(result, expectedResult, 'The expression has been properly evaluated');
-                                    resolve();
-                                })
-                                .evaluate();
+                            assert.equal(result, expectedResult, 'The expression has been properly evaluated');
+                            resolve();
                         })
-                        .setVariable('x', '.3')
+                        .setVariable('x', '3')
                         .useCommand('term', 'ADD')
-                        .useCommand('var', 'x');
+                        .useCommand('var', 'x')
+                        .useCommand('term', 'POW NUM2')
+                        .evaluate();
                 });
             })
             .after('ready', function () {

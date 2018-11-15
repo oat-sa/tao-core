@@ -426,6 +426,24 @@ define([
             },
 
             /**
+             * Inserts a list of terms in the expression at the current position
+             * @param {String|String[]} names - The names of the terms to insert.
+             *                                  Could be either an array of names or a list separated by spaces.
+             * @returns {calculator}
+             * @fires termerror if a term to add is invalid
+             * @fires termadd when a term has been added
+             */
+            useTerms: function useTerms(names) {
+                if ('string' === typeof names) {
+                    names = names.split(/\s+/);
+                }
+
+                _.forEach(names, this.useTerm.bind(this));
+
+                return this;
+            },
+
+            /**
              * Inserts a variable as a term in the expression at the current position
              * @param {String} name - The name of the variable to insert
              * @returns {calculator}
@@ -657,7 +675,7 @@ define([
                     .setCommand('execute', __('Execute'), __('Compute the expression'))
                     .setCommand('var', __('Variable'), __('Use a variable'))
                     .setCommand('term', __('Term'), __('Use a term'))
-                    .on(nsHelper.namespaceAll('command-term', ns), this.useTerm.bind(this))
+                    .on(nsHelper.namespaceAll('command-term', ns), this.useTerms.bind(this))
                     .on(nsHelper.namespaceAll('command-var', ns), this.useVariable.bind(this))
                     .on(nsHelper.namespaceAll('command-execute', ns), this.evaluate.bind(this))
                     .on(nsHelper.namespaceAll('command-clearAll', ns), this.deleteVariables.bind(this))
