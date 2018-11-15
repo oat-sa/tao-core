@@ -760,6 +760,13 @@ define([
             type: 'operand',
             label: '3'
         }, {
+            title: '(',
+            term: 'LPAR',
+            expression: '(',
+            value: '(',
+            type: 'modificator',
+            label: '('
+        }, {
             title: 'sqrt',
             term: 'SQRT',
             expression: 'sqrt ',
@@ -832,8 +839,8 @@ define([
                                     .after('termadd.test', function() {
                                         calculator.off('termadd.test');
 
-                                        assert.equal(calculator.getExpression(), data.expression, 'The expression should still be ' + data.expression);
-                                        assert.equal(calculator.getPosition(), data.expression.length, 'The position should still be ' + data.expression.length);
+                                        assert.equal(calculator.getExpression(), data.expression, 'The expression should be ' + data.expression);
+                                        assert.equal(calculator.getPosition(), data.expression.length, 'The position should be ' + data.expression.length);
 
                                         assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -983,6 +990,13 @@ define([
             type: 'operand',
             label: '3'
         }, {
+            title: '(',
+            term: 'LPAR',
+            expression: '(',
+            value: '(',
+            type: 'modificator',
+            label: '('
+        }, {
             title: 'sqrt',
             term: 'SQRT',
             expression: 'sqrt ',
@@ -1036,8 +1050,8 @@ define([
                                     .after('termadd.test', function() {
                                         calculator.off('termadd.test');
 
-                                        assert.equal(calculator.getExpression(), data.expression, 'The expression should still be ' + data.expression);
-                                        assert.equal(calculator.getPosition(), data.expression.length, 'The position should still be ' + data.expression.length);
+                                        assert.equal(calculator.getExpression(), data.expression, 'The expression should be ' + data.expression);
+                                        assert.equal(calculator.getPosition(), data.expression.length, 'The position should be ' + data.expression.length);
 
                                         assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
