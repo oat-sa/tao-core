@@ -1458,7 +1458,7 @@ define([
         var expectedResult = '0.3';
         var instance;
 
-        QUnit.expect(7);
+        QUnit.expect(10);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1472,13 +1472,29 @@ define([
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), initExpression, 'The expression is initialized');
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
-                return new Promise(function (resolve) {
-                    self.on('evaluate', function (result) {
-                        assert.equal(result, expectedResult, 'The expression has been properly evaluated');
-                        resolve();
+                return Promise.resolve()
+                    .then(function() {
+                        return new Promise(function (resolve) {
+                            self.on('evaluate.expr', function (result) {
+                                self.off('evaluate.expr');
+                                assert.equal(result, expectedResult, 'The expression has been properly evaluated');
+                                resolve();
+                            });
+                            assert.equal(self.evaluate(), expectedResult, 'The expression is successfully evaluated');
+                        });
+                    })
+                    .then(function() {
+                        return new Promise(function (resolve) {
+                            self.clear();
+                            assert.equal(self.getExpression(), '', 'The expression is cleared');
+                            self.on('evaluate.empty', function (result) {
+                                self.off('evaluate.empty');
+                                assert.equal(result, '0', 'An empty expression should be evaluated as 0');
+                                resolve();
+                            });
+                            assert.equal(self.evaluate(), '0', 'The empty expression is evaluated to 0');
+                        });
                     });
-                    assert.equal(self.evaluate(), expectedResult, 'The expression is successfully evaluated');
-                });
             })
             .after('ready', function () {
                 assert.equal($container.children().length, 1, 'The container contains an element');
