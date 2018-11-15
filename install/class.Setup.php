@@ -45,9 +45,9 @@ class tao_install_Setup implements Action
      * @param mixed $params The setup params.
      *
      * @throws ErrorException When a module is missing or other kind of general error.
-     * @throws common_Exception
+     * @throws common_Exception When the presented config file does not exist
      * @throws common_exception_Error
-     * @throws common_ext_ExtensionException
+     * @throws common_ext_ExtensionException When a presented parameter is invalid or malformed.
      * @throws InvalidArgumentException
      * @throws tao_install_utils_Exception
      */
