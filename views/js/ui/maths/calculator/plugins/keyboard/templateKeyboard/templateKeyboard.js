@@ -24,10 +24,11 @@
  */
 define([
     'jquery',
+    'lodash',
     'util/namespace',
     'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/keyboard/templateKeyboard/defaultTemplate'
-], function ($, nsHelper, pluginFactory, defaultKeyboardTpl) {
+], function ($, _, nsHelper, pluginFactory, defaultKeyboardTpl) {
     'use strict';
 
     var pluginName = 'templateKeyboard';
@@ -53,6 +54,10 @@ define([
             var calculator = this.getCalculator();
             var areaBroker = calculator.getAreaBroker();
             var pluginConfig = this.getConfig();
+
+            if (!_.isFunction(pluginConfig.layout)) {
+                throw new TypeError('The keyboard plugin requires a template to render!');
+            }
 
             this.$layout = $(pluginConfig.layout(pluginConfig));
             areaBroker.getKeyboardArea().append(this.$layout);
