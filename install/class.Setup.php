@@ -20,7 +20,6 @@
  */
 
 
-use League\Flysystem\FileNotFoundException;
 use oat\oatbox\action\Action;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
@@ -70,7 +69,7 @@ class tao_install_Setup implements Action
             $filePath = $params[0];
 
             if (!file_exists($filePath)) {
-                throw new FileNotFoundException('Unable to find ' . $filePath);
+                throw new \ErrorException('Unable to find ' . $filePath);
             }
 
             $info = pathinfo($filePath);
