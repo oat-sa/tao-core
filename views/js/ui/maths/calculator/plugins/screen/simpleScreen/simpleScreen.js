@@ -62,13 +62,18 @@ define([
             erase();
 
             calculator
-                .on(nsHelper.namespaceAll('termadd', pluginName), function(name, term) {
-                    var expression = calculator.getExpression().trim();
-                    if (term.type !== 'operator' && expression.length > 1) {
-                        if (expression.charAt(0) === '0' && name !== 'DOT') {
+                .on(nsHelper.namespaceAll('termadd', pluginName), function (name, term) {
+                    var expression, tokens;
+                    if (term.type !== 'operator') {
+                        expression = calculator.getExpression().trim();
+                        tokens = calculator.getTokens();
+
+                        if (tokens.length === 2 && tokens[0].type === 'NUM0' && name !== 'DOT') {
                             calculator.replace(expression.substr(1));
                         }
-                        else if (expression.substr(0, varAnsName.length) === varAnsName && expression !== varAnsName) {
+                        else if (tokens.length === 1 &&
+                            tokens[0].type === 'term' && tokens[0].value !== varAnsName &&
+                            tokens[0].value.substr(0, varAnsName.length) === varAnsName) {
                             calculator.replace(expression.substr(varAnsName.length));
                         }
                     }
@@ -134,7 +139,7 @@ define([
             };
 
             calculator
-                .on(nsHelper.namespaceAll('command-clearAll', pluginName), function() {
+                .on(nsHelper.namespaceAll('command-clearAll', pluginName), function () {
                     self.controls.$history.empty();
                 })
                 .on(nsHelper.namespaceAll('expressionchange', pluginName), function () {

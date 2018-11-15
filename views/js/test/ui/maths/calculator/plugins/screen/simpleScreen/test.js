@@ -626,7 +626,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(25);
+                QUnit.expect(40);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -681,8 +681,8 @@ define([
                         var $screen = $container.find('.simple-screen');
                         return new Promise(function(resolve) {
                             calculator
-                                .after('termadd.test', function() {
-                                    calculator.off('termadd.test');
+                                .after('termadd.ADD', function() {
+                                    calculator.off('termadd.ADD');
 
                                     assert.equal(calculator.getExpression(), '0+', 'The expression should be 0+');
                                     assert.equal(calculator.getPosition(), 2, 'The position should be set to 2');
@@ -699,7 +699,33 @@ define([
                                     assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
 
-                                    resolve();
+                                    calculator
+                                        .after('termadd.NUM5', function() {
+                                            calculator.off('termadd.NUM5');
+
+                                            assert.equal(calculator.getExpression(), '0+5', 'The expression should be 0+5');
+                                            assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
+
+                                            assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
+
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('value'), '0', 'the operand is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM0', 'the operand is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the operand is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the operand is transformed - content');
+
+                                            assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('value'), '5', 'the operand is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM5', 'the operand is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the operand is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '5', 'the operand is transformed - content');
+
+                                            resolve();
+                                        })
+                                        .useTerm('NUM5');
                                 })
                                 .useTerm('ADD');
                         });
@@ -842,7 +868,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(19);
+                QUnit.expect(34);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -878,8 +904,8 @@ define([
                         var $screen = $container.find('.simple-screen');
                         return new Promise(function(resolve) {
                             calculator
-                                .after('termadd.test', function() {
-                                    calculator.off('termadd.test');
+                                .after('termadd.ADD', function() {
+                                    calculator.off('termadd.ADD');
 
                                     assert.equal(calculator.getExpression(), 'ans+', 'The expression should be ans+');
                                     assert.equal(calculator.getPosition(), 4, 'The position should be set to 4');
@@ -896,7 +922,33 @@ define([
                                     assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
 
-                                    resolve();
+                                    calculator
+                                        .after('termadd.NUM8', function() {
+                                            calculator.off('termadd.NUM8');
+
+                                            assert.equal(calculator.getExpression(), 'ans+8', 'The expression should be ans+8');
+                                            assert.equal(calculator.getPosition(), 5, 'The position should be set to 5');
+
+                                            assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
+
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the variable is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
+
+                                            assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('value'), '8', 'the operand is transformed - data-value');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM8', 'the operand is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the operand is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '8', 'the operand is transformed - content');
+
+                                            resolve();
+                                        })
+                                        .useTerm('NUM8');
                                 })
                                 .useTerm('ADD');
                         });
@@ -1014,22 +1066,6 @@ define([
         });
 
     QUnit.module('visual test');
-
-    $.fn.setCursorPosition = function (pos) {
-        var range;
-        if (this.setSelectionRange) {
-            this.setSelectionRange(pos, pos);
-        } else if (this.createTextRange) {
-            range = this.createTextRange();
-            range.collapse(true);
-            if (pos < 0) {
-                pos = $(this).val().length + pos;
-            }
-            range.moveEnd('character', pos);
-            range.moveStart('character', pos);
-            range.select();
-        }
-    };
 
     QUnit.asyncTest('screen', function (assert) {
         var expression = '3*sqrt 3/2+(2+x)*4-sin PI/2';
