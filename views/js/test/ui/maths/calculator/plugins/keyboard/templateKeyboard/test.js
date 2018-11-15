@@ -207,6 +207,47 @@ define([
             });
     });
 
+    QUnit.asyncTest('render - failure', function (assert) {
+        var $container = $('#fixture-render');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                var areaBroker = calculator.getAreaBroker();
+                var plugin = templateKeyboardPluginFactory(calculator, areaBroker);
+                plugin.setConfig({layout: 'foo'});
+
+                QUnit.expect(1);
+
+                calculator
+                    .on('plugin-render.templateKeyboard', function () {
+                        assert.ok(false, 'Should not reach that point!');
+                    })
+                    .on('destroy', function () {
+                        QUnit.start();
+                    });
+
+                plugin.install()
+                    .then(function () {
+                        return plugin.init();
+                    })
+                    .then(function () {
+                        return plugin.render();
+                    })
+                    .then(function () {
+                        assert.ok(false, 'Should not reach that point!');
+                    })
+                    .catch(function () {
+                        assert.ok(true, 'The operation should fail!');
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function () {
+                assert.ok(true, 'The operation should fail!');
+                calculator.destroy();
+            });
+    });
+
     QUnit.asyncTest('destroy', function (assert) {
         var $container = $('#fixture-destroy');
         var calculator = calculatorBoardFactory($container)
