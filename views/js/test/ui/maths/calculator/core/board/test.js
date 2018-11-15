@@ -289,7 +289,7 @@ define([
                     bar: 'foo'
                 }
             }
-        }
+        };
         var plugins = [
             pluginFactory({
                 name: 'plugin1',
@@ -374,6 +374,61 @@ define([
             .on('error', function (err) {
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('plugins - failure', function (assert) {
+        var $container = $('#fixture-plugins');
+        var pluginError = new TypeError('Should break here');
+        var plugins = [
+            pluginFactory({
+                name: 'plugin1',
+                install: function installPlugin() {
+                    assert.ok(true, 'Plugin1 has been installed');
+                },
+                init: function initPlugin() {
+                    assert.ok(true, 'Plugin1 has been initialized');
+                },
+                render: function renderPlugin() {
+                    throw pluginError;
+                },
+                destroy: function renderPlugin() {
+                    assert.ok(true, 'Plugin1 has been destroyed');
+                }
+            }),
+            pluginFactory({
+                name: 'plugin2',
+                install: function installPlugin() {
+                    assert.ok(true, 'Plugin2 has been installed');
+                },
+                init: function initPlugin() {
+                    assert.ok(true, 'Plugin2 has been initialized');
+                },
+                render: function renderPlugin() {
+                    assert.ok(false, 'Should not reach that point!');
+                },
+                destroy: function renderPlugin() {
+                    assert.ok(true, 'Plugin2 has been destroyed');
+                }
+            })
+        ];
+        var instance;
+
+        QUnit.expect(9);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = calculatorBoardFactory($container, plugins);
+        instance
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('error', function (err) {
+                assert.equal(err, pluginError, 'The error has been catch!');
+                this.destroy();
+            })
+            .after('destroy', function () {
                 QUnit.start();
             });
     });

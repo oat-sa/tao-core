@@ -716,6 +716,9 @@ define([
                          * @event ready
                          */
                         self.trigger('ready');
+                    })
+                    .catch(function (err) {
+                        self.trigger('error', err);
                     });
             })
             .on('destroy', function () {
