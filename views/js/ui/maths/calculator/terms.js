@@ -90,31 +90,13 @@ define(['i18n'], function (__) {
             description: __('Dot')
         },
         POW10: {
-            label: 'EE',
+            label: 'e',
             value: 'e',
             type: 'operand',
             description: __('Power of 10')
         },
-        PI: {
-            label: '\u1D79F',
-            value: 'pi',
-            type: 'operand',
-            description: __('Value of PI')
-        },
-        E: {
-            label: 'E',
-            value: 'E',
-            type: 'operand',
-            description: __('Value of E')
-        },
 
         // Modificators
-        NEG: {
-            label: '(-)',
-            value: '-',
-            type: 'modificator',
-            description: __('Negative operator')
-        },
         LPAR: {
             label: '(',
             value: '(',
@@ -142,19 +124,19 @@ define(['i18n'], function (__) {
             description: __('Binary operator -')
         },
         MUL: {
-            label: '*',
+            label: '\u00D7',
             value: '*',
             type: 'operator',
             description: __('Binary operator *')
         },
         DIV: {
-            label: '/',
+            label: '\u00F7',
             value: '/',
             type: 'operator',
             description: __('Binary operator /')
         },
         MOD: {
-            label: '%',
+            label: 'mod',
             value: '%',
             type: 'operator',
             description: __('Binary operator modulo')
@@ -170,6 +152,20 @@ define(['i18n'], function (__) {
             value: '!',
             type: 'operator',
             description: __('Factorial')
+        },
+
+        // Constants
+        PI: {
+            label: '\u03C0',
+            value: 'PI',
+            type: 'constant',
+            description: __('Value of PI')
+        },
+        E: {
+            label: 'e',
+            value: 'E',
+            type: 'constant',
+            description: __('Value of E')
         },
 
         // Functions
@@ -192,7 +188,7 @@ define(['i18n'], function (__) {
             description: __('Cube root')
         },
         NTHRT: {
-            label: 'N\u221A',
+            label: '\u221A',
             value: 'nthrt',
             type: 'function',
             description: __('Nth root')
@@ -240,19 +236,19 @@ define(['i18n'], function (__) {
             description: __('Tangent')
         },
         ASIN: {
-            label: 'asin',
+            label: 'sin<sup>-1</sup>',
             value: 'asin',
             type: 'function',
             description: __('Arc sine')
         },
         ACOS: {
-            label: 'acos',
+            label: 'cos<sup>-1</sup>',
             value: 'acos',
             type: 'function',
             description: __('Arc cosine')
         },
         ATAN: {
-            label: 'atan',
+            label: 'tan<sup>-1</sup>',
             value: 'atan',
             type: 'function',
             description: __('Arc tangent')
@@ -276,31 +272,43 @@ define(['i18n'], function (__) {
             description: __('Hyperbolic tangent')
         },
         ASINH: {
-            label: 'asinh',
+            label: 'sinh<sup>-1</sup>',
             value: 'asinh',
             type: 'function',
             description: __('Hyperbolic arc sine')
         },
         ACOSH: {
-            label: 'acosh',
+            label: 'cosh<sup>-1</sup>',
             value: 'acosh',
             type: 'function',
             description: __('Hyperbolic arc cosine')
         },
         ATANH: {
-            label: 'atanh',
+            label: 'tanh<sup>-1</sup>',
             value: 'atanh',
             type: 'function',
             description: __('Hyperbolic arc tangent')
         },
+        LN: {
+            label: 'ln',
+            value: 'ln',
+            type: 'function',
+            description: __('Natural logarithm')
+        },
         LOG: {
-            label: 'log',
+            label: 'ln',
             value: 'log',
             type: 'function',
             description: __('Natural logarithm')
         },
+        LG: {
+            label: 'log',
+            value: 'lg',
+            type: 'function',
+            description: __('Base-10 logarithm')
+        },
         LOG10: {
-            label: 'log10',
+            label: 'log',
             value: 'log10',
             type: 'function',
             description: __('Base-10 logarithm')
