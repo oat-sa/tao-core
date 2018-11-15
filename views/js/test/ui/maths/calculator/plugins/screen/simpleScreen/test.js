@@ -762,7 +762,7 @@ define([
         }, {
             title: 'sqrt',
             term: 'SQRT',
-            expression: 'sqrt',
+            expression: 'sqrt ',
             value: 'sqrt',
             type: 'function',
             label: '\u221A'
@@ -985,7 +985,7 @@ define([
         }, {
             title: 'sqrt',
             term: 'SQRT',
-            expression: 'sqrt',
+            expression: 'sqrt ',
             value: 'sqrt',
             type: 'function',
             label: '\u221A'
