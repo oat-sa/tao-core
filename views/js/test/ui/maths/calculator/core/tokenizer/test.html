@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>Ui Test - Calculator Tokenizer</title>
-    <base href="../../../../../../" />
+    <base href="../../../../../../../" />
     <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/maths/calculator/tokenizer.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/maths/calculator/core/tokenizer.js"></script>
 
     <script  type="text/javascript">
 
@@ -19,7 +19,7 @@
         require(['/tao/ClientConfig/config'], function(){
 
             //load the test
-            require(['test/ui/maths/calculator/tokenizer/test'], function(){
+            require(['test/ui/maths/calculator/core/tokenizer/test'], function(){
 
                 //Tests loaded, run tests
                 QUnit.start();

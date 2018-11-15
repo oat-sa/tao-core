@@ -22,7 +22,7 @@
  */
 define([
     'lodash',
-    'ui/maths/calculator/terms',
+    'ui/maths/calculator/core/terms',
     'lib/moo/moo'
 ], function (_, registeredTerms, moo) {
     'use strict';

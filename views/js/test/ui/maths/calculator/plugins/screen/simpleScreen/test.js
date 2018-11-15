@@ -22,8 +22,8 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'ui/maths/calculator/board',
-    'ui/maths/calculator/terms',
+    'ui/maths/calculator/core/board',
+    'ui/maths/calculator/core/terms',
     'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
 ], function ($, _, Promise, calculatorBoardFactory, registeredTerms, simpleScreenPluginFactory) {
     'use strict';

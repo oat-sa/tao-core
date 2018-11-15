@@ -22,12 +22,12 @@
 define([
     'jquery',
     'lodash',
-    'ui/maths/calculator/terms',
-    'ui/maths/calculator/plugin',
     'util/namespace',
+    'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
-], function ($, _, registeredTerms, pluginFactory, nsHelper, termTpl, simpleScreenTpl) {
+], function ($, _, nsHelper, registeredTerms, pluginFactory, termTpl, simpleScreenTpl) {
     'use strict';
 
     var pluginName = 'simpleScreen';

@@ -22,10 +22,9 @@
 define([
     'lodash',
     'i18n',
-    'ui/maths/calculator/plugin',
-    'ui/maths/calculator/tokenizer',
-    'util/namespace'
-], function (_, __, pluginFactory, tokenizerFactory, nsHelper) {
+    'util/namespace',
+    'ui/maths/calculator/core/plugin'
+], function (_, __, nsHelper, pluginFactory) {
     'use strict';
 
     var pluginName = 'stepNavigation';
@@ -52,6 +51,12 @@ define([
         init: function init() {
             var calculator = this.getCalculator();
 
+            /**
+             * Remove a sub-expresion from the expression
+             * @param expression
+             * @param position
+             * @param length
+             */
             function remove(expression, position, length) {
                 if (length) {
                     expression = calculator.getExpression();
@@ -61,6 +66,11 @@ define([
                 }
             }
 
+            /**
+             * Remove a token from the expression
+             * @param expression
+             * @param token
+             */
             function removeToken(expression, token) {
                 var from, length;
                 if (token) {
@@ -73,8 +83,6 @@ define([
 
                     remove(expression, from, length);
                 }
-
-
             }
 
             calculator

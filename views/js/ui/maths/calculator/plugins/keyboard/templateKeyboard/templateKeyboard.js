@@ -24,10 +24,10 @@
  */
 define([
     'jquery',
-    'ui/maths/calculator/plugin',
     'util/namespace',
+    'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/keyboard/templateKeyboard/defaultTemplate'
-], function ($, pluginFactory, nsHelper, defaultKeyboardTpl) {
+], function ($, nsHelper, pluginFactory, defaultKeyboardTpl) {
     'use strict';
 
     var pluginName = 'templateKeyboard';

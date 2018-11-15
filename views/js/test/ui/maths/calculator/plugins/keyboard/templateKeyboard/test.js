@@ -22,7 +22,7 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'ui/maths/calculator/board',
+    'ui/maths/calculator/core/board',
     'ui/maths/calculator/plugins/keyboard/templateKeyboard/templateKeyboard'
 ], function ($, _, Promise, calculatorBoardFactory, templateKeyboardPluginFactory) {
     'use strict';

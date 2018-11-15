@@ -22,9 +22,9 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'ui/maths/calculator/plugin',
-    'ui/maths/calculator/board',
-    'ui/maths/calculator/terms'
+    'ui/maths/calculator/core/plugin',
+    'ui/maths/calculator/core/board',
+    'ui/maths/calculator/core/terms'
 ], function ($, _, Promise, pluginFactory, calculatorBoardFactory, registeredTerms) {
     'use strict';
 

@@ -26,12 +26,12 @@ define([
     'core/promise',
     'core/collections',
     'ui/component',
-    'ui/maths/calculator/areaBroker',
-    'ui/maths/calculator/terms',
-    'ui/maths/calculator/tokenizer',
+    'ui/maths/calculator/core/areaBroker',
+    'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokenizer',
     'util/mathsEvaluator',
     'util/namespace',
-    'tpl!ui/maths/calculator/tpl/board'
+    'tpl!ui/maths/calculator/core/board'
 ], function ($, _, __, Promise, collections, componentFactory, areaBrokerFactory, registeredTerms, tokenizerFactory, mathsEvaluatorFactory, nsHelper, boardTpl) {
     'use strict';
 
