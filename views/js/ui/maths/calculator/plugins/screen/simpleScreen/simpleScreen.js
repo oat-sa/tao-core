@@ -32,6 +32,7 @@ define([
 
     var pluginName = 'simpleScreen';
     var varAnsName = 'ans';
+    var reLeadingSpace = /^\s+/;
 
     var defaultConfig = {
         layout: simpleScreenTpl
@@ -65,7 +66,7 @@ define([
                 .on(nsHelper.namespaceAll('termadd', pluginName), function (name, term) {
                     var expression, tokens;
                     if (term.type !== 'operator') {
-                        expression = calculator.getExpression().trim();
+                        expression = calculator.getExpression().replace(reLeadingSpace, '');
                         tokens = calculator.getTokens();
 
                         if (tokens.length === 2 && tokens[0].type === 'NUM0' && name !== 'DOT') {
