@@ -21,7 +21,7 @@
 define([
     'jquery',
     'lodash',
-    'ui/maths/calculator/board',
+    'ui/maths/calculator/core/board',
     'ui/maths/calculator/plugins/core/degrad'
 ], function ($, _, calculatorBoardFactory, degradPluginFactory) {
     'use strict';

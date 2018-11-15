@@ -22,9 +22,9 @@
 define([
     'lodash',
     'i18n',
-    'ui/maths/calculator/plugin',
-    'util/namespace'
-], function (_, __, pluginFactory, nsHelper) {
+    'util/namespace',
+    'ui/maths/calculator/core/plugin'
+], function (_, __, nsHelper, pluginFactory) {
     'use strict';
 
     var pluginName = 'history';

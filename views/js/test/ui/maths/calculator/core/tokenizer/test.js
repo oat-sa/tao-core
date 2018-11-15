@@ -20,8 +20,8 @@
  */
 define([
     'lodash',
-    'ui/maths/calculator/tokenizer',
-    'ui/maths/calculator/terms'
+    'ui/maths/calculator/core/tokenizer',
+    'ui/maths/calculator/core/terms'
 ], function (_, calculatorTokenizerFactory, registeredTerms) {
     'use strict';
 

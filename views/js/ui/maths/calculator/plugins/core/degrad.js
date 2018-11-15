@@ -21,9 +21,9 @@
  */
 define([
     'i18n',
-    'ui/maths/calculator/plugin',
-    'util/namespace'
-], function (__, pluginFactory, nsHelper) {
+    'util/namespace',
+    'ui/maths/calculator/core/plugin'
+], function (__, nsHelper, pluginFactory) {
     'use strict';
 
     var pluginName = 'degrad';
