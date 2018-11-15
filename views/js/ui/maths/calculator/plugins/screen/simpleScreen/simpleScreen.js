@@ -72,9 +72,11 @@ define([
                         if (tokens.length === 2 && tokens[0].type === 'NUM0' && name !== 'DOT') {
                             calculator.replace(expression.substr(1));
                         }
-                        else if (tokens.length === 1 &&
-                            tokens[0].type === 'term' && tokens[0].value !== varAnsName &&
-                            tokens[0].value.substr(0, varAnsName.length) === varAnsName) {
+                        else if (
+                            (tokens.length === 2 && tokens[0].value === varAnsName) ||
+                            (tokens.length === 1 && tokens[0].type === 'term' &&
+                                tokens[0].value !== varAnsName &&
+                                tokens[0].value.substr(0, varAnsName.length) === varAnsName)) {
                             calculator.replace(expression.substr(varAnsName.length));
                         }
                     }
