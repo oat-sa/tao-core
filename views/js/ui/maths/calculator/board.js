@@ -485,16 +485,16 @@ define([
 
             /**
              * Replaces the expression and move the cursor at the end.
-             * @param {String} expr - The new expression to set
+             * @param {String} newExpression - The new expression to set
              * @returns {calculator}
              * @fires replace after the expression has been replaced
              */
-            replace: function replace(expr) {
-                var oldExpression = this.getExpression();
-                var oldPosition = this.getPosition();
+            replace: function replace(newExpression) {
+                var oldExpression = expression;
+                var oldPosition = position;
 
-                this.setExpression(expr)
-                    .setPosition(this.getExpression().length);
+                this.setExpression(newExpression)
+                    .setPosition(expression.length);
 
                 /**
                  * @event replace
@@ -508,16 +508,16 @@ define([
 
             /**
              * Inserts a sub-expression in the current expression and move the cursor.
-             * @param {String} expr - The sub-expression to insert
+             * @param {String} subExpression - The sub-expression to insert
              * @returns {calculator}
              * @fires insert after the expression has been inserted
              */
-            insert: function insert(expr) {
-                var oldExpression = this.getExpression();
-                var oldPosition = this.getPosition();
+            insert: function insert(subExpression) {
+                var oldExpression = expression;
+                var oldPosition = position;
 
-                this.setExpression(expression.substr(0, position) + expr + expression.substr(position))
-                    .setPosition(position + expr.length);
+                this.setExpression(expression.substr(0, position) + subExpression + expression.substr(position))
+                    .setPosition(position + subExpression.length);
 
                 /**
                  * @event insert
@@ -555,7 +555,12 @@ define([
             evaluate: function evaluate() {
                 var result = null;
                 try {
-                    result = mathsEvaluator(this.getExpression(), this.getVariables());
+                    if (expression.trim()) {
+                        result = mathsEvaluator(expression, this.getVariables());
+                    } else {
+                        result = '0';
+                    }
+
                     /**
                      * @event evaluate
                      * @param {String} result
