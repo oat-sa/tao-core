@@ -153,6 +153,12 @@ define(['i18n'], function (__) {
             type: 'operator',
             description: __('Factorial')
         },
+        ASSIGN: {
+            label: '=',
+            value: '=',
+            type: 'operator',
+            description: __('Assign')
+        },
 
         // Constants
         PI: {
