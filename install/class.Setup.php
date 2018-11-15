@@ -48,6 +48,7 @@ class tao_install_Setup implements Action
      * @throws common_Exception
      * @throws common_exception_Error
      * @throws common_ext_ExtensionException
+     * @throws InvalidArgumentException
      * @throws tao_install_utils_Exception
      */
     public function __invoke($params)
