@@ -20,6 +20,7 @@
  */
 
 
+use League\Flysystem\FileNotFoundException;
 use oat\oatbox\action\Action;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
