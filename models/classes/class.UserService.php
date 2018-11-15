@@ -213,7 +213,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
             $userId = new \core_kernel_classes_Resource($userId);
         }
 
-        if ($userId instanceof core_kernel_classes_Resource && $userId->exists()) {
+        if ($userId instanceof core_kernel_classes_Resource) {
             $userId = new core_kernel_users_GenerisUser($userId);
         }
 
