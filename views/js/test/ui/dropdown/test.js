@@ -83,7 +83,6 @@ define([
             activatedBy: 'hover',
             isOpen: false
         });
-        dd1.render();
 
         dd1.getElement().trigger('mouseenter');
         assert.equal(dd1.is('open'), true, "The menu opens on hover");
