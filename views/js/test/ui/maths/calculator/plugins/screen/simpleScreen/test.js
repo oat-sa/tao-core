@@ -457,7 +457,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = simpleScreenPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(60);
+                QUnit.expect(68);
 
                 calculator
                     .on('plugin-render.simpleScreen', function () {
@@ -530,7 +530,7 @@ define([
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the expression is transformed - content');
 
-                                    assert.equal($screen.find('.history .term').length, 3, 'The expected number of terms has been transformed in the history');
+                                    assert.equal($screen.find('.history .term').length, 5, 'The expected number of terms has been transformed in the history');
 
                                     assert.equal($screen.find('.history .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.history .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
@@ -547,6 +547,15 @@ define([
                                     assert.equal($screen.find('.history .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
+                                    assert.equal($screen.find('.history .term:eq(3)').data('value'), '=', 'the assign term is transformed - data-value');
+                                    assert.equal($screen.find('.history .term:eq(3)').data('token'), 'ASSIGN', 'the assign term is transformed - data-token');
+                                    assert.equal($screen.find('.history .term:eq(3)').data('type'), 'operator', 'the assign term is transformed - data-type');
+                                    assert.equal($screen.find('.history .term:eq(3)').html().trim(), '=', 'the assign term is transformed - content');
+
+                                    assert.equal($screen.find('.history .term:eq(4)').data('value'), '5', 'the result term is transformed - data-value');
+                                    assert.equal($screen.find('.history .term:eq(4)').data('token'), 'NUM5', 'the result term is transformed - data-token');
+                                    assert.equal($screen.find('.history .term:eq(4)').data('type'), 'operand', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .term:eq(4)').html().trim(), '5', 'the result term is transformed - content');
 
                                     resolve();
                                 })

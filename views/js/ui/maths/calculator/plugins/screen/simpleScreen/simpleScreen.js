@@ -24,10 +24,11 @@ define([
     'lodash',
     'util/namespace',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokenizer',
     'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
-], function ($, _, nsHelper, registeredTerms, pluginFactory, termTpl, simpleScreenTpl) {
+], function ($, _, nsHelper, registeredTerms, tokenizerFactory, pluginFactory, termTpl, simpleScreenTpl) {
     'use strict';
 
     var pluginName = 'simpleScreen';
@@ -45,18 +46,34 @@ define([
          * Called when the plugin should be initialized.
          */
         init: function init() {
+            var self = this;
             var calculator = this.getCalculator();
 
+            /**
+             * Reset the current expression
+             */
             function reset() {
                 calculator.replace('0');
             }
 
+            /**
+             * Update the variable containing the last result
+             * @param {String} result
+             */
             function store(result) {
+                self.previous = calculator.getExpression();
+                if (calculator.hasVariable(varAnsName)) {
+                    self.previous = self.previous.replace(varAnsName, calculator.getVariable(varAnsName));
+                }
                 calculator.setVariable(varAnsName, result);
             }
 
+            /**
+             * Erase the current expression and the history
+             */
             function erase() {
                 store('0');
+                self.previous = '0';
             }
 
             reset();
@@ -94,13 +111,14 @@ define([
             var calculator = this.getCalculator();
             var areaBroker = calculator.getAreaBroker();
             var pluginConfig = this.getConfig();
+            var tokenizer = tokenizerFactory();
 
             /**
-             * Transforms an expression, replacing values by the related labels.
+             * Transforms an tokenized expression, replacing values by the related labels.
+             * @param {Array} tokens
              * @returns {String}
              */
-            function transformExpression() {
-                var tokens = calculator.getTokens();
+            function transformTokens(tokens) {
                 var expression = '';
 
                 _.forEach(tokens, function (token) {
@@ -132,6 +150,30 @@ define([
                 return expression;
             }
 
+            /**
+             * Transforms the current expression
+             * @returns {String}
+             */
+            function transformExpression() {
+                return transformTokens(calculator.getTokens());
+            }
+
+            /**
+             * Updates the expression area
+             * @param {String} expression
+             */
+            function showExpression(expression) {
+                self.controls.$expression.html(expression);
+            }
+
+            /**
+             * Updates the history area
+             * @param {String} history
+             */
+            function showHistory(history) {
+                self.controls.$history.html(history);
+            }
+
             this.$layout = $(pluginConfig.layout(_.defaults({
                 expression: transformExpression()
             }, pluginConfig)));
@@ -143,18 +185,17 @@ define([
 
             calculator
                 .on(nsHelper.namespaceAll('command-clearAll', pluginName), function () {
-                    self.controls.$history.empty();
+                    showHistory('');
                 })
                 .on(nsHelper.namespaceAll('expressionchange', pluginName), function () {
-                    self.controls.$expression.html(transformExpression());
+                    showExpression(transformTokens(calculator.getTokens()));
                 })
-                .on(nsHelper.namespaceAll('evaluate', pluginName), function () {
-                    self.controls.$history.html(transformExpression());
+                .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
+                    showHistory(transformTokens(tokenizer.tokenize(self.previous + '=' + result)));
                     calculator.replace(varAnsName);
                 });
 
             areaBroker.getScreenArea().append(this.$layout);
-
         },
 
         /**
