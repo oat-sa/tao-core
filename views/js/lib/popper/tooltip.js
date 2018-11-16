@@ -258,6 +258,7 @@ var Tooltip = function () {
   }, {
     key: '_show',
     value: function _show(reference, options) {
+      var self = this;
       // don't show if it's already visible
       // or if it's not being showed
       if (this._isOpen && !this._isOpening) {
@@ -310,8 +311,7 @@ var Tooltip = function () {
           boundariesElement: options.boundariesElement
         };
       }
-
-      this.popperInstance = new Popper(reference, tooltipNode, this._popperOptions);
+      self.popperInstance = new Popper(reference, tooltipNode, this._popperOptions);
 
       this._tooltipNode = tooltipNode;
 
@@ -385,7 +385,13 @@ var Tooltip = function () {
   }, {
     key: '_append',
     value: function _append(tooltipNode, container) {
+      var self = this;
       container.appendChild(tooltipNode);
+
+      // force popper to redraw itself in order to fix word wrap on dynamic content
+      setTimeout(function () {
+        self.show();
+      });
     }
   }, {
     key: '_setEventListeners',
@@ -506,6 +512,7 @@ var Tooltip = function () {
       this._clearTitleContent(titleNode, this.options.html, this.reference.getAttribute('title') || this.options.title);
       this._addTitleContent(this.reference, title, this.options.html, titleNode);
       this.options.title = title;
+
       this.popperInstance.update();
     }
   }, {
