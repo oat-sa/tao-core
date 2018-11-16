@@ -1,6 +1,7 @@
 @import "inc/bootstrap";
 
 $navHeight: 64;
+$footerHeight: 34;
 
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
@@ -68,7 +69,7 @@ $navHeight: 64;
     nav {
         background:inherit;
         position: relative;
-        z-index: 8000;
+        z-index: 1000;
         li {
             float: left;
             position: relative;
@@ -275,7 +276,7 @@ $navHeight: 64;
 // Footer
 body > footer, .content-wrap:after {
     // must be the same height as footer
-    height: 34px;
+    height: $footerHeight * 1px;
 }
 
 body > footer {
@@ -299,7 +300,7 @@ body > footer {
 .content-wrap {
     min-height: 100%;
     // equal to footer height
-    margin-bottom: -34px;
+    margin-bottom: -1px * $footerHeight;
 }
 
 .content-wrap:after {

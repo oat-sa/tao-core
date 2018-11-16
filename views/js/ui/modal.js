@@ -56,6 +56,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
          * @param {String|Number|Boolean}  [options.width = 'responsive'] - the width behavior, responsive or a fixed value, or default if false
          * @param {Number}  [options.minWidth = 0] - the minimum width of the modal
          * @param {Number}  [options.minHeight = 0] - the minimum height of the modal
+         * @param {Number}  [options.top = 0] - the top position of modal, else calculates itself
          * @param {Boolean}  [options.vCenter = true] - if the modal should be centered vertically
          * @param {jQueryElement}  [options.$context = null] - give the context the modal overlay should be append to, if none give, it would be on the window
          * @param {Number|Boolean}  [options.animate = 400] - display the modal using animation
@@ -222,11 +223,15 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function ($, Plug
                 };
 
                 //Calculate the top offset
-                topOffset = (options.vCenter || modalHeight > windowHeight) ? 40 : (windowHeight - modalHeight) / 2;
+                if(!options.top) {
+                    topOffset = (options.vCenter || modalHeight > windowHeight) ? 40 : (windowHeight - modalHeight) / 2;
+                } else {
+                    topOffset = options.top;
+                }
                 // check scroll if element in the scrolled container
                 // added later: now offset will be increased only if container element doesn't has class no-scroll-offset
                 // as, sometimes, on screens with lesser height part of modal runs under the bottom browser edge
-                if (!$element.parent().hasClass('no-scroll-offset')) {
+                if (!options.top && !$element.parent().hasClass('no-scroll-offset')) {
                     $element.parents().map(function () {
                         if (this.tagName !== 'BODY' && this.tagName !== 'HTML') {
                             topOffset += parseInt($(this).scrollTop(), 10);

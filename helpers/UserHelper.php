@@ -23,6 +23,7 @@ namespace oat\tao\helpers;
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\User;
 use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
@@ -62,20 +63,10 @@ class UserHelper
      */
     public static function getUser($userId)
     {
-        if (is_string($userId)) {
-            $userId = new core_kernel_classes_Resource($userId);
-        }
-
-        if ($userId instanceof core_kernel_classes_Resource) {
-            $userId = new core_kernel_users_GenerisUser($userId);
-        }
-        
-        if (!($userId instanceof core_kernel_users_GenerisUser)) {
-            \common_Logger::i('Unable to get user from ' . $userId);
-            $userId = null;
-        }
-
-        return $userId;
+        /** @var \tao_models_classes_UserService $userService */
+        $userService = ServiceManager::getServiceManager()->get(\tao_models_classes_UserService::SERVICE_ID);
+        $user = $userService->getUserById($userId);
+        return $user;
     }
 
     /**

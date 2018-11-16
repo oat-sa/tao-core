@@ -203,6 +203,29 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     }
 
     /**
+     * @param $userId
+     * @return \oat\oatbox\user\User
+     * @throws common_exception_Error
+     */
+    public function getUserById($userId)
+    {
+        if (is_string($userId)) {
+            $userId = new \core_kernel_classes_Resource($userId);
+        }
+
+        if ($userId instanceof core_kernel_classes_Resource) {
+            $userId = new core_kernel_users_GenerisUser($userId);
+        }
+
+        if (!($userId instanceof core_kernel_users_GenerisUser)) {
+            \common_Logger::i('Unable to get user from ' . $userId);
+            $userId = null;
+        }
+
+        return $userId;
+    }
+
+    /**
      * Remove a user
      *
      * @access public
