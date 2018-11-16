@@ -62,8 +62,6 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
      * https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/tooltip-documentation.md
      */
     $.fn.qtip = function (command, message, messageData) {
-        console.log('command: ', command);
-        // console.log('JSON.stringify(this.$popper): ', JSON.stringify(this.data('$popper')));
 
         if(this.data('$popper') && typeof command === 'string'){
             switch (command) {
@@ -80,7 +78,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 default:
                     this.data('$popper')[commandsMap[command]]();
                     if(commandsMap[command] === 'dispose'){
-                        this.removeData('$popper')
+                        this.removeData('$popper');
                     }
             }
         }
@@ -112,47 +110,11 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
             }
             if($elt.data('$popper')) {
                 $elt.data('$popper').dispose();
-                $elt.removeData('$popper')
+                $elt.removeData('$popper');
             }
             $elt.data('$popper', new Tooltip($elt, options));
 
         });
-
-
-        window.testTooltip = function (val) {
-            $('[data-tooltip]', $container).each(function(){
-                var $elt = $(this);
-                switch (val) {
-                    case 1:
-                        $elt.qtip('show');
-                        break;
-                    case 2:
-                        $elt.qtip('hide');
-                        break;
-                    case 3:
-                        $elt.qtip('blur');
-                        break;
-                    case 4:
-                        $elt.qtip('toggle');
-                        break;
-                    case 5:
-                        $elt.qtip('update', 'new update message');
-                        break;
-                    case 6:
-                        $elt.qtip('set', 'content.text', 'new message');
-                        break;
-                    case 7:
-                        $elt.qtip('destroy');
-                        break;
-                    default:
-                        $elt.qtip('show');
-                }
-
-
-            });
-
-
-        }
 
     };
 });
