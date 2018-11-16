@@ -190,6 +190,15 @@ define([
             this.controls.$toggler
             .on('click', self.toggle)
             .on('focus', self.open);
+
+            // list item events
+            this.controls.$listContainer.on('click', 'li', function() {
+                var name = $(this).data('control');
+                /**
+                 * @event item-click-<name>
+                 */
+                self.trigger('item-click-' + name);
+            });
         })
         .init(config);
     }
