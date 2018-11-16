@@ -47,6 +47,7 @@ p.bold {
 .tooltip {
     position: absolute;
     /*background: #FFC107;*/
+
     color: black;
     min-width: 100px;
     max-width: 250px;
@@ -56,7 +57,9 @@ p.bold {
     text-align: left;
     font-size: .8em;
     z-index: 2000;
-
+    word-break: normal;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
 }
 .style5 .tooltip {
     background: #1E252B;

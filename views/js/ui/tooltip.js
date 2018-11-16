@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper.min', 'lib/popper/tooltip.min', 'css!lib/popper/popper.css'], function($, _, DataAttrHandler, Popper, Tooltip ){
+define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/popper/tooltip', 'css!lib/popper/popper.css'], function($, _, DataAttrHandler, Popper, Tooltip ){
     'use strict';
 
     var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],
@@ -43,7 +43,15 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper.min', '
             template:themesMap['default'],
             popperOptions:{
                 positionFixed: true,
-                placement:'auto'
+                placement:'auto',
+                modifiers:{
+                    preventOverflow:{
+                        escapeWithReference:false,
+                        enabled:true,
+                        padding:6,
+                        boundariesElement:'viewport'
+                    }
+                }
             }
         };
 
@@ -109,6 +117,42 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper.min', '
             $elt.data('$popper', new Tooltip($elt, options));
 
         });
+
+
+        window.testTooltip = function (val) {
+            $('[data-tooltip]', $container).each(function(){
+                var $elt = $(this);
+                switch (val) {
+                    case 1:
+                        $elt.qtip('show');
+                        break;
+                    case 2:
+                        $elt.qtip('hide');
+                        break;
+                    case 3:
+                        $elt.qtip('blur');
+                        break;
+                    case 4:
+                        $elt.qtip('toggle');
+                        break;
+                    case 5:
+                        $elt.qtip('update', 'new update message');
+                        break;
+                    case 6:
+                        $elt.qtip('set', 'content.text', 'new message');
+                        break;
+                    case 7:
+                        $elt.qtip('destroy');
+                        break;
+                    default:
+                        $elt.qtip('show');
+                }
+
+
+            });
+
+
+        }
 
     };
 });
