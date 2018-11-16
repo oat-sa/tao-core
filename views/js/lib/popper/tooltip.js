@@ -258,7 +258,6 @@ var Tooltip = function () {
   }, {
     key: '_show',
     value: function _show(reference, options) {
-      var self = this;
       // don't show if it's already visible
       // or if it's not being showed
       if (this._isOpen && !this._isOpening) {
@@ -311,7 +310,7 @@ var Tooltip = function () {
           boundariesElement: options.boundariesElement
         };
       }
-      self.popperInstance = new Popper(reference, tooltipNode, this._popperOptions);
+      this.popperInstance = new Popper(reference, tooltipNode, this._popperOptions);
 
       this._tooltipNode = tooltipNode;
 
