@@ -41,6 +41,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
         },
         defaultOptions = {
             template:themesMap['default'],
+            html:true,
             popperOptions:{
                 positionFixed: true,
                 placement:'auto',
@@ -61,29 +62,51 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
      * leaving its original interfaces that are widely used through project.
      * https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/tooltip-documentation.md
      */
-    $.fn.qtip = function (command, message, messageData) {
+    var qtip = function (command, message, messageData) {
+        if (typeof command === 'object') {
+            if(this.data('$popper')) {
+                this.data('$popper').dispose();
+                this.removeData('$popper');
+            }
+            // fit old  options  format for themes to new
+            if (themesMap[command.theme]){
+                command.template = themesMap[command.theme];
+                delete command.theme;
+            }
+            // fit old content option to new
+            if(command.content){
+                command.title = command.content.text ;
+                delete command.content;
+            }
+            this.data('$popper', new Tooltip(this, command));
 
-        if(this.data('$popper') && typeof command === 'string'){
+        }else if(this.data('$popper') && typeof command === 'string'){
             switch (command) {
                 case 'update':
                     this.data('$popper')[commandsMap[command]](message);
                     break;
                 case 'set':
-                    // covers this particular behavior:
-                    // $scoreInput.qtip('set', 'content.text', options.tooltipContent.required);
+                // covers this particular behavior:
+                // $scoreInput.qtip('set', 'content.text', options.tooltipContent.required);
                     if(message === 'content.text'){
                         this.data('$popper')[commandsMap[command]](messageData);
                     }
                     break;
                 default:
+                    if(command === 'api'){
+                        return this.data('$popper');
+                    }
                     this.data('$popper')[commandsMap[command]]();
                     if(commandsMap[command] === 'dispose'){
                         this.removeData('$popper');
                     }
             }
         }
+
         return this;
     };
+    $.fn.qtip = qtip;
+    $.qtip = qtip;
 
     /**
      * Look up for tooltips and initialize them
@@ -103,16 +126,11 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
             if($content.length){
 
                 _.merge(options,{
-                    html:true,
                     title: $content[0]
                 });
 
             }
-            if($elt.data('$popper')) {
-                $elt.data('$popper').dispose();
-                $elt.removeData('$popper');
-            }
-            $elt.data('$popper', new Tooltip($elt, options));
+            $elt.qtip(options);
 
         });
 
