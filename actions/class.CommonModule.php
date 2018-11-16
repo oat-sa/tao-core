@@ -319,6 +319,5 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected function setIframeHeaders()
     {
         header('X-Frame-Options: sameorigin');
-        header("Content-Security-Policy: default-src 'self'");
     }
 }
