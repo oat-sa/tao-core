@@ -112,7 +112,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = degradPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(16);
+                QUnit.expect(7);
 
                 assert.ok(!calculator.hasCommand('degree'), 'The command degree is not yet registered');
                 assert.ok(!calculator.hasCommand('radian'), 'The command radian is not yet registered');
@@ -134,28 +134,6 @@ define([
                     .then(function () {
                         assert.ok(calculator.hasCommand('degree'), 'The command degree is now registered');
                         assert.ok(calculator.hasCommand('radian'), 'The command radian is now registered');
-
-                        assert.ok(!calculator.is('degree'), 'The state degree is not set');
-                        assert.ok(calculator.is('radian'), 'The state radian is set');
-
-                        calculator.replace('cos PI');
-                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in radian mode');
-
-                        calculator.useCommand('degree');
-
-                        assert.ok(calculator.is('degree'), 'The state degree is set');
-                        assert.ok(!calculator.is('radian'), 'The state radian is not set');
-
-                        calculator.replace('cos 180');
-                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in degree mode');
-
-                        calculator.useCommand('radian');
-
-                        assert.ok(!calculator.is('degree'), 'The state degree is not set');
-                        assert.ok(calculator.is('radian'), 'The state radian is set');
-
-                        calculator.replace('cos PI');
-                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in radian mode');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -210,6 +188,72 @@ define([
 
                         assert.ok(!calculator.is('degree'), 'The state degree is removed');
                         assert.ok(!calculator.is('radian'), 'The state radian is removed');
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'Unexpected failure : ' + err.message);
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('toggle', function (assert) {
+        var $container = $('#fixture-toggle');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                var areaBroker = calculator.getAreaBroker();
+                var plugin = degradPluginFactory(calculator, areaBroker);
+
+                QUnit.expect(16);
+
+                assert.ok(!calculator.hasCommand('degree'), 'The command degree is not yet registered');
+                assert.ok(!calculator.hasCommand('radian'), 'The command radian is not yet registered');
+                assert.ok(!calculator.is('degree'), 'The state degree is not set');
+                assert.ok(!calculator.is('radian'), 'The state radian is not set');
+
+                calculator
+                    .on('plugin-init.degrad', function() {
+                        assert.ok(plugin.getState('init'), 'The plugin has been initialized');
+                    })
+                    .on('destroy', function() {
+                        QUnit.start();
+                    });
+
+                plugin.install()
+                    .then(function() {
+                        return plugin.init();
+                    })
+                    .then(function () {
+                        assert.ok(calculator.hasCommand('degree'), 'The command degree is now registered');
+                        assert.ok(calculator.hasCommand('radian'), 'The command radian is now registered');
+
+                        assert.ok(!calculator.is('degree'), 'The state degree is not set');
+                        assert.ok(calculator.is('radian'), 'The state radian is set');
+
+                        calculator.replace('cos PI');
+                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in radian mode');
+
+                        calculator.useCommand('degree');
+
+                        assert.ok(calculator.is('degree'), 'The state degree is set');
+                        assert.ok(!calculator.is('radian'), 'The state radian is not set');
+
+                        calculator.replace('cos 180');
+                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in degree mode');
+
+                        calculator.useCommand('radian');
+
+                        assert.ok(!calculator.is('degree'), 'The state degree is not set');
+                        assert.ok(calculator.is('radian'), 'The state radian is set');
+
+                        calculator.replace('cos PI');
+                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in radian mode');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
