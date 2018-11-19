@@ -63,7 +63,10 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
      * https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/tooltip-documentation.md
      */
     var qtip = function (command, message, messageData) {
+        // there were two types of requests for qtip jquery plugin (with object or string):
+        // 1) initialize object for the first time : $el.qtip({ options object});
         if (typeof command === 'object') {
+            // .data('$popper') - is the way to store current state inside jquery plugin
             if(this.data('$popper')) {
                 this.data('$popper').dispose();
                 this.removeData('$popper');
@@ -80,6 +83,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
             }
             this.data('$popper', new Tooltip(this, command));
 
+        // 2) sending text (String) commands to  element that is already initialized : $el.qtip("show")
         }else if(this.data('$popper') && typeof command === 'string'){
             switch (command) {
                 case 'update':
