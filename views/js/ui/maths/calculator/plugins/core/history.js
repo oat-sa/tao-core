@@ -50,25 +50,38 @@ define([
          */
         init: function init() {
             var calculator = this.getCalculator();
+            var current = '';
             var history, cursor;
 
+            /**
+             * Clear the entire history
+             */
             function reset() {
                 history = [];
                 cursor = 0;
             }
 
+            /**
+             * Remind an expression from the history
+             * @param position
+             */
             function remind(position) {
                 var expression;
+                // the current expression is outside of the history, so we must keep it safe in case the user goes back
+                if (cursor === history.length && position !== cursor) {
+                    current = calculator.getExpression();
+                }
+                // restore an expression from the history at the wanted position
                 if (position >= 0 && position <= history.length) {
                     cursor = position;
-                    expression = history[cursor] || '';
+                    expression = history[cursor] || current;
                     calculator.replace(expression);
                 }
             }
 
             reset();
             calculator
-                .before(nsHelper.namespaceAll('evaluate', pluginName), function () {
+                .on(nsHelper.namespaceAll('evaluate', pluginName), function () {
                     var expression = calculator.getExpression();
                     if (cursor < history.length) {
                         history[cursor] = expression;
