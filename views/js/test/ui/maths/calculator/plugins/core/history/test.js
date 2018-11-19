@@ -227,7 +227,7 @@ define([
     });
 
     QUnit.asyncTest('history - fill and clear', function (assert) {
-        var $container = $('#fixture-history');
+        var $container = $('#fixture-history-fill');
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();
@@ -353,7 +353,7 @@ define([
     });
 
     QUnit.asyncTest('history - navigate and remind', function (assert) {
-        var $container = $('#fixture-history');
+        var $container = $('#fixture-history-navigate');
         var calculator = calculatorBoardFactory($container)
             .on('ready', function () {
                 var areaBroker = calculator.getAreaBroker();

@@ -323,62 +323,88 @@ define([
                         assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key').length, 25, 'The expected number of keyboard keys have been inserted');
 
                         assert.equal(calculator.getExpression(), '', 'The expression is empty');
-
+                    })
+                    .then(function () {
                         return new Promise(function (resolve) {
                             calculator
-                                .after('command-term.test', function (t1) {
+                                .after('command-term.test', function (term) {
                                     calculator.off('command-term.test');
 
-                                    assert.equal(t1, 'NUM4', 'The term NUM4 has been used');
+                                    assert.equal(term, 'NUM4', 'The term NUM4 has been used');
                                     assert.equal(calculator.getExpression(), '4', 'The expression contains 4');
 
-                                    calculator
-                                        .after('command-term.test', function (t2) {
-                                            calculator.off('command-term.test');
-
-                                            assert.equal(t2, 'NUM2', 'The term NUM2 has been used');
-                                            assert.equal(calculator.getExpression(), '42', 'The expression contains 42');
-
-                                            calculator
-                                                .after('command-term.test', function (t3) {
-                                                    calculator.off('command-term.test');
-
-                                                    assert.equal(t3, 'ADD', 'The term ADD has been used');
-                                                    assert.equal(calculator.getExpression(), '42+', 'The expression contains 42+');
-
-                                                    calculator
-                                                        .after('command-term.test', function (t4) {
-                                                            calculator.off('command-term.test');
-
-                                                            assert.equal(t4, 'NUM3', 'The term NUM3 has been used');
-                                                            assert.equal(calculator.getExpression(), '42+3', 'The expression contains 42+3');
-
-                                                            calculator
-                                                                .after('evaluate.test', function (result) {
-                                                                    calculator.off('evaluate.test');
-
-                                                                    assert.equal(result, '45', 'The expression has been computed and the result is 45');
-                                                                    assert.equal(calculator.getExpression(), '42+3', 'The expression still contains 42+3');
-
-                                                                    calculator
-                                                                        .after('command-clear.test', function () {
-                                                                            calculator.off('command-clear.test');
-
-                                                                            assert.equal(calculator.getExpression(), '', 'The expression has been cleared');
-
-                                                                            resolve();
-                                                                        });
-                                                                    areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="clear"]').click();
-                                                                });
-                                                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="execute"]').click();
-                                                        });
-                                                    areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM3"]').click();
-                                                });
-                                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="ADD"]').click();
-                                        });
-                                    areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM2"]').click();
+                                    resolve();
                                 });
                             areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM4"]').click();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .after('command-term.test', function (term) {
+                                    calculator.off('command-term.test');
+
+                                    assert.equal(term, 'NUM2', 'The term NUM2 has been used');
+                                    assert.equal(calculator.getExpression(), '42', 'The expression contains 42');
+
+                                    resolve();
+                                });
+                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM2"]').click();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .after('command-term.test', function (term) {
+                                    calculator.off('command-term.test');
+
+                                    assert.equal(term, 'ADD', 'The term ADD has been used');
+                                    assert.equal(calculator.getExpression(), '42+', 'The expression contains 42+');
+
+                                    resolve();
+                                });
+                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="ADD"]').click();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .after('command-term.test', function (term) {
+                                    calculator.off('command-term.test');
+
+                                    assert.equal(term, 'NUM3', 'The term NUM3 has been used');
+                                    assert.equal(calculator.getExpression(), '42+3', 'The expression contains 42+3');
+
+                                    resolve();
+                                });
+                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM3"]').click();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .after('evaluate.test', function (result) {
+                                    calculator.off('evaluate.test');
+
+                                    assert.equal(result, '45', 'The expression has been computed and the result is 45');
+                                    assert.equal(calculator.getExpression(), '42+3', 'The expression still contains 42+3');
+
+                                    resolve();
+                                });
+                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="execute"]').click();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .after('command-clear.test', function () {
+                                    calculator.off('command-clear.test');
+
+                                    assert.equal(calculator.getExpression(), '', 'The expression has been cleared');
+
+                                    resolve();
+                                });
+                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="clear"]').click();
                         });
                     })
                     .catch(function (err) {
