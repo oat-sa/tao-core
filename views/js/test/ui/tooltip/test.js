@@ -39,23 +39,83 @@ define([
             content: {
                 text: 'Tooltip content'
             }
-        };
+        },
+        themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'],
+        defaultTheme = '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>';
     // mouse events imitation
     mouseenter.initEvent( 'mouseenter', true, false );
     mouseleave.initEvent( 'mouseleave', true, false );
 
     $el.qtip(defaultOpts);
 
+
     tooltipApi = $el.qtip('api');
 
-    QUnit.test('tooltip initialization', function (assert) {
+    // todo: themes, several (more than 1) items to be rendered, physical interactions
+
+    QUnit.test('Tooltip: component initialization', function (assert) {
+        var $single;
+        tooltip($('#' + containerName));
+        $single = $( '[data-tooltip]', '#' + containerName).first();
+        assert.ok($single.data('$popper'), 'tooltip got built from given container');
+        assert.throws(tooltip(), 'tooltip component throws an exception when called without attributes');
+    });
+    QUnit.test('Tooltip: component API', function (assert) {
+        var $single, $popper;
+        tooltip($('#' + containerName));
+        $single = $( '[data-tooltip]', '#' + containerName).first();
+        $popper = $single.data('$popper');
+        assert.ok($popper, 'tooltip got built from given container');
+        assert.equal(typeof $popper.show, 'function', 'tooltipAPI: show() defined');
+        assert.equal(typeof $popper.hide, 'function', 'tooltipAPI: hide() defined');
+        assert.equal(typeof $popper.dispose, 'function', 'tooltipAPI: dispose() defined');
+        assert.equal(typeof $popper.toggle, 'function', 'tooltipAPI: toggle() defined');
+        assert.equal(typeof $popper.updateTitleContent, 'function', 'tooltipAPI: updateTitleContent() defined');
+        assert.equal(typeof $popper.options, 'object', 'tooltipAPI: .options defined');
+        assert.equal(typeof $popper._isOpen, 'boolean', 'tooltipAPI: ._isOpen defined');
+    });
+    QUnit.cases(themes)
+        .test('Tooltip: all themes applied', 2, function (data, assert) {
+            var $reference = $('#tooltipstered'), $single, $popper;
+            $reference.attr('data-tooltip-theme', data);
+            tooltip($('#' + containerName));
+            $single = $( '[data-tooltip]', '#' + containerName).first();
+            $popper = $single.data('$popper');
+
+
+            assert.notEqual($popper.options.template.trim(), '', 'template is not empty string');
+            if(data === 'default' || data === 'when theme not exist'){
+                assert.equal($popper.options.template, defaultTheme, data +'  default template applied');
+            }else{
+                assert.notEqual($popper.options.template.trim(), '', data +' template applied');
+
+            }
+
+        });
+    QUnit.test('Tooltip: several tooltips on same page', function (assert) {
+        var $reference = $('#tooltipstered'), amount =10, resultAmount=0, instances = [],
+            $container = ('#' + containerName);
+        // eslint-disable-next-line vars-on-top
+        for(var i=1; i < amount;i++){
+            $reference.clone().attr('id', 'clonned_'+i).appendTo($container);
+        }
+        tooltip($container);
+        $('[data-tooltip]', $container).each(function(key, item){
+            //check for Popper instance attached to DOM element
+            if($(item).data('$popper')){
+                resultAmount++;
+            }
+        });
+
+        resultAmount = $('[data-tooltip]', $container).length;
+        assert.equal(resultAmount, amount, 'possibility to have several tooltips on page');
+    });
+    QUnit.test('JQuery wrapper: tooltip initialization', function (assert) {
         assert.equal(typeof $.fn.qtip, 'function', "The tooltip wrapper plugin is registered");
         assert.equal(typeof $.qtip, 'function', "The tooltip public method is registered");
-        assert.ok(!tooltipApi._isOpen);
     });
-
     //basic physical user interactions (mouseEnter, mouseLeave)
-    QUnit.asyncTest('physical user interactions (mouseEnter, MouseLeave)', function (assert) {
+    QUnit.asyncTest('JQuery wrapper: physical user interactions (mouseEnter, MouseLeave)', function (assert) {
         $el[0].dispatchEvent(mouseenter);
         setTimeout(function() {
             QUnit.start();
@@ -97,12 +157,12 @@ define([
         $el.qtip('toggle');
         setTimeout(function () {
             QUnit.start();
-            assert.ok(tooltipApi._isOpen);
+            assert.ok(tooltipApi._isOpen, 'API ._isOpen changed');
             assert.equal($('.tooltip').css('visibility'), 'visible', 'The tooltip become visible on first .qtip(\'toggle\') call ');
             $el.qtip('toggle');
             setTimeout(function () {
                 QUnit.start();
-                assert.ok(!tooltipApi._isOpen);
+                assert.ok(!tooltipApi._isOpen, 'API ._isOpen changed');
                 assert.equal($('.tooltip').css('visibility'), 'hidden', 'The tooltip become hidden on second .qtip(\'toggle\') call ');
             });
             QUnit.stop();
@@ -158,4 +218,5 @@ define([
             QUnit.stop();
         });
     });
+
 });

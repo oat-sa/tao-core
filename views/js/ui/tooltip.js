@@ -59,6 +59,8 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
     /**
      * redefinition of jquery.qtip plugin http://qtip2.com/
      * the goal is to substitude outdated lib code with new solution (https://popper.js.org/)
+     * so it is just a jquery rapper for Popper.js library.
+     * The Popper Instance will be stored inside .data('$popper') of wrapped element
      * leaving its original interfaces that are widely used through project.
      * https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/tooltip-documentation.md
      */
