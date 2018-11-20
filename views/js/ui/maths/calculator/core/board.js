@@ -205,6 +205,14 @@ define([
             },
 
             /**
+             * Gets access to the tokenizer
+             * @returns {Object}
+             */
+            getTokenizer: function getTokenizer() {
+                return tokenizer;
+            },
+
+            /**
              * Gets a variable defined for the expression.
              * @param {String} name - The variable name
              * @returns {String} The value. Can be another expression.
