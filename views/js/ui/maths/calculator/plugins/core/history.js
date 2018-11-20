@@ -54,7 +54,7 @@ define([
             var history, cursor;
 
             /**
-             * Clear the entire history
+             * Clears the entire history
              */
             function reset() {
                 history = [];
@@ -62,34 +62,60 @@ define([
             }
 
             /**
-             * Remind an expression from the history
-             * @param position
+             * Retrieves a memory entry in the history
+             * @param {Number} position
+             * @returns {Object|null}
+             */
+            function getMemoryAt(position) {
+                if (position >= 0 && position < history.length) {
+                    return history[position];
+                }
+                else if (position === history.length) {
+                    return {
+                        value: current
+                    };
+                }
+                return null;
+            }
+
+            /**
+             * Reminds an expression from the history
+             * @param {Number} position
              */
             function remind(position) {
-                var expression;
-                // the current expression is outside of the history, so we must keep it safe in case the user goes back
+                var expression = calculator.getExpression();
+                var memory;
+
+                // keep the current expression in the memory, in case the user goes back to it
                 if (cursor === history.length && position !== cursor) {
-                    current = calculator.getExpression();
+                    current = expression;
+                } else {
+                    history[cursor].current = expression;
                 }
+
                 // restore an expression from the history at the wanted position
-                if (position >= 0 && position <= history.length) {
+                memory = getMemoryAt(position);
+                if (memory) {
                     cursor = position;
-                    expression = history[cursor] || current;
-                    calculator.replace(expression);
+                    calculator.replace(memory.current || memory.value);
+                    memory.current = null;
                 }
+            }
+
+            function push() {
+                var expression = calculator.getExpression();
+                var last = getMemoryAt(history.length - 1);
+                if (!last || expression !== last.value) {
+                    history.push({
+                        value: calculator.getExpression()
+                    });
+                }
+                cursor = history.length;
             }
 
             reset();
             calculator
-                .on(nsHelper.namespaceAll('evaluate', pluginName), function () {
-                    var expression = calculator.getExpression();
-                    if (cursor < history.length) {
-                        history[cursor] = expression;
-                    } else if (expression !== history[history.length - 1]) {
-                        history.push(expression);
-                    }
-                    cursor = history.length;
-                })
+                .on(nsHelper.namespaceAll('evaluate', pluginName), push)
                 .on(nsHelper.namespaceAll('command-historyClear command-clearAll', pluginName), reset)
                 .on(nsHelper.namespaceAll('command-historyUp', pluginName), function () {
                     remind(cursor - 1);
@@ -102,7 +128,7 @@ define([
                      * @event history
                      * @param {Array} history - The current history list
                      */
-                    calculator.trigger('history', history.slice());
+                    calculator.trigger('history', _.pluck(history, 'value'));
                 })
                 .on(nsHelper.namespaceAll('destroy', pluginName), function () {
                     reset();
