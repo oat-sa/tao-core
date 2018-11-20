@@ -102,14 +102,19 @@ define([
                 }
             }
 
+            /**
+             * Adds a memory entry in the history from the current expression
+             */
             function push() {
                 var expression = calculator.getExpression();
                 var last = getMemoryAt(history.length - 1);
+                var memory = getMemoryAt(cursor);
                 if (!last || expression !== last.value) {
                     history.push({
                         value: calculator.getExpression()
                     });
                 }
+                memory.current = null;
                 cursor = history.length;
             }
 
