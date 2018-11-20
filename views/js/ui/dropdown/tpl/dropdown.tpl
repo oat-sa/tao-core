@@ -5,10 +5,6 @@
             {{{data.headerItem}}}
         </div>
         <ul class="dropdown-submenu plain" aria-label="submenu">
-        {{#each data.innerItems}}
-            {{! each list item should contain raw html (ideally <li>) }}
-            {{{this}}}
-        {{/each}}
         </ul>
     </div>
 </div>

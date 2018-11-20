@@ -21,8 +21,9 @@
 define([
     'jquery',
     'ui/component',
-    'tpl!ui/dropdown/tpl/dropdown'
-], function ($, component, dropdownTpl) {
+    'tpl!ui/dropdown/tpl/dropdown',
+    'tpl!ui/dropdown/tpl/list-item'
+], function ($, component, dropdownTpl, itemTpl) {
     'use strict';
 
     /**
@@ -101,13 +102,17 @@ define([
         /**
          * Adds a list item to the dropdown list
          *
-         * @param {String} html
+         * @param {Object} item
+         * @param {String} item.content - the content to insert (should be HTML)
+         * @param {String} [item.id] - the id the list item will have
+         * @param {String} [item.cls] - any extra classes to put on the list item
+         * @param {String} [item.icon] - the name of an icon to precede the content, if desired
          * @returns {dropdown} this
          */
-        addItem: function addItem(html) {
-            if (typeof html === 'string') {
-                this.config.data.innerItems.push(html);
-                this.controls.$listContainer.append(html);
+        addItem: function addItem(item) {
+            if (item.content && typeof item.content === 'string' && item.content.length) {
+                this.config.data.innerItems.push(item);
+                this.controls.$listContainer.append(itemTpl(item));
             }
             return this;
         },
@@ -165,7 +170,6 @@ define([
         })
         // renders the component
         .on('render', function () {
-            var self = this;
             var $component = this.getElement();
             this.controls = {
                 $dropdown: $component.find('.dropdown'),
@@ -173,7 +177,11 @@ define([
                 $headerItem: $component.find('.dropdown-header'),
                 $listContainer: $component.find('.dropdown-submenu')
             };
-
+            this.trigger('wireup');
+        })
+        .on('wireup', function() {
+            var self = this;
+            var $component = this.getElement();
             // wire up main behaviour:
             if (self.config.activatedBy === 'hover') {
                 $component
@@ -193,11 +201,16 @@ define([
 
             // list item events
             this.controls.$listContainer.on('click', 'li', function() {
-                var name = $(this).data('control');
+                var id = $(this).attr('id');
+
                 /**
-                 * @event item-click-<name>
+                 * @event item-click
                  */
-                self.trigger('item-click-' + name);
+                self.trigger('item-click', id);
+                /**
+                 * @event item-click-<id>
+                 */
+                self.trigger('item-click-' + id);
             });
         })
         .init(config);

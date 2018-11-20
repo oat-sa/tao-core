@@ -24,7 +24,7 @@ define([
 ], function($, dropdown) {
     'use strict';
 
-    var htmlItem = '<li><a><span>HTML Item</span></a></li>';
+    var htmlItem = '<a><span>HTML Item</span></a>';
 
     QUnit.module('dropdown');
 
@@ -114,7 +114,7 @@ define([
         });
 
         dd4.setHeader(htmlItem);
-        dd4.addItem(htmlItem);
+        dd4.addItem({content: htmlItem});
 
         assert.equal(dd4.getElement().find('.dropdown-header span').text(), 'HTML Item', "The dropdown header was set");
         assert.equal(dd4.getElement().find('.dropdown-submenu li:last-child span').text(), 'HTML Item', "The dropdown list item was set");
@@ -132,9 +132,9 @@ define([
 
         assert.equal(dd5.getElement().find('.dropdown-submenu li').length, 0, "The dropdown starts with 0 list items");
 
-        dd5.addItem(htmlItem);
-        dd5.addItem(htmlItem);
-        dd5.addItem(htmlItem);
+        dd5.addItem({content: '1'});
+        dd5.addItem({content: '2'});
+        dd5.addItem({content: '3'});
         assert.equal(dd5.getElement().find('.dropdown-submenu li').length, 3, "The dropdown gained 3 list items");
 
         dd5.removeItem(2);
