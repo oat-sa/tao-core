@@ -359,7 +359,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(27);
+                QUnit.expect(29);
 
                 calculator
                     .on('plugin-init.history', function () {
@@ -434,7 +434,7 @@ define([
                             calculator
                                 .on('history.read', function (history) {
                                     calculator.off('history.read');
-                                    assert.deepEqual(history, ['cos PI', '1+2'], 'history has been updated');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2', '1+2'], 'history has been updated');
 
                                     resolve();
                                 })
@@ -449,7 +449,7 @@ define([
                             calculator
                                 .on('history.read', function (history) {
                                     calculator.off('history.read');
-                                    assert.deepEqual(history, ['cos PI', '1+2', '3*4'], 'history has been completed');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2', '1+2', '3*4'], 'history has been completed');
 
                                     resolve();
                                 })
@@ -487,7 +487,19 @@ define([
                             calculator
                                 .on('replace.set', function () {
                                     calculator.off('replace.set');
-                                    assert.equal(calculator.getExpression(), 'cos PI', 'The N-2 expression has been reminded: "cos PI"');
+                                    assert.equal(calculator.getExpression(), '.1+.2', 'The N-2 expression has been reminded: ".1+.2"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), 'cos PI', 'The N-3 expression has been reminded: "cos PI"');
 
                                     resolve();
                                 })
@@ -504,6 +516,18 @@ define([
                                     resolve();
                                 })
                                 .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '.1+.2', 'The N-2 expression has been reminded: ".1+.2"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyDown');
                         });
                     })
                     .then(function () {
@@ -581,6 +605,315 @@ define([
                                 calculator.useCommand('historyGet');
                             });
                             calculator.useCommand('historyClear');
+                        });
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'Unexpected failure : ' + err.message);
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('history - navigate and replace', function (assert) {
+        var $container = $('#fixture-history-replace');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                var areaBroker = calculator.getAreaBroker();
+                var plugin = historyPluginFactory(calculator, areaBroker);
+
+                QUnit.expect(31);
+
+                calculator
+                    .on('plugin-init.history', function () {
+                        assert.ok(plugin.getState('init'), 'The plugin has been initialized');
+                    })
+                    .on('destroy', function () {
+                        QUnit.start();
+                    });
+
+                plugin.install()
+                    .then(function () {
+                        return plugin.init();
+                    })
+                    .then(function () {
+                        assert.ok(calculator.hasCommand('historyClear'), 'The command historyClear is registered');
+                        assert.ok(calculator.hasCommand('historyUp'), 'The command historyUp is registered');
+                        assert.ok(calculator.hasCommand('historyDown'), 'The command historyDown is registered');
+                        assert.ok(calculator.hasCommand('historyGet'), 'The command historyGet is registered');
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
+                                    assert.deepEqual(history, [], 'history is empty');
+
+                                    resolve();
+                                })
+                                .useCommand('historyGet');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator.replace('cos PI');
+                            assert.equal(calculator.evaluate(), '-1', 'The expression "cos PI" is computed');
+
+                            calculator.replace('cos PI');
+                            assert.equal(calculator.evaluate(), '-1', 'The expression "cos PI" is computed again');
+
+                            calculator.replace('.1+.2');
+                            assert.equal(calculator.evaluate(), '0.3', 'The expression ".1+.2" is computed');
+
+                            calculator
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2'], 'history has been completed with 2 entries');
+
+                                    resolve(history);
+                                })
+                                .useCommand('historyGet');
+                        });
+                    })
+                    .then(function (history) {
+                        return new Promise(function (resolve) {
+                            calculator.clear();
+                            assert.equal(calculator.getExpression(), '', 'The expression is cleared');
+
+                            calculator.on('replace.set', function () {
+                                calculator.off('replace.set');
+                                assert.equal(calculator.getExpression(), history[history.length - 1], 'The last expression has been reminded');
+
+                                resolve();
+                            });
+                            calculator.useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator.replace('1+2');
+                            assert.equal(calculator.evaluate(), '3', 'The expression "1+2" is computed');
+
+                            calculator
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2', '1+2'], 'history has been updated');
+
+                                    resolve();
+                                })
+                                .useCommand('historyGet');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator.replace('6*7');
+
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '1+2', 'The last expression has been reminded: "1+2"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '.1+.2', 'The N-1 expression has been reminded: ".1+.2"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '.1+.2+.3', 'The expression has been replaced by ".1+.2+.3"');
+
+                                    resolve();
+                                })
+                                .replace('.1+.2+.3');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '1+2', 'The last expression has been reminded: "1+2"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyDown');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '.1+.2+.3', 'The replaced N-1 expression has been reminded: ".1+.2+.3"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('evaluate.set', function (result) {
+                                    calculator.off('evaluate.set');
+                                    assert.equal(result, '0.6', 'The expression is computed');
+
+                                    resolve();
+                                })
+                                .evaluate();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2', '1+2', '.1+.2+.3'], 'history has been completed');
+
+                                    resolve();
+                                })
+                                .useCommand('historyGet');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '.1+.2+.3', 'The last expression has been reminded: ".1+.2+.3"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '1+2', 'The N-1 expression has been reminded: "1+2"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '1+2-1', 'The expression has been replaced by 1+2-1');
+
+                                    resolve();
+                                })
+                                .replace('1+2-1');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .after('command-historyDown.set', function () {
+                                    calculator.off('command-historyDown.set');
+                                    assert.equal(calculator.getExpression(), '.1+.2+.3', 'The last expression has been reminded: ".1+.2+.3"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyDown');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '1+2-1', 'The replaced N-1 expression has been reminded: "1+2-1"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('evaluate.set', function (result) {
+                                    calculator.off('evaluate.set');
+                                    assert.equal(result, '2', 'The expression is computed');
+
+                                    resolve();
+                                })
+                                .evaluate();
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2', '1+2', '.1+.2+.3', '1+2-1'], 'history has been completed');
+
+                                    resolve();
+                                })
+                                .useCommand('historyGet');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '1+2-1', 'The last expression has been reminded: "1+2-1"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '.1+.2+.3', 'The N-1 expression has been reminded: ".1+.2+.3"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('replace.set', function () {
+                                    calculator.off('replace.set');
+                                    assert.equal(calculator.getExpression(), '1+2', 'The replaced N-2 expression has been restored: "1+2"');
+
+                                    resolve();
+                                })
+                                .useCommand('historyUp');
                         });
                     })
                     .catch(function (err) {
