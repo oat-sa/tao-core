@@ -106,6 +106,7 @@ define([
         {title: 'getTokens'},
         {title: 'getToken'},
         {title: 'getTokenIndex'},
+        {title: 'getTokenizer'},
         {title: 'getVariable'},
         {title: 'hasVariable'},
         {title: 'setVariable'},
@@ -532,7 +533,7 @@ define([
         var $container = $('#fixture-tokens');
         var instance;
 
-        QUnit.expect(49);
+        QUnit.expect(52);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -578,6 +579,10 @@ define([
                 assert.equal(tokens[10].offset, 14, 'The expected term is found at offset 14');
                 assert.equal(tokens[11].type, 'NUM8', 'The expected term is found at position 11');
                 assert.equal(tokens[11].offset, 15, 'The expected term is found at offset 15');
+
+                assert.equal(typeof this.getTokenizer(), 'object', 'The tokenizer is provided');
+                assert.equal(typeof this.getTokenizer().tokenize, 'function', 'The provided tokenizer is valid');
+                assert.deepEqual(this.getTokens(), this.getTokenizer().tokenize(this.getExpression()), 'The tokenizer works as expected');
 
                 this.setPosition(7);
                 assert.equal(this.getTokenIndex(), 5, 'Token index at position 7 is 5');
