@@ -174,6 +174,26 @@ define(['i18n'], function (__) {
             description: __('Value of E')
         },
 
+        // Errors
+        NAN: {
+            label: 'Error',
+            value: 'NaN',
+            type: 'error',
+            description: __('Error in value')
+        },
+        INFINITY: {
+            label: 'Domain error',
+            value: 'Infinity',
+            type: 'error',
+            description: __('Error in result')
+        },
+        ERROR: {
+            label: 'Syntax error',
+            value: '#',
+            type: 'error',
+            description: __('Error in syntax')
+        },
+
         // Functions
         EXP: {
             label: 'exp',
