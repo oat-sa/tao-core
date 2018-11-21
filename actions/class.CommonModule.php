@@ -212,7 +212,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected function returnJson($data, $httpStatus = 200) {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
+        echo json_encode($data, JSON_NUMERIC_CHECK);
     }
 
     /**
