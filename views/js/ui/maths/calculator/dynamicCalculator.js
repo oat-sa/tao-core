@@ -46,8 +46,6 @@ define([
         preserveAspectRatio: false,
         width: 240,
         height: 360,
-        minWidth: 150,
-        minHeight: 220,
         alternativeTemplate: null
     };
 
@@ -89,6 +87,13 @@ define([
                             calculator = calculatorBoardFactory($content, loadedPlugins, config.calculator)
                                 .on(nsHelper.namespaceAll('ready', ns), function () {
                                     self
+                                        .on(nsHelper.namespaceAll('resize', ns), function(position) {
+                                            self.off(nsHelper.namespaceAll('resize', ns));
+                                            // keep the initial size as the minimal
+                                            self.config.minWidth = position.width;
+                                            self.config.minHeight = position.height;
+                                        })
+                                        .setContentSize(calculator.getElement().outerWidth(), calculator.getElement().outerHeight())
                                         .setState('ready')
                                         .trigger('ready');
                                     resolve();
