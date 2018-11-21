@@ -24,11 +24,13 @@ define([
     'lodash',
     'i18n',
     'util/namespace',
+    'ui/scroller',
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
+    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/history',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/defaultTemplate'
-], function ($, _, __, nsHelper, registeredTerms, pluginFactory, termTpl, defaultScreenTpl) {
+], function ($, _, __, nsHelper, scrollHelper, registeredTerms, pluginFactory, termTpl, historyTpl, defaultScreenTpl) {
     'use strict';
 
     var pluginName = 'simpleScreen';
@@ -182,6 +184,15 @@ define([
             }
 
             /**
+             * Auto scroll to the last child of a container
+             * @param {jQuery} $container
+             * @param {String} [sel]
+             */
+            function autoScroll($container, sel) {
+                scrollHelper.scrollTo($container.find(':last-child ' + (sel || '')), $container);
+            }
+
+            /**
              * Updates the expression area
              * @param {Array} tokens
              */
@@ -189,16 +200,7 @@ define([
                 self.controls.$expression.html(
                     transformTokens(tokens)
                 );
-            }
-
-            /**
-             * Updates the history area
-             * @param {Array} tokens
-             */
-            function showHistory(tokens) {
-                self.controls.$history.html(
-                    transformTokens(tokens)
-                );
+                autoScroll(self.controls.$expression);
             }
 
             if (!_.isFunction(pluginConfig.layout)) {
@@ -216,14 +218,18 @@ define([
 
             calculator
                 .on(nsHelper.namespaceAll('command-clearAll', pluginName), function () {
-                    showHistory([]);
+                    self.controls.$history.empty();
                 })
                 .on(nsHelper.namespaceAll('expressionchange', pluginName), function () {
                     calculator.setState('error', false);
                     showExpression(calculator.getTokens());
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
-                    showHistory(tokenizer.tokenize(self.previous + '=' + result));
+                    self.controls.$history.html(historyTpl({
+                        expression: transformTokens(tokenizer.tokenize(self.previous)),
+                        result: transformTokens(tokenizer.tokenize(result))
+                    }));
+                    autoScroll(self.controls.$history, '.history-result');
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);

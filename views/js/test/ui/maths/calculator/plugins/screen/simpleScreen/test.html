@@ -31,12 +31,14 @@
     <style>
         #visual-test {
             position: relative;
-            background: #ccc
+            background: #ccc;
+            width: 400px;
+            height: 200px;
+            margin: 0 auto;
+            padding: 5px;
         }
         .calculator {
-            position: relative;
-            width: 200px;
-            height: 300px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -58,8 +60,11 @@
     <div id=fixture-ans-op></div>
     <div id=fixture-ans-const></div>
 </div>
-<div id="visual-test" class="calculator">
-    <input class="input" type="text" /> <button class="process">Process</button>
+<div id="visual-test">
+    <input class="input" type="text" />
+    <button class="small btn-info set">Set</button>
+    <button class="small btn-success execute">Execute</button>
+    <div class="calculator"></div>
 </div>
 </body>
 </html>
