@@ -163,10 +163,10 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen .history').length, 1, 'The screen layout contains area for history');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen .expression').length, 1, 'The screen layout contains area for expression');
+                        var $screen = $container.find('.calculator-screen');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen .history').length, 1, 'The screen layout contains area for history');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen .expression').length, 1, 'The screen layout contains area for expression');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -190,6 +190,49 @@ define([
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
                 QUnit.start();
+            });
+    });
+
+
+
+    QUnit.asyncTest('render - failure', function (assert) {
+        var $container = $('#fixture-render');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                var areaBroker = calculator.getAreaBroker();
+                var plugin = simpleScreenPluginFactory(calculator, areaBroker);
+                plugin.setConfig({layout: 'foo'});
+
+                QUnit.expect(1);
+
+                calculator
+                    .on('plugin-render.templateScreen', function () {
+                        assert.ok(false, 'Should not reach that point!');
+                    })
+                    .on('destroy', function () {
+                        QUnit.start();
+                    });
+
+                plugin.install()
+                    .then(function () {
+                        return plugin.init();
+                    })
+                    .then(function () {
+                        return plugin.render();
+                    })
+                    .then(function () {
+                        assert.ok(false, 'Should not reach that point!');
+                    })
+                    .catch(function () {
+                        assert.ok(true, 'The operation should fail!');
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function () {
+                assert.ok(true, 'The operation should fail!');
+                calculator.destroy();
             });
     });
 
@@ -218,12 +261,12 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         return plugin.destroy();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 0, 'The screen layout has been removed');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 0, 'The screen layout has been removed');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -264,13 +307,13 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -298,7 +341,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -326,7 +369,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -403,13 +446,13 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -481,7 +524,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -490,7 +533,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -520,7 +563,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -572,7 +615,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -599,7 +642,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -631,7 +674,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -683,7 +726,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('command-clearAll.test', function() {
@@ -747,7 +790,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -756,7 +799,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -786,7 +829,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -838,7 +881,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -865,7 +908,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('command-clearAll.test', function() {
@@ -929,7 +972,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -938,7 +981,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -968,7 +1011,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -1020,7 +1063,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -1047,7 +1090,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('command-clearAll.test', function() {
@@ -1111,7 +1154,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -1120,7 +1163,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -1145,7 +1188,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -1186,7 +1229,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -1218,7 +1261,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -1308,8 +1351,8 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        var $screen = $container.find('.calculator-screen');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -1321,7 +1364,7 @@ define([
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -1342,7 +1385,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.ADD', function() {
@@ -1464,8 +1507,8 @@ define([
                             return plugin.render();
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
-                            assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                            var $screen = $container.find('.calculator-screen');
+                            assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                             assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                             assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -1477,7 +1520,7 @@ define([
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
+                            var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
                                     .after('termadd.test', function() {
@@ -1498,7 +1541,7 @@ define([
                             });
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
+                            var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
                                     .after('termadd.test', function() {
@@ -1559,8 +1602,8 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        var $screen = $container.find('.calculator-screen');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         calculator.replace('ans');
 
@@ -1574,7 +1617,7 @@ define([
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.ADD', function() {
@@ -1696,8 +1739,8 @@ define([
                             return plugin.render();
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
-                            assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                            var $screen = $container.find('.calculator-screen');
+                            assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                             calculator.replace('ans');
 
@@ -1711,7 +1754,7 @@ define([
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
+                            var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
                                     .after('termadd.test', function() {
@@ -1757,7 +1800,7 @@ define([
             .on('ready', function () {
                 var self = this;
                 var areaBroker = this.getAreaBroker();
-                assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                 $input.val(expression);
                 self.setExpression(expression);

@@ -27,8 +27,8 @@ define([
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
-    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
-], function ($, _, __, nsHelper, registeredTerms, pluginFactory, termTpl, simpleScreenTpl) {
+    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/defaultTemplate'
+], function ($, _, __, nsHelper, registeredTerms, pluginFactory, termTpl, defaultScreenTpl) {
     'use strict';
 
     var pluginName = 'simpleScreen';
@@ -39,7 +39,7 @@ define([
     var defaultValue = '0';
 
     var defaultConfig = {
-        layout: simpleScreenTpl
+        layout: defaultScreenTpl
     };
 
     return pluginFactory({
@@ -199,6 +199,10 @@ define([
                 self.controls.$history.html(
                     transformTokens(tokens)
                 );
+            }
+
+            if (!_.isFunction(pluginConfig.layout)) {
+                throw new TypeError('The screen plugin requires a template to render!');
             }
 
             this.$layout = $(pluginConfig.layout(_.defaults({

@@ -160,38 +160,38 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard').length, 1, 'The keyboard layout has been inserted');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key').length, 25, 'The expected number of keyboard keys have been inserted');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard').length, 1, 'The keyboard layout has been inserted');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key').length, 25, 'The expected number of keyboard keys have been inserted');
 
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM0"]').length, 1, 'The layout contains a key for NUM0');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM1"]').length, 1, 'The layout contains a key for NUM1');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM2"]').length, 1, 'The layout contains a key for NUM2');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM3"]').length, 1, 'The layout contains a key for NUM3');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM4"]').length, 1, 'The layout contains a key for NUM4');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM5"]').length, 1, 'The layout contains a key for NUM5');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM6"]').length, 1, 'The layout contains a key for NUM6');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM7"]').length, 1, 'The layout contains a key for NUM7');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM8"]').length, 1, 'The layout contains a key for NUM8');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM8"]').length, 1, 'The layout contains a key for NUM8');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM9"]').length, 1, 'The layout contains a key for NUM9');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM0"]').length, 1, 'The layout contains a key for NUM0');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM1"]').length, 1, 'The layout contains a key for NUM1');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM2"]').length, 1, 'The layout contains a key for NUM2');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM3"]').length, 1, 'The layout contains a key for NUM3');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM4"]').length, 1, 'The layout contains a key for NUM4');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM5"]').length, 1, 'The layout contains a key for NUM5');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM6"]').length, 1, 'The layout contains a key for NUM6');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM7"]').length, 1, 'The layout contains a key for NUM7');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM8"]').length, 1, 'The layout contains a key for NUM8');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM8"]').length, 1, 'The layout contains a key for NUM8');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM9"]').length, 1, 'The layout contains a key for NUM9');
 
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="LPAR"]').length, 1, 'The layout contains a key for LPAR');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="RPAR"]').length, 1, 'The layout contains a key for RPAR');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="DOT"]').length, 1, 'The layout contains a key for DOT');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="ADD"]').length, 1, 'The layout contains a key for ADD');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="SUB"]').length, 1, 'The layout contains a key for SUB');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="MUL"]').length, 1, 'The layout contains a key for MUL');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="DIV"]').length, 1, 'The layout contains a key for DIV');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="LPAR"]').length, 1, 'The layout contains a key for LPAR');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="RPAR"]').length, 1, 'The layout contains a key for RPAR');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="DOT"]').length, 1, 'The layout contains a key for DOT');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="ADD"]').length, 1, 'The layout contains a key for ADD');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="SUB"]').length, 1, 'The layout contains a key for SUB');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="MUL"]').length, 1, 'The layout contains a key for MUL');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="DIV"]').length, 1, 'The layout contains a key for DIV');
 
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="POW"]').length, 1, 'The layout contains a key for POW');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="POW NUM2"]').length, 1, 'The layout contains a key for POW NUM2');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="POW NUM3"]').length, 1, 'The layout contains a key for POW NUM3');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="SQRT"]').length, 1, 'The layout contains a key for SQRT');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="CBRT"]').length, 1, 'The layout contains a key for CBRT');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="POW"]').length, 1, 'The layout contains a key for POW');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="POW NUM2"]').length, 1, 'The layout contains a key for POW NUM2');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="POW NUM3"]').length, 1, 'The layout contains a key for POW NUM3');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="SQRT"]').length, 1, 'The layout contains a key for SQRT');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="CBRT"]').length, 1, 'The layout contains a key for CBRT');
 
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="clear"]').length, 1, 'The layout contains a key for clear');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="clearAll"]').length, 1, 'The layout contains a key for clearAll');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="execute"]').length, 1, 'The layout contains a key for execute');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-command="clear"]').length, 1, 'The layout contains a key for clear');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-command="clearAll"]').length, 1, 'The layout contains a key for clearAll');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-command="execute"]').length, 1, 'The layout contains a key for execute');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -273,12 +273,12 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard').length, 1, 'The keyboard layout has been inserted');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard').length, 1, 'The keyboard layout has been inserted');
 
                         return plugin.destroy();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard').length, 0, 'The keyboard layout has been removed');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard').length, 0, 'The keyboard layout has been removed');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -319,8 +319,8 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard').length, 1, 'The keyboard layout has been inserted');
-                        assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard .key').length, 25, 'The expected number of keyboard keys have been inserted');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard').length, 1, 'The keyboard layout has been inserted');
+                        assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard .key').length, 25, 'The expected number of keyboard keys have been inserted');
 
                         assert.equal(calculator.getExpression(), '', 'The expression is empty');
                     })
@@ -335,7 +335,7 @@ define([
 
                                     resolve();
                                 });
-                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM4"]').click();
+                            areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM4"]').click();
                         });
                     })
                     .then(function () {
@@ -349,7 +349,7 @@ define([
 
                                     resolve();
                                 });
-                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM2"]').click();
+                            areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM2"]').click();
                         });
                     })
                     .then(function () {
@@ -363,7 +363,7 @@ define([
 
                                     resolve();
                                 });
-                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="ADD"]').click();
+                            areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="ADD"]').click();
                         });
                     })
                     .then(function () {
@@ -377,7 +377,7 @@ define([
 
                                     resolve();
                                 });
-                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-param="NUM3"]').click();
+                            areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-param="NUM3"]').click();
                         });
                     })
                     .then(function () {
@@ -391,7 +391,7 @@ define([
 
                                     resolve();
                                 });
-                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="execute"]').click();
+                            areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-command="execute"]').click();
                         });
                     })
                     .then(function () {
@@ -404,7 +404,7 @@ define([
 
                                     resolve();
                                 });
-                            areaBroker.getKeyboardArea().find('.configurable-keyboard .key[data-command="clear"]').click();
+                            areaBroker.getKeyboardArea().find('.calculator-keyboard .key[data-command="clear"]').click();
                         });
                     })
                     .catch(function (err) {
@@ -461,7 +461,7 @@ define([
             })
             .on('ready', function () {
                 var areaBroker = this.getAreaBroker();
-                assert.equal(areaBroker.getKeyboardArea().find('.configurable-keyboard').length, 1, 'The keyboard layout has been inserted');
+                assert.equal(areaBroker.getKeyboardArea().find('.calculator-keyboard').length, 1, 'The keyboard layout has been inserted');
 
                 QUnit.start();
             })
