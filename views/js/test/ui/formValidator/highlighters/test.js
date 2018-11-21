@@ -65,11 +65,7 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
     QUnit.test('unhighlight (tooltip)', function(assert) {
         highlighter.highlight($('#field_1'), message);
         highlighter.unhighlight($('#field_1'));
-        QUnit.stop();
-        setTimeout(function() {
-            assert.ok(!$('#field_1').hasClass('testErrorClass'), 'Field has no error class');
-            assert.equal($('.qtip-content').length, 0, 'Unhighlighted tooltip is removed');
-            QUnit.start();
-        }, 100);
+        assert.ok(!$('#field_1').hasClass('testErrorClass'), 'Field has no error class');
+        assert.equal($('.qtip-content').length, 0, 'Unhighlighted tooltip is removed');
     });
 });

@@ -41,7 +41,7 @@ define([
             }
         },
         themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'],
-        defaultTheme = '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>';
+        defaultTheme = '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>';
     // mouse events imitation
     mouseenter.initEvent( 'mouseenter', true, false );
     mouseleave.initEvent( 'mouseleave', true, false );
@@ -113,6 +113,7 @@ define([
     QUnit.test('JQuery wrapper: tooltip initialization', function (assert) {
         assert.equal(typeof $.fn.qtip, 'function', "The tooltip wrapper plugin is registered");
         assert.equal(typeof $.qtip, 'function', "The tooltip public method is registered");
+        assert.notEqual(typeof $el.attr('data-hasqtip'), 'undefined', "hasQtip indicator");
     });
     //basic physical user interactions (mouseEnter, mouseLeave)
     QUnit.asyncTest('JQuery wrapper: physical user interactions (mouseEnter, MouseLeave)', function (assert) {
