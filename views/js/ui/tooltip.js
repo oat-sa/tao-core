@@ -21,13 +21,13 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
 
     var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],
         themesMap = {
-            'default' : '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-            'dark' : '<div class="tooltip qtip-rounded qtip-dark" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-            'error' : '<div class="tooltip qtip-rounded qtip-red" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-            'success' :'<div class="tooltip qtip-rounded qtip-green" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-            'info' : '<div class="tooltip qtip-rounded qtip-blue" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-            'warning' : '<div class="tooltip qtip-rounded qtip-orange" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-            'danger' : '<div class="tooltip qtip-rounded qtip-danger" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+            'default' : '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>',
+            'dark' : '<div class="tooltip qtip-rounded qtip-dark" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>',
+            'error' : '<div class="tooltip qtip-rounded qtip-red" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>',
+            'success' :'<div class="tooltip qtip-rounded qtip-green" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>',
+            'info' : '<div class="tooltip qtip-rounded qtip-blue" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>',
+            'warning' : '<div class="tooltip qtip-rounded qtip-orange" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>',
+            'danger' : '<div class="tooltip qtip-rounded qtip-danger" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>'
         },
         // mapping from old qtip API to new Popper.js+Tooltip.js API calls
         commandsMap = {
@@ -38,6 +38,12 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
             'update':'updateTitleContent',
             'destroy':'dispose',
             'set':'updateTitleContent'
+        },
+        positionMap = {
+            'right':'end',
+            'left':'begin',
+            'top':'begin',
+            'bottom':'end'
         },
         defaultOptions = {
             template:themesMap['default'],
@@ -69,9 +75,12 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
         // 1) initialize object for the first time : $el.qtip({ options object});
         if (typeof command === 'object') {
             // .data('$popper') - is the way to store current state inside jquery plugin
+            command = _.merge({}, defaultOptions, command);
             if(this.data('$popper')) {
                 this.data('$popper').dispose();
                 this.removeData('$popper');
+                this.removeAttr("data-hasqtip");
+
             }
             // fit old  options  format for themes to new
             if (themesMap[command.theme]){
@@ -83,7 +92,29 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 command.title = command.content.text ;
                 delete command.content;
             }
-            this.data('$popper', new Tooltip(this, command));
+            // map posititon settings from old to new format
+            if(command.position && typeof command.position.at === 'string'){
+                // eslint-disable-next-line vars-on-top
+                var pos = command.position.at.split(' '),
+                    position;
+
+                if(pos.length) {
+                    position = pos[0] ;
+                    position += pos[1] && pos[1] !== 'center' ? '-'+ positionMap[pos[1]] : '';
+                }
+
+                command.placement = position;
+            }
+            if (this.length){
+                this.data('$popper', new Tooltip(this, command));
+                // compatibility polyfill
+                this.attr('data-hasqtip', 1);
+                if(command.show){
+                    if(command.show === true || command.show.ready === true){
+                        this.data('$popper').show();
+                    }
+                }
+            }
 
         // 2) sending text (String) commands to  element that is already initialized : $el.qtip("show")
         }else if(this.data('$popper') && typeof command === 'string'){
@@ -105,6 +136,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                     this.data('$popper')[commandsMap[command]]();
                     if(commandsMap[command] === 'dispose'){
                         this.removeData('$popper');
+                        this.removeAttr("data-hasqtip");
                     }
             }
         }
@@ -126,9 +158,9 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
             var $elt = $(this),
                 $content = DataAttrHandler.getTarget('tooltip', $elt),
                 themeName = _.contains(themes, $elt.data('tooltip-theme')) ? $elt.data('tooltip-theme') : 'default',
-                options = _.merge({}, defaultOptions, {
+                options = {
                     template:themesMap[themeName]
-                });
+                };
             if($content.length){
 
                 _.merge(options,{
