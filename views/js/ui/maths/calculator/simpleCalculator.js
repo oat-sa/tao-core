@@ -20,13 +20,11 @@
  */
 define([
     'lodash',
-    'util/namespace',
     'ui/maths/calculator/dynamicCalculator',
     'ui/maths/calculator/plugins/keyboard/templateKeyboard/templateKeyboard',
     'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
 ], function (
     _,
-    nsHelper,
     dynamicCalculator,
     pluginKeyboardFactory,
     pluginScreenFactory
@@ -45,12 +43,6 @@ define([
             pluginScreenFactory
         ]
     };
-
-    /**
-     * The internal namespace for built-in events listeners
-     * @type {String}
-     */
-    var ns = 'simpleCalculator';
 
     /**
      * Creates a simple calculator component. Screen and keyboard layout are replaceable.
@@ -82,26 +74,6 @@ define([
             }
         }, _.omit(config, ['keyboardLayout', 'screenLayout']));
 
-        return dynamicCalculator(config)
-            .on(nsHelper.namespaceAll('ready', ns), function () {
-                var initialWidth = this.getElement().width();
-                var initialHeight = this.getElement().height();
-                var initialFontSize = parseInt(this.getCalculator().getElement().css('fontSize'), 10) || 10;
-                this.on(nsHelper.namespaceAll('resize', ns), function (position) {
-                    var areaBroker;
-                    if (this.getElement()) {
-                        this.getCalculator().getElement().css('fontSize', initialFontSize * Math.min(
-                            this.getElement().width() / initialWidth,
-                            this.getElement().height() / initialHeight
-                        ));
-
-                        areaBroker = this.getCalculator().getAreaBroker();
-                        areaBroker.getKeyboardArea().height(position.contentHeight - areaBroker.getScreenArea().outerHeight());
-                    }
-                });
-            })
-            .on('destroy', function () {
-                this.off('.' + ns);
-            });
+        return dynamicCalculator(config);
     };
 });

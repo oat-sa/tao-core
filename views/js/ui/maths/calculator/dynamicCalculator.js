@@ -87,7 +87,7 @@ define([
                             calculator = calculatorBoardFactory($content, loadedPlugins, config.calculator)
                                 .on(nsHelper.namespaceAll('ready', ns), function () {
                                     self
-                                        .on(nsHelper.namespaceAll('resize', ns), function(position) {
+                                        .on(nsHelper.namespaceAll('resize', ns), function (position) {
                                             self.off(nsHelper.namespaceAll('resize', ns));
                                             // keep the initial size as the minimal
                                             self.config.minWidth = position.width;
@@ -100,6 +100,27 @@ define([
                                 });
                         });
                     });
+            })
+            .on('ready', function () {
+                var initialWidth = this.getElement().width();
+                var initialHeight = this.getElement().height();
+                var initialFontSize = parseInt(this.getCalculator().getElement().css('fontSize'), 10) || 10;
+                this.on('resize', function (position) {
+                    var areaBroker;
+                    if (this.getElement()) {
+                        this.getCalculator().getElement().css('fontSize', initialFontSize * Math.min(
+                            this.getElement().width() / initialWidth,
+                            this.getElement().height() / initialHeight
+                        ));
+
+                        areaBroker = this.getCalculator().getAreaBroker();
+                        areaBroker.getKeyboardArea().height(
+                            position.contentHeight
+                            - areaBroker.getScreenArea().outerHeight()
+                            - areaBroker.getInputArea().outerHeight()
+                        );
+                    }
+                });
             })
             .on('destroy', function () {
                 var self = this;
