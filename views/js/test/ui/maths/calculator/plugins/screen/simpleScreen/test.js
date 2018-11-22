@@ -841,10 +841,10 @@ define([
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the expression is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the expression is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(0)').get(0).dataset.value, 'NaN', 'the expression is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NAN', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'error', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), registeredTerms.NAN.label, 'the expression is transformed - content');
 
                                     assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
                                     assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
@@ -1022,10 +1022,10 @@ define([
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the expression is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the expression is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(0)').get(0).dataset.value, 'Infinity', 'the expression is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'INFINITY', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'error', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), registeredTerms.INFINITY.label, 'the expression is transformed - content');
 
                                     assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
                                     assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');

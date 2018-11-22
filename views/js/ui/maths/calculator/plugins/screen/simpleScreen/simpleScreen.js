@@ -44,6 +44,15 @@ define([
         layout: defaultScreenTpl
     };
 
+    /**
+     * Checks if an expression contains an error value
+     * @param {String} expression
+     * @returns {Boolean}
+     */
+    function containsError(expression) {
+        return reErrorValue.test(expression);
+    }
+
     return pluginFactory({
         name: pluginName,
 
@@ -53,15 +62,6 @@ define([
         init: function init() {
             var self = this;
             var calculator = this.getCalculator();
-
-            /**
-             * Checks if an expression contains an error value
-             * @param {String} expression
-             * @returns {Boolean}
-             */
-            function containsError(expression) {
-                return reErrorValue.test(expression);
-            }
 
             /**
              * Reset the current expression
@@ -230,6 +230,11 @@ define([
                         result: transformTokens(tokenizer.tokenize(result))
                     }));
                     autoScroll(self.controls.$history, '.history-result');
+                })
+                .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
+                    if (containsError(result)) {
+                        showExpression(tokenizer.tokenize(result));
+                    }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);
