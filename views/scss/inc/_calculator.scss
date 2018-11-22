@@ -1,8 +1,17 @@
 /* Style for the calculator component */
 
 /* font size mixin specific to calculator to use em instead of rem unit */
+@function calc-em-size($em) {
+    @return ($em) * 1em;
+}
+@function calc-rem-size($rem) {
+    @return ($rem) * 1rem;
+}
+@function calc-px-size($px) {
+    @return ($px) * 1px;
+}
 @mixin calc-font-size($em) {
-    font-size: ($em) * 1em !important;
+    font-size: calc-em-size($em) !important;
 }
 
 .dynamic-component-container {
@@ -131,5 +140,187 @@
                 }
             }
         }
+    }
+}
+
+.calculator {
+    position: relative;
+    font-family: sans-serif;
+    font-size: 10px;
+    width: 100%;
+
+    $calculatorPanelBg: $uiClickableDefaultBg;
+    $calculatorPanelTxt: $textColor;
+    $calculatorKeyboardBg: $uiClickableDefaultBg;
+    $calculatorKeyboardHoverBg: $uiClickableActiveBg;
+    $calculatorKeyboardSpecialBg: $uiClickableHoverBg;
+    $calculatorKeyboardSpecialTxt: $textHighlight;
+    $calculatorKeyboardCommandTxt: $info;
+    $calculatorKeyboardTxt: $textColor;
+    $calculatorScreenBg: $uiGeneralContentBg;
+    $calculatorScreenTxt: $textColor;
+    $calculatorHistoryBorder: $uiGeneralContentBorder;
+    $calculatorHistoryTxt: whiten($textColor, .2);
+
+    $calculatorFontSizeBtnPrimary: 1.8;
+    $calculatorFontSizeBtnSecondary: 1.4;
+    $calculatorFontSizeBtnSvg: 1;
+    $calculatorFontSizeExpression: 1.2;
+    $calculatorFontSizeHistory: 1;
+    $calculatorFontLineExpression: 1.5;
+    $calculatorFontLineHistory: 1.3;
+    $calculatorTermSpace: .2;
+    $calculatorButtonSize: 4;
+    $calculatorScreenPadding: 2;
+
+    .calculator-keyboard {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: $calculatorKeyboardBg;
+        color: $calculatorKeyboardTxt;
+        width: 100%;
+        padding: 4px;
+
+        .row {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+
+        button {
+            position: relative;
+            background-color: $calculatorKeyboardBg;
+            color: $calculatorKeyboardTxt !important;
+            border-radius: 50%;
+            display: inline-block;
+            border: none;
+            padding: 0;
+            text-align: center;
+            text-shadow: none;
+            cursor: pointer;
+            flex: 0 0 auto;
+            width: calc-rem-size($calculatorButtonSize);
+            height: calc-rem-size($calculatorButtonSize);
+
+            &:hover {
+                background: $calculatorKeyboardHoverBg;
+            }
+            &.operand {
+                font-weight: bold;
+                @include calc-font-size($calculatorFontSizeBtnPrimary);
+            }
+            &.operator {
+                @include calc-font-size($calculatorFontSizeBtnSecondary);
+            }
+            &.command {
+                color: $calculatorKeyboardCommandTxt !important;
+                @include calc-font-size($calculatorFontSizeBtnSecondary);
+            }
+            &.execute {
+                background: $calculatorKeyboardSpecialBg;
+                color: $calculatorKeyboardSpecialTxt !important;
+                font-weight: bold;
+                @include calc-font-size($calculatorFontSizeBtnPrimary);
+            }
+
+            svg {
+                display: inline-block;
+                width: calc-em-size($calculatorFontSizeBtnSvg);
+                height: calc-em-size($calculatorFontSizeBtnSvg);
+                stroke-width: 0;
+                stroke: currentColor;
+                fill: currentColor;
+
+                &.backspace-outline {
+                    width: calc-em-size($calculatorFontSizeBtnSvg * 1.2);
+                    height: calc-em-size($calculatorFontSizeBtnSvg * 1.2);
+                }
+            }
+        }
+    }
+
+    .simple-screen {
+        position: relative;
+        width: 100%;
+        @include calc-font-size($calculatorFontSizeExpression);
+        color: $calculatorScreenTxt;
+
+        .screen {
+            position: relative;
+            width: 100%;
+            overflow: auto;
+            word-break: break-all;
+            text-align: left;
+            padding: calc-px-size($calculatorScreenPadding);
+        }
+
+        .history {
+            @include calc-font-size($calculatorFontSizeHistory);
+            border: 1px solid $calculatorHistoryBorder;
+            color: $calculatorHistoryTxt;
+            height: calc(#{calc-px-size($calculatorScreenPadding * 2)} + #{calc-em-size($calculatorFontLineHistory * 3 + .2)});
+            line-height: calc-em-size($calculatorFontLineHistory);
+
+            .history-line {
+                .history-expression {
+                    font-weight: lighter;
+                    text-align: left;
+                }
+                .history-result {
+                    &:before {
+                        content: "=";
+                        display: inline-block;
+                        font-weight: lighter;
+                        padding-right: calc-em-size($calculatorTermSpace);
+                    }
+                    text-align: right;
+                    font-weight: bolder;
+                }
+            }
+        }
+        .expression {
+            @include calc-font-size($calculatorFontSizeExpression);
+            background: $calculatorScreenBg;
+            color: $calculatorScreenTxt;
+            height: calc(#{calc-px-size($calculatorScreenPadding * 2)} + #{calc-em-size($calculatorFontLineExpression * 2)});
+            line-height: calc-em-size($calculatorFontLineExpression);
+        }
+        .term {
+            padding: 0;
+
+            &.term-operator:not([data-token="POW"]) {
+                padding: 0 calc-em-size($calculatorTermSpace);
+            }
+            &.term-function:not([data-token="SQRT"]):not([data-token="CBRT"]) {
+                padding-right: calc-em-size($calculatorTermSpace);
+            }
+            &.term-operand {
+                font-weight: bold;
+            }
+            &.term-modificator {
+                font-weight: lighter;
+            }
+            &.term-constant {
+                font-style: italic;
+                font-weight: bold;
+            }
+            &.term-variable {
+                font-weight: bold;
+            }
+            &.term-unknown {
+                color: $warning;
+                text-decoration: underline wavy $error;
+            }
+            &.term-error {
+                color: $error;
+            }
+        }
+    }
+
+    &.error .screen {
+        background: $errorBgColor;
     }
 }

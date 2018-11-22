@@ -1,4 +1,4 @@
 <div class="calculator-screen simple-screen">
-    <div class="history">{{{history}}}</div>
-    <div class="expression">{{{expression}}}</div>
+    <div class="screen history">{{{history}}}</div>
+    <div class="screen expression">{{{expression}}}</div>
 </div>
