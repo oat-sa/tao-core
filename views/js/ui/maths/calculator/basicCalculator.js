@@ -20,29 +20,16 @@
  */
 define([
     'lodash',
-    'ui/maths/calculator/dynamicCalculator',
-    'ui/maths/calculator/plugins/keyboard/templateKeyboard/templateKeyboard',
-    'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
+    'ui/maths/calculator/simpleCalculator',
+    'tpl!ui/maths/calculator/tpl/basicKeyboard',
+    'tpl!ui/maths/calculator/tpl/basicScreen'
 ], function (
     _,
-    dynamicCalculator,
-    pluginKeyboardFactory,
-    pluginScreenFactory
+    simpleCalculator,
+    keyboardTpl,
+    screenTpl
 ) {
     'use strict';
-
-    /**
-     * The list of UI plugins the simple calculator is using
-     * @type {Object}
-     */
-    var simpleCalculatorPlugins = {
-        keyboard: [
-            pluginKeyboardFactory
-        ],
-        screen: [
-            pluginScreenFactory
-        ]
-    };
 
     /**
      * Creates a simple calculator component. Screen and keyboard layout are replaceable.
@@ -53,27 +40,17 @@ define([
      * @returns {dynamicComponent}
      */
     return function simpleCalculatorFactory(config) {
-        var defaultPluginsConfig = {};
-
-        if (config && config.keyboardLayout) {
-            defaultPluginsConfig.templateKeyboard = {
-                layout: config.keyboardLayout
-            };
-        }
-
-        if (config && config.screenLayout) {
-            defaultPluginsConfig.simpleScreen = {
-                layout: config.screenLayout
-            };
-        }
-
-        config = _.merge({
-            loadedPlugins: simpleCalculatorPlugins,
+        return simpleCalculator(_.merge({
             calculator: {
-                plugins: defaultPluginsConfig
+                plugins: {
+                    templateKeyboard: {
+                        layout: keyboardTpl
+                    },
+                    simpleScreen: {
+                        layout: screenTpl
+                    }
+                }
             }
-        }, _.omit(config, ['keyboardLayout', 'screenLayout']));
-
-        return dynamicCalculator(config);
+        }, config));
     };
 });
