@@ -339,11 +339,18 @@ p.bold {
 .qtip-orange{
   @extend .feedback-warning;
   color: $textColor;
+  background-color: $warningBgColor;
+  border: solid 1px $warningBorderColor;
 }
-
-.qtip-orange .tooltip-inner{
-  //background-color: $fbWarningBg;
+.qtip-orange .tooltip-arrow{
+  border-color: $warningBorderColor;
 }
+.qtip-orange .tooltip-arrow::before{
+  border-color: $warningBgColor;
+}
+//.qtip-orange .tooltip-inner{
+//  background-color: $fbWarningBg;
+//}
 
 .qtip-orange .qtip-close .qtip-icon{
   background-position: -102px 0;

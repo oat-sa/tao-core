@@ -37,7 +37,8 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
             'toggle':'toggle',
             'update':'updateTitleContent',
             'destroy':'dispose',
-            'set':'updateTitleContent'
+            'set':'updateTitleContent',
+            'content.text':'updateTitleContent'
         },
         positionMap = {
             'right':'end',
@@ -92,6 +93,10 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 command.title = command.content.text ;
                 delete command.content;
             }
+            if(command.content){
+                command.title = command.content.text ;
+                delete command.content;
+            }
             // map posititon settings from old to new format
             if(command.position && typeof command.position.at === 'string'){
                 // eslint-disable-next-line vars-on-top
@@ -104,6 +109,11 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 }
 
                 command.placement = position;
+            }
+            // map container settings from old to new format
+            if(command.position && typeof command.position.container){
+                command.container = command.position.container;
+                delete command.position.container;
             }
             if (this.length){
                 this.data('$popper', new Tooltip(this, command));
@@ -119,6 +129,10 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
         // 2) sending text (String) commands to  element that is already initialized : $el.qtip("show")
         }else if(this.data('$popper') && typeof command === 'string'){
             switch (command) {
+                case 'theme':
+                    this.data('$popper').template = themesMap[message];
+                    break;
+                case 'content.text':
                 case 'update':
                     this.data('$popper')[commandsMap[command]](message);
                     break;
