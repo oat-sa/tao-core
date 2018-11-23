@@ -93,10 +93,6 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 command.title = command.content.text ;
                 delete command.content;
             }
-            if(command.content){
-                command.title = command.content.text ;
-                delete command.content;
-            }
             // map posititon settings from old to new format
             if(command.position && typeof command.position.at === 'string'){
                 // eslint-disable-next-line vars-on-top
@@ -111,7 +107,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 command.placement = position;
             }
             // map container settings from old to new format
-            if(command.position && typeof command.position.container){
+            if(command.position && command.position.container){
                 command.container = command.position.container;
                 delete command.position.container;
             }
