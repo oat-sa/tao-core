@@ -16,7 +16,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/popper/tooltip', 'css!lib/popper/popper.css'], function($, _, DataAttrHandler, Popper, Tooltip ){
+define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/popper/tooltip'], function($, _, DataAttrHandler, Popper, Tooltip ){
     'use strict';
 
     var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],

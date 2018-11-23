@@ -1,10 +1,6 @@
 @import 'inc/bootstrap';
 
-$plain : #A4A9B1;
 $dark : #404040;
-$red: #F06D65;
-$green: #B0DE78;
-$blue: #D0E9F5;
 
 .tooltip-content{
   display: none;
@@ -13,6 +9,208 @@ $blue: #D0E9F5;
   .tooltip-content{
     display: block;
   }
+}
+
+.link-anchor {
+  position: relative;
+  width: 0;
+  font-size: .8em;
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+}
+.anchor-wrapper {
+  border: none;
+}
+.anchor-wrapper:hover .link-anchor {
+  opacity: 1;
+}
+
+section h1[id]:focus,
+section h2[id]:focus,
+section h3[id]:focus,
+section h4[id]:focus,
+section h5[id]:focus {
+  outline: 0;
+}
+
+p.thin {
+  font-weight: 100;
+  margin: 0;
+  line-height: 1.2em;
+}
+
+p.bold {
+  font-weight: 900;
+  margin: 0;
+  margin-top: -5px;
+}
+
+.rel {
+  width: 30%;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  border-style: dotted;
+  border-color: white;
+  border-width: medium;
+}
+
+.popper,
+.tooltip {
+  position: absolute;
+  /*background: #FFC107;*/
+
+  color: black;
+  min-width: 100px;
+  max-width: 250px;
+  border-radius: 3px;
+  /*box-shadow: 0 0 2px rgba(0,0,0,0.5);*/
+  box-shadow: none;
+  padding: 10px;
+  text-align: left;
+  font-size: .8em;
+  z-index: 2000;
+  word-break: normal;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+.style5 .tooltip {
+  background: #1E252B;
+  color: #FFFFFF;
+  max-width: 200px;
+  width: auto;
+  font-size: .8rem;
+  padding: .5em 1em;
+}
+.popper .popper__arrow,
+.tooltip .tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+}
+
+.tooltip .tooltip-arrow::before,
+.popper .popper__arrow::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+}
+.style5 .tooltip .tooltip-arrow {
+  border-color: red !important;
+
+}
+.popper[x-placement^="top"],
+.tooltip[x-placement^="top"] {
+  margin-bottom: 5px;
+}
+.popper[x-placement^="top"] .popper__arrow,
+.tooltip[x-placement^="top"] .tooltip-arrow {
+  border-width: 5px 5px 0 5px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.popper[x-placement^="top"] .popper__arrow::before,
+.tooltip[x-placement^="top"] .tooltip-arrow::before {
+
+
+  border-width: 3px 3px 0 3px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  top: -5px;
+  left: calc(50% - 3px);
+
+}
+.popper[x-placement^="bottom"],
+.tooltip[x-placement^="bottom"] {
+  margin-top: 5px;
+}
+.tooltip[x-placement^="bottom"] .tooltip-arrow,
+.popper[x-placement^="bottom"] .popper__arrow {
+  border-width: 0 5px 5px 5px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.tooltip[x-placement^="bottom"] .tooltip-arrow::before,
+.popper[x-placement^="bottom"] .popper__arrow::before {
+
+  border-width: 0 3px 3px 3px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  bottom: -5px;
+  left: calc(50% - 3px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.tooltip[x-placement^="right"],
+.popper[x-placement^="right"] {
+  margin-left: 5px;
+}
+.popper[x-placement^="right"] .popper__arrow,
+.tooltip[x-placement^="right"] .tooltip-arrow {
+  border-width: 5px 5px 5px 0;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  left: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+.popper[x-placement^="right"] .popper__arrow::before,
+.tooltip[x-placement^="right"] .tooltip-arrow::before {
+  border-width: 3px 3px 3px 0;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  right: -5px;
+  top: calc(50% - 3px);
+  margin-left: 0;
+  margin-right: 0;
+}
+.popper[x-placement^="left"],
+.tooltip[x-placement^="left"] {
+  margin-right: 5px;
+}
+.popper[x-placement^="left"] .popper__arrow,
+.tooltip[x-placement^="left"] .tooltip-arrow {
+  border-width: 5px 0 5px 5px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  right: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+.popper[x-placement^="left"] .popper__arrow::before,
+.tooltip[x-placement^="left"] .tooltip-arrow::before {
+
+  border-width: 3px 0 3px 3px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  top: calc(50% - 3px);
+  left:-5px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 
@@ -32,10 +230,11 @@ $blue: #D0E9F5;
 }
 // default tooltip style
 .qtip-plain .tooltip-arrow{
-  border-color: $plain;
+  border-color: $darkBlueGrey;
 }
 .qtip-plain {
-  background-color: $plain
+  background-color: $darkBlueGrey;
+  border: solid 1px darken($darkBlueGrey, 30%)
 }
 /*! Dark tooltip style */
 .qtip-dark .tooltip-arrow{
@@ -43,7 +242,7 @@ $blue: #D0E9F5;
 }
 .qtip-dark{
   background-color: $dark;
-  border-color: #303030;
+  border: solid 1px darken($dark, 30%);
   color: $textHighlight;
 }
 
@@ -82,10 +281,11 @@ $blue: #D0E9F5;
   color: $textColor;
 }
 .qtip-red .tooltip-arrow{
-  border-color: $red;
+  border-color: $errorBgColor;
 }
 .qtip-red {
-  background-color: $red;
+  background-color: $errorBgColor;
+  border: solid 1px $errorBorderColor;
 }
 
 .qtip-red .qtip-close .qtip-icon{
@@ -105,10 +305,12 @@ $blue: #D0E9F5;
   color: $textColor;
 }
 .qtip-green .tooltip-arrow{
-  border-color: $green;
+  border-color: $successBgColor;
 }
 .qtip-green {
-  background-color: $green;
+  background-color: $successBgColor;
+  border: solid 1px $successBorderColor;
+
 }
 
 .qtip-green .qtip-close .qtip-icon{
@@ -120,10 +322,14 @@ $blue: #D0E9F5;
   color: $textColor;
 }
 .qtip-blue .tooltip-arrow{
-  border-color: $blue;
+  border-color: $infoBorderColor;
+}
+.qtip-blue .tooltip-arrow::before{
+  border-color: $infoBgColor;
 }
 .qtip-blue {
-  background-color: $blue;
+  background-color: $infoBgColor;
+  border: solid 1px $infoBorderColor;
 }
 
 .qtip-blue .qtip-close .qtip-icon{
