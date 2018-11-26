@@ -5,6 +5,8 @@
         <title>Ui Test - Modal Windows</title>
         <base href="../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
@@ -37,11 +39,30 @@
                 </p>
             </div>
         </div>
-        <div>
-            <div id="visible_tooltip">tooltip button</div>
-        </div>
-        <div id="visible-fixture">
 
+        <br>
+        <h1>Visual playground</h1>
+        <div id="visible-fixture">
+            <div>line of text where <span id="visible-tooltip" style="text-decoration: underline; font-weight: bold;" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="default">tooltip</span> is present
+                <span class="tooltip-content" >
+                    <p>
+                        Random <b>HTML</b> <i>content</i> for tooltip
+                    </p>
+                </span>
+            </div>
+            <div>
+
+                <br> <br>
+                <button type="button" id="toggle-tooltip">toggle tooltip</button>
+                <br><br>
+                <label for="theme-select">
+                    <select name="theme" id="theme-select">
+                    </select>
+                </label>
+                <br>
+                <button type="button" id="change-theme">change theme</button>
+
+            </div>
         </div>
     </body>
 </html>

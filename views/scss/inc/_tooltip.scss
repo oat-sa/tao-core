@@ -11,51 +11,6 @@ $dark : #404040;
   }
 }
 
-.link-anchor {
-  position: relative;
-  width: 0;
-  font-size: .8em;
-  opacity: 0;
-  transition: opacity .2s ease-in-out;
-}
-.anchor-wrapper {
-  border: none;
-}
-.anchor-wrapper:hover .link-anchor {
-  opacity: 1;
-}
-
-section h1[id]:focus,
-section h2[id]:focus,
-section h3[id]:focus,
-section h4[id]:focus,
-section h5[id]:focus {
-  outline: 0;
-}
-
-p.thin {
-  font-weight: 100;
-  margin: 0;
-  line-height: 1.2em;
-}
-
-p.bold {
-  font-weight: 900;
-  margin: 0;
-  margin-top: -5px;
-}
-
-.rel {
-  width: 30%;
-  margin: 0 auto;
-  position: relative;
-  text-align: center;
-  padding: 20px;
-  border-style: dotted;
-  border-color: white;
-  border-width: medium;
-}
-
 .popper,
 .tooltip {
   position: absolute;
@@ -235,6 +190,9 @@ p.bold {
   background-color: $darkBlueGrey;
   border: solid 1px darken($darkBlueGrey, 30%);
   .tooltip-arrow{
+    border-color: darken($darkBlueGrey, 30%);;
+  }
+  .tooltip-arrow::before{
     border-color: $darkBlueGrey;
   }
 }
@@ -243,6 +201,9 @@ p.bold {
   border: solid 1px darken($dark, 30%);
   color: $textHighlight;
   .tooltip-arrow{
+    border-color: $dark;
+  }
+  .tooltip-arrow::before{
     border-color: $dark;
   }
   .tooltip-inner{

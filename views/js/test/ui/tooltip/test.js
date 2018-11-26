@@ -24,37 +24,29 @@ define([
     'ui/tooltip'
 ], function($, _, tooltip) {
     'use strict';
+    var containerName = 'qunit-fixture';
+    // invoking native mouse events
+    var mouseenter = document.createEvent( 'Events' );
+    var mouseleave = document.createEvent( 'Events' );
+    var defaultOpts = {
+        theme : 'warning',
+        content: {
+            text: 'Tooltip content'
+        }
+    };
+    var themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'];
+    var defaultTheme = '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>';
 
     QUnit.module('tooltip');
 
-    // eslint-disable-next-line vars-on-top
-    var containerName = 'qunit-fixture',
-        $el = $('#visible_tooltip'),
-        tooltipApi,
-        // invoking native mouse events
-        mouseenter = document.createEvent( 'Events' ),
-        mouseleave = document.createEvent( 'Events' ),
-        defaultOpts = {
-            theme : 'warning',
-            content: {
-                text: 'Tooltip content'
-            }
-        },
-        themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'],
-        defaultTheme = '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content"></div></div>';
     // mouse events imitation
     mouseenter.initEvent( 'mouseenter', true, false );
     mouseleave.initEvent( 'mouseleave', true, false );
 
-    $el.qtip(defaultOpts);
-
-
-    tooltipApi = $el.qtip('api');
-
-    // todo: themes, several (more than 1) items to be rendered, physical interactions
 
     QUnit.test('Tooltip: component initialization', function (assert) {
         var $single;
+        QUnit.expect(2);
         tooltip($('#' + containerName));
         $single = $( '[data-tooltip]', '#' + containerName).first();
         assert.ok($single.data('$popper'), 'tooltip got built from given container');
@@ -62,6 +54,7 @@ define([
     });
     QUnit.test('Tooltip: component API', function (assert) {
         var $single, $popper;
+        QUnit.expect(8);
         tooltip($('#' + containerName));
         $single = $( '[data-tooltip]', '#' + containerName).first();
         $popper = $single.data('$popper');
@@ -75,8 +68,9 @@ define([
         assert.equal(typeof $popper._isOpen, 'boolean', 'tooltipAPI: ._isOpen defined');
     });
     QUnit.cases(themes)
-        .test('Tooltip: all themes applied', 2, function (data, assert) {
+        .test('Tooltip: all themes applied', function (data, assert) {
             var $reference = $('#tooltipstered'), $single, $popper;
+            QUnit.expect(2);
             $reference.attr('data-tooltip-theme', data);
             tooltip($('#' + containerName));
             $single = $( '[data-tooltip]', '#' + containerName).first();
@@ -93,10 +87,11 @@ define([
 
         });
     QUnit.test('Tooltip: several tooltips on same page', function (assert) {
-        var $reference = $('#tooltipstered'), amount =10, resultAmount=0, instances = [],
-            $container = ('#' + containerName);
-        // eslint-disable-next-line vars-on-top
-        for(var i=1; i < amount;i++){
+        var $reference = $('#tooltipstered'), amount =10, resultAmount=0, instances = [];
+        var i =1;
+        var $container = ('#' + containerName);
+        QUnit.expect(1);
+        for(i; i < amount;i++){
             $reference.clone().attr('id', 'clonned_'+i).appendTo($container);
         }
         tooltip($container);
@@ -111,17 +106,25 @@ define([
         assert.equal(resultAmount, amount, 'possibility to have several tooltips on page');
     });
     QUnit.test('JQuery wrapper: tooltip initialization', function (assert) {
+        var $el = $('<div id="tip-toggle"/>')
+            .appendTo('#'+containerName)
+            .qtip(defaultOpts);
+        QUnit.expect(3);
         assert.equal(typeof $.fn.qtip, 'function', "The tooltip wrapper plugin is registered");
         assert.equal(typeof $.qtip, 'function', "The tooltip public method is registered");
         assert.notEqual(typeof $el.attr('data-hasqtip'), 'undefined', "hasQtip indicator");
     });
     //basic physical user interactions (mouseEnter, mouseLeave)
     QUnit.asyncTest('JQuery wrapper: physical user interactions (mouseEnter, MouseLeave)', function (assert) {
+        var $el = $('<div id="tip-toggle"/>')
+            .appendTo('#'+containerName)
+            .qtip(defaultOpts);
+        QUnit.expect(4);
+        var tooltipApi = $el.qtip('api');
         $el[0].dispatchEvent(mouseenter);
         setTimeout(function() {
-            QUnit.start();
-            // eslint-disable-next-line vars-on-top
             var $tooltip = $('.tooltip');
+            QUnit.start();
             // invoking native mouse events
             assert.ok(tooltipApi._isOpen, 'api visibility parameter is changed to "true"');
             assert.equal($tooltip.css('visibility'), 'visible', 'The tooltip become visible on when mouse cursor is in area of reference element (button)');
@@ -138,6 +141,11 @@ define([
 
     // former tooltip plugin compatibility API (jQuery.qtip plugin)
     QUnit.asyncTest('Backward compatibility: Jquery.qtip("show") and Jquery.qtip("hide")', function (assert) {
+        var $el = $('<div id="tip-show"/>')
+            .appendTo('#'+containerName)
+            .qtip(defaultOpts);
+        var tooltipApi = $el.qtip('api');
+        QUnit.expect(4);
         $el.qtip('show');
         setTimeout(function () {
             QUnit.start();
@@ -155,6 +163,11 @@ define([
     });
 
     QUnit.asyncTest('Backward compatibility: Jquery.qtip("toggle")', function (assert) {
+        var $el =  $('<div id="tip-toggle"/>')
+            .appendTo('#'+containerName)
+            .qtip(defaultOpts);
+        var tooltipApi = $el.qtip('api');
+        QUnit.expect(4);
         $el.qtip('toggle');
         setTimeout(function () {
             QUnit.start();
@@ -173,9 +186,10 @@ define([
     QUnit.asyncTest('Backward compatibility: Jquery.qtip("update", "tooltip text")', function (assert) {
         var $elToUpdate = $('<div id="tip-toUpdate"/>')
                 .appendTo('#'+containerName)
-                .qtip(defaultOpts),
-            $elToUpdateApi = $elToUpdate.qtip('api'),
-            updateMessage = 'update message';
+                .qtip(defaultOpts);
+        var $elToUpdateApi = $elToUpdate.qtip('api');
+        var updateMessage = 'update message';
+        QUnit.expect(2);
         $elToUpdate.qtip('update', updateMessage);
         $elToUpdate.qtip('show');
         setTimeout(function () {
@@ -188,9 +202,10 @@ define([
     QUnit.asyncTest('Backward compatibility: Jquery.qtip("set", "content.text", "tooltip text")', function (assert) {
         var $elToSet = $('<div id="tip-toSet"/>')
                 .appendTo('#'+containerName)
-                .qtip(defaultOpts),
-            $elToSetApi = $elToSet.qtip('api'),
-            setMessage = 'new set message';
+                .qtip(defaultOpts);
+        var $elToSetApi = $elToSet.qtip('api');
+        var setMessage = 'new set message';
+        QUnit.expect(2);
         $elToSet.qtip('set', 'content.text', setMessage);
         $elToSet.qtip('show');
         setTimeout(function () {
@@ -204,9 +219,9 @@ define([
         // $el.qtip('destroy');
         var $elToDestroy = $('<div id="tip-toDestroy"/>')
                 .appendTo('#'+containerName)
-                .qtip(defaultOpts),
-            $elToDestroyApi = $elToDestroy.qtip('api');
-
+                .qtip(defaultOpts);
+        var $elToDestroyApi = $elToDestroy.qtip('api');
+        QUnit.expect(2);
         $elToDestroy.qtip('show');
         setTimeout(function () {
             QUnit.start();
@@ -218,6 +233,44 @@ define([
             });
             QUnit.stop();
         });
+    });
+
+    QUnit.module('Visual');
+
+    QUnit.test('playground', function(assert) {
+        var $container = $('#visible-fixture');
+        var $elm = $('#visible-tooltip', $container);
+        var $themeSelect = $('#theme-select', $container);
+        QUnit.expect(1);
+        tooltip($container);
+        assert.ok($elm.data("$popper"), 'popper instance is defined');
+        themes.forEach(function (value) {
+            $themeSelect.append('<option value="'+value+'">'+value+'</option>');
+        });
+
+        $('#change-theme', $container).click(function ($e) {
+            //$themeSelect.val()
+            var $tootip = $('#visible-tooltip', $container);
+            $tootip.qtip({
+                theme: $themeSelect.val(),
+                show:true,
+                content:{
+                    text: $tootip.data('$popper').options.title
+                }
+            } );
+            $tootip.qtip('show');
+            $e.preventDefault();
+            $e.stopPropagation();
+            return false;
+        });
+        $('#toggle-tooltip', $container).click(function ($e) {
+            $('#visible-tooltip', $container).data('$popper').toggle();
+            $e.preventDefault();
+            $e.stopPropagation();
+            return false;
+        });
+
+
     });
 
 });
