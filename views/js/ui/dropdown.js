@@ -189,7 +189,7 @@ define([
                 .on('mouseleave', self.close);
             }
             else if (self.config.activatedBy === 'click') {
-                $component.on('click', self.toggle);
+                this.controls.$headerItem.on('click', self.toggle);
             }
             $component
             .on('focus', self.open)
