@@ -239,6 +239,9 @@ $dark : #404040;
   @extend .feedback-error;
   color: $textColor;
   .tooltip-arrow{
+    border-color: $errorBorderColor;
+  }
+  .tooltip-arrow::before{
     border-color: $errorBgColor;
   }
   .qtip-close .qtip-icon{
