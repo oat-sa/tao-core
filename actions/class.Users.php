@@ -284,11 +284,12 @@ class tao_actions_Users extends tao_actions_CommonModule
 
     /**
      * @throws Exception
+     * @throws common_exception_BadRequest
      */
     public function addInstanceForm()
     {
         if (!tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $clazz = $this->getClass(TaoOntology::CLASS_URI_TAO_USER);
@@ -316,12 +317,13 @@ class tao_actions_Users extends tao_actions_CommonModule
      * action used to check if a login can be used
      * @return void
      * @throws Exception
+     * @throws common_exception_BadRequest
      */
     public function checkLogin()
     {
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         if (!tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $data = array('available' => false);
@@ -428,13 +430,14 @@ class tao_actions_Users extends tao_actions_CommonModule
     }
 
     /**
+     * @throws common_exception_MissingParameter
      * @throws Exception
      * @return core_kernel_classes_Resource
      */
     private function getUserResource()
     {
         if (!$this->hasRequestParameter('uri')) {
-            throw new Exception('Please set the user uri in request parameter');
+            throw new common_exception_MissingParameter('uri');
         }
 
         $userUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
