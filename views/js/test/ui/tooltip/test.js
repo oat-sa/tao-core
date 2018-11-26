@@ -25,7 +25,6 @@ define([
 ], function($, _, tooltip) {
     'use strict';
     var containerName = 'qunit-fixture';
-    // invoking native mouse events
     var mouseenter = document.createEvent( 'Events' );
     var mouseleave = document.createEvent( 'Events' );
     var defaultOpts = {
@@ -39,7 +38,6 @@ define([
 
     QUnit.module('tooltip');
 
-    // mouse events imitation
     mouseenter.initEvent( 'mouseenter', true, false );
     mouseleave.initEvent( 'mouseleave', true, false );
 
@@ -96,7 +94,6 @@ define([
         }
         tooltip($container);
         $('[data-tooltip]', $container).each(function(key, item){
-            //check for Popper instance attached to DOM element
             if($(item).data('$popper')){
                 resultAmount++;
             }
@@ -114,18 +111,16 @@ define([
         assert.equal(typeof $.qtip, 'function', "The tooltip public method is registered");
         assert.notEqual(typeof $el.attr('data-hasqtip'), 'undefined', "hasQtip indicator");
     });
-    //basic physical user interactions (mouseEnter, mouseLeave)
     QUnit.asyncTest('JQuery wrapper: physical user interactions (mouseEnter, MouseLeave)', function (assert) {
         var $el = $('<div id="tip-toggle"/>')
             .appendTo('#'+containerName)
             .qtip(defaultOpts);
-        QUnit.expect(4);
         var tooltipApi = $el.qtip('api');
+        QUnit.expect(4);
         $el[0].dispatchEvent(mouseenter);
         setTimeout(function() {
             var $tooltip = $('.tooltip');
             QUnit.start();
-            // invoking native mouse events
             assert.ok(tooltipApi._isOpen, 'api visibility parameter is changed to "true"');
             assert.equal($tooltip.css('visibility'), 'visible', 'The tooltip become visible on when mouse cursor is in area of reference element (button)');
 
@@ -139,7 +134,6 @@ define([
         },100);
     });
 
-    // former tooltip plugin compatibility API (jQuery.qtip plugin)
     QUnit.asyncTest('Backward compatibility: Jquery.qtip("show") and Jquery.qtip("hide")', function (assert) {
         var $el = $('<div id="tip-show"/>')
             .appendTo('#'+containerName)
@@ -216,7 +210,6 @@ define([
     });
 
     QUnit.asyncTest('Backward compatibility: Jquery.qtip("destroy")', function (assert) {
-        // $el.qtip('destroy');
         var $elToDestroy = $('<div id="tip-toDestroy"/>')
                 .appendTo('#'+containerName)
                 .qtip(defaultOpts);
@@ -249,7 +242,6 @@ define([
         });
 
         $('#change-theme', $container).click(function ($e) {
-            //$themeSelect.val()
             var $tootip = $('#visible-tooltip', $container);
             $tootip.qtip({
                 theme: $themeSelect.val(),
