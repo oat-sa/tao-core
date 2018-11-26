@@ -256,6 +256,7 @@ define([
             data.classUri   = uri.decode(actionContext.classUri);
             data.id         = actionContext.id;
             data[tokenName] = $.cookie(tokenName);
+            data.signature  = actionContext.signature;
 
             return new Promise( function (resolve, reject){
                 confirmDialog(__("Please confirm deletion"), function accept(){
@@ -373,7 +374,7 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext){
-            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed']);
+            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
 
             //wrap into a private function for recusion calls
             var _moveNode = function _moveNode(url){
@@ -552,7 +553,8 @@ define([
             //get the resource provider configured with the action URL
             var resourceProvider = resourceProviderFactory({
                 moveTo: {
-                    url: this.url
+                    url: this.url,
+                    signature: actionContext.signature
                 }
             });
 
@@ -562,7 +564,7 @@ define([
 
             return new Promise(function (resolve, reject) {
                 var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
-                var selectedUri = _.pluck(actionContext, 'uri');
+                var selectedUri = _.pluck(actionContext, 'id');
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {

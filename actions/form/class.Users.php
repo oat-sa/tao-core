@@ -33,7 +33,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
  * @package tao
  
  */
-class tao_actions_form_Users extends tao_actions_form_Instance
+class tao_actions_form_Users extends \oat\tao\model\controller\SignedFormInstance
 {
     // --- ASSOCIATIONS ---
 
@@ -58,20 +58,25 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 
     // --- OPERATIONS ---
 
-	/**
-	 * Short description of method __construct
-	 *
-	 * @access public
-	 * @author Joel Bout, <joel.bout@tudor.lu>
-	 *
-	 * @param  core_kernel_classes_Class $clazz
-	 * @param  core_kernel_classes_Resource $user
-	 * @param  boolean $forceAdd
-	 *
-	 * @throws Exception
-	 */
-    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false)
-    {
+    /**
+     * Short description of method __construct
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     *
+     * @param  core_kernel_classes_Class $clazz
+     * @param  $signature
+     * @param  core_kernel_classes_Resource $user
+     * @param  boolean $forceAdd
+     *
+     * @throws common_exception_Error
+     */
+    public function __construct(
+        core_kernel_classes_Class $clazz,
+        $signature,
+        core_kernel_classes_Resource $user = null,
+        $forceAdd = false
+    ) {
     	if (empty($clazz)){
     		throw new Exception('Set the user class in the parameters');	
     	}
@@ -105,7 +110,7 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 
     	$options['topClazz'] = GenerisRdf::CLASS_GENERIS_USER;
     	
-    	parent::__construct($clazz, $this->user, $options);
+    	parent::__construct($clazz, $signature, $this->user, $options);
     }
 
     /**
@@ -258,5 +263,4 @@ class tao_actions_form_Users extends tao_actions_form_Instance
 			}
 		}
     }
-
 }

@@ -457,7 +457,8 @@ define([
                         var nodeUri         = $node.data('uri');
                         var $parentNode     = tree.parent($node);
                         var nodeContext     =  {
-                            rootClassUri :  options.rootClassUri
+                            rootClassUri :  options.rootClassUri,
+                            signature : $node.data('signature')
                         };
 
                         //mark all unselected
@@ -544,7 +545,8 @@ define([
                         //execute the selectInstance action
                         actionManager.exec(options.actions.moveInstance, {
                             uri: $(node).data('uri'),
-                            destinationClassUri: $(refNode).data('uri')
+                            destinationClassUri: $(refNode).data('uri'),
+                            signature: $(node).data('signature')
                         });
 
                         $container.trigger('change.taotree');

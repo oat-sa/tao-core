@@ -23,6 +23,8 @@ namespace oat\tao\helpers;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\security\SignatureGenerator;
 use tao_helpers_Uri;
 
 /**
@@ -98,16 +100,19 @@ class TreeHelper
 			}
 		}
 
-        return array(
+        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
+
+        return [
             'data' 	=> _dh($label),
             'type'	=> 'instance',
-            'attributes' => array_merge(array(
+            'attributes' => array_merge([
                 'id' => tao_helpers_Uri::encode($resource->getUri()),
                 'class' => 'node-instance',
                 'data-uri' => $resource->getUri(),
                 'data-classUri' => $class->getUri(),
-            ), $extraValues)
-        );
+                'data-signature' => $signatureGenerator->generate($resource->getUri()),
+            ], $extraValues)
+        ];
     }
 
 }

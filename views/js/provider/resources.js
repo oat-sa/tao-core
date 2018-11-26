@@ -179,7 +179,8 @@ define([
              */
             moveTo: function moveTo(ids, destinationClassUri) {
                 var params = {
-                    destinationClassUri: destinationClassUri
+                    destinationClassUri: destinationClassUri,
+                    signature: config.moveTo.signature
                 };
 
                 if (!ids) {

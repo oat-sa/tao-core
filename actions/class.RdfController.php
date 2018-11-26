@@ -114,7 +114,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         }
         else{
             if (!common_Utils::isUri($classUri)) {
-                throw new tao_models_classes_MissingRequestParameterException('classUri - extected to be valid URI');
+                throw new tao_models_classes_MissingRequestParameterException('classUri - expected to be valid URI');
             }
             $returnValue = new core_kernel_classes_Class($classUri);
         }

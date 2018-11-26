@@ -43,6 +43,7 @@
 	},
 	"require" : {
 		"php" : ">=5.5",
+		"ext-json": "*",
 		"phpdocumentor/reflection-docblock" : "2.*",
 		"oat-sa/oatbox-extension-installer" : "~1.1||dev-master",
 		"oat-sa/jig" : "~0.1",
