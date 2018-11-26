@@ -74,6 +74,8 @@ p.bold {
   word-break: normal;
   overflow-wrap: break-word;
   box-sizing: border-box;
+  border-style: solid;
+  border-width: 1px;
 }
 .style5 .tooltip {
   background: #1E252B;
@@ -228,38 +230,34 @@ p.bold {
   -webkit-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
-// default tooltip style
-.qtip-plain .tooltip-arrow{
-  border-color: $darkBlueGrey;
-}
+
 .qtip-plain {
   background-color: $darkBlueGrey;
-  border: solid 1px darken($darkBlueGrey, 30%)
-}
-/*! Dark tooltip style */
-.qtip-dark .tooltip-arrow{
-  border-color: $dark;
+  border: solid 1px darken($darkBlueGrey, 30%);
+  .tooltip-arrow{
+    border-color: $darkBlueGrey;
+  }
 }
 .qtip-dark{
   background-color: $dark;
   border: solid 1px darken($dark, 30%);
   color: $textHighlight;
+  .tooltip-arrow{
+    border-color: $dark;
+  }
+  .tooltip-inner{
+    background-color: $dark;
+  }
+
+  .qtip-icon{
+    border-color: $dark;
+  }
+
+  .tooltip-inner .ui-state-hover{
+    border-color: #303030;
+  }
 }
 
-.qtip-dark .tooltip-arrow{
-  border-color: $dark;
-}
-.qtip-dark .tooltip-inner{
-  background-color: $dark;
-}
-
-.qtip-dark .qtip-icon{
-  border-color: $dark;
-}
-
-.qtip-dark .tooltip-inner .ui-state-hover{
-  border-color: #303030;
-}
 
 /* Add rounded corners to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
 .qtip-rounded,
@@ -279,92 +277,93 @@ p.bold {
 .qtip-red{
   @extend .feedback-error;
   color: $textColor;
-}
-.qtip-red .tooltip-arrow{
-  border-color: $errorBgColor;
-}
-.qtip-red {
-  background-color: $errorBgColor;
-  border: solid 1px $errorBorderColor;
-}
-
-.qtip-red .qtip-close .qtip-icon{
-  background-position: -102px 0;
-}
-
-.qtip-red .qtip-icon{
-  border-color: $textColor;
-}
-
-.qtip-red .tooltip-inner .ui-state-hover{
-  border-color: $textColor;
+  .tooltip-arrow{
+    border-color: $errorBgColor;
+  }
+  .qtip-close .qtip-icon{
+    background-position: -102px 0;
+  }
+  .qtip-icon{
+    border-color: $textColor;
+  }
+  .tooltip-inner .ui-state-hover{
+    border-color: $textColor;
+  }
 }
 /*! Green tooltip style */
 .qtip-green{
   @extend .feedback-success;
   color: $textColor;
-}
-.qtip-green .tooltip-arrow{
-  border-color: $successBgColor;
-}
-.qtip-green {
-  background-color: $successBgColor;
-  border: solid 1px $successBorderColor;
+  .tooltip-arrow{
+    border-color: $successBorderColor;
+  }
+  .tooltip-arrow::before{
+    border-color: $successBgColor;
+  }
 
-}
-
-.qtip-green .qtip-close .qtip-icon{
-  background-position: -42px 0;
+  .qtip-close .qtip-icon{
+    background-position: -42px 0;
+  }
 }
 /*! Blue tooltip style */
 .qtip-blue{
   @extend .feedback-info;
   color: $textColor;
-}
-.qtip-blue .tooltip-arrow{
-  border-color: $infoBorderColor;
-}
-.qtip-blue .tooltip-arrow::before{
-  border-color: $infoBgColor;
-}
-.qtip-blue {
-  background-color: $infoBgColor;
-  border: solid 1px $infoBorderColor;
-}
 
-.qtip-blue .qtip-close .qtip-icon{
-  background-position: -2px 0;
+  .tooltip-arrow{
+    border-color: $infoBorderColor;
+  }
+  .tooltip-arrow::before{
+    border-color: $infoBgColor;
+  }
+
+  .qtip-close .qtip-icon{
+    background-position: -2px 0;
+  }
 }
 /*! Orange tooltip style */
 .qtip-orange{
   @extend .feedback-warning;
   color: $textColor;
-  background-color: $warningBgColor;
-  border: solid 1px $warningBorderColor;
-}
-.qtip-orange .tooltip-arrow{
-  border-color: $warningBorderColor;
-}
-.qtip-orange .tooltip-arrow::before{
-  border-color: $warningBgColor;
-}
-//.qtip-orange .tooltip-inner{
-//  background-color: $fbWarningBg;
-//}
 
-.qtip-orange .qtip-close .qtip-icon{
-  background-position: -102px 0;
+  .tooltip-arrow{
+    border-color: $warningBorderColor;
+  }
+  .tooltip-arrow::before{
+    border-color: $warningBgColor;
+  }
+
+  .qtip-close .qtip-icon{
+    background-position: -102px 0;
+  }
+
+  .qtip-icon{
+    border-color: $textColor;
+  }
+
+  .tooltip-inner .ui-state-hover{
+    border-color: $textColor;
+  }
 }
 
-.qtip-orange .qtip-icon{
-  border-color: $textColor;
-}
-
-.qtip-orange .tooltip-inner .ui-state-hover{
-  border-color: $textColor;
-}
 /*! Danger (mix of read and orange) tooltip style */
 .qtip-danger{
   @extend .feedback-danger;
   color: $textColor;
+
+  .tooltip-arrow{
+    border-color: $dangerBorderColor;
+  }
+  .tooltip-arrow::before{
+    border-color: $dangerBgColor;
+  }
+  .qtip-icon{
+    background-position: -102px 0;
+  }
+  .qtip-icon{
+    border-color: $textColor;
+  }
+  .tooltip-inner .ui-state-hover{
+    border-color: $textColor;
+  }
 }
