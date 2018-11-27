@@ -875,6 +875,5 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('21.5.0', '21.13.0');
-
     }
 }

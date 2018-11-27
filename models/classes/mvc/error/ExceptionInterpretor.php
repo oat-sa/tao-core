@@ -20,6 +20,9 @@
 namespace oat\tao\model\mvc\error;
 
 use Exception;
+use common_exception_MissingParameter;
+use common_exception_BadRequest;
+use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use oat\tao\model\exceptions\UserErrorException;
@@ -74,7 +77,10 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
         $this->trace = $this->exception->getMessage();
         switch (get_class($this->exception)) {
             case UserErrorException::class:
-                $this->returnHttpCode    = 400;
+            case tao_models_classes_MissingRequestParameterException::class:
+            case common_exception_MissingParameter::class:
+            case common_exception_BadRequest::class:
+                $this->returnHttpCode = 400;
                 $this->responseClassName = 'MainResponse';
             break;
             case 'tao_models_classes_AccessDeniedException':
