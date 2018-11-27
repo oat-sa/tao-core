@@ -10,7 +10,7 @@
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/maths/calculator/dynamicCalculator.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/maths/calculator/calculatorComponent.js"></script>
 
     <script  type="text/javascript">
 
@@ -21,7 +21,7 @@
         require(['/tao/ClientConfig/config'], function(){
 
             //load the test
-            require(['test/ui/maths/calculator/dynamicCalculator/test'], function(){
+            require(['test/ui/maths/calculator/calculatorComponent/test'], function(){
 
                 //Tests loaded, run tests
                 QUnit.start();

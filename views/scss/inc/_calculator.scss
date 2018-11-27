@@ -169,6 +169,18 @@
     font-family: sans-serif;
     font-size: $calculatorBaseFontSize;
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+
+    .screen, .input {
+        flex: 0 0 auto;
+    }
+
+    .keyboard {
+        flex: 1 1 auto;
+    }
 
     .calculator-keyboard {
         position: relative;

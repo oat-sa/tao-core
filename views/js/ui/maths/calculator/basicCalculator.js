@@ -25,22 +25,22 @@ define([
     'tpl!ui/maths/calculator/tpl/basicScreen'
 ], function (
     _,
-    simpleCalculator,
+    defaultCalculatorFactory,
     keyboardTpl,
     screenTpl
 ) {
     'use strict';
 
     /**
-     * Creates a simple calculator component. Screen and keyboard layout are replaceable.
+     * Creates a basic calculator component. Screen and keyboard layout are replaceable.
      * @param {Object} config - Some config entries (@see ui/dynamicComponent)
      * @param {Function} [config.keyboardLayout] - A Handlebars template for the keyboard
      * @param {Function} [config.screenLayout] - A Handlebars template for the screen
      * @param {Object} [config.calculator] - Config for the calculator (@see ui/maths/calculator/core/board)
      * @returns {dynamicComponent}
      */
-    return function simpleCalculatorFactory(config) {
-        return simpleCalculator(_.merge({
+    return function basicCalculatorFactory(config) {
+        return defaultCalculatorFactory(_.merge({
             calculator: {
                 plugins: {
                     templateKeyboard: {

@@ -33,7 +33,7 @@ define([
     nsHelper,
     dynamicComponent,
     calculatorBoardFactory,
-    loadPlugins
+    pluginsLoader
 ) {
     'use strict';
 
@@ -41,19 +41,15 @@ define([
      * Default config values
      * @type {Object}
      */
-    var _defaults = {
+    var defaultConfig = {
         title: __('Calculator'),
         preserveAspectRatio: false,
         width: 240,
         height: 360,
+        minWidth : 150,
+        minHeight : 220,
         alternativeTemplate: null
     };
-
-    /**
-     * The internal namespace for built-in events listeners
-     * @type {String}
-     */
-    var ns = 'dynamicCalculator';
 
     /**
      * Creates a dynamic panel containing a calculator.
@@ -64,7 +60,7 @@ define([
      * @returns {dynamicComponent}
      */
     return function dynamicCalculatorFactory(config) {
-        var calculator, dynamicCalculator;
+        var calculator, calculatorComponent;
 
         var api = {
             /**
@@ -76,22 +72,25 @@ define([
             }
         };
 
-        config = _.defaults(config || {}, _defaults);
-
-        dynamicCalculator = dynamicComponent(api)
+        calculatorComponent = dynamicComponent(api, defaultConfig)
             .on('rendercontent', function ($content) {
                 var self = this;
-                return loadPlugins(config.loadedPlugins, config.dynamicPlugins)
+                return pluginsLoader(this.getConfig().loadedPlugins, this.getConfig().dynamicPlugins)
                     .then(function (loadedPlugins) {
                         return new Promise(function (resolve) {
-                            calculator = calculatorBoardFactory($content, loadedPlugins, config.calculator)
-                                .on(nsHelper.namespaceAll('ready', ns), function () {
+                            calculator = calculatorBoardFactory($content, loadedPlugins, self.getConfig().calculator)
+                                .on('ready', function () {
+                                    var initialWidth = self.getElement().width();
+                                    var initialHeight = self.getElement().height();
+                                    var initialFontSize = parseInt(self.getCalculator().getElement().css('fontSize'), 10) || 10;
                                     self
-                                        .on(nsHelper.namespaceAll('resize', ns), function (position) {
-                                            self.off(nsHelper.namespaceAll('resize', ns));
-                                            // keep the initial size as the minimal
-                                            self.config.minWidth = position.width;
-                                            self.config.minHeight = position.height;
+                                        .on('resize', function () {
+                                            if (self.getElement()) {
+                                                self.getCalculator().getElement().css('fontSize', initialFontSize * Math.min(
+                                                    self.getElement().width() / initialWidth,
+                                                    self.getElement().height() / initialHeight
+                                                ));
+                                            }
                                         })
                                         .setContentSize(calculator.getElement().outerWidth(), calculator.getElement().outerHeight())
                                         .setState('ready')
@@ -101,34 +100,11 @@ define([
                         });
                     });
             })
-            .on('ready', function () {
-                var initialWidth = this.getElement().width();
-                var initialHeight = this.getElement().height();
-                var initialFontSize = parseInt(this.getCalculator().getElement().css('fontSize'), 10) || 10;
-                this.on('resize', function (position) {
-                    var areaBroker;
-                    if (this.getElement()) {
-                        this.getCalculator().getElement().css('fontSize', initialFontSize * Math.min(
-                            this.getElement().width() / initialWidth,
-                            this.getElement().height() / initialHeight
-                        ));
-
-                        areaBroker = this.getCalculator().getAreaBroker();
-                        areaBroker.getKeyboardArea().height(
-                            position.contentHeight
-                            - areaBroker.getScreenArea().outerHeight()
-                            - areaBroker.getInputArea().outerHeight()
-                        );
-                    }
-                });
-            })
             .on('destroy', function () {
-                var self = this;
                 return new Promise(function (resolve) {
                     if (calculator) {
                         calculator
-                            .after(nsHelper.namespaceAll('destroy', ns), function () {
-                                self.off('.' + ns);
+                            .after('destroy', function () {
                                 calculator = null;
                                 resolve();
                             })
@@ -140,9 +116,9 @@ define([
             });
 
         _.defer(function () {
-            dynamicCalculator.init(config);
+            calculatorComponent.init(config);
         });
 
-        return dynamicCalculator;
+        return calculatorComponent;
     };
 });

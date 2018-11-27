@@ -20,12 +20,12 @@
  */
 define([
     'lodash',
-    'ui/maths/calculator/dynamicCalculator',
+    'ui/maths/calculator/calculatorComponent',
     'ui/maths/calculator/plugins/keyboard/templateKeyboard/templateKeyboard',
     'ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
 ], function (
     _,
-    dynamicCalculator,
+    calculatorComponent,
     pluginKeyboardFactory,
     pluginScreenFactory
 ) {
@@ -35,7 +35,7 @@ define([
      * The list of UI plugins the simple calculator is using
      * @type {Object}
      */
-    var simpleCalculatorPlugins = {
+    var defaultCalculatorPlugins = {
         keyboard: [
             pluginKeyboardFactory
         ],
@@ -52,7 +52,7 @@ define([
      * @param {Object} [config.calculator] - Config for the calculator (@see ui/maths/calculator/core/board)
      * @returns {dynamicComponent}
      */
-    return function simpleCalculatorFactory(config) {
+    return function defaultCalculatorFactory(config) {
         var defaultPluginsConfig = {};
 
         if (config && config.keyboardLayout) {
@@ -68,12 +68,12 @@ define([
         }
 
         config = _.merge({
-            loadedPlugins: simpleCalculatorPlugins,
+            loadedPlugins: defaultCalculatorPlugins,
             calculator: {
                 plugins: defaultPluginsConfig
             }
         }, _.omit(config, ['keyboardLayout', 'screenLayout']));
 
-        return dynamicCalculator(config);
+        return calculatorComponent(config);
     };
 });
