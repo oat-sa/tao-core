@@ -162,7 +162,6 @@ define([
         .on('init', function() {
             this.setState('open', this.config.isOpen);
 
-
             this.data = {
                 headerItem: this.config.headerItem || '',
                 innerItems: this.config.innerItems || []
@@ -174,7 +173,7 @@ define([
             var $component = this.getElement();
             this.controls = {
                 $dropdown: $component.find('.dropdown'),
-                $toggler: $component.find('.toggler'),
+                $toggler: $component.find('.dropdown-header:after'),
                 $headerItem: $component.find('.dropdown-header'),
                 $listContainer: $component.find('.dropdown-submenu')
             };
@@ -194,6 +193,10 @@ define([
                 $component
                 .on('mouseenter', self.open)
                 .on('mouseleave', self.close);
+
+                this.controls.$toggler
+                .on('click', self.toggle)
+                .on('focus', self.open);
             }
             else if (self.config.activatedBy === 'click') {
                 self.controls.$headerItem.on('click', self.toggle);
@@ -201,10 +204,6 @@ define([
             $component
             .on('focus', self.open)
             .on('blur', self.close);
-
-            this.controls.$toggler
-            .on('click', self.toggle)
-            .on('focus', self.open);
 
             // list item events
             this.controls.$listContainer.on('click', 'li', function() {

@@ -165,7 +165,8 @@ define([
                     icon: 'eye-slash'
                 }
             ],
-            isOpen: false
+            isOpen: false,
+            activatedBy: 'hover'
         });
 
         assert.ok(true, 'started');
