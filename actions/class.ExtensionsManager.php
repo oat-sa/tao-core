@@ -85,7 +85,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 		try {
 			$extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
 			$extInstaller->install();
-			$message =   __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
+			$message =   __('Extension "%s" has been installed', $this->getCurrentExtension()->getId());
 			$success = true;
 
 			// reinit user session
@@ -158,7 +158,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 	    MenuService::flushCache();
         $this->returnJson(array(
 	        'success' => true,
-	        'message' => __('Disabled %s', $this->getRequestParameter('id'))
+	        'message' => __('Enabled %s', $this->getRequestParameter('id'))
 	    ));
 	}
 
