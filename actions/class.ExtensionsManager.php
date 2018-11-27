@@ -22,6 +22,7 @@
  */
 
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\service\ApplicationService;
 
 /**
  * Controller to manage extensions
@@ -39,7 +40,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
      */
 	public function index()
     {
-        if (DEBUG_MODE === true) {
+        if ($this->isDebugMode() === true) {
             $isProduction = false;
             $availableExtArray = $this->getExtensionManager()->getAvailableExtensions();
             usort($availableExtArray, function($a, $b) { return strcasecmp($a->getId(),$b->getId());});
@@ -195,9 +196,18 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
      */
 	protected function assertIsDebugMode()
     {
-        if (DEBUG_MODE !== true) {
+        if ($this->isDebugMode() !== true) {
             throw new common_exception_BadRequest('This operation cannot be processed in production mode.');
         }
+    }
+
+    /**
+     * Check if the platform is on debug mode
+     * @return bool
+     */
+    protected function isDebugMode()
+    {
+        return $this->getServiceLocator()->get(ApplicationService::SERVICE_ID)->isDebugMode();
     }
 
     /**
