@@ -137,7 +137,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 	    $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, false);
 	    MenuService::flushCache();
-	    echo json_encode(array(
+        $this->returnJson(array(
 	        'success' => true,
 	        'message' => __('Disabled %s', $this->getRequestParameter('id'))
 	    ));
@@ -156,7 +156,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 	    $extId = $this->getRequestParameter('id');
         $this->getExtensionManager()->setEnabled($extId, true);
 	    MenuService::flushCache();
-	    echo json_encode(array(
+        $this->returnJson(array(
 	        'success' => true,
 	        'message' => __('Disabled %s', $this->getRequestParameter('id'))
 	    ));
@@ -183,7 +183,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 	            $message = __('Uninstall of %s failed', $this->getRequestParameter('id'));
 	        }
 	    }
-	    echo json_encode(array(
+        $this->returnJson(array(
 	        'success' => $success,
 	        'message' => $message
 	    ));
