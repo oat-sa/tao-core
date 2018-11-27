@@ -22,17 +22,17 @@ define([
     'jquery',
     'lodash',
     'core/promise',
-    'ui/maths/calculator/simpleCalculator'
-], function ($, _, Promise, simpleCalculatorFactory) {
+    'ui/maths/calculator/defaultCalculator'
+], function ($, _, Promise, defaultCalculatorFactory) {
     'use strict';
 
     QUnit.module('Factory');
 
     QUnit.test('module', function (assert) {
         QUnit.expect(3);
-        assert.equal(typeof simpleCalculatorFactory, 'function', "The module exposes a function");
-        assert.equal(typeof simpleCalculatorFactory(), 'object', "The factory produces an object");
-        assert.notStrictEqual(simpleCalculatorFactory(), simpleCalculatorFactory(), "The factory provides a different object on each call");
+        assert.equal(typeof defaultCalculatorFactory, 'function', "The module exposes a function");
+        assert.equal(typeof defaultCalculatorFactory(), 'object', "The factory produces an object");
+        assert.notStrictEqual(defaultCalculatorFactory(), defaultCalculatorFactory(), "The factory provides a different object on each call");
     });
 
     QUnit.cases([
@@ -52,7 +52,7 @@ define([
         {title: 'setTemplate'},
         {title: 'getConfig'}
     ]).test('inherited API ', function (data, assert) {
-        var instance = simpleCalculatorFactory();
+        var instance = defaultCalculatorFactory();
         QUnit.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
@@ -63,7 +63,7 @@ define([
         {title: 'trigger'},
         {title: 'spread'}
     ]).test('event API ', function (data, assert) {
-        var instance = simpleCalculatorFactory();
+        var instance = defaultCalculatorFactory();
         QUnit.expect(1);
         assert.equal(typeof instance[data.title], 'function', 'The instance exposes a "' + data.title + '" function');
     });
@@ -75,7 +75,7 @@ define([
         var instance;
         QUnit.expect(1);
 
-        instance = simpleCalculatorFactory()
+        instance = defaultCalculatorFactory()
             .after('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
                 this.destroy();
@@ -98,7 +98,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = simpleCalculatorFactory({renderTo: $container})
+        instance = defaultCalculatorFactory({renderTo: $container})
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -132,7 +132,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = simpleCalculatorFactory({
+        instance = defaultCalculatorFactory({
             keyboardLayout: keyboardTpl,
             screenLayout: screenTpl,
             renderTo: $container
@@ -166,7 +166,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = simpleCalculatorFactory({renderTo: $container})
+        instance = defaultCalculatorFactory({renderTo: $container})
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })
@@ -189,7 +189,7 @@ define([
 
     QUnit.module('visual test');
 
-    QUnit.asyncTest('simpleCalculator', function (assert) {
+    QUnit.asyncTest('defaultCalculator', function (assert) {
         var $container = $('#visual-test');
         var instance;
 
@@ -197,7 +197,7 @@ define([
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
-        instance = simpleCalculatorFactory({renderTo: $container})
+        instance = defaultCalculatorFactory({renderTo: $container})
             .on('init', function () {
                 assert.equal(this, instance, 'The instance has been initialized');
             })

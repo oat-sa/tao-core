@@ -20,7 +20,7 @@
  */
 define([
     'lodash',
-    'ui/maths/calculator/simpleCalculator',
+    'ui/maths/calculator/defaultCalculator',
     'tpl!ui/maths/calculator/tpl/basicKeyboard',
     'tpl!ui/maths/calculator/tpl/basicScreen'
 ], function (
