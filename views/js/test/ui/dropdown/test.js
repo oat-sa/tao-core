@@ -94,14 +94,14 @@ define([
 
     QUnit.test('basic mouse events 2', function(assert) {
         var dd2 = dropdown({
-            renderTo: '#fixture-mouse 2',
+            renderTo: '#fixture-mouse2',
             activatedBy: 'click',
             isOpen: false
         });
 
-        dd2.getElement().trigger('click');
+        dd2.getElement().find('.dropdown-header').trigger('click');
         assert.equal(dd2.is('open'), true, "The menu opens on click");
-        dd2.getElement().trigger('click');
+        dd2.getElement().find('.dropdown-header').trigger('click');
         assert.equal(dd2.is('open'), false, "The menu closes on click");
 
         dd2.destroy();
@@ -144,6 +144,31 @@ define([
         assert.equal(dd5.getElement().find('.dropdown-submenu li').length, 0, "Clearing all list items works");
 
         dd5.destroy();
+    });
+
+    // Leave one instance alive for user testing:
+    QUnit.module('Visual');
+
+    QUnit.test('playground', function(assert) {
+        dropdown({
+            renderTo: '#visual-test',
+            headerItem: '<span class="a">List header</a>',
+            innerItems: [
+                {
+                    content: '<span class="a">First thing</span>',
+                    cls: 'sep-before',
+                    icon: 'home'
+                },
+                {
+                    content: '<span class="a">Second thing</span>',
+                    cls: 'sep-before',
+                    icon: 'eye-slash'
+                }
+            ],
+            isOpen: false
+        });
+
+        assert.ok(true, 'started');
     });
 
 });

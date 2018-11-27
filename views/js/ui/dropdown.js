@@ -93,7 +93,7 @@ define([
          */
         setHeader: function setHeader(html) {
             if (typeof html === 'string') {
-                this.config.data.headerItem = html;
+                this.data.headerItem = html;
                 this.controls.$headerItem.html(html);
             }
             return this;
@@ -111,7 +111,7 @@ define([
          */
         addItem: function addItem(item) {
             if (item.content && typeof item.content === 'string' && item.content.length) {
-                this.config.data.innerItems.push(item);
+                this.data.innerItems.push(item);
                 this.controls.$listContainer.append(itemTpl(item));
             }
             return this;
@@ -124,8 +124,8 @@ define([
          * @returns {dropdown} this
          */
         removeItem: function removeItem(index) {
-            if (index >= 0 && index < this.config.data.innerItems.length) {
-                this.config.data.innerItems.splice(index, 1);
+            if (index >= 0 && index < this.data.innerItems.length) {
+                this.data.innerItems.splice(index, 1);
                 this.controls.$listContainer.children().get(index).remove();
             }
             return this;
@@ -137,7 +137,7 @@ define([
          * @returns {dropdown} this
          */
         clearItems: function clearItems() {
-            this.config.data.innerItems = [];
+            this.data.innerItems = [];
             this.controls.$listContainer.empty();
             return this;
         }
@@ -161,15 +161,16 @@ define([
         // dropdown-specific init:
         .on('init', function() {
             this.setState('open', this.config.isOpen);
-            if (config) {
-                this.config.data = {
-                    headerItem: config.headerItem || '',
-                    innerItems: config.innerItems || []
-                };
-            }
+
+
+            this.data = {
+                headerItem: this.config.headerItem || '',
+                innerItems: this.config.innerItems || []
+            };
         })
         // renders the component
         .on('render', function () {
+            var self = this;
             var $component = this.getElement();
             this.controls = {
                 $dropdown: $component.find('.dropdown'),
@@ -177,6 +178,12 @@ define([
                 $headerItem: $component.find('.dropdown-header'),
                 $listContainer: $component.find('.dropdown-submenu')
             };
+            // insert data into rendered template:
+            this.setHeader(this.data.headerItem);
+            this.data.innerItems.forEach(function (item) {
+                self.addItem(item);
+            });
+
             this.trigger('wireup');
         })
         .on('wireup', function() {
@@ -189,7 +196,7 @@ define([
                 .on('mouseleave', self.close);
             }
             else if (self.config.activatedBy === 'click') {
-                this.controls.$headerItem.on('click', self.toggle);
+                self.controls.$headerItem.on('click', self.toggle);
             }
             $component
             .on('focus', self.open)

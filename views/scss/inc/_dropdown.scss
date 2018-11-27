@@ -4,9 +4,8 @@
     .dropdown {
         position: absolute; // to overcome overflow: hidden
         top: 0;
-        right: 0;
+        left: 0;
         z-index: 1;
-        min-width: 170px;
         padding: 0.4rem;
         margin: 0 0.5rem;
         height: 32px;
@@ -19,11 +18,11 @@
         }
         & > .dropdown-submenu {
             display: none;
-            right: -10000px;
+            left: -10000px;
         }
         &.open > .dropdown-submenu {
             display: block;
-            right: 0;
+            left: 0;
         }
         .dropdown-header, .dropdown-submenu li {
             display: block;
@@ -32,8 +31,8 @@
             margin: 0;
             height: auto;
             float: unset;
-            & > a:hover, .a:hover {
-                border-color: none;
+            &:hover {
+                background: $lightBlueGrey;
             }
             a, .a {
                 cursor: pointer;
@@ -42,7 +41,7 @@
                 text-align: left;
             }
             a:hover, a:focus, .a:hover, .a:focus {
-                background: $lightBlueGrey !important;
+                background: none;
             }    
             .icon {
                 font-size: 1.25em;
@@ -50,13 +49,22 @@
         }
         .dropdown-header {
             padding: 1.2rem 0 0.8rem;
+            .toggler:after {
+                float: right;
+                margin-right: 10px;
+            }
+        }
+        .dropdown-submenu {
+            li {
+                padding: 0 0.3rem;
+            }
         }
         .sep-before:before {
             content: "";
             display: block;
             height: 1px;
             width: 90%;
-            margin: 0.6rem auto;
+            margin: 0 auto 0.6rem ;
             background: $darkBlueGrey;
         }
     }
