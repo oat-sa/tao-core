@@ -69,139 +69,79 @@ class ExtensionManagerTest extends TestCase
         $this->assertEquals(['value2'], $variables['availableExtArray']);
     }
 
-    public function testInstallOnDebugMode()
+    /**
+     * @param $debugMode
+     * @return ExtensionManagerFake
+     */
+    protected function getExtensionManagerWithDebugMode($debugMode)
     {
         $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(true);
+        $applicationServiceMock->isDebugMode()->willReturn($debugMode);
 
         $serviceLocatorMock = $this->getServiceLocatorMock([
             ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
         ]);
 
-        $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
-
         $controller = new ExtensionManagerFake();
         $controller->setServiceLocator($serviceLocatorMock);
 
+        return $controller;
+    }
+
+    public function testInstallOnDebugMode()
+    {
+        $controller = $this->getExtensionManagerWithDebugMode(true);
+        $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
         $controller->install();
     }
 
     public function testInstallOnProductionMode()
     {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(false);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
+        $controller = $this->getExtensionManagerWithDebugMode(false);
         $this->expectException(\common_exception_BadRequest::class);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
         $controller->install();
-    }
-
-    public function testUnInstallOnProductionMode()
-    {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(false);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
-        $this->expectException(\common_exception_BadRequest::class);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
-        $controller->uninstall();
     }
 
     public function testUnInstallOnDebugMode()
     {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(true);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
+        $controller = $this->getExtensionManagerWithDebugMode(true);
         $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
         $controller->uninstall();
     }
 
-    public function testDisableOnProductionMode()
+    public function testUnInstallOnProductionMode()
     {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(false);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
+        $controller = $this->getExtensionManagerWithDebugMode(false);
         $this->expectException(\common_exception_BadRequest::class);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
-        $controller->disable();
+        $controller->uninstall();
     }
 
     public function testDisableOnDebugMode()
     {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(true);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
+        $controller = $this->getExtensionManagerWithDebugMode(true);
         $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
         $controller->disable();
     }
 
+    public function testDisableOnProductionMode()
+    {
+        $controller = $this->getExtensionManagerWithDebugMode(false);
+        $this->expectException(\common_exception_BadRequest::class);
+        $controller->disable();
+    }
+
+
     public function testEnableOnDebugMode()
     {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(true);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
+        $controller = $this->getExtensionManagerWithDebugMode(true);
         $this->expectException(\PHPUnit_Framework_ExpectationFailedException::class);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
         $controller->enable();
     }
 
     public function testEnableOnProductionMode()
     {
-        $applicationServiceMock = $this->prophesize(ApplicationService::class);
-        $applicationServiceMock->isDebugMode()->willReturn(false);
-
-        $serviceLocatorMock = $this->getServiceLocatorMock([
-            ApplicationService::SERVICE_ID => $applicationServiceMock->reveal(),
-        ]);
-
+        $controller = $this->getExtensionManagerWithDebugMode(false);
         $this->expectException(\common_exception_BadRequest::class);
-
-        $controller = new ExtensionManagerFake();
-        $controller->setServiceLocator($serviceLocatorMock);
-
         $controller->enable();
     }
 }
@@ -210,19 +150,23 @@ class ExtensionManagerFake extends \tao_actions_ExtensionsManager
 {
     public function __construct()
     {
+        // to avoid to set header because body is already sent
     }
 
     public function setView($path, $extensionID = null)
     {
+        // avoid to call Template::getTemplate
     }
 
     public function hasRequestParameter($name)
     {
+        // to intercept the flow and avoid to load common_request
         throw new \PHPUnit_Framework_ExpectationFailedException('HTTP request cannot be handled by unit test');
     }
 
     public function getRequestParameter($name)
     {
+        // to intercept the flow and avoid to load common_request
         throw new \PHPUnit_Framework_ExpectationFailedException('HTTP request cannot be handled by unit test');
     }
 
