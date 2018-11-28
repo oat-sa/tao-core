@@ -16,8 +16,8 @@
  *
  */
 
+use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
-use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\TaskQueueActionTrait;
@@ -37,6 +37,7 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
     const TASK_ID_PARAM = 'id';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_OFFSET = 'offset';
+
     /**
      * Get task data by identifier
      */
@@ -104,11 +105,16 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
 
         /** @var FileSystemService $fs */
         $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+
+        /** @var FileReferenceSerializer $frs */
+        $frs = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+
         $userId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
         $collection = new SimpleManagementCollectionDecorator(
             $taskLogService->findAvailableByUser($userId, $limit, $offset),
             $taskLogService,
             $fs,
+            $frs,
             false
         );
 

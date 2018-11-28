@@ -20,9 +20,10 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
-use oat\oatbox\filesystem\Directory;
+use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\FileReferenceSerializerAwareTrait;
+use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 
 /**
@@ -30,16 +31,25 @@ use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
  */
 class HasFileEntityDecorator extends TaskLogEntityDecorator
 {
+    use FilesystemAwareTrait;
+    use FileReferenceSerializerAwareTrait;
+
     /**
      * @var FileSystemService
      */
     private $fileSystemService;
 
-    public function __construct(EntityInterface $entity, FileSystemService $fileSystemService)
+    /**
+     * @var FileReferenceSerializer
+     */
+    private $fileReferenceSerializer;
+
+    public function __construct(EntityInterface $entity, FileSystemService $fileSystemService, FileReferenceSerializer $fileReferenceSerializer)
     {
         parent::__construct($entity);
 
         $this->fileSystemService = $fileSystemService;
+        $this->fileReferenceSerializer = $fileReferenceSerializer;
     }
 
     /**
@@ -61,18 +71,24 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
 
         $result['hasFile'] = false;
 
-        $fileName = $this->getFileNameFromReport();
+        $fileNameOrSerial = $this->getFileNameFromReport();
 
-        if ($fileName) {
-            /** @var Directory $queueStorage */
-            $queueStorage = $this->fileSystemService
-                ->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
-
-            if ($queueStorage->getFile($fileName)->exists()) {
-                $result['hasFile'] = true;
-            }
+        if ($fileNameOrSerial) {
+            $result['hasFile'] = $this->isFileReferenced($fileNameOrSerial)
+                ? true
+                : $this->isFileStoredInQueueStorage($fileNameOrSerial);
         }
 
         return $result;
+    }
+
+    protected function getFileSystemService()
+    {
+        return $this->fileSystemService;
+    }
+
+    protected function getFileReferenceSerializer()
+    {
+        return $this->fileReferenceSerializer;
     }
 }
