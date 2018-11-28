@@ -35,30 +35,29 @@ define([
     });
 
 
-    var testReviewApi = [
-        {name : 'init', title : 'init'},
-        {name : 'destroy', title : 'destroy'},
-        {name : 'render', title : 'render'},
-        {name : 'show', title : 'show'},
-        {name : 'hide', title : 'hide'},
-        {name : 'enable', title : 'enable'},
-        {name : 'disable', title : 'disable'},
-        {name : 'is', title : 'is'},
-        {name : 'setState', title : 'setState'},
-        {name : 'getContainer', title : 'getContainer'},
-        {name : 'getElement', title : 'getElement'},
-        {name : 'getTemplate', title : 'getTemplate'},
-        {name : 'setTemplate', title : 'setTemplate'},
-        {name : 'reset', title : 'reset'},
-        {name : 'resetPosition', title : 'resetPosition'},
-        {name : 'resetSize', title : 'resetSize'}
-    ];
-
     QUnit
-        .cases(testReviewApi)
+        .cases([
+            {title : 'init'},
+            {title : 'destroy'},
+            {title : 'render'},
+            {title : 'show'},
+            {title : 'hide'},
+            {title : 'enable'},
+            {title : 'disable'},
+            {title : 'is'},
+            {title : 'setState'},
+            {title : 'getContainer'},
+            {title : 'getElement'},
+            {title : 'getTemplate'},
+            {title : 'setTemplate'},
+            {title : 'reset'},
+            {title : 'resetPosition'},
+            {title : 'resetSize'},
+            {title : 'setContentSize'}
+        ])
         .test('instance API ', function (data, assert){
             var instance = dynamicComponent();
-            assert.equal(typeof instance[data.name], 'function', 'The component instance exposes a "' + data.title + '" function');
+            assert.equal(typeof instance[data.title], 'function', 'The component instance exposes a "' + data.title + '" function');
         });
 
 
@@ -207,6 +206,77 @@ define([
 
         //manual reset
         $('#fixture-1').empty().attr('style', '');
+    });
+
+    QUnit.asyncTest('content size', function (assert){
+
+        var $content1 = $('<div class="my-custom-content">BBB</div>');
+        var $container1 = $('#fixture-1');
+
+        dynamicComponent({}, {
+            title : 'AAA'
+        }).after('rendercontent', function ($content){
+            var $element = this.getElement();
+            var diffWidth = $element.outerWidth() - $element.width();
+            var diffHeight = $element.outerHeight() - $element.height() + $element.find('.dynamic-component-title-bar').outerHeight();
+
+            //init the calculator
+            $content.append($content1.width(500).height(400));
+
+            assert.equal($container1.find('.dynamic-component-container').length, 1, 'Dynamic component container ok');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar').length, 1, 'Dynamic component title ok');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar h3').text(), 'AAA', 'Dynamic component title is empty');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-title-bar .closer').length, 1, 'Dynamic component title has closer');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content').length, 1, 'Dynamic component has content');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
+            assert.equal($container1.find('.dynamic-component-container .dynamic-component-content .my-custom-content').text(), 'BBB', 'Dynamic component has content');
+
+            assert.equal($element.find('.my-custom-content').outerWidth(), 500, 'initial content width ok');
+            assert.equal($element.find('.my-custom-content').outerHeight(), 400, 'initial content height ok');
+
+            //check configured size
+            assert.equal($element.outerWidth(), 300, 'initial width ok');
+            assert.equal($element.outerHeight(), 200, 'initial height ok');
+
+            //check configured position
+            assert.equal($element.offset().top, 10, 'initial position top ok');
+            assert.equal($element.offset().left, 10, 'initial position top left');
+
+            $element.css({top : 100, left : 100});
+            assert.equal($element.offset().top, 100, 'updated position top ok');
+            assert.equal($element.offset().left, 100, 'updated position top left');
+
+            this
+                .on('resize.setContentSize', function (){
+                    this.off('resize.setContentSize');
+                    assert.ok(true, 'The component instance can handle content resize events');
+
+                    $element.find('.my-custom-content').empty();
+
+                    assert.equal($element.find('.dynamic-component-content .my-custom-content').length, 1, 'Dynamic component has content');
+                    assert.equal($element.find('.dynamic-component-content .my-custom-content').text(), '', 'Dynamic component has emptied content');
+
+                    //check reset size
+                    assert.equal($element.outerWidth(), 500 + diffWidth, 'final width ok');
+                    assert.equal($element.outerHeight(), 400 + diffHeight, 'final height ok');
+
+                    //check reset position
+                    assert.equal($element.offset().top, 100, 'final position top ok');
+                    assert.equal($element.offset().left, 100, 'final position top left');
+
+                    //manual reset
+                    $('#fixture-1').empty().attr('style', '');
+                    QUnit.start();
+                })
+                .setContentSize(500, 400);
+        }).init({
+            renderTo : $container1,
+            replace : true,
+            top : 10,
+            left : 10,
+            height : 200,
+            width : 300
+        });
     });
 
 
