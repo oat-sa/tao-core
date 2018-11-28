@@ -152,21 +152,21 @@
     $calculatorHistoryBorder: $uiGeneralContentBorder;
     $calculatorHistoryTxt: whiten($textColor, .2);
 
-    $calculatorFontSizeBtnPrimary: 1.8;
-    $calculatorFontSizeBtnSecondary: 1.4;
+    $calculatorFontSizeBtnPrimary: 1.7;
+    $calculatorFontSizeBtnSecondary: 1.3;
     $calculatorFontSizeBtnSvg: 1;
     $calculatorFontSizeExpression: 1.3;
     $calculatorFontSizeHistory: 1;
     $calculatorLineHeightExpression: calc-em-size($calculatorFontSizeExpression + .3);
     $calculatorLineHeightHistory: calc-em-size($calculatorFontSizeHistory + .3);
     $calculatorTermSpace: calc-em-size(.2);
-    $calculatorButtonSize: calc-em-size(4);
+    $calculatorButtonSize: calc-em-size(3.2);
     $calculatorButtonPadding: 2px;
     $calculatorScreenPadding: 2px;
-    $calculatorBaseFontSize: 10px;
+    $calculatorBaseFontSize: 12px;
 
     position: relative;
-    font-family: sans-serif;
+    font-family: monospace, sans-serif;
     font-size: $calculatorBaseFontSize;
     width: 100%;
     height: 100%;
@@ -199,8 +199,30 @@
             flex-direction: row;
             align-content: stretch;
             width: 100%;
-            height: $calculatorButtonSize;
             flex: 1 1 auto;
+        }
+
+        .spacer {
+            flex: 1 1 auto;
+            width: $calculatorButtonSize;
+            height: 100%;
+        }
+
+        span {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+            @include calc-font-size($calculatorFontSizeBtnSecondary);
+        }
+
+        sup, sub {
+            font-size: 0.75em;
+        }
+        sup {
+            top: -.5em;
+        }
+        sub {
+            bottom: -.5em;
         }
 
         button {
@@ -220,11 +242,6 @@
 
             @include calc-font-size(1);
 
-            span {
-                position: relative;
-                z-index: 1;
-            }
-
             &:before {
                 content: " ";
                 border-radius: 50%;
@@ -237,10 +254,13 @@
                 height: calc(#{$calculatorButtonSize} - #{$calculatorButtonPadding * 2});
             }
 
-            &:hover {
+            &:not(.switch):hover {
                 &:before {
                     background: $calculatorKeyboardHoverBg;
                 }
+            }
+            &.disabled {
+                visibility: hidden;
             }
             &.operand {
                 span {
@@ -248,15 +268,9 @@
                     @include calc-font-size($calculatorFontSizeBtnPrimary);
                 }
             }
-            &.operator {
-                span {
-                    @include calc-font-size($calculatorFontSizeBtnSecondary);
-                }
-            }
             &.command {
                 span {
                     color: $calculatorKeyboardCommandTxt !important;
-                    @include calc-font-size($calculatorFontSizeBtnSecondary);
                 }
             }
             &.execute {
@@ -294,7 +308,7 @@
         color: $calculatorScreenTxt;
         font-family: monospace;
 
-        .screen {
+        .screen-panel {
             position: relative;
             width: 100%;
             overflow: auto;
@@ -367,7 +381,7 @@
         }
     }
 
-    &.error .screen {
+    &.error .screen .expression {
         background: $errorBgColor;
     }
 }
