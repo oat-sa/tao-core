@@ -30,12 +30,12 @@
  
  */
 class tao_models_classes_MissingRequestParameterException
-    extends common_Exception
+    extends common_exception_MissingParameter
 {
 
     public function __construct($parameter)
     {
-		parent::__construct('Missing or invalid parameter '.$parameter);
+		parent::__construct($parameter);
     }
 
 }
