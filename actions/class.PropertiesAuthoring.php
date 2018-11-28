@@ -68,13 +68,14 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     /**
      * Render the add property sub form.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      * @requiresRight id WRITE
      */
     public function addClassProperty()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
     
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
@@ -108,6 +109,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     /**
      * Render the add property sub form.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      * @requiresRight classUri WRITE
      */
@@ -115,7 +117,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     {
         $success = false;
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
         
         $class = new core_kernel_classes_Class($this->getRequestParameter('classUri'));
@@ -152,12 +154,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     /**
      * remove the index of the property.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      */
     public function removePropertyIndex()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
         if(!$this->hasRequestParameter('uri')){
             throw new common_exception_MissingParameter("Uri parameter is missing");
@@ -183,12 +186,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     /**
      * Render the add index sub form.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      */
     public function addPropertyIndex()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
         if(!$this->hasRequestParameter('uri')){
             throw new Exception("wrong request Parameter");

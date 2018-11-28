@@ -42,7 +42,7 @@ abstract class AbstractFileExporter implements Exporter
 
     /**
      * AbstractExporter constructor.
-     * @param $data Data to be exported
+     * @param array $data Data to be exported
      */
     public function __construct($data)
     {
