@@ -54,6 +54,9 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
      *
      * return current extension
      *
+     * @throws common_exception_MissingParameter
+     * @throws common_ext_ExtensionException
+     *
      * @return common_ext_Extension|null
      */
     protected function getCurrentExtension() {
@@ -61,8 +64,8 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 			$extensionManager = common_ext_ExtensionsManager::singleton();
 			return common_ext_ExtensionsManager::singleton()->getExtensionById($this->getRequestParameter('id'));
 		} else {
-			return null;
-		}
+            throw new common_exception_MissingParameter();
+        }
 	}
 
 

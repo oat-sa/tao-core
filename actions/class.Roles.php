@@ -66,7 +66,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 	{
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 		if(is_null($uri) || empty($uri) || !common_Utils::isUri($uri)){
-			throw new Exception("No valid uri found");
+			throw new common_exception_MissingParameter('uri');
 		}
 		
 		$clazz = $this->getCurrentClass();
@@ -176,13 +176,17 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 
 	/**
 	 * Delete a group or a group class
+     * @throws UserErrorException
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
+     * @throws common_exception_MissingParameter
 	 * @return void
 	 */
 	public function delete()
 	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
+        if (!tao_helpers_Request::isAjax()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
 		else{
 			$deleted = false;
 			if($this->getRequestParameter('uri')){
@@ -210,13 +214,16 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 			echo json_encode(array('deleted' => $deleted));	
 		}
 	}
-	
+
+    /**
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
+     */
 	public function getUsers()
 	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		else{
+        if (!tao_helpers_Request::isAjax()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        } else {
 			$userService = tao_models_classes_UserService::singleton();
 			echo json_encode($userService->toTree(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER), array()));
 		}
