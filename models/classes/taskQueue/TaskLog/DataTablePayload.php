@@ -22,6 +22,7 @@ namespace oat\tao\model\taskQueue\TaskLog;
 
 use oat\tao\model\datatable\DatatablePayload as DataTablePayloadInterface;
 use oat\tao\model\datatable\implementation\DatatableRequest;
+use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 
@@ -42,16 +43,22 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
     private $rowCustomiser;
 
     /**
+     * @var bool
+     */
+    private $overrideDefaultPayload = false;
+
+    /**
      * DataTablePayload constructor.
      *
-     * @param TaskLogFilter                  $filter
-     * @param TaskLogBrokerInterface         $broker
+     * @param TaskLogFilter             $filter
+     * @param TaskLogBrokerInterface    $broker
+     * @param DatatableRequestInterface $request
      */
-    public function __construct(TaskLogFilter $filter, TaskLogBrokerInterface $broker)
+    public function __construct(TaskLogFilter $filter, TaskLogBrokerInterface $broker, DatatableRequestInterface $request = null)
     {
         $this->taskLogFilter = $filter;
         $this->broker = $broker;
-        $this->request = DatatableRequest::fromGlobals();
+        $this->request = $request ?: DatatableRequest::fromGlobals();
 
         $this->applyDataTableFilters();
     }
@@ -74,11 +81,13 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
      * </code>
      *
      * @param \Closure $func
+     * @param boolean $overrideDefault Override default payload, return only data returned by $func
      * @return DataTablePayload
      */
-    public function customiseRowBy(\Closure $func)
+    public function customiseRowBy(\Closure $func, $overrideDefault = false)
     {
         $this->rowCustomiser = $func;
+        $this->overrideDefaultPayload = $overrideDefault;
 
         return $this;
     }
@@ -131,8 +140,14 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         if (!is_null($this->rowCustomiser)) {
             foreach ($collection as $taskLogEntity) {
                 $newCustomiser = $this->rowCustomiser->bindTo($taskLogEntity, $taskLogEntity);
+                $customizedPayload = (array) $newCustomiser();
 
-                $data[] = array_merge($taskLogEntity->toArray(), (array) $newCustomiser());
+                if ($this->overrideDefaultPayload) {
+                    $data[] = $customizedPayload;
+                } else {
+                    $data[] = array_merge($taskLogEntity->toArray(), $customizedPayload);
+                }
+
             }
         }
 
