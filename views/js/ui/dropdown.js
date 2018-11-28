@@ -20,10 +20,11 @@
  */
 define([
     'jquery',
+    'lodash',
     'ui/component',
     'tpl!ui/dropdown/tpl/dropdown',
     'tpl!ui/dropdown/tpl/list-item'
-], function ($, component, dropdownTpl, itemTpl) {
+], function ($, _, component, dropdownTpl, itemTpl) {
     'use strict';
 
     /**
@@ -35,141 +36,173 @@ define([
         activatedBy: 'hover'    // can be hover or click
     };
 
-    var dropdownSpecs = {
-        /**
-         * Gets the identifier of the dropdown
-         * @returns {String}
-         */
-        getId: function getId() {
-            return this.config.id;
-        },
-
-        /**
-         * Opens the dropdown
-         *
-         * @returns {dropdown} this
-         */
-        open: function open() {
-            if (!this.is('open')) {
-                this.controls.$dropdown.addClass('open');
-                this.setState('open', true);
-            }
-            return this;
-        },
-
-        /**
-         * Closes the dropdown
-         *
-         * @returns {dropdown} this
-         */
-        close: function close() {
-            if (this.is('open')) {
-                this.controls.$dropdown.removeClass('open');
-                this.setState('open', false);
-            }
-            return this;
-        },
-
-        /**
-         * Toggles the dropdown open/closed
-         *
-         * @returns {dropdown} this
-         */
-        toggle: function toggle() {
-            if (this.is('open')) {
-                this.close();
-            }
-            else {
-                this.open();
-            }
-            return this;
-        },
-
-        /**
-         * Sets the header item above the dropdown list
-         *
-         * @param {String} html
-         * @returns {dropdown} this
-         */
-        setHeader: function setHeader(html) {
-            if (typeof html === 'string') {
-                this.data.headerItem = html;
-                this.controls.$headerItem.html(html);
-            }
-            return this;
-        },
-
-        /**
-         * Adds a list item to the dropdown list
-         *
-         * @param {Object} item
-         * @param {String} item.content - the content to insert (should be HTML)
-         * @param {String} [item.id] - the id the list item will have
-         * @param {String} [item.cls] - any extra classes to put on the list item
-         * @param {String} [item.icon] - the name of an icon to precede the content, if desired
-         * @returns {dropdown} this
-         */
-        addItem: function addItem(item) {
-            if (item.content && typeof item.content === 'string' && item.content.length) {
-                this.data.innerItems.push(item);
-                this.controls.$listContainer.append(itemTpl(item));
-            }
-            return this;
-        },
-
-        /**
-         * Removes a list item from the dropdown list
-         *
-         * @param {Number} index - list index to remove
-         * @returns {dropdown} this
-         */
-        removeItem: function removeItem(index) {
-            if (index >= 0 && index < this.data.innerItems.length) {
-                this.data.innerItems.splice(index, 1);
-                this.controls.$listContainer.children().get(index).remove();
-            }
-            return this;
-        },
-
-        /**
-         * Empties the dropdown list (but not its header!)
-         *
-         * @returns {dropdown} this
-         */
-        clearItems: function clearItems() {
-            this.data.innerItems = [];
-            this.controls.$listContainer.empty();
-            return this;
-        }
-    };
-
     /**
      * Builds a simple dropdown component
      *
      * @param {Object} config
-     * @param {Object} config.headerItem - The header item
-     * @param {Array}  [config.innerItems] - The list of inner items
      * @param {String} [config.id] - The id of the dropdown element
      * @param {String} [config.cls] - An additional CSS class name
      * @param {Boolean} [config.isOpen] - Does the dropdown start open?
      * @param {String} [config.activatedBy] - hover or click
+     * @param {Object} [data] - the data to initialise the component with
+     * @param {String} [data.header]
+     * @param {Object} [data.items]
      * @returns {dropdown}
      */
-    function dropdownFactory(config) {
+    function dropdownFactory(config, data) {
+        var dropdownSpecs = {
+            /**
+             * Gets the identifier of the dropdown
+             * @returns {String}
+             */
+            getId: function getId() {
+                return this.config.id;
+            },
+
+            /**
+             * Opens the dropdown
+             *
+             * @returns {dropdown} this
+             */
+            open: function open() {
+                if (!this.is('open')) {
+                    this.controls.$dropdown.addClass('open');
+                    this.setState('open', true);
+                }
+                return this;
+            },
+
+            /**
+             * Closes the dropdown
+             *
+             * @returns {dropdown} this
+             */
+            close: function close() {
+                if (this.is('open')) {
+                    this.controls.$dropdown.removeClass('open');
+                    this.setState('open', false);
+                }
+                return this;
+            },
+
+            /**
+             * Toggles the dropdown open/closed
+             *
+             * @returns {dropdown} this
+             */
+            toggle: function toggle() {
+                if (this.is('open')) {
+                    this.close();
+                }
+                else {
+                    this.open();
+                }
+                return this;
+            },
+
+            /**
+             * Sets the header item above the dropdown list
+             *
+             * @param {String} html
+             * @returns {dropdown} this
+             */
+            setHeader: function setHeader(html) {
+                if (typeof html === 'string') {
+                    data.header = html;
+                    if (this.is('rendered')) {
+                        this.controls.$headerItem.html(html);
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Sets all the list items in one go
+             * Replaces any existing items
+             *
+             * @param {Array} items
+             * @returns {dropdown} this
+             */
+            setItems: function setItems(items) {
+                var self = this;
+
+                if (Array.isArray(items)) {
+                    data.items = items;
+
+                    if (this.is('rendered')) {
+                        this.controls.$listContainer.empty();
+
+                        _.forEach(items, function(item) {
+                            self.controls.$listContainer.append(itemTpl(item));
+                        });
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Adds a list item to the dropdown list
+             *
+             * @param {Object} item
+             * @param {String} item.content - the content to insert (should be HTML)
+             * @param {String} [item.id] - the id the list item will have
+             * @param {String} [item.cls] - any extra classes to put on the list item
+             * @param {String} [item.icon] - the name of an icon to precede the content, if desired
+             * @returns {dropdown} this
+             */
+            addItem: function addItem(item) {
+                if (item.content && typeof item.content === 'string' && item.content.length) {
+                    data.items.push(item);
+
+                    if (this.is('rendered')) {
+                        this.controls.$listContainer.append(itemTpl(item));
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Removes a list item from the dropdown list
+             *
+             * @param {Number} index - list index to remove
+             * @returns {dropdown} this
+             */
+            removeItem: function removeItem(index) {
+                if (index >= 0 && index < data.items.length) {
+                    data.items.splice(index, 1);
+                    if (this.is('rendered')) {
+                        this.controls.$listContainer.children().get(index).remove();
+                    }
+                }
+                return this;
+            },
+
+            /**
+             * Empties the dropdown list (but not its header!)
+             *
+             * @returns {dropdown} this
+             */
+            clearItems: function clearItems() {
+                data.items = [];
+                if (this.is('rendered')) {
+                    this.controls.$listContainer.empty();
+                }
+                return this;
+            }
+        };
+        data = _.defaults({}, data, {
+            header: '',
+            items: []
+        });
+
         return component(dropdownSpecs, defaults)
         .setTemplate(dropdownTpl)
         // dropdown-specific init:
         .on('init', function() {
             this.setState('open', this.config.isOpen);
-
-            this.data = {
-                headerItem: this.config.headerItem || '',
-                innerItems: this.config.innerItems || []
-            };
         })
         // renders the component
         .on('render', function () {
-            var self = this;
             var $component = this.getElement();
             this.controls = {
                 $dropdown: $component.find('.dropdown'),
@@ -178,18 +211,17 @@ define([
                 $listContainer: $component.find('.dropdown-submenu')
             };
             // insert data into rendered template:
-            this.setHeader(this.data.headerItem);
-            this.data.innerItems.forEach(function (item) {
-                self.addItem(item);
-            });
-
+            if (!_.isEmpty(data)) {
+                this.setHeader(data.header);
+                this.setItems(data.items);
+            }
             this.trigger('wireup');
         })
         .on('wireup', function() {
             var self = this;
             var $component = this.getElement();
             // wire up main behaviour:
-            if (self.config.activatedBy === 'hover') {
+            if (this.config.activatedBy === 'hover') {
                 $component
                 .on('mouseenter', self.open)
                 .on('mouseleave', self.close);
@@ -198,8 +230,8 @@ define([
                 .on('click', self.toggle)
                 .on('focus', self.open);
             }
-            else if (self.config.activatedBy === 'click') {
-                self.controls.$headerItem.on('click', self.toggle);
+            else if (this.config.activatedBy === 'click') {
+                this.controls.$headerItem.on('click', self.toggle);
             }
             $component
             .on('focus', self.open)
@@ -223,6 +255,5 @@ define([
         })
         .init(config);
     }
-
     return dropdownFactory;
 });

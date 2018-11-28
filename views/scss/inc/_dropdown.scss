@@ -10,7 +10,9 @@
         margin: 0 0.5rem;
         height: 32px;
         background: transparent;
-        &.open {
+        box-shadow: 0 2px 3px transparent;
+        border: 1px solid transparent;
+    &.open {
             height: auto;
             background: white;
             box-shadow: 0 2px 3px rgba(0,0,0,0.5);
@@ -51,7 +53,7 @@
             padding: 1.2rem 0 0.8rem;
             .toggler:after {
                 float: right;
-                margin-right: 10px;
+                padding-right: 5px;
             }
         }
         .dropdown-submenu {

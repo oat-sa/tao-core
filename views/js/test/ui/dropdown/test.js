@@ -25,6 +25,18 @@ define([
     'use strict';
 
     var htmlItem = '<a><span>HTML Item</span></a>';
+    var items = [
+        {
+            content: '<span class="a">First thing</span>',
+            cls: 'sep-before',
+            icon: 'home'
+        },
+        {
+            content: '<span class="a">Second thing</span>',
+            cls: 'sep-before',
+            icon: 'eye-slash'
+        }
+    ];
 
     QUnit.module('dropdown');
 
@@ -50,6 +62,7 @@ define([
         { title : 'close' },
         { title : 'toggle' },
         { title : 'setHeader' },
+        { title : 'setItems' },
         { title : 'addItem' },
         { title : 'removeItem' },
         { title : 'clearItems' }
@@ -119,6 +132,9 @@ define([
         assert.equal(dd4.getElement().find('.dropdown-header span').text(), 'HTML Item', "The dropdown header was set");
         assert.equal(dd4.getElement().find('.dropdown-submenu li:last-child span').text(), 'HTML Item', "The dropdown list item was set");
 
+        dd4.setItems(items);
+        assert.equal(dd4.getElement().find('.dropdown-submenu li').length, items.length, "The dropdown list was populated with the correct number of items");
+
         dd4.destroy();
     });
 
@@ -150,33 +166,22 @@ define([
     QUnit.module('Visual');
 
     QUnit.test('playground', function(assert) {
-        var items = [
-            {
-                content: '<span class="a">First thing</span>',
-                cls: 'sep-before',
-                icon: 'home'
-            },
-            {
-                content: '<span class="a">Second thing</span>',
-                cls: 'sep-before',
-                icon: 'eye-slash'
-            }
-        ];
-
         dropdown({
             renderTo: '#visual-test-hover',
-            headerItem: '<span class="a">Hoverable dropdown</a>',
-            innerItems: items,
             isOpen: false,
             activatedBy: 'hover'
+        }, {
+            header: '<span class="a">Hoverable dropdown</a>',
+            items: items,
         });
 
         dropdown({
             renderTo: '#visual-test-click',
-            headerItem: '<span class="a">Clickable dropdown</a>',
-            innerItems: items,
             isOpen: false,
             activatedBy: 'click'
+        }, {
+            header: '<span class="a">Clickable dropdown</a>',
+            items: items,
         });
 
         assert.ok(true, 'started');
