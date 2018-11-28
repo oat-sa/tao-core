@@ -29,12 +29,14 @@ define([
         {
             content: '<span class="a">First thing</span>',
             cls: 'sep-before',
-            icon: 'home'
+            icon: 'home',
+            id: 'first'
         },
         {
             content: '<span class="a">Second thing</span>',
             cls: 'sep-before',
-            icon: 'eye-slash'
+            icon: 'eye-slash',
+            id: 'second'
         }
     ];
 
@@ -120,6 +122,32 @@ define([
         dd2.destroy();
     });
 
+    QUnit.asyncTest('event triggering', function(assert) {
+        var dd3 = dropdown({
+            renderTo: '#fixture-mouse3',
+            activatedBy: 'click',
+            isOpen: true
+        }, {
+            header: htmlItem,
+            items: items
+        });
+        dd3.on('item-click', function () {
+            assert.ok(true, "The component fires a generic event when an item is clicked");
+            QUnit.start();
+        })
+        .on('item-click-second', function () {
+            assert.ok(true, "The component fires a specific event when an item with an id is clicked");
+            QUnit.start();
+        });
+
+        QUnit.expect(2);
+        QUnit.stop(1);
+
+        dd3.getElement().find('li:nth-child(2)').trigger('click');
+
+        dd3.destroy();
+    });
+
     QUnit.test('adding html items', function(assert) {
         var dd4 = dropdown({
             renderTo: '#fixture-html-items',
@@ -169,7 +197,8 @@ define([
         dropdown({
             renderTo: '#visual-test-hover',
             isOpen: false,
-            activatedBy: 'hover'
+            activatedBy: 'hover',
+            id: 'testid'
         }, {
             header: '<span class="a">Hoverable dropdown</a>',
             items: items,
@@ -177,7 +206,7 @@ define([
 
         dropdown({
             renderTo: '#visual-test-click',
-            isOpen: false,
+            isOpen: true,
             activatedBy: 'click'
         }, {
             header: '<span class="a">Clickable dropdown</a>',

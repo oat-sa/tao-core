@@ -239,7 +239,7 @@ define([
 
             // list item events
             this.controls.$listContainer.on('click', 'li', function() {
-                var id = $(this).attr('id');
+                var id = $(this).closest('li').attr('id');
                 /**
                  * @event item-click
                  */
@@ -251,7 +251,7 @@ define([
             });
         })
         .on('item-click', function() {
-            self.close();
+            this.close();
         })
         .init(config);
     }
