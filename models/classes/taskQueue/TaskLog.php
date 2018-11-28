@@ -22,9 +22,11 @@ namespace oat\tao\model\taskQueue;
 
 use common_report_Report as Report;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\taskQueue\Event\TaskLogArchivedEvent;
+use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
@@ -44,6 +46,7 @@ use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 class TaskLog extends ConfigurableService implements TaskLogInterface
 {
     use LoggerAwareTrait;
+    use FilesystemAwareTrait;
 
     /**
      * @var TaskLogBrokerInterface
@@ -307,6 +310,10 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
                 ->trigger(new TaskLogArchivedEvent($entity, $forceArchive));
         }
 
+        if ($this->getCategoryForTask($entity->getTaskName()) == self::CATEGORY_EXPORT) {
+            $this->deleteQueueStorageFile($entity);
+        }
+
         return $isArchived;
     }
 
@@ -336,6 +343,10 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
                 $this->getServiceManager()
                     ->get(EventManager::SERVICE_ID)
                     ->trigger(new TaskLogArchivedEvent($entity, $forceArchive));
+
+                if ($this->getCategoryForTask($entity->getTaskName()) == self::CATEGORY_EXPORT) {
+                    $this->deleteQueueStorageFile($entity);
+                }
             }
         }
 
@@ -375,6 +386,13 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
 
         if (array_key_exists($taskName, $associations)) {
             return $associations[$taskName];
+        }
+
+        // check by inheritance
+        foreach ($associations as $className => $category) {
+            if (is_subclass_of($taskName, $className)) {
+                return $category;
+            }
         }
 
         return self::CATEGORY_UNKNOWN;
@@ -425,5 +443,15 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         if ($entity->getStatus()->isInProgress() && $forceArchive === false) {
             throw new \Exception('Task cannot be archived because it is in progress.');
         }
+    }
+
+    /**
+     * @see FilesystemAwareTrait::getFileSystemService()
+     * @return FileSystemService|object
+     */
+    protected function getFileSystemService()
+    {
+        return $this->getServiceLocator()
+            ->get(FileSystemService::SERVICE_ID);
     }
 }
