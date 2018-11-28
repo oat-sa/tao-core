@@ -59,7 +59,7 @@ define([
      * @param {Object} [config.dynamicPlugins] - a collection of plugins to load
      * @returns {dynamicComponent}
      */
-    return function dynamicCalculatorFactory(config) {
+    return function calculatorComponentFactory(config) {
         var calculator, calculatorComponent;
 
         var api = {
