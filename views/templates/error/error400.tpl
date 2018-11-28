@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Currently Under Maintenance</title>
+    <title>Error 400 - Bad Request</title>
     <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/tao-main-style.css">
     <link rel="stylesheet" href="<?= ROOT_URL ?>tao/views/css/error-pages.css">
 </head>
@@ -16,15 +16,34 @@
         <a href="<?= ROOT_URL ?>" class="lft" target="_blank">
             <img src="<?= ROOT_URL ?>tao/views/img/tao-logo.png" alt="TAO Logo" id="tao-main-logo">
         </a>
-        <h1>Currently Under Maintenance</h1>
+		<h1>Error 400 - Bad Request</h1>
     </header>
 
     <div class="section-container">
-        <div class="error-code small">Maintenance</div>
-        <div class="error-text">
-            <p>This TAO instance is currently under maintenance and should be back shortly.<br>
-                We apologize for the inconvenience.</p>
-        </div>
+    	<div class="error-code">400</div>
+		<div class="error-text">
+			<?php if (!empty($message)): ?>
+			<p><?= $message ?></p>
+			<?php endif; ?>
+		</div>
+		<ul class="plain links">
+			<?php if (!empty($_SERVER['HTTP_REFERER'])) : ?>
+			<li><a href="<?= $_SERVER['HTTP_REFERER'] ?>"><?=__('Go Back')?></a></li>
+			<?php endif; ?>
+			<li><a href="<?= ROOT_URL ?>"><?=__('TAO Home')?></a></li>
+		</ul>
+
+	    <?php if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
+	    	<?php if (!empty($message)): ?>
+	    		<h2>Debug Message</h2>
+	    		<pre><?= $message ?></pre>
+	    	<?php endif; ?>
+
+	    	<?php if (!empty($trace)): ?>
+	    		<h2>Stack Trace</h2>
+	    		<pre><?= $trace ?></pre>
+	    	<?php endif; ?>
+	    <?php endif; ?>
 
     </div>
 </div>
