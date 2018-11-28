@@ -365,12 +365,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     /**
      * Add an instance of the selected class
      * @requiresRight id WRITE
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
      * @return void
      */
     public function addInstance()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $response = array();
@@ -393,11 +395,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * Add a subclass to the currently selected class
      * @requiresRight id WRITE
      * @throws Exception
+     * @throws common_exception_BadRequest
      */
     public function addSubClass()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
         $parent = new core_kernel_classes_Class($this->getRequestParameter('id'));
         $clazz = $this->getClassService()->createSubClass($parent);
@@ -411,12 +414,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
     /**
      * Add an instance of the selected class
+     * @throws common_exception_BadRequest
      * @return void
      */
     public function addInstanceForm()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $clazz = $this->getCurrentClass();
@@ -486,6 +490,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     /**
      * Duplicate the current instance
      * render a JSON response
+     *
+     * @throws \League\Flysystem\FileExistsException
+     * @throws common_Exception
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
+     * @throws tao_models_classes_MissingRequestParameterException
+     *
      * @return void
      * @requiresRight uri READ
      * @requiresRight classUri WRITE
@@ -493,7 +504,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     public function cloneInstance()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
@@ -707,12 +718,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
     /**
      * load the translated data of an instance regarding the given lang
+     *
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
+     * @throws tao_models_classes_MissingRequestParameterException
+     *
      * @return void
      */
     public function getTranslatedData()
     {
         if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
         $data = array();
         if($this->hasRequestParameter('lang')){
@@ -729,11 +745,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     /**
      * delete an instance or a class
      * called via ajax
+     *
+     * @throws common_exception_BadRequest
+     * @throws common_exception_MissingParameter
      */
     public function delete()
     {
         if (!tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         if ($this->hasRequestParameter('uri')) {
@@ -749,12 +768,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * Generic resource deletion action
      *
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @requiresRight id WRITE
      */
     public function deleteResource()
     {
         if (!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')) {
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         // Csrf token validation
@@ -771,12 +791,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * Generic class deletion action
      *
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @requiresRight id WRITE
      */
     public function deleteClass()
     {
         if (!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')) {
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         // Csrf token validation
@@ -803,6 +824,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @requiresRight ids WRITE
      *
      * @throws Exception
+     * @throws common_exception_BadRequest
      */
     public function deleteAll()
     {
@@ -811,7 +833,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             'deleted' => []
         ];
         if (!tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         // Csrf token validation

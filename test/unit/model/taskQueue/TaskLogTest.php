@@ -22,10 +22,12 @@ namespace oat\tao\test\unit\model\taskQueue;
 
 use oat\tao\model\taskQueue\Task\AbstractTask;
 use oat\tao\model\taskQueue\TaskLog;
+use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
 use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
+use oat\tao\model\taskQueue\TaskLogInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class TaskLogTest extends \PHPUnit_Framework_TestCase
@@ -204,6 +206,12 @@ class TaskLogTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($model->archive($model->getByIdAndUser('taskId', 'userId')));
     }
 
+    /**
+     * @param bool $notFound
+     * @param bool $shouldArchive
+     * @param bool $taskRunning
+     * @return \PHPUnit_Framework_MockObject_MockObject|TaskLogInterface
+     */
     protected function getTaskLogMock($notFound = false, $shouldArchive = true, $taskRunning = false)
     {
         $taskLogMock = $this->getMockBuilder(TaskLog::class)->disableOriginalConstructor()->getMock();
@@ -238,4 +246,37 @@ class TaskLogTest extends \PHPUnit_Framework_TestCase
 
         return $taskLogMock;
     }
+
+    public function testTaskCategoryWithExactName()
+    {
+        $model = new TaskLog([
+            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake')
+        ]);
+        $model->linkTaskToCategory('Test\FakeClassName', 'import');
+
+        $this->assertSame('import', $model->getCategoryForTask('Test\FakeClassName'));
+    }
+
+    public function testTaskCategoryWithSubClass()
+    {
+        $model = new TaskLog([
+            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake')
+        ]);
+        $model->linkTaskToCategory(StubTaskParent::class, 'export');
+
+        $this->assertSame('export', $model->getCategoryForTask(StubTaskChild::class));
+    }
+
+    public function testTaskCategoryForUnknown()
+    {
+        $model = new TaskLog([
+            'task_log_broker' => $broker = new RdsTaskLogBroker('fakePersistence', 'fake')
+        ]);
+        $model->linkTaskToCategory('Fake\Classname', 'export');
+
+        $this->assertSame('unknown', $model->getCategoryForTask('ClassName\Which\Not\Added\Ever'));
+    }
 }
+
+class StubTaskChild extends StubTaskParent {}
+abstract class StubTaskParent {}
