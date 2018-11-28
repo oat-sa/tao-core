@@ -35,6 +35,7 @@
                 padding: 20px;
                 margin: 10px;
                 border: 2px solid #448;
+                font-family: 'Verdana', 'Arial', 'Helvetica', 'sans-serif';
             }
             #visual-test .screen {
                 border: 1px solid #888;
@@ -115,6 +116,9 @@
             #visual-test .keyboard .row .btn-8 {
                 width: 100%;
             }
+            .align-right {
+                text-align: right;
+            }
         </style>
     </head>
     <body>
@@ -130,7 +134,11 @@
                     <button class="btn-1 operator fac" data-operator="!">x!</button>
                     <button class="btn-1 operator lpar" data-operator="(">(</button>
                     <button class="btn-1 operator rpar" data-operator=")">)</button>
-                    <span class="btn-5"></span>
+                    <span class="btn-3"></span>
+                    <span class="btn-2 align-right">
+                        <label><input type="radio" name="degree" value="1" data-switch="degree"> Degree</label>
+                        <label><input type="radio" name="degree" value="0" data-switch="radian"> Radian</label>
+                    </span>
                 </div>
                 <div class="row">
                     <button class="btn-1 operator pow2" data-operator="^2">x<sup>2</sup></button>
