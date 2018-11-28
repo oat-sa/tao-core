@@ -146,27 +146,37 @@ define([
         dd5.destroy();
     });
 
-    // Leave one instance alive for user testing:
+    // Leave some instances alive for user testing:
     QUnit.module('Visual');
 
     QUnit.test('playground', function(assert) {
+        var items = [
+            {
+                content: '<span class="a">First thing</span>',
+                cls: 'sep-before',
+                icon: 'home'
+            },
+            {
+                content: '<span class="a">Second thing</span>',
+                cls: 'sep-before',
+                icon: 'eye-slash'
+            }
+        ];
+
         dropdown({
-            renderTo: '#visual-test',
-            headerItem: '<span class="a">List header</a>',
-            innerItems: [
-                {
-                    content: '<span class="a">First thing</span>',
-                    cls: 'sep-before',
-                    icon: 'home'
-                },
-                {
-                    content: '<span class="a">Second thing</span>',
-                    cls: 'sep-before',
-                    icon: 'eye-slash'
-                }
-            ],
+            renderTo: '#visual-test-hover',
+            headerItem: '<span class="a">Hoverable dropdown</a>',
+            innerItems: items,
             isOpen: false,
             activatedBy: 'hover'
+        });
+
+        dropdown({
+            renderTo: '#visual-test-click',
+            headerItem: '<span class="a">Clickable dropdown</a>',
+            innerItems: items,
+            isOpen: false,
+            activatedBy: 'click'
         });
 
         assert.ok(true, 'started');
