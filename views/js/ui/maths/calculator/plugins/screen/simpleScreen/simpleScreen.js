@@ -24,11 +24,13 @@ define([
     'lodash',
     'i18n',
     'util/namespace',
+    'ui/scroller',
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
-    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen'
-], function ($, _, __, nsHelper, registeredTerms, pluginFactory, termTpl, simpleScreenTpl) {
+    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/history',
+    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/defaultTemplate'
+], function ($, _, __, nsHelper, scrollHelper, registeredTerms, pluginFactory, termTpl, historyTpl, defaultScreenTpl) {
     'use strict';
 
     var pluginName = 'simpleScreen';
@@ -39,8 +41,17 @@ define([
     var defaultValue = '0';
 
     var defaultConfig = {
-        layout: simpleScreenTpl
+        layout: defaultScreenTpl
     };
+
+    /**
+     * Checks if an expression contains an error value
+     * @param {String} expression
+     * @returns {Boolean}
+     */
+    function containsError(expression) {
+        return reErrorValue.test(expression);
+    }
 
     return pluginFactory({
         name: pluginName,
@@ -51,15 +62,6 @@ define([
         init: function init() {
             var self = this;
             var calculator = this.getCalculator();
-
-            /**
-             * Checks if an expression contains an error value
-             * @param {String} expression
-             * @returns {Boolean}
-             */
-            function containsError(expression) {
-                return reErrorValue.test(expression);
-            }
 
             /**
              * Reset the current expression
@@ -182,6 +184,15 @@ define([
             }
 
             /**
+             * Auto scroll to the last child of a container
+             * @param {jQuery} $container
+             * @param {String} [sel]
+             */
+            function autoScroll($container, sel) {
+                scrollHelper.scrollTo($container.find(':last-child ' + (sel || '')), $container);
+            }
+
+            /**
              * Updates the expression area
              * @param {Array} tokens
              */
@@ -189,16 +200,11 @@ define([
                 self.controls.$expression.html(
                     transformTokens(tokens)
                 );
+                autoScroll(self.controls.$expression);
             }
 
-            /**
-             * Updates the history area
-             * @param {Array} tokens
-             */
-            function showHistory(tokens) {
-                self.controls.$history.html(
-                    transformTokens(tokens)
-                );
+            if (!_.isFunction(pluginConfig.layout)) {
+                throw new TypeError('The screen plugin requires a template to render!');
             }
 
             this.$layout = $(pluginConfig.layout(_.defaults({
@@ -212,14 +218,23 @@ define([
 
             calculator
                 .on(nsHelper.namespaceAll('command-clearAll', pluginName), function () {
-                    showHistory([]);
+                    self.controls.$history.empty();
                 })
                 .on(nsHelper.namespaceAll('expressionchange', pluginName), function () {
                     calculator.setState('error', false);
                     showExpression(calculator.getTokens());
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
-                    showHistory(tokenizer.tokenize(self.previous + '=' + result));
+                    self.controls.$history.html(historyTpl({
+                        expression: transformTokens(tokenizer.tokenize(self.previous)),
+                        result: transformTokens(tokenizer.tokenize(result))
+                    }));
+                    autoScroll(self.controls.$history, '.history-result');
+                })
+                .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
+                    if (containsError(result)) {
+                        showExpression(tokenizer.tokenize(result));
+                    }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);

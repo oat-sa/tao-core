@@ -612,7 +612,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             if (!$this->hasRequestParameter('uri')) {
                 throw new InvalidArgumentException('Resource uri must be specified.');
             }
-            $ids = [$this->getRequestParameter('uri')];
+
+            $resource = $this->getCurrentInstance();
+
+            $ids = [$resource->getUri()];
             $this->validateMoveRequest();
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);

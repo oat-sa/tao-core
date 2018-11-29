@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>Ui Test - Calculator Plugin: simpleScreen</title>
     <base href="../../../../../../../../" />
+    <link rel="stylesheet" type="text/css" href="css/tao-main-style.css" />
+    <link rel="stylesheet" type="text/css" href="css/tao-3.css" />
     <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
@@ -26,6 +28,19 @@
             });
         });
     </script>
+    <style>
+        #visual-test {
+            position: relative;
+            background: #ccc;
+            width: 400px;
+            height: 200px;
+            margin: 0 auto;
+            padding: 5px;
+        }
+        .calculator {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <div id="qunit"></div>
@@ -46,7 +61,10 @@
     <div id=fixture-ans-const></div>
 </div>
 <div id="visual-test">
-    <input class="input" type="text" /> <button class="process">Process</button>
+    <input class="input" type="text" />
+    <button class="small btn-info set">Set</button>
+    <button class="small btn-success execute">Execute</button>
+    <div class="calculator"></div>
 </div>
 </body>
 </html>
