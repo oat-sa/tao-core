@@ -139,7 +139,7 @@ interface TaskLogInterface extends LoggerAwareInterface
      * @param DatatableRequestInterface $request
      * @return DataTablePayload
      */
-    public function getDataTablePayload(TaskLogFilter $filter, DatatableRequestInterface $request = null);
+    public function getDataTablePayload(TaskLogFilter $filter, DatatableRequestInterface $request);
 
     /**
      * @param string $userId

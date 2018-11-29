@@ -54,11 +54,11 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
      * @param TaskLogBrokerInterface    $broker
      * @param DatatableRequestInterface $request
      */
-    public function __construct(TaskLogFilter $filter, TaskLogBrokerInterface $broker, DatatableRequestInterface $request = null)
+    public function __construct(TaskLogFilter $filter, TaskLogBrokerInterface $broker, DatatableRequestInterface $request)
     {
         $this->taskLogFilter = $filter;
         $this->broker = $broker;
-        $this->request = $request ?: DatatableRequest::fromGlobals();
+        $this->request = $request;
 
         $this->applyDataTableFilters();
     }
