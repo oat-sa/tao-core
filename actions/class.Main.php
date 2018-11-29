@@ -43,27 +43,16 @@ use oat\tao\model\user\UserLocks;
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
-
  *
  */
 class tao_actions_Main extends tao_actions_CommonModule
 {
-
-    /**
-     * The user service
-     *
-     * @var tao_models_classes_UserService
-     */
-    protected $userService;
-
 	/**
 	 * Constructor performs initializations actions
 	 */
 	public function __construct()
 	{
 		//initialize service
-		$this->service = tao_models_classes_TaoService::singleton();
-        $this->userService = \tao_models_classes_UserService::singleton();
 		$this->defaultData();
 	}
 
@@ -73,6 +62,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
     public function entry()
     {
+        $this->defaultData();
         $entries = array();
         foreach (EntryPointService::getRegistry()->getEntryPoints() as $entry) {
             if (tao_models_classes_accessControl_AclProxy::hasAccessUrl($entry->getUrl())) {
@@ -130,6 +120,7 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     public function login()
 	{
+        $this->defaultData();
 	    /** @var common_ext_ExtensionsManager $extensionManager */
 	    $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $extension = $extensionManager->getExtensionById('tao');
@@ -289,7 +280,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
 	public function logout()
 	{
-
+        $this->defaultData();
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
         $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
@@ -310,8 +301,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 	 */
     public function index()
     {
-
-        $user      = $this->userService->getCurrentUser();
+        $this->defaultData();
+        $user      = $this->getUserService()->getCurrentUser();
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
 
@@ -502,5 +493,13 @@ class tao_actions_Main extends tao_actions_CommonModule
         } else {
             throw new common_exception_IsAjaxAction(__CLASS__.'::'.__METHOD__.'()');
         }
+    }
+
+    /**
+     * @return tao_models_classes_UserService
+     */
+    protected function getUserService()
+    {
+        return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
     }
 }

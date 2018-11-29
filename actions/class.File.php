@@ -1,23 +1,23 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
 use oat\oatbox\filesystem\File;
@@ -27,25 +27,16 @@ use oat\tao\model\websource\ActionWebSource;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 
 /**
- * 
+ *
  * Controller use for the file upload components
- * 
+ *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- 
- */
-class tao_actions_File extends tao_actions_CommonModule{
 
-    /**
-	 * constructor. Initialize the context
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
-	
+ */
+class tao_actions_File extends tao_actions_CommonModule
+{
 	/**
 	 * Upload a file using http and copy it from the tmp dir to the target folder
 	 * @return void
@@ -59,7 +50,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 			$response = array_merge($response, $this->uploadFile($file, $targetFolder . '/'));
 		}
 		$response = json_encode($response);
-		print $response; 
+		print $response;
 	}
 
     /**
@@ -80,7 +71,7 @@ class tao_actions_File extends tao_actions_CommonModule{
         }
         return $returnValue;
 	}
-	
+
 	/**
 	 * Download a resource file content
 	 * @param {String} uri Uri of the resource file
@@ -93,9 +84,9 @@ class tao_actions_File extends tao_actions_CommonModule{
 			header("Content-Disposition: attachment; filename=\"{$file->getBasename()}\"");
 			tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
 		}
-		
+
 	}
-	
+
 	public function getPropertyFileInfo()
     {
 		$data = array('name' => __('(empty)'));
@@ -116,7 +107,7 @@ class tao_actions_File extends tao_actions_CommonModule{
                 }
 			}
 		}
-		
+
 		return $this->returnJson($data);
 	}
 

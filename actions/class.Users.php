@@ -1,23 +1,24 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2018 (update and modification) Open Assessment Technologies SA;
+ *
  */
 
 use oat\generis\Helper\UserHashForEncryption;
@@ -29,7 +30,6 @@ use oat\tao\helpers\UserHelper;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\user\implementation\NoUserLocksService;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\user\UserLanguageServiceInterface;
 
@@ -47,28 +47,12 @@ class tao_actions_Users extends tao_actions_CommonModule
     use OntologyAwareTrait;
 
     /**
-     * Constructor performs initializations actions
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->defaultData();
-        $extManager = common_ext_ExtensionsManager::singleton();
-    }
-
-    /** @return UserLocks */
-    private function getUserLocksService()
-    {
-        return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
-    }
-
-    /**
      * Show the list of users
      * @return void
      */
     public function index()
     {
+        $this->defaultData();
         $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
         $this->setData('user-data-lang-enabled', $userLangService->isDataLanguageEnabled());
         $this->setView('user/list.tpl');
@@ -82,6 +66,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function data()
     {
+        $this->defaultData();
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
         $page = $this->getRequestParameter('page');
@@ -111,7 +96,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         $filters = [
             GenerisRdf::PROPERTY_USER_LOGIN => '*',
         ];
-        
+
         if ($filterQuery) {
             if (!$filterColumns) {
                 // if filter columns not set, search by all columns
@@ -205,6 +190,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
+        $this->defaultData();
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         // Csrf token validation
         $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
@@ -251,6 +237,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function add()
     {
+        $this->defaultData();
         $container = new tao_actions_form_Users($this->getClass(TaoOntology::CLASS_URI_TAO_USER));
         $form = $container->getForm();
 
@@ -288,6 +275,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function addInstanceForm()
     {
+        $this->defaultData();
         if (!tao_helpers_Request::isAjax()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
@@ -321,6 +309,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function checkLogin()
     {
+        $this->defaultData();
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         if (!tao_helpers_Request::isAjax()) {
             throw new common_exception_BadRequest('wrong request mode');
@@ -345,6 +334,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function edit()
     {
+        $this->defaultData();
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         $user = $this->getUserResource();
 
@@ -405,6 +395,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function unlock()
     {
+        $this->defaultData();
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->unlockUser($user)) {
@@ -420,6 +411,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function lock()
     {
+        $this->defaultData();
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->lockUser($user)) {
@@ -457,4 +449,13 @@ class tao_actions_Users extends tao_actions_CommonModule
             throw new Exception('Default user data cannot be changed');
         }
     }
+
+    /**
+     * @return UserLocks
+     */
+    protected function getUserLocksService()
+    {
+        return $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
+    }
+
 }
