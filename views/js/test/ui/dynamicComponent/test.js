@@ -53,7 +53,7 @@ define([
             {title : 'reset'},
             {title : 'resetPosition'},
             {title : 'resetSize'},
-            {title : 'setContentSize'}
+            {title : 'resetSize'}
         ])
         .test('instance API ', function (data, assert){
             var instance = dynamicComponent();

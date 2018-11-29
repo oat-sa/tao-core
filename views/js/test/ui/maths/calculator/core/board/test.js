@@ -258,7 +258,7 @@ define([
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(typeof areaBroker, 'undefined', 'The area broker is not yet created');
             })
-            .after('render', function () {
+            .after('ready', function () {
                 assert.equal($container.children().length, 1, 'The container contains an element');
                 assert.equal(typeof this.getAreaBroker(), 'object', 'The area broker is created');
 
