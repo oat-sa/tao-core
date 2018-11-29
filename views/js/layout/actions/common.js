@@ -102,12 +102,11 @@ define([
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {classUri: actionContext.classUri, id: classUri, type: 'class'},
+                    data: {id: classUri, type: 'class', signature: actionContext.signature},
                     dataType: 'json',
-                    success: function(response){
+                    success: function(response) {
                         if (response.uri) {
-
-                            if(actionContext.tree){
+                            if (actionContext.tree) {
                                 $(actionContext.tree).trigger('addnode.taotree', [{
                                     uri       : uri.decode(response.uri),
                                     label     : response.label,
@@ -151,7 +150,7 @@ define([
                 $.ajax({
                     url: self.url,
                     type: "POST",
-                    data: {classUri: actionContext.classUri, id: classUri, type: 'instance'},
+                    data: {id: classUri, type: 'instance', signature: actionContext.signature},
                     dataType: 'json',
                     success: function(response){
                         if (response.uri) {
@@ -203,7 +202,8 @@ define([
                     type: "POST",
                     data: {
                         uri: actionContext.id,
-                        classUri: uri.decode(actionContext.classUri)
+                        classUri: uri.decode(actionContext.classUri),
+                        signature: actionContext.signature
                     },
                     dataType: 'json',
                     success: function(response){
@@ -315,7 +315,9 @@ define([
 
             //TODO do not use cookies !
             data[tokenName] = $.cookie(tokenName);
-            data.ids = _.pluck(actionContexts, 'id');
+            data.ids = _.map(actionContexts, function (data) {
+                return {id: data.id, signature: data.signature};
+            });
 
             if(actionContexts.length === 1){
                 confirmMessage = __('Please confirm deletion');
@@ -512,7 +514,7 @@ define([
                         this.disable();
 
                         resourceProvider
-                            .copyTo(actionContext.id, destinationClassUri)
+                            .copyTo(actionContext.id, destinationClassUri, actionContext.signature)
                             .then(function(result){
                                 if(result && result.uri){
 
@@ -553,8 +555,7 @@ define([
             //get the resource provider configured with the action URL
             var resourceProvider = resourceProviderFactory({
                 moveTo: {
-                    url: this.url,
-                    signature: actionContext.signature
+                    url: this.url
                 }
             });
 
@@ -564,7 +565,8 @@ define([
 
             return new Promise(function (resolve, reject) {
                 var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
-                var selectedUri = _.pluck(actionContext, 'id');
+                var selectedData = _.map(actionContext, function(a){return {id: a.id, signature: a.signature}});
+                var selectedUri = _.map(actionContext, 'id');
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
@@ -622,7 +624,7 @@ define([
                             this.disable();
 
                             resourceProvider
-                                .moveTo(selectedUri, destinationClassUri)
+                                .moveTo(selectedData, destinationClassUri)
                                 .then(function (results) {
                                     var failed = [];
                                     var success = [];

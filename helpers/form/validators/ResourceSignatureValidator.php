@@ -22,17 +22,20 @@ namespace oat\tao\helpers\form\validators;
 
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 
 class ResourceSignatureValidator implements ValidatorInterface
 {
+    /** @var string */
     private $uri;
-    private $classUri;
 
-    public function __construct($uri, $classUri)
+    /**
+     * @param string $uri
+     */
+    public function __construct($uri)
     {
         $this->uri = $uri;
-        $this->classUri = $classUri;
     }
 
     /**
@@ -40,25 +43,24 @@ class ResourceSignatureValidator implements ValidatorInterface
      *
      * @return boolean true only if valid
      *
-     * @throws \common_exception_InconsistentData
+     * @throws SecurityException
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
      */
     public function evaluate($signature)
     {
-        //$tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        /** @var SignatureGenerator $generator */
         $generator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
 
         if (!($generator->generate($this->uri) === $signature)) {
             $message = 'Signature is not valid';
-            \common_Logger::e($message);
 
-            throw new \common_exception_InconsistentData($message);
+            throw new SecurityException($message);
         }
 
         return true;
     }
 
     /**
-     * return validator name
      * @return string
      */
     public function getName()
@@ -67,7 +69,6 @@ class ResourceSignatureValidator implements ValidatorInterface
     }
 
     /**
-     * return validator options
      * @return array
      */
     public function getOptions()
@@ -76,7 +77,6 @@ class ResourceSignatureValidator implements ValidatorInterface
     }
 
     /**
-     * return error message
      * @return string
      */
     public function getMessage()
@@ -85,8 +85,8 @@ class ResourceSignatureValidator implements ValidatorInterface
     }
 
     /**
-     * set up error message
      * @param string $message
+     *
      * @return $this
      */
     public function setMessage($message)
@@ -95,8 +95,8 @@ class ResourceSignatureValidator implements ValidatorInterface
     }
 
     /**
-     * set up validator options
      * @param array $options
+     *
      * @return $this
      */
     public function setOptions(array $options)

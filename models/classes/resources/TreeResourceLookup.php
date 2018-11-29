@@ -87,6 +87,7 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
                 'type'     => $data['type'],
                 'uri'      => $data['attributes']['data-uri'],
                 'classUri' => $data['attributes']['data-classUri'],
+                'signature' => $data['attributes']['data-signature'],
                 'state'    => isset($data['state']) ? $data['state'] : false,
                 'count'    => isset($data['count']) ? $data['count'] : 0
             ];

@@ -21,15 +21,12 @@
  *
  */
 
-use oat\tao\model\accessControl\AclProxy;
-use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
-use oat\tao\helpers\ControllerHelper;
+use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\resources\ResourceService;
 use oat\generis\model\OntologyRdfs;
 
@@ -44,6 +41,17 @@ use oat\generis\model\OntologyRdfs;
 
  */
 abstract class tao_actions_RdfController extends tao_actions_CommonModule {
+
+    /** @var SignatureValidator */
+    protected $signatureValidator;
+
+    public function __construct()
+    {
+        // maybe some day we can inject it
+        $this->signatureValidator = new SignatureValidator();
+
+        parent::__construct();
+    }
 
     /**
      * The Modules access the models throught the service instance
@@ -373,6 +381,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             throw new Exception("wrong request mode");
         }
 
+        $this->signatureValidator->checkSignature(
+            $this->getRequestParameter('signature'),
+            $this->getRequestParameter('id')
+        );
+
         $response = array();
 
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
@@ -399,6 +412,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         if(!tao_helpers_Request::isAjax()){
             throw new Exception("wrong request mode");
         }
+
+        $this->signatureValidator->checkSignature(
+            $this->getRequestParameter('signature'),
+            $this->getRequestParameter('id')
+        );
+
         $parent = new core_kernel_classes_Class($this->getRequestParameter('id'));
         $clazz = $this->getClassService()->createSubClass($parent);
         if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
@@ -496,6 +515,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             throw new Exception("wrong request mode");
         }
 
+        $this->signatureValidator->checkSignature(
+            $this->getRequestParameter('signature'),
+            $this->getRequestParameter('uri')
+        );
+
         $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
         if(!is_null($clone)){
             echo json_encode(array(
@@ -514,6 +538,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     {
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri') &&
             common_Utils::isUri($this->getRequestParameter('destinationClassUri'))) {
+
+            $this->signatureValidator->checkSignature(
+                $this->getRequestParameter('signature'),
+                $this->getRequestParameter('uri')
+            );
 
             $instance  = $this->getCurrentInstance();
             $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
@@ -559,7 +588,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     {
         $response = array();
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
-            $instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+
+            $id = $this->getRequestParameter('uri');
+
+            $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
+
+            $instance = new core_kernel_classes_Resource($id);
             $types = $instance->getTypes();
             $clazz = reset($types);
             $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
@@ -601,7 +635,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             if (!$this->hasRequestParameter('uri')) {
                 throw new InvalidArgumentException('Resource uri must be specified.');
             }
-            $ids = [$this->getRequestParameter('uri')];
+
+            $data = $this->getRequestParameter('uri');
+            $id = $data['id'];
+
+            $this->signatureValidator->checkSignature($data['signature'], $id);
+
+            $ids = [$id];
             $this->validateMoveRequest();
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);
@@ -623,11 +663,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             if (!$this->hasRequestParameter('ids')) {
                 throw new InvalidArgumentException('Resource ids must be specified.');
             }
+            $ids = [];
 
-            $ids = $this->getRequestParameter('ids');
+            foreach ($this->getRequestParameter('ids') as $id) {
+                $ids[] = $id['id'];
+            }
+
             if (empty($ids)) {
                 throw new InvalidArgumentException('No instances specified.');
             }
+
+            $this->signatureValidator->checkSignatures(
+                $this->getRequestParameter('ids')
+            );
 
             $this->validateMoveRequest();
 
@@ -760,6 +808,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         // Csrf token validation
         $this->validateCsrf();
 
+        $this->signatureValidator->checkSignature(
+            $this->getRequestParameter('signature'),
+            $this->getRequestParameter('id')
+        );
+
         $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
         $deleted = $this->getClassService()->deleteResource($resource);
         return $this->returnJson(array(
@@ -781,6 +834,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
         // Csrf token validation
         $this->validateCsrf();
+
+        $this->signatureValidator->checkSignature(
+            $this->getRequestParameter('signature'),
+            $this->getRequestParameter('id')
+        );
 
         $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
         if ($this->getRootClass()->equals($clazz)) {
@@ -817,7 +875,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         // Csrf token validation
         $this->validateCsrf();
 
-        $ids = $this->getRequestParameter('ids');
+        $ids = [];
+
+        foreach ($this->getRequestParameter('ids') as $id) {
+            $ids[] = $id['id'];
+        }
+
+        $this->signatureValidator->checkSignatures($this->getRequestParameter('ids'));
+
         foreach ($ids as $id) {
             $deleted = false;
             try {
