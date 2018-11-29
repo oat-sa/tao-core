@@ -10,7 +10,7 @@
     "rules": {
         "consistent-this":      ["error", "self"],
         "eqeqeq":               ["error", "smart"],
-        "indent":               ["warn", 4, { "SwitchCase": 1, "MemberExpression": 1 }],
+        "indent":               ["warn", 4, { "SwitchCase": 1, "MemberExpression": "off" }],
         "linebreak-style":      ["error", "unix"],
         "no-alert":             ["error"],
         "no-caller":            ["error"],
