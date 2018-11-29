@@ -182,7 +182,7 @@ define(['i18n'], function (__) {
             description: __('Error in value')
         },
         INFINITY: {
-            label: 'Domain error',
+            label: 'Infinity',
             value: 'Infinity',
             type: 'error',
             description: __('Error in result')

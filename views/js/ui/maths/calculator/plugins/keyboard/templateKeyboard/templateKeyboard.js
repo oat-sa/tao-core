@@ -59,16 +59,17 @@ define([
                 throw new TypeError('The keyboard plugin requires a template to render!');
             }
 
-            this.$layout = $(pluginConfig.layout(pluginConfig));
+            this.$layout = $(pluginConfig.layout(pluginConfig))
+                .on(nsHelper.namespaceAll('click', pluginName), '.key', function () {
+                    var $key = $(this).closest('.key');
+                    var command = $key.data('command');
+                    var param = $key.data('param');
+                    if (command) {
+                        calculator.useCommand(command, param);
+                    }
+                });
+
             areaBroker.getKeyboardArea().append(this.$layout);
-            this.$layout.on(nsHelper.namespaceAll('click', pluginName), '.key', function() {
-                var $key = $(this).closest('.key');
-                var command = $key.data('command');
-                var param = $key.data('param');
-                if (command) {
-                    calculator.useCommand(command, param);
-                }
-            });
         },
 
         /**
