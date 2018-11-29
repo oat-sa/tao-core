@@ -30,9 +30,20 @@ define([
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/tokenizer',
     'util/mathsEvaluator',
-    'util/namespace',
     'tpl!ui/maths/calculator/core/board'
-], function ($, _, __, Promise, collections, componentFactory, areaBrokerFactory, registeredTerms, tokenizerFactory, mathsEvaluatorFactory, nsHelper, boardTpl) {
+], function (
+    $,
+    _,
+    __,
+    Promise,
+    collections,
+    componentFactory,
+    areaBrokerFactory,
+    registeredTerms,
+    tokenizerFactory,
+    mathsEvaluatorFactory,
+    boardTpl
+) {
     'use strict';
 
     /**
@@ -683,11 +694,11 @@ define([
                     .setCommand('execute', __('Execute'), __('Compute the expression'))
                     .setCommand('var', __('Variable'), __('Use a variable'))
                     .setCommand('term', __('Term'), __('Use a term'))
-                    .on(nsHelper.namespaceAll('command-term', ns), this.useTerms.bind(this))
-                    .on(nsHelper.namespaceAll('command-var', ns), this.useVariable.bind(this))
-                    .on(nsHelper.namespaceAll('command-execute', ns), this.evaluate.bind(this))
-                    .on(nsHelper.namespaceAll('command-clearAll', ns), this.deleteVariables.bind(this))
-                    .on(nsHelper.namespaceAll('command-clear command-clearAll', ns), this.clear.bind(this));
+                    .on('command-term', this.useTerms.bind(this))
+                    .on('command-var', this.useVariable.bind(this))
+                    .on('command-execute', this.evaluate.bind(this))
+                    .on('command-clearAll', this.deleteVariables.bind(this))
+                    .on('command-clear command-clearAll', this.clear.bind(this));
             })
             .after('init', function () {
                 this.render($container);
@@ -714,10 +725,10 @@ define([
 
                 return this.runPlugins('install')
                     .then(function () {
-                        self.runPlugins('init');
+                        return self.runPlugins('init');
                     })
                     .then(function () {
-                        self.runPlugins('render');
+                        return self.runPlugins('render');
                     })
                     .then(function () {
                         /**

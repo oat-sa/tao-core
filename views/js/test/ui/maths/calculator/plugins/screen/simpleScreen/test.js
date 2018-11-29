@@ -163,10 +163,10 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen .history').length, 1, 'The screen layout contains area for history');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen .expression').length, 1, 'The screen layout contains area for expression');
+                        var $screen = $container.find('.calculator-screen');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen .history').length, 1, 'The screen layout contains area for history');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen .expression').length, 1, 'The screen layout contains area for expression');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -190,6 +190,49 @@ define([
                 console.error(err);
                 assert.ok(false, 'The operation should not fail!');
                 QUnit.start();
+            });
+    });
+
+
+
+    QUnit.asyncTest('render - failure', function (assert) {
+        var $container = $('#fixture-render');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                var areaBroker = calculator.getAreaBroker();
+                var plugin = simpleScreenPluginFactory(calculator, areaBroker);
+                plugin.setConfig({layout: 'foo'});
+
+                QUnit.expect(1);
+
+                calculator
+                    .on('plugin-render.templateScreen', function () {
+                        assert.ok(false, 'Should not reach that point!');
+                    })
+                    .on('destroy', function () {
+                        QUnit.start();
+                    });
+
+                plugin.install()
+                    .then(function () {
+                        return plugin.init();
+                    })
+                    .then(function () {
+                        return plugin.render();
+                    })
+                    .then(function () {
+                        assert.ok(false, 'Should not reach that point!');
+                    })
+                    .catch(function () {
+                        assert.ok(true, 'The operation should fail!');
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function () {
+                assert.ok(true, 'The operation should fail!');
+                calculator.destroy();
             });
     });
 
@@ -218,12 +261,12 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         return plugin.destroy();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 0, 'The screen layout has been removed');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 0, 'The screen layout has been removed');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);
@@ -264,13 +307,13 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -298,7 +341,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -326,7 +369,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -403,13 +446,13 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -481,7 +524,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -490,7 +533,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -520,7 +563,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -539,32 +582,31 @@ define([
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the expression is transformed - content');
 
-                                    assert.equal($screen.find('.history .term').length, 5, 'The expected number of terms has been transformed in the history');
+                                    assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
+                                    assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
+                                    assert.equal($screen.find('.history .history-result').length, 1, 'The history contains a result');
+                                    assert.equal($screen.find('.history .history-expression .term').length, 3, 'The expected number of terms has been transformed in the history expression');
+                                    assert.equal($screen.find('.history .history-result .term').length, 1, 'The expected number of terms has been transformed in the history result');
 
-                                    assert.equal($screen.find('.history .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(3)').data('value'), '=', 'the assign term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('token'), 'ASSIGN', 'the assign term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('type'), 'operator', 'the assign term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(3)').html().trim(), '=', 'the assign term is transformed - content');
-
-                                    assert.equal($screen.find('.history .term:eq(4)').data('value'), '5', 'the result term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('token'), 'NUM5', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('type'), 'operand', 'the result term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(4)').html().trim(), '5', 'the result term is transformed - content');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('value'), '5', 'the result term is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NUM5', 'the result term is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'operand', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), '5', 'the result term is transformed - content');
 
                                     resolve();
                                 })
@@ -572,7 +614,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -599,7 +641,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -631,7 +673,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -650,32 +692,31 @@ define([
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '8', 'the expression is transformed - content');
 
-                                    assert.equal($screen.find('.history .term').length, 5, 'The expected number of terms has been transformed in the history');
+                                    assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
+                                    assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
+                                    assert.equal($screen.find('.history .history-result').length, 1, 'The history contains a result');
+                                    assert.equal($screen.find('.history .history-expression .term').length, 3, 'The expected number of terms has been transformed in the history expression');
+                                    assert.equal($screen.find('.history .history-result .term').length, 1, 'The expected number of terms has been transformed in the history result');
 
-                                    assert.equal($screen.find('.history .term:eq(0)').data('value'), '5', 'the first operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('token'), 'NUM5', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(0)').text().trim(), '5', 'the first operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '5', 'the first operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM5', 'the first operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '5', 'the first operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(2)').data('value'), '3', 'the second operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(2)').html().trim(), '3', 'the second operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '3', 'the second operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '3', 'the second operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(3)').data('value'), '=', 'the assign term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('token'), 'ASSIGN', 'the assign term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('type'), 'operator', 'the assign term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(3)').html().trim(), '=', 'the assign term is transformed - content');
-
-                                    assert.equal($screen.find('.history .term:eq(4)').data('value'), '8', 'the result term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('token'), 'NUM8', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('type'), 'operand', 'the result term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(4)').html().trim(), '8', 'the result term is transformed - content');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('value'), '8', 'the result term is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NUM8', 'the result term is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'operand', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), '8', 'the result term is transformed - content');
 
                                     resolve();
                                 })
@@ -683,7 +724,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('command-clearAll.test', function() {
@@ -747,7 +788,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -756,7 +797,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -786,7 +827,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -800,37 +841,36 @@ define([
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the expression is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the expression is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(0)').get(0).dataset.value, 'NaN', 'the expression is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NAN', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'error', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), registeredTerms.NAN.label, 'the expression is transformed - content');
 
-                                    assert.equal($screen.find('.history .term').length, 5, 'The expected number of terms has been transformed in the history');
+                                    assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
+                                    assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
+                                    assert.equal($screen.find('.history .history-result').length, 1, 'The history contains a result');
+                                    assert.equal($screen.find('.history .history-expression .term').length, 3, 'The expected number of terms has been transformed in the history expression');
+                                    assert.equal($screen.find('.history .history-result .term').length, 1, 'The expected number of terms has been transformed in the history result');
 
-                                    assert.equal($screen.find('.history .term:eq(0)').data('value'), 'sqrt', 'the first operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('token'), 'SQRT', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('type'), 'function', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(0)').text().trim(), registeredTerms.SQRT.label, 'the first operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), 'sqrt', 'the first operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'SQRT', 'the first operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'function', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), registeredTerms.SQRT.label, 'the first operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(1)').data('value'), '-', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('token'), 'SUB', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(1)').text().trim(), '-', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '-', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'SUB', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), '-', 'the operator is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(3)').data('value'), '=', 'the assign term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('token'), 'ASSIGN', 'the assign term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('type'), 'operator', 'the assign term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(3)').html().trim(), '=', 'the assign term is transformed - content');
-
-                                    assert.equal($screen.find('.history .term:eq(4)').get(0).dataset.value, 'NaN', 'the result term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('token'), 'NAN', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('type'), 'error', 'the result term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(4)').html().trim(), registeredTerms.NAN.label, 'the result term is transformed - content');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').get(0).dataset.value, 'NaN', 'the result term is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NAN', 'the result term is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'error', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), registeredTerms.NAN.label, 'the result term is transformed - content');
 
                                     resolve();
                                 })
@@ -838,7 +878,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -865,7 +905,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('command-clearAll.test', function() {
@@ -929,7 +969,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -938,7 +978,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -968,7 +1008,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -982,37 +1022,36 @@ define([
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the expression is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the expression is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(0)').get(0).dataset.value, 'Infinity', 'the expression is transformed - data-value');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'INFINITY', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'error', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').text().trim(), registeredTerms.INFINITY.label, 'the expression is transformed - content');
 
-                                    assert.equal($screen.find('.history .term').length, 5, 'The expected number of terms has been transformed in the history');
+                                    assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
+                                    assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
+                                    assert.equal($screen.find('.history .history-result').length, 1, 'The history contains a result');
+                                    assert.equal($screen.find('.history .history-expression .term').length, 3, 'The expected number of terms has been transformed in the history expression');
+                                    assert.equal($screen.find('.history .history-result .term').length, 1, 'The expected number of terms has been transformed in the history result');
 
-                                    assert.equal($screen.find('.history .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(1)').data('value'), '/', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('token'), 'DIV', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(1)').text().trim(), registeredTerms.DIV.label, 'the operator is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '/', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'DIV', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), registeredTerms.DIV.label, 'the operator is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(2)').data('value'), '0', 'the second operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('token'), 'NUM0', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(2)').html().trim(), '0', 'the second operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '0', 'the second operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM0', 'the second operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '0', 'the second operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(3)').data('value'), '=', 'the assign term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('token'), 'ASSIGN', 'the assign term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('type'), 'operator', 'the assign term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(3)').html().trim(), '=', 'the assign term is transformed - content');
-
-                                    assert.equal($screen.find('.history .term:eq(4)').get(0).dataset.value, 'Infinity', 'the result term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('token'), 'INFINITY', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('type'), 'error', 'the result term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(4)').html().trim(), registeredTerms.INFINITY.label, 'the result term is transformed - content');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').get(0).dataset.value, 'Infinity', 'the result term is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'INFINITY', 'the result term is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'error', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), registeredTerms.INFINITY.label, 'the result term is transformed - content');
 
                                     resolve();
                                 })
@@ -1020,7 +1059,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -1047,7 +1086,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('command-clearAll.test', function() {
@@ -1111,7 +1150,7 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -1120,7 +1159,7 @@ define([
                         assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('expressionchange.test', function() {
@@ -1145,7 +1184,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -1186,7 +1225,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -1218,7 +1257,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('evaluate.test', function() {
@@ -1236,32 +1275,31 @@ define([
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the expression is transformed - content');
 
-                                    assert.equal($screen.find('.history .term').length, 5, 'The expected number of terms has been transformed in the history');
+                                    assert.equal($screen.find('.history .history-line').length, 1, 'The expected number of history lines has been added in the history');
+                                    assert.equal($screen.find('.history .history-expression').length, 1, 'The history contains an expression');
+                                    assert.equal($screen.find('.history .history-result').length, 1, 'The history contains a result');
+                                    assert.equal($screen.find('.history .history-expression .term').length, 3, 'The expected number of terms has been transformed in the history expression');
+                                    assert.equal($screen.find('.history .history-result .term').length, 1, 'The expected number of terms has been transformed in the history result');
 
-                                    assert.equal($screen.find('.history .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'ADD', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), '+', 'the operator is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
-                                    assert.equal($screen.find('.history .term:eq(3)').data('value'), '=', 'the assign term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('token'), 'ASSIGN', 'the assign term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(3)').data('type'), 'operator', 'the assign term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(3)').html().trim(), '=', 'the assign term is transformed - content');
-
-                                    assert.equal($screen.find('.history .term:eq(4)').data('value'), '5', 'the result term is transformed - data-value');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('token'), 'NUM5', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .term:eq(4)').data('type'), 'operand', 'the result term is transformed - data-type');
-                                    assert.equal($screen.find('.history .term:eq(4)').html().trim(), '5', 'the result term is transformed - content');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('value'), '5', 'the result term is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NUM5', 'the result term is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'operand', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), '5', 'the result term is transformed - content');
 
                                     resolve();
                                 })
@@ -1308,8 +1346,8 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        var $screen = $container.find('.calculator-screen');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -1321,7 +1359,7 @@ define([
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.test', function() {
@@ -1342,7 +1380,7 @@ define([
                         });
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.ADD', function() {
@@ -1464,8 +1502,8 @@ define([
                             return plugin.render();
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
-                            assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                            var $screen = $container.find('.calculator-screen');
+                            assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                             assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
                             assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
@@ -1477,7 +1515,7 @@ define([
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
+                            var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
                                     .after('termadd.test', function() {
@@ -1498,7 +1536,7 @@ define([
                             });
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
+                            var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
                                     .after('termadd.test', function() {
@@ -1559,8 +1597,8 @@ define([
                         return plugin.render();
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
-                        assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                        var $screen = $container.find('.calculator-screen');
+                        assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                         calculator.replace('ans');
 
@@ -1574,7 +1612,7 @@ define([
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
                     .then(function () {
-                        var $screen = $container.find('.simple-screen');
+                        var $screen = $container.find('.calculator-screen');
                         return new Promise(function(resolve) {
                             calculator
                                 .after('termadd.ADD', function() {
@@ -1696,8 +1734,8 @@ define([
                             return plugin.render();
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
-                            assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                            var $screen = $container.find('.calculator-screen');
+                            assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                             calculator.replace('ans');
 
@@ -1711,7 +1749,7 @@ define([
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                         })
                         .then(function () {
-                            var $screen = $container.find('.simple-screen');
+                            var $screen = $container.find('.calculator-screen');
                             return new Promise(function(resolve) {
                                 calculator
                                     .after('termadd.test', function() {
@@ -1751,18 +1789,25 @@ define([
 
     QUnit.asyncTest('screen', function (assert) {
         var expression = '3*sqrt 3/2+(2+x)*4-sin PI/2';
-        var $container = $('#visual-test');
+        var $container = $('#visual-test .calculator');
         var $input = $('#visual-test .input');
         calculatorBoardFactory($container, [simpleScreenPluginFactory])
             .on('ready', function () {
                 var self = this;
                 var areaBroker = this.getAreaBroker();
-                assert.equal(areaBroker.getScreenArea().find('.simple-screen').length, 1, 'The screen layout has been inserted');
+                assert.equal(areaBroker.getScreenArea().find('.calculator-screen').length, 1, 'The screen layout has been inserted');
 
                 $input.val(expression);
-                self.setExpression(expression);
-                $('#visual-test .process').on('click', function() {
-                    self.setExpression($input.val());
+                self.setVariable('x', '1')
+                    .setExpression(expression);
+
+                $('#visual-test').on('click', 'button', function() {
+                    if (this.classList.contains('set')) {
+                        self.setExpression($input.val());
+                    }
+                    else if (this.classList.contains('execute')) {
+                        self.evaluate();
+                    }
                 });
 
                 QUnit.start();
