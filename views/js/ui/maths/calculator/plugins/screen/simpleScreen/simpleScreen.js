@@ -38,7 +38,17 @@ define([
     var reLeadingSpace = /^\s+/;
     var reErrorValue = /(NaN|[+-]?Infinity)/;
     var reAnsVar = new RegExp('\\b' + varAnsName + '\\b', 'g');
-    var defaultValue = '0';
+
+    /**
+     * Default displayed value
+     * @type {mathsExpression}
+     */
+    var defaultValue = {
+        expression: '0',
+        variables: {},
+        value: '0',
+        result: 0
+    };
 
     var defaultConfig = {
         layout: defaultScreenTpl
@@ -67,19 +77,19 @@ define([
              * Reset the current expression
              */
             function reset() {
-                calculator.replace(defaultValue);
+                calculator.replace(defaultValue.expression);
             }
 
             /**
              * Update the variable containing the last result, and keep track of the source expression.
-             * @param {String} result
+             * @param {mathsExpression} result
              */
             function store(result) {
                 self.previous = calculator.getExpression();
                 if (calculator.hasVariable(varAnsName)) {
-                    self.previous = self.previous.replace(reAnsVar, calculator.getVariable(varAnsName));
+                    self.previous = self.previous.replace(reAnsVar, calculator.getVariable(varAnsName).value);
                 }
-                calculator.setVariable(varAnsName, containsError(result) ? defaultValue : result);
+                calculator.setVariable(varAnsName, containsError(result.value) ? defaultValue : result);
             }
 
             /**
@@ -87,7 +97,7 @@ define([
              */
             function erase() {
                 store(defaultValue);
-                self.previous = defaultValue;
+                self.previous = defaultValue.expression;
             }
 
             reset();
@@ -146,7 +156,7 @@ define([
             var tokenizer = calculator.getTokenizer();
 
             /**
-             * Transforms an tokenized expression, replacing values by the related labels.
+             * Transforms a tokenized expression, replacing values by the related labels.
              * @param {Array} tokens
              * @returns {String}
              */
@@ -170,7 +180,7 @@ define([
                             term.type = 'variable';
                             // always display the actual value of the last result variable
                             if (token.value === varAnsName) {
-                                term.label = calculator.getVariable(varAnsName);
+                                term.label = calculator.getVariable(varAnsName).value;
                             }
                         } else {
                             term.type = 'unknown';
@@ -227,13 +237,13 @@ define([
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
                         expression: transformTokens(tokenizer.tokenize(self.previous)),
-                        result: transformTokens(tokenizer.tokenize(result))
+                        result: transformTokens(tokenizer.tokenize(String(result.value)))
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
-                    if (containsError(result)) {
-                        showExpression(tokenizer.tokenize(result));
+                    if (containsError(result.value)) {
+                        showExpression(tokenizer.tokenize(String(result.value)));
                     }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {

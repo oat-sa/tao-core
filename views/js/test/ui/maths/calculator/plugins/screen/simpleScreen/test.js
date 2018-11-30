@@ -530,7 +530,7 @@ define([
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
 
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
-                        assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
                     .then(function () {
                         var $screen = $container.find('.calculator-screen');
@@ -573,7 +573,7 @@ define([
                                     assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
                                     assert.equal(calculator.is('error'), false, 'There is no error');
 
-                                    assert.equal(calculator.getVariable('ans'), '5', 'The last result is 5');
+                                    assert.equal(calculator.getVariable('ans').value, '5', 'The last result is 5');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -683,7 +683,7 @@ define([
                                     assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
                                     assert.equal(calculator.is('error'), false, 'There is no error');
 
-                                    assert.equal(calculator.getVariable('ans'), '8', 'The last result is 8');
+                                    assert.equal(calculator.getVariable('ans').value, '8', 'The last result is 8');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -732,7 +732,7 @@ define([
 
                                     assert.equal(calculator.getExpression(), '0', 'The expression should be reset to 0');
                                     assert.equal(calculator.getPosition(), 1, 'The position should be reset to 1');
-                                    assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                                    assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -794,7 +794,7 @@ define([
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
 
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
-                        assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
                     .then(function () {
                         var $screen = $container.find('.calculator-screen');
@@ -837,7 +837,7 @@ define([
                                     assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
                                     assert.equal(calculator.is('error'), false, 'There is no error');
 
-                                    assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                                    assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -913,7 +913,7 @@ define([
 
                                     assert.equal(calculator.getExpression(), '0', 'The expression should be reset to 0');
                                     assert.equal(calculator.getPosition(), 1, 'The position should be reset to 1');
-                                    assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                                    assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -975,7 +975,7 @@ define([
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
 
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
-                        assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
                     .then(function () {
                         var $screen = $container.find('.calculator-screen');
@@ -1018,7 +1018,7 @@ define([
                                     assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
                                     assert.equal(calculator.is('error'), false, 'There is no error');
 
-                                    assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                                    assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -1094,7 +1094,7 @@ define([
 
                                     assert.equal(calculator.getExpression(), '0', 'The expression should be reset to 0');
                                     assert.equal(calculator.getPosition(), 1, 'The position should be reset to 1');
-                                    assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                                    assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
@@ -1156,7 +1156,7 @@ define([
                         assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
 
                         assert.ok(calculator.hasVariable('ans'), 'A variable exists to store the last result');
-                        assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
                     })
                     .then(function () {
                         var $screen = $container.find('.calculator-screen');
@@ -1198,7 +1198,7 @@ define([
                                     assert.equal(calculator.getPosition(), 2, 'The position should be set to 2');
                                     assert.equal(calculator.is('error'), true, 'There is an error');
 
-                                    assert.equal(calculator.getVariable('ans'), '0', 'The last result is 0');
+                                    assert.equal(calculator.getVariable('ans').value, '0', 'The last result is 0');
 
                                     assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed');
 
@@ -1266,7 +1266,7 @@ define([
                                     assert.equal(calculator.getExpression(), 'ans', 'The expression should be set with the last result variable');
                                     assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
 
-                                    assert.equal(calculator.getVariable('ans'), '5', 'The last result is 5');
+                                    assert.equal(calculator.getVariable('ans').value, '5', 'The last result is 5');
 
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 

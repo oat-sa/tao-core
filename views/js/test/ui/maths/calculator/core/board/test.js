@@ -690,7 +690,7 @@ define([
         var $container = $('#fixture-variable');
         var instance;
 
-        QUnit.expect(13);
+        QUnit.expect(17);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -706,8 +706,12 @@ define([
                     self
                         .on('variableadd', function (name, value) {
                             assert.equal(name, 'x', 'Variable x added');
-                            assert.equal(value, '42', 'Value of variable x provided');
-                            assert.equal(self.getVariable('x'), '42', 'The variable x now exists');
+                            assert.equal(typeof value, 'object', 'Value descriptor of variable x provided');
+                            assert.equal(value.expression, '42', 'Expression of variable x provided');
+                            assert.equal(value.value, '42', 'Value of variable x provided');
+                            assert.equal(typeof self.getVariable('x'), 'object', 'The variable now x exists');
+                            assert.equal(self.getVariable('x').expression, '42', 'The expression of variable x is available');
+                            assert.equal(self.getVariable('x').value, '42', 'The value of variable x is available');
                             assert.ok(self.hasVariable('x'), 'The variable x is registered');
 
                             self.deleteVariable('x');
@@ -742,6 +746,11 @@ define([
             'x': '42',
             'y': '3'
         };
+        var expectedResults = {
+            'foo': 0,
+            'x': 42,
+            'y': 3
+        };
         var $container = $('#fixture-variables');
         var instance;
 
@@ -761,11 +770,11 @@ define([
                     self
                         .on('variableadd', function (name, value) {
                             assert.equal(typeof expectedVariables[name], 'string', 'Variable ' + name + ' added');
-                            assert.equal(value, expectedVariables[name], 'Value of variable ' + name + ' provided');
-                            assert.equal(self.getVariable(name), expectedVariables[name], 'The variable ' + name + ' now exists');
+                            assert.equal(value.expression, expectedVariables[name], 'Value of variable ' + name + ' provided');
+                            assert.equal(self.getVariable(name).expression, expectedVariables[name], 'The variable ' + name + ' now exists');
 
                             if (++addedVariables >= _.size(expectedVariables)) {
-                                assert.deepEqual(self.getVariables(), expectedVariables, 'All expected variables now set');
+                                assert.deepEqual(self.getVariables(), expectedResults, 'All expected variables now set');
                                 self.deleteVariables();
                             }
                         })
@@ -1315,6 +1324,11 @@ define([
             'x': '42',
             'y': '3'
         };
+        var expectedResults = {
+            'foo': 0,
+            'x': 42,
+            'y': 3
+        };
         var $container = $('#fixture-usevariable');
         var instance;
 
@@ -1331,7 +1345,7 @@ define([
                 assert.deepEqual(self.getVariables(), {}, 'No variable set for now');
 
                 self.setVariables(expectedVariables);
-                assert.deepEqual(self.getVariables(), expectedVariables, 'All expected variables now set');
+                assert.deepEqual(self.getVariables(), expectedResults, 'All expected variables now set');
 
                 return new Promise(function (resolve) {
                     self
@@ -1785,10 +1799,10 @@ define([
                         return new Promise(function (resolve) {
                             self.on('evaluate.expr', function (result) {
                                 self.off('evaluate.expr');
-                                assert.equal(result, expectedResult, 'The expression has been properly evaluated');
+                                assert.equal(result.value, expectedResult, 'The expression has been properly evaluated');
                                 resolve();
                             });
-                            assert.equal(self.evaluate(), expectedResult, 'The expression is successfully evaluated');
+                            assert.equal(self.evaluate().value, expectedResult, 'The expression is successfully evaluated');
                         });
                     })
                     .then(function() {
@@ -1797,10 +1811,10 @@ define([
                             assert.equal(self.getExpression(), '', 'The expression is cleared');
                             self.on('evaluate.empty', function (result) {
                                 self.off('evaluate.empty');
-                                assert.equal(result, '0', 'An empty expression should be evaluated as 0');
+                                assert.equal(result.value, '0', 'An empty expression should be evaluated as 0');
                                 resolve();
                             });
-                            assert.equal(self.evaluate(), '0', 'The empty expression is evaluated to 0');
+                            assert.equal(self.evaluate().value, '0', 'The empty expression is evaluated to 0');
                         });
                     });
             })
@@ -1886,11 +1900,11 @@ define([
                 assert.equal(this.getPosition(), initExpression.length, 'The expression is initialized');
                 return new Promise(function (resolve) {
                     self.on('evaluate', function (result) {
-                        assert.equal(result, expectedResult, 'The expression has been properly evaluated');
+                        assert.equal(result.value, expectedResult, 'The expression has been properly evaluated');
                         resolve();
                     });
                     self.setVariable('x', '3');
-                    assert.equal(self.evaluate(), expectedResult, 'The expression is successfully evaluated');
+                    assert.equal(self.evaluate().value, expectedResult, 'The expression is successfully evaluated');
                 });
             })
             .after('ready', function () {
@@ -2076,7 +2090,7 @@ define([
                 return new Promise(function (resolve) {
                     self
                         .on('evaluate', function (result) {
-                            assert.equal(result, expectedResult, 'The expression has been properly evaluated');
+                            assert.equal(result.value, expectedResult, 'The expression has been properly evaluated');
                             resolve();
                         })
                         .useCommand('execute');
@@ -2123,7 +2137,7 @@ define([
                             self.off('evaluate.test');
                             assert.equal(self.getExpression(), expectedExpression, 'The expression has been updated');
                             assert.equal(self.getPosition(), expectedExpression.length, 'The position has been updated');
-                            assert.equal(result, expectedResult, 'The expression has been properly evaluated');
+                            assert.equal(result.value, expectedResult, 'The expression has been properly evaluated');
                             resolve();
                         })
                         .setVariable('x', '3')
@@ -2163,14 +2177,14 @@ define([
                 assert.equal(this.getExpression(), '', 'The expression is initialized');
                 assert.equal(this.getPosition(), 0, 'The expression is initialized');
                 assert.equal(typeof mathsEvaluator, 'function', 'The mathsEvaluator is provided');
-                assert.equal(mathsEvaluator('sin(PI/2)'), '1', 'The mathsEvaluator works in radian');
+                assert.equal(mathsEvaluator('sin(PI/2)').value, '1', 'The mathsEvaluator works in radian');
 
                 this.getConfig().maths = {degree: true};
                 assert.equal(this.setupMathsEvaluator(), this, 'setupMathsEvaluator returns the instance');
                 assert.notEqual(this.getMathsEvaluator(), mathsEvaluator, 'The mathsEvaluator should have been replaced');
                 mathsEvaluator = this.getMathsEvaluator();
-                assert.notEqual(mathsEvaluator('sin(PI/2)'), '1', 'The mathsEvaluator should not work in radian anymore');
-                assert.equal(mathsEvaluator('sin 90'), '1', 'The mathsEvaluator now works in degree');
+                assert.notEqual(mathsEvaluator('sin(PI/2)').value, '1', 'The mathsEvaluator should not work in radian anymore');
+                assert.equal(mathsEvaluator('sin 90').value, '1', 'The mathsEvaluator now works in degree');
             })
             .after('ready', function () {
                 assert.equal($container.children().length, 1, 'The container contains an element');

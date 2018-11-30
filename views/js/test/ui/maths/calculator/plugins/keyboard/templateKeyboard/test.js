@@ -386,7 +386,7 @@ define([
                                 .after('evaluate.test', function (result) {
                                     calculator.off('evaluate.test');
 
-                                    assert.equal(result, '45', 'The expression has been computed and the result is 45');
+                                    assert.equal(result.value, '45', 'The expression has been computed and the result is 45');
                                     assert.equal(calculator.getExpression(), '42+3', 'The expression still contains 42+3');
 
                                     resolve();
@@ -451,7 +451,7 @@ define([
                 $input.setCursorPosition(this.getPosition());
             })
             .on('evaluate', function (result) {
-                $output.val(result);
+                $output.val(result.value);
             })
             .on('syntaxerror', function (err) {
                 $output.val(err);

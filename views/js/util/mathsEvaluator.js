@@ -582,18 +582,35 @@ define([
         /**
          * The exposed parser
          *
-         * @param {String} expression - The expression to evaluate
+         * @param {String|mathsExpression} expression - The expression to evaluate
          * @param {Object} [variables] - Optional variables to use from the expression
-         * @returns {String}
+         * @returns {mathsExpression}
          */
         function evaluate(expression, variables) {
-            var expr = parser.parse(expression);
-            var result = expr.evaluate(variables);
-            var value = native(result);
-            if (typeof value === "boolean") {
-                return value;
+            var parsedExpression, result, value;
+
+            if (_.isPlainObject(expression)) {
+                variables = variables || expression.variables;
+                expression = expression.expression;
             }
-            return String(value);
+
+            parsedExpression = parser.parse(expression);
+            result = parsedExpression.evaluate(variables);
+            value = native(result);
+
+            /**
+             * @typedef {Object} mathsExpression
+             * @property {String} expression - The evaluated expression
+             * @property {Object} variables - Optional variables used from the expression
+             * @property {Decimal|Number|Boolean|String} result - The result of the expression, as returned by the evaluator
+             * @property {Boolean|String} value - The result of the expression, as a native value
+             */
+            return {
+                expression: expression,
+                variables: variables,
+                result: result,
+                value: value
+            };
         }
 
         // replace built-in operators and functions in expr-eval by those from decimal.js
