@@ -184,15 +184,10 @@ define([
              * @returns {Promise}
              */
             getCached : function getCached(taskId) {
-                var self = this;
-
-                return new Promise(function (resolve) {
-                    if (_cache && _cache[taskId]) {
-                        resolve(_cache[taskId]);
-                    } else {
-                        return self.get(taskId);
-                    }
-                });
+                if (_cache && _cache[taskId]) {
+                    return Promise.resolve(_cache[taskId]);
+                }
+                return this.get(taskId);
             },
 
             /**
