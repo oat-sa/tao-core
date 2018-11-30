@@ -1,6 +1,6 @@
 module.exports = function sourcefinder(grunt) {
     'use strict';
-    
+
     //add the task to Grunt
     grunt.registerMultiTask('sourcefinder', 'Find sources and generate a config file', function(){
         var path        = require('path');
@@ -18,21 +18,18 @@ module.exports = function sourcefinder(grunt) {
             var dest    = path.resolve(fileSet.dest);
             var ext     = extHepler(grunt, root);
             var config  = {};
-            
-            grunt.log.debug(root);
-            grunt.log.debug(dest);
-            
+
             //expand the sources by key
             _.forEach(sources, function(values, key){
                 var expanded = [];
-                
+
                 //it could be an array of conf, so force it
                 if(!_.isArray(values)){
                     values = [values];
                 }
-                
+
                 values.forEach(function(value){
-                    
+
                     //expand the pattern for the selected extension(s)
                     var currentFiles = [];
                     if(value.extension === 'all'){
@@ -41,18 +38,18 @@ module.exports = function sourcefinder(grunt) {
                         var extension = (value.extension === 'current' ? currentExt : value.extension);
                         currentFiles = ext.getExtensionSources(extension, value.pattern, value.amdify);
                     }
-                    
+
                     //apply the replacement on
                     if(_.isFunction(value.replacements)){
                        currentFiles = currentFiles.map(value.replacements);
                     }
-                    
-                    expanded = expanded.concat(currentFiles); 
+
+                    expanded = expanded.concat(currentFiles);
                 });
-                
-                
+
+
                 config[key] = expanded;
-                
+
             });
             grunt.file.write(dest, JSON.stringify(config, null, '  '));
             grunt.log.ok('Sources written to ' + dest);

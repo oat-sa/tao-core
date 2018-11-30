@@ -114,6 +114,26 @@ define([
         },
 
         /**
+         * Sets the size of the content, and adapts the component's size accordingly.
+         * @param {Number} width - The width of the content, the full width of the component will be adjusted.
+         * @param {Number} height - The height of the content, the full height of the component will be adjusted.
+         * @returns {dynamicComponent} chains
+         * @fires dynamicComponent#resize
+         */
+        setContentSize: function setContentSize(width, height) {
+            var $element, $titleBar;
+            if (this.is('rendered') && !this.is('disabled')) {
+                $element = this.getElement();
+                $titleBar = $('.dynamic-component-title-bar', $element);
+
+                this.config.width = width + $element.outerWidth() - $element.width();
+                this.config.height = height + $element.outerHeight() - $element.height() + $titleBar.outerHeight();
+                this.resetSize();
+            }
+            return this;
+        },
+
+        /**
          * Reset the component size to it's original value
          * @returns {dynamicComponent} chains
          * @fires dynamicComponent#resize

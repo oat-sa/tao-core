@@ -1,18 +1,15 @@
 <?php
 namespace oat\tao\test\integration;
 
-use \common_ext_ExtensionsManager;
-use \common_persistence_Manager;
 use oat\generis\model\GenerisRdf;
+use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
 
-abstract class RestTestRunner extends \PHPUnit_Framework_TestCase
+abstract class RestTestRunner extends GenerisPhpUnitTestRunner
 {
-
-    protected $host = ROOT_URL;
+    protected $host = '';
 
     protected $userUri = "";
 
@@ -38,7 +35,9 @@ abstract class RestTestRunner extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        TaoPhpUnitTestRunner::initTest();
+        parent::setUp();
+
+        $this->host = ROOT_URL;
         $this->disableCache();
         
         // creates a user using remote script from joel

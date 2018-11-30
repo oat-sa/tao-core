@@ -236,6 +236,10 @@ class TaskLogEntity implements EntityInterface
                 $filename = $data;
                 break;
             }
+
+            if (is_array($data) && isset($data['uriResource'])) {
+                $filename = $data['uriResource'];
+            }
         }
 
         return $filename;

@@ -18,8 +18,10 @@
  *
  */
 
+use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\FileReferenceSerializerAwareTrait;
+use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Decorator\CategoryEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Decorator\HasFileEntityDecorator;
@@ -35,6 +37,9 @@ use oat\tao\model\taskQueue\TaskLogInterface;
  */
 class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 {
+    use FilesystemAwareTrait;
+    use FileReferenceSerializerAwareTrait;
+
     const PARAMETER_TASK_ID = 'taskId';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_OFFSET = 'offset';
@@ -74,14 +79,11 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             $offset = (int) $this->getRequestParameter(self::PARAMETER_OFFSET);
         }
 
-        /** @var FileSystemService $fs */
-        $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-
-
         $collection = new SimpleManagementCollectionDecorator(
             $taskLogService->findAvailableByUser($this->userId, $limit, $offset),
             $taskLogService,
-            $fs,
+            $this->getFileSystemService(),
+            $this->getFileReferenceSerializer(),
             false
         );
 
@@ -103,9 +105,6 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
         /** @var TaskLogInterface $taskLogService */
         $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
 
-        /** @var FileSystemService $fs */
-        $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-
         try {
             $this->assertTaskIdExists();
 
@@ -117,9 +116,11 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             return $this->returnJson([
                 'success' => true,
                 'data' => (new RedirectUrlEntityDecorator(
-                    new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $taskLogService), $fs),
-                    $taskLogService
-                ))
+                    new HasFileEntityDecorator(
+                        new CategoryEntityDecorator($entity, $taskLogService),
+                        $this->getFileSystemService(),
+                        $this->getFileReferenceSerializer()
+                    )))
                     ->toArray()
             ]);
         } catch (\Exception $e) {
@@ -204,29 +205,31 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                 throw new \common_Exception('Task "'. $taskLogEntity->getId() .'" is not downloadable.');
             }
 
-            $filename = $taskLogEntity->getFileNameFromReport();
+            $fileNameOrSerial = $taskLogEntity->getFileNameFromReport();
 
-            if (empty($filename)) {
+            if (empty($fileNameOrSerial)) {
                 throw new \common_Exception('Filename not found in report.');
             }
 
-            /** @var FileSystemService $fileSystem */
-            $fileSystem = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-            $directory = $fileSystem->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
-            $file = $directory->getFile($filename);
+            // first try to get a referenced file is it is a serial
+            $file = $this->getReferencedFile($fileNameOrSerial);
 
-            if (!$file->exists()) {
+            // if no file let's try the task queue storage
+            if (is_null($file)) {
+                $file = $this->getQueueStorageFile($fileNameOrSerial);
+            }
+
+            if (!$file) {
                 throw new \common_exception_NotFound('File not found.');
             }
 
             header('Set-Cookie: fileDownload=true');
             setcookie('fileDownload', 'true', 0, '/');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Content-Disposition: attachment; filename="' . $file->getBasename() . '"');
             header('Content-Type: ' . $file->getMimeType());
 
             \tao_helpers_Http::returnStream($file->readPsrStream());
             exit();
-
         } catch (\Exception $e) {
             return $this->returnJson([
                 'success' => false,
@@ -262,4 +265,19 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
         }
     }
 
+    /**
+     * @return FileReferenceSerializer|object
+     */
+    protected function getFileReferenceSerializer()
+    {
+        return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+    }
+
+    /**
+     * @return FileSystemService|object
+     */
+    protected function getFileSystemService()
+    {
+        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+    }
 }

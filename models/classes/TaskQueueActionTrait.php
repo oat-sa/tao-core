@@ -24,7 +24,7 @@ use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
 
 /**
- * @deprecated Can be removed along with the old queue
+ * @deprecated since version 21.7.0, to be removed in 22.0. Use \oat\tao\model\taskQueue\TaskLogActionTrait instead
  */
 trait TaskQueueActionTrait
 {
