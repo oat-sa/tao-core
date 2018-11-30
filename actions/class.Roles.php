@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,12 +17,14 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013-2018 (original work) Open Assessment Technologies SA;
  *
  */
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\exceptions\UserErrorException;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Role Controller provide actions performed from url resolution
@@ -34,12 +36,14 @@ use oat\tao\model\exceptions\UserErrorException;
  */
 class tao_actions_Roles extends tao_actions_RdfController
 {
+    use OntologyAwareTrait;
+
 	protected $authoringService = null;
 	protected $forbidden = array();
 
     /**
-	*	index:
-	*/
+	 *	index:
+	 */
 	public function index()
 	{
         $this->defaultData();
@@ -68,7 +72,7 @@ class tao_actions_Roles extends tao_actions_RdfController
 
 				$formValues = $myForm->getValues();
 				$roleService = tao_models_classes_RoleService::singleton();
-				$includedRolesProperty = new core_kernel_classes_Property(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
+				$includedRolesProperty = $this->getProperty(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
 
 				// We have to make the difference between the old list
 				// of included roles and the new ones.
@@ -79,12 +83,12 @@ class tao_actions_Roles extends tao_actions_RdfController
 
 				// Make the changes according to the detected differences.
 				foreach ($removeIncludedRolesUris as $rU){
-					$r = new core_kernel_classes_Resource($rU);
+					$r = $this->getResource($rU);
 					$roleService->unincludeRole($role, $r);
 				}
 
 				foreach ($addIncludedRolesUris as $aU){
-					$r = new core_kernel_classes_Resource($aU);
+					$r = $this->getResource($aU);
 					$roleService->includeRole($role, $r);
 				}
 
@@ -114,7 +118,7 @@ class tao_actions_Roles extends tao_actions_RdfController
         $this->defaultData();
 
 	    $role = $this->getCurrentInstance();
-	    $prop = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
+	    $prop = $this->getProperty(GenerisRdf::PROPERTY_USER_ROLES);
 	    $tree = tao_helpers_form_GenerisTreeForm::buildReverseTree($role, $prop);
 	    $tree->setData('title', __('Assign User to role'));
 	    $tree->setData('dataUrl', _url('getUsers'));
@@ -132,12 +136,9 @@ class tao_actions_Roles extends tao_actions_RdfController
 	 */
 	public function delete()
 	{
-        $this->defaultData();
-
-        if (!tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
-        }
-		else{
+        } else {
 			$deleted = false;
 			if($this->getRequestParameter('uri')){
 
@@ -145,7 +146,7 @@ class tao_actions_Roles extends tao_actions_RdfController
 
 				if(!in_array($role->getUri(), $this->forbidden)){
 						//check if no user is using this role:
-						$userClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
+						$userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
 						$options = array('recursive' => true, 'like' => false);
 						$filters = array(GenerisRdf::PROPERTY_USER_ROLES => $role->getUri());
 						$users = $userClass->searchInstances($filters, $options);
@@ -161,7 +162,7 @@ class tao_actions_Roles extends tao_actions_RdfController
 				}
 			}
 
-			echo json_encode(array('deleted' => $deleted));
+			$this->returnJson(array('deleted' => $deleted));
 		}
 	}
 
@@ -171,12 +172,10 @@ class tao_actions_Roles extends tao_actions_RdfController
      */
 	public function getUsers()
 	{
-        $this->defaultData();
-
-        if (!tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         } else {
-			echo json_encode($this->getUserService()->toTree(new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER), array()));
+			$this->returnJson($this->getUserService()->toTree($this->getClass(TaoOntology::CLASS_URI_TAO_USER), array()));
 		}
 	}
 

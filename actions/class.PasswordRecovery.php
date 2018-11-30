@@ -20,6 +20,7 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\passwordRecovery\PasswordRecoveryService;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Controller provide actions to reset user password
@@ -28,6 +29,8 @@ use oat\tao\model\passwordRecovery\PasswordRecoveryService;
  */
 class tao_actions_PasswordRecovery extends tao_actions_CommonModule
 {
+    use LoggerAwareTrait;
+
     /**
      * Show password recovery request form
      *
@@ -45,10 +48,10 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             $user = $this->getPasswordRecovery()->getUser(GenerisRdf::PROPERTY_USER_MAIL, $mail);
 
             if ($user !== null) {
-                \common_Logger::i("User requests a password (user URI: {$user->getUri()})");
+                $this->logInfo("User requests a password (user URI: {$user->getUri()})");
                 $this->sendMessage($user);
             } else {
-                \common_Logger::i("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
+                $this->logInfo("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
                 $this->setData('header', __('An email has been sent'));
                 $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
             }
@@ -79,14 +82,14 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
 
         $user = $this->getPasswordRecovery()->getUser(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN, $token);
         if ($user === null) {
-            \common_Logger::i("Password recovery token not found. Token value: {$token}");
+            $this->logInfo("Password recovery token not found. Token value: {$token}");
             $this->setData('header', __('User not found'));
             $this->setData('error', __('This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link'));
             $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
         } else {
             if ($form->isSubmited() && $form->isValid()) {
                 $this->getPasswordRecovery()->setPassword($user, $form->getValue('newpassword'));
-                \common_Logger::i("User {$user->getUri()} has changed the password.");
+                $this->logInfo("User {$user->getUri()} has changed the password.");
                 $this->setData('info', __("Password successfully changed"));
                 $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
             } else {
@@ -107,12 +110,11 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
      */
     private function sendMessage(core_kernel_classes_Resource $user)
     {
-        $this->defaultData();
         try {
             $messageSent = $this->getPasswordRecovery()->sendMail($user);
         } catch (Exception $e) {
             $messageSent = false;
-            \common_Logger::w("Unsuccessful recovery password. {$e->getMessage()}.");
+            $this->logWarning("Unsuccessful recovery password. {$e->getMessage()}.");
         }
 
         if ($messageSent) {

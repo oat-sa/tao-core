@@ -69,7 +69,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      */
     protected function hasAccess($controllerClass, $action, $parameters = [])
     {
-        $user = common_session_SessionManager::getSession()->getUser();
+        $user = $this->getSession()->getUser();
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
     }
 
@@ -140,8 +140,9 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @param int $httpStatus
      * @throws common_Exception
      */
-    protected function returnError($description, $returnLink = true, $httpStatus = null) {
-        if (tao_helpers_Request::isAjax()) {
+    protected function returnError($description, $returnLink = true, $httpStatus = null)
+    {
+        if ($this->isXmlHttpRequest()) {
             common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description);
         } else {
@@ -195,7 +196,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @throws common_ext_ExtensionException
      */
     protected function getClientTimeout(){
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
         if($config != null && isset($config['timeout'])){
             return (int)$config['timeout'];
@@ -281,6 +282,27 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             throw new common_exception_MissingParameter($paramName);
         }
         return $raw[$paramName];
+    }
+
+    /**
+     * Get the current session
+     *
+     * @return common_session_Session
+     * @throws common_exception_Error
+     */
+    protected function getSession()
+    {
+        return common_session_SessionManager::getSession();
+    }
+
+    /**
+     * Check if the current request is using AJAX
+     *
+     * @return bool
+     */
+    protected function isXmlHttpRequest()
+    {
+        return tao_helpers_Request::isAjax();
     }
 
     /**

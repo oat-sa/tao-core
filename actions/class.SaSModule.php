@@ -42,7 +42,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 
 	public function setView($path, $extensionID = null) {
 		// override non AJAX calls for SAS
-		if(!$this->isStandAlone() || tao_helpers_Request::isAjax()){
+		if(!$this->isStandAlone() || $this->isXmlHttpRequest()){
 			parent::setView($path, $extensionID);
 		} else {
 		    $this->setData('client_config_url', $this->getClientConfigUrl());
@@ -221,7 +221,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 	 * @return void
 	 */
 	public function sasGetOntologyData() {
-		if(!tao_helpers_Request::isAjax()){
+		if(!$this->isXmlHttpRequest()){
 			throw new common_exception_IsAjaxAction(__FUNCTION__);
 		}
 
@@ -246,7 +246,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 	}
 
     protected function setVariables($variables) {
-        common_ext_ExtensionsManager::singleton()->getExtensionById('wfEngine')->load();
+        $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('wfEngine')->load();
 
         $variableService = wfEngine_models_classes_VariableService::singleton();
 

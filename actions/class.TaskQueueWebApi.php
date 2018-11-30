@@ -50,7 +50,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function getAll()
     {
-        if (!\tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new \Exception('Only ajax call allowed.');
         }
 
@@ -67,7 +67,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
         }
 
         $collection = new SimpleManagementCollectionDecorator(
-            $taskLogService->findAvailableByUser($this->getUserSessionUri(), $limit, $offset),
+            $taskLogService->findAvailableByUser($this->getSessionUserUri(), $limit, $offset),
             $taskLogService,
             $this->getFileSystemService(),
             $this->getFileReferenceSerializer(),
@@ -85,7 +85,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function get()
     {
-        if (!\tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new \Exception('Only ajax call allowed.');
         }
 
@@ -97,7 +97,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
             $entity = $taskLogService->getByIdAndUser(
                 $this->getRequestParameter(self::PARAMETER_TASK_ID),
-                $this->getUserSessionUri()
+                $this->getSessionUserUri()
             );
 
             return $this->returnJson([
@@ -124,7 +124,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function stats()
     {
-        if (!\tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new \Exception('Only ajax call allowed.');
         }
 
@@ -133,7 +133,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         return $this->returnJson([
             'success' => true,
-            'data' => $taskLogService->getStats($this->getUserSessionUri())->toArray()
+            'data' => $taskLogService->getStats($this->getSessionUserUri())->toArray()
         ]);
     }
 
@@ -143,7 +143,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      */
     public function archive()
     {
-        if (!\tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new \Exception('Only ajax call allowed.');
         }
 
@@ -155,10 +155,10 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
 
             if ($taskIds === static::ARCHIVE_ALL) {
-                $filter = (new TaskLogFilter())->availableForArchived($this->getUserSessionUri());
+                $filter = (new TaskLogFilter())->availableForArchived($this->getSessionUserUri());
                 $taskLogCollection = $taskLogService->search($filter);
             } else {
-                $filter = (new TaskLogFilter())->addAvailableFilters($this->getUserSessionUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
+                $filter = (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
                 $taskLogCollection = $taskLogService->search($filter);
             }
 
@@ -186,7 +186,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             /** @var TaskLogInterface $taskLogService */
             $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
 
-            $taskLogEntity = $taskLogService->getByIdAndUser($this->getRequestParameter(self::PARAMETER_TASK_ID), $this->getUserSessionUri());
+            $taskLogEntity = $taskLogService->getByIdAndUser($this->getRequestParameter(self::PARAMETER_TASK_ID), $this->getSessionUserUri());
 
             if (!$taskLogEntity->getStatus()->isCompleted()) {
                 throw new \common_Exception('Task "'. $taskLogEntity->getId() .'" is not downloadable.');
@@ -258,9 +258,9 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
      * @return string
      * @throws common_exception_Error
      */
-    protected function getUserSessionUri()
+    protected function getSessionUserUri()
     {
-        return common_session_SessionManager::getSession()->getUserUri();
+        return $this->getSession()->getUserUri();
     }
 
     /**

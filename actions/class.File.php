@@ -25,6 +25,7 @@ use oat\tao\model\upload\UploadService;
 use oat\tao\model\websource\WebsourceManager;
 use oat\tao\model\websource\ActionWebSource;
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  *
@@ -37,6 +38,8 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
  */
 class tao_actions_File extends tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
+
 	/**
 	 * Upload a file using http and copy it from the tmp dir to the target folder
 	 * @return void
@@ -49,8 +52,7 @@ class tao_actions_File extends tao_actions_CommonModule
 			$targetFolder = isset($_POST['folder']) ? $_POST['folder'] : '/';
 			$response = array_merge($response, $this->uploadFile($file, $targetFolder . '/'));
 		}
-		$response = json_encode($response);
-		print $response;
+        $this->returnJson($response);
 	}
 
     /**
@@ -67,7 +69,7 @@ class tao_actions_File extends tao_actions_CommonModule
         $returnValue = [];
 
         if (isset($postedFile['tmp_name'], $postedFile['name']) && $postedFile['tmp_name']) {
-            $returnValue = $this->getServiceManager()->get(UploadService::SERVICE_ID)->uploadFile($postedFile, $folder);
+            $returnValue = $this->getServiceLocator()->get(UploadService::SERVICE_ID)->uploadFile($postedFile, $folder);
         }
         return $returnValue;
 	}
@@ -79,7 +81,7 @@ class tao_actions_File extends tao_actions_CommonModule
 	public function downloadFile()
 	{
 		if($this->hasRequestParameter('id')){
-			$fileService = $this->getServiceManager()->get(FileReferenceSerializer::SERVICE_ID);
+			$fileService = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
 			$file = $fileService->unserialize($this->getRequestParameter('id'));
 			header("Content-Disposition: attachment; filename=\"{$file->getBasename()}\"");
 			tao_helpers_Http::returnStream($file->readPsrStream(), $file->getMimeType());
@@ -94,12 +96,12 @@ class tao_actions_File extends tao_actions_CommonModule
 		if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('propertyUri')) {
 			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
-			$instance = new core_kernel_classes_Resource($uri);
-			$fileResource = $instance->getOnePropertyValue(new core_kernel_classes_Property($propertyUri));
+			$instance = $this->getResource($uri);
+			$fileResource = $instance->getOnePropertyValue($this->getProperty($propertyUri));
 
 			if (!is_null($fileResource) && $fileResource instanceof core_kernel_classes_Resource) {
                 /** @var FileReferenceSerializer $fileService */
-                $fileService = $this->getServiceManager()->get(FileReferenceSerializer::SERVICE_ID);
+                $fileService = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
                 $file = $fileService->unserialize($fileResource);
 
                 if ($file instanceof File) {
@@ -116,7 +118,8 @@ class tao_actions_File extends tao_actions_CommonModule
      * @throws \oat\tao\model\websource\WebsourceNotFound
      * @throws tao_models_classes_FileNotFoundException
      */
-    public function accessFile() {
+    public function accessFile()
+    {
         list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
         list($key, $subPath) = explode(' ', base64_decode($code), 2);
 

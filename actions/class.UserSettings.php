@@ -24,6 +24,7 @@
 use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\ApplicationHelper;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * This controller provide the actions to manage the user settings
@@ -31,17 +32,17 @@ use oat\oatbox\user\UserLanguageServiceInterface;
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
-
  *
  */
 class tao_actions_UserSettings extends tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
 
 	/**
 	 * Action dedicated to change the password of the user currently connected.
 	 */
-	public function password(){
-
+	public function password()
+    {
 		$this->setData('formTitle'	, __("Change password"));
 		if (ApplicationHelper::isDemo()) {
             $this->setData('myForm'		, __('Unable to change passwords in demo mode'));
@@ -51,11 +52,12 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 		    if($myForm->isSubmited()){
 		        if($myForm->isValid()){
     				$user = $this->getUserService()->getCurrentUser();
-    				tao_models_classes_UserService::singleton()->setPassword($user, $myForm->getValue('newpassword'));
+    				$this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID)
+                        ->setPassword($user, $myForm->getValue('newpassword'));
     				$this->setData('message', __('Password changed'));
 		        }
 		    }
-		    $this->setData('myForm'		, $myForm->render());
+		    $this->setData('myForm', $myForm->render());
 		}
 
 		$this->setView('form/settings_user.tpl');
@@ -64,7 +66,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 	/**
 	 * Action dedicated to change the settings of the user (language, ...)
 	 */
-	public function properties(){
+	public function properties()
+    {
 
 		$myFormContainer = new tao_actions_form_UserSettings($this->getUserSettings());
 		$myForm = $myFormContainer->getForm();
@@ -77,10 +80,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                     GenerisRdf::PROPERTY_USER_TIMEZONE => $myForm->getValue('timezone'),
                 ];
 
-                $uiLang = new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
+                $uiLang = $this->getResource($myForm->getValue('ui_lang'));
                 $userSettings[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
                 if ($userLangService->isDataLanguageEnabled()) {
-                    $dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
+                    $dataLang = $this->getResource($myForm->getValue('data_lang'));
                     $userSettings[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
                 }
 
@@ -88,9 +91,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 
 				if($binder->bind($userSettings)){
 
-				    \common_session_SessionManager::getSession()->refresh();
+                    $this->getSession()->refresh();
 					$uiLangCode		= tao_models_classes_LanguageService::singleton()->getCode($uiLang);
-					$extension      = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+					$extension      = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
 					tao_helpers_I18n::init($extension, $uiLangCode);
 
 					$this->setData('message', __('Settings updated'));
@@ -124,9 +127,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 	private function getUserSettings(){
 		$currentUser = $this->getUserService()->getCurrentUser();
 		$props = $currentUser->getPropertiesValues(array(
-			new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_UILG),
-			new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_DEFLG),
-		    new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_TIMEZONE)
+			$this->getProperty(GenerisRdf::PROPERTY_USER_UILG),
+            $this->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
+            $this->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
 		));
 		$langs = array();
 		if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {

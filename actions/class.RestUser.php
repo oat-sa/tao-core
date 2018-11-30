@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -52,9 +52,7 @@ class tao_actions_RestUser extends tao_actions_RestResource
      */
     protected function getForm($instance)
     {
-        $form = new \tao_actions_form_RestUserForm($instance);
-        $form->setServiceLocator($this->getServiceManager());
-        return $form;
+        return $this->propagate(new \tao_actions_form_RestUserForm($instance));
     }
 
     /**

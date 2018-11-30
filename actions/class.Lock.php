@@ -21,6 +21,7 @@
 use oat\tao\model\lock\LockManager;
 use oat\tao\helpers\UserHelper;
 use oat\tao\model\accessControl\AclProxy;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * control the lock on a given resource
@@ -31,6 +32,8 @@ use oat\tao\model\accessControl\AclProxy;
  */
 class tao_actions_Lock extends tao_actions_CommonModule
 {
+    use OntologyAwareTrait;
+
 	/**
 	 * actions that get prevented by a lock are forwareded to this action
 	 * parameter view is currently ignored
@@ -38,14 +41,14 @@ class tao_actions_Lock extends tao_actions_CommonModule
 	public function locked()
     {
         $this->defaultData();
-	    $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
+	    $resource = $this->getResource($this->getRequestParameter('id'));
 	    $lockData = LockManager::getImplementation()->getLockData($resource);
 
 	    $this->setData('topclass-label',
 	        $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
         );
 
-	    if (AclProxy::hasAccess(common_session_SessionManager::getSession()->getUser(), __CLASS__, 'forceRelease', array('uri' => $resource->getUri()))) {
+	    if (AclProxy::hasAccess($this->getSession()->getUser(), __CLASS__, 'forceRelease', array('uri' => $resource->getUri()))) {
 	        $this->setData('id', $resource->getUri());
             $this->setData('forceRelease', true);
 	    }
@@ -62,10 +65,9 @@ class tao_actions_Lock extends tao_actions_CommonModule
 
 	public function release($uri)
 	{
-        $this->defaultData();
-	    $resource = new core_kernel_classes_Resource($uri);
+	    $resource = $this->getResource($uri);
         try {
-            $userId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
+            $userId = $this->getSession()->getUser()->getIdentifier();
             $success = LockManager::getImplementation()->releaseLock($resource, $userId);
             return $this->returnJson(array(
                 'success' => $success,
@@ -86,9 +88,8 @@ class tao_actions_Lock extends tao_actions_CommonModule
 
     public function forceRelease($uri)
     {
-        $this->defaultData();
         $success = LockManager::getImplementation()->forceReleaseLock(
-            new core_kernel_classes_Resource($uri)
+            $this->getResource($uri)
         );
         return $this->returnJson(array(
             'success' => $success

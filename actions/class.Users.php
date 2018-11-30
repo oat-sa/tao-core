@@ -32,6 +32,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -45,6 +46,7 @@ class tao_actions_Users extends tao_actions_CommonModule
 {
     use EventManagerAwareTrait;
     use OntologyAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * Show the list of users
@@ -66,7 +68,6 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function data()
     {
-        $this->defaultData();
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
         $page = $this->getRequestParameter('page');
@@ -190,14 +191,13 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function delete()
     {
-        $this->defaultData();
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
         // Csrf token validation
         $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
         if (! $tokenService->checkToken($token)) {
-            \common_Logger::w('Xsrf validation failed');
+            $this->logWarning('Xsrf validation failed');
             $this->returnJson([
                 'success' => false,
                 'message' => 'Not authorized to perform action'
@@ -214,7 +214,7 @@ class tao_actions_Users extends tao_actions_CommonModule
         if (ApplicationHelper::isDemo()) {
             $message = __('User deletion not permitted on a demo instance');
         } elseif ($this->hasRequestParameter('uri')) {
-            $user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $user = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             $this->checkUser($user->getUri());
 
             if ($userService->removeUser($user)) {
@@ -276,7 +276,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     public function addInstanceForm()
     {
         $this->defaultData();
-        if (!tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
@@ -311,7 +311,7 @@ class tao_actions_Users extends tao_actions_CommonModule
     {
         $this->defaultData();
         $userService = $this->getServiceLocator()->get(tao_models_classes_UserService::class);
-        if (!tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
@@ -395,7 +395,6 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function unlock()
     {
-        $this->defaultData();
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->unlockUser($user)) {
@@ -411,7 +410,6 @@ class tao_actions_Users extends tao_actions_CommonModule
      */
     public function lock()
     {
-        $this->defaultData();
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->lockUser($user)) {

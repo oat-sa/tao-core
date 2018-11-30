@@ -17,7 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2016-2018 (update and modification) Open Assessment Technologies SA;
+ *               2012-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
 
@@ -38,6 +38,7 @@ use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\user\UserLocks;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -47,14 +48,7 @@ use oat\tao\model\user\UserLocks;
  */
 class tao_actions_Main extends tao_actions_CommonModule
 {
-	/**
-	 * Constructor performs initializations actions
-	 */
-	public function __construct()
-	{
-		//initialize service
-		$this->defaultData();
-	}
+    use LoggerAwareTrait;
 
 	/**
 	 * First page, when arriving on a system
@@ -74,7 +68,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	        // no access -> error
 	        if (common_session_SessionManager::isAnonymous()) {
                 /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
                 $this->redirect($urlRouteService->getLoginUrl());
 	        } else {
 	            common_session_SessionManager::endSession();
@@ -87,7 +81,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 	    } else {
 	        // multiple entries -> choice
 	        if (!common_session_SessionManager::isAnonymous()) {
-	            $this->setData('user', common_session_SessionManager::getSession()->getUserLabel());
+	            $this->setData('user', $this->getSession()->getUserLabel());
 	        }
     	    $this->setData('entries', $entries);
             $naviElements = $this->getNavigationElementsByGroup('settings');
@@ -101,8 +95,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             if ($this->hasRequestParameter('errorMessage')){
                 $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
             }
-            $this->setData('logout', $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
-            $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
+            $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
+            $this->setData('userLabel', $this->getSession()->getUserLabel());
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
             $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
@@ -160,7 +154,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                 try {
                     if ($userLocksService->isLocked($form->getValue('login'))) {
-                        common_Logger::i("User '" . $form->getValue('login') . "' has been locked.");
+                        $this->logInfo("User '" . $form->getValue('login') . "' has been locked.");
 
                         $statusDetails = $userLocksService->getStatusDetails($form->getValue('login'));
                         if ($statusDetails['auto']) {
@@ -189,11 +183,11 @@ class tao_actions_Main extends tao_actions_CommonModule
                         $this->setData('errorMessage', $msg);
                     } else {
                         if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
-                            $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
+                            $logins = $this->getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
 
                             $eventManager->trigger(new LoginSucceedEvent(current($logins)));
 
-                            common_Logger::i("Successful login of user '" . $form->getValue('login') . "'.");
+                            $this->logInfo("Successful login of user '" . $form->getValue('login') . "'.");
 
                             if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
                                 $this->redirect($_REQUEST['redirect']);
@@ -203,7 +197,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                         } else {
                             $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
 
-                            common_Logger::i("Unsuccessful login of user '" . $form->getValue('login') . "'.");
+                            $this->logInfo("Unsuccessful login of user '" . $form->getValue('login') . "'.");
 
                             $msg = __('Invalid login or password. Please try again.');
 
@@ -283,7 +277,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->defaultData();
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-        $logins = common_session_SessionManager::getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
+        $logins = $this->getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
         $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
 
 
@@ -330,7 +324,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 			if (count($sections) > 0) {
 				$this->setData('sections', $sections);
 			} else {
-				common_Logger::w('no sections');
+				$this->logWarning('no sections');
 			}
 		} else {
 
@@ -350,7 +344,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
 
         /* @var $notifService NotificationServiceInterface */
-        $notifService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+        $notifService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
 
         if($notifService->getVisibility()) {
             $notif = $notifService->notificationCount($user->getUri());
@@ -366,11 +360,11 @@ class tao_actions_Main extends tao_actions_CommonModule
             ));
         }
         /* @var $urlRouteService DefaultUrlService */
-        $urlRouteService = $this->getServiceManager()->get(DefaultUrlService::SERVICE_ID);
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getLogoutUrl());
 
-        $this->setData('user_lang', \common_session_SessionManager::getSession()->getDataLanguage());
-        $this->setData('userLabel', \common_session_SessionManager::getSession()->getUserLabel());
+        $this->setData('user_lang', $this->getSession()->getDataLanguage());
+        $this->setData('userLabel', $this->getSession()->getUserLabel());
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
@@ -378,7 +372,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('current-section', $this->getRequestParameter('section'));
 
         // Add csrf token
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
         $tokenName = $tokenService->getTokenName();
         $token = $tokenService->createToken();
         $this->setCookie($tokenName, $token, null, '/');
@@ -430,7 +424,7 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     private function getMenuElementChildren(Perspective $menuElement)
     {
-        $user = common_Session_SessionManager::getSession()->getUser();
+        $user = $this->getSession()->getUser();
         $children = array();
         foreach ($menuElement->getChildren() as $section) {
             try {
@@ -439,7 +433,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $children[] = $section;
                 }
             } catch (ResolverException $e) {
-                common_Logger::w('Invalid reference in structures: '.$e->getMessage());
+                $this->logWarning('Invalid reference in structures: '.$e->getMessage());
             }
         }
         return $children;
@@ -456,7 +450,7 @@ class tao_actions_Main extends tao_actions_CommonModule
     {
 
         $sections = array();
-        $user = common_Session_SessionManager::getSession()->getUser();
+        $user = $this->getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
@@ -465,7 +459,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
 
                     foreach($section->getActions() as $action){
-                        $this->getServiceManager()->propagate($action);
+                        $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
                         if(!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())){
                             $section->removeAction($action);
@@ -487,7 +481,7 @@ class tao_actions_Main extends tao_actions_CommonModule
      */
     public function isReady()
     {
-		if(tao_helpers_Request::isAjax()){
+		if($this->isXmlHttpRequest()){
             // the default ajax response is successful style rastafarai
             $ajaxResponse = new common_AjaxResponse();
         } else {

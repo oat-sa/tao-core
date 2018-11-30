@@ -17,7 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-     (update and modification) Open Assessment Technologies SA;
+ *               2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
 use oat\oatbox\event\EventManagerAwareTrait;
@@ -25,6 +25,7 @@ use oat\tao\model\import\TaskParameterProviderInterface;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * This controller provide the actions to import resources
@@ -43,7 +44,8 @@ class tao_actions_Import extends tao_actions_CommonModule
 
     use EventManagerAwareTrait;
     use TaskLogActionTrait;
-
+    use OntologyAwareTrait;
+    
     /**
      * initialize the classUri and execute the upload action
      *
@@ -135,7 +137,7 @@ class tao_actions_Import extends tao_actions_CommonModule
      */
     protected function getCurrentClass()
     {
-        return new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+        return $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
     }
 
     protected function getValidators()
