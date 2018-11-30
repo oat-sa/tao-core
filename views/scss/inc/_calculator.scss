@@ -145,6 +145,11 @@
     $calculatorKeyboardSpecialBg: $uiClickableHoverBg;
     $calculatorKeyboardSpecialTxt: $textHighlight;
     $calculatorKeyboardCommandTxt: $info;
+    $calculatorKeyboardSwitchBg: $uiClickableDefaultBg;
+    $calculatorKeyboardSwitchTxt: $textColor;
+    $calculatorKeyboardSwitchSelectedBg: $uiClickableHoverBg;
+    $calculatorKeyboardSwitchSelectedTxt: $textHighlight;
+    $calculatorKeyboardSwitchBorder: whiten($textColor, .5);
     $calculatorKeyboardTxt: $textColor;
     $calculatorScreenBg: $uiGeneralContentBg;
     $calculatorScreenTxt: $textColor;
@@ -154,6 +159,7 @@
 
     $calculatorFontSizeBtnPrimary: 1.7;
     $calculatorFontSizeBtnSecondary: 1.3;
+    $calculatorFontSizeBtnSwitch: 1;
     $calculatorFontSizeBtnSvg: 1;
     $calculatorFontSizeExpression: 1.3;
     $calculatorFontSizeHistory: 1;
@@ -161,7 +167,9 @@
     $calculatorLineHeightHistory: calc-em-size($calculatorFontSizeHistory + .3);
     $calculatorTermSpace: calc-em-size(.2);
     $calculatorButtonSize: calc-em-size(3.2);
+    $calculatorSwitchSize: calc-em-size(3.2);
     $calculatorButtonPadding: 2px;
+    $calculatorSwitchPadding: 4px;
     $calculatorScreenPadding: 2px;
     $calculatorBaseFontSize: 12px;
 
@@ -173,6 +181,16 @@
     display: flex;
     flex-direction: column;
     align-content: stretch;
+
+    sup, sub {
+        font-size: 0.75em;
+    }
+    sup {
+        top: -.5em;
+    }
+    sub {
+        bottom: -.5em;
+    }
 
     .screen, .input {
         flex: 0 0 auto;
@@ -215,16 +233,6 @@
             @include calc-font-size($calculatorFontSizeBtnSecondary);
         }
 
-        sup, sub {
-            font-size: 0.75em;
-        }
-        sup {
-            top: -.5em;
-        }
-        sub {
-            bottom: -.5em;
-        }
-
         button {
             position: relative;
             background-color: $calculatorKeyboardBg;
@@ -242,25 +250,67 @@
 
             @include calc-font-size(1);
 
-            &:before {
-                content: " ";
-                border-radius: 50%;
-                display: inline-block;
-                position: absolute;
-                z-index: 0;
-                top: calc(50% - #{$calculatorButtonSize / 2} + #{$calculatorButtonPadding});
-                left: calc(50% - #{$calculatorButtonSize / 2} + #{$calculatorButtonPadding});
-                width: calc(#{$calculatorButtonSize} - #{$calculatorButtonPadding * 2});
-                height: calc(#{$calculatorButtonSize} - #{$calculatorButtonPadding * 2});
+            &:not(.switch) {
+                &:before {
+                    content: " ";
+                    border-radius: 50%;
+                    display: inline-block;
+                    position: absolute;
+                    z-index: 0;
+                    top: calc(50% - #{$calculatorButtonSize / 2} + #{$calculatorButtonPadding});
+                    left: calc(50% - #{$calculatorButtonSize / 2} + #{$calculatorButtonPadding});
+                    width: calc(#{$calculatorButtonSize} - #{$calculatorButtonPadding * 2});
+                    height: calc(#{$calculatorButtonSize} - #{$calculatorButtonPadding * 2});
+                }
             }
-
-            &:not(.switch):hover {
+            &:hover {
                 &:before {
                     background: $calculatorKeyboardHoverBg;
                 }
             }
+
             &.disabled {
                 visibility: hidden;
+            }
+            &.switch {
+                span {
+                    color: $calculatorKeyboardSwitchTxt !important;
+                    border-color: $calculatorKeyboardSwitchBorder !important;
+                    border-top: 1px solid;
+                    border-bottom: 1px solid;
+                    height: auto;
+                    width: 100%;
+                    padding: $calculatorSwitchPadding .5em;
+                    @include calc-font-size($calculatorFontSizeBtnSwitch);
+
+                }
+
+                &.first {
+                    span {
+                        border-left: 1px solid;
+                        border-top-left-radius: 2px;
+                        border-bottom-left-radius: 2px;
+                    }
+                }
+                &.last {
+                    span {
+                        border-right: 1px solid;
+                        border-top-right-radius: 2px;
+                        border-bottom-right-radius: 2px;
+                    }
+                }
+
+                &:before {
+                    content: " ";
+                    border-radius: 2px;
+                    display: inline-block;
+                    position: absolute;
+                    z-index: 0;
+                    top: calc(50% - #{$calculatorFontSizeBtnSwitch / 2}em - #{$calculatorSwitchPadding});
+                    bottom: calc(50% - #{$calculatorFontSizeBtnSwitch / 2}em - #{$calculatorSwitchPadding});
+                    left: 3px;
+                    right: 3px;
+                }
             }
             &.operand {
                 span {
@@ -296,6 +346,31 @@
                 &.backspace-outline {
                     width: calc-em-size($calculatorFontSizeBtnSvg * 1.2);
                     height: calc-em-size($calculatorFontSizeBtnSvg * 1.2);
+                }
+            }
+        }
+    }
+
+    &.degree {
+        .calculator-keyboard {
+            button.switch[data-command="degree"] {
+                &:before {
+                    background: $calculatorKeyboardSwitchSelectedBg;
+                }
+                span {
+                    color: $calculatorKeyboardSwitchSelectedTxt !important;
+                }
+            }
+        }
+    }
+    &.radian {
+        .calculator-keyboard {
+            button.switch[data-command="radian"] {
+                &:before {
+                    background: $calculatorKeyboardSwitchSelectedBg;
+                }
+                span {
+                    color: $calculatorKeyboardSwitchSelectedTxt !important;
                 }
             }
         }
