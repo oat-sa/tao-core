@@ -237,7 +237,7 @@ define([
                         assert.ok(calculator.is('radian'), 'The state radian is set');
 
                         calculator.replace('cos PI');
-                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in radian mode');
+                        assert.equal(calculator.evaluate().value, '-1', 'The expression is computed in radian mode');
 
                         calculator.useCommand('degree');
 
@@ -245,7 +245,7 @@ define([
                         assert.ok(!calculator.is('radian'), 'The state radian is not set');
 
                         calculator.replace('cos 180');
-                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in degree mode');
+                        assert.equal(calculator.evaluate().value, '-1', 'The expression is computed in degree mode');
 
                         calculator.useCommand('radian');
 
@@ -253,7 +253,7 @@ define([
                         assert.ok(calculator.is('radian'), 'The state radian is set');
 
                         calculator.replace('cos PI');
-                        assert.equal(calculator.evaluate(), '-1', 'The expression is computed in radian mode');
+                        assert.equal(calculator.evaluate().value, '-1', 'The expression is computed in radian mode');
                     })
                     .catch(function (err) {
                         assert.ok(false, 'Unexpected failure : ' + err.message);

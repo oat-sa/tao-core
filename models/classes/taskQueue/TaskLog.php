@@ -35,6 +35,7 @@ use oat\tao\model\taskQueue\TaskLog\DataTablePayload;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
+use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 
 /**
  * Managing task logs:
@@ -232,9 +233,9 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     /**
      * @inheritdoc
      */
-    public function getDataTablePayload(TaskLogFilter $filter)
+    public function getDataTablePayload(TaskLogFilter $filter, DatatableRequestInterface $request)
     {
-        return new DataTablePayload($filter, $this->getBroker());
+        return new DataTablePayload($filter, $this->getBroker(), $request);
     }
 
     /**
