@@ -226,7 +226,7 @@ define([
             /**
              * Gets a variable defined for the expression.
              * @param {String} name - The variable name
-             * @returns {String} The value. Can be another expression.
+             * @returns {mathsExpression} The value. Can be another expression.
              */
             getVariable: function getVariable(name) {
                 return variables.get(name);
@@ -244,11 +244,19 @@ define([
             /**
              * Sets a variable that can be used by the expression.
              * @param {String} name - The variable name
-             * @param {String} value - The value. Can be another expression.
+             * @param {String|mathsExpression} value - The value. Can be another expression.
              * @returns {calculator}
              * @fires variableadd after the variable has been set
              */
             setVariable: function setVariable(name, value) {
+                var errValue;
+                try {
+                    value = mathsEvaluator(value);
+                } catch(err) {
+                    errValue = value && value.expression || value;
+                    value = mathsEvaluator('0');
+                    value.expression = errValue;
+                }
                 variables.set(name, value);
                 /**
                  * @event variableadd
@@ -282,7 +290,7 @@ define([
             getVariables: function getVariables() {
                 var defs = {};
                 variables.forEach(function (value, name) {
-                    defs[name] = value;
+                    defs[name] = value.result;
                 });
                 return defs;
             },
@@ -585,7 +593,7 @@ define([
 
             /**
              * Evaluates the current expression
-             * @returns {String|null}
+             * @returns {mathsExpression|null}
              * @fires evaluate when the expression has been evaluated
              * @fires syntaxerror when the expression contains an error
              */
@@ -595,12 +603,12 @@ define([
                     if (expression.trim()) {
                         result = mathsEvaluator(expression, this.getVariables());
                     } else {
-                        result = '0';
+                        result = mathsEvaluator('0');
                     }
 
                     /**
                      * @event evaluate
-                     * @param {String} result
+                     * @param {mathsExpression} result
                      */
                     this.trigger('evaluate', result);
                 } catch (e) {

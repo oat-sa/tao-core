@@ -155,8 +155,8 @@ define([
 
                                     assert.ok(!calculator.hasVariable('mem'), 'The remind variable still does not exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable should now exist');
-                                    assert.equal(calculator.getVariable('last'), r1, 'The remind last variable is equal to the last result');
-                                    assert.equal(r1, '7', 'The result is correct');
+                                    assert.deepEqual(calculator.getVariable('last'), r1, 'The remind last variable is equal to the last result');
+                                    assert.equal(r1.value, '7', 'The result is correct');
 
                                     resolve();
                                 })
@@ -275,8 +275,8 @@ define([
 
                                     assert.ok(!calculator.hasVariable('mem'), 'The remind variable still does not exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable should now exist');
-                                    assert.equal(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
-                                    assert.equal(result, '7', 'The result is correct');
+                                    assert.deepEqual(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
+                                    assert.equal(result.value, '7', 'The result is correct');
 
                                     resolve();
                                 })
@@ -292,8 +292,8 @@ define([
 
                                     assert.ok(!calculator.hasVariable('mem'), 'The remind variable still does not exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable should now exist');
-                                    assert.equal(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
-                                    assert.equal(result, '20', 'The result is correct');
+                                    assert.deepEqual(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
+                                    assert.equal(result.value, '20', 'The result is correct');
 
                                     resolve();
                                 })
@@ -309,8 +309,8 @@ define([
 
                                     assert.ok(calculator.hasVariable('mem'), 'The remind variable should now exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable should now exist');
-                                    assert.equal(calculator.getVariable('mem'), calculator.getVariable('last'), 'The remind last variable is equal to the last result');
-                                    assert.equal(calculator.getVariable('mem'), '20', 'The variable contains the correct value');
+                                    assert.deepEqual(calculator.getVariable('mem'), calculator.getVariable('last'), 'The remind last variable is equal to the last result');
+                                    assert.equal(calculator.getVariable('mem').value, '20', 'The variable contains the correct value');
 
                                     resolve();
                                 })
@@ -339,9 +339,9 @@ define([
 
                                     assert.ok(calculator.hasVariable('mem'), 'The remind variable still exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable still exist');
-                                    assert.equal(calculator.getVariable('mem'), '20', 'The remind variable contains the correct value');
-                                    assert.equal(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
-                                    assert.equal(result, '30', 'The result is correct');
+                                    assert.equal(calculator.getVariable('mem').value, '20', 'The remind variable contains the correct value');
+                                    assert.deepEqual(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
+                                    assert.equal(result.value, '30', 'The result is correct');
 
                                     resolve();
                                 })
@@ -357,9 +357,9 @@ define([
                                     assert.equal(calculator.getExpression(), 'last+mem', 'The expression has been properly updated');
                                     assert.ok(calculator.hasVariable('mem'), 'The remind variable still exist');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable still exist');
-                                    assert.equal(calculator.getVariable('mem'), '20', 'The remind variable contains the correct value');
-                                    assert.equal(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
-                                    assert.equal(result, '50', 'The result is correct');
+                                    assert.equal(calculator.getVariable('mem').value, '20', 'The remind variable contains the correct value');
+                                    assert.deepEqual(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
+                                    assert.equal(result.value, '50', 'The result is correct');
 
                                     resolve(result);
                                 })
@@ -378,7 +378,7 @@ define([
 
                                     assert.ok(!calculator.hasVariable('mem'), 'The remind variable has been destroyed');
                                     assert.ok(calculator.hasVariable('last'), 'The remind last variable still exist');
-                                    assert.equal(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
+                                    assert.deepEqual(calculator.getVariable('last'), result, 'The remind last variable is equal to the last result');
 
                                     resolve();
                                 })

@@ -154,9 +154,17 @@ define([
             expected: '1'
         }])
         .test('arithmetic expression', function (data, assert) {
-            var evaluate = mathsEvaluatorFactory();
-            QUnit.expect(1);
-            assert.equal(evaluate(data.expression), data.expected, "The expression " + data.expression + " is correctly computed");
+            var evaluate = mathsEvaluatorFactory(data.config);
+            var output = evaluate(data.expression, data.variables);
+
+            QUnit.expect(4);
+            if (!_.isBoolean(output.value)) {
+                output.value = String(output.value);
+            }
+            assert.equal(output.value, data.expected, "The expression " + data.expression + " is correctly computed to " + data.expected);
+            assert.equal(output.expression, data.expression, "The expression is provided in the output");
+            assert.equal(output.variables, data.variables, "The variables are provided in the output");
+            assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
         });
 
     QUnit
@@ -262,9 +270,17 @@ define([
             expected: '42'
         }])
         .test('logical expression', function (data, assert) {
-            var evaluate = mathsEvaluatorFactory();
-            QUnit.expect(1);
-            assert.equal(evaluate(data.expression), data.expected, "The expression " + data.expression + " is correctly computed");
+            var evaluate = mathsEvaluatorFactory(data.config);
+            var output = evaluate(data.expression, data.variables);
+
+            QUnit.expect(4);
+            if (!_.isBoolean(output.value)) {
+                output.value = String(output.value);
+            }
+            assert.equal(output.value, data.expected, "The expression " + data.expression + " is correctly computed to " + data.expected);
+            assert.equal(output.expression, data.expression, "The expression is provided in the output");
+            assert.equal(output.variables, data.variables, "The variables are provided in the output");
+            assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
         });
 
     QUnit
@@ -275,9 +291,17 @@ define([
             expected: '45'
         }])
         .test('parametric expression', function (data, assert) {
-            var evaluate = mathsEvaluatorFactory();
-            QUnit.expect(1);
-            assert.equal(evaluate(data.expression, data.variables), data.expected, "The expression " + data.expression + " is correctly computed");
+            var evaluate = mathsEvaluatorFactory(data.config);
+            var output = evaluate(data.expression, data.variables);
+
+            QUnit.expect(4);
+            if (!_.isBoolean(output.value)) {
+                output.value = String(output.value);
+            }
+            assert.equal(output.value, data.expected, "The expression " + data.expression + " is correctly computed to " + data.expected);
+            assert.equal(output.expression, data.expression, "The expression is provided in the output");
+            assert.equal(output.variables, data.variables, "The variables are provided in the output");
+            assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
         });
 
     QUnit
@@ -509,8 +533,16 @@ define([
         }])
         .test('trigo - radian', function (data, assert) {
             var evaluate = mathsEvaluatorFactory(data.config);
-            QUnit.expect(1);
-            assert.equal(evaluate(data.expression, data.variables), data.expected, "The expression " + data.expression + " is correctly computed");
+            var output = evaluate(data.expression, data.variables);
+
+            QUnit.expect(4);
+            if (!_.isBoolean(output.value)) {
+                output.value = String(output.value);
+            }
+            assert.equal(output.value, data.expected, "The expression " + data.expression + " is correctly computed to " + data.expected);
+            assert.equal(output.expression, data.expression, "The expression is provided in the output");
+            assert.equal(output.variables, data.variables, "The variables are provided in the output");
+            assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
         });
 
     QUnit
@@ -762,9 +794,47 @@ define([
         }])
         .test('trigo - degree', function (data, assert) {
             var evaluate = mathsEvaluatorFactory(data.config);
-            QUnit.expect(1);
-            assert.equal(evaluate(data.expression, data.variables), data.expected, "The expression " + data.expression + " is correctly computed");
+            var output = evaluate(data.expression, data.variables);
+
+            QUnit.expect(4);
+            if (!_.isBoolean(output.value)) {
+                output.value = String(output.value);
+            }
+            assert.equal(output.value, data.expected, "The expression " + data.expression + " is correctly computed to " + data.expected);
+            assert.equal(output.expression, data.expression, "The expression is provided in the output");
+            assert.equal(output.variables, data.variables, "The variables are provided in the output");
+            assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
         });
+
+    QUnit.test('expression as object', function (assert) {
+        var evaluate = mathsEvaluatorFactory();
+        var mathsExpression = {
+            expression: '3*x + 1',
+            variables: {
+                x: 2
+            }
+        };
+        var variables = {
+            x: 3
+        };
+
+        var output = evaluate(mathsExpression);
+
+        QUnit.expect(8);
+
+        assert.equal(output.value, '7', "The expression " + mathsExpression.expression + " is correctly computed to 7");
+        assert.equal(output.expression, mathsExpression.expression, "The expression is provided in the output");
+        assert.equal(output.variables, mathsExpression.variables, "The variables are provided in the output");
+        assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
+
+
+        output = evaluate(mathsExpression, variables);
+
+        assert.equal(output.value, '10', "The expression " + mathsExpression.expression + " is correctly computed to 10");
+        assert.equal(output.expression, mathsExpression.expression, "The expression is provided in the output");
+        assert.equal(output.variables, variables, "The variables are provided in the output");
+        assert.notEqual(typeof output.result, 'undefined', "The internal result is provided in the output");
+    });
 
     /** Visual Test **/
 
@@ -818,7 +888,7 @@ define([
 
         function processExpression(expr, variables) {
             try {
-                return evaluate(expr, variables);
+                return evaluate(expr, variables).value;
             } catch (err) {
                 console.log(err);
                 return 'Syntax error!';
