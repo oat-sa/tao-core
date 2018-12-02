@@ -35,6 +35,10 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
      */
     private $taskLogService;
 
+    /**
+     * @param EntityInterface $entity
+     * @param TaskLogInterface $taskLogService
+     */
     public function __construct(EntityInterface $entity, TaskLogInterface $taskLogService)
     {
         parent::__construct($entity);
@@ -59,8 +63,15 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
     {
         $data = parent::toArray();
 
-        if (($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())
-            && !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), [TaskLogInterface::CATEGORY_DELETE, TaskLogInterface::CATEGORY_EXPORT, TaskLogInterface::CATEGORY_UNKNOWN])) {
+        $deniedCategories = [
+            TaskLogInterface::CATEGORY_DELETE,
+            TaskLogInterface::CATEGORY_EXPORT,
+            TaskLogInterface::CATEGORY_UNKNOWN
+        ];
+
+        if ( !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
+             ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) ) {
+
             $user = \common_session_SessionManager::getSession()->getUser();
             $params = [
                 'taskId' => $this->getId()
