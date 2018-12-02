@@ -517,8 +517,8 @@ define([
                     return request(taskData.redirectUrl);
                 })
                 .then(function(response){
-                    if(response && response.success && !_.isEmpty(response.data)){
-                        window.location.href = response.data;
+                    if(!_.isEmpty(response)){
+                        window.location.href = response;
                     }
                 })
                 .catch(function(err){
