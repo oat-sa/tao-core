@@ -28,7 +28,7 @@
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^19.0.0",
+    "grunt-eslint": "^21.0.0",
     "grunt-notify": "^0.4.3",
     "grunt-qunit-junit": "^0.3.0",
     "grunt-replace": "^1.0.1",
