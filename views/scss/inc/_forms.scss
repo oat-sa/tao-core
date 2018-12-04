@@ -713,7 +713,10 @@ label {
             height: 100%; // Safari fix
         }
         .viewable-hiddenbox-toggle {
-            flex: 0 0 24px;
+            flex: 0 0 35px;
+            padding-top: 5px;
+            background-color: #ddd;
+            padding-left: 10px;
         }
     }
 
