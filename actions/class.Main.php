@@ -264,6 +264,21 @@ class tao_actions_Main extends tao_actions_CommonModule
                 return $str;
             }, $renderedForm);
 
+            //TAO-7238
+            if ($enablePasswordReveal) {
+                //remove javascript from hidden form to prevent duplication
+                $renderedForm = preg_replace('/<script.+\>(.|\n)+\<\/script>/', '', $renderedForm);
+                //remove hiddenbox-toggle span to prevent duplication in DOM-tree
+                $renderedForm = preg_replace('/<span class="viewable-hiddenbox-toggle".+\>.*\<\/span>/', '', $renderedForm);
+                //remove data-identifier attribute from hidden form to prevent mess with javascript events
+                $renderedForm = preg_replace('/data-identifier=(\'|\")([a-zA-Z\d]+)(\'|\")/', '', $renderedForm);
+
+                //remove viewable-hiddenbox classes from hidden form
+                $renderedForm = str_replace(' class="viewable-hiddenbox"', '', $renderedForm);
+                //remove viewable-hiddenbox-input classes from hidden form
+                $renderedForm = str_replace(' class=\'viewable-hiddenbox-input\'', '', $renderedForm);
+            }
+
             // the fake form will be displayed instead of the actual form,
             // it will behave like the actual form
             $renderedForm .= $fakeForm;
