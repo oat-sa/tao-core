@@ -36,13 +36,21 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
     private $taskLogService;
 
     /**
+     * @var \common_session_Session
+     */
+    private $session;
+
+    /**
+     * RedirectUrlEntityDecorator constructor.
      * @param EntityInterface $entity
      * @param TaskLogInterface $taskLogService
+     * @param \common_session_Session $session
      */
-    public function __construct(EntityInterface $entity, TaskLogInterface $taskLogService)
+    public function __construct(EntityInterface $entity, TaskLogInterface $taskLogService, \common_session_Session $session)
     {
         parent::__construct($entity);
         $this->taskLogService = $taskLogService;
+        $this->session = $session;
     }
 
     /**
@@ -72,18 +80,18 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
         if ( !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
              ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) ) {
 
-            $user = \common_session_SessionManager::getSession()->getUser();
+            $user = $this->session->getUser();
             $params = [
                 'taskId' => $this->getId()
             ];
-            $hasAccess = AclProxy::hasAccess(
+            $hasAccess = $this->hasAccess(
                 $user,
                 Redirector::class,
                 'redirectTaskToInstance',
                 $params
             );
             if ($hasAccess) {
-                $data = array_merge(parent::toArray(), [
+                $data = array_merge($data, [
                     'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
                 ]);
             } else {
@@ -92,5 +100,19 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
         }
 
         return $data;
+    }
+
+    /**
+     * Check the ACL
+     *
+     * @param $user
+     * @param $class
+     * @param $method
+     * @param $parameters
+     * @return bool
+     */
+    protected function hasAccess($user, $class, $method, $parameters)
+    {
+        return AclProxy::hasAccess($user, $class, $method, $parameters);
     }
 }
