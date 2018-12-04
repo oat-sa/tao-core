@@ -5,7 +5,7 @@ use oat\tao\helpers\Template;
 
 <div class="data-container-wrapper flex-container-full">
     <div class="grid-row">
-        <div class="col-6">
+        <div class="col-<?= get_data('isProduction') === true ? 12 : 6 ?>">
             <h2><?= __('Installed Extensions') ?></h2>
             <div id="extensions-manager-container" class="form-content">
                 <table summary="modules" class="matrix">
@@ -34,53 +34,55 @@ use oat\tao\helpers\Template;
                 </table>
             </div>
         </div>
-        <div class="col-6">
-            <h2><?= __('Available Extensions') ?></h2>
-            <div id="available-extensions-container">
-                <?php if (count(get_data('availableExtArray')) > 0): ?>
-                <form action="<?= _url('install', 'ExtensionsManager'); ?>" metdod="post">
-                    <table summary="modules" class="matrix">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th class="author"><?= __('Author'); ?></th>
-                                <th class="version"><?= __('Version'); ?></th>
-                                <th class="require"><?= __('Requires'); ?></th>
-                                <th class="install"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach(get_data('availableExtArray') as $k => $ext): ?>
-                            <tr id="<?= $ext->getId();?>">
-                                <td class="ext-name"><?= $ext->getName(); ?></td>
-                                <td class="author"><?= $ext->getAuthor(); ?></td>
-                                <td class="version"><?= $ext->getVersion(); ?></td>
-                                <td class="dependencies">
-                                    <ul class="plain">
-                                    <?php foreach ($ext->getDependencies() as $req => $version): ?>
-                                        <li class="ext-id ext-<?= $req ?><?= array_key_exists($req, get_data('installedExtArray')) ? ' installed' : '' ?>" rel="<?= $req ?>"><?= $req ?></li>
-                                    <?php endforeach; ?>
-                                    </ul>
-                                </td>
-                                <td class="install">
-                                    <input name="ext_<?= $ext->getId();?>" type="checkbox" />
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <div class="actions">
-                        <button class="install btn-info small" id="installButton" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled"><?= __('Install') ?></button>
+        <?php if (get_data('isProduction') !== true): ?>
+            <div class="col-6">
+                <h2><?= __('Available Extensions') ?></h2>
+                <div id="available-extensions-container">
+                    <?php if (count(get_data('availableExtArray')) > 0): ?>
+                    <form action="<?= _url('install', 'ExtensionsManager'); ?>" method="post">
+                        <table summary="modules" class="matrix">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="author"><?= __('Author'); ?></th>
+                                    <th class="version"><?= __('Version'); ?></th>
+                                    <th class="require"><?= __('Requires'); ?></th>
+                                    <th class="install"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach(get_data('availableExtArray') as $k => $ext): ?>
+                                <tr id="<?= $ext->getId();?>">
+                                    <td class="ext-name"><?= $ext->getName(); ?></td>
+                                    <td class="author"><?= $ext->getAuthor(); ?></td>
+                                    <td class="version"><?= $ext->getVersion(); ?></td>
+                                    <td class="dependencies">
+                                        <ul class="plain">
+                                        <?php foreach ($ext->getDependencies() as $req => $version): ?>
+                                            <li class="ext-id ext-<?= $req ?><?= array_key_exists($req, get_data('installedExtArray')) ? ' installed' : '' ?>" rel="<?= $req ?>"><?= $req ?></li>
+                                        <?php endforeach; ?>
+                                        </ul>
+                                    </td>
+                                    <td class="install">
+                                        <input name="ext_<?= $ext->getId();?>" type="checkbox" />
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <div class="actions">
+                            <button class="install btn-info small" id="installButton" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled"><?= __('Install') ?></button>
+                        </div>
+                    </form>
+                    <?php else: ?>
+                    <div id="noExtensions" class="ui-state-highlight">
+                        <?= __('No extensions available.') ?>
                     </div>
-                </form>
-                <?php else: ?>
-                <div id="noExtensions" class="ui-state-highlight">
-                    <?= __('No extensions available.') ?>
+                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
-            </div>
 
-        </div>
+            </div>
+        <?php endif; ?>
     </div>
 
 </div>
