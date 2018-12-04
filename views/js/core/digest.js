@@ -26,7 +26,7 @@
  */
 define([
     'lodash',
-    'lib/webcrypto-shim'
+    'lib/polyfill/webcrypto-shim'
 ], function(_) {
     'use strict';
 
