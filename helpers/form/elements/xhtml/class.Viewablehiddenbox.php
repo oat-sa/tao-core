@@ -47,11 +47,12 @@ class tao_helpers_form_elements_xhtml_Viewablehiddenbox extends tao_helpers_form
 
         $value = _dh($this->value);
 
+        //tabindex on span is needed for span to be focused
         $html = <<<HTML
 <span class="viewable-hiddenbox">
     {$this->renderLabel()}
     <input type='password' name='{$this->name}' id='{$this->name}' {$this->renderAttributes()} value='{$value}'/>
-    <span class="viewable-hiddenbox-toggle" data-identifier="{$uid}"></span>
+    <span class="viewable-hiddenbox-toggle" data-identifier="{$uid}" tabindex="0"></span>
 </span>
 HTML;
 
@@ -99,7 +100,30 @@ HTML;
         iconHide.classList.add('icon-eye-slash');
         hide();
         
+        //allowing to focus span on tab key
+        input.addEventListener('keydown', function(e) {
+            if (e.which == 9) {
+                toggle.focus();
+                e.preventDefault();
+                return false;
+            } else {
+                return false;
+            }
+        });
+        
         toggle.addEventListener('click', function() {
+            if (input.type === 'password') {
+                show();
+            } else {
+                hide();
+            }
+        });
+        
+        //allowing hide/show from keyboard, by space(#32) key press
+        toggle.addEventListener('keyup', function(e) {
+            if (e.which !== 32) {
+                return false;
+            }
             if (input.type === 'password') {
                 show();
             } else {
