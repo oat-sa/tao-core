@@ -58,7 +58,6 @@ define([
      * @throws {TypeError} if the algorithm is not available or the input string is missing
      */
     return function digest(utf8String, selectedAlgorithm) {
-        console.log('start')
         var algorithm;
         if(!_.isString(selectedAlgorithm)){
             selectedAlgorithm = 'SHA-256';
