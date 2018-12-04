@@ -300,12 +300,12 @@ class tao_actions_Main extends tao_actions_CommonModule
                     if (!empty($tmpRenderedForm)) {
                         $renderedForm = $tmpRenderedForm;
                         $done = true;
-
-                        unset($tmpRenderedForm);
                     } else {
                         $noError = false;
                     }
                 }
+
+                unset($tmpRenderedForm);
             }
 
             // the fake form will be displayed instead of the actual form,
