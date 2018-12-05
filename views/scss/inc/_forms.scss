@@ -718,6 +718,10 @@ label {
             background-color: #ddd;
             padding-left: 10px;
         }
+        .viewable-hiddenbox-toggle:focus {
+            border: 1px solid #0e5d91 !important;
+            outline: none;
+        }
     }
 
     .form_radlst {
