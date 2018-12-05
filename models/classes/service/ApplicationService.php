@@ -92,7 +92,7 @@ class ApplicationService extends ConfigurableService
      */
     public function isDebugMode()
     {
-        return defined(DEBUG_MODE) && (DEBUG_MODE === true);
+        return defined('DEBUG_MODE') && (DEBUG_MODE === true);
     }
 
     /**
