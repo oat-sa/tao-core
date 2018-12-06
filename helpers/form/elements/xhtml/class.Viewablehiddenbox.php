@@ -116,8 +116,6 @@ HTML;
                 } else {
                     hide();
                 }
-            } else {
-                e.preventDefault();
             }
         });
     })();
