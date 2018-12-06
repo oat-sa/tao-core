@@ -100,17 +100,6 @@ HTML;
         iconHide.classList.add('icon-eye-slash');
         hide();
         
-        //allowing to focus span on tab key
-        input.addEventListener('keydown', function(e) {
-            if (e.which == 9) {
-                toggle.focus();
-                e.preventDefault();
-                return false;
-            } else {
-                return false;
-            }
-        });
-        
         toggle.addEventListener('click', function() {
             if (input.type === 'password') {
                 show();
@@ -121,13 +110,14 @@ HTML;
         
         //allowing hide/show from keyboard, by space(#32) key press
         toggle.addEventListener('keyup', function(e) {
-            if (e.which !== 32) {
-                return false;
-            }
-            if (input.type === 'password') {
-                show();
+            if (e.key === ' ') {
+                if (input.type === 'password') {
+                    show();
+                } else {
+                    hide();
+                }
             } else {
-                hide();
+                e.preventDefault();
             }
         });
     })();
