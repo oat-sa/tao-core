@@ -14,12 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
  *
  */
 
-use \oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\resources\ResourceService;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Class tao_actions_RestResourceController
@@ -29,6 +30,7 @@ use oat\tao\model\resources\ResourceService;
 class tao_actions_RestResource extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
+    use LoggerAwareTrait;
 
     const CLASS_PARAMETER = 'classUri';
     const RESOURCE_PARAMETER = 'uri';
@@ -317,7 +319,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             if ($exception instanceof common_exception_UserReadableException) {
                 $data['errorMsg'] = $exception->getUserMessage();
             } else {
-                common_Logger::w(__CLASS__ . ' : ' . $exception->getMessage());
+                $this->logWarning(__CLASS__ . ' : ' . $exception->getMessage());
                 $data['errorMsg'] = __('Unexpected error. Please contact administrator');
             }
         }

@@ -109,7 +109,7 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
         /** @var FileReferenceSerializer $frs */
         $frs = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
 
-        $userId = common_session_SessionManager::getSession()->getUser()->getIdentifier();
+        $userId = $this->getSession()->getUser()->getIdentifier();
         $collection = new SimpleManagementCollectionDecorator(
             $taskLogService->findAvailableByUser($userId, $limit, $offset),
             $taskLogService,

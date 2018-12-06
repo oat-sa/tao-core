@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2018 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -25,15 +25,14 @@ use oat\tao\model\notification\exception\NotListedNotification;
 class tao_actions_Notification extends \tao_actions_CommonModule
 {
 
-    public function getCount() {
-
-        $userService = \tao_models_classes_UserService::singleton();
-        $user = $userService->getCurrentUser();
+    public function getCount()
+    {
+        $user = $this->getUserService()->getCurrentUser();
 
         /**
          * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
          */
-        $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+        $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $count = $notificationService->notificationCount($user->getUri());
         } catch (NotListedNotification $e) {
@@ -43,31 +42,30 @@ class tao_actions_Notification extends \tao_actions_CommonModule
 
     }
 
-    public function getList() {
-
-        $userService = \tao_models_classes_UserService::singleton();
-        $user = $userService->getCurrentUser();
+    public function getList()
+    {
+        $user = $this->getUserService()->getCurrentUser();
 
         /**
          * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
          */
-        $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+        $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $list = $notificationService->getNotifications($user->getUri());
         } catch (NotListedNotification $e) {
             return $this->returnError($e->getUserMessage());
         }
         return $this->returnJson($list);
-
     }
 
-    public function getDetail() {
+    public function getDetail()
+    {
         if( $this->hasRequestParameter('id')) {
             $id = $this->getRequestParameter('id');
             /**
              * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
              */
-            $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+            $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
             try {
                 $list = $notificationService->getNotification($id);
             } catch (NotListedNotification $e) {
@@ -78,15 +76,14 @@ class tao_actions_Notification extends \tao_actions_CommonModule
         return $this->returnError(__('require notification ID'));
     }
 
-    public function getUiList() {
-
-        $userService = \tao_models_classes_UserService::singleton();
-        $user = $userService->getCurrentUser();
+    public function getUiList()
+    {
+        $user = $this->getUserService()->getCurrentUser();
 
         /**
          * @var oat\tao\model\notification\NotificationServiceInterface $notificationService
          */
-        $notificationService = $this->getServiceManager()->get(NotificationServiceInterface::SERVICE_ID);
+        $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
         try {
             $list = $notificationService->getNotifications($user->getUri());
         } catch (NotListedNotification $e) {
@@ -105,7 +102,13 @@ class tao_actions_Notification extends \tao_actions_CommonModule
 
         $this->setData('notif-list' , $list);
         $this->setView('notification/list.tpl');
-
     }
 
+    /**
+     * @return tao_models_classes_UserService
+     */
+    protected function getUserService()
+    {
+        return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+    }
 }

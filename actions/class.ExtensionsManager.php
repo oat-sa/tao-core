@@ -17,8 +17,8 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2012-2018 Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+<<<<<<< HEAD
+ *               2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
 use oat\tao\model\menu\MenuService;
@@ -89,7 +89,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 			$success = true;
 
 			// reinit user session
-			$session = \common_session_SessionManager::getSession()->refresh();
+			$session = $this->getSession()->refresh();
 		}
 		catch(common_ext_ExtensionException $e) {
 			$message = $e->getMessage();
@@ -170,7 +170,6 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 	public function uninstall()
     {
         $this->assertIsDebugMode();
-
 	    try {
 	        $uninstaller = new \tao_install_ExtensionUninstaller($this->getCurrentExtension());
 	        $success = $uninstaller->uninstall();
