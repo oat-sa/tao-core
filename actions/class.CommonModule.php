@@ -28,6 +28,7 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Top level controller
@@ -41,6 +42,7 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
+    use LoggerAwareTrait;
 
     /**
      * The Modules access the models through the service instance
@@ -143,7 +145,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected function returnError($description, $returnLink = true, $httpStatus = null)
     {
         if ($this->isXmlHttpRequest()) {
-            common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
+            $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description);
         } else {
             $this->setData('message', $description);

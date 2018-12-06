@@ -31,8 +31,8 @@ use oat\tao\model\GenerisTreeFactory;
 
  *
  */
-abstract class tao_actions_SaSModule extends tao_actions_RdfController {
-
+abstract class tao_actions_SaSModule extends tao_actions_RdfController
+{
 	/**
 	 * Whenever or not the call was made in standAlone mode
 	 *
@@ -40,7 +40,8 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 	 */
 	private $isStandAlone = null;
 
-	public function setView($path, $extensionID = null) {
+	public function setView($path, $extensionID = null)
+    {
 		// override non AJAX calls for SAS
 		if(!$this->isStandAlone() || $this->isXmlHttpRequest()){
 			parent::setView($path, $extensionID);
@@ -56,7 +57,8 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 	 * Returns the root class of the module
 	 * @return core_kernel_classes_Class
 	 */
-	protected function getRootClass() {
+	protected function getRootClass()
+    {
 		return $this->getClassService()->getRootClass();
 	}
 
@@ -71,9 +73,6 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 	 */
 	public function sasSelect()
 	{
-
-		$kind = $this->getDataKind();
-
 		$context = Context::getInstance();
 		$module = $context->getModuleName();
 
@@ -220,7 +219,8 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 	 *
 	 * @return void
 	 */
-	public function sasGetOntologyData() {
+	public function sasGetOntologyData()
+    {
 		if(!$this->isXmlHttpRequest()){
 			throw new common_exception_IsAjaxAction(__FUNCTION__);
 		}
@@ -242,10 +242,11 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
 		$tree = $factory->buildTree($clazz);
 
 		$returnValue = $hideNode ? ($tree['children']) : $tree;
-		echo json_encode($returnValue);
+		$this->returnJson($returnValue);
 	}
 
-    protected function setVariables($variables) {
+    protected function setVariables($variables)
+    {
         $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('wfEngine')->load();
 
         $variableService = wfEngine_models_classes_VariableService::singleton();
@@ -269,7 +270,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController {
                 tao_helpers_Context::load('STANDALONE_MODE');
                 $this->isStandAlone = true;
                 $this->setData('client_config_url', $this->getClientConfigUrl());
-                common_Logger::d('Standalone mode set');
+                $this->logDebug('Standalone mode set');
             } else {
                 $this->isStandAlone = false;
             }

@@ -149,7 +149,6 @@ return array(
         array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'TaskQueueData')),
         array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'RestResource')),
         array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'RestClass')),
-//        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Api')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Breadcrumbs')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Export')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'File')),

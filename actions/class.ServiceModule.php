@@ -18,16 +18,18 @@
  *
  */
 
+use oat\tao\model\state\StateStorage;
+
 /**
  * V2 of the service controller
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
-
  *
  */
-class tao_actions_ServiceModule extends tao_actions_CommonModule {
+class tao_actions_ServiceModule extends tao_actions_CommonModule
+{
 
     /**
      * Returns the serviceCallId for the current service call
@@ -50,7 +52,7 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
      */
     protected function getState()
     {
-        $serviceService = $this->getServiceLocator()->get('tao/stateStorage');
+        $serviceService = $this->getServiceLocator()->get(StateStorage::SERVICE_ID);
         $userUri = $this->getSession()->getUserUri();
         return is_null($userUri) ? null : $serviceService->get($userUri, $this->getServiceCallId());
     }
@@ -63,7 +65,7 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
      */
     protected function setState($state)
     {
-        $serviceService = $this->getServiceLocator()->get('tao/stateStorage');
+        $serviceService = $this->getServiceLocator()->get(StateStorage::SERVICE_ID);
         $userUri = $this->getSession()->getUserUri();
         return is_null($userUri) ? false : $serviceService->set($userUri, $this->getServiceCallId(), $state);
     }
@@ -100,6 +102,6 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
      */
     protected function getDirectory($id)
     {
-        return tao_models_classes_service_FileStorage::singleton()->getDirectoryById($id);
+        return $this->getServiceLocator()->get(tao_models_classes_service_FileStorage::SERVICE_ID)->getDirectoryById($id);
     }
 }
