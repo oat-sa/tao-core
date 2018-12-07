@@ -137,7 +137,10 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                     }
                 }
                 if($this->hasRequestParameter('selectedUri')){
-                    $selectedUris = [$this->getRequestParameter('selectedUri')];
+                    $selectedUri = $this->getRequestParameter('selectedUri');
+                    if (!empty($selectedUri)) {
+                        $selectedUris = [$selectedUri];
+                    }
                 }
 
                 $class = $this->getClassParameter();
