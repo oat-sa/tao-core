@@ -52,6 +52,7 @@ define([
         waitButtonText : __('Please wait'),
         proceedContent : __('Wait is over'),
         proceedButtonText : __('Proceed'),
+        showSecondary : false
     };
 
     /**
@@ -62,6 +63,8 @@ define([
      * @param {String} [config.waitButtonText] - the button text while waiting
      * @param {String} [config.proceedContent] - the dialog content when the wait is over
      * @param {String} [config.proceedButtonText] - the button text when the wait is over
+     * @param {Boolean} [config.showSecondary] - should a secondary button be included?
+     * @param {String} [config.secondaryButtonText] - the button text for the secondary button
      * @param {jQueryElement} [config.container = 'body'] - where to render the dialog
      * @returns {waitingDialog} the component itself
      */
@@ -69,6 +72,7 @@ define([
 
         //keep some elements refs
         var $button;
+        var $secondaryButton;
         var $content;
 
         /**
@@ -85,12 +89,17 @@ define([
                 if(!this.is('waiting')){
                     this.setState('waiting', true);
 
+                    $content
+                        .text(this.config.waitContent);
+
                     $button
                         .prop('disabled', true)
                         .text(this.config.waitButtonText);
 
-                    $content
-                        .text(this.config.waitContent);
+                    //if (config.showSecondary) {
+                    $secondaryButton
+                        .removeProp('disabled');
+                    //}
 
                     /**
                      * The component switch to the waiting state
@@ -118,6 +127,9 @@ define([
                         .text(this.config.proceedButtonText)
                         .removeProp('disabled');
 
+                    $secondaryButton
+                        .prop('disabled', true);
+
                     /**
                      * The component switch to non waiting state
                      * @event waitingDialog#unwait
@@ -142,6 +154,22 @@ define([
 
         }, defaultConfig)
             .on('init', function(){
+                var self = this;
+
+                var buttons = [{
+                    id : 'waiting',
+                    type : 'info',
+                    label :this.config.waitButtonText,
+                    close: true
+                }];
+                if (this.config.showSecondary && this.config.secondaryButtonText) {
+                    buttons.push({
+                        id : 'secondary',
+                        type : 'info',
+                        label :this.config.secondaryButtonText,
+                        close: false
+                    });
+                }
 
                 this.dialog = dialog({
                     message : this.config.message,
@@ -149,16 +177,17 @@ define([
                     autoRender : false,
                     disableClosing : true,
                     disableEscape   :true,
-                    buttons : [{
-                        id : 'waiting',
-                        type : 'info',
-                        label :this.config.waitButtonText,
-                        close: true
-                    }]
+                    buttons : buttons
                 });
 
-                $button = $('[data-control="waiting"]', this.dialog.getDom());
                 $content = $('.content', this.dialog.getDom());
+                $button = $('[data-control="waiting"]', this.dialog.getDom());
+                if (this.config.showSecondary) {
+                    $secondaryButton = $('[data-control="secondary"]', this.dialog.getDom());
+                    $secondaryButton.on('click', function() {
+                        self.trigger('click.secondary');
+                    });
+                }
 
                 this.beginWait();
                 this.render();
