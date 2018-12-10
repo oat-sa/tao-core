@@ -169,7 +169,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
         var setTooltip = function (el, inst) {
             if($(el).data('$tooltip')){
                 $(el).data('$tooltip').dispose();
-                el.removeData('$tooltip');
+                $(el).removeData('$tooltip');
             }
             $(el).data('$tooltip', inst);
         };

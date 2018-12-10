@@ -179,17 +179,19 @@ define([
                             $icon = $input.siblings('.icon')
                                 .addClass('cross')
                                 .each(function( ) {
-                                    this.data('$tooltip', Tooltip(this, {
+                                    $(this).data('$tooltip', Tooltip(this, {
                                         theme: 'warning',
                                         title: self.config.maxMessage
                                     }));
-                                    this.data('$tooltip').show();
+                                    $(this).data('$tooltip').show();
 
                                 });
 
                             $icon.parent('label').on('mouseleave', function (){
-                                this.data('$tooltip').dispose();
-                                this.removeData('$tooltip');
+                                if($(this).children('.icon').data('$tooltip')){
+                                    $(this).children('.icon').data('$tooltip').dispose();
+                                    $(this).children('.icon').removeData('$tooltip');
+                                }
                             });
 
                             //visually highlight the invalid new choice
