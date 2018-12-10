@@ -108,7 +108,7 @@ class tao_actions_form_Users extends \oat\tao\model\controller\SignedFormInstanc
 
     	$options['topClazz'] = GenerisRdf::CLASS_GENERIS_USER;
     	
-    	parent::__construct($clazz, $signature, $this->user, $options);
+    	parent::__construct($clazz, $this->user, $options);
     }
 
     /**
