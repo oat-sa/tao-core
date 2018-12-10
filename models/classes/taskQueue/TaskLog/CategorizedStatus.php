@@ -228,6 +228,10 @@ class CategorizedStatus
             case self::STATUS_FAILED:
                 return __('Failed');
                 break;
+
+            case self::STATUS_ARCHIVED:
+                return __('Archived');
+                break;
         }
     }
 }

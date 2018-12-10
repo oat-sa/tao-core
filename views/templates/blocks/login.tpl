@@ -12,6 +12,9 @@ use oat\tao\model\theme\Theme;
     </div>
     <?php endforeach;?>
 </div>
+<?php if(get_data('show_gdpr')): ?>
+<?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'gdpr')?>
+<?php endif; ?>
 <script>
     requirejs.config({
         config: {

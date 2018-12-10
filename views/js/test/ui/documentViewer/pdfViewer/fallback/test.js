@@ -25,7 +25,7 @@ define([
 ], function ($, Promise, fallbackFactory) {
     'use strict';
 
-    var headless = /PhantomJS/.test(window.navigator.userAgent);
+    var headless = /HeadlessChrome/.test(window.navigator.userAgent);
     var pdfUrl = location.href.replace('/pdfViewer/fallback/test.html', '/sample/demo.pdf');
 
 

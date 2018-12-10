@@ -26,13 +26,12 @@ use oat\oatbox\task\Queue;
 use oat\oatbox\task\implementation\SyncQueue;
 
 /**
- * @deprecated Can be removed along with the old queue
+ * @deprecated since version 21.7.0, to be removed in 22.0.
  */
 class tao_actions_QueueAction extends \tao_actions_SaSModule
 {
 
     use TaskQueueActionTrait;
-    use OntologyAwareTrait;
 
     /**
      * @var Queue
@@ -45,7 +44,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     protected function getQueueService()
     {
         if (!$this->queueService) {
-            $this->queueService = $this->getServiceManager()->get(Queue::SERVICE_ID);
+            $this->queueService = $this->getServiceLocator()->get(Queue::SERVICE_ID);
         }
         return $this->queueService;
     }
@@ -119,9 +118,9 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
     protected function getFile($fileUri)
     {
         /* @var \oat\oatbox\filesystem\FileSystemService $fileSystemService */
-        $fileSystemService     = $this->getServiceManager()->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
+        $fileSystemService     = $this->getServiceLocator()->get(\oat\oatbox\filesystem\FileSystemService::SERVICE_ID);
         $storageService        = $fileSystemService->getFileSystem(Queue::FILE_SYSTEM_ID);
-        
+
         return $storageService->readStream($fileUri);
     }
 

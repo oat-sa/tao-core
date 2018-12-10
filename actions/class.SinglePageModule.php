@@ -57,7 +57,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
         $this->clientParams[$name] = $value;
         return $this;
     }
-    
+
     /**
      * Gets the path to the layout
      * @return array
@@ -84,7 +84,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
         if (!is_array($data)) {
             $data = [];
         }
-        
+
         if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
             $this->returnJson([
                 'success' => true,
@@ -115,7 +115,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
         $this->defaultData();
         $this->setData('scope', $scope);
 
-        if (\tao_helpers_Request::isAjax()) {
+        if ($this->isXmlHttpRequest()) {
             $this->setView($template, $extension);
         } else {
             $this->setData('content-template', [$template, $extension]);
@@ -133,7 +133,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
     protected function defaultData()
     {
         parent::defaultData();
-        
+
         $this->setData('client_params', $this->clientParams);
     }
 }
