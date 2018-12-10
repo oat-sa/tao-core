@@ -21,10 +21,12 @@
  *
  */
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
+use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\resources\ResourceService;
@@ -362,7 +364,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $clazz = $this->getCurrentClass();
 
-        $editClassLabelForm = new \tao_actions_form_EditClassLabel($clazz,  $this->getRequestParameters());
+        /** @var SignatureGenerator $signatureGenerator */
+        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
+
+        $signature = $signatureGenerator->generate(
+            \tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
+        );
+
+        $editClassLabelForm = new \tao_actions_form_EditClassLabel($clazz,  $this->getRequestParameters(), $signature);
         $myForm = $editClassLabelForm->getForm();
 
         if ($myForm->isSubmited()) {
@@ -665,7 +674,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->signatureValidator->checkSignature($data['signature'], $id);
 
             $ids = [$id];
-            
+
             $this->validateMoveRequest();
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);

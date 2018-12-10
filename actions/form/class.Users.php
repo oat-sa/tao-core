@@ -65,7 +65,6 @@ class tao_actions_form_Users extends \oat\tao\model\controller\SignedFormInstanc
      * @author Joel Bout, <joel.bout@tudor.lu>
      *
      * @param  core_kernel_classes_Class $clazz
-     * @param  $signature
      * @param  core_kernel_classes_Resource $user
      * @param  boolean $forceAdd
      *
@@ -73,7 +72,6 @@ class tao_actions_form_Users extends \oat\tao\model\controller\SignedFormInstanc
      */
     public function __construct(
         core_kernel_classes_Class $clazz,
-        $signature,
         core_kernel_classes_Resource $user = null,
         $forceAdd = false
     ) {

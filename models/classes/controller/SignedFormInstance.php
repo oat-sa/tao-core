@@ -2,38 +2,16 @@
 
 namespace oat\tao\model\controller;
 
-use core_kernel_classes_Class;
-use core_kernel_classes_Resource;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
+use oat\tao\model\security\SignatureGenerator;
 use tao_actions_form_Instance;
 use tao_helpers_form_FormFactory;
 use tao_helpers_Uri;
 
-abstract class SignedFormInstance extends tao_actions_form_Instance
+class SignedFormInstance extends tao_actions_form_Instance
 {
     const SIGNATURE_ELEMENT_NAME = 'signature';
-
-    /**
-     * @var string
-     */
-    private $signature;
-
-    /**
-     * @param core_kernel_classes_Class $clazz
-     * @param core_kernel_classes_Resource|null $instance
-     * @param string $signature
-     * @param array $options
-     */
-    public function __construct(
-        core_kernel_classes_Class $clazz,
-        $signature,
-        core_kernel_classes_Resource $instance = null,
-        array $options = []
-    ) {
-        $this->signature = $signature;
-
-        parent::__construct($clazz, $instance, $options);
-    }
 
     /**
      * @return mixed|void
@@ -53,14 +31,30 @@ abstract class SignedFormInstance extends tao_actions_form_Instance
     {
         $signature = tao_helpers_form_FormFactory::getElement(self::SIGNATURE_ELEMENT_NAME, 'Hidden');
 
-        $signature->setValue($this->signature);
+        $signature->setValue($this->getSignature());
         $signature->addValidator(
             new ResourceSignatureValidator(
-                tao_helpers_Uri::encode($this->instance->getUri()),
-                tao_helpers_Uri::encode($this->clazz->getUri())
+                $this->getDataToSign()
             )
         );
 
         $this->form->addElement($signature, true);
+    }
+
+    /**
+     * @return string
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     */
+    protected function getSignature()
+    {
+        /** @var SignatureGenerator $signatureGenerator */
+        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
+
+        return $signatureGenerator->generate($this->getDataToSign());
+    }
+
+    protected function getDataToSign()
+    {
+        return tao_helpers_Uri::encode($this->instance->getUri());
     }
 }
