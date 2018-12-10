@@ -67,7 +67,7 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
      * redefinition of jquery.qtip plugin http://qtip2.com/
      * the goal is to substitude outdated lib code with new solution (https://popper.js.org/)
      * so it is just a jquery rapper for Popper.js library.
-     * The Popper Instance will be stored inside .data('$popper') of wrapped element
+     * The Popper Instance will be stored inside .data('$tooltip') of wrapped element
      * leaving its original interfaces that are widely used through project.
      * https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/tooltip-documentation.md
      */
@@ -75,11 +75,11 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
         // there were two types of requests for qtip jquery plugin (with object or string):
         // 1) initialize object for the first time : $el.qtip({ options object});
         if (typeof command === 'object') {
-            // .data('$popper') - is the way to store current state inside jquery plugin
+            // .data('$tooltip') - is the way to store current state inside jquery plugin
             command = _.merge({}, defaultOptions, command);
-            if(this.data('$popper')) {
-                this.data('$popper').dispose();
-                this.removeData('$popper');
+            if(this.data('$tooltip')) {
+                this.data('$tooltip').dispose();
+                this.removeData('$tooltip');
                 this.removeAttr("data-hasqtip");
 
             }
@@ -112,40 +112,40 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 delete command.position.container;
             }
             if (this.length){
-                this.data('$popper', new Tooltip(this, command));
+                this.data('$tooltip', new Tooltip(this, command));
                 // compatibility polyfill
                 this.attr('data-hasqtip', 1);
                 if(command.show){
                     if(command.show === true || command.show.ready === true){
-                        this.data('$popper').show();
+                        this.data('$tooltip').show();
                     }
                 }
             }
 
         // 2) sending text (String) commands to  element that is already initialized : $el.qtip("show")
-        }else if(this.data('$popper') && typeof command === 'string'){
+        }else if(this.data('$tooltip') && typeof command === 'string'){
             switch (command) {
                 case 'theme':
-                    this.data('$popper').template = themesMap[message];
+                    this.data('$tooltip').template = themesMap[message];
                     break;
                 case 'content.text':
                 case 'update':
-                    this.data('$popper')[commandsMap[command]](message);
+                    this.data('$tooltip')[commandsMap[command]](message);
                     break;
                 case 'set':
                 // covers this particular behavior:
                 // $scoreInput.qtip('set', 'content.text', options.tooltipContent.required);
                     if(message === 'content.text'){
-                        this.data('$popper')[commandsMap[command]](messageData);
+                        this.data('$tooltip')[commandsMap[command]](messageData);
                     }
                     break;
                 default:
                     if(command === 'api'){
-                        return this.data('$popper');
+                        return this.data('$tooltip');
                     }
-                    this.data('$popper')[commandsMap[command]]();
+                    this.data('$tooltip')[commandsMap[command]]();
                     if(commandsMap[command] === 'dispose'){
-                        this.removeData('$popper');
+                        this.removeData('$tooltip');
                         this.removeAttr("data-hasqtip");
                     }
             }
@@ -162,25 +162,43 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
      * @public
      * @param {jQueryElement} $container - the root context to lookup inside
      */
-    return function lookupSelector($container){
-
-        $('[data-tooltip]', $container).each(function(){
-            var $elt = $(this),
-                $content = DataAttrHandler.getTarget('tooltip', $elt),
-                themeName = _.contains(themes, $elt.data('tooltip-theme')) ? $elt.data('tooltip-theme') : 'default',
-                options = {
+    return function lookupSelector(element, options){
+        var themeName;
+        var template;
+        var instance;
+        var setTooltip = function (el, inst) {
+            if($(el).data('$tooltip')){
+                $(el).data('$tooltip').dispose();
+                el.removeData('$tooltip');
+            }
+            $(el).data('$tooltip', inst);
+        };
+        if(element && (element instanceof Element || element instanceof HTMLDocument || element.jquery)){
+            if(!options){
+                $('[data-tooltip]', element).each(function(){
+                    var $content = DataAttrHandler.getTarget('tooltip', $(this));
+                    var opt;
+                    themeName = _.contains(themes, element.data('tooltip-theme')) ? element.data('tooltip-theme') : 'default';
+                    opt = {
+                        template:themesMap[themeName]
+                    };
+                    if($content.length){
+                        _.merge(opt, { title: $content[0] }, defaultOptions);
+                    }
+                    setTooltip(this, new Tooltip(this, opt));
+                });
+            }else{
+                themeName = _.contains(themes, options.theme) ? options.theme : 'default';
+                template = {
                     template:themesMap[themeName]
                 };
-            if($content.length){
-
-                _.merge(options,{
-                    title: $content[0]
-                });
-
+                instance = new Tooltip(element, _.merge(defaultOptions, template, options));
+                setTooltip(element, instance);
+                return instance;
             }
-            $elt.qtip(options);
-
-        });
+        } else {
+            throw new Error("Tooltip should be connected to DOM Element");
+        }
 
     };
 });

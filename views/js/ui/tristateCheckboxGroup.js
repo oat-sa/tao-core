@@ -26,7 +26,7 @@ define([
     'tpl!ui/tristateCheckboxGroup/list',
     'tpl!ui/tristateCheckboxGroup/li',
     'ui/tooltip'
-], function ($, _, __, component, layoutTpl, elementTpl){
+], function ($, _, __, component, layoutTpl, elementTpl, Tooltip){
     'use strict';
 
     /**
@@ -173,21 +173,25 @@ define([
                     if(maxSelection && $list.find('input:checked,input:indeterminate').length > maxSelection){
 
                         $input = $(e.target);
-                        
+
                         if($input.is(':checked')){
+
                             $icon = $input.siblings('.icon')
                                 .addClass('cross')
-                                .qtip({
-                                    theme : 'warning',
-                                    content : {
-                                        text : self.config.maxMessage
-                                    }
-                                }).qtip('show');
+                                .each(function( ) {
+                                    this.data('$tooltip', Tooltip(this, {
+                                        theme: 'warning',
+                                        title: self.config.maxMessage
+                                    }));
+                                    this.data('$tooltip').show();
+
+                                });
 
                             $icon.parent('label').on('mouseleave', function (){
-                                $icon.qtip('destroy');
+                                this.data('$tooltip').dispose();
+                                this.removeData('$tooltip');
                             });
-                            
+
                             //visually highlight the invalid new choice
                             _.delay(function (){
                                 $input.prop('checked', false).removeAttr('checked');
