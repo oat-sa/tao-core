@@ -142,10 +142,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     protected function getCurrentInstance()
     {
         $uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-        if (is_null($uri) || empty($uri) || !common_Utils::isUri($uri)) {
-            throw new tao_models_classes_MissingRequestParameterException("uri");
-        }
+
+        $this->validateUri($uri);
+
         return $this->getResource($uri);
+    }
+
+    protected function validateUri($uri)
+    {
+        if (!common_Utils::isUri($uri)) {
+            throw new tao_models_classes_MissingRequestParameterException('uri');
+        }
     }
 
     /**
@@ -650,17 +657,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 throw new InvalidArgumentException('Resource uri must be specified.');
             }
 
-            $resource = $this->getCurrentInstance();
-
-            $ids = [$resource->getUri()];
-//---------
             $data = $this->getRequestParameter('uri');
             $id = $data['id'];
+
+            $this->validateUri($id);
 
             $this->signatureValidator->checkSignature($data['signature'], $id);
 
             $ids = [$id];
-//------------
+            
             $this->validateMoveRequest();
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);
