@@ -214,6 +214,17 @@ ul.listbox {
     }
 
     .modal-body{
+        &.has-secondary {
+            .buttons {
+                width: 100%;
+            }
+            .button-subtext {
+                font-size: 1.1rem;
+                color: whiten($textColor, .4);
+                text-align: center;
+                margin-top: 1rem;
+            }
+        }
         .buttons{
             top: 16px;
             position: relative;

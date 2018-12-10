@@ -96,10 +96,9 @@ define([
                         .prop('disabled', true)
                         .text(this.config.waitButtonText);
 
-                    //if (config.showSecondary) {
-                    $secondaryButton
-                        .removeProp('disabled');
-                    //}
+                    if (config.showSecondary) {
+                        $secondaryButton.removeProp('disabled');
+                    }
 
                     /**
                      * The component switch to the waiting state
@@ -127,8 +126,9 @@ define([
                         .text(this.config.proceedButtonText)
                         .removeProp('disabled');
 
-                    $secondaryButton
-                        .prop('disabled', true);
+                    if (config.showSecondary) {
+                        $secondaryButton.prop('disabled', true);
+                    }
 
                     /**
                      * The component switch to non waiting state
@@ -183,6 +183,7 @@ define([
                 $content = $('.content', this.dialog.getDom());
                 $button = $('[data-control="waiting"]', this.dialog.getDom());
                 if (this.config.showSecondary) {
+                    this.dialog.getDom().addClass('has-secondary');
                     $secondaryButton = $('[data-control="secondary"]', this.dialog.getDom());
                     $secondaryButton.on('click', function() {
                         self.trigger('click.secondary');
