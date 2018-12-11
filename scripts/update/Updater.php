@@ -54,6 +54,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
@@ -875,5 +876,15 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('21.5.0', '22.4.1');
+
+        if ($this->isVersion('22.4.1')) {
+            $taskSerializer = new SignatureGenerator([
+                SignatureGenerator::SALT => uniqid(mt_rand(), true)
+            ]);
+
+            $this->getServiceManager()->register(SignatureGenerator::SERVICE_ID, $taskSerializer);
+
+            $this->setVersion('22.5.0');
+        }
     }
 }

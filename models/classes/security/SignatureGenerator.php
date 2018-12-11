@@ -9,6 +9,8 @@ class SignatureGenerator extends ConfigurableService
 {
     const SERVICE_ID = 'tao/SignatureGenerator';
 
+    const SALT = 'salt';
+
     /**
      * @param string[] $data
      *
@@ -18,7 +20,7 @@ class SignatureGenerator extends ConfigurableService
      */
     public function generate(...$data)
     {
-        $salt = $this->getOption('salt');
+        $salt = $this->getOption(self::SALT);
 
         if (empty($salt)) {
             throw new InconsistencyConfigException('Salt is not defined');
