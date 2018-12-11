@@ -25,9 +25,9 @@ define([
     'lodash',
     'i18n',
     'util/capitalize',
-    'jquery.autocomplete',
-    'ui/tooltip'
-], function($, _, __, capitalize) {
+    'ui/tooltip',
+    'jquery.autocomplete'
+], function($, _, __, capitalize, tooltip) {
     'use strict';
     /**
      * Namespace for component
@@ -40,16 +40,10 @@ define([
      * @type {Object}
      */
     var tooltipConfigTooMany = {
-        position: {
-            viewport: $(window)
-        },
+        container: $('body').get(0),
         theme : 'info',
-        content: {
-            text: __('Too many suggestions match your query. Only a few are listed')
-        },
-        show: {
-            event: 'custom'
-        }
+        title: __('Too many suggestions match your query. Only a few are listed'),
+        trigger:'manual'
     };
 
     /**
@@ -260,7 +254,8 @@ define([
             ]));
 
             // prepare the tooltip displayed when more suggestions are available on the server side for the current query
-            this.$element.qtip(tooltipConfigTooMany);
+            tooltip(this.$element, tooltipConfigTooMany);
+
 
             // install the keyboard listener used to prevent auto submits
             this.on('keyup keydown keypress', this._onKeyEvent.bind(this));
@@ -284,7 +279,8 @@ define([
             this.applyPlugin('dispose');
             if (this.$element) {
                 this.$element.off('.' + NS);
-                this.$element.qtip('destroy', true);
+                this.$element.data('$tooltip').dispose();
+                this.$element.removeData('$tooltip');
             }
             this.$element = null;
             return this;
@@ -388,7 +384,7 @@ define([
          */
         showTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.qtip('show');
+                this.$element.data('$tooltip').show();
             }
         },
 
@@ -397,7 +393,7 @@ define([
          */
         hideTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.qtip('hide');
+                this.$element.data('$tooltip').hide();
             }
         },
 
