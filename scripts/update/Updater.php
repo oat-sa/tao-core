@@ -875,9 +875,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('21.5.0');
         }
 
-        $this->skip('21.5.0', '22.4.1');
+        $this->skip('21.5.0', '22.4.2');
 
-        if ($this->isVersion('22.4.1')) {
+        if ($this->isVersion('22.4.2')) {
             $taskSerializer = new SignatureGenerator([
                 SignatureGenerator::SALT => uniqid(mt_rand(), true)
             ]);
