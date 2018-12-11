@@ -16,24 +16,17 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-
-/**
- * @author Aleh Hutnikau
- */
 define([
     'jquery',
     'lodash',
     'i18n',
     'ui/tooltip'
-], function ($, _, __) {
+], function ($, _, __, tooltip) {
     'use strict';
 
     var defaultOptions = {
-        qtip : {
-            show: { ready: true },
-            hide: {
-                event: false
-            },
+        tooltip:{
+            trigger:'manual',
             theme : 'error'
         }
     };
@@ -57,13 +50,12 @@ define([
              */
             highlight : function highlight($field, message) {
                 options = _.merge(options, {
-                    qtip : {
-                        content: {
-                            text: message
-                        }
+                    tooltip:{
+                        title:message
                     }
                 });
-                $field.qtip(options.qtip);
+                tooltip($field, options.tooltip);
+                $field.data('$tooltip').show();
                 $field.addClass(options.errorClass);
             },
 
@@ -73,12 +65,14 @@ define([
              */
             unhighlight : function unhighlight($field) {
                 $field.removeClass(options.errorClass);
-                $field.qtip('destroy', true);
+                $field.data('$tooltip').dispose();
+                $field.removeData('$tooltip');
             },
 
             destroy : function destroy($field) {
                 if ($field.data('hasqtip') !== undefined) {
-                    $field.qtip('destroy', true);
+                    $field.data('$tooltip').dispose();
+                    $field.removeData('$tooltip');
                 }
             }
         };

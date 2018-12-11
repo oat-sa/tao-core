@@ -34,17 +34,15 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
     });
 
 
-    QUnit.module("Qtip highlighter", {
+    QUnit.module("Tooltip highlighter", {
         setup: function() {
             highlighter = new Highlighter({
-                type : 'qtip',
+                type : 'tooltip',
                 errorClass : 'testErrorClass',
-                qtip : {
-                    show: {
-                        delay: 0
-                    },
-                    hide: {
-                        delay: 0
+                tooltip : {
+                    delay:{
+                        show:0,
+                        hide:0
                     }
                 }
             });
