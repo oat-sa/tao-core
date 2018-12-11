@@ -192,11 +192,11 @@ class tao_actions_Roles extends tao_actions_RdfController
 
     /**
      * get the main class
-     * @return \core_kernel_classes_Classes
+     * @return \core_kernel_classes_Class
      */
     protected function getRootClass()
     {
-        return $this->getUserService()->getRoleClass();
+        return $this->getClassService()->getRoleClass();
     }
 
     /**
