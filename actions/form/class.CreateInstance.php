@@ -21,7 +21,10 @@
 
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\helpers\Template;
+use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -203,7 +206,49 @@ class tao_actions_form_CreateInstance
 		$this->form->addElement($classUriElt);
 		
 		$this->form->addElement($classUriElt);
+
+		$this->addSignature();
         
     }
 
+    /**
+     * @throws \common_Exception
+     */
+    protected function addSignature()
+    {
+        $signature = tao_helpers_form_FormFactory::getElement('signature', 'Hidden');
+
+        $signature->setValue($this->getSignature());
+        $signature->addValidator(
+            new ResourceSignatureValidator(
+                $this->getDataToSign()
+            )
+        );
+
+        $this->form->addElement($signature, true);
+    }
+
+    /**
+     * @return string
+     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     */
+    protected function getSignature()
+    {
+        /** @var SignatureGenerator $signatureGenerator */
+        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
+
+        return $signatureGenerator->generate($this->getDataToSign());
+    }
+
+    protected function getDataToSign()
+    {
+        $uris = [];
+
+        /** @var core_kernel_classes_Class $class */
+        foreach ($this->classes as $class) {
+            $uris[] = $class->getUri();
+        }
+
+        return $uris;
+    }
 }

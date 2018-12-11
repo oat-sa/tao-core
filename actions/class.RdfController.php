@@ -22,6 +22,7 @@
  */
 
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
@@ -503,7 +504,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     public function editInstance() {
         $clazz = $this->getCurrentClass();
         $instance = $this->getCurrentInstance();
-        $myFormContainer = new tao_actions_form_Instance($clazz, $instance);
+        $myFormContainer = new SignedFormInstance($clazz, $instance);
 
         $myForm = $myFormContainer->getForm();
         if($myForm->isSubmited()){
