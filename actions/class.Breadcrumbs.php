@@ -23,14 +23,14 @@ use oat\tao\model\mvc\Breadcrumbs;
 /**
  * Controller that will serve breadcrumbs depending on context routes.
  * For each context route a service will be requested to get the breadcrumbs.
- * 
+ *
  * To provide a breadcrumbs service you must register a class that implements `oat\tao\model\mvc\Breadcrumbs`, and
  * use a service identifier with respect to this format: `<extension>/<controller>/breadcrumbs`. Hence this service
  * will be invoked each time a breadcrumbs request is made against an action under `<extension>/<controller>`.
- * The `breadcrumbs()` method will have to provide the breadcrumb related to the route, an optionally a list of 
+ * The `breadcrumbs()` method will have to provide the breadcrumb related to the route, an optionally a list of
  * related links. @see breadcrumbs() for more explanations.
- * 
- * You can also override this controller and provide your own `breadcrumbs()` method, in order to provide default 
+ *
+ * You can also override this controller and provide your own `breadcrumbs()` method, in order to provide default
  * breadcrumbs. By default there is none.
  *
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
@@ -47,7 +47,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     protected function parseRoute($route)
     {
         $parsedRoute = parse_url($route);
-        
+
         if (isset($parsedRoute['query'])) {
             parse_str($parsedRoute['query'], $parsedRoute['params']);
         } else {
@@ -60,7 +60,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
         $parsedRoute['controller']        = $resolvedRoute->getControllerShortName();
         $parsedRoute['controller_class']  = $resolvedRoute->getControllerClass();
         $parsedRoute['action']            = $resolvedRoute->getMethodName();
-        
+
         return $parsedRoute;
     }
 
@@ -75,11 +75,11 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
         if (empty($route)) {
             throw new \common_exception_MissingParameter('You must specify a route');
         }
-        
+
         if (!is_array($route)) {
             $route = [$route];
         }
-        
+
         return $route;
     }
 
@@ -103,7 +103,7 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     /**
      * Calls a service to get the breadcrumbs for a particular route.
      * To provide a breadcrumbs service you must register a class that implements `oat\tao\model\mvc\Breadcrumbs`, and
-     * use a service identifier with respect to this format: `<extension>/<controller>/breadcrumbs`. Hence this service 
+     * use a service identifier with respect to this format: `<extension>/<controller>/breadcrumbs`. Hence this service
      * will be invoked each time a breadcrumbs request is made against an action under `<extension>/<controller>`.
      * You can also override the Breadcrumbs controller and provide your own `breadcrumbs()` method, in order to
      * provide default values. By default there is no default breadcrumbs.
@@ -116,15 +116,15 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
     {
         $serviceName = null;
         if ($parsedRoute['extension'] && $parsedRoute['controller'] && $parsedRoute['action']) {
-            $serviceName = $parsedRoute['extension'] . '/' . $parsedRoute['controller'] . '/breadcrumbs';    
+            $serviceName = $parsedRoute['extension'] . '/' . $parsedRoute['controller'] . '/breadcrumbs';
         }
 
-        if ($serviceName && $this->getServiceManager()->has($serviceName)) {
-            $service = $this->getServiceManager()->get($serviceName);
+        if ($serviceName && $this->getServiceLocator()->has($serviceName)) {
+            $service = $this->getServiceLocator()->get($serviceName);
         } else {
             $service = $this;
         }
-        
+
         if ($service instanceof Breadcrumbs) {
             return $service->breadcrumbs($route, $parsedRoute);
         } else {
