@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Decorator;
 
+use oat\oatbox\user\AnonymousUser;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
@@ -42,7 +43,7 @@ class RedirectUrlEntityDecoratorTest extends \PHPUnit_Framework_TestCase
         $taskLog = $this->prophesize(TaskLog::class);
         $taskLog->getCategoryForTask(Argument::is('Task Name'))->willReturn($taskStatus);
 
-        $decorator = new RedirectUrlEntityDecorator($entity, $taskLog->reveal(), new \common_session_AnonymousSession());
+        $decorator = new RedirectUrlEntityDecorator($entity, $taskLog->reveal(), new AnonymousUser());
 
         $this->assertEquals($this->getFixtureEntityData(), $decorator->toArray());
     }
@@ -67,7 +68,7 @@ class RedirectUrlEntityDecoratorTest extends \PHPUnit_Framework_TestCase
         $taskLog->getCategoryForTask(Argument::is('Task Name'))->willReturn('notExcludedStatus');
 
         $redirectUrlEntityDecoratorMock = $this->getMockBuilder(RedirectUrlEntityDecorator::class)
-            ->setConstructorArgs([$entity, $taskLog->reveal(), new \common_session_AnonymousSession()])
+            ->setConstructorArgs([$entity, $taskLog->reveal(), new AnonymousUser()])
             ->setMethods(['hasAccess'])
             ->getMock();
         $redirectUrlEntityDecoratorMock->expects($this->once())->method('hasAccess')->willReturn(false);
@@ -91,7 +92,7 @@ class RedirectUrlEntityDecoratorTest extends \PHPUnit_Framework_TestCase
         $taskLog->getCategoryForTask(Argument::is('Task Name'))->willReturn('notExcludedStatus');
 
         $redirectUrlEntityDecoratorMock = $this->getMockBuilder(RedirectUrlEntityDecorator::class)
-            ->setConstructorArgs([$entity, $taskLog->reveal(), new \common_session_AnonymousSession()])
+            ->setConstructorArgs([$entity, $taskLog->reveal(), new AnonymousUser()])
             ->setMethods(['hasAccess'])
             ->getMock();
         $redirectUrlEntityDecoratorMock->expects($this->once())->method('hasAccess')->willReturn(true);

@@ -84,7 +84,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
                         $this->fileReferenceSerializer
                     ),
                     $this->taskLogService,
-                    \common_session_SessionManager::getSession()
+                    \common_session_SessionManager::getSession()->getUser()
                 )
             )->toArray();
 

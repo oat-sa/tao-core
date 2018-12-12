@@ -109,7 +109,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                         $this->getFileReferenceSerializer()
                     ),
                     $taskLogService,
-                    common_session_SessionManager::getSession()
+                    common_session_SessionManager::getSession()->getUser()
                 ))->toArray()
             ]);
         } catch (\Exception $e) {

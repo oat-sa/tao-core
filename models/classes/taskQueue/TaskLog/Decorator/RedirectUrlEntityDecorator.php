@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
+use oat\oatbox\user\User;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -36,21 +37,21 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
     private $taskLogService;
 
     /**
-     * @var \common_session_Session
+     * @var User
      */
-    private $session;
+    private $user;
 
     /**
      * RedirectUrlEntityDecorator constructor.
      * @param EntityInterface $entity
      * @param TaskLogInterface $taskLogService
-     * @param \common_session_Session $session
+     * @param User $user
      */
-    public function __construct(EntityInterface $entity, TaskLogInterface $taskLogService, \common_session_Session $session)
+    public function __construct(EntityInterface $entity, TaskLogInterface $taskLogService, User $user)
     {
         parent::__construct($entity);
         $this->taskLogService = $taskLogService;
-        $this->session = $session;
+        $this->user = $user;
     }
 
     /**
@@ -80,7 +81,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
         if ( !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
              ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived()) ) {
 
-            $user = $this->session->getUser();
+            $user = $this->user;
             $params = [
                 'taskId' => $this->getId()
             ];
