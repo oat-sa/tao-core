@@ -19,21 +19,40 @@
  */
 namespace oat\tao\model\accessControl\data;
 
-use oat\tao\model\accessControl\AccessControl;
-use oat\tao\helpers\ControllerHelper;
+use common_exception_MissingParameter;
 use common_Logger;
+use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\oatbox\user\User;
-use oat\generis\model\data\permission\PermissionInterface;
-use oat\tao\model\lock\LockManager;
+use oat\tao\helpers\ControllerHelper;
+use oat\tao\model\accessControl\AccessControl;
 use oat\tao\model\controllerMap\ActionNotFoundException;
-use common_exception_MissingParameter;
+use oat\tao\model\lock\LockManager;
 
 /**
  * Interface for data based access control
  */
 class DataAccessControl implements AccessControl
 {
+    private function getUris(array $parameters, array $filterNames)
+    {
+        $uris = [];
+
+        foreach ($parameters as $name => $uri) {
+            if (is_array($uri)) {
+                $uris = array_merge_recursive($uris, $this->getUris($uri, $filterNames));
+            } else {
+                $encodedUri = $this->getEncodedUri($uri);
+
+                if (in_array($name, $filterNames, true) && \common_Utils::isUri($encodedUri)) {
+                    $uris[$name][] = $encodedUri;
+                }
+            }
+        }
+
+        return $uris;
+    }
+
     /**
      * (non-PHPdoc)
      * @throws common_exception_MissingParameter
@@ -42,22 +61,11 @@ class DataAccessControl implements AccessControl
     public function hasAccess(User $user, $controller, $action, $parameters) {
         $required = array();
         try {
-            foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
-                if (isset($parameters[$paramName])) {
-                    if (is_array($parameters[$paramName])) {
-                        foreach ($parameters[$paramName] as $key => $paramVal) {
-                            $cleanName = $this->getCleanName($paramName, $paramVal);
+            $requiredRights = ControllerHelper::getRequiredRights($controller, $action);
+            $uris = $this->getUris($parameters, array_keys($requiredRights));
 
-                            $required[$cleanName] = $privileges;
-                        }
-                    } else {
-                        $cleanName = $this->getCleanName($paramName, $parameters[$paramName]);
-
-                        $required[$cleanName] = $privileges;
-                    }
-                } else {
-                    throw new common_exception_MissingParameter($paramName);
-                }
+            foreach($uris as $name => $urisValue) {
+                $required[] = array_fill_keys($urisValue, $requiredRights[$name]);
             }
         } catch (ActionNotFoundException $e) {
             // action not found, no access
@@ -66,25 +74,24 @@ class DataAccessControl implements AccessControl
         
         return empty($required)
             ? true
-            : $this->hasPrivileges($user, $required);
+            : $this->hasPrivileges($user, array_merge(...$required));
     }
 
     /**
      * Gets the cleaned paramName from paramValue ($cleanName)
      *
      * @param string $paramName just for logging purposes
-     * @param string $cleanName param to be cleared
+     * @param string $decodedUri param to be cleared
      *
      * @return string
      */
-    private function getCleanName($paramName, $cleanName)
+    private function getEncodedUri($decodedUri)
     {
-        if (preg_match('/^[a-z]*_2_/', $cleanName) != 0) {
-            common_Logger::w('url encoded parameter detected for '.$paramName);
-            $cleanName = \tao_helpers_Uri::decode($cleanName);
+        if (preg_match('/^[a-z]*_2_/', $decodedUri) === 1) {
+            $decodedUri = \tao_helpers_Uri::decode($decodedUri);
         }
 
-        return $cleanName;
+        return $decodedUri;
     }
     
     /**
