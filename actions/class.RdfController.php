@@ -27,6 +27,7 @@ use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
+use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use oat\tao\model\security\xsrf\TokenService;
@@ -92,10 +93,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $class = new core_kernel_classes_Class($instance->getUri());
 
             if (!($class->isSubClassOf($root) || $class->equals($root))) {
-                throw new Exception('Security issue');
+                throw new SecurityException('Security issue');
             }
         } else if (!$instance->isInstanceOf($root)) {
-            throw new Exception('Security issue');
+            throw new SecurityException('Security issue');
         }
     }
 
@@ -476,7 +477,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->getRequestParameter('id')
         );
 
-
         $this->validateInstanceRoot(
             $this->getRequestParameter('id')
         );
@@ -586,10 +586,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
+        $uri = $this->getRequestParameter('uri');
+
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
-            $this->getRequestParameter('uri')
+            $uri
         );
+
+        $this->validateInstanceRoot($uri);
 
         $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
         if(!is_null($clone)){
@@ -751,6 +755,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             foreach ($this->getRequestParameter('ids') as $id) {
                 $ids[] = $id['id'];
             }
+
+            $this->validateInstancesRoot($ids);
 
             if (empty($ids)) {
                 throw new InvalidArgumentException('No instances specified.');
@@ -981,7 +987,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $this->signatureValidator->checkSignatures($this->getRequestParameter('ids'));
 
-        $this->validateInstanceRoot();
+        $this->validateInstancesRoot($ids);
 
         foreach ($ids as $id) {
             $deleted = false;
