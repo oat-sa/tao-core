@@ -91,29 +91,35 @@ define(['router', 'context'], function(router, context) {
     });
 
     QUnit.cases([{
-        title : 'tao bundle',
-        route : {
-            extension : 'tao'
-        },
-        bundle : true,
-        resolve : 'tao.min.js'
-    }, {
-        title : 'no bundle in debug mode',
-        route : {
-            extension : 'tao'
-        },
-        bundle : false,
-    }, {
-        title : 'no route no bundle',
-        route : {},
-        bundle : true
-    }, {
         title : 'extenstion bundle',
         route : {
             extension : 'taoItems'
         },
         bundle : true,
         resolve: 'taoItems.min.js'
+    }, {
+        title : 'another extenstion bundle',
+        route : {
+            extension : 'taoTests'
+        },
+        bundle : true,
+        resolve: 'taoTests.min.js'
+    }, {
+        title : 'no bundle in debug mode',
+        route : {
+            extension : 'taoItems'
+        },
+        bundle : false,
+    }, {
+        title : 'tao is considerd loaded bundle',
+        route : {
+            extension : 'tao'
+        },
+        bundle : true
+    }, {
+        title : 'no route no bundle',
+        route : {},
+        bundle : true
     }]).asyncTest('Load route bundle : ', function(data, assert) {
         context.bundle = data.bundle;
 

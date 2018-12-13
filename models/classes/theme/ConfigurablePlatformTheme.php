@@ -277,12 +277,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getLink()
     {
         if ($this->hasOption(static::LINK)) {
-            return $this->getOption(static::LINK);
+            return \tao_helpers_Display::encodeAttrValue($this->getOption(static::LINK));
         }
 
         return '';
     }
-
     /**
      * Get the message of current theme
      * Message is used in the header as title of the logo

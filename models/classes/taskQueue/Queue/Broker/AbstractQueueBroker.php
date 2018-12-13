@@ -27,8 +27,8 @@ use oat\oatbox\action\ResolutionException;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
-use oat\tao\model\taskQueue\Task\TaskFactory;
 use oat\tao\model\taskQueue\Task\TaskInterface;
+use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -126,17 +126,12 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function unserializeTask($taskJSON, $idForDeletion, array $logContext = [])
     {
+        /** @var TaskSerializerService $taskSerializer */
+        $taskSerializer = $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
+
         try {
-            $basicData = json_decode($taskJSON, true);
-            $this->assertValidJson($basicData);
 
-            $task = TaskFactory::build($basicData);
-
-            if ($task instanceof CallbackTaskInterface && is_string($task->getCallable())) {
-                $this->handleCallbackTask($task, $logContext);
-            }
-
-            return $task;
+            return $taskSerializer->deserialize($taskJSON);
 
         } catch (\Exception $e) {
 
@@ -152,7 +147,10 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function serializeTask(TaskInterface $task)
     {
-        return json_encode($task);
+        /** @var TaskSerializerService $taskSerializer */
+        $taskSerializer = $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
+
+        return $taskSerializer->serialize($task);
     }
 
     /**

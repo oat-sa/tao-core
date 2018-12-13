@@ -302,9 +302,13 @@ define([
             $elt.trigger('beforeload.' + ns, [_.cloneDeep(dataset)]);
 
             // overrides column options
-            _.forEach(options.model, function (field) {
+            _.forEach(options.model, function (field, key) {
                 if (!options.filter) {
                     field.filterable = false;
+                }
+
+                if (_.isUndefined(field.order)) {
+                    field.order = key + 1;
                 }
 
                 if (field.filterable && typeof field.filterable !== 'object') {
@@ -322,6 +326,10 @@ define([
                 } else if (field.visible === true) {
                     model.push(field);
                 }
+            });
+
+            model.sort(function(a, b) {
+                return a.order - b.order;
             });
 
             if (options.sortby) {
@@ -694,14 +702,17 @@ define([
          * @fires dataTable#sort.datatable
          */
         _sort: function($elt, sortBy, asc, sortType) {
+
+            var options = this._sortOptions($elt, sortBy, asc, sortType);
+
             /**
-             * @event dataTable#sort.dataTable
+             * @event dataTable#sort.datatable
              * @param {String} column - The name of the column to sort
              * @param {String} direction - The sort direction
+             * @param {String} type - The type of sorting field, string or numeric
              */
-            $elt.trigger('sort.' + ns, [sortBy, asc, sortType]);
+            $elt.trigger('sort.' + ns, [options.sortby, options.sortorder, options.sorttype]);
 
-            this._sortOptions($elt, sortBy, asc, sortType);
             this._query($elt);
         },
 

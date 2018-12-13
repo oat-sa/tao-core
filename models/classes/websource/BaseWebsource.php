@@ -103,13 +103,13 @@ abstract class BaseWebsource extends Configurable implements Websource
     public function getFileStream($filePath)
     {
         if ($filePath === '') {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
+            throw new \tao_models_classes_FileNotFoundException("Empty file path");
         }
         $fs = $this->getFileSystem();
         try {
             $resource = $fs->readStream($filePath);
         } catch(FileNotFoundException $e) {
-            throw new \tao_models_classes_FileNotFoundException("File not found");
+            throw new \tao_models_classes_FileNotFoundException($filePath);
         }
         return new Stream($resource, array('size' => $fs->getSize($filePath)));
     }
