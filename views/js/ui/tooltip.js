@@ -29,23 +29,6 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
             'warning' : '<div class="tooltip qtip-rounded qtip-orange" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content tooltip-body"></div></div>',
             'danger' : '<div class="tooltip qtip-rounded qtip-danger" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content tooltip-body"></div></div>'
         },
-        // mapping from old qtip API to new Popper.js+Tooltip.js API calls
-        commandsMap = {
-            'hide':'hide',
-            'blur':'hide',
-            'show':'show',
-            'toggle':'toggle',
-            'update':'updateTitleContent',
-            'destroy':'dispose',
-            'set':'updateTitleContent',
-            'content.text':'updateTitleContent'
-        },
-        positionMap = {
-            'right':'end',
-            'left':'begin',
-            'top':'begin',
-            'bottom':'end'
-        },
         defaultOptions = {
             template:themesMap['default'],
             html:true,
@@ -62,99 +45,6 @@ define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/
                 }
             }
         };
-
-    /**
-     * redefinition of jquery.qtip plugin http://qtip2.com/
-     * the goal is to substitude outdated lib code with new solution (https://popper.js.org/)
-     * so it is just a jquery rapper for Popper.js library.
-     * The Popper Instance will be stored inside .data('$tooltip') of wrapped element
-     * leaving its original interfaces that are widely used through project.
-     * https://github.com/FezVrasta/popper.js/blob/master/docs/_includes/tooltip-documentation.md
-     */
-    var qtip = function (command, message, messageData) {
-        // there were two types of requests for qtip jquery plugin (with object or string):
-        // 1) initialize object for the first time : $el.qtip({ options object});
-        if (typeof command === 'object') {
-            // .data('$tooltip') - is the way to store current state inside jquery plugin
-            command = _.merge({}, defaultOptions, command);
-            if(this.data('$tooltip')) {
-                this.data('$tooltip').dispose();
-                this.removeData('$tooltip');
-                this.removeAttr("data-hasqtip");
-
-            }
-            // fit old  options  format for themes to new
-            if (themesMap[command.theme]){
-                command.template = themesMap[command.theme];
-                delete command.theme;
-            }
-            // fit old content option to new
-            if(command.content){
-                command.title = command.content.text ;
-                delete command.content;
-            }
-            // map posititon settings from old to new format
-            if(command.position && typeof command.position.at === 'string'){
-                // eslint-disable-next-line vars-on-top
-                var pos = command.position.at.split(' '),
-                    position;
-
-                if(pos.length) {
-                    position = pos[0] ;
-                    position += pos[1] && pos[1] !== 'center' ? '-'+ positionMap[pos[1]] : '';
-                }
-
-                command.placement = position;
-            }
-            // map container settings from old to new format
-            if(command.position && command.position.container){
-                command.container = command.position.container;
-                delete command.position.container;
-            }
-            if (this.length){
-                this.data('$tooltip', new Tooltip(this, command));
-                // compatibility polyfill
-                this.attr('data-hasqtip', 1);
-                if(command.show){
-                    if(command.show === true || command.show.ready === true){
-                        this.data('$tooltip').show();
-                    }
-                }
-            }
-
-        // 2) sending text (String) commands to  element that is already initialized : $el.qtip("show")
-        }else if(this.data('$tooltip') && typeof command === 'string'){
-            switch (command) {
-                case 'theme':
-                    this.data('$tooltip').template = themesMap[message];
-                    break;
-                case 'content.text':
-                case 'update':
-                    this.data('$tooltip')[commandsMap[command]](message);
-                    break;
-                case 'set':
-                // covers this particular behavior:
-                // $scoreInput.qtip('set', 'content.text', options.tooltipContent.required);
-                    if(message === 'content.text'){
-                        this.data('$tooltip')[commandsMap[command]](messageData);
-                    }
-                    break;
-                default:
-                    if(command === 'api'){
-                        return this.data('$tooltip');
-                    }
-                    this.data('$tooltip')[commandsMap[command]]();
-                    if(commandsMap[command] === 'dispose'){
-                        this.removeData('$tooltip');
-                        this.removeAttr("data-hasqtip");
-                    }
-            }
-        }
-
-        return this;
-    };
-    $.fn.qtip = qtip;
-    $.qtip = qtip;
 
     /**
      * Look up for tooltips and initialize them
