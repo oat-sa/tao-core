@@ -20,6 +20,7 @@
  *
  */
 
+use oat\oatbox\action\ActionProtector;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
@@ -49,14 +50,16 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      *
      * @var tao_models_classes_Service
      */
-    protected $service = null;
+    protected $service;
 
     /**
      * tao_actions_CommonModule constructor.
      */
     public function __construct()
     {
-        $this->setIframeHeaders();
+        /** @var ActionProtector $actionProtectionService */
+        $actionProtectionService = $this->getServiceManager()->get(ActionProtector::SERVICE_ID);
+        $actionProtectionService->setFrameAncestorsHeader();
     }
 
     /**
@@ -98,7 +101,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     {
         $context = Context::getInstance();
 
-        $this->setData('extension', context::getInstance()->getExtensionName());
+        $this->setData('extension', $context->getExtensionName());
         $this->setData('module', $context->getModuleName());
         $this->setData('action', $context->getActionName());
 
@@ -147,15 +150,15 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         if ($this->isXmlHttpRequest()) {
             $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description);
-        } else {
-            $this->setData('message', $description);
-            $this->setData('returnLink', $returnLink);
+        }
 
-            if(!is_null($httpStatus) && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
-                $this->setView("error/error${httpStatus}.tpl", 'tao');
-            } else {
-                $this->setView('error/user_error.tpl', 'tao');
-            }
+        $this->setData('message', $description);
+        $this->setData('returnLink', $returnLink);
+
+        if($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))){
+            $this->setView("error/error${httpStatus}.tpl", 'tao');
+        } else {
+            $this->setView('error/user_error.tpl', 'tao');
         }
     }
 
@@ -170,15 +173,15 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      */
     protected static function getTemplatePath($identifier, $extensionID = null)
     {
-    	if ($extensionID === true) {
-			$extensionID = 'tao';
-			common_Logger::d('Deprecated use of setView() using a boolean');
-		}
-    	if(is_null($extensionID) || empty($extensionID)) {
-    		$extensionID = Context::getInstance()->getExtensionName();
-    	}
-    	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
-    	return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
+        if ($extensionID === true) {
+            $extensionID = 'tao';
+            common_Logger::d('Deprecated use of setView() using a boolean');
+        }
+        if($extensionID === null) {
+            $extensionID = Context::getInstance()->getExtensionName();
+        }
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
+        return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
     }
 
     /**
@@ -200,7 +203,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected function getClientTimeout(){
         $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
-        if($config != null && isset($config['timeout'])){
+        if($config !== null && isset($config['timeout'])){
             return (int)$config['timeout'];
         }
         return 30;
@@ -228,13 +231,13 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         $successes = $report->getSuccesses();
 
         // if report has no data, try to get it from the sub report
-        while (is_null($data) && count($successes) > 0) {
+        while ($data === null && count($successes) > 0) {
             $firstSubReport = current($successes);
             $data = $firstSubReport->getData();
             $successes = $firstSubReport->getSuccesses();
         }
 
-        if (!is_null($data) && $data instanceof core_kernel_classes_Resource) {
+        if ($data !== null && $data instanceof core_kernel_classes_Resource) {
             $this->setData('selectNode', tao_helpers_Uri::encode($data->getUri()));
         }
         $this->setData('report', $report);
@@ -244,8 +247,13 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     /**
      * Forward using the TAO FlowController implementation
      * @see {@link oat\model\routing\FlowController}
+     *
+     * @param string $action
+     * @param string $controller
+     * @param string $extension
+     * @param array $params
      */
-	public function forward($action, $controller = null, $extension = null, $params = array())
+    public function forward($action, $controller = null, $extension = null, $params = array())
     {
         $this->getFlowController()->forward($action, $controller, $extension, $params);
     }
@@ -253,6 +261,9 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     /**
      * Forward using the TAO FlowController implementation
      * @see {@link oat\model\routing\FlowController}
+     *
+     * @param string $url
+     * @throws InterruptedActionException
      */
     public function forwardUrl($url)
     {
@@ -264,6 +275,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @see {@link oat\model\routing\FlowController}
      * @param string $url
      * @param int $statusCode
+     * @throws InterruptedActionException
      */
     public function redirect($url, $statusCode = 302)
     {
@@ -312,7 +324,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      *
      * Propagate the service (logger and service manager)
      *
-     * @return mixed
+     * @return FlowController
      */
     protected function getFlowController()
     {
@@ -335,13 +347,5 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             $serviceManager = ServiceManager::getServiceManager();
         }
         return $serviceManager;
-    }
-
-    /**
-     * Set headers for iFrame security
-     */
-    protected function setIframeHeaders()
-    {
-        header('X-Frame-Options: sameorigin');
     }
 }

@@ -333,7 +333,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             //check if the user is a noob, otherwise redirect him to his last visited extension.
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {
-               $lastVisited = TaoCe::getLastVisitedUrl();
+               $lastVisited = null; //TaoCe::getLastVisitedUrl();
                if(!is_null($lastVisited)){
                    $this->redirect($lastVisited);
                }
