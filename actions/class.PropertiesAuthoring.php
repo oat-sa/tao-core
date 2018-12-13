@@ -1,4 +1,21 @@
 <?php
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2015-2018 Open Assessment Technologies S.A.
+ */
 
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\event\ClassFormUpdatedEvent;
@@ -8,25 +25,8 @@ use oat\generis\model\WidgetRdf;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\tao\model\TaoOntology;
-
-/**
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2015 Open Assessment Technologies S.A.
- */
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Regrouping all actions related to authoring
@@ -35,6 +35,8 @@ use oat\tao\model\TaoOntology;
 class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 {
     use EventManagerAwareTrait;
+    use OntologyAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * @requiresRight id READ
@@ -42,12 +44,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     public function index()
     {
         $this->defaultData();
-        $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
-         
+        $clazz = $this->getClass($this->getRequestParameter('id'));
+
         if ($this->hasRequestParameter('property_mode')) {
             $this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
         }
-         
+
         $myForm = $this->getClassForm($clazz);
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
@@ -64,73 +66,75 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
-    
+
     /**
      * Render the add property sub form.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      * @requiresRight id WRITE
      */
     public function addClassProperty()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
-    
-        $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
-    
+
+        $clazz = $this->getClass($this->getRequestParameter('id'));
+
         if($this->hasRequestParameter('index')){
             $index = intval($this->getRequestParameter('index'));
         }
         else{
             $index = count($clazz->getProperties(false)) + 1;
         }
-    
+
         $propMode = 'simple';
         if($this->hasSessionAttribute('property_mode')){
             $propMode = $this->getSessionAttribute('property_mode');
         }
-    
+
         //instanciate a property form
         $propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
         if(!class_exists($propFormClass)){
             $propFormClass = 'tao_actions_form_SimpleProperty';
         }
-    
+
         $propFormContainer = new $propFormClass($clazz, $clazz->createProperty('Property_'.$index), array('index' => $index));
         $myForm = $propFormContainer->getForm();
-    
+
         $this->setData('data', $myForm->renderElements());
         $this->setView('blank.tpl', 'tao');
     }
-    
+
 
     /**
      * Render the add property sub form.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      * @requiresRight classUri WRITE
      */
     public function removeClassProperty()
     {
         $success = false;
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
-        
-        $class = new core_kernel_classes_Class($this->getRequestParameter('classUri'));
-        $property = new core_kernel_classes_Property($this->getRequestParameter('uri'));
-    
+
+        $class = $this->getClass($this->getRequestParameter('classUri'));
+        $property = $this->getProperty($this->getRequestParameter('uri'));
+
         //delete property mode
         foreach($class->getProperties() as $classProperty) {
             if ($classProperty->equals($property)) {
 
-                $indexes = $property->getPropertyValues(new core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
+                $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
                 //delete property and the existing values of this property
                 if($property->delete(true)){
                     //delete index linked to the property
                     foreach($indexes as $indexUri){
-                        $index = new core_kernel_classes_Resource($indexUri);
+                        $index = $this->getResource($indexUri);
                         $index->delete(true);
                     }
                     $success = true;
@@ -138,7 +142,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 }
             }
         }
-        
+
         if ($success) {
             $this->returnJson(array(
                 'success' => true
@@ -152,12 +156,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     /**
      * remove the index of the property.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      */
     public function removePropertyIndex()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
         if(!$this->hasRequestParameter('uri')){
             throw new common_exception_MissingParameter("Uri parameter is missing");
@@ -170,25 +175,26 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $indexPropertyUri = tao_helpers_Uri::decode($this->getRequestParameter('indexProperty'));
 
         //remove use of index property in property
-        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-        $property->removePropertyValue(new core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX),$indexPropertyUri);
+        $property = $this->getProperty(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+        $property->removePropertyValue($this->getProperty(OntologyIndex::PROPERTY_INDEX),$indexPropertyUri);
 
         //remove index property
         $indexProperty = new OntologyIndex($indexPropertyUri);
         $indexProperty->delete();
 
-        echo json_encode(array('id' => $this->getRequestParameter('indexProperty')));
+        $this->returnJson(array('id' => $this->getRequestParameter('indexProperty')));
     }
 
     /**
      * Render the add index sub form.
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @return void
      */
     public function addPropertyIndex()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
         if(!$this->hasRequestParameter('uri')){
             throw new Exception("wrong request Parameter");
@@ -207,11 +213,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $propertyIndex = $this->getRequestParameter('propertyIndex');
         }
 
-
-
         //create and attach the new index property to the property
-        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($uri));
-        $class = new \core_kernel_classes_Class("http://www.tao.lu/Ontologies/TAO.rdf#Index");
+        $property = $this->getProperty(tao_helpers_Uri::decode($uri));
+        $class = $this->getClass("http://www.tao.lu/Ontologies/TAO.rdf#Index");
 
         //get property range to select a default tokenizer
         /** @var core_kernel_classes_Class $range */
@@ -219,14 +223,14 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         //range is empty select item content
         $tokenizer = null;
         if (is_null($range)) {
-            $tokenizer = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer');
+            $tokenizer = $this->getResource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer');
         } else {
             $tokenizer = $range->getUri() === OntologyRdfs::RDFS_LITERAL
-                ? new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer')
-                : new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer');
+                ? $this->getResource('http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer')
+                : $this->getResource('http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer');
         }
 
-        $indexClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#Index');
+        $indexClass = $this->getClass('http://www.tao.lu/Ontologies/TAO.rdf#Index');
         $i = 0;
         $indexIdentifierBackup = preg_replace('/[^a-z_0-9]/','_',strtolower($property->getLabel()));
         $indexIdentifierBackup = ltrim(trim($indexIdentifierBackup, '_'),'0..9');
@@ -248,13 +252,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 OntologyIndex::PROPERTY_DEFAULT_SEARCH  => GenerisRdf::GENERIS_FALSE,
             ));
 
-        $property->setPropertyValue(new core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX), $indexProperty);
+        $property->setPropertyValue($this->getProperty(OntologyIndex::PROPERTY_INDEX), $indexProperty);
 
         //generate form
         $indexFormContainer = new tao_actions_form_IndexProperty(new OntologyIndex($indexProperty), $propertyIndex.$index);
         $myForm = $indexFormContainer->getForm();
         $form = trim(preg_replace('/\s+/', ' ', $myForm->renderElements()));
-        echo json_encode(array('form' => $form));
+        $this->returnJson(array('form' => $form));
     }
 
     protected function getCurrentClass()
@@ -274,7 +278,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $returnValue = $clazz;
         }
         else{
-            $returnValue = new core_kernel_classes_Class($classUri);
+            $returnValue = $this->getClass($classUri);
         }
 
         return $returnValue;
@@ -286,7 +290,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         if(is_null($uri) || empty($uri)){
             throw new tao_models_classes_MissingRequestParameterException("uri");
         }
-        return new core_kernel_classes_Resource($uri);
+        return $this->getResource($uri);
     }
 
     /**
@@ -299,24 +303,23 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      */
     public function getClassForm(core_kernel_classes_Class $clazz)
     {
-    
         $propMode = 'simple';
         if($this->hasSessionAttribute('property_mode')){
             $propMode = $this->getSessionAttribute('property_mode');
         }
-    
+
         $options = array(
             'property_mode' => $propMode,
-            'topClazz' => new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE)
+            'topClazz' => $this->getClass(GenerisRdf::CLASS_GENERIS_RESOURCE)
         );
         $data = $this->getRequestParameters();
         $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data), $propMode);
         $myForm = $formContainer->getForm();
-    
+
         if($myForm->isSubmited()){
             if($myForm->isValid()){
                 //get the data from parameters
-    
+
                 // get class data and save them
                 if(isset($data['class'])){
                     $classValues = array();
@@ -324,10 +327,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                         $classKey =  tao_helpers_Uri::decode($key);
                         $classValues[$classKey] =  tao_helpers_Uri::decode($value);
                     }
-                    
+
                     $this->bindProperties($clazz, $classValues);
                 }
-    
+
                 //save all properties values
                 if(isset($data['properties'])){
                     foreach($data['properties'] as $i => $propertyValues) {
@@ -355,16 +358,16 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
         return $myForm;
     }
-    
+
     /**
      * Default property handling
-     * 
+     *
      * @param array $propertyValues
      */
     protected function saveSimpleProperty($propertyValues)
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-        $property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyValues['uri']));
+        $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
         $type = $propertyValues['type'];
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
         unset($propertyValues['uri']);
@@ -379,14 +382,14 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $values[WidgetRdf::PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
             $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE  );
         }
-        
+
         foreach($propertyValues as $key => $value){
             if (is_string($value)) {
                 $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
             } elseif (is_array($value)) {
                 $values[tao_helpers_Uri::decode($key)] = $value;
             } else {
-                common_Logger::w('Unsuported value type '.gettype($value));
+                $this->logWarning('Unsuported value type '.gettype($value));
             }
         }
 
@@ -398,19 +401,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $this->bindProperties($property, $values);
 
         // set the range
-        $property->removePropertyValues(new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE));
+        $property->removePropertyValues($this->getProperty(OntologyRdfs::RDFS_RANGE));
         if(!empty($range)) {
-            $property->setRange(new core_kernel_classes_Class($range));
+            $property->setRange($this->getClass($range));
         } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['range'])) {
-            $property->setRange(new core_kernel_classes_Class($propertyMap[$type]['range']));
+            $property->setRange($this->getClass($propertyMap[$type]['range']));
         }
-        
+
         // set cardinality
         if(isset($propertyMap[$type]['multiple'])) {
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
     }
-    
+
     /**
      * Advanced property handling
      *
@@ -424,13 +427,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if(is_array($value)){
                 // set the range
                 foreach($value as $v){
-                    $range[] = new core_kernel_classes_Class(tao_helpers_Uri::decode($v));
+                    $range[] = $this->getClass(tao_helpers_Uri::decode($v));
                 }
             }
             else{
                 $values[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
             }
-        
+
         }
         //if label is empty
         $validator = new tao_helpers_form_validators_NotEmpty(array('message' => __('Property\'s label field is required')));
@@ -438,9 +441,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             throw new Exception($validator->getMessage());
         }
 
-        $property = new core_kernel_classes_Property($values['uri']);
+        $property = $this->getProperty($values['uri']);
         unset($values['uri']);
-        $property->removePropertyValues(new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE));
+        $property->removePropertyValues($this->getProperty(OntologyRdfs::RDFS_RANGE));
         if(!empty($range)){
             foreach($range as $r){
                 $property->setRange($r);
@@ -466,21 +469,22 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         //if the property exists edit it, else create one
         $existingIndex = OntologyIndexService::getIndexById($values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER]);
-        $indexProperty = new core_kernel_classes_Property($values['uri']);
+        $indexProperty = $this->getProperty($values['uri']);
         if (!is_null($existingIndex) && !$existingIndex->equals($indexProperty)) {
             throw new Exception("The index identifier should be unique");
         }
         unset($values['uri']);
         $this->bindProperties($indexProperty, $values);
     }
-    
+
     /**
      * Helper to save class and properties
-     * 
+     *
      * @param core_kernel_classes_Resource $resource
      * @param array $values
      */
-    protected function bindProperties(core_kernel_classes_Resource $resource, $values) {
+    protected function bindProperties(core_kernel_classes_Resource $resource, $values)
+    {
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->bind($values);
     }

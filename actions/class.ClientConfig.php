@@ -14,13 +14,11 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *
-* Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+* Copyright (c) 2013-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
-use oat\tao\model\ThemeRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
@@ -33,12 +31,14 @@ use oat\tao\model\routing\Resolver;
 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
-class tao_actions_ClientConfig extends tao_actions_CommonModule {
+class tao_actions_ClientConfig extends tao_actions_CommonModule
+{
 
     /**
      * Get the require.js' config file
      */
-    public function config() {
+    public function config()
+    {
         $this->setContentHeader('application/javascript');
 
         //get extension paths to set up aliases dynamically
@@ -48,7 +48,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
         $this->setData('libConfigs', $libConfigs);
 
-        $extendedConfig = $this->getServiceManager()->get(ClientConfigService::SERVICE_ID)->getExtendedConfig();
+        $extendedConfig = $this->getServiceLocator()->get(ClientConfigService::SERVICE_ID)->getExtendedConfig();
         foreach ($extendedConfig as $key => $value) {
             $this->setData($key, json_encode($value));
         }
@@ -58,7 +58,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
 
         //loads the URLs context
         /** @var AssetService $assetService */
-        $assetService = ServiceManager::getServiceManager()->get(AssetService::SERVICE_ID);
+        $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
         $tao_base_www = $assetService->getJsBaseWww('tao');
         $this->setData('buster', $assetService->getCacheBuster());
 
@@ -99,15 +99,13 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
     /**
      * Get an extension by it's id
      * @param string $extensionId the extension name/id
-     * @return common_ext_Exntesion the extension
+     * @return common_ext_Extension the extension
      * @throws Exception if the parameter contains an unknown extension
      */
     private function getExtension($extensionId)
     {
         try {
-            $extensionManager = common_ext_ExtensionsManager::singleton();
-            return $extensionManager->getExtensionById($extensionId);
-
+            return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById($extensionId);
         } catch(common_ext_ExtensionException $cee){
             throw new Exception(__('Wrong parameter shownExtension'), $cee);
         }
@@ -119,7 +117,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
      */
     protected function isCrossorigin()
     {
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $ext = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
         if ($config != null && isset($config['crossorigin'])) {
             return $config['crossorigin'];
@@ -183,4 +181,3 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         return $route;
     }
 }
-?>

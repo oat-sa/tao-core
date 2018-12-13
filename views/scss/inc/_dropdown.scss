@@ -1,0 +1,73 @@
+// Dropdown styles:
+.dropdown-container {
+    position: relative;
+    .dropdown {
+        position: absolute; // to overcome overflow: hidden
+        top: 0;
+        left: 0;
+        z-index: 1;
+        padding: 0.4rem;
+        margin: 0 0.5rem;
+        height: 32px;
+        background: transparent;
+        box-shadow: 0 2px 3px transparent;
+        border: 1px solid transparent;
+    &.open {
+            height: auto;
+            background: white;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.5);
+            border: 1px solid #ccc;
+        }
+        & > .dropdown-submenu {
+            display: none;
+            left: -10000px;
+        }
+        &.open > .dropdown-submenu {
+            display: block;
+            left: 0;
+        }
+        .dropdown-header, .dropdown-submenu li {
+            display: block;
+            font-size: 1.4rem;
+            padding: 0;
+            margin: 0;
+            height: auto;
+            float: unset;
+            &:hover {
+                background: $lightBlueGrey;
+            }
+            a, .a {
+                cursor: pointer;
+                height: auto;
+                padding: 1.2rem;
+                text-align: left;
+            }
+            a:hover, a:focus, .a:hover, .a:focus {
+                background: none;
+            }    
+            .icon {
+                font-size: 1.25em;
+            }
+        }
+        .dropdown-header {
+            padding: 1.2rem 0 0.8rem;
+            .toggler:after {
+                float: right;
+                padding-right: 5px;
+            }
+        }
+        .dropdown-submenu {
+            li {
+                padding: 0 0.3rem;
+            }
+        }
+        .sep-before:before {
+            content: "";
+            display: block;
+            height: 1px;
+            width: 90%;
+            margin: 0 auto 0.6rem ;
+            background: $darkBlueGrey;
+        }
+    }
+}

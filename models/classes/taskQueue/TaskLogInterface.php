@@ -28,6 +28,7 @@ use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
+use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use Psr\Log\LoggerAwareInterface;
 
 /**
@@ -134,10 +135,11 @@ interface TaskLogInterface extends LoggerAwareInterface
     public function search(TaskLogFilter $filter);
 
     /**
-     * @param TaskLogFilter $filter
+     * @param TaskLogFilter             $filter
+     * @param DatatableRequestInterface $request
      * @return DataTablePayload
      */
-    public function getDataTablePayload(TaskLogFilter $filter);
+    public function getDataTablePayload(TaskLogFilter $filter, DatatableRequestInterface $request);
 
     /**
      * @param string $userId

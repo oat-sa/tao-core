@@ -1,6 +1,4 @@
 <?php
-use oat\tao\helpers\RestExceptionHandler;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -67,7 +65,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         }
 
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
-            $class = new \core_kernel_classes_Class($this->getRequestParameter(self::CLASS_URI_PARAM));
+            $class = $this->getClass($this->getRequestParameter(self::CLASS_URI_PARAM));
         }
         if ($this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
             $label = $this->getRequestParameter(self::CLASS_LABEL_PARAM);
