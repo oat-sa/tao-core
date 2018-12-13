@@ -28,7 +28,7 @@ define([
     var mouseenter = document.createEvent( 'Events' );
     var mouseleave = document.createEvent( 'Events' );
     var themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'];
-    var defaultTheme = '<div class="tooltip qtip-rounded qtip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner qtip-content tooltip-body"></div></div>';
+    var defaultTheme = '<div class="tooltip tooltip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>';
 
     QUnit.module('tooltip');
 

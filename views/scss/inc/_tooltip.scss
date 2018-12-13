@@ -2,6 +2,13 @@
 
 $dark : #404040;
 
+.tooltip{
+  .tooltip-inner{
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+  }
+}
 .tooltip-content{
   display: none;
 }
@@ -19,7 +26,6 @@ $dark : #404040;
   color: black;
   min-width: 100px;
   max-width: 250px;
-  border-radius: 3px;
   /*box-shadow: 0 0 2px rgba(0,0,0,0.5);*/
   box-shadow: none;
   padding: 10px;
@@ -31,6 +37,8 @@ $dark : #404040;
   box-sizing: border-box;
   border-style: solid;
   border-width: 1px;
+  border-radius: 5px;
+
 }
 .style5 .tooltip {
   background: #1E252B;
@@ -171,22 +179,8 @@ $dark : #404040;
 }
 
 
-// qtip plugin legacy code
-// http://qtip2.com/
-.qtip-rounded,
-.qtip-tipsy,
-.qtip-bootstrap{
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-.qtip-rounded .tooltip-inner{
-  -moz-border-radius: 4px 4px 0 0;
-  -webkit-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
-}
 
-.qtip-plain {
+.tooltip-plain {
   background-color: $darkBlueGrey;
   border: solid 1px darken($darkBlueGrey, 30%);
   .tooltip-arrow{
@@ -196,7 +190,7 @@ $dark : #404040;
     border-color: $darkBlueGrey;
   }
 }
-.qtip-dark{
+.tooltip-dark{
   background-color: $dark;
   border: solid 1px darken($dark, 30%);
   color: $textHighlight;
@@ -210,7 +204,7 @@ $dark : #404040;
     background-color: $dark;
   }
 
-  .qtip-icon{
+  .tooltip-icon{
     border-color: $dark;
   }
 
@@ -220,22 +214,7 @@ $dark : #404040;
 }
 
 
-/* Add rounded corners to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
-.qtip-rounded,
-.qtip-tipsy,
-.qtip-bootstrap{
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.qtip-rounded .tooltip-inner{
-  -moz-border-radius: 4px 4px 0 0;
-  -webkit-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
-}
-/*! Red tooltip style */
-.qtip-red{
+.tooltip-red{
   @extend .feedback-error;
   color: $textColor;
   .tooltip-arrow{
@@ -244,10 +223,10 @@ $dark : #404040;
   .tooltip-arrow::before{
     border-color: $errorBgColor;
   }
-  .qtip-close .qtip-icon{
+  .tooltip-close .tooltip-icon{
     background-position: -102px 0;
   }
-  .qtip-icon{
+  .tooltip-icon{
     border-color: $textColor;
   }
   .tooltip-inner .ui-state-hover{
@@ -255,7 +234,7 @@ $dark : #404040;
   }
 }
 /*! Green tooltip style */
-.qtip-green{
+.tooltip-green{
   @extend .feedback-success;
   color: $textColor;
   .tooltip-arrow{
@@ -265,12 +244,12 @@ $dark : #404040;
     border-color: $successBgColor;
   }
 
-  .qtip-close .qtip-icon{
+  .tooltip-close .tooltip-icon{
     background-position: -42px 0;
   }
 }
 /*! Blue tooltip style */
-.qtip-blue{
+.tooltip-blue{
   @extend .feedback-info;
   color: $textColor;
 
@@ -281,12 +260,12 @@ $dark : #404040;
     border-color: $infoBgColor;
   }
 
-  .qtip-close .qtip-icon{
+  .tooltip-close .tooltip-icon{
     background-position: -2px 0;
   }
 }
 /*! Orange tooltip style */
-.qtip-orange{
+.tooltip-orange{
   @extend .feedback-warning;
   color: $textColor;
 
@@ -297,11 +276,11 @@ $dark : #404040;
     border-color: $warningBgColor;
   }
 
-  .qtip-close .qtip-icon{
+  .tooltip-close .tooltip-icon{
     background-position: -102px 0;
   }
 
-  .qtip-icon{
+  .tooltip-icon{
     border-color: $textColor;
   }
 
@@ -311,7 +290,7 @@ $dark : #404040;
 }
 
 /*! Danger (mix of read and orange) tooltip style */
-.qtip-danger{
+.tooltip-danger{
   @extend .feedback-danger;
   color: $textColor;
 
@@ -321,10 +300,10 @@ $dark : #404040;
   .tooltip-arrow::before{
     border-color: $dangerBgColor;
   }
-  .qtip-icon{
+  .tooltip-icon{
     background-position: -102px 0;
   }
-  .qtip-icon{
+  .tooltip-icon{
     border-color: $textColor;
   }
   .tooltip-inner .ui-state-hover{

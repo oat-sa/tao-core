@@ -40,7 +40,6 @@ require.config({
         'jquery.cookie'     : 'lib/jquery.cookie',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
-        'qtip'              : 'lib/jquery.qtip/jquery.qtip',
 //polyfills
         'polyfill'          : 'lib/polyfill',
 //libs
