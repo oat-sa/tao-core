@@ -63,6 +63,35 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
+     * @param string $uri
+     *
+     * @throws common_exception_Error
+     */
+    protected function checkInstanceRoot($uri)
+    {
+        $instance = $this->getResource($uri);
+
+        $root = $this->getRootClass();
+
+        if ($instance->isClass()) {
+            $class = new core_kernel_classes_Class($instance->getUri());
+
+            if (!($class->isSubClassOf($root) || $class->equals($root))) {
+                throw new Exception('Security issue');
+            }
+        } else if (!$instance->isInstanceOf($root)) {
+            throw new Exception('Security issue');
+        }
+    }
+
+    protected function checkInstancesRoot($uris)
+    {
+        foreach ($uris as $uri) {
+            $this->checkInstanceRoot($uri);
+        }
+    }
+
+    /**
      * If you want strictly to check if the resource is locked,
      * you should use LockManager::getImplementation()->isLocked($resource)
      * Controller level convenience method to check if @resource is being locked, prepare data ans sets view,
@@ -124,14 +153,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      *  ! Please override me !
      * get the current instance regarding the uri and classUri in parameter
+     * @param string $parameterName
+     *
      * @return core_kernel_classes_Resource
      * @throws tao_models_classes_MissingRequestParameterException
      */
-    protected function getCurrentInstance()
+    protected function getCurrentInstance($parameterName = 'uri')
     {
-        $uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-        if (is_null($uri) || empty($uri) || !common_Utils::isUri($uri)) {
-            throw new tao_models_classes_MissingRequestParameterException("uri");
+        $uri = tao_helpers_Uri::decode($this->getRequestParameter($parameterName));
+        if (empty($uri) || !common_Utils::isUri($uri)) {
+            throw new tao_models_classes_MissingRequestParameterException($parameterName);
         }
         return $this->getResource($uri);
     }
@@ -140,7 +171,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * get the main class
      * @return core_kernel_classes_Class
      */
-    protected abstract function getRootClass();
+    abstract protected function getRootClass();
 
     public function editClassProperties()
     {
@@ -373,6 +404,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if(!$this->isXmlHttpRequest()){
             throw new common_exception_BadRequest('wrong request mode');
         }
+        
+        $this->checkInstanceRoot(
+            $this->getRequestParameter('id')
+        );
 
         $response = array();
 
@@ -401,6 +436,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if(!$this->isXmlHttpRequest()){
             throw new common_exception_BadRequest('wrong request mode');
         }
+
+        $this->checkInstanceRoot(
+            $this->getRequestParameter('id')
+        );
+
         $parent = $this->getClass($this->getRequestParameter('id'));
         $clazz = $this->getClassService()->createSubClass($parent);
         if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
@@ -522,8 +562,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function copyInstance()
     {
-        if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri') &&
-            common_Utils::isUri($this->getRequestParameter('destinationClassUri'))) {
+        if (
+            $this->hasRequestParameter('destinationClassUri')
+            && $this->hasRequestParameter('uri')
+            && common_Utils::isUri($this->getRequestParameter('destinationClassUri'))
+        ) {
+            $this->checkInstanceRoot(
+                $this->getRequestParameter('uri')
+            );
 
             $instance  = $this->getCurrentInstance();
             $destinationClass = $this->getClass($this->getRequestParameter('destinationClassUri'));
@@ -567,6 +613,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function moveInstance()
     {
+        $this->checkInstanceRoot();
+
         $response = array();
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
             $instance = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -611,6 +659,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             if (!$this->hasRequestParameter('uri')) {
                 throw new InvalidArgumentException('Resource uri must be specified.');
             }
+
+            $this->checkInstanceRoot();
 
             $resource = $this->getCurrentInstance();
 
@@ -781,6 +831,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         // Csrf token validation
         $this->validateCsrf();
+        $this->checkInstanceRoot();
 
         $resource = $this->getResource($this->getRequestParameter('id'));
         $deleted = $this->getClassService()->deleteResource($resource);
@@ -804,6 +855,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         // Csrf token validation
         $this->validateCsrf();
+        $this->checkInstanceRoot('id');
 
         $clazz = $this->getClass($this->getRequestParameter('id'));
         if ($this->getRootClass()->equals($clazz)) {
@@ -842,6 +894,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $this->validateCsrf();
 
         $ids = $this->getRequestParameter('ids');
+        $this->checkInstanceRoot();
         foreach ($ids as $id) {
             $deleted = false;
             try {
