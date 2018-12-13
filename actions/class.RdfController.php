@@ -78,6 +78,35 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
+     * @param string $uri
+     *
+     * @throws common_exception_Error
+     */
+    protected function validateInstanceRoot($uri)
+    {
+        $instance = $this->getResource($uri);
+
+        $root = $this->getRootClass();
+
+        if ($instance->isClass()) {
+            $class = new core_kernel_classes_Class($instance->getUri());
+
+            if (!($class->isSubClassOf($root) || $class->equals($root))) {
+                throw new Exception('Security issue');
+            }
+        } else if (!$instance->isInstanceOf($root)) {
+            throw new Exception('Security issue');
+        }
+    }
+
+    protected function validateInstancesRoot($uris)
+    {
+        foreach ($uris as $uri) {
+            $this->validateInstanceRoot($uri);
+        }
+    }
+
+    /**
      * If you want strictly to check if the resource is locked,
      * you should use LockManager::getImplementation()->isLocked($resource)
      * Controller level convenience method to check if @resource is being locked, prepare data ans sets view,
@@ -139,12 +168,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      *  ! Please override me !
      * get the current instance regarding the uri and classUri in parameter
+     * @param string $parameterName
+     *
      * @return core_kernel_classes_Resource
      * @throws tao_models_classes_MissingRequestParameterException
      */
-    protected function getCurrentInstance()
+    protected function getCurrentInstance($parameterName = 'uri')
     {
-        $uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+        $uri = tao_helpers_Uri::decode($this->getRequestParameter($parameterName));
 
         $this->validateUri($uri);
 
@@ -162,7 +193,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * get the main class
      * @return core_kernel_classes_Class
      */
-    protected abstract function getRootClass();
+    abstract protected function getRootClass();
 
     public function editClassProperties()
     {
@@ -403,6 +434,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
+        $this->validateInstanceRoot(
+            $this->getRequestParameter('id')
+        );
+
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
             $this->getRequestParameter('id')
@@ -438,6 +473,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
+            $this->getRequestParameter('id')
+        );
+
+
+        $this->validateInstanceRoot(
             $this->getRequestParameter('id')
         );
 
@@ -567,8 +607,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function copyInstance()
     {
-        if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri') &&
-            common_Utils::isUri($this->getRequestParameter('destinationClassUri'))) {
+        if (
+            $this->hasRequestParameter('destinationClassUri')
+            && $this->hasRequestParameter('uri')
+            && common_Utils::isUri($this->getRequestParameter('destinationClassUri'))
+        ) {
+            $this->validateInstanceRoot(
+                $this->getRequestParameter('uri')
+            );
 
             $this->signatureValidator->checkSignature(
                 $this->getRequestParameter('signature'),
@@ -622,6 +668,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $id = $this->getRequestParameter('uri');
 
+            $this->validateInstanceRoot($id);
+
             $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
 
             $instance = $this->getResource($id);
@@ -671,6 +719,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $id = $data['id'];
 
             $this->validateUri($id);
+            $this->validateInstanceRoot($id);
 
             $this->signatureValidator->checkSignature($data['signature'], $id);
 
@@ -848,12 +897,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new common_exception_BadRequest('wrong request mode');
         }
 
+        $id = $this->getRequestParameter('id');
+
         // Csrf token validation
         $this->validateCsrf();
+        $this->validateInstanceRoot($id);
 
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
-            $this->getRequestParameter('id')
+            $id
         );
 
         $resource = $this->getResource($this->getRequestParameter('id'));
@@ -878,6 +930,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         // Csrf token validation
         $this->validateCsrf();
+        $this->validateInstanceRoot('id');
 
         $this->signatureValidator->checkSignature(
             $this->getRequestParameter('signature'),
@@ -927,6 +980,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         $this->signatureValidator->checkSignatures($this->getRequestParameter('ids'));
+
+        $this->validateInstanceRoot();
 
         foreach ($ids as $id) {
             $deleted = false;
