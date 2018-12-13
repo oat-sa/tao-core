@@ -689,7 +689,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @throws common_exception_Error
      * @throws common_exception_MethodNotAllowed
-     * @requiresRight ids WRITE
+     * @requiresRight id WRITE
      */
     public function moveAll()
     {
