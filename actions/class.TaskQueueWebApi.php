@@ -107,8 +107,10 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                         new CategoryEntityDecorator($entity, $taskLogService),
                         $this->getFileSystemService(),
                         $this->getFileReferenceSerializer()
-                    )))
-                    ->toArray()
+                    ),
+                    $taskLogService,
+                    common_session_SessionManager::getSession()->getUser()
+                ))->toArray()
             ]);
         } catch (\Exception $e) {
             return $this->returnJson([
