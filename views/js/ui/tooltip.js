@@ -16,18 +16,44 @@
  * Copyright (c) 2015-2018 (original work) Open Assessment Technologies SA;
  *
  */
-define(['jquery', 'lodash', 'core/dataattrhandler',   'lib/popper/popper', 'lib/popper/tooltip'], function($, _, DataAttrHandler, Popper, Tooltip ){
+define([
+    'jquery',
+    'lodash',
+    'core/dataattrhandler',
+    'lib/popper/popper',
+    'lib/popper/tooltip',
+    'tpl!ui/tooltip/default',
+    'tpl!ui/tooltip/dark',
+    'tpl!ui/tooltip/error',
+    'tpl!ui/tooltip/success',
+    'tpl!ui/tooltip/info',
+    'tpl!ui/tooltip/warning',
+    'tpl!ui/tooltip/danger'
+], function(
+    $,
+    _,
+    DataAttrHandler,
+    Popper,
+    Tooltip,
+    defautTpl,
+    darkTpl,
+    errorTpl,
+    successTpl,
+    infoTpl,
+    warningTpl,
+    dangerTpl
+){
     'use strict';
 
     var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],
         themesMap = {
-            'default' : '<div class="tooltip tooltip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>',
-            'dark' : '<div class="tooltip tooltip-dark" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>',
-            'error' : '<div class="tooltip tooltip-red" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>',
-            'success' :'<div class="tooltip tooltip-green" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>',
-            'info' : '<div class="tooltip tooltip-blue" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>',
-            'warning' : '<div class="tooltip tooltip-orange" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>',
-            'danger' : '<div class="tooltip tooltip-danger" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>'
+            'default': defautTpl(),
+            'dark': darkTpl(),
+            'error': errorTpl(),
+            'success':successTpl(),
+            'info': infoTpl(),
+            'warning': warningTpl(),
+            'danger': dangerTpl()
         },
         defaultOptions = {
             template:themesMap['default'],

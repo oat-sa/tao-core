@@ -21,14 +21,15 @@
 define([
     'jquery',
     'lodash',
-    'ui/tooltip'
-], function($, _, tooltip) {
+    'ui/tooltip',
+    'tpl!ui/tooltip/default',
+], function($, _, tooltip, defaultTpl) {
     'use strict';
     var containerName = 'qunit-fixture';
     var mouseenter = document.createEvent( 'Events' );
     var mouseleave = document.createEvent( 'Events' );
     var themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'];
-    var defaultTheme = '<div class="tooltip tooltip-plain" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner tooltip-body"></div></div>';
+    var defaultTheme = defaultTpl();
 
     QUnit.module('tooltip');
 
