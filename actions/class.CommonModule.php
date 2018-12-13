@@ -29,6 +29,7 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\controller\Controller;
 
 /**
  * Top level controller
@@ -39,7 +40,7 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @package tao
  *
  */
-abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface
+abstract class tao_actions_CommonModule extends Controller implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
     use LoggerAwareTrait;
@@ -187,7 +188,8 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @param array $extraParameters additional parameters to append to the URL
      * @return string the URL
      */
-    protected function getClientConfigUrl($extraParameters = []){
+    protected function getClientConfigUrl($extraParameters = [])
+    {
         return JavaScript::getClientConfigUrl($extraParameters);
     }
 
@@ -197,7 +199,8 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @return int the timeout value in seconds
      * @throws common_ext_ExtensionException
      */
-    protected function getClientTimeout(){
+    protected function getClientTimeout()
+    {
         $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
         if($config != null && isset($config['timeout'])){

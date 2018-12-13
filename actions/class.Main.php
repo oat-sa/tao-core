@@ -302,7 +302,9 @@ class tao_actions_Main extends tao_actions_CommonModule
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
 
-		if($this->hasRequestParameter('structure')) {
+        common_Logger::w((int) $this->hasRequestParameter('structure'));
+
+        if($this->hasRequestParameter('structure')) {
 
 			// structured mode
 			// @todo stop using session to manage uri/classUri
@@ -334,7 +336,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $firstTime = TaoCe::isFirstTimeInTao();
             if ($firstTime == false) {
                $lastVisited = TaoCe::getLastVisitedUrl();
-               if(!is_null($lastVisited)){
+
+                if(!is_null($lastVisited)){
                    $this->redirect($lastVisited);
                }
             }

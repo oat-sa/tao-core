@@ -60,7 +60,8 @@
 			"oat\\tao\\helpers\\" : "helpers",
 			"oat\\tao\\test\\" : "test",
 			"oat\\tao\\scripts\\" : "scripts",
-			"oat\\tao\\install\\" : "install"
+			"oat\\tao\\install\\" : "install",
+			"oat\\tao\\controller\\" : "controller"
 		},
 		"files" : [
 			"includes/globalHelpers.php"

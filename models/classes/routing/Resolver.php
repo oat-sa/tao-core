@@ -21,7 +21,6 @@
 namespace oat\tao\model\routing;
 
 use common_http_Request;
-use tao_helpers_Request;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -42,14 +41,14 @@ class Resolver implements ServiceLocatorAwareInterface
     /**
      * Request to be resolved
      *
-     * @var common_http_Request
+     * @var ServerRequestInterface
      */
     private $request;
-    
+
     private $extensionId;
-    
+
     private $controller;
-    
+
     private $action;
 
     /** @var array array of available routes indexed by extension identifier */
@@ -57,24 +56,36 @@ class Resolver implements ServiceLocatorAwareInterface
 
     /**
      * Resolves a request to a method
-     * 
-     * @param common_http_Request $request
+     *
+     * @param common_http_Request|ServerRequestInterface $request
+     * @throws \common_exception_InvalidArgumentType
      */
-    public function __construct(common_http_Request $request) {
-       $this->request = $request;
+    public function __construct($request)
+    {
+        if (is_object($request)) {
+            if ($request instanceof common_http_Request) {
+                $this->request = new ServerRequest(
+                    $request->getMethod(),
+                    $request->getUrl(),
+                    $request->getHeaders(),
+                    $request->getBody()
+                );
+                return;
+            } elseif (is_a($request, ServerRequestInterface::class)) {
+                $this->request = $request;
+                return;
+            }
+        }
+        throw new \common_exception_InvalidArgumentType(__CLASS__, __FUNCTION__, 1, ServerRequestInterface::class, $request);
     }
-    
+
     /**
      * Return the PSR7 request
      * @return ServerRequestInterface
      */
-    public function getRequest() {
-        return new ServerRequest(
-            $this->request->getMethod(),
-            $this->request->getUrl(),
-            $this->request->getHeaders(),
-            $this->request->getBody()
-        );
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     public function getExtensionId() {
@@ -83,7 +94,7 @@ class Resolver implements ServiceLocatorAwareInterface
         }
         return $this->extensionId;
     }
-    
+
     public function getControllerClass() {
         if (is_null($this->controller)) {
             $this->resolve();
@@ -97,13 +108,14 @@ class Resolver implements ServiceLocatorAwareInterface
         }
         return $this->action;
     }
-   
+
     /**
      * Get the controller short name as used into the URL
      * @return string the name
-     */ 
-    public function getControllerShortName() {
-        $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
+     */
+    public function getControllerShortName()
+    {
+        $relativeUrl = $this->request->getUri()->getPath();
         $parts = explode('/', trim($relativeUrl, '/'));
         if(count($parts) == 3){
             return $parts[1];
@@ -134,7 +146,7 @@ class Resolver implements ServiceLocatorAwareInterface
             }
         }
 
-        throw new \ResolverException('Unable to resolve '.$this->request->getUrl());
+        throw new \ResolverException('Unable to resolve '.$this->request->getUri()->getPath());
     }
 
     /**
