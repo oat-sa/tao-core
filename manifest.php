@@ -22,6 +22,7 @@
  */
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\RegisterSignatureService;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\SetClientLoggerConfig;
@@ -113,7 +114,8 @@ return array(
             RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
             RegisterTaskQueueServices::class,
-            SetUpQueueTasks::class
+            SetUpQueueTasks::class,
+            RegisterSignatureService::class
         )
     ),
     'update' => 'oat\\tao\\scripts\\update\\Updater',
