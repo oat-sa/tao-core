@@ -86,6 +86,16 @@ class ApplicationService extends ConfigurableService
     }
 
     /**
+     * Return true if platform is on debug mode
+     *
+     * @return bool
+     */
+    public function isDebugMode()
+    {
+        return defined('DEBUG_MODE') && (DEBUG_MODE === true);
+    }
+
+    /**
      * @param string $constantName
      * @return string
      *

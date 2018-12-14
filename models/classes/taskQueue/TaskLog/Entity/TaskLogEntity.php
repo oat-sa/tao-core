@@ -255,7 +255,7 @@ class TaskLogEntity implements EntityInterface
         }
 
         /** @var Report  $successReport */
-        foreach ($this->getReport()->getSuccesses() as $successReport) {
+        foreach ($this->getReport()->getSuccesses(true) as $successReport) {
             $data = $successReport->getData();
             if (is_array($data) && isset($data['uriResource'])) {
                 $uri = $data['uriResource'];
