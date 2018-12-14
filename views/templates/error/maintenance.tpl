@@ -30,7 +30,7 @@
 </div>
 
 <footer class="dark-bar">
-    © 2013 - 2015 · <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
+    © 2013 - <?= date('Y') ?> · <a href="http://taotesting.com" target="_blank">Open Assessment Technologies S.A.</a>
     · All rights reserved.
 </footer>
 

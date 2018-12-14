@@ -27,7 +27,7 @@ define([
 ], function (_, Promise, viewerFactory, pdfViewer, mockPdfjs) {
     'use strict';
 
-    var headless = /PhantomJS/.test(window.navigator.userAgent);
+    var headless = /HeadlessChrome/.test(window.navigator.userAgent);
     var pdfUrl = location.href.replace('/pdfViewer/viewer/test.html', '/sample/demo.pdf');
     var PDFjsId = 'pdfjs-dist/build/pdf';
     var contexts = [{

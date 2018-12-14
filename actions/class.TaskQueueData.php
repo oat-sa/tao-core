@@ -27,7 +27,7 @@ use oat\oatbox\filesystem\FileSystemService;
 /**
  * Rest API controller for task queue
  *
- * @deprecated Can be removed along with the old queue.
+ * @deprecated since version 21.7.0, to be removed in 22.0. Use \tao_actions_TaskQueueWebApi instead.
  *
  * @author GARCIA Christophe <christophe.garcia@taotesting.com>
  */
@@ -38,9 +38,9 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
 
     public function getTasks()
     {
-        $user = common_session_SessionManager::getSession()->getUser();
+        $user = $this->getSession()->getUser();
 
-        $taskQueue = $this->getServiceManager()->get(Queue::SERVICE_ID);
+        $taskQueue = $this->getServiceLocator()->get(Queue::SERVICE_ID);
 
         $dataPayLoad =  $taskQueue->getPayload($user->getIdentifier());
 
@@ -79,7 +79,7 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
         /**
          * @var $taskService Queue
          */
-        $taskService = $this->getServiceManager()->get(Queue::SERVICE_ID);
+        $taskService = $this->getServiceLocator()->get(Queue::SERVICE_ID);
         try {
             $task        = $this->getTask($taskId);
 
@@ -126,7 +126,7 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
                     }
                 }
                 /** @var FileSystemService $fileSystem */
-                $fileSystem = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
+                $fileSystem = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
                 $directory = $fileSystem->getDirectory('taskQueueStorage');
                 $file = $directory->getFile($filename);
                 header('Set-Cookie: fileDownload=true');
@@ -135,7 +135,7 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
                 //file meta
                 header('Content-Disposition: attachment; filename="' . $filename . '"');
                 header('Content-Type: ' . $file->getMimeType());
-                
+
                 tao_helpers_Http::returnStream($file->readPsrStream());
                 return;
             }
