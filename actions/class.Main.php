@@ -22,7 +22,9 @@
  */
 
 use oat\generis\model\user\UserRdf;
+use oat\oatbox\action\ActionProtector;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
@@ -38,7 +40,6 @@ use oat\tao\model\notification\NotificationInterface;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\user\UserLocks;
-use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -53,11 +54,17 @@ class tao_actions_Main extends tao_actions_CommonModule
     /**
      * First page, when arriving on a system
      * to choose front or back office
+     *
+     * @return void
+     * @throws InterruptedActionException
+     * @throws common_Exception
+     * @throws common_exception_Error
+     * @throws common_ext_ExtensionException
      */
     public function entry()
     {
         $this->defaultData();
-        $entries = array();
+        $entries = [];
         foreach (EntryPointService::getRegistry()->getEntryPoints() as $entry) {
             if (tao_models_classes_accessControl_AclProxy::hasAccessUrl($entry->getUrl())) {
                 $entries[] = $entry;
@@ -67,17 +74,19 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (empty($entries)) {
             // no access -> error
             if (common_session_SessionManager::isAnonymous()) {
-                /* @var $urlRouteService DefaultUrlService */
+                /** @var DefaultUrlService $urlRouteService */
                 $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
                 $this->redirect($urlRouteService->getLoginUrl());
             } else {
                 common_session_SessionManager::endSession();
-                return $this->returnError(__('You currently have no access to the platform'), true, 403);
+                $this->returnError(__('You currently have no access to the platform'), true, 403);
+                return;
             }
-        } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
+        } elseif (count($entries) === 1 && !common_session_SessionManager::isAnonymous()) {
             // single entrypoint -> redirect
             $entry = current($entries);
-            return $this->redirect($entry->getUrl());
+            $this->redirect($entry->getUrl());
+            return;
         } else {
             // multiple entries -> choice
             if (!common_session_SessionManager::isAnonymous()) {
@@ -99,7 +108,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData('userLabel', $this->getSession()->getUserLabel());
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
-            $this->setData('content-template', array('blocks/entry-points.tpl', 'tao'));
+            $this->setData('content-template', ['blocks/entry-points.tpl', 'tao']);
             $this->setView('layout.tpl', 'tao');
         }
     }
@@ -110,7 +119,6 @@ class tao_actions_Main extends tao_actions_CommonModule
      * @return void
      * @throws Exception
      * @throws common_ext_ExtensionException
-     * @throws core_kernel_persistence_Exception
      */
     public function login()
     {
@@ -128,15 +136,15 @@ class tao_actions_Main extends tao_actions_CommonModule
             \oat\tao\model\security\IFrameBlocker::setHeader();
         }
 
-        $params = array(
+        $params = [
             'disableAutocomplete' => $disableAutoComplete,
             'enablePasswordReveal' => $enablePasswordReveal,
-        );
+        ];
 
         if ($this->hasRequestParameter('redirect')) {
             $redirectUrl = $_REQUEST['redirect'];
 
-            if (substr($redirectUrl, 0,1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+            if ($redirectUrl[0] === '/' || strpos($redirectUrl, ROOT_URL) === 0) {
                 $params['redirect'] = $redirectUrl;
             }
         }
@@ -144,83 +152,79 @@ class tao_actions_Main extends tao_actions_CommonModule
         $container = new tao_actions_form_Login($params);
         $form = $container->getForm();
 
-        if ($form->isSubmited()) {
-            if ($form->isValid()) {
+        if ($form->isSubmited() && $form->isValid()) {
 
-                /** @var UserLocks $userLocksService */
-                $userLocksService = $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
-                /** @var EventManager $eventManager */
-                $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+            /** @var UserLocks $userLocksService */
+            $userLocksService = $this->getServiceLocator()->get(UserLocks::SERVICE_ID);
+            /** @var EventManager $eventManager */
+            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
 
-                try {
-                    if ($userLocksService->isLocked($form->getValue('login'))) {
-                        $this->logInfo("User '" . $form->getValue('login') . "' has been locked.");
+            try {
+                if ($userLocksService->isLocked($form->getValue('login'))) {
+                    $this->logInfo("User '" . $form->getValue('login') . "' has been locked.");
 
-                        $statusDetails = $userLocksService->getStatusDetails($form->getValue('login'));
-                        if ($statusDetails['auto']) {
-                            $msg = __('You have been locked due to too many failed login attempts. ');
-                            if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
-                                $msg .= __('Please contact your administrator.');
-                            } else {
-                                /** @var DateInterval $remaining */
-                                $remaining = $statusDetails['remaining'];
-
-                                $reference = new DateTimeImmutable;
-                                $endTime = $reference->add($remaining);
-
-                                $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
-
-                                $msg .= __('Please try in %s.',
-                                    $diffInSeconds > 60
-                                        ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
-                                        : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
-                                );
-                            }
+                    $statusDetails = $userLocksService->getStatusDetails($form->getValue('login'));
+                    if ($statusDetails['auto']) {
+                        $msg = __('You have been locked due to too many failed login attempts. ');
+                        if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
+                            $msg .= __('Please contact your administrator.');
                         } else {
-                            $msg = __('Your account has been locked, please contact your administrator.');
+                            /** @var DateInterval $remaining */
+                            $remaining = $statusDetails['remaining'];
+
+                            $reference = new DateTimeImmutable;
+                            $endTime = $reference->add($remaining);
+
+                            $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
+
+                            $msg .= __('Please try in %s.',
+                                $diffInSeconds > 60
+                                    ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
+                                    : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
+                            );
                         }
-
-                        $this->setData('errorMessage', $msg);
                     } else {
-                        if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
-                            $logins = $this->getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
+                        $msg = __('Your account has been locked, please contact your administrator.');
+                    }
 
-                            $eventManager->trigger(new LoginSucceedEvent(current($logins)));
+                    $this->setData('errorMessage', $msg);
+                } else if (LoginService::login($form->getValue('login'), $form->getValue('password'))) {
+                    $logins = $this->getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
 
-                            $this->logInfo("Successful login of user '" . $form->getValue('login') . "'.");
+                    $eventManager->trigger(new LoginSucceedEvent(current($logins)));
 
-                            if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
-                                $this->redirect($_REQUEST['redirect']);
+                    $this->logInfo("Successful login of user '" . $form->getValue('login') . "'.");
+
+                    if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
+                        $this->redirect($_REQUEST['redirect']);
+                    } else {
+                        $this->forward('entry');
+                    }
+                } else {
+                    $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
+
+                    $this->logInfo("Unsuccessful login of user '" . $form->getValue('login') . "'.");
+
+                    $msg = __('Invalid login or password. Please try again.');
+
+                    if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
+                        $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
+                        if ($remainingAttempts !== false) {
+                            if ($remainingAttempts === 0) {
+                                $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
                             } else {
-                                $this->forward('entry');
+                                $msg = $msg . ' ' .
+                                    ($remainingAttempts === 1
+                                        ? __('Last attempt before your account is locked.')
+                                        : __('%d attempts left before your account is locked.', $remainingAttempts));
                             }
-                        } else {
-                            $eventManager->trigger(new LoginFailedEvent($form->getValue('login')));
-
-                            $this->logInfo("Unsuccessful login of user '" . $form->getValue('login') . "'.");
-
-                            $msg = __('Invalid login or password. Please try again.');
-
-                            if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
-                                $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
-                                if ($remainingAttempts !== false) {
-                                    if ($remainingAttempts === 0) {
-                                        $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
-                                    } else {
-                                        $msg = $msg . ' ' .
-                                            ($remainingAttempts === 1
-                                                ? __('Last attempt before your account is locked.')
-                                                : __('%d attempts left before your account is locked.', $remainingAttempts));
-                                    }
-                                }
-                            }
-
-                            $this->setData('errorMessage', $msg);
                         }
                     }
-                } catch (core_kernel_users_Exception $e) {
-                    $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
+
+                    $this->setData('errorMessage', $msg);
                 }
+            } catch (core_kernel_users_Exception $e) {
+                $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
             }
         }
 
@@ -239,7 +243,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
             // hide the actual form,
             // it will be submitted through javascript delegation
-            $renderedForm = preg_replace_callback('/<form([^>]+)>/', function($matches) {
+            $renderedForm = preg_replace_callback('/<form([^>]+)>/', function ($matches) {
                 $str = $matches[0];
                 if (false !== strpos($str, ' style=')) {
                     $str = preg_replace('/ style=([\'"]+)([^\'"]+)([\'"]+)/', ' style=$1$2;display:none;$3', $str);
@@ -255,7 +259,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
 
         $this->setData('form', $renderedForm);
-        $this->setData('title', __("TAO Login"));
+        $this->setData('title', __('TAO Login'));
 
         $entryPointService = $this->getServiceLocator()->get(EntryPointService::SERVICE_ID);
         $this->setData('entryPoints', $entryPointService->getEntryPoints(EntryPointService::OPTION_PRELOGIN));
@@ -266,7 +270,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('show_gdpr', !empty($config['show_gdpr']) && $config['show_gdpr']);
 
-        $this->setData('content-template', array('blocks/login.tpl', 'tao'));
+        $this->setData('content-template', ['blocks/login.tpl', 'tao']);
 
         $this->setView('layout.tpl', 'tao');
     }
@@ -284,8 +288,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
 
         common_session_SessionManager::endSession();
-                /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+        /** @var DefaultUrlService $urlRouteService */
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
         $this->redirect($urlRouteService->getRedirectUrl('logout'));
     }
@@ -294,11 +298,14 @@ class tao_actions_Main extends tao_actions_CommonModule
      * The main action, load the layout
      *
      * @return void
+     * @throws InterruptedActionException
+     * @throws common_exception_Error
+     * @throws common_ext_ExtensionException
      */
     public function index()
     {
         $this->defaultData();
-        $user      = $this->getUserService()->getCurrentUser();
+        $user = $this->getUserService()->getCurrentUser();
         $extension = $this->getRequestParameter('ext');
         $structure = $this->getRequestParameter('structure');
 
@@ -315,10 +322,10 @@ class tao_actions_Main extends tao_actions_CommonModule
                     'index',
                     'Main',
                     'tao',
-                    array(
+                    [
                         'structure' => $structure,
-                        'ext'       => $extension
-                    )
+                        'ext' => $extension
+                    ]
                 )
             );
 
@@ -332,20 +339,20 @@ class tao_actions_Main extends tao_actions_CommonModule
 
             //check if the user is a noob, otherwise redirect him to his last visited extension.
             $firstTime = TaoCe::isFirstTimeInTao();
-            if ($firstTime == false) {
-               $lastVisited = TaoCe::getLastVisitedUrl();
-               if (!is_null($lastVisited)) {
-                   $this->redirect($lastVisited);
-               }
+            if ($firstTime === false) {
+                $lastVisited = TaoCe::getLastVisitedUrl();
+                if ($lastVisited !== null) {
+                    $this->redirect($lastVisited);
+                }
             }
         }
 
-        $perspectiveTypes = array(Perspective::GROUP_DEFAULT, 'settings', 'persistent');
+        $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
         }
 
-        /* @var $notifService NotificationServiceInterface */
+        /** @var NotificationServiceInterface $notifService */
         $notifService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);
 
         if ($notifService->getVisibility()) {
@@ -353,15 +360,15 @@ class tao_actions_Main extends tao_actions_CommonModule
 
             $this->setData('unread-notification', $notif[NotificationInterface::CREATED_STATUS]);
 
-            $this->setData('notification-url', _url('index' , 'Main' , 'tao' ,
+            $this->setData('notification-url', _url('index', 'Main', 'tao',
                 [
                     'structure' => 'tao_Notifications',
-                    'ext'       => 'tao',
-                    'section'   => 'settings_my_notifications',
+                    'ext' => 'tao',
+                    'section' => 'settings_my_notifications',
                 ]
             ));
         }
-        /* @var $urlRouteService DefaultUrlService */
+        /** @var DefaultUrlService $urlRouteService */
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
         $this->setData('logout', $urlRouteService->getLogoutUrl());
 
@@ -381,14 +388,18 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('xsrf-token-name', $tokenName);
 
         //creates the URL of the action used to configure the client side
-        $clientConfigParams = array(
+        $clientConfigParams = [
             'shownExtension' => $extension,
             'shownStructure' => $structure
-        );
+        ];
         $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParams));
-        $this->setData('content-template', array('blocks/sections.tpl', 'tao'));
+        $this->setData('content-template', ['blocks/sections.tpl', 'tao']);
 
         $this->setView('layout.tpl', 'tao');
+
+        /** @var ActionProtector $actionProtector */
+        $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
+        $actionProtector->setFrameAncestorsHeader();
     }
 
     /**
@@ -396,20 +407,21 @@ class tao_actions_Main extends tao_actions_CommonModule
      *
      * @param $groupId
      * @return array
+     * @throws common_exception_Error
      */
     private function getNavigationElementsByGroup($groupId)
     {
-        $entries = array();
+        $entries = [];
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
             $binding = $perspective->getBinding();
             $children = $this->getMenuElementChildren($perspective);
 
             if (!empty($binding) || !empty($children)) {
-                $entry = array(
+                $entry = [
                     'perspective' => $perspective,
-                    'children'    => $children
-                );
-                if (!is_null($binding)) {
+                    'children' => $children
+                ];
+                if ($binding !== null) {
                     $entry['binding'] = $perspective->getExtension() . '/' . $binding;
                 }
                 $entries[$i] = $entry;
@@ -423,11 +435,12 @@ class tao_actions_Main extends tao_actions_CommonModule
      *
      * @param Perspective $menuElement from the structure.xml
      * @return array menu elements list
+     * @throws common_exception_Error
      */
     private function getMenuElementChildren(Perspective $menuElement)
     {
         $user = $this->getSession()->getUser();
-        $children = array();
+        $children = [];
         foreach ($menuElement->getChildren() as $section) {
             try {
                 $resolver = new ActionResolver($section->getUrl());
@@ -435,7 +448,7 @@ class tao_actions_Main extends tao_actions_CommonModule
                     $children[] = $section;
                 }
             } catch (ResolverException $e) {
-                $this->logWarning('Invalid reference in structures: '.$e->getMessage());
+                $this->logWarning('Invalid reference in structures: ' . $e->getMessage());
             }
         }
         return $children;
@@ -447,14 +460,15 @@ class tao_actions_Main extends tao_actions_CommonModule
      * @param string $shownExtension
      * @param string $shownStructure
      * @return array the sections
+     * @throws common_exception_Error
      */
     private function getSections($shownExtension, $shownStructure)
     {
 
-        $sections = array();
+        $sections = [];
         $user = $this->getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
-        if (!is_null($structure)) {
+        if ($structure !== null) {
             foreach ($structure->getChildren() as $section) {
 
                 $resolver = new ActionResolver($section->getUrl());
@@ -485,9 +499,9 @@ class tao_actions_Main extends tao_actions_CommonModule
     {
         if ($this->isXmlHttpRequest()) {
             // the default ajax response is successful style rastafarai
-            $ajaxResponse = new common_AjaxResponse();
+            new common_AjaxResponse();
         } else {
-            throw new common_exception_IsAjaxAction(__CLASS__.'::'.__METHOD__.'()');
+            throw new common_exception_IsAjaxAction(__CLASS__ . '::' . __METHOD__ . '()');
         }
     }
 

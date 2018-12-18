@@ -55,12 +55,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     /**
      * tao_actions_CommonModule constructor.
      */
-    public function __construct()
-    {
-        /** @var ActionProtector $actionProtectionService */
-        $actionProtectionService = $this->getServiceManager()->get(ActionProtector::SERVICE_ID);
-        $actionProtectionService->setFrameAncestorsHeader();
-    }
+    public function __construct() {}
 
     /**
      * Whenever or not the current user has access to a specific action
