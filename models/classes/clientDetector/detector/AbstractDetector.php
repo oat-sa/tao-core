@@ -21,9 +21,9 @@
 namespace oat\tao\model\clientDetector\detector;
 
 use oat\generis\model\OntologyRdfs;
-use oat\oatbox\Configurable;
+use oat\oatbox\service\ConfigurableService;
 
-abstract class AbstractDetector extends Configurable implements DetectorInterface
+abstract class AbstractDetector extends ConfigurableService implements DetectorInterface
 {
     /**
      * Get the parent class of client
