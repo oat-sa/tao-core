@@ -37,6 +37,9 @@ use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Info;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Notice;
 use oat\tao\model\cliArgument\ArgumentService;
+use oat\tao\model\clientDetector\ClientDetectorService;
+use oat\tao\model\clientDetector\detector\OSDetector;
+use oat\tao\model\clientDetector\detector\WebBrowserDetector;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
@@ -875,5 +878,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('21.5.0', '22.6.0');
+
+        if ($this->isVersion('22.6.0')) {
+           $this->getServiceManager()->register(
+               ClientDetectorService::SERVICE_ID,
+               new ClientDetectorService([
+                   ClientDetectorService::OPTION_WEB_BROWSER_DETECTOR => new WebBrowserDetector(),
+                   ClientDetectorService::OPTION_OS_DETECTOR => new OSDetector(),
+               ])
+           );
+           $this->setVersion('22.7.0');
+        }
     }
 }
