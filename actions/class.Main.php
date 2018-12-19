@@ -22,7 +22,6 @@
  */
 
 use oat\generis\model\user\UserRdf;
-use oat\oatbox\action\ActionProtector;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\LoginService;
@@ -396,10 +395,6 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('content-template', ['blocks/sections.tpl', 'tao']);
 
         $this->setView('layout.tpl', 'tao');
-
-        /** @var ActionProtector $actionProtector */
-        $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
-        $actionProtector->setFrameAncestorsHeader();
     }
 
     /**
