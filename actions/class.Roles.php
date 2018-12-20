@@ -191,32 +191,12 @@ class tao_actions_Roles extends tao_actions_RdfController
 	}
 
     /**
-     * get the selected group from the current context (from the uri and classUri parameter in the request)
-     * @return core_kernel_classes_Resource $group
-     */
-    protected function getCurrentInstance()
-    {
-        $uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-        if(is_null($uri) || empty($uri) || !common_Utils::isUri($uri)){
-            throw new common_exception_MissingParameter('uri');
-        }
-
-        $clazz = $this->getCurrentClass();
-        $role = $this->getUserService()->getRole($uri);
-        if(is_null($role)){
-            throw new Exception("No role found for the uri {$uri}");
-        }
-
-        return $role;
-    }
-
-    /**
      * get the main class
-     * @return \core_kernel_classes_Classes
+     * @return \core_kernel_classes_Class
      */
     protected function getRootClass()
     {
-        return $this->getUserService()->getRoleClass();
+        return $this->getClassService()->getRoleClass();
     }
 
     /**
