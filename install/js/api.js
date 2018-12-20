@@ -1,27 +1,27 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 define(['jquery'], function($){
 
     /**
-     * TaoInstall API interface. 
+     * TaoInstall API interface.
      */
     function TaoInstall (){
         this.url = 'api.php';
@@ -40,42 +40,42 @@ define(['jquery'], function($){
     }
 
     /**
-     * Changes the current template by giving its ID. 
+     * Changes the current template by giving its ID.
      */
     TaoInstall.prototype.setTemplate = function (templateId){
         if (templateId != this.currentTemplateId){
-            
+
             // If it is not the first template displayed...
             if (this.frame != null){
                 // We unregister any element bound with
                 // the API.
                 this.clearRegisteredElements();
-                
+
                 // We remove any help message in the store.
                 this.clearHelp();
-                
+
                 // It is not nextable anymore.
                 this.nextable = false;
-                
+
                 // Event heandlers are reset.
                 this.onNextable = function() {};
                 this.onUnnextable = function() {};
-                
+
                 // We remove the frame handling the last
                 // template.
                 $('#mainFrame').remove();
                 this.frame = null;
             }
-            
+
             this.frame = document.createElement('iframe');
             $(this.frame).attr('id', this.frameId)
                          .attr('scrolling', 'no')
                          .attr('frameborder', 0);
             this.currentTemplateId = templateId;
-            
+
             // We initialize the API and handlers for DOM injection.
             this.init();
-            
+
             // We set the frame content.
             var frameSrc = this.templatePrefix + this.currentTemplateId + this.templateSuffix;
             $(this.frame).attr('src', frameSrc);
@@ -90,17 +90,17 @@ define(['jquery'], function($){
         // Check if we can discuss using JSON and receive information
         // from the server about the installation to perform.
         var data = "type=Sync";
-        
+
         var options = {data: data,
                    type: 'GET',
                    dataType: 'json'};
-                   
+
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
                                  .fail(function(jqxhr){callback(jqxhr.status)});
     };
 
     /**
-     * Check the configuration on the server-side. 
+     * Check the configuration on the server-side.
      */
     TaoInstall.prototype.checkConfiguration = function(checks, callback){
 
@@ -108,10 +108,10 @@ define(['jquery'], function($){
             // We send the checks to perform.
             var data = {type: 'CheckPHPConfig',
                         value: checks};
-        
+
             var options = {data: JSON.stringify(data),
                            type: 'POST',
-                           dataType: 'json'};	
+                           dataType: 'json'};
         }
         else{
             // The checks to perform are chosen by the server-side.
@@ -121,24 +121,24 @@ define(['jquery'], function($){
             }
             var options = {data: data, type: 'GET', dataType: 'json'};
         }
-                    
+
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
                                 .fail(function(jqxhr){callback(jqxhr.status)});
     };
 
     /**
-     * Check the database connection on the server-side 
+     * Check the database connection on the server-side
      */
     TaoInstall.prototype.checkDatabaseConnection = function(check, callback){
         check.password = this.nullToEmptyString(check.password);
-        
+
         var data = {type: 'CheckDatabaseConnection',
                     value: check};
-                    
+
         var options = {data: JSON.stringify(data),
                        type: 'POST',
                        dataType: 'json'};
-                       
+
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data);})
                                  .fail(function(jqxhr){callback(jqxhr.status);});
     };
@@ -163,7 +163,7 @@ define(['jquery'], function($){
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data);})
                                  .fail(function(jqxhr){callback(jqxhr.status);});
     };
-    
+
     /**
      * Check if the AllowOverride directive is set to All
      */
@@ -188,33 +188,33 @@ define(['jquery'], function($){
      * Check connection to TAO Forge
      */
     /*TaoInstall.prototype.checkTAOForgeConnection = function(check, callback){
-        
+
             check.password = this.nullToEmptyString(check.password);
-        
+
         var data = {type: 'CheckTAOForgeConnection',
                     value: check};
-                    
+
         var options = {data: JSON.stringify(data),
                        type: 'POST',
                        dataType: 'json'};
-                       
+
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
                                  .fail(function(jqxhr){callback(jqxhr.status)});
     };*/
 
     TaoInstall.prototype.install = function(inputs, callback){
         inputs.db_pass = this.nullToEmptyString(inputs.db_pass);
-        
+
         var data = {type: 'Install',
                     value: inputs,
                     timeout: 300000}; // 5 minutes max.
-                    
+
         var options = {data: JSON.stringify(data),
                        type: 'POST',
                        dataType: 'json'};
-                       
+
         $.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
-                                 .fail(function(jqxhr){callback(jqxhr.status)});		   
+                                 .fail(function(jqxhr){callback(jqxhr.status)});
     };
 
     /**
@@ -225,11 +225,11 @@ define(['jquery'], function($){
     };
 
     /**
-     * Tell the API that the current template is 'nextable'. 
+     * Tell the API that the current template is 'nextable'.
      */
     TaoInstall.prototype.setNextable = function(value){
         this.nextable = value;
-        
+
         if (value == true){
             this.onNextable();
         }
@@ -239,7 +239,7 @@ define(['jquery'], function($){
     };
 
     /**
-     * Register a tao-input element for validation. 
+     * Register a tao-input element for validation.
      */
     TaoInstall.prototype.register = function(element){
         if ($(element).hasClass('tao-input') && typeof(element.isValid) == 'function'){
@@ -251,7 +251,7 @@ define(['jquery'], function($){
     };
 
     /**
-     * Unregister a particular tao-input element. 
+     * Unregister a particular tao-input element.
      */
     TaoInstall.prototype.unregister = function(element){
         for (i in this.registeredElements){
@@ -262,7 +262,7 @@ define(['jquery'], function($){
     };
 
     /**
-     * Unregister all registered tao-input elements. 
+     * Unregister all registered tao-input elements.
      */
     TaoInstall.prototype.clearRegisteredElements = function(){
         this.registeredElements = [];
@@ -270,7 +270,7 @@ define(['jquery'], function($){
 
     /**
      * Notify the API that tao-input elements were added, modified, removed...
-     * and that the registered elements can be checked again. 
+     * and that the registered elements can be checked again.
      */
     TaoInstall.prototype.stateChange = function(){
         this.checkRegisteredElements();
@@ -279,7 +279,7 @@ define(['jquery'], function($){
 
     /**
      * Add an help message in the help store identified by a given key.
-     *  
+     *
      * @param {Object} key
      * @param {Object} message
      */
@@ -289,7 +289,7 @@ define(['jquery'], function($){
 
     /**
      * Remove an help message identified in the help store by a given key.
-     *  
+     *
      * @param {Object} key
      */
     TaoInstall.prototype.removeHelp = function(key){
@@ -300,7 +300,7 @@ define(['jquery'], function($){
 
     /**
      * Reinitialize the help store. Messages contained
-     * by the help store before calling this method will be lost. 
+     * by the help store before calling this method will be lost.
      */
     TaoInstall.prototype.clearHelp = function(){
         this.helpMessages = {};
@@ -309,7 +309,7 @@ define(['jquery'], function($){
     /**
      * Get an help message from the help store for a given key.
      * Returns null if no message is bound for the given key.
-     *  
+     *
      * @param {Object} key
      */
     TaoInstall.prototype.getHelp = function(key){
@@ -322,7 +322,7 @@ define(['jquery'], function($){
     };
 
     /**
-     * Add a piece of data associated to a given key in the data store. 
+     * Add a piece of data associated to a given key in the data store.
      * If some data was already associated with this key, it will be overriden
      * by the new one.
      * @param {String} key
@@ -334,7 +334,7 @@ define(['jquery'], function($){
 
     /**
      * Remove a pice of data associated to in a given key in the data store.
-     * If no data is bound to the provided key, nothing happens. 
+     * If no data is bound to the provided key, nothing happens.
      * @param {String} key
      */
     TaoInstall.prototype.removeData = function(key){
@@ -346,7 +346,7 @@ define(['jquery'], function($){
     /**
      * Get an 'isValid' validation method for an input that will be registered
      * by the API.
-     * 
+     *
      * @param {Object} element The Input HTML element for which you want a validator.
      * @param {Object} options Validation options (integer -> min, max; string -> length, ...)
      * @return {function}
@@ -354,27 +354,27 @@ define(['jquery'], function($){
     TaoInstall.prototype.getValidator = function(element, options){
         var $element = $(element);
         var api = this;
-        
+
         // Mandatory field by default.
         $element.prop('tao-mandatory', true);
-        
+
         switch ($element.prop('tagName').toLowerCase()){
             case 'input':
             case 'textarea':
-                if ($element.prop('tagName').toLowerCase() == 'textarea' || 
+                if ($element.prop('tagName').toLowerCase() == 'textarea' ||
                     $element.attr('type') == 'text' ||
                     $element.attr('type') == 'password' ||
                                 $element.attr('type') == 'hidden'){
-                    
+
                     var firstValueFunction = function () { return $element.val() != $element[0].firstValue || !mandatory; };
-                    
+
                     if (typeof(options) != 'undefined'){
-                        
+
                         var mandatory = (typeof(options.mandatory) == 'undefined') ? true : options.mandatory;
                         $element.prop('tao-mandatory', mandatory);
-                        
+
                         if (typeof(options.dataType) != 'undefined'){
-                            
+
                             switch (options.dataType){
                                 case 'regexp':
                                     var reg = new RegExp(options.pattern);
@@ -392,28 +392,28 @@ define(['jquery'], function($){
                                     break;
                                 case 'url':
                                     var reg = new RegExp("(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
-                                    element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };							
+                                    element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
                                 break;
-                                
+
                                 case 'dbname':
                                     var reg = new RegExp("^[\-a-zA-Z0-9_]{3,63}$");
                                     element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
                                 break;
-                                
+
                                 case 'dbhost':
                                     var reg = new RegExp("[a-zA-Z0-9]{3,}(?::[0-9]{1,5})*");
                                     element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
                                 break;
-                                
+
                                 case 'host':
                                     var reg = new RegExp("(https?:\/\/)(www\.)?([a-zA-Z0-9\-.\/_]){3,}(:[0-9]{1,5})?");
                                     element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
                                 break;
-                                
+
                                 case 'email':
                                     element.isValid = function(){
                                         var reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/i;
-                                        
+
                                         if (mandatory == false && $element[0].getData() == null){
                                             return true;
                                         }
@@ -422,21 +422,21 @@ define(['jquery'], function($){
                                         }
                                     }
                                 break;
-                                
+
                                 case 'string':
                                     var sameAsFunction = function(){ var value = ($element[0].getData() != null) ? $element[0].getData() : ''; return api.getRegisteredElement(options.sameAs).getData() == value; };
-                                                            
+
                                     if (typeof(options.min) == 'undefined' && typeof(options.max) == 'undefined'){
                                         // no min, no max.
                                         if (typeof(options.sameAs) == 'undefined'){
-                                            
-                                            element.isValid = function(){ 
+
+                                            element.isValid = function(){
                                                 if (mandatory == false && $element[0].getData() == null){
                                                     return true;
                                                 }
                                                 else{
-                                                    return firstValueFunction();	
-                                                } 
+                                                    return firstValueFunction();
+                                                }
                                             };
                                         }
                                         else{
@@ -455,7 +455,7 @@ define(['jquery'], function($){
                                         if (typeof(options.sameAs) == 'undefined'){
                                             element.isValid = function() {
                                                 if (mandatory == false && $element[0].getData() == null){
-                                                    return true;	
+                                                    return true;
                                                 }
                                                 else{
                                                     var value = ($element[0].getData() != null) ? $element[0].getData() : '';
@@ -466,7 +466,7 @@ define(['jquery'], function($){
                                         else{
                                             element.isValid = function() {
                                                 if (mandatory == false && $element[0].getData() == null){
-                                                    return true;	
+                                                    return true;
                                                 }
                                                 else{
                                                     var value = ($element[0].getData() != null) ? $element[0].getData() : '';
@@ -487,7 +487,7 @@ define(['jquery'], function($){
                                                 }
                                                 else{
                                                     var value = ($element[0].getData() != null) ? $element[0].getData() : '';
-                                                    return firstValueFunction() && value.length >= options.min && sameAsFunction();	
+                                                    return firstValueFunction() && value.length >= options.min && sameAsFunction();
                                                 }
                                             };
                                         }
@@ -495,15 +495,15 @@ define(['jquery'], function($){
                                     else{
                                         // min and max.
                                         if (typeof(options.sameAs) == 'undefined'){
-                                            
-                                            element.isValid = function() { 
+
+                                            element.isValid = function() {
                                                 if (mandatory == false && $element[0].getData() == null){
                                                     return true;
                                                 }
                                                 else{
-                                                    var value = ($element[0].getData() != null) ? $element[0].getData() : ''; 
-                                                    return firstValueFunction() && value.length >= options.min && value.length <= options.max;	
-                                                } 
+                                                    var value = ($element[0].getData() != null) ? $element[0].getData() : '';
+                                                    return firstValueFunction() && value.length >= options.min && value.length <= options.max;
+                                                }
                                             };
                                         }
                                         else{
@@ -513,7 +513,7 @@ define(['jquery'], function($){
                                                 }
                                                 else{
                                                     var value = ($element[0].getData() != null) ? $element[0].getData() : '';
-                                                    return firstValueFunction() && value.length >= options.min && value.length <= options.max && sameAsFunction();	
+                                                    return firstValueFunction() && value.length >= options.min && value.length <= options.max && sameAsFunction();
                                                 }
                                             };
                                         }
@@ -524,18 +524,18 @@ define(['jquery'], function($){
                     }
                     else{
                         var mandatory = true;
-                        element.isValid = function(){ return firstValueFunction() && $element.val().length > 0; };	
+                        element.isValid = function(){ return firstValueFunction() && $element.val().length > 0; };
                     }
                 }
                 else if ($element.attr('type') == 'checkbox' || $element.attr('type') == 'radio'){
                     element.isValid = function(){ return true; };
                 }
             break;
-            
+
             case 'select':
                 element.isValid =  function() { return true; };
             break;
-            
+
             default:
                 throw "No support for element with id '" + $element.attr('id') + "'.";
             break;
@@ -555,7 +555,7 @@ define(['jquery'], function($){
             case 'input':
             case 'textarea':
                 if ($element.prop('tagName').toLowerCase() == 'textarea' || $element.attr('type') == 'text' || $element.attr('type') == 'password'){
-                    element.getData = function(){ return (this.value != this.firstValue) ? ((this.value == '') ? null : this.value) : null; };	
+                    element.getData = function(){ return (this.value != this.firstValue) ? ((this.value == '') ? null : this.value) : null; };
                 }
                 else if ($element.attr('type') == 'hidden') {
                     element.getData = function(){ return this.value; };
@@ -564,11 +564,11 @@ define(['jquery'], function($){
                     element.getData = function(){ return element.checked; };
                 }
             break;
-            
+
             case 'select':
                 element.getData = function(){ return this.options[this.selectedIndex].value; };
             break;
-            
+
             default:
                 throw "No support for element with id '" + $element.attr('id') + "'.";
             break;
@@ -578,19 +578,19 @@ define(['jquery'], function($){
     TaoInstall.prototype.getDataSetter = function(element){
         $element = $(element);
         var api = this;
-        
+
         switch ($element.prop('tagName').toLowerCase()){
-            
+
             case 'input':
             case 'textarea':
                 if ($element.prop('tagName').toLowerCase() == 'textarea' || $element.attr('type') == 'text' || $element.attr('type') == 'password' || $element.attr('type') == 'hidden'){
-                    element.setData = function(data) { this.value = data; };	
+                    element.setData = function(data) { this.value = data; };
                 }
                 else if ($element.attr('type') == 'checkbox'){
                     element.setData = function(data) { $(this).attr('checked', data); };
                 }
             break;
-            
+
             case 'select':
                 element.setData = function(data) {
                     var count = this.options.length;
@@ -602,7 +602,7 @@ define(['jquery'], function($){
                     }
                 };
             break;
-            
+
             default:
                 throw "No support for element with id '" + $element.attr('id') + "'.";
             break;
@@ -610,7 +610,7 @@ define(['jquery'], function($){
     };
 
     /**
-     * Clear the data store. 
+     * Clear the data store.
      */
     TaoInstall.prototype.clearData = function(){
         this.data = {};
@@ -619,7 +619,7 @@ define(['jquery'], function($){
     /**
      * Get a piece of data associated to the provided key in the data
      * store. If no data is bound to the key, null is returned.
-     * @param {String} key; 
+     * @param {String} key;
      */
     TaoInstall.prototype.getData = function(key){
         if (typeof(this.data[key]) != 'undefined'){
@@ -639,7 +639,7 @@ define(['jquery'], function($){
      */
     TaoInstall.prototype.populate = function(){
         var populated = [];
-        
+
         for (i in this.registeredElements){
             var element = this.registeredElements[i];
             if (typeof(element.setData) == 'function' && this.getData(element.id) != null){
@@ -647,10 +647,10 @@ define(['jquery'], function($){
                 populated.push(element);
             }
         }
-        
+
         // If something was populated, it means a state change might occur.
         this.stateChange();
-        
+
         return populated;
     };
 
@@ -663,29 +663,18 @@ define(['jquery'], function($){
     };
 
     // ----------- Private methods
-    TaoInstall.prototype.init = function(){	
-        var that = this;
-        
-        if (jQuery.browser.msie)
-        {
-            this.frame.onreadystatechange = function(){	
-                if(this.readyState == 'complete'){
-                    that.inject();	
-                }
-            };
-        }
-        else
-        {		
-            this.frame.onload = function(){
-                that.inject();					
-            };
-        }
+    TaoInstall.prototype.init = function(){
+        var self = this;
+
+        this.frame.onload = function(){
+            self.inject();
+        };
     };
 
-    TaoInstall.prototype.inject = function(){	
+    TaoInstall.prototype.inject = function(){
         var doc = this.getDocument();
         doc.install = this;
-        
+
         // Trigger the onLoad method of the API client to bootstrap
         // the template logic.
         if (doc.onLoad)
@@ -696,14 +685,14 @@ define(['jquery'], function($){
 
     TaoInstall.prototype.checkRegisteredElements = function(){
         var validity = true;
-        
+
         for (i in this.registeredElements){
-            
+
             var $registeredElement = $(this.registeredElements[i]);
-            
+
             if (!$registeredElement[0].isValid()){
                 validity = false;
-                
+
                 // The field is not valid.
                 // If it is not mandatory and that we have no value,
                 // we cannot consider it as 'invalid'.
@@ -718,7 +707,7 @@ define(['jquery'], function($){
                 if ($registeredElement.prop('tao-mandatory') == false &&
                     $registeredElement[0].getData() == null &&
                     typeof($registeredElement[0].onValidButEmpty) == 'function'){
-                    
+
                     $registeredElement[0].onValidButEmpty();
                 }
                 else if(typeof($registeredElement[0].onValid) == 'function') {
@@ -726,7 +715,7 @@ define(['jquery'], function($){
                 }
             }
         }
-        
+
         this.setNextable(validity);
     };
 
@@ -752,7 +741,7 @@ define(['jquery'], function($){
                 return element;
             }
         }
-        
+
         return null;
     };
 
@@ -760,7 +749,7 @@ define(['jquery'], function($){
         if (typeof(value) == 'undefined' || value == null){
             value = '';
         }
-        
+
         return value;
     };
     return TaoInstall;
