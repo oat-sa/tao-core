@@ -50,6 +50,7 @@ define([
         message : __('Waiting'),
         waitContent : __('Please wait while ...'),
         waitButtonText : __('Please wait'),
+        waitButtonIcon: 'clock',
         proceedContent : __('Wait is over'),
         proceedButtonText : __('Proceed'),
         showSecondary : false
@@ -94,7 +95,9 @@ define([
 
                     $button
                         .prop('disabled', true)
-                        .text(this.config.waitButtonText);
+                        .find('.label').text(this.config.waitButtonText)
+                        .end()
+                        .find("[class^='icon-']").removeClass('hidden');
 
                     if (config.showSecondary) {
                         $secondaryButton.removeProp('disabled');
@@ -123,11 +126,13 @@ define([
                         .text(this.config.proceedContent);
 
                     $button
-                        .text(this.config.proceedButtonText)
-                        .removeProp('disabled');
+                        .removeProp('disabled')
+                        .find('.label').text(this.config.proceedButtonText)
+                        .end()
+                        .find("[class^='icon-']").addClass('hidden');
 
                     if (config.showSecondary) {
-                        $secondaryButton.prop('disabled', true);
+                        $secondaryButton.hide();
                     }
 
                     /**
@@ -159,6 +164,7 @@ define([
                 var buttons = [{
                     id : 'waiting',
                     type : 'info',
+                    icon: this.config.waitButtonIcon, // FIXME: doesn't get rendered
                     label :this.config.waitButtonText,
                     close: true
                 }];
@@ -166,6 +172,7 @@ define([
                     buttons.push({
                         id : 'secondary',
                         type : 'info',
+                        icon: this.config.secondaryButtonIcon,
                         label :this.config.secondaryButtonText,
                         close: false
                     });
