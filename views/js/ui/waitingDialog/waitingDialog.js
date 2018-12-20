@@ -181,6 +181,7 @@ define([
                 this.dialog = dialog({
                     message : this.config.message,
                     content : this.config.waitContent || '',
+                    width: this.config.width,
                     autoRender : false,
                     disableClosing : true,
                     disableEscape   :true,
