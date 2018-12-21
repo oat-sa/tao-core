@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class, remove multi-instances)
  */
 
-define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context', 'jquery.tree', 'lib/jsTree/plugins/jquery.tree.contextmenu'], function($, __, GenerisTreeClass, helpers, context) {
+define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context', 'jquery.tree'], function($, __, GenerisTreeClass, helpers, context) {
 
     console.warn('Hello I am the GenerisTreeBrowserClass  and I am deprecated. I am there from a long but now I am tired, I need to retire. Please talk to my son layout/tree.');
 
