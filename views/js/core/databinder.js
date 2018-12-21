@@ -666,7 +666,7 @@ define([
          */
         var bindElements = function bindElements($boundElt, dataAttrName, binding){
             var selector = '[data-' + dataAttrName + ']';
-            $boundElt.find(selector).andSelf().filter(selector).each(function(){
+            $boundElt.find(selector).addBack().filter(selector).each(function(){
                 var $node = $(this);
                 var path = prefix + $node.data(dataAttrName);
                 self[binding]($node, path, model, domFirst);
