@@ -32,41 +32,51 @@ define([
     'form/property',
     'form/post-render-props',
     'util/encode',
-    'jwysiwyg' ],
-    function (
-        module,
-        $,
-        _,
-        __,
-        helpers,
-        context,
-        property,
-        postRenderProps,
-        encode
-        ) {
+    'ckeditor',
+    'ui/ckeditor/ckConfigurator'
+], function (
+    module,
+    $,
+    _,
+    __,
+    helpers,
+    context,
+    property,
+    postRenderProps,
+    encode,
+    ckeditor,
+    ckConfigurator ) {
+    'use strict';
 
-        'use strict';
-
-        /**
-         * Create a URL based on action and module
-         *
-         * @param action
-         * @returns {string}
-         */
-        function getUrl(action) {
-            var conf = module.config();
-            return context.root_url + conf.extension + '/' + conf.module + '/' + action;
-        }
+    /**
+     * Create a URL based on action and module
+     *
+     * @param action
+     * @returns {string}
+     */
+    var getUrl = function getUrl(action) {
+        var conf = module.config();
+        return context.root_url + conf.extension + '/' + conf.module + '/' + action;
+    };
 
     var UiForm = {
-        init: function () {
+
+        /**
+         * Keep references to CkEditor instances, per field
+         */
+        htmlEditors : {},
+
+        init: function init() {
             var self = this;
+
             this.counter = 0;
             this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
+            this.htmlEditors = {};
 
-            $("body").ajaxComplete(function (event, request, settings) {
+            $(document).ajaxComplete(function (event, request, settings) {
                 var testedUrl;
+
                 //initialize regarding the requested action
                 //async request waiting for html or not defined
                 if (settings.dataType === 'html' || !settings.dataType) {
@@ -93,7 +103,7 @@ define([
         /**
          * make some adjustment on the forms
          */
-        initRendering: function () {
+        initRendering: function initRendering() {
 
             var self = this;
 
@@ -147,10 +157,10 @@ define([
             }
 
             $('body').off('submit','.xhtml_form form').on('submit', '.xhtml_form form', function (e) {
+                var $form = $(this);
                 e.preventDefault();
-                var $form = $(this),
-                    formData = self.getFormData($form);
-                return self.submitForm($form, formData);
+
+                return self.submitForm($form,  self.getFormData($form));
             });
 
             $('.form-submitter').off('click').on('click', function (e) {
@@ -167,15 +177,16 @@ define([
          * @param {jQueryElement} $form
          * @returns {object|undefined}
          */
-        getFormData: function ($form) {
+        getFormData: function getFormData($form) {
+            var formData   = {};
+            var clazz      = {};
+            var properties = [];
+            var indexes    = [];
 
             //for backward compatibility
             if (!$('[id="tao.forms.class"]').length) {
                 return;
             }
-
-            var formData = {},
-                clazz = {};
 
             //get all global data
             $('input.global', $form[0]).each(function () {
@@ -194,7 +205,6 @@ define([
                 formData.class = clazz;
             }
 
-            var properties = [];
             //get data for each property
             $('.regular-property', $form[0]).each(function () {
                 var property = {};
@@ -235,7 +245,6 @@ define([
 
                 });
                 //get data for each index
-                var indexes = [];
                 $(':input.index', this).each(function () {
 
                     var i;
@@ -284,7 +293,10 @@ define([
             return formData;
         },
 
-        initElements: function () {
+        initElements: function initElements() {
+            var self = this;
+            var $uriElm;
+            var $classUriElm;
 
             //revert form button
             $(".form-refresher").off('click').on('click', function () {
@@ -295,8 +307,8 @@ define([
             });
 
             //translate button
-            var $uriElm      = $("#uri"),
-                $classUriElm = $("#classUri");
+            $uriElm      = $("#uri"),
+            $classUriElm = $("#classUri");
 
             $(".form-translator").off('click').on('click', function () {
                 if ( $uriElm.length && $classUriElm.length) {
@@ -307,9 +319,10 @@ define([
 
             //map the wysiwyg editor to the html-area fields
             $('.html-area').each(function () {
-                if ($(this).css('display') !== 'none') {
-                    $(this).wysiwyg({'css': context.taobase_www + 'css/layout.css'});
-                }
+                var propertyUri = this.id;
+                var editor = ckeditor.replace(this);
+                editor.config = ckConfigurator.getConfig(editor, 'htmlField', {resize_enabled : false });
+                self.htmlEditors[propertyUri] = editor;
             });
 
             $('.box-checker').off('click').on('click', function () {
@@ -416,7 +429,7 @@ define([
              * remove a form group, ie. a property
              */
             function removePropertyGroup() {
-                if (confirm(__('Please confirm property deletion!'))) {
+                if (window.confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
                     property.remove($(this).data("uri"), $("#id").val(), helpers._url('removeClassProperty', 'PropertiesAuthoring', 'tao'),function(){
                         $groupNode.remove();
@@ -488,8 +501,9 @@ define([
             });
 
             $(".property-mode").off('click').on('click', function () {
-                var $btn = $(this),
-                    mode = 'simple';
+                var $btn = $(this);
+                var mode = 'simple';
+                var url;
 
                 if ($btn.hasClass('disabled')) {
                     return;
@@ -498,7 +512,7 @@ define([
                 if ($btn.hasClass('property-mode-advanced')) {
                     mode = 'advanced';
                 }
-                var url = $btn.parents('form').prop('action');
+                url = $btn.parents('form').prop('action');
 
                 helpers.getMainContainer().load(url, {
                     'property_mode': mode,
@@ -538,7 +552,7 @@ define([
                         $elt.find('select').html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
                         return true;
                     }
-                })
+                });
             }
 
             /**
@@ -815,9 +829,10 @@ define([
 
             //show the "green plus" button to manage the lists
             $propertyListValues.each(function () {
+                var listControl;
                 var listField = $(this);
                 if (listField.parent().find('img').length === 0) {
-                    var listControl = $("<img title='manage lists' class='manage-lists' style='cursor:pointer;' />");
+                    listControl = $("<img title='manage lists' class='manage-lists' style='cursor:pointer;' />");
                     listControl.prop('src', context.taobase_www + "img/add.png");
                     listControl.click(function () {
                         listField.val('new');
@@ -838,7 +853,8 @@ define([
         /**
          * controls of the translation forms
          */
-        initTranslationForm: function () {
+        initTranslationForm: function initTranslationForm () {
+            var self = this;
             $('#translate_lang').change(function () {
                 var trLang = $(this).val();
                 if (trLang !== '') {
@@ -851,15 +867,16 @@ define([
                         getUrl('getTranslatedData'),
                         {uri: $("#uri").val(), classUri: $("#classUri").val(), lang: trLang},
                         function (response) {
-                            for (var index in response) {
-                                var formElt = $(":input[name='" + index + "']");
-                                if (formElt.hasClass('html-area')) {
-                                    formElt.wysiwyg('setContent', response[index]);
+                            var index;
+                            var formElt;
+                            for (index in response) {
+                                formElt = $(":input[name='" + index + "']");
+                                if (formElt.hasClass('html-area') && self.htmlEditors[index]) {
+                                    self.htmlEditors[index].setData(response[index]);
                                 }
                                 else {
                                     formElt.val(response[index]);
                                 }
-
                             }
                         },
                         'json'
@@ -874,7 +891,9 @@ define([
          * @param serialize
          * @return boolean
          */
-        submitForm: function (myForm, serialize) {
+        submitForm: function submitForm(myForm, serialize) {
+            var self = this;
+            var $container;
 
             try {
                 if (myForm.prop('enctype') === 'multipart/form-data' && myForm.find(".file-uploader").length) {
@@ -882,11 +901,18 @@ define([
                 }
                 else {
                     //FIXME should use sectionAPI instead
-                    var $container = myForm.closest('.content-block');
+                    $container = myForm.closest('.content-block');
                     if (!$container || $container.length === 0) {
                         return true;//go to the link
                     }
                     else {
+                        //if a ckeditor is in the form we need to sync the textarea content
+                        $('.html-area', myForm).each(function(){
+                            if(self.htmlEditors[this.id]){
+                                self.htmlEditors[this.id].updateElement();
+                            }
+                        });
+
                         serialize = typeof serialize !== 'undefined' ? serialize : myForm.serializeArray();
                         $container.load(myForm.prop('action'), serialize);
                     }
