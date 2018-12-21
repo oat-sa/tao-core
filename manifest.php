@@ -149,7 +149,6 @@ return array(
         array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'TaskQueueData')),
         array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'RestResource')),
         array('grant', TaoRoles::BACK_OFFICE,          array('ext'=>'tao','mod' => 'RestClass')),
-        array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Api')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Breadcrumbs')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'Export')),
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'File')),
@@ -172,9 +171,9 @@ return array(
     ),
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint91',
+        'TAO_VERSION' => '3.3.0-sprint92.1',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint91',
+        'TAO_VERSION_NAME' => '3.3.0-sprint92.1',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

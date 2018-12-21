@@ -15,7 +15,7 @@ define([
         }
     });
 
-    QUnit.test('plugin', function(assert){
+    QUnit.test('Plugin', function(assert){
        QUnit.expect(1);
        assert.ok(typeof $.fn.datatable === 'function', 'The datatable plugin is registered');
     });
@@ -1040,10 +1040,10 @@ define([
         });
     });
 
-    QUnit.asyncTest('sortable headers', function(assert) {
+    QUnit.asyncTest('Sortable headers', function(assert) {
         var $container = $('#container-1');
 
-        QUnit.expect(9);
+        QUnit.expect(14);
 
         assert.equal($container.length, 1, 'Test the fixture is available');
 
@@ -1052,15 +1052,25 @@ define([
             var $loginHead = $('.datatable thead th:nth-child(1) > div', $container);
             var $emailHead = $('.datatable thead th:nth-child(3) > div', $container);
 
+            $loginHead.trigger('click');
+
             assert.equal($loginHead.length, 1, 'The login head exists');
             assert.equal($loginHead.text().trim(), 'Login', 'The login head contains the right text');
             assert.ok($loginHead.hasClass('sortable'), 'The login column is sortable');
             assert.equal($loginHead.data('sort-by'), 'login', 'The sort by data is correct');
+            assert.equal($loginHead.data('sort-type'), 'string', 'The sort type is correct');
 
             assert.equal($emailHead.length, 1, 'The email head exists');
             assert.equal($emailHead.text().trim(), 'Email', 'The email head contains the right text');
             assert.ok(!$emailHead.hasClass('sortable'), 'The email column is not sortable');
             assert.ok(!$emailHead.data('sort-by'), 'The sort by data does not exist');
+            assert.ok(!$emailHead.data('sort-type'), 'The sort type does not exist');
+
+        }).on('sort.datatable', function (e, sortby, sortorder, sorttype) {
+
+            assert.equal(sortby, 'login', 'The sort by data passed via event');
+            assert.notEqual(sortorder, undefined, 'The sort order passed via event');
+            assert.equal(sorttype, 'string', 'The sort type passed via event');
 
             QUnit.start();
         })
@@ -1069,7 +1079,8 @@ define([
             'model' : [{
                 id: 'login',
                 label: 'Login',
-                sortable: true
+                sortable: true,
+                sorttype: 'string'
             }, {
                 id: 'name',
                 label: 'Name',

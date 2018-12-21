@@ -702,14 +702,17 @@ define([
          * @fires dataTable#sort.datatable
          */
         _sort: function($elt, sortBy, asc, sortType) {
+
+            var options = this._sortOptions($elt, sortBy, asc, sortType);
+
             /**
-             * @event dataTable#sort.dataTable
+             * @event dataTable#sort.datatable
              * @param {String} column - The name of the column to sort
              * @param {String} direction - The sort direction
+             * @param {String} type - The type of sorting field, string or numeric
              */
-            $elt.trigger('sort.' + ns, [sortBy, asc, sortType]);
+            $elt.trigger('sort.' + ns, [options.sortby, options.sortorder, options.sorttype]);
 
-            this._sortOptions($elt, sortBy, asc, sortType);
             this._query($elt);
         },
 
