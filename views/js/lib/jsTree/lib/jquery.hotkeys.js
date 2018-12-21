@@ -2,53 +2,53 @@
 (c) Copyrights 2007 - 2008
 
 Original idea by by Binny V A, http://www.openjs.com/scripts/events/keyboard_shortcuts/
- 
-jQuery Plugin by Tzury Bar Yochay 
+
+jQuery Plugin by Tzury Bar Yochay
 tzury.by@gmail.com
 http://evalinux.wordpress.com
 http://facebook.com/profile.php?id=513676303
 
-Project's sites: 
+Project's sites:
 http://code.google.com/p/js-hotkeys/
 http://github.com/tzuryby/hotkeys/tree/master
 
-License: same as jQuery license. 
+License: same as jQuery license.
 
 USAGE:
     // simple usage
-    $(document).bind('keydown', 'Ctrl+c', function(){ alert('copy anyone?');});
-    
+    $(document).on('keydown', 'Ctrl+c', function(){ alert('copy anyone?');});
+
     // special options such as disableInIput
-    $(document).bind('keydown', {combi:'Ctrl+x', disableInInput: true} , function() {});
-    
+    $(document).on('keydown', {combi:'Ctrl+x', disableInInput: true} , function() {});
+
 Note:
-    This plugin wraps the following jQuery methods: $.fn.find, $.fn.bind and $.fn.unbind
-    
+    This plugin wraps the following jQuery methods: $.fn.find, $.fn.on and $.fn.off
+
 */
 
 
 (function (jQuery){
-    // keep reference to the original $.fn.bind and $.fn.unbind
-    jQuery.fn.__bind__ = jQuery.fn.bind;
-    jQuery.fn.__unbind__ = jQuery.fn.unbind;
+    // keep reference to the original $.fn.on and $.fn.off
+    jQuery.fn.__on__ = jQuery.fn.on;
+    jQuery.fn.__off__ = jQuery.fn.off;
     jQuery.fn.__find__ = jQuery.fn.find;
-    
+
     var hotkeys = {
         version: '0.7.8',
         override: /keydown|keypress|keyup/g,
         triggersMap: {},
-        
-        specialKeys: { 27: 'esc', 9: 'tab', 32:'space', 13: 'return', 8:'backspace', 145: 'scroll', 
+
+        specialKeys: { 27: 'esc', 9: 'tab', 32:'space', 13: 'return', 8:'backspace', 145: 'scroll',
             20: 'capslock', 144: 'numlock', 19:'pause', 45:'insert', 36:'home', 46:'del',
-            35:'end', 33: 'pageup', 34:'pagedown', 37:'left', 38:'up', 39:'right',40:'down', 
-            112:'f1',113:'f2', 114:'f3', 115:'f4', 116:'f5', 117:'f6', 118:'f7', 119:'f8', 
+            35:'end', 33: 'pageup', 34:'pagedown', 37:'left', 38:'up', 39:'right',40:'down',
+            112:'f1',113:'f2', 114:'f3', 115:'f4', 116:'f5', 117:'f6', 118:'f7', 119:'f8',
             120:'f9', 121:'f10', 122:'f11', 123:'f12' },
-        
-        shiftNums: { "`":"~", "1":"!", "2":"@", "3":"#", "4":"$", "5":"%", "6":"^", "7":"&", 
-            "8":"*", "9":"(", "0":")", "-":"_", "=":"+", ";":":", "'":"\"", ",":"<", 
+
+        shiftNums: { "`":"~", "1":"!", "2":"@", "3":"#", "4":"$", "5":"%", "6":"^", "7":"&",
+            "8":"*", "9":"(", "0":")", "-":"_", "=":"+", ";":":", "'":"\"", ",":"<",
             ".":">",  "/":"?",  "\\":"|" },
-        
-        newTrigger: function (type, combi, callback) { 
+
+        newTrigger: function (type, combi, callback) {
             // i.e. {'keyup': {'ctrl': {cb: callback, disableInInput: false}}}
             var result = {};
             result[type] = {};
@@ -57,19 +57,19 @@ Note:
         }
     };
     // add firefox num pad char codes
-    if (jQuery.browser.mozilla){
-        hotkeys.specialKeys = jQuery.extend(hotkeys.specialKeys, { 96: '0', 97:'1', 98: '2', 99: 
+    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+        hotkeys.specialKeys = jQuery.extend(hotkeys.specialKeys, { 96: '0', 97:'1', 98: '2', 99:
             '3', 100: '4', 101: '5', 102: '6', 103: '7', 104: '8', 105: '9' });
     }
-    
-    // a wrapper around of $.fn.find 
+
+    // a wrapper around of $.fn.find
     // see more at: http://groups.google.com/group/jquery-en/browse_thread/thread/18f9825e8d22f18d
     jQuery.fn.find = function( selector ) {
         this.query=selector;
         return jQuery.fn.__find__.apply(this, arguments);
 	};
-    
-    jQuery.fn.unbind = function (type, combi, fn){
+
+    jQuery.fn.off = function (type, combi, fn){
         if (jQuery.isFunction(combi)){
             fn = combi;
             combi = null;
@@ -81,30 +81,30 @@ Note:
                 delete hotkeys.triggersMap[selectorId][hkTypes[x]][combi];
             }
         }
-        // call jQuery original unbind
-        return  this.__unbind__(type, fn);
+        // call jQuery original off
+        return  this.__off__(type, fn);
     };
-    
-    jQuery.fn.bind = function(type, data, fn){
+
+    jQuery.fn.on = function(type, data, fn){
         // grab keyup,keydown,keypress
         var handle = type.match(hotkeys.override);
-        
+
         if (jQuery.isFunction(data) || !handle){
-            // call jQuery.bind only
-            return this.__bind__(type, data, fn);
+            // call jQuery.on only
+            return this.__on__(type, data, fn);
         }
         else{
             // split the job
-            var result = null,            
-            // pass the rest to the original $.fn.bind
+            var result = null,
+            // pass the rest to the original $.fn.on
             pass2jq = jQuery.trim(type.replace(hotkeys.override, ''));
-            
-            // see if there are other types, pass them to the original $.fn.bind
+
+            // see if there are other types, pass them to the original $.fn.on
             if (pass2jq){
-                // call original jQuery.bind()
-                result = this.__bind__(pass2jq, data, fn);
-            }            
-            
+                // call original jQuery.on()
+                result = this.__on__(pass2jq, data, fn);
+            }
+
             if (typeof data === "string"){
                 data = {'combi': data};
             }
@@ -114,10 +114,10 @@ Note:
                     var combi = data.combi.toLowerCase(),
                         trigger = hotkeys.newTrigger(eventType, combi, fn),
                         selectorId = ((this.prevObject && this.prevObject.query) || (this[0].id && this[0].id) || this[0]).toString();
-                        
+
                     //trigger[eventType][combi].propagate = data.propagate;
                     trigger[eventType][combi].disableInInput = data.disableInInput;
-                    
+
                     // first time selector is bounded
                     if (!hotkeys.triggersMap[selectorId]) {
                         hotkeys.triggersMap[selectorId] = trigger;
@@ -137,29 +137,30 @@ Note:
                     else {
                         hotkeys.triggersMap[selectorId][eventType][combi][mapPoint.length] = trigger[eventType][combi];
                     }
-                    
+
                     // add attribute and call $.event.add per matched element
                     this.each(function(){
                         // jQuery wrapper for the current element
                         var jqElem = jQuery(this);
-                        
+
                         // element already associated with another collection
                         if (jqElem.attr('hkId') && jqElem.attr('hkId') !== selectorId){
                             selectorId = jqElem.attr('hkId') + ";" + selectorId;
                         }
                         jqElem.attr('hkId', selectorId);
                     });
-                    result = this.__bind__(handle.join(' '), data, hotkeys.handler)
+                    result = this.__on__(handle.join(' '), data, hotkeys.handler)
                 }
             }
             return result;
         }
     };
-    // work-around for opera and safari where (sometimes) the target is the element which was last 
+    // work-around for opera and safari where (sometimes) the target is the element which was last
     // clicked with the mouse and not the document event it would make sense to get the document
     hotkeys.findElement = function (elem){
         if (!jQuery(elem).attr('hkId')){
-            if (jQuery.browser.opera || jQuery.browser.safari){
+            if (navigator.userAgent.toLowerCase().indexOf('opera') > -1 ||
+zsh:1: command not found: :wq
                 while (!jQuery(elem).attr('hkId') && elem.parentNode){
                     elem = elem.parentNode;
                 }
@@ -169,10 +170,10 @@ Note:
     };
     // the event handler
     hotkeys.handler = function(event) {
-        var target = hotkeys.findElement(event.currentTarget), 
+        var target = hotkeys.findElement(event.currentTarget),
             jTarget = jQuery(target),
             ids = jTarget.attr('hkId');
-        
+
         if(ids){
             ids = ids.split(';');
             var code = event.which,
@@ -181,8 +182,8 @@ Note:
                 // prevent f5 overlapping with 't' (or f4 with 's', etc.)
                 character = !special && String.fromCharCode(code).toLowerCase(),
                 shift = event.shiftKey,
-                ctrl = event.ctrlKey,            
-                // patch for jquery 1.2.5 && 1.2.6 see more at:  
+                ctrl = event.ctrlKey,
+                // patch for jquery 1.2.5 && 1.2.6 see more at:
                 // http://groups.google.com/group/jquery-en/browse_thread/thread/83e10b3bb1f1c32b
                 alt = event.altKey || event.originalEvent.altKey,
                 mapPoint = null;
@@ -193,9 +194,9 @@ Note:
                     break;
                 }
             }
-            
-            //find by: id.type.combi.options            
-            if (mapPoint){ 
+
+            //find by: id.type.combi.options
+            if (mapPoint){
                 var trigger;
                 // event type is associated with the hkId
                 if(!shift && !ctrl && !alt) { // No Modifiers
@@ -207,12 +208,12 @@ Note:
                     if(alt) modif +='alt+';
                     if(ctrl) modif+= 'ctrl+';
                     if(shift) modif += 'shift+';
-                    
+
                     // modifiers + special keys or modifiers + character or modifiers + shift character or just shift character
                     trigger = mapPoint[modif+special];
                     if (!trigger){
                         if (character){
-                            trigger = mapPoint[modif+character] 
+                            trigger = mapPoint[modif+character]
                                 || mapPoint[modif+hotkeys.shiftNums[character]]
                                 // '$' can be triggered as 'Shift+4' or 'Shift+$' or just '$'
                                 || (modif === 'shift+' && mapPoint[hotkeys.shiftNums[character]]);
@@ -225,7 +226,7 @@ Note:
                         if(trigger[x].disableInInput){
                             // double check event.currentTarget and event.target
                             var elem = jQuery(event.target);
-                            if (jTarget.is("input") || jTarget.is("textarea") 
+                            if (jTarget.is("input") || jTarget.is("textarea")
                                 || elem.is("input") || elem.is("textarea")) {
                                 return true;
                             }
