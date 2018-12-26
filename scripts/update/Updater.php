@@ -54,6 +54,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
@@ -875,5 +876,11 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('21.5.0', '22.6.0');
+
+        if ($this->isVersion('22.6.0')) {
+            $annotationService = new RouteAnnotationService();
+            $this->getServiceManager()->register(RouteAnnotationService::SERVICE_ID, $annotationService);
+            $this->setVersion('22.7.0');
+        }
     }
 }

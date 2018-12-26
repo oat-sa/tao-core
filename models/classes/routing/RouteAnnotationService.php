@@ -22,14 +22,31 @@
 namespace oat\tao\model\routing;
 
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ConfigurableService;
+use ReflectionMethod;
 
 class RouteAnnotationService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/routeAnnotation';
 
-    public function verify($className, $methodName = '')
+    /**
+     * @param $className
+     * @param string $methodName
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \ReflectionException
+     * @throws \ResolverException
+     */
+    public function validate($className, $methodName = '')
     {
+        // we need to define class, without we need to change autoloader file on each environment
+        new RouteAnnotation();
+        $reflectionMethod = new ReflectionMethod($className, $methodName);
+        $annotationReader = new AnnotationReader();
+        $annotation = $annotationReader->getMethodAnnotation($reflectionMethod, RouteAnnotation::class);
 
+        if ($annotation instanceof RouteAnnotation && $annotation->getAction() == 'NotFound') {
+            throw new \ResolverException('Blocked by the method annotation');
+        }
     }
 }

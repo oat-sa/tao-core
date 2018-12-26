@@ -19,7 +19,6 @@
  */
 namespace oat\tao\model\routing;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use InterruptedActionException;
 use common_ext_ExtensionsManager;
 use common_http_Request;
@@ -28,7 +27,6 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use ReflectionMethod;
 
 /**
  * A simple controller to replace the ClearFw controller
@@ -46,24 +44,6 @@ class TaoFrontController implements ServiceManagerAwareInterface
     }
 
     /**
-     * @param Resolver $resolver
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \ReflectionException
-     * @throws \ResolverException
-     */
-    private function validateAnnotations(Resolver $resolver)
-    {
-        // we need to define class, without we need to change autoloader file on each environment
-        new RouteAnnotation();
-        $reflectionMethod = new ReflectionMethod($resolver->getControllerClass(), $resolver->getMethodName());
-        $annotationReader = new AnnotationReader();
-        $annotation = $annotationReader->getMethodAnnotation($reflectionMethod, RouteAnnotation::class);
-        if ($annotation instanceof RouteAnnotation && $annotation->getAction() == 'NotFound') {
-            throw new \ResolverException('Blocked by the method annotation');
-        }
-    }
-
-    /**
      * Run the controller
      * 
      * @param common_http_Request $pRequest
@@ -75,7 +55,9 @@ class TaoFrontController implements ServiceManagerAwareInterface
     public function legacy(common_http_Request $pRequest) {
         $resolver = new Resolver($pRequest);
         $this->propagate($resolver);
-        $this->validateAnnotations($resolver);
+        $this->getServiceLocator()
+            ->get(RouteAnnotationService::SERVICE_ID)
+            ->validate($resolver->getControllerClass(), $resolver->getMethodName());
 
         // load the responsible extension
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
