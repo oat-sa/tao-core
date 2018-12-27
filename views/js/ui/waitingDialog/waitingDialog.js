@@ -101,6 +101,7 @@ define([
 
                     if (config.showSecondary) {
                         $secondaryButton.removeProp('disabled');
+                        $secondaryButton.removeClass('hidden');
                     }
 
                     /**
@@ -132,7 +133,8 @@ define([
                         .find("[class^='icon-']").addClass('hidden');
 
                     if (config.showSecondary) {
-                        $secondaryButton.hide();
+                        $secondaryButton.prop('disabled', true);
+                        $secondaryButton.addClass('hidden');
                     }
 
                     /**
@@ -164,7 +166,7 @@ define([
                 var buttons = [{
                     id : 'waiting',
                     type : 'info',
-                    icon: this.config.waitButtonIcon, // FIXME: doesn't get rendered
+                    icon: this.config.waitButtonIcon,
                     label :this.config.waitButtonText,
                     close: true
                 }];
