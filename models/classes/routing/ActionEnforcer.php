@@ -24,6 +24,7 @@ use IExecutable;
 use ActionEnforcingException;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
+use oat\tao\helpers\ControllerHelper;
 use ReflectionMethod;
 
 use common_session_SessionManager;
@@ -92,7 +93,13 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
         }
     }
-    
+
+    /**
+     * @throws PermissionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
     protected function verifyAuthorization() {
         $user = common_session_SessionManager::getSession()->getUser();
         if (!AclProxy::hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())) {
@@ -108,56 +115,68 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
 	    }
     }
-    
-	public function execute()
-	{
-	    // Are we authorized to execute this action?
-        try {
-            $this->verifyAuthorization();
-        } catch(PermissionException $pe){
-            //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error). 
-            \Context::getInstance()->setExtensionName('tao');
-            $this->action       = 'denied';
-            $this->controller   = 'tao_actions_Permission';
-            $this->extension    = 'tao';
-        }
 
-	    // get the controller
-	    $controller = $this->getController();
-	    $action = $this->getAction();
+    /**
+     * @throws ActionEnforcingException
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \ReflectionException
+     * @throws \common_exception_Error
+     * @throws \common_exception_MissingParameter
+     * @throws tao_models_classes_AccessDeniedException
+     */
+    public function execute()
+    {
+        // get the controller
+        $controller = $this->getController();
+        $action = $this->getAction();
 
-	    // if the method related to the specified action exists, call it
-	    if (method_exists($controller, $action)) {
-	
-	        // search parameters method
-	        $reflect	= new ReflectionMethod($controller, $action);
-	        $parameters	= $this->getParameters();
-	
-	        $tabParam 	= array();
-	        foreach($reflect->getParameters() as $param) {
-	            if (isset($parameters[$param->getName()])) {
-	               $tabParam[$param->getName()] = $parameters[$param->getName()];
-	            } elseif (!$param->isDefaultValueAvailable()) {
-	                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
-	            }
-	        }
-	
-	        // Action method is invoked, passing request parameters as
-	        // method parameters.
-	        $user = common_session_SessionManager::getSession()->getUser();
-	        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+        // if the method related to the specified action exists, call it
+        if (
+            method_exists($controller, $action) &&
+            // extra layer of the security - to not run an action if denied
+            !ControllerHelper::isNotFound(get_class($controller), $action)
+        ) {
 
-            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-            $eventManager->trigger(new BeforeAction());
+            // Are we authorized to execute this action?
+            try {
+                $this->verifyAuthorization();
 
-	        call_user_func_array(array($controller, $action), $tabParam);
-	
-	        // Render the view if selected.
-	        if ($controller->hasView())
-	        {
-	            $renderer = $controller->getRenderer();
-	            echo $renderer->render();
-	        }
+                // search parameters method
+                $reflect	= new ReflectionMethod($controller, $action);
+                $parameters	= $this->getParameters();
+
+                $tabParam 	= array();
+                foreach($reflect->getParameters() as $param) {
+                    if (isset($parameters[$param->getName()])) {
+                        $tabParam[$param->getName()] = $parameters[$param->getName()];
+                    } elseif (!$param->isDefaultValueAvailable()) {
+                        $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+                    }
+                }
+
+                // Action method is invoked, passing request parameters as
+                // method parameters.
+                $user = common_session_SessionManager::getSession()->getUser();
+                $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+
+                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+                $eventManager->trigger(new BeforeAction());
+
+                call_user_func_array(array($controller, $action), $tabParam);
+
+                // Render the view if selected.
+                if ($controller->hasView())
+                {
+                    $renderer = $controller->getRenderer();
+                    echo $renderer->render();
+                }
+            } catch(PermissionException $pe){
+                //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error).
+                \Context::getInstance()->setExtensionName('tao');
+                $this->action       = 'denied';
+                $this->controller   = 'tao_actions_Permission';
+                $this->extension    = 'tao';
+            }
 	    }
 	    else {
 	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",

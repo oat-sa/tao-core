@@ -31,22 +31,70 @@ class RouteAnnotationService extends ConfigurableService
     const SERVICE_ID = 'tao/routeAnnotation';
 
     /**
-     * @param $className
-     * @param string $methodName
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \ReflectionException
-     * @throws \ResolverException
+     * @param RouteAnnotation $annotation
+     * @return bool
      */
-    public function validate($className, $methodName = '')
+    public function isNotFound(RouteAnnotation $annotation = null)
     {
-        // we need to define class, without we need to change autoloader file on each environment
-        new RouteAnnotation();
-        $reflectionMethod = new ReflectionMethod($className, $methodName);
-        $annotationReader = new AnnotationReader();
-        $annotation = $annotationReader->getMethodAnnotation($reflectionMethod, RouteAnnotation::class);
-
-        if ($annotation instanceof RouteAnnotation && $annotation->getAction() == 'NotFound') {
-            throw new \ResolverException('Blocked by the method annotation');
+        try {
+            $notFound = $annotation instanceof RouteAnnotation && $annotation->getAction() === 'NotFound';
+        } catch (\Exception $e) {
+            $notFound = false; // if class or method not found
         }
+
+        return $notFound;
+    }
+
+    /**
+     * @param RouteAnnotation $annotation
+     * @return bool
+     */
+    public function hasAccess(RouteAnnotation $annotation = null)
+    {
+        $access = true;
+        try {
+            if ($annotation instanceof RouteAnnotation) {
+                switch ($annotation->getAction()) {
+                    case 'NotFound':
+                        $access = false;
+                        break;
+                    case 'allow':
+                        $access = $this->hasRights($annotation);
+                        break;
+                }
+            }
+        }  catch (\Exception $e) {
+            $access = false; // if class or method not found
+        }
+
+        return $access;
+    }
+
+    private function hasRights(RouteAnnotation $annotation)
+    {
+        $requiredRights = $annotation->getRequiredRights();
+        // todo implement it
+        return false;
+    }
+
+    /**
+     * @param $className
+     * @param $methodName
+     * @return RouteAnnotation
+     */
+    public function getAnnotation($className, $methodName)
+    {
+        $annotation = null;
+        try {
+            // we need to define class
+            // we need to change autoloader file without this, on each environment
+            new RouteAnnotation();
+            $reflectionMethod = new ReflectionMethod($className, $methodName);
+            $annotationReader = new AnnotationReader();
+            $annotation = $annotationReader->getMethodAnnotation($reflectionMethod, RouteAnnotation::class);
+        } catch (\Exception $e) {
+            $this->logNotice('Undefined annotation: ' . $e->getMessage());
+        }
+        return $annotation;
     }
 }

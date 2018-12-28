@@ -24,20 +24,18 @@ class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
         $this->service = new RouteAnnotationService();
     }
 
-    /**
-     * @expectedException  \ReflectionException
-     */
     public function testValidateException()
     {
-        $this->service->validate('');
+        self::assertTrue($this->service->hasAccess());
     }
 
-    /**
-     * @expectedException \ResolverException
-     * @expectedExceptionMessage Blocked by the method annotation
-     */
     public function testValidateNotFound()
     {
-        $this->service->validate(RouteAnnotationExample::class, 'notFoundAnnotation');
+        self::assertTrue($this->service->isNotFound($this->service->getAnnotation(RouteAnnotationExample::class, 'notFoundAnnotation')));
+    }
+
+    public function testValidatePassed()
+    {
+        self::assertTrue($this->service->hasAccess($this->service->getAnnotation(RouteAnnotationExample::class, 'withoutAnnotation')));
     }
 }

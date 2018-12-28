@@ -28,11 +28,31 @@ namespace oat\tao\model\routing;
  */
 class RouteAnnotation
 {
+    /**
+     * default value on class initialisation
+     * @RouteAnnotation("value")
+     */
     public $value;
+    /**
+     * action value
+     * @RouteAnnotation(action = "actionValue")
+     * @var string
+     */
     public $action;
+    /**
+     * action value
+     * @RouteAnnotation(requiredRights = "[{id: 1}]")
+     * @var string
+     */
+    public $requiredRights;
 
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function getRequiredRights()
+    {
+        return $this->requiredRights;
     }
 }
