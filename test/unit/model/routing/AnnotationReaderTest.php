@@ -57,14 +57,6 @@ class AnnotationDemo
 }
 
 /**
- *
- *
- *
- * TODO Joel could you check where to place this test? I understand that this is not the best place, but I have no idea where could I place it. And I think that we need it.
- *
- *
- *
- *
  * Just to show how it works and to check that nothing changed and works as expected
  * Class AnnotationReaderTest
  * @package oat\tao\test\unit\model\routing

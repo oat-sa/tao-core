@@ -24,7 +24,6 @@ use IExecutable;
 use ActionEnforcingException;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\tao\helpers\ControllerHelper;
 use ReflectionMethod;
 
 use common_session_SessionManager;
@@ -118,7 +117,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     /**
      * @throws ActionEnforcingException
-     * @throws \Doctrine\Common\Annotations\AnnotationException
      * @throws \ReflectionException
      * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
@@ -134,7 +132,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         if (
             method_exists($controller, $action) &&
             // extra layer of the security - to not run an action if denied
-            !ControllerHelper::isNotFound(get_class($controller), $action)
+            !$this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID)->hasNotFoundAction(get_class($controller), $action)
         ) {
 
             // Are we authorized to execute this action?

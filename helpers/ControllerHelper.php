@@ -21,11 +21,8 @@
 
 namespace oat\tao\helpers;
 
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\controllerMap\Factory;
-use oat\tao\model\routing\RouteAnnotation;
-use oat\tao\model\routing\RouteAnnotationService;
 
 /**
  * Utility class that focuses on he controllers.
@@ -39,8 +36,6 @@ class ControllerHelper
     const CONTROLLER_PREFIX = 'controllerMap_c_';
     const ACTION_PREFIX = 'controllerMap_a_';
 
-    const ANNOTATION_PREFIX = '_a_';
-    
     /**
      * Returns al lthe controllers of an extension
      * 
@@ -103,66 +98,5 @@ class ControllerHelper
             ServiceManager::getServiceManager()->get('generis/cache')->put($rights, self::ACTION_PREFIX.$controllerClassName.'@'.$actionName);
         }
         return $rights;
-    }
-
-    /**
-     * @param $className
-     * @param $action
-     * @return bool
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \ReflectionException
-     */
-    public static function isNotFound($className, $action)
-    {
-        $annotation = self::getAnnotation($className, $action);
-        return self::getRouteAnnotationService()->isNotFound($annotation);
-    }
-
-    /**
-     * @return ServiceManager
-     */
-    private static function getServiceManager()
-    {
-        return ServiceManager::getServiceManager();
-    }
-
-    /**
-     * @return ConfigurableService|\common_cache_Cache
-     */
-    private static function getCacheService()
-    {
-        return self::getServiceManager()->get(\common_cache_Cache::SERVICE_ID);
-    }
-    
-    /**
-     * @return RouteAnnotationService|ConfigurableService
-     */
-    private static function getRouteAnnotationService()
-    {
-        return self::getServiceManager()->get(RouteAnnotationService::SERVICE_ID);
-    }
-
-    /**
-     * @param $className
-     * @param string $actionName
-     * @return RouteAnnotation
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \ReflectionException
-     */
-    private static function getAnnotation($className, $actionName = '')
-    {
-        $key = $actionName
-            ? self::ACTION_PREFIX . self::ANNOTATION_PREFIX . $className . '@' . $actionName
-            : self::CONTROLLER_PREFIX . self::ANNOTATION_PREFIX . $className;
-
-        try {
-            $annotation = unserialize(self::getCacheService()->get($key));
-        } catch (\common_cache_NotFoundException $e) {
-            $annotation = self::getRouteAnnotationService()->getAnnotation($className, $actionName);
-            self::getCacheService()->put(serialize($annotation), $key);
-        }
-
-        
-        return $annotation;
     }
 }

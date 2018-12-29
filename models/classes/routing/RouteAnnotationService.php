@@ -30,29 +30,52 @@ class RouteAnnotationService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/routeAnnotation';
 
+    const KEY_PREFIX = 'routeAnnotation_';
+
     /**
-     * @param RouteAnnotation $annotation
-     * @return bool
+     * @var \common_cache_Cache
      */
-    public function isNotFound(RouteAnnotation $annotation = null)
+    private $cacheService;
+    private function getCacheService()
     {
-        try {
-            $notFound = $annotation instanceof RouteAnnotation && $annotation->getAction() === 'NotFound';
-        } catch (\Exception $e) {
-            $notFound = false; // if class or method not found
+        if (!$this->cacheService) {
+            if ($this->hasOption('cacheService') && $this->getOption('cacheService') instanceof \common_cache_Cache) {
+                $this->cacheService = $this->getOption('cacheService');
+            } else {
+                $this->cacheService = $this->getServiceLocator()->get(\common_cache_Cache::SERVICE_ID);
+            }
         }
 
-        return $notFound;
+        return $this->cacheService;
     }
 
     /**
-     * @param RouteAnnotation $annotation
+     * @param string $className
+     * @param string $methodName
      * @return bool
      */
-    public function hasAccess(RouteAnnotation $annotation = null)
+    public function hasNotFoundAction($className, $methodName)
+    {
+        try {
+            $annotation = $this->getAnnotation($className, $methodName);
+            $hasAction = $annotation instanceof RouteAnnotation && $annotation->getAction() === 'NotFound';
+        } catch (\Exception $e) {
+            $hasAction = false; // if class or method not found
+        }
+
+        return $hasAction;
+    }
+
+    /**
+     * @param string $className
+     * @param string $methodName
+     * @return bool
+     */
+    public function hasAccess($className, $methodName)
     {
         $access = true;
         try {
+            $annotation = $this->getAnnotation($className, $methodName);
             if ($annotation instanceof RouteAnnotation) {
                 switch ($annotation->getAction()) {
                     case 'NotFound':
@@ -61,6 +84,8 @@ class RouteAnnotationService extends ConfigurableService
                     case 'allow':
                         $access = $this->hasRights($annotation);
                         break;
+                    // any unsupported actions return false
+                    default: $access = false;
                 }
             }
         }  catch (\Exception $e) {
@@ -84,6 +109,19 @@ class RouteAnnotationService extends ConfigurableService
      */
     public function getAnnotation($className, $methodName)
     {
+        $annotationKey = self::KEY_PREFIX . $className . $methodName;
+        try {
+            $annotation = unserialize($this->getCacheService()->get($annotationKey));
+        } catch (\common_cache_NotFoundException $e) {
+            $annotation = $this->readAnnotation($className, $methodName);
+            $this->getCacheService()->put(serialize($annotation), $annotationKey);
+        }
+
+        return $annotation;
+    }
+    
+    private function readAnnotation($className, $methodName)
+    {
         $annotation = null;
         try {
             // we need to define class
@@ -93,6 +131,7 @@ class RouteAnnotationService extends ConfigurableService
             $annotationReader = new AnnotationReader();
             $annotation = $annotationReader->getMethodAnnotation($reflectionMethod, RouteAnnotation::class);
         } catch (\Exception $e) {
+            $annotation = new RouteAnnotation();
             $this->logNotice('Undefined annotation: ' . $e->getMessage());
         }
         return $annotation;
