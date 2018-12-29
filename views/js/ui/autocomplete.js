@@ -237,6 +237,9 @@ define([
                 this.$element = this.$element.find(':input');
             }
 
+            // prepare the tooltip displayed when more suggestions are available on the server side for the current query
+            this.$tooltip = tooltip.instance(this.$element, tooltipConfigTooMany);
+
             // loads some options from HTML5 data-* attributes
             options = _.assign(_.clone(options || {}), _.pick(this.$element.data(), [
                 'url',
@@ -252,9 +255,6 @@ define([
                 'delay',
                 'minChars'
             ]));
-
-            // prepare the tooltip displayed when more suggestions are available on the server side for the current query
-            tooltip(this.$element, tooltipConfigTooMany);
 
 
             // install the keyboard listener used to prevent auto submits
@@ -279,8 +279,7 @@ define([
             this.applyPlugin('dispose');
             if (this.$element) {
                 this.$element.off('.' + NS);
-                this.$element.data('$tooltip').dispose();
-                this.$element.removeData('$tooltip');
+                this.$tooltip.dispose();
             }
             this.$element = null;
             return this;
@@ -384,7 +383,7 @@ define([
          */
         showTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.data('$tooltip').show();
+                this.$tooltip.show();
             }
         },
 
@@ -393,7 +392,7 @@ define([
          */
         hideTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.data('$tooltip').hide();
+                this.$tooltip.hide();
             }
         },
 

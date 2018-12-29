@@ -54,8 +54,9 @@ define([
                         title:message
                     }
                 });
-                tooltip($field, options.tooltip);
-                $field.data('$tooltip').show();
+                var instance = tooltip.instance($field, options.tooltip);
+                instance.show();
+                $field.data('$tooltip', instance);
                 $field.addClass(options.errorClass);
             },
 
