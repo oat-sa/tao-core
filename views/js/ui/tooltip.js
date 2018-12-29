@@ -22,38 +22,26 @@ define([
     'core/dataattrhandler',
     'lib/popper/popper',
     'lib/popper/tooltip',
-    'tpl!ui/tooltip/default',
-    'tpl!ui/tooltip/dark',
-    'tpl!ui/tooltip/error',
-    'tpl!ui/tooltip/success',
-    'tpl!ui/tooltip/info',
-    'tpl!ui/tooltip/warning',
-    'tpl!ui/tooltip/danger'
+    'tpl!ui/tooltip/default'
 ], function(
     $,
     _,
     DataAttrHandler,
     Popper,
     Tooltip,
-    defautTpl,
-    darkTpl,
-    errorTpl,
-    successTpl,
-    infoTpl,
-    warningTpl,
-    dangerTpl
+    defaultTpl
 ){
     'use strict';
 
     var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],
         themesMap = {
-            'default': defautTpl(),
-            'dark': darkTpl(),
-            'error': errorTpl(),
-            'success':successTpl(),
-            'info': infoTpl(),
-            'warning': warningTpl(),
-            'danger': dangerTpl()
+            'default': defaultTpl({class:'tooltip-plain'}),
+            'dark': defaultTpl({class:'tooltip-dark'}),
+            'error': defaultTpl({class:'tooltip-red'}),
+            'success':defaultTpl({class:'tooltip-green'}),
+            'info': defaultTpl({class:'tooltip-blue'}),
+            'warning': defaultTpl({class:'tooltip-orange'}),
+            'danger': defaultTpl({class:'tooltip-danger'})
         },
         defaultOptions = {
             template:themesMap['default'],
@@ -78,19 +66,17 @@ define([
      * @public
      * @param {jQueryElement} $container - the root context to lookup inside
      */
-    return function lookupSelector(element, options){
-        var themeName;
-        var template;
-        var instance;
-        var setTooltip = function (el, inst) {
-            if($(el).data('$tooltip')){
-                $(el).data('$tooltip').dispose();
-                $(el).removeData('$tooltip');
-            }
-            $(el).data('$tooltip', inst);
-        };
-        if(element && (element instanceof Element || element instanceof HTMLDocument || element.jquery)){
-            if(!options){
+    return {
+        lookup: function(element){
+            var themeName;
+            var setTooltip = function (el, inst) {
+                if($(el).data('$tooltip')){
+                    $(el).data('$tooltip').dispose();
+                    $(el).removeData('$tooltip');
+                }
+                $(el).data('$tooltip', inst);
+            };
+            if(element && (element instanceof Element || element instanceof HTMLDocument || element.jquery)){
                 $('[data-tooltip]', element).each(function(){
                     var $content = DataAttrHandler.getTarget('tooltip', $(this));
                     var opt;
@@ -103,18 +89,21 @@ define([
                     }
                     setTooltip(this, new Tooltip(this, opt));
                 });
-            }else{
-                themeName = _.contains(themes, options.theme) ? options.theme : 'default';
-                template = {
-                    template:themesMap[themeName]
-                };
-                instance = new Tooltip(element, _.merge(defaultOptions, template, options));
-                setTooltip(element, instance);
-                return instance;
+            } else {
+                throw new Error("Tooltip should be connected to DOM Element");
             }
-        } else {
-            throw new Error("Tooltip should be connected to DOM Element");
+
+        },
+        instance: function (el, settings){
+            if(!el && !(el instanceof Element || el instanceof HTMLDocument || el.jquery)){
+                throw new Error("Tooltip should be connected to DOM Element");
+            }
+            var themeName = _.contains(themes, settings.theme) ? settings.theme : 'default';
+            var template = {
+                template:themesMap[themeName]
+            };
+            return new Tooltip(el, _.merge(defaultOptions, template, settings));
         }
 
-    };
+    }
 });

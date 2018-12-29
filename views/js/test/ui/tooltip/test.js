@@ -29,7 +29,7 @@ define([
     var mouseenter = document.createEvent( 'Events' );
     var mouseleave = document.createEvent( 'Events' );
     var themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'];
-    var defaultTheme = defaultTpl();
+    var defaultTheme = defaultTpl({class:'tooltip-plain'});
 
     QUnit.module('tooltip');
 
@@ -40,16 +40,16 @@ define([
     QUnit.test('Tooltip: component initialization', function (assert) {
         var $single;
         QUnit.expect(2);
-        tooltip($('#' + containerName));
+        tooltip.lookup($('#' + containerName));
         $single = $( '[data-tooltip]', '#' + containerName).first();
         assert.ok($single.data('$tooltip'), 'tooltip got built from given container');
-        assert.throws(function(){tooltip();}, 'tooltip component throws an exception when called without attributes');
+        assert.throws(function(){tooltip.lookup();}, 'tooltip component throws an exception when called without attributes');
     });
     QUnit.test('Tooltip: component as Tooltip instance', function (assert) {
         var $ref = $( '[data-tooltip]', '#' + containerName).first();
         var instance;
         QUnit.expect(1);
-        instance = tooltip($ref, {title:'default text'});
+        instance = tooltip.instance($ref, {title:'default text'});
         assert.ok(instance, 'tooltip got built from given container');
     });
     QUnit.test('Tooltip: component API', function (assert) {
@@ -57,10 +57,10 @@ define([
         var instance;
         var wrapperInstance;
         QUnit.expect(14);
-        tooltip($('#' + containerName));
+        tooltip.lookup($('#' + containerName));
         $single = $( '[data-tooltip]', '#' + containerName).first();
         wrapperInstance = $single.data('$tooltip');
-        instance = tooltip($single, { title:'default text'});
+        instance = tooltip.instance($single, { title:'default text'});
         assert.equal(typeof wrapperInstance.show, 'function', 'tooltipAPI: show() defined');
         assert.equal(typeof wrapperInstance.hide, 'function', 'tooltipAPI: hide() defined');
         assert.equal(typeof wrapperInstance.dispose, 'function', 'tooltipAPI: dispose() defined');
@@ -84,7 +84,7 @@ define([
             var instance;
             QUnit.expect(2);
             $reference.attr('data-tooltip-theme', data);
-            tooltip($('#' + containerName));
+            tooltip.lookup($('#' + containerName));
             $single = $( '[data-tooltip]', '#' + containerName).first();
             instance = $single.data('$tooltip');
 
@@ -107,7 +107,7 @@ define([
         for(i; i < amount;i++){
             $reference.clone().attr('id', 'clonned_'+i).appendTo($container);
         }
-        tooltip($container);
+        tooltip.lookup($container);
         $('[data-tooltip]', $container).each(function(key, item){
             if($(item).data('$tooltip')){
                 resultAmount++;
@@ -124,7 +124,7 @@ define([
         var $elm = $('#visible-tooltip', $container);
         var $themeSelect = $('#theme-select', $container);
         QUnit.expect(1);
-        tooltip($container);
+        tooltip.lookup($container);
         assert.ok($elm.data("$tooltip"), 'tooltip instance is defined');
         themes.forEach(function (value) {
             $themeSelect.append('<option value="'+value+'">'+value+'</option>');
@@ -134,7 +134,7 @@ define([
             var $ref = $('#visible-tooltip', $container);
             var instance;
 
-            instance = new tooltip($ref,{
+            instance = new tooltip.instance($ref,{
                 theme: $themeSelect.val(),
                 title: $ref.data('$tooltip').options.title
             });
