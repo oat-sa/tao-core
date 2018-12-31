@@ -28,10 +28,11 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * Top level controller
- * All children extenions module should extends the CommonModule to access the shared data
+ * All children extensions module should extends the CommonModule to access the shared data
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2 http://www.opensource.org/licenses/gpl-2.0.php
@@ -41,6 +42,7 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
+    use LoggerAwareTrait;
 
     /**
      * The Modules access the models through the service instance
@@ -69,7 +71,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      */
     protected function hasAccess($controllerClass, $action, $parameters = [])
     {
-        $user = common_session_SessionManager::getSession()->getUser();
+        $user = $this->getSession()->getUser();
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
     }
 
@@ -140,9 +142,10 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @param int $httpStatus
      * @throws common_Exception
      */
-    protected function returnError($description, $returnLink = true, $httpStatus = null) {
-        if (tao_helpers_Request::isAjax()) {
-            common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
+    protected function returnError($description, $returnLink = true, $httpStatus = null)
+    {
+        if ($this->isXmlHttpRequest()) {
+            $this->logWarning('Called '.__FUNCTION__.' in an unsupported AJAX context');
             throw new common_Exception($description);
         } else {
             $this->setData('message', $description);
@@ -195,7 +198,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      * @throws common_ext_ExtensionException
      */
     protected function getClientTimeout(){
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $ext = $this->getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
         $config = $ext->getConfig('js');
         if($config != null && isset($config['timeout'])){
             return (int)$config['timeout'];
@@ -281,6 +284,27 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             throw new common_exception_MissingParameter($paramName);
         }
         return $raw[$paramName];
+    }
+
+    /**
+     * Get the current session
+     *
+     * @return common_session_Session
+     * @throws common_exception_Error
+     */
+    protected function getSession()
+    {
+        return common_session_SessionManager::getSession();
+    }
+
+    /**
+     * Check if the current request is using AJAX
+     *
+     * @return bool
+     */
+    protected function isXmlHttpRequest()
+    {
+        return tao_helpers_Request::isAjax();
     }
 
     /**

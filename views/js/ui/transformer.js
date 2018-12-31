@@ -61,7 +61,7 @@ define([
         var _style = window.getComputedStyle(elem, null),
             matrix = _style.getPropertyValue('transform') ||
                 _style.getPropertyValue('-webkit-transform') ||
-                _style.getPropertyValue('-ms-transform'),
+                _style.getPropertyValue('-ms-transform') || "none",
             obj = _unmatrix(matrix);
 
         return { matrix: matrix, obj: obj };
@@ -79,7 +79,7 @@ define([
         var _style = window.getComputedStyle(elem, null);
         return _style.getPropertyValue('transform-origin') ||
             _style.getPropertyValue('-webkit-transform-origin') ||
-            _style.getPropertyValue('-ms-transform-origin');
+            _style.getPropertyValue('-ms-transform-origin') || "50% 50% 0";
     };
 
 

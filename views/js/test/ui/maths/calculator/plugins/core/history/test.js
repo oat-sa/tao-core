@@ -148,7 +148,7 @@ define([
                                 assert.deepEqual(h1, [], 'history is empty');
 
                                 calculator.replace('cos PI');
-                                assert.equal(calculator.evaluate(), '-1', 'The expression is computed');
+                                assert.equal(calculator.evaluate().value, '-1', 'The expression is computed');
 
                                 calculator.on('history.read', function (h2) {
                                     calculator.off('history.read');
@@ -268,7 +268,7 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('cos PI');
-                            assert.equal(calculator.evaluate(), '-1', 'The expression is computed');
+                            assert.equal(calculator.evaluate().value, '-1', 'The expression is computed');
 
                             calculator
                                 .on('history.read2', function (history) {
@@ -283,7 +283,7 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('cos PI');
-                            assert.equal(calculator.evaluate(), '-1', 'The expression is computed');
+                            assert.equal(calculator.evaluate().value, '-1', 'The expression is computed');
 
                             calculator
                                 .on('history.read3', function (history) {
@@ -298,7 +298,7 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('.1+.2');
-                            assert.equal(calculator.evaluate(), '0.3', 'The expression is computed');
+                            assert.equal(calculator.evaluate().value, '0.3', 'The expression is computed');
 
                             calculator
                                 .on('history.read4', function (history) {
@@ -394,13 +394,13 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('cos PI');
-                            assert.equal(calculator.evaluate(), '-1', 'The expression "cos PI" is computed');
+                            assert.equal(calculator.evaluate().value, '-1', 'The expression "cos PI" is computed');
 
                             calculator.replace('cos PI');
-                            assert.equal(calculator.evaluate(), '-1', 'The expression "cos PI" is computed again');
+                            assert.equal(calculator.evaluate().value, '-1', 'The expression "cos PI" is computed again');
 
                             calculator.replace('.1+.2');
-                            assert.equal(calculator.evaluate(), '0.3', 'The expression ".1+.2" is computed');
+                            assert.equal(calculator.evaluate().value, '0.3', 'The expression ".1+.2" is computed');
 
                             calculator
                                 .on('history.read', function (history) {
@@ -429,7 +429,7 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('1+2');
-                            assert.equal(calculator.evaluate(), '3', 'The expression "1+2" is computed');
+                            assert.equal(calculator.evaluate().value, '3', 'The expression "1+2" is computed');
 
                             calculator
                                 .on('history.read', function (history) {
@@ -444,7 +444,7 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('3*4');
-                            assert.equal(calculator.evaluate(), '12', 'The expression "3*4" is computed');
+                            assert.equal(calculator.evaluate().value, '12', 'The expression "3*4" is computed');
 
                             calculator
                                 .on('history.read', function (history) {
@@ -663,13 +663,13 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('cos PI');
-                            assert.equal(calculator.evaluate(), '-1', 'The expression "cos PI" is computed');
+                            assert.equal(calculator.evaluate().value, '-1', 'The expression "cos PI" is computed');
 
                             calculator.replace('cos PI');
-                            assert.equal(calculator.evaluate(), '-1', 'The expression "cos PI" is computed again');
+                            assert.equal(calculator.evaluate().value, '-1', 'The expression "cos PI" is computed again');
 
                             calculator.replace('.1+.2');
-                            assert.equal(calculator.evaluate(), '0.3', 'The expression ".1+.2" is computed');
+                            assert.equal(calculator.evaluate().value, '0.3', 'The expression ".1+.2" is computed');
 
                             calculator
                                 .on('history.read', function (history) {
@@ -698,7 +698,7 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator.replace('1+2');
-                            assert.equal(calculator.evaluate(), '3', 'The expression "1+2" is computed');
+                            assert.equal(calculator.evaluate().value, '3', 'The expression "1+2" is computed');
 
                             calculator
                                 .on('history.read', function (history) {
@@ -777,7 +777,7 @@ define([
                             calculator
                                 .on('evaluate.set', function (result) {
                                     calculator.off('evaluate.set');
-                                    assert.equal(result, '0.6', 'The expression is computed');
+                                    assert.equal(result.value, '0.6', 'The expression is computed');
 
                                     resolve();
                                 })
@@ -861,7 +861,7 @@ define([
                             calculator
                                 .on('evaluate.set', function (result) {
                                     calculator.off('evaluate.set');
-                                    assert.equal(result, '2', 'The expression is computed');
+                                    assert.equal(result.value, '2', 'The expression is computed');
 
                                     resolve();
                                 })
