@@ -71,6 +71,7 @@ require.config({
     <?php endforeach?>
    },
    shim : {
+        'jqueryui'              : { deps : ['jquery'] },
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
