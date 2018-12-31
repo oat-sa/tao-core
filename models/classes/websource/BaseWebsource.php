@@ -33,22 +33,22 @@ use Psr\Http\Message\StreamInterface;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- 
+
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 abstract class BaseWebsource extends Configurable implements Websource
 {
     const OPTION_ID = 'id';
     const OPTION_FILESYSTEM_ID = 'fsUri';
-    
+
 	/**
 	 * Filesystem that is being made available
 	 */
 	protected $fileSystem = null;
 
 	/**
-	 * Identifier of the Access Provider 
-	 * 
+	 * Identifier of the Access Provider
+	 *
 	 * @var string
 	 */
 	private $id;
@@ -71,7 +71,7 @@ abstract class BaseWebsource extends Configurable implements Websource
 
 	/**
 	 * Return the identifer of the AccessProvider
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getId() {
@@ -130,7 +130,7 @@ abstract class BaseWebsource extends Configurable implements Websource
             //manage bugs in finfo
             switch ($pathParts['extension']) {
                 case 'js':
-                    if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
+                    if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm' || $mimeType === 'text/x-c') {
                         return 'text/javascript';
                     }
                     break;
