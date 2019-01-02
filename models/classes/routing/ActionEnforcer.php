@@ -133,6 +133,15 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
                     $this->getControllerClass(),
                     $this->getAction());
             }
+
+            // protected method
+            $reflection = new ReflectionMethod($this->getControllerClass(), $this->getAction());
+            if (!$reflection->isPublic()) {
+                throw new ActionEnforcingException(
+                    "The method '" . $this->getAction() . "' is not public. Class '" . $this->getControllerClass() ."'.",
+                    $this->getControllerClass(),
+                    $this->getAction());
+            }
         }
 
         // get the controller
