@@ -90,7 +90,7 @@ define([
                     setTooltip(this, new Tooltip(this, opt));
                 });
             } else {
-                throw new Error("Tooltip should be connected to DOM Element");
+                throw new TypeError("Tooltip should be connected to DOM Element");
             }
 
         },
