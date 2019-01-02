@@ -587,7 +587,7 @@ define(['jquery'], function($){
                     element.setData = function(data) { this.value = data; };
                 }
                 else if ($element.attr('type') == 'checkbox'){
-                    element.setData = function(data) { $(this).attr('checked', data); };
+                    element.setData = function(data) { $(this).prop('checked', !!data); };
                 }
             break;
 

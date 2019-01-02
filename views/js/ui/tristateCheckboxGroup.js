@@ -36,10 +36,10 @@ define([
     var tristateCheckboxGroup = {
         /**
          * Get the value of tristateCheckboxGroup
-         * 
+         *
          * @returns {Object}
          *          {array} values.checked - checkbox in checked state
-         *          {array} values.indeterminate - checkbox in intermediate state    
+         *          {array} values.indeterminate - checkbox in intermediate state
          */
         getValues : function getValues(){
 
@@ -57,7 +57,7 @@ define([
         },
         /**
          * Set the checked/indeterminate state of the tristateCheckboxGroup
-         * 
+         *
          * @param {Object} values
          * @param {array} [values.checked] - checkbox in checked state
          * @param {array} [values.indeterminate] - checkbox in intermediate state
@@ -69,13 +69,12 @@ define([
 
             $list.find('input')
                 .prop('checked', false)
-                .removeAttr('checked')
                 .prop('indeterminate', false);
 
             //priority to checked values
             if(_.isArray(values.checked)){
                 _.each(values.checked, function (v){
-                    $list.find('input[value="' + v + '"]').prop('checked', true).attr('checked', 'checked');
+                    $list.find('input[value="' + v + '"]').prop('checked', true);
                 });
             }
 
@@ -92,7 +91,7 @@ define([
          * The given checkbox element "value" is used as a key.
          * If the key already exists, the existing checkbox element will updated.
          * If not, a new checkbox element will be created and appended to the list.
-         * 
+         *
          * @param {Array} elements
          * @returns {tristateCheckboxGroup}
          */
@@ -116,13 +115,12 @@ define([
                         }
                         $cbox.find('input')
                             .prop('checked', false)
-                            .removeAttr('checked')
                             .prop('indeterminate', false);
                     }
 
                     //finally, set the checked or indeterminate properties
                     if(data.checked){
-                        $cbox.prop('checked', true).attr('checked', 'checked');
+                        $cbox.prop('checked', true);
                     }else if(data.indeterminate){
                         $cbox.prop('indeterminate', true);
                     }
@@ -134,7 +132,7 @@ define([
 
     /**
      * Builds an instance of tristateCheckboxGroup
-     * 
+     *
      * @param {Object} config
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
@@ -173,7 +171,7 @@ define([
                     if(maxSelection && $list.find('input:checked,input:indeterminate').length > maxSelection){
 
                         $input = $(e.target);
-                        
+
                         if($input.is(':checked')){
                             $icon = $input.siblings('.icon')
                                 .addClass('cross')
@@ -187,10 +185,10 @@ define([
                             $icon.parent('label').on('mouseleave', function (){
                                 $icon.qtip('destroy');
                             });
-                            
+
                             //visually highlight the invalid new choice
                             _.delay(function (){
-                                $input.prop('checked', false).removeAttr('checked');
+                                $input.prop('checked', false);
                                 $icon.removeClass('cross');
                             }, 150);
                         }
