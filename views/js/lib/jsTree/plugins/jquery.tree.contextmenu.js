@@ -117,7 +117,7 @@ define(['jquery', 'jquery.tree'], function ($) {
 	});
 	$(function () {
 		$.tree.plugins.contextmenu.object.hide().appendTo("body");
-		$.tree.plugins.contextmenu.object[0].on('click', 'a', function (event) {
+		$.tree.plugins.contextmenu.object.first().on('click', 'a', function (event) {
 				if(!$(this).hasClass("disabled")) {
 					$.tree.plugins.contextmenu.exec.apply(null, [$(this).attr("rel")]);
 					$.tree.plugins.contextmenu.hide();

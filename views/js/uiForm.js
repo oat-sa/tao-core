@@ -33,7 +33,8 @@ define([
     'form/post-render-props',
     'util/encode',
     'ckeditor',
-    'ui/ckeditor/ckConfigurator'
+    'ui/ckeditor/ckConfigurator',
+    'lib/jsTree/plugins/jquery.tree.contextmenu'
 ], function (
     module,
     $,
@@ -627,25 +628,27 @@ define([
                                 theme_name: "custom"
                             },
                             callback: {
-                                onrename: function (NODE, TREE_OBJ, RB) {
-                                    var options = {
-                                        url: renameUrl,
-                                        NODE: NODE,
-                                        TREE_OBJ: TREE_OBJ
+                                onrename: function (NODE, TREE_OBJ) {
+                                    var data = {
+                                        uri: $(NODE).prop('id'),
+                                        newName: TREE_OBJ.get_text(NODE)
                                     };
                                     if ($(NODE).hasClass('node-instance')) {
-                                        var PNODE = TREE_OBJ.parent(NODE);
-                                        options.classUri = $(PNODE).prop('id');
+                                        data.classUri = $(TREE_OBJ.parent(NODE)).prop('id');
                                     }
 
-                                    /**
-                                     * Model changed, the function are not anymore static.
-                                     * please call renameNode on the instance of Generis Class
-                                     * Note : Use a GenerisTree function on a JQuery Tree ... strange
-                                     */
-                                    require(['require', 'jquery', 'generis.tree.browser'], function (req, $, GenerisTreeBrowserClass) {
-                                        GenerisTreeBrowserClass.prototype.renameNode(options);
+                                    $.ajax({
+                                        url: renameUrl,
+                                        type: 'POST',
+                                        data: data,
+                                        dataType: 'json',
+                                        success: function(response){
+                                            if (!response.renamed) {
+                                                TREE_OBJ.rename(NODE, response.oldName);
+                                            }
+                                        }
                                     });
+
                                 },
                                 ondestroy: function (TREE_OBJ) {
                                     var $rangeElm = $("#" + rangeId);
