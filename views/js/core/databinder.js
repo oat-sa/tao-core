@@ -320,7 +320,7 @@ define([
                 var $newNode;
 
                 value.index = index;                        //the model as an index property, used for reordering
-                $newNode = $(template(value));
+                $newNode = $(template(value).trim());
                 $newNode
                      .appendTo($node)
                      .filter(':first')
