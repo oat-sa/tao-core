@@ -124,16 +124,35 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
      */
     public function execute()
     {
+
+        if (class_exists($this->getControllerClass())) {
+            $abstractClass = new \ReflectionClass($this->getControllerClass());
+            if ($abstractClass->isAbstract()) {
+                throw new ActionEnforcingException(
+                    "Attempt to run an action from the Abstract class '" . $this->getControllerClass() ."'.",
+                    $this->getControllerClass(),
+                    $this->getAction());
+            }
+        }
+
         // get the controller
         $controller = $this->getController();
         $action = $this->getAction();
 
         // if the method related to the specified action exists, call it
-        if (
-            method_exists($controller, $action) &&
+        if (method_exists($controller, $action)) {
+
             // extra layer of the security - to not run an action if denied
-            !$this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID)->hasNotFoundAction(get_class($controller), $action)
-        ) {
+            if ($this->getServiceLocator()
+                ->get(RouteAnnotationService::SERVICE_ID)
+                ->hasNotFoundAction(get_class($controller), $action))
+            {
+                throw new ActionEnforcingException("Unable to run the action '"
+                    . $action . "' in '" . get_class($controller)
+                    . "', blocked by route annotations.",
+                    $this->getControllerClass(),
+                    $this->getAction());
+            }
 
             // Are we authorized to execute this action?
             try {
@@ -175,12 +194,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
                 $this->controller   = 'tao_actions_Permission';
                 $this->extension    = 'tao';
             }
-	    }
-	    else {
-	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",
-	            $this->getControllerClass(),
-	            $this->getAction());
-	    }
-	}
+        }
+        else {
+            throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",
+                $this->getControllerClass(),
+                $this->getAction());
+        }
+    }
 
 }
