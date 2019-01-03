@@ -39,7 +39,8 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'ui/dialog'
+    'ui/dialog',
+    'css!ui/waitingDialog/css/waitingDialog'
 ], function ($, _, __, component, dialog) {
     'use strict';
 
