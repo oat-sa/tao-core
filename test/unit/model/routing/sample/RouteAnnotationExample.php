@@ -14,7 +14,7 @@ use oat\tao\model\routing\RouteAnnotation;
 class RouteAnnotationExample
 {
     /**
-     * @RouteAnnotation(action = "NotFound");
+     * @RouteAnnotation("hidden");
      */
     public function notFoundAnnotation() { }
 

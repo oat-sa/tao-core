@@ -33,12 +33,7 @@ class RouteAnnotation
      * @RouteAnnotation("value")
      */
     public $value;
-    /**
-     * action value
-     * @RouteAnnotation(action = "actionValue")
-     * @var string
-     */
-    public $action;
+
     /**
      * action value
      * @RouteAnnotation(requiredRights = "[{id: 1}]")
@@ -46,13 +41,13 @@ class RouteAnnotation
      */
     public $requiredRights;
 
-    public function getAction()
-    {
-        return $this->action;
-    }
-
     public function getRequiredRights()
     {
         return $this->requiredRights;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }

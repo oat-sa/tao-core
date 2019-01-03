@@ -24,6 +24,7 @@ use IExecutable;
 use ActionEnforcingException;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
+use ReflectionClass;
 use ReflectionMethod;
 
 use common_session_SessionManager;
@@ -126,7 +127,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     {
 
         if (class_exists($this->getControllerClass())) {
-            $abstractClass = new \ReflectionClass($this->getControllerClass());
+            $abstractClass = new ReflectionClass($this->getControllerClass());
             if ($abstractClass->isAbstract()) {
                 throw new ActionEnforcingException(
                     "Attempt to run an action from the Abstract class '" . $this->getControllerClass() ."'.",
@@ -154,7 +155,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             // extra layer of the security - to not run an action if denied
             if ($this->getServiceLocator()
                 ->get(RouteAnnotationService::SERVICE_ID)
-                ->hasNotFoundAction(get_class($controller), $action))
+                ->isHidden(get_class($controller), $action))
             {
                 throw new ActionEnforcingException("Unable to run the action '"
                     . $action . "' in '" . get_class($controller)

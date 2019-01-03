@@ -54,11 +54,11 @@ class RouteAnnotationService extends ConfigurableService
      * @param string $methodName
      * @return bool
      */
-    public function hasNotFoundAction($className, $methodName)
+    public function isHidden($className, $methodName)
     {
         try {
             $annotation = $this->getAnnotation($className, $methodName);
-            $hasAction = $annotation instanceof RouteAnnotation && $annotation->getAction() === 'NotFound';
+            $hasAction = $annotation instanceof RouteAnnotation && $annotation->getValue() === 'hidden';
         } catch (\Exception $e) {
             $hasAction = false; // if class or method not found
         }
@@ -77,7 +77,7 @@ class RouteAnnotationService extends ConfigurableService
         try {
             $annotation = $this->getAnnotation($className, $methodName);
             if ($annotation instanceof RouteAnnotation) {
-                switch ($annotation->getAction()) {
+                switch ($annotation->getValue()) {
                     case 'NotFound':
                         $access = false;
                         break;

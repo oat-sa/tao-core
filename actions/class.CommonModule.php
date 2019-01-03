@@ -56,7 +56,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
 
     /**
      * tao_actions_CommonModule constructor.
-     * @RouteAnnotation(action = "NotFound");
+     * @RouteAnnotation("hidden");
      */
     public function __construct()
     {

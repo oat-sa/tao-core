@@ -40,7 +40,7 @@ class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateNotFound()
     {
-        self::assertTrue($this->service->hasNotFoundAction(RouteAnnotationExample::class, 'notFoundAnnotation'));
+        self::assertTrue($this->service->isHidden(RouteAnnotationExample::class, 'notFoundAnnotation'));
     }
 
     public function testValidatePassed()
