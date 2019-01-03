@@ -24,6 +24,8 @@ namespace oat\tao\model\security;
  * The only purpose of this class is to prevent opening application inside iFrames
  * Class IFrameBlocker
  * @package oat\tao\model\security
+ * @deprecated
+ * @see ActionProtector
  */
 class IFrameBlocker
 {

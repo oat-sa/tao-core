@@ -20,7 +20,7 @@
  *
  */
 
-use oat\oatbox\action\ActionProtector;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
 use oat\tao\model\routing\FlowController;
