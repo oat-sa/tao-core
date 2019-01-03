@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA ;
  */
 
 /**
@@ -23,12 +23,13 @@
 (function(){
     'use strict';
 
+
+
     var loaderScript = document.getElementById('amd-loader');
     var configUrl = loaderScript.getAttribute('data-config');
     var bundle  = loaderScript.getAttribute('data-bundle');
 
     var loadController = function loadController(){
-        var started = false;
         var controllerOptions = {};
         var controllerPath = loaderScript.getAttribute('data-controller');
         var params = loaderScript.getAttribute('data-params');
@@ -37,10 +38,10 @@
         } catch(err){
             controllerOptions = {};
         }
-        require([controllerPath], function(controller) {
+        window.require([controllerPath], function(controller) {
             var startController = function startController(){
-                if(!started){
-                    started = true;
+                if(!window.started){
+                    window.started = true;
                     controller.start(controllerOptions);
                 }
             };
@@ -50,9 +51,38 @@
             }
         });
     };
-    require([configUrl], function() {
-        if(bundle){
-            require([bundle], loadController);
+
+    //always start to load the config
+    window.require([configUrl], function() {
+
+        //define the global loading mechanism
+        if(!window.loadBundles){
+            //keep tracl of loaded bundles, even if require does it,
+            //this prevent some unecessary cycles
+            window.loaded = {};
+
+            /**
+             * Loading entry point for inter bundle dependency,
+             * always take the bundles from the params and window.bundles
+             * @param {String[]} [bundles] - an optional list of bundle to load
+             */
+            window.loadBundles = function loadBundles(bundles){
+                bundles = bundles || [];
+                bundles = bundles.concat(window.bundles)
+                bundles = bundles.filter( function(item, index){
+                    return item && bundles.indexOf(item) === index && window.loaded[item] !== true;
+                });
+                require(bundles, function(){
+                    bundles.forEach( function( item ) {
+                        window.loaded[item] = true;
+                    });
+                    loadController();
+                });
+            }
+        }
+
+        if(bundle || (window.bundles && window.bundles.length)) {
+            window.loadBundles([bundle]);
         } else {
             loadController();
         }

@@ -17,21 +17,18 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2014 (update and modification) Open Assessment Technologies SA;
+ *               2013-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
 
-use oat\tao\model\accessControl\AclProxy;
-use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\lock\LockManager;
-use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\resources\ResourceService;
 use oat\generis\model\OntologyRdfs;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * The TaoModule is an abstract controller,
@@ -43,7 +40,9 @@ use oat\generis\model\OntologyRdfs;
  * @package tao
 
  */
-abstract class tao_actions_RdfController extends tao_actions_CommonModule {
+abstract class tao_actions_RdfController extends tao_actions_CommonModule
+{
+    use OntologyAwareTrait;
 
     /**
      * The Modules access the models throught the service instance
@@ -76,7 +75,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     protected function isLocked($resource, $view = null){
 
         $lock = LockManager::getImplementation()->getLockData($resource);
-        if (!is_null($lock) && $lock->getOwnerId() != common_session_SessionManager::getSession()->getUser()->getIdentifier()) {
+        if (!is_null($lock) && $lock->getOwnerId() != $this->getSession()->getUser()->getIdentifier()) {
             //if (LockManager::getImplementation()->isLocked($resource)) {
             $params = array(
                 'id' => $resource->getUri(),
@@ -116,7 +115,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             if (!common_Utils::isUri($classUri)) {
                 throw new tao_models_classes_MissingRequestParameterException('classUri - extected to be valid URI');
             }
-            $returnValue = new core_kernel_classes_Class($classUri);
+            $returnValue = $this->getClass($classUri);
         }
 
         return $returnValue;
@@ -134,7 +133,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         if (is_null($uri) || empty($uri) || !common_Utils::isUri($uri)) {
             throw new tao_models_classes_MissingRequestParameterException("uri");
         }
-        return new core_kernel_classes_Resource($uri);
+        return $this->getResource($uri);
     }
 
     /**
@@ -196,7 +195,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      */
     public function getOntologyData()
     {
-        if (!tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_IsAjaxAction(__FUNCTION__);
         }
         $options = $this->getTreeOptionsFromRequest([]);
@@ -279,7 +278,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      */
     protected function addPermissions($tree)
     {
-        $user = \common_session_SessionManager::getSession()->getUser();
+        $user = $this->getSession()->getUser();
 
         $section = MenuService::getSection(
             $this->getRequestParameter('extension'),
@@ -365,17 +364,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     /**
      * Add an instance of the selected class
      * @requiresRight id WRITE
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
      * @return void
      */
     public function addInstance()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $response = array();
 
-        $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
+        $clazz = $this->getClass($this->getRequestParameter('id'));
         $label = $this->getClassService()->createUniqueLabel($clazz);
 
         $instance = $this->getClassService()->createInstance($clazz, $label);
@@ -393,16 +394,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * Add a subclass to the currently selected class
      * @requiresRight id WRITE
      * @throws Exception
+     * @throws common_exception_BadRequest
      */
     public function addSubClass()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
-        $parent = new core_kernel_classes_Class($this->getRequestParameter('id'));
+        $parent = $this->getClass($this->getRequestParameter('id'));
         $clazz = $this->getClassService()->createSubClass($parent);
         if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
-            echo json_encode(array(
+            $this->returnJson(array(
                 'label'     => $clazz->getLabel(),
                 'uri'       => tao_helpers_Uri::encode($clazz->getUri())
             ));
@@ -411,12 +413,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
     /**
      * Add an instance of the selected class
+     * @throws common_exception_BadRequest
      * @return void
      */
     public function addInstanceForm()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $clazz = $this->getCurrentClass();
@@ -452,7 +455,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $first = array_shift($classes);
         $instance = $first->createInstanceWithProperties($properties);
         foreach ($classes as $class) {
-            $instance = new core_kernel_classes_Resource('');
+            $instance = $this->getResource('');
             $instance->setType($class);
         }
         return $instance;
@@ -486,19 +489,26 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     /**
      * Duplicate the current instance
      * render a JSON response
+     *
+     * @throws \League\Flysystem\FileExistsException
+     * @throws common_Exception
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
+     * @throws tao_models_classes_MissingRequestParameterException
+     *
      * @return void
      * @requiresRight uri READ
      * @requiresRight classUri WRITE
      */
     public function cloneInstance()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $clone = $this->getClassService()->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
         if(!is_null($clone)){
-            echo json_encode(array(
+            $this->returnJson(array(
                 'label' => $clone->getLabel(),
                 'uri'   => tao_helpers_Uri::encode($clone->getUri())
             ));
@@ -516,7 +526,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             common_Utils::isUri($this->getRequestParameter('destinationClassUri'))) {
 
             $instance  = $this->getCurrentInstance();
-            $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+            $destinationClass = $this->getClass($this->getRequestParameter('destinationClassUri'));
 
             if ($this->hasWriteAccess($destinationClass->getUri())) {
                 $copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
@@ -559,13 +569,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
     {
         $response = array();
         if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
-            $instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $instance = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             $types = $instance->getTypes();
             $clazz = reset($types);
             $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
 
             if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){
-                $destinationClass = new core_kernel_classes_Class($destinationUri);
+                $destinationClass = $this->getClass($destinationUri);
 
                 $confirmed = $this->getRequestParameter('confirmed');
                 if(empty($confirmed) || $confirmed == 'false' || $confirmed ===  false){
@@ -601,7 +611,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             if (!$this->hasRequestParameter('uri')) {
                 throw new InvalidArgumentException('Resource uri must be specified.');
             }
-            $ids = [$this->getRequestParameter('uri')];
+
+            $resource = $this->getCurrentInstance();
+
+            $ids = [$resource->getUri()];
             $this->validateMoveRequest();
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);
@@ -655,7 +668,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
             $targetLang = $this->getRequestParameter('target_lang');
 
-            if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)))){
+            if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage($this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)))){
                 $langElt = $myForm->getElement('translate_lang');
                 $langElt->setValue($targetLang);
                 $langElt->setAttribute('readonly', 'true');
@@ -675,14 +688,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
                 $values = $myForm->getValues();
                 if(isset($values['translate_lang'])){
-                    $datalang = common_session_SessionManager::getSession()->getDataLanguage();
+                    $datalang = $this->getSession()->getDataLanguage();
                     $lang = $values['translate_lang'];
 
                     $translated = 0;
                     foreach($values as $key => $value){
                         if(preg_match("/^http/", $key)){
                             $value = trim($value);
-                            $property = new core_kernel_classes_Property($key);
+                            $property = $this->getProperty($key);
                             if(empty($value)){
                                 if($datalang != $lang && $lang != ''){
                                     $instance->removePropertyValueByLg($property, $lang);
@@ -707,12 +720,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
 
     /**
      * load the translated data of an instance regarding the given lang
+     *
+     * @throws common_exception_BadRequest
+     * @throws common_exception_Error
+     * @throws tao_models_classes_MissingRequestParameterException
+     *
      * @return void
      */
     public function getTranslatedData()
     {
-        if(!tao_helpers_Request::isAjax()){
-            throw new Exception("wrong request mode");
+        if(!$this->isXmlHttpRequest()){
+            throw new common_exception_BadRequest('wrong request mode');
         }
         $data = array();
         if($this->hasRequestParameter('lang')){
@@ -723,17 +741,20 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
                 ),
                 tao_helpers_Uri::ENCODE_ARRAY_KEYS);
         }
-        echo json_encode($data);
+        $this->returnJson($data);
     }
 
     /**
      * delete an instance or a class
      * called via ajax
+     *
+     * @throws common_exception_BadRequest
+     * @throws common_exception_MissingParameter
      */
     public function delete()
     {
-        if (!tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         if ($this->hasRequestParameter('uri')) {
@@ -749,18 +770,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * Generic resource deletion action
      *
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @requiresRight id WRITE
      */
     public function deleteResource()
     {
-        if (!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')) {
-            throw new Exception("wrong request mode");
+        if (!$this->isXmlHttpRequest() || !$this->hasRequestParameter('id')) {
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         // Csrf token validation
         $this->validateCsrf();
 
-        $resource = new core_kernel_classes_Resource($this->getRequestParameter('id'));
+        $resource = $this->getResource($this->getRequestParameter('id'));
         $deleted = $this->getClassService()->deleteResource($resource);
         return $this->returnJson(array(
             'deleted' => $deleted
@@ -771,18 +793,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * Generic class deletion action
      *
      * @throws Exception
+     * @throws common_exception_BadRequest
      * @requiresRight id WRITE
      */
     public function deleteClass()
     {
-        if (!tao_helpers_Request::isAjax() || !$this->hasRequestParameter('id')) {
-            throw new Exception("wrong request mode");
+        if (!$this->isXmlHttpRequest() || !$this->hasRequestParameter('id')) {
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         // Csrf token validation
         $this->validateCsrf();
 
-        $clazz = new core_kernel_classes_Class($this->getRequestParameter('id'));
+        $clazz = $this->getClass($this->getRequestParameter('id'));
         if ($this->getRootClass()->equals($clazz)) {
             $success = false;
             $msg = __('You cannot delete the root node');
@@ -803,6 +826,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      * @requiresRight ids WRITE
      *
      * @throws Exception
+     * @throws common_exception_BadRequest
      */
     public function deleteAll()
     {
@@ -810,8 +834,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
             'success' => true,
             'deleted' => []
         ];
-        if (!tao_helpers_Request::isAjax()) {
-            throw new Exception("wrong request mode");
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         // Csrf token validation
@@ -848,7 +872,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      */
     protected function hasWriteAccess($resourceId)
     {
-        $user = common_session_SessionManager::getSession()->getUser();
+        $user = $this->getSession()->getUser();
         return (new DataAccessControl())->hasPrivileges($user, array($resourceId => 'WRITE'));
     }
 
@@ -860,7 +884,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      */
     public function validateCsrf()
     {
-        $tokenService = $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
 
         $tokenName = $tokenService->getTokenName();
         $token = $this->getRequestParameter($tokenName);
@@ -952,9 +976,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
         $statuses = $instances = $classes = [];
 
         foreach ($ids as $key => $instance) {
-            $instance = new core_kernel_classes_Resource($instance);
+            $instance = $this->getResource($instance);
             if ($instance->isClass()) {
-                $instance = new core_kernel_classes_Class($instance);
+                $instance = $this->getClass($instance);
                 $classes[] = $instance;
             } elseif (!$instance->exists()) {
                 $statuses[$instance->getUri()] = [
@@ -1068,7 +1092,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      */
     private function getActionService()
     {
-        return $this->getServiceManager()->get(ActionService::SERVICE_ID);
+        return $this->getServiceLocator()->get(ActionService::SERVICE_ID);
     }
 
     /**
@@ -1077,6 +1101,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule {
      */
     protected function getResourceService()
     {
-        return $this->getServiceManager()->get(ResourceService::SERVICE_ID);
+        return $this->getServiceLocator()->get(ResourceService::SERVICE_ID);
     }
 }

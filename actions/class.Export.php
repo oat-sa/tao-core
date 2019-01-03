@@ -17,13 +17,15 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-     (update and modification) Open Assessment Technologies SA;
+ *               2013-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
 
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\TaskLogActionTrait;
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\log\LoggerAwareTrait;
 
 /**
  * This controller provide the actions to export and manage exported data
@@ -31,6 +33,8 @@ use oat\tao\model\taskQueue\TaskLogActionTrait;
 class tao_actions_Export extends tao_actions_CommonModule
 {
     use TaskLogActionTrait;
+    use OntologyAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * @return mixed
@@ -42,12 +46,12 @@ class tao_actions_Export extends tao_actions_CommonModule
         $formData = [];
         if ($this->hasRequestParameter('classUri')) {
             if (trim($this->getRequestParameter('classUri')) != '') {
-                $formData['class'] = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+                $formData['class'] = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
             }
         }
         if ($this->hasRequestParameter('uri') && $this->hasRequestParameter('classUri')) {
             if (trim($this->getRequestParameter('uri')) != '') {
-                $formData['instance'] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+                $formData['instance'] = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
             }
         }
         $formData['id'] = $this->getRequestParameter('id');
@@ -63,6 +67,9 @@ class tao_actions_Export extends tao_actions_CommonModule
         $exporter = $this->getCurrentExporter();
 
         $selectedResource = isset($formData['instance']) ? $formData['instance'] : $formData['class'];
+        if (!$selectedResource) {
+            throw new common_exception_MissingParameter();
+        }
         $formFactory = new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
         $exportForm = $formFactory->getForm();
         if (!is_null($exporter)) {
@@ -83,7 +90,7 @@ class tao_actions_Export extends tao_actions_CommonModule
 
                     $children = [];
                     foreach ($instances as $instance) {
-                        $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($instance));
+                        $class = $this->getClass(tao_helpers_Uri::decode($instance));
                         $children = array_merge($children, $class->getInstances());
                     }
                     $exportData['instances'] = $children;
@@ -149,12 +156,12 @@ class tao_actions_Export extends tao_actions_CommonModule
     {
         $returnValue = [];
         if ($this->hasRequestParameter('uri') && trim($this->getRequestParameter('uri')) != '') {
-            $returnValue[] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+            $returnValue[] = $this->getResource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
         } elseif ($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) != '') {
-            $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+            $class = $this->getClass(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
             $returnValue = $class->getInstances(true);
         } else {
-            common_Logger::w('No resources to export');
+            $this->logWarning('No resources to export');
         }
 
         return $returnValue;

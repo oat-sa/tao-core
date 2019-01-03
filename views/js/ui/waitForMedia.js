@@ -14,7 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2015 (original work) Open Assessment Technlogies SA ;
- * 
+ *
  * @author Sam Sipasseuth <sam@taotesting.com>
  * @requires jquery
  */
@@ -24,17 +24,17 @@ define(['jquery'], function($){
 
     /**
      * Register a plugin that enable waiting for all media being loaded
-     * 
+     *
      * @fires loaded.wait - fired when a media has been loaded
      * @fires all-loaded.wait - fired when all media has been loaded
      * @param {Function} [allLoadedCallback] - callback to be executed when all media has been loaded
      * @returns {jQueryElement} for chaingin
      */
     $.fn.waitForMedia = function(allLoadedCallback){
-        
+
         /**
          * The callback function that is called after loading all the documents.
-         * 
+         *
          * @param {jQueryElement} $container The container element on which will be triggered an event.
          * @returns {undefined}
          */
@@ -43,12 +43,12 @@ define(['jquery'], function($){
             if(typeof allLoadedCallback === 'function'){
                 allLoadedCallback.call($container[0]);
             }
-        } 
-        
+        }
+
         return this.each(function(){
 
             var $container = $(this),
-                $img = $container.find('img'),
+                $img = $container.find('img[src]'),
                 count = $img.length,
                 loaded = 0,
                 /**
@@ -65,12 +65,12 @@ define(['jquery'], function($){
                         allLoaded($container);
                     }
                 };
-            
+
             if (count === 0) {
                 allLoaded($container);
                 return;
             }
-            
+
             $img.each(function(){
                 if(this.complete){
                     //the image is already loaded by the browser

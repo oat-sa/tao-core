@@ -149,7 +149,7 @@ class Layout
      * @param array  $params additional parameters
      * @return string the script tag
      */
-    public static function getAmdLoader($bundle = null, $controller = null, $params = null){
+    public static function getAmdLoader($bundle = null, $controller = null, $params = null, $allowAnonymous = false){
 
         $bundleMode   = \tao_helpers_Mode::is('production');
         $configUrl    = get_data('client_config_url');
@@ -158,13 +158,14 @@ class Layout
 
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
 
-        if(\common_session_SessionManager::isAnonymous()) {
+        if(\common_session_SessionManager::isAnonymous() && !$allowAnonymous) {
             $controller = 'controller/login';
             $bundle = Template::js('loader/login.min.js', 'tao');
         }
 
         if($bundleMode){
-            return $loader->getBundleLoader($bundle, $controller, $params);
+            return "<script src='" . Template::js('loader/vendor.min.js', 'tao') . "'></script>\n" .
+                    $loader->getBundleLoader($bundle, $controller, $params);
         }
 
         return $loader->getDynamicLoader($controller, $params);
@@ -196,8 +197,11 @@ class Layout
      */
     public static function getContentTemplate() {
         $templateData = (array)get_data('content-template');
+        $contentExtension = get_data('content-extension');
         $contentTemplate['path'] = $templateData[0];
-        $contentTemplate['ext']  = $templateData[1] ? $templateData[1] : 'tao';
+        $contentTemplate['ext']  = isset($templateData[1])
+            ? $templateData[1]
+            : ($contentExtension ? $contentExtension : 'tao');
         return $contentTemplate;
     }
 
@@ -391,7 +395,7 @@ class Layout
      * Turn TAO_VERSION in a more verbose form.
      * If TAO_VERSION diverges too much from the usual patterns TAO_VERSION will be returned unaltered.
      *
-     * Examples (TAO_VERSION => return value): 
+     * Examples (TAO_VERSION => return value):
      * 3.2.0-sprint52      => Sprint52 rev 3.2.0
      * v3.2.0-sprint52     => Sprint52 rev 3.2.0
      * 3.2.0sprint52       => Sprint52 rev 3.2.0

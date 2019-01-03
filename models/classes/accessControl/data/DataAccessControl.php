@@ -27,6 +27,7 @@ use oat\oatbox\user\User;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\controllerMap\ActionNotFoundException;
+use common_exception_MissingParameter;
 
 /**
  * Interface for data based access control
@@ -35,6 +36,7 @@ class DataAccessControl implements AccessControl
 {
     /**
      * (non-PHPdoc)
+     * @throws common_exception_MissingParameter
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
      */
     public function hasAccess(User $user, $controller, $action, $parameters) {
@@ -54,7 +56,7 @@ class DataAccessControl implements AccessControl
                         $required[$cleanName] = $privileges;
                     }
                 } else {
-                    throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
+                    throw new common_exception_MissingParameter($paramName);
                 }
             }
         } catch (ActionNotFoundException $e) {

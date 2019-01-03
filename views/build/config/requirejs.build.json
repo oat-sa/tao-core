@@ -1,0 +1,95 @@
+{
+  "baseUrl": "../js",
+  "paths": {
+    "text": "lib/text/text",
+    "json": "lib/text/json",
+    "css": "lib/require-css/css",
+    "tpl": "tpl",
+    "jquery": "lib/jquery-1.8.0.min",
+    "jqueryui": "lib/jquery-ui-1.9.2.custom.min",
+    "select2": "lib/select2/select2.min",
+    "jquery.autocomplete": "lib/jquery.autocomplete/jquery.autocomplete",
+    "jwysiwyg": "lib/jwysiwyg/jquery.wysiwyg",
+    "jquery.tree": "lib/jsTree/jquery.tree",
+    "jquery.timePicker": "lib/jquery.timePicker",
+    "jquery.cookie": "lib/jquery.cookie",
+    "nouislider": "lib/sliders/jquery.nouislider",
+    "jquery.fileDownload": "lib/jquery.fileDownload",
+    "qtip": "lib/jquery.qtip/jquery.qtip",
+    "polyfill": "lib/polyfill",
+    "lodash": "lib/lodash.min",
+    "async": "lib/async",
+    "moment": "lib/moment-with-locales.min",
+    "handlebars": "lib/handlebars",
+    "class": "lib/class",
+    "raphael": "lib/raphael/raphael",
+    "scale.raphael": "lib/raphael/scale.raphael",
+    "spin": "lib/spin.min",
+    "pdfjs-dist/build/pdf": "lib/pdfjs/build/pdf",
+    "pdfjs-dist/build/pdf.worker": "lib/pdfjs/build/pdf.worker",
+    "mathJax": "../../../taoQtiItem/views/js/mathjax/MathJax",
+    "ckeditor": "lib/ckeditor/ckeditor",
+    "interact": "lib/interact",
+    "d3": "lib/d3js/d3.min",
+    "c3": "lib/c3js/c3.min",
+    "css-builder": "lib/require-css/css-builder",
+    "normalize": "lib/require-css/normalize",
+    "i18ntr": "../locales/en-US",
+    "router": "core/router"
+  },
+
+  "shim": {
+    "moment": {
+      "exports": "moment"
+    },
+    "ckeditor": {
+      "exports": "CKEDITOR"
+    },
+    "ckeditor-jquery": ["ckeditor"],
+    "class": {
+      "exports": "Class"
+    },
+    "c3": {
+      "deps": ["css!lib/c3js/c3.css"]
+    }
+  },
+  "vendor" : [
+    "lib/require",
+    "text",
+    "json",
+    "css",
+    "tpl",
+    "jquery",
+    "jquery.cookie",
+    "jqueryui",
+    "select2",
+    "nouislider",
+    "qtip",
+    "lodash",
+    "async",
+    "moment",
+    "handlebars",
+    "class",
+    "raphael",
+    "scale.raphael",
+    "interact",
+    "jquery.fileDownload",
+    "jquery.autocomplete",
+    "lib/farbtastic/farbtastic",
+    "jquery.tree",
+    "lib/jsTree/plugins/jquery.tree.checkbox",
+    "d3",
+    "c3",
+    "core/**/*",
+    "ui/**/*",
+    "util/**/*",
+    "uri",
+    "urlParser",
+    "context",
+    "iframeResizer",
+    "iframeNotifier"
+  ],
+  "exclude" : ["json!i18ntr/messages.json",  "mathJax", "ckeditor", "pdfjs-dist/build/pdf", "pdfjs-dist/build/pdf.worker", "normalize"],
+  "bootstrap" : ["loader/bootstrap"],
+  "default" : ["controller/**/*", "component/**/*", "provider/**/*", "service/**/*"]
+}

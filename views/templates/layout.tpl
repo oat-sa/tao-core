@@ -24,7 +24,8 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao') ?>"/>
 
     <?= tao_helpers_Scriptloader::render() ?>
-    <?= Layout::getAmdLoader(Template::js('loader/backoffice.min.js', 'tao'), 'controller/backoffice') ?>
+
+    <?= Layout::getAmdLoader(Template::js('loader/tao.min.js', 'tao'), 'controller/backoffice') ?>
     <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
 </head>
 

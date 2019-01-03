@@ -862,16 +862,16 @@
 }
 
 .ui-datepicker .ui-datepicker-buttonpane button {
+    @extend .ui-button;
     float: right;
     margin: .5em .2em .4em;
     cursor: pointer;
     padding: .2em .6em .3em .6em;
     width: auto;
     overflow: visible;
-}
-
-.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
-    float: left;
+    &.ui-datepicker-close{
+        float: right !important;
+    }
 }
 
 /* with multiple calendars */
