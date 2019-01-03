@@ -197,7 +197,7 @@ define([
                     this.dialog.getDom().addClass('has-secondary');
                     $secondaryButton = $('[data-control="secondary"]', this.dialog.getDom());
                     $secondaryButton.on('click', function() {
-                        self.trigger('click.secondary');
+                        self.trigger('secondaryaction');
                     });
                 }
 
