@@ -31,7 +31,6 @@ define([], function () {
      */
     var download = function download(filename, content) {
         var element = document.createElement('a');
-        console.log(content, '#!', encodeURIComponent(content));
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
         element.setAttribute('download', filename);
         element.style.display = 'none';
