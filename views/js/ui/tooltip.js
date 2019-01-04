@@ -44,7 +44,7 @@ define([
             'danger': defaultTpl({class:'tooltip-danger'})
         },
         defaultOptions = {
-            template:themesMap['default'],
+            template:themesMap.default,
             html:true,
             popperOptions:{
                 positionFixed: true,
@@ -61,13 +61,15 @@ define([
         };
 
     /**
-     * Look up for tooltips and initialize them
-     *
-     * @public
-     * @param {jQueryElement} $container - the root context to lookup inside
+     *   Contains methods to create tooltips
      */
     return {
-        lookup: function(element){
+        /**
+         *  Lookup a elements that contains the data-tooltip attribute and
+         * create the tooltip according to the attributes
+         * @param {jQueryElement}   $container - the root context to lookup inside
+         */
+        lookup: function lookup($container){
             var themeName;
             var setTooltip = function (el, inst) {
                 if($(el).data('$tooltip')){
@@ -76,11 +78,11 @@ define([
                 }
                 $(el).data('$tooltip', inst);
             };
-            if(element && (element instanceof Element || element instanceof HTMLDocument || element.jquery)){
-                $('[data-tooltip]', element).each(function(){
+            if($container && ($container instanceof Element || $container instanceof HTMLDocument || $container.jquery)){
+                $('[data-tooltip]', $container).each(function(){
                     var $content = DataAttrHandler.getTarget('tooltip', $(this));
                     var opt;
-                    themeName = _.contains(themes, element.data('tooltip-theme')) ? element.data('tooltip-theme') : 'default';
+                    themeName = _.contains(themes, $container.data('tooltip-theme')) ? $container.data('tooltip-theme') : 'default';
                     opt = {
                         template:themesMap[themeName]
                     };
@@ -94,16 +96,16 @@ define([
             }
 
         },
-        instance: function (el, settings){
-            if(!el && !(el instanceof Element || el instanceof HTMLDocument || el.jquery)){
-                throw new Error("Tooltip should be connected to DOM Element");
-            }
+        create: function create(el, settings){
             var themeName = _.contains(themes, settings.theme) ? settings.theme : 'default';
             var template = {
                 template:themesMap[themeName]
             };
+            if(!el && !(el instanceof Element || el instanceof HTMLDocument || el.jquery)){
+                throw new Error("Tooltip should be connected to DOM Element");
+            }
             return new Tooltip(el, _.merge(defaultOptions, template, settings));
         }
 
-    }
+    };
 });

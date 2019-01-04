@@ -49,7 +49,7 @@ define([
         var $ref = $( '[data-tooltip]', '#' + containerName).first();
         var instance;
         QUnit.expect(1);
-        instance = tooltip.instance($ref, {title:'default text'});
+        instance = tooltip.create($ref, {title:'default text'});
         assert.ok(instance, 'tooltip got built from given container');
     });
     QUnit.test('Tooltip: component API', function (assert) {
@@ -60,7 +60,7 @@ define([
         tooltip.lookup($('#' + containerName));
         $single = $( '[data-tooltip]', '#' + containerName).first();
         wrapperInstance = $single.data('$tooltip');
-        instance = tooltip.instance($single, { title:'default text'});
+        instance = tooltip.create($single, { title:'default text'});
         assert.equal(typeof wrapperInstance.show, 'function', 'tooltipAPI: show() defined');
         assert.equal(typeof wrapperInstance.hide, 'function', 'tooltipAPI: hide() defined');
         assert.equal(typeof wrapperInstance.dispose, 'function', 'tooltipAPI: dispose() defined');
@@ -134,7 +134,7 @@ define([
             var $ref = $('#visible-tooltip', $container);
             var instance;
 
-            instance = new tooltip.instance($ref,{
+            instance = new tooltip.create($ref,{
                 theme: $themeSelect.val(),
                 title: $ref.data('$tooltip').options.title
             });

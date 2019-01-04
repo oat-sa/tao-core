@@ -49,14 +49,15 @@ define([
              * @param {string} message - message text.
              */
             highlight : function highlight($field, message) {
+                var fieldTooltip;
                 options = _.merge(options, {
                     tooltip:{
                         title:message
                     }
                 });
-                var instance = tooltip.instance($field, options.tooltip);
-                instance.show();
-                $field.data('$tooltip', instance);
+                fieldTooltip = tooltip.create($field, options.tooltip);
+                fieldTooltip.show();
+                $field.data('$tooltip', fieldTooltip);
                 $field.addClass(options.errorClass);
             },
 
@@ -69,9 +70,12 @@ define([
                 $field.data('$tooltip').dispose();
                 $field.removeData('$tooltip');
             },
-
+            /**
+             * remove tooltip with error message from given field
+             * @param $field
+             */
             destroy : function destroy($field) {
-                if ($field.data('hasqtip') !== undefined) {
+                if ($field.data('hasqtip')) {
                     $field.data('$tooltip').dispose();
                     $field.removeData('$tooltip');
                 }

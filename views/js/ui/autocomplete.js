@@ -238,7 +238,7 @@ define([
             }
 
             // prepare the tooltip displayed when more suggestions are available on the server side for the current query
-            this.$tooltip = tooltip.instance(this.$element, tooltipConfigTooMany);
+            this.tooltip = tooltip.create(this.$element, tooltipConfigTooMany);
 
             // loads some options from HTML5 data-* attributes
             options = _.assign(_.clone(options || {}), _.pick(this.$element.data(), [
@@ -279,7 +279,7 @@ define([
             this.applyPlugin('dispose');
             if (this.$element) {
                 this.$element.off('.' + NS);
-                this.$tooltip.dispose();
+                this.tooltip.dispose();
             }
             this.$element = null;
             return this;
@@ -383,7 +383,7 @@ define([
          */
         showTooltipTooMany : function() {
             if (this.$element) {
-                this.$tooltip.show();
+                this.tooltip.show();
             }
         },
 
@@ -392,7 +392,7 @@ define([
          */
         hideTooltipTooMany : function() {
             if (this.$element) {
-                this.$tooltip.hide();
+                this.tooltip.hide();
             }
         },
 
