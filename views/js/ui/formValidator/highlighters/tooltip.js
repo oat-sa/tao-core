@@ -26,8 +26,7 @@ define([
 
     var defaultOptions = {
         tooltip:{
-            trigger:'manual',
-            theme : 'error'
+            trigger:'manual'
         }
     };
 
@@ -50,7 +49,7 @@ define([
              */
             highlight : function highlight($field, message) {
                 var fieldTooltip;
-                fieldTooltip = tooltip.create($field, message, options.tooltip);
+                fieldTooltip = tooltip.error($field, message, options.tooltip);
                 fieldTooltip.show();
                 $field.data('$tooltip', fieldTooltip);
                 $field.addClass(options.errorClass);

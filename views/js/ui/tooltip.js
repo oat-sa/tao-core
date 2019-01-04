@@ -83,12 +83,12 @@ define([
                 $('[data-tooltip]', $container).each(function(){
                     var $content = DataAttrHandler.getTarget('tooltip', $(this));
                     var opt;
-                    themeName = _.contains(themes, $container.data('tooltip-theme')) ? $container.data('tooltip-theme') : 'default';
+                    themeName = _.contains(themes, $(this).data('tooltip-theme')) ? $(this).data('tooltip-theme') : 'default';
                     opt = {
                         template:themesMap[themeName]
                     };
                     if($content.length){
-                        _.merge(opt, { title: $content[0] }, defaultOptions);
+                        _.merge(defaultOptions, opt, { title: $content[0] });
                     }
                     setTooltip(this, new Tooltip(this, opt));
                 });
@@ -121,6 +121,26 @@ define([
                 throw new Error("Tooltip should have messsage to show");
             }
             return new Tooltip(el, _.merge(calculatedOptions, template, {title:message}));
+        },
+        error : function error(element, message, options){
+            var theme = { theme : 'error'};
+            return this.create(element, message, options ? _.merge(theme, options) : theme);
+        },
+        success : function success(element, message, options){
+            var theme = { theme : 'success'};
+            return this.create(element, message, options ? _.merge(theme, options) : theme);
+        },
+        info : function info(element, message, options){
+            var theme = { theme : 'info'};
+            return this.create(element, message, options ? _.merge(theme, options) : theme);
+        },
+        warning : function warning(element, message, options){
+            var theme = { theme : 'warning'};
+            return this.create(element, message, options ? _.merge(theme, options) : theme);
+        },
+        danger : function danger(element, message, options){
+            var theme = { theme : 'danger'};
+            return this.create(element, message, options ? _.merge(theme, options) : theme);
         }
 
     };

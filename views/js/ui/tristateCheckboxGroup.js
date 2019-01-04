@@ -179,10 +179,7 @@ define([
                             $icon = $input.siblings('.icon')
                                 .addClass('cross')
                                 .each(function( ) {
-                                    $(this).data('$tooltip', Tooltip(this, {
-                                        theme: 'warning',
-                                        title: self.config.maxMessage
-                                    }));
+                                    $(this).data('$tooltip', Tooltip.warning(this, self.config.maxMessage));
                                     $(this).data('$tooltip').show();
 
                                 });
