@@ -61,13 +61,14 @@ define([
         };
 
     /**
-     *   Contains methods to create tooltips
+     *   Contains methods to create tooltips.
+     *   Made on top of popper.js library (https://popper.js.org/tooltip-documentation.html)
      */
     return {
         /**
-         *  Lookup a elements that contains the data-tooltip attribute and
+         * Lookup a elements that contains the data-tooltip attribute and
          * create the tooltip according to the attributes
-         * @param {jQueryElement}   $container - the root context to lookup inside
+         * @param {jQueryElement} $container - the root context to lookup inside
          */
         lookup: function lookup($container){
             var themeName;
@@ -96,15 +97,30 @@ define([
             }
 
         },
-        create: function create(el, settings){
-            var themeName = _.contains(themes, settings.theme) ? settings.theme : 'default';
-            var template = {
+        /**
+         * create new instance of tooltip (popper.js lib)
+         * @param {jQueryElement|HtmlElement} el  - The DOM node used as reference of the tooltip
+         * @param {String} message - text message to show inside tooltip.
+         * @param {Object} options - options for tooltip. Described in (https://popper.js.org/tooltip-documentation.html#new_Tooltip_new)
+         * @returns {Object} - Creates a new popper.js/Tooltip.js instance
+         */
+        create: function create(el, message, options){
+            var calculatedOptions;
+            var themeName;
+            var template;
+
+            calculatedOptions = options ? _.merge(defaultOptions, options) : defaultOptions;
+            themeName = _.contains(themes, calculatedOptions.theme) ? calculatedOptions.theme : 'default';
+            template = {
                 template:themesMap[themeName]
             };
             if(!el && !(el instanceof Element || el instanceof HTMLDocument || el.jquery)){
                 throw new Error("Tooltip should be connected to DOM Element");
             }
-            return new Tooltip(el, _.merge(defaultOptions, template, settings));
+            if(!message && !(el instanceof Element || el instanceof HTMLDocument || el.jquery || typeof message === 'string')){
+                throw new Error("Tooltip should have messsage to show");
+            }
+            return new Tooltip(el, _.merge(calculatedOptions, template, {title:message}));
         }
 
     };

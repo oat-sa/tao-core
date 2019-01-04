@@ -50,12 +50,7 @@ define([
              */
             highlight : function highlight($field, message) {
                 var fieldTooltip;
-                options = _.merge(options, {
-                    tooltip:{
-                        title:message
-                    }
-                });
-                fieldTooltip = tooltip.create($field, options.tooltip);
+                fieldTooltip = tooltip.create($field, message, options.tooltip);
                 fieldTooltip.show();
                 $field.data('$tooltip', fieldTooltip);
                 $field.addClass(options.errorClass);

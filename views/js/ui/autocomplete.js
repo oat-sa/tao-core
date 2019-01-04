@@ -42,9 +42,9 @@ define([
     var tooltipConfigTooMany = {
         container: $('body').get(0),
         theme : 'info',
-        title: __('Too many suggestions match your query. Only a few are listed'),
         trigger:'manual'
     };
+    var toolTipMessage = __('Too many suggestions match your query. Only a few are listed');
 
     /**
      * A list of default values for allowed options
@@ -238,7 +238,7 @@ define([
             }
 
             // prepare the tooltip displayed when more suggestions are available on the server side for the current query
-            this.tooltip = tooltip.create(this.$element, tooltipConfigTooMany);
+            this.tooltip = tooltip.create(this.$element, toolTipMessage, tooltipConfigTooMany);
 
             // loads some options from HTML5 data-* attributes
             options = _.assign(_.clone(options || {}), _.pick(this.$element.data(), [
