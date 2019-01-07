@@ -153,6 +153,7 @@
     $calculatorKeyboardTxt: $textColor;
     $calculatorScreenBg: $uiGeneralContentBg;
     $calculatorScreenTxt: $textColor;
+    $calculatorScreenBorder: $info;
     $calculatorScreenSpecialTxt: $uiClickableHoverBg;
     $calculatorHistoryBorder: $uiGeneralContentBorder;
     $calculatorHistoryTxt: whiten($textColor, .2);
@@ -195,6 +196,10 @@
     .screen, .input {
         position: relative;
         flex: 0 0 auto;
+    }
+
+    .focus, :focus {
+        outline: 2px solid $calculatorScreenBorder;
     }
 
     .keyboard {
@@ -430,8 +435,11 @@
         .term {
             padding: 0;
 
-            &.term-operator:not([data-token="POW"]) {
+            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]) {
                 padding: 0 $calculatorTermSpace;
+            }
+            &.term-operator[data-token="FAC"] {
+                margin-left: -$calculatorTermSpace / 2;
             }
             &.term-function:not([data-token="SQRT"]):not([data-token="CBRT"]) {
                 padding-right: $calculatorTermSpace;
