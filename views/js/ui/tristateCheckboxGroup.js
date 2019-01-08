@@ -129,12 +129,17 @@ define([
                 }
             });
             return this;
-        }
+        },
+        /**
+         * tooltip instance integrated in checkbox group
+         * will be defined with initialization
+         */
+        tooltip: null
     };
 
     /**
      * Builds an instance of tristateCheckboxGroup
-     * 
+     *
      * @param {Object} config
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
@@ -179,15 +184,14 @@ define([
                             $icon = $input.siblings('.icon')
                                 .addClass('cross')
                                 .each(function( ) {
-                                    $(this).data('$tooltip', Tooltip.warning(this, self.config.maxMessage));
-                                    $(this).data('$tooltip').show();
+                                    self.tooltip = Tooltip.warning(this, self.config.maxMessage);
+                                    self.tooltip.show();
 
                                 });
 
                             $icon.parent('label').on('mouseleave', function (){
-                                if($(this).children('.icon').data('$tooltip')){
-                                    $(this).children('.icon').data('$tooltip').dispose();
-                                    $(this).children('.icon').removeData('$tooltip');
+                                if(self.tooltip){
+                                    self.tooltip.dispose();
                                 }
                             });
 

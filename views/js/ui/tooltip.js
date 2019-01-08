@@ -132,28 +132,28 @@ define([
             var theme = { theme : 'error'};
             return this.create(element, message, options ? _.merge(theme, options) : theme);
         },
-         /**
+        /**
          * shortcut for {@link create} method with 'success' theme be default.
          */
         success : function success(element, message, options){
             var theme = { theme : 'success'};
             return this.create(element, message, options ? _.merge(theme, options) : theme);
         },
-         /**
+        /**
          * shortcut for {@link create} method with 'info' theme be default.
          */
         info : function info(element, message, options){
             var theme = { theme : 'info'};
             return this.create(element, message, options ? _.merge(theme, options) : theme);
         },
-         /**
+        /**
          * shortcut for {@link create} method with 'warning' theme be default.
          */
         warning : function warning(element, message, options){
             var theme = { theme : 'warning'};
             return this.create(element, message, options ? _.merge(theme, options) : theme);
         },
-         /**
+        /**
          * shortcut for {@link create} method with 'danger' theme be default.
          */
         danger : function danger(element, message, options){
