@@ -33,32 +33,35 @@ define([
 ){
     'use strict';
 
-    var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'],
-        themesMap = {
-            'default': defaultTpl({class:'tooltip-plain'}),
-            'dark': defaultTpl({class:'tooltip-dark'}),
-            'error': defaultTpl({class:'tooltip-red'}),
-            'success':defaultTpl({class:'tooltip-green'}),
-            'info': defaultTpl({class:'tooltip-blue'}),
-            'warning': defaultTpl({class:'tooltip-orange'}),
-            'danger': defaultTpl({class:'tooltip-danger'})
-        },
-        defaultOptions = {
-            template:themesMap.default,
-            html:true,
-            popperOptions:{
-                positionFixed: true,
-                placement:'auto',
-                modifiers:{
-                    preventOverflow:{
-                        escapeWithReference:false,
-                        enabled:true,
-                        padding:6,
-                        boundariesElement:'viewport'
-                    }
+    var themes = ['dark', 'default', 'info', 'warning', 'error', 'success', 'danger'];
+    var themesMap = {
+        'default': defaultTpl({class:'tooltip-plain'}),
+        'dark': defaultTpl({class:'tooltip-dark'}),
+        'error': defaultTpl({class:'tooltip-red'}),
+        'success':defaultTpl({class:'tooltip-green'}),
+        'info': defaultTpl({class:'tooltip-blue'}),
+        'warning': defaultTpl({class:'tooltip-orange'}),
+        'danger': defaultTpl({class:'tooltip-danger'})
+    };
+    var defaultOptions = {
+        template:themesMap.default,
+        html:true,
+        popperOptions:{
+            positionFixed: true,
+            placement:'auto',
+            modifiers:{
+                preventOverflow:{
+                    escapeWithReference:false,
+                    enabled:true,
+                    padding:6,
+                    boundariesElement:'viewport'
                 }
             }
-        };
+        }
+    };
+    var checkHTMLInstance = function checkHTMLInstance(el){
+        return (el instanceof Element || el instanceof HTMLDocument || el.jquery);
+    };
 
     /**
      *   Contains methods to create tooltips.
@@ -79,7 +82,7 @@ define([
                 }
                 $(el).data('$tooltip', inst);
             };
-            if($container && ($container instanceof Element || $container instanceof HTMLDocument || $container.jquery)){
+            if($container && checkHTMLInstance($container)){
                 $('[data-tooltip]', $container).each(function(){
                     var $content = DataAttrHandler.getTarget('tooltip', $(this));
                     var opt;
@@ -114,10 +117,10 @@ define([
             template = {
                 template:themesMap[themeName]
             };
-            if(!el && !(el instanceof Element || el instanceof HTMLDocument || el.jquery)){
+            if(!el && !checkHTMLInstance(el)){
                 throw new Error("Tooltip should be connected to DOM Element");
             }
-            if(!message && !(el instanceof Element || el instanceof HTMLDocument || el.jquery || typeof message === 'string')){
+            if(!message && !(checkHTMLInstance(el) || typeof message === 'string')){
                 throw new Error("Tooltip should have messsage to show");
             }
             return new Tooltip(el, _.merge(calculatedOptions, template, {title:message}));
