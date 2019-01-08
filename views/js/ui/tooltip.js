@@ -88,7 +88,7 @@ define([
                         template:themesMap[themeName]
                     };
                     if($content.length){
-                        _.merge(defaultOptions, opt, { title: $content[0] });
+                        opt = _.merge(defaultOptions, opt, { title: $content[0] });
                     }
                     setTooltip(this, new Tooltip(this, opt));
                 });
