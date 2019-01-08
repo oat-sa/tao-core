@@ -67,6 +67,7 @@ define([
      * @param {String} [config.proceedButtonText] - the button text when the wait is over
      * @param {Boolean} [config.showSecondary] - should a secondary button be included?
      * @param {String} [config.secondaryButtonText] - the button text for the secondary button
+     * @param {String} [config.buttonSeparatorText] - an optional text to display between 2 buttons
      * @param {jQueryElement} [config.container = 'body'] - where to render the dialog
      * @returns {waitingDialog} the component itself
      */
@@ -75,6 +76,7 @@ define([
         //keep some elements refs
         var $button;
         var $secondaryButton;
+        var $betweenButtonsText;
         var $content;
 
         /**
@@ -103,6 +105,9 @@ define([
                     if (config.showSecondary) {
                         $secondaryButton.removeProp('disabled');
                         $secondaryButton.removeClass('hidden');
+                        if (this.config.buttonSeparatorText) {
+                            $betweenButtonsText.removeClass('hidden');
+                        }
                     }
 
                     /**
@@ -136,6 +141,9 @@ define([
                     if (config.showSecondary) {
                         $secondaryButton.prop('disabled', true);
                         $secondaryButton.addClass('hidden');
+                        if (this.config.buttonSeparatorText) {
+                            $betweenButtonsText.addClass('hidden');
+                        }
                     }
 
                     /**
@@ -199,6 +207,12 @@ define([
                     $secondaryButton.on('click', function() {
                         self.trigger('secondaryaction');
                     });
+                    if (this.config.buttonSeparatorText) {
+                        $betweenButtonsText = $('<span>')
+                            .html(__('or'))
+                            .addClass('between-buttons-text')
+                            .insertBefore($secondaryButton);
+                    }
                 }
 
                 this.beginWait();
