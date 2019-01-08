@@ -34,12 +34,30 @@ define([
         assert.equal(typeof download, 'function', "The download module exposes a function");
     });
 
-    QUnit.test('Download a file', function(assert){
-        assert.ok(download('QunitDownload.json', JSON.stringify(testObject)), 'The download function ran');
-        assert.ok(true, 'Test ran');
+    QUnit.test('Standard usage', function(assert){
+        assert.ok(download('QunitDownloadObject.json', testObject), 'The download function ran (object content)');
+        assert.equal($('body > a').length, 0, 'No link was left behind in the DOM');
     });
 
-    $('#qunit-message').html("Human, please check your downloads to verify this test!");
+    QUnit.test('Non-standard usage', function(assert){
+        assert.ok(download('QunitDownloadEmptyString.json', ''), 'The download function ran (empty string content)');
+        assert.ok(download('QunitDownloadNull.json', null), 'The download function ran (null content)');
+    });
+
+    QUnit.test('Mis-usage', function(assert){
+        assert.throws(function(){
+            download('');
+        }, TypeError, 'Invalid filename');
+        assert.throws(function(){
+            download('QunitDownloadUndefined.json');
+        }, TypeError, 'Invalid content');
+    });
+
+    QUnit.module('Visual test');
+
+    $("#visual-test button").on('click', function() {
+        download('QunitDownloadObjectManual.json', testObject);
+    });
 
 });
 

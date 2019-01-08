@@ -20,17 +20,34 @@
  *
  * @author Martin Nicholson <martin@taotesting.com>
  */
-define([], function () {
+define([
+    'lodash'
+], function (_) {
     'use strict';
 
     /**
      * Make the browser start downloading a file
      * @param {String} filename
      * @param {String} content - String to write to the file
+     * @throws {TypeError}
      * @returns {Boolean}
      */
     var download = function download(filename, content) {
-        var element = document.createElement('a');
+        var element;
+
+        if (_.isEmpty(filename) || !_.isString(filename)) {
+            throw new TypeError('Invalid filename');
+        }
+
+        if (_.isUndefined(content)) {
+            throw new TypeError('Invalid content');
+        }
+
+        if (!_.isString(content)) {
+            content = JSON.stringify(content);
+        }
+
+        element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
         element.setAttribute('download', filename);
         element.style.display = 'none';
