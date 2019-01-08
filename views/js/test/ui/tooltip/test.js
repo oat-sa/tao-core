@@ -116,31 +116,58 @@ define([
         assert.equal(resultAmount, amount, 'possibility to have several tooltips on page');
     });
 
-    // QUnit.module('physical interactions:');
-    //
-    //
-    // QUnit.test('tooltip.lookup()', function (assert) {
-    //     var $single;
-    //     tooltip.lookup($('#' + containerName));
-    //     $single = $( '[data-tooltip]', '#' + containerName).first();
-    //
-    //     $single[0].dispatchEvent(mouseenter);
-    //     setTimeout(function () {
-    //         var $tooltip = $('.tooltip-blue');
-    //         QUnit.start();
-    //         assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
-    //         $single[0].dispatchEvent(mouseleave);
-    //
-    //         setTimeout(function () {
-    //             var $tooltip = $('.tooltip-blue');
-    //             QUnit.start();
-    //             assert.equal($tooltip.length, 0, 'tooltip unbinds from DOM');
-    //         },100);
-    //         QUnit.stop();
-    //     },100);
-    //
-    //     QUnit.stop();
-    // });
+    QUnit.module('physical interactions:');
+
+
+    QUnit.test('tooltip.lookup()', function (assert) {
+        var $single;
+        tooltip.lookup($('#' + containerName));
+        $single = $( '[data-tooltip]', '#' + containerName).first();
+
+        $single[0].dispatchEvent(mouseenter);
+        // $single.trigger('mouseenter');
+        setTimeout(function () {
+            var $tooltip = $('.tooltip-blue');
+            QUnit.start();
+            assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
+            $single[0].dispatchEvent(mouseleave);
+
+            setTimeout(function () {
+                var $hidden = $('.tooltip-blue');
+                var styles = window.getComputedStyle($hidden[0]);
+                QUnit.start();
+                assert.equal(styles.visibility, 'hidden', 'tooltip became hidden on mouse out');
+            },);
+            QUnit.stop();
+        },);
+
+        QUnit.stop();
+    });
+
+    QUnit.test('tooltip.create()', function (assert) {
+        var message = 'tooltip create error method';
+        var $ref = $('#tooltipstered');
+        var errorInstance = tooltip.create($ref, message, {theme:'info'});
+
+        $ref[0].dispatchEvent(mouseenter);
+        // $single.trigger('mouseenter');
+        setTimeout(function () {
+            var $tooltip = $('.tooltip-blue');
+            QUnit.start();
+            assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
+            $ref[0].dispatchEvent(mouseleave);
+
+            setTimeout(function () {
+                var $hidden = $('.tooltip-blue');
+                var styles = window.getComputedStyle($hidden[0]);
+                QUnit.start();
+                assert.equal(styles.visibility, 'hidden', 'tooltip became hidden on mouse out');
+            },);
+            QUnit.stop();
+        },);
+
+        QUnit.stop();
+    });
 
 
     QUnit.module('user friendly api');
