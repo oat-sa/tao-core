@@ -198,7 +198,7 @@
         flex: 0 0 auto;
     }
 
-    .focus, :focus {
+    .focus {
         outline: 2px solid $calculatorScreenBorder;
     }
 
@@ -440,6 +440,7 @@
             }
             &.term-operator[data-token="FAC"] {
                 margin-left: -$calculatorTermSpace / 2;
+                margin-right: -$calculatorTermSpace / 2;
             }
             &.term-function:not([data-token="SQRT"]):not([data-token="CBRT"]) {
                 padding-right: $calculatorTermSpace;
