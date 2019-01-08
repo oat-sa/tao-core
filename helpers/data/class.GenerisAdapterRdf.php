@@ -133,17 +133,36 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     private function addResource(EasyRdf_Graph $graph, core_kernel_classes_Resource $resource)
     {
         foreach ($resource->getRdfTriples() as $triple) {
-            if (!empty($triple->lg)) {
-                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object, $triple->lg);
-            } elseif (common_Utils::isUri($triple->object)) {
+            $language = !empty($triple->lg) ? $triple->lg : null;
+            if (common_Utils::isUri($triple->object)) {
                 if (strpos($triple->object, LOCAL_NAMESPACE) !== false) {
                     continue;
                 }
                 $graph->add($triple->subject, $triple->predicate, $triple->object);
             } else {
-                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object);
+                if ($this->isSerializedFile($triple->object)) {
+                    continue;
+                }
+                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object, $language);
             }
         }
     }
 
+    /**
+     * Check if the given object is a serialized file reference
+     *
+     * @param string $object
+     * @return bool
+     * @see \oat\generis\model\fileReference\UrlFileSerializer::unserialize
+     */
+    private function isSerializedFile($object)
+    {
+        $isFile = false;
+        $type = substr($object, 0, strpos($object, ':'));
+        if (in_array($type, ['file', 'dir'])) {
+            $isFile = true;
+        }
+
+        return $isFile;
+    }
 }
