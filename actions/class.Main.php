@@ -224,38 +224,6 @@ class tao_actions_Main extends tao_actions_CommonModule
 			}
 		}
 
-//        $renderedForm = $form->render();
-//
-//        // replace the login form by a fake form that will delegate the submit to the real form
-//        // this will allow to prevent the browser ability to cache login/password
-//        if ($disableAutoComplete) {
-//            // make a copy of the form and replace the form attributes
-//            $fakeForm = preg_replace('/<form[^>]+>/', '<div class="form loginForm fakeForm">', $renderedForm);
-//            $fakeForm = str_replace('</form>', '</div>', $fakeForm);
-//
-//            // replace the password field by a text field in the actual form,
-//            // so the browser won't detect it and won't be able to cache the credentials
-//            $renderedForm = preg_replace('/type=[\'"]+password[\'"]+/', 'type="text"', $renderedForm);
-//
-//            // hide the actual form,
-//            // it will be submitted through javascript delegation
-//            $renderedForm = preg_replace_callback('/<form([^>]+)>/', function($matches) {
-//                $str = $matches[0];
-//                if (false !== strpos($str, ' style=')) {
-//                    $str = preg_replace('/ style=([\'"]+)([^\'"]+)([\'"]+)/', ' style=$1$2;display:none;$3', $str);
-//                } else {
-//                    $str = '<form' . $matches[1] . ' style="display:none;">';
-//                }
-//                return $str;
-//            }, $renderedForm);
-//
-//            // the fake form will be displayed instead of the actual form,
-//            // it will behave like the actual form
-//            $renderedForm .= $fakeForm;
-//        }
-//
-//        $this->setData('form', $renderedForm);
-
         $this->setData('title', __("TAO Login"));
 
         $this->setData('autocompleteDisabled', (int)$disableAutoComplete);
