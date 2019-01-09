@@ -24,7 +24,11 @@ use oat\tao\model\theme\Theme;
                     'error': <?=json_encode(urldecode(get_data('errorMessage')))?>
                 },
                 'disableAutocomplete' : <?=get_data('autocompleteDisabled')?>,
-                'enablePasswordReveal' : <?=get_data('passwordRevealEnabled')?>
+                'enablePasswordReveal' : <?=get_data('passwordRevealEnabled')?>,
+                'fieldMessages': {
+                    'login': <?=json_encode(get_data('fieldMessages_password'))?>,
+                    'password': <?=json_encode(get_data('fieldMessages_password'))?>
+                }
             }
         }
     });
