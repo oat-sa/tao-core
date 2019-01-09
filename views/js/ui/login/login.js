@@ -26,9 +26,11 @@ define([
     'i18n',
     'ui/component',
     'lib/uuid',
+    'ui/feedback',
     'tpl!ui/login/tpl/login',
-    'ui/feedback'
-], function($, _, __, component, uuid, loginTpl, feedback){
+    'tpl!ui/login/tpl/fakeForm',
+    'tpl!ui/login/tpl/passwordReveal'
+], function($, _, __, component, uuid, feedback, loginTpl, fakeFormTpl, pwdRevealTpl){
     'use strict';
 
     var _defaultConfig = {
@@ -102,11 +104,7 @@ define([
             createFakeForm : function createFakeForm() {
                 var $fakeFormDom = this.getElement().clone();
 
-                var $form = $fakeFormDom.find('form').clone();
-
-                var $fakeForm = $form.replaceWith('<div class="form loginForm fakeForm">' + $form.html() + '</div>');
-
-                return $fakeFormDom.html($fakeForm);
+                return $fakeFormDom.html(fakeFormTpl({form: $fakeFormDom.find('form').html()}));
             },
 
             /**
@@ -144,11 +142,8 @@ define([
                 $pwdInput = $form.find('input[type=password]');
                 $pwdLabel = $form.find('label[for=' + $pwdInput.attr('name') + ']');
 
-                $pwdInput.replaceWith('<span class="viewable-hiddenbox">'
-                    + $pwdLabel[0].outerHTML
-                    + $pwdInput[0].outerHTML
-                    + '<span class="viewable-hiddenbox-toggle" tabindex="0"><span class="icon-preview"></span><span class="icon-eye-slash" style="display: none;"></span></span></span>'
-                );
+                $pwdInput.replaceWith(pwdRevealTpl({elements: ($pwdLabel[0].outerHTML + $pwdInput[0].outerHTML)}));
+
                 $pwdLabel.remove();
             },
 
