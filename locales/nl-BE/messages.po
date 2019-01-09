@@ -20,58 +20,58 @@ msgid " AND "
 msgstr ""
 
 msgid " and "
-msgstr ""
+msgstr " en "
 
 msgid " has been deleted successfully"
-msgstr ""
+msgstr " is succesvol verwijderd"
 
 msgid " is "
 msgstr ""
 
 msgid " next"
-msgstr ""
+msgstr " volgende"
 
 msgid " requires a subgrid adapter"
-msgstr ""
+msgstr "Heeft een subgrid adapter nodig"
 
 msgid "%1$s expected but %2$s detected"
-msgstr ""
+msgstr "%1$s verwacht maar %2$s gevonden"
 
 msgid "%d attempts left before your account is locked."
 msgstr ""
 
 msgid "%d day"
-msgstr ""
+msgstr "%d dag"
 
 msgid "%d days"
-msgstr ""
+msgstr "%d dagen"
 
 msgid "%h hour"
-msgstr ""
+msgstr "%h uur"
 
 msgid "%h hours"
-msgstr ""
+msgstr "%h uren"
 
 msgid "%i minute"
-msgstr ""
+msgstr "%i minuut"
 
 msgid "%i minutes"
-msgstr ""
+msgstr "%i minuten"
 
 msgid "%m month"
-msgstr ""
+msgstr "%m maand"
 
 msgid "%m months"
-msgstr ""
+msgstr "%m maanden"
 
 msgid "%s %s selected"
 msgstr ""
 
 msgid "%s (%s kb)"
-msgstr ""
+msgstr "%s (%s kb"
 
 msgid "%s Class saved"
-msgstr ""
+msgstr "%s van de klasse opgeslagen"
 
 msgid "%s classes"
 msgstr ""
@@ -80,58 +80,58 @@ msgid "%s Confirmation"
 msgstr ""
 
 msgid "%s could not be released"
-msgstr ""
+msgstr "'%s kon niet worden vrijgegeven"
 
 msgid "%s created"
 msgstr ""
 
 msgid "%s extension(s) to install."
-msgstr ""
+msgstr "%s van de te installeren extensie(s)"
 
 msgid "%s has been deleted"
-msgstr ""
+msgstr "%s is verwijderd"
 
 msgid "%s has been released"
-msgstr ""
+msgstr "%s is vrijgegeven"
 
 msgid "%s instances"
 msgstr ""
 
 msgid "%s is of a type that cannot be published"
-msgstr ""
+msgstr "%s is van een type dat niet gepubliceerd kan worden"
 
 msgid "%s Locked"
-msgstr ""
+msgstr "%s Geblokkeerd"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr ""
+msgstr "%s\" is geen valide indexnaam. Het moet starten met een letter en mag alleen letters, getallen en lage streepjes bevatten"
 
 msgid "%y year"
-msgstr ""
+msgstr "%y jaar"
 
 msgid "%y years"
-msgstr ""
+msgstr "%y jaren"
 
 msgid "(empty)"
-msgstr ""
+msgstr "(leeg)"
 
 msgid "... reloading page."
-msgstr ""
+msgstr "...pagina aan het herladen"
 
 msgid "<del>Filters</del>"
-msgstr ""
+msgstr "<del>Filters</del>"
 
 msgid "<del>Options</del>"
-msgstr ""
+msgstr "<del>Opties</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr ""
 
 msgid "> Extension %s succesfully installed."
-msgstr ""
+msgstr "> Extensie %s is succesvol geïnstalleerd."
 
 msgid "> Installation done."
-msgstr ""
+msgstr "> Installatie is gedaan."
 
 msgid "a class"
 msgstr ""
@@ -140,28 +140,28 @@ msgid "A date has to be a Datetime or timestamp"
 msgstr ""
 
 msgid "A fatal error occured during the installation process."
-msgstr ""
+msgstr "Er is een kritieke fout opgetreden tijdens de installatie."
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr ""
+msgstr "Een bericht met verdere instructies is gestuurd naar uw e-mail adres: %s"
 
 msgid "Absolute value"
 msgstr ""
 
 msgid "Access Denied"
-msgstr ""
+msgstr "Toegang geweigerd"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Toegang geweigerd. Gelieve uw verificatie opnieuw in te voeren!"
 
 msgid "Account status"
 msgstr ""
 
 msgid "Action"
-msgstr ""
+msgstr "Handeling"
 
 msgid "Action %s - removed %s positions"
 msgstr ""
@@ -173,26 +173,26 @@ msgid "Action was not executed yet"
 msgstr ""
 
 msgid "Actions"
-msgstr ""
+msgstr "Handelingen"
 
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 msgid "Add a CSV file"
-msgstr ""
+msgstr "Voeg een CSV bestand toe"
 
 #, tao-public
 msgid "Add a user"
-msgstr ""
+msgstr "Voeg een gebruiker toe"
 
 msgid "Add an RDF/XML file"
-msgstr ""
+msgstr "Voeg een RDF/XML bestand toe"
 
 msgid "Add file(s)"
-msgstr ""
+msgstr "Voeg bestand(en) toe"
 
 msgid "Add property"
-msgstr ""
+msgstr "Voeg eigenschap toe"
 
 msgid "Adding search index for %s"
 msgstr ""
@@ -204,28 +204,31 @@ msgid "Adding the new resource has failed"
 msgstr ""
 
 msgid "Advanced Mode"
-msgstr ""
+msgstr "Geavanceerde modus"
 
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "all"
+msgid "aliases:"
 msgstr ""
+
+msgid "all"
+msgstr "Alle"
 
 msgid "All data will be removed in %s"
-msgstr ""
+msgstr "Alle data wordt verwijderd in %s"
 
 msgid "All fields are required"
-msgstr ""
+msgstr "Alle velden zijn verplicht"
 
 msgid "All rights reserved."
-msgstr ""
+msgstr "Alle rechten voorbehouden"
 
 msgid "Alpha version"
-msgstr ""
+msgstr "Alpha versie "
 
 msgid "An email has been sent"
-msgstr ""
+msgstr "Er is een e-mail is verzonden"
 
 msgid "An error occurred during user deletion"
 msgstr ""
@@ -259,50 +262,60 @@ msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
+msgstr "Weet u zeker dat u de bron met deze versie wilt verwijderen?\n"
+"De geschiedenis gaat dan ook verloren."
 
 msgid "Are you sure you want to delete it?"
+msgstr "Weet u zeker dat u het wilt verwijderen?"
+
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
 msgstr ""
 
 msgid "Assign User to role"
-msgstr ""
+msgstr "Wijs een gebruiker aan een rol toe"
 
 #, tao-public
 msgid "Assign Users"
-msgstr ""
+msgstr "Gebruikers toewijzen "
 
 msgid "Author"
-msgstr ""
+msgstr "Auteur"
 
 msgid "Author Item"
-msgstr ""
+msgstr "Auteur Item"
 
 msgid "Authoring"
-msgstr ""
+msgstr "Construeren"
 
 msgid "auto unlocked in %s"
 msgstr ""
 
 msgid "Available"
-msgstr ""
+msgstr "Beschikbaar"
 
 msgid "Available Extensions"
-msgstr ""
+msgstr "Beschikbare Extensies"
 
 msgid "Back"
 msgstr ""
 
 msgid "Back to listing"
-msgstr ""
+msgstr "Terug naar vermeldingen"
 
 msgid "Base-10 logarithm"
 msgstr ""
 
 msgid "Beta version"
-msgstr ""
+msgstr "Bèta-versie"
 
 msgid "Binary operator *"
 msgstr ""
@@ -319,29 +332,32 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "Browse folders:"
+msgid "boolean"
 msgstr ""
 
+msgid "Browse folders:"
+msgstr "Blader mappen door:"
+
 msgid "Browse..."
-msgstr ""
+msgstr "Bladeren…"
 
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Afbreken"
 
 msgid "cancel"
-msgstr ""
+msgstr "afbreken"
 
 msgid "cancel the action"
-msgstr ""
+msgstr "breek de actie af"
 
 msgid "Cannot be edited"
-msgstr ""
+msgstr "Kan niet worden gewijzigd"
 
 msgid "Cannot divide by zero"
 msgstr ""
@@ -351,34 +367,37 @@ msgstr ""
 
 #, tao-public
 msgid "Change password"
-msgstr ""
+msgstr "Wachtwoord wijzigen"
 
 msgid "Change the password"
-msgstr ""
-
-msgid "Check All"
-msgstr ""
+msgstr "Wijzig het wachtwoord"
 
 msgid "Check all"
-msgstr ""
+msgstr "Alles selecteren"
+
+msgid "Check All"
+msgstr "Alles selecteren"
 
 msgid "Check-in"
+msgstr "Inchecken"
+
+msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
 
 msgid "Choose export format"
-msgstr ""
+msgstr "Kies export formaat:"
 
 msgid "Choose import format"
-msgstr ""
+msgstr "Kies import formaat:"
 
 msgid "City"
 msgstr ""
 
 msgid "class selected"
-msgstr ""
+msgstr "Geselecteerde klasse"
 
 msgid "Class uri provided is not a valid class."
 msgstr ""
@@ -401,10 +420,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -426,13 +445,16 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
+msgstr "Kolom"
+
+msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
-msgstr ""
+msgstr "Commentaar..."
 
 msgid "Commit"
-msgstr ""
+msgstr "Doorvoeren"
 
 msgid "Completed"
 msgstr ""
@@ -444,13 +466,13 @@ msgid "Compute the expression"
 msgstr ""
 
 msgid "Confirm"
-msgstr ""
+msgstr "Bevestigen"
 
 msgid "Connect to the TAO platform"
-msgstr ""
+msgstr "Verbind met het TAO platform"
 
 msgid "Continue"
-msgstr ""
+msgstr "Doorgaan"
 
 msgid "Copy"
 msgstr ""
@@ -464,14 +486,17 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
+msgid "count"
+msgstr ""
+
 msgid "Country"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Aanmaken"
 
 msgid "Create instance of "
-msgstr ""
+msgstr "Maak een instantie aan van "
 
 msgid "Created"
 msgstr ""
@@ -480,46 +505,49 @@ msgid "Creation At"
 msgstr ""
 
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 msgid "CSV Options"
-msgstr ""
+msgstr "CSV opties"
 
 msgid "Cube root"
 msgstr ""
 
 msgid "Current language"
-msgstr ""
+msgstr "Huidige taal"
 
 msgid "Current playback position"
 msgstr ""
 
 msgid "Data imported"
-msgstr ""
+msgstr "Data geïmporteerd"
 
 msgid "Data imported successfully"
-msgstr ""
+msgstr "Data is succesvol geïmporteerd"
 
 msgid "Data imported. Some records are invalid."
-msgstr ""
-
-msgid "Data language"
-msgstr ""
+msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
 msgid "Data Language"
-msgstr ""
+msgstr "Data taal"
+
+msgid "Data language"
+msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
-msgstr ""
+msgstr "Data is niet geïmporteerd. Alle records zijn ongeldig."
 
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 msgid "Default search"
+msgstr "Standaard zoekopdracht"
+
+msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
-msgstr ""
+msgstr "Definieer de standaardwaarden"
 
 msgid "Deg"
 msgstr ""
@@ -529,7 +557,7 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Verwijderen"
 
 msgid "Delete Left"
 msgstr ""
@@ -547,6 +575,9 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
+msgstr "Demo Sandbox"
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -580,57 +611,58 @@ msgid "Digit 9"
 msgstr ""
 
 msgid "Disabled %s"
-msgstr ""
+msgstr "Uitgeschakeld %s"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
+msgstr "Wilt u de volgende extensie(s) instaleren:\n"
+"%s?"
 
 msgid "does not match"
-msgstr ""
+msgstr "Komt niet overeen"
 
 msgid "Don't set"
-msgstr ""
+msgstr "Niet instellen"
 
 msgid "Dot"
 msgstr ""
 
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 msgid "Download this file"
-msgstr ""
+msgstr "Download dit bestand"
 
 msgid "Drag file here"
-msgstr ""
+msgstr "Sleep het bestand naar hier"
 
 msgid "Drag files here"
-msgstr ""
+msgstr "Sleep bestanden hierheen"
 
 msgid "Drop the files to upload"
-msgstr ""
+msgstr "Drop de bestanden voor upload"
 
 msgid "Edit"
-msgstr ""
+msgstr "Aanpassen"
 
 #, tao-public
 msgid "Edit a user"
-msgstr ""
+msgstr "Gebruiker aanpassen"
 
 msgid "Edit class %s"
-msgstr ""
+msgstr "Pas klasse %s aan"
 
 msgid "Edit Instance"
-msgstr ""
+msgstr "Pas instantie aan"
 
 msgid "Element"
-msgstr ""
+msgstr "Element"
 
 msgid "Element deleted."
-msgstr ""
+msgstr "Element verwijderd"
 
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 msgid "Email address"
 msgstr ""
@@ -645,16 +677,16 @@ msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
 msgid "Enter"
-msgstr ""
+msgstr "Enter"
 
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
 msgid "Error adding search index for %s with message %s"
 msgstr ""
 
 msgid "Error during file import"
-msgstr ""
+msgstr "Fout bij het importeren"
 
 msgid "Error in result"
 msgstr ""
@@ -665,8 +697,11 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
-msgid "Exclusive (OR)"
+msgid "Examples:"
 msgstr ""
+
+msgid "Exclusive (OR)"
+msgstr "Exclusive (OR)"
 
 msgid "Execute"
 msgstr ""
@@ -679,10 +714,10 @@ msgstr ""
 
 #, tao-public
 msgid "Export"
-msgstr ""
+msgstr "Exporteren"
 
 msgid "Export "
-msgstr ""
+msgstr "Exporteren"
 
 msgid "Export \"%s\" in %s"
 msgstr ""
@@ -694,7 +729,7 @@ msgid "Export failed."
 msgstr ""
 
 msgid "Export Metadata as RDF/XML file"
-msgstr ""
+msgstr "Exporteer metadata als RDF/XML bestand"
 
 msgid "Export succeeded."
 msgstr ""
@@ -704,7 +739,7 @@ msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
-msgstr ""
+msgstr "Extensiebeheer"
 
 msgid "Factorial"
 msgstr ""
@@ -716,69 +751,72 @@ msgid "Failed to delete index for %s"
 msgstr ""
 
 msgid "False"
-msgstr ""
+msgstr "Onwaar"
 
 msgid "Field delimiter"
-msgstr ""
+msgstr "Veldscheidingsteken"
 
 msgid "Field encloser"
-msgstr ""
+msgstr "Kader om veld"
 
 msgid "Fields must match"
 msgstr ""
 
 msgid "File"
-msgstr ""
+msgstr "Bestand"
 
 msgid "File download failed"
 msgstr ""
 
 msgid "File name"
-msgstr ""
+msgstr "Bestandsnaam"
 
 msgid "File Properties"
-msgstr ""
+msgstr "Bestandseigenschappen"
 
 msgid "file selected"
-msgstr ""
+msgstr "geselecteerd bestand"
 
 msgid "File Uploader"
-msgstr ""
+msgstr "Bestandsuploader"
 
 msgid "files selected"
-msgstr ""
+msgstr "geselecteerde bestanden"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 msgid "Filter by value"
 msgstr ""
 
 msgid "Filtering mode"
-msgstr ""
+msgstr "Filter modus"
 
 msgid "First Name"
-msgstr ""
+msgstr "Voornaam"
 
 msgid "First page"
 msgstr ""
 
 msgid "First row column names"
-msgstr ""
+msgstr "Eerste rij bevat kolomnamen"
 
 msgid "Fit to width"
 msgstr ""
 
 msgid "Force Release"
-msgstr ""
+msgstr "Forceer het uitgeven"
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Uw wachtwoord vergeten?"
 
 msgid "From"
 msgstr ""
 
 msgid "Fuzzy Matching"
+msgstr "Fuzzy matching"
+
+msgid "generated-value"
 msgstr ""
 
 msgid "Generis Form"
@@ -791,22 +829,22 @@ msgid "Get the history list"
 msgstr ""
 
 msgid "Go Back"
-msgstr ""
+msgstr "Ga terug"
 
 msgid "Height"
-msgstr ""
+msgstr "Hoogte"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
-msgstr ""
+msgstr "Hallo, %s<br>U heeft aangegeven dat u uw TAO wachtwoord bent vergeten."
 
 msgid "Hide detailed report"
-msgstr ""
+msgstr "Verberg het uitgebreide rapport"
 
 msgid "Highlight all"
 msgstr ""
 
 msgid "hours"
-msgstr ""
+msgstr "uren"
 
 msgid "Hyperbolic arc cosine"
 msgstr ""
@@ -827,16 +865,19 @@ msgid "Hyperbolic tangent"
 msgstr ""
 
 msgid "Identifier"
-msgstr ""
+msgstr "Naam"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr "Als u uw wachtwoord niet wilt resetten, negeer dan deze e-mail en uw wachtwoord zal ongewijzigd blijven."
+
+msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 msgid "Import "
-msgstr ""
+msgstr "Importeer"
 
 msgid "Import a %s into \"%s"
 msgstr ""
@@ -848,10 +889,10 @@ msgid "Import failed."
 msgstr ""
 
 msgid "Import Metadata from CSV file"
-msgstr ""
+msgstr "Importeer Metadata vanuit een CSV bestand"
 
 msgid "Import Metadata from RDF file"
-msgstr ""
+msgstr "Importeer Metadata vanuit een RDF bestand"
 
 msgid "Import succeeded."
 msgstr ""
@@ -875,13 +916,13 @@ msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
-msgstr ""
+msgstr "Inclusief (AND)"
 
 msgid "Index has been deleted for %s"
 msgstr ""
 
 msgid "Indexing has been run"
-msgstr ""
+msgstr "Indexering heeft gedraaid"
 
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
@@ -890,85 +931,91 @@ msgid "Injector has to contains a valid \"source\" field."
 msgstr ""
 
 msgid "Install"
-msgstr ""
+msgstr "Installeren"
 
 msgid "Installation done."
-msgstr ""
+msgstr "Installatie is gereed."
 
 msgid "Installation..."
-msgstr ""
+msgstr "Installatie..."
 
 msgid "Installed Extensions"
-msgstr ""
+msgstr "Geïnstalleerde extensies"
 
 msgid "Installed Version"
 msgstr ""
 
 msgid "Installing extension %s..."
-msgstr ""
+msgstr "Geïnstalleerde extensie %s..."
 
 msgid "Instance saved"
-msgstr ""
+msgstr "Instantie is opgeslagen"
 
 msgid "Interface language"
-msgstr ""
+msgstr "Taal van de omgeving"
 
 msgid "Interface Language"
-msgstr ""
+msgstr "Taal van de omgeving"
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr ""
+msgstr "Onjuist datum bereik (moet liggen na of op: %s)"
 
 msgid "Invalid date range (must be after: %s)"
-msgstr ""
+msgstr "Onjuist datum bereik (moet liggen na: %s)"
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr ""
+msgstr "Onjuist datum bereik (moet liggen voor of op: %s)"
 
 msgid "Invalid date range (must be before: %s)"
-msgstr ""
+msgstr "Onjuist datum bereik (moet liggen voor: %s)"
 
 msgid "Invalid field length"
-msgstr ""
+msgstr "Onjuiste veldlengte"
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr ""
+msgstr "Onjuiste veld waarde (maximum waarde: %s)"
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr ""
+msgstr "Onjuiste veld waarde (minimum waarde: %1$s, maximum waarde: %2$s)"
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr ""
+msgstr "Onjuiste veld waarde (minimum waarde: %s)"
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr ""
+msgstr "Niet toegestane bestandsgrootte (minimum %1$s bytes, maximum %2$s bytes)"
 
 msgid "Invalid file type!"
-msgstr ""
+msgstr "Onjuiste bestandstype!"
 
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid login or password. Please try again."
+msgid "Invalid JSON config file: %s"
 msgstr ""
+
+msgid "Invalid login or password. Please try again."
+msgstr "Onjuiste login of wachtwoord. Probeer het opnieuw."
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr ""
 
 msgid "invalid regular expression"
+msgstr "Onjuiste reguliere expressie."
+
+msgid "Invalid values:"
 msgstr ""
 
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 msgid "Language"
-msgstr ""
+msgstr "Taal"
 
 msgid "Last attempt before your account is locked."
 msgstr ""
 
 msgid "Last Name"
-msgstr ""
+msgstr "Achternaam"
 
 msgid "Last page"
 msgstr ""
@@ -977,31 +1024,31 @@ msgid "Left parenthesis"
 msgstr ""
 
 msgid "less than a minute"
-msgstr ""
+msgstr "Minder dan een minuut"
 
 msgid "List"
-msgstr ""
+msgstr "Lijst"
 
 msgid "List - Multiple choice - Check box"
-msgstr ""
+msgstr "Lijst - Meerkeuze - Selectievakje"
 
 msgid "List - Single choice - Drop down"
-msgstr ""
+msgstr "Lijst - Enkele keuze - Keuzelijst"
 
 msgid "List - Single choice - Radio button"
-msgstr ""
+msgstr "Lijst - Enkele keuze - Radioknop"
 
 msgid "Load more"
 msgstr ""
 
 msgid "Loaded"
-msgstr ""
+msgstr "Geladen"
 
 msgid "Loaded at Startup"
-msgstr ""
+msgstr "Bij het starten geladen"
 
 msgid "Loading"
-msgstr ""
+msgstr "Bezig met laden"
 
 msgid "Loading status"
 msgstr ""
@@ -1013,16 +1060,16 @@ msgid "locked by %s"
 msgstr ""
 
 msgid "Log in"
-msgstr ""
+msgstr "Aanmelden"
 
 msgid "Log Out"
-msgstr ""
+msgstr "Afmelden"
 
 msgid "Login"
-msgstr ""
+msgstr "Aanmelden"
 
 msgid "Login available"
-msgstr ""
+msgstr "Aanmelden beschikbaar"
 
 msgid "Login is already in use."
 msgstr ""
@@ -1043,24 +1090,24 @@ msgid "Manage class schema"
 msgstr ""
 
 msgid "Manage data list"
-msgstr ""
+msgstr "Beheer data lijst"
 
 #, tao-public
 msgid "Manage roles"
-msgstr ""
+msgstr "Beheer rollen"
 
 msgid "Manage Roles and apply them to users."
-msgstr ""
+msgstr "Beheer rollen en wijs ze aan gebruikers toe."
 
 #, tao-public
 msgid "Manage users"
-msgstr ""
+msgstr "Gebruikers beheren"
 
 msgid "Manage Versioned File"
-msgstr ""
+msgstr "Beheer bestand met versie"
 
 msgid "Map the properties to the CSV columns"
-msgstr ""
+msgstr "Combineer de eigenschappen met de overeenkomende CSV kolommen"
 
 msgid "Maximum selection reached"
 msgstr ""
@@ -1069,7 +1116,7 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr ""
 
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 msgid "Messages"
 msgstr ""
@@ -1081,7 +1128,7 @@ msgid "Method"
 msgstr ""
 
 msgid "minutes"
-msgstr ""
+msgstr "minuten"
 
 msgid "missing config %s for the service %s"
 msgstr ""
@@ -1090,7 +1137,7 @@ msgid "Missing Parameters"
 msgstr ""
 
 msgid "More"
-msgstr ""
+msgstr "Meer"
 
 msgid "Move"
 msgstr ""
@@ -1103,7 +1150,7 @@ msgstr ""
 
 #, tao-public
 msgid "Move role"
-msgstr ""
+msgstr "Verplaats rol"
 
 msgid "Move the cursor one step on the left"
 msgstr ""
@@ -1112,19 +1159,19 @@ msgid "Move the cursor one step on the right"
 msgstr ""
 
 msgid "Move to"
-msgstr ""
+msgstr "Verplaats naar"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
-msgstr ""
+msgstr "Het verplaatsen van dit element zal de eigenschappen van de vorige klasse overschrijven met die van de doel klasse :"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr ""
+msgstr "Het verplaatsen van dit element zal de eigenschappen van de vorige klasse overschrijven met die van de doel klasse:"
 
 msgid "Multiple values delimiter"
-msgstr ""
+msgstr "Scheidingsteken tussen meerdere waarden"
 
 msgid "must be numeric"
-msgstr ""
+msgstr "moet numeriek zijn"
 
 msgid "Mute"
 msgstr ""
@@ -1134,26 +1181,26 @@ msgstr ""
 
 #, tao-public
 msgid "My settings"
-msgstr ""
+msgstr "Mijn instellingen"
 
 msgid "My settings (%s)"
-msgstr ""
+msgstr "Mijn instellingen (%s)"
 
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 msgid "Natural logarithm"
 msgstr ""
 
 msgid "New password"
-msgstr ""
+msgstr "Nieuw wachtwoord"
 
 #, tao-public
 msgid "New role"
-msgstr ""
+msgstr "Nieuwe rol"
 
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 msgid "Next match"
 msgstr ""
@@ -1162,37 +1209,37 @@ msgid "Next page"
 msgstr ""
 
 msgid "No"
-msgstr ""
+msgstr "Nee"
 
 msgid "No action specified"
-msgstr ""
+msgstr "Geen handeling aangegeven"
 
 msgid "No client translation bundles updated"
 msgstr ""
 
 msgid "No extensions available."
-msgstr ""
+msgstr "Geen extensies beschikbaar."
 
 msgid "no file not found in this location"
-msgstr ""
+msgstr "geen bestand gevonden op deze locatie"
 
 msgid "No file selected"
-msgstr ""
+msgstr "Geen bestand geselecteerd"
 
 msgid "No files"
-msgstr ""
+msgstr "Geen bestanden"
 
 msgid "no label"
-msgstr ""
+msgstr "geen label"
 
 msgid "No Preview available"
-msgstr ""
+msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No preview available"
-msgstr ""
+msgstr "Geen voorbeeld beschikbaar"
 
 msgid "No results found"
-msgstr ""
+msgstr "Geen resultaten gevonden"
 
 msgid "No Task yet"
 msgstr ""
@@ -1200,17 +1247,23 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
 msgid "Nothing imported"
-msgstr ""
+msgstr "Niets geïmporteerd"
 
 msgid "Nothing to install !"
-msgstr ""
+msgstr "Niets om te installeren !"
 
 msgid "Nothing to list!"
-msgstr ""
+msgstr "Niets om te laten zien!"
 
 #, tao-public
 msgid "Notifications"
@@ -1222,23 +1275,26 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "Number of elements"
+msgid "number"
 msgstr ""
 
+msgid "Number of elements"
+msgstr "Aantal segmenten"
+
 msgid "of"
-msgstr ""
+msgstr "van"
 
 msgid "Off"
 msgstr ""
 
-msgid "OK"
-msgstr ""
-
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
-msgstr ""
+msgstr "Oud wachtwoord"
 
 msgid "On"
 msgstr ""
@@ -1247,31 +1303,31 @@ msgid "Operated By "
 msgstr ""
 
 msgid "or"
-msgstr ""
+msgstr "of"
 
 msgid "Page"
-msgstr ""
+msgstr "Pagina"
 
 msgid "Parameters"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Wachtwoord"
 
 msgid "Password changed"
-msgstr ""
+msgstr "Wachtwoord gewijzigd."
 
 msgid "Password is empty."
 msgstr ""
 
 msgid "Password reset"
-msgstr ""
+msgstr "Wachtwoord gereset"
 
 msgid "Password successfully changed"
-msgstr ""
+msgstr "Paswoord succesvol veranderd!"
 
 msgid "Passwords are not matching"
-msgstr ""
+msgstr "Wachtwoorden komen niet overeen"
 
 msgid "Pause"
 msgstr ""
@@ -1286,7 +1342,7 @@ msgid "Play"
 msgstr ""
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Bevestig a.u.b. verwijdering"
 
 msgid "Please confirm deletion of %s."
 msgstr ""
@@ -1298,16 +1354,16 @@ msgid "Please confirm locking of account %s"
 msgstr ""
 
 msgid "Please confirm property deletion!"
-msgstr ""
+msgstr "Bevestig a.u.b. verwijdering van de eigenschap!"
 
 msgid "Please confirm this operation."
-msgstr ""
+msgstr "Bevestig a.u.b. deze handeling."
 
 msgid "Please confirm unlocking of account %s"
 msgstr ""
 
 msgid "Please contact %s or an administrator to release it"
-msgstr ""
+msgstr "Neem a.u.b. contact op met %s of een administrator om het uit te geven"
 
 msgid "Please contact your administrator."
 msgstr ""
@@ -1319,10 +1375,10 @@ msgid "Please download the video and view offline."
 msgstr ""
 
 msgid "Please give a message to your commit"
-msgstr ""
+msgstr "Geef a.u.b. een bericht bij u bevestiging"
 
 msgid "Please provide a reason"
-msgstr ""
+msgstr "Geef a.u.b. een reden"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
@@ -1337,7 +1393,7 @@ msgid "Please wait while ..."
 msgstr ""
 
 msgid "Post install processing"
-msgstr ""
+msgstr "Post installatie verwerking"
 
 msgid "Power of"
 msgstr ""
@@ -1346,13 +1402,13 @@ msgid "Power of 10"
 msgstr ""
 
 msgid "Preparing installation..."
-msgstr ""
+msgstr "Installatie wordt voorbereid..."
 
 msgid "Preview"
-msgstr ""
+msgstr "Voorbeeld"
 
 msgid "Previous"
-msgstr ""
+msgstr "Vorige"
 
 msgid "Previous match"
 msgstr ""
@@ -1365,13 +1421,13 @@ msgstr ""
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Eigenschappen"
 
 msgid "Property\'s label field is required"
 msgstr ""
 
 msgid "Provided URL is not valid"
-msgstr ""
+msgstr "De gegeven URL is niet geldig"
 
 msgid "Publish"
 msgstr ""
@@ -1395,16 +1451,16 @@ msgid "Range field is required"
 msgstr ""
 
 msgid "RDF"
-msgstr ""
+msgstr "RDF"
 
 msgid "Refresh"
 msgstr ""
 
 msgid "Release"
-msgstr ""
+msgstr "Uitgave"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr ""
+msgstr "Het vrijgeven van de blokkade kan ervoor zorgen dat het gedane werk door %s verloren gaat."
 
 msgid "Remind"
 msgstr ""
@@ -1425,13 +1481,13 @@ msgid "Remind the recorded value"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "Verwijderen"
 
 msgid "Remove Message"
-msgstr ""
+msgstr "Verwijder bericht"
 
 msgid "Remove this file"
-msgstr ""
+msgstr "Verwijder dit bestand"
 
 msgid "Removed %s directories"
 msgstr ""
@@ -1443,34 +1499,37 @@ msgid "Removing: %s"
 msgstr ""
 
 msgid "Rename"
-msgstr ""
+msgstr "Hernoemen"
 
 msgid "Repeat new password"
-msgstr ""
+msgstr "Herhaal het nieuwe wachtwoord"
 
 msgid "Repeat password"
 msgstr ""
 
 msgid "Request a password reset via Email."
-msgstr ""
+msgstr "Vraag een wachtwoord reset aan per e-mail."
 
 msgid "require notification ID"
 msgstr ""
 
-msgid "required length"
+msgid "required"
 msgstr ""
+
+msgid "required length"
+msgstr "benodigde lengte"
 
 msgid "Requires"
-msgstr ""
+msgstr "Benodigd"
 
 msgid "Reset"
-msgstr ""
+msgstr "Resetten"
 
 msgid "Reset the original size"
 msgstr ""
 
 msgid "Resource"
-msgstr ""
+msgstr "Bron"
 
 msgid "Resource copied"
 msgstr ""
@@ -1485,13 +1544,13 @@ msgid "Resource Identifier has been copied to the clipboard"
 msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
-msgstr ""
+msgstr "Bron is niet geïmporteerd vanwege meerdere super klassen"
 
 msgid "Resource not imported due to multiple types"
-msgstr ""
+msgstr "Bron is niet geïmporteerd vanwege meerdere typen"
 
 msgid "Resource saved"
-msgstr ""
+msgstr "Bron is opgeslagen"
 
 msgid "resources"
 msgstr ""
@@ -1500,29 +1559,29 @@ msgid "Resources moved"
 msgstr ""
 
 msgid "Responsive mode"
-msgstr ""
+msgstr "Responsive modus"
 
 msgid "Restore sound"
 msgstr ""
 
 msgid "Return to sign in page"
-msgstr ""
+msgstr "Keer terug naar de login pagina"
 
 msgid "Right click the tree to manage your lists"
-msgstr ""
+msgstr "Klik rechts op de boom om de lijsten te beheren"
 
 msgid "Right parenthesis"
 msgstr ""
 
 msgid "Role saved"
-msgstr ""
+msgstr "Rol opgeslagen"
 
 msgid "Roles"
-msgstr ""
+msgstr "Rollen"
 
 #, tao-public
 msgid "Roles library"
-msgstr ""
+msgstr "Rollen bank"
 
 msgid "Round to closest whole number"
 msgstr ""
@@ -1540,37 +1599,37 @@ msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
-msgstr ""
+msgstr "Opslaan"
 
 msgid "Scientific Calculator"
 msgstr ""
 
 msgid "Scope"
-msgstr ""
+msgstr "Bereik"
 
 msgid "Search"
-msgstr ""
+msgstr "Zoeken"
 
 msgid "Search %s"
-msgstr ""
+msgstr "Zoek %s"
 
 msgid "Search by properties"
 msgstr ""
 
 msgid "Search sub-classes"
-msgstr ""
+msgstr "Zoek sub-klassen"
 
 msgid "second"
 msgstr ""
 
 msgid "seconds"
-msgstr ""
-
-msgid "select"
-msgstr ""
+msgstr "seconden"
 
 msgid "Select"
-msgstr ""
+msgstr "Selecteren"
+
+msgid "select"
+msgstr "selecteren"
 
 msgid "Select a class"
 msgstr ""
@@ -1579,28 +1638,28 @@ msgid "Select a destination"
 msgstr ""
 
 msgid "Select a language"
-msgstr ""
+msgstr "Selecteer een taal"
 
 msgid "Select loaded %s"
 msgstr ""
 
 msgid "Select the element destination"
-msgstr ""
+msgstr "Selecteer doellocatie voor het element"
 
 msgid "Select this file"
-msgstr ""
+msgstr "Selecteer dit bestand"
 
 msgid "select..."
-msgstr ""
+msgstr "selecteer..."
 
 msgid "Selected"
 msgstr ""
 
 msgid "Selected file:"
-msgstr ""
+msgstr "Geselecteerd bestand:"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "Selectie is succesvol opgeslagen"
 
 msgid "self-locked"
 msgstr ""
@@ -1613,22 +1672,22 @@ msgstr ""
 
 #, tao-public
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 msgid "Settings updated"
-msgstr ""
+msgstr "Instellingen geupdate"
 
 msgid "Show detailed report"
-msgstr ""
+msgstr "Toon gedetailleerd rapport"
 
 msgid "Simple Mode"
-msgstr ""
+msgstr "Eenvoudige modus"
 
 msgid "Sine"
 msgstr ""
 
 msgid "Size"
-msgstr ""
+msgstr "Grootte"
 
 msgid "Some resources have not been moved: %s"
 msgstr ""
@@ -1657,35 +1716,38 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
-msgid "Success"
+msgid "string"
 msgstr ""
+
+msgid "Success"
+msgstr "Succes"
 
 msgid "Successfully imported \"%s"
-msgstr ""
+msgstr "Succesvol geïmporteerd \"%s"
 
 msgid "Successfully imported %s tripples"
-msgstr ""
+msgstr "%s Trippels succesvol geïmporteerd "
 
 msgid "Successfully imported class \"%s"
-msgstr ""
+msgstr "Klasse \"%s succesvol geïmplementeerd "
 
 msgid "Successfully updated %s client translation bundles"
 msgstr ""
 
 msgid "Supported export formats"
-msgstr ""
+msgstr "Ondersteunde export formaten"
 
 msgid "Tangent"
 msgstr ""
 
 msgid "Tao Default Theme"
-msgstr ""
+msgstr "Tao standaard thema"
 
 msgid "TAO Home"
-msgstr ""
+msgstr "TAO thuis"
 
 msgid "TAO Login"
-msgstr ""
+msgstr "TAO login"
 
 msgid "task created"
 msgstr ""
@@ -1706,19 +1768,19 @@ msgid "Term"
 msgstr ""
 
 msgid "Text - Long - Box"
-msgstr ""
+msgstr "Tekst - lang - Box"
 
 msgid "Text - Long - HTML editor"
-msgstr ""
+msgstr "Tekst - lang - HTML editor"
 
 msgid "Text - Short - Field"
-msgstr ""
+msgstr "Tekst - kort - veld"
 
 msgid "The action will be applied to"
-msgstr ""
+msgstr "De handeling zal worden uitgevoerd op"
 
 msgid "The action will be applied to the following"
-msgstr ""
+msgstr "De handeling zal worden uitgevoerd op de volgende"
 
 msgid "The action will not be applied to "
 msgstr ""
@@ -1727,19 +1789,19 @@ msgid "The action will not be applied to the following"
 msgstr ""
 
 msgid "The column "
-msgstr ""
+msgstr "De kolom "
 
 msgid "The format of this field is not valid."
-msgstr ""
+msgstr "Het formaat van dit veld is niet geldig"
 
 msgid "The imported file is not properly UTF-8 encoded."
-msgstr ""
+msgstr "Het geïmporteerde bestand is niet correct UTF-8 gecodeerd."
 
 msgid "The index identifier should not be empty"
-msgstr ""
+msgstr "De index naam mag niet leeg zijn"
 
 msgid "The lock has been released"
-msgstr ""
+msgstr "De blokkade is opgeheven"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr ""
@@ -1748,64 +1810,64 @@ msgid "The server has sent an empty response"
 msgstr ""
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr ""
+msgstr "Het geüploade bestand is te groot (maximum %s bytes)"
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr ""
+msgstr "De waarde voor eigenschap \"%s\" moet uniek zijn."
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
-msgstr ""
+msgstr "De waarde van dit veld moet een geldig datum formaat hebben, oftewel JJJJ-MM-DD"
 
 msgid "The value of this field must be an integer"
-msgstr ""
+msgstr "De waarde van dit veld moet een integer zijn"
 
 msgid "The value of this field must be numeric"
-msgstr ""
+msgstr "De waarde van dit veld moet numeriek zijn"
 
 msgid "There is nothing to list!"
-msgstr ""
+msgstr "Er is niets om te laten zien!"
 
 msgid "This %s is currently checked out"
-msgstr ""
+msgstr "Dit %s is momenteel uitgechecked"
 
 msgid "This field is required"
-msgstr ""
+msgstr "Dit veld is vereist"
 
 msgid "This field is too long"
-msgstr ""
+msgstr "Dit veld is te lang"
 
 msgid "This field is too short"
-msgstr ""
+msgstr "Dit veld is te kort"
 
 msgid "This is not a valid email address."
-msgstr ""
+msgstr "Dit is geen geldig e-mail adres"
 
 msgid "this is required"
-msgstr ""
+msgstr "dit is vereist"
 
 msgid "This Login is already in use"
-msgstr ""
+msgstr "Deze loginnaam is al in gebruik"
 
 msgid "This media cannot be played!"
 msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr ""
+msgstr "Deze wachtwoord reset link is niet langer geldig. Het kan zijn dat het al eerder is gebruikt. Vraag een nieuwe link aan als u nog steeds een wachtwoord reset wilt."
 
 msgid "This resource is locked"
-msgstr ""
+msgstr "Deze bron is geblokkeeerd"
 
 msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr ""
+msgstr "Deze rol is nog steeds uitgereikt aan een of meer gebruikers. Verwijder a.u.b. deze rol eerst van deze gebruiker(s)."
 
 msgid "This should equal %s"
-msgstr ""
+msgstr "Dit zou gelijk moeten zijn aan %s"
 
 msgid "This should not equal %s"
-msgstr ""
+msgstr "Dit moet niet gelijk zijn aan %s"
 
 msgid "Time zone"
-msgstr ""
+msgstr "Tijdzone"
 
 msgid "Title"
 msgstr ""
@@ -1814,19 +1876,22 @@ msgid "to"
 msgstr ""
 
 msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
-msgstr ""
+msgstr "Klik op de link hieronder om uw wachtwoord te resetten, of plak de link in uw browser. U zal dan gevraagd worden een nieuw wachtwoord te maken."
 
 msgid "to translate"
-msgstr ""
+msgstr "vertalen"
 
 msgid "Toggle multiple/single selection"
 msgstr ""
 
 msgid "Tokenizer"
+msgstr "Tokenizer"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
-msgstr ""
+msgstr "Er komen te veel suggesties overeen met uw zoekopdracht. Er worden er slechts een beperkt aantal getoond."
 
 msgid "Total duration"
 msgstr ""
@@ -1835,43 +1900,43 @@ msgid "Total:"
 msgstr ""
 
 msgid "Translate"
-msgstr ""
+msgstr "Vertalen"
 
 msgid "Translate to"
-msgstr ""
+msgstr "Vertalen naar"
 
 msgid "Translation parameters"
-msgstr ""
+msgstr "Vertaal parameters"
 
 msgid "Translation saved"
-msgstr ""
+msgstr "Vertaling opgeslagen"
 
 msgid "Tree - Multiple node choice "
-msgstr ""
+msgstr "Boom - Meervoudige knooppunten keuze "
 
 msgid "True"
-msgstr ""
+msgstr "Waar"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "Type your search"
 msgstr ""
 
 msgid "Unable to access your account?"
-msgstr ""
+msgstr "Kunt u geen toegang krijgen tot uw account?"
 
 msgid "Unable to change passwords in demo mode"
-msgstr ""
+msgstr "U kunt geen wachtwoorden wijzigen in demo modus"
 
 msgid "Unable to copy the resource"
 msgstr ""
 
 msgid "Unable to delete %s"
-msgstr ""
+msgstr "Kan %s niet verwijderen"
 
 msgid "Unable to delete the selected resource"
-msgstr ""
+msgstr "Kan de geselecteerde bron niet verwijderen"
 
 msgid "Unable to delete the selected resources"
 msgstr ""
@@ -1880,13 +1945,13 @@ msgid "Unable to move the resources"
 msgstr ""
 
 msgid "Unable to open file %s"
-msgstr ""
+msgstr "Kan bestand %s niet openen"
 
 msgid "Unable to release the lock"
-msgstr ""
+msgstr "Kan de blokkade niet vrijgeven"
 
 msgid "Unable to remove the property."
-msgstr ""
+msgstr "Kan eigenschap niet verwijderen"
 
 msgid "Unable to save resource."
 msgstr ""
@@ -1895,22 +1960,22 @@ msgid "unable to search into notification."
 msgstr ""
 
 msgid "Unable to send the password reset request"
-msgstr ""
+msgstr "Kan wachtwoord reset aanvraag niet versturen"
 
 msgid "Unable to update the asset service"
 msgstr ""
 
 msgid "Unable to upload file"
-msgstr ""
+msgstr "Kan het bestand niet uploaden"
 
 msgid "Unable to upload file %s : %s"
-msgstr ""
-
-msgid "Uncheck all"
-msgstr ""
+msgstr "Kan het bestand %s : %s niet uploaden"
 
 msgid "Uncheck All"
-msgstr ""
+msgstr "Alles uitvinken"
+
+msgid "Uncheck all"
+msgstr "Alles uitvinken"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""
@@ -1919,43 +1984,43 @@ msgid "Undefined amount of the totalPages for pagination"
 msgstr ""
 
 msgid "Undo"
-msgstr ""
+msgstr "Ongedaan maken"
 
 msgid "Unexpected error. Please contact administrator"
 msgstr ""
 
 msgid "Uninstall of %s failed"
-msgstr ""
+msgstr "De-installatie van %s is mislukt"
 
 msgid "Uninstalled %s"
-msgstr ""
+msgstr "%s gedeïnstalleerd"
 
 msgid "unknown"
-msgstr ""
+msgstr "onbekend"
 
 msgid "Unknown Error"
-msgstr ""
+msgstr "Onbekende fout"
 
 msgid "unkown task id %s"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Bijwerken"
 
 msgid "Update ID : %s"
 msgstr ""
 
 msgid "Upload"
-msgstr ""
+msgstr "Uploaden"
 
 msgid "Upload into:"
-msgstr ""
+msgstr "Uploaden naar:"
 
 msgid "URL"
 msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
-msgstr ""
+msgstr "Gebruik: ImportRdf RDF_FILE [MODEL_ID]"
 
 msgid "Use a term"
 msgstr ""
@@ -1964,10 +2029,10 @@ msgid "Use a variable"
 msgstr ""
 
 msgid "Use default value"
-msgstr ""
+msgstr "Gebruik standaardwaarde(n)"
 
 msgid "User"
-msgstr ""
+msgstr "Gebruiker"
 
 msgid "User %s can not be locked"
 msgstr ""
@@ -1982,30 +2047,30 @@ msgid "User %s successfully unlocked"
 msgstr ""
 
 msgid "User added"
-msgstr ""
+msgstr "Gebruiker toegevoegd"
 
 msgid "User deleted successfully"
-msgstr ""
+msgstr "Gebruiker succesvol verwijderd"
 
 msgid "User deletion not permitted on a demo instance"
 msgstr ""
 
 msgid "User not found"
-msgstr ""
+msgstr "Gebruiker niet gevonden"
 
 msgid "User saved"
-msgstr ""
+msgstr "Gebruiker opgeslagen"
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
+msgstr "Gebruikersinstellingen"
 
 msgid "Username"
 msgstr ""
 
 #, tao-public
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 msgid "Value of E"
 msgstr ""
@@ -2020,7 +2085,7 @@ msgid "Variable %s"
 msgstr ""
 
 msgid "Version"
-msgstr ""
+msgstr "Versie"
 
 msgid "View report"
 msgstr ""
@@ -2041,7 +2106,7 @@ msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
-msgstr ""
+msgstr "Breedte"
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
@@ -2050,25 +2115,25 @@ msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
 
 msgid "You are not authorised to remove this lock"
-msgstr ""
+msgstr "U heeft geen rechten om deze blokkade te verwijderen"
 
 msgid "You cannot delete the root node"
-msgstr ""
+msgstr "U kunt het basis knooppunt niet verwijderen"
 
 msgid "You cannot move the selected resources in the class %s"
 msgstr ""
 
 msgid "You currently have no access to the platform"
-msgstr ""
+msgstr "U heeft momenteel geen toegang tot het platform"
 
 msgid "You do not have the required rights to edit this resource."
-msgstr ""
+msgstr "U heeft niet de benodigde rechten om deze bron aan te passen"
 
 msgid "You have been locked due to too many failed login attempts. "
 msgstr ""
@@ -2077,7 +2142,7 @@ msgid "You have been logged out. Please login again"
 msgstr ""
 
 msgid "You must activate JavaScript in your browser to run this application."
-msgstr ""
+msgstr "U dient Javascript te activeren in uw browser om deze applicatie te starten."
 
 msgid "Your account has been locked, please contact your administrator."
 msgstr ""
@@ -2095,10 +2160,10 @@ msgid "Your browser doesn’t support the video player."
 msgstr ""
 
 msgid "Your mail"
-msgstr ""
+msgstr "Uw mail"
 
 msgid "Your TAO Password"
-msgstr ""
+msgstr "Uw TAO wachtwoord"
 
 msgid "Zip Code"
 msgstr ""
