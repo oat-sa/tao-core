@@ -221,7 +221,14 @@ class tao_actions_Main extends tao_actions_CommonModule
                 } catch (core_kernel_users_Exception $e) {
                     $this->setData('errorMessage', __('Invalid login or password. Please try again.'));
                 }
-			}
+			} else {
+                foreach ($form->getElements() as $formElement) {
+                    $fieldError = $formElement->getError();
+                    if ($fieldError) {
+                        $this->setData('fieldMessages_' . $formElement->getName(), $fieldError);
+                    }
+                }
+            }
 		}
 
         $this->setData('title', __("TAO Login"));
