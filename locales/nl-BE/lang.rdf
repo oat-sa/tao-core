@@ -4,7 +4,6 @@
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
     <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:lang="en-US"><![CDATA[Flemish]]></rdfs:label>
     <rdf:value><![CDATA[nl-BE]]></rdf:value>
-    <tao:LanguageUsages xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
     <tao:LanguageOrientation xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#" rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>
   </rdf:Description>
