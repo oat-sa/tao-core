@@ -36,9 +36,9 @@ define([
         disableAutocomplete: false,
         enablePasswordReveal: false,
         message: {
-            error: '',
-            info: null
-        }
+            error: ''
+        },
+        name: ''
     };
 
     /**
