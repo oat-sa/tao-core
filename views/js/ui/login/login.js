@@ -35,7 +35,7 @@ define([
             error : '',
             info: null
         },
-        name: ''
+        name: 'loginForm'
     };
 
     /**
