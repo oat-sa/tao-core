@@ -83,10 +83,15 @@ define([
     QUnit.cases([
         { title : 'isAutocompleteDisabled' },
         { title : 'isPasswordRevealEnabled' },
+        { title : 'getMessages' },
+        { title : 'getFieldMessages' },
         { title : 'createFakeForm' },
+        { title : 'getRealForm' },
         { title : 'getFakeForm' },
+        { title : 'getForm' },
         { title : 'manipulateFormDom' },
         { title : 'attachPasswordRevealEvents' },
+        { title : 'displayMessages' }
     ]).test('Instance API ', function(data, assert) {
         var instance = loginFactory();
         assert.equal(typeof instance[data.title], 'function', 'The login exposes the method "' + data.title);
