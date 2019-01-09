@@ -1,20 +1,21 @@
 <div class="xhtml_form">
-    <form action="{{action}}" method="post" id="{{name}}" name="{{name}}">
+    <form action="/tao/Main/login" method="post" id="{{name}}" name="{{name}}">
         <input type="hidden" class="global" name="{{name}}_sent" value="1">
-        {{#if error}}
+        {{#if message.error}}
         <div class="xhtml_form_error">{{error}}</div>
         {{/if}}
         <div>
             <label class="form_desc" for="login">
                 {{__ "Login"}}
             </label>
-            <input type="text" name="login" id="login" autofocus="autofocus"{{#if disableAutocomplete}} autocomplete="off"{{/if}} value="{{disableAutocomplete}}">
+            <input type="text" name="login" id="login" autofocus="autofocus"{{#if disableAutocomplete}} autocomplete="off"{{/if}} value="">
         </div>
         <div>
             <label class="form_desc" for="password">
                 {{__ "Password"}}
             </label>
-            <input type="password" name="password" id="password"{{#if disableAutocomplete}} autocomplete="off"{{/if}} value="{{enablePasswordReveal}}">
+            <input type="password" name="password" id="password"{{#if disableAutocomplete}} autocomplete="off"{{/if}} value="">
         </div>
+        <div class="form-toolbar"><input type="submit" id="connect" name="connect" disabled="disabled" class="disabled" value="Log in"></div>
     </form>
 </div>
