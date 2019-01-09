@@ -22,7 +22,9 @@ use oat\tao\model\theme\Theme;
                 'message' : {
                     'info': <?=json_encode(get_data('msg'))?>,
                     'error': <?=json_encode(urldecode(get_data('errorMessage')))?>
-                }
+                },
+                'disableAutocomplete' : <?=get_data('autocompleteDisabled')?>,
+                'enablePasswordReveal' : <?=get_data('passwordRevealEnabled')?>
             }
         }
     });
