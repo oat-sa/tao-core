@@ -27,9 +27,19 @@ define([
     'module',
     'ui/feedback',
     'layout/loading-bar',
-    'layout/version-warning'
-], function ($, _, __, module, feedback, loadingBar, versionWarning) {
+    'layout/version-warning',
+    'ui/login/login'
+], function ($, _, __, module, feedback, loadingBar, versionWarning, loginComponent) {
     'use strict';
+
+    var _defaults = {
+        disableAutocomplete: false,
+        enablePasswordReveal: false,
+        message: {
+            error: '',
+            info: null
+        }
+    };
 
     /**
      * The login controller
@@ -41,7 +51,9 @@ define([
          */
         start: function start(){
 
-            var conf = module.config();
+            var conf = _.merge(_defaults, module.config());
+            // var $loginComp = new loginComponent($('#login-box'), conf);
+            // $loginComp.render();
             var messages = conf.message || {};
             var $context = $('.entry-point-container');
             var $loginForm = $context.find('#loginForm');
