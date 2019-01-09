@@ -875,5 +875,20 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('21.5.0', '22.6.2');
+
+        if ($this->isVersion('22.6.2')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/nl-BE/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->add($triple);
+            }
+
+            $this->setVersion('22.7.0');
+        }
+
     }
 }
