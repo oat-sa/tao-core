@@ -4,7 +4,7 @@ use oat\tao\model\theme\Theme;
 ?>
 <div id="login-box" class="entry-point entry-point-container">
     <?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'login-message')?>
-    <?= get_data('form') ?>
+    <div id="login-box-inner-container"></div>
     
     <?php foreach(get_data('entryPoints') as $entrypoint): ?>
     <div>
