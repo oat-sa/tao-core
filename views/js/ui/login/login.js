@@ -14,10 +14,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- * @author Ilya Yarkavets <ilya.yarkavets@1pt.com>
  */
 
+
+/**
+ * @author Ilya Yarkavets <ilya.yarkavets@1pt.com>
+ */
 define([
     'jquery',
     'lodash',
