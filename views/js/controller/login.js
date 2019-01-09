@@ -37,8 +37,7 @@ define([
         enablePasswordReveal: false,
         message: {
             error: ''
-        },
-        name: ''
+        }
     };
 
     /**
