@@ -24,8 +24,7 @@ define([
     'i18n',
     'ui/component',
     'lib/uuid',
-    'tpl!ui/login/tpl/login',
-    'css!ui/switch/css/switch.css'
+    'tpl!ui/login/tpl/login'
 ], function($, _, __, component, uuid, loginTpl){
     'use strict';
 
@@ -115,7 +114,7 @@ define([
             attachPasswordRevealEvents : function attachPasswordRevealEvents() {
                 var $form, $pwdInput, $inputToggle, $viewIcon, $hideIcon, show, hide, autoHide;
 
-                var _self = this;
+                var self = this;
 
                 if (this.isAutocompleteDisabled()) {
                     $form = this.getFakeForm();
@@ -145,7 +144,7 @@ define([
                     $viewIcon.show();
 
                     $pwdInput.type = 'password';
-                    $pwdInput.autocomplete = _self.isAutocompleteDisabled() ? 'off' : 'on';
+                    $pwdInput.autocomplete = self.isAutocompleteDisabled() ? 'off' : 'on';
 
                     window.removeEventListener('mousedown', autoHide);
                 };
