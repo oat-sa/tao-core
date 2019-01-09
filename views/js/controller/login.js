@@ -25,11 +25,10 @@ define([
     'lodash',
     'i18n',
     'module',
-    'ui/feedback',
     'layout/loading-bar',
     'layout/version-warning',
     'ui/login/login'
-], function ($, _, __, module, feedback, loadingBar, versionWarning, loginComponent) {
+], function ($, _, __, module, loadingBar, versionWarning, loginComponent) {
     'use strict';
 
     var _defaults = {
@@ -51,74 +50,16 @@ define([
         start: function start(){
 
             var conf = _.merge(_defaults, module.config());
-            var login = new loginComponent($('#login-box-inner-container'), conf);
-            var messages = conf.message || {};
+            var login = loginComponent($('#login-box-inner-container'), conf);
 
             login.on('init', function() {
                 loadingBar.start();
             }).after('render', function() {
-                var $context = $('.entry-point-container');
-                var $loginForm = login.getContainer().find('#loginForm');
-                var $fakeForm = login.getFakeForm();//.find('.fakeForm');
-                var $loginBtn = $context.find('[name=connect]');
-
-                /**
-                 * Submits the form after a copy of all the inputs the user has made in the fake form
-                 */
-                function submitForm() {
-                    // if the fake form exists, copy all fields values into the real form
-                    $fakeForm.find(':input').each(function () {
-                        var $field = $(this);
-                        $loginForm.find('input[name="' + $field.attr('name') + '"]').val($field.val());
-                    });
-
-                    // just submit the real form as if the user did it
-                    loadingBar.start();
-                    $loginForm.submit();
-                }
-
-                /**
-                 * Displays the error/info messages
-                 */
-                function displayMessages() {
-                    var $fields = $context.find(':input');
-                    _.forEach(messages, function (message, level) {
-                        if (message) {
-                            feedback().message(level, message).open();
-                            $fields.addClass(level);
-                        }
-                    });
-                }
-
                 versionWarning.init();
 
-                // empty $fields sent
-                if (!messages.error && $context.find('.form-error').length) {
-                    messages.error = __('All fields are required');
-                }
-
-                // any error/info creates feedback
-                displayMessages();
-
-                // submit the form when the user hit the submit button inside the fake form
-                $fakeForm
-                    .find('input[type="submit"], button[type="submit"]')
-                    .off('click').on('click', function (e) {
-                    e.preventDefault();
-                    submitForm();
-                });
-
-                // submit the form when the user hit the ENTER key inside the fake form
-                $fakeForm.on('keypress', function (e) {
-                    if (e.which === 13) {
-                        e.preventDefault();
-                        submitForm();
-                    }
-                });
-
-                $loginBtn.removeAttr('disabled')
-                    .removeClass('disabled');
                 loadingBar.stop();
+            }).on('submit.login', function() {
+                loadingBar.start();
             });
         }
     };

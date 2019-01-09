@@ -26,8 +26,9 @@ define([
     'i18n',
     'ui/component',
     'lib/uuid',
-    'tpl!ui/login/tpl/login'
-], function($, _, __, component, uuid, loginTpl){
+    'tpl!ui/login/tpl/login',
+    'ui/feedback'
+], function($, _, __, component, uuid, loginTpl, feedback){
     'use strict';
 
     var _defaultConfig = {
@@ -37,21 +38,20 @@ define([
             error : '',
             info: null
         },
+        fieldMessages: {},
         name: 'loginForm'
     };
+
+    var ns = 'login';
 
     /**
      * The factory that creates a switch component
      *
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
-     * @param {Object} [config.on] - the on config
-     * @param {String} [config.on.label] - the on button label
-     * @param {Boolean} [config.on.active = false] - the default state
-     * @param {Object} [config.off] - the off config
-     * @param {String} [config.off.label] - the off button label
-     * @param {Boolean} [config.off.active = true] - the default state
-     * @param {String} [config.title] - the component title tooltip
+     * @param {Object} [config.disableAutocomplete] - depending on this setting autocomplete would be disabled or enabled (and fakeForm rendered)
+     * @param {Object} [config.enablePasswordReveal] - depending on this setting password reveal would be disabled or enabled for the password field
+     * @param {Object} [config.fieldMessages] - field validation messages
      * @param {String} [config.name] - the component name (used by the element)
      * @returns {loginComponent} the component
      */
@@ -64,7 +64,7 @@ define([
         var api = {
 
             /**
-             *
+             * Returns whether autocomplete is disabled or not
              * @returns {boolean}
              */
             isAutocompleteDisabled : function isAutocompleteDisabled() {
@@ -72,7 +72,7 @@ define([
             },
 
             /**
-             *
+             * Returns whether password reveal is enabled or not
              * @returns {boolean}
              */
             isPasswordRevealEnabled : function isPasswordRevealEnabled() {
@@ -80,8 +80,24 @@ define([
             },
 
             /**
-             *
-             * @returns {*}
+             * Get messages from config
+             * @returns {Object} Object containing passed messages
+             */
+            getMessages : function getMessages() {
+                return this.config.message;
+            },
+
+            /**
+             * Returns form fields validation messages, if any
+             * @returns {Object} fieldMessages
+             */
+            getFieldMessages : function getFieldMessages() {
+                return this.config.fieldMessages;
+            },
+
+            /**
+             * Creates fakeForm from the real form
+             * @returns {jQuery} jQuery element
              */
             createFakeForm : function createFakeForm() {
                 var $fakeFormDom = this.getElement().clone();
@@ -93,18 +109,37 @@ define([
                 return $fakeFormDom.html($fakeForm);
             },
 
+            /**
+             * Gets real form jQuery element
+             * @returns {jQuery} jQuery element
+             */
+            getRealForm : function getRealForm() {
+                return this.getElement().find('form');
+            },
+
+            /**
+             * Gets fake form jQuery element
+             * @returns {jQuery} jQuery element
+             */
             getFakeForm : function getFakeForm() {
                 return this.getContainer().find('div.fakeForm');
             },
 
+            /**
+             * Gets real or fake form jQuery element, depending on the disableAutocomplete setting
+             * @returns {jQuery} jQuery element
+             */
+            getForm : function getForm() {
+                return this.isAutocompleteDisabled() ? this.getFakeForm() : this.getRealForm();
+            },
+
+            /**
+             * Manipulates form dom (adds password reveal elements)
+             */
             manipulateFormDom : function manipulateFormDom() {
                 var $form, $pwdInput, $pwdLabel;
 
-                if (this.isAutocompleteDisabled()) {
-                    $form = this.getFakeForm();
-                } else {
-                    $form = this.getElement().find('form');
-                }
+                $form = this.getForm();
 
                 $pwdInput = $form.find('input[type=password]');
                 $pwdLabel = $form.find('label[for=' + $pwdInput.attr('name') + ']');
@@ -117,49 +152,48 @@ define([
                 $pwdLabel.remove();
             },
 
+            /**
+             * Attaches events to password reveal options
+             */
             attachPasswordRevealEvents : function attachPasswordRevealEvents() {
-                var $form, $pwdInput, $inputToggle, $viewIcon, $hideIcon, show, hide, autoHide;
+                var $form, $pwdInput, $inputToggle, $viewIcon, $hideIcon;
 
                 var self = this;
 
-                if (this.isAutocompleteDisabled()) {
-                    $form = this.getFakeForm();
-                } else {
-                    $form = this.getElement().find('form');
-                }
+                var autoHide = function(event) {
+                    if (!event.target.isSameNode($pwdInput) && !event.target.isSameNode($hideIcon[0]) && !event.target.isSameNode($inputToggle[0])) {
+                        hide();
+                    }
+                };
 
-                $pwdInput = $form.find('input[type=password]')[0];
-                $inputToggle = $form.find('.viewable-hiddenbox-toggle');
-                $viewIcon = $form.find('span.icon-preview');
-                $hideIcon = $form.find('span.icon-eye-slash');
-
-                show = function() {
+                var show = function() {
                     $viewIcon.hide();
                     $hideIcon.show();
 
                     $pwdInput.type = 'text';
                     $pwdInput.autocomplete = 'off';
 
-                    window.addEventListener('mousedown', autoHide);
+                    window.addEventListener('mousedown.' + ns, autoHide);
 
                     $pwdInput.focus();
                 };
 
-                hide = function() {
+                var hide = function() {
                     $hideIcon.hide();
                     $viewIcon.show();
 
                     $pwdInput.type = 'password';
                     $pwdInput.autocomplete = self.isAutocompleteDisabled() ? 'off' : 'on';
 
-                    window.removeEventListener('mousedown', autoHide);
+                    window.removeEventListener('mousedown.' + ns, autoHide);
                 };
 
-                autoHide = function(event) {
-                    if (!event.target.isSameNode($pwdInput) && !event.target.isSameNode($hideIcon[0]) && !event.target.isSameNode($inputToggle[0])) {
-                        hide();
-                    }
-                };
+                $form = this.getForm();
+
+                $pwdInput = $form.find('input[type=password]')[0];
+                $inputToggle = $form.find('.viewable-hiddenbox-toggle');
+                $viewIcon = $form.find('span.icon-preview');
+                $hideIcon = $form.find('span.icon-eye-slash');
 
                 hide();
 
@@ -180,30 +214,92 @@ define([
                         }
                     }
                 });
+            },
+
+            /**
+             * Displays the error/info messages
+             */
+            displayMessages : function displayMessages(messages) {
+                var $fields = this.getForm().find(':input');
+
+                if (!messages.error && !_.isEmpty(this.getFieldMessages(), true)) {
+                    messages.error = __('All fields are required');
+                }
+
+                _.forEach(messages, function (message, level) {
+                    if (message) {
+                        feedback().message(level, message).open();
+                        $fields.addClass(level);
+                    }
+                });
             }
         };
 
         var loginComponent = component(api, _defaultConfig)
             .setTemplate(loginTpl)
             .on('init', function(){
-
                 this.render($container);
             })
             .on('render', function(){
-                var $fakeForm;
+                var $fakeForm, $loginBtn;
+                var $loginForm = this.getRealForm();
+                var self = this;
 
+                /**
+                 * Submits the form after a copy of all the inputs the user has made in the fake form
+                 */
+                var submitForm = function submitForm() {
+                    // if the fake form exists, copy all fields values into the real form
+                    $fakeForm.find(':input').each(function () {
+                        var $field = $(this);
+                        $loginForm.find('input[name="' + $field.attr('name') + '"]').val($field.val());
+                    });
+
+                    // just submit the real form as if the user did it
+                    self.trigger('submit.' + ns);
+                    $loginForm.submit();
+                };
+
+                /**
+                 * Create fake form and attach event handlers if autocomplete is disabled
+                 */
                 if (this.isAutocompleteDisabled()) {
                     $fakeForm = this.createFakeForm();
 
                     this.hide();
                     this.getElement().find('form').attr('id', 'loginForm');
                     this.getContainer().prepend($fakeForm);
+
+                    // submit the form when the user hit the submit button inside the fake form
+                    $fakeForm
+                        .find('input[type="submit"], button[type="submit"]')
+                        .off('click').on('click', function (e) {
+                            e.preventDefault();
+                            submitForm();
+                        });
+
+                    // submit the form when the user hit the ENTER key inside the fake form
+                    $fakeForm.on('keypress', function (e) {
+                        if (e.which === 13) {
+                            e.preventDefault();
+                            submitForm();
+                        }
+                    });
                 }
 
+                /**
+                 * Attach elements for password revealing and attach event handlers
+                 */
                 if (this.isPasswordRevealEnabled()) {
                     this.manipulateFormDom();
                     this.attachPasswordRevealEvents();
                 }
+
+                $loginBtn = this.getForm().find('[name=connect]');
+                $loginBtn.removeAttr('disabled')
+                    .removeClass('disabled');
+
+                this.displayMessages(this.getMessages());
             });
 
         _.defer(function(){
