@@ -107,7 +107,11 @@ define([
                 $pwdInput = $form.find('input[type=password]');
                 $pwdLabel = $form.find('label[for=' + $pwdInput.attr('name') + ']');
 
-                $pwdInput.replaceWith('<span class="viewable-hiddenbox">' + $pwdLabel[0].outerHTML + $pwdInput[0].outerHTML + '<span class="viewable-hiddenbox-toggle" tabindex="0"><span class="icon-preview"></span><span class="icon-eye-slash" style="display: none;"></span></span></span>');
+                $pwdInput.replaceWith('<span class="viewable-hiddenbox">'
+                    + $pwdLabel[0].outerHTML
+                    + $pwdInput[0].outerHTML
+                    + '<span class="viewable-hiddenbox-toggle" tabindex="0"><span class="icon-preview"></span><span class="icon-eye-slash" style="display: none;"></span></span></span>'
+                );
                 $pwdLabel.remove();
             },
 
