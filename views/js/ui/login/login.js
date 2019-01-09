@@ -35,7 +35,8 @@ define([
         message : {
             error : '',
             info: null
-        }
+        },
+        name: ''
     };
 
     /**
@@ -65,7 +66,7 @@ define([
              *
              * @returns {boolean}
              */
-            isAutcompleteDisabled : function isAutocompleteDisabled() {
+            isAutocompleteDisabled : function isAutocompleteDisabled() {
                 return this.config.disableAutocomplete;
             },
 
@@ -79,22 +80,125 @@ define([
 
             /**
              *
-             * @param $loginForm
              * @returns {*}
              */
-            createFakeForm : function createFakeForm($loginForm) {
-                var fakeFormDom = $loginForm.clone();
+            createFakeForm : function createFakeForm() {
+                var $fakeFormDom = this.getElement().clone();
 
-                return fakeFormDom.replaceWith('<div class="form loginForm fakeForm">' + fakeFormDom.innerHTML + '</div>');
+                var $form = $fakeFormDom.find('form').clone();
+
+                var $fakeForm = $form.replaceWith('<div class="form loginForm fakeForm">' + $form.html() + '</div>');
+
+                return $fakeFormDom.html($fakeForm);
+            },
+
+            getFakeForm : function getFakeForm() {
+                return this.getContainer().find('div.fakeForm');
+            },
+
+            manipulateFormDom : function manipulateFormDom() {
+                var $form, $pwdInput, $pwdLabel;
+
+                if (this.isAutocompleteDisabled()) {
+                    $form = this.getFakeForm();
+                } else {
+                    $form = this.getElement().find('form');
+                }
+
+                $pwdInput = $form.find('input[type=password]');
+                $pwdLabel = $form.find('label[for=' + $pwdInput.attr('name') + ']');
+
+                $pwdInput.replaceWith('<span class="viewable-hiddenbox">' + $pwdLabel[0].outerHTML + $pwdInput[0].outerHTML + '<span class="viewable-hiddenbox-toggle" tabindex="0"><span class="icon-preview"></span><span class="icon-eye-slash" style="display: none;"></span></span></span>');
+                $pwdLabel.remove();
+            },
+
+            attachPasswordRevealEvents : function attachPasswordRevealEvents() {
+                var $form, $pwdInput, $inputToggle, $viewIcon, $hideIcon, show, hide, autoHide;
+
+                var _self = this;
+
+                if (this.isAutocompleteDisabled()) {
+                    $form = this.getFakeForm();
+                } else {
+                    $form = this.getElement().find('form');
+                }
+
+                $pwdInput = $form.find('input[type=password]')[0];
+                $inputToggle = $form.find('.viewable-hiddenbox-toggle');
+                $viewIcon = $form.find('span.icon-preview');
+                $hideIcon = $form.find('span.icon-eye-slash');
+
+                show = function() {
+                    $viewIcon.hide();
+                    $hideIcon.show();
+
+                    $pwdInput.type = 'text';
+                    $pwdInput.autocomplete = 'off';
+
+                    window.addEventListener('mousedown', autoHide);
+
+                    $pwdInput.focus();
+                };
+
+                hide = function() {
+                    $hideIcon.hide();
+                    $viewIcon.show();
+
+                    $pwdInput.type = 'password';
+                    $pwdInput.autocomplete = _self.isAutocompleteDisabled() ? 'off' : 'on';
+
+                    window.removeEventListener('mousedown', autoHide);
+                };
+
+                autoHide = function(event) {
+                    if (!event.target.isSameNode($pwdInput) && !event.target.isSameNode($hideIcon[0]) && !event.target.isSameNode($inputToggle[0])) {
+                        hide();
+                    }
+                };
+
+                hide();
+
+                $inputToggle.on('click', function() {
+                    if ($pwdInput.type === 'password') {
+                        show();
+                    } else {
+                        hide();
+                    }
+                });
+
+                $inputToggle.on('keyup', function(e) {
+                    if (e.key === ' ') {
+                        if ($pwdInput.type === 'password') {
+                            show();
+                        } else {
+                            hide();
+                        }
+                    }
+                });
             }
         };
 
         var loginComponent = component(api, _defaultConfig)
             .setTemplate(loginTpl)
             .on('init', function(){
+
                 this.render($container);
             })
             .on('render', function(){
+                var $fakeForm;
+
+                if (this.isAutocompleteDisabled()) {
+                    $fakeForm = this.createFakeForm();
+
+                    this.hide();
+                    this.getElement().find('form').attr('id', 'loginForm');
+                    this.getContainer().prepend($fakeForm);
+                }
+
+                if (this.isPasswordRevealEnabled()) {
+                    this.manipulateFormDom();
+                    this.attachPasswordRevealEvents();
+                }
             });
 
         _.defer(function(){
