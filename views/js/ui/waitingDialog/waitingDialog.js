@@ -209,7 +209,7 @@ define([
                     });
                     if (this.config.buttonSeparatorText) {
                         $betweenButtonsText = $('<span>')
-                            .html(__('or'))
+                            .text(__('or'))
                             .addClass('between-buttons-text')
                             .insertBefore($secondaryButton);
                     }
