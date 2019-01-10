@@ -875,14 +875,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('21.5.0');
         }
 
-        $this->skip('21.5.0', '22.6.2');
+        $this->skip('21.5.0', '22.7.0');
 
-        if ($this->isVersion('22.6.2')) {
+        if ($this->isVersion('22.7.0')) {
             $this->getServiceManager()->register(
                 ActionProtector::SERVICE_ID,
                 new ActionProtector(['frameSourceWhitelist' => ['self']])
             );
-            $this->setVersion('22.7.0');
+            $this->setVersion('22.8.0');
         }
     }
 }

@@ -1,22 +1,22 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *               
- * 
+ *
+ *
  */
 
 use oat\oatbox\event\EventManagerAwareTrait;
@@ -34,8 +34,7 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
     use EventManagerAwareTrait;
 
     /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::getLabel()
+     * @inheritdoc
      */
     public function getLabel()
     {
@@ -43,8 +42,7 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
     }
 
     /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::getExportForm()
+     * @inheritdoc
      */
     public function getExportForm(core_kernel_classes_Resource $resource)
     {
@@ -59,15 +57,18 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
     }
 
     /**
-     * @param array  $formValues
+     * Run the export process.
+     *
+     * @param array $formValues
      * @param string $destination
      * @return string
      * @throws EasyRdf_Exception
      * @throws common_exception_Error
+     * @throws Exception
      */
     public function export($formValues, $destination)
     {
-        if (isset($formValues['filename']) && isset($formValues['resource'])) {
+        if (isset($formValues['filename'], $formValues['resource'])) {
             $class = new core_kernel_classes_Class($formValues['resource']);
             $adapter = new tao_helpers_data_GenerisAdapterRdf();
             $rdf = $adapter->export($class);
@@ -76,7 +77,7 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
                 $name = $formValues['filename'] . '_' . time() . '.rdf';
                 $path = tao_helpers_File::concat([$destination, $name]);
 
-                if(!tao_helpers_File::securityCheck($path, true)){
+                if (!tao_helpers_File::securityCheck($path, true)) {
                     throw new Exception('Unauthorized file name');
                 }
 
@@ -92,7 +93,7 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
     }
 
     /**
-     * exports an array of instances into an rdf string
+     * Exports an array of instances into an rdf string.
      *
      * @param array $instances
      * @return string
@@ -100,22 +101,21 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
     public function getRdfString($instances)
     {
         $api = core_kernel_impl_ApiModelOO::singleton();
+        $rdf = '';
         $xmls = [];
         foreach ($instances as $instance) {
             $xmls[] = $api->getResourceDescriptionXML($instance->getUri());
         }
 
-        if (count($xmls) == 1) {
+        if (count($xmls) === 1) {
             $rdf = $xmls[0];
         } elseif (count($xmls) > 1) {
-
-            //merge the xml of each instances...
 
             $baseDom = new DomDocument();
             $baseDom->formatOutput = true;
             $baseDom->loadXML($xmls[0]);
 
-            for ($i = 1; $i < count($xmls); $i++) {
+            for ($i = 1, $iMax = count($xmls); $i < $iMax; $i++) {
 
                 $xmlDoc = new SimpleXMLElement($xmls[$i]);
                 foreach ($xmlDoc->getNamespaces() as $nsName => $nsUri) {
@@ -124,14 +124,14 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
                     }
                 }
                 $newDom = new DOMDocument();
-                $newDom->loadXml($xmls[$i]);
-                foreach ($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc) {
+                $newDom->loadXML($xmls[$i]);
+                foreach ($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description') as $desc) {
                     $newNode = $baseDom->importNode($desc, true);
                     $baseDom->documentElement->appendChild($newNode);
                 }
             }
 
-            $rdf = $baseDom->saveXml();
+            $rdf = $baseDom->saveXML();
         }
 
         return $rdf;
