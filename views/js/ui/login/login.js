@@ -217,7 +217,7 @@ define([
             displayMessages : function displayMessages(messages) {
                 var $fields = this.getForm().find(':input');
 
-                if (!messages.error && !_.isEmpty(this.getFieldMessages(), true)) {
+                if (!messages.error && this.getForm().find('.form-error').length) {
                     messages.error = __('All fields are required');
                 }
 
