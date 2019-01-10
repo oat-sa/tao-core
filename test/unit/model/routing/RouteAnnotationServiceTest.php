@@ -33,12 +33,12 @@ class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->setLogger($logger->reveal());
     }
 
-    public function testValidteException()
+    public function testIncorrectClassName()
     {
         self::assertFalse($this->service->hasAccess('', ''));
     }
 
-    public function testValidateNotFound()
+    public function testIsHidden()
     {
         self::assertTrue($this->service->isHidden(RouteAnnotationExample::class, 'notFoundAnnotation'));
     }

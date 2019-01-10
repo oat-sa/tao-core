@@ -81,18 +81,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     protected function getParameters() {
         return $this->parameters;
     }
-    
-    protected function getController()
-    {
-        $controllerClass = $this->getControllerClass();
-        if(class_exists($controllerClass)) {
-            $controller = new $controllerClass();
-            $this->propagate($controller);
-            return $controller;
-        } else {
-            throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
-        }
-    }
 
     /**
      * @throws PermissionException
@@ -109,11 +97,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             if($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) && 
                !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())){
                
-	            throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+                throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
             } 
 
-	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
-	    }
+            throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+        }
     }
 
     /**
@@ -125,90 +113,54 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
      */
     public function execute()
     {
-
-        if (class_exists($this->getControllerClass())) {
-            $abstractClass = new ReflectionClass($this->getControllerClass());
-            if ($abstractClass->isAbstract()) {
-                throw new ActionEnforcingException(
-                    "Attempt to run an action from the Abstract class '" . $this->getControllerClass() ."'.",
-                    $this->getControllerClass(),
-                    $this->getAction());
-            }
-
-            // protected method
-            $reflection = new ReflectionMethod($this->getControllerClass(), $this->getAction());
-            if (!$reflection->isPublic()) {
-                throw new ActionEnforcingException(
-                    "The method '" . $this->getAction() . "' is not public. Class '" . $this->getControllerClass() ."'.",
-                    $this->getControllerClass(),
-                    $this->getAction());
-            }
+        /** @var ControllerService $controllerService */
+        $controllerService = $this->getServiceLocator()->get(ControllerService::SERVICE_ID);
+        try {
+            $controller = $controllerService->getController($this->getControllerClass());
+            $action = $controllerService->getAction($this->getAction());
+        } catch (RouterException $e) {
+            throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }
 
-        // get the controller
-        $controller = $this->getController();
-        $action = $this->getAction();
+        // Are we authorized to execute this action?
+        try {
+            $this->verifyAuthorization();
 
-        // if the method related to the specified action exists, call it
-        if (method_exists($controller, $action)) {
+            // search parameters method
+            $reflect	= new ReflectionMethod($controller, $action);
+            $parameters	= $this->getParameters();
 
-            // extra layer of the security - to not run an action if denied
-            if ($this->getServiceLocator()
-                ->get(RouteAnnotationService::SERVICE_ID)
-                ->isHidden(get_class($controller), $action))
+            $tabParam 	= array();
+            foreach($reflect->getParameters() as $param) {
+                if (isset($parameters[$param->getName()])) {
+                    $tabParam[$param->getName()] = $parameters[$param->getName()];
+                } elseif (!$param->isDefaultValueAvailable()) {
+                    $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+                }
+            }
+
+            // Action method is invoked, passing request parameters as
+            // method parameters.
+            $user = common_session_SessionManager::getSession()->getUser();
+            $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+
+            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+            $eventManager->trigger(new BeforeAction());
+
+            call_user_func_array(array($controller, $action), $tabParam);
+
+            // Render the view if selected.
+            if ($controller->hasView())
             {
-                throw new ActionEnforcingException("Unable to run the action '"
-                    . $action . "' in '" . get_class($controller)
-                    . "', blocked by route annotations.",
-                    $this->getControllerClass(),
-                    $this->getAction());
+                $renderer = $controller->getRenderer();
+                echo $renderer->render();
             }
-
-            // Are we authorized to execute this action?
-            try {
-                $this->verifyAuthorization();
-
-                // search parameters method
-                $reflect	= new ReflectionMethod($controller, $action);
-                $parameters	= $this->getParameters();
-
-                $tabParam 	= array();
-                foreach($reflect->getParameters() as $param) {
-                    if (isset($parameters[$param->getName()])) {
-                        $tabParam[$param->getName()] = $parameters[$param->getName()];
-                    } elseif (!$param->isDefaultValueAvailable()) {
-                        $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
-                    }
-                }
-
-                // Action method is invoked, passing request parameters as
-                // method parameters.
-                $user = common_session_SessionManager::getSession()->getUser();
-                $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
-
-                $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
-                $eventManager->trigger(new BeforeAction());
-
-                call_user_func_array(array($controller, $action), $tabParam);
-
-                // Render the view if selected.
-                if ($controller->hasView())
-                {
-                    $renderer = $controller->getRenderer();
-                    echo $renderer->render();
-                }
-            } catch(PermissionException $pe){
-                //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error).
-                \Context::getInstance()->setExtensionName('tao');
-                $this->action       = 'denied';
-                $this->controller   = 'tao_actions_Permission';
-                $this->extension    = 'tao';
-            }
-        }
-        else {
-            throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",
-                $this->getControllerClass(),
-                $this->getAction());
+        } catch(PermissionException $pe){
+            //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error).
+            \Context::getInstance()->setExtensionName('tao');
+            $this->action       = 'denied';
+            $this->controller   = 'tao_actions_Permission';
+            $this->extension    = 'tao';
         }
     }
 
