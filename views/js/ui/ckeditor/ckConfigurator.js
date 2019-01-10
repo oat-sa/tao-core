@@ -373,7 +373,6 @@ define([
             // ref: http://tinyurl.com/keedruc
             editor.on('instanceReady', function(e){
                 $(e.editor.element.$).removeAttr('title');
-                console.log($(e.editor));
                 //TAO-6409, added class to disable navigation from toolbar
                 $(e.editor.container.$).addClass('no-navigation');
             });
