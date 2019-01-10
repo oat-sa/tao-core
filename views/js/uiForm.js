@@ -543,8 +543,8 @@ define([
                 }
                 else if ($elt.css('display') !== 'none') {
                     $elt.css('display', 'none');
-                    $elt.find('select').prop('disabled', "disabled");
-                    $elt.find('select option[value=" "]').attr('selected',true);
+                    $elt.find('select').prop('disabled', false);
+                    $elt.find('select option[value=" "]').prop('selected',true);
                 }
 
                 $.each(propertiesTypes, function (i, rangedPropertyName) {
