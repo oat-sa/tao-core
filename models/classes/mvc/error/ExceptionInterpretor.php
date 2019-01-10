@@ -74,7 +74,6 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
      * and http status to return
      */
     protected function interpretError() {
-        $this->trace = $this->exception->getMessage();
         switch (get_class($this->exception)) {
             case UserErrorException::class:
             case tao_models_classes_MissingRequestParameterException::class:
@@ -107,7 +106,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
     }
     
     public function getTrace() {
-        return $this->trace;
+        return $this->exception ? $this->exception->getMessage() : '';
     }
 
         /**
@@ -130,11 +129,11 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface {
         $class = $this->getResponseClassName();
         /*@var $response ResponseAbstract */
         $response = new $class;
-        $response->setServiceLocator($this->getServiceLocator())
-                ->setException($this->exception)
-                ->setHttpCode($this->returnHttpCode)
-                ->trace($this->trace);
+        $response->setServiceLocator($this->getServiceLocator());
+        $response->setException($this->exception)
+            ->setHttpCode($this->returnHttpCode)
+            ->trace();
         return $response;
     }
-    
+
 }

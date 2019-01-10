@@ -38,9 +38,8 @@ interface ResponseInterface {
     
     /**
      * write error into log system
-     * @param string $message
      */
-    public function trace($message);
+    public function trace();
     /**
      * set up exception
      * @param \Exception $exception

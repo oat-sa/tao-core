@@ -129,9 +129,11 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
     /**
      * @inherit
      */
-    public function trace($message) {
-        
-        common_Logger::i($message);
+    public function trace()
+    {
+        if ($this->exception) {
+            common_Logger::singleton()->handleException($this->exception);
+        }
         
         return $this;
     }
