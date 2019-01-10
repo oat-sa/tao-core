@@ -22,4 +22,6 @@ class RouteAnnotationExample
      * Nothing needs to be done
      */
     public function withoutAnnotation() { }
+
+    protected function protectedAction() { }
 }

@@ -40,9 +40,10 @@ class ControllerService extends ConfigurableService
         // extra layer of the security - to not launch action if denied
         if ($routeAnnotationService->isHidden($controllerClass, $action))
         {
-            throw new RouterException("Unable to run the action '"
+            $message = $action ? "Unable to run the action '"
                 . $action . "' in '" . $controllerClass
-                . "', blocked by route annotations.");
+                . "', blocked by route annotations." : "Class '$controllerClass' blocked by route annotation";
+            throw new RouterException($message);
         }
     }
 
