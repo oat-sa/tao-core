@@ -25,7 +25,8 @@ define([
     'tpl!ui/tooltip/default',
 ], function($, _, tooltip, defaultTpl) {
     'use strict';
-    var containerName = 'qunit-fixture';
+    var containerName = 'single';
+    var containerNameMultiple = 'multiple';
     var mouseenter = document.createEvent( 'Events' );
     var mouseleave = document.createEvent( 'Events' );
     var themes = ['default','dark', 'info', 'warning', 'error', 'success', 'danger','when theme not exist'];
@@ -97,15 +98,10 @@ define([
 
         });
     QUnit.test('Tooltip: create several tooltips on same page', function (assert) {
-        var $reference = $('#tooltipstered');
-        var amount = 10;
+        var amount = 3;
         var resultAmount = 0;
-        var i =1;
-        var $container = $('#' + containerName);
+        var $container = $('#' + containerNameMultiple);
         QUnit.expect(1);
-        for(i; i < amount;i++){
-            $reference.clone().attr('id', 'clonned_'+i).appendTo($container);
-        }
         tooltip.lookup($container);
         $('[data-tooltip]', $container).each(function(key, item){
             if($(item).data('$tooltip')){
@@ -119,150 +115,147 @@ define([
     QUnit.module('physical interactions:');
 
 
-    QUnit.test('tooltip.lookup()', function (assert) {
-        var $single;
-        tooltip.lookup($('#' + containerName));
-        $single = $( '[data-tooltip]', '#' + containerName).first();
+    QUnit.asyncTest('tooltip.lookup()', function (assert) {
+        var $container = $('#' + containerName);
+        var $single = $( '[data-tooltip]', '#' + containerName).first();
 
+        QUnit.expect(2);
+        tooltip.lookup($container);
         $single[0].dispatchEvent(mouseenter);
-        // $single.trigger('mouseenter');
+
         setTimeout(function () {
-            var $tooltip = $('.tooltip-blue');
-            QUnit.start();
+            var $tooltip = $('.tooltip-blue', $container);
             assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
             $single[0].dispatchEvent(mouseleave);
 
             setTimeout(function () {
-                var $hidden = $('.tooltip-blue');
+                var $hidden = $('.tooltip-blue', $container);
                 var styles = window.getComputedStyle($hidden[0]);
-                QUnit.start();
                 assert.equal(styles.visibility, 'hidden', 'tooltip became hidden on mouse out');
-            },);
-            QUnit.stop();
-        },);
-
-        QUnit.stop();
+                QUnit.start();
+            });
+        });
     });
 
-    QUnit.test('tooltip.create()', function (assert) {
+    QUnit.asyncTest('tooltip.create()', function (assert) {
         var message = 'tooltip create error method';
-        var $ref = $('#tooltipstered');
-        var errorInstance = tooltip.create($ref, message, {theme:'info'});
+        var $container = $('#' + containerName);
+        var $ref = $('#tooltipstered', $container);
 
+        QUnit.expect(2);
+        tooltip.create($ref, message, {theme:'info'});
         $ref[0].dispatchEvent(mouseenter);
-        // $single.trigger('mouseenter');
+
         setTimeout(function () {
-            var $tooltip = $('.tooltip-blue');
-            QUnit.start();
+            var $tooltip = $('.tooltip-blue', $container);
             assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
             $ref[0].dispatchEvent(mouseleave);
 
             setTimeout(function () {
-                var $hidden = $('.tooltip-blue');
+                var $hidden = $('.tooltip-blue', $container);
                 var styles = window.getComputedStyle($hidden[0]);
-                QUnit.start();
                 assert.equal(styles.visibility, 'hidden', 'tooltip became hidden on mouse out');
-            },);
-            QUnit.stop();
-        },);
+                QUnit.start();
+            });
+        });
 
-        QUnit.stop();
     });
 
 
     QUnit.module('user friendly api');
 
-    QUnit.test('tooltip.create({theme:\'error\'}) ', function(assert) {
+    QUnit.asyncTest('tooltip.create({theme:\'error\'}) ', function(assert) {
         var message = 'tooltip create error method';
-        var $ref = $('#tooltipstered');
+        var $container = $('#' + containerName);
+        var $ref = $('#tooltipstered', $container);
         var errorInstance = tooltip.create($ref, message, {theme:'error'});
 
+        QUnit.expect(3);
         assert.ok(errorInstance, 'error tooltip created');
         errorInstance.show();
 
         setTimeout(function () {
-            var $tooltip = $('.tooltip-red');
-            QUnit.start();
+            var $tooltip = $('.tooltip-red', $container);
             assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
             assert.equal( $('.tooltip-body', $tooltip).text(), message, 'renders message correctly');
             errorInstance.dispose();
+            QUnit.start();
         });
 
-        QUnit.stop();
     });
-    QUnit.test('tooltip.create({theme:\'warning\'}) ', function(assert) {
+    QUnit.asyncTest('tooltip.create({theme:\'warning\'}) ', function(assert) {
         var message = 'tooltip create warning method';
-        var $ref = $('#tooltipstered');
+        var $container = $('#' + containerName);
+        var $ref = $('#tooltipstered', $container);
         var warningInstance = tooltip.create($ref, message, {theme:'warning'});
 
+        QUnit.expect(3);
         assert.ok(warningInstance, 'warning tooltip created');
         warningInstance.show();
 
         setTimeout(function () {
-            var $tooltip = $('.tooltip-orange');
-            QUnit.start();
+            var $tooltip = $('.tooltip-orange', $container);
             assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
             assert.equal( $('.tooltip-body', $tooltip).text(), message, 'renders message correctly');
             warningInstance.dispose();
+            QUnit.start();
         });
-
-        QUnit.stop();
     });
-    QUnit.test('tooltip.create({theme:\'danger\'}) ', function(assert) {
+    QUnit.asyncTest('tooltip.create({theme:\'danger\'}) ', function(assert) {
         var message = 'tooltip create warning method';
-        var $ref = $('#tooltipstered');
+        var $container = $('#' + containerName);
+        var $ref = $('#tooltipstered', $container);
         var dangerInstance = tooltip.create($ref, message, {theme:'danger'});
 
+        QUnit.expect(3);
         assert.ok(dangerInstance, 'danger tooltip created');
         dangerInstance.show();
 
         setTimeout(function () {
-            var $tooltip = $('.tooltip-danger');
-            QUnit.start();
+            var $tooltip = $('.tooltip-danger', $container);
             assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
             assert.equal( $('.tooltip-body', $tooltip).text(), message, 'renders message correctly');
             dangerInstance.dispose();
+            QUnit.start();
         });
-
-        QUnit.stop();
     });
 
-    QUnit.test('tooltip.create({theme:\'success\'}) ', function(assert) {
+    QUnit.asyncTest('tooltip.create({theme:\'success\'}) ', function(assert) {
         var message = 'tooltip create warning method';
-        var $ref = $('#tooltipstered');
+        var $container = $('#' + containerName);
+        var $ref = $('#tooltipstered', $container);
         var successInstance = tooltip.create($ref, message, {theme:'success'});
 
+        QUnit.expect(3);
         assert.ok(successInstance, 'success tooltip created');
         successInstance.show();
 
         setTimeout(function () {
-            var $tooltip = $('.tooltip-green');
-            QUnit.start();
+            var $tooltip = $('.tooltip-green', $container);
             assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
             assert.equal( $('.tooltip-body', $tooltip).text(), message, 'renders message correctly');
             successInstance.dispose();
+            QUnit.start();
         });
-
-        QUnit.stop();
     });
 
-    QUnit.test('tooltip.create({theme:\'info\'}) ', function(assert) {
+    QUnit.asyncTest('tooltip.create({theme:\'info\'}) ', function(assert) {
         var message = 'tooltip create warning method';
-        var $ref = $('#tooltipstered');
+        var $container = $('#' + containerName);
+        var $ref = $('#tooltipstered', $container);
         var infoInstance = tooltip.create($ref, message, {theme:'info'});
 
+        QUnit.expect(3);
         assert.ok(infoInstance, 'info tooltip created');
         infoInstance.show();
 
         setTimeout(function () {
-            var $tooltip = $('.tooltip-blue');
-            QUnit.start();
+            var $tooltip = $('.tooltip-blue', $container);
             assert.equal($tooltip.length, 1, 'tooltip binds to DOM');
             assert.equal( $('.tooltip-body', $tooltip).text(), message, 'renders message correctly');
             infoInstance.dispose();
+            QUnit.start();
         });
-
-        QUnit.stop();
     });
 
     QUnit.module('Visual');
