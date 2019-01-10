@@ -118,10 +118,10 @@ define([
                 template:themesMap[themeName]
             };
             if(!el && !checkHTMLInstance(el)){
-                throw new Error("Tooltip should be connected to DOM Element");
+                throw new TypeError("Tooltip should be connected to DOM Element");
             }
             if(!message && !(checkHTMLInstance(el) || typeof message === 'string')){
-                throw new Error("Tooltip should have messsage to show");
+                throw new TypeError("Tooltip should have messsage to show");
             }
             return new Tooltip(el, _.merge(calculatedOptions, template, {title:message}));
         },

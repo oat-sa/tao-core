@@ -26,7 +26,7 @@ define([
     'tpl!ui/tristateCheckboxGroup/list',
     'tpl!ui/tristateCheckboxGroup/li',
     'ui/tooltip'
-], function ($, _, __, component, layoutTpl, elementTpl, Tooltip){
+], function ($, _, __, component, layoutTpl, elementTpl, tooltip){
     'use strict';
 
     /**
@@ -184,7 +184,7 @@ define([
                             $icon = $input.siblings('.icon')
                                 .addClass('cross')
                                 .each(function( ) {
-                                    self.tooltip = Tooltip.warning(this, self.config.maxMessage);
+                                    self.tooltip = tooltip.warning(this, self.config.maxMessage);
                                     self.tooltip.show();
 
                                 });

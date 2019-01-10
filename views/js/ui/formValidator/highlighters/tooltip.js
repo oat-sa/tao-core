@@ -69,7 +69,7 @@ define([
              * @param $field
              */
             destroy : function destroy($field) {
-                if ($field.data('hasqtip')) {
+                if ($field.data('$tooltip')) {
                     $field.data('$tooltip').dispose();
                     $field.removeData('$tooltip');
                 }
