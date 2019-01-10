@@ -373,8 +373,6 @@ define([
             // ref: http://tinyurl.com/keedruc
             editor.on('instanceReady', function(e){
                 $(e.editor.element.$).removeAttr('title');
-                //TAO-6409, added class to disable navigation from toolbar
-                $(e.editor.container.$).addClass('no-navigation');
             });
 
             // This fixes bug #2855. Unfortunately this can be done on the global object only, not on the instance
