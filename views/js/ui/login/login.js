@@ -49,7 +49,7 @@ define([
     var ns = 'login';
 
     /**
-     * The factory that creates a switch component
+     * The factory that creates a login component
      *
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} config - the component config
