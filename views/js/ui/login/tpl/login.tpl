@@ -1,8 +1,8 @@
 <div class="xhtml_form login-component">
-    <form action="/tao/Main/login" method="post" id="{{name}}" name="{{name}}">
+    <form action="{{url}}" method="post" id="{{name}}" name="{{name}}">
         <input type="hidden" class="global" name="{{name}}_sent" value="1">
         {{#if message.error}}
-        <div class="xhtml_form_error">{{error}}</div>
+            <div class="xhtml_form_error">{{message.error}}</div>
         {{/if}}
         <div>
             <label class="form_desc" for="login">

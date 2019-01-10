@@ -27,10 +27,11 @@ define([
     'ui/component',
     'lib/uuid',
     'ui/feedback',
+    'util/url',
     'tpl!ui/login/tpl/login',
     'tpl!ui/login/tpl/fakeForm',
     'tpl!ui/login/tpl/passwordReveal'
-], function($, _, __, component, uuid, feedback, loginTpl, fakeFormTpl, pwdRevealTpl){
+], function($, _, __, component, uuid, feedback, urlUtil, loginTpl, fakeFormTpl, pwdRevealTpl){
     'use strict';
 
     var _defaultConfig = {
@@ -41,7 +42,8 @@ define([
             info: null
         },
         fieldMessages: {},
-        name: 'loginForm'
+        name: 'loginForm',
+        url: urlUtil.route('login', 'Main', 'tao')
     };
 
     var ns = 'login';
@@ -55,6 +57,8 @@ define([
      * @param {Object} [config.enablePasswordReveal] - depending on this setting password reveal would be disabled or enabled for the password field
      * @param {Object} [config.fieldMessages] - field validation messages
      * @param {String} [config.name] - the component name (used by the element)
+     * @param {String} [config.url] - the url to send login form to.
+     * @param {String} [config.message] - the form wide error|info messages
      * @returns {loginComponent} the component
      */
     return function loginFactory($container, config){
@@ -155,13 +159,13 @@ define([
 
                 var self = this;
 
-                var autoHide = function(event) {
+                var autoHide = function autoHide(event) {
                     if (!event.target.isSameNode($pwdInput) && !event.target.isSameNode($hideIcon[0]) && !event.target.isSameNode($inputToggle[0])) {
                         hide();
                     }
                 };
 
-                var show = function() {
+                var show = function show() {
                     $viewIcon.hide();
                     $hideIcon.show();
 
@@ -173,7 +177,7 @@ define([
                     $pwdInput.focus();
                 };
 
-                var hide = function() {
+                var hide = function hide() {
                     $hideIcon.hide();
                     $viewIcon.show();
 
@@ -242,6 +246,7 @@ define([
 
                 /**
                  * Submits the form after a copy of all the inputs the user has made in the fake form
+                 * @fires submit event when real form gots submitted
                  */
                 var submitForm = function submitForm() {
                     // if the fake form exists, copy all fields values into the real form
@@ -251,7 +256,7 @@ define([
                     });
 
                     // just submit the real form as if the user did it
-                    self.trigger('submit.' + ns);
+                    self.trigger('submit');
                     $loginForm.submit();
                 };
 
@@ -275,7 +280,7 @@ define([
 
                     // submit the form when the user hit the ENTER key inside the fake form
                     $fakeForm.on('keypress', function (e) {
-                        if (e.which === 13) {
+                        if (e.key === 'Enter') {
                             e.preventDefault();
                             submitForm();
                         }
