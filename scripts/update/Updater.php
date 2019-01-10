@@ -874,9 +874,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('21.5.0');
         }
 
-        $this->skip('21.5.0', '22.6.2');
+        $this->skip('21.5.0', '22.6.3');
 
-        if ($this->isVersion('22.6.2')) {
+        if ($this->isVersion('22.6.3')) {
             OntologyUpdater::syncModels();
 
             $iterator = new FileIterator(__DIR__ . '/../../locales/nl-BE/lang.rdf');
