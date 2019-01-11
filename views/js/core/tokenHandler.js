@@ -27,7 +27,22 @@ define(function () {
      * @returns {tokenHandler}
      */
     function tokenHandlerFactory(initialToken) {
-        var token = initialToken || null;
+        //var tokenTimeLimit = 10000;
+        //var token = initialToken || null;
+        // Initialise queue, empty queue will produce a null token
+        var tokenQueue = [];
+        if (initialToken) {
+            tokenQueue.push({
+                value: initialToken,
+                receivedAt: Date.now()
+            });
+        }
+
+        // function isExpired(token) {
+        //     return Date.now() - token.receivedAt < tokenTimeLimit;
+        // }
+
+        // time out tokens here?
 
         return {
             /**
@@ -36,8 +51,10 @@ define(function () {
              * @returns {String}
              */
             getToken: function getToken() {
-                var currentToken = token;
-                token = null;
+                //var currentToken = token;
+                //token = null;
+                var currentToken = tokenQueue.length ? tokenQueue.shift().value : null ;
+                console.log('tokenHandler.getToken (shift)', currentToken);
                 return currentToken;
             },
 
@@ -47,7 +64,12 @@ define(function () {
              * @returns {Object} - this
              */
             setToken: function setToken(newToken) {
-                token = newToken;
+                //token = newToken;
+                tokenQueue.push({
+                    value: newToken,
+                    receivedAt: Date.now()
+                });
+                console.log('tokenHandler.setToken (push)', newToken);
                 return this;
             }
         };

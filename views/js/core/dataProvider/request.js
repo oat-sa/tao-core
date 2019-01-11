@@ -32,9 +32,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'core/promise'
-], function($, _, __, Promise){
+    'core/promise',
+    'core/tokenHandler'
+], function($, _, __, Promise, tokenHandlerFactory){
     'use strict';
+
+    var tokenHandler = tokenHandlerFactory(); // me
 
     /**
      * Create a new error based on the given response
@@ -67,6 +70,17 @@ define([
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
     return function request(url, data, method, headers, background){
+        headers = _.extend({}, headers, {
+            'X-Requested-With': 'XMLHttpRequest2', // already present in jQuery.ajax?
+            'X-Auth-Token':  tokenHandler.getToken()
+        });
+
+        console.log('dataProvider/request->request()', {
+            url: url,
+            method: method,
+            headers: headers
+        });
+
         return new Promise(function(resolve, reject){
 
             if(_.isEmpty(url)){
@@ -79,6 +93,9 @@ define([
                 dataType: 'json',
                 headers: headers,
                 data : data,
+                beforeSend: function() {
+                    console.log('sending...');
+                },
                 global : !background//TODO fix this with TT-260
             })
             .done(function(response, status, xhr){
@@ -87,8 +104,15 @@ define([
                     return resolve();
                 }
 
+                // handle case where token expired or invalid
+                // feedback?
+
                 if(response && response.success === true){
                     //there's some data
+                    console.log('data', response.data);
+                    console.log('dataProvider/request received token', response.token);
+                    // store the response token for the next request
+                    tokenHandler.setToken(response.token || 'someToken' + ('' + Date.now()).slice(9));
                     return resolve(response.data);
                 }
 
