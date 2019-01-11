@@ -47,4 +47,14 @@ class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
     {
         self::assertTrue($this->service->hasAccess(RouteAnnotationExample::class, 'withoutAnnotation'));
     }
+
+    public function testHasAccessHidden()
+    {
+        self::assertFalse($this->service->hasAccess(RouteAnnotationExample::class, 'notFoundAnnotation'));
+    }
+
+    public function testHasAccessRights()
+    {
+        self::assertTrue($this->service->hasAccess(RouteAnnotationExample::class, 'requiresRightRead'));
+    }
 }

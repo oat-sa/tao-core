@@ -24,4 +24,9 @@ class RouteAnnotationExample
     public function withoutAnnotation() { }
 
     protected function protectedAction() { }
+
+    /**
+     * @RouteAnnotation("requiresRight", requiredRights = "{id: READ, uri: WRITE, resource_id: GRANT}")
+     */
+    public function requiresRightRead() { }
 }

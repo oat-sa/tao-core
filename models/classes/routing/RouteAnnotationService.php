@@ -36,6 +36,10 @@ class RouteAnnotationService extends ConfigurableService
      * @var \common_cache_Cache
      */
     private $cacheService;
+
+    /**
+     * @return \common_cache_Cache
+     */
     private function getCacheService()
     {
         if (!$this->cacheService) {
@@ -71,18 +75,22 @@ class RouteAnnotationService extends ConfigurableService
      * @param string $methodName
      * @return bool
      */
-    public function hasAccess($className, $methodName)
+    public function hasAccess($className, $methodName = '')
     {
         $access = true;
         try {
             $annotation = $this->getAnnotation($className, $methodName);
             if ($annotation instanceof RouteAnnotation) {
                 switch ($annotation->getValue()) {
-                    case 'NotFound':
+                    case 'hidden':
                         $access = false;
                         break;
                     case 'allow':
-                        $access = $this->hasRights($annotation);
+                        $access = true;
+                        break;
+                    case 'requiresRight':
+                        // will be checked in the \oat\tao\model\accessControl\data\DataAccessControl
+                        $access = true;
                         break;
                     // any unsupported actions return false
                     default: $access = false;
@@ -95,11 +103,18 @@ class RouteAnnotationService extends ConfigurableService
         return $access;
     }
 
-    private function hasRights(RouteAnnotation $annotation)
+    public function getRights($className, $methodName = '')
     {
-        $requiredRights = $annotation->getRequiredRights();
-        // todo implement it
-        return false;
+        $res = [];
+        try {
+            $annotation = $this->getAnnotation($className, $methodName);$rights = $annotation->getRequiredRights();
+            $rights = explode(',', trim($rights, '{}'));
+            foreach ($rights as $right) {
+                $rule = explode(':', $right);
+                $res[$rule[0]] = $rule[1];
+            }
+        } catch (\Exception $e) { }
+        return $res;
     }
 
     /**

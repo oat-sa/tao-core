@@ -36,7 +36,7 @@ class RouteAnnotation
 
     /**
      * action value
-     * @RouteAnnotation(requiredRights = "[{id: 1}]")
+     * @RouteAnnotation("requiresRight", "requiredRights" = "{id: READ, uri: WRITE, resource_id: GRANT}")
      * @var string
      */
     public $requiredRights;

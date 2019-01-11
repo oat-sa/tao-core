@@ -38,7 +38,7 @@ class ControllerService extends ConfigurableService
         /** @var RouteAnnotationService $routeAnnotationService */
         $routeAnnotationService = $this->getServiceLocator()->get(RouteAnnotationService::SERVICE_ID);
         // extra layer of the security - to not launch action if denied
-        if ($routeAnnotationService->isHidden($controllerClass, $action))
+        if (!$routeAnnotationService->hasAccess($controllerClass, $action))
         {
             $message = $action ? "Unable to run the action '"
                 . $action . "' in '" . $controllerClass

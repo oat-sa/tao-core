@@ -19,6 +19,7 @@
  */
 namespace oat\tao\model\accessControl\data;
 
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AccessControl;
 use oat\tao\helpers\ControllerHelper;
 use common_Logger;
@@ -28,6 +29,7 @@ use oat\generis\model\data\permission\PermissionInterface;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\controllerMap\ActionNotFoundException;
 use common_exception_MissingParameter;
+use oat\tao\model\routing\RouteAnnotationService;
 
 /**
  * Interface for data based access control
@@ -42,6 +44,12 @@ class DataAccessControl implements AccessControl
     public function hasAccess(User $user, $controller, $action, $parameters) {
         $required = array();
         try {
+            $rights = ServiceManager::getServiceManager()->get(RouteAnnotationService::SERVICE_ID)->getRights($controller, $action);
+
+
+            // todo use $rights when PHPDoc Annotations will be moved to the Doctrines annotations
+
+
             foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
                 if (isset($parameters[$paramName])) {
                     if (is_array($parameters[$paramName])) {

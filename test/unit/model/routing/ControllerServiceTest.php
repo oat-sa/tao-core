@@ -40,11 +40,12 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
         $this->service = new ControllerService();
 
         $routeAnnotationServiceMock = $this->prophesize(RouteAnnotationService::class);
-        $routeAnnotationServiceMock->isHidden(Argument::type('string'), Argument::type('string'))
+        $routeAnnotationServiceMock->hasAccess(Argument::type('string'), Argument::type('string'))
             ->will(function ($args) {
                 if ($args[0] === BlCl::class) {
-                    return true;
+                    return false;
                 }
+                return true;
             });
         $routeAnnotationService = $routeAnnotationServiceMock->reveal();
 
@@ -99,5 +100,14 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAction()
     {
         $this->service->getAction(RouteAnnotationExample::class, 'withoutAnnotation');
+    }
+
+    /**
+     * @expectedException \oat\tao\model\routing\RouterException
+     * @expectedExceptionMessage Method oat\tao\test\unit\model\routing\sample\RouteAnnotationExample::methodNotExists() does not exist
+     */
+    public function testGetNonexistentAction()
+    {
+        $this->service->getAction(RouteAnnotationExample::class, 'methodNotExists');
     }
 }
