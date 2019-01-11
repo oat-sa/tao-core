@@ -88,10 +88,6 @@ class RouteAnnotationService extends ConfigurableService
                     case 'allow':
                         $access = true;
                         break;
-                    case 'requiresRight':
-                        // will be checked in the \oat\tao\model\accessControl\data\DataAccessControl
-                        $access = true;
-                        break;
                     // any unsupported actions return false
                     default: $access = false;
                 }
