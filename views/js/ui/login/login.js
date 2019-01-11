@@ -46,8 +46,6 @@ define([
         url: urlUtil.route('login', 'Main', 'tao')
     };
 
-    var ns = 'login';
-
     /**
      * The factory that creates a login component
      *
@@ -172,7 +170,7 @@ define([
                     $pwdInput.type = 'text';
                     $pwdInput.autocomplete = 'off';
 
-                    window.addEventListener('mousedown.' + ns, autoHide);
+                    window.addEventListener('mousedown', autoHide);
 
                     $pwdInput.focus();
                 };
@@ -184,7 +182,7 @@ define([
                     $pwdInput.type = 'password';
                     $pwdInput.autocomplete = self.isAutocompleteDisabled() ? 'off' : 'on';
 
-                    window.removeEventListener('mousedown.' + ns, autoHide);
+                    window.removeEventListener('mousedown', autoHide);
                 };
 
                 $form = this.getForm();
