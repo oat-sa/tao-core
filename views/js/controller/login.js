@@ -49,7 +49,7 @@ define([
          */
         start: function start(){
 
-            var conf = _.merge(_defaults, module.config());
+            var conf = _.defaults({}, module.config(), _defaults);
             var login = loginComponent($('#login-box-inner-container'), conf);
 
             login.on('init', function() {
