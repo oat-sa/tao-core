@@ -54,6 +54,12 @@ class AnnotationDemo
     {
         return $this->getProperty();
     }
+
+    /**
+     * @AnnotatedDescription("allow", type="{id: READ}")
+     * @AnnotatedDescription("allow", type="{uri: WRITE}")
+     */
+    public function multipleRights() { }
 }
 
 /**
@@ -71,17 +77,6 @@ class AnnotationReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->annotationReader = new AnnotationReader();
-    }
-
-    /**
-     * @throws \ReflectionException
-     */
-    public function testClassAnnotationReader()
-    {
-        //Get class annotation
-        $reflectionClass = new ReflectionClass('\oat\tao\test\unit\model\routing\AnnotationDemo');
-        $classAnnotations = $this->annotationReader->getClassAnnotations($reflectionClass);
-        self::assertEquals('The class demonstrates the use of annotations', $classAnnotations[0]->value);
     }
 
     public function testObjectAnnotationReader()
@@ -114,5 +109,31 @@ class AnnotationReaderTest extends \PHPUnit_Framework_TestCase
         self::assertNull($methodAnnotations[0]->value);
         self::assertEquals($methodAnnotations[0]->type, 'getter');
         self::assertEquals($methodAnnotations[0]->desc, 'The property is made private for a subtle reason');
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testClassAnnotationReader()
+    {
+        //Get class annotation
+        $reflectionClass = new ReflectionClass('\oat\tao\test\unit\model\routing\AnnotationDemo');
+        $classAnnotations = $this->annotationReader->getClassAnnotations($reflectionClass);
+        self::assertEquals('The class demonstrates the use of annotations', $classAnnotations[0]->value);
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testMultipleRules()
+    {
+        // Method Annotations
+        $reflectionMethod = new ReflectionMethod('\oat\tao\test\unit\model\routing\AnnotationDemo', 'multipleRights');
+        $methodAnnotations = $this->annotationReader->getMethodAnnotations($reflectionMethod);
+        self::assertEquals('allow', $methodAnnotations[0]->value);
+        self::assertEquals('{id: READ}', $methodAnnotations[0]->type);
+
+        self::assertEquals('allow', $methodAnnotations[1]->value);
+        self::assertEquals('{uri: WRITE}', $methodAnnotations[1]->type);
     }
 }
