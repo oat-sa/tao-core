@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Component - Date Time picker</title>
+        <base href="../../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="ui/datetime/picker.js"></script>
+        <script  type="text/javascript">
+
+             //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                //load the test
+                require(['test/ui/datetime/picker/test'], function(){
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+        <style>
+            #visual section {
+                display: flex;
+                flex-flow: row nowrap;
+                margin: 1em;
+            }
+            #visual section article{
+                flex: 1 1 25%;
+            }
+            #visual section h1{
+                font-size: 1.2em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <div id="visual">
+            <section>
+                <article class="range">
+                    <h1>Date range</h1>
+                </article>
+                <article class="date">
+                    <h1>Date picker</h1>
+                </article>
+                <article class="time">
+                    <h1>Time picker</h1>
+                </article>
+                <article class="datetime">
+                    <h1>Date time picker</h1>
+                </article>
+                <article class="trigger">
+                    <h1>Date time picker with trigger</h1>
+                </article>
+            </section>
+        </div>
+    </body>
+</html>
