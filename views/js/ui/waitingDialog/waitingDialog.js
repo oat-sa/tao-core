@@ -39,7 +39,8 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'ui/dialog'
+    'ui/dialog',
+    'css!ui/waitingDialog/css/waitingDialog'
 ], function ($, _, __, component, dialog) {
     'use strict';
 
@@ -50,8 +51,10 @@ define([
         message : __('Waiting'),
         waitContent : __('Please wait while ...'),
         waitButtonText : __('Please wait'),
+        waitButtonIcon: 'clock',
         proceedContent : __('Wait is over'),
         proceedButtonText : __('Proceed'),
+        showSecondary : false
     };
 
     /**
@@ -62,6 +65,9 @@ define([
      * @param {String} [config.waitButtonText] - the button text while waiting
      * @param {String} [config.proceedContent] - the dialog content when the wait is over
      * @param {String} [config.proceedButtonText] - the button text when the wait is over
+     * @param {Boolean} [config.showSecondary] - should a secondary button be included?
+     * @param {String} [config.secondaryButtonText] - the button text for the secondary button
+     * @param {String} [config.buttonSeparatorText] - an optional text to display between 2 buttons
      * @param {jQueryElement} [config.container = 'body'] - where to render the dialog
      * @returns {waitingDialog} the component itself
      */
@@ -69,6 +75,8 @@ define([
 
         //keep some elements refs
         var $button;
+        var $secondaryButton;
+        var $betweenButtonsText;
         var $content;
 
         /**
@@ -85,12 +93,22 @@ define([
                 if(!this.is('waiting')){
                     this.setState('waiting', true);
 
-                    $button
-                        .prop('disabled', true)
-                        .text(this.config.waitButtonText);
-
                     $content
                         .text(this.config.waitContent);
+
+                    $button
+                        .prop('disabled', true)
+                        .find('.label').text(this.config.waitButtonText)
+                        .end()
+                        .find("[class^='icon-']").removeClass('hidden');
+
+                    if (config.showSecondary) {
+                        $secondaryButton.removeProp('disabled');
+                        $secondaryButton.removeClass('hidden');
+                        if (this.config.buttonSeparatorText) {
+                            $betweenButtonsText.removeClass('hidden');
+                        }
+                    }
 
                     /**
                      * The component switch to the waiting state
@@ -115,8 +133,18 @@ define([
                         .text(this.config.proceedContent);
 
                     $button
-                        .text(this.config.proceedButtonText)
-                        .removeProp('disabled');
+                        .removeProp('disabled')
+                        .find('.label').text(this.config.proceedButtonText)
+                        .end()
+                        .find("[class^='icon-']").addClass('hidden');
+
+                    if (config.showSecondary) {
+                        $secondaryButton.prop('disabled', true);
+                        $secondaryButton.addClass('hidden');
+                        if (this.config.buttonSeparatorText) {
+                            $betweenButtonsText.addClass('hidden');
+                        }
+                    }
 
                     /**
                      * The component switch to non waiting state
@@ -142,23 +170,50 @@ define([
 
         }, defaultConfig)
             .on('init', function(){
+                var self = this;
+
+                var buttons = [{
+                    id : 'waiting',
+                    type : 'info',
+                    icon: this.config.waitButtonIcon,
+                    label :this.config.waitButtonText,
+                    close: true
+                }];
+                if (this.config.showSecondary && this.config.secondaryButtonText) {
+                    buttons.push({
+                        id : 'secondary',
+                        type : 'info',
+                        icon: this.config.secondaryButtonIcon,
+                        label :this.config.secondaryButtonText,
+                        close: false
+                    });
+                }
 
                 this.dialog = dialog({
                     message : this.config.message,
                     content : this.config.waitContent || '',
+                    width: this.config.width,
                     autoRender : false,
                     disableClosing : true,
                     disableEscape   :true,
-                    buttons : [{
-                        id : 'waiting',
-                        type : 'info',
-                        label :this.config.waitButtonText,
-                        close: true
-                    }]
+                    buttons : buttons
                 });
 
-                $button = $('[data-control="waiting"]', this.dialog.getDom());
                 $content = $('.content', this.dialog.getDom());
+                $button = $('[data-control="waiting"]', this.dialog.getDom());
+                if (this.config.showSecondary) {
+                    this.dialog.getDom().addClass('has-secondary');
+                    $secondaryButton = $('[data-control="secondary"]', this.dialog.getDom());
+                    $secondaryButton.on('click', function() {
+                        self.trigger('secondaryaction');
+                    });
+                    if (this.config.buttonSeparatorText) {
+                        $betweenButtonsText = $('<span>')
+                            .text(__('or'))
+                            .addClass('between-buttons-text')
+                            .insertBefore($secondaryButton);
+                    }
+                }
 
                 this.beginWait();
                 this.render();
