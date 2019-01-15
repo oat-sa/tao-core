@@ -1,0 +1,34 @@
+@import "inc/bootstrap";
+
+.modal {
+    &.has-secondary {
+        .message {
+            font-weight: bold;
+        }
+        .buttons {
+            // override traditional button layout
+            width: 100%;
+            text-align: center;
+            button.waiting:disabled {
+                // override traditional disabled button style
+                background-color: transparent !important;
+                color: $textColor !important;
+                opacity: 1 !important;
+                font-size: 1.6rem !important;
+                text-shadow: none !important;
+                text-transform: none;
+            }
+            .between-buttons-text {
+                color: whiten($textColor, .4);
+                padding: 0 1rem;
+                @include font-size(12);
+            }
+        }
+        .button-subtext {
+            @include font-size(11);
+            color: whiten($textColor, .4);
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+    }
+}
