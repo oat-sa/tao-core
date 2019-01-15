@@ -9,7 +9,6 @@
 @import "inc/toolbars";
 @import "inc/tooltip";
 @import "inc/resourcemgr";
-@import "inc/mediasizer";
 @import "inc/datatable";
 @import "inc/datalist";
 @import "inc/buttons";
@@ -33,6 +32,7 @@
 @import "inc/report";
 @import "inc/task-queue";
 @import "inc/window-component";
+@import "inc/dropdown";
 
 //TODO move it to taoItems
 #tab-items_preview {

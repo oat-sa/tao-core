@@ -1,7 +1,4 @@
 @import "inc/bootstrap";
-@import "resource-list";
-@import "resource-tree";
-@import "filters";
 
 @mixin resource-selector-actions {
     display: inline-block;
@@ -34,6 +31,10 @@
         opacity: 1;
         @include transition(opacity, 300ms, linear);
     }
+
+    @import "resource-list";
+    @import "resource-tree";
+    @import "filters";
 
     nav {
         height: 40px;

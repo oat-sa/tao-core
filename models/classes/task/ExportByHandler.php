@@ -22,12 +22,13 @@ namespace oat\tao\model\task;
 
 use common_report_Report as Report;
 use oat\oatbox\extension\AbstractAction;
-use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 
 class ExportByHandler extends AbstractAction
 {
+    use FilesystemAwareTrait;
+
     const PARAM_EXPORT_HANDLER = 'export_handler';
     const PARAM_EXPORT_DATA = 'export_data';
 
@@ -51,7 +52,7 @@ class ExportByHandler extends AbstractAction
                     : Report::createFailure(__('Export failed.'));
             }
 
-            if ($filePath && ($newFileName = $this->storeFile($filePath))) {
+            if ($filePath && ($newFileName = $this->saveFileToStorage($filePath))) {
                 // set the new file name
                 $report->setData($newFileName);
             }
@@ -81,34 +82,11 @@ class ExportByHandler extends AbstractAction
     }
 
     /**
-     * Copies the locally stored file under filesystem of task queue storage
-     * (users will be able to download it from there)
-     *
-     * @param string $filePath
-     * @return string
+     * @see FilesystemAwareTrait::getFileSystemService()
      */
-    private function storeFile($filePath)
+    protected function getFileSystemService()
     {
-        if (!file_exists($filePath)) {
-            return '';
-        }
-
-        $newFileName = basename($filePath);
-
-        /** @var Directory $queueStorage */
-        $queueStorage = $this->getServiceLocator()
-            ->get(FileSystemService::SERVICE_ID)
-            ->getDirectory(QueueDispatcherInterface::FILE_SYSTEM_ID);
-
-        // saving the file under the storage
-        $file = $queueStorage->getFile($newFileName);
-        $stream = fopen($filePath, 'r');
-        $file->put($stream);
-        fclose($stream);
-
-        // delete the local file
-        unlink($filePath);
-
-        return $newFileName;
+        return $this->getServiceLocator()
+            ->get(FileSystemService::SERVICE_ID);
     }
 }

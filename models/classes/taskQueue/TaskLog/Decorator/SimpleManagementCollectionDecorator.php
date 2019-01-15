@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
+use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -51,7 +52,12 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
      */
     private $reportIncluded;
 
-    public function __construct(CollectionInterface $collection, TaskLogInterface $taskLogService, FileSystemService $fileSystemService, $reportIncluded)
+    /**
+     * @var FileReferenceSerializer
+     */
+    private $fileReferenceSerializer;
+
+    public function __construct(CollectionInterface $collection, TaskLogInterface $taskLogService, FileSystemService $fileSystemService, FileReferenceSerializer $fileReferenceSerializer, $reportIncluded)
     {
         parent::__construct($collection);
 
@@ -59,6 +65,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         $this->collection = $collection;
         $this->taskLogService = $taskLogService;
         $this->reportIncluded = (bool) $reportIncluded;
+        $this->fileReferenceSerializer = $fileReferenceSerializer;
     }
 
     /**
@@ -69,8 +76,17 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         $data = [];
 
         foreach ($this->getIterator() as $entity) {
-            $entityData = (new RedirectUrlEntityDecorator(new HasFileEntityDecorator(new CategoryEntityDecorator($entity, $this->taskLogService), $this->fileSystemService)))
-                ->toArray();
+            $entityData = (
+                new RedirectUrlEntityDecorator(
+                    new HasFileEntityDecorator(
+                        new CategoryEntityDecorator($entity, $this->taskLogService),
+                        $this->fileSystemService,
+                        $this->fileReferenceSerializer
+                    ),
+                    $this->taskLogService,
+                    \common_session_SessionManager::getSession()->getUser()
+                )
+            )->toArray();
 
             if (!$this->reportIncluded && array_key_exists('report', $entityData)) {
                 unset($entityData['report']);

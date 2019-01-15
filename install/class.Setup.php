@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -42,11 +42,14 @@ class tao_install_Setup implements Action
     const SETUP_JSON_CONTENT_OFFSET = 'setupJsonContentOffset';
 
     /**
-     * @param mixed $params   The setup params.
+     * @param mixed $params The setup params.
      *
-     * @throws InvalidArgumentException   When a presented parameter is invalid or malformed.
-     * @throws FileNotFoundException   When the presented config file does not exist.
-     * @throws ErrorException   When a module is missing or other kind of general error.
+     * @throws ErrorException When a module is missing or other kind of general error.
+     * @throws common_Exception When the presented config file does not exist
+     * @throws common_exception_Error
+     * @throws common_ext_ExtensionException When a presented parameter is invalid or malformed.
+     * @throws InvalidArgumentException
+     * @throws tao_install_utils_Exception
      */
     public function __invoke($params)
     {
@@ -69,7 +72,7 @@ class tao_install_Setup implements Action
             $filePath = $params[0];
 
             if (!file_exists($filePath)) {
-                throw new FileNotFoundException('Unable to find ' . $filePath);
+                throw new \ErrorException('Unable to find ' . $filePath);
             }
 
             $info = pathinfo($filePath);

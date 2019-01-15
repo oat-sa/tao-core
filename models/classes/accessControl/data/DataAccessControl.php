@@ -27,6 +27,7 @@ use oat\oatbox\user\User;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\controllerMap\ActionNotFoundException;
+use common_exception_MissingParameter;
 
 /**
  * Interface for data based access control
@@ -35,6 +36,7 @@ class DataAccessControl implements AccessControl
 {
     /**
      * (non-PHPdoc)
+     * @throws common_exception_MissingParameter
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
      */
     public function hasAccess(User $user, $controller, $action, $parameters) {
@@ -42,16 +44,19 @@ class DataAccessControl implements AccessControl
         try {
             foreach (ControllerHelper::getRequiredRights($controller, $action) as $paramName => $privileges) {
                 if (isset($parameters[$paramName])) {
-                    if (preg_match('/^[a-z]*_2_/', $parameters[$paramName]) != 0) {
-                        common_Logger::w('url encoded parameter detected for '.$paramName);
-                        $cleanName = \tao_helpers_Uri::decode($parameters[$paramName]);
+                    if (is_array($parameters[$paramName])) {
+                        foreach ($parameters[$paramName] as $key => $paramVal) {
+                            $cleanName = $this->getCleanName($paramName, $paramVal);
+
+                            $required[$cleanName] = $privileges;
+                        }
                     } else {
-                        $cleanName = $parameters[$paramName];
+                        $cleanName = $this->getCleanName($paramName, $parameters[$paramName]);
+
+                        $required[$cleanName] = $privileges;
                     }
-        
-                    $required[$cleanName] = $privileges;
                 } else {
-                    throw new \Exception('Missing parameter ' . $paramName . ' for ' . $controller . '/' . $action);
+                    throw new common_exception_MissingParameter($paramName);
                 }
             }
         } catch (ActionNotFoundException $e) {
@@ -61,7 +66,25 @@ class DataAccessControl implements AccessControl
         
         return empty($required)
             ? true
-            : self::hasPrivileges($user, $required);
+            : $this->hasPrivileges($user, $required);
+    }
+
+    /**
+     * Gets the cleaned paramName from paramValue ($cleanName)
+     *
+     * @param string $paramName just for logging purposes
+     * @param string $cleanName param to be cleared
+     *
+     * @return string
+     */
+    private function getCleanName($paramName, $cleanName)
+    {
+        if (preg_match('/^[a-z]*_2_/', $cleanName) != 0) {
+            common_Logger::w('url encoded parameter detected for '.$paramName);
+            $cleanName = \tao_helpers_Uri::decode($cleanName);
+        }
+
+        return $cleanName;
     }
     
     /**
@@ -74,18 +97,18 @@ class DataAccessControl implements AccessControl
      * @param array $required
      * @return boolean
      */
-    static public function hasPrivileges(User $user, array $required) {
+    public function hasPrivileges(User $user, array $required) {
         foreach ($required as $resourceId=>$right) {
-            if ($right === 'WRITE' && !self::hasWritePrivilege($user, $resourceId)) {
+            if ($right === 'WRITE' && !$this->hasWritePrivilege($user, $resourceId)) {
                 common_Logger::d('User \''.$user->getIdentifier().'\' does not have lock for resource \''.$resourceId.'\'');
                 return false;
             }
-            if (!in_array($right, PermissionManager::getPermissionModel()->getSupportedRights())) {
+            if (!in_array($right, $this->getPermissionProvider()->getSupportedRights())) {
                 $required[$resourceId] = PermissionInterface::RIGHT_UNSUPPORTED;
             }
         }
         
-        $permissions = PermissionManager::getPermissionModel()->getPermissions($user, array_keys($required));
+        $permissions = $this->getPermissionProvider()->getPermissions($user, array_keys($required));
         foreach ($required as $id => $right) {
             if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
                 common_Logger::d('User \''.$user->getIdentifier().'\' does not have \''.$right.'\' permission for resource \''.$id.'\'');
@@ -95,9 +118,14 @@ class DataAccessControl implements AccessControl
         return true;
     }
     
-    static private function hasWritePrivilege(User $user, $resourceId) {
+    private function hasWritePrivilege(User $user, $resourceId) {
         $resource = new \core_kernel_classes_Resource($resourceId);
         $lock = LockManager::getImplementation()->getLockData($resource);
         return is_null($lock) || $lock->getOwnerId() == $user->getIdentifier();
+    }
+
+    public function getPermissionProvider()
+    {
+        return PermissionManager::getPermissionModel();
     }
 }

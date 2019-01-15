@@ -47,6 +47,7 @@ use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\event\UserUpdatedEvent;
 use oat\tao\model\maintenance\Maintenance;
+use oat\tao\model\metadata\compiler\ResourceJsonMetadataCompiler;
 use oat\tao\model\metrics\MetricsService;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\implementation\NotificationServiceAggregator;
@@ -55,6 +56,7 @@ use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
+use oat\tao\model\service\ApplicationService;
 use oat\tao\model\service\ContainerService;
 use oat\tao\model\session\restSessionFactory\builder\HttpBasicAuthBuilder;
 use oat\tao\model\session\restSessionFactory\RestSessionFactory;
@@ -65,6 +67,7 @@ use oat\tao\model\taskQueue\Queue\Broker\InMemoryQueueBroker;
 use oat\tao\model\taskQueue\Queue\TaskSelector\WeightStrategy;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\TaskSerializerService;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBroker;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
@@ -166,6 +169,20 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('5.9.2');
 
         }
+
+        // Hotfix to register ApplicationService for instances with old tao-core version
+        // ApplicationService was introduced in tao-core version 20.1.0
+        if ($this->isBetween('6.0.1', '20.0.4')) {
+            $options = [];
+            if(defined('ROOT_PATH') && is_readable(ROOT_PATH.'build')){
+                $content = file_get_contents(ROOT_PATH.'build');
+                $options[ApplicationService::OPTION_BUILD_NUMBER] = $content;
+            }
+
+            $applicationService = new ApplicationService($options);
+            $this->getServiceManager()->register(ApplicationService::SERVICE_ID, $applicationService);
+        }
+
         $this->skip('5.9.2', '6.0.1');
 
         if ($this->isVersion('6.0.1')) {
@@ -839,6 +856,24 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('19.20.0');
         }
 
-        $this->skip('19.20.0', '20.0.2');
+        $this->skip('19.20.0', '21.2.0');
+
+        if ($this->isVersion('21.2.0')) {
+            $resourceJsonMetadataCompiler = new ResourceJsonMetadataCompiler();
+            $this->getServiceManager()->register(ResourceJsonMetadataCompiler::SERVICE_ID, $resourceJsonMetadataCompiler);
+
+            $this->setVersion('21.3.0');
+        }
+
+        $this->skip('21.3.0', '21.4.0');
+
+        if ($this->isVersion('21.4.0')) {
+            $taskSerializer = new TaskSerializerService();
+            $this->getServiceManager()->register(TaskSerializerService::SERVICE_ID, $taskSerializer);
+
+            $this->setVersion('21.5.0');
+        }
+
+        $this->skip('21.5.0', '22.9.2');
     }
 }

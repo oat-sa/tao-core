@@ -21,12 +21,14 @@
 
 namespace oat\tao\model\actionQueue\implementation;
 
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\tao\model\actionQueue\ActionQueue;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\actionQueue\QueuedAction;
 use oat\tao\model\actionQueue\ActionQueueException;
 use oat\oatbox\user\User;
 use oat\tao\model\actionQueue\restriction\basicRestriction;
+use oat\tao\model\actionQueue\event\InstantActionOnQueueEvent;
 
 /**
  *
@@ -36,6 +38,8 @@ use oat\tao\model\actionQueue\restriction\basicRestriction;
  */
 class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
+
+    use EventManagerAwareTrait;
 
     const QUEUE_TREND = 'queue_trend';
 
@@ -110,7 +114,21 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
 
     /**
      * @param QueuedAction $action
+     * @return int
+     * @throws ActionQueueException
+     */
+    public function getLimits(QueuedAction $action)
+    {
+        $actionConfig = $this->getActionConfig($action);
+        $restrictions = $this->getRestrictions($actionConfig);
+        $limit = $restrictions ? array_sum($restrictions) : 0;
+        return $limit;
+    }
+
+    /**
+     * @param QueuedAction $action
      * @param User $user
+     * @throws \common_Exception
      */
     protected function queue(QueuedAction $action, User $user)
     {
@@ -118,6 +136,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         $positions = $this->getPositions($action);
         $positions[$user->getIdentifier()] = time();
         $this->getPersistence()->set($key, json_encode($positions));
+        $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'queue', $action));
         if ($this->getTrend($action) >= 0) {
             $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, -1);
         }
@@ -126,6 +145,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     /**
      * @param QueuedAction $action
      * @param User $user
+     * @throws \common_Exception
      */
     protected function dequeue(QueuedAction $action, User $user)
     {
@@ -136,10 +156,12 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
         }
         $this->getPersistence()->set($key, json_encode($positions));
+        $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
     }
 
     /**
      * @return \common_persistence_KeyValuePersistence
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     protected function getPersistence()
     {

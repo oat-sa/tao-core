@@ -24,8 +24,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\import\CsvBasicImporter;
 use Prophecy\Argument;
 
-include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
-
 class CsvImportTest extends TaoPhpUnitTestRunner {
 
 	const CSV_FILE_USERS_HEADER_UNICODE = '/../samples/csv/users1-header.csv';

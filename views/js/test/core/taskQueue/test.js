@@ -62,6 +62,8 @@ define([
         { title : 'pollAll' },
         { title : 'pollAllStop' },
         { title : 'create' },
+        { title : 'getCached' },
+        { title : 'redirect' },
     ]).test('Instance API ', function(data, assert) {
         var instance = taskQueueModelFactory();
         assert.equal(typeof instance[data.title], 'function', 'The resourceList exposes the method "' + data.title);
@@ -129,7 +131,52 @@ define([
             assert.equal(task.status, 'in_progress', 'the status is correct');
             QUnit.start();
         });
+    });
 
+    QUnit.asyncTest('get cached', function(assert) {
+        var taskQueueModel;
+        var getBackup;
+        var expectedTask = {
+            "id": "rdf#i15083379701993186432222",
+            "taskName": "Task Name 2",
+            "taskLabel": "Task label 2",
+            "status": "in_progress",
+            "owner": "userId",
+            "createdAt": "1510149584",
+            "updatedAt": "1510149574",
+            "file": false,
+            "category": "publish",
+            "report": null
+        };
+
+        QUnit.expect(3);
+
+        taskQueueModel = taskQueueModelFactory({
+            url : {
+                get : '/tao/views/js/test/core/taskQueue/samples/getSingle-inprogress.json'
+            }
+        });
+        getBackup = taskQueueModel.get;
+        taskQueueModel.get = function(id){
+            assert.ok(true, 'The get should be called only once');
+            return getBackup.call(this, id);
+        };
+
+        taskQueueModel
+            .getCached('rdf#i15083379701993186432222')
+            .then(function(task){
+                assert.deepEqual(task, expectedTask, 'The retrieved task is correct');
+
+                return  taskQueueModel.getCached('rdf#i15083379701993186432222');
+            })
+            .then(function(task){
+                assert.deepEqual(task, expectedTask, 'The retrieved task is correct');
+                QUnit.start();
+            })
+            .catch(function(err){
+                assert.ok(false, err.message);
+                QUnit.start();
+            });
     });
 
     QUnit.asyncTest('pollSingle', function(assert) {

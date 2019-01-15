@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Utils - Maths Evaluator</title>
+        <base href="../../../../" />
+        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+        <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="mathsEvaluator.js"></script>
+
+        <script  type="text/javascript">
+
+             //don't start the test now
+            QUnit.config.autostart = false;
+
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+
+                //load the test
+                require(['test/util/mathsEvaluator/test'], function(){
+
+                    //Tests loaded, run tests
+                    QUnit.start();
+                });
+            });
+        </script>
+
+        <style>
+            #visual-test {
+                display: block;
+                position: relative;
+                width: 800px;
+                padding: 20px;
+                margin: 10px;
+                border: 2px solid #448;
+                font-family: 'Verdana', 'Arial', 'Helvetica', 'sans-serif';
+            }
+            #visual-test .screen {
+                border: 1px solid #888;
+                position: relative;
+                height: 10rem;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                font-family: monospace;
+                white-space: pre;
+                font-size: 1.2rem;
+            }
+            #visual-test .screen .expression {
+                padding: 0;
+                margin: 3px 0;
+                text-align: left;
+            }
+            #visual-test .screen .result {
+                padding: 0;
+                margin: 3px 0;
+                text-align: right;
+            }
+            #visual-test .input {
+                padding: 10px 0;
+                display: flex;
+            }
+            #visual-test .input * {
+                margin: 2px;
+            }
+            #visual-test .input input {
+                flex: 1 0 auto;
+                font-family: monospace;
+                white-space: pre;
+                font-size: 1.2rem;
+            }
+            #visual-test .input button {
+                flex: 0 0 auto;
+            }
+            #visual-test .keyboard {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: stretch;
+            }
+            #visual-test .keyboard .row {
+                position: relative;
+                height: 2rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: stretch;
+            }
+            #visual-test .keyboard .row * {
+                margin: 2px;
+                flex: 1 1 auto;
+            }
+            #visual-test .keyboard .row .btn-1 {
+                width: 12%;
+            }
+            #visual-test .keyboard .row .btn-2 {
+                width: calc(24% + 4px);
+            }
+            #visual-test .keyboard .row .btn-3 {
+                width: calc(36% + 12px);
+            }
+            #visual-test .keyboard .row .btn-4 {
+                width: calc(48% + 16px);
+            }
+            #visual-test .keyboard .row .btn-5 {
+                width: calc(60% + 20px);
+            }
+            #visual-test .keyboard .row .btn-6 {
+                width: calc(72% + 24px);
+            }
+            #visual-test .keyboard .row .btn-7 {
+                width: calc(84% + 28px);
+            }
+            #visual-test .keyboard .row .btn-8 {
+                width: 100%;
+            }
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+        <div id="visual-test">
+            <div class="screen"></div>
+            <div class="input">
+                <input type="text" name="expr" class="expression" placeholder="type your expression...">
+            </div>
+            <div class="keyboard">
+                <div class="row">
+                    <button class="btn-1 operator fac" data-operator="!">x!</button>
+                    <button class="btn-1 operator lpar" data-operator="(">(</button>
+                    <button class="btn-1 operator rpar" data-operator=")">)</button>
+                    <span class="btn-3"></span>
+                    <span class="btn-2 align-right">
+                        <label><input type="radio" name="degree" value="1" data-switch="degree"> Degree</label>
+                        <label><input type="radio" name="degree" value="0" data-switch="radian"> Radian</label>
+                    </span>
+                </div>
+                <div class="row">
+                    <button class="btn-1 operator pow2" data-operator="^2">x<sup>2</sup></button>
+                    <button class="btn-1 operator pow3" data-operator="^3">x<sup>3</sup></button>
+                    <button class="btn-1 operator pow" data-operator="^">x<sup>y</sup></button>
+                    <button class="btn-1 operator frac" data-operator="1/">1/x</button>
+                    <button class="btn-1 action clear" data-action="clear">C</button>
+                    <button class="btn-1 operator neg" data-operator="-">(-)</button>
+                    <button class="btn-1 operator div" data-operator="/">÷</button>
+                    <button class="btn-1 operator mul" data-operator="*">×</button>
+                </div>
+                <div class="row">
+                    <button class="btn-1 operator sqrt" data-operator="sqrt ">√</button>
+                    <button class="btn-1 operator cbrt" data-operator="cbrt ">∛</button>
+                    <button class="btn-1 operator nthrt" data-operator="nthrt(x, y)"><sup>x</sup>√y</button>
+                    <button class="btn-1 operator pow10" data-operator="10^">10<sup>x</sup></button>
+                    <button class="btn-1 operand num-7" data-operator="7">7</button>
+                    <button class="btn-1 operand num-8" data-operator="8">8</button>
+                    <button class="btn-1 operand num-9" data-operator="9">9</button>
+                    <button class="btn-1 operator minus" data-operator="-">-</button>
+                </div>
+                <div class="row">
+                    <button class="btn-1 operator sin" data-operator="sin ">sin</button>
+                    <button class="btn-1 operator cos" data-operator="cos ">cos</button>
+                    <button class="btn-1 operator tan" data-operator="tan">tan</button>
+                    <button class="btn-1 operator log10" data-operator="log10">log<inf>x</inf></button>
+                    <button class="btn-1 operand num-4" data-operator="4">4</button>
+                    <button class="btn-1 operand num-5" data-operator="5">5</button>
+                    <button class="btn-1 operand num-6" data-operator="6">6</button>
+                    <button class="btn-1 operator plus" data-operator="+">+</button>
+                </div>
+                <div class="row">
+                    <button class="btn-1 operator sin" data-operator="asin ">sin<sup>-1</sup></button>
+                    <button class="btn-1 operator cos" data-operator="acos ">cos<sup>-1</sup></button>
+                    <button class="btn-1 operator tan" data-operator="atan">tan<sup>-1</sup></button>
+                    <button class="btn-1 operator log" data-operator="log">ln</button>
+                    <button class="btn-1 operand num-1" data-operator="1">1</button>
+                    <button class="btn-1 operand num-2" data-operator="2">2</button>
+                    <button class="btn-1 operand num-3" data-operator="3">3</button>
+                    <button class="btn-1 operand dot" data-operator=".">.</button>
+                </div>
+                <div class="row">
+                    <button class="btn-1 operand pi" data-operator="PI">π</button>
+                    <button class="btn-1 operand e" data-operator="E">e</button>
+                    <button class="btn-1 operand exp" data-operator="exp ">e<sup>x</sup></button>
+                    <button class="btn-1 operator mod" data-operator="%">mod</button>
+                    <button class="btn-2 operand num-0" data-operator="0">0</button>
+                    <button class="btn-2 action compute" data-action="compute">=</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

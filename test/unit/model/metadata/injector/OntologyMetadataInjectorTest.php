@@ -2,6 +2,7 @@
 
 namespace oat\tao\test\unit\model\metadata\import;
 
+use oat\generis\test\TestCase;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorReadException;
 use oat\tao\model\metadata\exception\injector\MetadataInjectorWriteException;
@@ -11,7 +12,7 @@ use oat\tao\model\metadata\injector\OntologyMetadataInjector;
 use oat\tao\model\metadata\reader\Reader;
 use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
 
-class OntologyMetadataInjectorTest extends \PHPUnit_Framework_TestCase
+class OntologyMetadataInjectorTest extends TestCase
 {
     protected function getOntologyMetadataInjectorMock($methods=[])
     {

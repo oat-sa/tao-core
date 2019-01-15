@@ -18,6 +18,11 @@ require.config({
         '<?=$name?>'        : <?=json_encode($config)?>,
     <?php endforeach?>
     },
+    onNodeCreated: function(node, config, name, url){
+<?php if(get_data('crossorigin')):?>
+        node.setAttribute('crossorigin', 'anonymous');
+<?php endif; ?>
+    },
     paths : {
 //require-js plugins
         'text'              : 'lib/text/text',
@@ -26,7 +31,7 @@ require.config({
         'tpl'               : 'tpl',
 //jquery and plugins
         'jquery'            : 'lib/jquery-1.8.0.min',
-        'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
+        'jqueryui'          : 'lib/jquery-ui-1.9.2.custom.min',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
         'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
@@ -55,20 +60,15 @@ require.config({
         ],
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'interact'          : 'lib/interact',
-        'd3'                : 'lib/d3js/d3.min',
-        'c3'                : 'lib/c3js/c3.min',
+        'd3'                : 'lib/d3js/d3',
+        'c3'                : 'lib/c3js/c3',
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
+//backward compat aliases
+        'router'            : 'core/router',
 //extension aliases, and controller loading in prod mode
     <?php foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
-        <?php if(tao_helpers_Mode::is('production')):?>
-            <?php if($name == 'tao'): ?>
-                'controller/routes' : '<?=$path?>/controllers.min',
-            <?php else : ?>
-                '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
-            <?php endif ?>
-        <?php endif?>
     <?php endforeach?>
    },
    shim : {
@@ -81,11 +81,12 @@ require.config({
             exports : "MathJax",
             init : function(){
                 if(window.MathJax){
-                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false});
+                    MathJax.Hub.Config({showMathMenu:false, showMathMenuMSIE:false,
+                        menuSettings: { inTabOrder: false } });
                     MathJax.Hub.Startup.onload();
                     return MathJax;
                 }
             }
-        }
+        },
     }
 });

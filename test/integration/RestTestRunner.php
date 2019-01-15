@@ -1,20 +1,15 @@
 <?php
 namespace oat\tao\test\integration;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
-
-use \common_ext_ExtensionsManager;
-use \common_persistence_Manager;
 use oat\generis\model\GenerisRdf;
+use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
-use oat\tao\test\TaoPhpUnitTestRunner;
 
 
-abstract class RestTestRunner extends TaoPhpUnitTestRunner
+abstract class RestTestRunner extends GenerisPhpUnitTestRunner
 {
-
-    protected $host = ROOT_URL;
+    protected $host = '';
 
     protected $userUri = "";
 
@@ -40,7 +35,9 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
     
     public function setUp()
     {
-        TaoPhpUnitTestRunner::initTest();
+        parent::setUp();
+
+        $this->host = ROOT_URL;
         $this->disableCache();
         
         // creates a user using remote script from joel
@@ -119,6 +116,16 @@ abstract class RestTestRunner extends TaoPhpUnitTestRunner
                 "Accept: application/json"
             )
         );
+    }
+
+    protected function disableCache()
+    {
+        // just to avoid stopping tests with error "Call to undefined method disableCache()"
+    }
+
+    protected function restoreCache()
+    {
+        // just to avoid stopping tests with error "Call to undefined method restoreCache()"
     }
 
 }
