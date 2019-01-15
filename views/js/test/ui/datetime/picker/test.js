@@ -25,7 +25,7 @@ define([
     'use strict';
 
     var config = { container: '#qunit-fixture' };
-
+/*
     QUnit.module('API');
 
     QUnit.cases([
@@ -74,7 +74,6 @@ define([
             QUnit.start();
         });
     });
-/*
     QUnit.module('Behavior');
 
     QUnit.asyncTest('Lifecycle', function(assert) {
@@ -186,17 +185,6 @@ define([
 
     QUnit.module('Visual');
 
-    QUnit.asyncTest('date range', function(assert) {
-        QUnit.expect(1);
-
-        dateTimePickerComponentFactory(document.querySelector('#visual .range'), {
-            setup : 'range'
-        })
-        .on('render', function(){
-            assert.ok(true);
-            QUnit.start();
-        });
-    });
     QUnit.asyncTest('date range', function(assert) {
         QUnit.expect(1);
 

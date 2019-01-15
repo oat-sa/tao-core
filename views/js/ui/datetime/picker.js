@@ -27,26 +27,28 @@ define([
     'lodash',
     'i18n',
     'ui/component',
-    'lib/daterangepicker/daterangepicker',
+    'lib/flatpickr/flatpickr',
     'tpl!ui/datetime/tpl/picker',
     //'css!ui/datetime/css/picker.css',
-    'css!lib/daterangepicker/daterangepicker.css'
-], function(_, __, component, DateRangePicker, dateTimePickerTpl){
+    'css!lib/flatpickr/flatpickr.css'
+], function(_, __, component, flatpickr, dateTimePickerTpl){
     'use strict';
 
     var setups = {
         range : {
-
+            dateFormat : 'd/m/Y',
+            mode : 'range'
         },
         date : {
-            singleDatePicker: true,
+            dateFormat : 'd/m/Y'
         },
         time : {
-            timePicker : true
+            enableTime : true,
+            noCalendar : true
         },
         datetime : {
-            singleDatePicker: true,
-            timePicker : true,
+            dateFormat : 'd/m/Y H:i',
+            enableTime : true
         }
     };
     var defaultConfig = {
@@ -74,6 +76,7 @@ define([
             .setTemplate(dateTimePickerTpl)
             .on('init', function(){
                 var self = this;
+
                 if(container){
                     setTimeout(function(){
                         self.render(container);
@@ -85,15 +88,13 @@ define([
 
                 var element = this.getElement()[0];
                 var input   = element.querySelector('input');
+                var pickerConfig = _.defaults(setups[config.setup], {
+                    allowInput : true,
 
+                });
 
-                new DateRangePicker(input, _.defaults(setups[config.setup], {
-                    buttonClasses : 'small',
-                    applyButtonClasses : 'btn-info',
-                    cancelButtonClasses: 'btn-button',
-                    //parentEl : element
-                }));
-
+                console.log(pickerConfig);
+                this.picker = flatpickr(input, pickerConfig);
             });
 
         setTimeout(function(){
