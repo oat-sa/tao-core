@@ -17,6 +17,7 @@
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
+ * @author Martin Nicholson <martin@taotesting.com>
  */
 define([
     'jquery',
@@ -53,7 +54,7 @@ function ($, _) {
         }
 
         // Hardcode cookie tokens
-        $.cookie('tao_tokens', 'a;b;c;d;e');
+        $.cookie('tao_tokens', 'a;b;c;d;e;f;g;h;i;j;k;l');
 
         if (tokenQueue.length === 0) {
             setQueue(readCookieTokens('tao_tokens'));
@@ -76,15 +77,19 @@ function ($, _) {
 
         /**
          * Sets the whole queue of tokens in one go
-         * @param {Array} tokens - the token strings
+         * (but won't exceed maxPoolSize)
+         * @param {Array} tokenStrings - the token strings
          */
-        function setQueue(tokens) {
-            tokenQueue = _.map(tokens, function(token) {
-                return {
-                    value: token,
-                    receivedAt: Date.now()
-                };
-            });
+        function setQueue(tokenStrings) {
+            tokenQueue = _.chain(tokenStrings)
+                .map(function(token) {
+                    return {
+                        value: token,
+                        receivedAt: Date.now()
+                    };
+                })
+                .take(config.maxPoolSize)
+                .value();
         }
 
         /**
@@ -126,6 +131,14 @@ function ($, _) {
                 console.log('tokenHandler.setToken (push)', newToken);
                 console.info('Q:', tokenQueue);
                 return this;
+            },
+
+            /**
+             * Getter for the current queue length
+             * @returns {Integer}
+             */
+            getQueueLength: function getQueueLength() {
+                return tokenQueue.length;
             }
         };
     }

@@ -33,11 +33,13 @@ define([
     'lodash',
     'i18n',
     'core/promise',
-    'core/tokenHandler'
-], function($, _, __, Promise, tokenHandlerFactory){
+    'core/promiseQueue',
+    'core/tokenHandler',
+    'ui/feedback'
+], function($, _, __, Promise, queue, tokenHandlerFactory, feedback){
     'use strict';
 
-    var tokenHandler = tokenHandlerFactory(); // me
+    var tokenHandler = tokenHandlerFactory({ maxPoolSize: 2 });
 
     /**
      * Create a new error based on the given response
@@ -67,68 +69,103 @@ define([
      * @param {String} [method = 'GET'] - the HTTP method
      * @param {Object} [headers] - the HTTP header
      * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
+     * @param {Boolean} [noToken] - to disable the token
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    return function request(url, data, method, headers, background){
-        headers = _.extend({}, headers, {
-            'X-Requested-With': 'XMLHttpRequest2', // already present in jQuery.ajax?
-            'X-Auth-Token':  tokenHandler.getToken()
-        });
+    return function request(url, data, method, headers, background, noToken){
 
-        console.log('dataProvider/request->request()', {
-            url: url,
-            method: method,
-            headers: headers
-        });
+        // Function wrapper so the contents can be run now or added to a queue
+        var runRequest = function runRequest() {
+            return new Promise(function(resolve, reject){
 
-        return new Promise(function(resolve, reject){
+                var csrfToken;
 
-            if(_.isEmpty(url)){
-                return reject(new TypeError('At least give a URL...'));
-            }
-
-            $.ajax({
-                url: url,
-                type: method || 'GET',
-                dataType: 'json',
-                headers: headers,
-                data : data,
-                beforeSend: function() {
-                    console.log('sending...');
-                },
-                global : !background//TODO fix this with TT-260
-            })
-            .done(function(response, status, xhr){
-                if (xhr.status === 204 || (response && response.errorCode === 204)){
-                    //no content, so resolve with empty data.
-                    return resolve();
+                if(_.isEmpty(url)){
+                    return reject(new TypeError('At least give a URL...'));
                 }
 
-                // handle case where token expired or invalid
-                // feedback?
-
-                if(response && response.success === true){
-                    //there's some data
-                    console.log('data', response.data);
-                    console.log('dataProvider/request received token', response.token);
-                    // store the response token for the next request
-                    tokenHandler.setToken(response.token || 'someToken' + ('' + Date.now()).slice(9));
-                    return resolve(response.data);
+                if (!noToken) {
+                    csrfToken = tokenHandler.getToken() || 'none';
+                    if (!csrfToken) {
+                        // request should wait for a token, or fail
+                    }
+                    headers = _.extend({}, headers, {
+                        'X-Requested-With': 'XMLHttpRequest', // already present in jQuery.ajax?
+                        'X-CSRF-Token': csrfToken
+                    });
                 }
 
-                //the server has handled the error
-                return reject(createError(response,  __('The server has sent an empty response'), xhr.status));
-            })
-            .fail(function(xhr){
-                var response;
-                try {
-                    response = JSON.parse(xhr.responseText);
-                } catch(parseErr){
-                    response = xhr.responseText;
-                }
+                console.log('dataProvider/request->request()', {
+                    url: url,
+                    method: method,
+                    headers: headers
+                });
 
-                return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                $.ajax({
+                    url: url,
+                    type: method || 'GET',
+                    dataType: 'json',
+                    headers: headers,
+                    data : data,
+                    beforeSend: function() {
+                        console.log('sending...');
+                    },
+                    global : !background//TODO fix this with TT-260
+                })
+                .done(function(response, status, xhr){
+                    if (xhr.status === 204 || (response && response.errorCode === 204)){
+                        //no content, so resolve with empty data.
+                        return resolve();
+                    }
+
+                    // handle case where token expired or invalid
+                    if (xhr.status === 401 || (response && response.errorCode === 401)){
+                        feedback().error(__('Unauthorised request'));
+                        reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                    }
+
+                    if(response && response.success === true){
+                        //there's some data
+                        console.log('response full header', xhr.getAllResponseHeaders());
+                        console.log('response header specific', xhr.getResponseHeader('X-CSRF-Token'));
+                        console.log('dataProvider/request received token', response.token);
+                        // store the response token for the next request
+                        tokenHandler.setToken(response.token || 'someToken' + ('' + Date.now()).slice(9));
+                        return resolve(response.data);
+                    }
+
+                    //the server has handled the error
+                    return reject(createError(response,  __('The server has sent an empty response'), xhr.status));
+                })
+                .fail(function(xhr){
+                    var response;
+                    try {
+                        response = JSON.parse(xhr.responseText);
+                    } catch(parseErr){
+                        response = xhr.responseText;
+                    }
+
+                    return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                });
             });
-        });
+        };
+
+        if (noToken === true) {
+            //no token protection, run the request
+            return runRequest();
+        }
+        else if (tokenHandler.getQueueLength() === 0) {
+            // no valid tokens, page refresh needed
+            return Promise.reject(new Error(__('Security token not present, please refresh page')));
+        }
+        else if (tokenHandler.getQueueLength() === 1) {
+            // limited tokens, sequential queue must be used
+            return queue.serie(runRequest);
+        }
+        else {
+            // tokens ready
+            return runRequest();
+        }
+
     };
 });
