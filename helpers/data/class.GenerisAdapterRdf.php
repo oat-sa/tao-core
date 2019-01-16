@@ -60,9 +60,9 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 
         if ($file->exists()) {
             $api = core_kernel_impl_ApiModelOO::singleton();
-            if (!is_null($destination)) {
+            if ($destination !== null) {
                 $targetNamespace = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
-            } elseif (!is_null($namespace)) {
+            } elseif ($namespace !== null) {
                 $targetNamespace = $namespace;
             } else {
                 $targetNamespace = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
@@ -87,9 +87,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      */
     public function export(core_kernel_classes_Class $source = null)
     {
-        $rdf = '';
-
-        if (is_null($source)) {
+        if ($source === null) {
             return core_kernel_api_ModelExporter::exportAll();
         }
 
@@ -113,13 +111,13 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     private function addClass(EasyRdf_Graph $graph, core_kernel_classes_Class $resource)
     {
         $this->addResource($graph, $resource);
-        foreach ($resource->getInstances(false) as $instance) {
+        foreach ($resource->getInstances() as $instance) {
             $this->addResource($graph, $instance);
         }
-        foreach ($resource->getSubClasses(false) as $subclass) {
+        foreach ($resource->getSubClasses() as $subclass) {
             $this->addClass($graph, $subclass);
         }
-        foreach ($resource->getProperties(false) as $property) {
+        foreach ($resource->getProperties() as $property) {
             $this->addResource($graph, $property);
         }
 
@@ -135,14 +133,36 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     private function addResource(EasyRdf_Graph $graph, core_kernel_classes_Resource $resource)
     {
         foreach ($resource->getRdfTriples() as $triple) {
-            if (!empty($triple->lg)) {
-                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object, $triple->lg);
-            } elseif (common_Utils::isUri($triple->object)) {
+            $language = !empty($triple->lg) ? $triple->lg : null;
+            if (common_Utils::isUri($triple->object)) {
+                if (strpos($triple->object, LOCAL_NAMESPACE) !== false) {
+                    continue;
+                }
                 $graph->add($triple->subject, $triple->predicate, $triple->object);
             } else {
-                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object);
+                if ($this->isSerializedFile($triple->object)) {
+                    continue;
+                }
+                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object, $language);
             }
         }
     }
 
+    /**
+     * Check if the given object is a serialized file reference
+     *
+     * @param string $object
+     * @return bool
+     * @see \oat\generis\model\fileReference\UrlFileSerializer::unserialize
+     */
+    private function isSerializedFile($object)
+    {
+        $isFile = false;
+        $type = substr($object, 0, strpos($object, ':'));
+        if (in_array($type, ['file', 'dir'])) {
+            $isFile = true;
+        }
+
+        return $isFile;
+    }
 }
