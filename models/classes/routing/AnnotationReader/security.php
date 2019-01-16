@@ -31,8 +31,8 @@ class security
 {
     /**
      * default value on class initialisation
-     * @security("hidden")
-     *   - hidden - not found
+     * @security("hide")
+     *   - hide - not found
      *   - deny - access denied
      *   - allow - access allowed
      */

@@ -38,7 +38,7 @@ class RouteAnnotationService extends ConfigurableService
         try {
             $annotations = $this->getAnnotations($className, $methodName);
             $hidden = array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
-                && in_array('hidden', $annotations[AnnotationReaderService::PROP_SECURITY], true);
+                && in_array('hide', $annotations[AnnotationReaderService::PROP_SECURITY], true);
         } catch (\Exception $e) {
             $hidden = false; // if class or method not found
         }

@@ -23,8 +23,12 @@ namespace oat\tao\model\routing\AnnotationReader;
 
 
 /**
- * Class RequiredRights
+ * Class requiredRights
  * @package oat\tao\model\routing\AnnotationReader
+ *
+ * @requiredRights(key="id", permission="READ")
+ * @requiredRights(key="uid", permission="GRANT")
+ *
  * @Annotation
  */
 class requiredRights

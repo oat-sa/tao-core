@@ -33,7 +33,7 @@ class TestingClass {
     /**
      * @requiredRights(key="id", permission="READ")
      * @requiredRights(key="uri", permission="WRITE")
-     * @security("hidden")
+     * @security("hide")
      * @security("allow")
      */
     public function someAction() {}
@@ -81,7 +81,7 @@ class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
                     'permission' => 'WRITE',
                 ],
             ],
-            'security' => ['hidden', 'allow'],
+            'security' => ['hide', 'allow'],
         ], $annotations);
     }
 

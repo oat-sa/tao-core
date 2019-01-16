@@ -45,7 +45,7 @@ class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
             if ($args[0] === 'class') {
                 switch ($args[1]) {
                     case 'notFoundAnnotation':
-                        return ['security' => ['hidden', 'allow']];
+                        return ['security' => ['hide', 'allow']];
                         break;
                     case 'requiresRightRead':
                         return [

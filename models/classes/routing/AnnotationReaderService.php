@@ -23,8 +23,8 @@ namespace oat\tao\model\routing;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\routing\AnnotationReader\RequiredRights;
-use oat\tao\model\routing\AnnotationReader\Security;
+use oat\tao\model\routing\AnnotationReader\requiredRights;
+use oat\tao\model\routing\AnnotationReader\security;
 use ReflectionMethod;
 
 class AnnotationReaderService extends ConfigurableService
@@ -67,17 +67,17 @@ class AnnotationReaderService extends ConfigurableService
         try {
             // we need to define class
             // we need to change autoloader file without this, on each environment
-            new RequiredRights();
-            new Security();
+            new requiredRights();
+            new security();
             $reflectionMethod = new ReflectionMethod($className, $methodName);
             $annotationReader = new AnnotationReader();
             $annotations = $annotationReader->getMethodAnnotations($reflectionMethod);
             foreach ($annotations as $annotation) {
                 switch (get_class($annotation)) {
-                    case RequiredRights::class :
+                    case requiredRights::class :
                         $rules[self::PROP_RIGHTS][] = (array) $annotation;
                         break;
-                    case Security::class :
+                    case security::class :
                         $rules[self::PROP_SECURITY][] = $annotation->value;
                         break;
                 }
