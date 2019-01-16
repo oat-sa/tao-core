@@ -32,7 +32,6 @@ abstract class AbsCl {}
 /**
  * Class BlCl
  * @package oat\test\model
- * @RouteAnnotation("hidden")
  */
 class BlCl {}
 
