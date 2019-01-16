@@ -54,6 +54,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\ControllerService;
 use oat\tao\model\routing\RouteAnnotationService;
 use oat\tao\model\security\xsrf\TokenService;
@@ -883,6 +884,11 @@ class Updater extends \common_ext_ExtensionUpdater {
             if (!$this->getServiceManager()->has(RouteAnnotationService::SERVICE_ID)) {
                 $annotationService = new RouteAnnotationService();
                 $this->getServiceManager()->register(RouteAnnotationService::SERVICE_ID, $annotationService);
+            }
+
+            if (!$this->getServiceManager()->has(AnnotationReaderService::SERVICE_ID)) {
+                $readerService = new AnnotationReaderService();
+                $this->getServiceManager()->register(AnnotationReaderService::SERVICE_ID, $readerService);
             }
 
             if (!$this->getServiceManager()->has(ControllerService::SERVICE_ID)) {

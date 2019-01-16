@@ -21,10 +21,11 @@
 
 namespace oat\tao\test\unit\model\routing;
 
+use oat\tao\model\routing\AnnotationReaderService;
 use oat\tao\model\routing\RouteAnnotationService;
-use oat\tao\test\unit\model\routing\sample\RouteAnnotationExample;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,14 +37,45 @@ class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $cacheService = $this->prophesize(\common_cache_Cache::class);
-        $cacheService->get(Argument::type('string'))->willThrow(new \common_cache_NotFoundException('PhpUnit exception'));
-        $cacheService->put(Argument::any(), Argument::any())->willReturn(true);
-        $this->service = new RouteAnnotationService([
-            'cacheService' => $cacheService->reveal()]
-        );
+        $this->service = new RouteAnnotationService();
         $logger = $this->prophesize(LoggerInterface::class);
         $this->service->setLogger($logger->reveal());
+        $annotationReaderService = $this->prophesize(AnnotationReaderService::class);
+        $annotationReaderService->getAnnotations(Argument::type('string'), Argument::type('string'))->will(function ($args) {
+            if ($args[0] === 'class') {
+                switch ($args[1]) {
+                    case 'notFoundAnnotation':
+                        return ['security' => ['hidden', 'allow']];
+                        break;
+                    case 'requiresRightRead':
+                        return [
+                            'required_rights' => [
+                                [
+                                    'key' => 'id',
+                                    'permission' => 'READ',
+                                ],
+                                [
+                                    'key' => 'uri',
+                                    'permission' => 'WRITE',
+                                ],
+                            ],
+                        ];
+                        break;
+                    case 'withoutAnnotation':
+                        return [];
+                        break;
+                }
+            }
+        });
+
+        /** @var ServiceLocatorInterface $serviceLocator */
+        $serviceLocator = $this->prophesize(ServiceLocatorInterface::class);
+        $serviceLocator->get(Argument::type('string'))->will(function ($args) use ($annotationReaderService) {
+            if ($args[0] === AnnotationReaderService::SERVICE_ID) {
+                return $annotationReaderService->reveal();
+            }
+        });
+        $this->service->setServiceLocator($serviceLocator->reveal());
     }
 
     public function testIncorrectClassName()
@@ -53,21 +85,21 @@ class RouteAnnotationServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testIsHidden()
     {
-        self::assertTrue($this->service->isHidden(RouteAnnotationExample::class, 'notFoundAnnotation'));
+        self::assertTrue($this->service->isHidden('class', 'notFoundAnnotation'));
     }
 
     public function testValidatePassed()
     {
-        self::assertTrue($this->service->hasAccess(RouteAnnotationExample::class, 'withoutAnnotation'));
+        self::assertTrue($this->service->hasAccess('class', 'withoutAnnotation'));
     }
 
     public function testHasAccessHidden()
     {
-        self::assertFalse($this->service->hasAccess(RouteAnnotationExample::class, 'notFoundAnnotation'));
+        self::assertFalse($this->service->hasAccess('class', 'notFoundAnnotation'));
     }
 
     public function testHasAccessRights()
     {
-        self::assertTrue($this->service->hasAccess(RouteAnnotationExample::class, 'requiresRightRead'));
+        self::assertTrue($this->service->hasAccess('class', 'requiresRightRead'));
     }
 }

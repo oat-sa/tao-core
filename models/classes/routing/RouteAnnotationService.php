@@ -22,36 +22,11 @@
 namespace oat\tao\model\routing;
 
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ConfigurableService;
-use ReflectionMethod;
 
 class RouteAnnotationService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/routeAnnotation';
-
-    const KEY_PREFIX = 'routeAnnotation_';
-
-    /**
-     * @var \common_cache_Cache
-     */
-    private $cacheService;
-
-    /**
-     * @return \common_cache_Cache
-     */
-    private function getCacheService()
-    {
-        if (!$this->cacheService) {
-            if ($this->hasOption('cacheService') && $this->getOption('cacheService') instanceof \common_cache_Cache) {
-                $this->cacheService = $this->getOption('cacheService');
-            } else {
-                $this->cacheService = $this->getServiceLocator()->get(\common_cache_Cache::SERVICE_ID);
-            }
-        }
-
-        return $this->cacheService;
-    }
 
     /**
      * @param string $className
@@ -61,13 +36,14 @@ class RouteAnnotationService extends ConfigurableService
     public function isHidden($className, $methodName)
     {
         try {
-            $annotation = $this->getAnnotation($className, $methodName);
-            $hasAction = $annotation instanceof RouteAnnotation && $annotation->getValue() === 'hidden';
+            $annotations = $this->getAnnotations($className, $methodName);
+            $hidden = array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
+                && in_array('hidden', $annotations[AnnotationReaderService::PROP_SECURITY], true);
         } catch (\Exception $e) {
-            $hasAction = false; // if class or method not found
+            $hidden = false; // if class or method not found
         }
 
-        return $hasAction;
+        return $hidden;
     }
 
     /**
@@ -79,17 +55,20 @@ class RouteAnnotationService extends ConfigurableService
     {
         $access = true;
         try {
-            $annotation = $this->getAnnotation($className, $methodName);
-            if ($annotation instanceof RouteAnnotation) {
-                switch ($annotation->getValue()) {
-                    case 'hidden':
-                        $access = false;
-                        break;
-                    case 'allow':
-                        $access = true;
-                        break;
-                    // any unsupported actions return false
-                    default: $access = false;
+            $annotations = $this->getAnnotations($className, $methodName);
+            if (array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)) {
+                foreach ($annotations[AnnotationReaderService::PROP_SECURITY] as $rule) {
+                    switch ($rule) {
+                        case 'hidden':
+                        case 'deny':
+                            $access = false;
+                            break;
+                        case 'allow':
+                            // do not change state (it will be allowed by default but closed by hidden & deny)
+                            break;
+                        // any unsupported actions return false
+                        default: $access = false;
+                    }
                 }
             }
         }  catch (\Exception $e) {
@@ -103,48 +82,20 @@ class RouteAnnotationService extends ConfigurableService
     {
         $res = [];
         try {
-            $annotation = $this->getAnnotation($className, $methodName);$rights = $annotation->getRequiredRights();
-            $rights = explode(',', trim($rights, '{}'));
-            foreach ($rights as $right) {
-                $rule = explode(':', $right);
-                $res[$rule[0]] = $rule[1];
+            $annotations = $this->getAnnotations($className, $methodName);
+            if (array_key_exists(AnnotationReaderService::PROP_RIGHTS, $annotations)) {
+                foreach ($annotations[AnnotationReaderService::PROP_RIGHTS] as $rule) {
+                    $res[$rule['key']] = $rule['permission'];
+                }
             }
         } catch (\Exception $e) { }
         return $res;
     }
 
-    /**
-     * @param $className
-     * @param $methodName
-     * @return RouteAnnotation
-     */
-    public function getAnnotation($className, $methodName)
+    private function getAnnotations($className, $methodName)
     {
-        $annotationKey = self::KEY_PREFIX . $className . $methodName;
-        try {
-            $annotation = unserialize($this->getCacheService()->get($annotationKey));
-        } catch (\common_cache_NotFoundException $e) {
-            $annotation = $this->readAnnotation($className, $methodName);
-            $this->getCacheService()->put(serialize($annotation), $annotationKey);
-        }
-
-        return $annotation;
-    }
-    
-    private function readAnnotation($className, $methodName)
-    {
-        $annotation = null;
-        try {
-            // we need to define class
-            // we need to change autoloader file without this, on each environment
-            new RouteAnnotation();
-            $reflectionMethod = new ReflectionMethod($className, $methodName);
-            $annotationReader = new AnnotationReader();
-            $annotation = $annotationReader->getMethodAnnotation($reflectionMethod, RouteAnnotation::class);
-        } catch (\Exception $e) {
-            $annotation = new RouteAnnotation();
-            $this->logNotice('Undefined annotation: ' . $e->getMessage());
-        }
-        return $annotation;
+        return $this->getServiceLocator()
+            ->get(AnnotationReaderService::SERVICE_ID)
+            ->getAnnotations($className, $methodName);
     }
 }

@@ -14,40 +14,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
 
-namespace oat\tao\model\routing;
+namespace oat\tao\model\routing\AnnotationReader;
 
 
 /**
- * Class RouteAnnotation
+ * Class RequiredRights
+ * @package oat\tao\model\routing\AnnotationReader
  * @Annotation
  */
-class RouteAnnotation
+class RequiredRights
 {
     /**
-     * default value on class initialisation
-     * @RouteAnnotation("value")
+     * @var string
+     * id, uri, resource_id ...
      */
-    public $value;
+    public $key;
 
     /**
-     * action value
-     * @RouteAnnotation("allow", "requiredRights" = "{id: READ, uri: WRITE, resource_id: GRANT}")
      * @var string
+     * READ, WRITE, GRAND
      */
-    public $requiredRights;
-
-    public function getRequiredRights()
-    {
-        return $this->requiredRights;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
-    }
+    public $permission;
 }

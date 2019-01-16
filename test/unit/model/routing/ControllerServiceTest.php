@@ -1,17 +1,28 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: zagovorychev
- * Date: 2019-01-10
- * Time: 17:27
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2019  (original work) Open Assessment Technologies SA;
+ *
+ * @author Oleksandr Zagovorychev <zagovorichev@gmail.com>
  */
 
 namespace oat\test\model;
 
 use oat\tao\model\routing\ControllerService;
-use oat\tao\model\routing\RouteAnnotation;
 use oat\tao\model\routing\RouteAnnotationService;
-use oat\tao\test\unit\model\routing\sample\RouteAnnotationExample;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -24,6 +35,13 @@ abstract class AbsCl {}
  * @RouteAnnotation("hidden")
  */
 class BlCl {}
+
+class RouteAnnotationExample {
+
+    protected function protectedAction(){}
+    public function notFoundAnnotation(){}
+    public function withoutAnnotation(){}
+}
 
 class ControllerServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -77,6 +95,9 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->getController(BlCl::class);
     }
 
+    /**
+     * @throws \oat\tao\model\routing\RouterException
+     */
     public function testGetController()
     {
         self::assertInstanceOf(RouteAnnotationExample::class,
@@ -85,7 +106,7 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \oat\tao\model\routing\RouterException
-     * @expectedExceptionMessage The method "protectedAction" is not public in the class "oat\tao\test\unit\model\routing\sample\RouteAnnotationExample"
+     * @expectedExceptionMessage The method "protectedAction" is not public in the class "oat\test\model\RouteAnnotationExample"
      */
     public function testGetNonPublicAction()
     {
@@ -104,7 +125,7 @@ class ControllerServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \oat\tao\model\routing\RouterException
-     * @expectedExceptionMessage Method oat\tao\test\unit\model\routing\sample\RouteAnnotationExample::methodNotExists() does not exist
+     * @expectedExceptionMessage Method oat\test\model\RouteAnnotationExample::methodNotExists() does not exist
      */
     public function testGetNonexistentAction()
     {
