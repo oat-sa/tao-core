@@ -191,7 +191,7 @@ define([
                     }
 
                     if (token.type === 'SUB') {
-                        if (!previous || previous.type === 'operator' || previous.token === 'LPAR') {
+                        if (!previous || previous.type === 'operator' || previous.type === 'function' || previous.token === 'LPAR') {
                             term.label = registeredTerms.NEG.label;
                             term.token = 'NEG';
                         }
