@@ -875,14 +875,28 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('21.5.0');
         }
 
-        $this->skip('21.5.0', '22.9.0');
+        $this->skip('21.5.0', '22.9.1');
 
-        if ($this->isVersion('22.9.0')) {
+        if ($this->isVersion('22.9.1')) {
+            OntologyUpdater::syncModels();
+
+            $iterator = new FileIterator(__DIR__ . '/../../locales/nl-BE/lang.rdf');
+            $rdf = ModelManager::getModel()->getRdfInterface();
+
+            /* @var \core_kernel_classes_Triple $triple */
+            foreach ($iterator as $triple) {
+                $rdf->add($triple);
+            }
+
+            $this->setVersion('22.10.0');
+        }
+
+        if ($this->isVersion('22.10.0')) {
             $this->getServiceManager()->register(
                 ActionProtector::SERVICE_ID,
                 new ActionProtector(['frameSourceWhitelist' => ['self']])
             );
-            $this->setVersion('22.10.0');
+            $this->setVersion('22.11.0');
         }
     }
 }
