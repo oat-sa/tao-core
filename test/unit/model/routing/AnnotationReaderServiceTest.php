@@ -22,8 +22,8 @@
 namespace oat\tao\test\unit\model\routing;
 
 use common_cache_Cache;
-use oat\tao\model\routing\AnnotationReader\RequiredRights;
-use oat\tao\model\routing\AnnotationReader\Security;
+use oat\tao\model\routing\AnnotationReader\requiredRights;
+use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\routing\AnnotationReaderService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -31,10 +31,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class TestingClass {
 
     /**
-     * @RequiredRights(key="id", permission="READ")
-     * @RequiredRights(key="uri", permission="WRITE")
-     * @Security("hidden")
-     * @Security("allow")
+     * @requiredRights(key="id", permission="READ")
+     * @requiredRights(key="uri", permission="WRITE")
+     * @security("hidden")
+     * @security("allow")
      */
     public function someAction() {}
 

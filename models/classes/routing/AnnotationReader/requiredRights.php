@@ -23,18 +23,21 @@ namespace oat\tao\model\routing\AnnotationReader;
 
 
 /**
- * Class Security
+ * Class RequiredRights
  * @package oat\tao\model\routing\AnnotationReader
  * @Annotation
  */
-class Security
+class requiredRights
 {
     /**
-     * default value on class initialisation
-     * @Security("hidden")
-     *   - hidden - not found
-     *   - deny - access denied
-     *   - allow - access allowed
+     * @var string
+     * id, uri, resource_id ...
      */
-    public $value;
+    public $key;
+
+    /**
+     * @var string
+     * READ, WRITE, GRAND
+     */
+    public $permission;
 }

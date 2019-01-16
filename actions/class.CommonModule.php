@@ -55,7 +55,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
 
     /**
      * tao_actions_CommonModule constructor.
-     * @Security("hidden");
+     * @security("hidden");
      */
     public function __construct()
     {
