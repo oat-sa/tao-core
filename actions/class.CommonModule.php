@@ -53,9 +53,9 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected $service;
 
     /**
-     * tao_actions_CommonModule constructor.
+     * Initialization for the controller.
      */
-    public function __construct()
+    public function initialize()
     {
         /** @var ActionProtector $actionProtector */
         $actionProtector = $this->getServiceManager()->get(ActionProtector::SERVICE_ID);

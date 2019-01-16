@@ -41,7 +41,7 @@ class ActionProtector extends ConfigurableService
     {
         $whitelistedSources = $this->getOption('frameSourceWhitelist');
         if (empty($whitelistedSources)) {
-            $whitelistedSources = ['none'];
+            $whitelistedSources = ["'none'"];
         }
 
         header(sprintf(
