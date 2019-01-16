@@ -24,6 +24,7 @@ define(['jquery'], function($){
 
     /**
      * Register a plugin that enable waiting for all media being loaded
+     * and all css files being loaded
      *
      * @fires loaded.wait - fired when a media has been loaded
      * @fires all-loaded.wait - fired when all media has been loaded
@@ -49,12 +50,13 @@ define(['jquery'], function($){
 
             var $container = $(this),
                 $img = $container.find('img[src]'),
-                count = $img.length,
+                $css = $(document).find('link[rel="stylesheet"]'),
+                count = $img.length + $css.length,
                 loaded = 0,
                 /**
-                 * The function to be executed whenever an image is considered loaded
+                 * The function to be executed whenever an source is considered loaded
                  */
-                imageLoaded = function () {
+                sourceLoaded = function () {
                     $(this)
                         .trigger('loaded' + _ns)
                         .off('load' + _ns)
@@ -66,7 +68,7 @@ define(['jquery'], function($){
                     }
                 };
 
-            if (count === 0) {
+                if (count === 0) {
                 allLoaded($container);
                 return;
             }
@@ -74,10 +76,20 @@ define(['jquery'], function($){
             $img.each(function(){
                 if(this.complete){
                     //the image is already loaded by the browser
-                    imageLoaded.call(this);
+                    sourceLoaded.call(this);
                 }else{
                     //the image is not yet loaded : add "load" listener
-                    $(this).on('load' + _ns + ' error' + _ns, imageLoaded);
+                    $(this).on('load' + _ns + ' error' + _ns, sourceLoaded);
+                }
+            });
+
+            $css.each(function(){
+                if(this.sheet){
+                    //the css is already loaded by the browser
+                    sourceLoaded.call(this);
+                }else{
+                    //the css is not yet loaded : add "load" listener
+                    $(this).on('load' + _ns + ' error' + _ns, sourceLoaded);
                 }
             });
 
