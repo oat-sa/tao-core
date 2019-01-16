@@ -21,7 +21,8 @@
  */
 define([
     'jquery',
-    'lodash'
+    'lodash',
+    'jquery.cookie'
 ],
 function ($, _) {
     'use strict';
@@ -40,6 +41,7 @@ function ($, _) {
      * @returns {tokenHandler}
      */
     function tokenHandlerFactory(config) { // initialToken) {
+        console.log('tokenHandlerFactory()'); // called 3 times on TR load
 
         // Initialise queue, empty queue will produce a null token
         var tokenQueue = [];
@@ -54,9 +56,11 @@ function ($, _) {
         }
 
         // Hardcode cookie tokens
-        $.cookie('tao_tokens', 'a;b;c;d;e;f;g;h;i;j;k;l');
+        //$.cookie('tao_tokens', 'a;b;c;d;e;f;g;h;i;j;k;l'); // these basic tokens work in backend, not in TR
+        $.cookie('tao_tokens', null);
 
         if (tokenQueue.length === 0) {
+            console.log('initial cookie read');
             setQueue(readCookieTokens('tao_tokens'));
             console.info('Q:', tokenQueue);
         }
@@ -67,9 +71,11 @@ function ($, _) {
          * @returns {Array}
          */
         function readCookieTokens(name) {
+            console.log('reading cookie');
             var tokenList = $.cookie(name);
-            $.cookie(name, '');
+            $.cookie(name, null);
             if (tokenList) {
+                console.log('Found', tokenList.split(';').length, 'new tokens in token cookie');
                 return tokenList.split(';');
             }
             return [];
@@ -108,7 +114,14 @@ function ($, _) {
              * @returns {String}
              */
             getToken: function getToken() {
-                var currentToken = tokenQueue.length ? tokenQueue.shift().value : null ;
+                var currentToken;
+                console.log('getToken');
+                if (tokenQueue.length === 0) {
+                    // check the cookie again if we're truly out of tokens
+                    setQueue(readCookieTokens('tao_tokens'));
+                    console.info('Q:', tokenQueue);
+                }
+                currentToken = tokenQueue.length ? tokenQueue.shift().value : null;
                 console.log('tokenHandler.getToken (shift)', currentToken);
                 return currentToken;
             },
@@ -140,6 +153,14 @@ function ($, _) {
             getQueueLength: function getQueueLength() {
                 return tokenQueue.length;
             }
+
+            /**
+             * Set the max size of the internal tokenHandler's token pool
+             * @param {Number} size - the new token pool size
+             */
+            // setMaxPoolSize: function setMaxPoolSize(size) {
+            //     config.maxPoolSize = size;
+            // }
         };
     }
 

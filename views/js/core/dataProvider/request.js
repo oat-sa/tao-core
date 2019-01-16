@@ -36,10 +36,12 @@ define([
     'core/promiseQueue',
     'core/tokenHandler',
     'ui/feedback'
-], function($, _, __, Promise, queue, tokenHandlerFactory, feedback){
+], function($, _, __, Promise, promiseQueue, tokenHandlerFactory, feedback){
     'use strict';
 
-    var tokenHandler = tokenHandlerFactory({ maxPoolSize: 2 });
+    var tokenHandler = tokenHandlerFactory();
+
+    var queue = promiseQueue();
 
     /**
      * Create a new error based on the given response
@@ -70,9 +72,10 @@ define([
      * @param {Object} [headers] - the HTTP header
      * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
      * @param {Boolean} [noToken] - to disable the token
+     * @param {Object} [ajaxParams] - extra parameters for the internal $.ajax() call
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    return function request(url, data, method, headers, background, noToken){
+    return function request(url, data, method, headers, background, noToken, ajaxParams){
 
         // Function wrapper so the contents can be run now or added to a queue
         var runRequest = function runRequest() {
@@ -91,7 +94,8 @@ define([
                     }
                     headers = _.extend({}, headers, {
                         'X-Requested-With': 'XMLHttpRequest', // already present in jQuery.ajax?
-                        'X-CSRF-Token': csrfToken
+                        'X-CSRF-Token': csrfToken,
+                        'X-Auth-Token': csrfToken  // header for current TR only
                     });
                 }
 
@@ -101,7 +105,7 @@ define([
                     headers: headers
                 });
 
-                $.ajax({
+                $.ajax(_.defaults({
                     url: url,
                     type: method || 'GET',
                     dataType: 'json',
@@ -111,7 +115,7 @@ define([
                         console.log('sending...');
                     },
                     global : !background//TODO fix this with TT-260
-                })
+                }, ajaxParams))
                 .done(function(response, status, xhr){
                     if (xhr.status === 204 || (response && response.errorCode === 204)){
                         //no content, so resolve with empty data.
@@ -131,7 +135,7 @@ define([
                         console.log('dataProvider/request received token', response.token);
                         // store the response token for the next request
                         tokenHandler.setToken(response.token || 'someToken' + ('' + Date.now()).slice(9));
-                        return resolve(response.data);
+                        return resolve(response);   // response.data ?
                     }
 
                     //the server has handled the error
@@ -154,10 +158,10 @@ define([
             //no token protection, run the request
             return runRequest();
         }
-        else if (tokenHandler.getQueueLength() === 0) {
-            // no valid tokens, page refresh needed
-            return Promise.reject(new Error(__('Security token not present, please refresh page')));
-        }
+        // else if (tokenHandler.getQueueLength() === 0) {
+        //     // no valid tokens, page refresh needed
+        //     return Promise.reject(new Error(__('Security token not present, please refresh page')));
+        // }
         else if (tokenHandler.getQueueLength() === 1) {
             // limited tokens, sequential queue must be used
             return queue.serie(runRequest);
