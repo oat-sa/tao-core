@@ -73,9 +73,10 @@ define([
      * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
      * @param {Boolean} [noToken] - to disable the token
      * @param {Object} [ajaxParams] - extra parameters for the internal $.ajax() call
+     * @param {Boolean} [returnXhr = false] - if false, returns response.data, otherwise response (for TR API)
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
-    return function request(url, data, method, headers, background, noToken, ajaxParams){
+    return function request(url, data, method, headers, background, noToken, ajaxParams, returnXhr){
 
         // Function wrapper so the contents can be run now or added to a queue
         var runRequest = function runRequest() {
@@ -88,7 +89,7 @@ define([
                 }
 
                 if (!noToken) {
-                    csrfToken = tokenHandler.getToken() || 'none';
+                    csrfToken = tokenHandler.getToken() || 'none'; // FIXME:
                     if (!csrfToken) {
                         // request should wait for a token, or fail
                     }
@@ -117,6 +118,13 @@ define([
                     global : !background//TODO fix this with TT-260
                 }, ajaxParams))
                 .done(function(response, status, xhr){
+                    console.log('response', response);
+                    console.log('response full header', xhr.getAllResponseHeaders());
+                    console.log('response header specific', xhr.getResponseHeader('X-CSRF-Token'));
+                    console.log('dataProvider/request received token', response.token);
+                    // store the response token for the next request
+                    tokenHandler.setToken(response.token || 'someToken' + ('' + Date.now()).slice(9));
+
                     if (xhr.status === 204 || (response && response.errorCode === 204)){
                         //no content, so resolve with empty data.
                         return resolve();
@@ -130,12 +138,7 @@ define([
 
                     if(response && response.success === true){
                         //there's some data
-                        console.log('response full header', xhr.getAllResponseHeaders());
-                        console.log('response header specific', xhr.getResponseHeader('X-CSRF-Token'));
-                        console.log('dataProvider/request received token', response.token);
-                        // store the response token for the next request
-                        tokenHandler.setToken(response.token || 'someToken' + ('' + Date.now()).slice(9));
-                        return resolve(response);   // response.data ?
+                        return resolve(returnXhr ? response : response.data);   // response.data for non-TR?
                     }
 
                     //the server has handled the error

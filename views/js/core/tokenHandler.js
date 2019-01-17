@@ -22,9 +22,11 @@
 define([
     'jquery',
     'lodash',
+    'i18n',
+    'ui/feedback',
     'jquery.cookie'
 ],
-function ($, _) {
+function ($, _, __, feedback) {
     'use strict';
 
     var defaults = {
@@ -48,38 +50,38 @@ function ($, _) {
 
         config = _.defaults({}, config, defaults);
 
-        if (config.initialToken) {
-            tokenQueue.push({
-                value: config.initialToken,
-                receivedAt: Date.now()
-            });
-        }
+        // if (config.initialToken) {
+        //     tokenQueue.push({
+        //         value: config.initialToken,
+        //         receivedAt: Date.now()
+        //     });
+        // }
 
         // Hardcode cookie tokens
         //$.cookie('tao_tokens', 'a;b;c;d;e;f;g;h;i;j;k;l'); // these basic tokens work in backend, not in TR
-        $.cookie('tao_tokens', null);
+        //$.cookie('tao_tokens', null);
 
-        if (tokenQueue.length === 0) {
-            console.log('initial cookie read');
-            setQueue(readCookieTokens('tao_tokens'));
-            console.info('Q:', tokenQueue);
-        }
+        // if (tokenQueue.length === 0) {
+        //     console.log('initial cookie read');
+        //     setQueue(readCookieTokens('tao_tokens'));
+        //     console.info('Q:', tokenQueue);
+        // }
 
         /**
          * Reads token strings from a cookie
          * @param {String} name - name of the cookie
          * @returns {Array}
          */
-        function readCookieTokens(name) {
-            console.log('reading cookie');
-            var tokenList = $.cookie(name);
-            $.cookie(name, null);
-            if (tokenList) {
-                console.log('Found', tokenList.split(';').length, 'new tokens in token cookie');
-                return tokenList.split(';');
-            }
-            return [];
-        }
+        // function readCookieTokens(name) {
+        //     console.log('reading cookie');
+        //     var tokenList = $.cookie(name);
+        //     $.cookie(name, null);
+        //     if (tokenList) {
+        //         console.log('Found', tokenList.split(';').length, 'new tokens in token cookie');
+        //         return tokenList.split(';');
+        //     }
+        //     return [];
+        // }
 
         /**
          * Sets the whole queue of tokens in one go
@@ -103,9 +105,9 @@ function ($, _) {
          * @param {String} token
          * @returns {Boolean}
          */
-        function isExpired(token) {
-            return Date.now() - token.receivedAt > config.tokenTimeLimit;
-        }
+        // function isExpired(token) {
+        //     return Date.now() - token.receivedAt > config.tokenTimeLimit;
+        // }
 
         return {
             /**
@@ -118,8 +120,15 @@ function ($, _) {
                 console.log('getToken');
                 if (tokenQueue.length === 0) {
                     // check the cookie again if we're truly out of tokens
-                    setQueue(readCookieTokens('tao_tokens'));
-                    console.info('Q:', tokenQueue);
+                    //setQueue(readCookieTokens('tao_tokens'));
+                    this.fetchNewTokens()
+                        .then(function(tokens) {
+                            setQueue(_.map(tokens, 'value'));
+                            console.info('Q:', tokenQueue);
+                            currentToken = tokenQueue.length ? tokenQueue.shift().value : null;
+                            console.log('tokenHandler.getToken (shift)', currentToken);
+                            return currentToken;
+                        });
                 }
                 currentToken = tokenQueue.length ? tokenQueue.shift().value : null;
                 console.log('tokenHandler.getToken (shift)', currentToken);
@@ -144,6 +153,28 @@ function ($, _) {
                 console.log('tokenHandler.setToken (push)', newToken);
                 console.info('Q:', tokenQueue);
                 return this;
+            },
+
+            /**
+             * Makes a request to the CSRF tokens endpoint for a new set of tokens
+             *
+             * @returns {Promise} - array of tokens
+             */
+            fetchNewTokens: function fetchNewTokens() {
+                return new Promise(function(resolve, reject){
+                    $.ajax({
+                        url: 'http://127.0.0.1:3697/csrf-tokens',
+                        dataType: 'json',
+                        data : null,
+                    })
+                    .success(function(response) {
+                        resolve(response);
+                    })
+                    .error(function() {
+                        feedback().error(__('No tokens retrieved'));
+                        reject([]);
+                    });
+                });
             },
 
             /**
