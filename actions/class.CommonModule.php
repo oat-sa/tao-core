@@ -20,6 +20,7 @@
  *
  */
 
+use oat\tao\model\action\CommonModuleInterface;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
@@ -40,7 +41,7 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @package tao
  *
  */
-abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface
+abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface, CommonModuleInterface
 {
     use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
     use LoggerAwareTrait;
@@ -53,7 +54,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected $service;
 
     /**
-     * Initialization for the controller.
+     * @inheritdoc
      */
     public function initialize()
     {
