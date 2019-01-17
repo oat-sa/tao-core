@@ -163,6 +163,9 @@ class JsonLdExport implements \JsonSerializable
             }
         }
 
+        // Enforce serialization to object if context is empty
+        $data['@context'] = (object) $data['@context'];
+
         return $data;
     }
     
