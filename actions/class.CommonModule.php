@@ -54,6 +54,11 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     protected $service;
 
     /**
+     * tao_actions_CommonModule constructor.
+     */
+    public function __construct() {}
+
+    /**
      * @inheritdoc
      */
     public function initialize()
