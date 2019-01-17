@@ -22,6 +22,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 		 * @param {Object} options
 		 */
 		init: function(selector, dataUrl, options) {
+			this.loadedData = null;
 			this.checkedNodes = (typeof options.checkedNodes !== "undefined") ? options.checkedNodes.slice(0) : [];
 			this.hiddenNodes = (typeof options.hiddenNodes !== "undefined") ? options.hiddenNodes.slice(0) : [];
 			if (options.callback && options.callback.checkPaginate) {
@@ -134,6 +135,9 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 						if (DATA.children) {
 							DATA.state = 'open';
 						}
+
+						//saving response data
+						instance.loadedData = DATA;
 
 						//extract meta data from children
 						instance.extractMeta(DATA);
