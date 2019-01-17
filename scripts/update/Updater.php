@@ -888,10 +888,10 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $rdf->add($triple);
             }
 
-            $this->setVersion('22.10.0');
+            $this->setVersion('22.10.2');
         }
 
-        if ($this->isVersion('22.10.0')) {
+        if ($this->isVersion('22.10.2')) {
             $this->getServiceManager()->register(
                 ActionProtector::SERVICE_ID,
                 new ActionProtector(['frameSourceWhitelist' => ['self']])
