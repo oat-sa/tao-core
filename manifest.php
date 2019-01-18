@@ -170,9 +170,9 @@ return array(
     ),
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint93',
+        'TAO_VERSION' => '3.3.0-sprint94',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint93',
+        'TAO_VERSION_NAME' => '3.3.0-sprint94',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
