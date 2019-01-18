@@ -810,9 +810,9 @@ define([
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), registeredTerms.SQRT.label, 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '-', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'SUB', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NEG', 'the operator is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '-', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.expression .term:eq(1)').text().trim(), registeredTerms.NEG.label, 'the operator is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
@@ -858,9 +858,9 @@ define([
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), registeredTerms.SQRT.label, 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '-', 'the operator is transformed - data-value');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'SUB', 'the operator is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').data('token'), 'NEG', 'the operator is transformed - data-token');
                                     assert.equal($screen.find('.history .history-expression .term:eq(1)').data('type'), 'operator', 'the operator is transformed - data-type');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), '-', 'the operator is transformed - content');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(1)').text().trim(), registeredTerms.NEG.label, 'the operator is transformed - content');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
@@ -1454,7 +1454,7 @@ define([
             expression: 'PI',
             value: 'PI',
             type: 'constant',
-            label: '\u03C0'
+            label: registeredTerms.PI.label
         }, {
             title: '3',
             term: 'NUM3',
@@ -1475,7 +1475,7 @@ define([
             expression: 'sqrt ',
             value: 'sqrt',
             type: 'function',
-            label: '\u221A'
+            label: registeredTerms.SQRT.label
         }])
         .asyncTest('0 and const', function (data, assert) {
             var $container = $('#fixture-zero-const');
@@ -1686,7 +1686,7 @@ define([
             expression: 'PI',
             value: 'PI',
             type: 'constant',
-            label: '\u03C0'
+            label: registeredTerms.PI.label
         }, {
             title: '3',
             term: 'NUM3',
@@ -1707,7 +1707,7 @@ define([
             expression: 'sqrt ',
             value: 'sqrt',
             type: 'function',
-            label: '\u221A'
+            label: registeredTerms.SQRT.label
         }])
         .asyncTest('ans and const', function (data, assert) {
             var $container = $('#fixture-ans-const');
@@ -1785,10 +1785,94 @@ define([
                 });
         });
 
+    QUnit
+        .cases([{
+            title: '-3',
+            expression: '-3',
+            text: registeredTerms.NEG.label + '3'
+        }, {
+            title: '-PI',
+            expression: '-PI',
+            text: registeredTerms.NEG.label + registeredTerms.PI.label
+        }, {
+            title: 'PI-3',
+            expression: 'PI-3',
+            text: registeredTerms.PI.label + '-3'
+        }, {
+            title: '4*-3',
+            expression: '4*-3',
+            text: '4' + registeredTerms.MUL.label + registeredTerms.NEG.label + '3'
+        }, {
+            title: '4-3',
+            expression: '4-3',
+            text: '4-3'
+        }, {
+            title: '4*(-3+2)',
+            expression: '4*(-3+2)',
+            text: '4' + registeredTerms.MUL.label + '(' + registeredTerms.NEG.label + '3+2)'
+        }, {
+            title: '4*(3+2)-5',
+            expression: '4*(3+2)-5',
+            text: '4' + registeredTerms.MUL.label + '(3+2)-5'
+        }, {
+            title: 'sin-5',
+            expression: 'sin-5',
+            text: 'sin' + registeredTerms.NEG.label + '5'
+        }])
+        .asyncTest('treatment of minus operator', function (data, assert) {
+            var $container = $('#fixture-minus-operator');
+            var calculator = calculatorBoardFactory($container)
+                .on('ready', function () {
+                    var areaBroker = calculator.getAreaBroker();
+                    var plugin = simpleScreenPluginFactory(calculator, areaBroker);
+
+                    QUnit.expect(5);
+
+                    calculator
+                        .on('plugin-render.simpleScreen', function () {
+                            assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
+                        })
+                        .on('destroy', function () {
+                            QUnit.start();
+                        });
+
+                    plugin.install()
+                        .then(function () {
+                            return plugin.init();
+                        })
+                        .then(function () {
+                            return plugin.render();
+                        })
+                        .then(function () {
+                            var $screen = $container.find('.calculator-screen .expression');
+                            var termsCount = calculator.getTokenizer().tokenize(data.expression).length;
+                            assert.equal(areaBroker.getScreenArea().find('.calculator-screen .expression').length, 1, 'The screen layout has been inserted');
+
+                            calculator.replace(data.expression);
+
+                            assert.equal(calculator.getExpression(), data.expression, 'The expression should be set to ' + data.expression);
+                            assert.equal($screen.find('.term').length, termsCount, 'The expression has been splitted in ' + termsCount + ' tokens');
+                            assert.equal($screen.text(), data.text, 'the expected text is set');
+                        })
+                        .catch(function (err) {
+                            assert.ok(false, 'Unexpected failure : ' + err.message);
+                        })
+                        .then(function () {
+                            plugin.destroy();
+                            calculator.destroy();
+                        });
+                })
+                .on('error', function (err) {
+                    console.error(err);
+                    assert.ok(false, 'The operation should not fail!');
+                    QUnit.start();
+                });
+        });
+
     QUnit.module('visual test');
 
     QUnit.asyncTest('screen', function (assert) {
-        var expression = '3*sqrt 3/2+(2+x)*4-sin PI/2';
+        var expression = '3*sqrt 3/2+(-2+x)*4-sin PI/2';
         var $container = $('#visual-test .calculator');
         var $input = $('#visual-test .input');
         calculatorBoardFactory($container, [simpleScreenPluginFactory])

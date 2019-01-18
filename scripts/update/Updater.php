@@ -54,6 +54,7 @@ use oat\tao\model\notification\implementation\NotificationServiceAggregator;
 use oat\tao\model\notification\implementation\RdsNotification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\security\ActionProtector;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStoreSession;
 use oat\tao\model\service\ApplicationService;
@@ -887,7 +888,19 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $rdf->add($triple);
             }
 
-            $this->setVersion('22.11.0');
+            $this->setVersion('22.10.2');
         }
+
+        $this->skip('22.10.0', '22.12.0');
+
+        if ($this->isVersion('22.12.0')) {
+            $this->getServiceManager()->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(['frameSourceWhitelist' => ['self']])
+            );
+            $this->setVersion('22.13.0');
+        }
+
+        $this->skip('22.13.0', '22.14.0');
     }
 }
