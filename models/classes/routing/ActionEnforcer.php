@@ -22,11 +22,14 @@ namespace oat\tao\model\routing;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\Stream;
+use function GuzzleHttp\Psr7\stream_for;
 use IExecutable;
 use ActionEnforcingException;
+use oat\oatbox\http\ResponseEmitter;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\tao\controller\Controller;
+use oat\oatbox\http\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionMethod;
@@ -37,7 +40,7 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\accessControl\data\PermissionException;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\oatbox\service\ServiceManager;
+
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\BeforeAction;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -187,13 +190,16 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
 	        call_user_func_array(array($controller, $action), $tabParam);
 
+	        /** @var ResponseInterface $response */
+            $response = $controller->getResponse();
 	        // Render the view if selected.
 	        if ($controller->hasView()) {
-	            $renderer = $controller->getRenderer();
-	            echo $renderer->render();
+	            $response = $response->withBody(stream_for($controller->getRenderer()->render()));
 	        }
-	    }
-	    else {
+
+            $emitter = new ResponseEmitter();
+            $emitter($controller->getRequest(), $response);
+	    } else {
 	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",
 	            $this->getControllerClass(),
 	            $this->getAction());

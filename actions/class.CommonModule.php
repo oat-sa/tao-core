@@ -29,7 +29,7 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\controller\Controller;
+use oat\oatbox\http\Controller;
 
 /**
  * Top level controller
