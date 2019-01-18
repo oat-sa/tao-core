@@ -92,8 +92,7 @@ class tao_install_services_CheckFileSystemComponentService
 
         if (isset($content['value']['mustCheckIfEmpty'])) {
             $mustCheckIfEmpty = $content['value']['mustCheckIfEmpty'];
-        }
-        else{
+        } else {
             $mustCheckIfEmpty = false;
         }
         
