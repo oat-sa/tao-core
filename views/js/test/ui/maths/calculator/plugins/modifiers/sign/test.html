@@ -2,15 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Ui Test - Default Calculator</title>
-    <base href="../../../../../../" />
-    <link rel="stylesheet" type="text/css" href="css/tao-main-style.css" />
-    <link rel="stylesheet" type="text/css" href="css/tao-3.css" />
+    <title>Ui Test - Calculator Plugin: sign</title>
+    <base href="../../../../../../../../" />
     <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
     <script type="text/javascript" src="js/lib/require.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
     <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/maths/calculator/defaultCalculator.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flag="branchTracking"  data-cover-only="ui/maths/calculator/plugins/modifiers/sign.js"></script>
 
     <script  type="text/javascript">
 
@@ -21,32 +19,21 @@
         require(['/tao/ClientConfig/config'], function(){
 
             //load the test
-            require(['test/ui/maths/calculator/defaultCalculator/test'], function(){
+            require(['test/ui/maths/calculator/plugins/modifiers/sign/test'], function(){
 
                 //Tests loaded, run tests
                 QUnit.start();
             });
         });
     </script>
-    <style>
-        #visual-test {
-            position: relative;
-            background: #ccc;
-            height: 500px;
-            width: 1000px;
-        }
-    </style>
 </head>
 <body>
 <div id="qunit"></div>
 <div id="qunit-fixture">
-    <div id=fixture-api></div>
+    <div id=fixture-install></div>
     <div id=fixture-init></div>
-    <div id=fixture-render></div>
-    <div id=fixture-template></div>
-    <div id=fixture-plugin></div>
     <div id=fixture-destroy></div>
+    <div id=fixture-sign></div>
 </div>
-<div id="visual-test"></div>
 </body>
 </html>

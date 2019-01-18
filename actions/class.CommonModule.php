@@ -64,7 +64,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
     public function initialize()
     {
         /** @var ActionProtector $actionProtector */
-        $actionProtector = $this->getServiceManager()->get(ActionProtector::SERVICE_ID);
+        $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
         $actionProtector->setFrameAncestorsHeader();
     }
 

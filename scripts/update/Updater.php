@@ -891,12 +891,14 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('22.10.2');
         }
 
-        if ($this->isVersion('22.10.2')) {
+        $this->skip('22.10.0', '22.12.0');
+
+        if ($this->isVersion('22.12.0')) {
             $this->getServiceManager()->register(
                 ActionProtector::SERVICE_ID,
                 new ActionProtector(['frameSourceWhitelist' => ['self']])
             );
-            $this->setVersion('22.11.0');
+            $this->setVersion('22.13.0');
         }
     }
 }

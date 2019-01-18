@@ -562,7 +562,7 @@ define([
 
             return new Promise(function (resolve, reject) {
                 var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
-                var selectedUri = _.pluck(actionContext, 'uri');
+                var selectedUri = _.pluck(actionContext, 'id');
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {

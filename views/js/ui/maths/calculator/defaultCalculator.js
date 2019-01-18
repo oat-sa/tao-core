@@ -32,19 +32,6 @@ define([
     'use strict';
 
     /**
-     * The list of UI plugins the simple calculator is using
-     * @type {Object}
-     */
-    var defaultCalculatorPlugins = {
-        keyboard: [
-            pluginKeyboardFactory
-        ],
-        screen: [
-            pluginScreenFactory
-        ]
-    };
-
-    /**
      * Creates a simple calculator component. Screen and keyboard layout are replaceable.
      * @param {Object} config - Some config entries (@see ui/dynamicComponent)
      * @param {Function} [config.keyboardLayout] - A Handlebars template for the keyboard
@@ -68,7 +55,17 @@ define([
         }
 
         config = _.merge({
-            loadedPlugins: defaultCalculatorPlugins,
+            // The list of default plugins is directly built here instead of using a module variable to ensure the
+            // object is unique to the instance. This wil avoid global polluting by successive instances, as nested
+            // objects and arrays might be simply copied.
+            loadedPlugins: {
+                keyboard: [
+                    pluginKeyboardFactory
+                ],
+                screen: [
+                    pluginScreenFactory
+                ]
+            },
             calculator: {
                 plugins: defaultPluginsConfig
             }
