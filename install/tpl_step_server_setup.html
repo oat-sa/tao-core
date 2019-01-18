@@ -67,9 +67,20 @@
                       <input type="text" id="operated_by_email" name="operated_by_email" class="tao-input" title="e.g. contact@myorganization.com"/>
                       <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_operated_by_email" class="ui-icon ui-icon-help"></a></div>
                     </li>
+                    <li>
+                        <label for="file_path">Enter the path to the directory where TAO will store files.</label><br />
+                        <input type="text" id="file_path" name="file_path" class="tao-input" title="e.g. /var/www/html/data/"/>
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_file_path" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
+                    </li>
+                    <li>
+                        <label for="file_path_overwrite">Overwrite TAO installation data folder if already exists?</label><br/>
+                        <input type="checkbox" id="file_path_overwrite" class="tao-input" value="overwrite" autocomplete="off"/><span class="checkboxLabel">Overwrite</span>
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_file_path_overwrite" class="ui-icon ui-icon-help"></a></div>
+                    </li>
                 </ul>
-                <input id="default_language" type="hidden" value="en-US" class="tao-input"/>        
+                <input id="default_language" type="hidden" value="en-US" class="tao-input"/>
                 <input id="submitForm" class="disabled" type="submit" value="Next" role="button" disabled="disabled"/>
+                <div id="server-setup" data-autoconfiguration="Checking server configuration..." data-next="Checking server configuration..."><span></span></div>
                 <p id="formComment"><span class="formExample">*</span> Required</p>
             </form>
         </div>

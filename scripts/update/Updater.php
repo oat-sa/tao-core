@@ -887,7 +887,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 $rdf->add($triple);
             }
 
-            $this->setVersion('22.10.0');
+            $this->setVersion('22.11.0');
         }
     }
 }
