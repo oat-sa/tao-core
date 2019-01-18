@@ -128,7 +128,7 @@ define([
 
         /**
          *
-         * @type {Object}}
+         * @type {Object}
          */
         var calculatorApi = {
             /**
@@ -182,7 +182,7 @@ define([
 
             /**
              * Gets the tokens from the current expression
-             * @returns {Array}
+             * @returns {token[]}
              */
             getTokens: function getTokens() {
                 if (tokens === null) {
@@ -192,13 +192,13 @@ define([
             },
 
             /**
-             * Gets the tokens from the current expression
-             * @returns {Object|null} Returns the token at the current position, or null if none
+             * Gets the token at the current position from the current expression
+             * @returns {token|null} Returns the token at the current position, or null if none
              */
             getToken: function getToken() {
-                var tkns = this.getTokens();
+                var tokensList = this.getTokens();
                 var index = this.getTokenIndex();
-                return tkns[index] || null;
+                return tokensList[index] || null;
             },
 
             /**
@@ -217,7 +217,7 @@ define([
 
             /**
              * Gets access to the tokenizer
-             * @returns {Object}
+             * @returns {calculatorTokenizer}
              */
             getTokenizer: function getTokenizer() {
                 return tokenizer;

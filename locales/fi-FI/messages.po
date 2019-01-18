@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint93\n"
-"PO-Revision-Date: 2019-01-04T13:31:16\n"
+"Project-Id-Version: TAO 3.3.0-sprint94\n"
+"PO-Revision-Date: 2019-01-18T10:15:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fi-FI\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -371,10 +371,13 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check all"
+msgid "Change the sign of the current operand"
 msgstr ""
 
 msgid "Check All"
+msgstr ""
+
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -419,10 +422,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -907,10 +910,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1678,6 +1681,9 @@ msgstr ""
 msgid "Show detailed report"
 msgstr ""
 
+msgid "Sign change"
+msgstr ""
+
 msgid "Simple Mode"
 msgstr ""
 
@@ -1969,10 +1975,13 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Unary operator -"
 msgstr ""
 
 msgid "Uncheck all"
+msgstr ""
+
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
