@@ -67,6 +67,17 @@ define([
     }
 
     /**
+     * @typedef {Object} token
+     * @property {String} type - The identifier of the token
+     * @property {String} value - The actual value of the token
+     * @property {String} text - The raw value that produced the token
+     * @property {Number} offset - The original offset in the source
+     * @property {Number} lineBreaks - How many line breaks are contained in the raw value
+     * @property {Number} line - The line number of the token (starting from 1)
+     * @property {Number} col - The column number of the token (starting from 1)
+     */
+
+    /**
      * Generates an expression tokenizer.
      *
      * @example

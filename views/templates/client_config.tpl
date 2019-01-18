@@ -59,8 +59,8 @@ require.config({
         ],
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'interact'          : 'lib/interact',
-        'd3'                : 'lib/d3js/d3.min',
-        'c3'                : 'lib/c3js/c3.min',
+        'd3'                : 'lib/d3js/d3',
+        'c3'                : 'lib/c3js/c3',
 //locale loader
         'i18ntr'            : '../locales/<?=get_data('locale')?>',
 //backward compat aliases

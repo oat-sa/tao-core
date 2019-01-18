@@ -86,8 +86,14 @@ define([
                 name : 'history',
                 items : ['Undo', 'Redo']
             },{
-                name : 'fontstyles',
-                items : ['TextColor','Font','FontSize']
+                name : 'textcolor',
+                items : ['TextColor']
+            },{
+                name : 'font',
+                items : ['Font']
+            },{
+                name: 'fontsize',
+                items : ['FontSize']
             }],
             htmlField : [{
                 name : 'basicstyles',

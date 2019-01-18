@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint93\n"
-"PO-Revision-Date: 2019-01-04T13:31:34\n"
+"Project-Id-Version: TAO 3.3.0-sprint94\n"
+"PO-Revision-Date: 2019-01-18T10:27:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "和"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr "已成功删除"
@@ -372,10 +372,13 @@ msgstr "更改密码"
 msgid "Change the password"
 msgstr "更改密码"
 
-msgid "Check all"
-msgstr "全部勾选"
+msgid "Change the sign of the current operand"
+msgstr ""
 
 msgid "Check All"
+msgstr "全部勾选"
+
+msgid "Check all"
 msgstr "全部勾选"
 
 msgid "Check-in"
@@ -420,10 +423,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -909,10 +912,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1680,6 +1683,9 @@ msgstr "设定值已更新"
 msgid "Show detailed report"
 msgstr "显示详细回报"
 
+msgid "Sign change"
+msgstr ""
+
 msgid "Simple Mode"
 msgstr "简单模式"
 
@@ -1971,10 +1977,13 @@ msgstr "无法上传文件"
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck All"
-msgstr "全部取消勾选"
+msgid "Unary operator -"
+msgstr ""
 
 msgid "Uncheck all"
+msgstr "全部取消勾选"
+
+msgid "Uncheck All"
 msgstr "全部取消勾选"
 
 msgid "Undefined amount of the pages for pagination"
