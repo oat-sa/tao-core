@@ -9,6 +9,7 @@
  * @require jstree = 0.9.9 [http://jstree.com/]
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Aliaksandr Katovich, <aliaksandr@taotesting.com>
  * @author Jehan Bihin (class)
  */
 
@@ -21,6 +22,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 		 * @param {Object} options
 		 */
 		init: function(selector, dataUrl, options) {
+			this.loadedData = null;
 			this.checkedNodes = (typeof options.checkedNodes !== "undefined") ? options.checkedNodes.slice(0) : [];
 			this.hiddenNodes = (typeof options.hiddenNodes !== "undefined") ? options.hiddenNodes.slice(0) : [];
 			if (options.callback && options.callback.checkPaginate) {
@@ -94,12 +96,15 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 							instance.check(instance.checkedNodes);
 						}
 					},
-					//
+					/**
+					 * Triggered actions when data was loaded
+					 * @param {Object} TREE_OBJ - the reference to the tree
+					 */
 					onload: function(TREE_OBJ) {
 						instance.check(instance.checkedNodes);
 
 						if (instance.options.loadCallback) {
-							instance.options.loadCallback();
+							instance.options.loadCallback(TREE_OBJ);
 						}
 
 						instance.isRefreshing = false;
@@ -130,13 +135,16 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 						if (DATA.children) {
 							DATA.state = 'open';
 						}
-                        
+
+						//saving response data
+						instance.loadedData = DATA;
+
 						//extract meta data from children
 						instance.extractMeta(DATA);
-                        
+
                         //remove hidden nodes from the data
                         instance.removeHiddenNodes(DATA.children || DATA);
-                        
+
 						return DATA;
 					}
 				},
@@ -157,16 +165,16 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 				e.data.instance.saveData();
 			});
 		},
-        
+
         /**
          * Remove configured hidden nodes from the DATA
          * @param {Array} nodes
          */
         removeHiddenNodes : function removeHiddenNodes(nodes){
-            
+
             var self = this;
             var hiddenNodes = this.hiddenNodes;
-            
+
             if(_.isArray(nodes) && hiddenNodes && _.isArray(hiddenNodes)){
                 _.remove(nodes, function(node){
                     if(node.type === 'instance'){
@@ -177,7 +185,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                 });
             }
         },
-        
+
 		trace: function() {
 			/*console.log('TRACE '+
 				arguments.callee.caller
@@ -200,7 +208,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 				"limit": instancesLeft < this.paginate ? instancesLeft : this.paginate
 			};
 			options = $.extend(options, pOptions);
-            
+
 			$.post(this.dataUrl, options, (function(instance) {return function(DATA) {
 				//Hide paginate options
 				instance.hidePaginate(NODE, TREE_OBJ);

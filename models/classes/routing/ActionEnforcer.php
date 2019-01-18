@@ -22,7 +22,6 @@ namespace oat\tao\model\routing;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use GuzzleHttp\Psr7\Stream;
 use function GuzzleHttp\Psr7\stream_for;
 use IExecutable;
 use ActionEnforcingException;
@@ -61,9 +60,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     private $extension;
 
     private $controllerClass;
-
     private $action;
-
     private $parameters;
 
     private $request;
@@ -102,6 +99,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
                 $controller->setRequest($this->getRequest());
                 $controller->setResponse($this->getResponse());
             }
+            $controller->initialize();
             return $controller;
         } else {
             throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint33\n"
-"PO-Revision-Date: 2016-08-25T14:32:46\n"
+"Project-Id-Version: TAO 3.3.0-sprint94\n"
+"PO-Revision-Date: 2019-01-18T10:20:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -19,11 +19,14 @@ msgstr ""
 msgid " and "
 msgstr " と "
 
+msgid " AND "
+msgstr ""
+
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
 
-msgid " has been installed"
-msgstr " インストールしました"
+msgid " is "
+msgstr ""
 
 msgid " next"
 msgstr " 次"
@@ -33,6 +36,9 @@ msgstr " サブグリッドアダプタが必要です"
 
 msgid "%1$s expected but %2$s detected"
 msgstr "%1$s予想、%2$sを検出しました"
+
+msgid "%d attempts left before your account is locked."
+msgstr ""
 
 msgid "%d day"
 msgstr "%d 日"
@@ -58,14 +64,26 @@ msgstr "%m 月"
 msgid "%m months"
 msgstr "%m ヶ月"
 
+msgid "%s %s selected"
+msgstr ""
+
 msgid "%s (%s kb)"
 msgstr "%s (%s kb)"
 
 msgid "%s Class saved"
 msgstr "%s クラスを保存しました"
 
+msgid "%s classes"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr ""
+
 msgid "%s could not be released"
 msgstr "%s は公開できません"
+
+msgid "%s created"
+msgstr ""
 
 msgid "%s extension(s) to install."
 msgstr "%s 拡張機能をインストール"
@@ -75,6 +93,9 @@ msgstr "%s は削除されました"
 
 msgid "%s has been released"
 msgstr "%s　は公開されました"
+
+msgid "%s instances"
+msgstr ""
 
 msgid "%s is of a type that cannot be published"
 msgstr "%s は公開できないタイプです"
@@ -103,20 +124,32 @@ msgstr "<del>フィルタ</del>"
 msgid "<del>Options</del>"
 msgstr "<del>オプション</del>"
 
+msgid "<strong> %s </strong> has been moved to the background."
+msgstr ""
+
 msgid "> Extension %s succesfully installed."
 msgstr ">　拡張機能　%s のインストールが終了しました"
 
 msgid "> Installation done."
 msgstr ">　インストール完了"
 
+msgid "a class"
+msgstr ""
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr ""
+
 msgid "A fatal error occured during the installation process."
 msgstr "致命的なエラーがインストール中に発生しました"
+
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
+msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "詳しい手順とメッセージがあなたのメールアドレスに送信されました：%s"
 
-msgid "A similar resource has already been versioned"
-msgstr "同様のリソースがすでにバージョン管理されています"
+msgid "Absolute value"
+msgstr ""
 
 msgid "Access Denied"
 msgstr "アクセスが拒否されました"
@@ -124,8 +157,20 @@ msgstr "アクセスが拒否されました"
 msgid "Access denied. Please renew your authentication!"
 msgstr "アクセスが拒否されました。あなたの認証を更新してください！"
 
+msgid "Account status"
+msgstr ""
+
 msgid "Action"
 msgstr "操作"
+
+msgid "Action %s - removed %s positions"
+msgstr ""
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr ""
+
+msgid "Action was not executed yet"
+msgstr ""
 
 msgid "Actions"
 msgstr "操作"
@@ -149,8 +194,23 @@ msgstr "ファイルを追加"
 msgid "Add property"
 msgstr "プロパティの追加"
 
+msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding the new class has failed"
+msgstr ""
+
+msgid "Adding the new resource has failed"
+msgstr ""
+
 msgid "Advanced Mode"
 msgstr "詳細モード"
+
+msgid "Advanced search, add filters"
+msgstr ""
+
+msgid "aliases:"
+msgstr ""
 
 msgid "all"
 msgstr "すべて"
@@ -170,13 +230,34 @@ msgstr "Alpha version"
 msgid "An email has been sent"
 msgstr "eメールを送信しました"
 
-msgid "An error occured during user deletion"
-msgstr "ユーザーの削除中にエラーが発生しました"
+msgid "An error occurred during user deletion"
+msgstr ""
 
 msgid "An error occurred!"
 msgstr ""
 
 msgid "An exception occured while running \"%s"
+msgstr ""
+
+msgid "an instance"
+msgstr ""
+
+msgid "Ans"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Arc cosine"
+msgstr ""
+
+msgid "Arc sine"
+msgstr ""
+
+msgid "Arc tangent"
+msgstr ""
+
+msgid "Archived"
 msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
@@ -186,6 +267,18 @@ msgstr "バージョン管理リソースを削除してもよろしいですか
 
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
+
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "array"
+msgstr ""
+
+msgid "Assign"
+msgstr ""
 
 msgid "Assign User to role"
 msgstr "ロールにユーザを割り当て"
@@ -203,17 +296,44 @@ msgstr "オーサーアイテム"
 msgid "Authoring"
 msgstr "オーサリング"
 
+msgid "auto unlocked in %s"
+msgstr ""
+
 msgid "Available"
 msgstr "利用可能"
 
 msgid "Available Extensions"
 msgstr "利用可能な拡張機能"
 
+msgid "Back"
+msgstr ""
+
 msgid "Back to listing"
 msgstr "リストへ戻る"
 
+msgid "Base-10 logarithm"
+msgstr ""
+
 msgid "Beta version"
 msgstr "Beta version"
+
+msgid "Binary operator *"
+msgstr ""
+
+msgid "Binary operator +"
+msgstr ""
+
+msgid "Binary operator -"
+msgstr ""
+
+msgid "Binary operator /"
+msgstr ""
+
+msgid "Binary operator modulo"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
 
 msgid "Browse folders:"
 msgstr "フォルダーを参照"
@@ -227,10 +347,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -242,6 +362,9 @@ msgstr "編集できません"
 msgid "Cannot divide by zero"
 msgstr ""
 
+msgid "Case sensitive"
+msgstr ""
+
 #, tao-public
 msgid "Change password"
 msgstr "パスワードを変更"
@@ -249,14 +372,23 @@ msgstr "パスワードを変更"
 msgid "Change the password"
 msgstr "パスワードを変更"
 
-msgid "Check all"
-msgstr "すべてチェック"
+msgid "Change the sign of the current operand"
+msgstr ""
 
 msgid "Check All"
 msgstr "すべてチェック"
 
+msgid "Check all"
+msgstr "すべてチェック"
+
 msgid "Check-in"
 msgstr "チェックイン"
+
+msgid "choices:"
+msgstr ""
+
+msgid "Choose a value..."
+msgstr ""
 
 msgid "Choose export format"
 msgstr "エクスポート形式の選択"
@@ -264,20 +396,62 @@ msgstr "エクスポート形式の選択"
 msgid "Choose import format"
 msgstr "インポート形式の選択"
 
+msgid "City"
+msgstr ""
+
 msgid "class selected"
 msgstr "選択されたクラス"
 
-msgid "close"
+msgid "Class uri provided is not a valid class."
 msgstr ""
 
-msgid "Close tab"
-msgstr "タブを閉じる"
+msgid "Cleaning up tmp space complete"
+msgstr ""
 
-msgid "Collapse Message"
-msgstr "メッセージを閉じる"
+msgid "Cleaning up tmp space started"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Clear All"
+msgstr ""
+
+msgid "Clear all data"
+msgstr ""
+
+msgid "Clear expression"
+msgstr ""
+
+msgid "Clear History"
+msgstr ""
+
+msgid "Clear history"
+msgstr ""
+
+msgid "Clear selection"
+msgstr ""
+
+msgid "Clear the stored variables"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Close message"
+msgstr ""
+
+msgid "Code Version"
+msgstr ""
+
+msgid "Collecting of abandoned actions in the action queue ..."
+msgstr ""
 
 msgid "Column"
 msgstr "列"
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr "コメント..."
@@ -285,8 +459,14 @@ msgstr "コメント..."
 msgid "Commit"
 msgstr "コミット"
 
-msgid "Commit message : "
-msgstr "コミットメッセージ:"
+msgid "Completed"
+msgstr ""
+
+msgid "Completed - Error"
+msgstr ""
+
+msgid "Compute the expression"
+msgstr ""
 
 msgid "Confirm"
 msgstr "確認"
@@ -297,17 +477,44 @@ msgstr "CBT プラットホームへ接続"
 msgid "Continue"
 msgstr "次へ"
 
+msgid "Copy"
+msgstr ""
+
+msgid "Copy to"
+msgstr ""
+
+msgid "Copy to clipboard"
+msgstr ""
+
+msgid "Cosine"
+msgstr ""
+
+msgid "count"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
 msgid "Create"
 msgstr "作成"
 
 msgid "Create instance of "
 msgstr "のインスタンスを作成します"
 
+msgid "Created"
+msgstr ""
+
+msgid "Creation At"
+msgstr ""
+
 msgid "CSV"
 msgstr "CSV"
 
 msgid "CSV Options"
 msgstr "CSVオプション"
+
+msgid "Cube root"
+msgstr ""
 
 msgid "Current language"
 msgstr "現在の言語"
@@ -324,9 +531,6 @@ msgstr "データインポートに成功しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データインポート終了。いくつかのレコードは無効です。"
 
-msgid "Data Lang."
-msgstr "データラング"
-
 msgid "Data Language"
 msgstr "データ言語"
 
@@ -342,15 +546,72 @@ msgstr "日付"
 msgid "Default search"
 msgstr "デフォルト検索"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "デフォルト値を定義します"
+
+msgid "Deg"
+msgstr ""
+
+msgid "Degree"
+msgstr ""
 
 #, tao-public
 msgid "Delete"
 msgstr "削除"
 
+msgid "Delete Left"
+msgstr ""
+
+msgid "Delete Right"
+msgstr ""
+
+msgid "Delete the term on the left side of the cursor"
+msgstr ""
+
+msgid "Delete the term on the right side of the cursor"
+msgstr ""
+
+msgid "Deleting search index for %s"
+msgstr ""
+
 msgid "Demo Sandbox"
 msgstr "サンドボックス"
+
+msgid "Did you mean %s?"
+msgstr ""
+
+msgid "Digit 0"
+msgstr ""
+
+msgid "Digit 1"
+msgstr ""
+
+msgid "Digit 2"
+msgstr ""
+
+msgid "Digit 3"
+msgstr ""
+
+msgid "Digit 4"
+msgstr ""
+
+msgid "Digit 5"
+msgstr ""
+
+msgid "Digit 6"
+msgstr ""
+
+msgid "Digit 7"
+msgstr ""
+
+msgid "Digit 8"
+msgstr ""
+
+msgid "Digit 9"
+msgstr ""
 
 msgid "Disabled %s"
 msgstr "%s無効"
@@ -366,11 +627,11 @@ msgstr "不一致"
 msgid "Don't set"
 msgstr "設定しないでください"
 
+msgid "Dot"
+msgstr ""
+
 msgid "Download"
 msgstr "ダウンロード"
-
-msgid "Download content"
-msgstr "コンテンツをダウンロード"
 
 msgid "Download this file"
 msgstr "このファイルをダウンロード"
@@ -383,9 +644,6 @@ msgstr "ファイルをここにドラッグしてください"
 
 msgid "Drop the files to upload"
 msgstr "アップロードするには、ファイルをドロップしてください"
-
-msgid "e-mail"
-msgstr "E-mail"
 
 msgid "Edit"
 msgstr "編集"
@@ -409,17 +667,53 @@ msgstr "要素が削除されました"
 msgid "Email"
 msgstr "E-メール"
 
+msgid "Email address"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "Enabled %s"
+msgstr ""
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr ""
+
 msgid "Enter"
 msgstr "Enter"
 
 msgid "Error"
 msgstr "エラー"
 
+msgid "Error adding search index for %s with message %s"
+msgstr ""
+
 msgid "Error during file import"
 msgstr "インポート実行中のエラー"
 
+msgid "Error in result"
+msgstr ""
+
+msgid "Error in syntax"
+msgstr ""
+
+msgid "Error in value"
+msgstr ""
+
+msgid "Examples:"
+msgstr ""
+
 msgid "Exclusive (OR)"
 msgstr "排他的(OR)"
+
+msgid "Execute"
+msgstr ""
+
+msgid "Executing task %s failed"
+msgstr ""
+
+msgid "Exponent"
+msgstr ""
 
 #, tao-public
 msgid "Export"
@@ -428,15 +722,36 @@ msgstr "エクスポート"
 msgid "Export "
 msgstr "エクスポート..."
 
+msgid "Export \"%s\" in %s"
+msgstr ""
+
+msgid "Export CSV"
+msgstr ""
+
+msgid "Export failed."
+msgstr ""
+
 msgid "Export Metadata as RDF/XML file"
 msgstr "メタデータをRDF/XMLファイルでエクスポート"
 
-msgid "Extension "
-msgstr "拡張機能"
+msgid "Export succeeded."
+msgstr ""
+
+msgid "Extension \"%s\" has been installed"
+msgstr ""
 
 #, tao-public
 msgid "Extensions manager"
 msgstr "拡張機能の設定"
+
+msgid "Factorial"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed to delete index for %s"
+msgstr ""
 
 msgid "False"
 msgstr "いいえ"
@@ -447,23 +762,20 @@ msgstr "フィールドの区切り記号"
 msgid "Field encloser"
 msgstr "フィールド枠"
 
+msgid "Fields must match"
+msgstr ""
+
 msgid "File"
 msgstr "ファイル"
+
+msgid "File download failed"
+msgstr ""
 
 msgid "File name"
 msgstr "ファイル名"
 
-msgid "File path"
-msgstr "ファイルパス"
-
 msgid "File Properties"
 msgstr "ファイルのプロパティ"
-
-msgid "File repository"
-msgstr "リポジトリファイル"
-
-msgid "File revision"
-msgstr "ファイルリヴィジョン"
 
 msgid "file selected"
 msgstr "選択されたファイル"
@@ -474,9 +786,11 @@ msgstr "ファイルのアップロード"
 msgid "files selected"
 msgstr "選択されたファイル"
 
-#, tao-public
 msgid "Filter"
 msgstr "フィルタ"
+
+msgid "Filter by value"
+msgstr ""
 
 msgid "Filtering mode"
 msgstr "フィルタリングモード"
@@ -484,8 +798,14 @@ msgstr "フィルタリングモード"
 msgid "First Name"
 msgstr "名"
 
+msgid "First page"
+msgstr ""
+
 msgid "First row column names"
 msgstr "最初の行の名前"
+
+msgid "Fit to width"
+msgstr ""
 
 msgid "Force Release"
 msgstr "強制リリース"
@@ -499,6 +819,18 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "あいまい検索"
 
+msgid "generated-value"
+msgstr ""
+
+msgid "Generis Form"
+msgstr ""
+
+msgid "Get History"
+msgstr ""
+
+msgid "Get the history list"
+msgstr ""
+
 msgid "Go Back"
 msgstr "前に戻る"
 
@@ -511,11 +843,29 @@ msgstr "ハイ、%s<br>あなたはTAOのパスワードを忘れています"
 msgid "Hide detailed report"
 msgstr "詳細報告を隠す"
 
+msgid "Highlight all"
+msgstr ""
+
 msgid "hours"
 msgstr "時間"
 
-msgid "However, the action will not be applied to the following"
-msgstr "しかし、アクションは次のように適用されることはありません"
+msgid "Hyperbolic arc cosine"
+msgstr ""
+
+msgid "Hyperbolic arc sine"
+msgstr ""
+
+msgid "Hyperbolic arc tangent"
+msgstr ""
+
+msgid "Hyperbolic cosine"
+msgstr ""
+
+msgid "Hyperbolic sine"
+msgstr ""
+
+msgid "Hyperbolic tangent"
+msgstr ""
 
 msgid "Identifier"
 msgstr "識別子"
@@ -523,17 +873,32 @@ msgstr "識別子"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。"
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "インポート"
 
 msgid "Import "
 msgstr "インポート"
 
+msgid "Import a %s into \"%s"
+msgstr ""
+
+msgid "Import Completed"
+msgstr ""
+
+msgid "Import failed."
+msgstr ""
+
 msgid "Import Metadata from CSV file"
 msgstr "メタデータをCSVからインポート"
 
 msgid "Import Metadata from RDF file"
 msgstr "メタデータをRDFからインポート"
+
+msgid "Import succeeded."
+msgstr ""
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
 msgstr ""
@@ -544,11 +909,29 @@ msgstr ""
 msgid "Imported resource \"%s"
 msgstr ""
 
+msgid "impossible to update task status"
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
+msgid "In Progress"
+msgstr ""
+
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
 
+msgid "Index has been deleted for %s"
+msgstr ""
+
 msgid "Indexing has been run"
 msgstr "インデキシングは、実行されています"
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr ""
+
+msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
 
 msgid "Install"
 msgstr "インストール"
@@ -562,16 +945,19 @@ msgstr "インストール..."
 msgid "Installed Extensions"
 msgstr "拡張機能のインストール"
 
+msgid "Installed Version"
+msgstr ""
+
 msgid "Installing extension %s..."
 msgstr "%s拡張機能をインストールしています..."
 
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース用言語"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース用言語"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -607,23 +993,38 @@ msgstr "不正なファイルタイプです"
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "無効なログイン名或はパスワードです。やり直してください"
+
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr ""
 
 msgid "invalid regular expression"
 msgstr "無効な正規表現です"
 
+msgid "Invalid values:"
+msgstr ""
+
 msgid "Label"
 msgstr "ラベル"
-
-msgid "Label *"
-msgstr "ラベル*"
 
 msgid "Language"
 msgstr "言語"
 
+msgid "Last attempt before your account is locked."
+msgstr ""
+
 msgid "Last Name"
 msgstr "姓"
+
+msgid "Last page"
+msgstr ""
+
+msgid "Left parenthesis"
+msgstr ""
 
 msgid "less than a minute"
 msgstr "1 分未満"
@@ -640,6 +1041,9 @@ msgstr "リスト - 択一 - ドロップダウン"
 msgid "List - Single choice - Radio button"
 msgstr "リスト - 択一 - ラジオボタン"
 
+msgid "Load more"
+msgstr ""
+
 msgid "Loaded"
 msgstr "読み込み完了"
 
@@ -648,6 +1052,15 @@ msgstr "起動時に実行"
 
 msgid "Loading"
 msgstr "読み込み中"
+
+msgid "Loading status"
+msgstr ""
+
+msgid "Loading task status ..."
+msgstr ""
+
+msgid "locked by %s"
+msgstr ""
 
 msgid "Log in"
 msgstr "ログインID"
@@ -660,6 +1073,24 @@ msgstr "ログイン"
 
 msgid "Login available"
 msgstr "ログイン可能"
+
+msgid "Login is already in use."
+msgstr ""
+
+msgid "Login is empty."
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance storage driver is not set"
+msgstr ""
+
+msgid "Manage class schema"
+msgstr ""
 
 msgid "Manage data list"
 msgstr "データリストを管理"
@@ -684,18 +1115,51 @@ msgstr "CSVの列にプロパティをマップ"
 msgid "Maximum selection reached"
 msgstr ""
 
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr ""
+
 msgid "Message"
 msgstr "メッセージ"
+
+msgid "Messages"
+msgstr ""
+
+msgid "Metadata export is not available for the selected resource."
+msgstr ""
+
+msgid "Method"
+msgstr ""
 
 msgid "minutes"
 msgstr "分"
 
+msgid "missing config %s for the service %s"
+msgstr ""
+
+msgid "Missing Parameters"
+msgstr ""
+
 msgid "More"
 msgstr "追加情報"
+
+msgid "Move"
+msgstr ""
+
+msgid "Move Left"
+msgstr ""
+
+msgid "Move Right"
+msgstr ""
 
 #, tao-public
 msgid "Move role"
 msgstr "ロールの移動"
+
+msgid "Move the cursor one step on the left"
+msgstr ""
+
+msgid "Move the cursor one step on the right"
+msgstr ""
 
 msgid "Move to"
 msgstr "移動"
@@ -715,6 +1179,9 @@ msgstr "数値でなければなりません"
 msgid "Mute"
 msgstr ""
 
+msgid "My custom text translation"
+msgstr ""
+
 #, tao-public
 msgid "My settings"
 msgstr "ユーザー設定 "
@@ -725,6 +1192,9 @@ msgstr "ユーザ設定(%s)"
 msgid "Name"
 msgstr "名前"
 
+msgid "Natural logarithm"
+msgstr ""
+
 msgid "New password"
 msgstr "新しいパスワード"
 
@@ -734,6 +1204,12 @@ msgstr "新しいロール"
 
 msgid "Next"
 msgstr "次へ"
+
+msgid "Next match"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
 
 msgid "No"
 msgstr "いいえ"
@@ -747,9 +1223,6 @@ msgstr ""
 msgid "No extensions available."
 msgstr "利用可能な拡張機能はありません"
 
-msgid "no file"
-msgstr "ファイルなし"
-
 msgid "no file not found in this location"
 msgstr "この場所には、ファイルがありません"
 
@@ -762,14 +1235,29 @@ msgstr "ファイルが有りません"
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
 msgstr "検索結果はありません"
+
+msgid "No Task yet"
+msgstr ""
+
+msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
+msgid "Not started"
+msgstr ""
 
 msgid "Nothing imported"
 msgstr "何もインポートされていません"
@@ -780,29 +1268,42 @@ msgstr "何もインストールされていません！"
 msgid "Nothing to list!"
 msgstr "リストがありません！"
 
+#, tao-public
+msgid "Notifications"
+msgstr ""
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "Nth root"
+msgstr ""
+
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "要素数"
 
 msgid "of"
 msgstr "の"
 
-msgid "OK"
-msgstr "OK"
+msgid "Off"
+msgstr ""
 
 msgid "Ok"
+msgstr "OK"
+
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
 msgstr "旧パスワード"
 
-msgid "Option instanceUri is not an option !!"
-msgstr "オプションインスタンスUriはオプションではありません！"
+msgid "On"
+msgstr ""
 
-msgid "Option ownerUri is not an option !!"
-msgstr "オプション　オーナUriはオプションではありません！"
-
-msgid "Option propertyUri is not an option !!"
-msgstr "オプション　プロパティUriはオプションではありません！"
+msgid "Operated By "
+msgstr ""
 
 msgid "or"
 msgstr "或は"
@@ -810,14 +1311,17 @@ msgstr "或は"
 msgid "Page"
 msgstr "ページ番号"
 
+msgid "Parameters"
+msgstr ""
+
 msgid "Password"
 msgstr "パスワード"
 
-msgid "Password *"
-msgstr "パスワード*"
-
 msgid "Password changed"
 msgstr "パスワードを変更しました"
+
+msgid "Password is empty."
+msgstr ""
 
 msgid "Password reset"
 msgstr "パスワードのリセット"
@@ -831,11 +1335,26 @@ msgstr "パスワードが一致しません"
 msgid "Pause"
 msgstr ""
 
+msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Phone number"
+msgstr ""
+
 msgid "Play"
 msgstr ""
 
 msgid "Please confirm deletion"
 msgstr "削除の確認をしてください"
+
+msgid "Please confirm deletion of %s."
+msgstr ""
+
+msgid "Please confirm deletion of user %s"
+msgstr ""
+
+msgid "Please confirm locking of account %s"
+msgstr ""
 
 msgid "Please confirm property deletion!"
 msgstr "プロパティの削除の確認をしてください"
@@ -843,11 +1362,14 @@ msgstr "プロパティの削除の確認をしてください"
 msgid "Please confirm this operation."
 msgstr "この操作を確認してください"
 
-msgid "Please confirm user deletion"
-msgstr "ユーザーの削除を確認してください"
+msgid "Please confirm unlocking of account %s"
+msgstr ""
 
 msgid "Please contact %s or an administrator to release it"
 msgstr "それを解放するには、%s或は、管理者にお問い合わせください"
+
+msgid "Please contact your administrator."
+msgstr ""
 
 msgid "Please download the track and listen offline."
 msgstr ""
@@ -861,11 +1383,26 @@ msgstr "あなたのコミットにメッセージをお願いします"
 msgid "Please provide a reason"
 msgstr "その理由を記入してください"
 
-msgid "Please report bugs, ideas, comments or feedback on the TAO Forge"
-msgstr "TAO Forgeにバグ、アイデア、コメントやフィードバックを報告してください"
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Please wait while ..."
+msgstr ""
 
 msgid "Post install processing"
 msgstr "インストールの終了処理"
+
+msgid "Power of"
+msgstr ""
+
+msgid "Power of 10"
+msgstr ""
 
 msgid "Preparing installation..."
 msgstr "インストールの準備をしています..."
@@ -875,6 +1412,15 @@ msgstr "プレビュー"
 
 msgid "Previous"
 msgstr "前へ"
+
+msgid "Previous match"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Proceed"
+msgstr ""
 
 #, tao-public
 msgid "Properties"
@@ -886,11 +1432,32 @@ msgstr "プロパティ\\'sは、ラベルフィールドが必要です"
 msgid "Provided URL is not valid"
 msgstr "指定されたURLは有効ではありません"
 
+msgid "Publish"
+msgstr ""
+
+msgid "Publish the test"
+msgstr ""
+
+msgid "Queued"
+msgstr ""
+
+msgid "Rad"
+msgstr ""
+
+msgid "Radian"
+msgstr ""
+
+msgid "Random value"
+msgstr ""
+
 msgid "Range field is required"
 msgstr ""
 
 msgid "RDF"
 msgstr "RDF"
+
+msgid "Refresh"
+msgstr ""
 
 msgid "Release"
 msgstr "リリース"
@@ -898,11 +1465,26 @@ msgstr "リリース"
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "ロックを解除すると%sの情報が失われます"
 
+msgid "Remind"
+msgstr ""
+
+msgid "Remind Last"
+msgstr ""
+
+msgid "Remind the last value"
+msgstr ""
+
+msgid "Remind the next expression in the history"
+msgstr ""
+
+msgid "Remind the previous expression in the history"
+msgstr ""
+
+msgid "Remind the recorded value"
+msgstr ""
+
 msgid "Remove"
 msgstr "削除"
-
-msgid "Remove content"
-msgstr "コンテンツの削除"
 
 msgid "Remove Message"
 msgstr "メッセージの削除"
@@ -910,17 +1492,32 @@ msgstr "メッセージの削除"
 msgid "Remove this file"
 msgstr "このファイルの削除"
 
+msgid "Removed %s directories"
+msgstr ""
+
+msgid "Removed %s files"
+msgstr ""
+
+msgid "Removing: %s"
+msgstr ""
+
 msgid "Rename"
 msgstr "名前の変更"
 
 msgid "Repeat new password"
 msgstr "パスワード再入力"
 
-msgid "Repeat password *"
-msgstr "パスワード再入力*"
+msgid "Repeat password"
+msgstr ""
 
 msgid "Request a password reset via Email."
 msgstr "eメールでパスワードのリセットを要求します"
+
+msgid "require notification ID"
+msgstr ""
+
+msgid "required"
+msgstr ""
 
 msgid "required length"
 msgstr "長さ"
@@ -931,8 +1528,23 @@ msgstr "必要"
 msgid "Reset"
 msgstr "リセット"
 
+msgid "Reset the original size"
+msgstr ""
+
 msgid "Resource"
 msgstr "リソース"
+
+msgid "Resource copied"
+msgstr ""
+
+msgid "Resource Identifier"
+msgstr ""
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr ""
+
+msgid "Resource Identifier has been copied to the clipboard"
+msgstr ""
 
 msgid "Resource not imported due to multiple super classes"
 msgstr "マルチプルスーパークラスにリソースはインポートされていません"
@@ -942,6 +1554,12 @@ msgstr "複数のタイプにリソースはインポートされていません
 
 msgid "Resource saved"
 msgstr "リソースは保存されました"
+
+msgid "resources"
+msgstr ""
+
+msgid "Resources moved"
+msgstr ""
 
 msgid "Responsive mode"
 msgstr "レスポンシブモード"
@@ -955,6 +1573,9 @@ msgstr "ログインページに戻る"
 msgid "Right click the tree to manage your lists"
 msgstr "リストを管理するためにツリーで右クリックします"
 
+msgid "Right parenthesis"
+msgstr ""
+
 msgid "Role saved"
 msgstr "ロールは保存されました"
 
@@ -965,24 +1586,44 @@ msgstr "ロール"
 msgid "Roles library"
 msgstr "ロールリスト"
 
+msgid "Round to closest whole number"
+msgstr ""
+
+msgid "Round to lower whole number"
+msgstr ""
+
+msgid "Round to upper whole number"
+msgstr ""
+
 msgid "Row %s"
+msgstr ""
+
+msgid "Running task %s"
 msgstr ""
 
 msgid "Save"
 msgstr "保存"
 
+msgid "Scientific Calculator"
+msgstr ""
+
 msgid "Scope"
 msgstr "範囲"
 
-#, tao-public
 msgid "Search"
 msgstr "検索"
 
 msgid "Search %s"
 msgstr "%sを検索"
 
+msgid "Search by properties"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr "サブクラスを検索"
+
+msgid "second"
+msgstr ""
 
 msgid "seconds"
 msgstr "秒"
@@ -993,8 +1634,17 @@ msgstr "選択"
 msgid "select"
 msgstr "選択"
 
+msgid "Select a class"
+msgstr ""
+
+msgid "Select a destination"
+msgstr ""
+
 msgid "Select a language"
 msgstr "言語を選択"
+
+msgid "Select loaded %s"
+msgstr ""
 
 msgid "Select the element destination"
 msgstr "エレメントのデスティネーションを選択"
@@ -1005,14 +1655,23 @@ msgstr "このファイルを選択"
 msgid "select..."
 msgstr "選択..."
 
-msgid "selected"
-msgstr "選択済"
+msgid "Selected"
+msgstr ""
 
 msgid "Selected file:"
 msgstr "選択されたファイル:"
 
 msgid "Selection saved successfully"
 msgstr "選択は保存されました"
+
+msgid "self-locked"
+msgstr ""
+
+msgid "Set the trigonometric function to work in degrees"
+msgstr ""
+
+msgid "Set the trigonometric function to work in radians"
+msgstr ""
 
 #, tao-public
 msgid "Settings"
@@ -1024,11 +1683,47 @@ msgstr "設定を更新"
 msgid "Show detailed report"
 msgstr "詳細報告を表示する"
 
+msgid "Sign change"
+msgstr ""
+
 msgid "Simple Mode"
 msgstr "シンプルモード"
 
+msgid "Sine"
+msgstr ""
+
 msgid "Size"
 msgstr "サイズ"
+
+msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Square root"
+msgstr ""
+
+msgid "Start of document reached. Continuing from the end."
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Status of"
+msgstr ""
+
+msgid "Store"
+msgstr ""
+
+msgid "Store the value a variable"
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "string"
+msgstr ""
 
 msgid "Success"
 msgstr "成功"
@@ -1048,6 +1743,9 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "サポートするエクスポートフォーマット"
 
+msgid "Tangent"
+msgstr ""
+
 msgid "Tao Default Theme"
 msgstr "デフォルトのテーマ"
 
@@ -1056,6 +1754,24 @@ msgstr "TAO ホーム"
 
 msgid "TAO Login"
 msgstr "TAO ログイン"
+
+msgid "task created"
+msgstr ""
+
+msgid "Task Listing"
+msgstr ""
+
+msgid "Task Name"
+msgstr ""
+
+msgid "Task not found"
+msgstr ""
+
+msgid "Task not returned any report."
+msgstr ""
+
+msgid "Term"
+msgstr ""
 
 msgid "Text - Long - Box"
 msgstr "テキスト - ロング - ボックス"
@@ -1072,14 +1788,17 @@ msgstr "アクションが適用されます"
 msgid "The action will be applied to the following"
 msgstr "以下にアクションが適用されます"
 
+msgid "The action will not be applied to "
+msgstr ""
+
+msgid "The action will not be applied to the following"
+msgstr ""
+
 msgid "The column "
 msgstr "カラム"
 
 msgid "The format of this field is not valid."
 msgstr "このフィールドの形式は有効ではありません"
-
-msgid "The image resizes along with its container, e.g. 50% means half of the container size not half of the picture size."
-msgstr "画像は、コンテナと一緒にサイズ変更されます。50％は、大きさの半分のコンテナサイズで画像の半分とは違います。"
 
 msgid "The imported file is not properly UTF-8 encoded."
 msgstr "インポートされたファイルが正しくUTF-8でエンコードされていません"
@@ -1089,6 +1808,12 @@ msgstr "インデックス識別子は空であってはなりません"
 
 msgid "The lock has been released"
 msgstr "ロックが解除されました"
+
+msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The server has sent an empty response"
+msgstr ""
 
 msgid "The uploaded file is too large (maximum %s bytes)"
 msgstr "アップロードされたファイルは大きすぎます（最大%sバイト）"
@@ -1150,6 +1875,9 @@ msgstr "これは、%sと等しくてはいけません"
 msgid "Time zone"
 msgstr "タイムゾーン"
 
+msgid "Title"
+msgstr ""
+
 msgid "to"
 msgstr ""
 
@@ -1159,13 +1887,22 @@ msgstr "パスワードをリセットするには、下記リンクをクリッ
 msgid "to translate"
 msgstr "翻訳"
 
+msgid "Toggle multiple/single selection"
+msgstr ""
+
 msgid "Tokenizer"
 msgstr "トークナイザ"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "候補が多すぎます。候補のうちのいくつかを表示します"
 
 msgid "Total duration"
+msgstr ""
+
+msgid "Total:"
 msgstr ""
 
 msgid "Translate"
@@ -1189,8 +1926,8 @@ msgstr "正しい"
 msgid "Type"
 msgstr "タイプ"
 
-msgid "UI Lang."
-msgstr "UI言語"
+msgid "Type your search"
+msgstr ""
 
 msgid "Unable to access your account?"
 msgstr "アカウントに接続できません"
@@ -1198,11 +1935,20 @@ msgstr "アカウントに接続できません"
 msgid "Unable to change passwords in demo mode"
 msgstr "デモモードではパスワードの変更ができません。"
 
+msgid "Unable to copy the resource"
+msgstr ""
+
 msgid "Unable to delete %s"
 msgstr "%sを削除できません。"
 
 msgid "Unable to delete the selected resource"
 msgstr "選択されたリソースを削除できません。"
+
+msgid "Unable to delete the selected resources"
+msgstr ""
+
+msgid "Unable to move the resources"
+msgstr ""
 
 msgid "Unable to open file %s"
 msgstr "ファイル %s を開けません"
@@ -1213,8 +1959,17 @@ msgstr "ロックを解除することができません"
 msgid "Unable to remove the property."
 msgstr "プロパティを削除できません"
 
+msgid "Unable to save resource."
+msgstr ""
+
+msgid "unable to search into notification."
+msgstr ""
+
 msgid "Unable to send the password reset request"
 msgstr "パスワードのリセットを要求できません"
+
+msgid "Unable to update the asset service"
+msgstr ""
 
 msgid "Unable to upload file"
 msgstr "ファイルをアップロードできません"
@@ -1222,11 +1977,20 @@ msgstr "ファイルをアップロードできません"
 msgid "Unable to upload file %s : %s"
 msgstr "ファイル%sをアップロードできません:%s"
 
+msgid "Unary operator -"
+msgstr ""
+
 msgid "Uncheck all"
 msgstr "全て無効"
 
 msgid "Uncheck All"
 msgstr "全て無効"
+
+msgid "Undefined amount of the pages for pagination"
+msgstr ""
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr ""
 
 msgid "Undo"
 msgstr "取り消し"
@@ -1246,23 +2010,32 @@ msgstr "不明"
 msgid "Unknown Error"
 msgstr "不明なエラー"
 
+msgid "unkown task id %s"
+msgstr ""
+
 msgid "Update"
 msgstr "更新"
+
+msgid "Update ID : %s"
+msgstr ""
 
 msgid "Upload"
 msgstr "アップロード"
 
-msgid "Upload a new content"
-msgstr "新しいコンテンツをアップロード"
-
 msgid "Upload into:"
 msgstr "アップロード先:"
 
-msgid "Upload the file to version"
-msgstr "バージョンにファイルをアップロード"
+msgid "URL"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "使用法：ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "Use a term"
+msgstr ""
+
+msgid "Use a variable"
+msgstr ""
 
 msgid "Use default value"
 msgstr "既定値を用いる"
@@ -1270,14 +2043,26 @@ msgstr "既定値を用いる"
 msgid "User"
 msgstr "ユーザ"
 
+msgid "User %s can not be locked"
+msgstr ""
+
+msgid "User %s can not be unlocked"
+msgstr ""
+
+msgid "User %s successfully locked"
+msgstr ""
+
+msgid "User %s successfully unlocked"
+msgstr ""
+
 msgid "User added"
 msgstr "ユーザ追加"
 
 msgid "User deleted successfully"
 msgstr "ユーザを削除しました"
 
-msgid "User deletion not permited on a demo instance"
-msgstr "ユーザ削除はデモインスタンスではできません"
+msgid "User deletion not permitted on a demo instance"
+msgstr ""
 
 msgid "User not found"
 msgstr "ユーザが見つかりません"
@@ -1289,18 +2074,60 @@ msgstr "ユーザを保存しました"
 msgid "User Settings"
 msgstr "ユーザ設定"
 
+msgid "Username"
+msgstr ""
+
 #, tao-public
 msgid "Users"
 msgstr "ユーザ"
 
+msgid "Value of E"
+msgstr ""
+
+msgid "Value of PI"
+msgstr ""
+
+msgid "Variable"
+msgstr ""
+
+msgid "Variable %s"
+msgstr ""
+
 msgid "Version"
 msgstr "バージョン"
+
+msgid "View report"
+msgstr ""
+
+msgid "View resources as a list"
+msgstr ""
+
+msgid "View resources as a tree"
+msgstr ""
+
+msgid "Wait is over"
+msgstr ""
+
+msgid "Waiting"
+msgstr ""
+
+msgid "Whole number part"
+msgstr ""
 
 msgid "Width"
 msgstr "幅"
 
+msgid "Wrong or missing parameter extension, module or action"
+msgstr ""
+
+msgid "Wrong parameter shownExtension"
+msgstr ""
+
 msgid "Yes"
 msgstr "はい"
+
+msgid "You are not allowed to write in the class %s"
+msgstr ""
 
 msgid "You are not authorised to remove this lock"
 msgstr "あなたはこのロックを解除する権限がありません"
@@ -1308,14 +2135,17 @@ msgstr "あなたはこのロックを解除する権限がありません"
 msgid "You cannot delete the root node"
 msgstr "あなたは、ルートノードを削除することはできません"
 
+msgid "You cannot move the selected resources in the class %s"
+msgstr ""
+
 msgid "You currently have no access to the platform"
 msgstr "あなたは、現在のプラットフォームにアクセスできません"
 
 msgid "You do not have the required rights to edit this resource."
 msgstr "あなたはこのリソースを編集するための権限を持っていません"
 
-msgid "You don't have sufficient permissions to access"
-msgstr "あなたはアクセスするための十分な権限がありません"
+msgid "You have been locked due to too many failed login attempts. "
+msgstr ""
 
 msgid "You have been logged out. Please login again"
 msgstr ""
@@ -1323,7 +2153,13 @@ msgstr ""
 msgid "You must activate JavaScript in your browser to run this application."
 msgstr "このアプリケーションを実行するには、ブラウザのJavaScriptを有効にする必要があります"
 
+msgid "Your account has been locked, please contact your administrator."
+msgstr ""
+
 msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr ""
+
+msgid "Your browser does not support copying to the clipboard"
 msgstr ""
 
 msgid "Your browser doesn’t support the audio player."
@@ -1337,4 +2173,7 @@ msgstr "メールアドレス"
 
 msgid "Your TAO Password"
 msgstr "TAO パスワード"
+
+msgid "Zip Code"
+msgstr ""
 
