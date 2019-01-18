@@ -79,7 +79,7 @@
         <button class="key operator" data-command="term" data-param="LN"><span>ln</span></button>
         <button class="key operator" data-command="term" data-param="EXP"><span>e<sup>x</sup></span></button>
         <button class="key constant" data-command="term" data-param="E"><span>e</span></button>
-        <button class="key operator disabled" data-command="sign"><span>&plusmn;</span></button>
+        <button class="key operator" data-command="sign"><span>&plusmn;</span></button>
         <button class="key operand" data-command="term" data-param="NUM0"><span>0</span></button>
         <button class="key operand" data-command="term" data-param="DOT"><span>.</span></button>
         <button class="key execute" data-command="execute"><span>=</span></button>
