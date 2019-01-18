@@ -58,7 +58,7 @@
         <button class="key operator" data-command="term" data-param="POW NUM2"><span>x<sup>2</sup></span></button>
         <button class="key operator" data-command="term" data-param="POW NUM3"><span>x<sup>3</sup></span></button>
         <button class="key operator" data-command="term" data-param="POW"><span>x<sup>y</sup></span></button>
-        <button class="key operator" data-command="term" data-param="POW SUB NUM1"><span>x<sup>-1</sup></span></button>
+        <button class="key operator" data-command="term" data-param="POW LPAR SUB NUM1 RPAR"><span>x<sup>-1</sup></span></button>
         <button class="key operand" data-command="term" data-param="NUM4"><span>4</span></button>
         <button class="key operand" data-command="term" data-param="NUM5"><span>5</span></button>
         <button class="key operand" data-command="term" data-param="NUM6"><span>6</span></button>
@@ -68,7 +68,7 @@
         <button class="key operator" data-command="term" data-param="SQRT"><span>&radic;</span></button>
         <button class="key operator" data-command="term" data-param="CBRT"><span>&#8731;</span></button>
         <button class="key operator disabled" data-command="term" data-param="NTHRT"><span><sup>x</sup>&radic;</span></button>
-        <button class="key operator" data-command="term" data-param="POW10"><span>10<sup>x</sup></span></button>
+        <button class="key operator" data-command="term" data-param="MUL NUM1 NUM0 POW"><span>10<sup>x</sup></span></button>
         <button class="key operand" data-command="term" data-param="NUM1"><span>1</span></button>
         <button class="key operand" data-command="term" data-param="NUM2"><span>2</span></button>
         <button class="key operand" data-command="term" data-param="NUM3"><span>3</span></button>

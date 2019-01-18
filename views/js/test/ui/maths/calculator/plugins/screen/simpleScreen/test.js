@@ -1785,10 +1785,90 @@ define([
                 });
         });
 
+    QUnit
+        .cases([{
+            title: '-3',
+            expression: '-3',
+            text: registeredTerms.NEG.label + '3'
+        }, {
+            title: '-PI',
+            expression: '-PI',
+            text: registeredTerms.NEG.label + '\u03C0'
+        }, {
+            title: 'PI-3',
+            expression: 'PI-3',
+            text: '\u03C0-3'
+        }, {
+            title: '4*-3',
+            expression: '4*-3',
+            text: '4\u00D7' + registeredTerms.NEG.label + '3'
+        }, {
+            title: '4-3',
+            expression: '4-3',
+            text: '4-3'
+        }, {
+            title: '4*(-3+2)',
+            expression: '4*(-3+2)',
+            text: '4\u00D7(' + registeredTerms.NEG.label + '3+2)'
+        }, {
+            title: '4*(3+2)-5',
+            expression: '4*(3+2)-5',
+            text: '4\u00D7(3+2)-5'
+        }])
+        .asyncTest('treatment of minus operator', function (data, assert) {
+            var $container = $('#fixture-minus-operator');
+            var calculator = calculatorBoardFactory($container)
+                .on('ready', function () {
+                    var areaBroker = calculator.getAreaBroker();
+                    var plugin = simpleScreenPluginFactory(calculator, areaBroker);
+
+                    QUnit.expect(5);
+
+                    calculator
+                        .on('plugin-render.simpleScreen', function () {
+                            assert.ok(plugin.getState('ready'), 'The plugin has been rendered');
+                        })
+                        .on('destroy', function () {
+                            QUnit.start();
+                        });
+
+                    plugin.install()
+                        .then(function () {
+                            return plugin.init();
+                        })
+                        .then(function () {
+                            return plugin.render();
+                        })
+                        .then(function () {
+                            var $screen = $container.find('.calculator-screen .expression');
+                            var termsCount = calculator.getTokenizer().tokenize(data.expression).length;
+                            assert.equal(areaBroker.getScreenArea().find('.calculator-screen .expression').length, 1, 'The screen layout has been inserted');
+
+                            calculator.replace(data.expression);
+
+                            assert.equal(calculator.getExpression(), data.expression, 'The expression should be set to ' + data.expression);
+                            assert.equal($screen.find('.term').length, termsCount, 'The expression has been splitted in ' + termsCount + ' tokens');
+                            assert.equal($screen.text(), data.text, 'the expected text is set');
+                        })
+                        .catch(function (err) {
+                            assert.ok(false, 'Unexpected failure : ' + err.message);
+                        })
+                        .then(function () {
+                            plugin.destroy();
+                            calculator.destroy();
+                        });
+                })
+                .on('error', function (err) {
+                    console.error(err);
+                    assert.ok(false, 'The operation should not fail!');
+                    QUnit.start();
+                });
+        });
+
     QUnit.module('visual test');
 
     QUnit.asyncTest('screen', function (assert) {
-        var expression = '3*sqrt 3/2+(2+x)*4-sin PI/2';
+        var expression = '3*sqrt 3/2+(-2+x)*4-sin PI/2';
         var $container = $('#visual-test .calculator');
         var $input = $('#visual-test .input');
         calculatorBoardFactory($container, [simpleScreenPluginFactory])

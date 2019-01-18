@@ -111,17 +111,23 @@ define(['i18n'], function (__) {
         },
 
         // Operators
-        ADD: {
-            label: '+',
-            value: '+',
-            type: 'operator',
-            description: __('Binary operator +')
-        },
         SUB: {
             label: '-',
             value: '-',
             type: 'operator',
             description: __('Binary operator -')
+        },
+        NEG: {
+            label: '\u207B',
+            value: '\u207B',
+            type: 'operator',
+            description: __('Unary operator -')
+        },
+        ADD: {
+            label: '+',
+            value: '+',
+            type: 'operator',
+            description: __('Binary operator +')
         },
         MUL: {
             label: '\u00D7',
@@ -262,19 +268,19 @@ define(['i18n'], function (__) {
             description: __('Tangent')
         },
         ASIN: {
-            label: 'sin<sup>-1</sup>',
+            label: 'sin<sup>\u207B1</sup>',
             value: 'asin',
             type: 'function',
             description: __('Arc sine')
         },
         ACOS: {
-            label: 'cos<sup>-1</sup>',
+            label: 'cos<sup>\u207B1</sup>',
             value: 'acos',
             type: 'function',
             description: __('Arc cosine')
         },
         ATAN: {
-            label: 'tan<sup>-1</sup>',
+            label: 'tan<sup>\u207B1</sup>',
             value: 'atan',
             type: 'function',
             description: __('Arc tangent')
@@ -298,19 +304,19 @@ define(['i18n'], function (__) {
             description: __('Hyperbolic tangent')
         },
         ASINH: {
-            label: 'sinh<sup>-1</sup>',
+            label: 'sinh<sup>\u207B1</sup>',
             value: 'asinh',
             type: 'function',
             description: __('Hyperbolic arc sine')
         },
         ACOSH: {
-            label: 'cosh<sup>-1</sup>',
+            label: 'cosh<sup>\u207B1</sup>',
             value: 'acosh',
             type: 'function',
             description: __('Hyperbolic arc cosine')
         },
         ATANH: {
-            label: 'tanh<sup>-1</sup>',
+            label: 'tanh<sup>\u207B1</sup>',
             value: 'atanh',
             type: 'function',
             description: __('Hyperbolic arc tangent')
