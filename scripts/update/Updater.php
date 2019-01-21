@@ -900,5 +900,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $this->setVersion('22.13.0');
         }
+
+        if ($this->isVersion('22.13.0')) {
+            $this->getServiceManager()->register(
+                ActionProtector::SERVICE_ID,
+                new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
+            );
+            $this->setVersion('22.13.1');
+        }
     }
 }
