@@ -189,14 +189,14 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	        call_user_func_array(array($controller, $action), $tabParam);
 
 	        /** @var ResponseInterface $response */
-            $response = $controller->getResponse();
+            $response = $controller->getPsrResponse();
 	        // Render the view if selected.
 	        if ($controller->hasView()) {
 	            $response = $response->withBody(stream_for($controller->getRenderer()->render()));
 	        }
 
             $emitter = new ResponseEmitter();
-            $emitter($controller->getRequest(), $response);
+            $emitter($response);
 	    } else {
 	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",
 	            $this->getControllerClass(),
