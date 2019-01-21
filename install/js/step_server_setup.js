@@ -100,7 +100,7 @@ require(['config'], function() {
 
                         var message = "The " + nature + recursiveMessage + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
 
-                        if (!data.value.isEmptyDirectory) {
+                        if (data.value.isReadable && !data.value.isEmptyDirectory) {
                             message = "The " + nature + " '" + data.value.location + "' is not empty.";
                             if (!file_path_overwrite) {
                                 message += " Check the corresponding check box to overwrite it."
