@@ -42,16 +42,16 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             $uri = $this->getUriFromRequestParameter();
 
             switch ($this->getRequestMethod()) {
-                case "GET":
+                case 'GET':
                     $response = $this->restGetResource($uri, $advancedAclUsage);
                     break;
-                case "PUT":
+                case 'PUT':
                     $response = $this->restPutResource($uri, $advancedAclUsage);
                     break;
-                case "POST":
+                case 'POST':
                     $response = $this->restPostResource($advancedAclUsage);
                     break;
-                case "DELETE":
+                case 'DELETE':
                     $response = $this->restDeleteResource($uri, $advancedAclUsage);
                     break;
                 default:
@@ -81,13 +81,13 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             $uri = $this->getUriFromRequestParameter();
 
             switch ($this->getRequestMethod()) {
-                case "GET":
+                case 'GET':
                     $response = $this->restGetClass($this->getRequestParameter('scope'), $uri);
                     break;
-                case "POST":
+                case 'POST':
                     $response = $this->restPostClass($uri);
                     break;
-                case "DELETE":
+                case 'DELETE':
                     $response = $this->restDeleteClass($uri);
                     break;
                 default:
@@ -142,22 +142,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             throw new common_exception_NotFound(sprintf('Class `%s` does not exist', $uri));
         }
 
-        if ($scope == static::CLASS_SCOPE_SUB_CLASSES) {
-            $subResources = $class->getSubClasses();
-        } elseif ($scope == static::CLASS_SCOPE_SUB_RESOURCES) {
-            $subResources = $class->getInstances();
-        } else {
-            throw new common_exception_BadRequest(
-                sprintf(
-                    'Scope `%s` is invalid, valid scopes are : `%s` and `%s`',
-                    $scope,
-                    static::CLASS_SCOPE_SUB_RESOURCES,
-                    static::CLASS_SCOPE_SUB_CLASSES
-                )
-            );
-        }
-
-        return $this->getFormattedResources($subResources);
+        return $this->getFormattedResources($this->getSubResourcesByScope($scope, $class));
     }
 
     /**
@@ -292,8 +277,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     protected function get($uri = null, $advancedAclUsage = false)
     {
         if (!is_null($uri)) {
-            if (!($this->getCrudService()->isInScope($uri))) {
-                throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+            if (!$this->getCrudService()->isInScope($uri)) {
+                throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
             }
 
             if ($advancedAclUsage) {
@@ -301,13 +286,13 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             }
 
             return $this->getCrudService()->get($uri);
-        } else {
-            if ($advancedAclUsage) {
-                $this->enforceAcl($this->getCrudService()->getRootClass()->getUri(), 'READ');
-            }
-
-            return $this->getCrudService()->getAll();
         }
+
+        if ($advancedAclUsage) {
+            $this->enforceAcl($this->getCrudService()->getRootClass()->getUri(), 'READ');
+        }
+
+        return $this->getCrudService()->getAll();
     }
 
     /**
@@ -328,8 +313,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         if (is_null($uri)) {
             throw new common_exception_BadRequest('Delete method requires an uri parameter');
         }
-        if (!($this->getCrudService()->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if (!$this->getCrudService()->isInScope($uri)) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
 
         if ($advancedAclUsage) {
@@ -378,8 +363,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         if (is_null($uri)) {
             throw new common_exception_BadRequest('Update method requires an uri parameter');
         }
-        if (!($this->getCrudService()->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if (!$this->getCrudService()->isInScope($uri)) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
         }
 
         if ($advancedAclUsage) {
@@ -399,7 +384,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     protected function getParameters()
     {
         $aliasedParameters = $this->getParametersAliases();
-        $effectiveParameters = array();
+        $effectiveParameters = [];
         foreach ($aliasedParameters as $checkParameterShort => $checkParameterUri) {
             if ($this->hasRequestParameter($checkParameterShort)) {
                 $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
@@ -407,7 +392,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             if ($this->hasRequestParameter($checkParameterUri)) {
                 $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
             }
-            if ($this->isRequiredParameter($checkParameterShort) and !(isset($effectiveParameters[$checkParameterUri]))) {
+            if ($this->isRequiredParameter($checkParameterShort) and !isset($effectiveParameters[$checkParameterUri])) {
                 throw new \common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
             }
         }
@@ -416,16 +401,16 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 
     /**
      * Return required parameters by method
-     * Shold return an array with key as HTTP method and value as array of parameters
+     * Should return an array with key as HTTP method and value as array of parameters
      *
      * @return array
      */
     protected function getParametersRequirements()
     {
-        return array(
-            'put' => array('uri'),
-            'delete' => array('uri'),
-        );
+        return [
+            'put' => ['uri'],
+            'delete' => ['uri'],
+        ];
     }
 
     /**
@@ -436,11 +421,11 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function getParametersAliases()
     {
-        return array(
-            "label" => OntologyRdfs::RDFS_LABEL,
-            "comment" => OntologyRdfs::RDFS_COMMENT,
-            "type" => OntologyRdf::RDF_TYPE
-        );
+        return [
+            'label' => OntologyRdfs::RDFS_LABEL,
+            'comment' => OntologyRdfs::RDFS_COMMENT,
+            'type' => OntologyRdf::RDF_TYPE,
+        ];
     }
 
     /**
@@ -449,6 +434,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * - HTTP method
      *
      * @param $parameter , The alias name or uri of a parameter
+     *
      * @return bool
      */
     private function isRequiredParameter($parameter)
@@ -507,6 +493,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @param core_kernel_classes_Resource $resource
      *
      * @return stdClass
+     * @throws common_exception_Error
+     * @throws common_exception_InvalidArgumentType
      * @throws common_exception_NoContent
      */
     private function getFormattedResource(core_kernel_classes_Resource $resource)
@@ -520,14 +508,41 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     {
         $uri = null;
 
-        if ($this->hasRequestParameter("uri")) {
-            $uri = $this->getRequestParameter("uri");
+        if ($this->hasRequestParameter('uri')) {
+            $uri = $this->getRequestParameter('uri');
 
-            if (!(common_Utils::isUri($uri))) {
+            if (!common_Utils::isUri($uri)) {
                 throw new common_exception_InvalidArgumentType();
             }
         }
 
         return $uri;
+    }
+
+    /**
+     * @param string $scope
+     * @param core_kernel_classes_Class $class
+     *
+     * @return core_kernel_classes_Class[]|core_kernel_classes_Resource[]
+     * @throws common_exception_BadRequest
+     */
+    private function getSubResourcesByScope($scope, core_kernel_classes_Class $class)
+    {
+        if ($scope == static::CLASS_SCOPE_SUB_CLASSES) {
+            $subResources = $class->getSubClasses();
+        } elseif ($scope == static::CLASS_SCOPE_SUB_RESOURCES) {
+            $subResources = $class->getInstances();
+        } else {
+            throw new common_exception_BadRequest(
+                sprintf(
+                    'Scope `%s` is invalid, valid scopes are : `%s` and `%s`',
+                    $scope,
+                    static::CLASS_SCOPE_SUB_RESOURCES,
+                    static::CLASS_SCOPE_SUB_CLASSES
+                )
+            );
+        }
+
+        return $subResources;
     }
 }
