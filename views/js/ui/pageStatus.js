@@ -104,12 +104,14 @@ define([
         if(_.contains(options.track, 'visibility')){
 
             //minimize, switch tab, move the window in background (mobile), etc.
-            win.addEventListener(visibilityChangeEvent, function(e){
-                if(win.document[hiddenProp] === true){
-                    pageStatus.trigger('statuschange', 'hide', e.timeStamp);
-                } else {
-                    pageStatus.trigger('statuschange', 'show', e.timeStamp);
-                }
+            win.addEventListener(visibilityChangeEvent, function (e) {
+                setTimeout(function () {
+                    if (win.document[hiddenProp] === true) {
+                        pageStatus.trigger('statuschange', 'hide', e.timeStamp);
+                    } else {
+                        pageStatus.trigger('statuschange', 'show', e.timeStamp);
+                    }
+                }, 50);
             });
         }
 
