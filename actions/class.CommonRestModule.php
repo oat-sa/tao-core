@@ -39,13 +39,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     public function index($advancedAclUsage = false)
     {
         try {
-            $uri = null;
-            if ($this->hasRequestParameter("uri")) {
-                $uri = $this->getRequestParameter("uri");
-                if (!(common_Utils::isUri($uri))) {
-                    throw new common_exception_InvalidArgumentType();
-                }
-            }
+            $uri = $this->getUriFromRequestParameter();
 
             switch ($this->getRequestMethod()) {
                 case "GET":
@@ -84,18 +78,11 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     public function classes()
     {
         try {
-            $uri = null;
-            if ($this->hasRequestParameter("uri")) {
-                $uri = $this->getRequestParameter("uri");
-                if (!(common_Utils::isUri($uri))) {
-                    throw new common_exception_InvalidArgumentType();
-                }
-            }
+            $uri = $this->getUriFromRequestParameter();
 
             switch ($this->getRequestMethod()) {
                 case "GET":
-                    $scope = $this->getRequestParameter('scope');
-                    $response = $this->restGetClass($scope, $uri);
+                    $response = $this->restGetClass($this->getRequestParameter('scope'), $uri);
                     break;
                 case "POST":
                     $response = $this->restPostClass($uri);
@@ -527,5 +514,20 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         $formatter = new core_kernel_classes_ResourceFormatter();
 
         return $formatter->getResourceDescription($resource, false);
+    }
+
+    private function getUriFromRequestParameter()
+    {
+        $uri = null;
+
+        if ($this->hasRequestParameter("uri")) {
+            $uri = $this->getRequestParameter("uri");
+
+            if (!(common_Utils::isUri($uri))) {
+                throw new common_exception_InvalidArgumentType();
+            }
+        }
+
+        return $uri;
     }
 }
