@@ -1,4 +1,4 @@
-// Dropdown styles:
+		// Dropdown styles:
 .dropdown-container {
     position: relative;
     .dropdown {
@@ -16,6 +16,32 @@
             background: white;
             box-shadow: 0 2px 3px rgba(0,0,0,0.5);
             border: 1px solid #ccc;
+
+            .dropdown-header {
+                .a {
+                    display: inline-block;
+                    width: 160px;
+                    vertical-align: -50%;
+                }
+                &.toggler:after {
+                    display: none;
+                }
+            }
+        }
+        &:not(.open) {
+            .dropdown-header {
+                .a {
+                    display: inline-block;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    width: 140px;
+                }
+                &.toggler:after {
+                    top: 20px;
+                    position: fixed;
+                }
+            }
         }
         & > .dropdown-submenu {
             display: none;
@@ -31,7 +57,8 @@
             padding: 0;
             margin: 0;
             height: auto;
-            float: unset;
+            float: none;
+
             &:hover {
                 background: $lightBlueGrey;
             }
@@ -39,6 +66,8 @@
                 cursor: pointer;
                 height: auto;
                 text-align: left;
+                border-top: none !important;
+                padding: 1.2rem;
             }
             a:hover, a:focus, .a:hover, .a:focus {
                 background: none;
@@ -48,26 +77,11 @@
             }
         }
         .dropdown-header {
-            &.toggler:after {
-                vertical-align: -55%;
-            }
-
-            display: table;
-            width: 100%;
-            height: 43px;
-
-            .a {
-                display: table-cell;
-                vertical-align: middle;
-                padding-left: 16px;
-            }
+            min-height: 43px;
         }
         .dropdown-submenu {
             li {
                 padding: 0 0.3rem;
-                a, .a {
-                    padding: 1.2rem;
-                }
             }
         }
         .sep-before:before {
@@ -75,7 +89,7 @@
             display: block;
             height: 1px;
             width: 90%;
-            margin: 0 auto 0.6rem ;
+            margin: 0 auto 1px;
             background: $darkBlueGrey;
         }
     }
