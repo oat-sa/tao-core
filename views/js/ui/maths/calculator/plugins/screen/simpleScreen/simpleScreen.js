@@ -50,6 +50,10 @@ define([
         result: 0
     };
 
+    /**
+     * Default plugin config
+     * @type {Object}
+     */
     var defaultConfig = {
         layout: defaultScreenTpl
     };
@@ -161,9 +165,8 @@ define([
              * @returns {String}
              */
             function transformTokens(tokens) {
-                var expression = '';
-
-                _.forEach(tokens, function (token) {
+                var previous;
+                return termTpl(_.map(tokens, function (token) {
                     var term = {
                         type: token.type,
                         token: token.type,
@@ -180,17 +183,24 @@ define([
                             term.type = 'variable';
                             // always display the actual value of the last result variable
                             if (token.value === varAnsName) {
-                                term.label = calculator.getVariable(varAnsName).value;
+                                term.label = String(calculator.getVariable(varAnsName).value).replace(registeredTerms.SUB.value, registeredTerms.NEG.label);
                             }
                         } else {
                             term.type = 'unknown';
                         }
                     }
 
-                    expression += termTpl(term);
-                });
+                    if (token.type === 'SUB') {
+                        if (!previous || previous.type === 'operator' || previous.type === 'function' || previous.token === 'LPAR') {
+                            term.label = registeredTerms.NEG.label;
+                            term.token = 'NEG';
+                        }
+                    }
 
-                return expression;
+                    previous = term;
+
+                    return term;
+                }));
             }
 
             /**
