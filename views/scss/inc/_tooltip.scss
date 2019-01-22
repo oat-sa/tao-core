@@ -19,7 +19,9 @@ $dark : #404040;
 }
 
 .popper,
-.tooltip {
+.tooltip,
+.qti-item .tooltip
+{
   position: absolute;
   /*background: #FFC107;*/
 
