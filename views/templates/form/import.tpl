@@ -44,9 +44,14 @@ $msg .= '<ul>';
          * @param {String} [uriResource] - the uri resource node to be selected
          */
         var refreshTree = function refreshTree(uriResource){
-            actionManager.trigger('refresh', {
-                uri : uriResource
-            });
+            var tree = $('.section-trees');
+            if (tree.length) {
+                actionManager.trigger('refresh', {
+                    uri : uriResource
+                });
+            } else {
+                location.reload();
+            }
         };
 
         //find the old submitter and replace it with the new component
