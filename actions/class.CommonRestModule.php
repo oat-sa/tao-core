@@ -22,59 +22,58 @@ use oat\tao\model\accessControl\data\DataAccessControl;
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  */
-
 abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 {
     const CLASS_SCOPE_SUB_CLASSES = 'subClasses';
     const CLASS_SCOPE_SUB_RESOURCES = 'subResources';
 
-	/**
-	 * Entry point of API
-	 * If uri parameters is provided, it must be a valid uri
-	 * Depending on HTTP method, request is routed to crud function
+    /**
+     * Entry point of API
+     * If uri parameters is provided, it must be a valid uri
+     * Depending on HTTP method, request is routed to crud function
      *
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
      *
      * @deprecated Use resources() instead
-	 */
-	public function index($advancedAclUsage = false)
-	{
-		try {
-			$uri = null;
-			if ($this->hasRequestParameter("uri")) {
-				$uri = $this->getRequestParameter("uri");
-				if (!(common_Utils::isUri($uri))) {
-					throw new common_exception_InvalidArgumentType();
-				}
-			}
+     */
+    public function index($advancedAclUsage = false)
+    {
+        try {
+            $uri = null;
+            if ($this->hasRequestParameter("uri")) {
+                $uri = $this->getRequestParameter("uri");
+                if (!(common_Utils::isUri($uri))) {
+                    throw new common_exception_InvalidArgumentType();
+                }
+            }
 
-			switch ($this->getRequestMethod()) {
-				case "GET":
-					$response = $this->restGetResource($uri, $advancedAclUsage);
-					break;
-				case "PUT":
-					$response = $this->restPutResource($uri, $advancedAclUsage);
-					break;
-				case "POST":
-					$response = $this->restPostResource($advancedAclUsage);
-					break;
-				case "DELETE":
-					$response = $this->restDeleteResource($uri, $advancedAclUsage);
-					break;
-				default:
-					throw new common_exception_BadRequest($this->getRequestURI());
-			}
+            switch ($this->getRequestMethod()) {
+                case "GET":
+                    $response = $this->restGetResource($uri, $advancedAclUsage);
+                    break;
+                case "PUT":
+                    $response = $this->restPutResource($uri, $advancedAclUsage);
+                    break;
+                case "POST":
+                    $response = $this->restPostResource($advancedAclUsage);
+                    break;
+                case "DELETE":
+                    $response = $this->restDeleteResource($uri, $advancedAclUsage);
+                    break;
+                default:
+                    throw new common_exception_BadRequest($this->getRequestURI());
+            }
 
-			$this->returnSuccess($response);
-		} catch (Exception $e) {
-			$this->returnFailure($e);
-		}
-	}
+            $this->returnSuccess($response);
+        } catch (Exception $e) {
+            $this->returnFailure($e);
+        }
+    }
 
     /**
      * Endpoint to perform CRUD actions on \core_kernel_classes_Resource(s)
      */
-	public function resources()
+    public function resources()
     {
         $this->index(true);
     }
@@ -114,20 +113,20 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         }
     }
 
-	/**
-	 * Return crud service
-	 *
-	 * @return tao_models_classes_CrudService
-	 * @throws common_Exception
-	 */
-	protected function getCrudService()
-	{
-		if (!$this->service) {
-			throw new common_Exception('Crud service is not set.');
-		}
+    /**
+     * Return crud service
+     *
+     * @return tao_models_classes_CrudService
+     * @throws common_Exception
+     */
+    protected function getCrudService()
+    {
+        if (!$this->service) {
+            throw new common_Exception('Crud service is not set.');
+        }
 
-		return $this->service;
-	}
+        return $this->service;
+    }
 
     /**
      * Returns sub-classes or sub-resources (depending on the scope parameter value) of a given class.
@@ -142,7 +141,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_NotFound
      * @throws common_exception_BadRequest
      */
-	protected function restGetClass($scope, $uri = null)
+    protected function restGetClass($scope, $uri = null)
     {
         if (!$uri) {
             $uri = $this->getCrudService()->getRootClass()->getUri();
@@ -186,7 +185,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_Error
      * @throws common_exception_NotFound
      */
-	protected function restPostClass($parentClassUri = null)
+    protected function restPostClass($parentClassUri = null)
     {
         if (!$parentClassUri) {
             $parentClassUri = $this->getCrudService()->getRootClass()->getUri();
@@ -215,7 +214,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_Error
      * @throws common_exception_NotFound
      */
-	protected function restDeleteClass($uri)
+    protected function restDeleteClass($uri)
     {
         $this->enforceAcl($uri, 'WRITE');
 
@@ -239,7 +238,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      */
-	protected function restGetResource($uri = null, $advancedAclUsage = false)
+    protected function restGetResource($uri = null, $advancedAclUsage = false)
     {
         return $this->get($uri, $advancedAclUsage);
     }
@@ -255,7 +254,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_MissingParameter
      * @throws common_exception_PreConditionFailure
      */
-	protected function restPutResource($uri, $advancedAclUsage = false)
+    protected function restPutResource($uri, $advancedAclUsage = false)
     {
         return $this->put($uri, $advancedAclUsage);
     }
@@ -268,7 +267,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @return mixed
      * @throws common_exception_MissingParameter
      */
-	protected function restPostResource($advancedAclUsage = false)
+    protected function restPostResource($advancedAclUsage = false)
     {
         return $this->post($advancedAclUsage);
     }
@@ -284,212 +283,212 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
      */
-	protected function restDeleteResource($uri = null, $advancedAclUsage = false)
+    protected function restDeleteResource($uri = null, $advancedAclUsage = false)
     {
         return $this->delete($uri, $advancedAclUsage);
     }
 
-	/**
-	 * Method to wrap fetching to service:
-	 * - get() if uri is not null
-	 * - getAll() if uri is null
-	 *
-	 * @param string|null $uri
+    /**
+     * Method to wrap fetching to service:
+     * - get() if uri is not null
+     * - getAll() if uri is null
+     *
+     * @param string|null $uri
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
      *
-	 * @return mixed
-	 * @throws common_exception_InvalidArgumentType
-	 * @throws common_exception_PreConditionFailure
+     * @return mixed
+     * @throws common_exception_InvalidArgumentType
+     * @throws common_exception_PreConditionFailure
      *
      * @deprecated Use getResource instead
      */
     protected function get($uri = null, $advancedAclUsage = false)
-	{
-		if (!is_null($uri)) {
-			if (!($this->getCrudService()->isInScope($uri))) {
-				throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
-			}
+    {
+        if (!is_null($uri)) {
+            if (!($this->getCrudService()->isInScope($uri))) {
+                throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+            }
 
             if ($advancedAclUsage) {
                 $this->enforceAcl($uri, 'READ');
             }
 
-			return $this->getCrudService()->get($uri);
-		} else {
+            return $this->getCrudService()->get($uri);
+        } else {
             if ($advancedAclUsage) {
                 $this->enforceAcl($this->getCrudService()->getRootClass()->getUri(), 'READ');
             }
 
-			return $this->getCrudService()->getAll();
-		}
-	}
+            return $this->getCrudService()->getAll();
+        }
+    }
 
-	/**
-	 * Method to wrap deleting to service if uri is not null
-	 *
-	 * @param string|null $uri
+    /**
+     * Method to wrap deleting to service if uri is not null
+     *
+     * @param string|null $uri
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
      *
-	 * @return mixed
-	 * @throws common_exception_BadRequest
-	 * @throws common_exception_InvalidArgumentType
-	 * @throws common_exception_PreConditionFailure
+     * @return mixed
+     * @throws common_exception_BadRequest
+     * @throws common_exception_InvalidArgumentType
+     * @throws common_exception_PreConditionFailure
      *
      * @deprecated Use deleteResource instead
-	 */
+     */
     protected function delete($uri = null, $advancedAclUsage = false)
-	{
-		if (is_null($uri)) {
-			throw new common_exception_BadRequest('Delete method requires an uri parameter');
-		}
-		if (!($this->getCrudService()->isInScope($uri))) {
-			throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
-		}
+    {
+        if (is_null($uri)) {
+            throw new common_exception_BadRequest('Delete method requires an uri parameter');
+        }
+        if (!($this->getCrudService()->isInScope($uri))) {
+            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        }
 
-		if ($advancedAclUsage) {
+        if ($advancedAclUsage) {
             $this->enforceAcl($uri, 'WRITE');
         }
 
-		return $this->getCrudService()->delete($uri);
-	}
+        return $this->getCrudService()->delete($uri);
+    }
 
-	/**
-	 * Method to wrap creating to service
-	 *
+    /**
+     * Method to wrap creating to service
+     *
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
      *
-	 * @return mixed
-	 * @throws common_exception_MissingParameter
+     * @return mixed
+     * @throws common_exception_MissingParameter
      *
      * @deprecated Use postResource instead
-	 */
-	protected function post($advancedAclUsage = false)
-	{
-		$parameters = $this->getParameters();
+     */
+    protected function post($advancedAclUsage = false)
+    {
+        $parameters = $this->getParameters();
 
         if ($advancedAclUsage) {
             $this->enforceAcl($this->getCrudService()->getRootClass()->getUri(), 'WRITE');
         }
 
-		return $this->getCrudService()->createFromArray($parameters);
-	}
+        return $this->getCrudService()->createFromArray($parameters);
+    }
 
-	/**
-	 * Method to wrap to updating to service if uri is not null
-	 *
-	 * @param string $uri
+    /**
+     * Method to wrap to updating to service if uri is not null
+     *
+     * @param string $uri
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
      *
-	 * @return mixed
-	 * @throws common_exception_BadRequest
-	 * @throws common_exception_MissingParameter
-	 * @throws common_exception_PreConditionFailure
+     * @return mixed
+     * @throws common_exception_BadRequest
+     * @throws common_exception_MissingParameter
+     * @throws common_exception_PreConditionFailure
      *
      * @deprecated Use putResource instead
-	 */
-	protected function put($uri, $advancedAclUsage = false)
-	{
-		if (is_null($uri)) {
-			throw new common_exception_BadRequest('Update method requires an uri parameter');
-		}
-		if (!($this->getCrudService()->isInScope($uri))) {
-			throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
-		}
+     */
+    protected function put($uri, $advancedAclUsage = false)
+    {
+        if (is_null($uri)) {
+            throw new common_exception_BadRequest('Update method requires an uri parameter');
+        }
+        if (!($this->getCrudService()->isInScope($uri))) {
+            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        }
 
-		if ($advancedAclUsage) {
+        if ($advancedAclUsage) {
             $this->enforceAcl($uri, 'WRITE');
         }
 
-		$parameters = $this->getParameters();
-		return $this->getCrudService()->update($uri, $parameters);
-	}
+        $parameters = $this->getParameters();
+        return $this->getCrudService()->update($uri, $parameters);
+    }
 
-	/**
-	 * Returns all parameters that are URIs or Aliased with values
-	 *
-	 * @return array
-	 * @throws \common_exception_MissingParameter If a mandatory parameter is not found
-	 */
-	protected function getParameters()
-	{
-		$aliasedParameters = $this->getParametersAliases();
-		$effectiveParameters = array();
-		foreach ($aliasedParameters as $checkParameterShort =>$checkParameterUri) {
-			if ($this->hasRequestParameter($checkParameterShort)) {
-				$effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
-			}
-			if ($this->hasRequestParameter($checkParameterUri)) {
-				$effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
-			}
-			if ($this->isRequiredParameter($checkParameterShort) and !(isset($effectiveParameters[$checkParameterUri]))){
-				throw new \common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
-			}
-		}
-		return $effectiveParameters;
-	}
+    /**
+     * Returns all parameters that are URIs or Aliased with values
+     *
+     * @return array
+     * @throws \common_exception_MissingParameter If a mandatory parameter is not found
+     */
+    protected function getParameters()
+    {
+        $aliasedParameters = $this->getParametersAliases();
+        $effectiveParameters = array();
+        foreach ($aliasedParameters as $checkParameterShort => $checkParameterUri) {
+            if ($this->hasRequestParameter($checkParameterShort)) {
+                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
+            }
+            if ($this->hasRequestParameter($checkParameterUri)) {
+                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
+            }
+            if ($this->isRequiredParameter($checkParameterShort) and !(isset($effectiveParameters[$checkParameterUri]))) {
+                throw new \common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
+            }
+        }
+        return $effectiveParameters;
+    }
 
-	/**
-	 * Return required parameters by method
-	 * Shold return an array with key as HTTP method and value as array of parameters
-	 *
-	 * @return array
-	 */
-	protected function getParametersRequirements()
-	{
-		return array(
-			'put' => array ('uri'),
-			'delete' => array('uri'),
-		);
-	}
+    /**
+     * Return required parameters by method
+     * Shold return an array with key as HTTP method and value as array of parameters
+     *
+     * @return array
+     */
+    protected function getParametersRequirements()
+    {
+        return array(
+            'put' => array('uri'),
+            'delete' => array('uri'),
+        );
+    }
 
-	/**
-	 * Default parameters aliases,
-	 * Map from get parameter name to class uri
-	 *
-	 * @return array
-	 */
-	protected function getParametersAliases()
-	{
-		return array(
-			"label"=> OntologyRdfs::RDFS_LABEL,
-			"comment" => OntologyRdfs::RDFS_COMMENT,
-			"type"=> OntologyRdf::RDF_TYPE
-		);
-	}
+    /**
+     * Default parameters aliases,
+     * Map from get parameter name to class uri
+     *
+     * @return array
+     */
+    protected function getParametersAliases()
+    {
+        return array(
+            "label" => OntologyRdfs::RDFS_LABEL,
+            "comment" => OntologyRdfs::RDFS_COMMENT,
+            "type" => OntologyRdf::RDF_TYPE
+        );
+    }
 
-	/**
-	 * Defines if the parameter is mandatory according:
-	 * - getParametersRequirements array
-	 * - HTTP method
-	 *
-	 * @param $parameter, The alias name or uri of a parameter
-	 * @return bool
-	 */
-	private function isRequiredParameter($parameter)
-	{
-		$method = $this->getRequestMethod();
-		$requirements = $this->getParametersRequirements();
+    /**
+     * Defines if the parameter is mandatory according:
+     * - getParametersRequirements array
+     * - HTTP method
+     *
+     * @param $parameter , The alias name or uri of a parameter
+     * @return bool
+     */
+    private function isRequiredParameter($parameter)
+    {
+        $method = $this->getRequestMethod();
+        $requirements = $this->getParametersRequirements();
 
-		$requirements = array_change_key_case($requirements, CASE_LOWER);
-		$method = strtolower($method);
+        $requirements = array_change_key_case($requirements, CASE_LOWER);
+        $method = strtolower($method);
 
-		if (!isset($requirements[$method])) {
-			return false;
-		}
+        if (!isset($requirements[$method])) {
+            return false;
+        }
 
-		if (in_array($parameter,$requirements[$method])) {
-			return true;
-		}
+        if (in_array($parameter, $requirements[$method])) {
+            return true;
+        }
 
-		$isRequired = false;
+        $isRequired = false;
 
-		//The requirements may have been declared using URIs, look up for the URI
-		$aliases = $this->getParametersAliases();
-		if (isset($aliases[$parameter])) {
-			$isRequired = in_array($aliases[$parameter],$requirements[$method]);
-		}
-		return $isRequired;
-	}
+        //The requirements may have been declared using URIs, look up for the URI
+        $aliases = $this->getParametersAliases();
+        if (isset($aliases[$parameter])) {
+            $isRequired = in_array($aliases[$parameter], $requirements[$method]);
+        }
+        return $isRequired;
+    }
 
     /**
      * @param string $resourceId
@@ -498,7 +497,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_Error
      * @throws common_exception_Unauthorized
      */
-	private function enforceAcl($resourceId, $permission)
+    private function enforceAcl($resourceId, $permission)
     {
         $user = $this->getSession()->getUser();
 
