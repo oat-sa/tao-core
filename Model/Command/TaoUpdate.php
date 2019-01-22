@@ -33,7 +33,7 @@ class TaoUpdate extends ConsoleCommand
      */
     protected function configure()
     {
-        $this->setName('oat:update')
+        $this->setName('tao:update')
              ->setDescription('Updates the TAO instance');
     }
 
@@ -42,7 +42,7 @@ class TaoUpdate extends ConsoleCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->io->title('Starting TAO Update');
+        $this->title('Starting TAO Update');
 
         $merged = array_merge(
             $this->getExtensionManager()->getInstalledExtensions(),
@@ -53,33 +53,35 @@ class TaoUpdate extends ConsoleCommand
 
         foreach ($sorted as $extension) {
             try {
-                $this->io->section('Extension: ' . $extension->getName());
+                $this->section('Extension: ' . $extension->getName());
                 if (!$this->getExtensionManager()->isInstalled($extension->getId())) {
-                    $this->io->note('Extension is not installed yet. Installing it now.');
+                    $this->note('Extension is not installed yet. Installing it now.');
                     $installer = new tao_install_ExtensionInstaller($extension);
                     $installer->install();
-                    $this->io->success('Extension has been installed.');
+                    $this->writeln('Extension has been installed.');
                 } else {
                    $this->updateExtension($extension);
                 }
             } catch (common_ext_MissingExtensionException $e) {
-                $this->io->error($e->getMessage());
+                $this->error($e->getMessage());
                 break;
             } catch (common_ext_OutdatedVersionException $e) {
-                $this->io->error($e->getMessage());
+                $this->error($e->getMessage());
                 break;
             } catch (common_ext_AlreadyInstalledException $e) {
-                $this->io->error($e->getMessage());
+                $this->error($e->getMessage());
                 break;
             } catch (common_ext_ForbiddenActionException $e) {
-                $this->io->error($e->getMessage());
+                $this->error($e->getMessage());
                 break;
             } catch (Exception $e) {
-                $this->io->error('Update failed');
-                $this->io->error($e->getMessage());
+                $this->error('Update failed');
+                $this->error($e->getMessage());
                 break;
             }
         }
+
+        $this->success('Update processed finished');
     }
 
     /**
@@ -99,11 +101,11 @@ class TaoUpdate extends ConsoleCommand
         $codeVersion = $extension->getVersion();
 
         if ($installed === $codeVersion) {
-            $this->io->success('Up to date');
+            $this->writeln('Extension is up to date');
             return;
         }
 
-        $this->io->warning('Update from required (' . $installed . ' => ' . $codeVersion . ')');
+        $this->note('Update from required (' . $installed . ' => ' . $codeVersion . ')');
 
         $updater = $this->getUpdater($extension);
 
@@ -113,14 +115,14 @@ class TaoUpdate extends ConsoleCommand
 
             if ($returnedVersion !== null && $returnedVersion !== $currentVersion) {
                 $this->getExtensionManager()->updateVersion($extension, $returnedVersion);
-                $this->io->writeln('Manually saved extension version');
+                $this->writeln('Manually saved extension version');
                 $currentVersion = $returnedVersion;
             }
 
             if ($currentVersion === $codeVersion) {
-                $this->io->success('Extension updated successfully');
+                $this->writeln('Extension updated successfully');
             } else {
-                $this->io->error('Extension update failed, exited with version ' . $currentVersion);
+                $this->error('Extension update failed, exited with version ' . $currentVersion);
             }
 
             common_cache_FileCache::singleton()->purge();
@@ -169,12 +171,12 @@ class TaoUpdate extends ConsoleCommand
         $updaterClass = $extension->getManifest()->getUpdateHandler();
 
         if ($updaterClass === null) {
-            $this->io->error('No Updater found for  ' . $extension->getName());
+            $this->error('No Updater found for  ' . $extension->getName());
             return null;
         }
 
         if (!class_exists($updaterClass)) {
-            $this->io->error('Updater ' . $updaterClass . ' not found');
+            $this->error('Updater ' . $updaterClass . ' not found');
             return null;
         }
 
