@@ -105,7 +105,7 @@ define([
 
             //minimize, switch tab, move the window in background (mobile), etc.
             win.addEventListener(visibilityChangeEvent, function (e) {
-                setTimeout(function () {
+                _.defer(function () {
                     if (win.document[hiddenProp] === true) {
                         pageStatus.trigger('statuschange', 'hide', e.timeStamp);
                     } else {
