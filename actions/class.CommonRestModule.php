@@ -25,7 +25,7 @@ use oat\tao\model\accessControl\data\DataAccessControl;
 abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 {
     const CLASS_FILTER_SUB_CLASSES = 'subClasses';
-    const CLASS_FILTER_SUB_RESOURCES = 'subResources';
+    const CLASS_FILTER_INSTANCES = 'instances';
 
     /**
      * Entry point of API
@@ -531,14 +531,14 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     {
         if ($filter == static::CLASS_FILTER_SUB_CLASSES) {
             $subResources = $class->getSubClasses();
-        } elseif ($filter == static::CLASS_FILTER_SUB_RESOURCES) {
+        } elseif ($filter == static::CLASS_FILTER_INSTANCES) {
             $subResources = $class->getInstances();
         } else {
             throw new common_exception_BadRequest(
                 sprintf(
                     'Filter `%s` is invalid, valid filters are : `%s` and `%s`',
                     $filter,
-                    static::CLASS_FILTER_SUB_RESOURCES,
+                    static::CLASS_FILTER_INSTANCES,
                     static::CLASS_FILTER_SUB_CLASSES
                 )
             );
