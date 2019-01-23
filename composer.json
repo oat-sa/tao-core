@@ -52,7 +52,8 @@
 		"ezyang/htmlpurifier": "^4.9",
 		"justinrainbow/json-schema": "5.2.1",
 		"pimple/pimple": "^3.0",
-		"imsglobal/lti": "^3.0"
+		"imsglobal/lti": "^3.0",
+        "paragonie/random_compat": "^2.0"
 	},
 	"autoload" : {
 		"psr-4" : {
