@@ -156,9 +156,10 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
             unset($positions[$user->getIdentifier()]);
             $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
             $this->getPersistence()->set($key, json_encode($positions));
-        }
-        if ($this->getTrend($action) <= 0) {
-            $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
+            
+            if ($this->getTrend($action) <= 0) {
+                $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
+            }
         }
     }
 
