@@ -22,91 +22,91 @@ define(['i18n'], function (__) {
     'use strict';
 
     return {
-        // Operand definition
+        // Digits definition
         NUM0: {
             label: '0',
             value: '0',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 0')
         },
         NUM1: {
             label: '1',
             value: '1',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 1')
         },
         NUM2: {
             label: '2',
             value: '2',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 2')
         },
         NUM3: {
             label: '3',
             value: '3',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 3')
         },
         NUM4: {
             label: '4',
             value: '4',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 4')
         },
         NUM5: {
             label: '5',
             value: '5',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 5')
         },
         NUM6: {
             label: '6',
             value: '6',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 6')
         },
         NUM7: {
             label: '7',
             value: '7',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 7')
         },
         NUM8: {
             label: '8',
             value: '8',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 8')
         },
         NUM9: {
             label: '9',
             value: '9',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 9')
         },
         DOT: {
             label: '.',
             value: '.',
-            type: 'operand',
+            type: 'digit',
             description: __('Dot')
         },
         POW10: {
             label: 'e',
             value: 'e',
-            type: 'operand',
+            type: 'digit',
             description: __('Power of 10')
         },
 
-        // Modificators
+        // Aggregators
         LPAR: {
             label: '(',
             value: '(',
-            type: 'modificator',
+            type: 'aggregator',
             description: __('Left parenthesis')
         },
         RPAR: {
             label: ')',
             value: ')',
-            type: 'modificator',
+            type: 'aggregator',
             description: __('Right parenthesis')
         },
 

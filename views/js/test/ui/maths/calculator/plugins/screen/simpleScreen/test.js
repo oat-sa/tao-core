@@ -322,7 +322,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -332,7 +332,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
                                     resolve();
@@ -350,7 +350,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -383,7 +383,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '3', 'the term NUM3 is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(1)').data('token'), 'NUM3', 'the term NUM3 is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(1)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(1)').text().trim(), '3', 'the term NUM3 is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '+', 'the term ADD is transformed - data-value');
@@ -542,7 +542,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -552,7 +552,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
                                     assert.equal(calculator.is('error'), false, 'There is no error');
@@ -590,7 +590,7 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -600,12 +600,12 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('value'), '5', 'the result term is transformed - data-value');
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NUM5', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'operand', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'digit', 'the result term is transformed - data-type');
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), '5', 'the result term is transformed - content');
 
                                     resolve();
@@ -664,7 +664,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '3', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(2)').html().trim(), '3', 'the second operand is transformed - content');
 
                                     resolve();
@@ -700,7 +700,7 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '5', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM5', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '5', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -710,12 +710,12 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '3', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM3', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '3', 'the second operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('value'), '8', 'the result term is transformed - data-value');
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NUM8', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'operand', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'digit', 'the result term is transformed - data-type');
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), '8', 'the result term is transformed - content');
 
                                     resolve();
@@ -738,7 +738,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '0', 'the expression is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM0', 'the expression is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the expression is transformed - content');
 
                                     assert.equal($screen.find('.history .term').length, 0, 'The history is cleared');
@@ -816,7 +816,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
                                     assert.equal(calculator.is('error'), false, 'There is no error');
@@ -864,7 +864,7 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').get(0).dataset.value, 'NaN', 'the result term is transformed - data-value');
@@ -919,7 +919,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '0', 'the expression is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM0', 'the expression is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the expression is transformed - content');
 
                                     assert.equal($screen.find('.history .term').length, 0, 'The history is cleared');
@@ -987,7 +987,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '/', 'the operator is transformed - data-value');
@@ -997,7 +997,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '0', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM0', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(2)').html().trim(), '0', 'the second operand is transformed - content');
 
                                     assert.equal(calculator.is('error'), false, 'There is no error');
@@ -1035,7 +1035,7 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '/', 'the operator is transformed - data-value');
@@ -1045,7 +1045,7 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '0', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM0', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '0', 'the second operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').get(0).dataset.value, 'Infinity', 'the result term is transformed - data-value');
@@ -1100,7 +1100,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '0', 'the expression is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM0', 'the expression is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the expression is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the expression is transformed - content');
 
                                     assert.equal($screen.find('.history .term').length, 0, 'The history is cleared');
@@ -1168,7 +1168,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -1204,7 +1204,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -1238,7 +1238,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -1248,7 +1248,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
                                     resolve();
@@ -1283,7 +1283,7 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '3', 'the first operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM3', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '3', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -1293,12 +1293,12 @@ define([
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('value'), '2', 'the second operand is transformed - data-value');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').data('token'), 'NUM2', 'the second operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'operand', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(2)').data('type'), 'digit', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(2)').html().trim(), '2', 'the second operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('value'), '5', 'the result term is transformed - data-value');
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').data('token'), 'NUM5', 'the result term is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'operand', 'the result term is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-result .term:eq(0)').data('type'), 'digit', 'the result term is transformed - data-type');
                                     assert.equal($screen.find('.history .history-result .term:eq(0)').html().trim(), '5', 'the result term is transformed - content');
 
                                     resolve();
@@ -1393,7 +1393,7 @@ define([
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), '0', 'the operand is transformed - data-value');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM0', 'the operand is transformed - data-token');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the operand is transformed - data-type');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the operand is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the operand is transformed - content');
 
                                     assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -1412,7 +1412,7 @@ define([
 
                                             assert.equal($screen.find('.expression .term:eq(0)').data('value'), '0', 'the operand is transformed - data-value');
                                             assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'NUM0', 'the operand is transformed - data-token');
-                                            assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'operand', 'the operand is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'digit', 'the operand is transformed - data-type');
                                             assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the operand is transformed - content');
 
                                             assert.equal($screen.find('.expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
@@ -1422,7 +1422,7 @@ define([
 
                                             assert.equal($screen.find('.expression .term:eq(2)').data('value'), '5', 'the operand is transformed - data-value');
                                             assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM5', 'the operand is transformed - data-token');
-                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the operand is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the operand is transformed - data-type');
                                             assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '5', 'the operand is transformed - content');
 
                                             resolve();
@@ -1460,14 +1460,14 @@ define([
             term: 'NUM3',
             expression: '3',
             value: '3',
-            type: 'operand',
+            type: 'digit',
             label: '3'
         }, {
             title: '(',
             term: 'LPAR',
             expression: '(',
             value: '(',
-            type: 'modificator',
+            type: 'aggregator',
             label: '('
         }, {
             title: 'sqrt',
@@ -1654,7 +1654,7 @@ define([
 
                                             assert.equal($screen.find('.expression .term:eq(2)').data('value'), '8', 'the operand is transformed - data-value');
                                             assert.equal($screen.find('.expression .term:eq(2)').data('token'), 'NUM8', 'the operand is transformed - data-token');
-                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'operand', 'the operand is transformed - data-type');
+                                            assert.equal($screen.find('.expression .term:eq(2)').data('type'), 'digit', 'the operand is transformed - data-type');
                                             assert.equal($screen.find('.expression .term:eq(2)').text().trim(), '8', 'the operand is transformed - content');
 
                                             resolve();
@@ -1692,14 +1692,14 @@ define([
             term: 'NUM3',
             expression: '3',
             value: '3',
-            type: 'operand',
+            type: 'digit',
             label: '3'
         }, {
             title: '(',
             term: 'LPAR',
             expression: '(',
             value: '(',
-            type: 'modificator',
+            type: 'aggregator',
             label: '('
         }, {
             title: 'sqrt',
