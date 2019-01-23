@@ -20,11 +20,12 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+    'lodash',
     'i18n',
     'util/namespace',
     'ui/maths/calculator/core/plugin',
     'ui/maths/calculator/core/terms'
-], function (__, nsHelper, pluginFactory, registeredTerms) {
+], function (_, __, nsHelper, pluginFactory, registeredTerms) {
     'use strict';
 
     var pluginName = 'sign';
