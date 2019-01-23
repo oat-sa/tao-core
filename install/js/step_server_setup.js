@@ -71,8 +71,6 @@ require(['config'], function() {
                 var file_path = install.getData('file_path');
                 var file_path_overwrite = install.getData('file_path_overwrite');
 
-                console.log(file_path_overwrite);
-
                 var check = {
                     id: 'fs_data',
                     location: file_path,

@@ -99,27 +99,31 @@ class tao_install_services_CheckFileSystemComponentService
         return common_configuration_ComponentFactory::buildFileSystemComponent($location, $rights, $optional, $recursive, $mustCheckIfEmpty);
     }
     
-    public static function buildResult(tao_install_services_Data $data,
-									   common_configuration_Report $report,
-									   common_configuration_Component $component){
-
+    public static function buildResult(
+        tao_install_services_Data $data,
+        common_configuration_Report $report,
+        common_configuration_Component $component
+    ){
 		$content = json_decode($data->getContent(), true);
         $rights = $content['value']['rights'];
         $id = $content['value']['id'];
         
         $data = array('type' => 'FileSystemComponentReport',
-                      'value' => array('status' => $report->getStatusAsString(),
-                                       'message' => $report->getMessage(),
-        							   'id' => $id,
-                                       'optional' => $component->isOptional(),
-                                       'isReadable' => $component->isReadable(),
-                                       'isWritable' => $component->isWritable(),
-                                       'isExecutable' => $component->isExecutable(),
-                                       'isEmptyDirectory' => $component->isEmptyDirectory(),
-                                       'recursive' => $component->getRecursive(),
-        							   'expectedRights' => $rights,
-        							   'isFile' => is_file($component->getLocation()),
-        							   'location' => $component->getLocation()));	
+                      'value' => array(
+                           'status' => $report->getStatusAsString(),
+                           'message' => $report->getMessage(),
+                           'id' => $id,
+                           'optional' => $component->isOptional(),
+                           'isReadable' => $component->isReadable(),
+                           'isWritable' => $component->isWritable(),
+                           'isExecutable' => $component->isExecutable(),
+                           'isEmptyDirectory' => $component->isEmptyDirectory(),
+                           'recursive' => $component->getRecursive(),
+                           'expectedRights' => $rights,
+                           'isFile' => is_file($component->getLocation()),
+                           'location' => $component->getLocation()
+                      )
+        );
         
         return new tao_install_services_Data(json_encode($data));						   	
 	}
