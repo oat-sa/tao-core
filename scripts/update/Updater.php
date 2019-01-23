@@ -906,7 +906,7 @@ class Updater extends \common_ext_ExtensionUpdater {
                 ActionProtector::SERVICE_ID,
                 new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
             );
-            $this->setVersion('22.13.2');
+            $this->setVersion('22.13.1');
         }
 
         $this->skip('22.13.2', '22.14.4');
