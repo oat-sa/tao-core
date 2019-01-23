@@ -151,12 +151,16 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $key = $this->getQueueKey($action);
         $positions = $this->getPositions($action);
-        unset($positions[$user->getIdentifier()]);
-        if ($this->getTrend($action) <= 0) {
-            $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
+        if (array_key_exists($user->getIdentifier(), $positions)) {
+            // now we sure that this user has been queued
+            unset($positions[$user->getIdentifier()]);
+            $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
+            $this->getPersistence()->set($key, json_encode($positions));
+            
+            if ($this->getTrend($action) <= 0) {
+                $this->getPersistence()->set(get_class($action) . self::QUEUE_TREND, 1);
+            }
         }
-        $this->getPersistence()->set($key, json_encode($positions));
-        $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
     }
 
     /**
@@ -177,7 +181,7 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function getTtl(QueuedAction $action)
     {
         $actionConfig = $this->getActionConfig($action);
-        $ttl = intval(isset($actionConfig[self::ACTION_PARAM_TTL]) ? $actionConfig[self::ACTION_PARAM_TTL] : 0);
+        $ttl = (int) (isset($actionConfig[self::ACTION_PARAM_TTL]) ? $actionConfig[self::ACTION_PARAM_TTL] : 0);
         return $ttl;
     }
 
