@@ -24,8 +24,8 @@ use oat\tao\model\accessControl\data\DataAccessControl;
  */
 abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 {
-    const CLASS_SCOPE_SUB_CLASSES = 'subClasses';
-    const CLASS_SCOPE_SUB_RESOURCES = 'subResources';
+    const CLASS_FILTER_SUB_CLASSES = 'subClasses';
+    const CLASS_FILTER_SUB_RESOURCES = 'subResources';
 
     /**
      * Entry point of API
@@ -34,6 +34,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      *
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
      *
+     * @throws common_exception_NotImplemented
      * @deprecated Use resources() instead
      */
     public function index($advancedAclUsage = false)
@@ -82,7 +83,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 
             switch ($this->getRequestMethod()) {
                 case 'GET':
-                    $response = $this->restGetClass($this->getRequestParameter('scope'), $uri);
+                    $response = $this->restGetClass($this->getRequestParameter('filter'), $uri);
                     break;
                 case 'POST':
                     $response = $this->restPostClass($uri);
@@ -116,10 +117,10 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     }
 
     /**
-     * Returns sub-classes or sub-resources (depending on the scope parameter value) of a given class.
+     * Returns sub-classes or sub-resources (depending on the filter parameter value) of a given class.
      * If no class URI is specified, the current root class will be used.
      *
-     * @param string $scope
+     * @param string $filter
      * @param string|null $uri
      *
      * @return array
@@ -128,7 +129,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_NotFound
      * @throws common_exception_BadRequest
      */
-    protected function restGetClass($scope, $uri = null)
+    protected function restGetClass($filter, $uri = null)
     {
         if (!$uri) {
             $uri = $this->getCrudService()->getRootClass()->getUri();
@@ -142,7 +143,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             throw new common_exception_NotFound(sprintf('Class `%s` does not exist', $uri));
         }
 
-        return $this->getFormattedResources($this->getSubResourcesByScope($scope, $class));
+        return $this->getFormattedResources($this->getSubResourcesByFilter($filter, $class));
     }
 
     /**
@@ -520,25 +521,25 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     }
 
     /**
-     * @param string $scope
+     * @param string $filter
      * @param core_kernel_classes_Class $class
      *
      * @return core_kernel_classes_Class[]|core_kernel_classes_Resource[]
      * @throws common_exception_BadRequest
      */
-    private function getSubResourcesByScope($scope, core_kernel_classes_Class $class)
+    private function getSubResourcesByFilter($filter, core_kernel_classes_Class $class)
     {
-        if ($scope == static::CLASS_SCOPE_SUB_CLASSES) {
+        if ($filter == static::CLASS_FILTER_SUB_CLASSES) {
             $subResources = $class->getSubClasses();
-        } elseif ($scope == static::CLASS_SCOPE_SUB_RESOURCES) {
+        } elseif ($filter == static::CLASS_FILTER_SUB_RESOURCES) {
             $subResources = $class->getInstances();
         } else {
             throw new common_exception_BadRequest(
                 sprintf(
-                    'Scope `%s` is invalid, valid scopes are : `%s` and `%s`',
-                    $scope,
-                    static::CLASS_SCOPE_SUB_RESOURCES,
-                    static::CLASS_SCOPE_SUB_CLASSES
+                    'Filter `%s` is invalid, valid filters are : `%s` and `%s`',
+                    $filter,
+                    static::CLASS_FILTER_SUB_RESOURCES,
+                    static::CLASS_FILTER_SUB_CLASSES
                 )
             );
         }
