@@ -531,15 +531,16 @@ define([
             /**
              * Replaces the expression and move the cursor at the end.
              * @param {String} newExpression - The new expression to set
+             * @param {Number|String} [newPosition=newExpression.length] - The new position to set
              * @returns {calculator}
              * @fires replace after the expression has been replaced
              */
-            replace: function replace(newExpression) {
+            replace: function replace(newExpression, newPosition) {
                 var oldExpression = expression;
                 var oldPosition = position;
 
                 this.setExpression(newExpression)
-                    .setPosition(expression.length);
+                    .setPosition('undefined' !== typeof newPosition ? newPosition : expression.length);
 
                 /**
                  * @event replace

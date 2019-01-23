@@ -1656,7 +1656,7 @@ define([
         var $container = $('#fixture-replace');
         var instance;
 
-        QUnit.expect(14);
+        QUnit.expect(21);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -1676,27 +1676,57 @@ define([
                 assert.equal(this.getExpression(), oldExpression, 'The old expression is set');
                 assert.equal(this.getPosition(), oldExpression.length, 'The old position is set');
 
-                return new Promise(function (resolve) {
-                    self
-                        .on('expressionchange.test', function (expr) {
-                            assert.equal(expr, newExpression, 'The new expression is set');
-                        })
-                        .on('positionchange.test', function (pos) {
-                            assert.equal(pos, newExpression.length, 'The new position is set');
-                        })
-                        .on('replace.test', function (oldExpr, oldPos) {
-                            self.off('replace.test');
+                return Promise.resolve()
+                    .then(function() {
+                        return new Promise(function (resolve) {
+                            self
+                                .on('expressionchange.test', function (expr) {
+                                    self.off('expressionchange.test');
+                                    assert.equal(expr, newExpression, 'The new expression is set');
+                                })
+                                .on('positionchange.test', function (pos) {
+                                    self.off('positionchange.test');
+                                    assert.equal(pos, newExpression.length, 'The new position is set');
+                                })
+                                .on('replace.test', function (oldExpr, oldPos) {
+                                    self.off('replace.test');
 
-                            assert.ok(true, 'The expression is replaced');
-                            assert.equal(self.getExpression(), newExpression, 'The new expression is set');
-                            assert.equal(self.getPosition(), newExpression.length, 'new The position is set');
+                                    assert.ok(true, 'The expression is replaced');
+                                    assert.equal(self.getExpression(), newExpression, 'The new expression is set');
+                                    assert.equal(self.getPosition(), newExpression.length, 'The new position is set');
 
-                            assert.equal(oldExpr, oldExpression, 'The previous expression is provided');
-                            assert.equal(oldPos, oldExpression.length, 'The previous position is provided');
-                            resolve();
-                        })
-                        .replace(newExpression);
-                });
+                                    assert.equal(oldExpr, oldExpression, 'The previous expression is provided');
+                                    assert.equal(oldPos, oldExpression.length, 'The previous position is provided');
+                                    resolve();
+                                })
+                                .replace(newExpression);
+                        });
+                    })
+                    .then(function() {
+                        return new Promise(function (resolve) {
+                            self
+                                .on('expressionchange.test', function (expr) {
+                                    self.off('expressionchange.test');
+                                    assert.equal(expr, oldExpression, 'The old expression is set');
+                                })
+                                .on('positionchange.test', function (pos) {
+                                    self.off('positionchange.test');
+                                    assert.equal(pos, 1, 'The arbitrary position is set');
+                                })
+                                .on('replace.test', function (oldExpr, oldPos) {
+                                    self.off('replace.test');
+
+                                    assert.ok(true, 'The expression is replaced');
+                                    assert.equal(self.getExpression(), oldExpression, 'The old expression is set');
+                                    assert.equal(self.getPosition(), 1, 'The arbitrary position is set');
+
+                                    assert.equal(oldExpr, newExpression, 'The previous expression is provided');
+                                    assert.equal(oldPos, newExpression.length, 'The previous position is provided');
+                                    resolve();
+                                })
+                                .replace(oldExpression, 1);
+                        });
+                    });
             })
             .after('ready', function () {
                 assert.equal($container.children().length, 1, 'The container contains an element');
