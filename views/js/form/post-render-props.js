@@ -32,6 +32,7 @@ define([
         // Note: isInstanceForm will not work with jquery|querySelector
         var isInstanceForm = document.getElementById('tao.forms.instance'),
             $idField = $container.find('#id'),
+            value = $idField.val(),
             $copyField,
             $label = $('<span>', {class: 'form_desc', text: __('Resource Identifier')}),
             $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')})
@@ -62,6 +63,8 @@ define([
         }
 
         $copyField = $idField.clone()
+        // To make MS browsers happy, value needs to be removed and re-added
+            .val('')
             .attr({readonly: true, type: 'text'});
         $idField.remove();
         $fieldBox.append([$copyField, $button]);
@@ -71,7 +74,10 @@ define([
             .after($('<div>')
                 .append([$label, $fieldBox]));
         $fieldBox.height($copyField.outerHeight());
-        $copyField.addClass('final');
+
+        $copyField.addClass('final')
+        // re-add value
+            .val(value);
     }
 
 
