@@ -24,13 +24,13 @@ define([
     'lodash',
     'i18n',
     'ui/feedback',
-    'jquery.cookie'
+    'core/tokenStore'
 ],
-function ($, _, __, feedback) {
+function ($, _, __, feedback, tokenStoreFactory) {
     'use strict';
 
     var defaults = {
-        maxPoolSize: 6, // TR should set this to 1 to force sequential AJAX requests
+        maxPoolSize: 1, // TR should set this to 1 to force sequential AJAX requests
         tokenTimeLimit: 1000 * 60 * 15
     };
 
@@ -42,117 +42,60 @@ function ($, _, __, feedback) {
      * @param {String} [config.tokenTimeLimit]
      * @returns {tokenHandler}
      */
-    function tokenHandlerFactory(config) { // initialToken) {
-        console.log('tokenHandlerFactory()'); // called 3 times on TR load
+    return function tokenHandlerFactory(config) {
+        //console.log('tokenHandlerFactory()'); // FIXME: called 3 times on TR load
 
         // Initialise queue, empty queue will produce a null token
-        var tokenQueue = [];
-
+        var tokenStorage;
         config = _.defaults({}, config, defaults);
-
-        // if (config.initialToken) {
-        //     tokenQueue.push({
-        //         value: config.initialToken,
-        //         receivedAt: Date.now()
-        //     });
-        // }
-
-        // Hardcode cookie tokens
-        //$.cookie('tao_tokens', 'a;b;c;d;e;f;g;h;i;j;k;l'); // these basic tokens work in backend, not in TR
-        //$.cookie('tao_tokens', null);
-
-        // if (tokenQueue.length === 0) {
-        //     console.log('initial cookie read');
-        //     setQueue(readCookieTokens('tao_tokens'));
-        //     console.info('Q:', tokenQueue);
-        // }
-
-        /**
-         * Reads token strings from a cookie
-         * @param {String} name - name of the cookie
-         * @returns {Array}
-         */
-        // function readCookieTokens(name) {
-        //     console.log('reading cookie');
-        //     var tokenList = $.cookie(name);
-        //     $.cookie(name, null);
-        //     if (tokenList) {
-        //         console.log('Found', tokenList.split(';').length, 'new tokens in token cookie');
-        //         return tokenList.split(';');
-        //     }
-        //     return [];
-        // }
-
-        /**
-         * Sets the whole queue of tokens in one go
-         * (but won't exceed maxPoolSize)
-         * @param {Array} tokenStrings - the token strings
-         */
-        function setQueue(tokenStrings) {
-            tokenQueue = _.chain(tokenStrings)
-                .map(function(token) {
-                    return {
-                        value: token,
-                        receivedAt: Date.now()
-                    };
-                })
-                .take(config.maxPoolSize)
-                .value();
-        }
-
-        /**
-         * Checks if a token in the pool is expired
-         * @param {String} token
-         * @returns {Boolean}
-         */
-        // function isExpired(token) {
-        //     return Date.now() - token.receivedAt > config.tokenTimeLimit;
-        // }
+        tokenStorage = tokenStoreFactory({ maxSize: config.maxPoolSize });
 
         return {
             /**
              * Gets the next security token from the token queue
+             * Causes fresh tokens to be fetched from server, if none available locally
              * Once the token is got, it is erased from the memory (one use only)
-             * @returns {String}
+             * @returns {Promise<Object>} the token object
              */
             getToken: function getToken() {
-                var currentToken;
-                console.log('getToken');
-                if (tokenQueue.length === 0) {
-                    // check the cookie again if we're truly out of tokens
-                    //setQueue(readCookieTokens('tao_tokens'));
-                    this.fetchNewTokens()
+                if (tokenStorage.isEmpty()) {
+                    // Fetch again if we're truly out of tokens
+                    return this.fetchNewTokens()
                         .then(function(tokens) {
-                            setQueue(_.map(tokens, 'value'));
-                            console.info('Q:', tokenQueue);
-                            currentToken = tokenQueue.length ? tokenQueue.shift().value : null;
-                            console.log('tokenHandler.getToken (shift)', currentToken);
-                            return currentToken;
+                            // TODO: Must add the tokens 1 by 1, not asynchronously
+                            _.forEach(tokens, function(token) {
+                                tokenStorage.add(token); // returns true
+                            });
+
+                            tokenStorage.log();
+                            return tokenStorage.get().then(function(currentToken) {
+                                console.log('tokenHandler.getToken (shift)', currentToken);
+                                return currentToken;
+                            });
                         });
                 }
-                currentToken = tokenQueue.length ? tokenQueue.shift().value : null;
-                console.log('tokenHandler.getToken (shift)', currentToken);
-                return currentToken;
+                else {
+                    return tokenStorage.get().then(function(currentToken) {
+                        console.log('tokenHandler.getToken (shift)', currentToken);
+                        return currentToken;
+                    });
+                }
             },
 
             /**
              * Adds a new security token to the token queue
-             * Deletes old tokens to keep queue within maximum pool size
+             * Internally, old tokens are deleted to keep queue within maximum pool size
              * @param {String} newToken
              * @returns {Object} - this
              */
             setToken: function setToken(newToken) {
-                // check against max pool size, if queue is full we should bump oldest token
-                while (tokenQueue.length >= config.maxPoolSize) {
-                    tokenQueue.shift();
-                }
-                tokenQueue.push({
-                    value: newToken,
-                    receivedAt: Date.now()
-                });
-                console.log('tokenHandler.setToken (push)', newToken);
-                console.info('Q:', tokenQueue);
-                return this;
+                var self = this;
+                return tokenStorage.add(newToken)
+                    .then(function() {
+                        console.log('tokenHandler.setToken (push)', newToken);
+                        tokenStorage.log();
+                        return self;
+                    });
             },
 
             /**
@@ -163,12 +106,14 @@ function ($, _, __, feedback) {
             fetchNewTokens: function fetchNewTokens() {
                 return new Promise(function(resolve, reject){
                     $.ajax({
-                        url: 'http://127.0.0.1:3697/csrf-tokens',
-                        dataType: 'json',
+                        // url: 'http://127.0.0.1:3697/csrf-tokens',
+                        url: '/tao/ClientConfig/tokens',
+                        //dataType: 'json',
                         data : null,
                     })
                     .success(function(response) {
-                        resolve(response);
+                        console.log('ClientConfig response', JSON.parse(response));
+                        resolve(JSON.parse(response));
                     })
                     .error(function() {
                         feedback().error(__('No tokens retrieved'));
@@ -182,8 +127,8 @@ function ($, _, __, feedback) {
              * @returns {Integer}
              */
             getQueueLength: function getQueueLength() {
-                return tokenQueue.length;
-            }
+                return tokenStorage.getSize();
+            },
 
             /**
              * Set the max size of the internal tokenHandler's token pool
@@ -193,7 +138,5 @@ function ($, _, __, feedback) {
             //     config.maxPoolSize = size;
             // }
         };
-    }
-
-    return tokenHandlerFactory;
+    };
 });

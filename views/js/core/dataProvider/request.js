@@ -71,7 +71,7 @@ define([
      * @param {String} [method = 'GET'] - the HTTP method
      * @param {Object} [headers] - the HTTP header
      * @param {Boolean} [background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
-     * @param {Boolean} [noToken] - to disable the token
+     * @param {Boolean} [noToken = false] - to disable the token
      * @param {Object} [ajaxParams] - extra parameters for the internal $.ajax() call
      * @param {Boolean} [returnXhr = false] - if false, returns response.data, otherwise response (for TR API)
      * @returns {Promise} that resolves with data or reject if something went wrong
@@ -82,78 +82,84 @@ define([
         var runRequest = function runRequest() {
             return new Promise(function(resolve, reject){
 
-                var csrfToken;
+                var runAjax = function runAjax(customHeaders) {
+                    return $.ajax(_.defaults({
+                        url: url,
+                        type: method || 'GET',
+                        dataType: 'json',
+                        headers: customHeaders,
+                        data : data,
+                        beforeSend: function() {
+                            console.log('sending header token', customHeaders['X-CSRF-Token']);
+                        },
+                        global : !background//TODO fix this with TT-260
+                    }, ajaxParams))
+                    .done(function(response, status, xhr){
+                        //console.log('response', response);
+                        console.log('response full header', xhr.getAllResponseHeaders());
+                        //console.log('response header specific', xhr.getResponseHeader('X-CSRF-Token'));
+                        console.log('dataProvider/request received token', response.token);
+                        // store the response token for the next request
+                        tokenHandler.setToken({
+                            value: response.token || 'someToken' + ('' + Date.now()).slice(9),
+                            createdAt: Date.now()
+                        });
+
+                        if (xhr.status === 204 || (response && response.errorCode === 204)){
+                            //no content, so resolve with empty data.
+                            return resolve();
+                        }
+
+                        // handle case where token expired or invalid
+                        if (xhr.status === 401 || (response && response.errorCode === 401)){
+                            feedback().error(__('Unauthorised request'));
+                            reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                        }
+
+                        if(response && response.success === true){
+                            //there's some data
+                            return resolve(returnXhr ? response : response.data);   // response.data for non-TR?
+                        }
+
+                        //the server has handled the error
+                        return reject(createError(response,  __('The server has sent an empty response'), xhr.status));
+                    })
+                    .fail(function(xhr){
+                        var response;
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch(parseErr){
+                            response = xhr.responseText;
+                        }
+
+                        return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                    });    
+                };
 
                 if(_.isEmpty(url)){
                     return reject(new TypeError('At least give a URL...'));
                 }
 
                 if (!noToken) {
-                    csrfToken = tokenHandler.getToken() || 'none'; // FIXME:
-                    if (!csrfToken) {
-                        // request should wait for a token, or fail
-                    }
-                    headers = _.extend({}, headers, {
-                        'X-Requested-With': 'XMLHttpRequest', // already present in jQuery.ajax?
-                        'X-CSRF-Token': csrfToken,
-                        'X-Auth-Token': csrfToken  // header for current TR only
-                    });
+                    // we must get a token from the store
+                    tokenHandler.getToken()
+                        .then(function(token) {
+                            if (token && token.value) {
+                                headers = _.extend({}, headers, {
+                                    'X-Requested-With': 'XMLHttpRequest', // already present in jQuery.ajax?
+                                    'X-CSRF-Token': token.value || 'none',
+                                    'X-Auth-Token': token.value || 'none'  // header for current TR only
+                                });
+                            }
+                            return headers;
+                        })
+                        .then(function(customHeaders) {
+                            runAjax(customHeaders);
+                        });
                 }
-
-                console.log('dataProvider/request->request()', {
-                    url: url,
-                    method: method,
-                    headers: headers
-                });
-
-                $.ajax(_.defaults({
-                    url: url,
-                    type: method || 'GET',
-                    dataType: 'json',
-                    headers: headers,
-                    data : data,
-                    beforeSend: function() {
-                        console.log('sending...');
-                    },
-                    global : !background//TODO fix this with TT-260
-                }, ajaxParams))
-                .done(function(response, status, xhr){
-                    console.log('response', response);
-                    console.log('response full header', xhr.getAllResponseHeaders());
-                    console.log('response header specific', xhr.getResponseHeader('X-CSRF-Token'));
-                    console.log('dataProvider/request received token', response.token);
-                    // store the response token for the next request
-                    tokenHandler.setToken(response.token || 'someToken' + ('' + Date.now()).slice(9));
-
-                    if (xhr.status === 204 || (response && response.errorCode === 204)){
-                        //no content, so resolve with empty data.
-                        return resolve();
-                    }
-
-                    // handle case where token expired or invalid
-                    if (xhr.status === 401 || (response && response.errorCode === 401)){
-                        feedback().error(__('Unauthorised request'));
-                        reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
-                    }
-
-                    if(response && response.success === true){
-                        //there's some data
-                        return resolve(returnXhr ? response : response.data);   // response.data for non-TR?
-                    }
-
-                    //the server has handled the error
-                    return reject(createError(response,  __('The server has sent an empty response'), xhr.status));
-                })
-                .fail(function(xhr){
-                    var response;
-                    try {
-                        response = JSON.parse(xhr.responseText);
-                    } catch(parseErr){
-                        response = xhr.responseText;
-                    }
-
-                    return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
-                });
+                else {
+                    runAjax(headers);
+                }
             });
         };
 
