@@ -153,6 +153,7 @@
     $calculatorKeyboardTxt: $textColor;
     $calculatorScreenBg: $uiGeneralContentBg;
     $calculatorScreenTxt: $textColor;
+    $calculatorScreenBorder: $info;
     $calculatorScreenSpecialTxt: $uiClickableHoverBg;
     $calculatorHistoryBorder: $uiGeneralContentBorder;
     $calculatorHistoryTxt: whiten($textColor, .2);
@@ -197,10 +198,13 @@
         flex: 0 0 auto;
     }
 
+    .focus {
+        outline: 2px solid $calculatorScreenBorder;
+    }
+
     .keyboard {
         position: relative;
-        flex: 1 1 auto;
-        height: calc(100% - 6em);
+        flex: 1 1;
     }
 
     .calculator-keyboard {
@@ -405,7 +409,9 @@
 
             .history-line {
                 .history-expression {
-                    font-weight: lighter;
+                    &, .term {
+                        font-weight: lighter;
+                    }
                     text-align: left;
                 }
                 .history-result {
@@ -430,8 +436,13 @@
         .term {
             padding: 0;
 
-            &.term-operator:not([data-token="POW"]) {
+            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]) {
                 padding: 0 $calculatorTermSpace;
+            }
+            &.term-operator[data-token="FAC"],
+            &.term-operator[data-token="NEG"] {
+                margin-left: -$calculatorTermSpace / 2;
+                margin-right: -$calculatorTermSpace / 2;
             }
             &.term-function:not([data-token="SQRT"]):not([data-token="CBRT"]) {
                 padding-right: $calculatorTermSpace;

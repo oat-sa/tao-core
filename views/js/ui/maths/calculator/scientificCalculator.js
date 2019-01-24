@@ -22,12 +22,14 @@ define([
     'lodash',
     'i18n',
     'ui/maths/calculator/defaultCalculator',
+    'ui/maths/calculator/plugins/modifiers/sign',
     'tpl!ui/maths/calculator/tpl/scientificKeyboard',
     'tpl!ui/maths/calculator/tpl/scientificScreen'
 ], function (
     _,
     __,
     defaultCalculatorFactory,
+    pluginSign,
     keyboardTpl,
     screenTpl
 ) {
@@ -54,7 +56,15 @@ define([
      * @returns {dynamicComponent}
      */
     return function scientificCalculator(config) {
+        // The plugins config is directly built here instead of using a module variable to ensure the object is unique
+        // to the instance. This wil avoid global polluting by successive instances, as nested objects and arrays might
+        // be simply copied.
         return defaultCalculatorFactory(_.merge({
+            loadedPlugins: {
+                modifiers: [
+                    pluginSign
+                ]
+            },
             calculator: {
                 plugins: {
                     templateKeyboard: {
