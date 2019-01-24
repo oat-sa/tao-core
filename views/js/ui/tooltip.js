@@ -46,6 +46,7 @@ define([
     var defaultOptions = {
         template:themesMap.default,
         html:true,
+        trigger:'hover focus',
         popperOptions:{
             positionFixed: true,
             placement:'auto',

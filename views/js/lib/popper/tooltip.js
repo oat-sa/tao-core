@@ -310,6 +310,7 @@ var Tooltip = function () {
           boundariesElement: options.boundariesElement
         };
       }
+
       this.popperInstance = new Popper(reference, tooltipNode, this._popperOptions);
 
       this._tooltipNode = tooltipNode;
@@ -375,6 +376,7 @@ var Tooltip = function () {
 
     /**
      * Append tooltip to container
+     * makes popper instnce to redraw itself in order to fix word wrap on dynamic content
      * @memberof Tooltip
      * @private
      * @param {HTMLElement} tooltipNode
@@ -384,18 +386,21 @@ var Tooltip = function () {
   }, {
     key: '_append',
     value: function _append(tooltipNode, container) {
-      var self = this;
+      var _this2 = this;
+
       container.appendChild(tooltipNode);
 
-      // force popper to redraw itself in order to fix word wrap on dynamic content
       setTimeout(function () {
-        self.show();
+        if (_this2._isOpen) {
+          _this2.hide();
+        }
+        _this2.show();
       });
     }
   }, {
     key: '_setEventListeners',
     value: function _setEventListeners(reference, events, options) {
-      var _this2 = this;
+      var _this3 = this;
 
       var directEvents = [];
       var oppositeEvents = [];
@@ -420,13 +425,13 @@ var Tooltip = function () {
       // schedule show tooltip
       directEvents.forEach(function (event) {
         var func = function func(evt) {
-          if (_this2._isOpening === true) {
+          if (_this3._isOpening === true) {
             return;
           }
           evt.usedByTooltip = true;
-          _this2._scheduleShow(reference, options.delay, options, evt);
+          _this3._scheduleShow(reference, options.delay, options, evt);
         };
-        _this2._events.push({ event: event, func: func });
+        _this3._events.push({ event: event, func: func });
         reference.addEventListener(event, func);
       });
 
@@ -436,16 +441,16 @@ var Tooltip = function () {
           if (evt.usedByTooltip === true) {
             return;
           }
-          _this2._scheduleHide(reference, options.delay, options, evt);
+          _this3._scheduleHide(reference, options.delay, options, evt);
         };
-        _this2._events.push({ event: event, func: func });
+        _this3._events.push({ event: event, func: func });
         reference.addEventListener(event, func);
         if (event === 'click' && options.closeOnClickOutside) {
           document.addEventListener('mousedown', function (e) {
-            if (!_this2._isOpening) {
+            if (!_this3._isOpening) {
               return;
             }
-            var popper = _this2.popperInstance.popper;
+            var popper = _this3.popperInstance.popper;
             if (reference.contains(e.target) || popper.contains(e.target)) {
               return;
             }
@@ -457,36 +462,36 @@ var Tooltip = function () {
   }, {
     key: '_scheduleShow',
     value: function _scheduleShow(reference, delay, options /*, evt */) {
-      var _this3 = this;
+      var _this4 = this;
 
       this._isOpening = true;
       // defaults to 0
       var computedDelay = delay && delay.show || delay || 0;
       this._showTimeout = window.setTimeout(function () {
-        return _this3._show(reference, options);
+        return _this4._show(reference, options);
       }, computedDelay);
     }
   }, {
     key: '_scheduleHide',
     value: function _scheduleHide(reference, delay, options, evt) {
-      var _this4 = this;
+      var _this5 = this;
 
       this._isOpening = false;
       // defaults to 0
       var computedDelay = delay && delay.hide || delay || 0;
       window.setTimeout(function () {
-        window.clearTimeout(_this4._showTimeout);
-        if (_this4._isOpen === false) {
+        window.clearTimeout(_this5._showTimeout);
+        if (_this5._isOpen === false) {
           return;
         }
-        if (!document.body.contains(_this4._tooltipNode)) {
+        if (!document.body.contains(_this5._tooltipNode)) {
           return;
         }
 
         // if we are hiding because of a mouseleave, we must check that the new
         // reference isn't the tooltip, because in this case we don't want to hide it
         if (evt.type === 'mouseleave') {
-          var isSet = _this4._setTooltipNodeEvent(evt, reference, delay, options);
+          var isSet = _this5._setTooltipNodeEvent(evt, reference, delay, options);
 
           // if we set the new event, don't hide the tooltip yet
           // the new event will take care to hide it if necessary
@@ -495,7 +500,7 @@ var Tooltip = function () {
           }
         }
 
-        _this4._hide(reference, options);
+        _this5._hide(reference, options);
       }, computedDelay);
     }
   }, {
@@ -507,11 +512,10 @@ var Tooltip = function () {
         }
         return;
       }
-      var titleNode = this._tooltipNode.parentNode.querySelector(this.options.innerSelector);
+      var titleNode = this._tooltipNode.querySelector(this.options.innerSelector);
       this._clearTitleContent(titleNode, this.options.html, this.reference.getAttribute('title') || this.options.title);
       this._addTitleContent(this.reference, title, this.options.html, titleNode);
       this.options.title = title;
-
       this.popperInstance.update();
     }
   }, {
@@ -536,30 +540,30 @@ var Tooltip = function () {
 
 
 var _initialiseProps = function _initialiseProps() {
-  var _this5 = this;
+  var _this6 = this;
 
   this.show = function () {
-    return _this5._show(_this5.reference, _this5.options);
+    return _this6._show(_this6.reference, _this6.options);
   };
 
   this.hide = function () {
-    return _this5._hide();
+    return _this6._hide();
   };
 
   this.dispose = function () {
-    return _this5._dispose();
+    return _this6._dispose();
   };
 
   this.toggle = function () {
-    if (_this5._isOpen) {
-      return _this5.hide();
+    if (_this6._isOpen) {
+      return _this6.hide();
     } else {
-      return _this5.show();
+      return _this6.show();
     }
   };
 
   this.updateTitleContent = function (title) {
-    return _this5._updateTitleContent(title);
+    return _this6._updateTitleContent(title);
   };
 
   this._events = [];
@@ -571,18 +575,18 @@ var _initialiseProps = function _initialiseProps() {
       var relatedreference2 = evt2.relatedreference || evt2.toElement || evt2.relatedTarget;
 
       // Remove event listener after call
-      _this5._tooltipNode.removeEventListener(evt.type, callback);
+      _this6._tooltipNode.removeEventListener(evt.type, callback);
 
       // If the new reference is not the reference element
       if (!reference.contains(relatedreference2)) {
         // Schedule to hide tooltip
-        _this5._scheduleHide(reference, options.delay, options, evt2);
+        _this6._scheduleHide(reference, options.delay, options, evt2);
       }
     };
 
-    if (_this5._tooltipNode.contains(relatedreference)) {
+    if (_this6._tooltipNode.contains(relatedreference)) {
       // listen to mouseleave on the tooltip element to be able to hide the tooltip
-      _this5._tooltipNode.addEventListener(evt.type, callback);
+      _this6._tooltipNode.addEventListener(evt.type, callback);
       return true;
     }
 
