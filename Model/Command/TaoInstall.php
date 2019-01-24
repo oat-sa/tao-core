@@ -11,9 +11,9 @@ use common_persistence_KeyValuePersistence;
 use common_persistence_Manager;
 use core_kernel_users_Service;
 use Exception;
-use FileNotFoundException;
 use helpers_File;
 use helpers_Random;
+use InvalidArgumentException;
 use oat\generis\Model\ConsoleCommand;
 use oat\oatbox\install\Installer;
 use oat\oatbox\PimpleContainerTrait;
@@ -68,6 +68,11 @@ class TaoInstall extends ConsoleCommand
     private $dbConfiguration;
 
     /**
+     * @var string[]
+     */
+    private $escapedChecks;
+
+    /**
      * @var bool
      */
     protected $loadConfig = false;
@@ -103,18 +108,27 @@ class TaoInstall extends ConsoleCommand
             $rootDir = dir(__DIR__ . '/../../../');
             $this->rootPath = realpath($rootDir->path) . DIRECTORY_SEPARATOR;
 
-            if ($this->install() === false) {
-                $this->error('An error occurred during the installation process.');
-                return;
-            }
+            $this->addEscapeCheck('custom_tao_ModRewrite');
+
+            $this->install();
+
+            $this->success('TAO has been successfully installed!');
         } catch (Exception $e){
             $this->error('A fatal error has occurred during installation: ' . $e->getMessage());
         }
 
-        $this->success('TAO has been successfully installed!');
-
     }
 
+    /**
+     * Main entry point for the installation.
+     *
+     * @throws \common_Exception
+     * @throws \common_configuration_CyclicDependencyException
+     * @throws \common_ext_ExtensionException
+     * @throws \oat\generis\model\user\PasswordConstraintsException
+     * @throws common_exception_Error
+     * @throws tao_install_utils_Exception
+     */
     private function install()
     {
         $progressBar = $this->createProgressBar(19);
@@ -129,7 +143,7 @@ class TaoInstall extends ConsoleCommand
         $this->newLine(2);
 
         if ($this->verifyArguments() === false) {
-            return false;
+            throw new InvalidArgumentException('Argument verification failed.');
         }
         $progressBar->advance();
         $this->newLine(2);
@@ -161,13 +175,7 @@ class TaoInstall extends ConsoleCommand
         $progressBar->advance();
         $this->newLine(2);
 
-        $storedProcedureFile = __DIR__ . DIRECTORY_SEPARATOR . 'db' . DIRECTORY_SEPARATOR . 'tao_stored_procedures_' . str_replace('pdo_', '', $dbDriver) . '.sql';
-        if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)) {
-            $this->writeln('Installing stored procedures for ' . $dbDriver . ' from file: ' . $storedProcedureFile);
-            $this->dbCreator->loadProc($storedProcedureFile);
-        } else {
-            throw new Exception('Could not find storefile: ' . $storedProcedureFile);
-        }
+        $this->installStoredProcedures();
         $progressBar->advance();
         $this->newLine(2);
 
@@ -181,6 +189,7 @@ class TaoInstall extends ConsoleCommand
         $progressBar->advance();
         $this->newLine(2);
 
+        // @todo: Is this still needed?
 //        foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
 //            common_persistence_Manager::addPersistence($k, $persistence);
 //        }
@@ -191,7 +200,6 @@ class TaoInstall extends ConsoleCommand
         $progressBar->advance();
         $this->newLine(2);
 
-
         $this->section('Create persistence');
         $this->createPersistence();
         $progressBar->advance();
@@ -200,31 +208,36 @@ class TaoInstall extends ConsoleCommand
         $this->section('Generis user creation');
         $modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
         $modelCreator->insertGenerisUser(helpers_Random::generateString(8));
-        $this->writeln('Created generis user');
+        $this->success('Created generis user');
         $progressBar->advance();
         $this->newLine(2);
 
         $this->section('Language setup');
         $models = $modelCreator->getLanguageModels();
-        foreach ($models as $ns => $modelFiles){
+        $insertedModels = [];
+        foreach ($models as $modelFiles){
             foreach ($modelFiles as $file){
-                $this->writeln("Inserting language description model '" . $file . "'");
                 $modelCreator->insertLocalModel($file);
+                $insertedModels[] = $file;
             }
         }
+        $this->success('Inserted the following language description models:');
+        $this->listing($insertedModels);
         $progressBar->advance();
         $this->newLine(2);
 
         $this->section('Finalize generis install');
         $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-
         $generisInstaller = new common_ext_GenerisInstaller($generis, true);
         $generisInstaller->install();
+        $this->success('Generis installation finalized');
         $progressBar->advance();
         $this->newLine(2);
 
         $this->section('Installing extensions');
-        $installed = InstallHelper::installRecursively($this->input->getArgument('extensions'), $this->input->getArguments());
+        $arguments = $this->input->getArguments();
+        $arguments['import_local'] = (bool) $this->input->getOption('import-local');
+        $installed = InstallHelper::installRecursively($this->input->getArgument('extensions'), $arguments);
         $this->success('The following extensions have been installed:');
         $this->listing($installed);
         $progressBar->advance();
@@ -232,11 +245,12 @@ class TaoInstall extends ConsoleCommand
 
         $this->section('Translation bundle generation');
         tao_models_classes_LanguageService::singleton()->generateAll();
+        $this->success('Translation bundle generation successful');
         $progressBar->advance();
         $this->newLine(2);
 
         $this->section('SuperUser creation');
-        $modelCreator->insertSuperUser(array(
+        $modelCreator->insertSuperUser([
             'login'			=> $this->input->getArgument('admin-user'),
             'password'		=> core_kernel_users_Service::getPasswordHash()->encrypt($this->input->getArgument('admin-pass')),
             'userLastName'	=> 'user',
@@ -245,13 +259,17 @@ class TaoInstall extends ConsoleCommand
             'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $this->input->getArgument('language'),
             'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $this->input->getArgument('language'),
             'userTimezone'  => TIME_ZONE
-        ));
+        ]);
+        $this->success('Super user created');
         $progressBar->advance();
         $this->newLine(2);
 
+        $this->section('Securing installation');
         if ($this->input->getArgument('deployment-mode') === 'production') {
-            $this->section('Securing installation');
             $this->secureInstallation();
+            $this->success('Installation has been secured for production mode');
+        } else {
+            $this->note('Skipping this step for development mode');
         }
         $progressBar->advance();
         $this->newLine(2);
@@ -285,21 +303,25 @@ class TaoInstall extends ConsoleCommand
      */
     private function verifyArguments()
     {
+        $argumentsValid = true;
         $instanceName = $this->input->getArgument('instance-name');
         if (preg_match('/\s/u', $instanceName) === 1) {
             $this->error('Instance name cannot contain any whitespace characters.');
-            return false;
+            $argumentsValid = false;
         }
 
         $allowedCharacters = ['-', '_'];
         if (ctype_alnum(str_replace($allowedCharacters, '', $instanceName)) === false) {
             $this->error('Instance name can only contain alphanumeric characters, dashes and underscores.');
-            return false;
+            $argumentsValid = false;
         }
 
-        return true;
+        return $argumentsValid;
     }
 
+    /**
+     * Sanitize the arguments so they can be used for the installation.
+     */
     private function sanitizeArguments()
     {
         $moduleUrl = $this->input->getArgument('url');
@@ -438,7 +460,7 @@ class TaoInstall extends ConsoleCommand
     {
         $this->addOption(
             'import-local',
-            null,
+            'i',
             InputOption::VALUE_NONE,
             'States if the local.rdf files must be imported or not.'
         );
@@ -446,15 +468,21 @@ class TaoInstall extends ConsoleCommand
         return $this;
     }
 
+    /**
+     * Check the configuration for the given extensions.
+     *
+     * @throws \common_configuration_CyclicDependencyException
+     * @throws tao_install_utils_Exception
+     */
     private function checkConfig()
     {
         $configChecker = tao_install_utils_ChecksHelper::getConfigChecker($this->input->getArgument('extensions'));
 
         // Silence checks to have to be escaped.
         foreach ($configChecker->getComponents() as $c){
-//            if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())){
-//                $configChecker->silent($c);
-//            }
+            if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())){
+                $configChecker->silent($c);
+            }
         }
 
         $reports = $configChecker->check();
@@ -469,6 +497,11 @@ class TaoInstall extends ConsoleCommand
         }
     }
 
+    /**
+     * Install the OAT Box extension.
+     *
+     * @throws common_exception_Error
+     */
     private function installOatBox()
     {
         $this->writeln('Removing old config');
@@ -482,6 +515,11 @@ class TaoInstall extends ConsoleCommand
         $this->success('Oatbox was installed!');
     }
 
+    /**
+     * Initialize the database creator service.
+     *
+     * @throws tao_install_utils_Exception
+     */
     private function initDatabaseCreator()
     {
         $this->writeln('Getting DbCreator');
@@ -521,6 +559,11 @@ class TaoInstall extends ConsoleCommand
         $this->dbCreator = new tao_install_utils_DbalDbCreator($this->dbConfiguration);
     }
 
+    /**
+     * Create the database for the application.
+     *
+     * @throws tao_install_utils_Exception
+     */
     private function createDatabase()
     {
         $dbName = $this->input->getArgument('db-name');
@@ -544,9 +587,14 @@ class TaoInstall extends ConsoleCommand
         }
     }
 
+    /**
+     * Cleanup an existing database.
+     *
+     * @throws tao_install_utils_Exception
+     */
     private function cleanupDatabase()
     {
-        $this->writeln('Existing database found. Cleaning the existing database...');
+        $this->note('Existing database found. Cleaning the existing database...');
         $dbName = $this->input->getArgument('db-name');
         try {
             //If the target Sgbd is mysql select the database after creating it
@@ -568,6 +616,11 @@ class TaoInstall extends ConsoleCommand
         $this->writeln('Database cleaned up');
     }
 
+    /**
+     * Adds a set of constants to the generis install.
+     *
+     * @throws tao_install_utils_Exception
+     */
     private function setGenerisConfiguration()
     {
         $this->writeln('Writing generis config');
@@ -607,7 +660,11 @@ class TaoInstall extends ConsoleCommand
         return 'tao_' . helpers_Random::generateString(8);
     }
 
-
+    /**
+     * Setup the file structure.
+     *
+     * @throws common_exception_Error
+     */
     private function setFileStructure()
     {
         $file_path = $this->input->getArgument('data-dir');
@@ -632,7 +689,7 @@ class TaoInstall extends ConsoleCommand
     }
 
     /**
-     * Get the config file platform e.q. generis.conf.php
+     * Get the generis config file path
      *
      * @return string
      */
@@ -641,6 +698,9 @@ class TaoInstall extends ConsoleCommand
         return $this->input->getArgument('config-dir') . 'generis.conf.php';
     }
 
+    /**
+     * Create the cache and generis persistence
+     */
     private function createPersistence()
     {
         common_persistence_Manager::addPersistence('cache', [
@@ -653,6 +713,11 @@ class TaoInstall extends ConsoleCommand
         $this->success('Created generis persistence');
     }
 
+    /**
+     * Secure the TAO installation.
+     *
+     * @throws tao_install_utils_Exception
+     */
     private function secureInstallation()
     {
         $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
@@ -670,5 +735,56 @@ class TaoInstall extends ConsoleCommand
             'views/build'
         ));
         $shield->protectInstall();
+    }
+
+    /**
+     * Install the stored procedures from the stored procedures file.
+     *
+     * @throws Exception
+     */
+    private function installStoredProcedures()
+    {
+        $dbDriver = $this->input->getArgument('db-driver');
+        $storedProcedurePathParts = [
+            __DIR__, '..', '..', 'install', 'db', 'tao_stored_procedures_' . str_replace('pdo_', '', $dbDriver) . '.sql',
+        ];
+        $storedProcedureFile = implode(DIRECTORY_SEPARATOR, $storedProcedurePathParts);
+        if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)) {
+            $this->writeln('Installing stored procedures for "' . $dbDriver . '" from file: ' . $storedProcedureFile);
+            $this->dbCreator->loadProc($storedProcedureFile);
+        } else {
+            throw new \Exception('Could not find storefile : ' . $storedProcedureFile);
+        }
+    }
+
+    /**
+     * Add id of aconfiguration that should not be checked.
+     *
+     * @param string $id
+     */
+    private function addEscapeCheck($id){
+        $checks = $this->getEscapedChecks();
+        $checks[] = $id;
+        $checks = array_unique($checks);
+        $this->setEscapedChecks($checks);
+    }
+
+    /**
+     * Get ids of configurations that should not be checked.
+     *
+     * @return string[]
+     */
+    private function getEscapedChecks(){
+        return $this->escapedChecks;
+    }
+
+    /**
+     * Set ids of configurations that should not be checked.
+     *
+     * @param string[] $ids.
+     * @return void
+     */
+    private function setEscapedChecks(array $ids){
+        $this->escapedChecks = $ids;
     }
 }
