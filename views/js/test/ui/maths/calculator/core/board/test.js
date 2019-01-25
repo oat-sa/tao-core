@@ -114,6 +114,8 @@ define([
         {title: 'getVariables'},
         {title: 'setVariables'},
         {title: 'deleteVariables'},
+        {title: 'setLastResult'},
+        {title: 'getLastResult'},
         {title: 'getCommand'},
         {title: 'hasCommand'},
         {title: 'getCommands'},
@@ -741,12 +743,16 @@ define([
     });
 
     QUnit.asyncTest('variables', function (assert) {
+        var defaultVariables = {
+            'ans': 0
+        };
         var expectedVariables = {
             'foo': 'bar',
             'x': '42',
             'y': '3'
         };
         var expectedResults = {
+            'ans': 0,
             'foo': 0,
             'x': 42,
             'y': 3
@@ -754,7 +760,7 @@ define([
         var $container = $('#fixture-variables');
         var instance;
 
-        QUnit.expect(17);
+        QUnit.expect(20);
 
         assert.equal($container.children().length, 0, 'The container is empty');
 
@@ -766,9 +772,9 @@ define([
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
                 return new Promise(function (resolve) {
-                    assert.deepEqual(self.getVariables(), {}, 'No variable set for now');
+                    assert.deepEqual(self.getVariables(), defaultVariables, 'Only default variables set for now');
                     self
-                        .on('variableadd', function (name, value) {
+                        .on('variableadd.set', function (name, value) {
                             assert.equal(typeof expectedVariables[name], 'string', 'Variable ' + name + ' added');
                             assert.equal(value.expression, expectedVariables[name], 'Value of variable ' + name + ' provided');
                             assert.equal(self.getVariable(name).expression, expectedVariables[name], 'The variable ' + name + ' now exists');
@@ -779,10 +785,18 @@ define([
                             }
                         })
                         .on('variabledelete', function (name) {
+                            self.off('.set');
                             assert.equal(name, null, 'Variables deleted');
                             assert.deepEqual(self.getVariables(), {}, 'No variable set anymore');
 
-                            resolve();
+                            self.on('variableadd.reset', function (name, value) {
+                                self.off('.reset');
+                                assert.equal(name, registeredTerms.ANS.value, 'Variable ans added');
+                                assert.equal(value.expression, '0', 'Variable ans reset');
+                                assert.equal(self.getVariable(name).expression, '0', 'The variable ans now exists');
+
+                                resolve();
+                            });
                         })
                         .setVariables(expectedVariables);
                 });
@@ -1319,12 +1333,16 @@ define([
     });
 
     QUnit.asyncTest('useVariable - success', function (assert) {
+        var defaultVariables = {
+            'ans': 0
+        };
         var expectedVariables = {
             'foo': 'bar',
             'x': '42',
             'y': '3'
         };
         var expectedResults = {
+            'ans': 0,
             'foo': 0,
             'x': 42,
             'y': 3
@@ -1342,7 +1360,7 @@ define([
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
-                assert.deepEqual(self.getVariables(), {}, 'No variable set for now');
+                assert.deepEqual(self.getVariables(), defaultVariables, 'Only default variables set for now');
 
                 self.setVariables(expectedVariables);
                 assert.deepEqual(self.getVariables(), expectedResults, 'All expected variables now set');
@@ -1429,6 +1447,9 @@ define([
     });
 
     QUnit.asyncTest('useVariable - failure', function (assert) {
+        var defaultVariables = {
+            'ans': 0
+        };
         var $container = $('#fixture-usevariable');
         var instance;
 
@@ -1442,7 +1463,7 @@ define([
                 var self = this;
                 assert.equal(this, instance, 'The instance has been initialized');
                 assert.equal(this.getExpression(), '', 'The expression is empty');
-                assert.deepEqual(self.getVariables(), {}, 'No variable set for now');
+                assert.deepEqual(self.getVariables(), defaultVariables, 'Only default variables set for now');
 
                 return new Promise(function (resolve) {
                     self
@@ -1997,6 +2018,102 @@ define([
             });
     });
 
+    QUnit.asyncTest('ans variable', function (assert) {
+        var $container = $('#fixture-ans');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                function evaluatePromise(expression) {
+                    return new Promise(function(resolve, reject) {
+                        calculator
+                            .on('error.test', function(err) {
+                                calculator.off('.test');
+                                reject(err);
+                            })
+                            .after('evaluate.test', function(result) {
+                                calculator.off('.test');
+                                resolve(result);
+                            })
+                            .replace(expression)
+                            .evaluate();
+                    });
+                }
+
+                Promise.resolve()
+                    .then(function () {
+                        assert.equal(calculator.hasVariable('ans'), true, 'The variable ans is defined');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans contains 0');
+                        assert.equal(calculator.getLastResult().value, '0', 'The last result contains 0');
+
+                        return evaluatePromise('ans');
+                    })
+                    .then(function (result) {
+                        assert.equal(result.value, '0', 'The expression "ans" is evaluated to 0');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
+                        assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
+
+                        return evaluatePromise('40+2');
+                    })
+                    .then(function (result) {
+                        assert.equal(result.value, '42', 'The expression "40+2" is evaluated to 42');
+                        assert.equal(calculator.getVariable('ans').value, '42', 'The variable ans now contains 42');
+                        assert.equal(calculator.getLastResult().value, '42', 'The last result now contains 42');
+
+                        return evaluatePromise('ans*2');
+                    })
+                    .then(function (result) {
+                        assert.equal(result.value, '84', 'The expression "ans*2" is evaluated to 84');
+                        assert.equal(calculator.getVariable('ans').value, '84', 'The variable ans now contains 84');
+                        assert.equal(calculator.getLastResult().value, '84', 'The last result now contains 84');
+
+                        return evaluatePromise('3*2');
+                    })
+                    .then(function (result) {
+                        assert.equal(result.value, '6', 'The expression "3*2" is evaluated to 6');
+                        assert.equal(calculator.getVariable('ans').value, '6', 'The variable ans now contains 6');
+                        assert.equal(calculator.getLastResult().value, '6', 'The last result now contains 6');
+
+                        return evaluatePromise('sqrt -2');
+                    })
+                    .then(function (result) {
+                        assert.equal(String(result.value), 'NaN', 'The expression "sqrt -2" is evaluated to NaN');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
+                        assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
+                    })
+                    .then(function () {
+                        calculator.setLastResult('42');
+                        assert.equal(calculator.getVariable('ans').value, '42', 'The variable ans now contains 42');
+                        assert.equal(calculator.getLastResult().value, '42', 'The last result now contains 42');
+                    })
+                    .then(function () {
+                        calculator.setLastResult('Infinity');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
+                        assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
+                    })
+                    .then(function () {
+                        calculator.setLastResult('NaN');
+                        assert.equal(calculator.getVariable('ans').value, '0', 'The variable ans now contains 0');
+                        assert.equal(calculator.getLastResult().value, '0', 'The last result now contains 0');
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'Unexpected failure : ' + err.message);
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            })
+            .after('destroy', function () {
+                assert.equal(calculator.hasVariable('ans'), false, 'The variable ans has been removed');
+                QUnit.start();
+            });
+
+        QUnit.expect(25);
+    });
+
     QUnit.asyncTest('built-in commands - clear', function (assert) {
         var $container = $('#fixture-builtin');
         var instance;
@@ -2230,4 +2347,293 @@ define([
             });
     });
 
+    QUnit.asyncTest('0 and operator', function (assert) {
+        var $container = $('#fixture-zero-op');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                function addTermPromise(term) {
+                    return new Promise(function(resolve, reject) {
+                        calculator
+                            .on('error.test', function(err) {
+                                calculator.off('.test');
+                                reject(err);
+                            })
+                            .after('termadd.test', function() {
+                                calculator.off('.test');
+                                resolve();
+                            })
+                            .useTerm(term);
+                    });
+                }
+
+                calculator.replace('0');
+
+                Promise.resolve()
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
+                        assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
+                        return addTermPromise('NUM0');
+                    })
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), '0', 'The expression should still be 0');
+                        assert.equal(calculator.getPosition(), 1, 'The position should still be 1');
+                        return addTermPromise('ADD');
+                    })
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), '0+', 'The expression should be now 0+');
+                        assert.equal(calculator.getPosition(), 2, 'The position should be now 2');
+                        return addTermPromise('NUM5');
+                    })
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), '0+5', 'The expression should be now 0+5');
+                        assert.equal(calculator.getPosition(), 3, 'The position should be now 3');
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'Unexpected failure : ' + err.message);
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            })
+            .on('destroy', function () {
+                QUnit.start();
+            });
+
+        QUnit.expect(8);
+    });
+
+    QUnit
+        .cases([{
+            title: 'PI',
+            term: 'PI',
+            expression: 'PI',
+            value: 'PI',
+            type: 'constant',
+            label: registeredTerms.PI.label
+        }, {
+            title: '3',
+            term: 'NUM3',
+            expression: '3',
+            value: '3',
+            type: 'digit',
+            label: '3'
+        }, {
+            title: '(',
+            term: 'LPAR',
+            expression: '(',
+            value: '(',
+            type: 'aggregator',
+            label: '('
+        }, {
+            title: 'sqrt',
+            term: 'SQRT',
+            expression: 'sqrt',
+            value: 'sqrt',
+            type: 'function',
+            label: registeredTerms.SQRT.label
+        }])
+        .asyncTest('0 and const', function (data, assert) {
+            var $container = $('#fixture-zero-const');
+            var calculator = calculatorBoardFactory($container)
+                .on('ready', function () {
+                    function addTermPromise(term) {
+                        return new Promise(function(resolve, reject) {
+                            calculator
+                                .on('error.test', function(err) {
+                                    calculator.off('.test');
+                                    reject(err);
+                                })
+                                .after('termadd.test', function() {
+                                    calculator.off('.test');
+                                    resolve();
+                                })
+                                .useTerm(term);
+                        });
+                    }
+
+                    calculator.replace('0');
+
+                    Promise.resolve()
+                        .then(function () {
+                            assert.equal(calculator.getExpression(), '0', 'The expression should be set to 0');
+                            assert.equal(calculator.getPosition(), 1, 'The position should be set to 1');
+                            return addTermPromise('NUM0');
+                        })
+                        .then(function () {
+                            assert.equal(calculator.getExpression(), '0', 'The expression should still be 0');
+                            assert.equal(calculator.getPosition(), 1, 'The position should still be 1');
+                            return addTermPromise(data.term);
+                        })
+                        .then(function () {
+                            assert.equal(calculator.getExpression(), data.expression, 'The expression should be ' + data.expression);
+                            assert.equal(calculator.getPosition(), data.expression.length, 'The position should be ' + data.expression.length);
+                        })
+                        .catch(function (err) {
+                            assert.ok(false, 'Unexpected failure : ' + err.message);
+                        })
+                        .then(function () {
+                            calculator.destroy();
+                        });
+                })
+                .on('error', function (err) {
+                    console.error(err);
+                    assert.ok(false, 'The operation should not fail!');
+                    QUnit.start();
+                })
+                .on('destroy', function () {
+                    QUnit.start();
+                });
+
+            QUnit.expect(6);
+        });
+
+    QUnit.asyncTest('ans and operator', function (assert) {
+        var $container = $('#fixture-ans-op');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                function addTermPromise(term) {
+                    return new Promise(function(resolve, reject) {
+                        calculator
+                            .on('error.test', function(err) {
+                                calculator.off('.test');
+                                reject(err);
+                            })
+                            .after('termadd.test', function() {
+                                calculator.off('.test');
+                                resolve();
+                            })
+                            .useTerm(term);
+                    });
+                }
+
+                calculator.replace('ans');
+
+                Promise.resolve()
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), 'ans', 'The expression should be set to ans');
+                        assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
+                        return addTermPromise('ANS');
+                    })
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), 'ans', 'The expression should still be ans');
+                        assert.equal(calculator.getPosition(), 3, 'The position should still be 3');
+                        return addTermPromise('ADD');
+                    })
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), 'ans+', 'The expression should be now ans+');
+                        assert.equal(calculator.getPosition(), 4, 'The position should be now 4');
+                        return addTermPromise('NUM8');
+                    })
+                    .then(function () {
+                        assert.equal(calculator.getExpression(), 'ans+8', 'The expression should be now ans+8');
+                        assert.equal(calculator.getPosition(), 5, 'The position should be now 5');
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'Unexpected failure : ' + err.message);
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            })
+            .on('destroy', function () {
+                QUnit.start();
+            });
+
+        QUnit.expect(8);
+    });
+
+    QUnit
+        .cases([{
+            title: 'PI',
+            term: 'PI',
+            expression: 'PI',
+            value: 'PI',
+            type: 'constant',
+            label: registeredTerms.PI.label
+        }, {
+            title: '3',
+            term: 'NUM3',
+            expression: '3',
+            value: '3',
+            type: 'digit',
+            label: '3'
+        }, {
+            title: '(',
+            term: 'LPAR',
+            expression: '(',
+            value: '(',
+            type: 'aggregator',
+            label: '('
+        }, {
+            title: 'sqrt',
+            term: 'SQRT',
+            expression: 'sqrt',
+            value: 'sqrt',
+            type: 'function',
+            label: registeredTerms.SQRT.label
+        }])
+        .asyncTest('ans and const', function (data, assert) {
+            var $container = $('#fixture-ans-const');
+            var calculator = calculatorBoardFactory($container)
+                .on('ready', function () {
+                    function addTermPromise(term) {
+                        return new Promise(function(resolve, reject) {
+                            calculator
+                                .on('error.test', function(err) {
+                                    calculator.off('.test');
+                                    reject(err);
+                                })
+                                .after('termadd.test', function() {
+                                    calculator.off('.test');
+                                    resolve();
+                                })
+                                .useTerm(term);
+                        });
+                    }
+
+                    calculator.replace('ans');
+
+                    Promise.resolve()
+                        .then(function () {
+                            assert.equal(calculator.getExpression(), 'ans', 'The expression should be set to ans');
+                            assert.equal(calculator.getPosition(), 3, 'The position should be set to 3');
+                            return addTermPromise('ANS');
+                        })
+                        .then(function () {
+                            assert.equal(calculator.getExpression(), 'ans', 'The expression should still be ans');
+                            assert.equal(calculator.getPosition(), 3, 'The position should still be 3');
+                            return addTermPromise(data.term);
+                        })
+                        .then(function () {
+                            assert.equal(calculator.getExpression(), data.expression, 'The expression should be ' + data.expression);
+                            assert.equal(calculator.getPosition(), data.expression.length, 'The position should be ' + data.expression.length);
+                        })
+                        .catch(function (err) {
+                            assert.ok(false, 'Unexpected failure : ' + err.message);
+                        })
+                        .then(function () {
+                            calculator.destroy();
+                        });
+                })
+                .on('error', function (err) {
+                    console.error(err);
+                    assert.ok(false, 'The operation should not fail!');
+                    QUnit.start();
+                })
+                .on('destroy', function () {
+                    QUnit.start();
+                });
+
+            QUnit.expect(6);
+        });
 });

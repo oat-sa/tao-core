@@ -166,6 +166,14 @@ define(['i18n'], function (__) {
             description: __('Assign')
         },
 
+        // Variables
+        ANS: {
+            label: 'Ans',
+            value: 'ans',
+            type: 'variable',
+            description: __('Last result')
+        },
+
         // Constants
         PI: {
             label: '\u03C0',

@@ -28,6 +28,7 @@ define([
         'digit',
         'aggregator',
         'operator',
+        'variable',
         'constant',
         'error',
         'function'

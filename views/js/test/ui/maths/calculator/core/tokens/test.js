@@ -44,7 +44,8 @@ define([
         {title: 'isFunction'},
         {title: 'isIdentifier'},
         {title: 'isSeparator'},
-        {title: 'isModifier'}
+        {title: 'isModifier'},
+        {title: 'containsError'}
     ]).test('API ', function (data, assert) {
         QUnit.expect(1);
         assert.equal(typeof calculatorTokensHelper[data.title], 'function', 'The helper exposes a "' + data.title + '" function');
@@ -336,6 +337,23 @@ define([
 
         assert.equal(calculatorTokensHelper.isModifier({type: 'POW'}), true, 'Should be a modifier');
         assert.equal(calculatorTokensHelper.isModifier({type: 'FOO'}), false, 'Should not be a modifier');
+    });
+
+    QUnit.test('containsError', function (assert) {
+        QUnit.expect(12);
+
+        assert.equal(calculatorTokensHelper.containsError('3*4'), false, 'Should not contain an error');
+        assert.equal(calculatorTokensHelper.containsError('NaN'), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError('Infinity'), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError('+Infinity'), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError('-Infinity'), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError('2*NaN'), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError('4-Infinity'), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError(NaN), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError(10), false, 'Should not contain an error');
+        assert.equal(calculatorTokensHelper.containsError({value: NaN}), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError({value: 'NaN'}), true, 'Should contain an error');
+        assert.equal(calculatorTokensHelper.containsError({value: '0'}), false, 'Should not contain an error');
     });
 
 });

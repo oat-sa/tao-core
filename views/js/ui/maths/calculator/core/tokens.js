@@ -23,6 +23,12 @@ define([
 ], function (registeredTerms) {
     'use strict';
 
+    /**
+     * Regex that matches the usual error tokens in a result
+     * @type {RegExp}
+     */
+    var reErrorValue = /(NaN|[+-]?Infinity)/;
+
     return {
         /**
          * Identifies the type of a given token
@@ -160,6 +166,21 @@ define([
             }
             return type === 'operator'
                 || type === 'function';
+        },
+
+        /**
+         * Checks if an expression contains an error token
+         * @param {String|Number|Object} expression
+         * @returns {Boolean}
+         */
+        containsError: function containsError(expression) {
+            if ('string' !== typeof expression) {
+                if (expression && 'undefined' !== typeof expression.value) {
+                    expression = expression.value;
+                }
+                expression = String(expression);
+            }
+            return reErrorValue.test(expression);
         }
     };
 });

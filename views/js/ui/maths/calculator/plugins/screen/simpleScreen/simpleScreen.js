@@ -35,9 +35,7 @@ define([
     'use strict';
 
     var pluginName = 'simpleScreen';
-    var varAnsName = 'ans';
-    var reErrorValue = /(NaN|[+-]?Infinity)/;
-    var reAnsVar = new RegExp('\\b' + varAnsName + '\\b', 'g');
+    var reAnsVar = new RegExp('\\b' + registeredTerms.ANS.value + '\\b', 'g');
 
     /**
      * Default displayed value
@@ -58,15 +56,6 @@ define([
         layout: defaultScreenTpl
     };
 
-    /**
-     * Checks if an expression contains an error value
-     * @param {String} expression
-     * @returns {Boolean}
-     */
-    function containsError(expression) {
-        return reErrorValue.test(expression);
-    }
-
     return pluginFactory({
         name: pluginName,
 
@@ -74,7 +63,6 @@ define([
          * Called when the plugin should be initialized.
          */
         init: function init() {
-            var self = this;
             var calculator = this.getCalculator();
 
             /**
@@ -84,62 +72,20 @@ define([
                 calculator.replace(defaultValue.expression);
             }
 
-            /**
-             * Update the variable containing the last result, and keep track of the source expression.
-             * @param {mathsExpression} result
-             */
-            function store(result) {
-                self.previous = calculator.getExpression();
-                if (calculator.hasVariable(varAnsName)) {
-                    self.previous = self.previous.replace(reAnsVar, calculator.getVariable(varAnsName).value);
-                }
-                calculator.setVariable(varAnsName, containsError(result.value) ? defaultValue : result);
-            }
-
-            /**
-             * Erase the current expression and the history
-             */
-            function erase() {
-                store(defaultValue);
-                self.previous = defaultValue.expression;
-            }
-
             reset();
-            erase();
 
             calculator
-                .on(nsHelper.namespaceAll('termadd', pluginName), function (name, term) {
-                    var expression, tokens;
-                    // will replace the current term if:
-                    // - it is a 0, and the term to add is not an operator nor a dot
-                    // - it is the last result, and the term to add is not an operator
-                    if (!tokensHelper.isOperator(term)) {
-                        expression = calculator.getExpression().trim();
-                        tokens = calculator.getTokens();
-
-                        if (tokens.length === 2 && ((tokens[0].type === 'NUM0' && name !== 'DOT') || (tokens[0].value === varAnsName))) {
-                            calculator.replace(expression.substr(tokens[0].value.length).trim());
-                        }
-                    }
-                })
                 .after(nsHelper.namespaceAll('expressionchange', pluginName), function (expression) {
                     // ensure the displayed expression is at least a 0 (never be an empty string)
                     if (!expression.trim()) {
                         _.defer(reset);
                     }
                 })
-                .before(nsHelper.namespaceAll('evaluate', pluginName), function(ev, result) {
-                    // when the expression is computed, we store the result as the last value
-                    // then we replace the expression with a refined version (last value variable replaced)
-                    store(result);
-                    calculator.replace(self.previous);
-                })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function() {
                     // when the expression is computed, replace it with the result as a variable
-                    calculator.replace(varAnsName);
+                    calculator.replace(registeredTerms.ANS.value);
                 })
-                .on(nsHelper.namespaceAll('clear', pluginName), reset)
-                .on(nsHelper.namespaceAll('command-clearAll', pluginName), erase);
+                .on(nsHelper.namespaceAll('clear', pluginName), reset);
         },
 
         /**
@@ -170,14 +116,15 @@ define([
                     if (registeredTerms[token.type]) {
                         term.type = registeredTerms[token.type].type;
                         term.label = registeredTerms[token.type].label;
+
+                        // always display the actual value of the last result variable
+                        if (token.type === 'ANS') {
+                            term.label = String(calculator.getVariable(registeredTerms.ANS.value).value).replace(registeredTerms.SUB.value, registeredTerms.NEG.label);
+                        }
                     }
                     else if (token.type === 'term') {
                         if (calculator.hasVariable(token.value)) {
                             term.type = 'variable';
-                            // always display the actual value of the last result variable
-                            if (token.value === varAnsName) {
-                                term.label = String(calculator.getVariable(varAnsName).value).replace(registeredTerms.SUB.value, registeredTerms.NEG.label);
-                            }
                         } else {
                             term.type = 'unknown';
                         }
@@ -239,13 +186,13 @@ define([
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
-                        expression: transformTokens(tokenizer.tokenize(self.previous)),
+                        expression: transformTokens(tokenizer.tokenize(calculator.getExpression().replace(reAnsVar, calculator.getLastResult().value))),
                         result: transformTokens(tokenizer.tokenize(String(result.value)))
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
-                    if (containsError(result.value)) {
+                    if (tokensHelper.containsError(result.value)) {
                         showExpression(tokenizer.tokenize(String(result.value)));
                     }
                 })
@@ -267,9 +214,7 @@ define([
                 this.$layout = null;
             }
             this.controls = null;
-            calculator
-                .off('.' + pluginName)
-                .deleteVariable(varAnsName);
+            calculator.off('.' + pluginName);
         }
     }, defaultConfig);
 });

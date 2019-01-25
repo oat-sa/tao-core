@@ -461,6 +461,9 @@ define([
 
                                     _.forEach(expectedTokens, function(term, index) {
                                         var el = $screen.find('.expression .term').get(index);
+                                        if (term.token === 'ANS') {
+                                            term.label = calculator.getLastResult().value;
+                                        }
                                         assert.equal(el.dataset.value, term.value, 'the term ' + index + ' is transformed - data-value');
                                         assert.equal(el.dataset.token, term.token, 'the term ' + index + ' is transformed - data-token');
                                         assert.equal(el.dataset.type, term.type, 'the term ' + index + ' is transformed - data-type');
@@ -578,7 +581,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the expression is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the expression is transformed - content');
 
@@ -626,7 +629,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the variable is transformed - content');
 
@@ -653,7 +656,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the variable is transformed - content');
 
@@ -688,7 +691,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the expression is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '8', 'the expression is transformed - content');
 
@@ -890,7 +893,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
@@ -1071,7 +1074,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
@@ -1271,7 +1274,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 1, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the expression is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the expression is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the expression is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the expression is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '5', 'the expression is transformed - content');
 
@@ -1608,7 +1611,7 @@ define([
                         assert.equal($screen.find('.term').length, 1, 'The expected number of terms has been transformed');
 
                         assert.equal($screen.find('.term:eq(0)').data('value'), 'ans', 'the first operand is transformed - data-value');
-                        assert.equal($screen.find('.term:eq(0)').data('token'), 'term', 'the first operand is transformed - data-token');
+                        assert.equal($screen.find('.term:eq(0)').data('token'), 'ANS', 'the first operand is transformed - data-token');
                         assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                     })
                     .then(function () {
@@ -1624,7 +1627,7 @@ define([
                                     assert.equal($screen.find('.expression .term').length, 2, 'The expected number of terms has been transformed in the expression');
 
                                     assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
-                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the variable is transformed - data-token');
+                                    assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                     assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                     assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
@@ -1643,7 +1646,7 @@ define([
                                             assert.equal($screen.find('.expression .term').length, 3, 'The expected number of terms has been transformed in the expression');
 
                                             assert.equal($screen.find('.expression .term:eq(0)').data('value'), 'ans', 'the variable is transformed - data-value');
-                                            assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'term', 'the variable is transformed - data-token');
+                                            assert.equal($screen.find('.expression .term:eq(0)').data('token'), 'ANS', 'the variable is transformed - data-token');
                                             assert.equal($screen.find('.expression .term:eq(0)').data('type'), 'variable', 'the variable is transformed - data-type');
                                             assert.equal($screen.find('.expression .term:eq(0)').text().trim(), '0', 'the variable is transformed - content');
 
@@ -1745,7 +1748,7 @@ define([
                             assert.equal($screen.find('.term').length, 1, 'The expected number of terms has been transformed');
 
                             assert.equal($screen.find('.term:eq(0)').data('value'), 'ans', 'the first operand is transformed - data-value');
-                            assert.equal($screen.find('.term:eq(0)').data('token'), 'term', 'the first operand is transformed - data-token');
+                            assert.equal($screen.find('.term:eq(0)').data('token'), 'ANS', 'the first operand is transformed - data-token');
                             assert.equal($screen.find('.term:eq(0)').text().trim(), '0', 'the first operand is transformed - content');
                         })
                         .then(function () {
