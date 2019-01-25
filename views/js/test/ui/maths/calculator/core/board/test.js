@@ -1391,8 +1391,8 @@ define([
                                     assert.equal(typeof term2, 'object', 'A term has been added');
                                     assert.equal(term2.label, 'y', 'The expected term has been added');
                                     assert.equal(term2.value, 'y', 'The expected term value has been added');
-                                    assert.equal(self.getExpression(), 'xy', 'Expression has been properly updated');
-                                    assert.equal(self.getPosition(), 2, 'New position has been set');
+                                    assert.equal(self.getExpression(), 'x y', 'Expression has been properly updated');
+                                    assert.equal(self.getPosition(), 3, 'New position has been set');
 
                                     self
                                         .on('termadd.VAR_FOO', function (n3, term3) {
@@ -1401,8 +1401,8 @@ define([
                                             assert.equal(n3, 'VAR_FOO', 'The right term has been received');
                                             assert.equal(term3.label, 'foo', 'The expected term has been added');
                                             assert.equal(term3.value, 'foo', 'The expected term value has been added');
-                                            assert.equal(self.getExpression(), 'fooxy', 'Expression has been properly updated');
-                                            assert.equal(self.getPosition(), 3, 'New position has been set');
+                                            assert.equal(self.getExpression(), 'foo x y', 'Expression has been properly updated');
+                                            assert.equal(self.getPosition(), 4, 'New position has been set');
 
                                             resolve();
                                         })

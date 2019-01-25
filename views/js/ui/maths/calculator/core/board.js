@@ -28,6 +28,7 @@ define([
     'ui/component',
     'ui/maths/calculator/core/areaBroker',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/tokenizer',
     'util/mathsEvaluator',
     'tpl!ui/maths/calculator/core/board'
@@ -40,6 +41,7 @@ define([
     componentFactory,
     areaBrokerFactory,
     registeredTerms,
+    tokensHelper,
     tokenizerFactory,
     mathsEvaluatorFactory,
     boardTpl
@@ -401,7 +403,13 @@ define([
              * @fires termadd-<name> when the term has been added
              */
             addTerm: function addTerm(name, term) {
+                var tokensList = this.getTokens();
+                var index = this.getTokenIndex();
+                var currentToken = tokensList[index];
+                var nextToken = tokensList[index + 1];
+                var isIdentifier;
                 var value;
+
                 if (!_.isPlainObject(term) || 'undefined' === typeof term.value) {
                     /**
                      * @event termerror
@@ -411,9 +419,18 @@ define([
                 }
 
                 value = term.value;
-                if (term.type === 'function') {
-                    value += ' ';
+
+                if (!tokensHelper.isSeparator(term.type)) {
+                    isIdentifier = tokensHelper.isIdentifier(term.type);
+                    if (position && (tokensHelper.isIdentifier(currentToken) || (isIdentifier && !tokensHelper.isSeparator(currentToken)))) {
+                        value = ' ' + value;
+                    }
+
+                    if (position < expression.length && (tokensHelper.isIdentifier(nextToken) || (isIdentifier && !tokensHelper.isSeparator(nextToken)))) {
+                        value += ' ';
+                    }
                 }
+
                 this.insert(value);
 
                 /**

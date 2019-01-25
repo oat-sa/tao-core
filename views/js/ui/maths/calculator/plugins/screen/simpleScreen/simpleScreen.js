@@ -26,16 +26,16 @@ define([
     'util/namespace',
     'ui/scroller',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/plugin',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/history',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/defaultTemplate'
-], function ($, _, __, nsHelper, scrollHelper, registeredTerms, pluginFactory, termTpl, historyTpl, defaultScreenTpl) {
+], function ($, _, __, nsHelper, scrollHelper, registeredTerms, tokensHelper, pluginFactory, termTpl, historyTpl, defaultScreenTpl) {
     'use strict';
 
     var pluginName = 'simpleScreen';
     var varAnsName = 'ans';
-    var reLeadingSpace = /^\s+/;
     var reErrorValue = /(NaN|[+-]?Infinity)/;
     var reAnsVar = new RegExp('\\b' + varAnsName + '\\b', 'g');
 
@@ -113,19 +113,12 @@ define([
                     // will replace the current term if:
                     // - it is a 0, and the term to add is not an operator nor a dot
                     // - it is the last result, and the term to add is not an operator
-                    if (term.type !== 'operator') {
-                        expression = calculator.getExpression().replace(reLeadingSpace, '');
+                    if (!tokensHelper.isOperator(term)) {
+                        expression = calculator.getExpression().trim();
                         tokens = calculator.getTokens();
 
-                        if (tokens.length === 2 && tokens[0].type === 'NUM0' && name !== 'DOT') {
-                            calculator.replace(expression.substr(1));
-                        }
-                        else if (
-                            (tokens.length === 2 && tokens[0].value === varAnsName) ||
-                            (tokens.length === 1 && tokens[0].type === 'term' &&
-                                tokens[0].value !== varAnsName &&
-                                tokens[0].value.substr(0, varAnsName.length) === varAnsName)) {
-                            calculator.replace(expression.substr(varAnsName.length));
+                        if (tokens.length === 2 && ((tokens[0].type === 'NUM0' && name !== 'DOT') || (tokens[0].value === varAnsName))) {
+                            calculator.replace(expression.substr(tokens[0].value.length).trim());
                         }
                     }
                 })
@@ -161,7 +154,7 @@ define([
 
             /**
              * Transforms a tokenized expression, replacing values by the related labels.
-             * @param {Array} tokens
+             * @param {token[]} tokens
              * @returns {String}
              */
             function transformTokens(tokens) {
@@ -191,7 +184,7 @@ define([
                     }
 
                     if (token.type === 'SUB') {
-                        if (!previous || previous.type === 'operator' || previous.type === 'function' || previous.token === 'LPAR') {
+                        if (!previous || tokensHelper.isModifier(previous.type) || previous.token === 'LPAR') {
                             term.label = registeredTerms.NEG.label;
                             term.token = 'NEG';
                         }
