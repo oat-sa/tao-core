@@ -58,28 +58,32 @@ function ($, _, __, feedback, tokenStoreFactory) {
              * @returns {Promise<Object>} the token object
              */
             getToken: function getToken() {
-                if (tokenStorage.isEmpty()) {
-                    // Fetch again if we're truly out of tokens
-                    return this.fetchNewTokens()
-                        .then(function(tokens) {
-                            // TODO: Must add the tokens 1 by 1, not asynchronously
-                            _.forEach(tokens, function(token) {
-                                tokenStorage.add(token); // returns true
-                            });
+                var self = this;
+                return tokenStorage.expireOldTokens().then(function() {
+                    if (tokenStorage.isEmpty()) {
+                        // Fetch again if we're truly out of tokens
+                        return self.fetchNewTokens()
+                            .then(function(tokens) {
+                                var added;
+                                // TODO: Must add the tokens 1 by 1, not asynchronously
+                                _.forEach(tokens, function(token) {
+                                    added = tokenStorage.add(token); // true
+                                });
 
-                            tokenStorage.log();
-                            return tokenStorage.get().then(function(currentToken) {
-                                console.log('tokenHandler.getToken (shift)', currentToken);
-                                return currentToken;
+                                tokenStorage.log();
+                                return tokenStorage.get().then(function(currentToken) {
+                                    console.log('tokenHandler.getToken (shift)', currentToken);
+                                    return currentToken;
+                                });
                             });
+                    }
+                    else {
+                        return tokenStorage.get().then(function(currentToken) {
+                            console.log('tokenHandler.getToken (shift)', currentToken);
+                            return currentToken;
                         });
-                }
-                else {
-                    return tokenStorage.get().then(function(currentToken) {
-                        console.log('tokenHandler.getToken (shift)', currentToken);
-                        return currentToken;
-                    });
-                }
+                    }
+                });
             },
 
             /**

@@ -51,7 +51,9 @@ define([
             return store('tokens', store.backends.memory);
         };
 
-        //maintain an index which will act as a queue
+        // maintain an index which will act as a queue
+        // push newly received token(s) onto the back end
+        // shift oldest token off the front end, to use
         var index = [];
 
         /**
@@ -82,24 +84,25 @@ define([
                 return getStore().then(function(tokenStorage){
                     return tokenStorage.setItem(token.value, token)
                         .then(function(updated){
+                            //var oldest;
                             if(updated){
                                 if(!_.contains(index, token.value)){
                                     index.push(token.value);
                                 }
                             }
 
-                            // Did we reach the limit? then remove the oldest
-                            if (index.length > 1 && index.length > config.maxSize) {
-                                return self.getOldest().then(function(oldest) {
-                                    console.log('lose:', oldest);
-                                    return self.remove(oldest.value).then(function(removed){
-                                        return updated && removed;
-                                    });
-                                });
-                            }
+                            // // Did we reach the limit? then remove the oldest
+                            // if (index.length > 1 && index.length > config.maxSize) {
+                            //     oldest = _.first(index);
+                            //     console.log('lose:', oldest);
+                            //     return self.remove(oldest).then(function(removed){
+                            //         return updated && removed;
+                            //     });
+                            // }
 
-                            console.log('max', config.maxSize, 'got', index.length);
-                            return updated;
+                            return self.prunePool().then(function(removed) {
+                                return updated && removed;
+                            });
                         });
 
                 });
@@ -124,6 +127,7 @@ define([
                     return getStore().then(function(tokenStorage){
 
                         index = _.without(index, key);
+                        console.log('newindex', index);
 
                         return tokenStorage.getItem(key)
                             .then(function(){
@@ -145,6 +149,9 @@ define([
                 });
             },
 
+            /**
+             * Logs queue contents & store contents
+             */
             log: function log() {
                 console.log('Q2i', index);
                 this.getItems().then(function(items) {
@@ -179,30 +186,38 @@ define([
             },
 
             /**
-             * Finds the oldest token in the pool by creation date
-             * @returns {Promise<Object>} - the token object
-             */
-            getOldest: function getOldest() {
-                return this.getItems().then(function(tokens) {
-                    return _.chain(tokens)
-                        .values()
-                        .sortBy('createdAt')
-                        .first()
-                        .value();
-                });
-            },
-
-            /**
              * Checks all the tokens in the pool and removes them if expired
+             * @returns {Promise}
              */
             expireOldTokens: function expireOldTokens() {
-                this.getItems().then(function(tokens) {
+                return this.getItems().then(function(tokens) {
                     _.forEach(tokens, function(token) {
                         if (Date.now() - token.receivedAt > config.tokenTimeLimit) {
                             if (self.remove(token.value)) console.log('expired', token.value);
                         }
                     });
                 });
+            },
+
+            /**
+             * Brings the local pool back down to maxSize if it exceeded that size
+             * @returns {Promise<Boolean>}
+             */
+            prunePool: function prunePool() {
+                var self = this;
+                var surplus = index.length - config.maxSize;
+                var removedCount = 0;
+                if (surplus > 0) {
+                    _.chain(index)
+                    .take(surplus)
+                    .forEach(function(token) {
+                        self.remove(token).then(function() {
+                            removedCount++;
+                            console.log('removed 1');
+                        });
+                    });
+                }
+                return Promise.resolve(surplus === removedCount);
             }
         };
     };
