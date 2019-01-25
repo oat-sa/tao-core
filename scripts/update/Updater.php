@@ -910,7 +910,7 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         
-        $this->skip('22.13.1', '23.0.0');
+        $this->skip('22.13.1', '24.0.0');
 
     }
 }
