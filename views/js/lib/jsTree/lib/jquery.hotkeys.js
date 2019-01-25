@@ -160,7 +160,7 @@ Note:
     hotkeys.findElement = function (elem){
         if (!jQuery(elem).attr('hkId')){
             if (navigator.userAgent.toLowerCase().indexOf('opera') > -1 ||
-zsh:1: command not found: :wq
+                navigator.userAgent.toLowerCase().indexOf('safari') > -1 ) {
                 while (!jQuery(elem).attr('hkId') && elem.parentNode){
                     elem = elem.parentNode;
                 }
