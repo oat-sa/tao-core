@@ -4,7 +4,7 @@
     <input type="text" value="" name="query" placeholder="<?= get_data('searchLabel') ?>">
     <button class="icon-find" type="button"></button>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
-    <div class="tooltip-content">
+    <div class="tooltip-content" >
         <div>
         <strong>ex:</strong> <em>label:exam* AND model:QTI</em>
         </div>

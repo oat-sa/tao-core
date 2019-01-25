@@ -26,7 +26,7 @@ define([
     'tpl!ui/tristateCheckboxGroup/list',
     'tpl!ui/tristateCheckboxGroup/li',
     'ui/tooltip'
-], function ($, _, __, component, layoutTpl, elementTpl){
+], function ($, _, __, component, layoutTpl, elementTpl, tooltip){
     'use strict';
 
     /**
@@ -129,12 +129,17 @@ define([
                 }
             });
             return this;
-        }
+        },
+        /**
+         * tooltip instance integrated in checkbox group
+         * will be defined with initialization
+         */
+        tooltip: null
     };
 
     /**
      * Builds an instance of tristateCheckboxGroup
-     * 
+     *
      * @param {Object} config
      * @param {jQuery|HTMLElement|String} [config.renderTo] - An optional container in which renders the component
      * @param {Boolean} [config.replace] - When the component is appended to its container, clears the place before
@@ -173,21 +178,23 @@ define([
                     if(maxSelection && $list.find('input:checked,input:indeterminate').length > maxSelection){
 
                         $input = $(e.target);
-                        
+
                         if($input.is(':checked')){
+
                             $icon = $input.siblings('.icon')
                                 .addClass('cross')
-                                .qtip({
-                                    theme : 'warning',
-                                    content : {
-                                        text : self.config.maxMessage
-                                    }
-                                }).qtip('show');
+                                .each(function( ) {
+                                    self.tooltip = tooltip.warning(this, self.config.maxMessage);
+                                    self.tooltip.show();
+
+                                });
 
                             $icon.parent('label').on('mouseleave', function (){
-                                $icon.qtip('destroy');
+                                if(self.tooltip){
+                                    self.tooltip.dispose();
+                                }
                             });
-                            
+
                             //visually highlight the invalid new choice
                             _.delay(function (){
                                 $input.prop('checked', false).removeAttr('checked');

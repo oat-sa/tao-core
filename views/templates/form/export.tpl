@@ -87,6 +87,6 @@
             }
 
             //manually init the tooltip
-            tooltip($form);
+            tooltip.lookup($form);
         });
 </script>

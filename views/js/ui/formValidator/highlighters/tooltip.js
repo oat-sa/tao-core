@@ -16,25 +16,17 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
  */
-
-/**
- * @author Aleh Hutnikau
- */
 define([
     'jquery',
     'lodash',
     'i18n',
     'ui/tooltip'
-], function ($, _, __) {
+], function ($, _, __, tooltip) {
     'use strict';
 
     var defaultOptions = {
-        qtip : {
-            show: { ready: true },
-            hide: {
-                event: false
-            },
-            theme : 'error'
+        tooltip:{
+            trigger:'manual'
         }
     };
 
@@ -56,14 +48,10 @@ define([
              * @param {string} message - message text.
              */
             highlight : function highlight($field, message) {
-                options = _.merge(options, {
-                    qtip : {
-                        content: {
-                            text: message
-                        }
-                    }
-                });
-                $field.qtip(options.qtip);
+                var fieldTooltip;
+                fieldTooltip = tooltip.error($field, message, options.tooltip);
+                fieldTooltip.show();
+                $field.data('$tooltip', fieldTooltip);
                 $field.addClass(options.errorClass);
             },
 
@@ -73,12 +61,17 @@ define([
              */
             unhighlight : function unhighlight($field) {
                 $field.removeClass(options.errorClass);
-                $field.qtip('destroy', true);
+                $field.data('$tooltip').dispose();
+                $field.removeData('$tooltip');
             },
-
+            /**
+             * remove tooltip with error message from given field
+             * @param $field
+             */
             destroy : function destroy($field) {
-                if ($field.data('hasqtip') !== undefined) {
-                    $field.qtip('destroy', true);
+                if ($field.data('$tooltip')) {
+                    $field.data('$tooltip').dispose();
+                    $field.removeData('$tooltip');
                 }
             }
         };
