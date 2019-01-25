@@ -19,6 +19,7 @@
  * @requires jquery
  */
 define(['jquery'], function($){
+    'use strict';
 
     var _ns = '.wait';
 
@@ -46,13 +47,13 @@ define(['jquery'], function($){
             }
         }
 
-        return this.each(function(){
-
+        return this.each(function() {
             var $container = $(this),
                 $img = $container.find('img[src]'),
                 $css = $(document).find('link[rel="stylesheet"]'),
                 count = $img.length + $css.length,
                 loaded = 0,
+                $allSource = $().add($img).add($css),
                 /**
                  * The function to be executed whenever an source is considered loaded
                  */
@@ -68,27 +69,17 @@ define(['jquery'], function($){
                     }
                 };
 
-                if (count === 0) {
+            if (count === 0) {
                 allLoaded($container);
                 return;
             }
 
-            $img.each(function(){
-                if(this.complete){
-                    //the image is already loaded by the browser
+            $allSource.each(function(){
+                if(this.tagName === "IMG" && this.complete || this.tagName === "LINK" && this.sheet){
+                    //the image/css is already loaded by the browser
                     sourceLoaded.call(this);
                 }else{
-                    //the image is not yet loaded : add "load" listener
-                    $(this).on('load' + _ns + ' error' + _ns, sourceLoaded);
-                }
-            });
-
-            $css.each(function(){
-                if(this.sheet){
-                    //the css is already loaded by the browser
-                    sourceLoaded.call(this);
-                }else{
-                    //the css is not yet loaded : add "load" listener
+                    //the image/css is not yet loaded : add "load" listener
                     $(this).on('load' + _ns + ' error' + _ns, sourceLoaded);
                 }
             });
