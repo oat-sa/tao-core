@@ -30,8 +30,8 @@ function ($, _, __, feedback, tokenStoreFactory) {
     'use strict';
 
     var defaults = {
-        maxPoolSize: 1, // TR should set this to 1 to force sequential AJAX requests
-        tokenTimeLimit: 1000 * 60 * 15
+        maxSize: 4, // TR should set this to 1 to force sequential AJAX requests
+        tokenTimeLimit: 1000 * 15
     };
 
     /**
@@ -48,7 +48,7 @@ function ($, _, __, feedback, tokenStoreFactory) {
         // Initialise queue, empty queue will produce a null token
         var tokenStorage;
         config = _.defaults({}, config, defaults);
-        tokenStorage = tokenStoreFactory({ maxSize: config.maxPoolSize });
+        tokenStorage = tokenStoreFactory(config);
 
         return {
             /**
@@ -67,7 +67,10 @@ function ($, _, __, feedback, tokenStoreFactory) {
                                 var added;
                                 // TODO: Must add the tokens 1 by 1, not asynchronously
                                 _.forEach(tokens, function(token) {
-                                    added = tokenStorage.add(token); // true
+                                    added = tokenStorage.add({
+                                        value: token.value,
+                                        receivedAt: Date.now()
+                                    }); // true
                                 });
 
                                 tokenStorage.log();

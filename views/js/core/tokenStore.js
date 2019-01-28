@@ -32,14 +32,15 @@ define([
      * The default number of tokens to store
      */
     var defaultConfig = {
-        maxSize: 6
+        maxSize: 6,
+        tokenTimeLimit: 1000 * 3600
     };
 
     /**
      * Create a token store
      * @param {Object} [options]
      * @param {Number} [options.maxSize = 6] - the store limit
-     *
+     * @param {String} [options.tokenTimeLimit]
      * @returns {tokenStore}
      */
     return function tokenStoreFactory(options) {
@@ -48,7 +49,7 @@ define([
 
         //in memory storage
         var getStore = function getStore(){
-            return store('tokens', store.backends.memory);
+            return store('tokenStore', store.backends.memory);
         };
 
         // maintain an index which will act as a queue
@@ -63,54 +64,59 @@ define([
 
             /**
              * Get the oldest token from the queue
+             * Remove its store entry as well
+             *
              * @returns {Promise<Object>} the token object
              */
             get: function get() {
+                var self = this;
                 var key = index.shift();
-                return getStore().then(function(tokenStorage){
-                    return tokenStorage.getItem(key);
+                return getStore().then(function(tokenStore){
+                    return tokenStore.getItem(key).then(function(token) {
+                        self.remove(key);
+                        return token;
+                    });
                 });
             },
 
             /**
              * Add a new token object to the queue
+             * Add an entry to the store as well
+             *
              * @param {Object} token - the token object
              * @param {String} [token.value] - long alphanumeric string
-             * @param {Number} [token.createdAt] - timestamp
-             * @returns {Promise<Boolean>} chains
+             * @param {Number} [token.receivedAt] - timestamp
+             * @returns {Promise<Boolean>} - true if added
              */
             add: function add(token) {
                 var self = this;
-                return getStore().then(function(tokenStorage){
-                    return tokenStorage.setItem(token.value, token)
+                return getStore().then(function(tokenStore){
+                    return tokenStore.setItem(token.value, token)
                         .then(function(updated){
-                            //var oldest;
-                            if(updated){
-                                if(!_.contains(index, token.value)){
+                            var oldest;
+                            if (updated) {
+                                if (!_.contains(index, token.value)) {
                                     index.push(token.value);
                                 }
+
+                                // Did we reach the limit? then remove the oldest
+                                if (index.length > 1 && index.length > config.maxSize) {
+                                    oldest = _.first(index);
+                                    return self.remove(oldest).then(function(removed){
+                                        return updated && removed;
+                                    });
+                                }
+                                return true;
                             }
-
-                            // // Did we reach the limit? then remove the oldest
-                            // if (index.length > 1 && index.length > config.maxSize) {
-                            //     oldest = _.first(index);
-                            //     console.log('lose:', oldest);
-                            //     return self.remove(oldest).then(function(removed){
-                            //         return updated && removed;
-                            //     });
-                            // }
-
-                            return self.prunePool().then(function(removed) {
-                                return updated && removed;
-                            });
+                            return false;
                         });
-
                 });
             },
 
             /**
              * Check whether the given token is in the store
-             * @param {String} key - something identifier
+             *
+             * @param {String} key - token string
              * @returns {Boolean}
              */
             has: function has(key) {
@@ -118,49 +124,46 @@ define([
             },
 
             /**
-             * Remove the token from the store
-             * @param {String} key - something identifier
+             * Remove the token from the queue and the store
+             *
+             * @param {String} key - token string
              * @returns {Promise<Boolean>} resolves once removed
              */
             remove: function remove(key) {
                 if(this.has(key)){
-                    return getStore().then(function(tokenStorage){
+                    return getStore().then(function(tokenStore){
 
                         index = _.without(index, key);
-                        console.log('newindex', index);
 
-                        return tokenStorage.getItem(key)
-                            .then(function(){
-                                return tokenStorage.removeItem(key);
-                            });
+                        return tokenStore.removeItem(key);
                     });
                 }
                 return Promise.resolve(false);
             },
 
             /**
-             * Empties the store
+             * Empty the queue and store
              * @returns {Promise}
              */
             clear: function clear() {
-                return getStore().then(function(tokenStorage){
+                return getStore().then(function(tokenStore){
                     index = [];
-                    return tokenStorage.clear();
+                    return tokenStore.clear();
                 });
             },
 
             /**
-             * Logs queue contents & store contents
+             * Log queue contents & store contents
              */
             log: function log() {
-                console.log('Q2i', index);
-                this.getItems().then(function(items) {
-                    console.log(Object.assign({}, items));
+                this.getTokens().then(function(items) {
+                    console.info('Q2i', index);
+                    console.table(items);
                 });
             },
 
             /**
-             * Gets the current size of the pool
+             * Get the current size of the queue
              * @returns {Number}
              */
             getSize: function getSize() {
@@ -168,7 +171,7 @@ define([
             },
 
             /**
-             * Checks if the pool is currently empty
+             * Checks if the queue is currently empty
              * @returns {Boolean}
              */
             isEmpty: function isEmpty() {
@@ -176,48 +179,33 @@ define([
             },
 
             /**
-             * Gets all tokens in the pool
-             * @returns {Promise<Object>} - token objects
+             * Gets all tokens in the store
+             * @returns {Promise<Array>} - token objects
              */
-            getItems: function getItems() {
-                return getStore().then(function(tokenStorage){
-                    return tokenStorage.getItems();
+            getTokens: function getTokens() {
+                return getStore().then(function(tokenStore){
+                    return tokenStore.getItems();
                 });
             },
 
             /**
-             * Checks all the tokens in the pool and removes them if expired
+             * Checks all the tokens in the store and removes them if expired
              * @returns {Promise}
              */
             expireOldTokens: function expireOldTokens() {
-                return this.getItems().then(function(tokens) {
-                    _.forEach(tokens, function(token) {
-                        if (Date.now() - token.receivedAt > config.tokenTimeLimit) {
-                            if (self.remove(token.value)) console.log('expired', token.value);
-                        }
-                    });
-                });
-            },
-
-            /**
-             * Brings the local pool back down to maxSize if it exceeded that size
-             * @returns {Promise<Boolean>}
-             */
-            prunePool: function prunePool() {
                 var self = this;
-                var surplus = index.length - config.maxSize;
-                var removedCount = 0;
-                if (surplus > 0) {
-                    _.chain(index)
-                    .take(surplus)
-                    .forEach(function(token) {
-                        self.remove(token).then(function() {
-                            removedCount++;
-                            console.log('removed 1');
-                        });
-                    });
-                }
-                return Promise.resolve(surplus === removedCount);
+                return this.getTokens().then(function(tokens) {
+
+                    return Promise.all(_.map(_.values(tokens), function(token) {
+
+                        if (Date.now() - token.receivedAt > config.tokenTimeLimit) {
+                            return self.remove(token.value).then(function(removed) {
+                                return removed;
+                            });
+                        }
+                        return Promise.resolve(true);
+                    }));
+                });
             }
         };
     };
