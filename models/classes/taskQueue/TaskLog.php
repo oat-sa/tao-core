@@ -496,7 +496,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
 
     /**
      * @param EntityInterface $entity
-     * @param $forceArchive
+     * @param bool $forceCancel
      * @throws \Exception
      */
     protected function assertCanCancel(EntityInterface $entity, $forceCancel)
