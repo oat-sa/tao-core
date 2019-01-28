@@ -63,7 +63,8 @@ require(['config'], function() {
                     'extensions': install.getData('extensions'),
                     'timezone': install.getData('timezone'),
                     'operated_by_name': install.getData('operated_by_name'),
-                    'operated_by_email': install.getData('operated_by_email')
+                    'operated_by_email': install.getData('operated_by_email'),
+                    'file_path': install.getData('file_path')
                 };
 
                 install.install(inputs, function(status, data) {

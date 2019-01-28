@@ -30,17 +30,15 @@ require.config({
         'css'               : 'lib/require-css/css',
         'tpl'               : 'tpl',
 //jquery and plugins
-        'jquery'            : 'lib/jquery-1.8.0.min',
+        'jquery'            : 'lib/jquery-1.9.1',
         'jqueryui'          : 'lib/jquery-ui-1.9.2.custom.min',
         'select2'           : 'lib/select2/select2.min',
         'jquery.autocomplete'  : 'lib/jquery.autocomplete/jquery.autocomplete',
-        'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
         'jquery.tree'       : 'lib/jsTree/jquery.tree',
         'jquery.timePicker' : 'lib/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
         'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.fileDownload'  : 'lib/jquery.fileDownload',
-        'qtip'              : 'lib/jquery.qtip/jquery.qtip',
 //polyfills
         'polyfill'          : 'lib/polyfill',
 //libs
@@ -72,6 +70,7 @@ require.config({
     <?php endforeach?>
    },
    shim : {
+        'jqueryui'              : { deps : ['jquery'] },
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
@@ -87,6 +86,6 @@ require.config({
                     return MathJax;
                 }
             }
-        },
+        }
     }
 });
