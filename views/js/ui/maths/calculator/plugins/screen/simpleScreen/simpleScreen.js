@@ -37,14 +37,9 @@ define([
 
     /**
      * Default displayed value
-     * @type {mathsExpression}
+     * @type {String}
      */
-    var defaultValue = {
-        expression: '0',
-        variables: {},
-        value: '0',
-        result: 0
-    };
+    var defaultExpression = '0';
 
     /**
      * Default plugin config
@@ -67,7 +62,7 @@ define([
              * Reset the current expression
              */
             function reset() {
-                calculator.replace(defaultValue.expression);
+                calculator.replace(calculator.getConfig().expression || defaultExpression);
             }
 
             reset();
@@ -108,11 +103,10 @@ define([
             /**
              * Updates the expression area
              * @param {token[]} tokens
-             * @param {Object} variables
              */
-            function showExpression(tokens, variables) {
+            function showExpression(tokens) {
                 self.controls.$expression.html(
-                    tokensHelper.render(tokens, variables)
+                    tokensHelper.render(tokens, calculator.getVariables())
                 );
                 autoScroll(self.controls.$expression);
             }
@@ -136,23 +130,23 @@ define([
                 })
                 .on(nsHelper.namespaceAll('expressionchange', pluginName), function () {
                     calculator.setState('error', false);
-                    showExpression(calculator.getTokens(), calculator.getVariables());
+                    showExpression(calculator.getTokens());
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
-                        expression: tokensHelper.render(tokenizer.tokenize(tokensHelper.renderLastResult(calculator.getExpression(), calculator.getLastResult())), calculator.getVariables()),
+                        expression: tokensHelper.render(calculator.getTokens(), calculator.getVariables()),
                         result: tokensHelper.render(tokenizer.tokenize(result.value), calculator.getVariables())
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
                     if (tokensHelper.containsError(result.value)) {
-                        showExpression(tokenizer.tokenize(result.value), calculator.getVariables());
+                        showExpression(tokenizer.tokenize(result.value));
                     }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);
-                    showExpression(tokenizer.tokenize(calculator.getExpression() + '#'), calculator.getVariables());
+                    showExpression(tokenizer.tokenize(calculator.getExpression() + '#'));
                 });
 
             areaBroker.getScreenArea().append(this.$layout);

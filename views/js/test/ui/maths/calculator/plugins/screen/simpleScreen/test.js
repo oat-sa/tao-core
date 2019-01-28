@@ -701,9 +701,9 @@ define([
                                     assert.equal($screen.find('.history .history-expression .term').length, 3, 'The expected number of terms has been transformed in the history expression');
                                     assert.equal($screen.find('.history .history-result .term').length, 1, 'The expected number of terms has been transformed in the history result');
 
-                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), '5', 'the first operand is transformed - data-value');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'NUM5', 'the first operand is transformed - data-token');
-                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'digit', 'the first operand is transformed - data-type');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('value'), 'ans', 'the first operand is transformed - data-value');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('token'), 'ANS', 'the first operand is transformed - data-token');
+                                    assert.equal($screen.find('.history .history-expression .term:eq(0)').data('type'), 'variable', 'the first operand is transformed - data-type');
                                     assert.equal($screen.find('.history .history-expression .term:eq(0)').text().trim(), '5', 'the first operand is transformed - content');
 
                                     assert.equal($screen.find('.history .history-expression .term:eq(1)').data('value'), '+', 'the operator is transformed - data-value');
