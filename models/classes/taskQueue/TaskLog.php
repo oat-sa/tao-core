@@ -26,6 +26,7 @@ use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\taskQueue\Event\TaskLogArchivedEvent;
+use oat\tao\model\taskQueue\Event\TaskLogCancelledEvent;
 use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\RdsTaskLogBrokerInterface;
@@ -319,9 +320,25 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     }
 
     /**
-     * @param CollectionInterface $collection
-     * @param bool $forceArchive
-     * @return bool
+     * @inheritdoc
+     */
+    public function cancel(EntityInterface $entity, $forceCancel = false)
+    {
+        $this->assertCanCancel($entity, $forceCancel);
+
+        $isCancelled = $this->getBroker()->cancel($entity);
+
+        if ($isCancelled) {
+            $this->getServiceManager()
+                ->get(EventManager::SERVICE_ID)
+                ->trigger(new TaskLogCancelledEvent($entity, $forceCancel));
+        }
+
+        return $isCancelled;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function archiveCollection(CollectionInterface $collection, $forceArchive = false)
     {
@@ -352,6 +369,36 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         }
 
         return count($collection) === count($tasksAbleToArchive) && $collectionArchived;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function cancelCollection(CollectionInterface $collection, $forceCancel = false)
+    {
+        $cancellableTasks = [];
+
+        /** @var EntityInterface $entity */
+        foreach ($collection as $entity) {
+            try{
+                $this->assertCanCancel($entity, $forceCancel);
+                $cancellableTasks[] = $entity;
+            }catch (\Exception $exception) {
+                $this->logDebug('Task Log: ' . $entity->getId(). ' cannot be cancelled.');
+            }
+        }
+
+        $cancelledCollection = $this->getBroker()->cancelCollection(new TaskLogCollection($cancellableTasks));
+
+        if ($cancelledCollection) {
+            foreach ($cancellableTasks as $entity) {
+                $this->getServiceManager()
+                    ->get(EventManager::SERVICE_ID)
+                    ->trigger(new TaskLogCancelledEvent($entity, $forceCancel));
+            }
+        }
+
+        return count($collection) === count($cancellableTasks) && $cancelledCollection;
     }
 
     /**
@@ -426,7 +473,8 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             self::STATUS_CHILD_RUNNING,
             self::STATUS_COMPLETED,
             self::STATUS_FAILED,
-            self::STATUS_ARCHIVED
+            self::STATUS_ARCHIVED,
+            self::STATUS_CANCELLED
         ];
 
         if (!in_array($status, $statuses)) {
@@ -443,6 +491,18 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     {
         if ($entity->getStatus()->isInProgress() && $forceArchive === false) {
             throw new \Exception('Task cannot be archived because it is in progress.');
+        }
+    }
+
+    /**
+     * @param EntityInterface $entity
+     * @param $forceArchive
+     * @throws \Exception
+     */
+    protected function assertCanCancel(EntityInterface $entity, $forceCancel)
+    {
+        if (!$entity->getStatus()->isCreated() && $forceCancel === false) {
+            throw new \Exception('Task cannot be cancelled because it is already dequeued.');
         }
     }
 

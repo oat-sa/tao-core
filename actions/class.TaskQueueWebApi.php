@@ -43,7 +43,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     const PARAMETER_TASK_ID = 'taskId';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_OFFSET = 'offset';
-    const ARCHIVE_ALL = 'all';
+    const ALL = 'all';
 
     /**
      * @throws \common_exception_NotImplemented
@@ -156,7 +156,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             /** @var TaskLogInterface $taskLogService */
             $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
 
-            if ($taskIds === static::ARCHIVE_ALL) {
+            if ($taskIds === static::ALL) {
                 $filter = (new TaskLogFilter())->availableForArchived($this->getSessionUserUri());
                 $taskLogCollection = $taskLogService->search($filter);
             } else {
@@ -167,6 +167,42 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             $hasBeenArchive = $taskLogService->archiveCollection($taskLogCollection);
             return $this->returnJson([
                 'success' => (bool)$hasBeenArchive
+            ]);
+        } catch (\Exception $e) {
+            return $this->returnJson([
+                'success' => false,
+                'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+                'errorCode' => $e instanceof \common_exception_NotFound ? 404 : $e->getCode(),
+            ]);
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function cancel()
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new \Exception('Only ajax call allowed.');
+        }
+
+        try {
+            $this->assertTaskIdExists();
+            $taskIds = $this->detectTaskIds();
+
+            /** @var TaskLogInterface $taskLogService */
+            $taskLogService = $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+
+            if ($taskIds === static::ALL) {
+                $filter = (new TaskLogFilter())->availableForCancelled($this->getSessionUserUri());
+                $taskLogCollection = $taskLogService->search($filter);
+            } else {
+                $filter = (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
+                $taskLogCollection = $taskLogService->search($filter);
+            }
+
+            return $this->returnJson([
+                'success' => (bool) $taskLogService->cancelCollection($taskLogCollection)
             ]);
         } catch (\Exception $e) {
             return $this->returnJson([
@@ -247,8 +283,8 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
         if (is_array($taskIdsParams)) {
             return $taskIdsParams;
-        } else if ($taskIdsParams === static::ARCHIVE_ALL) {
-            return static::ARCHIVE_ALL;
+        } else if ($taskIdsParams === static::ALL) {
+            return static::ALL;
         } else {
             return [$taskIdsParams];
         }

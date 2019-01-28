@@ -30,6 +30,7 @@ class CategorizedStatus
     const STATUS_COMPLETED = 'completed';
     const STATUS_FAILED = 'failed';
     const STATUS_ARCHIVED = 'archived';
+    const STATUS_CANCELLED = 'cancelled';
 
     /** @var  string */
     private $status;
@@ -52,7 +53,10 @@ class CategorizedStatus
         ],
         self::STATUS_ARCHIVED    => [
             TaskLogInterface::STATUS_ARCHIVED,
-        ]
+        ],
+        self::STATUS_CANCELLED    => [
+            TaskLogInterface::STATUS_CANCELLED,
+        ],
     );
 
     /**
@@ -90,6 +94,10 @@ class CategorizedStatus
                 return self::archived();
                 break;
 
+            case TaskLogInterface::STATUS_CANCELLED:
+                return self::cancelled();
+                break;
+
             case TaskLogInterface::STATUS_FAILED:
             case TaskLogInterface::STATUS_UNKNOWN:
                 return self::failed();
@@ -114,6 +122,14 @@ class CategorizedStatus
     public static function archived()
     {
         return new self(self::STATUS_ARCHIVED);
+    }
+
+    /**
+     * @return CategorizedStatus
+     */
+    public static function cancelled()
+    {
+        return new self(self::STATUS_CANCELLED);
     }
 
     /**
@@ -181,6 +197,14 @@ class CategorizedStatus
     }
 
     /**
+     * @return bool
+     */
+    public function isCancelled()
+    {
+        return $this->equals(self::cancelled());
+    }
+
+    /**
      * @param CategorizedStatus $logStatus
      *
      * @return bool
@@ -231,6 +255,10 @@ class CategorizedStatus
 
             case self::STATUS_ARCHIVED:
                 return __('Archived');
+                break;
+
+            case self::STATUS_CANCELLED:
+                return __('Cancelled');
                 break;
         }
     }
