@@ -10,6 +10,14 @@
         <div class="content">{{{content}}}</div>
         {{/if}}
 
+        {{#if checkbox}}
+        <label for="dont-show-again">
+            <input type="checkbox" id="dont-show-again" name="dont-show-again" {{#if checkbox.checked}}checked{{/if}} />
+            <span class="icon-checkbox"></span>
+            {{{checkbox.text}}}
+        </label>
+        {{/if}}
+
         <div class="buttons rgt"></div>
     </div>
 </div>
