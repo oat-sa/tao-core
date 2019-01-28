@@ -28,7 +28,7 @@ define([
     'i18n',
     'core/mimetype',
     'tpl!ui/resourcemgr/tpl/fileSelect',
-    'ui/feedback', 
+    'ui/feedback',
     'ui/uploader',
     'context'
 ], function($, _, async, __, mimeType, fileSelectTpl, feedback, uploader, context){
@@ -64,7 +64,7 @@ define([
 
         return textSize > $element.width();
     }
-   
+
     return function(options){
 
         var root            = options.root || '/';
@@ -74,7 +74,7 @@ define([
         var $fileContainer  = $('.files', $fileSelector);
         var $placeholder    = $('.empty', $fileSelector);
         var $uploader       = $('.file-upload-container', $fileSelector);
-        var parentSelector  = '#' + $container.attr('id') + ' .file-selector'; 
+        var parentSelector  = '#' + $container.attr('id') + ' .file-selector';
         var $pathTitle      = $fileSelector.find('h1 > .title');
         var $browserTitle   = $('.file-browser > h1', $container);
 
@@ -87,7 +87,7 @@ define([
             setUpUploader(root);
         }
         //update current folder
-        $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){    
+        $container.on('folderselect.' + ns , function(e, fullPath, data, activePath){
             var files;
             //update title
 
@@ -110,12 +110,12 @@ define([
                     file.downloadUrl = file.viewUrl + '&svgzsupport=true';
                     return file;
                 });
-            
+
                 updateFiles(fullPath, files);
-                
+
                 if(activePath){
                     $('li[data-file="' + activePath + '"]').trigger('click');
-                } 
+                }
             }
         });
 
@@ -126,7 +126,7 @@ define([
 
             var $selected   = $(this);
             var $files      = $('.files > li', $fileSelector);
-            var data        = _.clone($selected.data()); 
+            var data        = _.clone($selected.data());
 
             $files.removeClass('active');
             $selected.addClass('active');
@@ -158,7 +158,7 @@ define([
                 });
             }
         });
-       
+
 
         function setUpUploader(currentPath){
             var errors = [];
@@ -166,7 +166,7 @@ define([
 
             $uploader.on('upload.uploader', function(e, file, result){
                 var path = $('[data-display="'+currentPath+'"]').data('path') || $('[data-display="/'+currentPath+'"]').data('path');
-                if(typeof path === 'undefined' || path === ''){
+                if(!path){
                     path = currentPath;
                 }
                 $container.trigger('filenew.' + ns, [result, path]);
@@ -179,7 +179,7 @@ define([
                 if(errors.length === 0){
                     _.delay(switchUpload, 500);
                 } else {
-                    feedback().error("<ul><li>" + errors.join('</li><li>') + "</li></ul>", {encodeHtml: false}); 
+                    feedback().error("<ul><li>" + errors.join('</li><li>') + "</li></ul>", {encodeHtml: false});
                 }
                 //reset errors
                 errors = [];
@@ -215,7 +215,7 @@ define([
                             var checkType = file.type.replace(/^["']+|['"]+$/g, '');
                             return _.contains(filters, checkType);
                         });
-                         
+
                         if(files.length !== givenLength){
 
                             //TODO use a feedback popup
@@ -225,8 +225,8 @@ define([
 
                     async.filter(files, function(file, cb){
                         var result = true;
-                
-                        //try to call a server side service to check whether the selected files exists or not.       
+
+                        //try to call a server side service to check whether the selected files exists or not.
                         if(options.fileExistsUrl){
                             var pathParam = currentPath + '/' + file.name;
                             pathParam.replace('//','/');
@@ -237,14 +237,14 @@ define([
                                 cb(result);
                             });
                         } else{
-                            //fallback on client side check 
+                            //fallback on client side check
                             if(_.contains(fileNames, file.name.toLowerCase())){
                                 result = window.confirm('Do you want to override ' + file.name + '?');
                             }
                             cb(result);
                         }
                     }, done);
-                } 
+                }
             });
 
             $container.on('folderselect.' + ns , function(e, fullPath, data, uri){
@@ -258,8 +258,8 @@ define([
             $switcher.click(function(e){
                 e.preventDefault();
                 switchUpload();
-            }); 
-            
+            });
+
             var switchUpload = function switchUpload(){
                 if($fileContainer.css('display') === 'none'){
                     $uploader.hide();
@@ -279,7 +279,7 @@ define([
                 }
             };
         }
-        
+
         function updateFiles(path, files){
             $fileContainer.empty();
             if(files.length){

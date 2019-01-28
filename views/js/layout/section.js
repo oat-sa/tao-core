@@ -465,10 +465,8 @@ define([
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#load.section
          */
-        load : function(url, data, loaded){
+        load : function load(url, data, loaded){
             var self = this;
-            var wideDifferenciator = '[data-content-target="wide"]';
-            var $contentBlock;
 
             if(!this.selected){
                 this.current();
@@ -490,6 +488,7 @@ define([
                  * @param {String} response - the received content
                  */
                 self.scope.trigger('load.section', [self.selected, response]);
+
                 if(_.isFunction(loaded)){
                     loaded();
                 }
@@ -509,7 +508,7 @@ define([
          * @returns {SectionApi} instance for chaining
          * @fires SectionApi#load.section
          */
-        loadContentBlock : function(url, data, loaded){
+        loadContentBlock : function loadContentBlock(url, data, loaded){
             var $contentblock;
 
             if(!this.selected){
@@ -543,6 +542,7 @@ define([
          */
         updateContentBlock : function(html){
             var $contentblock = $('.content-block', this.selected.panel);
+
             if($contentblock.length){
                 $contentblock.empty().html(html);
             } else {
