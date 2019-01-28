@@ -43,13 +43,17 @@ define([
     var tokensHelper = {
         /**
          * Identifies the type of a given token
-         * @param {Object} token
+         * @param {String|Object} token
          * @returns {String|null}
          */
         getType: function getType(token) {
-            var type = token && token.type || null;
-            var term = registeredTerms[type];
-            return term && term.type || type;
+            var type, term;
+            if ('string' !== typeof token) {
+                type = token && token.type || null;
+                term = registeredTerms[type];
+                return term && term.type || type;
+            }
+            return token;
         },
 
         /**
@@ -58,10 +62,7 @@ define([
          * @returns {Boolean}
          */
         isDigit: function isDigit(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
-            return type === 'digit';
+            return tokensHelper.getType(type) === 'digit';
         },
 
         /**
@@ -70,10 +71,7 @@ define([
          * @returns {Boolean}
          */
         isOperator: function isOperator(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
-            return type === 'operator';
+            return tokensHelper.getType(type) === 'operator';
         },
 
         /**
@@ -82,10 +80,7 @@ define([
          * @returns {Boolean}
          */
         isAggregator: function isAggregator(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
-            return type === 'aggregator';
+            return tokensHelper.getType(type) === 'aggregator';
         },
 
         /**
@@ -94,10 +89,7 @@ define([
          * @returns {Boolean}
          */
         isError: function isError(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
-            return type === 'error';
+            return tokensHelper.getType(type) === 'error';
         },
 
         /**
@@ -106,10 +98,7 @@ define([
          * @returns {Boolean}
          */
         isConstant: function isConstant(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
-            return type === 'constant';
+            return tokensHelper.getType(type) === 'constant';
         },
 
         /**
@@ -118,9 +107,7 @@ define([
          * @returns {Boolean}
          */
         isVariable: function isVariable(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
+            type = tokensHelper.getType(type);
             return type === 'variable'
                 || type === 'term';
         },
@@ -131,10 +118,7 @@ define([
          * @returns {Boolean}
          */
         isFunction: function isFunction(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
-            return type === 'function';
+            return tokensHelper.getType(type) === 'function';
         },
 
         /**
@@ -143,9 +127,7 @@ define([
          * @returns {Boolean}
          */
         isIdentifier: function isIdentifier(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
+            type = tokensHelper.getType(type);
             return type === 'constant'
                 || type === 'variable'
                 || type === 'term'
@@ -159,9 +141,7 @@ define([
          * @returns {Boolean}
          */
         isSeparator: function isSeparator(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
+            type = tokensHelper.getType(type);
             return type === 'operator'
                 || type === 'aggregator';
         },
@@ -172,9 +152,7 @@ define([
          * @returns {Boolean}
          */
         isModifier: function isModifier(type) {
-            if ('string' !== typeof type) {
-                type = tokensHelper.getType(type);
-            }
+            type = tokensHelper.getType(type);
             return type === 'operator'
                 || type === 'function';
         },

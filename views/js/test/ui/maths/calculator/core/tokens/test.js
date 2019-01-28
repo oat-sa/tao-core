@@ -59,7 +59,7 @@ define([
 
     QUnit.test('getType', function (assert) {
         var tokenizer = calculatorTokenizerFactory();
-        QUnit.expect(_.size(registeredTerms) + 5);
+        QUnit.expect(_.size(registeredTerms) + 6);
 
         _.forEach(registeredTerms, function (term) {
             assert.equal(tokensHelper.getType(tokenizer.tokenize(term.value)[0]), term.type, 'Should tell ' + term.value + ' has type ' + term.type);
@@ -68,6 +68,7 @@ define([
         assert.equal(tokensHelper.getType(tokenizer.tokenize('')[0]), null, 'Empty token should be a null');
         assert.equal(tokensHelper.getType(tokenizer.tokenize('foo')[0]), 'term', 'Generic identifier should be a term');
         assert.equal(tokensHelper.getType({type: 'foo'}), 'foo', 'Specific type: foo');
+        assert.equal(tokensHelper.getType('foo'), 'foo', 'String type: foo');
         assert.equal(tokensHelper.getType(), null, 'No token');
         assert.equal(tokensHelper.getType({}), null, 'Empty token');
     });
