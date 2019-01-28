@@ -320,7 +320,7 @@ define([
                 var $newNode;
 
                 value.index = index;                        //the model as an index property, used for reordering
-                $newNode = $(template(value));
+                $newNode = $(template(value).trim());
                 $newNode
                      .appendTo($node)
                      .filter(':first')
@@ -666,7 +666,7 @@ define([
          */
         var bindElements = function bindElements($boundElt, dataAttrName, binding){
             var selector = '[data-' + dataAttrName + ']';
-            $boundElt.find(selector).andSelf().filter(selector).each(function(){
+            $boundElt.find(selector).addBack().filter(selector).each(function(){
                 var $node = $(this);
                 var path = prefix + $node.data(dataAttrName);
                 self[binding]($node, path, model, domFirst);
