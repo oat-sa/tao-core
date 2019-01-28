@@ -28,14 +28,12 @@ define([
     'ui/maths/calculator/core/terms',
     'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/plugin',
-    'tpl!ui/maths/calculator/plugins/screen/simpleScreen/term',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/history',
     'tpl!ui/maths/calculator/plugins/screen/simpleScreen/defaultTemplate'
-], function ($, _, __, nsHelper, scrollHelper, registeredTerms, tokensHelper, pluginFactory, termTpl, historyTpl, defaultScreenTpl) {
+], function ($, _, __, nsHelper, scrollHelper, registeredTerms, tokensHelper, pluginFactory, historyTpl, defaultScreenTpl) {
     'use strict';
 
     var pluginName = 'simpleScreen';
-    var reAnsVar = new RegExp('\\b' + registeredTerms.ANS.value + '\\b', 'g');
 
     /**
      * Default displayed value
@@ -99,51 +97,6 @@ define([
             var tokenizer = calculator.getTokenizer();
 
             /**
-             * Transforms a tokenized expression, replacing values by the related labels.
-             * @param {token[]} tokens
-             * @returns {String}
-             */
-            function transformTokens(tokens) {
-                var previous;
-                return termTpl(_.map(tokens, function (token) {
-                    var term = {
-                        type: token.type,
-                        token: token.type,
-                        value: token.value,
-                        label: token.value
-                    };
-
-                    if (registeredTerms[token.type]) {
-                        term.type = registeredTerms[token.type].type;
-                        term.label = registeredTerms[token.type].label;
-
-                        // always display the actual value of the last result variable
-                        if (token.type === 'ANS') {
-                            term.label = String(calculator.getVariable(registeredTerms.ANS.value).value).replace(registeredTerms.SUB.value, registeredTerms.NEG.label);
-                        }
-                    }
-                    else if (token.type === 'term') {
-                        if (calculator.hasVariable(token.value)) {
-                            term.type = 'variable';
-                        } else {
-                            term.type = 'unknown';
-                        }
-                    }
-
-                    if (token.type === 'SUB') {
-                        if (!previous || tokensHelper.isModifier(previous.type) || previous.token === 'LPAR') {
-                            term.label = registeredTerms.NEG.label;
-                            term.token = 'NEG';
-                        }
-                    }
-
-                    previous = term;
-
-                    return term;
-                }));
-            }
-
-            /**
              * Auto scroll to the last child of a container
              * @param {jQuery} $container
              * @param {String} [sel]
@@ -154,11 +107,12 @@ define([
 
             /**
              * Updates the expression area
-             * @param {Array} tokens
+             * @param {token[]} tokens
+             * @param {Object} variables
              */
-            function showExpression(tokens) {
+            function showExpression(tokens, variables) {
                 self.controls.$expression.html(
-                    transformTokens(tokens)
+                    tokensHelper.render(tokens, variables)
                 );
                 autoScroll(self.controls.$expression);
             }
@@ -168,7 +122,7 @@ define([
             }
 
             this.$layout = $(pluginConfig.layout(_.defaults({
-                expression: transformTokens(calculator.getTokens())
+                expression: tokensHelper.render(calculator.getTokens(), calculator.getVariables())
             }, pluginConfig)));
 
             this.controls = {
@@ -182,23 +136,23 @@ define([
                 })
                 .on(nsHelper.namespaceAll('expressionchange', pluginName), function () {
                     calculator.setState('error', false);
-                    showExpression(calculator.getTokens());
+                    showExpression(calculator.getTokens(), calculator.getVariables());
                 })
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
-                        expression: transformTokens(tokenizer.tokenize(calculator.getExpression().replace(reAnsVar, calculator.getLastResult().value))),
-                        result: transformTokens(tokenizer.tokenize(String(result.value)))
+                        expression: tokensHelper.render(tokenizer.tokenize(tokensHelper.renderLastResult(calculator.getExpression(), calculator.getLastResult())), calculator.getVariables()),
+                        result: tokensHelper.render(tokenizer.tokenize(result.value), calculator.getVariables())
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
                     if (tokensHelper.containsError(result.value)) {
-                        showExpression(tokenizer.tokenize(String(result.value)));
+                        showExpression(tokenizer.tokenize(result.value), calculator.getVariables());
                     }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
                     calculator.setState('error', true);
-                    showExpression(tokenizer.tokenize(calculator.getExpression() + '#'));
+                    showExpression(tokenizer.tokenize(calculator.getExpression() + '#'), calculator.getVariables());
                 });
 
             areaBroker.getScreenArea().append(this.$layout);

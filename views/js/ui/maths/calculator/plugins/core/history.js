@@ -24,13 +24,12 @@ define([
     'i18n',
     'util/namespace',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/plugin'
-], function (_, __, nsHelper, registeredTerms, pluginFactory) {
+], function (_, __, nsHelper, registeredTerms, tokensHelper, pluginFactory) {
     'use strict';
 
     var pluginName = 'history';
-
-    var reAnsVar = new RegExp('\\b' + registeredTerms.ANS.value + '\\b', 'g');
 
     return pluginFactory({
         name: pluginName,
@@ -109,7 +108,7 @@ define([
              * Adds a memory entry in the history from the current expression
              */
             function push() {
-                var expression = calculator.getExpression().replace(reAnsVar, calculator.getLastResult().value);
+                var expression = tokensHelper.renderLastResult(calculator.getExpression(), calculator.getLastResult());
                 var last = getMemoryAt(history.length - 1);
                 var memory = getMemoryAt(cursor);
                 if (!last || expression !== last.value) {

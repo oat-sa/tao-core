@@ -19,8 +19,9 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'ui/maths/calculator/core/terms'
-], function (registeredTerms) {
+    'ui/maths/calculator/core/terms',
+    'tpl!ui/maths/calculator/core/terms'
+], function (registeredTerms, termsTpl) {
     'use strict';
 
     /**
@@ -29,7 +30,17 @@ define([
      */
     var reErrorValue = /(NaN|[+-]?Infinity)/;
 
-    return {
+    /**
+     * Regex that matches the last result variable
+     * @type {RegExp}
+     */
+    var reAnsVar = new RegExp('\\b' + registeredTerms.ANS.value + '\\b', 'g');
+
+    /**
+     * List of helpers that apply on tokens
+     * @type {Object}
+     */
+    var tokensHelper = {
         /**
          * Identifies the type of a given token
          * @param {Object} token
@@ -48,7 +59,7 @@ define([
          */
         isDigit: function isDigit(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'digit';
         },
@@ -60,7 +71,7 @@ define([
          */
         isOperator: function isOperator(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'operator';
         },
@@ -72,7 +83,7 @@ define([
          */
         isAggregator: function isAggregator(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'aggregator';
         },
@@ -84,7 +95,7 @@ define([
          */
         isError: function isError(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'error';
         },
@@ -96,7 +107,7 @@ define([
          */
         isConstant: function isConstant(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'constant';
         },
@@ -108,7 +119,7 @@ define([
          */
         isVariable: function isVariable(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'variable'
                 || type === 'term';
@@ -121,7 +132,7 @@ define([
          */
         isFunction: function isFunction(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'function';
         },
@@ -133,7 +144,7 @@ define([
          */
         isIdentifier: function isIdentifier(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'constant'
                 || type === 'variable'
@@ -149,7 +160,7 @@ define([
          */
         isSeparator: function isSeparator(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'operator'
                 || type === 'aggregator';
@@ -162,10 +173,28 @@ define([
          */
         isModifier: function isModifier(type) {
             if ('string' !== typeof type) {
-                type = this.getType(type);
+                type = tokensHelper.getType(type);
             }
             return type === 'operator'
                 || type === 'function';
+        },
+
+        /**
+         * Ensures an expression is a string. If a token or a descriptor is provided, extract the value.
+         * @param {String|Number|Object} expression
+         * @returns {String}
+         */
+        stringValue: function stringValue(expression) {
+            var type = typeof expression;
+            if (type !== 'string') {
+                if (expression && 'undefined' !== typeof expression.value) {
+                    expression = expression.value;
+                } else if (type === 'object' || type === 'undefined' || expression === null) {
+                    expression = '';
+                }
+                expression = String(expression);
+            }
+            return expression;
         },
 
         /**
@@ -174,13 +203,66 @@ define([
          * @returns {Boolean}
          */
         containsError: function containsError(expression) {
-            if ('string' !== typeof expression) {
-                if (expression && 'undefined' !== typeof expression.value) {
-                    expression = expression.value;
+            return reErrorValue.test(tokensHelper.stringValue(expression));
+        },
+
+        /**
+         * Replace the last result variable by a particular value in an expression
+         * @param {String|Number|Object} expression
+         * @param {String|Number|Object} value
+         * @returns {String}
+         */
+        renderLastResult: function renderLastResult(expression, value) {
+            return tokensHelper.stringValue(expression).replace(reAnsVar, tokensHelper.stringValue(value));
+        },
+
+        /**
+         * Renders a list of tokens into a HTML string, using the display label of each token.
+         * @param {token[]} tokens
+         * @param {Object} [variables]
+         * @returns {String}
+         */
+        render: function render(tokens, variables) {
+            var previous;
+            variables = variables || {};
+
+            return termsTpl(_.map(tokens, function (token) {
+                var term = {
+                    type: token.type,
+                    token: token.type,
+                    value: token.value,
+                    label: token.value
+                };
+
+                if (registeredTerms[token.type]) {
+                    term.type = registeredTerms[token.type].type;
+                    term.label = registeredTerms[token.type].label;
+
+                    // always display the actual value of the last result variable
+                    if (token.type === 'ANS' && 'undefined' !== typeof variables[token.value]) {
+                        term.label = String(variables.ans || '0').replace(registeredTerms.SUB.value, registeredTerms.NEG.label);
+                    }
+                } else if (token.type === 'term') {
+                    if ('undefined' !== typeof variables[token.value]) {
+                        term.type = 'variable';
+                    } else {
+                        term.type = 'unknown';
+                    }
                 }
-                expression = String(expression);
-            }
-            return reErrorValue.test(expression);
+
+                if (token.type === 'SUB') {
+                    if (!previous || tokensHelper.isModifier(previous.type) || previous.token === 'LPAR') {
+                        term.label = registeredTerms.NEG.label;
+                        term.token = 'NEG';
+                    }
+                }
+
+                previous = term;
+
+                return term;
+            }));
         }
     };
+
+    return tokensHelper;
 });
