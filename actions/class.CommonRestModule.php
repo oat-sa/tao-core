@@ -487,7 +487,13 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     private function getFormattedResources(array $resources)
     {
-        return array_map([$this, 'getFormattedResource'], $resources);
+        $formattedResources = [];
+
+        foreach ($resources as $resource) {
+            $formattedResources[] = $this->getFormattedResource($resource);
+        }
+
+        return $formattedResources;
     }
 
     /**
