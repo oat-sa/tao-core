@@ -63,15 +63,20 @@ class Resolver implements ServiceLocatorAwareInterface
     public function __construct($request)
     {
         if (is_object($request)) {
-            if ($request instanceof common_http_Request) {
+            if ($request instanceof \common_http_Request) {
+            /** @var common_http_Request $request */
                 $this->request = new ServerRequest(
                     $request->getMethod(),
                     $request->getUrl(),
                     $request->getHeaders(),
-                    $request->getBody()
+                    $request->getBody(),
+                    '1.1.',
+                    $request->getParams()
                 );
+//                \common_Logger::e(print_r($this->request->getServerParams(), true));
                 return;
             } elseif (is_a($request, ServerRequestInterface::class)) {
+//                \common_Logger::e(print_r($request->getQueryParams(), true));
                 $this->request = $request;
                 return;
             }

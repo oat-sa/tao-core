@@ -20,7 +20,11 @@
  *
  */
 
+use GuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\Uri;
 use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\routing\ActionEnforcer;
+use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
@@ -32,6 +36,7 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\http\Controller;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Top level controller
@@ -227,7 +232,7 @@ abstract class tao_actions_CommonModule extends Controller implements ServiceMan
     protected function returnJson($data, $httpStatus = 200) {
         header(HTTPToolkit::statusCodeHeader($httpStatus));
         Context::getInstance()->getResponse()->setContentHeader('application/json');
-        echo json_encode($data);
+        $this->response = $this->getPsrResponse()->withBody(stream_for(json_encode($data)));
     }
 
     /**
@@ -254,29 +259,88 @@ abstract class tao_actions_CommonModule extends Controller implements ServiceMan
     }
 
     /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     *
-     * @param string $action
-     * @param string $controller
-     * @param string $extension
-     * @param array $params
-     */
-    public function forward($action, $controller = null, $extension = null, $params = array())
-    {
-        $this->getFlowController()->forward($action, $controller, $extension, $params);
-    }
-
-    /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     *
-     * @param string $url
-     * @throws InterruptedActionException
+     * Forward the action to execute reqarding a URL
+     * The forward runs into tha same HTTP request unlike redirect.
+     * @param string $url the url to forward to
      */
     public function forwardUrl($url)
     {
-        $this->getFlowController()->forwardUrl($url);
+        $request = $this->getPsrRequest();
+
+        if ($request->getMethod() == 'GET') {
+            $params = $request->getQueryParams();
+        } elseif ($request->getMethod() == 'POST') {
+            $params = $request->getParsedBody();
+        } else {
+            $params = [];
+        }
+
+        //get the current request
+//        $request = common_http_Request::currentRequest();
+//        $params = common_http_Request::currentRequest()->getParams();
+
+        //parse the given URL
+//        $parsedUrl = parse_url($url);
+
+        //if new parameters are given, then merge them
+
+        $uri = new Uri($url);
+        $query = $uri->getQuery();
+        $queryParams = array();
+        if(isset($query) && strlen($query) > 0){
+            parse_str($query, $queryParams);
+//            \common_Logger::i(' ==== ' . print_r($queryParams, true));
+            if(count($queryParams) > 0){
+                $params = array_merge($params, $queryParams);
+            }
+        }
+
+//        $params = $queryParams;
+        $request = new ServerRequest(
+            'GET',
+            $url
+        );
+        $request = $request->withQueryParams((array) $queryParams);
+
+        //resolve the given URL for routing
+        $resolver = new Resolver($request);
+        $this->propagate($resolver);
+
+        //update the context to the new route
+        $context = \Context::getInstance();
+        $context->setExtensionName($resolver->getExtensionId());
+        $context->setModuleName($resolver->getControllerShortName());
+        $context->setActionName($resolver->getMethodName());
+
+        //execute the new action
+        $enforcer = new ActionEnforcer(
+            $resolver->getExtensionId(),
+            $resolver->getControllerClass(),
+            $resolver->getMethodName(),
+            $params
+        );
+        $this->propagate($enforcer);
+
+        $this->response = $enforcer->resolve($request);
+        $this->response = $this->response->withHeader(
+            'X-Tao-Forward',
+            $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+        );
+
+    }
+
+    /**
+     * Forward routing.
+
+     * @param string $action the name of the new action
+     * @param string $controller the name of the new controller/module
+     * @param string $extension the name of the new extension
+     * @param array $params additional parameters
+     */
+    public function forward($action, $controller = null, $extension = null, $params = array())
+    {
+        //as we use a route resolver, it's easier to rebuild the URL to resolve it
+        $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));
     }
 
     /**

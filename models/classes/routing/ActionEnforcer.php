@@ -138,7 +138,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	    }
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response = null)
     {
         $this->request = $request;
         $this->response = $response;
@@ -158,50 +158,56 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $this->extension    = 'tao';
         }
 
-	    // get the controller
-	    $controller = $this->getController();
-	    $action = $this->getAction();
+	    $response = $this->resolve($this->getRequest());
 
-	    // if the method related to the specified action exists, call it
-	    if (method_exists($controller, $action)) {
-
-	        // search parameters method
-	        $reflect	= new ReflectionMethod($controller, $action);
-	        $parameters	= $this->getParameters();
-
-	        $tabParam 	= array();
-	        foreach($reflect->getParameters() as $param) {
-	            if (isset($parameters[$param->getName()])) {
-	               $tabParam[$param->getName()] = $parameters[$param->getName()];
-	            } elseif (!$param->isDefaultValueAvailable()) {
-	                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
-	            }
-	        }
-
-	        // Action method is invoked, passing request parameters as
-	        // method parameters.
-	        $user = common_session_SessionManager::getSession()->getUser();
-	        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
-
-            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-            $eventManager->trigger(new BeforeAction());
-
-	        call_user_func_array(array($controller, $action), $tabParam);
-
-	        /** @var ResponseInterface $response */
-            $response = $controller->getPsrResponse();
-	        // Render the view if selected.
-	        if ($controller->hasView()) {
-	            $response = $response->withBody(stream_for($controller->getRenderer()->render()));
-	        }
-
-            $emitter = new ResponseEmitter();
-            $emitter($response);
-	    } else {
-	        throw new ActionEnforcingException("Unable to find the action '".$action."' in '".get_class($controller)."'.",
-	            $this->getControllerClass(),
-	            $this->getAction());
-	    }
+        $emitter = new ResponseEmitter();
+        $emitter($response);
 	}
+
+	public function resolve(ServerRequestInterface $request)
+    {
+        $this->request = $request;
+
+        // get the controller
+        $controller = $this->getController();
+        $action = $this->getAction();
+
+        if (!method_exists($controller, $action)) {
+            throw new ActionEnforcingException("Unable to find the action '" . $action . "' in '" . get_class($controller) . "'.",
+                $this->getControllerClass(),
+                $this->getAction());
+        }
+
+        // search parameters method
+        $reflect	= new ReflectionMethod($controller, $action);
+        $parameters	= $this->getParameters();
+
+        $tabParam 	= array();
+        foreach($reflect->getParameters() as $param) {
+            if (isset($parameters[$param->getName()])) {
+                $tabParam[$param->getName()] = $parameters[$param->getName()];
+            } elseif (!$param->isDefaultValueAvailable()) {
+                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
+            }
+        }
+
+        // Action method is invoked, passing request parameters as method parameters.
+        $user = common_session_SessionManager::getSession()->getUser();
+        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
+
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+        $eventManager->trigger(new BeforeAction());
+
+        call_user_func_array(array($controller, $action), $tabParam);
+
+        /** @var ResponseInterface $response */
+        $response = $controller->getPsrResponse();
+        // Render the view if selected.
+        if ($controller->hasView()) {
+            $response = $response->withBody(stream_for($controller->getRenderer()->render()));
+        }
+
+        return $response;
+    }
 
 }
