@@ -144,6 +144,26 @@ define(['jquery'], function($){
     };
 
     /**
+     * Check a filesystem component on the server-side
+     */
+    TaoInstall.prototype.checkFileSystemComponent = function(check, callback){
+        var data = {
+            type: 'CheckFileSystemComponent',
+            value: check
+        };
+
+        var options = {
+            data: JSON.stringify(data),
+            type: 'POST',
+            dataType: 'json'
+        };
+
+        $.ajax(this.url, options)
+            .done(function(data, textStatus, jqxhr){callback(jqxhr.status, data);})
+            .fail(function(jqxhr){callback(jqxhr.status);});
+    };
+
+    /**
      * Check if password match current security rules
      */
     TaoInstall.prototype.сheckPasswordСonformity = function(check, callback){
@@ -752,5 +772,36 @@ define(['jquery'], function($){
 
         return value;
     };
+
+    TaoInstall.prototype.getExpectedRightsAsString = function(expectedRights){
+        var tokens = [];
+
+        for (var i = 0; i < expectedRights.length; i++){
+            if (expectedRights.charAt(i) == 'r'){
+                tokens.push('readable');
+            } else if (expectedRights.charAt(i) == 'w'){
+                tokens.push('writable');
+            } else{
+                tokens.push('executable');
+            }
+        }
+
+        return tokens.join(', ');
+    };
+
+    TaoInstall.prototype.getCurrentRightsAsString = function(report){
+        var tokens = [];
+
+        if (report.value.isWritable == true){
+            tokens.push('writable');
+        } else if (report.value.isReadable == true){
+            tokens.push('readable');
+        } else{
+            tokens.push('executable');
+        }
+
+        return tokens.join(', ');
+    };
+
     return TaoInstall;
 });
