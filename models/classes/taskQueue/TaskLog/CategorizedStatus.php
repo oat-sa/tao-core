@@ -236,30 +236,34 @@ class CategorizedStatus
      */
     public function getLabel()
     {
+        $label = '';
+
         switch ($this->status) {
             case self::STATUS_CREATED:
-                return __('Queued');
+                $label = __('Queued');
                 break;
 
             case self::STATUS_IN_PROGRESS:
-                return __('In Progress');
+                $label = __('In Progress');
                 break;
 
             case self::STATUS_COMPLETED:
-                return __('Completed');
+                $label = __('Completed');
                 break;
 
             case self::STATUS_FAILED:
-                return __('Failed');
+                $label = __('Failed');
                 break;
 
             case self::STATUS_ARCHIVED:
-                return __('Archived');
+                $label = __('Archived');
                 break;
 
             case self::STATUS_CANCELLED:
-                return __('Cancelled');
+                $label = __('Cancelled');
                 break;
         }
+
+        return $label;
     }
 }

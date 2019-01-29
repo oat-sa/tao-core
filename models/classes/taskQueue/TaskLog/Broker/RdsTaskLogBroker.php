@@ -403,7 +403,7 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
     /**
      * @param CollectionInterface $collection
      * @param string $status
-     * @return bool|\Doctrine\DBAL\Driver\Statement|int
+     * @return int Number of rows updated
      */
     private function updateCollectionStatus(CollectionInterface $collection, $status)
     {

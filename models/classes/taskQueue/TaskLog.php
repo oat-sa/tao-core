@@ -303,7 +303,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
      */
     public function archive(EntityInterface $entity, $forceArchive = false)
     {
-        $this->assertCanArchive($entity, $forceArchive);
+        $this->checkIfCanArchive($entity, $forceArchive);
 
         $isArchived = $this->getBroker()->archive($entity);
 
@@ -324,7 +324,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
      */
     public function cancel(EntityInterface $entity, $forceCancel = false)
     {
-        $this->assertCanCancel($entity, $forceCancel);
+        $this->checkIfCanCancel($entity, $forceCancel);
 
         $isCancelled = $this->getBroker()->cancel($entity);
 
@@ -347,7 +347,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         /** @var EntityInterface $entity */
         foreach ($collection as $entity) {
             try{
-                $this->assertCanArchive($entity, $forceArchive);
+                $this->checkIfCanArchive($entity, $forceArchive);
                 $tasksAbleToArchive[] = $entity;
             }catch (\Exception $exception) {
                 $this->logDebug('Task Log: ' . $entity->getId(). ' cannot be archived.');
@@ -381,7 +381,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         /** @var EntityInterface $entity */
         foreach ($collection as $entity) {
             try{
-                $this->assertCanCancel($entity, $forceCancel);
+                $this->checkIfCanCancel($entity, $forceCancel);
                 $cancellableTasks[] = $entity;
             }catch (\Exception $exception) {
                 $this->logDebug('Task Log: ' . $entity->getId(). ' cannot be cancelled.');
@@ -487,7 +487,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
      * @param $forceArchive
      * @throws \Exception
      */
-    protected function assertCanArchive(EntityInterface $entity, $forceArchive)
+    protected function checkIfCanArchive(EntityInterface $entity, $forceArchive)
     {
         if ($entity->getStatus()->isInProgress() && $forceArchive === false) {
             throw new \Exception('Task cannot be archived because it is in progress.');
@@ -499,7 +499,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
      * @param bool $forceCancel
      * @throws \Exception
      */
-    protected function assertCanCancel(EntityInterface $entity, $forceCancel)
+    protected function checkIfCanCancel(EntityInterface $entity, $forceCancel)
     {
         if (!$entity->getStatus()->isCreated() && $forceCancel === false) {
             throw new \Exception('Task cannot be cancelled because it is already dequeued.');
