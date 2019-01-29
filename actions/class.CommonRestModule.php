@@ -213,70 +213,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function restGetResource($uri = null, $advancedAclUsage = false)
     {
-        return $this->get($uri, $advancedAclUsage);
-    }
-
-    /**
-     * Updates the specified resource properties.
-     *
-     * @param string $uri
-     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
-     *
-     * @return mixed
-     * @throws common_exception_BadRequest
-     * @throws common_exception_MissingParameter
-     * @throws common_exception_PreConditionFailure
-     */
-    protected function restPutResource($uri, $advancedAclUsage = false)
-    {
-        return $this->put($uri, $advancedAclUsage);
-    }
-
-    /**
-     * Creates a new resource under the current root class.
-     *
-     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
-     *
-     * @return mixed
-     * @throws common_exception_MissingParameter
-     */
-    protected function restPostResource($advancedAclUsage = false)
-    {
-        return $this->post($advancedAclUsage);
-    }
-
-    /**
-     * Deletes the given resource.
-     *
-     * @param string|null $uri
-     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
-     *
-     * @return mixed
-     * @throws common_exception_BadRequest
-     * @throws common_exception_InvalidArgumentType
-     * @throws common_exception_PreConditionFailure
-     */
-    protected function restDeleteResource($uri = null, $advancedAclUsage = false)
-    {
-        return $this->delete($uri, $advancedAclUsage);
-    }
-
-    /**
-     * Method to wrap fetching to service:
-     * - get() if uri is not null
-     * - getAll() if uri is null
-     *
-     * @param string|null $uri
-     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
-     *
-     * @return mixed
-     * @throws common_exception_InvalidArgumentType
-     * @throws common_exception_PreConditionFailure
-     *
-     * @deprecated Use getResource instead
-     */
-    protected function get($uri = null, $advancedAclUsage = false)
-    {
         if (!is_null($uri)) {
             if (!$this->getCrudService()->isInScope($uri)) {
                 throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
@@ -297,7 +233,54 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     }
 
     /**
-     * Method to wrap deleting to service if uri is not null
+     * Updates the specified resource properties.
+     *
+     * @param string $uri
+     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
+     *
+     * @return mixed
+     * @throws common_exception_BadRequest
+     * @throws common_exception_MissingParameter
+     * @throws common_exception_PreConditionFailure
+     */
+    protected function restPutResource($uri, $advancedAclUsage = false)
+    {
+        if (is_null($uri)) {
+            throw new common_exception_BadRequest('Update method requires an uri parameter');
+        }
+        if (!$this->getCrudService()->isInScope($uri)) {
+            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
+        }
+
+        if ($advancedAclUsage) {
+            $this->enforceAcl($uri, 'WRITE');
+        }
+
+        $parameters = $this->getParameters();
+        return $this->getCrudService()->update($uri, $parameters);
+    }
+
+    /**
+     * Creates a new resource under the current root class.
+     *
+     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
+     *
+     * @return mixed
+     * @throws common_exception_MissingParameter
+     */
+    protected function restPostResource($advancedAclUsage = false)
+    {
+        $parameters = $this->getParameters();
+
+        if ($advancedAclUsage) {
+            $this->enforceAcl($this->getCrudService()->getRootClass()->getUri(), 'WRITE');
+        }
+
+        return $this->getCrudService()->createFromArray($parameters);
+    }
+
+    /**
+     * Deletes the given resource.
      *
      * @param string|null $uri
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
@@ -306,10 +289,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * @throws common_exception_BadRequest
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
-     *
-     * @deprecated Use deleteResource instead
      */
-    protected function delete($uri = null, $advancedAclUsage = false)
+    protected function restDeleteResource($uri = null, $advancedAclUsage = false)
     {
         if (is_null($uri)) {
             throw new common_exception_BadRequest('Delete method requires an uri parameter');
@@ -326,6 +307,43 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     }
 
     /**
+     * Method to wrap fetching to service:
+     * - get() if uri is not null
+     * - getAll() if uri is null
+     *
+     * @param string|null $uri
+     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
+     *
+     * @return mixed
+     * @throws common_exception_InvalidArgumentType
+     * @throws common_exception_PreConditionFailure
+     *
+     * @deprecated Use getResource instead
+     */
+    protected function get($uri = null, $advancedAclUsage = false)
+    {
+        return $this->restGetResource($uri, $advancedAclUsage);
+    }
+
+    /**
+     * Method to wrap deleting to service if uri is not null
+     *
+     * @param string|null $uri
+     * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
+     *
+     * @return mixed
+     * @throws common_exception_BadRequest
+     * @throws common_exception_InvalidArgumentType
+     * @throws common_exception_PreConditionFailure
+     *
+     * @deprecated Use deleteResource instead
+     */
+    protected function delete($uri = null, $advancedAclUsage = false)
+    {
+        return $this->restDeleteResource($uri, $advancedAclUsage);
+    }
+
+    /**
      * Method to wrap creating to service
      *
      * @param bool $advancedAclUsage Whether the resource ACL should be checked or not.
@@ -337,13 +355,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function post($advancedAclUsage = false)
     {
-        $parameters = $this->getParameters();
-
-        if ($advancedAclUsage) {
-            $this->enforceAcl($this->getCrudService()->getRootClass()->getUri(), 'WRITE');
-        }
-
-        return $this->getCrudService()->createFromArray($parameters);
+        return $this->restPostResource($advancedAclUsage);
     }
 
     /**
@@ -361,19 +373,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function put($uri, $advancedAclUsage = false)
     {
-        if (is_null($uri)) {
-            throw new common_exception_BadRequest('Update method requires an uri parameter');
-        }
-        if (!$this->getCrudService()->isInScope($uri)) {
-            throw new common_exception_PreConditionFailure('The URI must be a valid resource under the root Class');
-        }
-
-        if ($advancedAclUsage) {
-            $this->enforceAcl($uri, 'WRITE');
-        }
-
-        $parameters = $this->getParameters();
-        return $this->getCrudService()->update($uri, $parameters);
+        return $this->restPutResource($uri, $advancedAclUsage);
     }
 
     /**
