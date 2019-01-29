@@ -22,6 +22,10 @@
                     display: inline-block;
                     width: 160px;
                     vertical-align: -50%;
+
+                    .text {
+                        word-break: break-word;
+                    }
                 }
                 &.toggler:after {
                     display: none;
