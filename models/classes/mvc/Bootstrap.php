@@ -21,7 +21,7 @@
  */
 namespace oat\tao\model\mvc;
 
-use oat\oatbox\service\ServiceConfigDriver;
+use oat\oatbox\service\ExtendedConfigDriver;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
@@ -92,7 +92,7 @@ class Bootstrap implements ServiceManagerAwareInterface
 
         require_once $configuration;
         $serviceManager = new ServiceManager(
-            (new ServiceConfigDriver())->connect('config', array(
+            (new ExtendedConfigDriver())->connect('config', array(
                 'dir' => dirname($configuration),
                 'humanReadable' => true
             ))
