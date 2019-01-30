@@ -59,9 +59,9 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     /**
      *
      * @author Patrick Plichart, patrick@taotesting.com
-     * return core_kernel_classes_Class
+     * @return core_kernel_classes_Class
      */
-    protected function getRootClass()
+    public function getRootClass()
     {
         return $this->getClassService()->getRootClass();
     }
@@ -148,7 +148,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     public function create($label = "", $type = null, $propertiesValues = array())
     {
         $type = (isset($type)) ? new core_kernel_classes_Class($type) : $this->getRootClass();
-        
+
         $resource = $this->getClassService()->createInstance($type, $label);
         $resource->setPropertiesValues($propertiesValues);
         return $resource;
@@ -183,5 +183,3 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
         return $resource;
     }
 }
-
-?>
