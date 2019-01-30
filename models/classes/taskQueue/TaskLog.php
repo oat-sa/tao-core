@@ -485,24 +485,24 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     /**
      * @param EntityInterface $entity
      * @param $forceArchive
-     * @throws \Exception
+     * @throws \common_Exception
      */
     protected function checkIfCanArchive(EntityInterface $entity, $forceArchive)
     {
         if ($entity->getStatus()->isInProgress() && $forceArchive === false) {
-            throw new \Exception('Task cannot be archived because it is in progress.');
+            throw new \common_Exception('Task cannot be archived because it is in progress.');
         }
     }
 
     /**
      * @param EntityInterface $entity
      * @param bool $forceCancel
-     * @throws \Exception
+     * @throws \common_Exception
      */
     protected function checkIfCanCancel(EntityInterface $entity, $forceCancel)
     {
         if (!$entity->getStatus()->isCreated() && $forceCancel === false) {
-            throw new \Exception('Task cannot be cancelled because it is already dequeued.');
+            throw new \common_Exception('Task cannot be cancelled because it is already dequeued.');
         }
     }
 
