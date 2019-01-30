@@ -35,8 +35,7 @@ define([
     'layout/permissions',
     'ui/feedback',
     'uri',
-    'jquery.tree',
-    'lib/jsTree/plugins/jquery.tree.contextmenu'
+    'jquery.tree'
 ], function($, _, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
     'use strict';
 
