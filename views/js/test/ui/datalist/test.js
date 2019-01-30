@@ -308,7 +308,7 @@ define([
 
                 if (config.selectable) {
                     assert.equal($line.find('td.checkboxes input').length, 1, 'The datalist instance has rendered a checkbox in the line with id ' + id);
-                    assert.equal(!$line.find('td.checkboxes input').attr('checked'), true, 'The datalist instance has rendered an unchecked checkbox in the line with id ' + id);
+                    assert.equal(!$line.find('td.checkboxes input').prop('checked'), true, 'The datalist instance has rendered an unchecked checkbox in the line with id ' + id);
                 } else {
                     assert.equal($line.find('td.checkboxes').length, 0, 'The datalist instance must not render a checkbox in the line with id ' + id);
                 }
@@ -440,7 +440,7 @@ define([
 
                 if (config.selectable) {
                     assert.equal($line.find('td.checkboxes input').length, 1, 'The datalist instance has rendered a checkbox in the line with id ' + id);
-                    assert.equal(!$line.find('td.checkboxes input').attr('checked'), true, 'The datalist instance has rendered an unchecked checkbox in the line with id ' + id);
+                    assert.equal(!$line.find('td.checkboxes input').prop('checked'), true, 'The datalist instance has rendered an unchecked checkbox in the line with id ' + id);
                 } else {
                     assert.equal($line.find('td.checkboxes').length, 0, 'The datalist instance must not render a checkbox in the line with id ' + id);
                 }
@@ -617,7 +617,7 @@ define([
 
             instance.getElement().find('[data-id="1"] td.checkboxes input').on('click', function() {
                 // force the check attribute as the soft click does not do this
-                $(this).attr('checked', 'checked');
+                $(this).prop('checked', true);
             }).click();
         });
 
