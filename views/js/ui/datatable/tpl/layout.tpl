@@ -97,7 +97,7 @@
                                 {{/each}}
                             </td>
                             {{else}}
-                            <td class="{{id}}">{{property id ../../this}}</td>
+                            <td class="{{id}}">{{{property id ../../this}}}</td>
                             {{/if}}
 
                         {{/each}}
