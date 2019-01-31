@@ -176,7 +176,17 @@ define([
                         if(!_.isEmpty(acc) || hasQueryString){
                             acc += '&';
                         }
-                        acc += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+                        if (typeof value === "object") {
+                            for (var p in value) {
+                                if (value.hasOwnProperty(p)) {
+                                    var k = encodeURIComponent(key) + "[" + encodeURIComponent(p) + "]";
+                                    var v = value[p];
+                                }
+                                acc += k + '=' + encodeURIComponent(v) + "&";
+                            }
+                        } else {
+                            acc += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+                        }
                         return acc;
                     }, queryString);
                     if(!_.isEmpty(queryString)){
