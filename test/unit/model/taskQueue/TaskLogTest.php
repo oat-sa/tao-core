@@ -199,11 +199,36 @@ class TaskLogTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException  \Exception
      */
-    public function testArchiveNotPossibleTaskIsRunning()
+    public function testArchiveNotPossibleIfTaskIsRunning()
     {
         $model = $this->getTaskLogMock(false, false, true);
 
         $this->assertTrue($model->archive($model->getByIdAndUser('taskId', 'userId')));
+    }
+
+    public function testCancel()
+    {
+        $model = $this->getTaskLogMock();
+        $this->assertTrue($model->cancel($model->getByIdAndUser('taskId', 'userId')));
+    }
+
+    /**
+     * @expectedException  \common_exception_NotFound
+     */
+    public function testCancelTaskNotFound()
+    {
+        $model = $this->getTaskLogMock(true);
+        $this->assertTrue($model->cancel($model->getByIdAndUser('taskId', 'userId')));
+    }
+
+    /**
+     * @expectedException  \Exception
+     */
+    public function testCancelNotPossibleIfTaskIsRunning()
+    {
+        $model = $this->getTaskLogMock(false, false, true, false);
+
+        $this->assertTrue($model->cancel($model->getByIdAndUser('taskId', 'userId')));
     }
 
     /**
@@ -212,7 +237,7 @@ class TaskLogTest extends \PHPUnit_Framework_TestCase
      * @param bool $taskRunning
      * @return \PHPUnit_Framework_MockObject_MockObject|TaskLogInterface
      */
-    protected function getTaskLogMock($notFound = false, $shouldArchive = true, $taskRunning = false)
+    protected function getTaskLogMock($notFound = false, $shouldArchive = true, $taskRunning = false, $shouldCancel = true)
     {
         $taskLogMock = $this->getMockBuilder(TaskLog::class)->disableOriginalConstructor()->getMock();
         $collectionMock = $this->getMockBuilder(TaskLogCollection::class)->disableOriginalConstructor()->getMock();
@@ -233,6 +258,10 @@ class TaskLogTest extends \PHPUnit_Framework_TestCase
             $taskLogMock
                 ->method('archive')
                 ->willReturn($shouldArchive);
+
+            $taskLogMock
+                ->method('cancel')
+                ->willReturn($shouldCancel);
         }
         if ($notFound) {
             $taskLogMock
