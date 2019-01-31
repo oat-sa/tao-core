@@ -1,7 +1,7 @@
 <div class="preview-modal-feedback modal">
     <div class="modal-body clearfix">
         {{#if heading}}
-        <h4 class="strong">{{{heading}}}</h4>
+        <h4 class="strong">{{heading}}</h4>
         {{/if}}
 
         <p class="message">{{message}}</p>
