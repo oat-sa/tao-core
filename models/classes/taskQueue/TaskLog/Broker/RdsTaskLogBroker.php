@@ -313,28 +313,15 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function archive(EntityInterface $entity)
     {
-        $this->getPersistence()->getPlatform()->beginTransaction();
+        return $this->updateStatus($entity->getId(), TaskLogInterface::STATUS_ARCHIVED);
+    }
 
-        try {
-            $qb = $this->getQueryBuilder()
-                ->update($this->getTableName())
-                ->set(self::COLUMN_STATUS, ':status_new')
-                ->set(self::COLUMN_UPDATED_AT, ':updated_at')
-                ->where(self::COLUMN_ID .' = :id')
-                ->setParameter('id', (string) $entity->getId())
-                ->setParameter('status_new', (string) TaskLogInterface::STATUS_ARCHIVED)
-                ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
-
-            $qb->execute();
-            $this->getPersistence()->getPlatform()->commit();
-
-        } catch (\Exception $e) {
-            $this->getPersistence()->getPlatform()->rollBack();
-
-            return false;
-        }
-
-        return true;
+    /**
+     * @inheritdoc
+     */
+    public function cancel(EntityInterface $entity)
+    {
+        return $this->updateStatus($entity->getId(), TaskLogInterface::STATUS_CANCELLED);
     }
 
     /**
@@ -342,29 +329,15 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
      */
     public function archiveCollection(CollectionInterface $collection)
     {
-        $this->getPersistence()->getPlatform()->beginTransaction();
+        return $this->updateCollectionStatus($collection, TaskLogInterface::STATUS_ARCHIVED);
+    }
 
-        try {
-            $qb = $this->getQueryBuilder()
-                ->update($this->getTableName())
-                ->set(self::COLUMN_STATUS, ':status_new')
-                ->set(self::COLUMN_UPDATED_AT, ':updated_at')
-                ->where(self::COLUMN_ID .' IN(:id)')
-                ->setParameter('id', $collection->getIds(), Connection::PARAM_STR_ARRAY)
-                ->setParameter('status_new', (string) TaskLogInterface::STATUS_ARCHIVED)
-                ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
-
-            $exec = $qb->execute();
-            $this->getPersistence()->getPlatform()->commit();
-
-        } catch (\Exception $e) {
-            $this->getPersistence()->getPlatform()->rollBack();
-            $this->logDebug($e->getMessage());
-
-            return false;
-        }
-
-        return $exec;
+    /**
+     * @inheritdoc
+     */
+    public function cancelCollection(CollectionInterface $collection)
+    {
+        return $this->updateCollectionStatus($collection, TaskLogInterface::STATUS_CANCELLED);
     }
 
     /**
@@ -425,5 +398,37 @@ class RdsTaskLogBroker implements TaskLogBrokerInterface, PhpSerializable, Logge
         $sql .= " THEN 0 END ) AS $statusColumn";
 
         return $sql;
+    }
+
+    /**
+     * @param CollectionInterface $collection
+     * @param string $status
+     * @return int Number of rows updated
+     */
+    private function updateCollectionStatus(CollectionInterface $collection, $status)
+    {
+        $this->getPersistence()->getPlatform()->beginTransaction();
+
+        try {
+            $qb = $this->getQueryBuilder()
+                ->update($this->getTableName())
+                ->set(self::COLUMN_STATUS, ':status_new')
+                ->set(self::COLUMN_UPDATED_AT, ':updated_at')
+                ->where(self::COLUMN_ID .' IN(:id)')
+                ->setParameter('id', $collection->getIds(), Connection::PARAM_STR_ARRAY)
+                ->setParameter('status_new', (string) $status)
+                ->setParameter('updated_at', $this->getPersistence()->getPlatForm()->getNowExpression());
+
+            $exec = $qb->execute();
+            $this->getPersistence()->getPlatform()->commit();
+
+        } catch (\Exception $e) {
+            $this->getPersistence()->getPlatform()->rollBack();
+            $this->logDebug($e->getMessage());
+
+            return false;
+        }
+
+        return $exec;
     }
 }

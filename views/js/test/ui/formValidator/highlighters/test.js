@@ -34,17 +34,15 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
     });
 
 
-    QUnit.module("Qtip highlighter", {
+    QUnit.module("Tooltip highlighter", {
         setup: function() {
             highlighter = new Highlighter({
-                type : 'qtip',
+                type : 'tooltip',
                 errorClass : 'testErrorClass',
-                qtip : {
-                    show: {
-                        delay: 0
-                    },
-                    hide: {
-                        delay: 0
+                tooltip : {
+                    delay:{
+                        show:0,
+                        hide:0
                     }
                 }
             });
@@ -58,18 +56,14 @@ define(['lodash', 'jquery', 'ui/formValidator/highlighters/highlighter'], functi
         highlighter.highlight($('#field_1'), message);
 
         assert.ok($('#field_1').hasClass('testErrorClass'), 'Field has error class');
-        assert.equal($('.qtip-content').length, 1, 'Highlighted (tooltip is rendered)');
-        assert.equal($('.qtip-content').text(), message, 'Message is correct');
+        assert.equal($('.tooltip-body').length, 1, 'Highlighted (tooltip is rendered)');
+        assert.equal($('.tooltip-body').text(), message, 'Message is correct');
     });
 
     QUnit.test('unhighlight (tooltip)', function(assert) {
         highlighter.highlight($('#field_1'), message);
         highlighter.unhighlight($('#field_1'));
-        QUnit.stop();
-        setTimeout(function() {
-            assert.ok(!$('#field_1').hasClass('testErrorClass'), 'Field has no error class');
-            assert.equal($('.qtip-content').length, 0, 'Unhighlighted tooltip is removed');
-            QUnit.start();
-        }, 100);
+        assert.ok(!$('#field_1').hasClass('testErrorClass'), 'Field has no error class');
+        assert.equal($('.tooltip-body').length, 0, 'Unhighlighted tooltip is removed');
     });
 });

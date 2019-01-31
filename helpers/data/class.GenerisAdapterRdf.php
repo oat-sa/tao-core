@@ -20,6 +20,7 @@
  *
  */
 
+use oat\generis\model\OntologyRdf;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 use oat\oatbox\filesystem\File;
@@ -135,7 +136,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
         foreach ($resource->getRdfTriples() as $triple) {
             $language = !empty($triple->lg) ? $triple->lg : null;
             if (common_Utils::isUri($triple->object)) {
-                if (strpos($triple->object, LOCAL_NAMESPACE) !== false) {
+                if ($triple->predicate !== OntologyRdf::RDF_TYPE && strpos($triple->object, LOCAL_NAMESPACE) !== false) {
                     continue;
                 }
                 $graph->add($triple->subject, $triple->predicate, $triple->object);
