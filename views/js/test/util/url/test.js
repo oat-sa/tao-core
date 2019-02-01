@@ -234,6 +234,12 @@ define(['util/url', 'context'], function(urlUtil, context){
         path      : 'http://tao.localdomain:8080/test/test.html',
         params      : { foo : 'f o oBAR! +/ 1'},
         expected : 'http://tao.localdomain:8080/test/test.html?foo=f%20o%20oBAR!%20%2B%2F%201'
+    },
+    {
+        title    : 'path with object params to encode',
+        path      : 'http://tao.localdomain:8080/test/test.html',
+        params      : { foo : {bar: 'f o oBAR! +/ 1', foo2: 23}},
+        expected : 'http://tao.localdomain:8080/test/test.html?foo[f%20o%20oBAR!%20%2B%2F%201]=bar&foo[23]=foo2&'
     }];
 
     QUnit

@@ -176,7 +176,13 @@ define([
                         if(!_.isEmpty(acc) || hasQueryString){
                             acc += '&';
                         }
-                        acc += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+                        if (typeof value === "object") {
+                            _.forOwn(value, function(parameterName, parameterValue) {
+                                acc += encodeURIComponent(key) + "[" + encodeURIComponent(parameterName) + "]=" + encodeURIComponent(parameterValue) + "&";
+                            });
+                        } else {
+                            acc += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+                        }
                         return acc;
                     }, queryString);
                     if(!_.isEmpty(queryString)){
