@@ -27,6 +27,7 @@ define([
     var termTypes = [
         'digit',
         'aggregator',
+        'separator',
         'operator',
         'variable',
         'constant',

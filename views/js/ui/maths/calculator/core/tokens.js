@@ -143,7 +143,8 @@ define([
         isSeparator: function isSeparator(type) {
             type = tokensHelper.getType(type);
             return type === 'operator'
-                || type === 'aggregator';
+                || type === 'aggregator'
+                || type === 'separator';
         },
 
         /**
