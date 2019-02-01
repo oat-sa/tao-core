@@ -47,7 +47,7 @@ define([
     });
 
     QUnit.asyncTest('popup status', function (assert) {
-        QUnit.expect(9);
+        QUnit.expect(10);
 
         var popup = window.open('/','test','width=300,height=300,visible=none');
 
@@ -74,13 +74,13 @@ define([
                 assert.ok(true, 'The unload event is triggered');
             });
 
-        setTimeout(function() {
-            popup.focus();
-        }, 100);
+        popup.focus();
 
         setTimeout(function() {
             popup.close();
-            QUnit.start();
-        }, 200);
+            setTimeout(function (){
+                QUnit.start();
+            }, 300);
+        }, 100);
     });
 });
