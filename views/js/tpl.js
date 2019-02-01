@@ -29,132 +29,137 @@
  * - i18n helper has been added
  * - dompurify helper has been added
  */
-define(['handlebars', 'i18n', 'lodash', 'lib/dompurify/purify.min'], function(hb, __, _, DOMPurify){
-    'use strict';
+define([
+	'handlebars',
+	'i18n',
+	'lodash',
+	'lib/dompurify/purify.min'
+], function (hb, __, _, DOMPurify) {
+	'use strict';
 
-    var buildMap = {};
-    var extension = '.tpl';
+	var buildMap = {};
+	var extension = '.tpl';
 
-    //register a i18n helper
-    hb.registerHelper('__', function(key){
-        return __(key);
-    });
+	//register a i18n helper
+	hb.registerHelper('__', function (key) {
+		return __(key);
+	});
 
-    /**
-     * Register DOM Purifier helper
-     *
-     * https://github.com/cure53/DOMPurify
-     * With SAFE_FOR_TEMPLATES config set to true
-     * It will strip {{{ ... }}} and <% ... %> to make output safe for template systems
-     */
-    hb.registerHelper('dompurify', function(value){
-        return DOMPurify.sanitize(value, {SAFE_FOR_TEMPLATES: true});
-    });
+	/**
+	 * Register DOM Purifier helper
+	 *
+	 * https://github.com/cure53/DOMPurify
+	 * With SAFE_FOR_TEMPLATES config set to true
+	 * It will strip {{{ ... }}} and <% ... %> to make output safe for template systems
+	 */
+	hb.registerHelper('dompurify', function (value) {
+		return DOMPurify.sanitize(value, {SAFE_FOR_TEMPLATES: true});
+	});
 
-    /**
-     * register join helper
-     *
-     * Example :
-     * var values = {a:v1, b:v2, c:v3};
-     * Using {{{join attributes '=' ' ' '"'}}} will return : a="v1" b="v2" c="v3"
-     * Using {{{join values null ' or ' '*'}}} will return : *v1* or *v2* or *v3*
-     */
-    hb.registerHelper('join', function(arr, keyValueGlue, fragmentGlue, wrapper){
+	/**
+	 * register join helper
+	 *
+	 * Example :
+	 * var values = {a:v1, b:v2, c:v3};
+	 * Using {{{join attributes '=' ' ' '"'}}} will return : a="v1" b="v2" c="v3"
+	 * Using {{{join values null ' or ' '*'}}} will return : *v1* or *v2* or *v3*
+	 */
+	hb.registerHelper('join', function (arr, keyValueGlue, fragmentGlue, wrapper) {
 
-        var fragments = [];
+		var fragments = [];
 
-        keyValueGlue = typeof(keyValueGlue) === 'string' ? keyValueGlue : undefined;
-        fragmentGlue = typeof(fragmentGlue) === 'string' ? fragmentGlue : ' ';
-        wrapper = typeof(wrapper) === 'string' ? wrapper : '"';
+		keyValueGlue = typeof (keyValueGlue) === 'string' ? keyValueGlue : undefined;
+		fragmentGlue = typeof (fragmentGlue) === 'string' ? fragmentGlue : ' ';
+		wrapper = typeof (wrapper) === 'string' ? wrapper : '"';
 
-        _.forIn(arr, function(value, key){
-            var fragment = '';
-            if(value !== null || value !== undefined){
-                if(typeof(value) === 'boolean'){
-                    value = value ? 'true' : 'false';
-                }else if(typeof(value) === 'object'){
-                    value = _.values(value).join(' ');
-                }
-            }else{
-                value = '';
-            }
-            if(keyValueGlue !== undefined){
-                fragment += key + keyValueGlue;
-            }
-            fragment += wrapper + value + wrapper;
-            fragments.push(fragment);
-        });
+		_.forIn(arr, function (value, key) {
+			var fragment = '';
+			if (value !== null || value !== undefined) {
+				if (typeof (value) === 'boolean') {
+					value = value ? 'true' : 'false';
+				} else if (typeof (value) === 'object') {
+					value = _.values(value).join(' ');
+				}
+			} else {
+				value = '';
+			}
+			if (keyValueGlue !== undefined) {
+				fragment += key + keyValueGlue;
+			}
+			fragment += wrapper + value + wrapper;
+			fragments.push(fragment);
+		});
 
-        return fragments.join(fragmentGlue);
-    });
+		return fragments.join(fragmentGlue);
+	});
 
-    //register a classic "for loop" helper
-    //it also adds a local variable "i" as the index in each iteration loop
-    hb.registerHelper('for', function(startIndex, stopIndex, increment, options){
-        var ret = '';
-        startIndex = parseInt(startIndex);
-        stopIndex = parseInt(stopIndex);
-        increment = parseInt(increment);
+	//register a classic "for loop" helper
+	//it also adds a local variable "i" as the index in each iteration loop
+	hb.registerHelper('for', function (startIndex, stopIndex, increment, options) {
+		var ret = '';
+		startIndex = parseInt(startIndex);
+		stopIndex = parseInt(stopIndex);
+		increment = parseInt(increment);
 
-        for(var i = startIndex; i < stopIndex; i += increment){
-            ret += options.fn(_.extend({}, this, {'i' : i}));
-        }
+		for (var i = startIndex; i < stopIndex; i += increment) {
+			ret += options.fn(_.extend({}, this, {'i': i}));
+		}
 
-        return ret;
-    });
+		return ret;
+	});
 
-    hb.registerHelper('equal', function(var1, var2, options){
-        if(var1 == var2){
-            return options.fn(this);
-        }else{
-            return options.inverse(this);
-        }
-    });
+	hb.registerHelper('equal', function (var1, var2, options) {
+		if (var1 == var2) {
+			return options.fn(this);
+		} else {
+			return options.inverse(this);
+		}
+	});
 
-    // register a "get property" helper
-    // it gets the named property from the provided context
-    hb.registerHelper('property', function(name, context){
-        return context[name] || '';
-    });
+	// register a "get property" helper
+	// it gets the named property from the provided context
+	hb.registerHelper('property', function (name, context) {
+		return context[name] || '';
+	});
 
-    // register an 'includes' helper
-    // it checks if value is in array
-    hb.registerHelper('includes', function (haystack, needle, options) {
-        if (_.contains(haystack, needle)) {
-            return options.fn(this);
-        }
-    });
+	// register an 'includes' helper
+	// it checks if value is in array
+	hb.registerHelper('includes', function (haystack, needle, options) {
+		if (_.contains(haystack, needle)) {
+			return options.fn(this);
+		}
+	});
 
-    return {
-        load : function(name, req, onload, config){
-            extension = extension || config.extension;
+	return {
+		load: function (name, req, onload, config) {
+			extension = extension || config.extension;
 
-            if(config.isBuild){
-                //optimization, r.js node.js version
-                buildMap[name] = fs.readFileSync(req.toUrl(name + extension)).toString().trim();
-                onload();
+			if (config.isBuild) {
+				//optimization, r.js node.js version
+				buildMap[name] = fs.readFileSync(req.toUrl(name + extension)).toString().trim();
+				onload();
 
-            } else {
-                req(["text!" + name + extension], function(raw){
-                    // Just return the compiled template
-                    onload(function(){
-                        var compiled = hb.compile(raw);
-                        return compiled.apply(hb, arguments).trim();
-                    });
-                });
-            }
-        },
-        write : function(pluginName, moduleName, write){
-            var compiled;
-            if(moduleName in buildMap){
-                compiled = hb.precompile(buildMap[moduleName]);
-                // Write out precompiled version of the template function as AMD definition.
-                write(
-                    "define('tpl!" + moduleName + "', ['handlebars'], function(hb){ \n" +
-                    "return hb.template(" + compiled.toString() + ");\n" +
-                    "});\n"
-                );
-            }
-        }
-    };
+			} else {
+				req(["text!" + name + extension], function (raw) {
+					// Just return the compiled template
+					onload(function () {
+						var compiled = hb.compile(raw);
+						return compiled.apply(hb, arguments).trim();
+					});
+				});
+			}
+		},
+		write: function (pluginName, moduleName, write) {
+			var compiled;
+			if (moduleName in buildMap) {
+				compiled = hb.precompile(buildMap[moduleName]);
+				// Write out precompiled version of the template function as AMD definition.
+				write(
+					"define('tpl!" + moduleName + "', ['handlebars'], function(hb){ \n" +
+					"return hb.template(" + compiled.toString() + ");\n" +
+					"});\n"
+				);
+			}
+		}
+	};
 });
