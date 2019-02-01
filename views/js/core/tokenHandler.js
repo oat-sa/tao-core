@@ -37,18 +37,16 @@ function ($, _, __, feedback, tokenStoreFactory) {
     /**
      * Stores the security token queue
      * @param {Object} [config]
-     * @param {String} [config.initialToken]
      * @param {String} [config.maxPoolSize]
      * @param {String} [config.tokenTimeLimit]
      * @returns {tokenHandler}
      */
     return function tokenHandlerFactory(config) {
-        //console.log('tokenHandlerFactory()'); // FIXME: called 3 times on TR load
 
         // Initialise queue, empty queue will produce a null token
-        var tokenStorage;
+        var tokenStore;
         config = _.defaults({}, config, defaults);
-        tokenStorage = tokenStoreFactory(config);
+        tokenStore = tokenStoreFactory(config);
 
         return {
             /**
@@ -59,29 +57,33 @@ function ($, _, __, feedback, tokenStoreFactory) {
              */
             getToken: function getToken() {
                 var self = this;
-                return tokenStorage.expireOldTokens().then(function() {
-                    if (tokenStorage.isEmpty()) {
+                return tokenStore.expireOldTokens().then(function() {
+                    if (tokenStore.isEmpty()) {
                         // Fetch again if we're truly out of tokens
                         return self.fetchNewTokens()
                             .then(function(tokens) {
-                                var added;
-                                // TODO: Must add the tokens 1 by 1, not asynchronously
-                                _.forEach(tokens, function(token) {
-                                    added = tokenStorage.add({
-                                        value: token.value,
-                                        receivedAt: Date.now()
-                                    }); // true
-                                });
-
-                                tokenStorage.log();
-                                return tokenStorage.get().then(function(currentToken) {
-                                    console.log('tokenHandler.getToken (shift)', currentToken);
-                                    return currentToken;
+                                console.log('About to store tokens', tokens);
+                                // Add the fetched tokens to the store (async):
+                                return Promise.all(
+                                    _.map(tokens, function(token) {
+                                        return self.setToken(token);
+                                    })
+                                ).then(function() {
+                                    // Store should be refilled, try to get one token:
+                                    if (!tokenStore.isEmpty()) {
+                                        return tokenStore.get().then(function(currentToken) {
+                                            console.log('tokenHandler.getToken (shift)', currentToken);
+                                            return currentToken;
+                                        });
+                                    }
+                                    else {
+                                        throw new Error('Store not refilled!');
+                                    }
                                 });
                             });
                     }
                     else {
-                        return tokenStorage.get().then(function(currentToken) {
+                        return tokenStore.get().then(function(currentToken) {
                             console.log('tokenHandler.getToken (shift)', currentToken);
                             return currentToken;
                         });
@@ -93,38 +95,36 @@ function ($, _, __, feedback, tokenStoreFactory) {
              * Adds a new security token to the token queue
              * Internally, old tokens are deleted to keep queue within maximum pool size
              * @param {String} newToken
-             * @returns {Object} - this
+             * @returns {Promise<Boolean>} - true if successful
              */
             setToken: function setToken(newToken) {
-                var self = this;
-                return tokenStorage.add(newToken)
-                    .then(function() {
+                return tokenStore.add(newToken)
+                    .then(function(added) {
                         console.log('tokenHandler.setToken (push)', newToken);
-                        tokenStorage.log();
-                        return self;
+                        tokenStore.log();
+                        return added;
                     });
             },
 
             /**
              * Makes a request to the CSRF tokens endpoint for a new set of tokens
              *
-             * @returns {Promise} - array of tokens
+             * @returns {Promise<Array>} - an array of locally-timestamped token objects
              */
             fetchNewTokens: function fetchNewTokens() {
                 return new Promise(function(resolve, reject){
                     $.ajax({
-                        // url: 'http://127.0.0.1:3697/csrf-tokens',
                         url: '/tao/ClientConfig/tokens',
                         //dataType: 'json',
                         data : null,
-                    })
-                    .success(function(response) {
-                        console.log('ClientConfig response', JSON.parse(response));
-                        resolve(JSON.parse(response));
-                    })
-                    .error(function() {
-                        feedback().error(__('No tokens retrieved'));
-                        reject([]);
+                        success: function(response) {
+                            console.log('ClientConfig response', JSON.parse(response));
+                            resolve(JSON.parse(response));
+                        },
+                        error: function() {
+                            feedback().error('No tokens retrieved'); // TODO: improve
+                            reject([]);
+                        }
                     });
                 });
             },
@@ -134,16 +134,9 @@ function ($, _, __, feedback, tokenStoreFactory) {
              * @returns {Integer}
              */
             getQueueLength: function getQueueLength() {
-                return tokenStorage.getSize();
-            },
+                return tokenStore.getSize();
+            }
 
-            /**
-             * Set the max size of the internal tokenHandler's token pool
-             * @param {Number} size - the new token pool size
-             */
-            // setMaxPoolSize: function setMaxPoolSize(size) {
-            //     config.maxPoolSize = size;
-            // }
         };
     };
 });
