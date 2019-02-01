@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 Open Assessment Technologies SA ;
+ * Copyright (c) 2018-2019 Open Assessment Technologies SA ;
  */
 /**
  * Defines the base component that will host the calculator UI and link it to the engine.
@@ -31,7 +31,7 @@ define([
     'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/tokenizer',
     'util/mathsEvaluator',
-    'tpl!ui/maths/calculator/core/board'
+    'tpl!ui/maths/calculator/core/tpl/board'
 ], function (
     $,
     _,
