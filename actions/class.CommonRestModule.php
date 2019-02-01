@@ -60,9 +60,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 			$this->returnSuccess($response);
 
 		} catch (Exception $e) {
-		    if ($e instanceof \common_exception_PreConditionFailure) {
-		        $e = new \common_exception_RestApi($e->getMessage(), $e->getCode());
-            }
 			$this->returnFailure($e);
 		}
 	}
