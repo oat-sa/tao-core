@@ -158,7 +158,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 	 * Returns all parameters that are URIs or Aliased with values
 	 *
 	 * @return array
-	 * @throws \common_exception_MissingParameter If a mandatory parameter is not found
+	 * @throws \common_exception_RestApi If a mandatory parameter is not found
 	 */
 	protected function getParameters()
 	{
@@ -172,7 +172,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 				$effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
 			}
 			if ($this->isRequiredParameter($checkParameterShort) and !(isset($effectiveParameters[$checkParameterUri]))){
-				throw new \common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
+				throw new \common_exception_RestApi("Missed required parameter: $checkParameterShort");
 			}
 		}
 		return $effectiveParameters;
@@ -215,7 +215,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 	 * @param $parameter, The alias name or uri of a parameter
 	 * @return bool
 	 */
-	private function isRequiredParameter($parameter)
+	protected function isRequiredParameter($parameter)
 	{
 		$method = $this->getRequestMethod();
 		$requirements = $this->getParametersRequirements();
