@@ -35,7 +35,7 @@ define([
         var rendering = tplDomPurifyScript({
             dirtyHtml : dirtyHtml
         });
-        assert.equal(rendering, 'cd<b>bold</b><a href="#">link</a>', 'purified dom rendering ok');
+        assert.equal(rendering, '<b>bold</b><a href="#">link</a>', 'purified dom rendering ok');
     });
 
     QUnit.test('join - key value', function (assert){
