@@ -50,7 +50,7 @@ define([
 	 *
 	 * https://github.com/cure53/DOMPurify
 	 * With SAFE_FOR_TEMPLATES config set to true
-	 * It will strip {{{ ... }}} and <% ... %> to make output safe for template systems
+	 * to make output safe for template systems
 	 */
 	hb.registerHelper('dompurify', function (value) {
 		return DOMPurify.sanitize(value, {SAFE_FOR_TEMPLATES: true});
