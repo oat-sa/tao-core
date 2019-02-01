@@ -178,8 +178,7 @@ define([
                         }
                         if (typeof value === "object") {
                             _.forOwn(value, function(parameterName, parameterValue) {
-                                parameterName = encodeURIComponent(key) + "[" + encodeURIComponent(parameterName) + "]";
-                                acc += parameterName + '=' + encodeURIComponent(parameterValue) + "&";
+                                acc += encodeURIComponent(key) + "[" + encodeURIComponent(parameterName) + "]=" + encodeURIComponent(parameterValue) + "&";
                             });
                         } else {
                             acc += encodeURIComponent(key) + '=' + encodeURIComponent(value);
