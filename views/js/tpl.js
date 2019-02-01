@@ -26,9 +26,10 @@
  * MODIFIED VERSION:
  * @author Bertrand Chevrier <bertrand@taotesting.com> for OAT SA
  * - Minor code refactoring
- * - Add the i18n helper
+ * - i18n helper has been added
+ * - dompurify helper has been added
  */
-define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
+define(['handlebars', 'i18n', 'lodash', 'lib/dompurify/purify.min'], function(hb, __, _, DOMPurify){
     'use strict';
 
     var buildMap = {};
@@ -37,6 +38,17 @@ define(['handlebars', 'i18n', 'lodash'], function(hb, __, _){
     //register a i18n helper
     hb.registerHelper('__', function(key){
         return __(key);
+    });
+
+    /**
+     * Register DOM Purifier helper
+     *
+     * https://github.com/cure53/DOMPurify
+     * With SAFE_FOR_TEMPLATES config set to true
+     * It will strip {{{ ... }}} and <% ... %> to make output safe for template systems
+     */
+    hb.registerHelper('dompurify', function(value){
+        return DOMPurify.sanitize(value, {SAFE_FOR_TEMPLATES: true});
     });
 
     /**
