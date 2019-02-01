@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 Open Assessment Technologies SA ;
+ * Copyright (c) 2018-2019 Open Assessment Technologies SA ;
  */
 
 /**
@@ -46,6 +46,18 @@ define([
     var reKeyword = /[a-zA-Z_][a-zA-Z_0-9]*/;
 
     /**
+     * Match keywords prefixed with @
+     * @type {RegExp}
+     */
+    var rePrefixedKeyword = new RegExp('@' + reKeyword.source);
+
+    /**
+     * Match keywords only
+     * @type {RegExp}
+     */
+    var reKeywordOnly = new RegExp('^' + reKeyword.source + '$');
+
+    /**
      * List of keywords (functions from the list of registered terms).
      * @type {Object}
      */
@@ -64,7 +76,7 @@ define([
      * @returns {boolean}
      */
     function filterKeyword(term) {
-        return term.value.match(reKeyword);
+        return term.value.match(reKeywordOnly);
     }
 
     /**
@@ -107,17 +119,25 @@ define([
      * @returns {calculatorTokenizer}
      */
     function calculatorTokenizerFactory(config) {
-        var lexer;
+        var keywordsTransform, lexer;
 
         config = config || {};
         config.keywords = _.defaults(_.mapValues(keywords, 'value'), config.keywords);
         config.symbols = _.defaults(_.mapValues(symbols, 'value'), config.symbols);
+        keywordsTransform = moo.keywords(config.keywords);
 
         // Lexer used to tokenize the expression
         lexer = moo.compile(_.defaults({}, ignoredTokens, {
+            prefixed: {
+                match: rePrefixedKeyword,
+                type: function(token) {
+                    // simply rely on the keywords transform to identify the prefixed keyword
+                    return keywordsTransform(token.substring(1));
+                }
+            },
             term: {
                 match: reKeyword,
-                type: moo.keywords(config.keywords)
+                type: keywordsTransform
             },
             syntaxError: moo.error
         }, config.symbols));
