@@ -437,7 +437,7 @@ define([
                 data: data,
                 dataType: 'html',
                 success: function(response){
-                    var $response = $(response);
+                    var $response = $($.parseHTML(response, document, true));
                     //check if the editor should be displayed widely or in the content area
                     if($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length){
                         section.create({

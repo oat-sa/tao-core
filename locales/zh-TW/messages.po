@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-01-18T10:28:43\n"
+"PO-Revision-Date: 2019-02-01T09:17:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -347,13 +347,16 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr "取消"
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -531,10 +534,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -912,10 +915,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -954,10 +957,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1021,6 +1024,9 @@ msgid "Last Name"
 msgstr "姓氏"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1167,9 +1173,6 @@ msgstr "移動到"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "當您移動此元素時，您將會用目標類的屬性取代之前類別的屬性:"
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "當您移動此元素時，您將會用目標類的屬性取代之前類別的屬性:"
-
 msgid "Multiple values delimiter"
 msgstr "多個值分隔符"
 
@@ -1235,10 +1238,10 @@ msgstr "無檔案"
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1290,10 +1293,10 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1628,10 +1631,10 @@ msgstr ""
 msgid "seconds"
 msgstr "秒"
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -1645,9 +1648,6 @@ msgstr "選擇語言"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "選擇元素的目的地"
 
 msgid "Select this file"
 msgstr "選擇此檔案"
@@ -1754,6 +1754,9 @@ msgstr "TAO 首頁"
 
 msgid "TAO Login"
 msgstr "TAO 登入"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""

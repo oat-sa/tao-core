@@ -59,85 +59,95 @@ abstract class AbstractWorker implements WorkerInterface
      */
     public function processTask(TaskInterface $task)
     {
-        $report = Report::createInfo(__('Running task %s', $task->getId()));
+        if ($this->taskLog->getStatus($task->getId()) != TaskLogInterface::STATUS_CANCELLED) {
+            $report = Report::createInfo(__('Running task %s', $task->getId()));
 
-        try {
-            $this->logDebug('Processing task '. $task->getId(), $this->getLogContext());
+            try {
+                $this->logDebug('Processing task ' . $task->getId(), $this->getLogContext());
 
-            $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
+                $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
 
-            // if the task is being executed by another worker, just return, no report needs to be saved
-            if (!$rowsTouched) {
-                $this->logDebug('Task '. $task->getId() .' seems to be processed by another worker.', $this->getLogContext());
-                return TaskLogInterface::STATUS_UNKNOWN;
-            }
-
-            // let the task know that it is called from a worker
-            $task->applyWorkerContext();
-
-            // execute the task
-            $taskReport = $task();
-
-            if (!$taskReport instanceof Report) {
-                $this->logWarning('Task '. $task->getId() .' should return a report object.', $this->getLogContext());
-                $taskReport = Report::createInfo(__('Task not returned any report.'));
-            }
-
-            $report->add($taskReport);
-
-            unset($taskReport, $rowsTouched);
-        } catch (\Exception $e) {
-            $this->logError('Executing task '. $task->getId() .' failed with MSG: '. $e->getMessage(), $this->getLogContext());
-            $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
-        }
-
-        // Initial status
-        $status = $report->getType() == Report::TYPE_ERROR || $report->containsError()
-            ? TaskLogInterface::STATUS_FAILED
-            : TaskLogInterface::STATUS_COMPLETED;
-
-        // Change the status if the task has children
-        if ($task->hasChildren() && $status == TaskLogInterface::STATUS_COMPLETED) {
-            $status = TaskLogInterface::STATUS_CHILD_RUNNING;
-        }
-
-        $cloneCreated = false;
-
-        // if the task is a special sync task: the status of the parent task depends on the status of the remote task.
-        if ($this->isRemoteTaskSynchroniser($task) && $status == TaskLogInterface::STATUS_COMPLETED) {
-            // if the remote task is still in progress, we have to reschedule this task
-            // the RESTApi returns TaskLogCategorizedStatus values
-            if (in_array($this->getRemoteStatus($task), [CategorizedStatus::STATUS_CREATED, CategorizedStatus::STATUS_IN_PROGRESS])) {
-                if ($this->queuer->count() <= 1) {
-                    //if there is less than or exactly one task in the queue, let's sleep a bit, in order not to regenerate the same task too much
-                    sleep(3);
+                // if the task is being executed by another worker, just return, no report needs to be saved
+                if (!$rowsTouched) {
+                    $this->logDebug('Task ' . $task->getId() . ' seems to be processed by another worker.', $this->getLogContext());
+                    return TaskLogInterface::STATUS_UNKNOWN;
                 }
 
-                $cloneCreated = $this->queuer->enqueue(clone $task, $task->getLabel());
-            } elseif ($this->getRemoteStatus($task) == CategorizedStatus::STATUS_FAILED) {
-                // if the remote task status is failed
-                $status = TaskLogInterface::STATUS_FAILED;
-            }
-        }
+                // let the task know that it is called from a worker
+                $task->applyWorkerContext();
 
-        if (!$cloneCreated) {
-            $this->taskLog->setReport($task->getId(), $report, $status);
+                // execute the task
+                $taskReport = $task();
+
+                if (!$taskReport instanceof Report) {
+                    $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
+                    $taskReport = Report::createInfo(__('Task not returned any report.'));
+                }
+
+                $report->add($taskReport);
+
+                unset($taskReport, $rowsTouched);
+            } catch (\Exception $e) {
+                $this->logError('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
+                $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
+            }
+
+            // Initial status
+            $status = $report->getType() == Report::TYPE_ERROR || $report->containsError()
+                ? TaskLogInterface::STATUS_FAILED
+                : TaskLogInterface::STATUS_COMPLETED;
+
+            // Change the status if the task has children
+            if ($task->hasChildren() && $status == TaskLogInterface::STATUS_COMPLETED) {
+                $status = TaskLogInterface::STATUS_CHILD_RUNNING;
+            }
+
+            $cloneCreated = false;
+
+            // if the task is a special sync task: the status of the parent task depends on the status of the remote task.
+            if ($this->isRemoteTaskSynchroniser($task) && $status == TaskLogInterface::STATUS_COMPLETED) {
+                // if the remote task is still in progress, we have to reschedule this task
+                // the RESTApi returns TaskLogCategorizedStatus values
+                if (in_array($this->getRemoteStatus($task), [CategorizedStatus::STATUS_CREATED, CategorizedStatus::STATUS_IN_PROGRESS])) {
+                    if ($this->queuer->count() <= 1) {
+                        //if there is less than or exactly one task in the queue, let's sleep a bit, in order not to regenerate the same task too much
+                        sleep(3);
+                    }
+
+                    $cloneCreated = $this->queuer->enqueue(clone $task, $task->getLabel());
+                } elseif ($this->getRemoteStatus($task) == CategorizedStatus::STATUS_FAILED) {
+                    // if the remote task status is failed
+                    $status = TaskLogInterface::STATUS_FAILED;
+                }
+            }
+
+            if (!$cloneCreated) {
+                $this->taskLog->setReport($task->getId(), $report, $status);
+            } else {
+                // if there is a clone, delete the old task log
+                //TODO: once we have the centralized way of cleaning up the log table, this should be refactored
+                $this->taskLog->getBroker()->deleteById($task->getId());
+            }
+
+            // Update parent
+            if ($task->hasParent()) {
+                /** @var EntityInterface $parentLogTask */
+                $parentLogTask = $this->taskLog->getById($task->getParentId());
+                if (!$parentLogTask->isMasterStatus()) {
+                    $this->taskLog->updateParent($task->getParentId());
+                }
+            }
+
+            unset($report);
         } else {
-            // if there is a clone, delete the old task log
-            //TODO: once we have the centralized way of cleaning up the log table, this should be refactored
-            $this->taskLog->getBroker()->deleteById($task->getId());
-        }
+            $this->taskLog->setReport(
+                $task->getId(),
+                Report::createInfo(__('Task %s has been cancelled, message was not processed.', $task->getId())),
+                TaskLogInterface::STATUS_CANCELLED
+            );
 
-        // Update parent
-        if ($task->hasParent()) {
-            /** @var EntityInterface $parentLogTask */
-            $parentLogTask = $this->taskLog->getById($task->getParentId());
-            if (!$parentLogTask->isMasterStatus()) {
-                $this->taskLog->updateParent($task->getParentId());
-            }
+            $status = TaskLogInterface::STATUS_CANCELLED;
         }
-
-        unset($report);
 
         // delete message from queue
         $this->queuer->acknowledge($task);
