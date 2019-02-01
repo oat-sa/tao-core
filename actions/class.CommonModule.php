@@ -265,46 +265,29 @@ abstract class tao_actions_CommonModule extends Controller implements ServiceMan
      */
     public function forwardUrl($url)
     {
-        $request = $this->getPsrRequest();
-
-        if ($request->getMethod() == 'GET') {
-            $params = $request->getQueryParams();
-        } elseif ($request->getMethod() == 'POST') {
-            $params = $request->getParsedBody();
-        } else {
-            $params = [];
-        }
-
-        //get the current request
-//        $request = common_http_Request::currentRequest();
-//        $params = common_http_Request::currentRequest()->getParams();
-
-        //parse the given URL
-//        $parsedUrl = parse_url($url);
-
-        //if new parameters are given, then merge them
-
         $uri = new Uri($url);
         $query = $uri->getQuery();
-        $queryParams = array();
-        if(isset($query) && strlen($query) > 0){
+        $queryParams = [];
+        if (strlen($query) > 0) {
             parse_str($query, $queryParams);
-//            \common_Logger::i(' ==== ' . print_r($queryParams, true));
-            if(count($queryParams) > 0){
-                $params = array_merge($params, $queryParams);
-            }
         }
 
-//        $params = $queryParams;
-        $request = new ServerRequest(
-            'GET',
-            $url
-        );
-        $request = $request->withQueryParams((array) $queryParams);
+        switch ($this->getPsrRequest()->getMethod()) {
+            case 'GET' :
+                $params = $this->getPsrRequest()->getQueryParams();
+                break;
+            case 'POST' :
+                $params = $this->getPsrRequest()->getParsedBody();
+                break;
+            default:
+                $params = [];
+        }
+        $request = $this->getPsrRequest()
+            ->withUri($uri)
+            ->withQueryParams((array) $queryParams);
 
         //resolve the given URL for routing
-        $resolver = new Resolver($request);
-        $this->propagate($resolver);
+        $resolver = $this->propagate(new Resolver($request));
 
         //update the context to the new route
         $context = \Context::getInstance();
@@ -321,12 +304,19 @@ abstract class tao_actions_CommonModule extends Controller implements ServiceMan
         );
         $this->propagate($enforcer);
 
-        $this->response = $enforcer->resolve($request);
-        $this->response = $this->response->withHeader(
-            'X-Tao-Forward',
-            $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+        $enforcer(
+            $request,
+            $this->response->withHeader(
+                'X-Tao-Forward',
+                $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+            )
         );
 
+        throw new InterruptedActionException(
+            'Interrupted action after a forwardUrl',
+            $context->getModuleName(),
+            $context->getActionName()
+        );
     }
 
     /**
