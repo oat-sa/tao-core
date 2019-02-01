@@ -14,10 +14,9 @@ use Exception;
 use helpers_File;
 use helpers_Random;
 use InvalidArgumentException;
-use oat\generis\Model\ConsoleCommand;
+use oat\generis\Model\Console\ConsoleCommand;
 use oat\oatbox\install\Installer;
 use oat\oatbox\PimpleContainerTrait;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\InstallHelper;
 use oat\tao\model\OperatedByService;
 use Pimple\Container;
@@ -25,7 +24,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use tao_install_utils_ChecksHelper;
 use tao_install_utils_ConfigWriter;
 use tao_install_utils_DbalDbCreator;
@@ -36,6 +34,8 @@ use tao_models_classes_LanguageService;
 
 /**
  * Command to install the tao instance
+ *
+ * @author Martijn Swinkels <m.swinkels@taotesting.com>
  */
 class TaoInstall extends ConsoleCommand
 {
@@ -88,6 +88,9 @@ class TaoInstall extends ConsoleCommand
              ->addOptions();
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->setContainer(new Container());
@@ -104,7 +107,7 @@ class TaoInstall extends ConsoleCommand
 
         $this->title('Starting TAO Installation');
 
-        try{
+        try {
             $rootDir = dir(__DIR__ . '/../../../');
             $this->rootPath = realpath($rootDir->path) . DIRECTORY_SEPARATOR;
 

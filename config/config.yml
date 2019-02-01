@@ -1,0 +1,3 @@
+commands:
+  - '\oat\tao\Model\Command\TaoUpdate'
+  - '\oat\tao\Model\Command\TaoInstall'

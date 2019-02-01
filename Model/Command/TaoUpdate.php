@@ -12,13 +12,15 @@ use common_ext_ManifestNotFoundException;
 use common_ext_MissingExtensionException;
 use common_ext_OutdatedVersionException;
 use helpers_ExtensionHelper;
-use oat\generis\Model\ConsoleCommand;
+use oat\generis\Model\Console\ConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use tao_install_ExtensionInstaller;
 
 /**
  * Command to update the tao instance
+ *
+ * @author Martijn Swinkels <m.swinkels@taotesting.com>
  */
 class TaoUpdate extends ConsoleCommand
 {
