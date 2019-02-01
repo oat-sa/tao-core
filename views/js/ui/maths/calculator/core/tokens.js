@@ -20,7 +20,7 @@
  */
 define([
     'ui/maths/calculator/core/terms',
-    'tpl!ui/maths/calculator/core/terms'
+    'tpl!ui/maths/calculator/core/tpl/terms'
 ], function (registeredTerms, termsTpl) {
     'use strict';
 
