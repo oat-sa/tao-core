@@ -1,87 +1,62 @@
 <div class="calculator-keyboard">
     <div class="row">
-        <button class="key switch first" data-command="degree"><span>{{__ 'Deg'}}</span></button>
-        <button class="key switch last" data-command="radian"><span>{{__ 'Rad'}}</span></button>
-        <span class="spacer"></span>
-        <span class="spacer"></span>
-        <button class="key command" data-command="historyUp">
-            <span>
-                <svg class="arrow-up" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
-                    <g id="icomoon-arrow-up">
-                        <path d="M16 1l-15 15h9v16h12v-16h9z"></path>
-                    </g>
-                </svg>
-            </span>
-        </button>
-        <button class="key command" data-command="historyDown">
-            <span>
-                <svg class="arrow-down" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
-                    <g id="icomoon-arrow-down">
-                        <path d="M16 31l15-15h-9v-16h-12v16h-9z"></path>
-                    </g>
-                </svg>
-            </span>
-        </button>
-        <button class="key command" data-command="stepDeleteLeft">
-            <span>
-                <svg class="backspace-outline" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 24 24">
-                    <g id="icomoon-backspace-outline">
-                        <path d="M19 21h-10c-1.436 0-3.145-0.88-3.977-2.046l-2.619-3.667c-0.629-0.881-1.157-1.621-1.188-1.661-0.246-0.344-0.249-0.894-0.008-1.241 0.018-0.025 0.561-0.783 1.204-1.686l2.608-3.653c0.835-1.167 2.546-2.046 3.98-2.046h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3zM3.229 12.999c0.215 0.299 0.498 0.696 0.806 1.125l2.618 3.667c0.451 0.633 1.57 1.209 2.348 1.209h10c0.552 0 1-0.45 1-1.001v-9.999c0-0.551-0.448-1-1-1h-10c-0.776 0-1.897 0.576-2.351 1.209l-2.608 3.652c-0.312 0.436-0.599 0.838-0.813 1.138z"></path>
-                        <path d="M13.707 13l2.646-2.646c0.194-0.194 0.194-0.512 0-0.707-0.195-0.194-0.513-0.194-0.707 0l-2.646 2.646-2.646-2.646c-0.195-0.194-0.513-0.194-0.707 0-0.195 0.195-0.195 0.513 0 0.707l2.646 2.646-2.646 2.646c-0.195 0.195-0.195 0.513 0 0.707 0.097 0.098 0.225 0.147 0.353 0.147s0.256-0.049 0.354-0.146l2.646-2.647 2.646 2.646c0.098 0.098 0.226 0.147 0.354 0.147s0.256-0.049 0.354-0.146c0.194-0.194 0.194-0.512 0-0.707l-2.647-2.647z"></path>
-                    </g>
-                </svg>
-            </span>
-        </button>
-        <button class="key command" data-command="clear"><span>AC</span></button>
+        <button class="key switch first" data-command="degree"><span>{{{labels.DEGREE}}}</span></button>
+        <button class="key switch last" data-command="radian"><span>{{{labels.RADIAN}}}</span></button>
+        <span class="spacer">{{{labels.SPACER}}}</span>
+        <span class="spacer">{{{labels.SPACER}}}</span>
+        <button class="key command" data-command="historyUp"><span>{{{labels.HISTORYUP}}}</span></button>
+        <button class="key command" data-command="historyDown"><span>{{{labels.HISTORYDOWN}}}</span></button>
+        <button class="key command" data-command="stepDeleteLeft"><span>{{{labels.BACKSPACE}}}</span></button>
+        <button class="key command" data-command="clear"><span>{{{labels.CLEARALL}}}</span></button>
     </div>
     <div class="row">
-        <button class="key operator" data-command="term" data-param="SIN"><span>sin</span></button>
-        <button class="key operator" data-command="term" data-param="COS"><span>cos</span></button>
-        <button class="key operator" data-command="term" data-param="TAN"><span>tan</span></button>
-        <button class="key constant" data-command="term" data-param="PI"><span>&pi;</span></button>
-        <button class="key operator" data-command="term" data-param="LPAR"><span>(</span></button>
-        <button class="key operator" data-command="term" data-param="RPAR"><span>)</span></button>
-        <button class="key variable" data-command="var" data-param="ans"><span>{{__ 'Ans'}}</span></button>
-        <button class="key operator" data-command="term" data-param="DIV"><span>&divide;</span></button>
+        <button class="key operator" data-command="term" data-param="SIN"><span>{{{labels.SIN}}}</span></button>
+        <button class="key operator" data-command="term" data-param="COS"><span>{{{labels.COS}}}</span></button>
+        <button class="key operator" data-command="term" data-param="TAN"><span>{{{labels.TAN}}}</span></button>
+        <button class="key constant" data-command="term" data-param="PI"><span>{{{labels.PI}}}</span></button>
+        <button class="key operator" data-command="term" data-param="LPAR"><span>{{{labels.LPAR}}}</span></button>
+        <button class="key operator" data-command="term" data-param="RPAR"><span>{{{labels.RPAR}}}</span></button>
+        <button class="key variable" data-command="var" data-param="ans"><span>{{{labels.ANS}}}</span></button>
+        <button class="key operator" data-command="term" data-param="DIV"><span>{{{labels.DIV}}}</span></button>
     </div>
     <div class="row">
-        <button class="key operator" data-command="term" data-param="ASIN"><span>sin<sup>-1</sup></span></button>
-        <button class="key operator" data-command="term" data-param="ACOS"><span>cos<sup>-1</sup></span></button>
-        <button class="key operator" data-command="term" data-param="ATAN"><span>tan<sup>-1</sup></span></button>
-        <button class="key operator" data-command="term" data-param="FAC"><span>x!</span></button>
-        <button class="key operand" data-command="term" data-param="NUM7"><span>7</span></button>
-        <button class="key operand" data-command="term" data-param="NUM8"><span>8</span></button>
-        <button class="key operand" data-command="term" data-param="NUM9"><span>9</span></button>
-        <button class="key operator" data-command="term" data-param="MUL"><span>&times;</span></button>
+        <button class="key operator" data-command="term" data-param="ASIN"><span>{{{labels.ASIN}}}</span></button>
+        <button class="key operator" data-command="term" data-param="ACOS"><span>{{{labels.ACOS}}}</span></button>
+        <button class="key operator" data-command="term" data-param="ATAN"><span>{{{labels.ATAN}}}</span></button>
+        <button class="key operator" data-command="term" data-param="FAC"><span>{{{labels.FAC}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM7"><span>{{{labels.NUM7}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM8"><span>{{{labels.NUM8}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM9"><span>{{{labels.NUM9}}}</span></button>
+        <button class="key operator" data-command="term" data-param="MUL"><span>{{{labels.MUL}}}</span></button>
     </div>
     <div class="row">
-        <button class="key operator" data-command="term" data-param="POW NUM2"><span>x<sup>2</sup></span></button>
-        <button class="key operator" data-command="term" data-param="POW NUM3"><span>x<sup>3</sup></span></button>
-        <button class="key operator" data-command="term" data-param="POW"><span>x<sup>y</sup></span></button>
-        <button class="key operator" data-command="term" data-param="POW LPAR SUB NUM1 RPAR"><span>x<sup>-1</sup></span></button>
-        <button class="key operand" data-command="term" data-param="NUM4"><span>4</span></button>
-        <button class="key operand" data-command="term" data-param="NUM5"><span>5</span></button>
-        <button class="key operand" data-command="term" data-param="NUM6"><span>6</span></button>
-        <button class="key operator" data-command="term" data-param="SUB"><span>&minus;</span></button>
+        <button class="key operator" data-command="term" data-param="POW NUM2"><span>{{{labels.POW2}}}</span></button>
+        <button class="key operator" data-command="term" data-param="POW NUM3"><span>{{{labels.POW3}}}</span></button>
+        <button class="key operator" data-command="term" data-param="POW"><span>{{{labels.POWY}}}</span></button>
+        <button class="key operator" data-command="term" data-param="POW LPAR SUB NUM1 RPAR"><span>{{{labels.POWMINUSONE}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM4"><span>{{{labels.NUM4}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM5"><span>{{{labels.NUM5}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM6"><span>{{{labels.NUM6}}}</span></button>
+        <button class="key operator" data-command="term" data-param="SUB"><span>{{{labels.SUB}}}</span></button>
     </div>
     <div class="row">
-        <button class="key operator" data-command="term" data-param="SQRT"><span>&radic;</span></button>
-        <button class="key operator" data-command="term" data-param="CBRT"><span>&#8731;</span></button>
-        <button class="key operator disabled" data-command="term" data-param="NTHRT"><span><sup>x</sup>&radic;</span></button>
-        <button class="key operator" data-command="term" data-param="MUL NUM1 NUM0 POW"><span>10<sup>x</sup></span></button>
-        <button class="key operand" data-command="term" data-param="NUM1"><span>1</span></button>
-        <button class="key operand" data-command="term" data-param="NUM2"><span>2</span></button>
-        <button class="key operand" data-command="term" data-param="NUM3"><span>3</span></button>
-        <button class="key operator" data-command="term" data-param="ADD"><span>&plus;</span></button>
+        <button class="key operator" data-command="term" data-param="SQRT"><span>{{{labels.SQRT}}}</span></button>
+        <button class="key operator" data-command="term" data-param="CBRT"><span>{{{labels.CBRT}}}</span></button>
+        <button class="key operator disabled" data-command="term" data-param="NTHRT"><span>{{{labels.NTHRT}}}</span></button>
+        <button class="key operator" data-command="term" data-param="MUL NUM1 NUM0 POW"><span>{{{labels.POW10}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM1"><span>{{{labels.NUM1}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM2"><span>{{{labels.NUM2}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM3"><span>{{{labels.NUM3}}}</span></button>
+        <button class="key operator" data-command="term" data-param="ADD"><span>{{{labels.ADD}}}</span></button>
     </div>
     <div class="row">
-        <button class="key operator" data-command="term" data-param="LOG10"><span>log<sub>10</sub></span></button>
-        <button class="key operator" data-command="term" data-param="LN"><span>ln</span></button>
-        <button class="key operator" data-command="term" data-param="EXP"><span>e<sup>x</sup></span></button>
-        <button class="key constant" data-command="term" data-param="E"><span>e</span></button>
-        <button class="key operator" data-command="sign"><span>&plusmn;</span></button>
-        <button class="key operand" data-command="term" data-param="NUM0"><span>0</span></button>
-        <button class="key operand" data-command="term" data-param="DOT"><span>.</span></button>
-        <button class="key execute" data-command="execute"><span>=</span></button>
+        <button class="key operator" data-command="term" data-param="LOG10"><span>{{{labels.LOG}}}</span></button>
+        <button class="key operator" data-command="term" data-param="LN"><span>{{{labels.LN}}}</span></button>
+        <button class="key operator" data-command="term" data-param="EXP"><span>{{{labels.EXPX}}}</span></button>
+        <button class="key constant" data-command="term" data-param="E"><span>{{{labels.E}}}</span></button>
+        <button class="key operator" data-command="sign"><span>{{{labels.SIGN}}}</span></button>
+        <button class="key operand" data-command="term" data-param="NUM0"><span>{{{labels.NUM0}}}</span></button>
+        <button class="key operand" data-command="term" data-param="DOT"><span>{{{labels.DOT}}}</span></button>
+        <button class="key execute" data-command="execute"><span>{{{labels.EXECUTE}}}</span></button>
     </div>
 </div>
