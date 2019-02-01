@@ -25,7 +25,8 @@ define([
     'util/namespace',
     'ui/dynamicComponent',
     'ui/maths/calculator/core/board',
-    'ui/maths/calculator/pluginsLoader'
+    'ui/maths/calculator/pluginsLoader',
+    'css!ui/maths/calculator/css/calculator.css'
 ], function (
     _,
     __,
