@@ -72,6 +72,14 @@ define([
     ];
 
     /**
+     * List of config entries the Parser constructor accepts
+     * @type {String[]}
+     */
+    var parserConfigEntries = [
+        'operators'
+    ];
+
+    /**
      * Gets an arbitrary decimal precision number using a string representation.
      * @param {String} number
      * @param {Number} precision
@@ -114,12 +122,14 @@ define([
      * @param {Number} [config.modulo=1] - The modulo mode used when calculating the modulus: a mod n.
      * @param {Boolean} [config.crypto=false] - The value that determines whether cryptographically-secure pseudo-random number generation is used.
      * @param {Boolean} [config.degree=false] - Converts trigonometric values from radians to degrees.
+     * @param {Object} [config.operators] - The list of operators to enable.
      * @returns {Function<expression, variables>} - The maths expression parser
      */
     function mathsEvaluatorFactory(config) {
-        var parser = new Parser();
         var localConfig = _.defaults({}, config, defaultConfig);
         var decimalConfig = _.pick(localConfig, decimalConfigEntries);
+        var parserConfig = _.pick(localConfig, parserConfigEntries);
+        var parser = new Parser(parserConfig);
         var ConfiguredDecimal = Decimal.set(_.isEmpty(decimalConfig) ? defaultDecimalConfig : decimalConfig);
         var EPSILON = (new ConfiguredDecimal(2)).pow(-52);
         var PI = new ConfiguredDecimal(toPrecisionNumber(numberPI, localConfig.internalPrecision));
@@ -387,7 +397,7 @@ define([
                 },
                 {
                     entry: 'nthrt',
-                    action: function (x, n) {
+                    action: function (n, x) {
                         x = decimalNumber(x);
                         n = parseInt(n, 10);
                         if (x.isNeg() && n % 2 !== 1) {
