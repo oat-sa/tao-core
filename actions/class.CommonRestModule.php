@@ -124,27 +124,37 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 		return $this->getCrudService()->delete($uri);
 	}
 
-	/**
-	 * Method to wrap creating to service
-	 *
-	 * @return mixed
-	 * @throws common_exception_MissingParameter
-	 */
-	protected function post()
-	{
-		$parameters = $this->getParameters();
-		return $this->getCrudService()->createFromArray($parameters);
-	}
+    /**
+     * Method to wrap creating to service
+     *
+     * @return mixed
+     * @throws common_Exception
+     * @throws common_exception_RestApi
+     */
+    protected function post()
+    {
+        $parameters = $this->getParameters();
+        try {
+            return $this->getCrudService()->createFromArray($parameters);
+        }
+        /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (common_exception_PreConditionFailure $e) {
+            throw new common_exception_RestApi($e->getMessage());
+        }
+    }
 
-	/**
-	 * Method to wrap to updating to service if uri is not null
-	 *
-	 * @param $uri
-	 * @return mixed
-	 * @throws common_exception_BadRequest
-	 * @throws common_exception_MissingParameter
-	 * @throws common_exception_PreConditionFailure
-	 */
+    /**
+     * Method to wrap to updating to service if uri is not null
+     *
+     * @param $uri
+     * @return mixed
+     * @throws common_Exception
+     * @throws common_exception_BadRequest
+     * @throws common_exception_InvalidArgumentType
+     * @throws common_exception_NoContent
+     * @throws common_exception_PreConditionFailure
+     * @throws common_exception_RestApi
+     */
 	protected function put($uri)
 	{
 		if (is_null($uri)) {
@@ -154,7 +164,11 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 			throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
 		}
 		$parameters = $this->getParameters();
-		return $this->getCrudService()->update($uri, $parameters);
+        try {
+            return $this->getCrudService()->update($uri, $parameters);
+        } catch (common_exception_PreConditionFailure $e) {
+            throw new common_exception_RestApi($e->getMessage());
+        }
 	}
 
 	/**
