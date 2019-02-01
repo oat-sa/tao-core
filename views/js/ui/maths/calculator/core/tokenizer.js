@@ -23,8 +23,9 @@
 define([
     'lodash',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
     'lib/moo/moo'
-], function (_, registeredTerms, moo) {
+], function (_, registeredTerms, tokensHelper, moo) {
     'use strict';
 
     /**
@@ -131,7 +132,7 @@ define([
              * @returns {function(): String}
              */
             iterator: function iterator(expression) {
-                lexer.reset(expression);
+                lexer.reset(tokensHelper.stringValue(expression));
 
                 return function next() {
                     var term;
@@ -150,7 +151,7 @@ define([
             tokenize: function tokenize(expression) {
                 var terms = [];
                 var term;
-                lexer.reset(expression);
+                lexer.reset(tokensHelper.stringValue(expression));
                 do {
                     term = lexer.next();
                     if (term && !ignoredTokens[term.type]) {

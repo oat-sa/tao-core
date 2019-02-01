@@ -58,10 +58,12 @@ define([
 
 
     QUnit.asyncTest('install', function(assert) {
+        var heading = 'heading';
         var message = 'test';
         var content = '12345';
         var renderTo = '#qunit-fixture';
         var modal = dialog({
+            heading: heading,
             message: message,
             content: content,
             renderTo: renderTo
@@ -112,6 +114,7 @@ define([
         assert.equal(typeof modal.getDom(), 'object', "The dialog instance gets a DOM element");
         assert.ok(!!modal.getDom().length, "The dialog instance gets a DOM element");
         assert.equal(modal.getDom().parent().length, 0, "The dialog box is not rendered by default");
+        assert.equal(modal.getDom().find('h4').text(), heading, "The dialog box displays the heading");
         assert.equal(modal.getDom().find('.message').text(), message, "The dialog box displays the message");
         assert.equal(modal.getDom().find('.content').text(), content, "The dialog box displays an additional content");
 
