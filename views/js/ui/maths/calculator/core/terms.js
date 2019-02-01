@@ -113,6 +113,14 @@ define([
             description: __('Right parenthesis')
         },
 
+        // Separator
+        COMMA: {
+            label: labels.COMMA,
+            value: ',',
+            type: 'separator',
+            description: __('Arguments separator')
+        },
+
         // Operators
         SUB: {
             label: labels.SUB,
