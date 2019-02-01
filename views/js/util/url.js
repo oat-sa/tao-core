@@ -177,13 +177,10 @@ define([
                             acc += '&';
                         }
                         if (typeof value === "object") {
-                            for (var objectProperty in value) {
-                                if (value.hasOwnProperty(objectProperty)) {
-                                    var parameterName = encodeURIComponent(key) + "[" + encodeURIComponent(objectProperty) + "]";
-                                    var parameterValue = value[objectProperty];
-                                    acc += parameterName + '=' + encodeURIComponent(parameterValue) + "&";
-                                }
-                            }
+                            _.forOwn(value, function(parameterName, parameterValue) {
+                                parameterName = encodeURIComponent(key) + "[" + encodeURIComponent(parameterName) + "]";
+                                acc += parameterName + '=' + encodeURIComponent(parameterValue) + "&";
+                            });
                         } else {
                             acc += encodeURIComponent(key) + '=' + encodeURIComponent(value);
                         }
