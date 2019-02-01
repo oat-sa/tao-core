@@ -42,7 +42,7 @@
     <div class="row">
         <button class="key operator" data-command="term" data-param="SQRT"><span>{{{labels.SQRT}}}</span></button>
         <button class="key operator" data-command="term" data-param="CBRT"><span>{{{labels.CBRT}}}</span></button>
-        <button class="key operator disabled" data-command="term" data-param="NTHRT"><span>{{{labels.NTHRT}}}</span></button>
+        <button class="key operator" data-command="term" data-param="@NTHRT"><span>{{{labels.NTHRT}}}</span></button>
         <button class="key operator" data-command="term" data-param="MUL NUM1 NUM0 POW"><span>{{{labels.POW10}}}</span></button>
         <button class="key operand" data-command="term" data-param="NUM1"><span>{{{labels.NUM1}}}</span></button>
         <button class="key operand" data-command="term" data-param="NUM2"><span>{{{labels.NUM2}}}</span></button>

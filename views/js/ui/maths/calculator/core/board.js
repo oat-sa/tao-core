@@ -58,6 +58,12 @@ define([
     };
 
     /**
+     * Regex that matches the prefixed function operators
+     * @type {RegExp}
+     */
+    var rePrefixedTerm = /^@[a-zA-Z_][a-zA-Z_0-9]*$/;
+
+    /**
      * The internal namespace for built-in events listeners
      * @type {String}
      */
@@ -429,8 +435,12 @@ define([
                 var index = this.getTokenIndex();
                 var currentToken = tokensList[index];
                 var nextToken = tokensList[index + 1];
-                var isIdentifier;
-                var value;
+                var isIdentifier, needSpace, value;
+
+                // checks if the aforementioned token requires space around
+                function tokenNeedSpace(token) {
+                    return tokensHelper.isIdentifier(token) || (isIdentifier && !tokensHelper.isSeparator(token));
+                }
 
                 if (!_.isPlainObject(term) || 'undefined' === typeof term.value) {
                     /**
@@ -449,16 +459,17 @@ define([
                     this.replace(value);
                 } else {
                     // simply add the term, with potentially spaces around
-                    if (!tokensHelper.isSeparator(term.type)) {
+                    if (expression && !tokensHelper.isSeparator(term.type)) {
                         isIdentifier = tokensHelper.isIdentifier(term.type);
+                        needSpace = tokenNeedSpace(currentToken);
 
-                        // prepend space when the either the term to add or the previous term is an identifier
-                        if (position && (tokensHelper.isIdentifier(currentToken) || (isIdentifier && !tokensHelper.isSeparator(currentToken)))) {
+                        // prepend space when either the term to add or the previous term is an identifier
+                        if (position && needSpace) {
                             value = ' ' + value;
                         }
 
-                        // append space when the either the term to add or the previous term is an identifier
-                        if (position < expression.length && (tokensHelper.isIdentifier(nextToken) || (isIdentifier && !tokensHelper.isSeparator(nextToken)))) {
+                        // append space when either the term to add or the next term is an identifier
+                        if ((!position && needSpace) || (position < expression.length && tokenNeedSpace(nextToken))) {
                             value += ' ';
                         }
                     }
@@ -490,7 +501,15 @@ define([
              * @fires termadd when the term has been added
              */
             useTerm: function useTerm(name) {
-                var term = registeredTerms[name];
+                var term;
+                if (rePrefixedTerm.test(name)) {
+                    name = name.substring(1);
+                    term = _.clone(registeredTerms[name]);
+                    term.value = '@' + term.value;
+                } else {
+                    term = registeredTerms[name];
+                }
+
                 if ('undefined' === typeof term) {
                     /**
                      * @event termerror
