@@ -22,6 +22,7 @@ namespace oat\tao\model\routing;
 
 use IExecutable;
 use ActionEnforcingException;
+use oat\generis\Model\DependencyInjection\AutoWiring;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use ReflectionMethod;
@@ -85,7 +86,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     {
         $controllerClass = $this->getControllerClass();
         if(class_exists($controllerClass)) {
-            $controller = new $controllerClass();
+//            $controller = new $controllerClass();
+            $resolver = new AutoWiring();
+            $controller = $resolver->resolve($controllerClass);
             $this->propagate($controller);
             $controller->initialize();
             return $controller;
