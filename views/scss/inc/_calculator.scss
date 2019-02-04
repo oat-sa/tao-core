@@ -468,6 +468,10 @@
             &.term-error {
                 color: $error;
             }
+            &.term-syntaxError {
+                color: $error;
+                text-decoration: underline wavy $error;
+            }
         }
     }
 
