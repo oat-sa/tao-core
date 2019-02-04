@@ -32,7 +32,12 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      *     allOf={
      *          @OA\Schema(ref="#/components/schemas/tao.GenerisClass.New"),
      *          @OA\Schema(ref="#/components/schemas/tao.GenerisClass.Search")
-     *     }
+     *     },
+     *     @OA\Property(
+     *         property="class-label",
+     *         type="string",
+     *         description="Label for search in existent classes or for assigning to new class"
+     *     )
      * )
      * @OA\Schema(
      *     schema="tao.GenerisClass.Search",
@@ -45,7 +50,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      *     @OA\Property(
      *         property="class-label",
      *         type="string",
-     *         description="Target class label. If not specified root class will be used. If label is not unique first match will be used. If class not found, new class will be created"
+     *         description="Target class label. If not specified root class will be used. If label is not unique first match will be used"
      *     )
      * )
      * @OA\Schema(
@@ -54,7 +59,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      *     @OA\Property(
      *         property="class-label",
      *         type="string",
-     *         description="Target class uri. If not specified root class will be used."
+     *         description="Class label"
      *     ),
      *     @OA\Property(
      *         property="class-comment",
