@@ -52,10 +52,11 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      * Get class instance from request parameters
      * If more than one class with given label exists the first open will be picked up.
      * @param core_kernel_classes_Class $rootClass
+     * @param bool $getRootIfDoesntExist
      * @return core_kernel_classes_Class|null
      * @throws common_exception_RestApi
      */
-    protected function getClassFromRequest(\core_kernel_classes_Class $rootClass)
+    protected function getClassFromRequest(\core_kernel_classes_Class $rootClass, $getRootIfDoesntExist = true)
     {
         $class = null;
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM) && $this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
@@ -76,7 +77,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
                 }
             }
         }
-        if ($class === null || !$class->exists()) {
+        if ($getRootIfDoesntExist && ($class === null || !$class->exists())) {
             $class = $rootClass;
         }
         return $class;
@@ -126,4 +127,32 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         return $class;
     }
 
+    /**
+     * @param core_kernel_classes_Class $rootClass
+     * @return core_kernel_classes_Class|null
+     * @throws common_Exception
+     * @throws common_exception_InconsistentData
+     * @throws common_exception_MissingParameter
+     * @throws common_exception_RestApi
+     * @throws common_exception_NotFound
+     */
+    protected function getOrCreateClassFromRequest(\core_kernel_classes_Class $rootClass)
+    {
+        if ($this->hasRequestParameter(self::CLASS_URI_PARAM) ||
+            $this->hasRequestParameter(self::CLASS_LABEL_PARAM)
+        ) {
+            $foundClass = $this->getClassFromRequest($rootClass, false);
+            if ($foundClass && $foundClass->exists()) {
+                return $foundClass;
+            }
+
+            if ($this->getRequestParameter(self::CLASS_LABEL_PARAM)) {
+                return $this->createSubClass($rootClass);
+            }
+
+            throw new \common_exception_NotFound('Class not found');
+        }
+
+        return null;
+    }
 }
