@@ -22,12 +22,13 @@ namespace oat\tao\model\routing;
 
 use IExecutable;
 use ActionEnforcingException;
-use oat\generis\Model\DependencyInjection\AutoWiring;
+use oat\generis\Model\DependencyInjection\ObjectFactory;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use ReflectionMethod;
 
 use common_session_SessionManager;
+use ReflectionNamedType;
 use tao_models_classes_AccessDeniedException;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
@@ -87,8 +88,8 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $controllerClass = $this->getControllerClass();
         if(class_exists($controllerClass)) {
 //            $controller = new $controllerClass();
-            $resolver = new AutoWiring();
-            $controller = $resolver->resolve($controllerClass);
+            $objectFactory = new ObjectFactory();
+            $controller = $objectFactory->create($controllerClass);
             $this->propagate($controller);
             $controller->initialize();
             return $controller;
@@ -142,6 +143,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	            if (isset($parameters[$param->getName()])) {
 	               $tabParam[$param->getName()] = $parameters[$param->getName()];
 	            } elseif (!$param->isDefaultValueAvailable()) {
+	                if ($param->getType() instanceof ReflectionNamedType) {
+    	                $objectFactory = new ObjectFactory();
+    	                $instance = $objectFactory->create($param->getType()->getName());
+                        $tabParam[$param->getName()] = $instance;
+                    }
 	                $this->logWarning('Missing parameter '.$param->getName().' for '.$this->getControllerClass().'@'.$action);
 	            }
 	        }

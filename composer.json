@@ -63,8 +63,7 @@
             "oat\\tao\\install\\" : "install"
         },
         "files" : [
-            "includes/globalHelpers.php",
-            "register.php"
+            "includes/globalHelpers.php"
         ]
     }
 }
