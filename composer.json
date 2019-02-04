@@ -56,11 +56,7 @@
     },
     "autoload" : {
         "psr-4" : {
-            "oat\\tao\\model\\" : "models/classes/",
-            "oat\\tao\\helpers\\" : "helpers",
-            "oat\\tao\\test\\" : "test",
-            "oat\\tao\\scripts\\" : "scripts",
-            "oat\\tao\\install\\" : "install"
+            "oat\\tao\\model\\" : "models/classes/"
         },
         "files" : [
             "includes/globalHelpers.php"
