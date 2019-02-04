@@ -134,25 +134,27 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
      * @throws common_exception_InconsistentData
      * @throws common_exception_MissingParameter
      * @throws common_exception_RestApi
-     * @throws common_exception_NotFound
+     * @throws common_exception_NotFound class specified by self::CLASS_URI_PARAM or self::CLASS_LABEL_PARAM doesn't exist
      */
     protected function getOrCreateClassFromRequest(\core_kernel_classes_Class $rootClass)
     {
-        if ($this->hasRequestParameter(self::CLASS_URI_PARAM) ||
-            $this->hasRequestParameter(self::CLASS_LABEL_PARAM)
-        ) {
-            $foundClass = $this->getClassFromRequest($rootClass, false);
-            if ($foundClass && $foundClass->exists()) {
-                return $foundClass;
-            }
+        $classSpecified = $this->hasRequestParameter(self::CLASS_URI_PARAM) ||
+                          $this->hasRequestParameter(self::CLASS_LABEL_PARAM);
 
-            if ($this->getRequestParameter(self::CLASS_LABEL_PARAM)) {
-                return $this->createSubClass($rootClass);
-            }
-
-            throw new \common_exception_NotFound('Class not found');
+        if (!$classSpecified) {
+            return null;
         }
 
-        return null;
+
+        $foundClass = $this->getClassFromRequest($rootClass, false);
+        if ($foundClass && $foundClass->exists()) {
+            return $foundClass;
+        }
+
+        if ($this->getRequestParameter(self::CLASS_LABEL_PARAM)) {
+            return $this->createSubClass($rootClass);
+        }
+
+        throw new \common_exception_NotFound('Class not found');
     }
 }
