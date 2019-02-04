@@ -25,6 +25,50 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     use OntologyAwareTrait;
     use \tao_actions_RestTrait;
 
+    /**
+     * @OA\Schema(
+     *     schema="tao.GenerisClass.NewOrExistent",
+     *     type="object",
+     *     allOf={
+     *          @OA\Schema(ref="#/components/schemas/tao.GenerisClass.New"),
+     *          @OA\Schema(ref="#/components/schemas/tao.GenerisClass.Search")
+     *     }
+     * )
+     * @OA\Schema(
+     *     schema="tao.GenerisClass.Search",
+     *     type="object",
+     *     @OA\Property(
+     *         property="class-uri",
+     *         type="string",
+     *         description="Target class uri. If not specified root class will be used."
+     *     ),
+     *     @OA\Property(
+     *         property="class-label",
+     *         type="string",
+     *         description="Target class label. If not specified root class will be used. If label is not unique first match will be used. If class not found, new class will be created"
+     *     )
+     * )
+     * @OA\Schema(
+     *     schema="tao.GenerisClass.New",
+     *     type="object",
+     *     @OA\Property(
+     *         property="class-label",
+     *         type="string",
+     *         description="Target class uri. If not specified root class will be used."
+     *     ),
+     *     @OA\Property(
+     *         property="class-comment",
+     *         type="string",
+     *         description="Class comment"
+     *     ),
+     *     @OA\Property(
+     *         property="parent-class-uri",
+     *         type="string",
+     *         description="Parent class uri, root class by default"
+     *     )
+     * )
+     */
+
     const CLASS_URI_PARAM = 'class-uri';
     const CLASS_LABEL_PARAM = 'class-label';
     const CLASS_COMMENT_PARAM = 'class-comment';
