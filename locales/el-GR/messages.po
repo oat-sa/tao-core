@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-01-18T10:13:57\n"
+"PO-Revision-Date: 2019-02-01T09:17:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: el-GR\n"
@@ -346,13 +346,16 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "Cancel"
-msgstr ""
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr ""
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -530,10 +533,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -910,10 +913,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -952,10 +955,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1019,6 +1022,9 @@ msgid "Last Name"
 msgstr ""
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1165,9 +1171,6 @@ msgstr ""
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr ""
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr ""
-
 msgid "Multiple values delimiter"
 msgstr ""
 
@@ -1233,10 +1236,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1288,10 +1291,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1626,10 +1629,10 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -1642,9 +1645,6 @@ msgid "Select a language"
 msgstr ""
 
 msgid "Select loaded %s"
-msgstr ""
-
-msgid "Select the element destination"
 msgstr ""
 
 msgid "Select this file"
@@ -1751,6 +1751,9 @@ msgid "TAO Home"
 msgstr ""
 
 msgid "TAO Login"
+msgstr ""
+
+msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
 
 msgid "task created"
