@@ -177,7 +177,7 @@ define([
                             acc += '&';
                         }
                         if (typeof value === "object") {
-                            _.forOwn(value, function(parameterName, parameterValue) {
+                            _.forOwn(value, function(parameterValue, parameterName) {
                                 acc += encodeURIComponent(key) + "[" + encodeURIComponent(parameterName) + "]=" + encodeURIComponent(parameterValue) + "&";
                             });
                         } else {
