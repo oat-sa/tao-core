@@ -65,11 +65,17 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         }
 
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
-            $class = $this->getClass($this->getRequestParameter(self::CLASS_URI_PARAM));
+            $classUriParam = $this->getRequestParameter(self::CLASS_URI_PARAM);
+            if (!$classUriParam) {
+                throw new \common_exception_RestApi(
+                    self::CLASS_URI_PARAM .  ' is not valid.'
+                );
+            }
+            $class = $this->getClass($classUriParam);
 
             if ($class === null || !$class->exists()) {
                 throw new \common_exception_RestApi(
-                    $this->getRequestParameter(self::CLASS_URI_PARAM) .  ' does not exist. Please use a valid '.self::CLASS_URI_PARAM.'.'
+                    $classUriParam .  ' does not exist. Please use a valid '.self::CLASS_URI_PARAM.'.'
                 );
             }
         }
