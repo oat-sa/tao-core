@@ -23,6 +23,22 @@ use oat\tao\helpers\RestExceptionHandler;
 trait tao_actions_RestTrait
 {
     /**
+     * @OA\Schema(
+     *     schema="tao.RestTrait.BaseResponse",
+     *     @OA\Property(
+     *         property="success",
+     *         type="boolean",
+     *         description="Indicates error"
+     *     ),
+     *     @OA\Property(
+     *         property="version",
+     *         type="string",
+     *         description="Build version"
+     *     )
+     * )
+     */
+
+    /**
      * @var array
      * @deprecated since 4.3.0
      */
@@ -44,6 +60,30 @@ trait tao_actions_RestTrait
     }
 
     /**
+     * @OA\Schema(
+     *     schema="tao.RestTrait.FailureResponse",
+     *     description="Error response with success=false",
+     *     allOf={
+     *         @OA\Schema(ref="#/components/schemas/tao.RestTrait.BaseResponse")
+     *     },
+     *     @OA\Property(
+     *         property="success",
+     *         type="boolean",
+     *         example=false,
+     *         description="Indicates error"
+     *     ),
+     *     @OA\Property(
+     *         property="errorCode",
+     *         type="integer",
+     *         description="Exception error code"
+     *     ),
+     *     @OA\Property(
+     *         property="errorMsg",
+     *         type="string",
+     *         description="Exception message, not localized"
+     *     )
+     * )
+     *
      * Return failed Rest response
      * Set header http by using handle()
      * If $withMessage is true:
@@ -71,6 +111,25 @@ trait tao_actions_RestTrait
     }
 
     /**
+     * @OA\Schema(
+     *     schema="tao.RestTrait.SuccessResponse",
+     *     description="Response with data and success=true",
+     *     allOf={
+     *         @OA\Schema(ref="#/components/schemas/tao.RestTrait.BaseResponse"),
+     *     },
+     *     @OA\Property(
+     *         property="success",
+     *         type="boolean",
+     *         example=true,
+     *         description="Indicates success"
+     *     ),
+     *     @OA\Property(
+     *         property="data",
+     *         type="object",
+     *         description="Payload"
+     *     )
+     * )
+     *
      * Return success Rest response
      * Send response with success, data & version of TAO
      *
