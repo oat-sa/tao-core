@@ -77,6 +77,9 @@ define([
             .then(function(returnedToken){
                 assert.equal(returnedToken, expectedToken, 'The getToken method returns the right token');
 
+                return tokenHandler.clearStore();
+            })
+            .then(function() {
                 QUnit.start();
             })
             .catch(function(err){
@@ -135,19 +138,21 @@ define([
     $.mockjax({
         url: "/tao/ClientConfig/tokens",
         status: 200,
-        responseText: JSON.stringify([
-            randomToken(),
-            randomToken(),
-            randomToken(),
-            randomToken(),
-            randomToken()
-        ])
+        response: function() {
+            this.responseText = JSON.stringify([
+                randomToken(),
+                randomToken(),
+                randomToken(),
+                randomToken(),
+                randomToken()
+            ]);
+        }
     });
 
     QUnit.asyncTest('fetchNewTokens', function(assert) {
         var tokenHandler = tokenHandlerFactory();
 
-        QUnit.expect(4);
+        QUnit.expect(5);
 
         tokenHandler.fetchNewTokens() // launches fetchNewTokens
             .then(function(tokens){
@@ -155,7 +160,11 @@ define([
                 assert.equal(tokens.length, 5, '5 tokens were fetched');
                 assert.equal(typeof tokens[0].value, 'string', 'The first token has a value');
                 assert.equal(typeof tokens[0].receivedAt, 'number', 'The first token has a timestamp');
+                assert.notEqual(tokens[0].value, tokens[1].value, 'The tokens have different values');
 
+                return tokenHandler.clearStore();
+            })
+            .then(function() {
                 QUnit.start();
             })
             .catch(function(err){
@@ -177,6 +186,9 @@ define([
                 assert.equal(typeof token.receivedAt, 'number', 'The first token has a timestamp');
                 assert.equal(tokenHandler.getQueueLength(), 4, 'The queue size is correct: 4');
 
+                return tokenHandler.clearStore();
+            })
+            .then(function() {
                 QUnit.start();
             })
             .catch(function(err){

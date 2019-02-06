@@ -13,10 +13,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 /**
- * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  * @author Martin Nicholson <martin@taotesting.com>
  */
 define([
@@ -62,13 +61,16 @@ function ($, _, __, feedback, tokenStoreFactory) {
                         // Fetch again if we're truly out of tokens
                         return self.fetchNewTokens()
                             .then(function(tokens) {
-                                console.log('About to store tokens', tokens);
                                 // Add the fetched tokens to the store (async):
                                 return Promise.all(
                                     _.map(tokens, function(token) {
                                         return self.setToken(token);
                                     })
-                                ).then(function() {
+                                )
+                                .then(function() {
+                                    return tokenStore.log();
+                                })
+                                .then(function() {
                                     // Store should be refilled, try to get one token:
                                     if (!tokenStore.isEmpty()) {
                                         return tokenStore.get().then(function(currentToken) {
@@ -101,7 +103,6 @@ function ($, _, __, feedback, tokenStoreFactory) {
                 return tokenStore.add(newToken)
                     .then(function(added) {
                         console.log('tokenHandler.setToken (push)', newToken);
-                        tokenStore.log();
                         return added;
                     });
             },
@@ -119,7 +120,12 @@ function ($, _, __, feedback, tokenStoreFactory) {
                         data : null,
                         success: function(response) {
                             console.log('ClientConfig response', JSON.parse(response));
-                            resolve(JSON.parse(response));
+                            resolve(_.map(JSON.parse(response), function(token) {
+                                return {
+                                    value: token.value,
+                                    receivedAt: Date.now()
+                                };
+                            }));
                         },
                         error: function() {
                             feedback().error('No tokens retrieved'); // TODO: improve
@@ -127,6 +133,14 @@ function ($, _, __, feedback, tokenStoreFactory) {
                         }
                     });
                 });
+            },
+
+            /**
+             * Getter for the current queue length
+             * @returns {Promise<Boolean>} - resolves to true when cleared
+             */
+            clearStore: function clearStore() {
+                return tokenStore.clear();
             },
 
             /**

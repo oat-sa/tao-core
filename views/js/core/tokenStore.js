@@ -13,11 +13,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 Open Assessment Technologies SA
+ * Copyright (c) 2019 Open Assessment Technologies SA
  */
 
 /**
- * Cache/store for tokens on memory as a FIFO list
+ * Store for tokens in memory as a FIFO list
  * Modeled on taoQtiTest/views/js/runner/proxy/cache/itemStore.js
  *
  * @author Martin Nicholson <martin@taotesting.com>
@@ -46,6 +46,7 @@ define([
     return function tokenStoreFactory(options) {
 
         var config = _.defaults(options || {}, defaultConfig);
+        // var storeId = uuid(6);
 
         //in memory storage
         var getStore = function getStore(){
@@ -103,6 +104,7 @@ define([
                                 if (index.length > 1 && index.length > config.maxSize) {
                                     oldest = _.first(index);
                                     return self.remove(oldest).then(function(removed){
+                                        self.log();
                                         return updated && removed;
                                     });
                                 }
@@ -135,7 +137,10 @@ define([
 
                         index = _.without(index, key);
 
-                        return tokenStore.removeItem(key);
+                        return tokenStore.removeItem(key)
+                            .then(function(removed) {
+                                return removed;
+                            });
                     });
                 }
                 return Promise.resolve(false);
@@ -156,7 +161,7 @@ define([
              * Log queue contents & store contents
              */
             log: function log() {
-                this.getTokens().then(function(items) {
+                return this.getTokens().then(function(items) {
                     console.info('Q2i', index);
                     console.table(items);
                 });

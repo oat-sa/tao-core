@@ -166,7 +166,7 @@ define([
         var tokenStore;
         QUnit.expect(10);
 
-        tokenStore = tokenStoreFactory(4);
+        tokenStore = tokenStoreFactory({ maxSize: 3 });
 
         Promise
             .all([

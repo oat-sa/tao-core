@@ -77,11 +77,13 @@ define([
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
     return function request(url, data, method, headers, background, noToken, ajaxParams, returnXhr){
+    // TODO: convert function signature to options object
 
         // Function wrapper so the contents can be run now or added to a queue
         var runRequest = function runRequest() {
             return new Promise(function(resolve, reject){
 
+                // Function which actually makes the request
                 var runAjax = function runAjax(customHeaders) {
                     return $.ajax(_.defaults({
                         url: url,
@@ -90,19 +92,20 @@ define([
                         headers: customHeaders,
                         data : data,
                         beforeSend: function() {
-                            console.log('sending header token', customHeaders['X-CSRF-Token']);
+                            console.log('sending header token', customHeaders && customHeaders['X-CSRF-Token']);
                         },
                         global : !background//TODO fix this with TT-260
                     }, ajaxParams))
                     .done(function(response, status, xhr){
                         //console.log('response', response);
-                        console.log('response full header', xhr.getAllResponseHeaders());
-                        //console.log('response header specific', xhr.getResponseHeader('X-CSRF-Token'));
+                        //console.log('response full header', xhr.getAllResponseHeaders());
+                        console.log('response header specific', xhr.getResponseHeader('X-CSRF-Token'));
                         console.log('dataProvider/request received token', response.token);
                         // store the response token for the next request
+                        // store with client timestamp so we can expire against client time
                         tokenHandler.setToken({
-                            value: response.token || 'someToken' + ('' + Date.now()).slice(9),
-                            createdAt: Date.now()
+                            value: xhr.getResponseHeader('X-CSRF-Token') || response.token || 'someToken' + ('' + Date.now()).slice(9),
+                            receivedAt: Date.now()
                         });
 
                         if (xhr.status === 204 || (response && response.errorCode === 204)){
@@ -133,7 +136,7 @@ define([
                         }
 
                         return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
-                    });    
+                    });
                 };
 
                 if(_.isEmpty(url)){
@@ -151,6 +154,9 @@ define([
                                     'X-Auth-Token': token.value || 'none'  // header for current TR only
                                 });
                             }
+                            else {
+                                headers = _.extend({}, headers);
+                            }
                             return headers;
                         })
                         .then(function(customHeaders) {
@@ -167,10 +173,6 @@ define([
             //no token protection, run the request
             return runRequest();
         }
-        // else if (tokenHandler.getQueueLength() === 0) {
-        //     // no valid tokens, page refresh needed
-        //     return Promise.reject(new Error(__('Security token not present, please refresh page')));
-        // }
         else if (tokenHandler.getQueueLength() === 1) {
             // limited tokens, sequential queue must be used
             return queue.serie(runRequest);
