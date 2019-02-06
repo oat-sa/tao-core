@@ -124,6 +124,24 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     /**
      * Method to wrap creating to service
      *
+     * @OA\Schema(
+     *     schema="tao.CommonRestModule.CreatedResource",
+     *     description="Created resource data",
+     *     @OA\Property(
+     *         property="uriResource",
+     *         type="string",
+     *         example="http://sample/first.rdf#i1536680377163171"
+     *     ),
+     *     @OA\Property(
+     *         property="label",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="comment",
+     *         type="string"
+     *     )
+     * )
+     *
      * @return mixed
      * @throws common_Exception
      * @throws common_exception_RestApi
