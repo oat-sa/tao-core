@@ -162,7 +162,7 @@ define([
              */
             log: function log() {
                 return this.getTokens().then(function(items) {
-                    console.info('Q2i', index);
+                    //console.info('Q2i', index);
                     console.table(items);
                 });
             },
@@ -173,6 +173,33 @@ define([
              */
             getSize: function getSize() {
                 return index.length;
+            },
+
+            /**
+             * Setter for maximum pool size
+             * @param {Integer} size
+             */
+            setMaxSize: function setMaxSize(size) {
+                if (_.isNumber(size) && size > 0) {
+                    config.maxSize = size;
+                }
+            },
+
+            /**
+             * Removes oldest tokens, if the pool is above its size limit
+             * (Could happen if maxSize is reduced during the life of the tokenStore)
+             * @returns {Promise} - resolves when done
+             */
+            enforceMaxSize: function enforceMaxSize() {
+                var keysToRemove;
+                var excess = this.getSize() - config.maxSize;
+                if (excess > 0) {
+                    keysToRemove = index.slice(0, excess);
+                    return Promise.all(_.map(keysToRemove, function(key) {
+                        return self.remove(key);
+                    }));
+                }
+                return Promise.resolve();
             },
 
             /**

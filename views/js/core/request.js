@@ -39,12 +39,7 @@ define([
 ], function($, _, __, Promise, promiseQueue, tokenHandlerFactory, feedback) {
     'use strict';
 
-    var taoMaxRequests = 6;
-    var testRunnerMaxRequests = 1;
-    // TODO: need another way to see if we're in TR
-    var sequential = true; // pass this into request?
-    var maxRequests = sequential ? testRunnerMaxRequests : taoMaxRequests;
-    var tokenHandler = tokenHandlerFactory({ maxSize: maxRequests });
+    var tokenHandler = tokenHandlerFactory();
 
     var queue = promiseQueue();
 
@@ -76,12 +71,18 @@ define([
      * @param {Object} [options.data] - additional parameters
      * @param {String} [options.method = 'GET'] - the HTTP method
      * @param {Object} [options.headers] - the HTTP header
-     * @param {String} [options.contentType] - will usually by 'json'
+     * @param {String} [options.contentType] - will usually be 'json'
      * @param {Boolean} [options.noToken = false] - to disable the token
-     * @param {Boolean} [options.background] - tells if the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
+     * @param {Boolean} [options.background] - if true, the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
+     * @param {Boolean} [options.sequential] - if true, the request must join a queue to be run sequentially
      * @returns {Promise} resolves with response, or reject if something went wrong
      */
     return function request(options) {
+
+        // reconfigure pool:
+        if (options.sequential) {
+            tokenHandler.setMaxSize(1);
+        }
 
         if (_.isEmpty(options.url)) {
             return Promise.reject(new TypeError('At least give a URL...'));

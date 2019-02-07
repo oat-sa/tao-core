@@ -118,7 +118,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              * @returns {Promise<Array>} - an array of locally-timestamped token objects
              */
             getClientConfigTokens() {
-                console.log(module.config());
+                console.log('ClientConfig data:', module.config());
                 return Promise.resolve(_.map(module.config().tokens, function(serverToken) {
                     return {
                         value: serverToken.value,
@@ -141,7 +141,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                         //dataType: 'json',
                         data : null,
                         success: function(response) {
-                            console.log('ClientConfig response', JSON.parse(response));
+                            console.log('ClientConfig response:', JSON.parse(response));
                             resolve(_.map(JSON.parse(response), function(token) {
                                 return {
                                     value: token.value,
@@ -158,7 +158,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
             },
 
             /**
-             * Getter for the current queue length
+             * Clears the token store
              * @returns {Promise<Boolean>} - resolves to true when cleared
              */
             clearStore: function clearStore() {
@@ -171,8 +171,15 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              */
             getQueueLength: function getQueueLength() {
                 return tokenStore.getSize();
-            }
+            },
 
+            /**
+             * Setter for maximum pool size
+             * @param {Integer} size
+             */
+            setMaxSize: function setMaxSize(size) {
+                tokenStore.setMaxSize(size);
+            }
         };
     };
 });
