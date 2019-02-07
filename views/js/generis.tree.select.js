@@ -132,24 +132,27 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 					},
 					//
 					ondata: function(DATA, TREE_OBJ) {
-						if (instance.checkResourcePermissions) {
-                            var permissions = DATA.permissions;
+                        if (instance.checkResourcePermissions) {
                             var children;
                             var filteredChildren = [];
+                            var permissions = DATA.permissions;
 
-                            children = DATA.tree.children;
-							_.each(children, function(dataObj) {
-								var key = dataObj.attributes['data-uri'];
+                            if (DATA.tree.children) {
+                                children = DATA.tree.children;
+                            } else {
+                                children = DATA.tree;
+                            }
+                            //checking all the permissions recursively to check if inner classes/instances should be hidden
+                            filteredChildren = instance.checkPermissionsRecursively(children, permissions);
 
-								if (permissions.data[key] && permissions.data[key].indexOf('READ') !== -1) {
-                                    filteredChildren.push(dataObj);
-								}
-							});
-
-							//setting filtered children back
-                            DATA.tree.children = filteredChildren;
+                            //setting filtered children back
+                            if (DATA.tree.children) {
+                                DATA.tree.children = filteredChildren;
+                            } else {
+                                DATA.tree = filteredChildren;
+                            }
                             DATA = DATA.tree;
-						}
+                        }
 
 						//automatically open the children of the received node
 						if (DATA.children) {
@@ -184,6 +187,35 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 			$("#saver-action-" + this.options.actionId).click({instance: this}, function(e){
 				e.data.instance.saveData();
 			});
+		},
+
+        /**
+		 * Check permissions (if applicable) on the tree members
+         * @param {Array} children list of nodes
+         * @param {Array} permissions list of permissions returned from backend to check against
+         * @returns {Array}
+         */
+        checkPermissionsRecursively : function checkPermissionsRecursively(children, permissions) {
+			var filteredChildren = [];
+			var recursiveCheck = [];
+
+            _.each(children, function(dataObj) {
+                var key = dataObj.attributes['data-uri'];
+
+                if (dataObj.children && dataObj.children.length > 0) {
+                    recursiveCheck = checkPermissionsRecursively(dataObj.children, permissions);
+                    if (permissions.data[key] && permissions.data[key].indexOf('READ') !== -1) {
+                        dataObj.children = recursiveCheck;
+                        filteredChildren.push(dataObj);
+                    }
+				} else {
+                    if (permissions.data[key] && permissions.data[key].indexOf('READ') !== -1) {
+                        filteredChildren.push(dataObj);
+                    }
+				}
+            });
+
+            return filteredChildren;
 		},
 
         /**
