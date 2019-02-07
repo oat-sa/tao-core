@@ -122,14 +122,14 @@ define([
                 if(e.target === win){
                     pageStatus.trigger('statuschange', 'blur', e.timeStamp);
                 }
-            }, {leading : true, trailing: false} ));
+            }, 200, {leading : true, trailing: false} ));
 
             //losing the window focus, the event can be triggered multiple time
             win.addEventListener('focus', _.debounce(function(e){
                 if(e.target === win){
                     pageStatus.trigger('statuschange', 'focus', e.timeStamp);
                 }
-            }, {leading : true, trailing: false} ));
+            }, 200, {leading : true, trailing: false} ));
         }
 
         //trigger back sub events
