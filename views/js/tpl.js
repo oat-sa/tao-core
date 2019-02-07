@@ -40,6 +40,10 @@ define([
     var buildMap = {};
     var extension = '.tpl';
 
+    //to allow usage of some custom attributes with dompurify
+    //to be filled when another one missing attribute found
+    var allowedAttr = ['data-action'];
+
     //register a i18n helper
     hb.registerHelper('__', function(key){
         return __(key);
@@ -53,7 +57,9 @@ define([
      * to make output safe for template systems
      */
     hb.registerHelper('dompurify', function(context){
-        return DOMPurify.sanitize(context, {SAFE_FOR_TEMPLATES: true});
+        var params = {SAFE_FOR_TEMPLATES: true, ADD_ATTR: allowedAttr};
+
+        return DOMPurify.sanitize(context, params);
     });
 
     /**
