@@ -24,79 +24,104 @@ define([
 ], function (__, labels) {
     'use strict';
 
+    /**
+     * @typedef {Object} term
+     * @property {String} label
+     * @property {String} value
+     * @property {String} type
+     * @property {String} description
+     * @property {String|null} exponent
+     */
+
+    /**
+     * Defines the terms that can be tokenized from an expression
+     * @type {term[]}
+     */
     return {
         // Digits definition
         NUM0: {
             label: labels.NUM0,
             value: '0',
             type: 'digit',
-            description: __('Digit 0')
+            description: __('Digit 0'),
+            exponent: null
         },
         NUM1: {
             label: labels.NUM1,
             value: '1',
             type: 'digit',
-            description: __('Digit 1')
+            description: __('Digit 1'),
+            exponent: null
         },
         NUM2: {
             label: labels.NUM2,
             value: '2',
             type: 'digit',
-            description: __('Digit 2')
+            description: __('Digit 2'),
+            exponent: null
         },
         NUM3: {
             label: labels.NUM3,
             value: '3',
             type: 'digit',
-            description: __('Digit 3')
+            description: __('Digit 3'),
+            exponent: null
         },
         NUM4: {
             label: labels.NUM4,
             value: '4',
             type: 'digit',
-            description: __('Digit 4')
+            description: __('Digit 4'),
+            exponent: null
         },
         NUM5: {
             label: labels.NUM5,
             value: '5',
             type: 'digit',
-            description: __('Digit 5')
+            description: __('Digit 5'),
+            exponent: null
         },
         NUM6: {
             label: labels.NUM6,
             value: '6',
             type: 'digit',
-            description: __('Digit 6')
+            description: __('Digit 6'),
+            exponent: null
         },
         NUM7: {
             label: labels.NUM7,
             value: '7',
             type: 'digit',
-            description: __('Digit 7')
+            description: __('Digit 7'),
+            exponent: null
         },
         NUM8: {
             label: labels.NUM8,
             value: '8',
             type: 'digit',
-            description: __('Digit 8')
+            description: __('Digit 8'),
+            exponent: null
         },
         NUM9: {
             label: labels.NUM9,
             value: '9',
             type: 'digit',
-            description: __('Digit 9')
+            description: __('Digit 9'),
+            exponent: null
         },
         DOT: {
             label: labels.DOT,
             value: '.',
             type: 'digit',
-            description: __('Dot')
+            description: __('Dot'),
+            exponent: null
         },
         EXP10: {
             label: labels.EXP10,
             value: 'e',
             type: 'digit',
-            description: __('Power of 10')
+            description: __('Power of 10'),
+            exponent: 'right'
         },
 
         // Aggregators
@@ -104,13 +129,15 @@ define([
             label: labels.LPAR,
             value: '(',
             type: 'aggregator',
-            description: __('Left parenthesis')
+            description: __('Left parenthesis'),
+            exponent: null
         },
         RPAR: {
             label: labels.RPAR,
             value: ')',
             type: 'aggregator',
-            description: __('Right parenthesis')
+            description: __('Right parenthesis'),
+            exponent: null
         },
 
         // Separator
@@ -118,7 +145,8 @@ define([
             label: labels.COMMA,
             value: ',',
             type: 'separator',
-            description: __('Arguments separator')
+            description: __('Arguments separator'),
+            exponent: null
         },
 
         // Operators
@@ -126,55 +154,71 @@ define([
             label: labels.SUB,
             value: '-',
             type: 'operator',
-            description: __('Binary operator -')
+            description: __('Binary operator -'),
+            exponent: null
         },
         NEG: {
             label: labels.NEG,
-            value: '\u207B',
+            value: labels.NEG,
             type: 'operator',
-            description: __('Unary operator -')
+            description: __('Unary operator -'),
+            exponent: null
         },
         ADD: {
             label: labels.ADD,
             value: '+',
             type: 'operator',
-            description: __('Binary operator +')
+            description: __('Binary operator +'),
+            exponent: null
+        },
+        POS: {
+            label: labels.POS,
+            value: labels.POS,
+            type: 'operator',
+            description: __('Unary operator +'),
+            exponent: null
         },
         MUL: {
             label: labels.MUL,
             value: '*',
             type: 'operator',
-            description: __('Binary operator *')
+            description: __('Binary operator *'),
+            exponent: null
         },
         DIV: {
             label: labels.DIV,
             value: '/',
             type: 'operator',
-            description: __('Binary operator /')
+            description: __('Binary operator /'),
+            exponent: null
         },
         MOD: {
             label: labels.MOD,
             value: '%',
             type: 'operator',
-            description: __('Binary operator modulo')
+            description: __('Binary operator modulo'),
+            exponent: null
         },
         POW: {
             label: labels.POW,
             value: '^',
             type: 'operator',
-            description: __('Power of')
+            description: __('Power of'),
+            exponent: 'right'
         },
         FAC: {
             label: labels.FAC,
             value: '!',
             type: 'operator',
-            description: __('Factorial')
+            description: __('Factorial'),
+            exponent: null
         },
         ASSIGN: {
             label: labels.ASSIGN,
             value: '=',
             type: 'operator',
-            description: __('Assign')
+            description: __('Assign'),
+            exponent: null
         },
 
         // Variables
@@ -182,7 +226,8 @@ define([
             label: labels.ANS,
             value: 'ans',
             type: 'variable',
-            description: __('Last result')
+            description: __('Last result'),
+            exponent: null
         },
 
         // Constants
@@ -190,13 +235,15 @@ define([
             label: labels.PI,
             value: 'PI',
             type: 'constant',
-            description: __('Value of PI')
+            description: __('Value of PI'),
+            exponent: null
         },
         E: {
             label: labels.E,
             value: 'E',
             type: 'constant',
-            description: __('Value of E')
+            description: __('Value of E'),
+            exponent: null
         },
 
         // Errors
@@ -204,19 +251,22 @@ define([
             label: labels.NAN,
             value: 'NaN',
             type: 'error',
-            description: __('Error in value')
+            description: __('Error in value'),
+            exponent: null
         },
         INFINITY: {
             label: labels.INFINITY,
             value: 'Infinity',
             type: 'error',
-            description: __('Error in result')
+            description: __('Error in result'),
+            exponent: null
         },
         ERROR: {
             label: labels.ERROR,
             value: '#',
             type: 'error',
-            description: __('Error in syntax')
+            description: __('Error in syntax'),
+            exponent: null
         },
 
         // Functions
@@ -224,157 +274,183 @@ define([
             label: labels.EXP,
             value: 'exp',
             type: 'function',
-            description: __('Exponent')
+            description: __('Exponent'),
+            exponent: 'right'
         },
         SQRT: {
             label: labels.SQRT,
             value: 'sqrt',
             type: 'function',
-            description: __('Square root')
+            description: __('Square root'),
+            exponent: null
         },
         CBRT: {
             label: labels.CBRT,
             value: 'cbrt',
             type: 'function',
-            description: __('Cube root')
+            description: __('Cube root'),
+            exponent: null
         },
         NTHRT: {
             label: labels.SQRT,
             value: 'nthrt',
             type: 'function',
-            description: __('Nth root')
+            description: __('Nth root'),
+            exponent: 'left'
         },
         FLOOR: {
             label: labels.FLOOR,
             value: 'floor',
             type: 'function',
-            description: __('Round to lower whole number')
+            description: __('Round to lower whole number'),
+            exponent: null
         },
         CEIL: {
             label: labels.CEIL,
             value: 'ceil',
             type: 'function',
-            description: __('Round to upper whole number')
+            description: __('Round to upper whole number'),
+            exponent: null
         },
         ROUND: {
             label: labels.ROUND,
             value: 'round',
             type: 'function',
-            description: __('Round to closest whole number')
+            description: __('Round to closest whole number'),
+            exponent: null
         },
         TRUNC: {
             label: labels.TRUNC,
             value: 'trunc',
             type: 'function',
-            description: __('Whole number part')
+            description: __('Whole number part'),
+            exponent: null
         },
         SIN: {
             label: labels.SIN,
             value: 'sin',
             type: 'function',
-            description: __('Sine')
+            description: __('Sine'),
+            exponent: null
         },
         COS: {
             label: labels.COS,
             value: 'cos',
             type: 'function',
-            description: __('Cosine')
+            description: __('Cosine'),
+            exponent: null
         },
         TAN: {
             label: labels.TAN,
             value: 'tan',
             type: 'function',
-            description: __('Tangent')
+            description: __('Tangent'),
+            exponent: null
         },
         ASIN: {
             label: labels.ASIN,
             value: 'asin',
             type: 'function',
-            description: __('Arc sine')
+            description: __('Arc sine'),
+            exponent: null
         },
         ACOS: {
             label: labels.ACOS,
             value: 'acos',
             type: 'function',
-            description: __('Arc cosine')
+            description: __('Arc cosine'),
+            exponent: null
         },
         ATAN: {
             label: labels.ATAN,
             value: 'atan',
             type: 'function',
-            description: __('Arc tangent')
+            description: __('Arc tangent'),
+            exponent: null
         },
         SINH: {
             label: labels.SINH,
             value: 'sinh',
             type: 'function',
-            description: __('Hyperbolic sine')
+            description: __('Hyperbolic sine'),
+            exponent: null
         },
         COSH: {
             label: labels.COSH,
             value: 'cosh',
             type: 'function',
-            description: __('Hyperbolic cosine')
+            description: __('Hyperbolic cosine'),
+            exponent: null
         },
         TANH: {
             label: labels.TANH,
             value: 'tanh',
             type: 'function',
-            description: __('Hyperbolic tangent')
+            description: __('Hyperbolic tangent'),
+            exponent: null
         },
         ASINH: {
             label: labels.ASINH,
             value: 'asinh',
             type: 'function',
-            description: __('Hyperbolic arc sine')
+            description: __('Hyperbolic arc sine'),
+            exponent: null
         },
         ACOSH: {
             label: labels.ACOSH,
             value: 'acosh',
             type: 'function',
-            description: __('Hyperbolic arc cosine')
+            description: __('Hyperbolic arc cosine'),
+            exponent: null
         },
         ATANH: {
             label: labels.ATANH,
             value: 'atanh',
             type: 'function',
-            description: __('Hyperbolic arc tangent')
+            description: __('Hyperbolic arc tangent'),
+            exponent: null
         },
         LN: {
             label: labels.LN,
             value: 'ln',
             type: 'function',
-            description: __('Natural logarithm')
+            description: __('Natural logarithm'),
+            exponent: null
         },
         LOG: {
             label: labels.LN,
             value: 'log',
             type: 'function',
-            description: __('Natural logarithm')
+            description: __('Natural logarithm'),
+            exponent: null
         },
         LG: {
             label: labels.LOG,
             value: 'lg',
             type: 'function',
-            description: __('Base-10 logarithm')
+            description: __('Base-10 logarithm'),
+            exponent: null
         },
         LOG10: {
             label: labels.LOG,
             value: 'log10',
             type: 'function',
-            description: __('Base-10 logarithm')
+            description: __('Base-10 logarithm'),
+            exponent: null
         },
         ABS: {
             label: labels.ABS,
             value: 'abs',
             type: 'function',
-            description: __('Absolute value')
+            description: __('Absolute value'),
+            exponent: null
         },
         RAND: {
             label: labels.RAND,
             value: 'random',
             type: 'function',
-            description: __('Random value')
+            description: __('Random value'),
+            exponent: null
         }
     };
 });
