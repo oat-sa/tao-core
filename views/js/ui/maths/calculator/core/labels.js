@@ -57,8 +57,9 @@ define([
 
         // Operators
         SUB: '-',
-        NEG: '\u207B',
         ADD: '+',
+        POS: '\u207A',
+        NEG: '\u207B',
         MUL: '\u00D7',
         DIV: '\u00F7',
         MOD: 'modulo',
