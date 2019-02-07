@@ -141,6 +141,17 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      *         type="string"
      *     )
      * )
+     * @OA\Schema(
+     *     schema="tao.CommonRestModule.CreatedResourceResponse",
+     *     description="Created resource data",
+     *     allOf={
+     *         @OA\Schema(ref="#/components/schemas/tao.RestTrait.BaseResponse")
+     *     },
+     *     @OA\Property(
+     *         property="data",
+     *         ref="#/components/schemas/tao.CommonRestModule.CreatedResource"
+     *     )
+     * )
      *
      * @return mixed
      * @throws common_Exception
