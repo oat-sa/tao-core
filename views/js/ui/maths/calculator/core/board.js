@@ -455,7 +455,7 @@ define([
                 // will replace the current term if:
                 // - it is a 0, and the term to add is not an operator nor a dot
                 // - it is the last result, and the term to add is not an operator
-                if (!tokensHelper.isOperator(term.type) && tokensList.length === 1 && ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')) {
+                if (!tokensHelper.isOperator(term.type) && !rePrefixedTerm.test(term.value) && tokensList.length === 1 && ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')) {
                     this.replace(value);
                 } else {
                     // simply add the term, with potentially spaces around
