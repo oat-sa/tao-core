@@ -20,7 +20,9 @@
  *
  */
 
+use oat\oatbox\http\LegacyController;
 use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
 use oat\tao\helpers\JavaScript;
@@ -41,10 +43,11 @@ use oat\oatbox\log\LoggerAwareTrait;
  * @package tao
  *
  */
-abstract class tao_actions_CommonModule extends Module implements ServiceManagerAwareInterface, CommonModuleInterface
+abstract class tao_actions_CommonModule extends LegacyController implements ServiceManagerAwareInterface, CommonModuleInterface
 {
     use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
     use LoggerAwareTrait;
+    use RendererTrait { setView as protected setTemplate; }
 
     /**
      * The Modules access the models through the service instance
@@ -94,7 +97,7 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
      */
     public function setView($path, $extensionID = null)
     {
-        parent::setView(Template::getTemplate($path, $extensionID));
+        $this->setTemplate(Template::getTemplate($path, $extensionID));
     }
 
     /**
