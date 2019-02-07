@@ -2460,6 +2460,13 @@ define([
             value: 'sqrt',
             type: 'function',
             label: registeredTerms.SQRT.label
+        }, {
+            title: 'nthrt',
+            term: '@NTHRT',
+            expression: '0 @nthrt',
+            value: '@nthrt',
+            type: 'function',
+            label: registeredTerms.NTHRT.label
         }])
         .asyncTest('0 and const', function (data, assert) {
             var $container = $('#fixture-zero-const');
@@ -2605,6 +2612,13 @@ define([
             value: 'sqrt',
             type: 'function',
             label: registeredTerms.SQRT.label
+        }, {
+            title: 'nthrt',
+            term: '@NTHRT',
+            expression: 'ans @nthrt',
+            value: '@nthrt',
+            type: 'function',
+            label: registeredTerms.NTHRT.label
         }])
         .asyncTest('ans and const', function (data, assert) {
             var $container = $('#fixture-ans-const');
