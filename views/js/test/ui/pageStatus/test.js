@@ -22,9 +22,10 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'lodash',
     'jquery',
     'ui/pageStatus'
-], function ($, pageStatusFactory) {
+], function (_, $, pageStatusFactory) {
     'use strict';
 
     QUnit.module('pageStatus');
@@ -47,40 +48,48 @@ define([
     });
 
     QUnit.asyncTest('popup status', function (assert) {
-        QUnit.expect(10);
 
-        var popup = window.open('/','test','width=300,height=300,visible=none');
+        var popup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test','width=300,height=300,visible=none');
+        var secondPopup;
 
         var pageStatus = pageStatusFactory({
             window :  popup
         });
 
-        var counter = 0;
+        QUnit.expect(6);
 
         pageStatus
-            .on('statuschange', function(status){
+            .on('statuschange', _.once(function(status){
                 assert.ok(true, 'The statuschange event is triggered');
-            })
-            .on('focus', function(){
+            }))
+            .on('focus', _.once(function(){
                 assert.ok(true, 'The focus event is triggered');
-            })
-            .on('hide', function(){
+            }))
+            .on('hide', _.once(function(){
+                assert.ok(true, 'The hide event is triggered');
+            }))
+            .on('load', _.once(function(){
+                assert.ok(true, 'The load event is triggered');
+            }))
+            .on('blur', _.once(function(){
                 assert.ok(true, 'The blur event is triggered');
-            })
-            .on('blur', function(){
-                assert.ok(true, 'The blur event is triggered');
-            })
-            .on('unload', function(){
+            }))
+            .on('unload', _.once(function(){
                 assert.ok(true, 'The unload event is triggered');
-            });
+            }));
 
-        popup.focus();
 
-        setTimeout(function() {
-            popup.close();
-            setTimeout(function (){
-                QUnit.start();
-            }, 300);
-        }, 100);
+        _.delay(function() {
+            secondPopup = window.open('/tao/views/js/test/ui/pageStatus/blank.html','test2','width=300,height=300');
+            _.delay(function () {
+                popup.close();
+
+            },100)
+        },100);
+
+        setTimeout(function () {
+            secondPopup.close();
+            QUnit.start();
+        }, 300)
     });
 });
