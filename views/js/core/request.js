@@ -32,11 +32,12 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'context',
     'core/promise',
     'core/promiseQueue',
     'core/tokenHandler',
     'ui/feedback'
-], function($, _, __, Promise, promiseQueue, tokenHandlerFactory, feedback) {
+], function($, _, __, context, Promise, promiseQueue, tokenHandlerFactory, feedback) {
     'use strict';
 
     var tokenHandler = tokenHandlerFactory();
@@ -68,13 +69,14 @@ define([
      * Request content from a TAO endpoint
      * @param {Object} options
      * @param {String} options.url - the endpoint full url
-     * @param {Object} [options.data] - additional parameters
      * @param {String} [options.method = 'GET'] - the HTTP method
-     * @param {Object} [options.headers] - the HTTP header
+     * @param {Object} [options.data] - additional parameters (if method is 'POST')
+     * @param {Object} [options.headers] - the HTTP headers
      * @param {String} [options.contentType] - will usually be 'json'
-     * @param {Boolean} [options.noToken = false] - to disable the token
+     * @param {Boolean} [options.noToken = false] - if true, disables the token requirement
      * @param {Boolean} [options.background] - if true, the request should be done in the background, which in practice does not trigger the global handlers like ajaxStart or ajaxStop
      * @param {Boolean} [options.sequential] - if true, the request must join a queue to be run sequentially
+     * @param {Number}  [options.timeout] - timeout in seconds for the AJAX request
      * @returns {Promise} resolves with response, or reject if something went wrong
      */
     return function request(options) {
@@ -95,27 +97,29 @@ define([
                 // Function wrapper in which the request is actually made
                 // Doing this allows a token to be fetched asynchronously before we run it
                 function runAjax(customHeaders) {
-                    var noop;
-                    return $.ajax(_.defaults({
+                    return $.ajax({
                         url: options.url,
                         type: options.method || 'GET',
                         dataType: 'json',
                         headers: customHeaders,
                         data : options.data,
                         async : true,
-                        timeout : self && self.configStorage ? self.configStorage.getTimeout() : 0, // FIXME: global?
-                        contentType : options.contentType || noop,
+                        timeout : options.timeout * 1000 || context.timeout * 1000 || 0,
+                        contentType : options.contentType || false,
                         beforeSend: function() {
                             console.log('sending header token', customHeaders && customHeaders['X-CSRF-Token']);
                         },
                         global : !options.background//TODO fix this with TT-260
-                    }, options.ajaxParams))
+                    })
                     .done(function(response, status, xhr){
                         console.log('received X-CSRF-Token header', xhr.getResponseHeader('X-CSRF-Token'));
                         console.log('received response.token', response.token);
 
-                        // FIXME: temporary token until server can provide one:
+                        // FIXME: check header token, response token,
+                        // if no token, use a fake temporary token
+                        // ...until server can provide one:
                         var token = xhr.getResponseHeader('X-CSRF-Token') || response.token || 'someToken' + ('' + Date.now()).slice(9);
+
                         // store the response token for the next request
                         // store with client timestamp so we can expire against client time
                         if (token) {

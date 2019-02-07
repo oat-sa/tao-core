@@ -180,8 +180,10 @@ define([
              * @param {Integer} size
              */
             setMaxSize: function setMaxSize(size) {
-                if (_.isNumber(size) && size > 0) {
+                if (_.isNumber(size) && size > 0 && size !== config.maxSize) {
                     config.maxSize = size;
+                    console.warn('tokenStore maxSize set to', size);
+                    this.enforceMaxSize();
                 }
             },
 

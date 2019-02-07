@@ -31,7 +31,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
 
     var defaults = {
         maxSize: 6,
-        tokenTimeLimit: 1000 * 15 // temporary value
+        tokenTimeLimit: 1000 * 30 // temporary value
     };
 
     /**
