@@ -55,8 +55,11 @@ define([
         var pageStatus = pageStatusFactory({
             window :  popup
         });
-
-        QUnit.expect(6);
+        if (/HeadlessChrome/.test(window.navigator.userAgent)) {
+            QUnit.expect(4);
+        }else{
+            QUnit.expect(6);
+        }
 
         pageStatus
             .on('statuschange', _.once(function(status){
