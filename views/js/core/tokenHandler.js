@@ -29,14 +29,14 @@ function ($, _, __, feedback, tokenStoreFactory) {
     'use strict';
 
     var defaults = {
-        maxSize: 4, // TR should set this to 1 to force sequential AJAX requests
+        maxSize: 1, // TR should set this to 1 to force sequential AJAX requests
         tokenTimeLimit: 1000 * 15
     };
 
     /**
      * Stores the security token queue
      * @param {Object} [config]
-     * @param {String} [config.maxPoolSize]
+     * @param {String} [config.maxSize]
      * @param {String} [config.tokenTimeLimit]
      * @returns {tokenHandler}
      */
@@ -61,12 +61,14 @@ function ($, _, __, feedback, tokenStoreFactory) {
                         // Fetch again if we're truly out of tokens
                         return self.fetchNewTokens()
                             .then(function(tokens) {
-                                // Add the fetched tokens to the store (async):
-                                return Promise.all(
-                                    _.map(tokens, function(token) {
-                                        return self.setToken(token);
-                                    })
-                                )
+                                // Add the fetched tokens to the store, synchronously:
+                                // Chaining the promises using Array.prototype.reduce is necessary
+                                // to manage token addition & deletion correctly
+                                return tokens.reduce(function(previousPromise, nextToken) {
+                                    return previousPromise.then(() => {
+                                        return self.setToken(nextToken);
+                                    });
+                                }, Promise.resolve())
                                 .then(function() {
                                     return tokenStore.log();
                                 })

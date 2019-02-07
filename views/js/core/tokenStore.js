@@ -46,7 +46,6 @@ define([
     return function tokenStoreFactory(options) {
 
         var config = _.defaults(options || {}, defaultConfig);
-        // var storeId = uuid(6);
 
         //in memory storage
         var getStore = function getStore(){
@@ -57,6 +56,8 @@ define([
         // push newly received token(s) onto the back end
         // shift oldest token off the front end, to use
         var index = [];
+
+        console.warn('tokenStore established with maxSize', config.maxSize);
 
         /**
          * @typedef tokenStore
@@ -103,6 +104,7 @@ define([
                                 // Did we reach the limit? then remove the oldest
                                 if (index.length > 1 && index.length > config.maxSize) {
                                     oldest = _.first(index);
+                                    console.log('remove oldest:', oldest);
                                     return self.remove(oldest).then(function(removed){
                                         self.log();
                                         return updated && removed;
