@@ -189,6 +189,12 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 			});
 		},
 
+        /**
+		 * Check permissions (if applicable) on the tree members
+         * @param {Array} children list of nodes
+         * @param {Array} permissions list of permissions returned from backend to check against
+         * @returns {Array}
+         */
         checkPermissionsRecursively : function checkPermissionsRecursively(children, permissions) {
 			var filteredChildren = [];
 			var recursiveCheck = [];
