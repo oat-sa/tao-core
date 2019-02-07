@@ -907,8 +907,9 @@ class Updater extends \common_ext_ExtensionUpdater {
                 new ActionProtector(['frameSourceWhitelist' => ["'self'"]])
             );
             $this->setVersion('22.13.1');
-      
-        $this->skip('22.13.1', '25.0.1');
+        }
+        
+        $this->skip('22.13.1', '25.1.1');
 
     }
 }
