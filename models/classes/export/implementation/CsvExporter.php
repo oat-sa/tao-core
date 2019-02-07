@@ -20,56 +20,112 @@
 
 namespace oat\tao\model\export\implementation;
 
-use SPLTempFileObject;
+use League\Csv\Writer;
 use Traversable;
 
 /**
- * Class CsvExporter
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  * @package oat\tao\model\export
  */
-class CsvExporter extends AbstractFileExporter
+class CsvExporter
 {
     /**
-     * @var string value of `Content-Type` header
+     * @var mixed Data to be exported
      */
-    protected $contentType = 'text/csv; charset=UTF-8';
+    protected $data;
+
+    /**
+     * @param array $data Data to be exported
+     */
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
 
     /**
      * @param boolean $columnNames array keys will be used in the first line of CSV data as column names.
      * @param boolean $download
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
+     *
      * @return string
+     *
+     * @throws \League\Csv\Exception
      * @throws \common_exception_InvalidArgumentType
      */
-    public function export($columnNames = false, $download = false, $delimiter = ",", $enclosure = '"')
+    public function export($columnNames = false, $download = false, $delimiter = ',', $enclosure = '"')
     {
         $data = $this->data;
 
-        if( !is_array( $data ) && !$data instanceof Traversable ){
-             throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
+        if (!is_array($data) && !$data instanceof Traversable) {
+            throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
         }
 
         if ($columnNames && $data) {
             array_unshift($data, array_keys($data[0]));
         }
-        $file = new SPLTempFileObject();
-        foreach ($data as $row) {
-            $file->fputcsv($row, $delimiter, $enclosure);
-        }
-
-        $file->rewind();
-        $exportData = '';
-        while (!$file->eof()) {
-            $exportData .= $file->fgets();
-        }
-        $exportData = trim($exportData);
 
         if ($download) {
-            $this->download($exportData, 'export.csv');
+            $this->sendHeaders('export.csv');
+            $this->echoContent($data, $delimiter, $enclosure);
         } else {
-            return $exportData;
+            return $this->returnContent($data, $delimiter, $enclosure);
         }
+    }
+
+    protected function sendHeaders($fileName = null)
+    {
+        if ($fileName === null) {
+            $fileName = (string)time();
+        }
+
+        while (ob_get_level() > 0) {
+            ob_end_flush();
+        }
+
+        header('Content-Type: text/plain; charset=UTF-8');
+        header('Content-Disposition: attachment; fileName="' . $fileName .'"');
+    }
+
+    /**
+     * @param mixed $data
+     * @param string $delimiter
+     * @param string $enclosure
+     *
+     * @return string
+     *
+     * @throws \League\Csv\Exception
+     */
+    private function returnContent($data, $delimiter, $enclosure)
+    {
+        $csv = Writer::createFromString('');
+        $csv->setDelimiter($delimiter)->setEnclosure($enclosure);
+        $csv->insertAll($data);
+
+        return $csv->getContent();
+    }
+
+    /**
+     * @param mixed $data
+     * @param string $delimiter
+     * @param string $enclosure
+     */
+    private function echoContent($data, $delimiter, $enclosure)
+    {
+        $out = fopen('php://output', 'wb');
+        if (false === $out) {
+            throw new \RuntimeException('Can not open stdout for writing');
+        }
+
+        foreach ($data as $row) {
+            if (!empty($row)) {
+                $result = fputcsv($out, $row, $delimiter, $enclosure);
+                if (false === $result) {
+                    throw new \RuntimeException('Can not write to stdout');
+                }
+            }
+        }
+
+        fclose($out);
     }
 }

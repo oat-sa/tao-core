@@ -52,7 +52,8 @@
         "justinrainbow/json-schema": "5.2.1",
         "pimple/pimple": "^3.0",
         "imsglobal/lti": "^3.0",
-        "paragonie/random_compat": "^2.0"
+        "paragonie/random_compat": "^2.0",
+        "league/csv": "^9.1"
     },
     "autoload": {
         "psr-4": {
