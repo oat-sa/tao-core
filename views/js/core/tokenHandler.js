@@ -22,15 +22,16 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'module',
     'ui/feedback',
     'core/tokenStore'
 ],
-function ($, _, __, feedback, tokenStoreFactory) {
+function ($, _, __, module, feedback, tokenStoreFactory) {
     'use strict';
 
     var defaults = {
-        maxSize: 1, // TR should set this to 1 to force sequential AJAX requests
-        tokenTimeLimit: 1000 * 15
+        maxSize: 6,
+        tokenTimeLimit: 1000 * 15 // temporary value
     };
 
     /**
@@ -58,8 +59,10 @@ function ($, _, __, feedback, tokenStoreFactory) {
                 var self = this;
                 return tokenStore.expireOldTokens().then(function() {
                     if (tokenStore.isEmpty()) {
+                        console.log('No valid tokens available!');
                         // Fetch again if we're truly out of tokens
-                        return self.fetchNewTokens()
+                        // return self.fetchNewTokens()
+                        return self.getClientConfigTokens()
                             .then(function(tokens) {
                                 // Add the fetched tokens to the store, synchronously:
                                 // Chaining the promises using Array.prototype.reduce is necessary
@@ -110,11 +113,28 @@ function ($, _, __, feedback, tokenStoreFactory) {
             },
 
             /**
+             * Extracts tokens from the Client Config which should be received on every page load
+             *
+             * @returns {Promise<Array>} - an array of locally-timestamped token objects
+             */
+            getClientConfigTokens() {
+                console.log(module.config());
+                return Promise.resolve(_.map(module.config().tokens, function(serverToken) {
+                    return {
+                        value: serverToken.value,
+                        receivedAt: Date.now()
+                    };
+                }));
+            },
+
+            /**
              * Makes a request to the CSRF tokens endpoint for a new set of tokens
              *
              * @returns {Promise<Array>} - an array of locally-timestamped token objects
              */
             fetchNewTokens: function fetchNewTokens() {
+                tokenStore.log();
+
                 return new Promise(function(resolve, reject){
                     $.ajax({
                         url: '/tao/ClientConfig/tokens',

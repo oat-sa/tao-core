@@ -72,7 +72,7 @@ define([
              */
             get: function get() {
                 var self = this;
-                var key = index.shift();
+                var key = _.first(index);
                 return getStore().then(function(tokenStore){
                     return tokenStore.getItem(key).then(function(token) {
                         self.remove(key);
@@ -134,13 +134,11 @@ define([
              * @returns {Promise<Boolean>} resolves once removed
              */
             remove: function remove(key) {
-                if(this.has(key)){
+                if (this.has(key)) {
                     return getStore().then(function(tokenStore){
-
-                        index = _.without(index, key);
-
                         return tokenStore.removeItem(key)
                             .then(function(removed) {
+                                index = _.without(index, key);
                                 return removed;
                             });
                     });
@@ -196,22 +194,39 @@ define([
             },
 
             /**
-             * Checks all the tokens in the store and removes them if expired
-             * @returns {Promise}
+             * Checks one token and removes it from the store if expired
+             * @param {Object} token - the token object
+             * @returns {Promise<Boolean>}
+             */
+            checkExpiry: function checkExpiry(token) {
+                var self = this;
+                if (Date.now() - token.receivedAt > config.tokenTimeLimit) {
+                    return self.remove(token.value).then(function(removed) {
+                        return removed;
+                    });
+                }
+                return Promise.resolve(true);
+            },
+
+            /**
+             * Checks all the tokens in the store to see if they expired
+             * @returns {Promise<Boolean>} - resolves to true
              */
             expireOldTokens: function expireOldTokens() {
                 var self = this;
-                return this.getTokens().then(function(tokens) {
-
-                    return Promise.all(_.map(_.values(tokens), function(token) {
-
-                        if (Date.now() - token.receivedAt > config.tokenTimeLimit) {
-                            return self.remove(token.value).then(function(removed) {
-                                return removed;
+                return self.log().then(function() {
+                    return self.getTokens().then(function(tokens) {
+                        // Check each token's expiry, synchronously:
+                        return Object.values(tokens).reduce(function(previousPromise, nextToken) {
+                            return previousPromise.then(() => {
+                                return self.checkExpiry(nextToken);
                             });
-                        }
-                        return Promise.resolve(true);
-                    }));
+                        }, Promise.resolve())
+                        .then(function() {
+                            // All done
+                            return true;
+                        });
+                    });
                 });
             }
         };

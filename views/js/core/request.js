@@ -39,7 +39,12 @@ define([
 ], function($, _, __, Promise, promiseQueue, tokenHandlerFactory, feedback) {
     'use strict';
 
-    var tokenHandler = tokenHandlerFactory({ maxSize: 1 });
+    var taoMaxRequests = 6;
+    var testRunnerMaxRequests = 1;
+    // TODO: need another way to see if we're in TR
+    var sequential = true; // pass this into request?
+    var maxRequests = sequential ? testRunnerMaxRequests : taoMaxRequests;
+    var tokenHandler = tokenHandlerFactory({ maxSize: maxRequests });
 
     var queue = promiseQueue();
 
