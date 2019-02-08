@@ -25,12 +25,12 @@ define([
     'use strict';
 
     /**
-     * @typedef {Object} term
-     * @property {String} label
-     * @property {String} value
-     * @property {String} type
-     * @property {String} description
-     * @property {String|null} exponent
+     * @typedef {Object} term - Represents a tokenizable term
+     * @property {String} label - The displayable text
+     * @property {String} value - The related text that should be found in the expression
+     * @property {String} type - The type of token
+     * @property {String} description - A description of what represent the term
+     * @property {String|null} exponent - Some terms introduce exponent notation, and this property tells on which side
      */
 
     /**
