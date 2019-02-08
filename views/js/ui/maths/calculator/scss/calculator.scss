@@ -308,11 +308,12 @@
         .term {
             padding: 0;
 
-            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]) {
+            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]):not([data-token="POS"]) {
                 padding: 0 $calculatorTermSpace;
             }
             &.term-operator[data-token="FAC"],
-            &.term-operator[data-token="NEG"] {
+            &.term-operator[data-token="NEG"],
+            &.term-operator[data-token="POS"] {
                 margin-left: -$calculatorTermSpace / 2;
                 margin-right: -$calculatorTermSpace / 2;
             }
@@ -336,6 +337,9 @@
             &.term-unknown {
                 color: $warning;
                 text-decoration: underline wavy $error;
+            }
+            &.term-elide {
+                display: none;
             }
             &.term-error {
                 color: $error;
