@@ -29,8 +29,15 @@ define([
      * @typedef {term} renderTerm - Represents a renderable tokenizable term
      * @property {Array} startExponent - List of exponent starts (will produce exponent notation for the term)
      * @property {Array} endExponent - List of exponent ends (will finish exponent notation for the term)
+     * @property {Boolean} prefixed - Tells if the term is prefixed (i.e. function treated as binary operator)
      * @property {Boolean} elide - Allows to hide the term when operands exist on each side
      */
+
+    /**
+     * Regex that matches the prefixed function operators
+     * @type {RegExp}
+     */
+    var rePrefixedTerm = /^@[a-zA-Z_][a-zA-Z_0-9]*$/;
 
     /**
      * Regex that matches the usual error tokens in a result
@@ -291,7 +298,9 @@ define([
                     description: token.value,
                     exponent: null,
                     startExponent: [],
-                    endExponent: []
+                    endExponent: [],
+                    prefixed: rePrefixedTerm.test(token.value),
+                    elide: false
                 };
 
                 if (registeredTerm) {
@@ -380,7 +389,9 @@ define([
                 }
 
                 // a function could be attached to the sub expression, if so we must keep the link
-                if (index > 0 && tokensHelper.isFunction(terms[index - 1])) {
+                // however, the prefixed functions are particular as they act as a binary operators,
+                // and therefore are not considered as function here
+                if (index > 0 && tokensHelper.isFunction(terms[index - 1]) && !terms[index - 1].prefixed) {
                     nextTerm();
                 }
             } else if (tokensHelper.isDigit(term.type)) {
