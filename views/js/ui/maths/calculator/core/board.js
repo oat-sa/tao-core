@@ -61,7 +61,7 @@ define([
      * Regex that matches the prefixed function operators
      * @type {RegExp}
      */
-    var rePrefixedTerm = /^@[a-zA-Z_][a-zA-Z_0-9]*$/;
+    var rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
     /**
      * The internal namespace for built-in events listeners
@@ -435,10 +435,10 @@ define([
                 var index = this.getTokenIndex();
                 var currentToken = tokensList[index];
                 var nextToken = tokensList[index + 1];
-                var isIdentifier, needSpace, value;
+                var isIdentifier, needsSpace, value;
 
                 // checks if the aforementioned token requires space around
-                function tokenNeedSpace(token) {
+                function tokenNeedsSpace(token) {
                     return tokensHelper.isIdentifier(token) || (isIdentifier && !tokensHelper.isSeparator(token));
                 }
 
@@ -461,15 +461,15 @@ define([
                     // simply add the term, with potentially spaces around
                     if (expression && !tokensHelper.isSeparator(term.type)) {
                         isIdentifier = tokensHelper.isIdentifier(term.type);
-                        needSpace = tokenNeedSpace(currentToken);
+                        needsSpace = tokenNeedsSpace(currentToken);
 
                         // prepend space when either the term to add or the previous term is an identifier
-                        if (position && needSpace) {
+                        if (position && needsSpace) {
                             value = ' ' + value;
                         }
 
                         // append space when either the term to add or the next term is an identifier
-                        if ((!position && needSpace) || (position < expression.length && tokenNeedSpace(nextToken))) {
+                        if ((!position && needsSpace) || (position < expression.length && tokenNeedsSpace(nextToken))) {
                             value += ' ';
                         }
                     }
