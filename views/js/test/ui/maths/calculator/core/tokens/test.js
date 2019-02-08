@@ -90,7 +90,7 @@ define([
         },
         NTHRT: {
             type: 'NTHRT',
-            value: 'nthrt'
+            value: '@nthrt'
         },
         LPAR: {
             type: 'LPAR',
@@ -1316,6 +1316,35 @@ define([
             renderedTokens.NTHRT,
             '<sup>',
             renderedTokens.PI,
+            '</sup>',
+            renderedTokens.NTHRT,
+            renderedTokens.NUM4
+        ].join('')
+    }, {
+        title: 'Left exponent: PI nthrt (PI+4) nthrt 4',
+        tokens: [
+            tokens.PI,
+            tokens.NTHRT,
+            tokens.LPAR,
+            tokens.PI,
+            tokens.ADD,
+            tokens.NUM4,
+            tokens.RPAR,
+            tokens.NTHRT,
+            tokens.NUM4
+        ],
+        variables: {},
+        expected: [
+            '<sup>',
+            renderedTokens.PI,
+            '</sup>',
+            renderedTokens.NTHRT,
+            '<sup>',
+            renderedTokens.LPAR,
+            renderedTokens.PI,
+            renderedTokens.ADD,
+            renderedTokens.NUM4,
+            renderedTokens.RPAR,
             '</sup>',
             renderedTokens.NTHRT,
             renderedTokens.NUM4
