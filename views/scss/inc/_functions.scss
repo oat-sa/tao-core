@@ -64,7 +64,16 @@ Usage:
         }
     }
 }
+@mixin grid-box($cellWidth: 100px, $alignBox: center, $alignCells: start){
+    display: box;
+    @include vendor-prefix(display, grid, value, (-ms-, -webkit-, ''));
 
+    grid-template-columns:  repeat( auto-fit, minmax($cellWidth * 1px, auto) );
+    grid-template-rows: auto;
+    justify-content: $alignBox;
+    justify-items: $alignCells;
+    width: auto;
+}
 @mixin flex-container($wrapBehavior: nowrap, $direction : row) {
     display: box; // 2009 syntax : FF 21
     // 2012 Syntax
