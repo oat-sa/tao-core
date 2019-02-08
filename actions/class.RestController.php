@@ -79,6 +79,10 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             );
         }
 
+        if (!$this->hasRequestParameter(self::CLASS_URI_PARAM) && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+            $class = $rootClass;
+        }
+
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
             $classUriParam = $this->getRequestParameter(self::CLASS_URI_PARAM);
             if (!$classUriParam) {
@@ -87,12 +91,6 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
                 );
             }
             $class = $this->getClass($classUriParam);
-
-            if ($class === null || !$class->exists()) {
-                throw new \common_exception_RestApi(
-                    $classUriParam .  ' does not exist. Please use a valid '.self::CLASS_URI_PARAM.'.'
-                );
-            }
         }
         if ($this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
             $label = $this->getRequestParameter(self::CLASS_LABEL_PARAM);
@@ -104,7 +102,9 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             }
         }
         if ($class === null || !$class->exists()) {
-            $class = $rootClass;
+            throw new \common_exception_RestApi(
+                'Class does not exist. Please use valid '.self::CLASS_URI_PARAM . ' or '.self::CLASS_LABEL_PARAM
+            );
         }
         return $class;
     }
