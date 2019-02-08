@@ -33,7 +33,7 @@
         <button class="key operator" data-command="term" data-param="POW NUM2"><span>{{{labels.POW2}}}</span></button>
         <button class="key operator" data-command="term" data-param="POW NUM3"><span>{{{labels.POW3}}}</span></button>
         <button class="key operator" data-command="term" data-param="POW"><span>{{{labels.POWY}}}</span></button>
-        <button class="key operator" data-command="term" data-param="POW LPAR SUB NUM1 RPAR"><span>{{{labels.POWMINUSONE}}}</span></button>
+        <button class="key operator" data-command="term" data-param="POW SUB NUM1"><span>{{{labels.POWMINUSONE}}}</span></button>
         <button class="key operand" data-command="term" data-param="NUM4"><span>{{{labels.NUM4}}}</span></button>
         <button class="key operand" data-command="term" data-param="NUM5"><span>{{{labels.NUM5}}}</span></button>
         <button class="key operand" data-command="term" data-param="NUM6"><span>{{{labels.NUM6}}}</span></button>
