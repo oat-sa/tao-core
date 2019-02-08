@@ -79,6 +79,10 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
             );
         }
 
+        if (!$this->hasRequestParameter(self::CLASS_URI_PARAM) && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+            $class = $rootClass;
+        }
+
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM)) {
             $classUriParam = $this->getRequestParameter(self::CLASS_URI_PARAM);
             if (!$classUriParam) {
