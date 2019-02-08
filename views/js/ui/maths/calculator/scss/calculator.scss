@@ -51,9 +51,9 @@
     font-size: $calculatorBaseFontSize;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
+    @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+    @include vendor-prefix(flex-direction, column, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(align-content, stretch, property, (-ms-, -webkit-, ''));
 
     sup, sub {
         font-size: 0.75em;
@@ -67,7 +67,7 @@
 
     .screen, .input {
         position: relative;
-        flex: 0 0 auto;
+        @include vendor-prefix(flex, 0 0 auto, property, (-ms-, -webkit-, ''));
     }
 
     .focus {
@@ -76,14 +76,14 @@
 
     .keyboard {
         position: relative;
-        flex: 1 1;
+        @include vendor-prefix(flex, 1 1, property, (-ms-, -webkit-, ''));
     }
 
     .calculator-keyboard {
         position: relative;
-        display: flex;
-        flex-direction: column;
-        align-content: stretch;
+        @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+        @include vendor-prefix(flex-direction, column, property, (-ms-, -webkit-, ''));
+        @include vendor-prefix(align-content, stretch, property, (-ms-, -webkit-, ''));
         background: $calculatorKeyboardBg;
         color: $calculatorKeyboardTxt;
         width: 100%;
@@ -92,16 +92,16 @@
 
         .row {
             position: relative;
-            display: flex;
-            flex-direction: row;
-            align-content: stretch;
+            @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+            @include vendor-prefix(flex-direction, row, property, (-ms-, -webkit-, ''));
+            @include vendor-prefix(align-content, stretch, property, (-ms-, -webkit-, ''));
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
             width: 100%;
             height: 100%;
-            flex: 1 1 auto;
         }
 
         .spacer {
-            flex: 1 1 auto;
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
             width: $calculatorButtonSize;
             height: 100%;
         }
@@ -124,7 +124,7 @@
             text-align: center;
             text-shadow: none;
             cursor: pointer;
-            flex: 1 1 auto;
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
             width: $calculatorButtonSize;
             height: 100%;
 
