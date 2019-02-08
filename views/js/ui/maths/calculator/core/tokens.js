@@ -37,7 +37,7 @@ define([
      * Regex that matches the prefixed function operators
      * @type {RegExp}
      */
-    var rePrefixedTerm = /^@[a-zA-Z_][a-zA-Z_0-9]*$/;
+    var rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
     /**
      * Regex that matches the usual error tokens in a result

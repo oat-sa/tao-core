@@ -43,7 +43,7 @@ define([
      * Match keywords
      * @type {RegExp}
      */
-    var reKeyword = /[a-zA-Z_][a-zA-Z_0-9]*/;
+    var reKeyword = /[a-zA-Z_]\w*/;
 
     /**
      * Match keywords prefixed with @
