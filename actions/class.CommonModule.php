@@ -21,6 +21,7 @@
  */
 
 use oat\oatbox\http\LegacyController;
+use oat\oatbox\session\LegacySessionUtils;
 use oat\tao\model\action\CommonModuleInterface;
 use oat\tao\model\mvc\RendererTrait;
 use oat\tao\model\security\ActionProtector;
@@ -47,7 +48,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
 {
     use ServiceManagerAwareTrait { getServiceManager as protected getOriginalServiceManager; }
     use LoggerAwareTrait;
-    use RendererTrait { setView as protected setTemplate; }
+    use RendererTrait { setView as protected setRendererView; }
+    use LegacySessionUtils;
 
     /**
      * The Modules access the models through the service instance
@@ -97,7 +99,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      */
     public function setView($path, $extensionID = null)
     {
-        $this->setTemplate(Template::getTemplate($path, $extensionID));
+        $this->setRendererView(Template::getTemplate($path, $extensionID));
     }
 
     /**
@@ -254,44 +256,6 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     }
 
     /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     *
-     * @param string $action
-     * @param string $controller
-     * @param string $extension
-     * @param array $params
-     */
-    public function forward($action, $controller = null, $extension = null, $params = array())
-    {
-        $this->getFlowController()->forward($action, $controller, $extension, $params);
-    }
-
-    /**
-     * Forward using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     *
-     * @param string $url
-     * @throws InterruptedActionException
-     */
-    public function forwardUrl($url)
-    {
-        $this->getFlowController()->forwardUrl($url);
-    }
-
-    /**
-     * Redirect using the TAO FlowController implementation
-     * @see {@link oat\model\routing\FlowController}
-     * @param string $url
-     * @param int $statusCode
-     * @throws InterruptedActionException
-     */
-    public function redirect($url, $statusCode = 302)
-    {
-        $this->getFlowController()->redirect($url, $statusCode);
-    }
-
-    /**
      * Returns a request parameter unencoded
      *
      * @param string $paramName
@@ -316,16 +280,6 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     protected function getSession()
     {
         return common_session_SessionManager::getSession();
-    }
-
-    /**
-     * Check if the current request is using AJAX
-     *
-     * @return bool
-     */
-    protected function isXmlHttpRequest()
-    {
-        return tao_helpers_Request::isAjax();
     }
 
     /**
