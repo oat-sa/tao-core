@@ -88,7 +88,7 @@ define([
         EXPX: 'e<sup>x</sup>',
         SQRT: '\u221A',
         CBRT: '<sup>3</sup>\u221A',
-        NTHRT: '<sup>x</sup>\u221A',
+        NTHRT: '<sup>y</sup>\u221Ax',
         FLOOR: 'floor',
         CEIL: 'ceil',
         ROUND: 'round',
