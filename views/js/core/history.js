@@ -36,8 +36,9 @@ define(['jquery'], function($){
                 if(e.keyCode === 8 && !e.target.readonly && !e.target.disbaled){
                     e.stopPropagation();
                 }
-                return true;
+                //return true;
             };
+            /*
             $(document).off('.' + ns);
             $(document).off('.' + ns, enabledSelector);
 
@@ -45,6 +46,7 @@ define(['jquery'], function($){
             $(document).on('keypress.' + ns, preventBackSpace);
             $(document).on('keydown.' + ns, enabledSelector, preventBackSpacePropag);
             $(document).on('keypress.' + ns, enabledSelector, preventBackSpacePropag);
+            */
         }
     };
 

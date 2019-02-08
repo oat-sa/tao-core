@@ -1,67 +1,128 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Component - Date Time picker</title>
-        <base href="../../../../../" />
-        <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
-        <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
-        <script type="text/javascript" src="js/lib/require.js"></script>
-        <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
-        <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
-        <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="ui/datetime/picker.js"></script>
-        <script  type="text/javascript">
 
-             //don't start the test now
-            QUnit.config.autostart = false;
+<head>
+    <meta charset="utf-8">
+    <title>Component - Date Time picker</title>
+    <base href="../../../../../" />
+    <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
+    <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
+    <script type="text/javascript" src="js/lib/require.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
+    <script type="text/javascript" src="js/lib/qunit/qunit-parameterize.js"></script>
+    <script type="text/javascript" src="js/lib/blanket/blanket.min.js" data-cover-flag="branchTracking" data-cover-only="ui/datetime/picker.js"></script>
+    <script type="text/javascript">
+        //don't start the test now
+        QUnit.config.autostart = false;
 
-            //load the config
-            require(['/tao/ClientConfig/config'], function(){
+        //load the config
+        require(['/tao/ClientConfig/config'], function()
+        {
 
-                //load the test
-                require(['test/ui/datetime/picker/test'], function(){
+            //load the test
+            require(['test/ui/datetime/picker/test'], function()
+            {
 
-                    //Tests loaded, run tests
-                    QUnit.start();
-                });
+                //Tests loaded, run tests
+                QUnit.start();
             });
-        </script>
-        <style>
-            #visual section {
-                display: flex;
-                flex-flow: row nowrap;
-                margin: 1em;
-            }
-            #visual section article{
-                flex: 1 1 25%;
-            }
-            #visual section h1{
-                font-size: 1.2em;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="qunit"></div>
-        <div id="qunit-fixture"></div>
-        <div id="visual">
-            <section>
-                <article class="range">
-                    <h1>Date range</h1>
-                </article>
+        });
 
-                <article class="date">
-                    <h1>Date picker</h1>
-                </article>
-                <article class="time">
-                    <h1>Time picker</h1>
-                </article>
-                <article class="datetime">
-                    <h1>Date time picker</h1>
-                </article>
-                <article class="trigger">
-                    <h1>Date time picker with trigger</h1>
-                </article>
-            </section>
-        </div>
-    </body>
+    </script>
+    <style>
+        #visual section {
+            display: flex;
+            flex-flow: row nowrap;
+            margin: 3em 2em;
+        }
+
+        #visual .samples article {
+            flex: 1 1 25%;
+        }
+
+        #visual .samples h1 {
+            font-size: 1.2em;
+        }
+
+        #visual .manual article {
+            flex: 1 1 50%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <div id="visual">
+        <hr>
+        <section class="samples">
+            <article class="date-range">
+                <h1>Date range picker</h1>
+            </article>
+
+            <article class="datetime-range">
+                <h1>Date time range picker</h1>
+            </article>
+
+            <article class="date">
+                <h1>Date picker</h1>
+            </article>
+
+            <article class="time">
+                <h1>Time picker</h1>
+            </article>
+
+            <article class="datetime">
+                <h1>Date time picker</h1>
+            </article>
+
+            <article class="trigger">
+                <h1>Date time picker with trigger</h1>
+            </article>
+        </section>
+        <hr>
+        <section class="manual">
+            <article>
+                <form>
+                    <div>
+                        <label for="locale">Locale</label>
+                        <select name="locale">
+                            <option name="none">None</option>
+                            <option name="en" value="en">en</option>
+                            <option name="fr" value="fr">fr</option>
+                            <option name="de" value="de">de</option>
+                            <option name="es" value="es">es</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="setup">setup</label>
+                        <select name="setup">
+                            <option name="date" value="date">date picker</option>
+                            <option name="datetime" value="datetime">date time picker</option>
+                            <option name="time" value="time">time picker</option>
+                            <option name="date-range" value="date-range">date range picker</option>
+                            <option name="datetime-range" value="datetime-range">datetime range picker</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="trigger">trigger mode</label>
+                        <input type="checkbox" name="trigger" />
+                    </div>
+                    <div>
+                        <input type="submit" value="Generate picker" />
+                    </div>
+                </form>
+            </article>
+            <article>
+                <div>Current value :
+                    <span class="value"></span>
+                </div>
+                <div class="destination"></div>
+            </article>
+        </section>
+    </div>
+</body>
+
 </html>
+

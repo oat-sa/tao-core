@@ -11,7 +11,6 @@
     "jquery.autocomplete": "lib/jquery.autocomplete/jquery.autocomplete",
     "jwysiwyg": "lib/jwysiwyg/jquery.wysiwyg",
     "jquery.tree": "lib/jsTree/jquery.tree",
-    "jquery.timePicker": "lib/jquery.timePicker",
     "jquery.cookie": "lib/jquery.cookie",
     "nouislider": "lib/sliders/jquery.nouislider",
     "jquery.fileDownload": "lib/jquery.fileDownload",
@@ -51,6 +50,9 @@
     },
     "c3": {
       "deps": ["css!lib/c3js/c3.css"]
+    },
+    "lib/flatpickr/l10n/index" : {
+        "deps": ["lib/flatpickr/flatpickr"]
     }
   },
   "vendor" : [

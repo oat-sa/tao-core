@@ -32,7 +32,9 @@ define([
     'form/property',
     'form/post-render-props',
     'util/encode',
-    'jwysiwyg' ],
+    'ui/datetime/picker',
+    'jwysiwyg',
+],
     function (
         module,
         $,
@@ -42,7 +44,8 @@ define([
         context,
         property,
         postRenderProps,
-        encode
+        encode,
+        dateTimePickerComponentFactory
         ) {
 
         'use strict';
@@ -310,6 +313,14 @@ define([
                 if ($(this).css('display') !== 'none') {
                     $(this).wysiwyg({'css': context.taobase_www + 'css/layout.css'});
                 }
+            });
+
+            $('.datepicker-input').each(function(){
+                dateTimePickerComponentFactory($(this).parent(), {
+                    replaceField : this,
+                    setup : 'datetime',
+                    triggerButton : true
+                });
             });
 
             $('.box-checker').off('click').on('click', function () {

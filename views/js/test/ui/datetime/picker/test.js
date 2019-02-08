@@ -188,19 +188,34 @@ define([
     QUnit.asyncTest('date range', function(assert) {
         QUnit.expect(1);
 
-        dateTimePickerComponentFactory(document.querySelector('#visual .range'), {
-            setup : 'range'
+        dateTimePickerComponentFactory(document.querySelector('#visual .date-range'), {
+            setup : 'date-range'
         })
         .on('render', function(){
             assert.ok(true);
             QUnit.start();
         });
     });
+
+    QUnit.asyncTest('date time range', function(assert) {
+        QUnit.expect(1);
+
+        dateTimePickerComponentFactory(document.querySelector('#visual .datetime-range'), {
+            setup : 'datetime-range'
+        })
+        .on('render', function(){
+            assert.ok(true);
+            QUnit.start();
+        });
+    });
+
     QUnit.asyncTest('date', function(assert) {
         QUnit.expect(1);
 
         dateTimePickerComponentFactory(document.querySelector('#visual .date'), {
-            setup : 'date'
+            setup : 'date',
+            field: {
+            }
         })
         .on('render', function(){
             assert.ok(true);
@@ -234,11 +249,44 @@ define([
 
         dateTimePickerComponentFactory(document.querySelector('#visual .trigger'), {
             setup : 'date',
-            trigger: true
+            triggerButton: true
         })
         .on('render', function(){
             assert.ok(true);
             QUnit.start();
         });
     });
+
+    QUnit.test('manual', function(assert) {
+        var form = document.querySelector('#visual form');
+        var dest = document.querySelector('#visual .destination');
+        var value = document.querySelector('#visual .value');
+
+        QUnit.expect(1);
+
+        form.addEventListener('submit', function(e){
+            var formData;
+            e.preventDefault();
+
+            formData = new FormData(form);
+
+            dest.innerHTML = '';
+            value.textContent = '';
+
+            dateTimePickerComponentFactory(dest, {
+                setup : formData.get('setup'),
+                triggerButton: formData.has('trigger'),
+                locale : formData.get('locale'),
+            })
+            .on('change', function(dates, dateStr){
+                console.log('change', dates, dateStr);
+                value.textContent = this.getValue();
+            });
+            return false;
+        });
+
+        assert.ok(true);
+        //form.submit();
+    });
+
 });

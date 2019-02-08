@@ -1392,7 +1392,7 @@
 
             case 9:
               if (!isTimeObj) {
-                self.element.focus();
+                //self.element.focus();
                 break;
               }
 
