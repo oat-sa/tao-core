@@ -22,10 +22,8 @@
                     display: inline-block;
                     width: 160px;
                     vertical-align: -50%;
-
-                    .text {
-                        word-break: break-word;
-                    }
+                    word-wrap: break-word;
+                    word-break: break-all;
                 }
                 &.toggler:after {
                     display: none;
