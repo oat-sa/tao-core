@@ -19,11 +19,8 @@
 /**
  * @author Ilya Yarkavets <ilya.yarkavets@1pt.com>
  */
-define([
-    'jquery',
-    'ui/login/login',
-], function ($, loginFactory) {
-    'use strict';
+define( [  "jquery", "ui/login/login" ], function(  $, loginFactory ) {
+    "use strict";
 
     var passwordRevealConfig = {
         enablePasswordReveal: true,
@@ -40,175 +37,179 @@ define([
         disableAutocomplete: true
     };
 
-    QUnit.module('API');
+    QUnit.module( "API" );
 
-    QUnit.test('module', function(assert) {
-        QUnit.expect(3);
+    QUnit.test( "module", function( assert ) {
+        assert.expect( 3 );
 
-        assert.equal(typeof loginFactory, 'function', "The loginFactory module exposes a function");
-        assert.equal(typeof loginFactory(), 'object', "The loginFactory produces an object");
-        assert.notStrictEqual(loginFactory(), loginFactory(), "The loginFactory provides a different object on each call");
-    });
+        assert.equal( typeof loginFactory, "function", "The loginFactory module exposes a function" );
+        assert.equal( typeof loginFactory(), "object", "The loginFactory produces an object" );
+        assert.notStrictEqual( loginFactory(), loginFactory(), "The loginFactory provides a different object on each call" );
+    } );
 
-    QUnit.cases([
-        { title : 'init' },
-        { title : 'destroy' },
-        { title : 'render' },
-        { title : 'show' },
-        { title : 'hide' },
-        { title : 'enable' },
-        { title : 'disable' },
-        { title : 'is' },
-        { title : 'setState' },
-        { title : 'getContainer' },
-        { title : 'getElement' },
-        { title : 'getTemplate' },
-        { title : 'setTemplate' },
-    ]).test('Component API ', function(data, assert) {
+    QUnit.cases.init( [
+        { title: "init" },
+        { title: "destroy" },
+        { title: "render" },
+        { title: "show" },
+        { title: "hide" },
+        { title: "enable" },
+        { title: "disable" },
+        { title: "is" },
+        { title: "setState" },
+        { title: "getContainer" },
+        { title: "getElement" },
+        { title: "getTemplate" },
+        { title: "setTemplate" }
+    ] ).test( "Component API ", function( data, assert ) {
         var instance = loginFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The login exposes the component method "' + data.title);
-    });
+        assert.equal( typeof instance[ data.title ], "function", 'The login exposes the component method "' + data.title );
+    } );
 
-    QUnit.cases([
-        { title : 'on' },
-        { title : 'off' },
-        { title : 'trigger' },
-        { title : 'before' },
-        { title : 'after' },
-    ]).test('Eventifier API ', function(data, assert) {
+    QUnit.cases.init( [
+        { title: "on" },
+        { title: "off" },
+        { title: "trigger" },
+        { title: "before" },
+        { title: "after" }
+    ] ).test( "Eventifier API ", function( data, assert ) {
         var instance = loginFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The login exposes the eventifier method "' + data.title);
-    });
+        assert.equal( typeof instance[ data.title ], "function", 'The login exposes the eventifier method "' + data.title );
+    } );
 
-    QUnit.cases([
-        { title : 'isAutocompleteDisabled' },
-        { title : 'isPasswordRevealEnabled' },
-        { title : 'getMessages' },
-        { title : 'getFieldMessages' },
-        { title : 'createFakeForm' },
-        { title : 'getRealForm' },
-        { title : 'getFakeForm' },
-        { title : 'getForm' },
-        { title : 'manipulateFormDom' },
-        { title : 'attachPasswordRevealEvents' },
-        { title : 'displayMessages' }
-    ]).test('Instance API ', function(data, assert) {
+    QUnit.cases.init( [
+        { title: "isAutocompleteDisabled" },
+        { title: "isPasswordRevealEnabled" },
+        { title: "getMessages" },
+        { title: "getFieldMessages" },
+        { title: "createFakeForm" },
+        { title: "getRealForm" },
+        { title: "getFakeForm" },
+        { title: "getForm" },
+        { title: "manipulateFormDom" },
+        { title: "attachPasswordRevealEvents" },
+        { title: "displayMessages" }
+    ] ).test( "Instance API ", function( data, assert ) {
         var instance = loginFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The login exposes the method "' + data.title);
-    });
+        assert.equal( typeof instance[ data.title ], "function", 'The login exposes the method "' + data.title );
+    } );
 
+    QUnit.module( "Behavior" );
 
-    QUnit.module('Behavior');
+    QUnit.test( "Lifecycle", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
 
-    QUnit.asyncTest('Lifecycle', function(assert) {
-        var $container = $('#qunit-fixture');
+        assert.expect( 2 );
 
-        QUnit.expect(2);
-
-        loginFactory($container)
-            .on('init', function(){
-                assert.ok( !this.is('rendered'), 'The component is not yet rendered');
-            })
-            .on('render', function(){
-                assert.ok(this.is('rendered'), 'The component is now rendered');
+        loginFactory( $container )
+            .on( "init", function() {
+                assert.ok( !this.is( "rendered" ), "The component is not yet rendered" );
+            } )
+            .on( "render", function() {
+                assert.ok( this.is( "rendered" ), "The component is now rendered" );
 
                 this.destroy();
-            })
-            .on('destroy', function(){
+            } )
+            .on( "destroy", function() {
 
-                QUnit.start();
-            });
-    });
+                ready();
+            } );
+    } );
 
-    QUnit.asyncTest('Rendering', function(assert) {
-        var $container = $('#qunit-fixture');
+    QUnit.test( "Rendering", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
 
-        QUnit.expect(3);
+        assert.expect( 3 );
 
-        assert.equal($('.login-component', $container).length, 0, 'No resource tree in the container');
+        assert.equal( $( ".login-component", $container ).length, 0, "No resource tree in the container" );
 
-        loginFactory($container, passwordRevealConfig)
-            .after('render', function(){
-
-                var $element = this.getElement();
-
-                assert.equal($('.login-component', $container).length, 1, 'The component has been inserted');
-                assert.equal($('.login-component', $container)[0], $element[0], 'The component element is correct');
-
-                QUnit.start();
-            });
-    });
-
-    QUnit.asyncTest('Password reveal enabled', function(assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(6);
-
-        assert.equal($('.login-component', $container).length, 0, 'No resource tree in the container');
-
-        loginFactory($container, passwordRevealConfig)
-            .after('render', function(){
+        loginFactory( $container, passwordRevealConfig )
+            .after( "render", function() {
 
                 var $element = this.getElement();
 
-                assert.equal($('.login-component', $container).length, 1, 'The component has been inserted');
-                assert.equal($('.login-component', $container)[0], $element[0], 'The component element is correct');
+                assert.equal( $( ".login-component", $container ).length, 1, "The component has been inserted" );
+                assert.equal( $( ".login-component", $container )[ 0 ], $element[ 0 ], "The component element is correct" );
 
-                assert.equal($('.viewable-hiddenbox-toggle', $element).length, 1, 'The component has the password reveal button');
-                assert.equal($('.viewable-hiddenbox-toggle', $element).attr('tabindex'), 0, 'Password reveal button can be accessed from keyboard');
-                assert.equal($('.viewable-hiddenbox-toggle span.icon-preview', $element).is(':visible'), true, 'The component is rendered with password hidden');
+                ready();
+            } );
+    } );
 
-                QUnit.start();
-            });
-    });
+    QUnit.test( "Password reveal enabled", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
 
-    QUnit.asyncTest('Autocomplete disabled', function(assert) {
-        var $container = $('#qunit-fixture');
+        assert.expect( 6 );
 
-        QUnit.expect(6);
+        assert.equal( $( ".login-component", $container ).length, 0, "No resource tree in the container" );
 
-        assert.equal($('.login-component', $container).length, 0, 'No resource tree in the container');
-
-        loginFactory($container, disableAutocompleteConfig)
-            .after('render', function(){
+        loginFactory( $container, passwordRevealConfig )
+            .after( "render", function() {
 
                 var $element = this.getElement();
 
-                assert.equal($('.login-component', $container).length, 2, 'The component has been inserted and created real form (hidden) and fake to disable autocomplete');
-                assert.equal($('.login-component .fakeForm', $container).is(':visible'), true, 'Fake form is visible');
-                assert.equal($('.login-component', $container).eq('1').hasClass('hidden'), true, 'Real form is hidden');
+                assert.equal( $( ".login-component", $container ).length, 1, "The component has been inserted" );
+                assert.equal( $( ".login-component", $container )[ 0 ], $element[ 0 ], "The component element is correct" );
 
-                assert.equal($('input[type=text]', $element).attr('autocomplete'), 'off', 'The component has autocomplete disabled for login field');
-                assert.equal($('input[type=password]', $element).attr('autocomplete'), 'off', 'The component has autocomplete disabled for password field');
+                assert.equal( $( ".viewable-hiddenbox-toggle", $element ).length, 1, "The component has the password reveal button" );
+                assert.equal( $( ".viewable-hiddenbox-toggle", $element ).attr( "tabindex" ), 0, "Password reveal button can be accessed from keyboard" );
+                assert.equal( $( ".viewable-hiddenbox-toggle span.icon-preview", $element ).is( ":visible" ), true, "The component is rendered with password hidden" );
 
-                QUnit.start();
-            });
-    });
+                ready();
+            } );
+    } );
 
-    QUnit.asyncTest('Autocomplete disabled and password reveal enabled', function(assert) {
-        var $container = $('#qunit-fixture');
+    QUnit.test( "Autocomplete disabled", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
 
-        QUnit.expect(9);
+        assert.expect( 6 );
 
-        assert.equal($('.login-component', $container).length, 0, 'No resource tree in the container');
+        assert.equal( $( ".login-component", $container ).length, 0, "No resource tree in the container" );
 
-        loginFactory($container, bothOptionsConfig)
-            .after('render', function(){
+        loginFactory( $container, disableAutocompleteConfig )
+            .after( "render", function() {
 
                 var $element = this.getElement();
 
-                assert.equal($('.login-component', $container).length, 2, 'The component has been inserted and created real form (hidden) and fake to disable autocomplete');
-                assert.equal($('.login-component .fakeForm', $container).is(':visible'), true, 'Fake form is visible');
-                assert.equal($('.login-component', $container).eq('1').hasClass('hidden'), true, 'Real form is hidden');
+                assert.equal( $( ".login-component", $container ).length, 2, "The component has been inserted and created real form (hidden) and fake to disable autocomplete" );
+                assert.equal( $( ".login-component .fakeForm", $container ).is( ":visible" ), true, "Fake form is visible" );
+                assert.equal( $( ".login-component", $container ).eq( "1" ).hasClass( "hidden" ), true, "Real form is hidden" );
 
-                assert.equal($('input[type=text]', $element).attr('autocomplete'), 'off', 'The component has autocomplete disabled for login field');
-                assert.equal($('input[type=password]', $element).attr('autocomplete'), 'off', 'The component has autocomplete disabled for password field');
+                assert.equal( $( "input[type=text]", $element ).attr( "autocomplete" ), "off", "The component has autocomplete disabled for login field" );
+                assert.equal( $( "input[type=password]", $element ).attr( "autocomplete" ), "off", "The component has autocomplete disabled for password field" );
 
-                assert.equal($('.viewable-hiddenbox-toggle', $container).length, 1, 'The component has the password reveal button');
-                assert.equal($('.viewable-hiddenbox-toggle', $container).attr('tabindex'), 0, 'Password reveal button can be accessed from keyboard');
-                assert.equal($('.viewable-hiddenbox-toggle span.icon-preview', $container).is(':visible'), true, 'The component is rendered with password hidden');
+                ready();
+            } );
+    } );
 
-                QUnit.start();
-            });
-    });
-});
+    QUnit.test( "Autocomplete disabled and password reveal enabled", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
+
+        assert.expect( 9 );
+
+        assert.equal( $( ".login-component", $container ).length, 0, "No resource tree in the container" );
+
+        loginFactory( $container, bothOptionsConfig )
+            .after( "render", function() {
+
+                var $element = this.getElement();
+
+                assert.equal( $( ".login-component", $container ).length, 2, "The component has been inserted and created real form (hidden) and fake to disable autocomplete" );
+                assert.equal( $( ".login-component .fakeForm", $container ).is( ":visible" ), true, "Fake form is visible" );
+                assert.equal( $( ".login-component", $container ).eq( "1" ).hasClass( "hidden" ), true, "Real form is hidden" );
+
+                assert.equal( $( "input[type=text]", $element ).attr( "autocomplete" ), "off", "The component has autocomplete disabled for login field" );
+                assert.equal( $( "input[type=password]", $element ).attr( "autocomplete" ), "off", "The component has autocomplete disabled for password field" );
+
+                assert.equal( $( ".viewable-hiddenbox-toggle", $container ).length, 1, "The component has the password reveal button" );
+                assert.equal( $( ".viewable-hiddenbox-toggle", $container ).attr( "tabindex" ), 0, "Password reveal button can be accessed from keyboard" );
+                assert.equal( $( ".viewable-hiddenbox-toggle span.icon-preview", $container ).is( ":visible" ), true, "The component is rendered with password hidden" );
+
+                ready();
+            } );
+    } );
+} );

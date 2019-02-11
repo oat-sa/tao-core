@@ -15,59 +15,61 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
-define([
-    'jquery',
-    'lodash',
-    'ui/component',
-    'ui/animable/pulsable/pulsable'
-], function($, _, componentFactory, makePulsable) {
-    'use strict';
+define( [
 
-    QUnit.module('API');
+    "jquery",
+    "lodash",
+    "ui/component",
+    "ui/animable/pulsable/pulsable"
+], function(  $, _, componentFactory, makePulsable ) {
+    "use strict";
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-        assert.ok(typeof makePulsable === 'function', 'The module expose a function');
-    });
+    QUnit.module( "API" );
+
+    QUnit.test( "module", function( assert ) {
+        assert.expect( 1 );
+        assert.ok( typeof makePulsable === "function", "The module expose a function" );
+    } );
 
     QUnit
-        .cases([
-            { title: 'pulse',          method: 'pulse' }
-        ])
-        .test('component API', function(data, assert) {
-            var component = makePulsable(componentFactory());
+        .cases.init( [
+            { title: "pulse",          method: "pulse" }
+        ] )
+        .test( "component API", function( data, assert ) {
+            var component = makePulsable( componentFactory() );
 
-            QUnit.expect(1);
-            assert.equal(typeof component[data.method], 'function', 'The component has the method ' + data.method);
-        });
+            assert.expect( 1 );
+            assert.equal( typeof component[ data.method ], "function", "The component has the method " + data.method );
+        } );
 
-    QUnit.module('Behavior');
+    QUnit.module( "Behavior" );
 
-    QUnit.asyncTest('pulse', function(assert) {
-        var $container = $('#qunit-fixture');
-        makePulsable(componentFactory())
+    QUnit.test( "pulse", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
+        makePulsable( componentFactory() )
             .init()
-            .render($container)
-            .pulse(1).then(function(){
-                assert.ok(true, 'pulsed');
-                QUnit.start();
-            });
-    });
+            .render( $container )
+            .pulse( 1 ).then( function() {
+                assert.ok( true, "pulsed" );
+                ready();
+            } );
+    } );
 
-    QUnit.module('Visual');
+    QUnit.module( "Visual" );
 
-    QUnit.test('playground', function(assert) {
-        var $container = $('#visual');
-        var $count = $container.find('.count');
-        var $pulse = $container.find('.pulse');
-        var pulsable = makePulsable(componentFactory())
+    QUnit.test( "playground", function( assert ) {
+        var $container = $( "#visual" );
+        var $count = $container.find( ".count" );
+        var $pulse = $container.find( ".pulse" );
+        var pulsable = makePulsable( componentFactory() )
             .init()
-            .render($container.find('.target'));
+            .render( $container.find( ".target" ) );
 
-        $pulse.click(function(){
-            pulsable.pulse($count.val());
-        });
+        $pulse.click( function() {
+            pulsable.pulse( $count.val() );
+        } );
 
-        assert.ok(true, 'started');
-    });
-});
+        assert.ok( true, "started" );
+    } );
+} );

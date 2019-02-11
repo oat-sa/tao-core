@@ -18,42 +18,41 @@
  *
  */
 
-define(['util/httpErrorParser'], function(httpErrorParser){
+define( [  "util/httpErrorParser" ], function(  httpErrorParser ) {
 
-    'use strict';
+    "use strict";
 
-    QUnit.test('Helper API', function(assert){
-        QUnit.expect(2);
-        assert.ok(typeof httpErrorParser === 'object');
-        assert.ok(typeof httpErrorParser.parse === 'function');
-    });
+    QUnit.test( "Helper API", function( assert ) {
+        assert.expect( 2 );
+        assert.ok( typeof httpErrorParser === "object" );
+        assert.ok( typeof httpErrorParser.parse === "function" );
+    } );
 
-    QUnit.test('Parse error with responseText', function(assert){
+    QUnit.test( "Parse error with responseText", function( assert ) {
         var xhr = {
-            responseText : '{"success":false,"type":"Exception","message":"Foo"}',
-            status : 500
+            responseText: '{"success":false,"type":"Exception","message":"Foo"}',
+            status: 500
         };
-        var errorThrown = 'Bad request';
-        var err = httpErrorParser.parse(xhr, '', errorThrown);
+        var errorThrown = "Bad request";
+        var err = httpErrorParser.parse( xhr, "", errorThrown );
 
-        QUnit.expect(5);
+        assert.expect( 5 );
 
-        assert.ok(err instanceof Error);
-        assert.equal(err.message, 'Foo');
-        assert.equal(err.response, xhr);
-        assert.equal(err.code, 500);
-        assert.equal(err.errorThrown, errorThrown);
-    });
+        assert.ok( err instanceof Error );
+        assert.equal( err.message, "Foo" );
+        assert.equal( err.response, xhr );
+        assert.equal( err.code, 500 );
+        assert.equal( err.errorThrown, errorThrown );
+    } );
 
-    QUnit.test('Parse error without responseText', function(assert){
+    QUnit.test( "Parse error without responseText", function( assert ) {
         var xhr = {};
-        var errorThrown = 'Bad request';
-        var err = httpErrorParser.parse(xhr, '', errorThrown);
+        var errorThrown = "Bad request";
+        var err = httpErrorParser.parse( xhr, "", errorThrown );
 
-        QUnit.expect(1);
+        assert.expect( 1 );
 
-        assert.equal(err.message, 'Bad request');
-    });
-});
-
+        assert.equal( err.message, "Bad request" );
+    } );
+} );
 

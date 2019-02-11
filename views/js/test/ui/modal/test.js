@@ -18,185 +18,192 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'core/promise',
-    'ui/modal',
-    'tpl!tao/test/ui/modal/modal'
-], function($, _, Promise, modalListener, modalTpl) {
-    'use strict';
+define( [
+    
+    "jquery",
+    "lodash",
+    "core/promise",
+    "ui/modal",
+    "tpl!tao/test/ui/modal/modal"
+], function(  $, _, Promise, modalListener, modalTpl ) {
+    "use strict";
 
-    QUnit.module('modal');
+    QUnit.module( "modal" );
 
+    QUnit.test( "module", 2, function( assert ) {
+        assert.equal( typeof modalListener, "function", "The modal module exposes a function" );
+        assert.equal( typeof $().modal, "function", "The modal module inject a jQuery plugin named 'modal'" );
+    } );
 
-    QUnit.test('module', 2, function(assert) {
-        assert.equal(typeof modalListener, 'function', "The modal module exposes a function");
-        assert.equal(typeof $().modal, 'function', "The modal module inject a jQuery plugin named 'modal'");
-    });
+    QUnit.test( "install", function( assert ) {
+        var ready2 = assert.async();
+        var ready1 = assert.async();
+        var $container = $( "#modal-1" );
+        var $modal = $( modalTpl() );
+        $container.append( $modal );
 
+        $modal.on( "opened.modal", function() {
+            assert.ok( true, "The modal is now visible" );
+            ready();
 
-    QUnit.asyncTest('install', function(assert) {
-        var $container = $('#modal-1');
-        var $modal = $(modalTpl());
-        $container.append($modal);
+            $modal.modal( "close" );
+        } );
+        $modal.on( "closed.modal", function() {
+            assert.ok( true, "The modal is now hidden" );
+            ready1();
+        } );
+        $modal.on( "create.modal", function() {
+            assert.ok( true, "The modal is created" );
+            ready2();
+        } );
 
-        $modal.on('opened.modal', function() {
-            assert.ok(true, "The modal is now visible");
-            QUnit.start();
-
-            $modal.modal('close');
-        });
-        $modal.on('closed.modal', function() {
-            assert.ok(true, "The modal is now hidden");
-            QUnit.start();
-        });
-        $modal.on('create.modal', function() {
-            assert.ok(true, "The modal is created");
-            QUnit.start();
-        });
-
-        QUnit.stop(2);
+        var ready = assert.async();
         $modal.modal();
 
-        assert.equal($container.children().length, 2, 'The modal append 2 elements');
-        assert.equal($container.find('.modal').length, 1, 'The modal is contained');
-        assert.equal($container.find('.modal-bg').length, 1, 'The modal appends an overlay');
+        assert.equal( $container.children().length, 2, "The modal append 2 elements" );
+        assert.equal( $container.find( ".modal" ).length, 1, "The modal is contained" );
+        assert.equal( $container.find( ".modal-bg" ).length, 1, "The modal appends an overlay" );
 
-        assert.ok($modal.is('.modal'), 'The modal has the right class');
+        assert.ok( $modal.is( ".modal" ), "The modal has the right class" );
 
-        assert.equal($modal.children().length, 2, 'The modal displays 2 elements');
-        assert.equal($modal.find('.modal-body').length, 1, 'The modal appends a body');
-        assert.equal($modal.find('.modal-close').length, 1, 'The modal appends a close button');
-    });
+        assert.equal( $modal.children().length, 2, "The modal displays 2 elements" );
+        assert.equal( $modal.find( ".modal-body" ).length, 1, "The modal appends a body" );
+        assert.equal( $modal.find( ".modal-close" ).length, 1, "The modal appends a close button" );
+    } );
 
+    QUnit.test( "destroy", function( assert ) {
+        var ready2 = assert.async();
+        var ready1 = assert.async();
+        var $container = $( "#modal-2" );
+        var $modal = $( modalTpl() );
+        $container.append( $modal );
 
-    QUnit.asyncTest('destroy', function(assert) {
-        var $container = $('#modal-2');
-        var $modal = $(modalTpl());
-        $container.append($modal);
+        $modal.on( "opened.modal", function() {
+            assert.ok( true, "The modal is now visible" );
+            ready();
 
-        $modal.on('opened.modal', function() {
-            assert.ok(true, "The modal is now visible");
-            QUnit.start();
+            $modal.modal( "destroy" );
+        } );
+        $modal.on( "closed.modal", function() {
+            assert.ok( false, "The modal is must not be hidden when destroyed" );
+        } );
+        $modal.on( "create.modal", function() {
+            assert.ok( true, "The modal is created" );
+            ready1();
+        } );
+        $modal.on( "destroyed.modal", function() {
+            assert.equal( $container.find( ".modal-bg" ).length, 0, "The modal has removed the overlay" );
+            assert.ok( true, "The modal is now destroyed" );
 
-            $modal.modal('destroy');
-        });
-        $modal.on('closed.modal', function() {
-            assert.ok(false, "The modal is must not be hidden when destroyed");
-        });
-        $modal.on('create.modal', function() {
-            assert.ok(true, "The modal is created");
-            QUnit.start();
-        });
-        $modal.on('destroyed.modal', function() {
-            assert.equal($container.find('.modal-bg').length, 0, 'The modal has removed the overlay');
-            assert.ok(true, "The modal is now destroyed");
+            ready2();
+        } );
 
-            QUnit.start();
-        });
-
-        QUnit.stop(2);
+        var ready = assert.async();
         $modal.modal();
 
-        assert.equal($container.children().length, 2, 'The modal append 2 elements');
-        assert.equal($container.find('.modal').length, 1, 'The modal is contained');
-        assert.equal($container.find('.modal-bg').length, 1, 'The modal appends an overlay');
+        assert.equal( $container.children().length, 2, "The modal append 2 elements" );
+        assert.equal( $container.find( ".modal" ).length, 1, "The modal is contained" );
+        assert.equal( $container.find( ".modal-bg" ).length, 1, "The modal appends an overlay" );
 
-        assert.ok($modal.is('.modal'), 'The modal has the right class');
+        assert.ok( $modal.is( ".modal" ), "The modal has the right class" );
 
-        assert.equal($modal.children().length, 2, 'The modal displays 2 elements');
-        assert.equal($modal.find('.modal-body').length, 1, 'The modal appends a body');
-        assert.equal($modal.find('.modal-close').length, 1, 'The modal appends a close button');
-    });
+        assert.equal( $modal.children().length, 2, "The modal displays 2 elements" );
+        assert.equal( $modal.find( ".modal-body" ).length, 1, "The modal appends a body" );
+        assert.equal( $modal.find( ".modal-close" ).length, 1, "The modal appends a close button" );
+    } );
 
-    QUnit.asyncTest('events', function(assert) {
-        var $container = $('#modal-1');
-        var $modal = $(modalTpl());
+    QUnit.test( "events", function( assert ) {
+        var ready3 = assert.async();
+        var ready2 = assert.async();
+        var ready1 = assert.async();
+        var $container = $( "#modal-1" );
+        var $modal = $( modalTpl() );
         var closed = false;
-        $container.append($modal);
+        $container.append( $modal );
 
-        $modal.on('opened.modal', function() {
-            assert.ok(true, "The modal is now visible");
-            QUnit.start();
+        $modal.on( "opened.modal", function() {
+            assert.ok( true, "The modal is now visible" );
+            ready();
 
-            if (closed) {
-                $modal.modal('destroy');
+            if ( closed ) {
+                $modal.modal( "destroy" );
             } else {
-                $modal.modal('close');
+                $modal.modal( "close" );
             }
-        });
-        $modal.on('closed.modal', function(e, reason) {
-            assert.ok(true, "The modal is now hidden");
-            assert.equal(typeof e, 'object', 'A event object is provided');
-            assert.equal(reason, 'api', 'The exit reason has been provided');
-            QUnit.start();
+        } );
+        $modal.on( "closed.modal", function( e, reason ) {
+            assert.ok( true, "The modal is now hidden" );
+            assert.equal( typeof e, "object", "A event object is provided" );
+            assert.equal( reason, "api", "The exit reason has been provided" );
+            ready1();
 
             closed = true;
-            $modal.modal('open');
-        });
-        $modal.on('create.modal', function() {
-            assert.ok(true, "The modal is created");
-            QUnit.start();
-        });
-        $modal.on('destroyed.modal', function() {
-            assert.equal($container.find('.modal-bg').length, 0, 'The modal has removed the overlay');
-            assert.ok(true, "The modal is now destroyed");
+            $modal.modal( "open" );
+        } );
+        $modal.on( "create.modal", function() {
+            assert.ok( true, "The modal is created" );
+            ready2();
+        } );
+        $modal.on( "destroyed.modal", function() {
+            assert.equal( $container.find( ".modal-bg" ).length, 0, "The modal has removed the overlay" );
+            assert.ok( true, "The modal is now destroyed" );
 
-            QUnit.start();
-        });
+            ready3();
+        } );
 
-        QUnit.stop(4);
+        var ready = assert.async();
         $modal.modal();
 
-        assert.equal($container.children().length, 2, 'The modal append 2 elements');
-        assert.equal($container.find('.modal').length, 1, 'The modal is contained');
-        assert.equal($container.find('.modal-bg').length, 1, 'The modal appends an overlay');
+        assert.equal( $container.children().length, 2, "The modal append 2 elements" );
+        assert.equal( $container.find( ".modal" ).length, 1, "The modal is contained" );
+        assert.equal( $container.find( ".modal-bg" ).length, 1, "The modal appends an overlay" );
 
-        assert.ok($modal.is('.modal'), 'The modal has the right class');
+        assert.ok( $modal.is( ".modal" ), "The modal has the right class" );
 
-        assert.equal($modal.children().length, 2, 'The modal displays 2 elements');
-        assert.equal($modal.find('.modal-body').length, 1, 'The modal appends a body');
-        assert.equal($modal.find('.modal-close').length, 1, 'The modal appends a close button');
-    });
+        assert.equal( $modal.children().length, 2, "The modal displays 2 elements" );
+        assert.equal( $modal.find( ".modal-body" ).length, 1, "The modal appends a body" );
+        assert.equal( $modal.find( ".modal-close" ).length, 1, "The modal appends a close button" );
+    } );
 
     // Modal position does not depend on the main page scroll (BODY OR HTML)
-    QUnit.asyncTest('mainScroll', function(assert) {
-        QUnit.expect(2);
+    QUnit.test( "mainScroll", function( assert ) {
+        var ready = assert.async();
+        assert.expect( 2 );
 
-        var $container = $('#modal-1');
-        var $modal = $(modalTpl());
-        $modal.css({position: 'absolute'});
-        $container.append($modal);
+        var $container = $( "#modal-1" );
+        var $modal = $( modalTpl() );
+        $modal.css( { position: "absolute" } );
+        $container.append( $modal );
 
-        $modal.on('opened.modal', function() {
-            assert.ok(true, "The modal is visible");
-            assert.equal($modal.css('top'), '40px', 'Default scroll value used for the position');
-            QUnit.start();
-        });
+        $modal.on( "opened.modal", function() {
+            assert.ok( true, "The modal is visible" );
+            assert.equal( $modal.css( "top" ), "40px", "Default scroll value used for the position" );
+            ready();
+        } );
 
         $modal.modal();
-    });
+    } );
 
     // Modal position should be changed when the modal in the container
-    QUnit.asyncTest('innerScroll', function(assert) {
-        QUnit.expect(2);
-        var $container = $('#modal-1');
-        var $modal = $(modalTpl());
-        var $scrolledContainer = $('<div style="height: 200px; overflow: auto;"></div>');
-        var $content = $('<div style="height: 1000px;">Body</div>');
-        $modal.css({position: 'absolute'});
-        $scrolledContainer.append($content);
-        $scrolledContainer.append($modal);
-        $container.append($scrolledContainer);
-        $scrolledContainer.scrollTop(500);
+    QUnit.test( "innerScroll", function( assert ) {
+        var ready = assert.async();
+        assert.expect( 2 );
+        var $container = $( "#modal-1" );
+        var $modal = $( modalTpl() );
+        var $scrolledContainer = $( '<div style="height: 200px; overflow: auto;"></div>' );
+        var $content = $( '<div style="height: 1000px;">Body</div>' );
+        $modal.css( { position: "absolute" } );
+        $scrolledContainer.append( $content );
+        $scrolledContainer.append( $modal );
+        $container.append( $scrolledContainer );
+        $scrolledContainer.scrollTop( 500 );
 
-        $modal.on('opened.modal', function() {
-            assert.ok(true, "The modal is visible");
-            assert.equal($modal.css('top'), '540px', 'Modal window opened in the scrolled position');
-            QUnit.start();
-        });
+        $modal.on( "opened.modal", function() {
+            assert.ok( true, "The modal is visible" );
+            assert.equal( $modal.css( "top" ), "540px", "Modal window opened in the scrolled position" );
+            ready();
+        } );
 
         $modal.modal();
-    });
-});
+    } );
+} );

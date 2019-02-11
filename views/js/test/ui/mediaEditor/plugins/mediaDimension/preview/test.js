@@ -17,12 +17,13 @@
  *
  */
 
-define([
-    'jquery',
-    'lodash',
-    'ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent'
-], function ($, _, mediaDimensionComponent) {
-    'use strict';
+define( [
+
+    "jquery",
+    "lodash",
+    "ui/mediaEditor/plugins/mediaDimension/mediaDimensionComponent"
+], function(  $, _, mediaDimensionComponent ) {
+    "use strict";
 
     var workingConfiguration = {
         showResponsiveToggle: true,
@@ -37,7 +38,7 @@ define([
                     height: 100
                 }
             },
-            '%': {
+            "%": {
                 natural: {
                     width: 100,
                     height: null
@@ -51,7 +52,7 @@ define([
                 natural: 1,
                 current: 1
             },
-            currentUtil: '%',
+            currentUtil: "%",
             slider: {
                 min: 0,
                 max: 100,
@@ -60,71 +61,71 @@ define([
         }
     };
 
-    QUnit.module('Demo');
+    QUnit.module( "Demo" );
 
-    QUnit.test('Response mode preview', function () {
-        var $tmplContainer = $('.template .response-test');
-        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
-            conf = _.cloneDeep(workingConfiguration),
-            $controlContainer = $('.control-container', $visibleContainer),
-            $img = $('.picture', $visibleContainer),
-            $toolsContainer = $('.tools-container', $visibleContainer),
+    QUnit.test( "Response mode preview", function( assert ) {
+        var $tmplContainer = $( ".template .response-test" );
+        var $visibleContainer = $tmplContainer.clone().appendTo( ".sandbox" ),
+            conf = _.cloneDeep( workingConfiguration ),
+            $controlContainer = $( ".control-container", $visibleContainer ),
+            $img = $( ".picture", $visibleContainer ),
+            $toolsContainer = $( ".tools-container", $visibleContainer ),
             media = {
                 $node: $img,
                 $container: $controlContainer,
-                type: 'image/jpeg',
-                src: $img.attr('src'),
+                type: "image/jpeg",
+                src: $img.attr( "src" ),
                 width: 500,
                 height: 735
             };
         conf.showResponsiveToggle = true;
         conf.responsive = true;
         conf.syncDimensions = true;
-        mediaDimensionComponent($toolsContainer, media, conf);
-        QUnit.ok(true);
-    });
+        mediaDimensionComponent( $toolsContainer, media, conf );
+        QUnit.ok( true );
+    } );
 
-    QUnit.test('Strict mode preview', function () {
-        var $tmplContainer = $('.template .strict-test');
-        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
-            conf = _.cloneDeep(workingConfiguration),
-            $controlContainer = $('.control-container', $visibleContainer),
-            $img = $('.picture', $visibleContainer),
-            $toolsContainer = $('.tools-container', $visibleContainer),
+    QUnit.test( "Strict mode preview", function( assert ) {
+        var $tmplContainer = $( ".template .strict-test" );
+        var $visibleContainer = $tmplContainer.clone().appendTo( ".sandbox" ),
+            conf = _.cloneDeep( workingConfiguration ),
+            $controlContainer = $( ".control-container", $visibleContainer ),
+            $img = $( ".picture", $visibleContainer ),
+            $toolsContainer = $( ".tools-container", $visibleContainer ),
             media = {
                 $node: $img,
                 $container: $controlContainer,
-                type: 'image/jpeg',
-                src: $img.attr('src'),
+                type: "image/jpeg",
+                src: $img.attr( "src" ),
                 width: 500,
                 height: 735
             };
         conf.showResponsiveToggle = true;
         conf.responsive = false;
         conf.syncDimensions = true;
-        mediaDimensionComponent($toolsContainer, media, conf);
-        QUnit.ok(true);
-    });
+        mediaDimensionComponent( $toolsContainer, media, conf );
+        QUnit.ok( true );
+    } );
 
-    QUnit.test('Strict mode without sync preview', function () {
-        var $tmplContainer = $('.template .strict-no-sync-test');
-        var $visibleContainer = $tmplContainer.clone().appendTo('.sandbox'),
-            conf = _.cloneDeep(workingConfiguration),
-            $controlContainer = $('.control-container', $visibleContainer),
-            $img = $('.picture', $visibleContainer),
-            $toolsContainer = $('.tools-container', $visibleContainer),
+    QUnit.test( "Strict mode without sync preview", function( assert ) {
+        var $tmplContainer = $( ".template .strict-no-sync-test" );
+        var $visibleContainer = $tmplContainer.clone().appendTo( ".sandbox" ),
+            conf = _.cloneDeep( workingConfiguration ),
+            $controlContainer = $( ".control-container", $visibleContainer ),
+            $img = $( ".picture", $visibleContainer ),
+            $toolsContainer = $( ".tools-container", $visibleContainer ),
             media = {
                 $node: $img,
                 $container: $controlContainer,
-                type: 'image/jpeg',
-                src: $img.attr('src'),
+                type: "image/jpeg",
+                src: $img.attr( "src" ),
                 width: 500,
                 height: 735
             };
         conf.showResponsiveToggle = true;
         conf.responsive = false;
         conf.syncDimensions = false;
-        mediaDimensionComponent($toolsContainer, media, conf);
-        QUnit.ok(true);
-    });
-});
+        mediaDimensionComponent( $toolsContainer, media, conf );
+        QUnit.ok( true );
+    } );
+} );

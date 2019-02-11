@@ -18,55 +18,52 @@
  * @author Oleksander Zagovorychev <zagovorichev@gmail.com>
  */
 
-define([
-    'jquery',
-    'ui/mediaEditor/mediaEditorComponent'
-], function ($, mediaEditorComponent) {
-    'use strict';
+define( [  "jquery", "ui/mediaEditor/mediaEditorComponent" ], function(  $, mediaEditorComponent ) {
+    "use strict";
 
-    QUnit.module('Demo');
+    QUnit.module( "Demo" );
 
-    QUnit.test('elements workflow', function (assert) {
+    QUnit.test( "elements workflow", function( assert ) {
         var $container;
-        var $demoContainer = $('.demo-container');
-        var $controlContainer = $('.control-container', $demoContainer);
-        var $editableContainer = $('.editable-container', $controlContainer);
-        var $toolsContainer = $('.tools-container', $demoContainer);
-        var $img = $('.picture', $editableContainer);
+        var $demoContainer = $( ".demo-container" );
+        var $controlContainer = $( ".control-container", $demoContainer );
+        var $editableContainer = $( ".editable-container", $controlContainer );
+        var $toolsContainer = $( ".tools-container", $demoContainer );
+        var $img = $( ".picture", $editableContainer );
         var media = {
             $node: $img,
             $container: $editableContainer,
-            type: 'image/jpeg',
-            src: $img.attr('src'),
+            type: "image/jpeg",
+            src: $img.attr( "src" ),
             width: 500,
             height: 735,
             responsive: true
         };
 
-        $container = $('#qunit-fixture');
-        assert.equal($container.length, 1, 'The container exists');
+        $container = $( "#qunit-fixture" );
+        assert.equal( $container.length, 1, "The container exists" );
 
-        mediaEditorComponent($toolsContainer, media, {
+        mediaEditorComponent( $toolsContainer, media, {
             mediaDimension: {
                 active: true
             }
-        }).on('change', function(nMedia){
+        } ).on( "change", function( nMedia ) {
             media = nMedia;
-            if (media.responsive) {
-                media.$node.css({
-                    width: media.width + '%',
-                    height: 'auto'
-                });
-                media.$node.attr('width', media.width + '%');
-                media.$node.attr('height', '');
+            if ( media.responsive ) {
+                media.$node.css( {
+                    width: media.width + "%",
+                    height: "auto"
+                } );
+                media.$node.attr( "width", media.width + "%" );
+                media.$node.attr( "height", "" );
             } else {
-                media.$node.css({
+                media.$node.css( {
                     width: media.width,
                     height: media.height
-                });
-                media.$node.attr('width', media.width);
-                media.$node.attr('height', media.height);
+                } );
+                media.$node.attr( "width", media.width );
+                media.$node.attr( "height", media.height );
             }
-        });
-    });
-});
+        } );
+    } );
+} );

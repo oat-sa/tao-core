@@ -19,39 +19,39 @@
 /**
  * Test tpl
  */
-define([
-    'tpl!test/tpl/samples/dompurify_script',
-    'tpl!test/tpl/samples/join_keyvalue',
-    'tpl!test/tpl/samples/join_array',
-], function (tplDomPurifyScript, tplJoinKeyValue, tplJoinArray){
-    'use strict';
+define( [
+    "tpl!test/tpl/samples/dompurify_script",
+    "tpl!test/tpl/samples/join_keyvalue",
+    "tpl!test/tpl/samples/join_array"
+], function(  tplDomPurifyScript, tplJoinKeyValue, tplJoinArray ) {
+    "use strict";
 
-    var fixture = '#qunit-fixture';
+    var fixture = "#qunit-fixture";
 
-    QUnit.module('registered handlers');
+    QUnit.module( "registered handlers" );
 
-    QUnit.test('dompurify - script', function (assert){
+    QUnit.test( "dompurify - script", function( assert ) {
         var dirtyHtml = '<b>bold</b><script>alert("dirty!")</script><a href="#">link</a>';
-        var rendering = tplDomPurifyScript({
-            dirtyHtml : dirtyHtml
-        });
-        assert.equal(rendering, '<b>bold</b><a href="#">link</a>', 'purified dom rendering ok');
-    });
+        var rendering = tplDomPurifyScript( {
+            dirtyHtml: dirtyHtml
+        } );
+        assert.equal( rendering, '<b>bold</b><a href="#">link</a>', "purified dom rendering ok" );
+    } );
 
-    QUnit.test('join - key value', function (assert){
-        var values = {a:'v1', b:'v2', c:'v3'};
-        var rendering = tplJoinKeyValue({
-            values : values
-        });
-        assert.equal(rendering, 'a="v1" b="v2" c="v3"', 'join key value rendering ok');
-    });
+    QUnit.test( "join - key value", function( assert ) {
+        var values = { a:"v1", b:"v2", c:"v3" };
+        var rendering = tplJoinKeyValue( {
+            values: values
+        } );
+        assert.equal( rendering, 'a="v1" b="v2" c="v3"', "join key value rendering ok" );
+    } );
 
-    QUnit.test('join - array value', function (assert){
-        var values = {a:'v1', b:'v2', c:'v3'};
-        var rendering = tplJoinArray({
-            values : values
-        });
-        assert.equal(rendering, '*v1* or *v2* or *v3*', 'join array rendering ok');
-    });
+    QUnit.test( "join - array value", function( assert ) {
+        var values = { a:"v1", b:"v2", c:"v3" };
+        var rendering = tplJoinArray( {
+            values: values
+        } );
+        assert.equal( rendering, "*v1* or *v2* or *v3*", "join array rendering ok" );
+    } );
 
-});
+} );

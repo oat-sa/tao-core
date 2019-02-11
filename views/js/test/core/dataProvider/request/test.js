@@ -21,12 +21,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'core/dataProvider/request',
-    'core/promise'
-], function ($, _, request, Promise){
+define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], function( $, _, request, Promise) {
     'use strict';
 
     var requestCases;
@@ -70,13 +65,13 @@ define([
     QUnit.module('API');
 
     QUnit.test('module', function (assert){
-        QUnit.expect(1);
+        assert.expect(1);
 
         assert.equal(typeof request, 'function', "The module exposes a function");
     });
 
     QUnit.module('request', {
-        setup : function(){
+        beforeEach : function(assert) {
 
             //mock the jquery ajax method
             $.ajax = function(options){
@@ -104,7 +99,7 @@ define([
                 };
             };
         },
-        teardown : function teardown(){
+        afterEach : function teardown(assert) {
             $.ajax = $ajax;
         }
     });
@@ -148,7 +143,7 @@ define([
     }];
 
     QUnit
-        .cases(requestCases)
+        .cases.init(requestCases)
         .asyncTest('request with ', function(data, assert){
 
             var result = request(data.url, data.data, data.method, data.headers);
@@ -156,7 +151,7 @@ define([
 
             if(data.reject){
 
-                QUnit.expect(3);
+                assert.expect(3);
 
                 result.then(function(){
                     assert.ok(false, 'Should reject');
@@ -169,7 +164,7 @@ define([
                 });
 
             } else {
-                QUnit.expect(2);
+                assert.expect(2);
 
                 result.then(function(content){
                     assert.deepEqual(content, data.content, 'The given reuslt is correct');

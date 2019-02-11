@@ -19,233 +19,239 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'jquery',
-    'ui/destination/selector',
-    'json!test/ui/destination/selector/classes.json'
-], function($, destinationSelectorFactory, classes) {
-    'use strict';
+define( [
+    
+    "jquery",
+    "ui/destination/selector",
+    "json!test/ui/destination/selector/classes.json"
+], function(  $, destinationSelectorFactory, classes ) {
+    "use strict";
 
-    QUnit.module('API');
+    QUnit.module( "API" );
 
-    QUnit.test('module', function(assert) {
-        QUnit.expect(3);
+    QUnit.test( "module", function( assert ) {
+        assert.expect( 3 );
 
-        assert.equal(typeof destinationSelectorFactory, 'function', "The module exposes a function");
-        assert.equal(typeof destinationSelectorFactory(), 'object', "The factory produces an object");
-        assert.notStrictEqual(destinationSelectorFactory(), destinationSelectorFactory(), "The factory provides a different object on each call");
-    });
+        assert.equal( typeof destinationSelectorFactory, "function", "The module exposes a function" );
+        assert.equal( typeof destinationSelectorFactory(), "object", "The factory produces an object" );
+        assert.notStrictEqual( destinationSelectorFactory(), destinationSelectorFactory(), "The factory provides a different object on each call" );
+    } );
 
-    QUnit.cases([
-        { title : 'init' },
-        { title : 'destroy' },
-        { title : 'render' },
-        { title : 'show' },
-        { title : 'hide' },
-        { title : 'enable' },
-        { title : 'disable' },
-        { title : 'is' },
-        { title : 'setState' },
-        { title : 'getContainer' },
-        { title : 'getElement' },
-        { title : 'getTemplate' },
-        { title : 'setTemplate' },
-    ]).test('Component API ', function(data, assert) {
+    QUnit.cases.init( [
+        { title: "init" },
+        { title: "destroy" },
+        { title: "render" },
+        { title: "show" },
+        { title: "hide" },
+        { title: "enable" },
+        { title: "disable" },
+        { title: "is" },
+        { title: "setState" },
+        { title: "getContainer" },
+        { title: "getElement" },
+        { title: "getTemplate" },
+        { title: "setTemplate" }
+    ] ).test( "Component API ", function( data, assert ) {
         var instance = destinationSelectorFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The destinationSelector exposes the component method "' + data.title);
-    });
+        assert.equal( typeof instance[ data.title ], "function", 'The destinationSelector exposes the component method "' + data.title );
+    } );
 
-    QUnit.cases([
-        { title : 'on' },
-        { title : 'off' },
-        { title : 'trigger' },
-        { title : 'before' },
-        { title : 'after' },
-    ]).test('Eventifier API ', function(data, assert) {
+    QUnit.cases.init( [
+        { title: "on" },
+        { title: "off" },
+        { title: "trigger" },
+        { title: "before" },
+        { title: "after" }
+    ] ).test( "Eventifier API ", function( data, assert ) {
         var instance = destinationSelectorFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The destinationSelector exposes the eventifier method "' + data.title);
-    });
+        assert.equal( typeof instance[ data.title ], "function", 'The destinationSelector exposes the eventifier method "' + data.title );
+    } );
 
-    QUnit.cases([
-        { title : 'update' },
-    ]).test('Instance API ', function(data, assert) {
+    QUnit.cases.init( [
+        { title: "update" }
+    ] ).test( "Instance API ", function( data, assert ) {
         var instance = destinationSelectorFactory();
-        assert.equal(typeof instance[data.title], 'function', 'The destinationSelector exposes the method "' + data.title);
-    });
+        assert.equal( typeof instance[ data.title ], "function", 'The destinationSelector exposes the method "' + data.title );
+    } );
 
+    QUnit.module( "Behavior" );
 
-    QUnit.module('Behavior');
+    QUnit.test( "Lifecycle", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
 
-    QUnit.asyncTest('Lifecycle', function(assert) {
-        var $container = $('#qunit-fixture');
+        assert.expect( 2 );
 
-        QUnit.expect(2);
-
-        destinationSelectorFactory($container, {
-            classUri : 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
-        })
-        .on('init', function(){
-            assert.ok( !this.is('rendered'), 'The component is not yet rendered');
-        })
-        .on('render', function(){
-            assert.ok(this.is('rendered'), 'The component is now rendered');
+        destinationSelectorFactory( $container, {
+            classUri: "http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject"
+        } )
+        .on( "init", function() {
+            assert.ok( !this.is( "rendered" ), "The component is not yet rendered" );
+        } )
+        .on( "render", function() {
+            assert.ok( this.is( "rendered" ), "The component is now rendered" );
 
             this.destroy();
-        })
-        .on('destroy', function(){
+        } )
+        .on( "destroy", function() {
 
-            QUnit.start();
-        });
-    });
+            ready();
+        } );
+    } );
 
-    QUnit.asyncTest('Rendering', function(assert) {
-        var $container = $('#qunit-fixture');
+    QUnit.test( "Rendering", function( assert ) {
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
 
-        QUnit.expect(8);
+        assert.expect( 8 );
 
-        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+        assert.equal( $( ".class-selector", $container ).length, 0, "No class selector in the container" );
 
-        destinationSelectorFactory($container, {
-            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-            title    : 'Select a foo class',
-            description : 'in oder to move a bar in a foo class',
-            actionName : 'foo it'
-        })
-        .on('query', function(params){
-            this.update(classes, params);
-        })
-        .on('render', function(){
-
-            var $element = this.getElement();
-
-            assert.equal($('.destination-selector', $container).length, 1, 'The class selector has been inserted');
-            assert.equal($('.destination-selector', $container)[0], $element[0], 'The component element is correct');
-
-            assert.equal($element.children('h2').text().trim(), 'Select a foo class');
-            assert.equal($element.children('div').children('p').text().trim(), 'in oder to move a bar in a foo class');
-            assert.equal($('.actions button', $element).length, 1, 'The action button is rendered');
-            assert.equal($('.actions button .action-label', $element).text().trim(), 'foo it');
-
-            this.on('update', function(){
-
-                assert.equal($('.resource-selector', $element).length, 1, 'The resource selector has been added');
-
-                QUnit.start();
-            });
-        });
-    });
-
-    QUnit.asyncTest('selection', function(assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(7);
-
-        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
-
-        destinationSelectorFactory($container, {
-            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-        })
-        .on('query', function(params){
-            this.update(classes, params);
-        })
-        .on('select', function(uri){
-
-            assert.equal(uri, 'http://bertaodev/tao.rdf#i1516810104355796', 'The selected URI is correct');
-            QUnit.start();
-        })
-        .on('render', function(){
+        destinationSelectorFactory( $container, {
+            classUri: "http://www.tao.lu/Ontologies/TAOItem.rdf#Item",
+            title: "Select a foo class",
+            description: "in oder to move a bar in a foo class",
+            actionName: "foo it"
+        } )
+        .on( "query", function( params ) {
+            this.update( classes, params );
+        } )
+        .on( "render", function() {
 
             var $element = this.getElement();
-            var $action  = $('.actions button', $element);
-            assert.equal($action.prop('disabled'), true, 'The action starts disabled');
 
-            this.on('update', function(){
+            assert.equal( $( ".destination-selector", $container ).length, 1, "The class selector has been inserted" );
+            assert.equal( $( ".destination-selector", $container )[ 0 ], $element[ 0 ], "The component element is correct" );
 
-                var $classNode = $('[data-uri="http://bertaodev/tao.rdf#i1516810104355796"]', $element);
-                assert.equal($classNode.length, 1, 'The target node exists');
-                assert.ok( ! $classNode.hasClass('selected'), 'The target node is not yet selected');
+            assert.equal( $element.children( "h2" ).text().trim(), "Select a foo class" );
+            assert.equal( $element.children( "div" ).children( "p" ).text().trim(), "in oder to move a bar in a foo class" );
+            assert.equal( $( ".actions button", $element ).length, 1, "The action button is rendered" );
+            assert.equal( $( ".actions button .action-label", $element ).text().trim(), "foo it" );
 
-                $classNode.trigger('click');
+            this.on( "update", function() {
 
-                setTimeout(function(){
+                assert.equal( $( ".resource-selector", $element ).length, 1, "The resource selector has been added" );
 
-                    assert.ok($classNode.hasClass('selected'), 'The target node is now selected');
-                    assert.equal($action.prop('disabled'), false, 'The action is now enabled');
+                ready();
+            } );
+        } );
+    } );
 
-                    $action.trigger('click');
-                }, 100);
-            });
-        })
-        .on('error', function(err){
-            assert.ok(false, err.message);
-            QUnit.start();
-        });
-    });
+    QUnit.test( "selection", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
 
-    QUnit.asyncTest('unselect', function(assert) {
-        var $container = $('#qunit-fixture');
+        assert.expect( 7 );
 
-        QUnit.expect(9);
+        assert.equal( $( ".class-selector", $container ).length, 0, "No class selector in the container" );
 
-        assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
+        destinationSelectorFactory( $container, {
+            classUri: "http://www.tao.lu/Ontologies/TAOItem.rdf#Item"
+        } )
+        .on( "query", function( params ) {
+            this.update( classes, params );
+        } )
+        .on( "select", function( uri ) {
 
-        destinationSelectorFactory($container, {
-            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-        })
-        .on('query', function(params){
-            this.update(classes, params);
-        })
-        .on('render', function(){
+            assert.equal( uri, "http://bertaodev/tao.rdf#i1516810104355796", "The selected URI is correct" );
+            ready();
+        } )
+        .on( "render", function() {
+
+            var $element = this.getElement();
+            var $action  = $( ".actions button", $element );
+            assert.equal( $action.prop( "disabled" ), true, "The action starts disabled" );
+
+            this.on( "update", function() {
+
+                var $classNode = $( '[data-uri="http://bertaodev/tao.rdf#i1516810104355796"]', $element );
+                assert.equal( $classNode.length, 1, "The target node exists" );
+                assert.ok( !$classNode.hasClass( "selected" ), "The target node is not yet selected" );
+
+                $classNode.trigger( "click" );
+
+                setTimeout( function() {
+
+                    assert.ok( $classNode.hasClass( "selected" ), "The target node is now selected" );
+                    assert.equal( $action.prop( "disabled" ), false, "The action is now enabled" );
+
+                    $action.trigger( "click" );
+                }, 100 );
+            } );
+        } )
+        .on( "error", function( err ) {
+            assert.ok( false, err.message );
+            ready1();
+        } );
+    } );
+
+    QUnit.test( "unselect", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
+        var $container = $( "#qunit-fixture" );
+
+        assert.expect( 9 );
+
+        assert.equal( $( ".class-selector", $container ).length, 0, "No class selector in the container" );
+
+        destinationSelectorFactory( $container, {
+            classUri: "http://www.tao.lu/Ontologies/TAOItem.rdf#Item"
+        } )
+        .on( "query", function( params ) {
+            this.update( classes, params );
+        } )
+        .on( "render", function() {
             var self = this;
             var $element = this.getElement();
-            var $action  = $('.actions button', $element);
-            assert.equal($action.prop('disabled'), true, 'The action starts disabled');
+            var $action  = $( ".actions button", $element );
+            assert.equal( $action.prop( "disabled" ), true, "The action starts disabled" );
 
-            this.on('update', function(){
+            this.on( "update", function() {
 
-                var $classNode = $('[data-uri="http://bertaodev/tao.rdf#i1516810104355796"]', $element);
-                assert.equal($classNode.length, 1, 'The target node exists');
-                assert.ok( ! $classNode.hasClass('selected'), 'The target node is not yet selected');
+                var $classNode = $( '[data-uri="http://bertaodev/tao.rdf#i1516810104355796"]', $element );
+                assert.equal( $classNode.length, 1, "The target node exists" );
+                assert.ok( !$classNode.hasClass( "selected" ), "The target node is not yet selected" );
 
-                $classNode.trigger('click');
+                $classNode.trigger( "click" );
 
-                setTimeout(function(){
+                setTimeout( function() {
 
-                    assert.ok($classNode.hasClass('selected'), 'The target node is now selected');
-                    assert.equal($action.prop('disabled'), false, 'The action is now enabled');
+                    assert.ok( $classNode.hasClass( "selected" ), "The target node is now selected" );
+                    assert.equal( $action.prop( "disabled" ), false, "The action is now enabled" );
 
-                    self.on('select', function(uri){
-                        assert.equal(uri, 'http://bertaodev/tao.rdf#i1516810104355796', 'The selected URI is correct');
+                    self.on( "select", function( uri ) {
+                        assert.equal( uri, "http://bertaodev/tao.rdf#i1516810104355796", "The selected URI is correct" );
 
-                        $classNode.trigger('click');
+                        $classNode.trigger( "click" );
 
-                        setTimeout(function(){
+                        setTimeout( function() {
 
-                            assert.ok( ! $classNode.hasClass('selected'), 'The target node is not selected');
-                            assert.equal($action.prop('disabled'), true, 'The action is now disabled');
+                            assert.ok( !$classNode.hasClass( "selected" ), "The target node is not selected" );
+                            assert.equal( $action.prop( "disabled" ), true, "The action is now disabled" );
 
-                            //disallowed
-                            $action.trigger('click');
+                            //Disallowed
+                            $action.trigger( "click" );
 
-                            QUnit.start();
-                        }, 10);
+                            ready();
+                        }, 10 );
 
-                    });
-                    $action.trigger('click');
-                }, 10);
-            });
-        })
-        .on('error', function(err){
-            assert.ok(false, err.message);
-            QUnit.start();
-        });
-    });
+                    } );
+                    $action.trigger( "click" );
+                }, 10 );
+            } );
+        } )
+        .on( "error", function( err ) {
+            assert.ok( false, err.message );
+            ready1();
+        } );
+    } );
 /*
     QUnit.asyncTest('folding', function(assert) {
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -275,7 +281,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -309,7 +315,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(10);
+        assert.expect(10);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -345,7 +351,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(7);
+        assert.expect(7);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -378,7 +384,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -403,7 +409,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(4);
+        assert.expect(4);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -426,7 +432,7 @@ define([
     QUnit.asyncTest('empty the component', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -467,7 +473,7 @@ define([
         };
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(6);
+        assert.expect(6);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -498,7 +504,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(9);
+        assert.expect(9);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -533,7 +539,7 @@ define([
 
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         assert.equal($('.class-selector', $container).length, 0, 'No class selector in the container');
 
@@ -564,22 +570,23 @@ define([
         });
     });*/
 
-    QUnit.module('Visual');
+    QUnit.module( "Visual" );
 
-    QUnit.asyncTest('playground', function(assert) {
-        var container = document.getElementById('visual');
+    QUnit.test( "playground", function( assert ) {
+        var ready = assert.async();
+        var container = document.getElementById( "visual" );
 
-        QUnit.expect(1);
+        assert.expect( 1 );
 
-        destinationSelectorFactory(container, {
-            classUri : 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item',
-        })
-        .on('query', function(params){
-            this.update(classes, params);
-        })
-        .on('render', function(){
-            assert.ok(true);
-            QUnit.start();
-        });
-    });
-});
+        destinationSelectorFactory( container, {
+            classUri: "http://www.tao.lu/Ontologies/TAOItem.rdf#Item"
+        } )
+        .on( "query", function( params ) {
+            this.update( classes, params );
+        } )
+        .on( "render", function() {
+            assert.ok( true );
+            ready();
+        } );
+    } );
+} );

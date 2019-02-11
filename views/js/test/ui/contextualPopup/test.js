@@ -1,10 +1,10 @@
-define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
+define([ 'jquery', 'ui/contextualPopup'], function( $, contextualPopup) {
 
     'use strict';
     
     QUnit.module('init popup');
     
-    QUnit.test('with content string', function(){
+    QUnit.test('with content string', function(assert) {
 
         var $container = $('#main-container');
         var popup1 = contextualPopup($container.find('.center1'), $container, {content : 'content 1'});
@@ -18,10 +18,10 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup1.destroy();
     });
     
-    QUnit.test('with jquery element', function(){
+    QUnit.test('with jquery element', function(assert) {
         
         var $container = $('#main-container');
-        var $content2 = $('<ul><li>element 1</li><li>element 2</li><li>element 3</li></ul');
+        var $content2 = $('<ul><li>element 1</li><li>element 2</li><li>element 3</li></ul>');
         var popup2 = contextualPopup($container.find('.center2'), $container, {content : $content2});
         
         QUnit.assert.equal(popup2.getPopup().length, 1, 'popup created');
@@ -34,7 +34,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup2.destroy();
     });
     
-    QUnit.test('with controls', function(){
+    QUnit.test('with controls', function(assert) {
         
         var $container = $('#main-container');
         var popup3 = contextualPopup($container.find('.center3'), $container, {content : 'content 3', controls : {done : true, cancel : true}});
@@ -48,7 +48,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup3.destroy();
     });
     
-    QUnit.test('with positioning on top', function(){
+    QUnit.test('with positioning on top', function(assert) {
         
         var $container = $('#main-container');
         var popup4 = contextualPopup($container.find('.center4'), $container, {content: 'content 4', position:'top'});
@@ -62,7 +62,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
     
     QUnit.module('api');
     
-    QUnit.test('show/hide/isVisible', function(){
+    QUnit.test('show/hide/isVisible', function(assert) {
         
         var $container = $('#main-container');
         var popup1 = contextualPopup($container.find('.center1'), $container, {content : 'content 1'});
@@ -78,7 +78,7 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         QUnit.assert.ok(popup1.isVisible(), 'popup is visible again');
     });
     
-    QUnit.test('setContent', function(){
+    QUnit.test('setContent', function(assert) {
         
         var $container = $('#main-container');
         var popup1 = contextualPopup($container.find('.center1'), $container, {content : 'content 1'});
@@ -94,10 +94,10 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup1.destroy();
     });
     
-    QUnit.test('done', function(){
+    QUnit.test('done', function(assert) {
         
         //done button hides and trigger event done
-        QUnit.expect(4);
+        assert.expect(4);
         
         var $container = $('#main-container');
         var popup1 = contextualPopup($container.find('.center1'), $container, {content : 'content 1', controls:{done:true}});
@@ -119,9 +119,9 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup1.destroy();
     });
 
-    QUnit.test('callbacks', function(){
+    QUnit.test('callbacks', function(assert) {
 
-        QUnit.expect(8);
+        assert.expect(8);
 
         var $container = $('#main-container');
         var popup1 = contextualPopup(
@@ -203,10 +203,10 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
         popup2.destroy();
     });
 
-    QUnit.test('cancel', function(){
+    QUnit.test('cancel', function(assert) {
         
         //cancel button hides and trigger event done
-        QUnit.expect(4);
+        assert.expect(4);
         
         var $container = $('#main-container');
         var popup1 = contextualPopup($container.find('.center1'), $container, {content : 'content 1', controls:{cancel:true}});
@@ -230,13 +230,13 @@ define(['jquery', 'ui/contextualPopup'], function($, contextualPopup){
     
     QUnit.module('visual test');
     
-    QUnit.test('check', function(){
+    QUnit.test('check', function(assert) {
         
-        QUnit.expect(0);
+        assert.expect(0);
         
         var $container = $('#visual-test');
         var popup1 = contextualPopup($container.find('.center1'), $container, {content : 'content 1'});
-        var $content2 = $('<ul><li>element 1</li><li>element 2</li><li>element 3</li></ul');
+        var $content2 = $('<ul><li>element 1</li><li>element 2</li><li>element 3</li></ul>');
         var popup2 = contextualPopup($container.find('.center2'), $container, {content : $content2});
         var popup3 = contextualPopup($container.find('.center3'), $container, {content : 'content 3', controls : {done : true, cancel : true}});
         var popup4 = contextualPopup($container.find('.center4'), $container, {content: 'content 4', position:'top'});

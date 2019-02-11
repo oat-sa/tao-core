@@ -18,18 +18,20 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define([
-    'lodash',
-    'core/promise',
-    'ui/maths/calculator/core/plugin',
-    'ui/maths/calculator/pluginsLoader',
-    'ui/maths/calculator/plugins/core/degrad',
-    'ui/maths/calculator/plugins/core/history',
-    'ui/maths/calculator/plugins/core/remind',
-    'ui/maths/calculator/plugins/core/stepNavigation',
-    'test/ui/maths/calculator/pluginsLoader/plugin1',
-    'test/ui/maths/calculator/pluginsLoader/plugin2'
-], function (
+define( [
+    
+    "lodash",
+    "core/promise",
+    "ui/maths/calculator/core/plugin",
+    "ui/maths/calculator/pluginsLoader",
+    "ui/maths/calculator/plugins/core/degrad",
+    "ui/maths/calculator/plugins/core/history",
+    "ui/maths/calculator/plugins/core/remind",
+    "ui/maths/calculator/plugins/core/stepNavigation",
+    "test/ui/maths/calculator/pluginsLoader/plugin1",
+    "test/ui/maths/calculator/pluginsLoader/plugin2"
+], function(
+    
     _,
     Promise,
     pluginFactory,
@@ -41,7 +43,7 @@ define([
     plugin1,
     plugin2
 ) {
-    'use strict';
+    "use strict";
 
     var defaultPlugins = [
         pluginDegradFactory,
@@ -50,75 +52,81 @@ define([
         pluginStepNavigationFactory
     ];
 
-    QUnit.module('loader');
+    QUnit.module( "loader" );
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
-        assert.equal(typeof loadPlugins, 'function', "The module exposes a function");
-        assert.ok(loadPlugins() instanceof Promise, "The loader produces a promise");
-        assert.notStrictEqual(loadPlugins(), loadPlugins(), "The loader provides a different object on each call");
-    });
+    QUnit.test( "module", function( assert ) {
+        assert.expect( 3 );
+        assert.equal( typeof loadPlugins, "function", "The module exposes a function" );
+        assert.ok( loadPlugins() instanceof Promise, "The loader produces a promise" );
+        assert.notStrictEqual( loadPlugins(), loadPlugins(), "The loader provides a different object on each call" );
+    } );
 
-    QUnit.asyncTest('default', function (assert) {
-        QUnit.expect(1);
+    QUnit.test( "default", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
+        assert.expect( 1 );
 
         loadPlugins()
-            .then(function (plugins) {
-                assert.deepEqual(plugins, defaultPlugins, 'Default plugins are loaded');
-                QUnit.start();
-            })
-            .catch(function (err) {
-                console.error(err);
-                assert.ok(false, 'Should not fail!');
-                QUnit.start();
-            });
-    });
+            .then( function( plugins ) {
+                assert.deepEqual( plugins, defaultPlugins, "Default plugins are loaded" );
+                ready();
+            } )
+            .catch( function( err ) {
+                console.error( err );
+                assert.ok( false, "Should not fail!" );
+                ready1();
+            } );
+    } );
 
-    QUnit.asyncTest('static plugins', function (assert) {
+    QUnit.test( "static plugins", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
         var loadedPlugins = [
             plugin1, plugin2
         ];
 
-        QUnit.expect(1);
+        assert.expect( 1 );
 
-        loadPlugins({
+        loadPlugins( {
             test: loadedPlugins
-        })
-            .then(function (plugins) {
-                assert.deepEqual(plugins, defaultPlugins.concat(loadedPlugins), 'All plugins are loaded');
-                QUnit.start();
-            })
-            .catch(function (err) {
-                console.error(err);
-                assert.ok(false, 'Should not fail!');
-                QUnit.start();
-            });
-    });
+        } )
+            .then( function( plugins ) {
+                assert.deepEqual( plugins, defaultPlugins.concat( loadedPlugins ), "All plugins are loaded" );
+                ready();
+            } )
+            .catch( function( err ) {
+                console.error( err );
+                assert.ok( false, "Should not fail!" );
+                ready1();
+            } );
+    } );
 
-    QUnit.asyncTest('dynamic plugins', function (assert) {
+    QUnit.test( "dynamic plugins", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
         var loadedPlugins = [
             plugin1, plugin2
         ];
 
-        QUnit.expect(1);
+        assert.expect( 1 );
 
-        loadPlugins(null, [{
-            category: 'test',
-            module: 'test/ui/maths/calculator/pluginsLoader/plugin1',
-            bundle: 'test/ui/maths/calculator/pluginsLoader/bundle'
+        loadPlugins( null, [ {
+            category: "test",
+            module: "test/ui/maths/calculator/pluginsLoader/plugin1",
+            bundle: "test/ui/maths/calculator/pluginsLoader/bundle"
         }, {
-            category: 'test',
-            module: 'test/ui/maths/calculator/pluginsLoader/plugin2',
-            bundle: 'test/ui/maths/calculator/pluginsLoader/bundle'
-        }])
-            .then(function (plugins) {
-                assert.deepEqual(plugins, defaultPlugins.concat(loadedPlugins), 'All plugins are loaded');
-                QUnit.start();
-            })
-            .catch(function (err) {
-                console.error(err);
-                assert.ok(false, 'Should not fail!');
-                QUnit.start();
-            });
-    });
-});
+            category: "test",
+            module: "test/ui/maths/calculator/pluginsLoader/plugin2",
+            bundle: "test/ui/maths/calculator/pluginsLoader/bundle"
+        } ] )
+            .then( function( plugins ) {
+                assert.deepEqual( plugins, defaultPlugins.concat( loadedPlugins ), "All plugins are loaded" );
+                ready();
+            } )
+            .catch( function( err ) {
+                console.error( err );
+                assert.ok( false, "Should not fail!" );
+                ready1();
+            } );
+    } );
+} );

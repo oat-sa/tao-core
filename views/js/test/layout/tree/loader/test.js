@@ -16,63 +16,61 @@
  * Copyright (c) 2017 (original work) Open Assessment Technlogies SA
  *
  */
-define(['layout/tree/loader'], function(treeLoader){
-    'use strict';
+define( [  "layout/tree/loader" ], function(  treeLoader ) {
+    "use strict";
 
-    QUnit.module('API');
+    QUnit.module( "API" );
 
-    QUnit.test('module', function(assert){
-        assert.ok(typeof treeLoader === 'function', 'The module expose a function');
-    });
+    QUnit.test( "module", function( assert ) {
+        assert.ok( typeof treeLoader === "function", "The module expose a function" );
+    } );
 
+    QUnit.module( "loader" );
 
-    QUnit.module('loader');
-
-    QUnit.test('default', function(assert){
+    QUnit.test( "default", function( assert ) {
         var provider;
 
-        QUnit.expect(4);
+        assert.expect( 4 );
 
         provider = treeLoader();
 
-        assert.equal(typeof provider, 'object', 'A provider is returned');
-        assert.equal(provider.name, 'jstree', 'The default provider is jstree');
+        assert.equal( typeof provider, "object", "A provider is returned" );
+        assert.equal( provider.name, "jstree", "The default provider is jstree" );
 
-        provider = treeLoader('foo');
+        provider = treeLoader( "foo" );
 
-        assert.equal(typeof provider, 'object', 'A provider is returned');
-        assert.equal(provider.name, 'jstree', 'The default provider is jstree');
-    });
+        assert.equal( typeof provider, "object", "A provider is returned" );
+        assert.equal( provider.name, "jstree", "The default provider is jstree" );
+    } );
 
-    QUnit.test('get by name', function(assert){
+    QUnit.test( "get by name", function( assert ) {
         var provider;
 
-        QUnit.expect(2);
+        assert.expect( 2 );
 
-        provider = treeLoader('resource-selector');
+        provider = treeLoader( "resource-selector" );
 
-        assert.equal(typeof provider, 'object', 'A provider is returned');
-        assert.equal(provider.name, 'resource-selector', 'The resource selector provider is loaded');
-    });
+        assert.equal( typeof provider, "object", "A provider is returned" );
+        assert.equal( provider.name, "resource-selector", "The resource selector provider is loaded" );
+    } );
 
-    QUnit.test('change the default', function(assert){
+    QUnit.test( "change the default", function( assert ) {
         var provider;
 
-        QUnit.expect(2);
+        assert.expect( 2 );
 
-        window.requirejs.config ({
+        window.requirejs.config( {
             config: {
-                'layout/tree/loader' : {
-                    treeProvider : 'resource-selector'
+                "layout/tree/loader": {
+                    treeProvider: "resource-selector"
                 }
             }
-        });
+        } );
 
         provider = treeLoader();
 
-        assert.equal(typeof provider, 'object', 'A provider is returned');
-        assert.equal(provider.name, 'resource-selector', 'The resource selector provider is loaded');
-    });
-});
-
+        assert.equal( typeof provider, "object", "A provider is returned" );
+        assert.equal( provider.name, "resource-selector", "The resource selector provider is loaded" );
+    } );
+} );
 

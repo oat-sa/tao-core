@@ -21,66 +21,64 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'jquery',
-    'ui/pageStatus'
-], function ($, pageStatusFactory) {
-    'use strict';
+define( [ "jquery", "ui/pageStatus" ], function($, pageStatusFactory ) {
+    "use strict";
 
-    QUnit.module('pageStatus');
+    QUnit.module( "pageStatus" );
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(1);
-        assert.equal(typeof pageStatusFactory, 'function', "The pageStatus module exposes an function");
-    });
+    QUnit.test( "module", function( assert ) {
+        assert.expect( 1 );
+        assert.equal( typeof pageStatusFactory, "function", "The pageStatus module exposes an function" );
+    } );
 
-    QUnit.test('api', function (assert) {
-        QUnit.expect(5);
+    QUnit.test( "api", function( assert ) {
+        assert.expect( 5 );
         var pageStatus = pageStatusFactory();
 
-        assert.equal(typeof pageStatus, 'object', "The factory creates an object");
-        assert.notEqual(pageStatus, pageStatusFactory(), "The factory creates a new object");
-        assert.equal(typeof pageStatus.on, 'function', "The pageStatus module expose the on method");
-        assert.equal(typeof pageStatus.off, 'function', "The pageStatus module expose the off method");
-        assert.equal(typeof pageStatus.trigger, 'function', "The pageStatus module expose the trigger method");
+        assert.equal( typeof pageStatus, "object", "The factory creates an object" );
+        assert.notEqual( pageStatus, pageStatusFactory(), "The factory creates a new object" );
+        assert.equal( typeof pageStatus.on, "function", "The pageStatus module expose the on method" );
+        assert.equal( typeof pageStatus.off, "function", "The pageStatus module expose the off method" );
+        assert.equal( typeof pageStatus.trigger, "function", "The pageStatus module expose the trigger method" );
 
-    });
+    } );
 
-    QUnit.asyncTest('popup status', function (assert) {
-        QUnit.expect(9);
+    QUnit.test( "popup status", function( assert ) {
+        var ready = assert.async();
+        assert.expect( 9 );
 
-        var popup = window.open('/','test','width=300,height=300,visible=none');
+        var popup = window.open( "/", "test", "width=300,height=300,visible=none" );
 
-        var pageStatus = pageStatusFactory({
-            window :  popup
-        });
+        var pageStatus = pageStatusFactory( {
+            window:  popup
+        } );
 
         var counter = 0;
 
         pageStatus
-            .on('statuschange', function(status){
-                assert.ok(true, 'The statuschange event is triggered');
-            })
-            .on('focus', function(){
-                assert.ok(true, 'The focus event is triggered');
-            })
-            .on('hide', function(){
-                assert.ok(true, 'The blur event is triggered');
-            })
-            .on('blur', function(){
-                assert.ok(true, 'The blur event is triggered');
-            })
-            .on('unload', function(){
-                assert.ok(true, 'The unload event is triggered');
-            });
+            .on( "statuschange", function( status ) {
+                assert.ok( true, "The statuschange event is triggered" );
+            } )
+            .on( "focus", function() {
+                assert.ok( true, "The focus event is triggered" );
+            } )
+            .on( "hide", function() {
+                assert.ok( true, "The blur event is triggered" );
+            } )
+            .on( "blur", function() {
+                assert.ok( true, "The blur event is triggered" );
+            } )
+            .on( "unload", function() {
+                assert.ok( true, "The unload event is triggered" );
+            } );
 
-        setTimeout(function() {
+        setTimeout( function() {
             popup.focus();
-        }, 100);
+        }, 100 );
 
-        setTimeout(function() {
+        setTimeout( function() {
             popup.close();
-            QUnit.start();
-        }, 200);
-    });
-});
+            ready();
+        }, 200 );
+    } );
+} );

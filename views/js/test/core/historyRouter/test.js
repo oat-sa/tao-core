@@ -18,238 +18,231 @@
 /**
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-define([
-    'core/historyRouter',
-    'test/core/historyRouter/mock/controller'
-], function (historyRouterFactory, controller) {
-    'use strict';
+define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], function(  historyRouterFactory, controller ) {
+    "use strict";
 
     var location = window.history.location || window.location;
     var port = location.port;
     var protocol = location.protocol;
-    var domain = protocol + '//' + location.hostname;
+    var domain = protocol + "//" + location.hostname;
     var testerUrl = location.href;
 
     var historyRouterApi = [
-        {title: 'redirect'},
-        {title: 'forward'},
-        {title: 'replace'},
-        {title: 'dispatch'},
-        {title: 'pushState'}
+        { title: "redirect" },
+        { title: "forward" },
+        { title: "replace" },
+        { title: "dispatch" },
+        { title: "pushState" }
     ];
 
-    var errorsProvider = [{
-        title: 'Null',
+    var errorsProvider = [ {
+        title: "Null",
         state: null
     }, {
-        title: 'Empty state',
+        title: "Empty state",
         state: {}
     }, {
-        title: 'Empty url',
-        state: ''
+        title: "Empty url",
+        state: ""
     }, {
-        title: 'Empty url in state',
-        state: {url: ''}
-    }];
+        title: "Empty url in state",
+        state: { url: "" }
+    } ];
 
     var pagesProvider;
 
-    if (port && (('http:' === protocol && '80' !== port) || ('https:' === protocol && '443' !== port))) {
-        domain += ':' + port;
+    if ( port && ( ( "http:" === protocol && "80" !== port ) || ( "https:" === protocol && "443" !== port ) ) ) {
+        domain += ":" + port;
     }
 
-    pagesProvider = [{
-        title: 'Index page',
-        state: '/tao/Test/index',
-        expected: domain + '/tao/Test/index'
+    pagesProvider = [ {
+        title: "Index page",
+        state: "/tao/Test/index",
+        expected: domain + "/tao/Test/index"
     }, {
-        title: 'User page',
+        title: "User page",
         state: {
-            url: '/tao/Test/user?id=foo#bar'
+            url: "/tao/Test/user?id=foo#bar"
         },
-        expected: domain + '/tao/Test/user?id=foo#bar'
+        expected: domain + "/tao/Test/user?id=foo#bar"
     }, {
-        title: 'Delivery page',
+        title: "Delivery page",
         state: {
-            url: '/tao/Test/delivery?delivery=bar'
+            url: "/tao/Test/delivery?delivery=bar"
         },
-        expected: domain + '/tao/Test/delivery?delivery=bar'
-    }];
+        expected: domain + "/tao/Test/delivery?delivery=bar"
+    } ];
 
-
-    QUnit.module('API', {
-        setup: function () {
+    QUnit.module( "API", {
+        beforeEach: function( assert ) {
             controller.removeAllListeners();
         },
-        teardown: function() {
-            window.history.replaceState(null, '', testerUrl);
+        afterEach: function( assert ) {
+            window.history.replaceState( null, "", testerUrl );
         }
-    });
+    } );
 
+    QUnit.test( "module", function( assert ) {
+        assert.expect( 3 );
 
-    QUnit.test('module', function (assert) {
-        QUnit.expect(3);
-
-        assert.equal(typeof historyRouterFactory, 'function', "The historyRouter module exposes a function");
-        assert.equal(typeof historyRouterFactory(), 'object', "The historyRouter factory produces an object");
-        assert.equal(historyRouterFactory(), historyRouterFactory(), "The historyRouter factory provides the same object on each call");
-    });
-
+        assert.equal( typeof historyRouterFactory, "function", "The historyRouter module exposes a function" );
+        assert.equal( typeof historyRouterFactory(), "object", "The historyRouter factory produces an object" );
+        assert.equal( historyRouterFactory(), historyRouterFactory(), "The historyRouter factory provides the same object on each call" );
+    } );
 
     QUnit
-        .cases(historyRouterApi)
-        .test('instance API ', function (data, assert) {
+        .cases.init( historyRouterApi )
+        .test( "instance API ", function( data, assert ) {
             var instance = historyRouterFactory();
-            QUnit.expect(1);
-            assert.equal(typeof instance[data.title], 'function', 'The historyRouter instance exposes a "' + data.title + '" function');
-        });
+            assert.expect( 1 );
+            assert.equal( typeof instance[ data.title ], "function", 'The historyRouter instance exposes a "' + data.title + '" function' );
+        } );
 
-
-    QUnit.module('States', {
-        setup: function () {
+    QUnit.module( "States", {
+        beforeEach: function( assert ) {
             controller.removeAllListeners();
         },
-        teardown: function() {
-            window.history.replaceState(null, '', testerUrl);
+        afterEach: function( assert ) {
+            window.history.replaceState( null, "", testerUrl );
         }
-    });
-
-
-    QUnit
-        .cases(pagesProvider)
-        .asyncTest('pushState', function (data, assert) {
-            var instance = historyRouterFactory();
-
-            QUnit.expect(1);
-
-            instance.pushState(data.state)
-                .then(function () {
-                    assert.equal(location.href, data.expected, 'The current page URL must comply to the target state');
-                    QUnit.start();
-                })
-                .catch(function() {
-                    assert.ok(false, 'Should not be rejected!');
-                    QUnit.start();
-                });
-        });
-
+    } );
 
     QUnit
-        .cases(pagesProvider)
-        .asyncTest('replace', function (data, assert) {
+        .cases.init( pagesProvider )
+        .asyncTest( "pushState", function( data, assert ) {
             var instance = historyRouterFactory();
 
-            QUnit.expect(1);
+            assert.expect( 1 );
 
-            instance.replace(data.state)
-                .then(function () {
-                    assert.equal(location.href, data.expected, 'The current page URL must comply to the target state');
+            instance.pushState( data.state )
+                .then( function() {
+                    assert.equal( location.href, data.expected, "The current page URL must comply to the target state" );
                     QUnit.start();
-                })
-                .catch(function() {
-                    assert.ok(false, 'Should not be rejected!');
+                } )
+                .catch( function() {
+                    assert.ok( false, "Should not be rejected!" );
                     QUnit.start();
-                });
-        });
+                } );
+        } );
 
+    QUnit
+        .cases.init( pagesProvider )
+        .asyncTest( "replace", function( data, assert ) {
+            var instance = historyRouterFactory();
 
-    QUnit.asyncTest('forward', function (assert) {
+            assert.expect( 1 );
+
+            instance.replace( data.state )
+                .then( function() {
+                    assert.equal( location.href, data.expected, "The current page URL must comply to the target state" );
+                    QUnit.start();
+                } )
+                .catch( function() {
+                    assert.ok( false, "Should not be rejected!" );
+                    QUnit.start();
+                } );
+        } );
+
+    QUnit.test( "forward", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
         var instance = historyRouterFactory();
 
-        QUnit.expect(2);
+        assert.expect( 2 );
 
-        controller.on('started', function() {
-            assert.ok(true, 'The controller has been started as expected');
-        });
+        controller.on( "started", function() {
+            assert.ok( true, "The controller has been started as expected" );
+        } );
 
-        instance.forward('/tao/Test/user')
-            .then(function () {
-                assert.equal(location.href, testerUrl, 'The current page URL must comply to the target state');
-                QUnit.start();
-            })
-            .catch(function() {
-                assert.ok(false, 'Should not be rejected!');
-                QUnit.start();
-            });
-    });
+        instance.forward( "/tao/Test/user" )
+            .then( function() {
+                assert.equal( location.href, testerUrl, "The current page URL must comply to the target state" );
+                ready();
+            } )
+            .catch( function() {
+                assert.ok( false, "Should not be rejected!" );
+                ready1();
+            } );
+    } );
 
-
-    QUnit.asyncTest('redirect', function (assert) {
+    QUnit.test( "redirect", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
         var instance = historyRouterFactory();
-        var url1 = domain + '/tao/Test/user';
-        var url2 = domain + '/tao/Test/delivery';
+        var url1 = domain + "/tao/Test/user";
+        var url2 = domain + "/tao/Test/delivery";
 
-        QUnit.expect(3);
+        assert.expect( 3 );
 
-        instance.pushState(url1)
-            .then(function () {
-                assert.equal(location.href, url1, 'The url1 should be reached');
+        instance.pushState( url1 )
+            .then( function() {
+                assert.equal( location.href, url1, "The url1 should be reached" );
 
-                return instance.redirect(url2)
-                    .then(function () {
-                        assert.equal(location.href, url2, 'The url2 should be reached');
+                return instance.redirect( url2 )
+                    .then( function() {
+                        assert.equal( location.href, url2, "The url2 should be reached" );
 
                         window.history.back();
 
-                        setTimeout(function(){
-                            assert.equal(location.href, url1, 'The url1 should be restored');
-                            QUnit.start();
-                        }, 250);
-                    });
-            })
-            .catch(function() {
-                assert.ok(false, 'Should not be rejected!');
-                QUnit.start();
-            });
-    });
+                        setTimeout( function() {
+                            assert.equal( location.href, url1, "The url1 should be restored" );
+                            ready();
+                        }, 250 );
+                    } );
+            } )
+            .catch( function() {
+                assert.ok( false, "Should not be rejected!" );
+                ready1();
+            } );
+    } );
 
-
-    QUnit.asyncTest('dispatch', function (assert) {
+    QUnit.test( "dispatch", function( assert ) {
+        var ready1 = assert.async();
+        var ready = assert.async();
         var instance = historyRouterFactory();
-        var url1 = domain + '/tao/Test/user';
-        var url2 = domain + '/tao/Test/delivery';
+        var url1 = domain + "/tao/Test/user";
+        var url2 = domain + "/tao/Test/delivery";
 
-        QUnit.expect(3);
+        assert.expect( 3 );
 
-        instance.dispatch(url1, true)
-            .then(function () {
-                assert.equal(location.href, url1, 'The url1 should be reached');
+        instance.dispatch( url1, true )
+            .then( function() {
+                assert.equal( location.href, url1, "The url1 should be reached" );
 
-                return instance.dispatch(url2, true)
-                    .then(function () {
-                        assert.equal(location.href, url2, 'The url2 should be reached');
+                return instance.dispatch( url2, true )
+                    .then( function() {
+                        assert.equal( location.href, url2, "The url2 should be reached" );
 
-                        instance.trigger('dispatch', url1);
+                        instance.trigger( "dispatch", url1 );
 
-                        setTimeout(function(){
-                            assert.equal(location.href, url1, 'The url1 should be restored');
-                            QUnit.start();
-                        }, 250);
-                    });
-            })
-            .catch(function() {
-                assert.ok(false, 'Should not be rejected!');
-                QUnit.start();
-            });
-    });
-
+                        setTimeout( function() {
+                            assert.equal( location.href, url1, "The url1 should be restored" );
+                            ready();
+                        }, 250 );
+                    } );
+            } )
+            .catch( function() {
+                assert.ok( false, "Should not be rejected!" );
+                ready1();
+            } );
+    } );
 
     QUnit
-        .cases(errorsProvider)
-        .asyncTest('dispatch', function (data, assert) {
+        .cases.init( errorsProvider )
+        .asyncTest( "dispatch", function( data, assert ) {
             var instance = historyRouterFactory();
 
-            QUnit.expect(1);
+            assert.expect( 1 );
 
-            instance.dispatch(data.state)
-                .then(function () {
-                    assert.ok(false, 'Should be rejected!');
+            instance.dispatch( data.state )
+                .then( function() {
+                    assert.ok( false, "Should be rejected!" );
                     QUnit.start();
-                })
-                .catch(function() {
-                    assert.ok(true, 'Should be rejected!');
+                } )
+                .catch( function() {
+                    assert.ok( true, "Should be rejected!" );
                     QUnit.start();
-                });
-        });
+                } );
+        } );
 
-});
+} );
