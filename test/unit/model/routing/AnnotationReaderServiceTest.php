@@ -28,6 +28,12 @@ use oat\tao\model\routing\AnnotationReaderService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Class TestingClass
+ * @package oat\tao\test\unit\model\routing
+ * @requiredRights(key="id", permission="READ")
+ * @security("allow")
+ */
 class TestingClass {
 
     /**
@@ -91,6 +97,18 @@ class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
         self::assertSame([
             'required_rights' => [],
             'security' => [],
+        ], $annotations);
+    }
+
+    public function testGetClassAnnotations()
+    {
+        $annotations = $this->service->getAnnotations(TestingClass::class, '');
+        self::assertSame([
+            'required_rights' => [[
+                'key' => 'id',
+                'permission' => 'READ',
+            ]],
+            'security' => ['allow'],
         ], $annotations);
     }
 }

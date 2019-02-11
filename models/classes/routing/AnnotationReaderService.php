@@ -25,6 +25,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\routing\AnnotationReader\requiredRights;
 use oat\tao\model\routing\AnnotationReader\security;
+use ReflectionClass;
 use ReflectionMethod;
 
 class AnnotationReaderService extends ConfigurableService
@@ -69,9 +70,15 @@ class AnnotationReaderService extends ConfigurableService
             // we need to change autoloader file without this, on each environment
             new requiredRights();
             new security();
-            $reflectionMethod = new ReflectionMethod($className, $methodName);
             $annotationReader = new AnnotationReader();
-            $annotations = $annotationReader->getMethodAnnotations($reflectionMethod);
+
+            if ($methodName) {
+                $reflectionMethod = new ReflectionMethod($className, $methodName);
+                $annotations = $annotationReader->getMethodAnnotations($reflectionMethod);
+            } else {
+                $reflectionClass = new ReflectionClass($className);
+                $annotations = $annotationReader->getClassAnnotations($reflectionClass);
+            }
             foreach ($annotations as $annotation) {
                 switch (get_class($annotation)) {
                     case requiredRights::class :
