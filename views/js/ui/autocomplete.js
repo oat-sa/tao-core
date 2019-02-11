@@ -25,9 +25,9 @@ define([
     'lodash',
     'i18n',
     'util/capitalize',
-    'jquery.autocomplete',
-    'ui/tooltip'
-], function($, _, __, capitalize) {
+    'ui/tooltip',
+    'jquery.autocomplete'
+], function($, _, __, capitalize, tooltip) {
     'use strict';
     /**
      * Namespace for component
@@ -40,17 +40,10 @@ define([
      * @type {Object}
      */
     var tooltipConfigTooMany = {
-        position: {
-            viewport: $(window)
-        },
-        theme : 'info',
-        content: {
-            text: __('Too many suggestions match your query. Only a few are listed')
-        },
-        show: {
-            event: 'custom'
-        }
+        container: $('body').get(0),
+        trigger:'manual'
     };
+    var toolTipMessage = __('Too many suggestions match your query. Only a few are listed');
 
     /**
      * A list of default values for allowed options
@@ -243,6 +236,9 @@ define([
                 this.$element = this.$element.find(':input');
             }
 
+            // prepare the tooltip displayed when more suggestions are available on the server side for the current query
+            this.tooltip = tooltip.info(this.$element, toolTipMessage, tooltipConfigTooMany);
+
             // loads some options from HTML5 data-* attributes
             options = _.assign(_.clone(options || {}), _.pick(this.$element.data(), [
                 'url',
@@ -259,8 +255,6 @@ define([
                 'minChars'
             ]));
 
-            // prepare the tooltip displayed when more suggestions are available on the server side for the current query
-            this.$element.qtip(tooltipConfigTooMany);
 
             // install the keyboard listener used to prevent auto submits
             this.on('keyup keydown keypress', this._onKeyEvent.bind(this));
@@ -284,7 +278,7 @@ define([
             this.applyPlugin('dispose');
             if (this.$element) {
                 this.$element.off('.' + NS);
-                this.$element.qtip('destroy', true);
+                this.tooltip.dispose();
             }
             this.$element = null;
             return this;
@@ -388,7 +382,7 @@ define([
          */
         showTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.qtip('show');
+                this.tooltip.show();
             }
         },
 
@@ -397,7 +391,7 @@ define([
          */
         hideTooltipTooMany : function() {
             if (this.$element) {
-                this.$element.qtip('hide');
+                this.tooltip.hide();
             }
         },
 

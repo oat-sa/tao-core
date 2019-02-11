@@ -23,8 +23,9 @@
 define([
     'lodash',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
     'lib/moo/moo'
-], function (_, registeredTerms, moo) {
+], function (_, registeredTerms, tokensHelper, moo) {
     'use strict';
 
     /**
@@ -65,6 +66,17 @@ define([
     function filterKeyword(term) {
         return term.value.match(reKeyword);
     }
+
+    /**
+     * @typedef {Object} token
+     * @property {String} type - The identifier of the token
+     * @property {String} value - The actual value of the token
+     * @property {String} text - The raw value that produced the token
+     * @property {Number} offset - The original offset in the source
+     * @property {Number} lineBreaks - How many line breaks are contained in the raw value
+     * @property {Number} line - The line number of the token (starting from 1)
+     * @property {Number} col - The column number of the token (starting from 1)
+     */
 
     /**
      * Generates an expression tokenizer.
@@ -120,7 +132,7 @@ define([
              * @returns {function(): String}
              */
             iterator: function iterator(expression) {
-                lexer.reset(expression);
+                lexer.reset(tokensHelper.stringValue(expression));
 
                 return function next() {
                     var term;
@@ -139,7 +151,7 @@ define([
             tokenize: function tokenize(expression) {
                 var terms = [];
                 var term;
-                lexer.reset(expression);
+                lexer.reset(tokensHelper.stringValue(expression));
                 do {
                     term = lexer.next();
                     if (term && !ignoredTokens[term.type]) {

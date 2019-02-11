@@ -52,6 +52,7 @@ interface TaskLogInterface extends LoggerAwareInterface
     const STATUS_COMPLETED = 'completed';
     const STATUS_FAILED = 'failed';
     const STATUS_ARCHIVED = 'archived';
+    const STATUS_CANCELLED = 'cancelled';
     const STATUS_UNKNOWN = 'unknown';
 
     const CATEGORY_UNKNOWN = 'unknown';
@@ -187,6 +188,22 @@ interface TaskLogInterface extends LoggerAwareInterface
      * @return bool
      */
     public function archiveCollection(CollectionInterface $collection, $forceArchive = false);
+
+    /**
+     * @param EntityInterface $entity
+     * @param bool            $forceCancel
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function cancel(EntityInterface $entity, $forceCancel = false);
+
+    /**
+     * @param CollectionInterface $collection
+     * @param bool                $forceCancel
+     * @return bool
+     */
+    public function cancelCollection(CollectionInterface $collection, $forceCancel = false);
 
     /**
      * Gets the current broker instance.

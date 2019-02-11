@@ -15,7 +15,6 @@
 define(['jquery'], function($) {
 
 
-
 	// jQuery plugin
 	$.tree = {
 		datastores	: { },
@@ -379,7 +378,7 @@ define(['jquery'], function($) {
 				var _this = this;
 
 				this.container
-					.bind("mousedown.jstree", function (event) {
+					.on("mousedown.jstree", function (event) {
 						if(tree_component.drag_drop.isdown) {
 							tree_component.drag_drop.move_type = false;
 							event.preventDefault();
@@ -388,15 +387,15 @@ define(['jquery'], function($) {
 							return false;
 						}
 					})
-					.bind("mouseup.jstree", function (event) {
+					.on("mouseup.jstree", function (event) {
 						setTimeout( function() { _this.focus.apply(_this); }, 5);
 					})
-					.bind("click.jstree", function (event) {
+					.on("click.jstree", function (event) {
 						//event.stopPropagation();
 						return true;
 					});
-				$("li", this.container.get(0))
-					.live("click", function(event) { // WHEN CLICK IS ON THE ARROW
+                this.container
+				    .on('click', 'li', function(event) { // WHEN CLICK IS ON THE ARROW
 						if(event.target.tagName != "LI") return true;
 						_this.off_height();
 						if(event.pageY - $(event.target).offset().top > _this.li_height) return true;
@@ -404,8 +403,8 @@ define(['jquery'], function($) {
 						event.stopPropagation();
 						return false;
 					});
-				$("a", this.container.get(0))
-					.live("click", function (event) { // WHEN CLICK IS ON THE TEXT OR ICON
+                this.container
+					.on("click", 'a', function (event) { // WHEN CLICK IS ON THE TEXT OR ICON
 						if(event.which && event.which == 3) return true;
 						if(_this.locked) {
 							event.preventDefault();
@@ -418,7 +417,7 @@ define(['jquery'], function($) {
 						event.target.blur();
 						return false;
 					})
-					.live("dblclick", function (event) { // WHEN DOUBLECLICK ON TEXT OR ICON
+					.on("dblclick", 'a', function (event) { // WHEN DOUBLECLICK ON TEXT OR ICON
 						if(_this.locked) {
 							event.preventDefault();
 							event.stopPropagation();
@@ -430,14 +429,14 @@ define(['jquery'], function($) {
 						event.stopPropagation();
 						event.target.blur();
 					})
-					.live("contextmenu", function (event) {
+					.on("contextmenu", 'a', function (event) {
 						if(_this.locked) {
 							event.target.blur();
 							return _this.error("LOCKED");
 						}
 						return _this.callback("onrgtclk", [_this.get_node(event.target).get(0), _this, event]);
 					})
-					.live("mouseover", function (event) {
+					.on("mouseover", 'a', function (event) {
 						if(_this.locked) {
 							event.preventDefault();
 							event.stopPropagation();
@@ -449,7 +448,7 @@ define(['jquery'], function($) {
 						}
 						_this.callback("onhover",[_this.get_node(event.target).get(0), _this]);
 					})
-					.live("mousedown", function (event) {
+					.on("mousedown", 'a', function (event) {
 						if(_this.settings.rules.drag_button == "left" && event.which && event.which != 1)	return true;
 						if(_this.settings.rules.drag_button == "right" && event.which && event.which != 3)	return true;
 						_this.focus.apply(_this);
@@ -1037,10 +1036,10 @@ define(['jquery'], function($) {
 					_this.inp = $("<input type='text' autocomplete='off' />");
 					_this.inp
 						.val(last_value.replace(/&amp;/g,"&").replace(/&gt;/g,">").replace(/&lt;/g,"<"))
-						.bind("mousedown",		function (event) { event.stopPropagation(); })
-						.bind("mouseup",		function (event) { event.stopPropagation(); })
-						.bind("click",			function (event) { event.stopPropagation(); })
-						.bind("keyup",			function (event) {
+						.on("mousedown",		function (event) { event.stopPropagation(); })
+						.on("mouseup",		function (event) { event.stopPropagation(); })
+						.on("click",			function (event) { event.stopPropagation(); })
+						.on("keyup",			function (event) {
 								var key = event.keyCode || event.which;
 								if(key == 27) { this.value = last_value; this.blur(); return }
 								if(key == 13) { this.blur(); return; }
@@ -1417,7 +1416,7 @@ define(['jquery'], function($) {
 				}
 				if(tree_component.cut_copy.cut_nodes && tree_component.cut_copy.cut_nodes.size()) {
 					var ok = true;
-					obj.parents().andSelf().each(function () {
+					obj.parents().addBack().each(function () {
 						if(tree_component.cut_copy.cut_nodes.index(this) != -1) {
 							ok = false;
 							return false;
@@ -1505,8 +1504,8 @@ define(['jquery'], function($) {
 			destroy : function() {
 				this.callback("ondestroy", [this]);
 
-				this.container.unbind(".jstree");
-				$("#" + this.container.attr("id")).die("click.jstree").die("dblclick.jstree").die("mouseover.jstree").die("mouseout.jstree").die("mousedown.jstree");
+				this.container.off(".jstree");
+				$("#" + this.container.attr("id")).off("*.jstree");
 				this.container.removeClass("tree ui-widget ui-widget-content tree-default tree-" + this.settings.ui.theme_name).children("ul").removeClass("no_dots ltr locked").find("li").removeClass("leaf").removeClass("open").removeClass("closed").removeClass("last").children("a").removeClass("clicked hover search");
 
 				if(this.cntr == tree_component.focused) {
@@ -1734,8 +1733,8 @@ define(['jquery'], function($) {
 		return true;
 	};
 	$(function () {
-		$(document).bind("mousemove.jstree",	tree_component.mousemove);
-		$(document).bind("mouseup.jstree",		tree_component.mouseup);
+		$(document).on("mousemove.jstree",	tree_component.mousemove);
+		$(document).on("mouseup.jstree",		tree_component.mouseup);
 	});
 
 	// cut, copy, paste stuff

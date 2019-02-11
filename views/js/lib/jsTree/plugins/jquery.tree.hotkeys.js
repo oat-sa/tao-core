@@ -64,7 +64,7 @@
 					for(var i in opts.functions) {
 						if(opts.functions.hasOwnProperty(i) && $.inArray(i, $.tree.plugins.hotkeys.bound) == -1) {
 							(function (k) {
-								$(document).bind("keydown", { combi : k, disableInInput: true }, function (event) {
+								$(document).on("keydown", { combi : k, disableInInput: true }, function (event) {
 									return $.tree.plugins.hotkeys.exec(k);
 								});
 							})(i);

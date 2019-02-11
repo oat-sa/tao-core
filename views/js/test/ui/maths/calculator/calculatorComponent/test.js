@@ -22,8 +22,9 @@ define([
     'jquery',
     'lodash',
     'core/promise',
+    'ui/maths/calculator/core/plugin',
     'ui/maths/calculator/calculatorComponent'
-], function ($, _, Promise, calculatorComponentFactory) {
+], function ($, _, Promise, pluginFactory, calculatorComponentFactory) {
     'use strict';
 
     QUnit.module('Factory');
@@ -125,6 +126,60 @@ define([
 
                 assert.equal(typeof instance.getCalculator(), 'object', 'The calculator component is reachable');
                 assert.equal(typeof instance.getCalculator().evaluate, 'function', 'The calculator component is valid');
+
+                this.destroy();
+            })
+            .on('destroy', function () {
+                QUnit.start();
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('additional plugins', function (assert) {
+        var $container = $('#fixture-plugin');
+        var instance;
+
+        var plugin1 = pluginFactory({
+            name: 'plugin1',
+            install: function install() {
+                assert.ok(true, 'The plugin1 is installed');
+            },
+            init: function init() {
+                assert.ok(true, 'The plugin1 is initialized');
+            }
+        });
+        var plugin2 = pluginFactory({
+            name: 'plugin2',
+            install: function install() {
+                assert.ok(true, 'The plugin2 is installed');
+            },
+            init: function init() {
+                assert.ok(true, 'The plugin2 is initialized');
+            }
+        });
+
+        QUnit.expect(7);
+
+        assert.equal($container.children().length, 0, 'The container is empty');
+
+        instance = calculatorComponentFactory({
+            loadedPlugins: {
+                additional: [
+                    plugin1,
+                    plugin2
+                ]
+            },
+            renderTo: $container
+        })
+            .on('init', function () {
+                assert.equal(this, instance, 'The instance has been initialized');
+            })
+            .on('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
 
                 this.destroy();
             })

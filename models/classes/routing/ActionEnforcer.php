@@ -24,7 +24,6 @@ use IExecutable;
 use ActionEnforcingException;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
-use ReflectionClass;
 use ReflectionMethod;
 
 use common_session_SessionManager;
@@ -42,7 +41,7 @@ use oat\oatbox\log\TaoLoggerAwareInterface;
 /**
  * ActionEnforcer class
  * TODO ActionEnforcer class documentation.
- * 
+ *
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
  */
@@ -52,34 +51,47 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     use LoggerAwareTrait;
 
     private $extension;
-    
+
     private $controller;
-    
+
     private $action;
-    
+
     private $parameters;
-    
+
     public function __construct($extensionId, $controller, $action, array $parameters) {
         $this->extension = $extensionId;
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
     }
-    
+
     protected function getExtensionId() {
         return $this->extension;
     }
-    
+
     protected function getControllerClass() {
         return $this->controller;
     }
-    
+
     protected function getAction() {
         return $this->action;
     }
-    
+
     protected function getParameters() {
         return $this->parameters;
+    }
+
+    protected function getController()
+    {
+        $controllerClass = $this->getControllerClass();
+        if(class_exists($controllerClass)) {
+            $controller = new $controllerClass();
+            $this->propagate($controller);
+            $controller->initialize();
+            return $controller;
+        } else {
+            throw new ActionEnforcingException('Controller "'.$controllerClass.'" could not be loaded.', $controllerClass, $this->getAction());
+        }
     }
 
     /**
@@ -94,13 +106,13 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $func  = new FuncProxy();
             $data  = new DataAccessControl();
             //now go into details to see which kind of permissions are not correct
-            if($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) && 
+            if($func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) &&
                !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())){
-               
-                throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
-            } 
 
-            throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+	            throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+            }
+
+	        throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
         }
     }
 
