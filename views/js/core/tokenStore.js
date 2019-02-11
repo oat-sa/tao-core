@@ -40,7 +40,8 @@ define([
      * Create a token store
      * @param {Object} [options]
      * @param {Number} [options.maxSize = 6] - the store limit
-     * @param {String} [options.tokenTimeLimit]
+     * @param {Number} [options.tokenTimeLimit] - time in milliseconds each token remains valid for
+     * @param {String} [options.initialToken] - first token to put in the store
      * @returns {tokenStore}
      */
     return function tokenStoreFactory(options) {
@@ -56,6 +57,13 @@ define([
         // push newly received token(s) onto the back end
         // shift oldest token off the front end, to use
         var index = [];
+
+        if (options.initialToken) {
+            this.add({
+                value: options.initialToken,
+                receivedAt: Date.now()
+            });
+        }
 
         console.warn('tokenStore established with maxSize', config.maxSize);
 
@@ -86,8 +94,8 @@ define([
              * Add an entry to the store as well
              *
              * @param {Object} token - the token object
-             * @param {String} [token.value] - long alphanumeric string
-             * @param {Number} [token.receivedAt] - timestamp
+             * @param {String} token.value - long alphanumeric string
+             * @param {Number} token.receivedAt - timestamp
              * @returns {Promise<Boolean>} - true if added
              */
             add: function add(token) {

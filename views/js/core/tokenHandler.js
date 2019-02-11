@@ -43,9 +43,15 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
      */
     return function tokenHandlerFactory(config) {
 
-        // Initialise queue, empty queue will produce a null token
         var tokenStore;
+        // Convert legacy parameter:
+        if (_.isString(config)) {
+            config = {
+                initialToken: config
+            };
+        }
         config = _.defaults({}, config, defaults);
+        // Initialise storage for tokens:
         tokenStore = tokenStoreFactory(config);
 
         return {
