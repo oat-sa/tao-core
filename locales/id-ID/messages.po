@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint93\n"
-"PO-Revision-Date: 2019-01-04T13:31:21\n"
+"Project-Id-Version: TAO 3.3.0-sprint94\n"
+"PO-Revision-Date: 2019-02-01T09:17:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: id-ID\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -346,13 +346,16 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "Cancel"
-msgstr ""
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr ""
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -371,10 +374,13 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check all"
+msgid "Change the sign of the current operand"
 msgstr ""
 
 msgid "Check All"
+msgstr ""
+
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -419,10 +425,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -527,10 +533,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -949,10 +955,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1016,6 +1022,9 @@ msgid "Last Name"
 msgstr ""
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1162,9 +1171,6 @@ msgstr ""
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr ""
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr ""
-
 msgid "Multiple values delimiter"
 msgstr ""
 
@@ -1230,10 +1236,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1285,10 +1291,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1623,10 +1629,10 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -1639,9 +1645,6 @@ msgid "Select a language"
 msgstr ""
 
 msgid "Select loaded %s"
-msgstr ""
-
-msgid "Select the element destination"
 msgstr ""
 
 msgid "Select this file"
@@ -1676,6 +1679,9 @@ msgid "Settings updated"
 msgstr ""
 
 msgid "Show detailed report"
+msgstr ""
+
+msgid "Sign change"
 msgstr ""
 
 msgid "Simple Mode"
@@ -1745,6 +1751,9 @@ msgid "TAO Home"
 msgstr ""
 
 msgid "TAO Login"
+msgstr ""
+
+msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
 
 msgid "task created"
@@ -1969,10 +1978,13 @@ msgstr ""
 msgid "Unable to upload file %s : %s"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Unary operator -"
 msgstr ""
 
 msgid "Uncheck all"
+msgstr ""
+
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

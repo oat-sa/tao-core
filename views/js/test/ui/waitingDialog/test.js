@@ -127,7 +127,7 @@ define([
             assert.equal($('.modal', $container).length, 1, 'The modal is opened');
             assert.equal($('.modal .message', $container).text(), 'message');
             assert.equal($('.modal .content', $container).text(), 'wait content');
-            assert.equal($('.modal button', $container).text(), 'wait button');
+            assert.equal($('.modal button .label', $container).text(), 'wait button');
             assert.equal($('.modal button', $container).prop('disabled'), true, 'the button is disabled');
 
             this.endWait();
@@ -137,15 +137,66 @@ define([
             assert.equal($('.modal', $container).length, 1, 'The modal remains opened');
             assert.equal($('.modal .message', $container).text(), 'message');
             assert.equal($('.modal .content', $container).text(), 'proceed content');
-            assert.equal($('.modal button', $container).text(), 'proceed button');
+            assert.equal($('.modal button .label', $container).text(), 'proceed button');
             assert.equal($('.modal button', $container).prop('disabled'), false, 'the button is not disabled anymore');
 
             this.on('wait', function(){
 
                 assert.equal($('.modal .message', $container).text(), 'message');
                 assert.equal($('.modal .content', $container).text(), 'wait content');
-                assert.equal($('.modal button', $container).text(), 'wait button');
+                assert.equal($('.modal button .label', $container).text(), 'wait button');
                 assert.equal($('.modal button', $container).prop('disabled'), true, 'the button is disabled');
+
+                this.destroy();
+                QUnit.start();
+            });
+            this.beginWait();
+        });
+    });
+
+    QUnit.asyncTest('Rendering with secondary', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(18);
+
+        waitingDialog({
+            container : $container,
+            message : 'message',
+            waitContent : 'wait content',
+            waitButtonText : 'wait button',
+            proceedContent : 'proceed content',
+            proceedButtonText : 'proceed button',
+            showSecondary : true,
+            secondaryButtonText: 'other button'
+        })
+        .on('init', function(){
+            assert.equal($('.modal', $container).length, 0, 'The modal is closed');
+        })
+        .on('render', function(){
+            assert.equal($('.modal', $container).length, 1, 'The modal is opened');
+            assert.ok($('.modal').hasClass('has-secondary'), 'The modal has \'has-secondary\' class');
+            assert.equal($('.modal .buttons button', $container).length, 2, 'The modal has 2 buttons');
+            assert.equal($('.modal button:first-child .label', $container).text(), 'wait button');
+            assert.equal($('.modal button:first-child', $container).prop('disabled'), true, 'the button is disabled');
+            assert.equal($('.modal button.secondary .label', $container).text(), 'other button');
+            assert.equal($('.modal button.secondary', $container).prop('disabled'), false, 'the secondary button is enabled');
+            assert.equal($('.modal button.secondary', $container).hasClass('hidden'), false, 'the secondary button is visible');
+
+            this.endWait();
+        })
+        .on('unwait', function(){
+
+            assert.equal($('.modal', $container).length, 1, 'The modal remains opened');
+            assert.equal($('.modal button:first-child .label', $container).text(), 'proceed button');
+            assert.equal($('.modal button:first-child', $container).prop('disabled'), false, 'the button is not disabled anymore');
+            assert.equal($('.modal button.secondary', $container).prop('disabled'), true, 'the secondary button is disabled');
+            assert.equal($('.modal button.secondary', $container).hasClass('hidden'), true, 'the secondary button is hidden');
+
+            this.on('wait', function(){
+                assert.equal($('.modal button:first-child .label', $container).text(), 'wait button');
+                assert.equal($('.modal button:first-child', $container).prop('disabled'), true, 'the button is disabled');
+                assert.equal($('.modal button.secondary', $container).prop('disabled'), false, 'the secondary button is enabled');
+                assert.equal($('.modal button.secondary', $container).hasClass('hidden'), false, 'the secondary button is visible');
 
                 this.destroy();
                 QUnit.start();

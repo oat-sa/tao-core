@@ -22,106 +22,112 @@ define(['i18n'], function (__) {
     'use strict';
 
     return {
-        // Operand definition
+        // Digits definition
         NUM0: {
             label: '0',
             value: '0',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 0')
         },
         NUM1: {
             label: '1',
             value: '1',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 1')
         },
         NUM2: {
             label: '2',
             value: '2',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 2')
         },
         NUM3: {
             label: '3',
             value: '3',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 3')
         },
         NUM4: {
             label: '4',
             value: '4',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 4')
         },
         NUM5: {
             label: '5',
             value: '5',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 5')
         },
         NUM6: {
             label: '6',
             value: '6',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 6')
         },
         NUM7: {
             label: '7',
             value: '7',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 7')
         },
         NUM8: {
             label: '8',
             value: '8',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 8')
         },
         NUM9: {
             label: '9',
             value: '9',
-            type: 'operand',
+            type: 'digit',
             description: __('Digit 9')
         },
         DOT: {
             label: '.',
             value: '.',
-            type: 'operand',
+            type: 'digit',
             description: __('Dot')
         },
         POW10: {
             label: 'e',
             value: 'e',
-            type: 'operand',
+            type: 'digit',
             description: __('Power of 10')
         },
 
-        // Modificators
+        // Aggregators
         LPAR: {
             label: '(',
             value: '(',
-            type: 'modificator',
+            type: 'aggregator',
             description: __('Left parenthesis')
         },
         RPAR: {
             label: ')',
             value: ')',
-            type: 'modificator',
+            type: 'aggregator',
             description: __('Right parenthesis')
         },
 
         // Operators
-        ADD: {
-            label: '+',
-            value: '+',
-            type: 'operator',
-            description: __('Binary operator +')
-        },
         SUB: {
             label: '-',
             value: '-',
             type: 'operator',
             description: __('Binary operator -')
+        },
+        NEG: {
+            label: '\u207B',
+            value: '\u207B',
+            type: 'operator',
+            description: __('Unary operator -')
+        },
+        ADD: {
+            label: '+',
+            value: '+',
+            type: 'operator',
+            description: __('Binary operator +')
         },
         MUL: {
             label: '\u00D7',
@@ -158,6 +164,14 @@ define(['i18n'], function (__) {
             value: '=',
             type: 'operator',
             description: __('Assign')
+        },
+
+        // Variables
+        ANS: {
+            label: 'Ans',
+            value: 'ans',
+            type: 'variable',
+            description: __('Last result')
         },
 
         // Constants
@@ -262,19 +276,19 @@ define(['i18n'], function (__) {
             description: __('Tangent')
         },
         ASIN: {
-            label: 'sin<sup>-1</sup>',
+            label: 'sin<sup>\u207B1</sup>',
             value: 'asin',
             type: 'function',
             description: __('Arc sine')
         },
         ACOS: {
-            label: 'cos<sup>-1</sup>',
+            label: 'cos<sup>\u207B1</sup>',
             value: 'acos',
             type: 'function',
             description: __('Arc cosine')
         },
         ATAN: {
-            label: 'tan<sup>-1</sup>',
+            label: 'tan<sup>\u207B1</sup>',
             value: 'atan',
             type: 'function',
             description: __('Arc tangent')
@@ -298,19 +312,19 @@ define(['i18n'], function (__) {
             description: __('Hyperbolic tangent')
         },
         ASINH: {
-            label: 'sinh<sup>-1</sup>',
+            label: 'sinh<sup>\u207B1</sup>',
             value: 'asinh',
             type: 'function',
             description: __('Hyperbolic arc sine')
         },
         ACOSH: {
-            label: 'cosh<sup>-1</sup>',
+            label: 'cosh<sup>\u207B1</sup>',
             value: 'acosh',
             type: 'function',
             description: __('Hyperbolic arc cosine')
         },
         ATANH: {
-            label: 'tanh<sup>-1</sup>',
+            label: 'tanh<sup>\u207B1</sup>',
             value: 'atanh',
             type: 'function',
             description: __('Hyperbolic arc tangent')

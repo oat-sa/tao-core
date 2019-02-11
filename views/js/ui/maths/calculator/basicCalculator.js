@@ -40,6 +40,9 @@ define([
      * @returns {dynamicComponent}
      */
     return function basicCalculatorFactory(config) {
+        // The plugins config is directly built here instead of using a module variable to ensure the object is unique
+        // to the instance. This wil avoid global polluting by successive instances, as nested objects and arrays might
+        // be simply copied.
         return defaultCalculatorFactory(_.merge({
             calculator: {
                 plugins: {

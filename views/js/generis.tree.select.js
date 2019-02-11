@@ -9,6 +9,7 @@
  * @require jstree = 0.9.9 [http://jstree.com/]
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Aliaksandr Katovich, <aliaksandr@taotesting.com>
  * @author Jehan Bihin (class)
  */
 
@@ -21,11 +22,13 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 		 * @param {Object} options
 		 */
 		init: function(selector, dataUrl, options) {
+			this.loadedData = null;
 			this.checkedNodes = (typeof options.checkedNodes !== "undefined") ? options.checkedNodes.slice(0) : [];
 			this.hiddenNodes = (typeof options.hiddenNodes !== "undefined") ? options.hiddenNodes.slice(0) : [];
 			if (options.callback && options.callback.checkPaginate) {
 				this.checkPaginate = options.callback.checkPaginate;
 			}
+			this.checkResourcePermissions = (typeof options.checkResourcePermissions !== 'undefined') ? options.checkResourcePermissions : false;
 			var instance = this;
 
 			/**
@@ -94,12 +97,15 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 							instance.check(instance.checkedNodes);
 						}
 					},
-					//
+					/**
+					 * Triggered actions when data was loaded
+					 * @param {Object} TREE_OBJ - the reference to the tree
+					 */
 					onload: function(TREE_OBJ) {
 						instance.check(instance.checkedNodes);
 
 						if (instance.options.loadCallback) {
-							instance.options.loadCallback();
+							instance.options.loadCallback(TREE_OBJ);
 						}
 
 						instance.isRefreshing = false;
@@ -126,17 +132,42 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 					},
 					//
 					ondata: function(DATA, TREE_OBJ) {
+                        if (instance.checkResourcePermissions) {
+                            var children;
+                            var filteredChildren = [];
+                            var permissions = DATA.permissions;
+
+                            if (DATA.tree.children) {
+                                children = DATA.tree.children;
+                            } else {
+                                children = DATA.tree;
+                            }
+                            //checking all the permissions recursively to check if inner classes/instances should be hidden
+                            filteredChildren = instance.checkPermissionsRecursively(children, permissions);
+
+                            //setting filtered children back
+                            if (DATA.tree.children) {
+                                DATA.tree.children = filteredChildren;
+                            } else {
+                                DATA.tree = filteredChildren;
+                            }
+                            DATA = DATA.tree;
+                        }
+
 						//automatically open the children of the received node
 						if (DATA.children) {
 							DATA.state = 'open';
 						}
-                        
+
+						//saving response data
+						instance.loadedData = DATA;
+
 						//extract meta data from children
 						instance.extractMeta(DATA);
-                        
+
                         //remove hidden nodes from the data
                         instance.removeHiddenNodes(DATA.children || DATA);
-                        
+
 						return DATA;
 					}
 				},
@@ -157,16 +188,45 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 				e.data.instance.saveData();
 			});
 		},
-        
+
+        /**
+		 * Check permissions (if applicable) on the tree members
+         * @param {Array} children list of nodes
+         * @param {Array} permissions list of permissions returned from backend to check against
+         * @returns {Array}
+         */
+        checkPermissionsRecursively : function checkPermissionsRecursively(children, permissions) {
+			var filteredChildren = [];
+			var recursiveCheck = [];
+
+            _.each(children, function(dataObj) {
+                var key = dataObj.attributes['data-uri'];
+
+                if (dataObj.children && dataObj.children.length > 0) {
+                    recursiveCheck = checkPermissionsRecursively(dataObj.children, permissions);
+                    if (permissions.data[key] && permissions.data[key].indexOf('READ') !== -1) {
+                        dataObj.children = recursiveCheck;
+                        filteredChildren.push(dataObj);
+                    }
+				} else {
+                    if (permissions.data[key] && permissions.data[key].indexOf('READ') !== -1) {
+                        filteredChildren.push(dataObj);
+                    }
+				}
+            });
+
+            return filteredChildren;
+		},
+
         /**
          * Remove configured hidden nodes from the DATA
          * @param {Array} nodes
          */
         removeHiddenNodes : function removeHiddenNodes(nodes){
-            
+
             var self = this;
             var hiddenNodes = this.hiddenNodes;
-            
+
             if(_.isArray(nodes) && hiddenNodes && _.isArray(hiddenNodes)){
                 _.remove(nodes, function(node){
                     if(node.type === 'instance'){
@@ -177,7 +237,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
                 });
             }
         },
-        
+
 		trace: function() {
 			/*console.log('TRACE '+
 				arguments.callee.caller
@@ -200,7 +260,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 				"limit": instancesLeft < this.paginate ? instancesLeft : this.paginate
 			};
 			options = $.extend(options, pOptions);
-            
+
 			$.post(this.dataUrl, options, (function(instance) {return function(DATA) {
 				//Hide paginate options
 				instance.hidePaginate(NODE, TREE_OBJ);
