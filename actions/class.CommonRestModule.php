@@ -60,6 +60,12 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             $this->returnSuccess($response);
 
         } catch (Exception $e) {
+            if ($e instanceof \common_exception_ValidationFailed &&
+                $alias = $this->reverseSearchAlias($e->getField())
+            ) {
+                $e = new \common_exception_ValidationFailed($alias, null, $e->getCode());
+            }
+
             $this->returnFailure($e);
         }
     }
@@ -248,6 +254,14 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             "comment" => OntologyRdfs::RDFS_COMMENT,
             "type"=> OntologyRdf::RDF_TYPE
         );
+    }
+
+    /**
+     * @param string $paramName
+     * @return string|false
+     */
+    protected function reverseSearchAlias($paramName) {
+        return array_search($paramName, $this->getParametersAliases(), true);
     }
 
     /**
