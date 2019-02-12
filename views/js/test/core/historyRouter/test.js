@@ -109,7 +109,7 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
 
     QUnit
         .cases.init( pagesProvider )
-        .asyncTest( "pushState", function( data, assert ) {
+        .test( "pushState", function( data, assert ) {
             var instance = historyRouterFactory();
 
             assert.expect( 1 );
@@ -127,7 +127,7 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
 
     QUnit
         .cases.init( pagesProvider )
-        .asyncTest( "replace", function( data, assert ) {
+        .test( "replace", function( data, assert ) {
             var instance = historyRouterFactory();
 
             assert.expect( 1 );
@@ -229,7 +229,7 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
 
     QUnit
         .cases.init( errorsProvider )
-        .asyncTest( "dispatch", function( data, assert ) {
+        .test( "dispatch", function( data, assert ) {
             var instance = historyRouterFactory();
 
             assert.expect( 1 );

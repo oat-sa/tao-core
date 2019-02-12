@@ -80,7 +80,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                 expectedUrl: baseUrlRel + "&section=authoring"
             }
         ] )
-        .asyncTest( "Push new state in history when section parameter already exists", function( data, assert ) {
+        .test( "Push new state in history when section parameter already exists", function( data, assert ) {
             var state = window.history.state;
 
             assert.expect( 6 );
@@ -124,7 +124,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                 expectedUrl: baseUrlRel + "&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555" + "&section=authoring"
             }
         ] )
-        .asyncTest( "Replace current state when section does not exists", function( data, assert ) {
+        .test( "Replace current state when section does not exists", function( data, assert ) {
             var state = window.history.state;
 
             assert.expect( 6 );
@@ -162,7 +162,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                 baseUrl: baseUrlAbs + "&section=authoring"
             }
         ] )
-        .asyncTest( "Does not change state", function( data, assert ) {
+        .test( "Does not change state", function( data, assert ) {
 
             generisRouter
                 .off( ".test" )
@@ -237,7 +237,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                 }
             }
         ] )
-        .asyncTest( "Push new state in history when uri parameter already exists", function( data, assert ) {
+        .test( "Push new state in history when uri parameter already exists", function( data, assert ) {
             var state = window.history.state;
 
             assert.expect( 6 );
@@ -312,7 +312,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                 }
             }
         ] )
-        .asyncTest( "Replace current state when uri parameter does not exists", function( data, assert ) {
+        .test( "Replace current state when uri parameter does not exists", function( data, assert ) {
             var state = window.history.state;
 
             assert.expect( 6 );
@@ -352,7 +352,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                 baseUrl: baseUrlAbs + "&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i888888888888888"
             }
         ] )
-        .asyncTest( "Does not change state", function( data, assert ) {
+        .test( "Does not change state", function( data, assert ) {
             generisRouter
                 .off( ".test" )
                 .on( "pushnodestate.test", function() {

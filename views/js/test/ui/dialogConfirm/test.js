@@ -74,7 +74,7 @@ define( [  "ui/dialog/confirm" ], function(  dialogConfirm ) {
 
     QUnit
         .cases.init( confirmCases )
-        .asyncTest( "use ", function( data, assert ) {
+        .test( "use ", function( data, assert ) {
             var accept = function() {
                 assert.equal( data.button, "ok", "The dialogConfirm has triggered the accept callback function when hitting the ok button!" );
                 QUnit.start();

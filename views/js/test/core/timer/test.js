@@ -148,7 +148,7 @@ define( [  "lodash", "core/timer" ], function(  _, timerFactory ) {
 
     QUnit
         .cases.init( timerOptions )
-        .asyncTest( "timer.tick ", function( data, assert ) {
+        .test( "timer.tick ", function( data, assert ) {
             assert.expect( 6 );
 
             var delay = 200;
@@ -188,7 +188,7 @@ define( [  "lodash", "core/timer" ], function(  _, timerFactory ) {
 
     QUnit
         .cases.init( timerOptions )
-        .asyncTest( "timer.getDuration ", 8, function( data, assert ) {
+        .test( "timer.getDuration ", 8, function( data, assert ) {
             var delay = 200;
             var expectedDuration = data.duration || 0;
             var timer = timerFactory( data.config );
@@ -236,7 +236,7 @@ define( [  "lodash", "core/timer" ], function(  _, timerFactory ) {
 
     QUnit
         .cases.init( timerOptions )
-        .asyncTest( "timer.add ", 8, function( data, assert ) {
+        .test( "timer.add ", 8, function( data, assert ) {
             var delay = 200;
             var expectedDuration = data.duration || 0;
             var timer = timerFactory( data.config );
@@ -288,7 +288,7 @@ define( [  "lodash", "core/timer" ], function(  _, timerFactory ) {
 
     QUnit
         .cases.init( timerOptions )
-        .asyncTest( "timer.sub ", 8, function( data, assert ) {
+        .test( "timer.sub ", 8, function( data, assert ) {
             var delay = 200;
             var expectedDuration = data.duration || 0;
             var timer = timerFactory( data.config );

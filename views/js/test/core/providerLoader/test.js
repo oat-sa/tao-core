@@ -178,7 +178,7 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
     }, {
         title: "missing init",
         module: "test/core/providerLoader/mockProviderMissingInit"
-    } ] ).asyncTest( "load a wrong provider ", function( data, assert ) {
+    } ] ).test( "load a wrong provider ", function( data, assert ) {
         var provider = {
             module: data.module,
             category: "mock"

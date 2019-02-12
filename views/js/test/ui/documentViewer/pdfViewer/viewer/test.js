@@ -72,7 +72,7 @@ define( [
 
     QUnit
         .cases.init( contexts )
-        .asyncTest( "render ", function( data, assert ) {
+        .test( "render ", function( data, assert ) {
             assert.expect( headless ? 2 : 3 );
 
             requirejs.undef( PDFjsId );

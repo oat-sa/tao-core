@@ -183,7 +183,7 @@ define( [  "jquery", "ui/feedback" ], function(  $, feedback ) {
             message: "It seems you suffer from hippopotomonstrosesq. uipedaliophobia"
         }
     } ] )
-    .asyncTest( "message ", function( data, assert ) {
+    .test( "message ", function( data, assert ) {
         assert.expect( 5 );
 
         feedback( )

@@ -88,7 +88,7 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
                 getItem: function() {}
             };
         }
-    } ] ).asyncTest( "factory", function( data, assert ) {
+    } ] ).test( "factory", function( data, assert ) {
         var p;
 
         assert.expect( 2 );
@@ -498,7 +498,7 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
         since: "P1D",
         pattern: /^store-1/,
         removed: [ "store-1-day", "store-10-days" ]
-    } ] ).asyncTest( "cleanUpSpace, clean up stores", function( data, assert ) {
+    } ] ).test( "cleanUpSpace, clean up stores", function( data, assert ) {
 
         var now = Date.now();
         var aDay = 1000 * 60 * 60 * 24;

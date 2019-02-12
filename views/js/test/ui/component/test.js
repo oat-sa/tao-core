@@ -313,7 +313,7 @@ define( [  "jquery", "lodash", "ui/component" ], function(  $, _, componentFacto
                 outerWidth: 120, outerHeight: 120
             }
         ] )
-        .asyncTest( "getOuterSize()", function( data, assert ) {
+        .test( "getOuterSize()", function( data, assert ) {
             var template = "<div>TEST</div>",
                 $container1 = $( "#fixture-1" );
 

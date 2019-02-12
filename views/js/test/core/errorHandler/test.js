@@ -1,6 +1,6 @@
 define( [  "core/errorHandler" ], function(  errorHandler ) {
 
-    QUnit.test( "module API", 5, function( assert ) {
+    QUnit.test( "module API", function( assert ) {
         assert.ok( typeof errorHandler === "object", "The errorHandler module exposes an object" );
         assert.ok( typeof errorHandler.getContext === "function", "The errorHandler has a method getContext" );
         assert.ok( typeof errorHandler.listen === "function", "The errorHandler has a method listen" );
@@ -14,7 +14,7 @@ define( [  "core/errorHandler" ], function(  errorHandler ) {
         }
     } );
 
-    QUnit.test( "create a context", 3, function( assert ) {
+    QUnit.test( "create a context", function( assert ) {
 
         assert.ok( typeof errorHandler._contexts.context1 === "undefined", "The context is not yet created" );
 
@@ -25,7 +25,7 @@ define( [  "core/errorHandler" ], function(  errorHandler ) {
 
     } );
 
-    QUnit.test( "reset a context", 3, function( assert ) {
+    QUnit.test( "reset a context", function( assert ) {
 
         assert.ok( typeof errorHandler._contexts.context1 === "undefined", "The context is not yet created" );
 
@@ -38,33 +38,36 @@ define( [  "core/errorHandler" ], function(  errorHandler ) {
         assert.ok( typeof errorHandler._contexts.context1 === "undefined", "The context is now removed" );
     } );
 
-    QUnit.test( "throw an error", 2, function( assert ) {
+    QUnit.test( "throw an error", function( assert ) {
+        var ready = assert.async();
 
         errorHandler.listen( "footext", function( err ) {
 
             assert.ok( err instanceof Error, "we got an Error" );
             assert.equal( err.message, "foo", "the error is the one thrown" );
 
-            QUnit.start();
+            ready();
         } );
 
         errorHandler.throw( "footext", new Error( "foo" ) );
     } );
 
-     QUnit.test( "throw a string error", 2, function( assert ) {
+     QUnit.test( "throw a string error",  function( assert ) {
+         var ready = assert.async();
 
-        errorHandler.listen( "footext", function( err ) {
+         errorHandler.listen( "footext", function( err ) {
 
             assert.ok( err instanceof Error, "we got an Error" );
             assert.equal( err.message, "foo", "the error is the one thrown" );
 
-            QUnit.start();
+            ready();
         } );
 
         errorHandler.throw( "footext", "foo" );
     } );
 
-    QUnit.test( "listen typed errors", 4, function( assert ) {
+    QUnit.test( "listen typed errors",  function( assert ) {
+        var ready = assert.async();
 
         errorHandler.listen( "footext", "TypeError", function( err ) {
 
@@ -73,14 +76,16 @@ define( [  "core/errorHandler" ], function(  errorHandler ) {
             assert.equal( err.name, "TypeError", "the error is the one thrown" );
             assert.equal( err.message, "bar", "the error is the one thrown" );
 
-            QUnit.start();
+            ready();
         } );
 
         errorHandler.throw( "footext", new Error( "foo" ) );
         errorHandler.throw( "footext", new TypeError( "bar" ) );
     } );
 
-    QUnit.test( "listen global and typed errors", 8, function( assert ) {
+    QUnit.test( "listen global and typed errors",  function( assert ) {
+        var ready = assert.async();
+
 
         errorHandler.listen( "footext", "TypeError", function( err ) {
             assert.ok( err instanceof Error, "we got an Error" );
@@ -96,7 +101,7 @@ define( [  "core/errorHandler" ], function(  errorHandler ) {
             assert.equal( err.name, "TypeError", "the error is the one thrown" );
             assert.equal( err.message, "bar", "the error is the one thrown" );
 
-            QUnit.start();
+            ready();
         } );
         errorHandler.throw( "footext", new TypeError( "bar" ) );
     } );

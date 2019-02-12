@@ -76,7 +76,6 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
         } );
 
     QUnit.test( "proxy.init()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var initConfig = {};
         var result, proxy;
@@ -112,12 +111,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy.destroy()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
 
@@ -151,12 +149,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy.create()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -203,12 +200,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy.read()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -255,12 +251,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy.write()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -307,12 +302,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy.remove()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -359,12 +353,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy.action()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedAction = "fooBar";
@@ -414,12 +407,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy.addExtraParams()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var expectedAction = "fooBar";
         var expectedParams = {
@@ -503,7 +495,7 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
@@ -522,7 +514,6 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
     } );
 
     QUnit.test( "proxy with middleware", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var current;
@@ -580,12 +571,11 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "proxy #error", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedError = new Error( "Test" );
@@ -616,7 +606,7 @@ define( [  "lodash", "core/promise", "core/dataProvider/proxy" ], function(  _, 
             .catch( function( err ) {
                 assert.ok( true, "The promise should be rejected" );
                 assert.deepEqual( err, expectedError, "The proxyFactory has provided the error" );
-                ready1();
+                ready();
             } );
     } );
 } );

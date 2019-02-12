@@ -40,7 +40,7 @@ define( [  "jquery", "ui/waitingDialog/waitingDialog" ], function(  $, waitingDi
         { title: "getElement" },
         { title: "getTemplate" },
         { title: "setTemplate" }
-    ] ).asyncTest( "Component API ", function( data, assert ) {
+    ] ).test( "Component API ", function( data, assert ) {
         waitingDialog( config ).on( "init", function() {
             assert.equal( typeof this[ data.title ], "function", 'The waitingDialog exposes the component method "' + data.title );
             this.destroy();
@@ -54,7 +54,7 @@ define( [  "jquery", "ui/waitingDialog/waitingDialog" ], function(  $, waitingDi
         { title: "trigger" },
         { title: "before" },
         { title: "after" }
-    ] ).asyncTest( "Eventifier API ", function( data, assert ) {
+    ] ).test( "Eventifier API ", function( data, assert ) {
         waitingDialog( config ).on( "init", function() {
             assert.equal( typeof this[ data.title ], "function", 'The waitingDialog exposes the eventifier method "' + data.title );
             this.destroy();
@@ -65,7 +65,7 @@ define( [  "jquery", "ui/waitingDialog/waitingDialog" ], function(  $, waitingDi
     QUnit.cases.init( [
         { title: "beginWait" },
         { title: "endWait" }
-    ] ).asyncTest( "Instance API ", function( data, assert ) {
+    ] ).test( "Instance API ", function( data, assert ) {
         waitingDialog( config ).on( "init", function() {
             assert.equal( typeof this[ data.title ], "function", 'The waitingDialog exposes the method "' + data.title );
             this.destroy();

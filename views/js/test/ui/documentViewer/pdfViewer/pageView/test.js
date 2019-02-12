@@ -278,7 +278,7 @@ define( [
 
     QUnit
         .cases.init( pageRenderSets )
-        .asyncTest( "render ", function( data, assert ) {
+        .test( "render ", function( data, assert ) {
             var $container = $( "#qunit-fixture" );
             var config = {
                 pageNum: 1
@@ -344,7 +344,7 @@ define( [
 
     QUnit
         .cases.init( pageRenderSets )
-        .asyncTest( "render with text layer ", function( data, assert ) {
+        .test( "render with text layer ", function( data, assert ) {
             var $container = $( "#qunit-fixture" );
             var textManager = textManagerFactory( { PDFJS: pdfjs } );
             var config = {

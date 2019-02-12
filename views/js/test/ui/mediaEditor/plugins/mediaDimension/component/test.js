@@ -584,7 +584,7 @@ define( [
         { unit: "%", dim: "width", value: 1.1111, expected: 100 },
         { unit: "px", dim: "width", value: 1.1111, expected: 1111 },
         { unit: "px", dim: "height", value: 1.1111, expected: 1111 }
-    ] ).asyncTest( "Allowed symbols in the input fields", function( params, assert ) {
+    ] ).test( "Allowed symbols in the input fields", function( params, assert ) {
         var $tmplContainer = $( ".template .visible-test" );
         var $visibleContainer = $tmplContainer.clone().appendTo( ".sandbox" ),
             conf = _.cloneDeep( workingConfiguration ),

@@ -2514,7 +2514,7 @@ define( [
             type: "function",
             label: registeredTerms.SQRT.label
         } ] )
-        .asyncTest( "0 and const", function( data, assert ) {
+        .test( "0 and const", function( data, assert ) {
             var $container = $( "#fixture-zero-const" );
             var calculator = calculatorBoardFactory( $container )
                 .on( "ready", function() {
@@ -2661,7 +2661,7 @@ define( [
             type: "function",
             label: registeredTerms.SQRT.label
         } ] )
-        .asyncTest( "ans and const", function( data, assert ) {
+        .test( "ans and const", function( data, assert ) {
             var $container = $( "#fixture-ans-const" );
             var calculator = calculatorBoardFactory( $container )
                 .on( "ready", function() {

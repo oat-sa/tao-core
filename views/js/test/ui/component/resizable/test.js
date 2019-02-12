@@ -146,7 +146,7 @@ define( [
                 resizeW: 630,   resizeH: 450,   fromLeft: true,     fromTop: true,
                 newW: 620,      newH: 400,      newX: 30,           newY: 50 }
         ] )
-        .asyncTest( ".resizeTo()", function( data, assert ) {
+        .test( ".resizeTo()", function( data, assert ) {
             var $container = $( "#qunit-fixture" ).width( 800 ).height( 600 ),
                 component = makeResizable( componentFactory() ),
                 $element,

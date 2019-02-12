@@ -671,13 +671,10 @@ define( [
     } );
 
     QUnit.test( "events context (multi)", function( assert ) {
-        var ready3 = assert.async();
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var emitter = eventifier();
 
         assert.expect( 80 );
-        var ready = assert.async();
+        var ready = assert.async(8);
 
         emitter
             .on( "ev1", function() {
@@ -720,7 +717,7 @@ define( [
                 assert.equal( e.name, "ev2", "the event name is provided" );
                 assert.equal( e.namespace, "@", "the event namespace is provided" );
 
-                ready1();
+                ready();
             } );
 
         emitter
@@ -748,7 +745,7 @@ define( [
                 assert.equal( e.name, "ev3", "the event name is provided" );
                 assert.equal( e.namespace, "ns3", "the event namespace is provided" );
 
-                ready2();
+                ready();
             } );
 
         emitter
@@ -776,7 +773,7 @@ define( [
                 assert.equal( e.name, "ev4", "the event name is provided" );
                 assert.equal( e.namespace, "ns4", "the event namespace is provided" );
 
-                ready3();
+                ready();
             } );
 
         emitter.trigger( "ev1 ev2" );

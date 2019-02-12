@@ -908,7 +908,7 @@ define( [
                 filterable: true
             } ]
         }
-    } ] ).asyncTest( "configured with ", function( testCase, assert ) {
+    } ] ).test( "configured with ", function( testCase, assert ) {
         var $feature = $( featureTpl( {
             title: testCase.title,
             config: JSON.stringify( testCase.config, null, 2 )

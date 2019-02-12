@@ -98,7 +98,7 @@ define( [
             { title: "negative Offset", hPos: "center", vPos: "center", hOffset: -10, vOffset: -10, expectedX: 340, expectedY: 315 }
 
         ] )
-        .asyncTest( ".alignWith(), .hAlignWith(), .vAlignWith()", function( data, assert ) {
+        .test( ".alignWith(), .hAlignWith(), .vAlignWith()", function( data, assert ) {
             var component = makeAlignable( componentFactory() ),
                 $container = $( fixtureContainer ),
                 $refElement = ( $( "<div>REFERENCE</div>" ) ),

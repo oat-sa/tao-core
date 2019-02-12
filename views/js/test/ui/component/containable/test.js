@@ -77,7 +77,7 @@ define( [
             { title: "overflow bottom, padding",     moveToX: 100,   moveToY: 391,   expectedX: 100,   expectedY: 390,   padding: 10 },
             { title: "overflow bottom, paddingBottom", moveToX: 100, moveToY: 391,   expectedX: 100,   expectedY: 390,   paddingBottom: 10 }
         ] )
-        .asyncTest( "automatically reposition the component if it overflow its container", function( data, assert ) {
+        .test( "automatically reposition the component if it overflow its container", function( data, assert ) {
             var component = makeContainable( componentFactory() ),
                 $container = $( fixtureContainer );
 
@@ -137,7 +137,7 @@ define( [
             { title: "edge bottom, padding",     moveToX: 100,   moveToY: 390,   expectedX: 100,   expectedY: 390,   padding: 10 },
             { title: "edge bottom, paddingBottom", moveToX: 100, moveToY: 390,   expectedX: 100,   expectedY: 390,   paddingBottom: 10 }
         ] )
-        .asyncTest( "does not interfere with normal positioning if no overflow", function( data, assert ) {
+        .test( "does not interfere with normal positioning if no overflow", function( data, assert ) {
             var component = makeContainable( componentFactory() ),
                 $container = $( fixtureContainer );
 

@@ -49,7 +49,7 @@ define( [  "jquery", "ui/scroller" ], function(  $, scroller ) {
             { title: "no scroll",       selector: ".el-4", startPosition: 60,   expectedPosition: 60 },
             { title: "no element",      selector: ".el-X", startPosition: 0,    expectedPosition: 0 }
         ] )
-        .asyncTest( "scroll to element", function( data, assert ) {
+        .test( "scroll to element", function( data, assert ) {
             var $container = $( ".container", "#qunit-fixture" ),
                 $element = $container.find( data.selector );
 

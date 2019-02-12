@@ -61,7 +61,6 @@ define( [
         } );
 
     QUnit.test( "ajax.init()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var initConfig = {};
         var expectedConfig = {
@@ -101,12 +100,11 @@ define( [
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "ajax.create()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -170,12 +168,11 @@ define( [
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "ajax.read()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -236,12 +233,11 @@ define( [
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "ajax.write()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -276,7 +272,7 @@ define( [
             }
         };
 
-        assert.expect( 12 );
+        assert.expect( 13 );
 
         proxy = proxyFactory( "ajax" )
             .on( "write", function( promise, params ) {
@@ -284,6 +280,8 @@ define( [
                 assert.ok( promise instanceof Promise, 'The proxyFactory has provided the promise through the "write" event' );
                 promise.then( function() {
                     assert.deepEqual( params, expectedParams, 'The proxyFactory has provided the params through the "write" event' );
+                } ).catch( function() {
+                    assert.ok( true, "The proxy must be initialized" );
                 } );
             } );
 
@@ -323,12 +321,12 @@ define( [
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
+
     } );
 
     QUnit.test( "ajax.remove()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -386,12 +384,11 @@ define( [
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "ajax.action()", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var proxy;
         var expectedParams = {
@@ -418,7 +415,7 @@ define( [
             }
         };
 
-        assert.expect( 13 );
+        assert.expect( 14 );
 
         proxy = proxyFactory( "ajax" )
             .on( "action", function( promise, action, params ) {
@@ -427,6 +424,10 @@ define( [
                 promise.then( function() {
                     assert.equal( action, expectedAction, 'The proxyFactory has provided the action name through the "action" event' );
                     assert.deepEqual( params, expectedParams, 'The proxyFactory has provided the params through the "action" event' );
+                } )
+                .catch( function( err ) {
+                    assert.ok( true, "The promise should be rejected on wrong data" );
+
                 } );
             } );
 
@@ -466,7 +467,7 @@ define( [
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
@@ -504,7 +505,9 @@ define( [
 
     QUnit
         .cases.init( tokenCasesSuccess )
-        .asyncTest( "token handling on success ", function( data, assert ) {
+        .test( "token handling on success ", function( data, assert ) {
+            var ready = assert.async();
+
             var proxy;
             var initConfig = {
                 actions: {
@@ -548,12 +551,12 @@ define( [
                     assert.deepEqual( response, data.response.data, "The expected responses have been provided" );
                     assert.equal( response.token, data.expectedToken, "A security token has been provided" );
                     assert.equal( proxy.getTokenHandler().getToken(), data.expectedToken, "The right security token has been set" );
-                    QUnit.start();
+                    ready();
                 } )
                 .catch( function( err ) {
                     assert.ok( false, "The promise should not be rejected" );
                     console.error( err );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 
@@ -608,7 +611,8 @@ define( [
 
     QUnit
         .cases.init( tokenCasesFailure )
-        .asyncTest( "token handling on error ", function( data, assert ) {
+        .test( "token handling on error ", function( data, assert ) {
+            var ready = assert.async();
             var proxy;
             var initConfig = {
                 actions: {
@@ -653,13 +657,13 @@ define( [
                 } )
                 .then( function() {
                     assert.ok( false, "The promise should not be resolved" );
-                    QUnit.start();
+                    ready();
                 } )
                 .catch( function( err ) {
                     assert.ok( true, "The promise should be rejected" );
                     assert.deepEqual( err.response, data.response, "The expected responses have been provided" );
                     assert.equal( proxy.getTokenHandler().getToken(), data.expectedToken, "The right security token has been set" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 } );

@@ -259,7 +259,7 @@ define( [
 
     QUnit
         .cases.init( searchCases )
-        .asyncTest( "search", function( data, assert ) {
+        .test( "search", function( data, assert ) {
             var textManager = textManagerFactory( { PDFJS: pdfjs } );
             var config = _.merge( {
                 textManager: textManager

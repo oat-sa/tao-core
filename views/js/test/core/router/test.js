@@ -120,7 +120,7 @@ define( [  "router", "context" ], function(  router, context ) {
         title: "no route no bundle",
         route: {},
         bundle: true
-    } ] ).asyncTest( "Load route bundle : ", function( data, assert ) {
+    } ] ).test( "Load route bundle : ", function( data, assert ) {
         context.bundle = data.bundle;
 
         assert.expect( 1 );
@@ -168,7 +168,7 @@ define( [  "router", "context" ], function(  router, context ) {
             }
 
         }
-    } ] ).asyncTest( "Load route : ", function( data, assert ) {
+    } ] ).test( "Load route : ", function( data, assert ) {
         context.bundle = data.bundle;
 
         assert.expect( 1 );

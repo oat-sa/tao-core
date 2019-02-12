@@ -203,7 +203,7 @@ define( [
      * @property {Number} move - the expected move in the position after change
      */
 
-    QUnit.cases.init( testCases ).asyncTest( "toggle", function( data, assert ) {
+    QUnit.cases.init( testCases ).test( "toggle", function( data, assert ) {
         var $container = $( "#fixture-sign" );
         var calculator = calculatorBoardFactory( $container )
             .on( "ready", function() {

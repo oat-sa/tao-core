@@ -75,18 +75,19 @@ define( [  "core/digest" ], function(  digest ) {
         input: "Earum nobis nulla veniam aut sapiente vel. Voluptate praesentium sed et beatae",
         algo: "SHA-512",
         output: "00d7c8367e02fb59989bb05fa86421d7afbbf397b0babc2d2f2fb02da9ec65092e782242ac47a912de2d9e6979c543c1b42a93f2ca258a07f0095e67d28571e6"
-    } ] ).asyncTest( "digest", function( data, assert ) {
+    } ] ).test( "digest", function( data, assert ) {
+        var ready = assert.async();
 
         assert.expect( 1 );
 
         digest( data.input, data.algo )
             .then( function( hash ) {
                 assert.equal( hash, data.output, "The generated hash matches" );
-                QUnit.start();
+                ready();
             } )
             .catch( function( err ) {
                 assert.ok( false, err.message );
-                QUnit.start();
+                ready();
             } );
     } );
 } );

@@ -326,7 +326,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Events ", function( data, assert ) {
+            .test( "Events ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -561,7 +561,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Option autoStart ", function( data, assert ) {
+            .test( "Option autoStart ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -588,7 +588,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Option autoStartAt ", function( data, assert ) {
+            .test( "Option autoStartAt ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -618,7 +618,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Option canPause ", function( data, assert ) {
+            .test( "Option canPause ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -676,7 +676,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Option startMuted ", function( data, assert ) {
+            .test( "Option startMuted ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -732,7 +732,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Option volume ", function( data, assert ) {
+            .test( "Option volume ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -764,7 +764,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Option loop ", function( data, assert ) {
+            .test( "Option loop ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -806,7 +806,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
         QUnit
             .cases.init( mediaplayerTypes )
-            .asyncTest( "Option maxPlays ", function( data, assert ) {
+            .test( "Option maxPlays ", function( data, assert ) {
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -878,7 +878,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
     QUnit
         .cases.init( mediaplayerTypes )
-        .asyncTest( "Option renderTo ", function( data, assert ) {
+        .test( "Option renderTo ", function( data, assert ) {
             var selector = "#fixture-" + data.fixture;
             var places = [ {
                 type: "jQuery",
@@ -914,7 +914,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
     QUnit
         .cases.init( mediaplayerTypes )
-        .asyncTest( "Show/Hide ", function( data, assert ) {
+        .test( "Show/Hide ", function( data, assert ) {
             var selector = "#fixture-" + data.fixture;
             mediaplayer( {
                 url: data.url,
@@ -954,7 +954,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
     QUnit
         .cases.init( mediaplayerTypes )
-        .asyncTest( "Enable/Disable ", function( data, assert ) {
+        .test( "Enable/Disable ", function( data, assert ) {
             var selector = "#fixture-" + data.fixture;
             mediaplayer( {
                 url: data.url,

@@ -144,7 +144,8 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
 
     QUnit
         .cases.init(requestCases)
-        .asyncTest('request with ', function(data, assert){
+        .test('request with ', function(data, assert){
+            var ready = assert.async();
 
             var result = request(data.url, data.data, data.method, data.headers);
             assert.ok(result instanceof Promise, 'The request function returns a promise');
@@ -155,12 +156,12 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
 
                 result.then(function(){
                     assert.ok(false, 'Should reject');
-                    QUnit.start();
+                    ready();
                 })
                 .catch(function(err){
                     assert.equal(data.err.name, err.name, 'Reject error is the one expected');
                     assert.equal(data.err.message, err.message, 'Reject error is correct');
-                    QUnit.start();
+                    ready();
                 });
 
             } else {
@@ -168,11 +169,11 @@ define([ 'jquery', 'lodash', 'core/dataProvider/request', 'core/promise'], funct
 
                 result.then(function(content){
                     assert.deepEqual(content, data.content, 'The given reuslt is correct');
-                    QUnit.start();
+                    ready();
                 })
                 .catch(function(){
                     assert.ok(false, 'Should not reject');
-                    QUnit.start();
+                    ready();
                 });
             }
         });
