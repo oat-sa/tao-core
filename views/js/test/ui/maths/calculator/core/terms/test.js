@@ -27,6 +27,7 @@ define([
     var termTypes = [
         'digit',
         'aggregator',
+        'separator',
         'operator',
         'variable',
         'constant',
@@ -42,7 +43,7 @@ define([
     });
 
     QUnit.test('terms', function (assert) {
-        QUnit.expect(1 + _.size(registeredTerms) * 8);
+        QUnit.expect(1 + _.size(registeredTerms) * 9);
 
         assert.ok(_.size(registeredTerms) > 0, 'A list of terms is exposed');
 
@@ -56,6 +57,8 @@ define([
             assert.notEqual(term.label, '', 'The property label of the term ' + id + ' is not empty');
             assert.notEqual(term.value, '', 'The property value of the term ' + id + ' is not empty');
             assert.notEqual(term.description, '', 'The property description of the term ' + id + ' is not empty');
+
+            assert.ok('string' === typeof term.exponent || null === term.exponent, 'The property exponent of the term ' + id + ' is null or string');
         });
     });
 

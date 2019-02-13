@@ -50,7 +50,7 @@ define([
             expected: '30000000000000000000'
         }, {
             title: 'round off root and exp',
-            expression: 'nthrt(2, 4)^4',
+            expression: 'nthrt(4, 2)^4',
             expected: '2'
         }, {
             title: 'precision below native data type',
@@ -110,23 +110,43 @@ define([
             expected: '3'
         }, {
             title: 'nth root 2',
-            expression: 'nthrt(16, 2)',
+            expression: 'nthrt(2, 16)',
             expected: '4'
         }, {
             title: 'nth root 3',
-            expression: 'nthrt(27, 3)',
+            expression: 'nthrt(3, 27)',
             expected: '3'
         }, {
             title: 'negative nth root 3',
-            expression: 'nthrt(-27, 3)',
+            expression: 'nthrt(3, -27)',
             expected: '-3'
         }, {
             title: 'nth root 4',
-            expression: 'nthrt(81, 4)',
+            expression: 'nthrt(4, 81)',
             expected: '3'
         }, {
             title: 'negative nth root 4',
-            expression: 'nthrt(-81, 4)',
+            expression: 'nthrt(4, -81)',
+            expected: 'NaN'
+        }, {
+            title: 'nth root 2',
+            expression: '2 @nthrt 16',
+            expected: '4'
+        }, {
+            title: 'nth root 3',
+            expression: '3 @nthrt 27',
+            expected: '3'
+        }, {
+            title: 'negative nth root 3',
+            expression: '3 @nthrt -27',
+            expected: '-3'
+        }, {
+            title: 'nth root 4',
+            expression: '4 @nthrt 81',
+            expected: '3'
+        }, {
+            title: 'negative nth root 4',
+            expression: '4 @nthrt -81',
             expected: 'NaN'
         }, {
             title: 'log 0',
