@@ -909,10 +909,10 @@ class Updater extends \common_ext_ExtensionUpdater {
             );
             $this->setVersion('22.13.1');
         }
-        
-        $this->skip('22.13.1', '25.1.4');
 
-        if ($this->isVersion('25.1.4')) {
+        $this->skip('22.13.1', '26.0.0');
+
+        if ($this->isVersion('26.0.0')) {
 
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, ['ext'=>'tao','mod' => 'UserAPI']));
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, ['ext'=>'tao','mod' => 'UserAPI']));
@@ -921,7 +921,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);
             $this->getServiceManager()->register(tao_models_classes_UserService::SERVICE_ID, $userService);
 
-            $this->setVersion('25.2.0');
+            $this->setVersion('26.1.0');
         }
     }
 }
