@@ -921,7 +921,7 @@ class Updater extends \common_ext_ExtensionUpdater {
             $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);
             $this->getServiceManager()->register(tao_models_classes_UserService::SERVICE_ID, $userService);
 
-            $this->setVersion('25.1.5');
+            $this->setVersion('25.2.0');
         }
     }
 }
