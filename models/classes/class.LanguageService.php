@@ -329,7 +329,7 @@ class tao_models_classes_LanguageService
      * @throws common_exception_Error
      */
     public static function getExistingLanguageUri($value) {
-        if (filter_var($value, FILTER_VALIDATE_URL) === true) {
+        if (filter_var($value, FILTER_VALIDATE_URL) !== false) {
             $langByUri = new \core_kernel_classes_Resource($value);
             return $langByUri->exists()
                 ? $value
