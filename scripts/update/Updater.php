@@ -912,9 +912,9 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('22.13.1');
         }
 
-        $this->skip('22.13.1', '25.1.3');
+        $this->skip('22.13.1', '25.1.6');
 
-        if ($this->isVersion('25.1.3')) {
+        if ($this->isVersion('25.1.6')) {
 
             if (!$this->getServiceManager()->has(RouteAnnotationService::SERVICE_ID)) {
                 $annotationService = new RouteAnnotationService();
