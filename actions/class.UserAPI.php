@@ -59,7 +59,7 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
      *         type="string",
      *         description="Login"
      *     ),
-     *     required={"login", "password"}
+     *     required={"login", "password", "userLanguage"}
      * )
      * @OA\Schema(
      *     schema="tao.User.Update",
@@ -75,12 +75,12 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
      *         description="Password"
      *     ),
      *     @OA\Property(
-     *         property="uiLg",
+     *         property="userLanguage",
      *         type="string",
      *         description="Interface language uri"
      *     ),
      *     @OA\Property(
-     *         property="defLg",
+     *         property="defaultLanguage",
      *         type="string",
      *         description="Default language uri"
      *     ),
@@ -123,8 +123,8 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
         return array_merge(parent::getParametersAliases(), [
             'login' => UserRdf::PROPERTY_LOGIN,
             'password' => UserRdf::PROPERTY_PASSWORD,
-            'uiLg' => UserRdf::PROPERTY_UILG,
-            'defLg' => UserRdf::PROPERTY_DEFLG,
+            'userLanguage' => UserRdf::PROPERTY_UILG,
+            'defaultLanguage' => UserRdf::PROPERTY_DEFLG,
             'firstName'=> UserRdf::PROPERTY_FIRSTNAME,
             'lastName' => UserRdf::PROPERTY_LASTNAME,
             'mail' => UserRdf::PROPERTY_MAIL,
@@ -181,6 +181,10 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
 
         if (!isset($parameters[UserRdf::PROPERTY_PASSWORD])) {
             throw new \common_exception_MissingParameter("password");
+        }
+
+        if (!isset($parameters[UserRdf::PROPERTY_UILG])) {
+            throw new \common_exception_MissingParameter("userLanguage");
         }
 
         try {

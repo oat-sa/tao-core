@@ -167,7 +167,8 @@
       "tao.User.New": {
         "required": [
           "login",
-          "password"
+          "password",
+          "userLanguage"
         ],
         "properties": {
           "login": {
@@ -195,11 +196,11 @@
             "description": "Password",
             "type": "string"
           },
-          "uiLg": {
+          "userLanguage": {
             "description": "Interface language uri",
             "type": "string"
           },
-          "defLg": {
+          "defaultLanguage": {
             "description": "Default language uri",
             "type": "string"
           },
