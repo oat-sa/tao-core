@@ -20,7 +20,6 @@
 
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\user\TaoRoles;
 
 /**
  * @OA\Post(
@@ -59,7 +58,7 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
      *         type="string",
      *         description="Login"
      *     ),
-     *     required={"login", "password", "userLanguage"}
+     *     required={"login", "password", "userLanguage", "roles"}
      * )
      * @OA\Schema(
      *     schema="tao.User.Update",
@@ -113,7 +112,7 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
     protected function getParametersRequirements()
     {
         return [
-            'post' => ['login', 'password', 'userLanguage']
+            'post' => ['login', 'password', 'userLanguage', 'roles']
         ];
     }
 
@@ -176,49 +175,38 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
 
         $parameters = $this->getParameters();
 
-        if (!isset($parameters[UserRdf::PROPERTY_LOGIN])) {
-            throw new \common_exception_MissingParameter("login");
-        }
-
-        if (!isset($parameters[UserRdf::PROPERTY_PASSWORD])) {
-            throw new \common_exception_MissingParameter("password");
-        }
-
-        if (!isset($parameters[UserRdf::PROPERTY_UILG])) {
-            throw new \common_exception_MissingParameter("userLanguage");
-        }
-
         try {
+            $roles = [];
+            if (!empty($parameters[UserRdf::PROPERTY_ROLES])) {
+                $roles = array_filter(explode(',', $parameters[UserRdf::PROPERTY_ROLES]), function ($role) {
+                    return common_Utils::isUri($role);
+                });
+                unset($parameters[UserRdf::PROPERTY_ROLES]);
+            }
+
+            if (!count($roles)) {
+                throw new \common_exception_MissingParameter('roles');
+            }
+
             /** @var core_kernel_classes_Resource $user */
             $user = $userService->addUser(
                 $parameters[UserRdf::PROPERTY_LOGIN],
                 $parameters[UserRdf::PROPERTY_PASSWORD],
-                $this->getResource(TaoRoles::BASE_USER)
+                $this->getResource(array_shift($roles))
             );
 
-            if (!empty($parameters[UserRdf::PROPERTY_ROLES])) {
-                $roles = explode(',', $parameters[UserRdf::PROPERTY_ROLES]);
-                foreach ($roles as $role) {
-                    if (!common_Utils::isUri($role)) {
-                        continue;
-                    }
-                    $userService->attachRole($user, $this->getResource($role));
-                }
-                unset($parameters[UserRdf::PROPERTY_ROLES]);
+            foreach ($roles as $role) {
+                $userService->attachRole($user, $this->getResource($role));
             }
 
             if (isset($parameters[UserRdf::PROPERTY_DEFLG]) && !common_Utils::isUri($parameters[UserRdf::PROPERTY_DEFLG])) {
                 unset($parameters[UserRdf::PROPERTY_DEFLG]);
             }
 
-            if (isset($parameters[UserRdf::PROPERTY_UILG]) && !common_Utils::isUri($parameters[UserRdf::PROPERTY_UILG])) {
-                unset($parameters[UserRdf::PROPERTY_UILG]);
-            }
-
             $user->setPropertiesValues($parameters);
 
             return $user;
-        } catch (core_kernel_users_Exception $e) {
+        } catch (common_Exception $e) {
             throw new common_exception_RestApi($e->getMessage());
         }
     }

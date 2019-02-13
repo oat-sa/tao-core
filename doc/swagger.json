@@ -168,7 +168,8 @@
         "required": [
           "login",
           "password",
-          "userLanguage"
+          "userLanguage",
+          "roles"
         ],
         "properties": {
           "login": {
