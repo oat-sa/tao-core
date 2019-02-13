@@ -22,6 +22,10 @@ use oat\generis\model\OntologyRdfs;
  *
  */
 
+/**
+ * Class tao_actions_CommonRestModule
+ * @OA\Info(title="TAO Rest API", version="1.0")
+ */
 abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 {
     /**

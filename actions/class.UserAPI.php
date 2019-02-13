@@ -23,16 +23,15 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\user\TaoRoles;
 
 /**
- * @OA\Info(title="TAO User API", version="1.0")
  * @OA\Post(
- *     path="tao/UserAPI"
- *     summary="Create new user"
+ *     path="tao/UserAPI",
+ *     summary="Create new user",
  *     @OA\RequestBody(
  *         @OA\MediaType(
  *             mediaType="application/x-www-form-urlencoded",
  *             @OA\Schema(ref="#/components/schemas/tao.User.New")
  *         )
- *     )
+ *     ),
  *     @OA\Response(
  *         response="200",
  *         description="User created",
@@ -99,7 +98,7 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
      *         property="mail",
      *         type="string",
      *         description="Email"
-     *     )
+     *     ),
      *     @OA\Property(
      *         property="roles",
      *         type="string",
