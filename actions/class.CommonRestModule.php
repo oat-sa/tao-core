@@ -35,7 +35,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             $uri = null;
             if ($this->hasRequestParameter("uri")) {
                 $uri = $this->getRequestParameter("uri");
-                if (!(common_Utils::isUri($uri))) {
+                if (!common_Utils::isUri($uri)) {
                     throw new common_exception_InvalidArgumentType();
                 }
             }

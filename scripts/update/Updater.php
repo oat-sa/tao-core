@@ -108,6 +108,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use tao_models_classes_UserService;
 
 /**
  *
@@ -909,6 +910,18 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('22.13.1');
         }
         
-        $this->skip('22.13.1', '25.1.3');
+        $this->skip('22.13.1', '25.1.4');
+
+        if ($this->isVersion('25.1.4')) {
+
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, ['ext'=>'tao','mod' => 'UserAPI']));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, ['ext'=>'tao','mod' => 'UserAPI']));
+
+            $userService = $this->getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
+            $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);
+            $this->getServiceManager()->register(tao_models_classes_UserService::SERVICE_ID, $userService);
+
+            $this->setVersion('25.1.5');
+        }
     }
 }

@@ -20,6 +20,8 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  *
  */
+
+use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
@@ -45,7 +47,7 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '25.1.4',
+    'version' => '25.1.5',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=8.2.2',
@@ -165,6 +167,8 @@ return array(
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'WebService')),
         array('grant', TaoRoles::REST_PUBLISHER,       array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')),
         array('grant', TaoRoles::SYSTEM_ADMINISTRATOR, array('ext'=>'tao','mod' => 'ExtensionsManager')),
+        array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR,    array('ext' => 'tao', 'mod' => 'UserAPI')),
+        array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER,          array('ext' => 'tao', 'mod' => 'UserAPI')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'),
     ),
