@@ -68,7 +68,7 @@ class ControllerService extends ConfigurableService
      * @return mixed
      * @throws RouterException
      */
-    public function getController($controllerClass = '')
+    public function getController($controllerClass)
     {
         // abstract class can't be loaded
         $this->checkAbstract($controllerClass);
@@ -78,6 +78,10 @@ class ControllerService extends ConfigurableService
 
         $controller = new $controllerClass();
         $this->propagate($controller);
+
+        if (method_exists($controller, 'initialize')) {
+            $controller->initialize();
+        }
 
         return $controller;
     }

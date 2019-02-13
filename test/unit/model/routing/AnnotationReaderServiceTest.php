@@ -25,6 +25,7 @@ use common_cache_Cache;
 use oat\tao\model\routing\AnnotationReader\requiredRights;
 use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\routing\AnnotationReaderService;
+use oat\tao\model\routing\RouteAnnotationService;
 use Prophecy\Argument;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -87,7 +88,7 @@ class AnnotationReaderServiceTest extends \PHPUnit_Framework_TestCase
                     'permission' => 'WRITE',
                 ],
             ],
-            'security' => ['hide', 'allow'],
+            'security' => [RouteAnnotationService::SECURITY_HIDE, RouteAnnotationService::SECURITY_ALLOW],
         ], $annotations);
     }
 

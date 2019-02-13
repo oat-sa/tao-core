@@ -28,6 +28,10 @@ class RouteAnnotationService extends ConfigurableService
 {
     const SERVICE_ID = 'tao/routeAnnotation';
 
+    const SECURITY_HIDE = 'hide';
+    const SECURITY_ALLOW = 'allow';
+    const SECURITY_DENY = 'deny';
+
     /**
      * @param string $className
      * @param string $methodName
@@ -38,7 +42,7 @@ class RouteAnnotationService extends ConfigurableService
         try {
             $annotations = $this->getAnnotations($className, $methodName);
             $hidden = array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
-                && in_array('hide', $annotations[AnnotationReaderService::PROP_SECURITY], true);
+                && in_array(self::SECURITY_HIDE, $annotations[AnnotationReaderService::PROP_SECURITY], true);
         } catch (\Exception $e) {
             $hidden = false; // if class or method not found
         }
@@ -56,14 +60,16 @@ class RouteAnnotationService extends ConfigurableService
         $access = true;
         try {
             $annotations = $this->getAnnotations($className, $methodName);
-            if (array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)) {
+            if (array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
+                && is_array($annotations[AnnotationReaderService::PROP_SECURITY])
+            ) {
                 foreach ($annotations[AnnotationReaderService::PROP_SECURITY] as $rule) {
                     switch ($rule) {
-                        case 'hidden':
-                        case 'deny':
+                        case self::SECURITY_HIDE:
+                        case self::SECURITY_DENY:
                             $access = false;
                             break;
-                        case 'allow':
+                        case self::SECURITY_ALLOW:
                             // do not change state (it will be allowed by default but closed by hidden & deny)
                             break;
                         // any unsupported actions return false

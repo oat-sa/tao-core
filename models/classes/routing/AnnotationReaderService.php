@@ -44,18 +44,18 @@ class AnnotationReaderService extends ConfigurableService
     /**
      * @param $className
      * @param $methodName
-     * @return array
+     * @return array|mixed
+     * @throws \common_cache_NotFoundException
      */
     public function getAnnotations($className, $methodName)
     {
         $annotationKey = self::KEY_PREFIX . $className . $methodName;
-        try {
-            $annotation = json_decode($this->getCacheService()->get($annotationKey));
-        } catch (\common_cache_NotFoundException $e) {
+        if ($this->getCacheService()->has($annotationKey)) {
+            $annotation = json_decode($this->getCacheService()->get($annotationKey), true);
+        } else {
             $annotation = $this->readAnnotations($className, $methodName);
             $this->getCacheService()->put(json_encode($annotation), $annotationKey);
         }
-
         return $annotation;
     }
 
