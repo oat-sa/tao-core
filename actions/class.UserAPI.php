@@ -110,9 +110,10 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
     /**
      * Optional Requirements for parameters to be sent on every service
      */
-    protected function getParametersRequirements() {
+    protected function getParametersRequirements()
+    {
         return [
-            'post' => ["login", "password"]
+            'post' => ['login', 'password', 'userLanguage']
         ];
     }
 
