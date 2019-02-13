@@ -25,21 +25,89 @@ use oat\tao\model\user\TaoRoles;
 /**
  * @OA\Info(title="TAO User API", version="1.0")
  * @OA\Post(
- *      path="tao/RestUser"
- *      summary="Create new user"
- *      @OA\RequestBody(
- *          @OA\MediaType(
- *              mediaType="application/x-www-form-urlencoded",
- *              @OA\Schema(ref="#/components/schemas/taoTestTaker.TestTaker.New")
- *          )
- * )
- *
-
+ *     path="tao/UserAPI"
+ *     summary="Create new user"
+ *     @OA\RequestBody(
+ *         @OA\MediaType(
+ *             mediaType="application/x-www-form-urlencoded",
+ *             @OA\Schema(ref="#/components/schemas/tao.User.New")
+ *         )
+ *     )
+ *     @OA\Response(
+ *         response="200",
+ *         description="User created",
+ *         @OA\JsonContent(ref="#/components/schemas/tao.CommonRestModule.CreatedResourceResponse")
+ *     ),
+ *     @OA\Response(
+ *         response="400",
+ *         description="Invalid request data",
+ *         @OA\JsonContent(ref="#/components/schemas/tao.RestTrait.FailureResponse")
  *     )
  * )
  */
 class tao_actions_UserAPI extends tao_actions_CommonRestModule
 {
+    /**
+     * @OA\Schema(
+     *     schema="tao.User.New",
+     *     type="object",
+     *     allOf={
+     *          @OA\Schema(ref="#/components/schemas/tao.GenerisClass.Search"),
+     *          @OA\Schema(ref="#/components/schemas/tao.User.Update")
+     *     },
+     *     @OA\Property(
+     *         property="login",
+     *         type="string",
+     *         description="Login"
+     *     ),
+     *     required={"login", "password"}
+     * )
+     * @OA\Schema(
+     *     schema="tao.User.Update",
+     *     type="object",
+     *     @OA\Property(
+     *         property="login",
+     *         type="string",
+     *         description="Login"
+     *     ),
+     *     @OA\Property(
+     *         property="password",
+     *         type="string",
+     *         description="Password"
+     *     ),
+     *     @OA\Property(
+     *         property="uiLg",
+     *         type="string",
+     *         description="Interface language uri"
+     *     ),
+     *     @OA\Property(
+     *         property="defLg",
+     *         type="string",
+     *         description="Default language uri"
+     *     ),
+     *     @OA\Property(
+     *         property="firstName",
+     *         type="string",
+     *         description="First name"
+     *     ),
+     *     @OA\Property(
+     *         property="lastName",
+     *         type="string",
+     *         description="Last name"
+     *     ),
+     *     @OA\Property(
+     *         property="mail",
+     *         type="string",
+     *         description="Email"
+     *     )
+     *     @OA\Property(
+     *         property="roles",
+     *         type="string",
+     *         description="Comma-separated list of roles (URIs)"
+     *     )
+     * )
+     */
+
     /**
      * Optional Requirements for parameters to be sent on every service
      */
@@ -115,8 +183,6 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
         if (!isset($parameters[UserRdf::PROPERTY_PASSWORD])) {
             throw new \common_exception_MissingParameter("password");
         }
-
-
 
         try {
             /** @var core_kernel_classes_Resource $user */
