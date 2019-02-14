@@ -20,6 +20,7 @@
  *
  */
 
+use oat\generis\model\user\UserRdf;
 use oat\tao\model\action\CommonModuleInterface;
 use oat\tao\model\security\ActionProtector;
 use oat\tao\helpers\Template;
@@ -31,6 +32,8 @@ use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\security\xsrf\TokenService;
+use oat\taoLti\models\classes\user\UserService;
 
 /**
  * Top level controller
@@ -66,6 +69,37 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
         /** @var ActionProtector $actionProtector */
         $actionProtector = $this->getServiceLocator()->get(ActionProtector::SERVICE_ID);
         $actionProtector->setFrameAncestorsHeader();
+    }
+
+    /**
+     * Validate the current request using the CSRF token header.
+     *
+     * @return string
+     * @throws core_kernel_persistence_Exception
+     */
+    public function validateCsrf()
+    {
+        if (!$this->getHeader('X-CSRF-Token')) {
+            $this->logCsrfFailure(new common_exception_Unauthorized('Missing X-CSRF-Token header.'));
+        }
+
+        $newToken = null;
+        $csrfToken = $this->getHeader('X-CSRF-Token');
+
+        /** @var TokenService $tokenService */
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+
+        try {
+            $newToken = $tokenService->validateToken($csrfToken);
+        } catch (common_exception_Unauthorized $e) {
+            $this->logCsrfFailure($e, $csrfToken);
+        } catch (common_Exception $e) {
+            $this->logCsrfFailure($e, $csrfToken);
+        }
+
+        $this->getResponse()->setTokenHeader($newToken);
+
+        return $newToken;
     }
 
     /**
@@ -353,5 +387,31 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             $serviceManager = ServiceManager::getServiceManager();
         }
         return $serviceManager;
+    }
+
+    /**
+     * @param \Throwable $exception
+     * @param string|null $token
+     * @throws common_exception_Unauthorized
+     * @throws common_exception_Error
+     */
+    private function logCsrfFailure($exception, $token = null)
+    {
+        /** @var UserService $userService */
+        $userIdentifier = $this->getSession()->getUser()->getIdentifier();
+        $requestMethod  = $this->getRequestMethod();
+        $requestUri     = $this->getRequestURI();
+        $requestHeaders = $this->getRequest()->getHeaders();
+
+        $this->logWarning('Failed to validate CSRF token. The following exception occurred: ' . $exception->getMessage());
+        $this->logWarning(
+            "CSRF validation information:\n" .
+            'User identifier: ' . $userIdentifier  . "\n" .
+            'Request: [' . $requestMethod . '] ' . $requestUri   . "\n" .
+            'Request Headers :'. "\n" .
+            urldecode(http_build_query($requestHeaders, '', "\n"))
+        );
+
+        throw new common_exception_Unauthorized($exception->getMessage());
     }
 }

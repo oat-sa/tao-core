@@ -22,6 +22,7 @@ use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
+use oat\tao\model\security\xsrf\TokenService;
 
 /**
  * Generates client side configuration.
@@ -40,6 +41,11 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     public function config()
     {
         $this->setContentHeader('application/javascript');
+
+        /** @var TokenService $tokenService */
+        $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
+        $tokens = $tokenService->generateTokenPool($tokenService->getPoolSize());
+        $this->setData('tokens', json_encode(array_map(function($token) { return $token['token']; }, $tokens)));
 
         //get extension paths to set up aliases dynamically
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
