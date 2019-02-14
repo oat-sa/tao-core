@@ -95,7 +95,7 @@ define([
         assert.equal(typeof tokenStore, 'object', "The store is an object");
 
         assert.equal(tokenStore.has(key1), false, 'The store does not contain token 1');
-        tokenStore.get(key1)
+        tokenStore.get()
             .then(function(value){
                 assert.equal(typeof value, 'undefined', 'The store does not contain undefined token');
             })
@@ -103,10 +103,9 @@ define([
                 return tokenStore.add(token1);
             })
             .then(function(assigned){
-                tokenStore.log();
-                assert.ok(assigned, 'The value assignment is done'); //
+                assert.ok(assigned, 'The value assignment is done');
                 assert.ok( tokenStore.has(key1) , 'The store contains token 1');
-                return tokenStore.get(key1);
+                return tokenStore.get();
             })
             .then(function(value){
                 assert.deepEqual(value, token1, 'The store gives the correct token');

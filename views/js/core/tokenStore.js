@@ -53,7 +53,7 @@ define([
         var config = _.defaults(options || {}, defaultConfig);
 
         //in memory storage
-        var getStore = function getStore(){
+        var getStore = function getStore() {
             return store('tokenStore.tokens', store.backends.memory);
         };
         var getSizeStore = function getSizeStore() {
@@ -94,6 +94,8 @@ define([
             get: function get() {
                 var self = this;
                 var key = _.first(index);
+                if (!key) return Promise.resolve();
+
                 return getStore().then(function(tokenStore){
                     return tokenStore.getItem(key).then(function(token) {
                         self.remove(key);
