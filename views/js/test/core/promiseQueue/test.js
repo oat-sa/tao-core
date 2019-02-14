@@ -86,8 +86,6 @@ define( [  "core/promise", "core/promiseQueue" ], function(  Promise, promiseQue
         assert.equal( queue.getValues().length, 0, "The queue is now empty" );
     } );
     QUnit.test( "serie", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
 
         var states = {
@@ -122,11 +120,11 @@ define( [  "core/promise", "core/promiseQueue" ], function(  Promise, promiseQue
         } ).then( function() {
             assert.equal( states.a, "done", "The 1st promise function is finished" );
             assert.equal( states.b, "done", "The 2nd promise function is finished" );
-            ready1();
+            ready();
         } )
         .catch( function( err ) {
             assert.ok( false, err.message );
-            ready2();
+            ready();
         } );
     } );
 
@@ -186,9 +184,6 @@ define( [  "core/promise", "core/promiseQueue" ], function(  Promise, promiseQue
     } );
 
     QUnit.test( "serie resolved data and reject", function( assert ) {
-        var ready3 = assert.async();
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
 
         var queue = promiseQueue();
@@ -219,7 +214,7 @@ define( [  "core/promise", "core/promiseQueue" ], function(  Promise, promiseQue
         } )
         .catch( function( err ) {
             assert.ok( false, err.message );
-            ready1();
+            ready();
         } );
         queue.serie( function c() {
             return new Promise( function( resolve, reject ) {
@@ -229,18 +224,17 @@ define( [  "core/promise", "core/promiseQueue" ], function(  Promise, promiseQue
             } );
         } ).then( function() {
             assert.ok( false, "rejected must not resolve" );
-            ready2();
+            ready();
         } )
         .catch( function( err ) {
             assert.ok( err instanceof TypeError, "The correct error is rejected" );
             assert.equal( err.message, "c", "The correct error is rejected" );
-            ready3();
+            ready();
         } );
     } );
 
     QUnit.test( "early reject", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
+
         var ready = assert.async();
 
         var states = {
@@ -300,7 +294,7 @@ define( [  "core/promise", "core/promiseQueue" ], function(  Promise, promiseQue
         } )
         .catch( function() {
             assert.ok( false, "must not be called" );
-            ready1();
+            ready();
         } );
 
         setTimeout( function() {
@@ -314,7 +308,7 @@ define( [  "core/promise", "core/promiseQueue" ], function(  Promise, promiseQue
         }, 210 );
         setTimeout( function() {
             assert.deepEqual( states, { a: "done", b: "error", c: "waiting", d: "done" } );
-            ready2();
+            ready();
         }, 310 );
     } );
 } );

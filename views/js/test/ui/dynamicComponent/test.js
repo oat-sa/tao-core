@@ -23,7 +23,7 @@ define( [  "jquery", "lodash", "ui/dynamicComponent" ], function(  $, _, dynamic
 
     QUnit.module( "component" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof dynamicComponent, "function", "The component module exposes a function" );
         assert.equal( typeof dynamicComponent(), "object", "The component factory produces an object" );
         assert.notStrictEqual( dynamicComponent(), dynamicComponent(), "The component factory provides a different object on each call" );

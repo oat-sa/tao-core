@@ -292,7 +292,6 @@ define( [
     } );
 
     QUnit.test( "search", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "<div />" ).append( viewerTpl() );
         var broker = areaBroker( $container, {
@@ -403,13 +402,12 @@ define( [
 
             $( '[data-control="pdf-search-query"]', $container ).val( expectedQuery ).keypress();
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "search case sensitive", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "<div />" ).append( viewerTpl() );
         var broker = areaBroker( $container, {
@@ -499,13 +497,12 @@ define( [
 
             $( '[data-control="pdf-search-query"]', $container ).val( expectedQuery ).keypress();
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok(false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "navigating in search", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "<div />" ).append( viewerTpl() );
         var broker = areaBroker( $container, {
@@ -669,8 +666,8 @@ define( [
 
             $( '[data-control="pdf-search-query"]', $container ).val( expectedQuery ).keypress();
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 

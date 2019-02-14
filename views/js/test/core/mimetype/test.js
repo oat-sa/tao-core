@@ -26,12 +26,13 @@ define( [  "core/mimetype" ], function(  mimeType ) {
         { url: "/tao/views/js/test/core/mimetype/samples/video.mp4", type: "video/mp4", error: false, title: "MP4" },
         { url: "/tao/views/js/test/core/mimetype/samples/unknown", type: null, error: true, title: "Unknown resource" }
     ] ).test( "getResourceType ", function( data, assert ) {
+        var ready = assert.async();
         mimeType.getResourceType( data.url, function( err, type ) {
             assert.equal( !!err, data.error, "The callback accept an error" );
             if ( !data.error ) {
                 assert.equal( type, data.type, "The callback received the correct MIME type" );
             }
-            QUnit.start();
+            ready();
         } );
     } );
 

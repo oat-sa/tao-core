@@ -52,6 +52,7 @@ define( [  "jquery", "ui/scroller" ], function(  $, scroller ) {
         .test( "scroll to element", function( data, assert ) {
             var $container = $( ".container", "#qunit-fixture" ),
                 $element = $container.find( data.selector );
+            var ready = assert.async();
 
             assert.expect( 2 );
 
@@ -60,7 +61,7 @@ define( [  "jquery", "ui/scroller" ], function(  $, scroller ) {
 
             scroller.scrollTo( $element, $container ).then( function() {
                 assert.equal( $container.scrollTop(), data.expectedPosition, "The container have been scroller to the right position" );
-                QUnit.start();
+                ready();
             } );
         } );
 

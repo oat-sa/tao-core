@@ -139,7 +139,6 @@ define( [
     } );
 
     QUnit.test( "load", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -182,13 +181,12 @@ define( [
 
             ready();
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "load base64 content", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -229,8 +227,8 @@ define( [
 
             ready();
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok(false, "No error should be triggered" );
+            ready();
         } );
     } );
 
@@ -263,8 +261,6 @@ define( [
     } );
 
     QUnit.test( "setPage", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -314,20 +310,19 @@ define( [
                     } );
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                ready1();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
 
             assert.equal( instance.getState( "rendering" ), true, "The PDF is rendering a page" );
             assert.equal( instance.getState( "rendered" ), false, "The page is not rendered at this time" );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready2();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "renderPage", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -391,13 +386,12 @@ define( [
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "refresh", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -460,13 +454,12 @@ define( [
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "concurrency", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -516,13 +509,12 @@ define( [
                 ready();
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "events", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -572,8 +564,8 @@ define( [
             page++;
             events.trigger( "setpage", page );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 

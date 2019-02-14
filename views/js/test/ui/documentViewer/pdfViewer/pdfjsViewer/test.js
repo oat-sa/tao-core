@@ -70,7 +70,6 @@ define( [
     } );
 
     QUnit.test( "render", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -133,13 +132,12 @@ define( [
 
             ready();
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "navigation single page", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -221,13 +219,12 @@ define( [
                 }, 100 );
             }, 100 );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "navigation multi pages", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -322,13 +319,12 @@ define( [
                 }, 100 );
             }, 100 );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "options", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -386,13 +382,12 @@ define( [
                 }, 100 );
             }, 100 );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "findBar", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {
@@ -429,8 +424,8 @@ define( [
                 ready();
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 

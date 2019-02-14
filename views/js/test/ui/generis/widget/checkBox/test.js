@@ -88,7 +88,7 @@ define( [
      */
     QUnit.module( "Api" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof generisWidgetCheckBoxFactory, "function", "The module exposes a function" );
         assert.equal( typeof generisWidgetCheckBoxFactory( {}, {} ), "object", "The factory produces an object" );
         assert.notStrictEqual( generisWidgetCheckBoxFactory( {}, {} ), generisWidgetCheckBoxFactory( {}, {} ), "The factory provides a different object on each call" );

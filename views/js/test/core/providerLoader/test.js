@@ -142,7 +142,6 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
     } );
 
     QUnit.test( "load a provider", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var provider = {
             module: "test/core/providerLoader/mockProvider",
@@ -168,7 +167,7 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
@@ -179,6 +178,7 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
         title: "missing init",
         module: "test/core/providerLoader/mockProviderMissingInit"
     } ] ).test( "load a wrong provider ", function( data, assert ) {
+        var ready = assert.async();
         var provider = {
             module: data.module,
             category: "mock"
@@ -200,15 +200,14 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
 
         promise.then( function() {
             assert.ok( false, "The promise should fail since the loaded provider is wrong" );
-            QUnit.start();
+            ready();
         } ).catch( function( e ) {
             assert.ok( true, e );
-            QUnit.start();
+            ready();
         } );
     } );
 
     QUnit.test( "load a bundle", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var provider = {
             module: "test/core/providerLoader/mockAProvider",
@@ -235,12 +234,11 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "load multiple providers from a bundle", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var providers = [ {
             module: "test/core/providerLoader/mockAProvider",
@@ -273,12 +271,11 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "remove a provider", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var provider = {
             module: "test/core/providerLoader/mockProvider",
@@ -300,7 +297,7 @@ define( [  "lodash", "core/providerLoader", "core/promise" ], function(  _, prov
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 } );

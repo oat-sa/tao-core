@@ -320,7 +320,6 @@ define( [
     } );
 
     QUnit.test( "activate with space", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var knavigator;
         var $container = $( "#qunit-fixture .nav-2" );
@@ -355,7 +354,7 @@ define( [
 
             setTimeout( function() {
                 knavigator.off( "blur" );
-                ready1();
+                ready();
             }, 100 );
         } );
 

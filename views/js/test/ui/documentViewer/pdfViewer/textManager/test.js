@@ -100,7 +100,6 @@ define( [
     } );
 
     QUnit.test( "setDocument", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var config = {
             PDFJS: pdfjs
@@ -121,14 +120,12 @@ define( [
 
             ready();
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "getContents", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var pageCount = 2;
         var config = {
@@ -176,19 +173,17 @@ define( [
 
                         instance.destroy();
 
-                        ready1();
+                        ready();
                     } );
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                ready2();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
         } );
     } );
 
     QUnit.test( "getText", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var pageCount = 2;
         var config = {
@@ -227,18 +222,16 @@ define( [
 
                     instance.destroy();
 
-                    ready1();
+                    ready();
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                ready2();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
         } );
     } );
 
     QUnit.test( "getFullText", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var pageCount = 2;
         var config = {
@@ -272,18 +265,16 @@ define( [
 
                     instance.destroy();
 
-                    ready1();
+                    ready();
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                ready2();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
         } );
     } );
 
     QUnit.test( "getPageContent", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var pageCount = 2;
         var config = {
@@ -335,19 +326,17 @@ define( [
 
                         instance.destroy();
 
-                        ready1();
+                        ready();
                     } );
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                ready2();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
         } );
     } );
 
     QUnit.test( "getPageText", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var pageCount = 2;
         var config = {
@@ -387,18 +376,17 @@ define( [
 
                         instance.destroy();
 
-                        ready1();
+                        ready();
                     } );
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                ready2();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
         } );
     } );
 
     QUnit.test( "renderPage", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var config = {
             PDFJS: pdfjs
@@ -430,13 +418,12 @@ define( [
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "renderPage multi", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var config = {
             PDFJS: pdfjs
@@ -473,14 +460,12 @@ define( [
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "destroy", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var pageCount = 2;
         var config = {
@@ -532,13 +517,13 @@ define( [
                         ready();
                     } ).catch( function() {
                         assert.ok( true, "The getContents() method fails when not document is set" );
-                        ready1();
+                        ready();
                     } );
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready2();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 

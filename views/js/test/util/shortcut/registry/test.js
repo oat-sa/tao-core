@@ -533,7 +533,6 @@ define( [
     } );
 
     QUnit.test( "all buttons", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $target = $( document );
         var shortcuts = shortcutRegistry( $target.get( 0 ) );
@@ -587,7 +586,7 @@ define( [
             ready();
         } ).catch( function() {
             assert.ok( false, "The promise should not fail!" );
-            ready1();
+            ready();
         } );
 
         $target.simulate( "click", {
@@ -647,8 +646,6 @@ define( [
     QUnit.module( "Namespace" );
 
     QUnit.test( "add 2 namespaces, remove by using the full name", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var $target = $( "#qunit-fixture" );
         var shortcuts = shortcutRegistry( $target.get( 0 ) );
@@ -679,7 +676,7 @@ define( [
                         assert.ok( true, "The second shortcut handler has been called a second time" );
 
                         shortcuts.remove( keystroke );
-                        ready1();
+                        ready();
                     } else {
                         resolve();
                     }
@@ -702,7 +699,7 @@ define( [
             } );
         } ).catch( function() {
             assert.ok( false, "The promise should not fail!" );
-            ready2();
+            ready();
         } );
 
         $target.simulate( "keydown", {
@@ -719,8 +716,6 @@ define( [
     } );
 
     QUnit.test( "add 2 namespaces, remove by using the namespace", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var $target = $( "#qunit-fixture" );
         var shortcuts = shortcutRegistry( $target.get( 0 ) );
@@ -751,7 +746,7 @@ define( [
                         assert.ok( true, "The second shortcut handler has been called a second time" );
 
                         shortcuts.remove( keystroke );
-                        ready1();
+                        ready();
                     } else {
                         resolve();
                     }
@@ -774,7 +769,7 @@ define( [
             } );
         } ).catch( function() {
             assert.ok( false, "The promise should not fail!" );
-            ready2();
+            ready();
         } );
 
         $target.simulate( "keydown", {

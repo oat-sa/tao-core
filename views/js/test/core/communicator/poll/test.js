@@ -284,7 +284,6 @@ define( [  "jquery", "lodash", "core/communicator", "core/communicator/poll" ], 
             .channel( requestChannel, function( message ) {
                 assert.equal( message, expectedResponse.messages[ 0 ].message, "The provider has received the message" );
 
-                // QUnit.start();
             } );
 
         assert.ok( !!instance, "The provider exists" );

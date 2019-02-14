@@ -585,6 +585,7 @@ define( [
         { unit: "px", dim: "width", value: 1.1111, expected: 1111 },
         { unit: "px", dim: "height", value: 1.1111, expected: 1111 }
     ] ).test( "Allowed symbols in the input fields", function( params, assert ) {
+        var ready = assert.async();
         var $tmplContainer = $( ".template .visible-test" );
         var $visibleContainer = $tmplContainer.clone().appendTo( ".sandbox" ),
             conf = _.cloneDeep( workingConfiguration ),
@@ -645,7 +646,7 @@ define( [
 
                 this.destroy();
                 $visibleContainer.remove();
-                QUnit.start();
+                ready();
             } );
     } );
 

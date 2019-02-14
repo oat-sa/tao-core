@@ -30,7 +30,7 @@ define( [
 
     QUnit.module( "modal" );
 
-    QUnit.test( "module", 2, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof modalListener, "function", "The modal module exposes a function" );
         assert.equal( typeof $().modal, "function", "The modal module inject a jQuery plugin named 'modal'" );
     } );

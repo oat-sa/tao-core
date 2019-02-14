@@ -77,7 +77,7 @@ define( [
 
     QUnit.module( "datalist" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof datalist, "function", "The datalist module exposes a function" );
         assert.equal( typeof datalist(), "object", "The datalist factory produces an object" );
         assert.notStrictEqual( datalist(), datalist(), "The datalist factory provides a different object on each call" );

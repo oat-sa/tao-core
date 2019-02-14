@@ -137,7 +137,6 @@ define( [
     } );
 
     QUnit.test( "get cached", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var taskQueueModel;
         var getBackup;
@@ -180,7 +179,7 @@ define( [
             } )
             .catch( function( err ) {
                 assert.ok( false, err.message );
-                ready1();
+                ready();
             } );
     } );
 
@@ -225,7 +224,6 @@ define( [
     QUnit.module( "Archive" );
 
     QUnit.test( "archive - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 1 );
         taskQueueModelFactory( {
@@ -237,12 +235,11 @@ define( [
             ready();
         } ).catch( function() {
             assert.ok( false, "archive should not fail" );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "archive - failure", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 2 );
         taskQueueModelFactory( {
@@ -255,14 +252,13 @@ define( [
         } ).catch( function( err ) {
             assert.ok( true, "archive failure detected" );
             assert.equal( err.message, "500 : oops, big bad error", "archive failure detected" );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.module( "Create" );
 
     QUnit.test( "quick finish - promise mode", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 7 );
         taskQueueModelFactory( {
@@ -290,12 +286,11 @@ define( [
             ready();
         } ).catch( function() {
             assert.ok( false, "should not fail" );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "quick finish - event mode", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 6 );
         taskQueueModelFactory( {
@@ -325,13 +320,12 @@ define( [
         } ).on( "enqueued", function() {
 
             assert.ok( false, "should not be enqueued" );
-            ready1();
+            ready();
 
         } ).create( "/tao/views/js/test/core/taskQueue/samples/newTaskCreationResult.json", { someparam:"xyz" } );
     } );
 
     QUnit.test( "enqueued - promise mode", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 7 );
         taskQueueModelFactory( {
@@ -355,12 +349,11 @@ define( [
             ready();
         } ).catch( function() {
             assert.ok( false, "should not fail" );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "enqueued - event mode", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 6 );
         taskQueueModelFactory( {
@@ -386,7 +379,7 @@ define( [
             assert.ok( true, "the task has no time to finish quickly" );
             assert.ok( _.isPlainObject( result.task ), "the data is a plain object" );
             assert.equal( result.task.status, "in_progress", "the status is correct" );
-            ready1();
+            ready();
 
         } ).create( "/tao/views/js/test/core/taskQueue/samples/newTaskCreationResult.json", { someparam:"xyz" } );
     } );

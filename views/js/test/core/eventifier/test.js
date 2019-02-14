@@ -601,11 +601,11 @@ define( [
     } );
 
     QUnit.test( "events context (simple)", function( assert ) {
-        var ready1 = assert.async();
         var emitter = eventifier();
+        var ready = assert.async();
+        var ready1 = assert.async();
 
         assert.expect( 25 );
-        var ready = assert.async();
 
         emitter
             .on( "ev1", function() {

@@ -913,6 +913,7 @@ define( [
             title: testCase.title,
             config: JSON.stringify( testCase.config, null, 2 )
         } ) ).appendTo( $container );
+        var ready = assert.async();
 
         assert.expect( 1 );
 
@@ -930,7 +931,7 @@ define( [
         $feature.find( ".widget" )
             .on( "create.datatable", function() {
                 assert.ok( true, "Datatable is created" );
-                QUnit.start();
+                ready();
             } )
             .on( "query.datatable", function( e, ajaxConfig ) {
                 var queryData = {

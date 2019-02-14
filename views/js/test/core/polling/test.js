@@ -99,13 +99,14 @@ define( [  "jquery", "lodash", "core/polling" ], function(  $, _, polling ) {
         var ready10 = assert.async();
         var ready9 = assert.async();
         var ready8 = assert.async();
-        var ready7 = assert.async();
+        var ready7 = assert.async(3);
         var ready6 = assert.async();
-        var ready5 = assert.async();
-        var ready4 = assert.async();
-        var ready3 = assert.async();
+        var ready5 = assert.async(2);
+        var ready4 = assert.async(3);
+        var ready3 = assert.async(2);
         var ready2 = assert.async();
-        var ready1 = assert.async();
+        var ready1 = assert.async(4);
+        var ready = assert.async();
         var instance = polling();
 
         var interval = 50;
@@ -222,7 +223,6 @@ define( [  "jquery", "lodash", "core/polling" ], function(  $, _, polling ) {
             ready10();
         } );
 
-        var ready = assert.async();
         assert.expect( 48 );
 
         instance.trigger( "custom" );
@@ -235,6 +235,7 @@ define( [  "jquery", "lodash", "core/polling" ], function(  $, _, polling ) {
 
     QUnit.test( "limit", function( assert ) {
         var ready1 = assert.async();
+        var ready = assert.async(3);
         var instance = polling();
         var max = 3;
         var interval = 50;
@@ -254,7 +255,6 @@ define( [  "jquery", "lodash", "core/polling" ], function(  $, _, polling ) {
             ready1();
         } );
 
-        var ready = assert.async();
         assert.expect( 11 );
 
         instance.setInterval( interval );

@@ -106,7 +106,6 @@ define( [
     } );
 
     QUnit.test( "setTextManager", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var textManager1 = textManagerFactory( { PDFJS: pdfjs } );
@@ -150,8 +149,8 @@ define( [
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
@@ -234,7 +233,6 @@ define( [
     } );
 
     QUnit.test( "renderPage", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var config = {};
@@ -286,8 +284,8 @@ define( [
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok(false, "No error should be triggered" );
+            ready();
         } );
     } );
 

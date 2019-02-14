@@ -82,6 +82,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
         ] )
         .test( "Push new state in history when section parameter already exists", function( data, assert ) {
             var state = window.history.state;
+            var ready = assert.async();
 
             assert.expect( 6 );
 
@@ -94,11 +95,11 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                     assert.equal( state.sectionId, data.sectionId, "section id param has been correctly set" );
                     assert.equal( state.restoreWith, data.restoreWith, "restoreWith param has been correctly set" );
                     assert.equal( state.nodeUri, data.nodeUri, "nodeUri param has been correctly set" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "replacesectionstate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } );
 
             assert.equal( state, null, "state is null" );
@@ -126,14 +127,14 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
         ] )
         .test( "Replace current state when section does not exists", function( data, assert ) {
             var state = window.history.state;
-
+            var ready = assert.async();
             assert.expect( 6 );
 
             generisRouter
                 .off( ".test" )
                 .on( "pushsectionstate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "replacesectionstate.test", function( stateUrl ) {
                     state = window.history.state;
@@ -142,7 +143,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                     assert.equal( state.sectionId, data.sectionId, "section id param has been correctly set" );
                     assert.equal( state.restoreWith, data.restoreWith, "restoreWith param has been correctly set" );
                     assert.equal( state.nodeUri, data.nodeUri, "nodeUri param has been correctly set" );
-                    QUnit.start();
+                    ready();
                 } );
 
             assert.equal( state, null, "state is null" );
@@ -163,22 +164,22 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
             }
         ] )
         .test( "Does not change state", function( data, assert ) {
-
+            var ready = assert.async();
             generisRouter
                 .off( ".test" )
                 .on( "pushsectionstate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "replacesectionstate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } );
 
             generisRouter.pushSectionState( data.baseUrl, data.sectionId );
 
             assert.ok( _.isNull( window.history.state ), "state has not been updated" );
-            QUnit.start();
+            ready();
         } );
 
     QUnit.module( ".pushNodeState()", {
@@ -239,6 +240,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
         ] )
         .test( "Push new state in history when uri parameter already exists", function( data, assert ) {
             var state = window.history.state;
+            var ready = assert.async();
 
             assert.expect( 6 );
 
@@ -251,11 +253,11 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                     assert.equal( state.sectionId, data.expectedSectionId, "section id param has been correctly set" );
                     assert.equal( state.restoreWith, data.expectedRestoreWith, "restoreWith param has been correctly set" );
                     assert.equal( state.nodeUri, data.expectedNodeUri, "nodeUri param has been correctly set" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "replacenodestate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } );
 
             assert.equal( state, null, "state is null" );
@@ -314,14 +316,14 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
         ] )
         .test( "Replace current state when uri parameter does not exists", function( data, assert ) {
             var state = window.history.state;
-
+            var ready = assert.async();
             assert.expect( 6 );
 
             generisRouter
                 .off( ".test" )
                 .on( "pushnodestate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "replacenodestate.test", function( stateUrl ) {
                     state = window.history.state;
@@ -330,7 +332,7 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
                     assert.equal( state.sectionId, data.expectedSectionId, "section id param has been correctly set" );
                     assert.equal( state.restoreWith, data.expectedRestoreWith, "restoreWith param has been correctly set" );
                     assert.equal( state.nodeUri, data.expectedNodeUri, "nodeUri param has been correctly set" );
-                    QUnit.start();
+                    ready();
                 } );
 
             assert.equal( state, null, "state is null" );
@@ -353,21 +355,22 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
             }
         ] )
         .test( "Does not change state", function( data, assert ) {
+            var ready = assert.async();
             generisRouter
                 .off( ".test" )
                 .on( "pushnodestate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "replacenodestate.test", function() {
                     assert.ok( false, "I should not be called" );
-                    QUnit.start();
+                    ready();
                 } );
 
             generisRouter.pushNodeState( data.baseUrl, data.nodeUri );
 
             assert.ok( _.isNull( window.history.state ), "state has not been updated" );
-            QUnit.start();
+            ready();
         } );
 
     QUnit.module( "Back, same extension (popstate)", {
@@ -380,8 +383,6 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
     } );
 
     QUnit.test( 'On move back with a section change, trigger the sectionactivate event if previous state was pushed with the "activate" param', function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var url1 = "http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring";
         var url2 = "http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items";
@@ -397,11 +398,11 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
             } )
             .on( "sectionshow.test", function() {
                 assert.ok( false, "sectionshow should not be called" );
-                ready1();
+                ready();
             } )
             .on( "urichange.test", function() {
                 assert.ok( false, "urichange should not be called" );
-                ready2();
+                ready();
             } );
 
         generisRouter.pushSectionState( url1, "manage_items", "activate" );
@@ -411,8 +412,6 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
     } );
 
     QUnit.test( 'On move back with a section change, trigger the sectionshow event if previous state was pushed with the "show" param', function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var url1 = "http://tao/tao/Main/index?structure=items&ext=taoItems&section=authoring";
         var url2 = "http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items";
@@ -428,11 +427,11 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
             .on( "sectionshow.test", function( sectionId ) {
                 assert.ok( true, "sectionshow has been called" );
                 assert.equal( sectionId, "manage_items", "correct param is passed to the callback" );
-                ready1();
+                ready();
             } )
             .on( "urichange.test", function() {
                 assert.ok( false, "urichange should not be called" );
-                ready2();
+                ready();
             } );
 
         generisRouter.pushSectionState( url1, "manage_items", "show" );
@@ -442,8 +441,6 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
     } );
 
     QUnit.test( "On move back with uri change and no section change, trigger the urichange event", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var url1 = "http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items";
         var url2 = "http://tao/tao/Main/index?structure=items&ext=taoItems&section=manage_items&uri=http%3A%2F%2Ftao%2Fmytao.rdf%23i555555555555555";
@@ -458,12 +455,12 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
             } )
             .on( "sectionactivate.test", function() {
                 assert.ok( false, "sectionactivate should not be called" );
-                ready1();
+                ready();
             } )
             .on( "urichange.test", function( uri ) {
                 assert.ok( true, "urichange has been called" );
                 assert.equal( uri, "http://tao/mytao.rdf#i111111111111111", "correct param is passed to the callback" );
-                ready2();
+                ready();
             } );
 
         generisRouter.pushNodeState( url1, "http://tao/mytao.rdf#i111111111111111" );
@@ -482,8 +479,6 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
     } );
 
     QUnit.test( "On move back with a page reload (= different extension), trigger sectionactivate ", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var url = "/tao/Main/index?structure=tests&ext=taoItems&section=manage_tests";
 
@@ -498,12 +493,12 @@ define( [  "lodash", "jquery", "layout/generisRouter" ], function(  _, $, generi
             .on( "sectionactivate.test", function( sectionId ) {
                 assert.ok( true, "sectionactivate has been called" );
                 assert.equal( sectionId, "manage_tests", "correct param is passed to the callback" );
-                ready1();
+                ready();
             } )
             .on( "urichange.test", function() {
 
                 assert.ok( false, "urichange should not be called" );
-                ready2();
+                ready();
             } );
 
         window.history.pushState( {

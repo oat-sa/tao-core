@@ -66,7 +66,7 @@ define( [
 
     QUnit.module( "actionbar" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module",  function( assert ) {
         assert.equal( typeof actionbar, "function", "The actionbar module exposes a function" );
         assert.equal( typeof actionbar(), "object", "The actionbar factory produces an object" );
         assert.notStrictEqual( actionbar(), actionbar(), "The actionbar factory provides a different object on each call" );

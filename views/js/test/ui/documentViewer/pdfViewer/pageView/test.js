@@ -284,6 +284,7 @@ define( [
                 pageNum: 1
             };
             var instance = pageViewFactory( $container, config );
+            var ready = assert.async();
 
             assert.expect( 21 );
 
@@ -333,18 +334,19 @@ define( [
 
                         instance.destroy();
 
-                        QUnit.start();
+                        ready();
                     } );
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                QUnit.start();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
         } );
 
     QUnit
         .cases.init( pageRenderSets )
         .test( "render with text layer ", function( data, assert ) {
+            var ready = assert.async();
             var $container = $( "#qunit-fixture" );
             var textManager = textManagerFactory( { PDFJS: pdfjs } );
             var config = {
@@ -413,12 +415,12 @@ define( [
                         instance.destroy();
                         textManager.destroy();
 
-                        QUnit.start();
+                        ready();
                     } );
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                QUnit.start();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
 
         } );

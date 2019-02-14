@@ -41,10 +41,11 @@ define( [  "jquery", "ui/waitingDialog/waitingDialog" ], function(  $, waitingDi
         { title: "getTemplate" },
         { title: "setTemplate" }
     ] ).test( "Component API ", function( data, assert ) {
+        var ready = assert.async();
         waitingDialog( config ).on( "init", function() {
             assert.equal( typeof this[ data.title ], "function", 'The waitingDialog exposes the component method "' + data.title );
             this.destroy();
-            QUnit.start();
+            ready();
         } );
     } );
 
@@ -55,10 +56,11 @@ define( [  "jquery", "ui/waitingDialog/waitingDialog" ], function(  $, waitingDi
         { title: "before" },
         { title: "after" }
     ] ).test( "Eventifier API ", function( data, assert ) {
+        var ready = assert.async();
         waitingDialog( config ).on( "init", function() {
             assert.equal( typeof this[ data.title ], "function", 'The waitingDialog exposes the eventifier method "' + data.title );
             this.destroy();
-            QUnit.start();
+            ready();
         } );
     } );
 
@@ -66,10 +68,11 @@ define( [  "jquery", "ui/waitingDialog/waitingDialog" ], function(  $, waitingDi
         { title: "beginWait" },
         { title: "endWait" }
     ] ).test( "Instance API ", function( data, assert ) {
+        var ready = assert.async();
         waitingDialog( config ).on( "init", function() {
             assert.equal( typeof this[ data.title ], "function", 'The waitingDialog exposes the method "' + data.title );
             this.destroy();
-            QUnit.start();
+            ready();
         } );
     } );
 

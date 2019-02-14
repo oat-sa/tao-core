@@ -62,7 +62,6 @@ define( [
     } );
 
     QUnit.test( "default", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 1 );
 
@@ -74,12 +73,11 @@ define( [
             .catch( function( err ) {
                 console.error( err );
                 assert.ok( false, "Should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "static plugins", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var loadedPlugins = [
             plugin1, plugin2
@@ -97,12 +95,11 @@ define( [
             .catch( function( err ) {
                 console.error( err );
                 assert.ok( false, "Should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "dynamic plugins", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var loadedPlugins = [
             plugin1, plugin2
@@ -126,7 +123,7 @@ define( [
             .catch( function( err ) {
                 console.error( err );
                 assert.ok( false, "Should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 } );

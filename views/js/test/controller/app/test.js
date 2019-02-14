@@ -81,11 +81,11 @@ define( [
     } );
 
     QUnit.test( "onError", function( assert ) {
-        var ready1 = assert.async();
         var expectedError = new Error( "Test" );
+        var ready = assert.async();
+        var ready2 = assert.async();
 
         assert.expect( 3 );
-        var ready = assert.async();
 
         loggerFactory.on( "error", function( err ) {
             assert.equal( err, expectedError, "Should log the error" );
@@ -93,7 +93,7 @@ define( [
         } );
         feedback.on( "error", function( err ) {
             assert.equal( err, expectedError.message, "Should display the error" );
-            ready1();
+            ready2();
         } );
 
         assert.equal( appController.onError( expectedError ), appController, "Should return the appController" );
@@ -102,8 +102,8 @@ define( [
     QUnit.test( "apply", function( assert ) {
         var $target = $( "#qunit-fixture" );
 
-        assert.expect( 5 );
         var ready = assert.async();
+        assert.expect( 5 );
 
         appController.on( "change", function( url ) {
             assert.ok( appController.getState( "dispatching" ), "The controller is dispatching: " + url );

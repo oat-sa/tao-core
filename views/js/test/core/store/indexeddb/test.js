@@ -100,7 +100,6 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
     QUnit.module( "CRUD" );
 
     QUnit.test( "setItem", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
         var p;
@@ -121,12 +120,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             ready();
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "getItem", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
         var p;
@@ -151,12 +149,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "removeItem", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
 
@@ -183,12 +180,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "clear", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
 
@@ -219,12 +215,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "get/set object", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
         var sample = {
@@ -250,12 +245,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "get/set booleans", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
 
@@ -282,12 +276,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
                 ready();
             } ).catch( function( err ) {
                 assert.ok( false, err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "getItems", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
 
@@ -336,14 +329,13 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             ready();
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.module( "Erase" );
 
     QUnit.test( "removeStore", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store;
 
@@ -382,12 +374,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             } )
             .catch( function( err ) {
                 assert.ok( false, err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "removeAll", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store1;
         var store2;
@@ -512,14 +503,13 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             } )
             .catch( function( err ) {
                 assert.ok( false, err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.module( "get stores" );
 
     QUnit.test( "get all stores", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var store1;
         var store2;
@@ -563,14 +553,13 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
         } )
         .catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.module( "store id" );
 
     QUnit.test( "get store identifier", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 4 );
 
@@ -589,12 +578,11 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
 
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "get new store identifier", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 3 );
 
@@ -612,7 +600,7 @@ define( [  "core/store/indexeddb", "core/promise" ], function(  indexedDbBackend
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 } );

@@ -69,7 +69,6 @@ define( [
     QUnit.module( "behavior" );
 
     QUnit.test( "install", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-install" );
         var calculator = calculatorBoardFactory( $container )
@@ -103,12 +102,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "init", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-init" );
         var calculator = calculatorBoardFactory( $container )
@@ -145,12 +143,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "destroy", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-destroy" );
         var calculator = calculatorBoardFactory( $container )
@@ -190,7 +187,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
@@ -204,6 +201,7 @@ define( [
      */
 
     QUnit.cases.init( testCases ).test( "toggle", function( data, assert ) {
+        var ready = assert.async();
         var $container = $( "#fixture-sign" );
         var calculator = calculatorBoardFactory( $container )
             .on( "ready", function() {
@@ -219,7 +217,7 @@ define( [
                         assert.ok( plugin.getState( "init" ), "The plugin has been initialized" );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
 
                 plugin.install()
@@ -267,7 +265,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                QUnit.start();
+                ready();
             } );
     } );
 

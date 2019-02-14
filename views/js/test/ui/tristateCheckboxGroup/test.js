@@ -20,7 +20,7 @@ define( [  "jquery", "lodash", "ui/tristateCheckboxGroup" ], function(  $, _, tr
 
     QUnit.module( "Tri-state Checkboxes" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof tristateCheckboxGroup, "function", "The tristateCheckbox module exposes a function" );
         assert.equal( typeof tristateCheckboxGroup(), "object", "The tristateCheckbox factory produces an object" );
         assert.notStrictEqual( tristateCheckboxGroup(), tristateCheckboxGroup(), "The tristateCheckbox factory provides a different object on each call" );

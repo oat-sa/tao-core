@@ -121,6 +121,7 @@ define( [  "router", "context" ], function(  router, context ) {
         route: {},
         bundle: true
     } ] ).test( "Load route bundle : ", function( data, assert ) {
+        var ready = assert.async();
         context.bundle = data.bundle;
 
         assert.expect( 1 );
@@ -129,11 +130,11 @@ define( [  "router", "context" ], function(  router, context ) {
             .loadRouteBundle( data.route )
             .then( function( result ) {
                 assert.equal( result, data.resolve, "The correct bundle is loaded" );
-                QUnit.start();
+                ready();
             } )
             .catch( function( err ) {
                 assert.ok( false, err.message );
-                QUnit.start();
+                ready();
             } );
     } );
 
@@ -169,6 +170,7 @@ define( [  "router", "context" ], function(  router, context ) {
 
         }
     } ] ).test( "Load route : ", function( data, assert ) {
+        var ready = assert.async();
         context.bundle = data.bundle;
 
         assert.expect( 1 );
@@ -177,16 +179,15 @@ define( [  "router", "context" ], function(  router, context ) {
             .loadRoute( data.route )
             .then( function( result ) {
                 assert.deepEqual( result, data.resolve, "The correct route module is loaded" );
-                QUnit.start();
+                ready();
             } )
             .catch( function( err ) {
                 assert.ok( false, err.message );
-                QUnit.start();
+                ready();
             } );
     } );
 
     QUnit.test( "dispatch", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 2 );
 
@@ -207,7 +208,7 @@ define( [  "router", "context" ], function(  router, context ) {
 
         } ).catch( function( err ) {
             assert.ok( false, err.message );
-            ready1();
+            ready();
         } );
     } );
 } );

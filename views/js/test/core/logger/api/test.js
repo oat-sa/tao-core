@@ -132,7 +132,6 @@ define([ 'core/logger/api'], function( loggerFactory) {
     });
 
     QUnit.test('wrong providers', function(assert){
-        var ready1 = assert.async();
         var ready = assert.async();
         var p;
         assert.expect(3);
@@ -147,7 +146,7 @@ define([ 'core/logger/api'], function( loggerFactory) {
             ready();
         }).catch(function(err){
             assert.ok(err instanceof TypeError, 'The given provider is not a logger');
-            ready1();
+            ready();
         });
     });
 

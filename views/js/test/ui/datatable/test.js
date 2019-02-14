@@ -882,6 +882,7 @@ define( [
     } );
 
     QUnit.test( "Transform", function( assert ) {
+        var ready = assert.async();
         var ready1 = assert.async();
 
         var $elt = $( "#container-1" );
@@ -923,7 +924,6 @@ define( [
         } ];
 
         assert.expect( 26 );
-        var ready = assert.async();
 
         assert.ok( $elt.length === 1, "Test the fixture is available" );
 

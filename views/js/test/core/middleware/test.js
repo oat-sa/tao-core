@@ -45,7 +45,6 @@ define( [  "core/middleware" ], function(  middlewaresHandlerFactory ) {
         } );
 
     QUnit.test( "middlewares.apply() #success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var middlewares = middlewaresHandlerFactory();
         var request = {
@@ -94,12 +93,11 @@ define( [  "core/middleware" ], function(  middlewaresHandlerFactory ) {
             .catch( function( err ) {
                 assert.ok( false, "The promise should not be rejected" );
                 console.error( err );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "middlewares.apply() #fails", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var middlewares = middlewaresHandlerFactory();
         var request = {
@@ -147,12 +145,11 @@ define( [  "core/middleware" ], function(  middlewaresHandlerFactory ) {
             } )
             .catch( function( err ) {
                 assert.deepEqual( err, error, "The error has been provided" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "middlewares.apply() #failed response", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var middlewares = middlewaresHandlerFactory();
         var request = {
@@ -198,12 +195,11 @@ define( [  "core/middleware" ], function(  middlewaresHandlerFactory ) {
             } )
             .catch( function( err ) {
                 assert.deepEqual( err, response, "The error has been provided" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "middlewares.apply() #break direct", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var middlewares = middlewaresHandlerFactory();
         var request = {
@@ -244,12 +240,11 @@ define( [  "core/middleware" ], function(  middlewaresHandlerFactory ) {
             } )
             .catch( function( err ) {
                 assert.deepEqual( err, response, "The error has been provided" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "middlewares.apply() #break promise", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var middlewares = middlewaresHandlerFactory();
         var request = {
@@ -295,7 +290,7 @@ define( [  "core/middleware" ], function(  middlewaresHandlerFactory ) {
             } )
             .catch( function( err ) {
                 assert.deepEqual( err, response, "The error has been provided" );
-                ready1();
+                ready();
             } );
     } );
 } );

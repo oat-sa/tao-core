@@ -110,6 +110,7 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
     QUnit
         .cases.init( pagesProvider )
         .test( "pushState", function( data, assert ) {
+            var ready = assert.async();
             var instance = historyRouterFactory();
 
             assert.expect( 1 );
@@ -117,11 +118,11 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
             instance.pushState( data.state )
                 .then( function() {
                     assert.equal( location.href, data.expected, "The current page URL must comply to the target state" );
-                    QUnit.start();
+                    ready();
                 } )
                 .catch( function() {
                     assert.ok( false, "Should not be rejected!" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 
@@ -129,22 +130,23 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
         .cases.init( pagesProvider )
         .test( "replace", function( data, assert ) {
             var instance = historyRouterFactory();
+            var ready = assert.async();
+
 
             assert.expect( 1 );
 
             instance.replace( data.state )
                 .then( function() {
                     assert.equal( location.href, data.expected, "The current page URL must comply to the target state" );
-                    QUnit.start();
+                    ready();
                 } )
                 .catch( function() {
                     assert.ok( false, "Should not be rejected!" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 
     QUnit.test( "forward", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var instance = historyRouterFactory();
 
@@ -161,12 +163,11 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
             } )
             .catch( function() {
                 assert.ok( false, "Should not be rejected!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "redirect", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var instance = historyRouterFactory();
         var url1 = domain + "/tao/Test/user";
@@ -192,12 +193,11 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
             } )
             .catch( function() {
                 assert.ok( false, "Should not be rejected!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "dispatch", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var instance = historyRouterFactory();
         var url1 = domain + "/tao/Test/user";
@@ -223,7 +223,7 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
             } )
             .catch( function() {
                 assert.ok( false, "Should not be rejected!" );
-                ready1();
+                ready();
             } );
     } );
 
@@ -231,17 +231,18 @@ define( [  "core/historyRouter", "test/core/historyRouter/mock/controller" ], fu
         .cases.init( errorsProvider )
         .test( "dispatch", function( data, assert ) {
             var instance = historyRouterFactory();
+            var ready = assert.async();
 
             assert.expect( 1 );
 
             instance.dispatch( data.state )
                 .then( function() {
                     assert.ok( false, "Should be rejected!" );
-                    QUnit.start();
+                    ready();
                 } )
                 .catch( function() {
                     assert.ok( true, "Should be rejected!" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 

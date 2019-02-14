@@ -99,6 +99,7 @@ define( [
 
         ] )
         .test( ".alignWith(), .hAlignWith(), .vAlignWith()", function( data, assert ) {
+            var ready = assert.async();
             var component = makeAlignable( componentFactory() ),
                 $container = $( fixtureContainer ),
                 $refElement = ( $( "<div>REFERENCE</div>" ) ),
@@ -170,7 +171,7 @@ define( [
                         assert.equal( componentPosition.x, 0, "component has the correct x position" );
                         assert.equal( componentPosition.y, data.expectedY, "component has the correct y position" );
 
-                        QUnit.start();
+                        ready();
                     }
                 } )
                 .init( {

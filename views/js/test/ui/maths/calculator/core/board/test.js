@@ -154,7 +154,6 @@ define( [
     QUnit.module( "Life cycle" );
 
     QUnit.test( "init", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-init" );
         var initExpression = ".1+.2";
@@ -180,12 +179,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "render", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-render" );
 
@@ -240,12 +238,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "destroy", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-destroy" );
         var plugin1 = pluginFactory( {
@@ -290,14 +287,13 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.module( "API" );
 
     QUnit.test( "plugins", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-plugins" );
         var config = {
@@ -394,7 +390,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
@@ -455,7 +451,6 @@ define( [
     } );
 
     QUnit.test( "expression", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-expression" );
         var instance;
@@ -494,12 +489,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "position", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-position" );
         var instance;
@@ -549,12 +543,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "tokens", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-tokens" );
         var instance;
@@ -651,12 +644,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "command", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var expectedCommand = {
             name: "FOO",
@@ -709,12 +701,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "variable", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-variable" );
         var instance;
@@ -765,12 +756,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "variables", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var defaultVariables = {
             "ans": 0
@@ -840,12 +830,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "addTerm - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var expectedTermName = "FOO";
         var expectedTerm = {
@@ -900,12 +889,11 @@ define( [
             .on( "error termerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "addTerm - failure", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-addterm" );
         var instance;
@@ -958,12 +946,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useTerm - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-useterm" );
         var instance;
@@ -1063,12 +1050,11 @@ define( [
             .on( "error termerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useTerm - failure", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-useterm" );
         var instance;
@@ -1127,12 +1113,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useTerms - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-useterms" );
         var instance;
@@ -1267,12 +1252,11 @@ define( [
             .on( "error termerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useTerms - failure", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-useterms" );
         var instance;
@@ -1369,12 +1353,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useVariable - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var defaultVariables = {
             "ans": 0
@@ -1485,12 +1468,11 @@ define( [
             .on( "error termerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useVariable - failure", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var defaultVariables = {
             "ans": 0
@@ -1542,12 +1524,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useCommand - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-command" );
         var instance;
@@ -1614,12 +1595,11 @@ define( [
             .on( "error commanderror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "useCommand - failure", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-command" );
         var instance;
@@ -1668,12 +1648,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "clear", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-clear" );
         var instance;
@@ -1720,12 +1699,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "replace", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-replace" );
         var instance;
@@ -1812,12 +1790,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "insert", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-insert" );
         var instance;
@@ -1876,12 +1853,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "evaluate - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-evaluate" );
         var initExpression = ".1+.2";
@@ -1936,12 +1912,11 @@ define( [
             .on( "error syntaxerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "evaluate - error", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-evaluate" );
         var initExpression = ".1+*.2";
@@ -1984,12 +1959,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "evaluate variable - success", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-evaluate" );
         var initExpression = "(.1+.2)*x";
@@ -2029,12 +2003,11 @@ define( [
             .on( "error syntaxerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "evaluate variable - failure", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-evaluate" );
         var initExpression = "(.1+.2)*x";
@@ -2077,12 +2050,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "ans variable", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-ans" );
         var calculator = calculatorBoardFactory( $container )
@@ -2173,14 +2145,13 @@ define( [
             } )
             .after( "destroy", function() {
                 assert.equal( calculator.hasVariable( "ans" ), false, "The variable ans has been removed" );
-                ready1();
+                ready();
             } );
 
         assert.expect( 25 );
     } );
 
     QUnit.test( "built-in commands - clear", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-builtin" );
         var instance;
@@ -2227,12 +2198,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "built-in commands - clearAll", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-builtin" );
         var instance;
@@ -2279,12 +2249,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "built-in commands - execute", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-builtin" );
         var initExpression = ".1+.2";
@@ -2324,12 +2293,11 @@ define( [
             .on( "error syntaxerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "built-in commands - var and term", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-builtin" );
         var initExpression = ".1+.2";
@@ -2377,12 +2345,11 @@ define( [
             .on( "error syntaxerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "mathsEvaluator", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-evaluator" );
         var instance;
@@ -2418,12 +2385,11 @@ define( [
             .on( "error syntaxerror", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "0 and operator", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-zero-op" );
         var calculator = calculatorBoardFactory( $container )
@@ -2478,7 +2444,7 @@ define( [
                 ready();
             } )
             .on( "destroy", function() {
-                ready1();
+                ready();
             } );
 
         assert.expect( 8 );
@@ -2515,6 +2481,7 @@ define( [
             label: registeredTerms.SQRT.label
         } ] )
         .test( "0 and const", function( data, assert ) {
+            var ready = assert.async();
             var $container = $( "#fixture-zero-const" );
             var calculator = calculatorBoardFactory( $container )
                 .on( "ready", function() {
@@ -2560,17 +2527,16 @@ define( [
                 .on( "error", function( err ) {
                     console.error( err );
                     assert.ok( false, "The operation should not fail!" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "destroy", function() {
-                    QUnit.start();
+                    ready();
                 } );
 
             assert.expect( 6 );
         } );
 
     QUnit.test( "ans and operator", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-ans-op" );
         var calculator = calculatorBoardFactory( $container )
@@ -2625,7 +2591,7 @@ define( [
                 ready();
             } )
             .on( "destroy", function() {
-                ready1();
+                ready();
             } );
 
         assert.expect( 8 );
@@ -2662,6 +2628,7 @@ define( [
             label: registeredTerms.SQRT.label
         } ] )
         .test( "ans and const", function( data, assert ) {
+            var ready = assert.async();
             var $container = $( "#fixture-ans-const" );
             var calculator = calculatorBoardFactory( $container )
                 .on( "ready", function() {
@@ -2707,10 +2674,10 @@ define( [
                 .on( "error", function( err ) {
                     console.error( err );
                     assert.ok( false, "The operation should not fail!" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "destroy", function() {
-                    QUnit.start();
+                    ready();
                 } );
 
             assert.expect( 6 );

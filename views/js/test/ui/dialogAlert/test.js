@@ -23,7 +23,7 @@ define( [  "ui/dialog/alert" ], function(  dialogAlert ) {
 
     QUnit.module( "dialog/alert" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         var alert1 = dialogAlert();
         var alert2 = dialogAlert();
         assert.equal( typeof dialogAlert, "function", "The dialogAlert module exposes a function" );

@@ -20,7 +20,7 @@ define( [  "jquery", "lodash", "ui/calculator" ], function(  $, _, calculator ) 
 
     QUnit.module( "Calculator" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module",  function( assert ) {
         assert.equal( typeof calculator, "function", "The calculator module exposes a function" );
         assert.equal( typeof calculator(), "object", "The calculator factory produces an object" );
         assert.notStrictEqual( calculator(), calculator(), "The calculator factory provides a different object on each call" );

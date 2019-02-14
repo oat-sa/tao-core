@@ -23,7 +23,7 @@ define( [  "jquery", "lodash", "ui/listbox" ], function(  $, _, listBox ) {
 
     QUnit.module( "listBox" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof listBox, "function", "The listBox module exposes a function" );
         assert.equal( typeof listBox(), "object", "The listBox factory produces an object" );
         assert.notStrictEqual( listBox(), listBox(), "The listBox factory provides a different object on each call" );

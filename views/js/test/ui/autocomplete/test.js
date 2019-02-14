@@ -28,7 +28,7 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
 
     QUnit.module( "API" );
 
-    QUnit.test( "ui/autocomplete module", 3, function( assert ) {
+    QUnit.test( "ui/autocomplete module", function( assert ) {
         assert.ok( typeof autocompleteUI === "function", "The ui/autocomplete module exposes a function" );
         assert.ok( typeof autocompleteUI() === "object", "The ui/autocomplete factory produces an object" );
         assert.ok( autocompleteUI() !== autocompleteUI(), "The ui/autocomplete factory provides a different object on each call" );
@@ -210,8 +210,6 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
     QUnit.module( "Behavior" );
 
     QUnit.test( "ui/autocomplete install", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var instance = autocompleteUI( "#autocomplete1" );
         var element = instance.getElement();
         var stopper;
@@ -234,7 +232,7 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         // Add custom event
         stopper = setTimeout( function() {
             assert.ok( false, "The ui/autocomplete instance fails to handle custom events" );
-            ready1();
+            ready();
         }, 250 );
 
         instance.on( "test", eventListener );
@@ -244,7 +242,7 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         var ready = assert.async();
         stopper = setTimeout( function() {
             assert.ok( true, "The ui/autocomplete instance can remove custom events" );
-            ready2();
+            ready();
         }, 250 );
         instance.off( "test" );
         listenerInstalled = false;
@@ -255,9 +253,6 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
     } );
 
     QUnit.test( "ui/autocomplete successful query", function( assert ) {
-        var ready3 = assert.async();
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var instance = autocompleteUI( "#autocomplete2", {
             url: "js/test/ui/autocomplete/test.success.json",
@@ -286,7 +281,7 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
                     assert.ok( false, "The ui/autocomplete instance fails to handle selectItem event" );
-                    ready1();
+                    ready();
                 }, 500 );
                 setTimeout( function() {
                     keystroker.keystroke( element, keystroker.keyCode.ENTER );
@@ -305,22 +300,19 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
                 assert.equal( instance.getLabel(), "user", "The ui/autocomplete instance must keep the label of the selected item" );
 
                 clearTimeout( stopper );
-                ready2();
+                ready();
             }
         } );
         var element = instance.getElement();
         var stopper = setTimeout( function() {
             assert.ok( false, "The ui/autocomplete instance fails to handle searchStart event" );
-            ready3();
+            ready();
         }, 500 );
 
         keystroker.puts( element, "user" );
     } );
 
     QUnit.test( "ui/autocomplete failed query", function( assert ) {
-        var ready3 = assert.async();
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var instance = autocompleteUI( "#autocomplete3", {
             url: "js/test/ui/autocomplete/test.blank.json",
@@ -349,7 +341,7 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
                     assert.ok( true, "The ui/autocomplete instance must not fire the selectItem event when no item is selectable" );
-                    ready1();
+                    ready();
                 }, 500 );
 
                 setTimeout( function() {
@@ -365,22 +357,20 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
                 assert.ok( false, "The ui/autocomplete instance must not fire the selectItem event when no item is selectable" );
 
                 clearTimeout( stopper );
-                ready2();
+                ready();
             }
         } );
         var element = instance.getElement();
         var stopper = setTimeout( function() {
             assert.ok( false, "The ui/autocomplete instance fails to handle searchStart event" );
-            ready3();
+            ready();
         }, 500 );
 
         keystroker.puts( element, "test" );
     } );
 
     QUnit.test( "ui/autocomplete as provider", function( assert ) {
-        var ready3 = assert.async();
-        var ready2 = assert.async();
-        var ready1 = assert.async();
+
         var ready = assert.async();
         var instance = autocompleteUI( "#autocomplete4", {
             url: "js/test/ui/autocomplete/test.success.json",
@@ -410,7 +400,7 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
                 clearTimeout( stopper );
                 stopper = setTimeout( function() {
                     assert.ok( false, "The ui/autocomplete instance fails to handle selectItem event" );
-                    ready1();
+                    ready();
                 }, 500 );
                 setTimeout( function() {
                     keystroker.keystroke( element, keystroker.keyCode.ENTER );
@@ -429,13 +419,13 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
                 assert.equal( instance.getLabel(), "user", "The ui/autocomplete instance must keep the label of the selected item" );
 
                 clearTimeout( stopper );
-                ready2();
+                ready();
             }
         } );
         var element = instance.getElement();
         var stopper = setTimeout( function() {
             assert.ok( false, "The ui/autocomplete instance fails to handle searchStart event" );
-            ready3();
+            ready();
         }, 500 );
 
         keystroker.puts( element, "user" );

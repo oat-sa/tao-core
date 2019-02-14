@@ -151,6 +151,7 @@ define( [
                 component = makeResizable( componentFactory() ),
                 $element,
                 position;
+            var ready = assert.async();
 
             assert.expect( 20 );
 
@@ -171,7 +172,7 @@ define( [
                     assert.equal( x, data.newX, "correct x has been passed as an event parameter" );
                     assert.equal( y, data.newY, "correct y has been passed as an event parameter" );
 
-                    QUnit.start();
+                    ready();
                 } )
                 .init( {
                     initialX: 150,

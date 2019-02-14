@@ -138,7 +138,6 @@ define( [
     } );
 
     QUnit.test( "selection", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
 
@@ -182,12 +181,11 @@ define( [
         } )
         .on( "error", function( err ) {
             assert.ok( false, err.message );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "unselect", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
 
@@ -243,7 +241,7 @@ define( [
         } )
         .on( "error", function( err ) {
             assert.ok( false, err.message );
-            ready1();
+            ready();
         } );
     } );
 

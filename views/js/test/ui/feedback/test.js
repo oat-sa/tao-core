@@ -184,6 +184,7 @@ define( [  "jquery", "ui/feedback" ], function(  $, feedback ) {
         }
     } ] )
     .test( "message ", function( data, assert ) {
+        var ready = assert.async();
         assert.expect( 5 );
 
         feedback( )
@@ -195,7 +196,7 @@ define( [  "jquery", "ui/feedback" ], function(  $, feedback ) {
                 assert.equal( $( $element ).children( "div" ).html().trim(), data.expected.message.trim(), "The component has the correct message" );
                 assert.equal( $element.hasClass( "popup" ), data.expected.popup, "The component has the correct popup state" );
 
-                QUnit.start();
+                ready();
             } )
             .message( data.level, data.message, data.params, data.options )
             .open();

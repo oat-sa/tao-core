@@ -316,7 +316,7 @@ define( [  "jquery", "lodash", "ui/component" ], function(  $, _, componentFacto
         .test( "getOuterSize()", function( data, assert ) {
             var template = "<div>TEST</div>",
                 $container1 = $( "#fixture-1" );
-
+            var ready = assert.async();
             assert.expect( 2 );
 
             componentFactory()
@@ -336,7 +336,7 @@ define( [  "jquery", "lodash", "ui/component" ], function(  $, _, componentFacto
                     assert.equal( outerSize.width, data.outerWidth, "getOuterSize() returns the correct width" );
                     assert.equal( outerSize.height, data.outerHeight, "getOuterSize() returns the correct height" );
 
-                    QUnit.start();
+                    ready();
                 } )
                 .init( {
                     renderTo: $container1,

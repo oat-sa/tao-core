@@ -50,8 +50,6 @@ define( [
     QUnit.module( "pdfViewer Fallback implementation" );
 
     QUnit.test( "render", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#qunit-fixture" );
         var expectedWidth = 256;
@@ -96,10 +94,10 @@ define( [
             promise.then( function() {
                 assert.ok( true, "The PDF file has been loaded" );
                 checkRenderedStuff();
-                ready1();
+                ready();
             } ).catch( function() {
-                assert.ok( "false", "The PDF file should be loaded" );
-                ready2();
+                assert.ok( false, "The PDF file should be loaded" );
+                ready();
             } );
         }
     } );

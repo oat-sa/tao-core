@@ -43,7 +43,7 @@ define( [  "jquery", "lodash", "ui/generis/validator/validator" ], function(  $,
      */
     QUnit.module( "Api" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         var obj1 = generisValidatorFactory();
         var obj2 = generisValidatorFactory();
         assert.equal( typeof generisValidatorFactory, "function", "The module exposes a function" );

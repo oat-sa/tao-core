@@ -77,7 +77,6 @@ define( [
     QUnit.module( "behavior" );
 
     QUnit.test( "install", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-install" );
         var calculator = calculatorBoardFactory( $container )
@@ -107,12 +106,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "init", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-init" );
         var calculator = calculatorBoardFactory( $container )
@@ -145,12 +143,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "render", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-render" );
         var calculator = calculatorBoardFactory( $container )
@@ -201,7 +198,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
@@ -248,7 +245,6 @@ define( [
     } );
 
     QUnit.test( "destroy", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-destroy" );
         var calculator = calculatorBoardFactory( $container )
@@ -291,12 +287,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "transform expression", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-transform" );
         var calculator = calculatorBoardFactory( $container )
@@ -432,12 +427,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "transform all", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-transform-all" );
         var expectedTokens = [];
@@ -503,7 +497,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
 
         _.forEach( registeredTerms, function( term, token ) {
@@ -520,7 +514,6 @@ define( [
     } );
 
     QUnit.test( "evaluate expression", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-evaluate" );
         var calculator = calculatorBoardFactory( $container )
@@ -781,12 +774,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "evaluate NaN", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-error-nan" );
         var calculator = calculatorBoardFactory( $container )
@@ -964,12 +956,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "evaluate Infinity", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-error-infinity" );
         var calculator = calculatorBoardFactory( $container )
@@ -1147,12 +1138,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "evaluate syntax error", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-error-syntax" );
         var calculator = calculatorBoardFactory( $container )
@@ -1345,12 +1335,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "0 and operator", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-zero-op" );
         var calculator = calculatorBoardFactory( $container )
@@ -1473,7 +1462,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
@@ -1508,6 +1497,7 @@ define( [
             label: registeredTerms.SQRT.label
         } ] )
         .test( "0 and const", function( data, assert ) {
+            var ready = assert.async();
             var $container = $( "#fixture-zero-const" );
             var calculator = calculatorBoardFactory( $container )
                 .on( "ready", function() {
@@ -1521,7 +1511,7 @@ define( [
                             assert.ok( plugin.getState( "ready" ), "The plugin has been rendered" );
                         } )
                         .on( "destroy", function() {
-                            QUnit.start();
+                            ready();
                         } );
 
                     plugin.install()
@@ -1598,12 +1588,11 @@ define( [
                 .on( "error", function( err ) {
                     console.error( err );
                     assert.ok( false, "The operation should not fail!" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 
     QUnit.test( "ans and operator", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-ans-op" );
         var calculator = calculatorBoardFactory( $container )
@@ -1707,7 +1696,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
@@ -1742,6 +1731,7 @@ define( [
             label: registeredTerms.SQRT.label
         } ] )
         .test( "ans and const", function( data, assert ) {
+            var ready = assert.async();
             var $container = $( "#fixture-ans-const" );
             var calculator = calculatorBoardFactory( $container )
                 .on( "ready", function() {
@@ -1755,7 +1745,7 @@ define( [
                             assert.ok( plugin.getState( "ready" ), "The plugin has been rendered" );
                         } )
                         .on( "destroy", function() {
-                            QUnit.start();
+                            ready();
                         } );
 
                     plugin.install()
@@ -1813,7 +1803,7 @@ define( [
                 .on( "error", function( err ) {
                     console.error( err );
                     assert.ok( false, "The operation should not fail!" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 
@@ -1852,6 +1842,7 @@ define( [
             text: "sin" + registeredTerms.NEG.label + "5"
         } ] )
         .test( "treatment of minus operator", function( data, assert ) {
+            var ready = assert.async();
             var $container = $( "#fixture-minus-operator" );
             var calculator = calculatorBoardFactory( $container )
                 .on( "ready", function() {
@@ -1865,7 +1856,7 @@ define( [
                             assert.ok( plugin.getState( "ready" ), "The plugin has been rendered" );
                         } )
                         .on( "destroy", function() {
-                            QUnit.start();
+                            ready();
                         } );
 
                     plugin.install()
@@ -1897,14 +1888,13 @@ define( [
                 .on( "error", function( err ) {
                     console.error( err );
                     assert.ok( false, "The operation should not fail!" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 
     QUnit.module( "visual test" );
 
     QUnit.test( "screen", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var expression = "3*sqrt 3/2+(-2+x)*4-sin PI/2";
         var $container = $( "#visual-test .calculator" );
@@ -1932,7 +1922,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 } );

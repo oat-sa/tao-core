@@ -30,7 +30,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
     QUnit.module( "mediaplayer" );
 
-    QUnit.test( "module", 8, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof mediaplayer, "function", "The mediaplayer module exposes a function" );
         assert.equal( typeof mediaplayer(), "object", "The mediaplayer factory produces an object" );
         assert.equal( typeof mediaplayer.canPlay, "function", "The mediaplayer factory exposes a function telling if the browser can play video and audio" );
@@ -83,7 +83,6 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
         } );
 
     QUnit.test( "DOM [audio player]", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var url = "js/test/ui/mediaplayer/samples/audio.mp3";
         var $container = $( "#fixture-1" );
@@ -143,12 +142,11 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
         .on( "error", function( err ) {
 
             assert.ok( false, err.message );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "DOM [video player]", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var url = "js/test/ui/mediaplayer/samples/video.mp4";
         var $container = $( "#fixture-2" );
@@ -208,12 +206,11 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
         .on( "error", function( err ) {
 
             assert.ok( false, err.message );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "DOM [youtube player]", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var videoId = "YJWSVUPSQqw";
         var url = "//www.youtube.com/watch?v=" + videoId;
@@ -273,7 +270,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
         .on( "error", function( err ) {
 
             assert.ok( false, err.message );
-            ready1();
+            ready();
         } );
     } );
 
@@ -327,6 +324,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Events ", function( data, assert ) {
+                var ready = assert.async(4);
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -479,7 +477,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     destroy: function() {
                         forward();
                         assert.equal( this, instance, "The destroy event is bound to the instance" );
-                        QUnit.start();
+                        ready();
                     }
                 } ];
 
@@ -540,7 +538,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     $container.one( event + ".mediaplayer", function() {
                         assert.ok( true, "The media player has triggered the " + event + " event through the DOM" );
 
-                        QUnit.start();
+                        ready();
                     } );
                 } );
 
@@ -549,11 +547,11 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
 
                 $container.on( "custom.mediaplayer", function() {
                     assert.ok( true, "The media player can handle custom events through DOM" );
-                    QUnit.start();
+                    ready();
                 } );
                 instance.on( "custom", function() {
                     assert.ok( true, "The media player can handle custom events internally" );
-                    QUnit.start();
+                    ready();
                 } );
 
                 instance.trigger( "custom" );
@@ -562,6 +560,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Option autoStart ", function( data, assert ) {
+                var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -582,13 +581,14 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Option autoStartAt ", function( data, assert ) {
+                var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -612,18 +612,19 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Option canPause ", function( data, assert ) {
+                var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
 
-                QUnit.stop();
+                
 
                 mediaplayer( {
                     url: data.url,
@@ -646,7 +647,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         assert.ok( false, "The media player cannot be paused!" );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                       ready();
                     } );
 
                 mediaplayer( {
@@ -670,18 +671,19 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                       ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Option startMuted ", function( data, assert ) {
+                var ready = assert.async(2);
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
 
-                QUnit.stop();
+                
 
                 mediaplayer( {
                     url: data.url,
@@ -703,7 +705,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
 
                 mediaplayer( {
@@ -726,13 +728,14 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Option volume ", function( data, assert ) {
+                var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -758,13 +761,14 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Option loop ", function( data, assert ) {
+                var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -800,13 +804,14 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         }
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
             } );
 
         QUnit
             .cases.init( mediaplayerTypes )
             .test( "Option maxPlays ", function( data, assert ) {
+                var ready = assert.async();
                 if ( !mediaplayer.canPlay( data.type ) ) {
                     throw new Error( "The browser does not support the " + data.type + " player!" );
                 }
@@ -871,7 +876,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
             } );
     }
@@ -879,6 +884,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
     QUnit
         .cases.init( mediaplayerTypes )
         .test( "Option renderTo ", function( data, assert ) {
+            var ready = assert.async();
             var selector = "#fixture-" + data.fixture;
             var places = [ {
                 type: "jQuery",
@@ -907,7 +913,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                         } );
                     } )
                     .on( "destroy", function() {
-                        QUnit.start();
+                        ready();
                     } );
             } );
         } );
@@ -916,6 +922,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
         .cases.init( mediaplayerTypes )
         .test( "Show/Hide ", function( data, assert ) {
             var selector = "#fixture-" + data.fixture;
+            var ready = assert.async();
             mediaplayer( {
                 url: data.url,
                 type: data.type,
@@ -948,13 +955,14 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     } );
                 } )
                 .on( "destroy", function() {
-                    QUnit.start();
+                    ready();
                 } );
         } );
 
     QUnit
         .cases.init( mediaplayerTypes )
         .test( "Enable/Disable ", function( data, assert ) {
+            var ready = assert.async();
             var selector = "#fixture-" + data.fixture;
             mediaplayer( {
                 url: data.url,
@@ -985,7 +993,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     } );
                 } )
                 .on( "destroy", function() {
-                    QUnit.start();
+                    ready();
                 } );
         } );
 

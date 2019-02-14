@@ -73,6 +73,7 @@ define( [
     QUnit
         .cases.init( contexts )
         .test( "render ", function( data, assert ) {
+            var ready = assert.async();
             assert.expect( headless ? 2 : 3 );
 
             requirejs.undef( PDFjsId );
@@ -100,7 +101,7 @@ define( [
                 } )
                 .on( "unloaded", function() {
                     assert.ok( true, "The viewer is destroyed" );
-                    QUnit.start();
+                    ready();
                 } );
         } );
 

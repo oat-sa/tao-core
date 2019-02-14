@@ -23,7 +23,7 @@ define( [  "ui/dialog/confirm" ], function(  dialogConfirm ) {
 
     QUnit.module( "dialog/confirm" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         var conf1 = dialogConfirm();
         var conf2 = dialogConfirm();
         assert.equal( typeof dialogConfirm, "function", "The dialogConfirm module exposes a function" );
@@ -75,13 +75,14 @@ define( [  "ui/dialog/confirm" ], function(  dialogConfirm ) {
     QUnit
         .cases.init( confirmCases )
         .test( "use ", function( data, assert ) {
+            var ready = assert.async();
             var accept = function() {
                 assert.equal( data.button, "ok", "The dialogConfirm has triggered the accept callback function when hitting the ok button!" );
-                QUnit.start();
+                ready();
             };
             var refuse = function() {
                 assert.equal( data.button, "cancel", "The dialogConfirm has triggered the refuse callback function when hitting the cancel button!" );
-                QUnit.start();
+                ready();
             };
             var modal = dialogConfirm( data.message, accept, refuse, data.options || {} );
 

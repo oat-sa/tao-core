@@ -21,7 +21,7 @@ define( [  "jquery", "lodash", "ui/report" ], function(  $, _, report ) {
 
     QUnit.module( "API" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof report, "function", "The report module exposes a function" );
         assert.equal( typeof report(), "object", "The report factory produces an object" );
         assert.notStrictEqual( report(), report(), "The report factory provides a different object on each call" );

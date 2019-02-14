@@ -163,7 +163,6 @@ define( [  "lodash", "core/moduleLoader", "core/promise" ], function(  _, module
     } );
 
     QUnit.test( "load a module", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var module = {
             module: "test/core/moduleLoader/mockModule",
@@ -189,12 +188,11 @@ define( [  "lodash", "core/moduleLoader", "core/promise" ], function(  _, module
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "load a wrong module", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var provider = {
             module: "test/core/moduleLoader/mockModule",
@@ -220,12 +218,11 @@ define( [  "lodash", "core/moduleLoader", "core/promise" ], function(  _, module
             ready();
         } ).catch( function( e ) {
             assert.ok( true, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "load a bundle", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var module = {
             module: "test/core/moduleLoader/mockAModule",
@@ -252,12 +249,11 @@ define( [  "lodash", "core/moduleLoader", "core/promise" ], function(  _, module
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "load load multiple modules from a bundle", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var modules = [ {
             module: "test/core/moduleLoader/mockAModule",
@@ -290,12 +286,11 @@ define( [  "lodash", "core/moduleLoader", "core/promise" ], function(  _, module
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "remove a module", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var module = {
             module: "test/core/moduleLoader/mockModule",
@@ -317,7 +312,7 @@ define( [  "lodash", "core/moduleLoader", "core/promise" ], function(  _, module
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 } );

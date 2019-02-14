@@ -39,7 +39,7 @@ define( [  "jquery", "ui/dropdown" ], function(  $, dropdown ) {
 
     QUnit.module( "dropdown" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof dropdown, "function", "The dropdown module exposes a function" );
         assert.equal( typeof dropdown(), "object", "The dropdown factory produces an object" );
         assert.notStrictEqual( dropdown(), dropdown(), "The dropdown factory provides a different object on each call" );

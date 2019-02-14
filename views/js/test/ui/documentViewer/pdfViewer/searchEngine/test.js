@@ -260,6 +260,7 @@ define( [
     QUnit
         .cases.init( searchCases )
         .test( "search", function( data, assert ) {
+            var ready = assert.async();
             var textManager = textManagerFactory( { PDFJS: pdfjs } );
             var config = _.merge( {
                 textManager: textManager
@@ -292,16 +293,15 @@ define( [
 
                     instance.destroy();
 
-                    QUnit.start();
+                    ready();
                 } );
             } ).catch( function() {
-                assert.ok( "false", "No error should be triggered" );
-                QUnit.start();
+                assert.ok( false, "No error should be triggered" );
+                ready();
             } );
         } );
 
     QUnit.test( "navigating in search", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var textManager = textManagerFactory( { PDFJS: pdfjs } );
         var config = {
@@ -430,13 +430,12 @@ define( [
                 ready();
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 
     QUnit.test( "updateMatches", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var textManager = textManagerFactory( { PDFJS: pdfjs } );
         var config = {
@@ -522,8 +521,8 @@ define( [
                 } );
             } );
         } ).catch( function() {
-            assert.ok( "false", "No error should be triggered" );
-            ready1();
+            assert.ok( false, "No error should be triggered" );
+            ready();
         } );
     } );
 

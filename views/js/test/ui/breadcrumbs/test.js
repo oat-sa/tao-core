@@ -23,7 +23,7 @@ define( [  "jquery", "lodash", "ui/breadcrumbs" ], function(  $, _, breadcrumbs 
 
     QUnit.module( "breadcrumbs" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module",  function( assert ) {
         assert.equal( typeof breadcrumbs, "function", "The breadcrumbs module exposes a function" );
         assert.equal( typeof breadcrumbs(), "object", "The breadcrumbs factory produces an object" );
         assert.notStrictEqual( breadcrumbs(), breadcrumbs(), "The breadcrumbs factory provides a different object on each call" );

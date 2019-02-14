@@ -23,7 +23,7 @@ define( [  "i18n" ], function(  i18n ) {
 
     QUnit.module( "i18n" );
 
-    QUnit.test( "module", 4, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         var fake = "my-dummy-text";
         assert.equal( typeof i18n, "function", "The i18n module exposes a function" );
         assert.equal( typeof i18n( fake ), "string", "The i18n function produces a string" );

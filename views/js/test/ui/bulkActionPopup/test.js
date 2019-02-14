@@ -275,7 +275,7 @@ define( [
 
     QUnit.test( "cancel (click)", function( assert ) {
         var ready1 = assert.async();
-
+        var ready = assert.async();
         var $container = $( "#fixture-1" );
         var config = {
             renderTo: $container,
@@ -299,8 +299,6 @@ define( [
                 ready1();
             } );
 
-        var ready = assert.async();
-
         assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], "container ok" );
         assert.equal( $container.children( ".bulk-action-popup" ).length, 1, "element ok" );
 
@@ -311,6 +309,7 @@ define( [
 
     QUnit.test( "ok (click)", function( assert ) {
         var ready1 = assert.async();
+        var ready = assert.async();
         var theReason = "The Reason.";
         var $container = $( "#fixture-1" );
         var config = {
@@ -335,8 +334,6 @@ define( [
                 assert.ok( true, "destroyed" );
                 ready1();
             } );
-
-        var ready = assert.async();
 
         assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], "container ok" );
         assert.equal( $container.children( ".bulk-action-popup" ).length, 1, "element ok" );
@@ -349,7 +346,7 @@ define( [
 
     QUnit.test( "cancel (api)", function( assert ) {
         var ready1 = assert.async();
-
+        var ready = assert.async();
         var $container = $( "#fixture-1" );
         var config = {
             renderTo: $container,
@@ -373,8 +370,6 @@ define( [
                 ready1();
             } );
 
-        var ready = assert.async();
-
         assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], "container ok" );
         assert.equal( $container.children( ".bulk-action-popup" ).length, 1, "element ok" );
 
@@ -385,6 +380,7 @@ define( [
 
     QUnit.test( "ok (api)", function( assert ) {
         var ready1 = assert.async();
+        var ready = assert.async();
         var theReason = "The Reason.";
         var $container = $( "#fixture-1" );
         var config = {
@@ -410,8 +406,6 @@ define( [
                 ready1();
             } );
 
-        var ready = assert.async();
-
         assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], "container ok" );
         assert.equal( $container.children( ".bulk-action-popup" ).length, 1, "element ok" );
         $container.find( "textarea" ).text( theReason ).change();
@@ -423,6 +417,7 @@ define( [
 
     QUnit.test( "cancel (shortcut)", function( assert ) {
         var ready1 = assert.async();
+        var ready = assert.async();
 
         var $container = $( "#fixture-1" );
         var config = {
@@ -446,8 +441,6 @@ define( [
                 assert.ok( true, "destroyed" );
                 ready1();
             } );
-
-        var ready = assert.async();
 
         assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], "container ok" );
         assert.equal( $container.children( ".bulk-action-popup" ).length, 1, "element ok" );
@@ -469,6 +462,7 @@ define( [
 
     QUnit.test( "ok (shortcut)", function( assert ) {
         var ready1 = assert.async();
+        var ready = assert.async();
         var theReason = "The Reason.";
         var $container = $( "#fixture-1" );
         var config = {
@@ -493,8 +487,6 @@ define( [
                 assert.ok( true, "destroyed" );
                 ready1();
             } );
-
-        var ready = assert.async();
 
         assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], "container ok" );
         assert.equal( $container.children( ".bulk-action-popup" ).length, 1, "element ok" );
@@ -517,6 +509,7 @@ define( [
 
     QUnit.test( "disabled shortcut", function( assert ) {
         var ready1 = assert.async();
+        var ready = assert.async();
         var $container = $( "#fixture-1" );
         var config = {
             renderTo: $container,
@@ -540,8 +533,6 @@ define( [
                 assert.ok( true, "destroyed" );
                 ready1();
             } );
-
-        var ready = assert.async();
 
         assert.equal( $container[ 0 ], instance.getContainer()[ 0 ], "container ok" );
         assert.equal( $container.children( ".bulk-action-popup" ).length, 1, "element ok" );

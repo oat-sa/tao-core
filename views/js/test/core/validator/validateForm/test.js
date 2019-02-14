@@ -22,15 +22,15 @@ define( [  "lodash", "jquery", "ui/validator" ], function(  _, $ ) {
     } );
 
     QUnit.test( "validate element", function( assert ) {
-
+        var ready = assert.async(3);
         //Set test value;
         $( "#text1" ).validator();
         assert.ok( $( "#text1" ).validator( "getValidator" ), "validator bound" );
 
-        QUnit.stop();
+        
         $( "#text1" ).val( "York" );
         $( "#text1" ).validator( "validate", {}, function( valid, res ) {
-            QUnit.start();
+            ready();
 
             assert.ok( valid, "the element is valid" );
             assert.equal( _.size( res ), 2, "validated" );
@@ -44,10 +44,10 @@ define( [  "lodash", "jquery", "ui/validator" ], function(  _, $ ) {
             assert.equal( report2.data.validator, "pattern" );
         } );
 
-        QUnit.stop();
+        
         $( "#text1" ).val( "" );
         $( "#text1" ).validator( "validate", {}, function( valid, res ) {
-            QUnit.start();
+            ready();
 
             assert.ok( valid === false, "the element isn't valid" );
             assert.equal( _.size( res ), 2, "validated" );
@@ -61,10 +61,10 @@ define( [  "lodash", "jquery", "ui/validator" ], function(  _, $ ) {
             assert.equal( report2.data.validator, "pattern" );
         } );
 
-        QUnit.stop();
+        
         $( "#text1" ).val( "Yor" );
         $( "#text1" ).validator( "validate", {}, function( valid, res ) {
-            QUnit.start();
+            ready();
 
             assert.ok( valid === false, "the element isn't valid" );
             assert.equal( _.size( res ), 2, "validated" );
@@ -84,10 +84,10 @@ define( [  "lodash", "jquery", "ui/validator" ], function(  _, $ ) {
     } );
 
     QUnit.test( "element event", function( assert ) {
-
-        QUnit.stop();
+        var ready = assert.async();
+        
         $( "#text1" ).on( "validated", function( e, data ) {
-            QUnit.start();
+            ready();
             assert.equal( e.type, "validated", "event type ok" );
             assert.equal( data.elt, this, "validated element ok" );
             assert.equal( _.size( data.results ), 2, "results ok" );
@@ -98,10 +98,10 @@ define( [  "lodash", "jquery", "ui/validator" ], function(  _, $ ) {
     } );
 
     QUnit.test( "form event", function( assert ) {
-
-        QUnit.stop();
+        var ready = assert.async();
+        
         $( "#form1" ).on( "validated", function( e, data ) {
-            QUnit.start();
+            ready();
             assert.equal( e.type, "validated", "event type ok" );
             assert.equal( data.elt, $( "#text1" )[ 0 ], "validated element ok" );
             assert.equal( _.size( data.results ), 2, "results ok" );

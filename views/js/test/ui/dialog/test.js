@@ -23,7 +23,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/dialog" ], function(  $, _, P
 
     QUnit.module( "dialog" );
 
-    QUnit.test( "module", 3, function( assert ) {
+    QUnit.test( "module", function( assert ) {
         assert.equal( typeof dialog, "function", "The dialog module exposes a function" );
         assert.equal( typeof dialog(), "object", "The dialog factory produces an object" );
         assert.notStrictEqual( dialog(), dialog(), "The dialog factory provides a different object on each call" );

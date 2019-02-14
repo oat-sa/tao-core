@@ -72,7 +72,6 @@ define( [
     QUnit.module( "Life cycle" );
 
     QUnit.test( "init", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var instance;
         assert.expect( 1 );
@@ -88,12 +87,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "render", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-render" );
         var instance;
@@ -117,12 +115,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "destroy", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-destroy" );
         var instance;
@@ -148,14 +145,13 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.module( "visual test" );
 
     QUnit.test( "scientificCalculator", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#visual-test" );
         var instance;
@@ -176,7 +172,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 } );

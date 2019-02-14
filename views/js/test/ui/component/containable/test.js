@@ -80,6 +80,7 @@ define( [
         .test( "automatically reposition the component if it overflow its container", function( data, assert ) {
             var component = makeContainable( componentFactory() ),
                 $container = $( fixtureContainer );
+            var ready = assert.async();
 
             assert.expect( 5 );
 
@@ -110,7 +111,7 @@ define( [
                     assert.equal( newX, data.expectedX, "contained event has the right x parameter" );
                     assert.equal( newY, data.expectedY, "contained event has the right y parameter" );
 
-                    QUnit.start();
+                    ready();
                 } )
 
                 .moveTo( data.moveToX, data.moveToY );
@@ -140,6 +141,7 @@ define( [
         .test( "does not interfere with normal positioning if no overflow", function( data, assert ) {
             var component = makeContainable( componentFactory() ),
                 $container = $( fixtureContainer );
+            var ready = assert.async();
 
             assert.expect( 1 );
 
@@ -161,11 +163,11 @@ define( [
 
                 .on( "contained", function() {
                     assert.ok( false, "contained should not be triggered" );
-                    QUnit.start();
+                    ready();
                 } )
                 .on( "move", function() {
                     assert.ok( true, "move event has been triggered" );
-                    QUnit.start();
+                    ready();
                 } )
 
                 .moveTo( data.moveToX, data.moveToY );

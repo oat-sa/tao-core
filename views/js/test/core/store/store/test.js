@@ -89,6 +89,7 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             };
         }
     } ] ).test( "factory", function( data, assert ) {
+        var ready = assert.async();
         var p;
 
         assert.expect( 2 );
@@ -98,7 +99,7 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
 
         p.catch( function( err ) {
             assert.ok( err instanceof TypeError, err.message );
-            QUnit.start();
+            ready();
         } );
     } );
 
@@ -217,7 +218,6 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
     } );
 
     QUnit.test( "setItem", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 4 );
 
@@ -238,12 +238,11 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "getItem", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 5 );
 
@@ -268,12 +267,11 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "get/set objects", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var sample = {
             collection: [ {
@@ -299,12 +297,11 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "removeItem", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 5 );
 
@@ -330,12 +327,11 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "clear", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 5 );
 
@@ -365,12 +361,11 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "removeStore", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 5 );
 
@@ -400,14 +395,13 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
                 } );
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.module( "backend" );
 
     QUnit.test( "removeAll", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var expectedValidate = function() {
             return true;
@@ -425,12 +419,11 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             ready();
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "getAll", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var storeNames = [ "foo", "bar" ];
 
@@ -452,12 +445,11 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             ready();
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "getIdentifier", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         assert.expect( 3 );
 
@@ -473,7 +465,7 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
             ready();
         } ).catch( function( err ) {
             assert.ok( false, err );
-            ready1();
+            ready();
         } );
     } );
 
@@ -499,7 +491,7 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
         pattern: /^store-1/,
         removed: [ "store-1-day", "store-10-days" ]
     } ] ).test( "cleanUpSpace, clean up stores", function( data, assert ) {
-
+        var ready = assert.async();
         var now = Date.now();
         var aDay = 1000 * 60 * 60 * 24;
         var testStores = {
@@ -540,10 +532,10 @@ define( [  "core/store", "core/promise" ], function(  store, Promise ) {
 
         store.cleanUpSpace( data.since, data.pattern, mockBackend ).then( function() {
             assert.ok( true, "The store has resolved the clean up" );
-            QUnit.start();
+            ready();
         } ).catch( function( err ) {
             assert.ok( false, err );
-            QUnit.start();
+            ready();
         } );
     } );
 } );

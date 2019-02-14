@@ -135,7 +135,6 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
     } );
 
     QUnit.test( "load a plugin", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var plugin = {
             module: "test/core/pluginLoader/mockPlugin",
@@ -161,12 +160,11 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "load a bundle", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var plugin = {
             module: "test/core/pluginLoader/mockAPlugin",
@@ -193,12 +191,11 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "load load multiple plugins from a bundle", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var plugins = [ {
             module: "test/core/pluginLoader/mockAPlugin",
@@ -231,12 +228,11 @@ define( [  "lodash", "core/pluginLoader", "core/promise" ], function(  _, plugin
             ready();
         } ).catch( function( e ) {
             assert.ok( false, e );
-            ready1();
+            ready();
         } );
     } );
 
     QUnit.test( "remove a plugin", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var plugin = {
             module: "test/core/pluginLoader/mockPlugin",

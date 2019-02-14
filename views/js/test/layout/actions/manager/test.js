@@ -123,7 +123,6 @@ define( [  "jquery", "layout/actions", "layout/actions/binder" ], function(  $, 
     } );
 
     QUnit.test( "execute an action", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var context = {
             type: "instance",
@@ -168,13 +167,11 @@ define( [  "jquery", "layout/actions", "layout/actions/binder" ], function(  $, 
             .exec( "foo-new" )
             .then( function() {
                 assert.ok( true, "exec always return a resolved promise" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "cancel an action", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
 
         assert.expect( 3 );
@@ -196,7 +193,7 @@ define( [  "jquery", "layout/actions", "layout/actions/binder" ], function(  $, 
             } )
             .on( "error", function() {
                 assert.ok( false, "The action is canceled so the error event should not be triggered" );
-                ready1();
+                ready();
             } )
             .on( "cancel", function( actionId ) {
                 assert.equal( actionId, "foo-delete", "The correct action has been canceled" );
@@ -204,13 +201,11 @@ define( [  "jquery", "layout/actions", "layout/actions/binder" ], function(  $, 
             .exec( "foo-delete" )
             .then( function() {
                 assert.ok( true, "exec always return a resolved promise" );
-                ready2();
+                ready();
             } );
     } );
 
     QUnit.test( "fail an action", function( assert ) {
-        var ready2 = assert.async();
-        var ready1 = assert.async();
         var ready = assert.async();
 
         assert.expect( 4 );
@@ -236,12 +231,12 @@ define( [  "jquery", "layout/actions", "layout/actions/binder" ], function(  $, 
             } )
             .on( "cancel", function() {
                 assert.ok( false, "The action should not cancel" );
-                ready1();
+                ready();
             } )
             .exec( "foo-delete" )
             .then( function() {
                 assert.ok( true, "exec always return a resolved promise, even if failed" );
-                ready2();
+                ready();
             } );
     } );
 } );

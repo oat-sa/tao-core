@@ -68,7 +68,6 @@ define( [
     QUnit.module( "behavior" );
 
     QUnit.test( "install", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-install" );
         var calculator = calculatorBoardFactory( $container )
@@ -108,12 +107,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "init", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-init" );
         var calculator = calculatorBoardFactory( $container )
@@ -175,12 +173,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "destroy", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-destroy" );
         var calculator = calculatorBoardFactory( $container )
@@ -228,12 +225,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "history - fill and clear", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-history-fill" );
         var calculator = calculatorBoardFactory( $container )
@@ -373,12 +369,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "history - navigate and remind", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-history-navigate" );
         var calculator = calculatorBoardFactory( $container )
@@ -644,12 +639,11 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
     QUnit.test( "history - navigate and replace", function( assert ) {
-        var ready1 = assert.async();
         var ready = assert.async();
         var $container = $( "#fixture-history-replace" );
         var calculator = calculatorBoardFactory( $container )
@@ -955,7 +949,7 @@ define( [
             .on( "error", function( err ) {
                 console.error( err );
                 assert.ok( false, "The operation should not fail!" );
-                ready1();
+                ready();
             } );
     } );
 
