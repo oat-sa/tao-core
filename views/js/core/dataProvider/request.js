@@ -49,6 +49,7 @@ define([
      * @returns {Promise} that resolves with data or reject if something went wrong
      */
     return function request(url, data, method, headers, background, noToken) {
+        console.log('dataProvider/request()', url, data, method, headers, background, noToken);
 
         return coreRequest({
             url: url,
@@ -59,14 +60,20 @@ define([
             noToken: noToken
         })
         .then(function(response) {
-            if (response && response.success) {
+            console.log('resp', response);
+            if (_.isUndefined(response)) {
+                return Promise.resolve();
+            }
+            else if (response.success) {
                 return Promise.resolve(response.data);
-            } else {
+            }
+            else {
                 return Promise.reject(response.data);
             }
         })
         .catch(function(error) {
             console.error(error);
+            return Promise.reject(error);
         });
 
     };

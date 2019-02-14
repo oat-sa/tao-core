@@ -53,7 +53,7 @@ define([
      */
     var createError = function createError(response, fallbackMessage, httpCode) {
         var err;
-        if(response && response.errorCode) {
+        if (response && response.errorCode) {
             err = new Error(response.errorCode + ' : ' + (response.errorMsg || response.errorMessage || response.error));
         } else {
             err = new Error(fallbackMessage);
@@ -97,6 +97,7 @@ define([
                 // Function wrapper in which the request is actually made
                 // Doing this allows a token to be fetched asynchronously before we run it
                 function runAjax(customHeaders) {
+                    var noop;
                     return $.ajax({
                         url: options.url,
                         type: options.method || 'GET',
@@ -105,20 +106,27 @@ define([
                         data : options.data,
                         async : true,
                         timeout : options.timeout * 1000 || context.timeout * 1000 || 0,
-                        contentType : options.contentType || false,
+                        contentType : options.contentType || noop,
                         beforeSend: function() {
                             console.log('sending header token', customHeaders && customHeaders['X-CSRF-Token']);
                         },
                         global : !options.background//TODO fix this with TT-260
                     })
                     .done(function(response, status, xhr){
-                        console.log('received X-CSRF-Token header', xhr.getResponseHeader('X-CSRF-Token'));
-                        console.log('received response.token', response.token);
+                        var token;
+                        console.log('done', response, status, xhr);
 
                         // FIXME: check header token, response token,
                         // if no token, use a fake temporary token
                         // ...until server can provide one:
-                        var token = xhr.getResponseHeader('X-CSRF-Token') || response.token || 'someToken' + ('' + Date.now()).slice(9);
+                        if (_.isFunction(xhr.getResponseHeader)) {
+                            console.log('received X-CSRF-Token header', xhr.getResponseHeader('X-CSRF-Token'));
+                            token = xhr.getResponseHeader('X-CSRF-Token') || response && response.token || 'someToken' + ('' + Date.now()).slice(9);
+                        }
+                        else {
+                            console.log('received response.token', response && response.token);
+                            token = response && response.token || 'someToken' + ('' + Date.now()).slice(9);
+                        }
 
                         // store the response token for the next request
                         // store with client timestamp so we can expire against client time
@@ -155,7 +163,6 @@ define([
                         } catch(parseErr) {
                             response = xhr.responseText;
                         }
-
                         return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                     });
                 }
@@ -165,11 +172,11 @@ define([
                     tokenHandler.getToken()
                         .then(function(token) {
                             var customHeaders;
-                            if (token && token.value) {
+                            if (token) {
                                 customHeaders = _.extend({}, options.headers, {
                                     'X-Requested-With': 'XMLHttpRequest',  // already present in jQuery.ajax?
-                                    'X-CSRF-Token': token.value || 'none', // new key to use globally
-                                    'X-Auth-Token': token.value || 'none'  // old key for current TR only
+                                    'X-CSRF-Token': token || 'none', // new key to use globally
+                                    'X-Auth-Token': token || 'none'  // old key for current TR only
                                 });
                             }
                             else {
@@ -188,7 +195,7 @@ define([
         }
 
         if (options.noToken === true) {
-            //no token protection, run the request
+            // no token protection, run the request
             return runRequest();
         }
         else if (tokenHandler.getQueueLength() === 1) {

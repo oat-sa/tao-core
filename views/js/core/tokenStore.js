@@ -46,26 +46,39 @@ define([
      */
     return function tokenStoreFactory(options) {
 
-        var config = _.defaults(options || {}, defaultConfig);
-
-        //in memory storage
-        var getStore = function getStore(){
-            return store('tokenStore', store.backends.memory);
-        };
-
         // maintain an index which will act as a queue
         // push newly received token(s) onto the back end
         // shift oldest token off the front end, to use
         var index = [];
+        var config = _.defaults(options || {}, defaultConfig);
 
-        if (options.initialToken) {
+        //in memory storage
+        var getStore = function getStore(){
+            return store('tokenStore.tokens', store.backends.memory);
+        };
+        var getSizeStore = function getSizeStore() {
+            return store('tokenStore.maxSize', store.backends.memory);
+        };
+
+        // retrieve stored maxSize
+        getSizeStore()
+        .then(function(sizeStore) {
+            return sizeStore.getItem('size');
+        })
+        .then(function(maxSize) {
+            if (maxSize) {
+                config.maxSize = maxSize;
+            }
+            console.warn('tokenStore established with maxSize', config.maxSize);
+
+        });
+
+        if (config.initialToken) {
             this.add({
-                value: options.initialToken,
+                value: config.initialToken,
                 receivedAt: Date.now()
             });
         }
-
-        console.warn('tokenStore established with maxSize', config.maxSize);
 
         /**
          * @typedef tokenStore
@@ -100,6 +113,13 @@ define([
              */
             add: function add(token) {
                 var self = this;
+                // Handle legacy param type:
+                if (_.isString(token)) {
+                    token = {
+                        value: token,
+                        receivedAt: Date.now()
+                    };
+                }
                 return getStore().then(function(tokenStore){
                     return tokenStore.setItem(token.value, token)
                         .then(function(updated){
@@ -112,9 +132,8 @@ define([
                                 // Did we reach the limit? then remove the oldest
                                 if (index.length > 1 && index.length > config.maxSize) {
                                     oldest = _.first(index);
-                                    console.log('remove oldest:', oldest);
                                     return self.remove(oldest).then(function(removed){
-                                        self.log();
+                                        self.log('tokenStore.add()');
                                         return updated && removed;
                                     });
                                 }
@@ -168,9 +187,11 @@ define([
             /**
              * Log queue contents & store contents
              */
-            log: function log() {
+            log: function log(msg) {
                 return this.getTokens().then(function(items) {
-                    //console.info('Q2i', index);
+                    console.log('logging from', msg);
+                    console.log('maxSize', config.maxSize);
+                    console.log('Q', index);
                     console.table(items);
                 });
             },
@@ -188,10 +209,14 @@ define([
              * @param {Integer} size
              */
             setMaxSize: function setMaxSize(size) {
+                var self= this;
                 if (_.isNumber(size) && size > 0 && size !== config.maxSize) {
                     config.maxSize = size;
-                    console.warn('tokenStore maxSize set to', size);
-                    this.enforceMaxSize();
+                    getSizeStore().then(function(sizeStore) {
+                        sizeStore.setItem('size', size);
+                        console.warn('tokenStore maxSize set to', size);
+                        self.enforceMaxSize();
+                    });
                 }
             },
 
@@ -251,18 +276,16 @@ define([
              */
             expireOldTokens: function expireOldTokens() {
                 var self = this;
-                return self.log().then(function() {
-                    return self.getTokens().then(function(tokens) {
-                        // Check each token's expiry, synchronously:
-                        return Object.values(tokens).reduce(function(previousPromise, nextToken) {
-                            return previousPromise.then(() => {
-                                return self.checkExpiry(nextToken);
-                            });
-                        }, Promise.resolve())
-                        .then(function() {
-                            // All done
-                            return true;
+                return self.getTokens().then(function(tokens) {
+                    // Check each token's expiry, synchronously:
+                    return Object.values(tokens).reduce(function(previousPromise, nextToken) {
+                        return previousPromise.then(() => {
+                            return self.checkExpiry(nextToken);
                         });
+                    }, Promise.resolve())
+                    .then(function() {
+                        // All done
+                        return true;
                     });
                 });
             }

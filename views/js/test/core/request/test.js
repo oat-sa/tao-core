@@ -1,0 +1,239 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ */
+
+/**
+ * Test the module core/request
+ *
+ * @author Martin Nicholson <martin@taotesting.com>
+ */
+define([
+    'jquery',
+    'lodash',
+    'core/request',
+    'core/promise',
+    'lib/jquery.mockjax/jquery.mockjax'
+], function ($, _, request, Promise){
+    'use strict';
+
+    var requestCases;
+    var responses = {
+        '//200': [{
+            success: true,
+            data: {'foo': 'bar'}
+        }, 'OK', {
+            status: 200
+        }],
+
+        '//200/error/1': [{
+            success: false,
+            errorCode: 1,
+            errorMessage: 'oops'
+        }, 'Error', {
+            status: 200
+        }],
+
+        '//200/error/2': [{
+            success: false,
+            errorCode: 2,
+            errorMsg: 'woops'
+        }, 'Error', {
+            status: 200
+        }],
+
+        '//200/error/fallback': [{
+            success: false
+        }, 'Error', {
+            status: 200
+        }],
+
+        '//204': [null, 'No Content', {status: 204}]
+    };
+
+    QUnit.module('API');
+
+    QUnit.test('module', function (assert){
+        QUnit.expect(1);
+
+        assert.equal(typeof request, 'function', "The module exposes a function");
+    });
+
+    // prevent the AJAX mocks to pollute the logs
+    $.mockjaxSettings.logger = null;
+    $.mockjaxSettings.responseTime = 1;
+
+    // restore AJAX method after each test
+    QUnit.testDone(function () {
+        $.mockjax.clear();
+    });
+
+    QUnit.module('request');
+
+    requestCases = [
+        {
+            title: 'no url',
+            reject: true,
+            err : new TypeError('At least give a URL...')
+        },
+        {
+            title : '200 got content',
+            url : '//200',
+            noToken: true,
+            content: { foo : 'bar' }
+        },
+        {
+            title : '200 header',
+            url : '//200',
+            noToken: true,
+            headers: { 'x-foo': 'bar' },
+            content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
+        },
+        // {
+        //     title : '204 no content',   // rejects
+        //     url : '//204',
+        //     noToken: true
+        // },
+        {
+            title : '500 error',
+            url : '//500',
+            noToken: true,
+            reject : true,
+            err : new Error('500 : Server Error')
+        },
+        {
+            title : '200 error 1',
+            url : '//200/error/1',
+            noToken: true,
+            reject : true,
+            err : new Error('1 : oops')
+        },
+        {
+            title : '200 error 2',
+            url : '//200/error/2',
+            noToken: true,
+            reject : true,
+            err : new Error('2 : woops')
+        },
+        {
+            title : '200 error fallback',
+            url : '//200/error/fallback',
+            noToken: true,
+            reject : true,
+            err : new Error('The server has sent an empty response')
+        }
+    ];
+
+    QUnit
+        .cases(requestCases)
+        .asyncTest('request with ', function(data, assert) {
+            var result;
+
+            // mock the endpoints:
+            $.mockjax([
+                {
+                    url: "/tao/ClientConfig/config", // not used?
+                    status: 200,
+                    response: function() {
+                        function randomToken() {
+                            var d = Date.now() + Math.floor(5000 * Math.random());
+                            return {
+                                value: 'someToken' + ('' + d).slice(9),
+                                receivedAt: d
+                            };
+                        }
+                        this.responseText = JSON.stringify([
+                            randomToken(),
+                            randomToken(),
+                            randomToken(),
+                            randomToken(),
+                            randomToken()
+                        ]);
+                    }
+                },
+                {
+                    url: /^\/\/200.*$/,
+                    status: 200,
+                    response: function(settings) {
+                        var response = responses[settings.url][0];
+                        var content;
+                        if (response) {
+                            content = response.data;
+                            if (settings.headers) {
+                                response = _.cloneDeep(response);
+                                if (!content) {
+                                    content = {};
+                                }
+                                content.requestHeaders = settings.headers;
+                            }
+                            if (response.success === false) {
+                                this.responseText = JSON.stringify(response);
+                            }
+                            else {
+                                this.responseText = JSON.stringify({
+                                    success: true,
+                                    content: content
+                                });
+                            }
+                        }
+                    }
+                },
+                {
+                    url: "//204",
+                    status: 204,
+                    response: function() {
+                        this.responseText = {};
+                    }
+                },
+                {
+                    url: "//500",
+                    status: 500,
+                    statusText: 'Server Error',
+                }
+            ]);
+
+            result = request(data);
+            assert.ok(result instanceof Promise, 'The request function returns a promise');
+
+            if (data.reject) {
+
+                QUnit.expect(3);
+
+                result.then(function(){
+                    assert.ok(false, 'Should reject');
+                    QUnit.start();
+                })
+                .catch(function(err){
+                    assert.equal(err.name, data.err.name, 'Reject error is the one expected');
+                    assert.equal(err.message, data.err.message, 'Reject error is correct');
+                    QUnit.start();
+                });
+
+            }
+            else {
+                QUnit.expect(2);
+
+                result.then(function(response){
+                    assert.deepEqual(response.content, data.content, 'The given result is correct');
+                    QUnit.start();
+                })
+                .catch(function(){
+                    assert.ok(false, 'Should not reject');
+                    QUnit.start();
+                });
+            }
+        });
+});

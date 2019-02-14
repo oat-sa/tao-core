@@ -31,7 +31,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
 
     var defaults = {
         maxSize: 6,
-        tokenTimeLimit: 1000 * 30 // temporary value
+        tokenTimeLimit: 1000 * 45 // temporary value
     };
 
     /**
@@ -59,7 +59,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              * Gets the next security token from the token queue
              * Causes fresh tokens to be fetched from server, if none available locally
              * Once the token is got, it is erased from the memory (one use only)
-             * @returns {Promise<Object>} the token object
+             * @returns {Promise<String>} the token value
              */
             getToken: function getToken() {
                 var self = this;
@@ -67,7 +67,6 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                     if (tokenStore.isEmpty()) {
                         console.log('No valid tokens available!');
                         // Fetch again if we're truly out of tokens
-                        // return self.fetchNewTokens()
                         return self.getClientConfigTokens()
                             .then(function(tokens) {
                                 // Add the fetched tokens to the store, synchronously:
@@ -79,26 +78,27 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                                     });
                                 }, Promise.resolve())
                                 .then(function() {
-                                    return tokenStore.log();
+                                    return tokenStore.log('tokenHandler.getToken()');
                                 })
                                 .then(function() {
                                     // Store should be refilled, try to get one token:
                                     if (!tokenStore.isEmpty()) {
                                         return tokenStore.get().then(function(currentToken) {
-                                            console.log('tokenHandler.getToken (shift)', currentToken);
-                                            return currentToken;
+                                            console.log('tokenHandler.getToken (shift)', currentToken.value);
+                                            return currentToken.value;
                                         });
                                     }
                                     else {
-                                        throw new Error('Store not refilled!');
+                                        return Promise.resolve(null);
+                                        // return Promise.reject(new Error('Store not refilled!'));
                                     }
                                 });
                             });
                     }
                     else {
                         return tokenStore.get().then(function(currentToken) {
-                            console.log('tokenHandler.getToken (shift)', currentToken);
-                            return currentToken;
+                            console.log('tokenHandler.getToken (shift)', currentToken.value);
+                            return currentToken.value;
                         });
                     }
                 });
@@ -111,9 +111,10 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              * @returns {Promise<Boolean>} - true if successful
              */
             setToken: function setToken(newToken) {
+                console.log('tokenHandler.setToken (push)', newToken);
                 return tokenStore.add(newToken)
                     .then(function(added) {
-                        console.log('tokenHandler.setToken (push)', newToken);
+                        tokenStore.log('tokenHandler.setToken()');
                         return added;
                     });
             },
@@ -131,36 +132,6 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                         receivedAt: Date.now()
                     };
                 }));
-            },
-
-            /**
-             * Makes a request to the CSRF tokens endpoint for a new set of tokens
-             *
-             * @returns {Promise<Array>} - an array of locally-timestamped token objects
-             */
-            fetchNewTokens: function fetchNewTokens() {
-                tokenStore.log();
-
-                return new Promise(function(resolve, reject){
-                    $.ajax({
-                        url: '/tao/ClientConfig/tokens',
-                        //dataType: 'json',
-                        data : null,
-                        success: function(response) {
-                            console.log('ClientConfig response:', JSON.parse(response));
-                            resolve(_.map(JSON.parse(response), function(token) {
-                                return {
-                                    value: token.value,
-                                    receivedAt: Date.now()
-                                };
-                            }));
-                        },
-                        error: function() {
-                            feedback().error('No tokens retrieved'); // TODO: improve
-                            reject([]);
-                        }
-                    });
-                });
             },
 
             /**

@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2016-19 (original work) Open Assessment Technologies SA ;
  */
 /**
  * @author Jean-Sébastien Conan <jean-sebastien.conan@vesperiagroup.com>
@@ -28,14 +28,6 @@ define([
 ], function($, _, Promise, tokenHandlerFactory) {
     'use strict';
 
-    function randomToken() {
-        var d = Date.now() + Math.floor(5000 * Math.random());
-        return {
-            value: 'someToken' + ('' + d).slice(9),
-            receivedAt: d
-        };
-    }
-
     QUnit.module('tokenHandler');
 
     QUnit.test('module', function(assert) {
@@ -49,8 +41,10 @@ define([
     QUnit.cases([
         { name : 'getToken' },
         { name : 'setToken' },
-        { name : 'fetchNewTokens' },
-        { name : 'getQueueLength' }
+        { name : 'getClientConfigTokens' },
+        { name : 'clearStore' },
+        { name : 'getQueueLength' },
+        { name : 'setMaxSize' }
     ])
     .test('instance API ', function(data, assert) {
         var instance = tokenHandlerFactory();
@@ -60,6 +54,14 @@ define([
         assert.equal(typeof instance[data.name], 'function', 'The tokenHandler instance exposes a "' + data.name + '" function');
     });
 
+    function randomToken() {
+        var d = Date.now() + Math.floor(5000 * Math.random());
+        return {
+            value: 'someToken' + ('' + d).slice(9),
+            receivedAt: d
+        };
+    }
+
     QUnit.module('behaviour');
 
     QUnit.asyncTest('set/get single token', function(assert){
@@ -68,14 +70,14 @@ define([
 
         QUnit.expect(2);
 
-        tokenHandler.setToken(expectedToken)
+        tokenHandler.setToken(expectedToken.value)
             .then(function(result){
                 assert.ok(result, 'The setToken method returns true');
 
                 return tokenHandler.getToken();
             })
             .then(function(returnedToken){
-                assert.equal(returnedToken, expectedToken, 'The getToken method returns the right token');
+                assert.equal(returnedToken, expectedToken.value, 'The getToken method returns the right token');
 
                 return tokenHandler.clearStore();
             })
@@ -131,30 +133,12 @@ define([
         });
     });
 
-
-    QUnit.module('request');
-
-    // mock the token provider endpoint:
-    $.mockjax({
-        url: "/tao/ClientConfig/tokens",
-        status: 200,
-        response: function() {
-            this.responseText = JSON.stringify([
-                randomToken(),
-                randomToken(),
-                randomToken(),
-                randomToken(),
-                randomToken()
-            ]);
-        }
-    });
-
-    QUnit.asyncTest('fetchNewTokens', function(assert) {
+    QUnit.asyncTest('getClientConfigTokens', function(assert) {
         var tokenHandler = tokenHandlerFactory();
 
         QUnit.expect(5);
 
-        tokenHandler.fetchNewTokens() // launches fetchNewTokens
+        tokenHandler.getClientConfigTokens()
             .then(function(tokens){
                 assert.equal(typeof tokens, 'object', 'An object was fetched');
                 assert.equal(tokens.length, 5, '5 tokens were fetched');
@@ -171,19 +155,16 @@ define([
                 assert.ok(false, err.message);
                 QUnit.start();
             });
-
     });
 
     QUnit.asyncTest('get token when empty', function(assert) {
         var tokenHandler = tokenHandlerFactory({ maxSize: 5 });
 
-        QUnit.expect(4);
+        QUnit.expect(2);
 
-        tokenHandler.getToken() // launches fetchNewTokens
+        tokenHandler.getToken() // internally uses getClientConfigTokens()
             .then(function(token){
-                assert.equal(typeof token, 'object', 'An object was fetched');
-                assert.equal(typeof token.value, 'string', 'The first token has a value');
-                assert.equal(typeof token.receivedAt, 'number', 'The first token has a timestamp');
+                assert.equal(typeof token, 'string', 'A string was fetched');
                 assert.equal(tokenHandler.getQueueLength(), 4, 'The queue size is correct: 4');
 
                 return tokenHandler.clearStore();

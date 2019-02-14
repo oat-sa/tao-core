@@ -116,33 +116,40 @@ define([
     }, {
         title : '200 got content',
         url : '//200',
-        content: { foo : 'bar' }
+        content: { foo : 'bar' },
+        noToken: true
     }, {
         title : '200 header',
         url : '//200',
         headers: { 'x-foo': 'bar' },
-        content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
+        content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } },
+        noToken: true
     }, {
         title : '204 no content',
-        url : '//204'
+        url : '//204',
+        noToken: true
     }, {
         title : '500 error',
         url : '//500',
+        noToken: true,
         reject : true,
         err : new Error('500 : Server Error')
     }, {
         title : '200 error 1',
         url : '//200/error/1',
+        noToken: true,
         reject : true,
         err : new Error('1 : oops')
     }, {
         title : '200 error 2',
         url : '//200/error/2',
+        noToken: true,
         reject : true,
         err : new Error('2 : woops')
     }, {
         title : '200 error fallback',
         url : '//200/error/fallback',
+        noToken: true,
         reject : true,
         err : new Error('The server has sent an empty response')
     }];
@@ -151,7 +158,7 @@ define([
         .cases(requestCases)
         .asyncTest('request with ', function(data, assert){
 
-            var result = request(data.url, data.data, data.method, data.headers);
+            var result = request(data.url, data.data, data.method, data.headers, data.background, data.noToken);
             assert.ok(result instanceof Promise, 'The request function returns a promise');
 
             if(data.reject){
@@ -163,8 +170,8 @@ define([
                     QUnit.start();
                 })
                 .catch(function(err){
-                    assert.equal(data.err.name, err.name, 'Reject error is the one expected');
-                    assert.equal(data.err.message, err.message, 'Reject error is correct');
+                    assert.equal(err.name, data.err.name, 'Reject error is the one expected');
+                    assert.equal(err.message, data.err.message, 'Reject error is correct');
                     QUnit.start();
                 });
 
@@ -172,7 +179,7 @@ define([
                 QUnit.expect(2);
 
                 result.then(function(content){
-                    assert.deepEqual(content, data.content, 'The given reuslt is correct');
+                    assert.deepEqual(content, data.content, 'The given result is correct');
                     QUnit.start();
                 })
                 .catch(function(){
