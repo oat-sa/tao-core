@@ -97,6 +97,18 @@ class TokenService extends ConfigurableService
     }
 
     /**
+     * Get the current token for a user
+     *
+     * @return string|bool
+     */
+    public function getUserToken()
+    {
+        $store = $this->getStore();
+        $tokenPool = $store->getTokens();
+        return $tokenPool !== null ? current($tokenPool) : false;
+    }
+
+    /**
      * Check if the given token is valid
      * (does not revoke)
      *
@@ -124,6 +136,50 @@ class TokenService extends ConfigurableService
     }
 
     /**
+     * Check if the given token is valid
+     *
+     * @param string $token
+     * @return boolean|string
+     * @throws \common_Exception
+     * @throws \common_exception_Unauthorized
+     */
+    public function validateToken($token)
+    {
+        $isValid = false;
+        $expired = false;
+        $newToken = false;
+        $actualTime = microtime(true);
+        $timeLimit  = $this->getTimeLimit();
+        $pool = $this->getStore()->getTokens();
+        if($pool !== null){
+
+            foreach ($pool as $savedToken) {
+                $expired = false;
+                if ($savedToken['token'] === $token){
+                    if ($timeLimit > 0) {
+                        $expired = $savedToken['ts'] + $timeLimit < $actualTime;
+                    }
+
+                    $isValid = !$expired;
+                    break;
+                }
+            }
+        }
+
+        if ($isValid !== true) {
+            if ($expired) {
+                $this->revokeToken($token);
+            }
+            throw new \common_exception_Unauthorized();
+        }
+
+        $this->revokeToken($token);
+        $newToken = $this->addNewToken();
+
+        return $newToken;
+    }
+
+    /**
      * Revokes the given token
      * @return true if the revokation succeed (if the token was found)
      */
@@ -132,7 +188,7 @@ class TokenService extends ConfigurableService
         $revoked = false;
         $store = $this->getStore();
         $pool = $store->getTokens();
-        if(!is_null($pool)){
+        if($pool !== null){
             foreach($pool as $key => $savedToken){
                 if($savedToken['token'] == $token){
                     unset($pool[$key]);
@@ -205,7 +261,7 @@ class TokenService extends ConfigurableService
      * Get the configured pool size
      * @return int the pool size, 10 by default
      */
-    protected function getPoolSize()
+    public function getPoolSize()
     {
         $poolSize = self::DEFAULT_POOL_SIZE;
         if($this->hasOption(self::POOL_SIZE_OPT)){
@@ -238,5 +294,73 @@ class TokenService extends ConfigurableService
             $store = $this->getOption(self::STORE_OPT);
         }
         return $store;
+    }
+
+    /**
+     * Generate a token pool, and return it.
+     *
+     * @return string[]
+     * @throws \common_Exception
+     */
+    public function generateTokenPool()
+    {
+        $time = microtime(true);
+        $store = $this->getStore();
+        $pool = $store->getTokens();
+        $newPool = [];
+
+        if ($this->getTimeLimit() > 0) {
+            foreach ($pool as $key => $token) {
+                if ($token['ts'] + $this->getTimeLimit() < $time) {
+                    $this->revokeToken($token['token']);
+                }
+            }
+        }
+
+        $pool = $store->getTokens();
+        $remainingPoolSize = $this->getPoolSize() - count($pool);
+
+        for ($i = 0; $i < $remainingPoolSize; $i++) {
+            $newPool[] = [
+                'ts' => microtime(true),
+                'token' => $this->generate()
+            ];
+        }
+
+        foreach ($newPool as $token) {
+            $pool[] = $token;
+        }
+
+        while (count($pool) > $this->getPoolSize()) {
+            array_shift($pool);
+        }
+
+        $store->setTokens($pool);
+
+        return $pool;
+    }
+
+    /**
+     * Add a new token, and return it.
+     *
+     * @return string
+     * @throws \common_Exception
+     */
+    private function addNewToken()
+    {
+        $time = microtime(true);
+
+        $newToken = $this->generate();
+
+        $store = $this->getStore();
+        $pool = $store->getTokens();
+        $pool[] = [
+            'ts' => $time,
+            'token' => $newToken
+        ];
+
+        $store->setTokens($pool);
+
+        return $newToken;
     }
 }
