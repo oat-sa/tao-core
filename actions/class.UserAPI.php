@@ -119,6 +119,22 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
     /**
      * @return array
      */
+    protected function getMandatoryUriParameters()
+    {
+        return ['userLanguage', 'defaultLanguage'];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getGuardedProperties()
+    {
+        return ['login', 'password', 'roles', 'type'];
+    }
+
+    /**
+     * @return array
+     */
     protected function getParametersAliases(){
         return array_merge(parent::getParametersAliases(), [
             'login' => UserRdf::PROPERTY_LOGIN,
@@ -176,31 +192,23 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
         $parameters = $this->getParameters();
 
         try {
-            $roles = [];
-            if (!empty($parameters[UserRdf::PROPERTY_ROLES])) {
-                $roles = array_filter(explode(',', $parameters[UserRdf::PROPERTY_ROLES]), function ($role) {
-                    return common_Utils::isUri($role);
-                });
-                unset($parameters[UserRdf::PROPERTY_ROLES]);
-            }
 
-            if (!count($roles)) {
-                throw new \common_exception_MissingParameter('roles');
-            }
+            $roles = $this->processRoles($parameters);
+            $login = $parameters[UserRdf::PROPERTY_LOGIN];
+            $password = $parameters[UserRdf::PROPERTY_PASSWORD];
+
+            $guarded = array_intersect_key($this->getParametersAliases(), array_flip($this->getGuardedProperties()));
+            $parameters = array_filter($parameters, function ($key) use ($guarded) {
+                return !in_array($key, $guarded, true);
+            }, ARRAY_FILTER_USE_KEY);
+
+            $this->validateUris($parameters);
 
             /** @var core_kernel_classes_Resource $user */
-            $user = $userService->addUser(
-                $parameters[UserRdf::PROPERTY_LOGIN],
-                $parameters[UserRdf::PROPERTY_PASSWORD],
-                $this->getResource(array_shift($roles))
-            );
+            $user = $userService->addUser($login, $password, $this->getResource(array_shift($roles)));
 
             foreach ($roles as $role) {
                 $userService->attachRole($user, $this->getResource($role));
-            }
-
-            if (isset($parameters[UserRdf::PROPERTY_DEFLG]) && !common_Utils::isUri($parameters[UserRdf::PROPERTY_DEFLG])) {
-                unset($parameters[UserRdf::PROPERTY_DEFLG]);
             }
 
             $user->setPropertiesValues($parameters);
@@ -208,6 +216,43 @@ class tao_actions_UserAPI extends tao_actions_CommonRestModule
             return $user;
         } catch (common_Exception $e) {
             throw new common_exception_RestApi($e->getMessage());
+        }
+    }
+
+    /**
+     * @param array $parameters
+     * @return array
+     * @throws common_exception_MissingParameter
+     */
+    protected function processRoles(array $parameters)
+    {
+        $roles = [];
+
+        if (!empty($parameters[UserRdf::PROPERTY_ROLES])) {
+            $roles = array_filter(explode(',', $parameters[UserRdf::PROPERTY_ROLES]), function ($role) {
+                return common_Utils::isUri($role);
+            });
+        }
+
+        if (!count($roles)) {
+            throw new \common_exception_MissingParameter('roles');
+        }
+
+        return $roles;
+    }
+
+    /**
+     * @param array $parameters
+     * @throws common_exception_ValidationFailed
+     */
+    protected function validateUris(array $parameters)
+    {
+        $uriProperties = array_intersect_key($this->getParametersAliases(), array_flip($this->getMandatoryUriParameters()));
+
+        foreach ($parameters as $key => $value) {
+            if (in_array($key, $uriProperties, true) && !common_Utils::isUri($value)) {
+                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true)));
+            }
         }
     }
 }

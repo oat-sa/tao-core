@@ -253,11 +253,11 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      */
     protected function getParametersAliases()
     {
-        return array(
-            "label"=> OntologyRdfs::RDFS_LABEL,
-            "comment" => OntologyRdfs::RDFS_COMMENT,
-            "type"=> OntologyRdf::RDF_TYPE
-        );
+        return [
+            'label' => OntologyRdfs::RDFS_LABEL,
+            'comment' => OntologyRdfs::RDFS_COMMENT,
+            'type' => OntologyRdf::RDF_TYPE
+        ];
     }
 
     /**
