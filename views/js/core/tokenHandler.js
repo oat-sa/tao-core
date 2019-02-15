@@ -128,7 +128,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                 console.log('ClientConfig data:', module.config());
                 return Promise.resolve(_.map(module.config().tokens, function(serverToken) {
                     return {
-                        value: serverToken.value,
+                        value: serverToken,
                         receivedAt: Date.now()
                     };
                 }));
