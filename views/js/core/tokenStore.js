@@ -131,6 +131,8 @@ define([
                                     index.push(token.value);
                                 }
 
+                                //return self.enforceMaxSize().then(true);
+
                                 // Did we reach the limit? then remove the oldest
                                 if (index.length > 1 && index.length > config.maxSize) {
                                     oldest = _.first(index);
@@ -211,7 +213,7 @@ define([
              * @param {Integer} size
              */
             setMaxSize: function setMaxSize(size) {
-                var self= this;
+                var self = this;
                 if (_.isNumber(size) && size > 0 && size !== config.maxSize) {
                     config.maxSize = size;
                     getSizeStore().then(function(sizeStore) {
@@ -228,6 +230,7 @@ define([
              * @returns {Promise} - resolves when done
              */
             enforceMaxSize: function enforceMaxSize() {
+                var self = this;
                 var keysToRemove;
                 var excess = this.getSize() - config.maxSize;
                 if (excess > 0) {
