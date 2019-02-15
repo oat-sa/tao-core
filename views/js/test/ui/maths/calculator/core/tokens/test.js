@@ -238,28 +238,30 @@ define( [
     QUnit.test('isOperator', function (assert) {
         assert.expect(22);
 
-        assert.equal(tokensHelper.isOperator(registeredTerms.NUM0.type), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.SUB.type), true, 'Should be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.LPAR.type), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.NAN.type), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.PI.type), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.TAN.type), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator('term'), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator('variable'), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator('foo'), false, 'Should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.NUM0.type), false, registeredTerms.NUM0.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.SUB.type), true, registeredTerms.SUB.type + ' should be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.LPAR.type), false, registeredTerms.LPAR.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.COMMA.type), false, registeredTerms.COMMA.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.NAN.type), false, registeredTerms.NAN.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.PI.type), false, registeredTerms.PI + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.TAN.type), false, registeredTerms.TAN.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator('term'), false, 'term should not be an operator');
+        assert.equal(tokensHelper.isOperator('variable'), false, 'variable should not be an operator');
+        assert.equal(tokensHelper.isOperator('foo'), false, 'foo should not be an operator');
 
-        assert.equal(tokensHelper.isOperator(registeredTerms.NUM0), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.SUB), true, 'Should be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.LPAR), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.NAN), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.PI), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator(registeredTerms.TAN), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator({type: 'term'}), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator({type: 'variable'}), false, 'Should not be an operator');
-        assert.equal(tokensHelper.isOperator({type: 'foo'}), false, 'Should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.NUM0), false, registeredTerms.NUM0.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.SUB), true, registeredTerms.SUB.type + ' should be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.LPAR), false, registeredTerms.LPAR.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.COMMA), false, registeredTerms.COMMA.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.NAN), false, registeredTerms.NAN.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.PI), false, registeredTerms.PI + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator(registeredTerms.TAN), false, registeredTerms.TAN.type + ' should not be an operator');
+        assert.equal(tokensHelper.isOperator({type: 'term'}), false, 'term should not be an operator');
+        assert.equal(tokensHelper.isOperator({type: 'variable'}), false, 'variable should not be an operator');
+        assert.equal(tokensHelper.isOperator({type: 'foo'}), false, 'foo should not be an operator');
 
-        assert.equal(tokensHelper.isOperator({type: 'ADD'}), true, 'Should be an operator');
-        assert.equal(tokensHelper.isOperator({type: 'FOO'}), false, 'Should not be an operator');
+        assert.equal(tokensHelper.isOperator({type: 'ADD'}), true, 'ADD should be an operator');
+        assert.equal(tokensHelper.isOperator({type: 'FOO'}), false, 'FOO should not be an operator');
     });
 
     QUnit.test('isOperand', function (assert) {

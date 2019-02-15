@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                 puppeteer : {
                     ignoreHTTPSErrors: true,
                     timeout: 30000,
-                    args: [ "--no-sandbox", "--disable-gpu", "--disable-popup-blocking" ],
+                    args: [ "--no-sandbox", "--disable-gpu", "--disable-popup-blocking" , "--autoplay-policy=no-user-gesture-required"],
                     defaultViewport:  {
                         width: 1280,
                         height: 720,

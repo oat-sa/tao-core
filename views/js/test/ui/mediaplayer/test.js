@@ -915,7 +915,6 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     } );
             } );
         } );
-
     QUnit
         .cases.init( mediaplayerTypes )
         .test( "Show/Hide ", function( data, assert ) {
