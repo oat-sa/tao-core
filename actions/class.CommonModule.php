@@ -97,9 +97,18 @@ abstract class tao_actions_CommonModule extends Module implements ServiceManager
             $this->logCsrfFailure($e, $csrfToken);
         }
 
-        $this->getResponse()->setTokenHeader($newToken);
+        $this->setTokenHeader($newToken);
 
         return $newToken;
+    }
+
+    /**
+     * Set the X-CSRF-Token header
+     * @param string $token
+     */
+    public function setTokenHeader($token)
+    {
+        header('X-CSRF-Token: ' . $token);
     }
 
     /**
