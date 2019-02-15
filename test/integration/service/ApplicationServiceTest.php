@@ -17,7 +17,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\test\unit\service;
+namespace oat\tao\test\integration\service;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\service\ServiceNotFoundException;

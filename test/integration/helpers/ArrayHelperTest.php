@@ -17,7 +17,7 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\integration\helpers;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 

@@ -20,7 +20,7 @@
  */
 
 
-namespace oat\tao\test\unit\model\mvc\error;
+namespace oat\tao\test\integration\model\mvc\error;
 
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\mvc\error\ExceptionInterpreterService;

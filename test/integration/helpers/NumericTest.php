@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\integration\helpers;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use \tao_helpers_Numeric;

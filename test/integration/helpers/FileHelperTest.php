@@ -18,7 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013- (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\integration\helpers;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use tao_helpers_File;

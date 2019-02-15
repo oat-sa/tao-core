@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\tao\test\unit\model\security\xsrf;
+namespace oat\tao\test\integration\model\security\xsrf;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\security\xsrf\TokenService;

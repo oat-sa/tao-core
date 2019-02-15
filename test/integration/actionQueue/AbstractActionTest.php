@@ -18,7 +18,7 @@
  *
  */
 
-namespace oat\tao\test\unit\actionQueue;
+namespace oat\tao\test\integration\actionQueue;
 
 use oat\tao\model\actionQueue\AbstractQueuedAction;
 use oat\tao\test\TaoPhpUnitTestRunner;

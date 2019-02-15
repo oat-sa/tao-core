@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace oat\test\model;
+namespace oat\tao\test\integration\model;
 
 /**
  * Description of ClassServiceTest

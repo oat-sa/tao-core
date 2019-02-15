@@ -17,7 +17,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\tao\test\unit\model\security;
+namespace oat\tao\test\integration\model\security;
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\security\TokenGenerator;
