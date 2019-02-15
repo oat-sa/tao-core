@@ -45,7 +45,7 @@ define( [ "jquery", "ui/pageStatus" ], function($, pageStatusFactory ) {
 
     QUnit.test( "popup status", function( assert ) {
         var ready = assert.async();
-        assert.expect( 9 );
+        assert.expect( 10 );
 
         var popup = window.open( "/", "test", "width=300,height=300,visible=none" );
 
@@ -78,7 +78,10 @@ define( [ "jquery", "ui/pageStatus" ], function($, pageStatusFactory ) {
 
         setTimeout( function() {
             popup.close();
-            ready();
         }, 200 );
+        setTimeout(function () {
+            ready();
+
+        },300)
     } );
 } );

@@ -116,6 +116,8 @@ define( [
         var ready3 = assert.async();
         var ready2 = assert.async();
         var ready1 = assert.async();
+        var ready = assert.async(2);
+
         var $container = $( "#modal-1" );
         var $modal = $( modalTpl() );
         var closed = false;
@@ -151,7 +153,6 @@ define( [
             ready3();
         } );
 
-        var ready = assert.async();
         $modal.modal();
 
         assert.equal( $container.children().length, 2, "The modal append 2 elements" );

@@ -51,6 +51,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/dialog" ], function(  $, _, P
 
     QUnit.test( "install", function( assert ) {
         var ready1 = assert.async();
+        var ready = assert.async(4);
         var heading = "heading";
         var message = "test";
         var content = "12345";
@@ -86,8 +87,6 @@ define( [  "jquery", "lodash", "core/promise", "ui/dialog" ], function(  $, _, P
 
             ready1();
         } );
-
-        var ready = assert.async();
 
         modal.on( "opened.modal", function() {
 
@@ -161,7 +160,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/dialog" ], function(  $, _, P
         var ready5 = assert.async();
         var ready4 = assert.async();
         var ready3 = assert.async();
-        var ready2 = assert.async();
+        var ready2 = assert.async(2);
         var ready1 = assert.async();
         var message = "test";
         var modal = dialog( {

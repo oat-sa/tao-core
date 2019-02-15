@@ -155,7 +155,7 @@ define( [
     QUnit.test( "Model loading using predefined data", function( assert ) {
         var ready3 = assert.async();
         var ready2 = assert.async();
-        var ready1 = assert.async();
+        var ready1 = assert.async(2);
         assert.expect( 12 );
 
         var $elt = $( "#container-1" );
@@ -228,7 +228,7 @@ define( [
     QUnit.test( 'Model loading with the "action" type property using predefined data', function( assert ) {
         var ready3 = assert.async();
         var ready2 = assert.async();
-        var ready1 = assert.async();
+        var ready1 = assert.async(2);
         assert.expect( 15 );
 
         var $elt = $( "#container-1" );
@@ -349,7 +349,7 @@ define( [
     QUnit.test( "Model loading with actions column", function( assert ) {
         var ready3 = assert.async();
         var ready2 = assert.async();
-        var ready1 = assert.async();
+        var ready1 = assert.async(2);
         assert.expect( 13 );
 
         var $elt = $( "#container-1" );
@@ -449,8 +449,8 @@ define( [
     } );
 
     QUnit.test( "Data rendering", function( assert ) {
-        var ready3 = assert.async();
-        var ready2 = assert.async();
+        var ready3 = assert.async(2);
+        var ready2 = assert.async(2);
         var ready1 = assert.async();
         assert.expect( 13 );
 
@@ -882,7 +882,7 @@ define( [
     } );
 
     QUnit.test( "Transform", function( assert ) {
-        var ready = assert.async();
+        var ready = assert.async(2);
         var ready1 = assert.async();
 
         var $elt = $( "#container-1" );

@@ -542,7 +542,6 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                     } );
                 } );
 
-                QUnit.stop( events.length + 2 );
                 instance.render( $container );
 
                 $container.on( "custom.mediaplayer", function() {
@@ -884,7 +883,7 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
     QUnit
         .cases.init( mediaplayerTypes )
         .test( "Option renderTo ", function( data, assert ) {
-            var ready = assert.async();
+            var ready = assert.async(3);
             var selector = "#fixture-" + data.fixture;
             var places = [ {
                 type: "jQuery",
@@ -897,7 +896,6 @@ define( [  "jquery", "lodash", "core/promise", "ui/mediaplayer" ], function(  $,
                 container: document.getElementById( selector.substr( 1 ) )
             } ];
 
-            QUnit.stop( places.length - 1 );
             _.forEach( places, function( place ) {
                 mediaplayer( {
                     url: data.url,

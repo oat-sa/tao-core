@@ -210,6 +210,7 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
     QUnit.module( "Behavior" );
 
     QUnit.test( "ui/autocomplete install", function( assert ) {
+        var ready = assert.async(2);
         var instance = autocompleteUI( "#autocomplete1" );
         var element = instance.getElement();
         var stopper;
@@ -239,7 +240,6 @@ define( [  "jquery", "ui/autocomplete", "lib/simulator/jquery.keystroker" ], fun
         listenerInstalled = true;
         instance.trigger( "test" );
 
-        var ready = assert.async();
         stopper = setTimeout( function() {
             assert.ok( true, "The ui/autocomplete instance can remove custom events" );
             ready();

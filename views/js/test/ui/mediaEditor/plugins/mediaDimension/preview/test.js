@@ -82,7 +82,7 @@ define( [
         conf.responsive = true;
         conf.syncDimensions = true;
         mediaDimensionComponent( $toolsContainer, media, conf );
-        QUnit.ok( true );
+        assert.ok( true );
     } );
 
     QUnit.test( "Strict mode preview", function( assert ) {
@@ -104,7 +104,7 @@ define( [
         conf.responsive = false;
         conf.syncDimensions = true;
         mediaDimensionComponent( $toolsContainer, media, conf );
-        QUnit.ok( true );
+        assert.ok( true );
     } );
 
     QUnit.test( "Strict mode without sync preview", function( assert ) {
@@ -126,6 +126,6 @@ define( [
         conf.responsive = false;
         conf.syncDimensions = false;
         mediaDimensionComponent( $toolsContainer, media, conf );
-        QUnit.ok( true );
+        assert.ok( true );
     } );
 } );

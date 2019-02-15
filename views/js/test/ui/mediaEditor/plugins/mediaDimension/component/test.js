@@ -783,6 +783,6 @@ define( [
         conf.responsive = true;
         conf.syncDimensions = true;
         mediaDimensionComponent( $toolsContainer, media, conf );
-        QUnit.ok( true );
+        assert.ok( true );
     } );
 } );

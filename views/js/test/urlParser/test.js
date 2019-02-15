@@ -199,7 +199,7 @@ define( [  "urlParser" ], function(  UrlParser ) {
         if ( data.expected instanceof Error ) {
             assert.throws( function() {
                 parser.sameDomain( data.url2 );
-            }, data.expected.name, data.expected.message );
+            },  data.expected.message );
         } else {
             assert.equal( parser.sameDomain( data.url2 ), data.expected );
         }
