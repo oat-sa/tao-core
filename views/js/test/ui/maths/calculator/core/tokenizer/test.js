@@ -49,38 +49,46 @@ define( [
     QUnit.test( "tokenize - success", function( assert ) {
         var tokenizer, tokens;
 
-        assert.expect( 26 );
+        assert.expect( 34 );
 
         tokenizer = calculatorTokenizerFactory();
-        tokens = tokenizer.tokenize( "(.1 + .2) * 10^8" );
+        tokens = tokenizer.tokenize('(.1 + .2) * 10^8 + 4 @nthrt 8');
 
-        assert.ok( _.isArray( tokens ), "Got a list of tokens" );
-        assert.equal( tokens.length, 12, "The expression has been tokenized in 12 tokens" );
-        assert.equal( tokens[ 0 ].type, "LPAR", "The expected token is found at position 0" );
-        assert.equal( tokens[ 0 ].offset, 0, "The expected token is found at offset 0" );
-        assert.equal( tokens[ 1 ].type, "DOT", "The expected token is found at position 1" );
-        assert.equal( tokens[ 1 ].offset, 1, "The expected token is found at offset 1" );
-        assert.equal( tokens[ 2 ].type, "NUM1", "The expected token is found at position 2" );
-        assert.equal( tokens[ 2 ].offset, 2, "The expected token is found at offset 2" );
-        assert.equal( tokens[ 3 ].type, "ADD", "The expected token is found at position 3" );
-        assert.equal( tokens[ 3 ].offset, 4, "The expected token is found at offset 4" );
-        assert.equal( tokens[ 4 ].type, "DOT", "The expected token is found at position 4" );
-        assert.equal( tokens[ 4 ].offset, 6, "The expected token is found at offset 6" );
-        assert.equal( tokens[ 5 ].type, "NUM2", "The expected token is found at position 5" );
-        assert.equal( tokens[ 5 ].offset, 7, "The expected token is found at offset 7" );
-        assert.equal( tokens[ 6 ].type, "RPAR", "The expected token is found at position 6" );
-        assert.equal( tokens[ 6 ].offset, 8, "The expected token is found at offset 8" );
-        assert.equal( tokens[ 7 ].type, "MUL", "The expected token is found at position 7" );
-        assert.equal( tokens[ 7 ].offset, 10, "The expected token is found at offset 10" );
-        assert.equal( tokens[ 8 ].type, "NUM1", "The expected token is found at position 8" );
-        assert.equal( tokens[ 8 ].offset, 12, "The expected token is found at offset 12" );
-        assert.equal( tokens[ 9 ].type, "NUM0", "The expected token is found at position 9" );
-        assert.equal( tokens[ 9 ].offset, 13, "The expected token is found at offset 13" );
-        assert.equal( tokens[ 10 ].type, "POW", "The expected token is found at position 10" );
-        assert.equal( tokens[ 10 ].offset, 14, "The expected token is found at offset 14" );
-        assert.equal( tokens[ 11 ].type, "NUM8", "The expected token is found at position 11" );
-        assert.equal( tokens[ 11 ].offset, 15, "The expected token is found at offset 15" );
-    } );
+        assert.ok(_.isArray(tokens), 'Got a list of tokens');
+        assert.equal(tokens.length, 16, 'The expression has been tokenized in 16 tokens');
+        assert.equal(tokens[0].type, 'LPAR', 'The expected token is found at position 0');
+        assert.equal(tokens[0].offset, 0, 'The expected token is found at offset 0');
+        assert.equal(tokens[1].type, 'DOT', 'The expected token is found at position 1');
+        assert.equal(tokens[1].offset, 1, 'The expected token is found at offset 1');
+        assert.equal(tokens[2].type, 'NUM1', 'The expected token is found at position 2');
+        assert.equal(tokens[2].offset, 2, 'The expected token is found at offset 2');
+        assert.equal(tokens[3].type, 'ADD', 'The expected token is found at position 3');
+        assert.equal(tokens[3].offset, 4, 'The expected token is found at offset 4');
+        assert.equal(tokens[4].type, 'DOT', 'The expected token is found at position 4');
+        assert.equal(tokens[4].offset, 6, 'The expected token is found at offset 6');
+        assert.equal(tokens[5].type, 'NUM2', 'The expected token is found at position 5');
+        assert.equal(tokens[5].offset, 7, 'The expected token is found at offset 7');
+        assert.equal(tokens[6].type, 'RPAR', 'The expected token is found at position 6');
+        assert.equal(tokens[6].offset, 8, 'The expected token is found at offset 8');
+        assert.equal(tokens[7].type, 'MUL', 'The expected token is found at position 7');
+        assert.equal(tokens[7].offset, 10, 'The expected token is found at offset 10');
+        assert.equal(tokens[8].type, 'NUM1', 'The expected token is found at position 8');
+        assert.equal(tokens[8].offset, 12, 'The expected token is found at offset 12');
+        assert.equal(tokens[9].type, 'NUM0', 'The expected token is found at position 9');
+        assert.equal(tokens[9].offset, 13, 'The expected token is found at offset 13');
+        assert.equal(tokens[10].type, 'POW', 'The expected token is found at position 10');
+        assert.equal(tokens[10].offset, 14, 'The expected token is found at offset 14');
+        assert.equal(tokens[11].type, 'NUM8', 'The expected token is found at position 11');
+        assert.equal(tokens[11].offset, 15, 'The expected token is found at offset 15');
+        assert.equal(tokens[12].type, 'ADD', 'The expected token is found at position 12');
+        assert.equal(tokens[12].offset, 17, 'The expected token is found at offset 17');
+        assert.equal(tokens[13].type, 'NUM4', 'The expected token is found at position 13');
+        assert.equal(tokens[13].offset, 19, 'The expected token is found at offset 19');
+        assert.equal(tokens[14].type, 'NTHRT', 'The expected token is found at position 14');
+        assert.equal(tokens[14].offset, 21, 'The expected token is found at offset 21');
+        assert.equal(tokens[15].type, 'NUM8', 'The expected token is found at position 15');
+        assert.equal(tokens[15].offset, 28, 'The expected token is found at offset 28');
+    });
 
     QUnit.test( "tokenize - error", function( assert ) {
         var tokenizer, tokens;
@@ -158,11 +166,11 @@ define( [
     QUnit.test( "iterator - success", function( assert ) {
         var tokenizer, next, token;
 
-        assert.expect( 26 );
+        assert.expect( 34 );
 
         tokenizer = calculatorTokenizerFactory();
-        next = tokenizer.iterator( "(.1 + .2) * 10^8" );
-        assert.ok( _.isFunction( next ), "Got a function" );
+        next = tokenizer.iterator('(.1 + .2) * 10^8 + 4 @nthrt 8');
+        assert.ok(_.isFunction(next), 'Got a function');
 
         token = next();
         assert.equal( token.type, "LPAR", "The expected token is found at position 0" );
@@ -198,8 +206,20 @@ define( [
         assert.equal( token.type, "POW", "The expected token is found at position 10" );
         assert.equal( token.offset, 14, "The expected token is found at offset 14" );
         token = next();
-        assert.equal( token.type, "NUM8", "The expected token is found at position 11" );
-        assert.equal( token.offset, 15, "The expected token is found at offset 15" );
+        assert.equal(token.type, 'NUM8', 'The expected token is found at position 11');
+        assert.equal(token.offset, 15, 'The expected token is found at offset 15');
+        token = next();
+        assert.equal(token.type, 'ADD', 'The expected token is found at position 12');
+        assert.equal(token.offset, 17, 'The expected token is found at offset 17');
+        token = next();
+        assert.equal(token.type, 'NUM4', 'The expected token is found at position 13');
+        assert.equal(token.offset, 19, 'The expected token is found at offset 19');
+        token = next();
+        assert.equal(token.type, 'NTHRT', 'The expected token is found at position 14');
+        assert.equal(token.offset, 21, 'The expected token is found at offset 21');
+        token = next();
+        assert.equal(token.type, 'NUM8', 'The expected token is found at position 15');
+        assert.equal(token.offset, 28, 'The expected token is found at offset 28');
         token = next();
         assert.equal( typeof token, "undefined", "The iterator has completed the expression" );
     } );

@@ -22,13 +22,14 @@ define( [  "lodash", "ui/maths/calculator/core/terms" ], function(  _, registere
     "use strict";
 
     var termTypes = [
-        "digit",
-        "aggregator",
-        "operator",
-        "variable",
-        "constant",
-        "error",
-        "function"
+        'digit',
+        'aggregator',
+        'separator',
+        'operator',
+        'variable',
+        'constant',
+        'error',
+        'function'
     ];
 
     QUnit.module( "Module" );
@@ -39,7 +40,7 @@ define( [  "lodash", "ui/maths/calculator/core/terms" ], function(  _, registere
     } );
 
     QUnit.test( "terms", function( assert ) {
-        assert.expect( 1 + _.size( registeredTerms ) * 8 );
+        assert.expect( 1 + _.size( registeredTerms ) * 9 );
 
         assert.ok( _.size( registeredTerms ) > 0, "A list of terms is exposed" );
 
@@ -49,11 +50,13 @@ define( [  "lodash", "ui/maths/calculator/core/terms" ], function(  _, registere
             assert.equal( typeof term.type, "string", "The term " + id + " has a property type" );
             assert.equal( typeof term.description, "string", "The term " + id + " has a property description" );
 
-            assert.notEqual( termTypes.indexOf( term.type ), -1, "The term " + id + " has the known type " + term.type );
-            assert.notEqual( term.label, "", "The property label of the term " + id + " is not empty" );
-            assert.notEqual( term.value, "", "The property value of the term " + id + " is not empty" );
-            assert.notEqual( term.description, "", "The property description of the term " + id + " is not empty" );
-        } );
-    } );
+            assert.notEqual(termTypes.indexOf(term.type), -1, 'The term ' + id + ' has the known type ' + term.type);
+            assert.notEqual(term.label, '', 'The property label of the term ' + id + ' is not empty');
+            assert.notEqual(term.value, '', 'The property value of the term ' + id + ' is not empty');
+            assert.notEqual(term.description, '', 'The property description of the term ' + id + ' is not empty');
+
+            assert.ok('string' === typeof term.exponent || null === term.exponent, 'The property exponent of the term ' + id + ' is null or string');
+        });
+    });
 
 } );

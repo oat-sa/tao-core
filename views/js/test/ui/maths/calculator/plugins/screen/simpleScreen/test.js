@@ -19,7 +19,7 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define( [
-    
+
     "jquery",
     "lodash",
     "core/promise",
@@ -27,7 +27,7 @@ define( [
     "ui/maths/calculator/core/terms",
     "ui/maths/calculator/plugins/screen/simpleScreen/simpleScreen"
 ], function(
-    
+
     $,
     _,
     Promise,
@@ -500,9 +500,20 @@ define( [
                 ready();
             } );
 
-        _.forEach( registeredTerms, function( term, token ) {
-            expression += term.value + " ";
-            expectedTokens.push( {
+        _.forEach(registeredTerms, function(term, token) {
+            if (token === 'ADD') {
+                // append a digit just before the ADD operator
+                // otherwise the operator will be displayed as positive sign change and the test will fail
+                expectedTokens.push({
+                    value: registeredTerms.NUM1.value,
+                    label: registeredTerms.NUM1.label,
+                    type: registeredTerms.NUM1.type,
+                    token: 'NUM1'
+                });
+                expression += registeredTerms.NUM1.value + ' ';
+            }
+            expression += term.value + ' ';
+            expectedTokens.push({
                 value: term.value,
                 label: term.label,
                 type: term.type,

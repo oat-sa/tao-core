@@ -176,8 +176,8 @@ define([
                         if(!_.isEmpty(acc) || hasQueryString){
                             acc += '&';
                         }
-                        if (typeof value === "object") {
-                            _.forOwn(value, function(parameterName, parameterValue) {
+                        if (typeof value === "object" && !_.isArray(value)) {
+                            _.forOwn(value, function(parameterValue, parameterName) {
                                 acc += encodeURIComponent(key) + "[" + encodeURIComponent(parameterName) + "]=" + encodeURIComponent(parameterValue) + "&";
                             });
                         } else {

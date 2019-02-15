@@ -955,7 +955,7 @@ define( [
         var $container = $( "#fixture-useterm" );
         var instance;
 
-        assert.expect( 28 );
+        assert.expect( 36 );
 
         assert.equal( $container.children().length, 0, "The container is empty" );
 
@@ -1027,21 +1027,45 @@ define( [
                                                     assert.equal( self.getExpression(), "sin -42", "Expression has been properly updated" );
                                                     assert.equal( self.getPosition(), 4, "New position has been set" );
 
-                                                    resolve();
-                                                } )
-                                                .setPosition( 0 )
-                                                .useTerm( "SIN" );
-                                        } )
-                                        .setPosition( 0 )
-                                        .useTerm( "SUB" );
-                                } )
-                                .useTerm( "NUM2" );
-                        } )
-                        .useTerm( "NUM4" );
-                } );
-            } )
-            .after( "ready", function() {
-                assert.equal( $container.children().length, 1, "The container contains an element" );
+                                                    self
+                                                        .on('termadd.NTHRT', function (n5, term5) {
+                                                            self.off('termadd.NTHRT');
+
+                                                            assert.equal(n5, 'NTHRT', 'The term NTHRT has been received');
+                                                            assert.deepEqual(term5, _.defaults({value: '@nthrt'}, registeredTerms.NTHRT), 'The term NTHRT has been added');
+                                                            assert.equal(self.getExpression(), '@nthrt sin -42', 'Expression has been properly updated');
+                                                            assert.equal(self.getPosition(), 7, 'New position has been set');
+
+                                                            self
+                                                                .on('termadd.NUM4', function (n6, term6) {
+                                                                    self.off('termadd.NUM4');
+
+                                                                    assert.equal(n6, 'NUM4', 'The term NUM4 has been received');
+                                                                    assert.deepEqual(term6, registeredTerms.NUM4, 'The term NUM4 has been added');
+                                                                    assert.equal(self.getExpression(), '4 @nthrt sin -42', 'Expression has been properly updated');
+                                                                    assert.equal(self.getPosition(), 2, 'New position has been set');
+
+                                                                    resolve();
+                                                                })
+                                                                .setPosition(0)
+                                                                .useTerm('NUM4');
+                                                        })
+                                                        .setPosition(0)
+                                                        .useTerm('@NTHRT');
+                                                })
+                                                .setPosition(0)
+                                                .useTerm('SIN');
+                                        })
+                                        .setPosition(0)
+                                        .useTerm('SUB');
+                                })
+                                .useTerm('NUM2');
+                        })
+                        .useTerm('NUM4');
+                });
+            })
+            .after('ready', function () {
+                assert.equal($container.children().length, 1, 'The container contains an element');
                 this.destroy();
             } )
             .after( "destroy", function() {
@@ -2479,14 +2503,21 @@ define( [
             value: "sqrt",
             type: "function",
             label: registeredTerms.SQRT.label
-        } ] )
-        .test( "0 and const", function( data, assert ) {
+        }, {
+            title: 'nthrt',
+            term: '@NTHRT',
+            expression: '0 @nthrt',
+            value: '@nthrt',
+            type: 'function',
+            label: registeredTerms.NTHRT.label
+        }])
+        .test('0 and const', function (data, assert) {
             var ready = assert.async();
-            var $container = $( "#fixture-zero-const" );
-            var calculator = calculatorBoardFactory( $container )
-                .on( "ready", function() {
-                    function addTermPromise( term ) {
-                        return new Promise( function( resolve, reject ) {
+            var $container = $('#fixture-zero-const');
+            var calculator = calculatorBoardFactory($container)
+                .on('ready', function () {
+                    function addTermPromise(term) {
+                        return new Promise(function(resolve, reject) {
                             calculator
                                 .on( "error.test", function( err ) {
                                     calculator.off( ".test" );
@@ -2626,14 +2657,21 @@ define( [
             value: "sqrt",
             type: "function",
             label: registeredTerms.SQRT.label
-        } ] )
-        .test( "ans and const", function( data, assert ) {
+        }, {
+            title: 'nthrt',
+            term: '@NTHRT',
+            expression: 'ans @nthrt',
+            value: '@nthrt',
+            type: 'function',
+            label: registeredTerms.NTHRT.label
+        }])
+        .test('ans and const', function (data, assert) {
             var ready = assert.async();
-            var $container = $( "#fixture-ans-const" );
-            var calculator = calculatorBoardFactory( $container )
-                .on( "ready", function() {
-                    function addTermPromise( term ) {
-                        return new Promise( function( resolve, reject ) {
+            var $container = $('#fixture-ans-const');
+            var calculator = calculatorBoardFactory($container)
+                .on('ready', function () {
+                    function addTermPromise(term) {
+                        return new Promise(function(resolve, reject) {
                             calculator
                                 .on( "error.test", function( err ) {
                                     calculator.off( ".test" );

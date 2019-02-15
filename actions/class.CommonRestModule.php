@@ -60,6 +60,12 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             $this->returnSuccess($response);
 
         } catch (Exception $e) {
+            if ($e instanceof \common_exception_ValidationFailed &&
+                $alias = $this->reverseSearchAlias($e->getField())
+            ) {
+                $e = new \common_exception_ValidationFailed($alias, null, $e->getCode());
+            }
+
             $this->returnFailure($e);
         }
     }
@@ -123,6 +129,35 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 
     /**
      * Method to wrap creating to service
+     *
+     * @OA\Schema(
+     *     schema="tao.CommonRestModule.CreatedResource",
+     *     description="Created resource data",
+     *     @OA\Property(
+     *         property="uriResource",
+     *         type="string",
+     *         example="http://sample/first.rdf#i1536680377163171"
+     *     ),
+     *     @OA\Property(
+     *         property="label",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="comment",
+     *         type="string"
+     *     )
+     * )
+     * @OA\Schema(
+     *     schema="tao.CommonRestModule.CreatedResourceResponse",
+     *     description="Created resource data",
+     *     allOf={
+     *         @OA\Schema(ref="#/components/schemas/tao.RestTrait.BaseResponse")
+     *     },
+     *     @OA\Property(
+     *         property="data",
+     *         ref="#/components/schemas/tao.CommonRestModule.CreatedResource"
+     *     )
+     * )
      *
      * @return mixed
      * @throws common_Exception
@@ -219,6 +254,14 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
             "comment" => OntologyRdfs::RDFS_COMMENT,
             "type"=> OntologyRdf::RDF_TYPE
         );
+    }
+
+    /**
+     * @param string $paramName
+     * @return string|false
+     */
+    protected function reverseSearchAlias($paramName) {
+        return array_search($paramName, $this->getParametersAliases(), true);
     }
 
     /**
