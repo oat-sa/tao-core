@@ -108,33 +108,25 @@ define([
                         timeout : options.timeout * 1000 || context.timeout * 1000 || 0,
                         contentType : options.contentType || noop,
                         beforeSend: function() {
-                            console.log('sending header token', customHeaders && customHeaders['X-CSRF-Token']);
+                            console.log('sending X-CSRF-Token header', customHeaders && customHeaders['X-CSRF-Token']);
                         },
                         global : !options.background//TODO fix this with TT-260
                     })
                     .done(function(response, status, xhr){
                         var token;
-                        console.log('done', response, status, xhr);
 
-                        // FIXME: check header token, response token,
-                        // if no token, use a fake temporary token
-                        // ...until server can provide one:
                         if (_.isFunction(xhr.getResponseHeader)) {
                             console.log('received X-CSRF-Token header', xhr.getResponseHeader('X-CSRF-Token'));
-                            token = xhr.getResponseHeader('X-CSRF-Token') || response && response.token || 'someToken' + ('' + Date.now()).slice(9);
-                        }
-                        else {
-                            console.log('received response.token', response && response.token);
-                            token = response && response.token || 'someToken' + ('' + Date.now()).slice(9);
-                        }
+                            token = xhr.getResponseHeader('X-CSRF-Token');
 
-                        // store the response token for the next request
-                        // store with client timestamp so we can expire against client time
-                        if (token) {
-                            tokenHandler.setToken({
-                                value: token,
-                                receivedAt: Date.now()
-                            });
+                            // store the response token for the next request
+                            // store with client timestamp so we can expire against client time
+                            if (token) {
+                                tokenHandler.setToken({
+                                    value: token,
+                                    receivedAt: Date.now()
+                                });
+                            }
                         }
 
                         if (xhr.status === 204 || (response && response.errorCode === 204)) {
@@ -174,7 +166,6 @@ define([
                             var customHeaders;
                             if (token) {
                                 customHeaders = _.extend({}, options.headers, {
-                                    'X-Requested-With': 'XMLHttpRequest',  // already present in jQuery.ajax?
                                     'X-CSRF-Token': token || 'none', // new key to use globally
                                     'X-Auth-Token': token || 'none'  // old key for current TR only
                                 });

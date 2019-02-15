@@ -65,7 +65,6 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                 var self = this;
                 return tokenStore.expireOldTokens().then(function() {
                     if (tokenStore.isEmpty()) {
-                        console.log('No valid tokens available!');
                         // Fetch again if we're truly out of tokens
                         return self.getClientConfigTokens()
                             .then(function(tokens) {
@@ -78,13 +77,9 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                                     });
                                 }, Promise.resolve())
                                 .then(function() {
-                                    return tokenStore.log('tokenHandler.getToken()');
-                                })
-                                .then(function() {
                                     // Store should be refilled, try to get one token:
                                     if (!tokenStore.isEmpty()) {
                                         return tokenStore.get().then(function(currentToken) {
-                                            console.log('tokenHandler.getToken (shift)', currentToken.value);
                                             return currentToken.value;
                                         });
                                     }
@@ -97,7 +92,6 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
                     }
                     else {
                         return tokenStore.get().then(function(currentToken) {
-                            console.log('tokenHandler.getToken (shift)', currentToken.value);
                             return currentToken.value;
                         });
                     }
@@ -111,7 +105,6 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              * @returns {Promise<Boolean>} - true if successful
              */
             setToken: function setToken(newToken) {
-                console.log('tokenHandler.setToken (push)', newToken);
                 return tokenStore.add(newToken)
                     .then(function(added) {
                         tokenStore.log('tokenHandler.setToken()');
@@ -125,7 +118,6 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              * @returns {Promise<Array>} - an array of locally-timestamped token objects
              */
             getClientConfigTokens() {
-                console.log('ClientConfig data:', module.config());
                 return Promise.resolve(_.map(module.config().tokens, function(serverToken) {
                     return {
                         value: serverToken,

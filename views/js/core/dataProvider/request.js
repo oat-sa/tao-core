@@ -60,7 +60,7 @@ define([
             noToken: noToken
         })
         .then(function(response) {
-            console.log('resp', response);
+            console.log('response', response);
             if (_.isUndefined(response)) {
                 return Promise.resolve();
             }

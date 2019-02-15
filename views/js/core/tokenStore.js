@@ -56,22 +56,8 @@ define([
         var getStore = function getStore() {
             return store('tokenStore.tokens', store.backends.memory);
         };
-        var getSizeStore = function getSizeStore() {
-            return store('tokenStore.maxSize', store.backends.memory);
-        };
 
-        // retrieve stored maxSize
-        getSizeStore()
-        .then(function(sizeStore) {
-            return sizeStore.getItem('size');
-        })
-        .then(function(maxSize) {
-            if (maxSize) {
-                config.maxSize = maxSize;
-            }
-            console.warn('tokenStore established with maxSize', config.maxSize);
-
-        });
+        console.warn('tokenStore established with maxSize', config.maxSize);
 
         if (config.initialToken) {
             this.add({
@@ -196,7 +182,7 @@ define([
                     console.log('logging from', msg);
                     console.log('maxSize', config.maxSize);
                     console.log('Q', index);
-                    console.table(items);
+                    console.table(_.values(items));
                 });
             },
 
@@ -216,11 +202,8 @@ define([
                 var self = this;
                 if (_.isNumber(size) && size > 0 && size !== config.maxSize) {
                     config.maxSize = size;
-                    getSizeStore().then(function(sizeStore) {
-                        sizeStore.setItem('size', size);
-                        console.warn('tokenStore maxSize set to', size);
-                        self.enforceMaxSize();
-                    });
+                    console.warn('tokenStore maxSize set to', size);
+                    self.enforceMaxSize();
                 }
             },
 
