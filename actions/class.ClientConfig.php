@@ -44,8 +44,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
 
         /** @var TokenService $tokenService */
         $tokenService = $this->getServiceLocator()->get(TokenService::SERVICE_ID);
-        $tokens = $tokenService->generateTokenPool($tokenService->getPoolSize());
-        $this->setData('tokens', json_encode(array_map(function($token) { return $token['token']; }, $tokens)));
+        $tokens = $tokenService->generateTokenPool();
+        $jsTokens = array_map(function($token) { return $token['token']; }, $tokens);
+        $this->setData('tokens', json_encode(['tokens' => $jsTokens]));
 
         //get extension paths to set up aliases dynamically
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
