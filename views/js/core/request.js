@@ -114,39 +114,37 @@ define([
                     })
                     .done(function(response, status, xhr){
                         var token;
+                        var tokenDone = Promise.resolve();
 
                         if (_.isFunction(xhr.getResponseHeader)) {
-                            console.log('received X-CSRF-Token header', xhr.getResponseHeader('X-CSRF-Token'));
                             token = xhr.getResponseHeader('X-CSRF-Token');
-
+                            console.log('received X-CSRF-Token header', token);
                             // store the response token for the next request
-                            // store with client timestamp so we can expire against client time
                             if (token) {
-                                tokenHandler.setToken({
-                                    value: token,
-                                    receivedAt: Date.now()
-                                });
+                                tokenDone = tokenHandler.setToken(token);
                             }
                         }
 
-                        if (xhr.status === 204 || (response && response.errorCode === 204)) {
-                            // no content, so resolve with empty data.
-                            return resolve();
-                        }
+                        return tokenDone.then(function() {
+                            if (xhr.status === 204 || (response && response.errorCode === 204) || status === 'nocontent') {
+                                // no content, so resolve with empty data.
+                                return resolve();
+                            }
 
-                        // handle case where token expired or invalid
-                        if (xhr.status === 401 || (response && response.errorCode === 401)) {
-                            feedback().error(__('Unauthorised request'));
-                            reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
-                        }
+                            // handle case where token expired or invalid
+                            if (xhr.status === 401 || (response && response.errorCode === 401)) {
+                                feedback().error(__('Unauthorised request'));
+                                reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                            }
 
-                        if (response && response.success === true) {
-                            // there's some data
-                            return resolve(response);
-                        }
+                            if (response && response.success === true) {
+                                // there's some data
+                                return resolve(response);
+                            }
 
-                        //the server has handled the error
-                        return reject(createError(response, __('The server has sent an empty response'), xhr.status));
+                            //the server has handled the error
+                            return reject(createError(response, __('The server has sent an empty response'), xhr.status));    
+                        });
                     })
                     .fail(function(xhr) {
                         var response;

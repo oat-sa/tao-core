@@ -26,8 +26,9 @@ define([
     'lodash',
     'core/request',
     'core/promise',
+    'core/tokenHandler',
     'lib/jquery.mockjax/jquery.mockjax'
-], function ($, _, request, Promise){
+], function ($, _, request, Promise, tokenHandlerFactory) {
     'use strict';
 
     var requestCases;
@@ -66,7 +67,7 @@ define([
 
     QUnit.module('API');
 
-    QUnit.test('module', function (assert){
+    QUnit.test('module', function (assert) {
         QUnit.expect(1);
 
         assert.equal(typeof request, 'function', "The module exposes a function");
@@ -92,21 +93,21 @@ define([
         {
             title : '200 got content',
             url : '//200',
-            noToken: true,
+            noToken: false,//true,
             content: { foo : 'bar' }
         },
         {
             title : '200 header',
             url : '//200',
-            noToken: true,
+            noToken: false,
             headers: { 'x-foo': 'bar' },
             content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
         },
-        // {
-        //     title : '204 no content',   // rejects
-        //     url : '//204',
-        //     noToken: true
-        // },
+        {
+            title : '204 no content',   // rejects
+            url : '//204',
+            noToken: true
+        },
         {
             title : '500 error',
             url : '//500',
@@ -141,32 +142,16 @@ define([
         .cases(requestCases)
         .asyncTest('request with ', function(data, assert) {
             var result;
+            var tokenHandler = tokenHandlerFactory();
 
             // mock the endpoints:
             $.mockjax([
                 {
-                    url: "/tao/ClientConfig/config", // not used?
-                    status: 200,
-                    response: function() {
-                        function randomToken() {
-                            var d = Date.now() + Math.floor(5000 * Math.random());
-                            return {
-                                value: 'someToken' + ('' + d).slice(9),
-                                receivedAt: d
-                            };
-                        }
-                        this.responseText = JSON.stringify([
-                            randomToken(),
-                            randomToken(),
-                            randomToken(),
-                            randomToken(),
-                            randomToken()
-                        ]);
-                    }
-                },
-                {
                     url: /^\/\/200.*$/,
                     status: 200,
+                    headers: {
+                        'X-CSRF-Token': 'token2'
+                    },
                     response: function(settings) {
                         var response = responses[settings.url][0];
                         var content;
@@ -177,7 +162,7 @@ define([
                                 if (!content) {
                                     content = {};
                                 }
-                                content.requestHeaders = settings.headers;
+                                content.requestHeaders = settings.headers; // old style
                             }
                             if (response.success === false) {
                                 this.responseText = JSON.stringify(response);
@@ -194,8 +179,8 @@ define([
                 {
                     url: "//204",
                     status: 204,
-                    response: function() {
-                        this.responseText = {};
+                    headers: {
+                        'X-CSRF-Token': 'token2'
                     }
                 },
                 {
@@ -205,35 +190,50 @@ define([
                 }
             ]);
 
-            result = request(data);
-            assert.ok(result instanceof Promise, 'The request function returns a promise');
+            tokenHandler.setToken('token1').then(function() {
+                result = request(data);
+                assert.ok(result instanceof Promise, 'The request function returns a promise');
 
-            if (data.reject) {
+                if (data.reject) {
+                    QUnit.expect(3);
 
-                QUnit.expect(3);
+                    result.then(function() {
+                        assert.ok(false, 'Should reject');
+                        QUnit.start();
+                    })
+                    .catch(function(err) {
+                        assert.equal(err.name, data.err.name, 'Reject error is the one expected');
+                        assert.equal(err.message, data.err.message, 'Reject error is correct');
+                        QUnit.start();
+                    });
 
-                result.then(function(){
-                    assert.ok(false, 'Should reject');
-                    QUnit.start();
-                })
-                .catch(function(err){
-                    assert.equal(err.name, data.err.name, 'Reject error is the one expected');
-                    assert.equal(err.message, data.err.message, 'Reject error is correct');
-                    QUnit.start();
-                });
+                }
+                else {
+                    QUnit.expect(data.noToken ? 2 : 3);
 
-            }
-            else {
-                QUnit.expect(2);
+                    result.then(function(response) {
+                        if (_.isUndefined(data.content)) {
+                            assert.ok(_.isUndefined(response), 'No content encountered in empty response');
+                        }
+                        else {
+                            assert.deepEqual(response.content, data.content, 'The given result is correct');
+                        }
 
-                result.then(function(response){
-                    assert.deepEqual(response.content, data.content, 'The given result is correct');
-                    QUnit.start();
-                })
-                .catch(function(){
-                    assert.ok(false, 'Should not reject');
-                    QUnit.start();
-                });
-            }
+                        if (!data.noToken) {
+                            tokenHandler.getToken().then(function(storedToken) {
+                                assert.equal(storedToken, 'token2', 'The token was updated with the next in sequence');
+                                QUnit.start();
+                            });
+                        }
+                        else {
+                            QUnit.start();
+                        }
+                    })
+                    .catch(function() {
+                        assert.ok(false, 'Should not reject');
+                        QUnit.start();
+                    });
+                }
+            });
         });
 });
