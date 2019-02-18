@@ -341,6 +341,7 @@ class tao_install_Setup implements Action
                                 } else{
                                     $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
                                     $this->logWarning('Make sure your configuration is correct and all required libraries are installed');
+                                    continue;
                                 }
                             }
 
