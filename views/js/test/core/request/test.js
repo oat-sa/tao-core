@@ -93,46 +93,46 @@ define([
         {
             title : '200 got content',
             url : '//200',
-            noToken: false,//true,
             content: { foo : 'bar' }
         },
         {
-            title : '200 header',
+            title : '200 with custom header',
             url : '//200',
-            noToken: false,
             headers: { 'x-foo': 'bar' },
+            noToken: true,
             content: { foo : 'bar', requestHeaders: { 'x-foo': 'bar' } }
         },
         {
-            title : '204 no content',   // rejects
-            url : '//204',
-            noToken: true
+            title : '200 no token required',
+            url : '//200',
+            noToken: true,
+            content: { foo : 'bar' }
+        },
+        {
+            title : '204 no content',
+            url : '//204'
         },
         {
             title : '500 error',
             url : '//500',
-            noToken: true,
             reject : true,
             err : new Error('500 : Server Error')
         },
         {
             title : '200 error 1',
             url : '//200/error/1',
-            noToken: true,
             reject : true,
             err : new Error('1 : oops')
         },
         {
             title : '200 error 2',
             url : '//200/error/2',
-            noToken: true,
             reject : true,
             err : new Error('2 : woops')
         },
         {
             title : '200 error fallback',
             url : '//200/error/fallback',
-            noToken: true,
             reject : true,
             err : new Error('The server has sent an empty response')
         }
@@ -140,8 +140,7 @@ define([
 
     QUnit
         .cases(requestCases)
-        .asyncTest('request with ', function(data, assert) {
-            var result;
+        .asyncTest('request with ', function(caseData, assert) {
             var tokenHandler = tokenHandlerFactory();
 
             // mock the endpoints:
@@ -150,6 +149,7 @@ define([
                     url: /^\/\/200.*$/,
                     status: 200,
                     headers: {
+                        // respond with:
                         'X-CSRF-Token': 'token2'
                     },
                     response: function(settings) {
@@ -157,12 +157,12 @@ define([
                         var content;
                         if (response) {
                             content = response.data;
-                            if (settings.headers) {
+                            if (caseData.headers) {
                                 response = _.cloneDeep(response);
                                 if (!content) {
                                     content = {};
                                 }
-                                content.requestHeaders = settings.headers; // old style
+                                content.requestHeaders = settings.headers;
                             }
                             if (response.success === false) {
                                 this.responseText = JSON.stringify(response);
@@ -190,11 +190,16 @@ define([
                 }
             ]);
 
-            tokenHandler.setToken('token1').then(function() {
-                result = request(data);
+            tokenHandler.clearStore()
+            .then(function() {
+                return tokenHandler.setToken('token1');
+            })
+            .then(function() {
+                var result = request(caseData);
+
                 assert.ok(result instanceof Promise, 'The request function returns a promise');
 
-                if (data.reject) {
+                if (caseData.reject) {
                     QUnit.expect(3);
 
                     result.then(function() {
@@ -202,24 +207,24 @@ define([
                         QUnit.start();
                     })
                     .catch(function(err) {
-                        assert.equal(err.name, data.err.name, 'Reject error is the one expected');
-                        assert.equal(err.message, data.err.message, 'Reject error is correct');
+                        assert.equal(err.name, caseData.err.name, 'Reject error is the one expected');
+                        assert.equal(err.message, caseData.err.message, 'Reject error is correct');
                         QUnit.start();
                     });
 
                 }
                 else {
-                    QUnit.expect(data.noToken ? 2 : 3);
+                    QUnit.expect(caseData.noToken ? 2 : 3);
 
                     result.then(function(response) {
-                        if (_.isUndefined(data.content)) {
+                        if (_.isUndefined(caseData.content)) {
                             assert.ok(_.isUndefined(response), 'No content encountered in empty response');
                         }
                         else {
-                            assert.deepEqual(response.content, data.content, 'The given result is correct');
+                            assert.deepEqual(response.content, caseData.content, 'The given result is correct');
                         }
 
-                        if (!data.noToken) {
+                        if (!caseData.noToken) {
                             tokenHandler.getToken().then(function(storedToken) {
                                 assert.equal(storedToken, 'token2', 'The token was updated with the next in sequence');
                                 QUnit.start();

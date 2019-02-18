@@ -103,27 +103,45 @@ define([
             tokenHandler.setToken(randomToken())
         ])
         .then(function(){
-            assert.equal(tokenHandler.getQueueLength(), 5, 'The queue size is correct: 5');
-            return tokenHandler.getToken();
+            return tokenHandler.getQueueLength();
         })
-        .then(function(){
-            assert.equal(tokenHandler.getQueueLength(), 4, 'The queue size is correct: 4');
-            return tokenHandler.getToken();
+        .then(function(length){
+            assert.equal(length, 5, 'The queue size is correct: 5');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
         })
-        .then(function(){
-            assert.equal(tokenHandler.getQueueLength(), 3, 'The queue size is correct: 3');
-            return tokenHandler.getToken();
+        .then(function(length){
+            assert.equal(length, 4, 'The queue size is correct: 4');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
         })
-        .then(function(){
-            assert.equal(tokenHandler.getQueueLength(), 2, 'The queue size is correct: 2');
-            return tokenHandler.getToken();
+        .then(function(length){
+            assert.equal(length, 3, 'The queue size is correct: 3');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
         })
-        .then(function(){
-            assert.equal(tokenHandler.getQueueLength(), 1, 'The queue size is correct: 1');
-            return tokenHandler.getToken();
+        .then(function(length){
+            assert.equal(length, 2, 'The queue size is correct: 2');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
         })
-        .then(function(){
-            assert.equal(tokenHandler.getQueueLength(), 0, 'The queue size is correct: 0');
+        .then(function(length){
+            assert.equal(length, 1, 'The queue size is correct: 1');
+            return tokenHandler.getToken()
+                .then(function(){
+                    return tokenHandler.getQueueLength();
+                });
+        })
+        .then(function(length){
+            assert.equal(length, 0, 'The queue size is correct: 0');
 
             QUnit.start();
         })
@@ -162,10 +180,14 @@ define([
 
         QUnit.expect(2);
 
-        tokenHandler.getToken() // internally uses getClientConfigTokens()
+        tokenHandler.getToken() // internally uses getClientConfigTokens() -> should fetch 5
             .then(function(token){
-                assert.equal(typeof token, 'string', 'A string was fetched');
-                assert.equal(tokenHandler.getQueueLength(), 4, 'The queue size is correct: 4');
+                assert.equal(typeof token, 'string', 'A token string was fetched');
+
+                return tokenHandler.getQueueLength();
+            })
+            .then(function(length) {
+                assert.equal(length, 4, 'The queue size is correct: 4');
 
                 return tokenHandler.clearStore();
             })

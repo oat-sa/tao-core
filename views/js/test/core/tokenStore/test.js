@@ -109,7 +109,7 @@ define([
         })
         .then(function(assigned) {
             assert.ok(assigned, 'The value assignment is done');
-            return tokenStore.has(key1)
+            return tokenStore.has(key1);
         })
         .then(function(result) {
             assert.equal(result, true, 'The store contains token 1');

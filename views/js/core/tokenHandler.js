@@ -63,39 +63,46 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              */
             getToken: function getToken() {
                 var self = this;
-                return tokenStore.expireOldTokens().then(function() {
-                    if (tokenStore.isEmpty()) {
-                        // Fetch again if we're truly out of tokens
-                        return self.getClientConfigTokens()
-                            .then(function(tokens) {
-                                // Add the fetched tokens to the store, synchronously:
-                                // Chaining the promises using Array.prototype.reduce is necessary
-                                // to manage token addition & deletion correctly
-                                return tokens.reduce(function(previousPromise, nextToken) {
-                                    return previousPromise.then(() => {
-                                        return self.setToken(nextToken);
-                                    });
-                                }, Promise.resolve())
+                return tokenStore.expireOldTokens()
+                    .then(function() {
+                        return tokenStore.isEmpty();
+                    })
+                    .then(function(empty) {
+                        if (empty) {
+                            // Fetch again if we're truly out of tokens
+                            return self.getClientConfigTokens()
+                                .then(function(tokens) {
+                                    // Add the fetched tokens to the store, synchronously:
+                                    // Chaining the promises using Array.prototype.reduce is necessary
+                                    // to manage token addition & deletion correctly
+                                    return tokens.reduce(function(previousPromise, nextToken) {
+                                        return previousPromise.then(() => {
+                                            return self.setToken(nextToken);
+                                        });
+                                    }, Promise.resolve());
+                                })
                                 .then(function() {
+                                    return tokenStore.isEmpty();
+                                })
+                                .then(function(emptyAgain) {
                                     // Store should be refilled, try to get one token:
-                                    if (!tokenStore.isEmpty()) {
+                                    if (!emptyAgain) {
                                         return tokenStore.get().then(function(currentToken) {
                                             return currentToken.value;
                                         });
                                     }
                                     else {
-                                        return Promise.resolve(null);
-                                        // return Promise.reject(new Error('Store not refilled!'));
+                                        //return Promise.resolve(null);
+                                        return Promise.reject(new Error('Store not refilled!'));
                                     }
                                 });
+                        }
+                        else {
+                            return tokenStore.get().then(function(currentToken) {
+                                return currentToken.value;
                             });
-                    }
-                    else {
-                        return tokenStore.get().then(function(currentToken) {
-                            return currentToken.value;
-                        });
-                    }
-                });
+                        }
+                    });
             },
 
             /**
@@ -107,7 +114,6 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
             setToken: function setToken(newToken) {
                 return tokenStore.add(newToken)
                     .then(function(added) {
-                        tokenStore.log('tokenHandler.setToken()');
                         return added;
                     });
             },
@@ -136,7 +142,7 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
 
             /**
              * Getter for the current queue length
-             * @returns {Integer}
+             * @returns {Promise<Integer>}
              */
             getQueueLength: function getQueueLength() {
                 return tokenStore.getSize();

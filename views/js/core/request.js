@@ -90,29 +90,35 @@ define([
             return Promise.reject(new TypeError('At least give a URL...'));
         }
 
-        // Function wrapper which allows the contents to be run now, or added to a queue
+        /**
+         * Function wrapper which allows the contents to be run now, or added to a queue
+         * @returns {Promise} resolves with response, or rejects if something went wrong
+         */
         function runRequest() {
-            return new Promise(function(resolve, reject){
-
-                // Function wrapper in which the request is actually made
-                // Doing this allows a token to be fetched asynchronously before we run it
-                function runAjax(customHeaders) {
+            /**
+             * Function wrapper in which the AJAX request is actually made
+             * This wrapping allows a token to be fetched asynchronously before we run it
+             * @param {Object} customHeaders
+             * @returns {Promise} resolves with response, or rejects with Error if something went wrong
+             */
+            function runAjax(customHeaders) {
+                return new Promise(function(resolve, reject) {
                     var noop;
                     return $.ajax({
                         url: options.url,
                         type: options.method || 'GET',
                         dataType: 'json',
                         headers: customHeaders,
-                        data : options.data,
-                        async : true,
-                        timeout : options.timeout * 1000 || context.timeout * 1000 || 0,
-                        contentType : options.contentType || noop,
+                        data: options.data,
+                        async: true,
+                        timeout: options.timeout * 1000 || context.timeout * 1000 || 0,
+                        contentType: options.contentType || noop,
                         beforeSend: function() {
                             console.log('sending X-CSRF-Token header', customHeaders && customHeaders['X-CSRF-Token']);
                         },
-                        global : !options.background//TODO fix this with TT-260
+                        global: !options.background //TODO fix this with TT-260
                     })
-                    .done(function(response, status, xhr){
+                    .done(function(response, status, xhr) {
                         var token;
                         var tokenDone = Promise.resolve();
 
@@ -134,7 +140,7 @@ define([
                             // handle case where token expired or invalid
                             if (xhr.status === 401 || (response && response.errorCode === 401)) {
                                 feedback().error(__('Unauthorised request'));
-                                reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
+                                return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                             }
 
                             if (response && response.success === true) {
@@ -143,7 +149,7 @@ define([
                             }
 
                             //the server has handled the error
-                            return reject(createError(response, __('The server has sent an empty response'), xhr.status));    
+                            return reject(createError(response, __('The server has sent an empty response'), xhr.status));
                         });
                     })
                     .fail(function(xhr) {
@@ -155,45 +161,46 @@ define([
                         }
                         return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                     });
-                }
+                });
+            }
 
-                if (!options.noToken) {
-                    // we must get a token from the store
-                    tokenHandler.getToken()
-                        .then(function(token) {
-                            var customHeaders;
-                            if (token) {
-                                customHeaders = _.extend({}, options.headers, {
-                                    'X-CSRF-Token': token || 'none', // new key to use globally
-                                    'X-Auth-Token': token || 'none'  // old key for current TR only
-                                });
-                            }
-                            else {
-                                customHeaders = _.extend({}, options.headers);
-                            }
-                            return customHeaders;
-                        })
-                        .then(function(customHeaders) {
-                            runAjax(customHeaders);
-                        });
+            // Determine if token needs to be fetched
+            if (!options.noToken) {
+                return tokenHandler.getToken()
+                    .then(function(token) {
+                        var customHeaders;
+                        if (token) {
+                            customHeaders = _.extend({}, options.headers, {
+                                'X-CSRF-Token': token || 'none', // new key to use globally
+                                'X-Auth-Token': token || 'none'  // old key for current TR only
+                            });
+                        }
+                        else {
+                            customHeaders = _.extend({}, options.headers);
+                        }
+                        return runAjax(customHeaders);
+                    });
+            }
+            else {
+                return runAjax(options.headers);
+            }
+        }
+
+        // Decide how to launch the request based on certain params:
+        return tokenHandler.getQueueLength()
+            .then(function(queueLength) {
+                if (options.noToken === true) {
+                    // no token protection, run the request
+                    return runRequest();
+                }
+                else if (options.sequential || queueLength === 1) {
+                    // limited tokens, sequential queue must be used
+                    return queue.serie(runRequest);
                 }
                 else {
-                    runAjax(options.headers);
+                    // tokens ready
+                    return runRequest();
                 }
             });
-        }
-
-        if (options.noToken === true) {
-            // no token protection, run the request
-            return runRequest();
-        }
-        else if (tokenHandler.getQueueLength() === 1) {
-            // limited tokens, sequential queue must be used
-            return queue.serie(runRequest);
-        }
-        else {
-            // tokens ready
-            return runRequest();
-        }
     };
 });

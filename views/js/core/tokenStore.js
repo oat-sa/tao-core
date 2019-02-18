@@ -47,19 +47,13 @@ define([
      */
     return function tokenStoreFactory(options) {
 
-        // maintain an index which will act as a queue
-        // push newly received token(s) onto the back end
-        // shift oldest token off the front end, to use
-        var index = [];
-        var id = uuid(6,10); // debugging
+        var id = uuid(6,10); // debugging use
         var config = _.defaults(options || {}, defaultConfig);
 
         //in memory storage
         var getStore = function getStore() {
             return store('tokenStore.tokens', store.backends.memory);
         };
-
-        console.warn('tokenStore established with maxSize', config.maxSize, 'and', Object.values(getStore()).length, 'tokens');
 
         if (config.initialToken) {
             this.add({
@@ -85,11 +79,13 @@ define([
                     var key = _.first(latestIndex);
                     if (!key) return Promise.resolve();
 
-                    return getStore().then(function(storage){
-                        return storage.getItem(key).then(function(token) {
-                            return self.remove(key).then(function() {
-                                return token;
-                            });
+                    return getStore()
+                    .then(function(storage) {
+                        return storage.getItem(key);
+                    })
+                    .then(function(token) {
+                        return self.remove(key).then(function() {
+                            return token;
                         });
                     });
                 });
@@ -114,28 +110,13 @@ define([
                     };
                 }
                 return getStore().then(function(storage){
-                    return storage.setItem(token.value, token)
-                        .then(function(updated){
-                            //var oldest;
-                            if (updated) {
-                                // if (!_.contains(index, token.value)) {
-                                //     index.push(token.value);
-                                // }
-
-                                return self.enforceMaxSize().then(true);
-
-                                // Did we reach the limit? then remove the oldest
-                                // if (index.length > 1 && index.length > config.maxSize) {
-                                //     oldest = _.first(index);
-                                //     return self.remove(oldest).then(function(removed){
-                                //         self.log('tokenStore.add()');
-                                //         return updated && removed;
-                                //     });
-                                // }
-                                // return true;
-                            }
-                            return false;
-                        });
+                    return storage.setItem(token.value, token);
+                })
+                .then(function(updated){
+                    if (updated) {
+                        return self.enforceMaxSize().then(true);
+                    }
+                    return false;
                 });
             },
 
@@ -178,13 +159,13 @@ define([
             remove: function remove(key) {
                 return this.has(key).then(function(result) {
                     if (result) {
-                        return getStore().then(function(storage){
-                            return storage.removeItem(key)
-                                .then(function(removed) {
-                                    //index = _.without(index, key);
-                                    return removed;
-                                });
-                        });
+                        return getStore()
+                            .then(function(storage){
+                                return storage.removeItem(key);
+                            })
+                            .then(function(removed) {
+                                return removed;
+                            });
                     }
                     return Promise.resolve(false);
                 });
@@ -196,7 +177,6 @@ define([
              */
             clear: function clear() {
                 return getStore().then(function(storage){
-                    //index = [];
                     return storage.clear();
                 });
             },
@@ -208,9 +188,8 @@ define([
                 var self = this;
                 return self.getTokens().then(function(items) {
                     return self.getIndex().then(function(latestIndex) {
-                        console.log('logging from', msg);
+                        console.log('logging from', msg, 'id', id);
                         console.log('maxSize', config.maxSize);
-                        console.log('id:', id, 'Q:', index);
                         console.log('genIndex', latestIndex);
                         console.table(_.values(items));
                     });
@@ -256,7 +235,6 @@ define([
                 var self = this;
                 if (_.isNumber(size) && size > 0 && size !== config.maxSize) {
                     config.maxSize = size;
-                    console.warn('tokenStore maxSize set to', size);
                     self.enforceMaxSize();
                 }
             },
