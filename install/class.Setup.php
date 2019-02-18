@@ -321,6 +321,60 @@ class tao_install_Setup implements Action
             }
         }
 
+        //execute post configuration (it is needed to add some of the settings AFTER extension would be installed)
+        //also - this one could merge configuration, with the merge key, but be very careful with it, because by default
+        //it would overwrite configuration
+        if (isset($parameters['postConfiguration'])) {
+            $this->logNotice('Post configuration section found. Trying to apply these changes');
+            foreach($parameters['postConfiguration'] as $ext => $configs) {
+                foreach($configs as $key => $config){
+                    if(isset($config['type']) && $config['type'] === 'configurableService'){
+                        if (!is_null($extensionManager->getInstalledVersion($ext))) {
+                            $extension = $extensionManager->getExtensionById($ext);
+                            $className = $config['class'];
+                            $params = $config['options'];
+
+                            if (! $extension->hasConfig($key)) {
+                                if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
+                                    $service = new $className($params);
+                                    $serviceManager->register($extension.'/'.$key, $service);
+                                } else{
+                                    $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
+                                    $this->logWarning('Make sure your configuration is correct and all required libraries are installed');
+                                }
+                            }
+
+                            if (!isset($config['merge']) || !(boolean)$config['merge']) {
+                                $serviceManager->unregister($ext . '/' . $key);
+
+                                $service = new $className($params);
+                                $serviceManager->register($ext . '/' . $key, $service);
+                            } else {
+                                $currentConfig = $serviceManager->get($ext . '/' . $key)->getOptions();
+                                $resultConfig = array_replace_recursive($currentConfig, $config['options']);
+
+                                $serviceManager->unregister($ext . '/' . $key);
+
+                                $service = new $className($resultConfig);
+                                $serviceManager->register($ext . '/' . $key, $service);
+                            }
+                        } else {
+                            $this->logWarning(sprintf('The extension "%s" you are trying to post configure was not installed', $ext));
+                        }
+                    } elseif (!(isset($config['type']) && $config['type'] === 'configurableService')) {
+                        if (! is_null($extensionManager->getInstalledVersion($ext))) {
+                            $extension = $extensionManager->getExtensionById($ext);
+                            if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
+                                if(! $extension->setConfig($key, $config)){
+                                    throw new ErrorException('Your config ' . $ext . '/' . $key . ' cannot be set');
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         $this->logNotice('Installation completed!');
     }
 }
