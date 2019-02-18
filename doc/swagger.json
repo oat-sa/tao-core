@@ -1,0 +1,113 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "tao.CommonRestModule.CreatedResource": {
+        "description": "Created resource data",
+        "properties": {
+          "uriResource": {
+            "description": "Method to wrap creating to service",
+            "type": "string",
+            "example": "http://sample/first.rdf#i1536680377163171"
+          },
+          "label": {
+            "description": "Method to wrap creating to service",
+            "type": "string"
+          },
+          "comment": {
+            "description": "Method to wrap creating to service",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.GenerisClass.Search": {
+        "properties": {
+          "class-uri": {
+            "description": "Target class uri",
+            "type": "string"
+          },
+          "class-label": {
+            "description": "Target class label. If label is not unique first match will be used",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.GenerisClass.New": {
+        "properties": {
+          "class-label": {
+            "description": "Class label",
+            "type": "string"
+          },
+          "class-comment": {
+            "description": "Class comment",
+            "type": "string"
+          },
+          "parent-class-uri": {
+            "description": "Parent class uri, root class by default",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.RestTrait.BaseResponse": {
+        "properties": {
+          "success": {
+            "description": "Indicates error",
+            "type": "boolean"
+          },
+          "version": {
+            "description": "Build version",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.RestTrait.FailureResponse": {
+        "description": "Error response with success=false",
+        "properties": {
+          "success": {
+            "description": "Indicates error",
+            "type": "boolean",
+            "example": false
+          },
+          "errorCode": {
+            "description": "Exception error code",
+            "type": "integer"
+          },
+          "errorMsg": {
+            "description": "Exception message, not localized",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/tao.RestTrait.BaseResponse"
+          }
+        ]
+      },
+      "tao.RestTrait.SuccessResponse": {
+        "description": "Response with data and success=true",
+        "properties": {
+          "success": {
+            "description": "Indicates success",
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "description": "Payload",
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/tao.RestTrait.BaseResponse"
+          }
+        ]
+      }
+    }
+  }
+}

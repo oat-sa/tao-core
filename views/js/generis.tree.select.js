@@ -28,6 +28,7 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 			if (options.callback && options.callback.checkPaginate) {
 				this.checkPaginate = options.callback.checkPaginate;
 			}
+			this.checkResourcePermissions = (typeof options.checkResourcePermissions !== 'undefined') ? options.checkResourcePermissions : false;
 			var instance = this;
 
 			/**
@@ -131,6 +132,25 @@ define(['jquery', 'lodash', 'i18n', 'context', 'generis.tree', 'helpers', 'ui/fe
 					},
 					//
 					ondata: function(DATA, TREE_OBJ) {
+						if (instance.checkResourcePermissions) {
+                            var permissions = DATA.permissions;
+                            var children;
+                            var filteredChildren = [];
+
+                            children = DATA.tree.children;
+							_.each(children, function(dataObj) {
+								var key = dataObj.attributes['data-uri'];
+
+								if (permissions.data[key] && permissions.data[key].indexOf('READ') !== -1) {
+                                    filteredChildren.push(dataObj);
+								}
+							});
+
+							//setting filtered children back
+                            DATA.tree.children = filteredChildren;
+                            DATA = DATA.tree;
+						}
+
 						//automatically open the children of the received node
 						if (DATA.children) {
 							DATA.state = 'open';

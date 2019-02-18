@@ -13,21 +13,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
 /**
  * Test tpl
  */
 define([
+    'tpl!test/tpl/samples/dompurify_script',
     'tpl!test/tpl/samples/join_keyvalue',
     'tpl!test/tpl/samples/join_array',
-], function (tplJoinKeyValue, tplJoinArray){
+], function (tplDomPurifyScript, tplJoinKeyValue, tplJoinArray){
     'use strict';
 
     var fixture = '#qunit-fixture';
 
     QUnit.module('registered handlers');
+
+    QUnit.test('dompurify - script', function (assert){
+        var dirtyHtml = '<b>bold</b><script>alert("dirty!")</script><a href="#">link</a>';
+        var rendering = tplDomPurifyScript({
+            dirtyHtml : dirtyHtml
+        });
+        assert.equal(rendering, '<b>bold</b><a href="#">link</a>', 'purified dom rendering ok');
+    });
 
     QUnit.test('join - key value', function (assert){
         var values = {a:'v1', b:'v2', c:'v3'};
