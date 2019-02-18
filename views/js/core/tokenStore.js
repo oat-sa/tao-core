@@ -24,8 +24,9 @@
  */
 define([
     'lodash',
-    'core/store'
-], function(_, store) {
+    'core/store',
+    'lib/uuid'
+], function(_, store, uuid) {
     'use strict';
 
     /**
@@ -50,6 +51,7 @@ define([
         // push newly received token(s) onto the back end
         // shift oldest token off the front end, to use
         var index = [];
+        var id = uuid(6,10); // debugging
         var config = _.defaults(options || {}, defaultConfig);
 
         //in memory storage
@@ -57,7 +59,7 @@ define([
             return store('tokenStore.tokens', store.backends.memory);
         };
 
-        console.warn('tokenStore established with maxSize', config.maxSize);
+        console.warn('tokenStore established with maxSize', config.maxSize, 'and', Object.values(getStore()).length, 'tokens');
 
         if (config.initialToken) {
             this.add({
@@ -79,13 +81,16 @@ define([
              */
             get: function get() {
                 var self = this;
-                var key = _.first(index);
-                if (!key) return Promise.resolve();
+                return self.getIndex().then(function(latestIndex) {
+                    var key = _.first(latestIndex);
+                    if (!key) return Promise.resolve();
 
-                return getStore().then(function(tokenStore){
-                    return tokenStore.getItem(key).then(function(token) {
-                        self.remove(key);
-                        return token;
+                    return getStore().then(function(storage){
+                        return storage.getItem(key).then(function(token) {
+                            return self.remove(key).then(function() {
+                                return token;
+                            });
+                        });
                     });
                 });
             },
@@ -108,29 +113,47 @@ define([
                         receivedAt: Date.now()
                     };
                 }
-                return getStore().then(function(tokenStore){
-                    return tokenStore.setItem(token.value, token)
+                return getStore().then(function(storage){
+                    return storage.setItem(token.value, token)
                         .then(function(updated){
-                            var oldest;
+                            //var oldest;
                             if (updated) {
-                                if (!_.contains(index, token.value)) {
-                                    index.push(token.value);
-                                }
+                                // if (!_.contains(index, token.value)) {
+                                //     index.push(token.value);
+                                // }
 
-                                //return self.enforceMaxSize().then(true);
+                                return self.enforceMaxSize().then(true);
 
                                 // Did we reach the limit? then remove the oldest
-                                if (index.length > 1 && index.length > config.maxSize) {
-                                    oldest = _.first(index);
-                                    return self.remove(oldest).then(function(removed){
-                                        self.log('tokenStore.add()');
-                                        return updated && removed;
-                                    });
-                                }
-                                return true;
+                                // if (index.length > 1 && index.length > config.maxSize) {
+                                //     oldest = _.first(index);
+                                //     return self.remove(oldest).then(function(removed){
+                                //         self.log('tokenStore.add()');
+                                //         return updated && removed;
+                                //     });
+                                // }
+                                // return true;
                             }
                             return false;
                         });
+                });
+            },
+
+            /**
+             * Generate a new (chronologically-sorted) index from the store contents
+             * (because it would not be unique if stored in the module)
+             *
+             * @returns {Promise<Array>}
+             */
+            getIndex: function getIndex() {
+                return this.getTokens().then(function(tokens) {
+                    return _.chain(tokens)
+                        .values()
+                        .sort(function(t1,t2) {
+                            return t1.receivedAt - t2.receivedAt;
+                        })
+                        .map('value')
+                        .value();
                 });
             },
 
@@ -141,7 +164,9 @@ define([
              * @returns {Boolean}
              */
             has: function has(key) {
-                return _.contains(index, key);
+                return this.getIndex().then(function(latestIndex) {
+                    return _.contains(latestIndex, key);
+                });
             },
 
             /**
@@ -151,16 +176,18 @@ define([
              * @returns {Promise<Boolean>} resolves once removed
              */
             remove: function remove(key) {
-                if (this.has(key)) {
-                    return getStore().then(function(tokenStore){
-                        return tokenStore.removeItem(key)
-                            .then(function(removed) {
-                                index = _.without(index, key);
-                                return removed;
-                            });
-                    });
-                }
-                return Promise.resolve(false);
+                return this.has(key).then(function(result) {
+                    if (result) {
+                        return getStore().then(function(storage){
+                            return storage.removeItem(key)
+                                .then(function(removed) {
+                                    //index = _.without(index, key);
+                                    return removed;
+                                });
+                        });
+                    }
+                    return Promise.resolve(false);
+                });
             },
 
             /**
@@ -168,9 +195,9 @@ define([
              * @returns {Promise}
              */
             clear: function clear() {
-                return getStore().then(function(tokenStore){
-                    index = [];
-                    return tokenStore.clear();
+                return getStore().then(function(storage){
+                    //index = [];
+                    return storage.clear();
                 });
             },
 
@@ -178,20 +205,47 @@ define([
              * Log queue contents & store contents
              */
             log: function log(msg) {
-                return this.getTokens().then(function(items) {
-                    console.log('logging from', msg);
-                    console.log('maxSize', config.maxSize);
-                    console.log('Q', index);
-                    console.table(_.values(items));
+                var self = this;
+                return self.getTokens().then(function(items) {
+                    return self.getIndex().then(function(latestIndex) {
+                        console.log('logging from', msg);
+                        console.log('maxSize', config.maxSize);
+                        console.log('id:', id, 'Q:', index);
+                        console.log('genIndex', latestIndex);
+                        console.table(_.values(items));
+                    });
                 });
             },
 
             /**
-             * Get the current size of the queue
-             * @returns {Number}
+             * Gets all tokens in the store
+             * @returns {Promise<Array>} - token objects
+             */
+            getTokens: function getTokens() {
+                return getStore().then(function(storage) {
+                    return storage.getItems();
+                });
+            },
+
+            /**
+             * Gets the current size of the store
+             * @returns {Promise<Integer>}
              */
             getSize: function getSize() {
-                return index.length;
+                return this.getIndex().then(function(latestIndex) {
+                    return latestIndex.length;
+                });
+            },
+
+
+            /**
+             * Checks if the queue is currently empty
+             * @returns {Promise<Boolean>}
+             */
+            isEmpty: function isEmpty() {
+                return this.getIndex().then(function(latestIndex) {
+                    return latestIndex.length === 0;
+                });
             },
 
             /**
@@ -214,32 +268,16 @@ define([
              */
             enforceMaxSize: function enforceMaxSize() {
                 var self = this;
-                var keysToRemove;
-                var excess = this.getSize() - config.maxSize;
-                if (excess > 0) {
-                    keysToRemove = index.slice(0, excess);
-                    return Promise.all(_.map(keysToRemove, function(key) {
-                        return self.remove(key);
-                    }));
-                }
-                return Promise.resolve();
-            },
-
-            /**
-             * Checks if the queue is currently empty
-             * @returns {Boolean}
-             */
-            isEmpty: function isEmpty() {
-                return index.length === 0;
-            },
-
-            /**
-             * Gets all tokens in the store
-             * @returns {Promise<Array>} - token objects
-             */
-            getTokens: function getTokens() {
-                return getStore().then(function(tokenStore){
-                    return tokenStore.getItems();
+                return this.getIndex().then(function(latestIndex) {
+                    var keysToRemove;
+                    var excess = latestIndex.length - config.maxSize;
+                    if (excess > 0) {
+                        keysToRemove = latestIndex.slice(0, excess);
+                        return Promise.all(_.map(keysToRemove, function(key) {
+                            return self.remove(key);
+                        }));
+                    }
+                    return Promise.resolve(true);
                 });
             },
 
