@@ -135,13 +135,13 @@ define([
                 .on(nsHelper.namespaceAll('evaluate', pluginName), function (result) {
                     self.controls.$history.html(historyTpl({
                         expression: tokensHelper.render(calculator.getTokens(), calculator.getVariables()),
-                        result: tokensHelper.render(tokenizer.tokenize(result.value), calculator.getVariables())
+                        result: tokensHelper.render(tokenizer.tokenize(result), calculator.getVariables())
                     }));
                     autoScroll(self.controls.$history, '.history-result');
                 })
                 .after(nsHelper.namespaceAll('evaluate', pluginName), function(result) {
                     if (tokensHelper.containsError(result.value)) {
-                        showExpression(tokenizer.tokenize(result.value));
+                        showExpression(tokenizer.tokenize(result));
                     }
                 })
                 .on(nsHelper.namespaceAll('syntaxerror', pluginName), function () {
