@@ -28,6 +28,14 @@ define([
 ], function($, _, Promise, tokenHandlerFactory) {
     'use strict';
 
+    function randomToken() {
+        var d = Date.now() + Math.floor(5000 * Math.random());
+        return {
+            value: 'someToken' + ('' + d).slice(9),
+            receivedAt: d
+        };
+    }
+
     QUnit.module('tokenHandler');
 
     QUnit.test('module', function(assert) {

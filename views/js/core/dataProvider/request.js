@@ -71,5 +71,6 @@ define([
         .catch(function(error) {
             return Promise.reject(error);
         });
+
     };
 });
