@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-01-18T10:20:34\n"
+"PO-Revision-Date: 2019-02-01T09:17:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -347,14 +347,17 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
 msgstr "操作をキャンセルする"
+
+msgid "Cancelled"
+msgstr ""
 
 msgid "Cannot be edited"
 msgstr "編集できません"
@@ -531,10 +534,10 @@ msgstr "データインポートに成功しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データインポート終了。いくつかのレコードは無効です。"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -912,10 +915,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -954,10 +957,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース用言語"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース用言語"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1021,6 +1024,9 @@ msgid "Last Name"
 msgstr "姓"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1167,9 +1173,6 @@ msgstr "移動"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "このエレメントを移動すると以前のクラスのプロパティを置き換えます："
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "このエレメントを移動すると以前のクラスのプロパティを置き換えます："
-
 msgid "Multiple values delimiter"
 msgstr "複数の値の区切り文字"
 
@@ -1235,10 +1238,10 @@ msgstr "ファイルが有りません"
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
@@ -1290,10 +1293,10 @@ msgstr "の"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1628,10 +1631,10 @@ msgstr ""
 msgid "seconds"
 msgstr "秒"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -1645,9 +1648,6 @@ msgstr "言語を選択"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "エレメントのデスティネーションを選択"
 
 msgid "Select this file"
 msgstr "このファイルを選択"
@@ -1754,6 +1754,9 @@ msgstr "TAO ホーム"
 
 msgid "TAO Login"
 msgstr "TAO ログイン"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""

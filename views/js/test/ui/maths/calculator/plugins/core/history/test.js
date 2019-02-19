@@ -233,7 +233,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = historyPluginFactory(calculator, areaBroker);
 
-                QUnit.expect(16);
+                QUnit.expect(19);
 
                 calculator
                     .on('plugin-init.history', function () {
@@ -256,8 +256,8 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator
-                                .on('history.read1', function (history) {
-                                    calculator.off('history.read1');
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
                                     assert.deepEqual(history, [], 'history is empty');
 
                                     resolve();
@@ -271,8 +271,8 @@ define([
                             assert.equal(calculator.evaluate().value, '-1', 'The expression is computed');
 
                             calculator
-                                .on('history.read2', function (history) {
-                                    calculator.off('history.read2');
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
                                     assert.deepEqual(history, ['cos PI'], 'history now contains evaluated expression');
 
                                     resolve();
@@ -286,8 +286,8 @@ define([
                             assert.equal(calculator.evaluate().value, '-1', 'The expression is computed');
 
                             calculator
-                                .on('history.read3', function (history) {
-                                    calculator.off('history.read3');
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
                                     assert.deepEqual(history, ['cos PI'], 'since the same expression has been computed, history did not change');
 
                                     resolve();
@@ -301,8 +301,8 @@ define([
                             assert.equal(calculator.evaluate().value, '0.3', 'The expression is computed');
 
                             calculator
-                                .on('history.read4', function (history) {
-                                    calculator.off('history.read4');
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
                                     assert.deepEqual(history, ['cos PI', '.1+.2'], 'history has been completed');
 
                                     resolve();
@@ -312,11 +312,14 @@ define([
                     })
                     .then(function () {
                         return new Promise(function (resolve) {
+                            calculator.replace('ans*2');
+                            assert.equal(calculator.evaluate().value, '0.6', 'The expression is computed');
+
                             calculator
-                                .on('history.read5', function (history) {
-                                    calculator.off('history.read5');
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
                                     assert.equal(calculator.getExpression(), '', 'The expression is cleared');
-                                    assert.deepEqual(history, ['cos PI', '.1+.2'], 'history still contains expressions');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2', '0.3*2'], 'history still contains expressions');
 
                                     resolve();
                                 })
@@ -327,8 +330,22 @@ define([
                     .then(function () {
                         return new Promise(function (resolve) {
                             calculator
-                                .on('history.read6', function (history) {
-                                    calculator.off('history.read6');
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
+                                    assert.equal(calculator.getExpression(), '', 'The expression is cleared');
+                                    assert.deepEqual(history, ['cos PI', '.1+.2', '0.3*2'], 'history still contains expressions');
+
+                                    resolve();
+                                })
+                                .clear()
+                                .useCommand('historyGet');
+                        });
+                    })
+                    .then(function () {
+                        return new Promise(function (resolve) {
+                            calculator
+                                .on('history.read', function (history) {
+                                    calculator.off('history.read');
                                     assert.deepEqual(history, [], 'history has been cleared');
                                     assert.equal(calculator.getExpression(), '', 'The expression is still empty');
 
