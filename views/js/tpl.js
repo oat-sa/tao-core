@@ -53,7 +53,7 @@ define([
      * to make output safe for template systems
      */
     hb.registerHelper('dompurify', function(context){
-        return DOMPurify.sanitize(context, {SAFE_FOR_TEMPLATES: true});
+        return DOMPurify.sanitize(context);
     });
 
     /**

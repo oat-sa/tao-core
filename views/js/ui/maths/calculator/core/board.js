@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 Open Assessment Technologies SA ;
+ * Copyright (c) 2018-2019 Open Assessment Technologies SA ;
  */
 /**
  * Defines the base component that will host the calculator UI and link it to the engine.
@@ -31,7 +31,7 @@ define([
     'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/tokenizer',
     'util/mathsEvaluator',
-    'tpl!ui/maths/calculator/core/board'
+    'tpl!ui/maths/calculator/core/tpl/board'
 ], function (
     $,
     _,
@@ -56,6 +56,12 @@ define([
         expression: '',
         position: 0
     };
+
+    /**
+     * Regex that matches the prefixed function operators
+     * @type {RegExp}
+     */
+    var rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
     /**
      * The internal namespace for built-in events listeners
@@ -429,8 +435,12 @@ define([
                 var index = this.getTokenIndex();
                 var currentToken = tokensList[index];
                 var nextToken = tokensList[index + 1];
-                var isIdentifier;
-                var value;
+                var isIdentifier, needsSpace, value;
+
+                // checks if the aforementioned token requires space around
+                function tokenNeedsSpace(token) {
+                    return tokensHelper.isIdentifier(token) || (isIdentifier && !tokensHelper.isSeparator(token));
+                }
 
                 if (!_.isPlainObject(term) || 'undefined' === typeof term.value) {
                     /**
@@ -445,20 +455,21 @@ define([
                 // will replace the current term if:
                 // - it is a 0, and the term to add is not an operator nor a dot
                 // - it is the last result, and the term to add is not an operator
-                if (!tokensHelper.isOperator(term.type) && tokensList.length === 1 && ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')) {
+                if (!tokensHelper.isOperator(term.type) && !rePrefixedTerm.test(term.value) && tokensList.length === 1 && ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')) {
                     this.replace(value);
                 } else {
                     // simply add the term, with potentially spaces around
-                    if (!tokensHelper.isSeparator(term.type)) {
+                    if (expression && !tokensHelper.isSeparator(term.type)) {
                         isIdentifier = tokensHelper.isIdentifier(term.type);
+                        needsSpace = tokenNeedsSpace(currentToken);
 
-                        // prepend space when the either the term to add or the previous term is an identifier
-                        if (position && (tokensHelper.isIdentifier(currentToken) || (isIdentifier && !tokensHelper.isSeparator(currentToken)))) {
+                        // prepend space when either the term to add or the previous term is an identifier
+                        if (position && needsSpace) {
                             value = ' ' + value;
                         }
 
-                        // append space when the either the term to add or the previous term is an identifier
-                        if (position < expression.length && (tokensHelper.isIdentifier(nextToken) || (isIdentifier && !tokensHelper.isSeparator(nextToken)))) {
+                        // append space when either the term to add or the next term is an identifier
+                        if ((!position && needsSpace) || (position < expression.length && tokenNeedsSpace(nextToken))) {
                             value += ' ';
                         }
                     }
@@ -490,7 +501,15 @@ define([
              * @fires termadd when the term has been added
              */
             useTerm: function useTerm(name) {
-                var term = registeredTerms[name];
+                var term;
+                if (rePrefixedTerm.test(name)) {
+                    name = name.substring(1);
+                    term = _.clone(registeredTerms[name]);
+                    term.value = '@' + term.value;
+                } else {
+                    term = registeredTerms[name];
+                }
+
                 if ('undefined' === typeof term) {
                     /**
                      * @event termerror

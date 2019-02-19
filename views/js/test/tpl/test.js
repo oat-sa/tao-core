@@ -26,16 +26,32 @@ define([
 ], function (tplDomPurifyScript, tplJoinKeyValue, tplJoinArray){
     'use strict';
 
-    var fixture = '#qunit-fixture';
-
     QUnit.module('registered handlers');
 
-    QUnit.test('dompurify - script', function (assert){
-        var dirtyHtml = '<b>bold</b><script>alert("dirty!")</script><a href="#">link</a>';
+    QUnit.cases([{
+        title : 'try to inject a script',
+        html  : '<b>bold</b><script>alert("dirty!")</script><a href="#">link</a>',
+        expected : '<b>bold</b><a href="#">link</a>'
+    }, {
+        title : 'try to inject a tpl var',
+        html  : '<b>bold</b><span>{{foo}}</span>',
+        expected : '<b>bold</b><span>{{foo}}</span>'
+    }, {
+        title : 'try to inject an html var',
+        html  : '<b>bold</b><span>{{{moo}}}</span>',
+        expected : '<b>bold</b><span>{{{moo}}}</span>'
+    }, {
+        title : 'keep data-attr remove onEvent',
+        html  : '<button data-action="yolo" onclick="hijack()">Hello</button>',
+        expected : '<button data-action="yolo">Hello</button>'
+    }]).test('dompurify - script', function (data, assert) {
+
         var rendering = tplDomPurifyScript({
-            dirtyHtml : dirtyHtml
+            dirtyHtml : data.html,
+            foo : 'bar',
+            moo : '<strong>bar</strong>'
         });
-        assert.equal(rendering, '<b>bold</b><a href="#">link</a>', 'purified dom rendering ok');
+        assert.equal(rendering, '<div>' + data.expected + '</div>', 'purified dom rendering ok');
     });
 
     QUnit.test('join - key value', function (assert){

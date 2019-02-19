@@ -1,1 +1,1 @@
-{{{dompurify dirtyHtml}}}
+<div>{{{dompurify dirtyHtml}}}</div>
