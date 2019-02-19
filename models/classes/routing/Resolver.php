@@ -26,6 +26,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
+use oat\tao\model\routing\NamespaceRoute;
 
 /**
  * Resolves a http request to a controller and method
@@ -176,7 +177,7 @@ class Resolver implements ServiceLocatorAwareInterface
     {
         if (is_string($routeData)) {
             $routeData = array(
-                'class' => 'oat\\tao\\model\\routing\\NamespaceRoute',
+                'class' => NamespaceRoute::class,
                 NamespaceRoute::OPTION_NAMESPACE => $routeData
             );
         }

@@ -18,8 +18,19 @@
  *
  */
 
+namespace oat\tao\controller\api;
+
+use common_Exception;
+use common_exception_MethodNotAllowed;
+use common_exception_MissingParameter;
+use common_exception_RestApi;
+use common_exception_ValidationFailed;
+use common_Utils;
+use core_kernel_classes_Resource;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
+use tao_actions_CommonRestModule;
+use tao_models_classes_UserService;
 
 /**
  * @OA\Post(
@@ -43,7 +54,7 @@ use oat\oatbox\service\ServiceManager;
  *     )
  * )
  */
-class tao_actions_UserAPI extends tao_actions_CommonRestModule
+class Users extends tao_actions_CommonRestModule
 {
     /**
      * @OA\Schema(

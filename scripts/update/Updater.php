@@ -31,6 +31,7 @@ use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\controller\api\Users;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -914,8 +915,8 @@ class Updater extends \common_ext_ExtensionUpdater {
 
         if ($this->isVersion('26.0.0')) {
 
-            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, ['ext'=>'tao','mod' => 'UserAPI']));
-            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, ['ext'=>'tao','mod' => 'UserAPI']));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, Users::class));
 
             $userService = $this->getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
             $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);

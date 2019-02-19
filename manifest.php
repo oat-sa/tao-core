@@ -22,6 +22,9 @@
  */
 
 use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\routing\ApiRoute;
+use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\routing\NamespaceRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
@@ -167,11 +170,15 @@ return array(
         array('grant', TaoRoles::TAO_MANAGER,          array('ext'=>'tao','mod' => 'WebService')),
         array('grant', TaoRoles::REST_PUBLISHER,       array('ext'=>'tao', 'mod' => 'TaskQueue', 'act' => 'get')),
         array('grant', TaoRoles::SYSTEM_ADMINISTRATOR, array('ext'=>'tao','mod' => 'ExtensionsManager')),
-        array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR,    array('ext' => 'tao', 'mod' => 'UserAPI')),
-        array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER,          array('ext' => 'tao', 'mod' => 'UserAPI')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'),
+        array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class),
+        array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
     ),
+    'routes' => [
+        '/tao'      => ['class' => LegacyRoute::class],
+        '/tao/api'  => ['class' => ApiRoute::class],
+    ],
     'constants' => array(
         #TAO version number
         'TAO_VERSION' => '3.3.0-sprint95',
