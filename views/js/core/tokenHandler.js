@@ -19,19 +19,18 @@
  * @author Martin Nicholson <martin@taotesting.com>
  */
 define([
-    'jquery',
     'lodash',
-    'i18n',
     'module',
+    'core/store',
     'ui/feedback',
     'core/tokenStore'
 ],
-function ($, _, __, module, feedback, tokenStoreFactory) {
+function (_, module, store, feedback, tokenStoreFactory) {
     'use strict';
 
     var defaults = {
         maxSize: 6,
-        tokenTimeLimit: 1000 * 45 // temporary value
+        tokenTimeLimit: 1000 * 60 * 24
     };
 
     /**
@@ -43,7 +42,13 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
      */
     return function tokenHandlerFactory(config) {
 
+        //in memory storage
+        var getConfigStore = function getConfigStore() {
+            return store('tokenHandler', store.backends.memory);
+        };
+
         var tokenStore;
+
         // Convert legacy parameter:
         if (_.isString(config)) {
             config = {
@@ -63,46 +68,49 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              */
             getToken: function getToken() {
                 var self = this;
-                return tokenStore.expireOldTokens()
-                    .then(function() {
-                        return tokenStore.isEmpty();
+                return Promise.all([
+                    tokenStore.expireOldTokens(),
+                    tokenStore.getSize(),
+                    getConfigStore().then(function(configStore) {
+                        return configStore.getItem('clientConfigFetched');
                     })
-                    .then(function(empty) {
-                        if (empty) {
-                            // Fetch again if we're truly out of tokens
-                            return self.getClientConfigTokens()
-                                .then(function(tokens) {
-                                    // Add the fetched tokens to the store, synchronously:
-                                    // Chaining the promises using Array.prototype.reduce is necessary
-                                    // to manage token addition & deletion correctly
-                                    return tokens.reduce(function(previousPromise, nextToken) {
-                                        return previousPromise.then(() => {
-                                            return self.setToken(nextToken);
-                                        });
-                                    }, Promise.resolve());
-                                })
-                                .then(function() {
-                                    return tokenStore.isEmpty();
-                                })
-                                .then(function(emptyAgain) {
-                                    // Store should be refilled, try to get one token:
-                                    if (!emptyAgain) {
-                                        return tokenStore.get().then(function(currentToken) {
-                                            return currentToken.value;
-                                        });
-                                    }
-                                    else {
-                                        //return Promise.resolve(null);
-                                        return Promise.reject(new Error('Store not refilled!'));
-                                    }
+                ])
+                .then(function(values) {
+                    var queueSize = values[1];
+                    var clientConfigFetched = !!values[2];
+
+                    if (queueSize > 0) {
+                        // Token available, use it
+                        return tokenStore.get().then(function(currentToken) {
+                            return currentToken.value;
+                        });
+                    }
+                    else if (!clientConfigFetched) {
+                        // Client Config allowed! (first and only time)
+                        return self.getClientConfigTokens()
+                            .then(function(newTokens) {
+                                // Add the fetched tokens to the store, synchronously:
+                                // Chaining the promises using Array.prototype.reduce is necessary
+                                // to manage token addition & deletion correctly
+                                return newTokens.reduce(function(previousPromise, nextToken) {
+                                    return previousPromise.then(() => {
+                                        return self.setToken(nextToken);
+                                    });
+                                }, Promise.resolve());
+                            })
+                            .then(function() {
+                                // We assume the store was refilled
+                                return tokenStore.get().then(function(currentToken) {
+                                    return currentToken.value;
                                 });
-                        }
-                        else {
-                            return tokenStore.get().then(function(currentToken) {
-                                return currentToken.value;
                             });
-                        }
-                    });
+                    }
+                    else {
+                        // No more token options, refresh needed
+                        feedback().error('No tokens available. Please refresh the page.');
+                        return Promise.reject(new Error('No tokens'));
+                    }
+                });
             },
 
             /**
@@ -124,12 +132,18 @@ function ($, _, __, module, feedback, tokenStoreFactory) {
              * @returns {Promise<Array>} - an array of locally-timestamped token objects
              */
             getClientConfigTokens() {
-                return Promise.resolve(_.map(module.config().tokens, function(serverToken) {
+                var tokens = _.map(module.config().tokens, function(serverToken) {
                     return {
                         value: serverToken,
                         receivedAt: Date.now()
                     };
-                }));
+                });
+                // Store flag in memory saying that this function ran:
+                getConfigStore().then(function(configStore) {
+                    configStore.setItem('clientConfigFetched', true);
+                });
+
+                return Promise.resolve(tokens);
             },
 
             /**

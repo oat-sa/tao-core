@@ -34,7 +34,7 @@ define([
      */
     var defaultConfig = {
         maxSize: 6,
-        tokenTimeLimit: 1000 * 3600
+        tokenTimeLimit: 1000 * 60 * 24
     };
 
     /**
@@ -213,17 +213,6 @@ define([
             getSize: function getSize() {
                 return this.getIndex().then(function(latestIndex) {
                     return latestIndex.length;
-                });
-            },
-
-
-            /**
-             * Checks if the queue is currently empty
-             * @returns {Promise<Boolean>}
-             */
-            isEmpty: function isEmpty() {
-                return this.getIndex().then(function(latestIndex) {
-                    return latestIndex.length === 0;
                 });
             },
 

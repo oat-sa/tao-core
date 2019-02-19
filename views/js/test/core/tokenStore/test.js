@@ -71,7 +71,7 @@ define([
 
     QUnit.test('instance', function (assert) {
         var tokenStore;
-        QUnit.expect(8);
+        QUnit.expect(7);
 
         tokenStore = tokenStoreFactory();
 
@@ -82,13 +82,12 @@ define([
         assert.equal(typeof tokenStore.clear, 'function', "The store exposes the method clear");
         assert.equal(typeof tokenStore.getSize, 'function', "The store exposes the method getSize");
         assert.equal(typeof tokenStore.getTokens, 'function', "The store exposes the method getTokens");
-        assert.equal(typeof tokenStore.isEmpty, 'function', "The store exposes the method isEmpty");
     });
 
 
     QUnit.module('behavior');
 
-    QUnit.asyncTest('basic access', function(assert) {
+    QUnit.asyncTest('basic access, add/get/has', function(assert) {
         var tokenStore;
         QUnit.expect(6);
 
@@ -283,7 +282,7 @@ define([
             });
     });
 
-    QUnit.asyncTest('getSize', function(assert) {
+    QUnit.asyncTest('getSize/isEmpty', function(assert) {
         var tokenStore;
         QUnit.expect(3);
 
@@ -346,6 +345,42 @@ define([
             })
             .then(function(tokens) {
                 assert.deepEqual(tokens, {}, 'Empty set of tokens is retrieved');
+
+                QUnit.start();
+            })
+            .catch(function(err) {
+                assert.ok(false, err.message);
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('getIndex', function(assert) {
+        var tokenStore;
+        QUnit.expect(3);
+
+        tokenStore = tokenStoreFactory({});
+
+        Promise
+            .all([
+                tokenStore.add(token1),
+                tokenStore.add(token2),
+                tokenStore.add(token3)
+            ])
+            .then(function() {
+                return tokenStore.getIndex();
+            })
+            .then(function(index) {
+                assert.ok(index instanceof Array, 'An array is retrieved');
+                assert.deepEqual(index, [key1, key2, key3], 'The generated index is correct');
+            })
+            .then(function() {
+                tokenStore.clear();
+            })
+            .then(function() {
+                return tokenStore.getIndex();
+            })
+            .then(function(tokens) {
+                assert.deepEqual(tokens, [], 'The generated index is empty');
 
                 QUnit.start();
             })
