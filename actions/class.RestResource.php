@@ -123,6 +123,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     public function getAll()
     {
         if ($this->isRequestGet()) {
+            $this->validateCsrf();
             try {
                 $format   = $this->getRequestParameter('format');
                 $search   = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';

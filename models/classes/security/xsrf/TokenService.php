@@ -97,18 +97,6 @@ class TokenService extends ConfigurableService
     }
 
     /**
-     * Get the current token for a user
-     *
-     * @return string|bool
-     */
-    public function getUserToken()
-    {
-        $store = $this->getStore();
-        $tokenPool = $store->getTokens();
-        return $tokenPool !== null ? current($tokenPool) : false;
-    }
-
-    /**
      * Check if the given token is valid
      * (does not revoke)
      *

@@ -13,6 +13,8 @@ require.config({
             useXhr: function(){ return true; },
         },
         'ui/themes' : <?= get_data('themesAvailable') ?>,
+        'core/tokenHandler' : <?=get_data('tokens')?>,
+
 //dynamic lib config
     <?php foreach (get_data('libConfigs') as $name => $config) :?>
         '<?=$name?>'        : <?=json_encode($config)?>,
