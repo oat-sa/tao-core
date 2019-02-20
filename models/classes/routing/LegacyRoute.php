@@ -42,4 +42,13 @@ class LegacyRoute extends Route
         }
         return null;
     }
+
+    /**
+     * Get controller namespace prefix
+     * @return string
+     */
+    protected function getControllerPrefix()
+    {
+        return '';
+    }
 }

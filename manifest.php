@@ -175,7 +175,7 @@ return array(
         array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
     ),
     'routes' => [
-        '/tao/api'  => ['class' => ApiRoute::class, 'namespace' => ApiRoute::REST_CONTROLLER_PREFIX],
+        '/tao/api'  => ['class' => ApiRoute::class],
         '/tao'      => ['class' => LegacyRoute::class],
     ],
     'constants' => array(

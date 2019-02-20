@@ -95,5 +95,11 @@ abstract class Route
      * @return string
      */
     abstract public function resolve(ServerRequestInterface $request);
+
+    /**
+     * Get controller namespace prefix
+     * @return string
+     */
+    abstract protected function getControllerPrefix();
     
 }

@@ -95,10 +95,4 @@ abstract class AbstractApiRoute extends Route
 
         return $action;
     }
-
-    /**
-     * Get controller namespace prefix
-     * @return string
-     */
-    abstract protected function getControllerPrefix();
 }
