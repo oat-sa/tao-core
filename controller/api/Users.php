@@ -32,6 +32,7 @@ use core_kernel_users_Exception;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
 use tao_actions_CommonRestModule;
+use tao_models_classes_LanguageService;
 use tao_models_classes_UserService;
 
 /**
@@ -252,14 +253,23 @@ class Users extends tao_actions_CommonRestModule
     /**
      * @param array $parameters
      * @throws common_exception_ValidationFailed
+     * @throws common_exception_Error
      */
     protected function processLanguages(array $parameters)
     {
         $uriProperties = array_intersect_key($this->getParametersAliases(), array_flip(['userLanguage', 'defaultLanguage']));
 
         foreach ($parameters as $key => $value) {
-            if (in_array($key, $uriProperties, true) && !common_Utils::isUri($value)) {
+            if (!in_array($key, $uriProperties, true)) {
+                continue;
+            }
+
+            if (!common_Utils::isUri($value)) {
                 throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true)));
+            }
+
+            if (tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
+                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Language does not exists in the system", array_search($key, $uriProperties, true)));
             }
         }
     }
