@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "tao/UserAPI": {
+    "tao/api/users": {
       "post": {
         "summary": "Create new user",
         "requestBody": {

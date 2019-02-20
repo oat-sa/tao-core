@@ -36,7 +36,7 @@ use tao_models_classes_UserService;
 
 /**
  * @OA\Post(
- *     path="tao/UserAPI",
+ *     path="tao/api/users",
  *     summary="Create new user",
  *     @OA\RequestBody(
  *         @OA\MediaType(
