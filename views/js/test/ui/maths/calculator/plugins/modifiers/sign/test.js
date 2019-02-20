@@ -283,7 +283,7 @@ define([
                 var areaBroker = calculator.getAreaBroker();
                 var plugin = signPluginFactory(calculator, areaBroker);
 
-                // QUnit.expect(5 + 2 * (data.to - data.from));
+                QUnit.expect(5);
 
                 assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
 
