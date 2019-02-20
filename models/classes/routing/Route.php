@@ -87,14 +87,13 @@ abstract class Route
     protected function getId() {
         return $this->id;
     }
-    
-    
+
     /**
      * Returns the name of the controller and action to call
      * or null if it doesn't apply
-     * 
+     * @param ServerRequestInterface $request
      * @return string
      */
-    public abstract function resolve(ServerRequestInterface $request);
+    abstract public function resolve(ServerRequestInterface $request);
     
 }

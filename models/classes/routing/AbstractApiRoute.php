@@ -77,16 +77,16 @@ abstract class AbstractApiRoute extends Route
     protected function getAction($method)
     {
         switch ($method) {
-            case "GET":
+            case 'GET':
                 $action = 'get';
                 break;
-            case "PUT":
+            case 'PUT':
                 $action = 'put';
                 break;
-            case "POST":
+            case 'POST':
                 $action = 'post';
                 break;
-            case "DELETE":
+            case 'DELETE':
                 $action = 'delete';
                 break;
             default:

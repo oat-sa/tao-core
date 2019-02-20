@@ -78,43 +78,71 @@ class Resolver implements ServiceLocatorAwareInterface
         );
     }
 
-    public function getExtensionId() {
-        if (is_null($this->extensionId)) {
+    /**
+     * @return null
+     * @throws \ResolverException
+     * @throws \common_exception_InconsistentData
+     * @throws \common_ext_ManifestNotFoundException
+     */
+    public function getExtensionId()
+    {
+        if ($this->extensionId === null) {
             $this->resolve();
         }
         return $this->extensionId;
     }
-    
-    public function getControllerClass() {
-        if (is_null($this->controller)) {
+
+    /**
+     * @return null
+     * @throws \ResolverException
+     * @throws \common_exception_InconsistentData
+     * @throws \common_ext_ManifestNotFoundException
+     */
+    public function getControllerClass()
+    {
+        if ($this->controller === null) {
             $this->resolve();
         }
         return $this->controller;
     }
 
-    public function getMethodName() {
-        if (is_null($this->action)) {
+    /**
+     * @return null
+     * @throws \ResolverException
+     * @throws \common_exception_InconsistentData
+     * @throws \common_ext_ManifestNotFoundException
+     */
+    public function getMethodName()
+    {
+        if ($this->action === null) {
             $this->resolve();
         }
         return $this->action;
     }
-   
+
     /**
      * Get the controller short name as used into the URL
      * @return string the name
-     */ 
-    public function getControllerShortName() {
+     * @throws \ResolverException
+     */
+    public function getControllerShortName()
+    {
         $relativeUrl = tao_helpers_Request::getRelativeUrl($this->request->getUrl());
         $parts = explode('/', trim($relativeUrl, '/'));
-        if(count($parts) == 3){
+        if(count($parts) === 3){
             return $parts[1];
         }
+
         return null;
     }
 
     /**
      * Tries to resolve the current request using the routes first
      * and then falls back to the legacy controllers
+     * @return bool
+     * @throws \ResolverException
+     * @throws \common_exception_InconsistentData
+     * @throws \common_ext_ManifestNotFoundException
      */
     protected function resolve()
     {
@@ -123,13 +151,15 @@ class Resolver implements ServiceLocatorAwareInterface
         foreach ($installed as $extId) {
             $extension = $extensionsManager->getExtensionById($extId);
             foreach ($this->getRoutes($extension) as $entry) {
+                /** @var Route $route */
                 $route = $entry['route'];
                 $called = $route->resolve($this->getRequest());
-                if (!is_null($called)) {
+                if ($called !== null) {
                     list($controller, $action) = explode('@', $called);
                     $this->controller = $controller;
                     $this->action = $action;
                     $this->extensionId = $entry['extId'];
+
                     return true;
                 }
             }

@@ -29,6 +29,7 @@ use common_Utils;
 use core_kernel_classes_Resource;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
+use tao_actions_CommonRestModule;
 use tao_actions_RestController;
 use tao_models_classes_UserService;
 
@@ -54,7 +55,7 @@ use tao_models_classes_UserService;
  *     )
  * )
  */
-class Users extends tao_actions_RestController
+class Users extends tao_actions_CommonRestModule
 {
     /**
      * @OA\Schema(
@@ -164,7 +165,7 @@ class Users extends tao_actions_RestController
      * @return mixed
      * @throws \common_exception_NotImplemented
      */
-    protected function get($uri = null) {
+    public function get($uri = null) {
         throw new \common_exception_NotImplemented('Not implemented');
     }
 
@@ -173,7 +174,7 @@ class Users extends tao_actions_RestController
      * @return mixed
      * @throws \common_exception_NotImplemented
      */
-    protected function put($uri) {
+    public function put($uri) {
         throw new \common_exception_NotImplemented('Not implemented');
     }
 
@@ -182,7 +183,7 @@ class Users extends tao_actions_RestController
      * @return mixed
      * @throws \common_exception_NotImplemented
      */
-    protected function delete($uri = null) {
+    public function delete($uri = null) {
         throw new \common_exception_NotImplemented('Not implemented');
     }
 
@@ -191,7 +192,7 @@ class Users extends tao_actions_RestController
      * @throws common_Exception
      * @throws common_exception_RestApi
      */
-    protected function post()
+    public function post()
     {
         /** @var tao_models_classes_UserService $userService */
         $userService = ServiceManager::getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
