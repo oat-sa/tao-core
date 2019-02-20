@@ -266,4 +266,79 @@ define([
     });
 
 
+    QUnit.cases([
+        {
+            "title": "position 1",
+            "expression": "ans",
+            "lastResult": "-2",
+            "expected": "2",
+            "from": 1,
+            "to": 1,
+            "move": 0
+        }
+    ]).asyncTest('change sign of previous result', function (data, assert) {
+        var $container = $('#fixture-previous');
+        var calculator = calculatorBoardFactory($container)
+            .on('ready', function () {
+                var areaBroker = calculator.getAreaBroker();
+                var plugin = signPluginFactory(calculator, areaBroker);
+
+                // QUnit.expect(5 + 2 * (data.to - data.from));
+
+                assert.ok(!calculator.hasCommand('sign'), 'The command sign is not yet registered');
+
+                calculator
+                    .on('plugin-init.sign', function () {
+                        assert.ok(plugin.getState('init'), 'The plugin has been initialized');
+                    })
+                    .on('destroy', function () {
+                        QUnit.start();
+                    });
+
+                plugin.install()
+                    .then(function () {
+                        return plugin.init();
+                    })
+                    .then(function () {
+                        assert.ok(calculator.hasCommand('sign'), 'The command sign is now registered');
+                    })
+                    .then(function () {
+                        var position = data.from;
+
+                        calculator.setLastResult(data.lastResult);
+
+                        // apply the command on successive positions with respect to the provided data
+                        function applyCommand() {
+                            return Promise.resolve()
+                                .then(function () {
+                                    return new Promise(function (resolve) {
+                                        calculator
+                                            .setExpression(data.expression)
+                                            .setPosition(position)
+                                            .after('command-sign', resolve)
+                                            .useCommand('sign');
+                                    });
+                                })
+                                .then(function () {
+                                    assert.equal(calculator.getExpression(), data.expected, 'Applying the sign change on ' + data.expression + ' (' + data.lastResult + ') at position ' + position + ' produced ' + data.expected);
+                                    assert.equal(calculator.getPosition(), Math.max(0, position + data.move), 'The position has changed from ' + position + ' to ' + Math.max(0, position + data.move));
+                                });
+                        }
+
+                        return applyCommand();
+                    })
+                    .catch(function (err) {
+                        assert.ok(false, 'Unexpected failure : ' + err.message);
+                    })
+                    .then(function () {
+                        calculator.destroy();
+                    });
+            })
+            .on('error', function (err) {
+                console.error(err);
+                assert.ok(false, 'The operation should not fail!');
+                QUnit.start();
+            });
+    });
+
 });
