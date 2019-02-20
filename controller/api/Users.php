@@ -29,7 +29,7 @@ use common_Utils;
 use core_kernel_classes_Resource;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
-use tao_actions_CommonRestModule;
+use tao_actions_RestController;
 use tao_models_classes_UserService;
 
 /**
@@ -54,7 +54,7 @@ use tao_models_classes_UserService;
  *     )
  * )
  */
-class Users extends tao_actions_CommonRestModule
+class Users extends tao_actions_RestController
 {
     /**
      * @OA\Schema(

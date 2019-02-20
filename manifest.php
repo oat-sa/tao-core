@@ -24,7 +24,6 @@
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
-use oat\tao\model\routing\NamespaceRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
@@ -176,8 +175,8 @@ return array(
         array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
     ),
     'routes' => [
-        '/tao'      => ['class' => LegacyRoute::class],
         '/tao/api'  => ['class' => ApiRoute::class],
+        '/tao'      => ['class' => LegacyRoute::class],
     ],
     'constants' => array(
         #TAO version number
