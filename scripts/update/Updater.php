@@ -910,5 +910,10 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('22.13.1', '26.1.3');
+
+        if ($this->isVersion('26.1.3')) {
+            AclProxy::applyRule(new AccessRule('grant', TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index']));
+            $this->setVersion('26.2.0');
+        }
     }
 }
