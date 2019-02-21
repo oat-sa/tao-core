@@ -385,9 +385,21 @@ define([
 
         /**
          * Set focus on the dialog
+         * @param {String} [button] - The identifier of the button to focus. If none is provided, the focus will be put
+         *                            on the first navigable element.
          */
-        focus : function focus(){
-            this.navigator.focus();
+        focus : function focus(button){
+            var focusPosition = -1;
+            if (button) {
+                focusPosition = _.findIndex(this.navigator.getNavigables(), function(navigable) {
+                    return navigable.getElement().is('[data-control="' + button +'"]');
+                });
+            }
+            if (focusPosition >= 0) {
+                this.navigator.focusPosition(focusPosition);
+            } else {
+                this.navigator.focus();
+            }
         },
 
         /**
