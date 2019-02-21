@@ -115,6 +115,10 @@ function (_, module, store, feedback, tokenStoreFactory) {
                         // No more token options, refresh needed
                         return Promise.reject(new Error('No tokens available. Please refresh the page.'));
                     }
+                })
+                .then(function(token) { // just logs - remove later
+                    tokenStore.log('tokenHandler.getToken');
+                    return token;
                 });
             },
 

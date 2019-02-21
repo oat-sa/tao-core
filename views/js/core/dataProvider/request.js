@@ -29,12 +29,10 @@
  * @author Martin Nicholson <martin@taotesting.com>
  */
 define([
-    'jquery',
     'lodash',
-    'i18n',
     'core/request',
     'core/promise'
-], function($, _, __, coreRequest, Promise){
+], function(_, coreRequest, Promise){
     'use strict';
 
     /**
@@ -60,7 +58,6 @@ define([
             noToken: noToken
         })
         .then(function(response) {
-            console.log('response', response);
             if (_.isUndefined(response)) {
                 return Promise.resolve();
             }
@@ -72,9 +69,7 @@ define([
             }
         })
         .catch(function(error) {
-            console.error(error);
             return Promise.reject(error);
         });
-
     };
 });

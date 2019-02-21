@@ -47,7 +47,6 @@ define([
      */
     return function tokenStoreFactory(options) {
 
-        var id = uuid(6,10); // debugging use
         var config = _.defaults(options || {}, defaultConfig);
 
         //in memory storage
@@ -188,7 +187,7 @@ define([
                 var self = this;
                 return self.getTokens().then(function(items) {
                     return self.getIndex().then(function(latestIndex) {
-                        console.log('logging from', msg, 'id', id);
+                        console.log('logging from', msg);
                         console.log('maxSize', config.maxSize);
                         console.log('genIndex', latestIndex);
                         console.table(_.values(items));
