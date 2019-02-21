@@ -18,16 +18,12 @@
  *
  */
 
-namespace oat\tao\actions;
-
-use tao_actions_CommonModule;
-
 /**
  * Class Security
  *
  * @author Martijn Swinkels <m.swinkels@taotesting.com>
  */
-class Security extends tao_actions_CommonModule
+class tao_actions_Security extends tao_actions_CommonModule
 {
 
     /**
@@ -35,6 +31,6 @@ class Security extends tao_actions_CommonModule
      */
     public function index()
     {
-
+        $this->setView('extensionManager/view.tpl');
     }
 }
