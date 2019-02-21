@@ -45,7 +45,8 @@ module.exports = function(grunt) {
                     '../js/ui/destination/css/selector.css' : '../js/ui/destination/scss/selector.scss',
                     '../js/ui/taskQueueButton/css/taskable.css' : '../js/ui/taskQueueButton/scss/taskable.scss',
                     '../js/ui/taskQueueButton/css/treeButton.css' : '../js/ui/taskQueueButton/scss/treeButton.scss',
-                    '../js/ui/waitingDialog/css/waitingDialog.css' : '../js/ui/waitingDialog/scss/waitingDialog.scss'
+                    '../js/ui/waitingDialog/css/waitingDialog.css' : '../js/ui/waitingDialog/scss/waitingDialog.scss',
+                    '../js/ui/maths/calculator/css/calculator.css' : '../js/ui/maths/calculator/scss/calculator.scss'
                 }
             }
         },

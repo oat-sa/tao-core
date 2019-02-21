@@ -111,7 +111,7 @@ define([
                     } else {
                         pageStatus.trigger('statuschange', 'show', e.timeStamp);
                     }
-                }, 50);
+                });
             });
         }
 
