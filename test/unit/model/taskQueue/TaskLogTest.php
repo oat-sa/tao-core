@@ -59,7 +59,7 @@ class TaskLogTest extends \PHPUnit_Framework_TestCase
             ->method('getOption')
             ->willReturn($logBrokerMock);
 
-        $serviceMangerMock = $this->getMock(ServiceLocatorInterface::class);
+        $serviceMangerMock = $this->createMock(ServiceLocatorInterface::class);
 
         $taskLogMock->expects($this->once())
             ->method('getServiceLocator')
