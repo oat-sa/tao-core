@@ -108,7 +108,7 @@ class tao_install_Installator {
 			     ? $installData['extensions']
 			     : explode(',',$installData['extensions']);
 			} else {
-			    $extensionIDs = array('taoCe');
+			    $extensionIDs = array('tao');
 			}
 
 			$this->log('d', 'Extensions to be installed: ' . var_export($extensionIDs, true));

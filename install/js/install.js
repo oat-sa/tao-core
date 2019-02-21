@@ -28,7 +28,7 @@ require(['config'], function(){
         var apiInstance = new TaoInstall();
         apiInstance.frameId = 'mainFrame';
         apiInstance.setTemplate('step_requirements');
-        apiInstance.addData('extensions', ['taoCe']);
+        apiInstance.addData('extensions', ['tao']);
 
         // feedback popup show/hide
         $('#supportTab').bind('click', openSupportTab);
