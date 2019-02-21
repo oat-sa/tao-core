@@ -268,7 +268,7 @@ class Users extends tao_actions_CommonRestModule
                 throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true)));
             }
 
-            if (tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
+            if (!tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
                 throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Language does not exists in the system", array_search($key, $uriProperties, true)));
             }
         }
