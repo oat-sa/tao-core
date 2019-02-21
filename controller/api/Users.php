@@ -116,7 +116,7 @@ class Users extends tao_actions_CommonRestModule
      *     @OA\Property(
      *         property="roles",
      *         type="string",
-     *         description="Comma-separated list of roles (URIs)"
+     *         description="List of roles (URIs)"
      *     )
      * )
      */
@@ -220,7 +220,10 @@ class Users extends tao_actions_CommonRestModule
 
             $user->setPropertiesValues($parameters);
 
-            $this->returnSuccess($user);
+            $this->returnSuccess([
+                'success' => true,
+                'uri' => $user->getUri(),
+            ], false);
         } catch (common_exception_MissingParameter $e) {
             $this->returnFailure(new common_exception_RestApi($e->getMessage()));
         } catch (common_exception_ValidationFailed $e) {
@@ -243,6 +246,7 @@ class Users extends tao_actions_CommonRestModule
     protected function processRoles(array $parameters)
     {
         $roles = $parameters[UserRdf::PROPERTY_ROLES];
+        $roles = is_string($roles) ? [$roles] : $roles;
 
         if (!count($roles)) {
             throw new common_exception_MissingParameter('roles');
