@@ -31,8 +31,10 @@ use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\user\TaoRoles;
 use tao_actions_CommonRestModule;
 use tao_models_classes_LanguageService;
+use tao_models_classes_RoleService;
 use tao_models_classes_UserService;
 
 /**
@@ -196,9 +198,9 @@ class Users extends tao_actions_CommonRestModule
             return;
         }
 
-        $parameters = $this->getParameters();
-
         try {
+
+            $parameters = $this->getParameters();
 
             $roles = $this->processRoles($parameters);
             $login = $parameters[UserRdf::PROPERTY_LOGIN];
@@ -229,6 +231,8 @@ class Users extends tao_actions_CommonRestModule
             $this->returnFailure(new common_exception_RestApi($e->getMessage()));
         } catch (core_kernel_users_Exception $e) {
             $this->returnFailure(new common_exception_RestApi($e->getMessage()));
+        } catch (common_exception_RestApi $e) {
+            $this->returnFailure($e);
         }
     }
 
@@ -236,15 +240,25 @@ class Users extends tao_actions_CommonRestModule
      * @param array $parameters
      * @return array
      * @throws common_exception_MissingParameter
+     * @throws common_exception_ValidationFailed
      */
     protected function processRoles(array $parameters)
     {
-        $roles = array_filter($parameters[UserRdf::PROPERTY_ROLES], function ($role) {
-            return common_Utils::isUri($role);
-        });
+        $roles = $parameters[UserRdf::PROPERTY_ROLES];
 
         if (!count($roles)) {
-            throw new \common_exception_MissingParameter('roles');
+            throw new common_exception_MissingParameter('roles');
+        }
+
+        $roleService = tao_models_classes_RoleService::singleton();
+
+        foreach ($roles as $role) {
+            if (!common_Utils::isUri($role)) {
+                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected. Given: %s", 'roles', $role));
+            }
+            if (!array_key_exists($role, $roleService->getAllRoles())) {
+                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid role expected. Given: %s", 'roles', $role));
+            }
         }
 
         return $roles;
