@@ -138,7 +138,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
 	        // search parameters method
 	        $reflect	= new ReflectionMethod($controller, $action);
-            $reflect->setAccessible(true);
 	        $parameters	= $this->getParameters();
 
 	        $tabParam 	= array();
