@@ -23,8 +23,9 @@ define([
     'lodash',
     'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/tokenizer',
-    'ui/maths/calculator/core/terms'
-], function ($, _, tokensHelper, calculatorTokenizerFactory, registeredTerms) {
+    'ui/maths/calculator/core/terms',
+    'util/mathsEvaluator'
+], function ($, _, tokensHelper, calculatorTokenizerFactory, registeredTerms, mathsEvaluatorFactory) {
     'use strict';
 
     var tokens = {
@@ -156,6 +157,8 @@ define([
         VAR_Y: '<span class="term term-variable" data-value="y" data-token="term" data-type="variable">y</span>',
         UNKNOWN_Y: '<span class="term term-unknown" data-value="y" data-token="term" data-type="unknown">y</span>'
     };
+
+    var mathsEvaluator = mathsEvaluatorFactory();
 
     QUnit.module('Factory');
 
@@ -582,6 +585,10 @@ define([
     }, {
         title: 'No expression',
         expected: ''
+    }, {
+        title: 'Computed expression: 4 @nthrt 45',
+        expression: mathsEvaluator('4 @nthrt 45'),
+        expected: '2.5900200641113514527'
     }])
         .test('stringValue', function (data, assert) {
             QUnit.expect(1);

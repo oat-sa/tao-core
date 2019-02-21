@@ -31,6 +31,7 @@ use oat\generis\model\data\ModelManager;
 use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\controller\api\Users;
 use oat\tao\model\cliArgument\argument\implementation\Group;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Debug;
 use oat\tao\model\cliArgument\argument\implementation\verbose\Error;
@@ -108,6 +109,7 @@ use oat\tao\model\resources\TreeResourceLookup;
 use oat\tao\model\user\TaoRoles;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\tao\model\search\index\IndexService;
+use tao_models_classes_UserService;
 
 /**
  *
@@ -909,6 +911,19 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('22.13.1');
         }
 
-        $this->skip('22.13.1', '26.1.0');
+        $this->skip('22.13.1', '26.1.7');
+
+        if ($this->isVersion('26.1.7')) {
+
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::SYSTEM_ADMINISTRATOR, Users::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT,  TaoRoles::GLOBAL_MANAGER, Users::class));
+
+            $userService = $this->getServiceManager()->get(tao_models_classes_UserService::SERVICE_ID);
+            $userService->setOption(tao_models_classes_UserService::OPTION_ALLOW_API, false);
+            $this->getServiceManager()->register(tao_models_classes_UserService::SERVICE_ID, $userService);
+
+            $this->setVersion('27.0.0');
+        }
+
     }
 }
