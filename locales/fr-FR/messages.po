@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-02-01T09:17:21\n"
+"Project-Id-Version: TAO 3.3.0-sprint95\n"
+"PO-Revision-Date: 2019-02-21T16:34:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " et "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " et "
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -242,9 +242,6 @@ msgstr ""
 msgid "an instance"
 msgstr ""
 
-msgid "Ans"
-msgstr ""
-
 msgid "Apply"
 msgstr ""
 
@@ -272,6 +269,9 @@ msgid "Argument check failed: %s"
 msgstr ""
 
 msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "Arguments separator"
 msgstr ""
 
 msgid "array"
@@ -347,11 +347,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -378,11 +378,11 @@ msgstr "Modifier le mot de passe"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Cocher Tout"
-
 msgid "Check all"
 msgstr "Cocher tout"
+
+msgid "Check All"
+msgstr "Cocher Tout"
 
 msgid "Check-in"
 msgstr ""
@@ -426,10 +426,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -915,10 +915,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1238,10 +1238,10 @@ msgstr "Aucun fichier"
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Aucun aperçu disponible"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Aucun aperçu disponible"
 
 msgid "No results found"
@@ -1293,10 +1293,10 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1978,6 +1978,9 @@ msgid "Unable to upload file"
 msgstr "Autoriser le téléchargement du fichier"
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "Unary operator +"
 msgstr ""
 
 msgid "Unary operator -"
