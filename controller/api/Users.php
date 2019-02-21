@@ -246,7 +246,10 @@ class Users extends tao_actions_CommonRestModule
     protected function processRoles(array $parameters)
     {
         $roles = $parameters[UserRdf::PROPERTY_ROLES];
-        $roles = is_string($roles) ? [$roles] : $roles;
+
+        if (!is_array($roles)) {
+            throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. List of values expected", 'roles'));
+        }
 
         if (!count($roles)) {
             throw new common_exception_MissingParameter('roles');
