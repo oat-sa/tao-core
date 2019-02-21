@@ -96,12 +96,4 @@ abstract class AbstractRoute implements Route
      */
     abstract public function resolve(ServerRequestInterface $request);
 
-    /**
-     * Get controller namespace prefix
-     * @return string
-     */
-    public static function getControllerPrefix()
-    {
-        return '';
-    }
 }
