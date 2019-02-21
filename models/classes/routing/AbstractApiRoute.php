@@ -28,7 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package oat\tao\model\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-abstract class AbstractApiRoute extends Route
+abstract class AbstractApiRoute extends AbstractRoute
 {
     /**
      * @param ServerRequestInterface $request

@@ -28,7 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class LegacyRoute extends Route
+class LegacyRoute extends AbstractRoute
 {
     public function resolve(ServerRequestInterface $request)
     {
@@ -47,7 +47,7 @@ class LegacyRoute extends Route
      * Get controller namespace prefix
      * @return string
      */
-    protected function getControllerPrefix()
+    public static function getControllerPrefix()
     {
         return '';
     }

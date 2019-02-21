@@ -27,7 +27,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * 
  * @author Joel Bout, <joel@taotesting.com>
  */
-class NamespaceRoute extends Route
+class NamespaceRoute extends AbstractRoute
 {
     const OPTION_NAMESPACE = 'namespace';
     
@@ -58,7 +58,7 @@ class NamespaceRoute extends Route
      * Get controller namespace prefix
      * @return string
      */
-    protected function getControllerPrefix()
+    public static function getControllerPrefix()
     {
         return '';
     }

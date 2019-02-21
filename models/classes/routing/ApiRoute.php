@@ -32,7 +32,7 @@ class ApiRoute extends AbstractApiRoute
      * Get controller namespace prefix
      * @return string
      */
-    protected function getControllerPrefix()
+    public static function getControllerPrefix()
     {
         return static::REST_CONTROLLER_PREFIX;
     }
