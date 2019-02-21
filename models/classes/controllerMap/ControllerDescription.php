@@ -21,12 +21,13 @@
 
 namespace oat\tao\model\controllerMap;
 
+use oat\oatbox\http\Controller;
 use ReflectionClass;
 use ReflectionMethod;
 
 /**
  * Description of a Tao Controller
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class ControllerDescription
@@ -34,29 +35,29 @@ class ControllerDescription
     private static $BLACK_LIST = array('forward', 'redirect', 'forwardUrl', 'setView');
     /**
      * Reflection of the controller
-     * 
+     *
      * @var ReflectionClass
      */
     private $class;
-    
+
     /**
      * Create a new lazy parsing controller description
-     * 
+     *
      * @param ReflectionClass $controllerClass
      */
     public function __construct(ReflectionClass $controllerClass) {
         $this->class = $controllerClass;
     }
-    
+
     /**
      * Returns the class name of the controller
-     * 
+     *
      * @return string
      */
     public function getClassName() {
         return $this->class->getName();
     }
-    
+
     /**
      * Returns ann array of ActionDescription objects
      *
@@ -65,11 +66,15 @@ class ControllerDescription
     public function getActions() {
         $actions = array();
         foreach ($this->class->getMethods(ReflectionMethod::IS_PUBLIC) as $m) {
-            if (!$m->isConstructor() && !$m->isDestructor() && is_subclass_of($m->class, 'Module') && !in_array($m->name, self::$BLACK_LIST)) {
+            if ($m->isConstructor() || $m->isDestructor() || in_array($m->name, self::$BLACK_LIST)) {
+                continue;
+            }
+
+            if (is_subclass_of($m->class, 'Module') || is_subclass_of($m->class, Controller::class)) {
                 $actions[] = new ActionDescription($m);
             }
         }
         return $actions;
     }
-    
+
 }

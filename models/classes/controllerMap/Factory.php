@@ -22,6 +22,7 @@
 namespace oat\tao\model\controllerMap;
 
 use common_Logger;
+use oat\oatbox\http\Controller;
 use ReflectionClass;
 use RecursiveDirectoryIterator;
 use DirectoryIterator;
@@ -33,13 +34,13 @@ use helpers_PhpTools;
 /**
  * Fectory to create the description of the controllers and
  * actions from the source code
- * 
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class Factory
 {
     /**
-     * 
+     *
      * @param string $extensionId
      * @return ControllerDescription[] array of controller descriptions
      */
@@ -52,7 +53,7 @@ class Factory
         }
         return $controllers;
     }
-    
+
     /**
      * Get a description of the controller
      *
@@ -73,25 +74,25 @@ class Factory
      * @throws ActionNotFoundException
      */
     public function getActionDescription($controllerClassName, $actionName) {
-        
+
         if (!class_exists($controllerClassName) || !method_exists($controllerClassName, $actionName)) {
             throw new ActionNotFoundException('Unknown '.$controllerClassName.'@'.$actionName);
         }
-        
+
         $reflector = new \ReflectionMethod($controllerClassName, $actionName);
         return new ActionDescription($reflector);
     }
-    
+
     /**
      * Helper to find all controllers
-     * 
+     *
      * @param \common_ext_Extension $extension
      * @return array
      * @ignore
      */
     private function getControllerClasses(\common_ext_Extension $extension) {
         $returnValue = array();
-    
+
         // routes
         $namespaces = array();
         foreach ($extension->getManifest()->getRoutes() as $mapedPath => $ns) {
@@ -115,7 +116,7 @@ class Factory
                 }
             }
         }
-    
+
         // legacy
         if ($extension->hasConstant('DIR_ACTIONS') && file_exists($extension->getConstant('DIR_ACTIONS'))) {
             $dir = new DirectoryIterator($extension->getConstant('DIR_ACTIONS'));
@@ -128,7 +129,7 @@ class Factory
         }
 
         $returnValue = array_filter( $returnValue, array($this, 'isControllerClassNameValid') );
-    
+
         return (array) $returnValue;
     }
 
@@ -149,8 +150,8 @@ class Factory
         if (!class_exists($controllerClassName)) {
             common_Logger::w($controllerClassName.' not found');
             $returnValue = false;
-        } elseif (!is_subclass_of($controllerClassName, 'Module')) {
-            common_Logger::w($controllerClassName.' does not inherit Module');
+        } elseif (!is_subclass_of($controllerClassName, 'Module') && !is_subclass_of($controllerClassName, Controller::class)) {
+            common_Logger::w($controllerClassName.' is not a valid Controller.');
             $returnValue = false;
         } else {
             // abstract so just move along
