@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint93\n"
-"PO-Revision-Date: 2019-01-04T13:31:15\n"
+"Project-Id-Version: TAO 3.3.0-sprint94\n"
+"PO-Revision-Date: 2019-02-01T09:17:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " y "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " ha sido borrado exitosamente"
@@ -347,13 +347,16 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "Cancel"
-msgstr ""
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr ""
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -372,11 +375,14 @@ msgstr "Cambiar contraseña"
 msgid "Change the password"
 msgstr "Cambiar la contraseña"
 
-msgid "Check all"
-msgstr "Seleccionar todo"
+msgid "Change the sign of the current operand"
+msgstr ""
 
 msgid "Check All"
 msgstr "Seleccionar Todo"
+
+msgid "Check all"
+msgstr "Seleccionar todo"
 
 msgid "Check-in"
 msgstr "Registrarse"
@@ -420,10 +426,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -528,11 +534,11 @@ msgstr "Datos importados exitosamente"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "Idioma de Datos"
-
 msgid "Data language"
 msgstr "Idioma de datos"
+
+msgid "Data Language"
+msgstr "Idioma de Datos"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -951,10 +957,10 @@ msgstr "Instalando extensión %s..."
 msgid "Instance saved"
 msgstr "Instancia guardada"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lenguaje de interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lenguaje de interface"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1018,6 +1024,9 @@ msgid "Last Name"
 msgstr "Apellido"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1164,9 +1173,6 @@ msgstr "Mover a"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "Mover este elemento reemplazará las propiedades de la clase anterior por los de la clase destino :"
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "Mover este elemento reemplazará las propiedades de la clase anterior por los de la clase destino:"
-
 msgid "Multiple values delimiter"
 msgstr "Delimitador de múltiples valores"
 
@@ -1232,10 +1238,10 @@ msgstr "Sin archivos"
 msgid "no label"
 msgstr "sin etiqueta"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1287,10 +1293,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1625,11 +1631,11 @@ msgstr ""
 msgid "seconds"
 msgstr "segundos"
 
-msgid "Select"
-msgstr "Seleccionar"
-
 msgid "select"
 msgstr "seleccionar"
+
+msgid "Select"
+msgstr "Seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -1642,9 +1648,6 @@ msgstr "Seleccionar un idioma"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "Seleccionar el elemento de destino"
 
 msgid "Select this file"
 msgstr "Seleccione este archivo"
@@ -1679,6 +1682,9 @@ msgstr "Configuración actualizada"
 
 msgid "Show detailed report"
 msgstr "Muestrar reporte detallado"
+
+msgid "Sign change"
+msgstr ""
 
 msgid "Simple Mode"
 msgstr "Modo simple"
@@ -1748,6 +1754,9 @@ msgstr "Inicio TAO"
 
 msgid "TAO Login"
 msgstr "Iniciar sesión TAO"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""
@@ -1971,10 +1980,13 @@ msgstr "No es posible subir el archivo"
 msgid "Unable to upload file %s : %s"
 msgstr "No es posible subir el archivo %s : %s"
 
-msgid "Uncheck All"
+msgid "Unary operator -"
 msgstr ""
 
 msgid "Uncheck all"
+msgstr ""
+
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

@@ -117,8 +117,7 @@ define(['jquery', 'jquery.tree'], function ($) {
 	});
 	$(function () {
 		$.tree.plugins.contextmenu.object.hide().appendTo("body");
-		$("a", $.tree.plugins.contextmenu.object[0])
-			.live("click", function (event) {
+		$.tree.plugins.contextmenu.object.first().on('click', 'a', function (event) {
 				if(!$(this).hasClass("disabled")) {
 					$.tree.plugins.contextmenu.exec.apply(null, [$(this).attr("rel")]);
 					$.tree.plugins.contextmenu.hide();
@@ -127,6 +126,6 @@ define(['jquery', 'jquery.tree'], function ($) {
 				event.preventDefault();
 				return false;
 			})
-		$(document).bind("mousedown", function(event) { if($(event.target).parents("#jstree-contextmenu").size() == 0) $.tree.plugins.contextmenu.hide(); });
+		$(document).on("mousedown", function(event) { if($(event.target).parents("#jstree-contextmenu").size() == 0) $.tree.plugins.contextmenu.hide(); });
 	});
 });

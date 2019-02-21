@@ -102,6 +102,7 @@ define([
         /**
          * Initialise the dialog box.
          * @param {Object} options - A list of options.
+         * @param {String} options.heading - An optional heading to display.
          * @param {String} options.message - The message to display.
          * @param {String} options.content - An optional content to display under the displayed message.
          * @param {Array|Object|String} options.buttons - A list of buttons to display (default: 'cancel,ok'). Can be:

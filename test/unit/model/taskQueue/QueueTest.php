@@ -27,11 +27,6 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 
 class QueueTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      * @expectedException \InvalidArgumentException
      * @expectExceptionMessage  Queue name needs to be set.
@@ -130,9 +125,12 @@ class QueueTest extends \PHPUnit_Framework_TestCase
 
         if ($dequeuedElem) {
             $taskLogMock->expects($this->once())
+                ->method('getStatus');
+
+            $taskLogMock->expects($this->once())
                 ->method('setStatus');
 
-            $queueMock->expects($this->once())
+            $queueMock->expects($this->exactly(2))
                 ->method('getTaskLog')
                 ->willReturn($taskLogMock);
         }

@@ -1,6 +1,6 @@
 <div class="feedback-{{type}} {{#if hasChildren}}hierarchical{{else}}leaf{{/if}}">
     <span class="icon-{{type}}{{#if hasChildren}} hierarchical-icon{{/if}}"></span>
-    <div class="message">{{{message}}}</div>
+    <div class="message">{{{dompurify message}}}</div>
     {{#each children}}
         {{{this}}}
     {{/each}}
