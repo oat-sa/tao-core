@@ -31,7 +31,6 @@ use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\user\TaoRoles;
 use tao_actions_CommonRestModule;
 use tao_models_classes_LanguageService;
 use tao_models_classes_RoleService;
@@ -158,35 +157,34 @@ class Users extends tao_actions_CommonRestModule
 
     /**
      * @param null $uri
-     * @return mixed
+     * @return void
      * @throws \common_exception_NotImplemented
      */
     public function get($uri = null) {
-        throw new \common_exception_NotImplemented('Not implemented');
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
     /**
      * @param string $uri
-     * @return mixed
+     * @return void
      * @throws \common_exception_NotImplemented
      */
     public function put($uri) {
-        throw new \common_exception_NotImplemented('Not implemented');
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
     /**
      * @param string $uri
-     * @return mixed
+     * @return void
      * @throws \common_exception_NotImplemented
      */
     public function delete($uri = null) {
-        throw new \common_exception_NotImplemented('Not implemented');
+        $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
     /**
      * @return void
      * @throws common_Exception
-     * @throws common_exception_RestApi
      */
     public function post()
     {
