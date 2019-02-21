@@ -17,9 +17,9 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
-namespace oat\tao\test\integration\helpers;
+namespace oat\tao\test\unit\helpers;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use \tao_helpers_Numeric;
 
 /**
@@ -27,9 +27,8 @@ use \tao_helpers_Numeric;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class NumericTest extends TaoPhpUnitTestRunner
+class NumericTest extends TestCase
 {
-
     /**
      * Test the method tao_helpers_Numeric::parseFloat
      *

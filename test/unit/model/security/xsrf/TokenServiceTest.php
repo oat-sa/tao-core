@@ -17,9 +17,9 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\tao\test\integration\model\security\xsrf;
+namespace oat\tao\test\unit\model\security\xsrf;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 use oat\oatbox\service\exception\InvalidService;
@@ -30,22 +30,17 @@ use Prophecy\Argument;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class TokenServiceTest extends TaoPhpUnitTestRunner
+class TokenServiceTest extends TestCase
 {
-
-    /**
-     * @expectedException  oat\oatbox\service\exception\InvalidService
-     */
     public function testInstantianteNoStore()
     {
+        $this->expectException(InvalidService::class);
         new TokenService();
     }
 
-    /**
-     * @expectedException  oat\oatbox\service\exception\InvalidService
-     */
     public function testInstantianteBadStore()
     {
+        $this->expectException(InvalidService::class);
         new TokenService([
             'store' =>  []
         ]);
@@ -213,7 +208,7 @@ class TokenServiceTest extends TaoPhpUnitTestRunner
 
     protected function getStoreMock()
     {
-        $storeMock = $this->prophesize('oat\tao\model\security\xsrf\TokenStore');
+        $storeMock = $this->prophesize(TokenStore::class);
         $storeMock->getTokens()->willReturn([]);
         $storeMock->setTokens(Argument::any())->will(function ($args) use ($storeMock){
             $storeMock->getTokens()->willReturn($args[0]);
