@@ -110,9 +110,15 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	    }
     }
 
-	public function execute()
-	{
-	    // Are we authorized to execute this action?
+    /**
+     * @throws ActionEnforcingException
+     * @throws \ReflectionException
+     * @throws \common_exception_Error
+     * @throws tao_models_classes_AccessDeniedException
+     */
+    public function execute()
+    {
+        // Are we authorized to execute this action?
         try {
             $this->verifyAuthorization();
         } catch(PermissionException $pe){
@@ -148,12 +154,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 	        $user = common_session_SessionManager::getSession()->getUser();
 	        $this->logDebug('Invoking '.get_class($controller).'::'.$action.' by '.$user->getIdentifier(), ARRAY('GENERIS', 'CLEARRFW'));
 
-            $eventManager = ServiceManager::getServiceManager()->get(EventManager::CONFIG_ID);
+            $eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new BeforeAction());
 
 	        call_user_func_array(array($controller, $action), $tabParam);
 
-	        // Render the view if selected.
+            // Render the view if selected.
 	        if ($controller->hasView())
 	        {
 	            $renderer = $controller->getRenderer();
