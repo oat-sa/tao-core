@@ -68,16 +68,22 @@ function (_, module, store, feedback, tokenStoreFactory) {
              */
             getToken: function getToken() {
                 var self = this;
+                var clientConfigCheck = getConfigStore()
+                    .then(function(configStore) {
+                        return configStore.getItem('clientConfigFetched')
+                            .then(function() {
+                                // This doesn't do anything. But for some reason the return value is wrong without a 'then'...
+                            });
+                    });
+
                 return Promise.all([
-                    tokenStore.expireOldTokens(),
+                    clientConfigCheck,
                     tokenStore.getSize(),
-                    getConfigStore().then(function(configStore) {
-                        return configStore.getItem('clientConfigFetched');
-                    })
+                    tokenStore.expireOldTokens()
                 ])
                 .then(function(values) {
+                    var clientConfigFetched = !!values[0];
                     var queueSize = values[1];
-                    var clientConfigFetched = !!values[2];
 
                     if (queueSize > 0) {
                         // Token available, use it
@@ -107,8 +113,7 @@ function (_, module, store, feedback, tokenStoreFactory) {
                     }
                     else {
                         // No more token options, refresh needed
-                        feedback().error('No tokens available. Please refresh the page.');
-                        return Promise.reject(new Error('No tokens'));
+                        return Promise.reject(new Error('No tokens available. Please refresh the page.'));
                     }
                 });
             },
