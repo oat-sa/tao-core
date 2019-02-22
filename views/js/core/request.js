@@ -85,11 +85,6 @@ define([
             return Promise.reject(new TypeError('At least give a URL...'));
         }
 
-        // reconfigure pool (sequential option used by Test Runner):
-        if (options.sequential) {
-            tokenHandler.setMaxSize(1);
-        }
-
         /**
          * Function wrapper which allows the contents to be run now, or added to a queue
          * @returns {Promise} resolves with response, or rejects if something went wrong
