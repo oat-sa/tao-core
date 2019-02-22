@@ -62,7 +62,7 @@ function (_, module, store, feedback, tokenStoreFactory) {
         return {
             /**
              * Gets the next security token from the token queue
-             * Causes fresh tokens to be fetched from server, if none available locally
+             * If none are available, it can check the ClientConfig (once only per page)
              * Once the token is got, it is erased from the memory (one use only)
              * @returns {Promise<String>} the token value
              */
@@ -70,17 +70,17 @@ function (_, module, store, feedback, tokenStoreFactory) {
                 var self = this;
                 var clientConfigCheck = getConfigStore()
                     .then(function(configStore) {
-                        return configStore.getItem('clientConfigFetched')
-                            .then(function() {
-                                // This doesn't do anything. But for some reason the return value is wrong without a 'then'...
-                            });
+                        return configStore.getItem('clientConfigFetched');
                     });
 
-                return Promise.all([
-                    clientConfigCheck,
-                    tokenStore.getSize(),
-                    tokenStore.expireOldTokens()
-                ])
+                // Some async checks before we go for the token:
+                return tokenStore.expireOldTokens()
+                .then (function() {
+                    return Promise.all([
+                        clientConfigCheck,
+                        tokenStore.getSize(),
+                    ]);
+                })
                 .then(function(values) {
                     var clientConfigFetched = !!values[0];
                     var queueSize = values[1];
@@ -99,7 +99,7 @@ function (_, module, store, feedback, tokenStoreFactory) {
                                 // Chaining the promises using Array.prototype.reduce is necessary
                                 // to manage token addition & deletion correctly
                                 return newTokens.reduce(function(previousPromise, nextToken) {
-                                    return previousPromise.then(() => {
+                                    return previousPromise.then(function() {
                                         return self.setToken(nextToken);
                                     });
                                 }, Promise.resolve());
@@ -115,10 +115,6 @@ function (_, module, store, feedback, tokenStoreFactory) {
                         // No more token options, refresh needed
                         return Promise.reject(new Error('No tokens available. Please refresh the page.'));
                     }
-                })
-                .then(function(token) { // just logs - remove later
-                    tokenStore.log('tokenHandler.getToken');
-                    return token;
                 });
             },
 
@@ -131,6 +127,10 @@ function (_, module, store, feedback, tokenStoreFactory) {
             setToken: function setToken(newToken) {
                 return tokenStore.add(newToken)
                     .then(function(added) {
+                        return added;
+                    })
+                    .then(function(added) { // just logs - remove later
+                        tokenStore.log('tokenHandler.getToken');
                         return added;
                     });
             },

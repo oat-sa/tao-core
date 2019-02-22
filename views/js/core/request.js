@@ -81,13 +81,13 @@ define([
      */
     return function request(options) {
 
-        // reconfigure pool:
-        if (options.sequential) {
-            tokenHandler.setMaxSize(1);
-        }
-
         if (_.isEmpty(options.url)) {
             return Promise.reject(new TypeError('At least give a URL...'));
+        }
+
+        // reconfigure pool (sequential option used by Test Runner):
+        if (options.sequential) {
+            tokenHandler.setMaxSize(1);
         }
 
         /**
@@ -152,13 +152,26 @@ define([
                             return reject(createError(response, __('The server has sent an empty response'), xhr.status));
                         });
                     })
-                    .fail(function(xhr) {
+                    .fail(function(xhr, textStatus, errorThrown) {
                         var response;
                         try {
                             response = JSON.parse(xhr.responseText);
-                        } catch(parseErr) {
+                        } catch (parseErr) {
                             response = xhr.responseText;
                         }
+
+                        response = _.defaults(response, {
+                            success: false,
+                            source: 'network',
+                            cause : options.url,
+                            purpose: 'proxy',
+                            context: this,
+                            code: xhr.status,
+                            sent: xhr.readyState > 0,
+                            type: 'error',
+                            message: errorThrown || __('An error occurred!')
+                        });
+
                         return reject(createError(response, xhr.status + ' : ' + xhr.statusText, xhr.status));
                     });
                 });
