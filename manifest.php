@@ -20,6 +20,10 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  *
  */
+
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\routing\ApiRoute;
+use oat\tao\model\routing\LegacyRoute;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
@@ -45,10 +49,10 @@ return array(
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '25.1.3',
+    'version' => '27.1.1',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
-        'generis' => '>=8.2.0',
+        'generis' => '>=8.2.2',
     ),
     'models' => array(
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -167,12 +171,18 @@ return array(
         array('grant', TaoRoles::SYSTEM_ADMINISTRATOR, array('ext'=>'tao','mod' => 'ExtensionsManager')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole',     'tao_actions_Lock@forceRelease'),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole', 'tao_actions_PropertiesAuthoring'),
+        array(AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, oat\tao\controller\api\Users::class),
+        array(AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, oat\tao\controller\api\Users::class),
     ),
+    'routes' => [
+        '/tao/api'  => ['class' => ApiRoute::class],
+        '/tao'      => ['class' => LegacyRoute::class],
+    ],
     'constants' => array(
         #TAO version number
-        'TAO_VERSION' => '3.3.0-sprint95',
+        'TAO_VERSION' => '3.3.0-sprint96',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.3.0-sprint95',
+        'TAO_VERSION_NAME' => '3.3.0-sprint96',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
