@@ -19,7 +19,7 @@
 
 namespace oat\tao\test\unit\service;
 
-use oat\generis\test\GenerisPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\service\ApplicationService;
 use common_ext_Extension;
@@ -31,7 +31,7 @@ use common_exception_Error;
  * Class ApplicationServiceTest
  * @package oat\tao\test\unit\service
  */
-class ApplicationServiceTest extends GenerisPhpUnitTestRunner
+class ApplicationServiceTest extends TestCase
 {
     /**
      * @var ApplicationService

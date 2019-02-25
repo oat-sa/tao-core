@@ -18,9 +18,9 @@
  *
  */
 
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\unit\helpers;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use tao_helpers_Http;
 use Slim\Http\Stream;
 use Slim\Http\Environment;
@@ -32,9 +32,8 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
  * @author Aleh Hutnikau hutnikau@qpt.com
  * @package tao
  */
-class HttpHelperTest extends TaoPhpUnitTestRunner
+class HttpHelperTest extends TestCase
 {
-
     protected $string = '0123456789';
 
     public function setUp()
@@ -138,5 +137,4 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
             ],
         ];
     }
-
 }

@@ -17,12 +17,11 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\unit\helpers;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 
-
-class ArrayHelperTest extends TaoPhpUnitTestRunner
+class ArrayHelperTest extends TestCase
 {
     /**
      * @dataProvider arrayProvider

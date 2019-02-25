@@ -21,16 +21,15 @@
 namespace oat\tao\test\unit\actionQueue;
 
 use oat\tao\model\actionQueue\AbstractQueuedAction;
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 
 /**
  * Class ActionTest
  * @package oat\tao\test\unit\datatable
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class AbstractActionTest extends TaoPhpUnitTestRunner
+class AbstractActionTest extends TestCase
 {
-
     public function testGetId()
     {
         $action = new ConcreteAction();

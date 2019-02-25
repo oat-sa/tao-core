@@ -52,4 +52,72 @@ class ExceptionInterpretorTest extends TaoPhpUnitTestRunner
 
         $this->assertInstanceOf($expected, $exceptionInterpretor->getResponse());
     }
+
+    public function interpretErrorProvider() {
+        $userUri = 'toto';
+        $action  = 'test';
+        $module = 'test';
+        $ext = 'test';
+
+        return
+            [
+                [new Exception('test message') , 500 , 'test message' , 'MainResponse'],
+                [new ResolverException('test message') , 403 , 'test message' , 'RedirectResponse'],
+                [new tao_models_classes_UserException('test message') , 403 , 'test message' , 'MainResponse'],
+                [new ActionEnforcingException('test message' , $module , $action ) , 404 , 'test message' , 'MainResponse'],
+                [new tao_models_classes_FileNotFoundException('test message') , 404 , 'File test message not found' , 'MainResponse'],
+                [new LoginFailedException([new Exception('test message')]) , 500 , '' , 'MainResponse'],
+            ];
+    }
+
+
+    /**
+     *
+     * @param type $exception
+     * @param type $expectedHttpStatus
+     * @param type $expectedTrace
+     * @param type $expectedResponseClassName
+     * @dataProvider interpretErrorProvider
+     */
+    public function testInterpretError($exception , $expectedHttpStatus , $expectedTrace , $expectedResponseClassName)  {
+
+        $ExceptionInterpretor = new ExceptionInterpretor();
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'exception', $exception);
+        $this->assertSame($ExceptionInterpretor     , $this->invokeProtectedMethod($ExceptionInterpretor, 'interpretError'));
+        $this->assertSame($expectedHttpStatus       , $this->getInaccessibleProperty($ExceptionInterpretor, 'returnHttpCode'));
+        $this->assertSame($expectedTrace            , $this->getInaccessibleProperty($ExceptionInterpretor, 'trace'));
+        $this->assertSame($expectedResponseClassName, $this->getInaccessibleProperty($ExceptionInterpretor, 'responseClassName'));
+    }
+    /**
+     *
+     */
+    public function testSetException() {
+        $ExceptionInterpretor = new ExceptionInterpretor();
+        $exception = new Exception();
+        $this->assertSame($ExceptionInterpretor, $ExceptionInterpretor->setException($exception));
+        $this->assertSame($exception,  $this->getInaccessibleProperty($ExceptionInterpretor, 'exception'));
+
+    }
+
+    public function testGetTrace() {
+        $fixtureTrace = 'test toto titi';
+        $ExceptionInterpretor = new ExceptionInterpretor();
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'trace' , $fixtureTrace);
+        $this->assertSame($fixtureTrace, $ExceptionInterpretor->getTrace());
+    }
+
+    public function testGetHttpCode() {
+        $fixtureHttpCode = 407;
+        $ExceptionInterpretor = new ExceptionInterpretor();
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'returnHttpCode' , $fixtureHttpCode);
+        $this->assertSame($fixtureHttpCode, $ExceptionInterpretor->getHttpCode());
+    }
+
+    public function testGetResponseClassName() {
+        $fixtureClassName = 'MainResponse';
+        $expected        = 'oat\\tao\\model\\mvc\\error\\' . $fixtureClassName;
+        $ExceptionInterpretor = new ExceptionInterpretor();
+        $this->setInaccessibleProperty($ExceptionInterpretor, 'responseClassName' , $fixtureClassName);
+        $this->assertEquals($expected, $ExceptionInterpretor->getResponseClassName());
+    }
 }

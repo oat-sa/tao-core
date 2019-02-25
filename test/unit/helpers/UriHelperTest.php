@@ -18,17 +18,16 @@
  *
  */
 
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\unit\helpers;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 
 /**
  * Class UriHelperTest
  * @package oat\tao\helpers\test
  */
-class UriHelperTest extends TaoPhpUnitTestRunner
+class UriHelperTest extends TestCase
 {
-
     public function uriDataProvider()
     {
         return [
@@ -53,5 +52,4 @@ class UriHelperTest extends TaoPhpUnitTestRunner
         $this->assertContains($expected, $url);
 
     }
-
 }

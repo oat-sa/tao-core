@@ -17,9 +17,9 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  *
  */
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\unit\helpers;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 use \tao_helpers_Display;
 
 /**
@@ -27,9 +27,8 @@ use \tao_helpers_Display;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-class DisplayTest extends TaoPhpUnitTestRunner
+class DisplayTest extends TestCase
 {
-
     /**
      * Test the method tao_helpers_Display::sanitizeXssHtml
      *
