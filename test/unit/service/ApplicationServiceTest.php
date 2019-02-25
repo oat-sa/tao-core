@@ -48,7 +48,7 @@ class ApplicationServiceTest extends TestCase
         parent::setUp();
 
         $this->instance = new ApplicationService();
-        $this->extensionMock = $this->getMock(common_ext_Extension::class, [], [], '', false);
+        $this->extensionMock = $this->createMock(common_ext_Extension::class);
     }
 
     protected function tearDown()
