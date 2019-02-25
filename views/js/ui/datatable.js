@@ -554,11 +554,11 @@ define([
             // check/uncheck all checkboxes
             $checkAll.click(function() {
                 if (this.checked) {
-                    $checkAll.attr('checked', 'checked');
-                    $checkboxes.attr('checked', 'checked');
+                    $checkAll.prop('checked', true);
+                    $checkboxes.prop('checked', true);
                 } else {
-                    $checkAll.removeAttr('checked');
-                    $checkboxes.removeAttr('checked');
+                    $checkAll.prop('checked', false);
+                    $checkboxes.prop('checked', false);
                 }
 
                 if ($massActionBtns.length) {
@@ -575,9 +575,9 @@ define([
             $checkboxes.click(function() {
                 var $checked = $checkboxes.filter(':checked');
                 if ($checked.length === $checkboxes.length) {
-                    $checkAll.attr('checked', 'checked');
+                    $checkAll.prop('checked', true);
                 } else {
-                    $checkAll.removeAttr('checked');
+                    $checkAll.prop('checked', false);
                 }
 
                 if ($massActionBtns.length) {

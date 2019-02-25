@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-01-18T10:19:54\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-02-19T07:46:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -148,7 +148,13 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Un messaggio con ulteriori istruzioni è stato inviato alla tua casella di posta elettronica: %s"
 
+msgid "abs"
+msgstr ""
+
 msgid "Absolute value"
+msgstr ""
+
+msgid "AC"
 msgstr ""
 
 msgid "Access Denied"
@@ -273,6 +279,9 @@ msgstr ""
 msgid "Arguments %s and %s are mutually exclusive"
 msgstr ""
 
+msgid "Arguments separator"
+msgstr ""
+
 msgid "array"
 msgstr ""
 
@@ -340,6 +349,9 @@ msgstr "Sfoglia le cartelle"
 msgid "Browse..."
 msgstr "Sfoglia..."
 
+msgid "C"
+msgstr ""
+
 msgid "Calculator"
 msgstr ""
 
@@ -355,6 +367,9 @@ msgstr "no"
 msgid "cancel the action"
 msgstr "annulla operazione"
 
+msgid "Cancelled"
+msgstr ""
+
 msgid "Cannot be edited"
 msgstr "Non può essere editato"
 
@@ -362,6 +377,9 @@ msgid "Cannot divide by zero"
 msgstr ""
 
 msgid "Case sensitive"
+msgstr ""
+
+msgid "ceil"
 msgstr ""
 
 #, tao-public
@@ -374,11 +392,11 @@ msgstr "Cambia la password"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Controlla Tutti"
-
 msgid "Check all"
 msgstr "Verifica tutto"
+
+msgid "Check All"
+msgstr "Controlla Tutti"
 
 msgid "Check-in"
 msgstr "Check-in"
@@ -422,10 +440,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -483,6 +501,12 @@ msgid "Copy to"
 msgstr ""
 
 msgid "Copy to clipboard"
+msgstr ""
+
+msgid "cos"
+msgstr ""
+
+msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
@@ -710,6 +734,9 @@ msgstr ""
 msgid "Executing task %s failed"
 msgstr ""
 
+msgid "exp"
+msgstr ""
+
 msgid "Exponent"
 msgstr ""
 
@@ -804,6 +831,9 @@ msgstr "Nomi prima riga colonna"
 
 msgid "Fit to width"
 msgstr "Adatta"
+
+msgid "floor"
+msgstr ""
 
 msgid "Force Release"
 msgstr "Forza il rilascio"
@@ -925,6 +955,9 @@ msgstr ""
 msgid "Indexing has been run"
 msgstr "L'indicizzazione è stata richiamata"
 
+msgid "Infinity"
+msgstr "Infinito"
+
 msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
@@ -952,10 +985,10 @@ msgstr "Installazione delle estensioni %s"
 msgid "Instance saved"
 msgstr "Istanza salvata"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lingua di interfaccia"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lingua di interfaccia"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1021,6 +1054,9 @@ msgstr "Cognome"
 msgid "Last page"
 msgstr ""
 
+msgid "Last result"
+msgstr ""
+
 msgid "Left parenthesis"
 msgstr ""
 
@@ -1038,6 +1074,9 @@ msgstr "Lista - Scelta singola - Scorri giù"
 
 msgid "List - Single choice - Radio button"
 msgstr "Lista - Scelta singola - Tasto radio"
+
+msgid "ln"
+msgstr ""
 
 msgid "Load more"
 msgstr ""
@@ -1058,6 +1097,9 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
+msgstr ""
+
+msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -1137,6 +1179,9 @@ msgstr ""
 msgid "Missing Parameters"
 msgstr ""
 
+msgid "modulo"
+msgstr ""
+
 msgid "More"
 msgstr "Ancora"
 
@@ -1164,9 +1209,6 @@ msgstr "Sposta in"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "Spostando questo elemento le proprietà della classe precedente saranno sostituite con quelle della classe di destinazione :"
-
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "Spostando questo elemento le proprietà della classe precedente saranno sostituite con quelle della classe di destinazione:"
 
 msgid "Multiple values delimiter"
 msgstr "Valori multipli delimitati"
@@ -1288,11 +1330,11 @@ msgstr "di"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
-msgstr "Sì"
-
 msgid "OK"
 msgstr "SI"
+
+msgid "Ok"
+msgstr "Sì"
 
 msgid "Old Password"
 msgstr "Vecchia password"
@@ -1445,6 +1487,9 @@ msgstr ""
 msgid "Radian"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "Random value"
 msgstr ""
 
@@ -1584,6 +1629,9 @@ msgstr "Ruoli"
 msgid "Roles library"
 msgstr "Ruoli della biblioteca"
 
+msgid "round"
+msgstr ""
+
 msgid "Round to closest whole number"
 msgstr ""
 
@@ -1626,11 +1674,11 @@ msgstr ""
 msgid "seconds"
 msgstr "secondi"
 
-msgid "Select"
-msgstr "Seleziona"
-
 msgid "select"
 msgstr "seleziona"
+
+msgid "Select"
+msgstr "Seleziona"
 
 msgid "Select a class"
 msgstr ""
@@ -1643,9 +1691,6 @@ msgstr "Scegli una lingua"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "Scegli l'elemento di destinazione"
 
 msgid "Select this file"
 msgstr "Seleziona questo file"
@@ -1687,7 +1732,13 @@ msgstr ""
 msgid "Simple Mode"
 msgstr "Modalità semplice"
 
+msgid "sin"
+msgstr ""
+
 msgid "Sine"
+msgstr ""
+
+msgid "sinh"
 msgstr ""
 
 msgid "Size"
@@ -1741,7 +1792,16 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Formati di esportazione supportati"
 
+msgid "Syntax error"
+msgstr "Errore di sintassi"
+
+msgid "tan"
+msgstr ""
+
 msgid "Tangent"
+msgstr ""
+
+msgid "tanh"
 msgstr ""
 
 msgid "Tao Default Theme"
@@ -1752,6 +1812,9 @@ msgstr "TAO Home"
 
 msgid "TAO Login"
 msgstr "Accesso TAO"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""
@@ -1921,6 +1984,9 @@ msgstr "Scelta nodo Albero - Multiple"
 msgid "True"
 msgstr "Vero"
 
+msgid "trunc"
+msgstr ""
+
 msgid "Type"
 msgstr "Tipo"
 
@@ -1974,6 +2040,9 @@ msgstr "Impossibile caricare il file"
 
 msgid "Unable to upload file %s : %s"
 msgstr "Impossibile caricare il file %s : %s"
+
+msgid "Unary operator +"
+msgstr ""
 
 msgid "Unary operator -"
 msgstr ""

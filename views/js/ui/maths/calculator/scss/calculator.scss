@@ -1,0 +1,357 @@
+/* Style for the calculator component */
+@import "inc/bootstrap";
+
+/* font size mixin specific to calculator to use em instead of rem unit */
+@function calc-em-size($em) {
+    @return ($em) * 1em;
+}
+@mixin calc-font-size($em) {
+    font-size: calc-em-size($em) !important;
+}
+
+.calculator {
+    $calculatorPanelBg: $uiClickableDefaultBg;
+    $calculatorPanelTxt: $textColor;
+    $calculatorKeyboardBg: $uiClickableDefaultBg;
+    $calculatorKeyboardHoverBg: $uiClickableActiveBg;
+    $calculatorKeyboardSpecialBg: $uiClickableHoverBg;
+    $calculatorKeyboardSpecialTxt: $textHighlight;
+    $calculatorKeyboardCommandTxt: $info;
+    $calculatorKeyboardSwitchBg: $uiClickableDefaultBg;
+    $calculatorKeyboardSwitchTxt: $textColor;
+    $calculatorKeyboardSwitchSelectedBg: $uiClickableHoverBg;
+    $calculatorKeyboardSwitchSelectedTxt: $textHighlight;
+    $calculatorKeyboardSwitchBorder: whiten($textColor, .5);
+    $calculatorKeyboardTxt: $textColor;
+    $calculatorScreenBg: $uiGeneralContentBg;
+    $calculatorScreenTxt: $textColor;
+    $calculatorScreenBorder: $info;
+    $calculatorScreenSpecialTxt: $uiClickableHoverBg;
+    $calculatorHistoryBorder: $uiGeneralContentBorder;
+    $calculatorHistoryTxt: whiten($textColor, .2);
+
+    $calculatorFontSizeBtnPrimary: 1.7;
+    $calculatorFontSizeBtnSecondary: 1.3;
+    $calculatorFontSizeBtnSwitch: 1;
+    $calculatorFontSizeBtnSvg: 1;
+    $calculatorFontSizeExpression: 1.3;
+    $calculatorFontSizeHistory: 1;
+    $calculatorLineHeightExpression: calc-em-size($calculatorFontSizeExpression + .3);
+    $calculatorLineHeightHistory: calc-em-size($calculatorFontSizeHistory + .3);
+    $calculatorTermSpace: calc-em-size(.2);
+    $calculatorButtonSize: calc-em-size(3.2);
+    $calculatorSwitchSize: calc-em-size(3.2);
+    $calculatorButtonPadding: 2px;
+    $calculatorSwitchPadding: 4px;
+    $calculatorScreenPadding: 8px;
+    $calculatorBaseFontSize: 12px;
+
+    position: relative;
+    font-family: monospace, sans-serif;
+    font-size: $calculatorBaseFontSize;
+    width: 100%;
+    height: 100%;
+    @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+    @include vendor-prefix(flex-direction, column, property, (-ms-, -webkit-, ''));
+    @include vendor-prefix(align-content, stretch, property, (-ms-, -webkit-, ''));
+
+    sup, sub {
+        font-size: 0.75em;
+    }
+    sup {
+        top: -.5em;
+    }
+    sub {
+        bottom: -.5em;
+    }
+
+    .screen, .input {
+        position: relative;
+        @include vendor-prefix(flex, 0 0 auto, property, (-ms-, -webkit-, ''));
+    }
+
+    .focus {
+        outline: 2px solid $calculatorScreenBorder;
+    }
+
+    .keyboard {
+        position: relative;
+        @include vendor-prefix(flex, 1 1, property, (-ms-, -webkit-, ''));
+    }
+
+    .calculator-keyboard {
+        position: relative;
+        @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+        @include vendor-prefix(flex-direction, column, property, (-ms-, -webkit-, ''));
+        @include vendor-prefix(align-content, stretch, property, (-ms-, -webkit-, ''));
+        background: $calculatorKeyboardBg;
+        color: $calculatorKeyboardTxt;
+        width: 100%;
+        height: 100%;
+        padding-top: $calculatorScreenPadding;
+
+        .row {
+            position: relative;
+            @include vendor-prefix(display, flex, value, (-ms-, -webkit-, ''));
+            @include vendor-prefix(flex-direction, row, property, (-ms-, -webkit-, ''));
+            @include vendor-prefix(align-content, stretch, property, (-ms-, -webkit-, ''));
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+            width: 100%;
+            height: 100%;
+        }
+
+        .spacer {
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+            width: $calculatorButtonSize;
+            height: 100%;
+        }
+
+        span {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+            @include calc-font-size($calculatorFontSizeBtnSecondary);
+        }
+
+        button {
+            position: relative;
+            background-color: $calculatorKeyboardBg;
+            color: $calculatorKeyboardTxt !important;
+            display: inline-block;
+            border-radius: 0;
+            border: none;
+            padding: 0;
+            text-align: center;
+            text-shadow: none;
+            cursor: pointer;
+            @include vendor-prefix(flex, 1 1 auto, property, (-ms-, -webkit-, ''));
+            width: $calculatorButtonSize;
+            height: 100%;
+
+            @include calc-font-size(1);
+
+            &:not(.switch) {
+                &:before {
+                    content: " ";
+                    border-radius: 50%;
+                    display: inline-block;
+                    position: absolute;
+                    z-index: 0;
+                    top: calc(50% - #{$calculatorButtonSize / 2} + #{$calculatorButtonPadding});
+                    left: calc(50% - #{$calculatorButtonSize / 2} + #{$calculatorButtonPadding});
+                    width: calc(#{$calculatorButtonSize} - #{$calculatorButtonPadding * 2});
+                    height: calc(#{$calculatorButtonSize} - #{$calculatorButtonPadding * 2});
+                }
+            }
+            &:hover {
+                &:before {
+                    background: $calculatorKeyboardHoverBg;
+                }
+            }
+
+            &.disabled {
+                visibility: hidden;
+            }
+            &.switch {
+                span {
+                    color: $calculatorKeyboardSwitchTxt !important;
+                    border-color: $calculatorKeyboardSwitchBorder !important;
+                    border-top: 1px solid;
+                    border-bottom: 1px solid;
+                    height: auto;
+                    width: 100%;
+                    padding: $calculatorSwitchPadding .5em;
+                    @include calc-font-size($calculatorFontSizeBtnSwitch);
+
+                }
+
+                &.first {
+                    span {
+                        border-left: 1px solid;
+                        border-top-left-radius: 2px;
+                        border-bottom-left-radius: 2px;
+                    }
+                }
+                &.last {
+                    span {
+                        border-right: 1px solid;
+                        border-top-right-radius: 2px;
+                        border-bottom-right-radius: 2px;
+                    }
+                }
+
+                &:before {
+                    content: " ";
+                    border-radius: 2px;
+                    display: inline-block;
+                    position: absolute;
+                    z-index: 0;
+                    top: calc(50% - #{$calculatorFontSizeBtnSwitch / 2}em - #{$calculatorSwitchPadding});
+                    bottom: calc(50% - #{$calculatorFontSizeBtnSwitch / 2}em - #{$calculatorSwitchPadding});
+                    left: 3px;
+                    right: 3px;
+                }
+            }
+            &.operand {
+                span {
+                    font-weight: bold;
+                    @include calc-font-size($calculatorFontSizeBtnPrimary);
+                }
+            }
+            &.command {
+                span {
+                    color: $calculatorKeyboardCommandTxt !important;
+                }
+            }
+            &.execute {
+                &:before {
+                    background: $calculatorKeyboardSpecialBg;
+                }
+
+                span {
+                    font-weight: bold;
+                    color: $calculatorKeyboardSpecialTxt !important;
+                    @include calc-font-size($calculatorFontSizeBtnPrimary);
+                }
+            }
+
+            svg {
+                display: inline-block;
+                width: calc-em-size($calculatorFontSizeBtnSvg);
+                height: calc-em-size($calculatorFontSizeBtnSvg);
+                stroke-width: 0;
+                stroke: currentColor;
+                fill: currentColor;
+
+                &.backspace-outline {
+                    width: calc-em-size($calculatorFontSizeBtnSvg * 1.2);
+                    height: calc-em-size($calculatorFontSizeBtnSvg * 1.2);
+                }
+            }
+        }
+    }
+
+    &.degree {
+        .calculator-keyboard {
+            button.switch[data-command="degree"] {
+                &:before {
+                    background: $calculatorKeyboardSwitchSelectedBg;
+                }
+                span {
+                    color: $calculatorKeyboardSwitchSelectedTxt !important;
+                }
+            }
+        }
+    }
+    &.radian {
+        .calculator-keyboard {
+            button.switch[data-command="radian"] {
+                &:before {
+                    background: $calculatorKeyboardSwitchSelectedBg;
+                }
+                span {
+                    color: $calculatorKeyboardSwitchSelectedTxt !important;
+                }
+            }
+        }
+    }
+
+    .simple-screen {
+        position: relative;
+        width: 100%;
+        @include calc-font-size($calculatorFontSizeExpression);
+        color: $calculatorScreenTxt;
+        font-family: monospace;
+
+        .screen-panel {
+            position: relative;
+            width: 100%;
+            overflow: auto;
+            word-break: break-all;
+            text-align: left;
+            padding: $calculatorScreenPadding 8px;
+        }
+
+        .history {
+            @include calc-font-size($calculatorFontSizeHistory);
+            border: 1px solid $calculatorHistoryBorder;
+            color: $calculatorHistoryTxt;
+            height: calc(#{$calculatorScreenPadding * 2} + #{$calculatorLineHeightHistory * 3});
+            line-height: $calculatorLineHeightHistory;
+
+            .history-line {
+                .history-expression {
+                    &, .term {
+                        font-weight: lighter;
+                    }
+                    text-align: left;
+                }
+                .history-result {
+                    &:before {
+                        content: "=";
+                        display: inline-block;
+                        font-weight: lighter;
+                        padding-right: $calculatorTermSpace;
+                    }
+                    text-align: right;
+                    font-weight: bolder;
+                }
+            }
+        }
+        .expression {
+            @include calc-font-size($calculatorFontSizeExpression);
+            background: $calculatorScreenBg;
+            color: $calculatorScreenTxt;
+            height: calc(#{$calculatorScreenPadding * 2} + #{$calculatorLineHeightExpression * 2});
+            line-height: $calculatorLineHeightExpression;
+        }
+        .term {
+            padding: 0;
+
+            &.term-operator:not([data-token="POW"]):not([data-token="FAC"]):not([data-token="NEG"]):not([data-token="POS"]) {
+                padding: 0 $calculatorTermSpace;
+            }
+            &.term-operator[data-token="FAC"],
+            &.term-operator[data-token="NEG"],
+            &.term-operator[data-token="POS"] {
+                margin-left: -$calculatorTermSpace / 2;
+                margin-right: -$calculatorTermSpace / 2;
+            }
+            &.term-function:not([data-token="SQRT"]):not([data-token="CBRT"]) {
+                padding-right: $calculatorTermSpace;
+            }
+            &.term-operand {
+                font-weight: bold;
+            }
+            &.term-modificator {
+                font-weight: lighter;
+            }
+            &.term-constant {
+                font-style: italic;
+                font-weight: bold;
+            }
+            &.term-variable {
+                font-weight: bold;
+                color: $calculatorScreenSpecialTxt;
+            }
+            &.term-unknown {
+                color: $warning;
+                text-decoration: underline wavy $error;
+            }
+            &.term-elide {
+                display: none;
+            }
+            &.term-error {
+                color: $error;
+            }
+            &.term-syntaxError {
+                color: $error;
+                text-decoration: underline wavy $error;
+            }
+        }
+    }
+
+    &.error .screen .expression {
+        background: $errorBgColor;
+    }
+}

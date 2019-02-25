@@ -1,0 +1,1 @@
+{{#each .}}{{#each startExponent}}<sup>{{/each}}<span class="term term-{{type}}{{#if elide}} term-elide{{/if}}" data-value="{{value}}" data-token="{{token}}" data-type="{{type}}">{{{label}}}</span>{{#each endExponent}}</sup>{{/each}}{{/each}}

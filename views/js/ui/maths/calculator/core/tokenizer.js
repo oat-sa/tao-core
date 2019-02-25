@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 Open Assessment Technologies SA ;
+ * Copyright (c) 2018-2019 Open Assessment Technologies SA ;
  */
 
 /**
@@ -23,8 +23,9 @@
 define([
     'lodash',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
     'lib/moo/moo'
-], function (_, registeredTerms, moo) {
+], function (_, registeredTerms, tokensHelper, moo) {
     'use strict';
 
     /**
@@ -42,7 +43,19 @@ define([
      * Match keywords
      * @type {RegExp}
      */
-    var reKeyword = /[a-zA-Z_][a-zA-Z_0-9]*/;
+    var reKeyword = /[a-zA-Z_]\w*/;
+
+    /**
+     * Match keywords prefixed with @
+     * @type {RegExp}
+     */
+    var rePrefixedKeyword = new RegExp('@' + reKeyword.source);
+
+    /**
+     * Match keywords only
+     * @type {RegExp}
+     */
+    var reKeywordOnly = new RegExp('^' + reKeyword.source + '$');
 
     /**
      * List of keywords (functions from the list of registered terms).
@@ -63,7 +76,7 @@ define([
      * @returns {boolean}
      */
     function filterKeyword(term) {
-        return term.value.match(reKeyword);
+        return term.value.match(reKeywordOnly);
     }
 
     /**
@@ -106,17 +119,25 @@ define([
      * @returns {calculatorTokenizer}
      */
     function calculatorTokenizerFactory(config) {
-        var lexer;
+        var keywordsTransform, lexer;
 
         config = config || {};
         config.keywords = _.defaults(_.mapValues(keywords, 'value'), config.keywords);
         config.symbols = _.defaults(_.mapValues(symbols, 'value'), config.symbols);
+        keywordsTransform = moo.keywords(config.keywords);
 
         // Lexer used to tokenize the expression
         lexer = moo.compile(_.defaults({}, ignoredTokens, {
+            prefixed: {
+                match: rePrefixedKeyword,
+                type: function(token) {
+                    // simply rely on the keywords transform to identify the prefixed keyword
+                    return keywordsTransform(token.substring(1));
+                }
+            },
             term: {
                 match: reKeyword,
-                type: moo.keywords(config.keywords)
+                type: keywordsTransform
             },
             syntaxError: moo.error
         }, config.symbols));
@@ -131,7 +152,7 @@ define([
              * @returns {function(): String}
              */
             iterator: function iterator(expression) {
-                lexer.reset(expression);
+                lexer.reset(tokensHelper.stringValue(expression));
 
                 return function next() {
                     var term;
@@ -150,7 +171,7 @@ define([
             tokenize: function tokenize(expression) {
                 var terms = [];
                 var term;
-                lexer.reset(expression);
+                lexer.reset(tokensHelper.stringValue(expression));
                 do {
                     term = lexer.next();
                     if (term && !ignoredTokens[term.type]) {

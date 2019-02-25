@@ -208,7 +208,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
      * @throws \oat\tao\model\websource\WebsourceNotFound
      * @throws common_Exception
      */
-    private function runWebsourceTests($websource): void
+    private function runWebsourceTests($websource)
     {
         $this->assertInstanceOf(Websource::class, $websource);
         $id = $websource->getId();

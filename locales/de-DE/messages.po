@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-01-18T10:13:15\n"
+"PO-Revision-Date: 2019-02-01T09:17:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -347,14 +347,17 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Abbrechen"
-
 msgid "cancel"
 msgstr "abbrechen"
 
+msgid "Cancel"
+msgstr "Abbrechen"
+
 msgid "cancel the action"
 msgstr "Aktion abbrechen"
+
+msgid "Cancelled"
+msgstr ""
 
 msgid "Cannot be edited"
 msgstr "Kann nicht bearbeitet werden"
@@ -531,10 +534,10 @@ msgstr "Daten erfolgreich importiert"
 msgid "Data imported. Some records are invalid."
 msgstr "Daten importiert. Einige Einträge sind ungültig."
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Datensprache"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Datensprache"
 
 msgid "Data not imported. All records are invalid."
@@ -912,10 +915,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -954,10 +957,10 @@ msgstr "Installieren der Erweiterung %s..."
 msgid "Instance saved"
 msgstr "Instanz gespeichert"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Sprache der Benutzeroberfläche"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Sprache der Benutzeroberfläche"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1021,6 +1024,9 @@ msgid "Last Name"
 msgstr "Nachname"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1167,9 +1173,6 @@ msgstr "Verschieben nach"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "Das Verschieben dieses Elements wird die Eigenschaften der vorherigen Klasse mit den Eigenschaften der Ziel-Klasse überschreiben :"
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "Das Verschieben dieses Elements wird die Eigenschaften der vorherigen Klasse mit den Eigenschaften der Ziel-Klasse überschreiben:"
-
 msgid "Multiple values delimiter"
 msgstr "Trennsymbol mehrerer Elemente"
 
@@ -1235,10 +1238,10 @@ msgstr "keine Dateien"
 msgid "no label"
 msgstr "keine Beschriftung"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "keine Vorschau verfügbar"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "keine Vorschau verfügbar"
 
 msgid "No results found"
@@ -1290,10 +1293,10 @@ msgstr "von"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1628,11 +1631,11 @@ msgstr ""
 msgid "seconds"
 msgstr "Sekunden"
 
-msgid "Select"
-msgstr "Auswählen"
-
 msgid "select"
 msgstr "auswählen"
+
+msgid "Select"
+msgstr "Auswählen"
 
 msgid "Select a class"
 msgstr ""
@@ -1645,9 +1648,6 @@ msgstr "Sprache auswählen"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "Wähle die Zielposition des Elements"
 
 msgid "Select this file"
 msgstr "Diese Datei auswählen"
@@ -1754,6 +1754,9 @@ msgstr "TAO Home"
 
 msgid "TAO Login"
 msgstr "TAO Login"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""

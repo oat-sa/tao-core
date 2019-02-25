@@ -20,11 +20,13 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
+    'lodash',
     'i18n',
     'util/namespace',
     'ui/maths/calculator/core/plugin',
+    'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/terms'
-], function (__, nsHelper, pluginFactory, registeredTerms) {
+], function (_, __, nsHelper, pluginFactory, tokensHelper, registeredTerms) {
     'use strict';
 
     var pluginName = 'sign';
@@ -59,18 +61,18 @@ define([
          */
         function strategyNumeric(index, tokens) {
             var token = tokens[index] || null;
-            var type = getTokenType(token);
+            var type = tokensHelper.getType(token);
             var result = null;
 
-            if (type === 'operand' && index >= 0) {
+            if (tokensHelper.isDigit(type) && index >= 0) {
                 // find the first token on the left of the operand
-                while (index && type === 'operand') {
+                while (index && tokensHelper.isDigit(type)) {
                     index--;
                     token = tokens[index] || null;
-                    type = getTokenType(token);
+                    type = tokensHelper.getType(token);
                 }
 
-                if (type === 'operand' && index === 0) {
+                if (tokensHelper.isDigit(type) && index === 0) {
                     // the operand is the first of the expression, so the sign is implicit +, simply negate the value
                     result = insertNegativeSign(token);
                 } else {
@@ -90,10 +92,10 @@ define([
          */
         function strategyOperator(index, tokens) {
             var token = tokens[index] || null;
-            var type = getTokenType(token);
+            var type = tokensHelper.getType(token);
             var result = null;
 
-            if (type === 'operator' && index >= 0) {
+            if (tokensHelper.isOperator(type) && index >= 0) {
                 if (token.type === 'SUB') {
                     // the operator is -, simply replace it by +
                     result = replaceByPositiveSign(token, index, tokens);
@@ -110,17 +112,17 @@ define([
         },
 
         /**
-         * Strategy that applies on named symbols only (constants, variables, functions)
+         * Strategy that applies on identifiers only (constants, variables, functions)
          * @param {Number} index - The index of the current token
          * @param {token[]} tokens - The list of tokens that represent the expression
          * @returns {signChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
          */
-        function strategySymbol(index, tokens) {
+        function strategyIdentifier(index, tokens) {
             var token = tokens[index] || null;
-            var type = getTokenType(token);
+            var type = tokensHelper.getType(token);
             var result = null;
 
-            if ((type === 'constant' || type === 'function' || type === 'term') && index >= 0) {
+            if (tokensHelper.isIdentifier(type) && index >= 0) {
                 if (index === 0) {
                     // the token is the first of the expression, so the sign is implicit +, simply negate the value
                     result = insertNegativeSign(token);
@@ -141,11 +143,11 @@ define([
          */
         function strategyExpression(index, tokens) {
             var token = tokens[index] || null;
-            var type = getTokenType(token);
+            var type = tokensHelper.getType(token);
             var result = null;
             var count = 0;
 
-            if (type === 'modificator' && index >= 0) {
+            if (tokensHelper.isAggregator(type) && index >= 0) {
                 if (token.type === 'RPAR') {
                     count ++;
                 }
@@ -154,7 +156,6 @@ define([
                 while (index && (token.type !== 'LPAR' || count)) {
                     index--;
                     token = tokens[index] || null;
-                    type = getTokenType(token);
 
                     if (token.type === 'RPAR') {
                         count ++;
@@ -164,7 +165,7 @@ define([
                     }
                 }
 
-                if (!count && type === 'modificator' && token.type === 'LPAR') {
+                if (!count && token.type === 'LPAR') {
                     if (index === 0) {
                         // the token is the first of the expression, so the sign is implicit +, simply negate the value
                         result = insertNegativeSign(token);
@@ -205,11 +206,11 @@ define([
     function applySignChange(index, tokens) {
         var token = tokens[index] || null;
         var nextToken = tokens[index + 1] || null;
-        var type = getTokenType(token);
+        var type = tokensHelper.getType(token);
         var result = null;
 
         if (token) {
-            if (type === 'operator') {
+            if (tokensHelper.isOperator(type)) {
                 // an operator precedes the operand
                 if (token.type === 'SUB') {
                     // the operator is -, simply replace it by +
@@ -221,7 +222,7 @@ define([
                     // the operator is not + or -, simply negate the value
                     result = insertNegativeSign(nextToken);
                 }
-            } else if (nextToken && (type === 'function' || (type === 'modificator' && token.type === 'LPAR'))) {
+            } else if (nextToken && (tokensHelper.isFunction(type) || token.type === 'LPAR')) {
                 // a function or a left parenthesis precedes the operand, simply negate the operand
                 result = insertNegativeSign(nextToken);
             }
@@ -236,7 +237,7 @@ define([
      * @returns {Boolean}
      */
     function acceptExplicitPositive(token) {
-        return !token || (refuseExplicitPositive.indexOf(token.type) === -1 && getTokenType(token) !== 'function');
+        return !token || (refuseExplicitPositive.indexOf(token.type) === -1 && !tokensHelper.isFunction(tokensHelper.getType(token)));
     }
 
     /**
@@ -296,24 +297,6 @@ define([
         return str.substring(0, index) + sub + str.substring(index + length);
     }
 
-
-    /**
-     * Identifies the type of a given token
-     * @param {Object} token
-     * @returns {String|null}
-     */
-    function getTokenType(token) {
-        var term, type = null;
-        if (token) {
-            type = token.type;
-            term = registeredTerms[token.type];
-            if (term) {
-                type = term.type;
-            }
-        }
-        return type;
-    }
-
     return pluginFactory({
         name: pluginName,
 
@@ -334,6 +317,11 @@ define([
 
             // applies a sign change based on strategies
             calculator
+                .before(nsHelper.namespaceAll('command-sign', pluginName), function () {
+                    if (calculator.getExpression() === registeredTerms.ANS.value) {
+                        calculator.replace(tokensHelper.stringValue(calculator.getLastResult()));
+                    }
+                })
                 .on(nsHelper.namespaceAll('command-sign', pluginName), function () {
                     var tokens = calculator.getTokens();
                     var index = calculator.getTokenIndex();
@@ -344,8 +332,7 @@ define([
                         result = applyStrategies(index, tokens);
                         if (result) {
                             expression = splice(expression, result.offset, result.length, result.sign);
-                            calculator.setExpression(expression);
-                            calculator.setPosition(calculator.getPosition() + result.move);
+                            calculator.replace(expression, calculator.getPosition() + result.move);
                         }
                     }
                 });

@@ -1,0 +1,229 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TAO Rest API",
+    "version": "1.0"
+  },
+  "paths": {
+    "tao/api/users": {
+      "post": {
+        "summary": "Create new user",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/tao.User.New"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tao.CommonRestModule.CreatedResourceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tao.RestTrait.FailureResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "tao.CommonRestModule.CreatedResource": {
+        "description": "Created resource data",
+        "properties": {
+          "uriResource": {
+            "description": "Method to wrap creating to service",
+            "type": "string",
+            "example": "http://sample/first.rdf#i1536680377163171"
+          },
+          "label": {
+            "description": "Method to wrap creating to service",
+            "type": "string"
+          },
+          "comment": {
+            "description": "Method to wrap creating to service",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.CommonRestModule.CreatedResourceResponse": {
+        "description": "Created resource data",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/tao.CommonRestModule.CreatedResource"
+          }
+        },
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/tao.RestTrait.BaseResponse"
+          }
+        ]
+      },
+      "tao.GenerisClass.Search": {
+        "properties": {
+          "class-uri": {
+            "description": "Target class uri",
+            "type": "string"
+          },
+          "class-label": {
+            "description": "Target class label. If label is not unique first match will be used",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.GenerisClass.New": {
+        "properties": {
+          "class-label": {
+            "description": "Class label",
+            "type": "string"
+          },
+          "class-comment": {
+            "description": "Class comment",
+            "type": "string"
+          },
+          "parent-class-uri": {
+            "description": "Parent class uri, root class by default",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.RestTrait.BaseResponse": {
+        "properties": {
+          "success": {
+            "description": "Indicates error",
+            "type": "boolean"
+          },
+          "version": {
+            "description": "Build version",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "tao.RestTrait.FailureResponse": {
+        "description": "Error response with success=false",
+        "properties": {
+          "success": {
+            "description": "Indicates error",
+            "type": "boolean",
+            "example": false
+          },
+          "errorCode": {
+            "description": "Exception error code",
+            "type": "integer"
+          },
+          "errorMsg": {
+            "description": "Exception message, not localized",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/tao.RestTrait.BaseResponse"
+          }
+        ]
+      },
+      "tao.RestTrait.SuccessResponse": {
+        "description": "Response with data and success=true",
+        "properties": {
+          "success": {
+            "description": "Indicates success",
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "description": "Payload",
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/tao.RestTrait.BaseResponse"
+          }
+        ]
+      },
+      "tao.User.New": {
+        "required": [
+          "login",
+          "password",
+          "userLanguage",
+          "roles"
+        ],
+        "properties": {
+          "login": {
+            "description": "Login",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/tao.GenerisClass.Search"
+          },
+          {
+            "$ref": "#/components/schemas/tao.User.Update"
+          }
+        ]
+      },
+      "tao.User.Update": {
+        "properties": {
+          "login": {
+            "description": "Login",
+            "type": "string"
+          },
+          "password": {
+            "description": "Password",
+            "type": "string"
+          },
+          "userLanguage": {
+            "description": "Interface language uri",
+            "type": "string"
+          },
+          "defaultLanguage": {
+            "description": "Default language uri",
+            "type": "string"
+          },
+          "firstName": {
+            "description": "First name",
+            "type": "string"
+          },
+          "lastName": {
+            "description": "Last name",
+            "type": "string"
+          },
+          "mail": {
+            "description": "Email",
+            "type": "string"
+          },
+          "roles": {
+            "description": "List of roles (URIs)",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  }
+}

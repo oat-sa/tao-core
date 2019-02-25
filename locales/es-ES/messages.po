@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-01-18T10:15:16\n"
+"PO-Revision-Date: 2019-02-01T09:17:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -347,13 +347,16 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "Cancel"
-msgstr ""
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr ""
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -531,11 +534,11 @@ msgstr "Datos importados exitosamente"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "Idioma de Datos"
-
 msgid "Data language"
 msgstr "Idioma de datos"
+
+msgid "Data Language"
+msgstr "Idioma de Datos"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -912,10 +915,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -954,10 +957,10 @@ msgstr "Instalando extensión %s..."
 msgid "Instance saved"
 msgstr "Instancia guardada"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lenguaje de interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lenguaje de interface"
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1021,6 +1024,9 @@ msgid "Last Name"
 msgstr "Apellido"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1167,9 +1173,6 @@ msgstr "Mover a"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "Mover este elemento reemplazará las propiedades de la clase anterior por los de la clase destino :"
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr "Mover este elemento reemplazará las propiedades de la clase anterior por los de la clase destino:"
-
 msgid "Multiple values delimiter"
 msgstr "Delimitador de múltiples valores"
 
@@ -1235,10 +1238,10 @@ msgstr "Sin archivos"
 msgid "no label"
 msgstr "sin etiqueta"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1290,10 +1293,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1628,11 +1631,11 @@ msgstr ""
 msgid "seconds"
 msgstr "segundos"
 
-msgid "Select"
-msgstr "Seleccionar"
-
 msgid "select"
 msgstr "seleccionar"
+
+msgid "Select"
+msgstr "Seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -1645,9 +1648,6 @@ msgstr "Seleccionar un idioma"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "Seleccionar el elemento de destino"
 
 msgid "Select this file"
 msgstr "Seleccione este archivo"
@@ -1754,6 +1754,9 @@ msgstr "Inicio TAO"
 
 msgid "TAO Login"
 msgstr "Iniciar sesión TAO"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""

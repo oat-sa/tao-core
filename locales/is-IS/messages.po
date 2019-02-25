@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint94\n"
-"PO-Revision-Date: 2019-01-18T10:19:12\n"
+"PO-Revision-Date: 2019-02-01T09:17:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -346,13 +346,16 @@ msgstr ""
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "Cancel"
-msgstr "Hætta við"
-
 msgid "cancel"
 msgstr ""
 
+msgid "Cancel"
+msgstr "Hætta við"
+
 msgid "cancel the action"
+msgstr ""
+
+msgid "Cancelled"
 msgstr ""
 
 msgid "Cannot be edited"
@@ -530,11 +533,11 @@ msgstr "Innflutningur gagna tókst"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "Tungumál Gagna"
-
 msgid "Data language"
 msgstr "Tungumál gagna"
+
+msgid "Data Language"
+msgstr "Tungumál Gagna"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -911,10 +914,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -953,10 +956,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range (must be after or the same as: %s)"
@@ -1020,6 +1023,9 @@ msgid "Last Name"
 msgstr "Eftirnafn"
 
 msgid "Last page"
+msgstr ""
+
+msgid "Last result"
 msgstr ""
 
 msgid "Left parenthesis"
@@ -1166,9 +1172,6 @@ msgstr "Færa í"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr ""
 
-msgid "Moving this element will replace the properties of the previous class by those of the destination class:"
-msgstr ""
-
 msgid "Multiple values delimiter"
 msgstr ""
 
@@ -1234,10 +1237,10 @@ msgstr "Engar skrár"
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr ""
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr ""
 
 msgid "No results found"
@@ -1289,10 +1292,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1627,11 +1630,11 @@ msgstr ""
 msgid "seconds"
 msgstr "sekúndur"
 
-msgid "Select"
-msgstr "Velja"
-
 msgid "select"
 msgstr "velja"
+
+msgid "Select"
+msgstr "Velja"
 
 msgid "Select a class"
 msgstr ""
@@ -1644,9 +1647,6 @@ msgstr "Veldu tungumál"
 
 msgid "Select loaded %s"
 msgstr ""
-
-msgid "Select the element destination"
-msgstr "Veldu hvert þáttur á að fara"
 
 msgid "Select this file"
 msgstr "Veldu þessa skrá"
@@ -1753,6 +1753,9 @@ msgstr "Tao Heimasvæði"
 
 msgid "TAO Login"
 msgstr "TAO Innskráning"
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr ""
 
 msgid "task created"
 msgstr ""

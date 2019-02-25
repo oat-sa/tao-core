@@ -1,8 +1,8 @@
-/*! JavaScript Expression Evaluator v1.2.2 https://github.com/silentmatt/expr-eval/LICENCE */
+/*! JavaScript Expression Evaluator v1.3.0 https://github.com/oat-sa/expr-eval/LICENCE */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.exprEval = factory());
+      typeof define === 'function' && define.amd ? define(factory) :
+          (global.exprEval = factory());
 }(this, (function () { 'use strict';
 
   var INUMBER = 'INUMBER';
@@ -10,6 +10,7 @@
   var IOP2 = 'IOP2';
   var IOP3 = 'IOP3';
   var IVAR = 'IVAR';
+  var IFUNCOP = 'IFUNCOP';
   var IFUNCALL = 'IFUNCALL';
   var IEXPR = 'IEXPR';
   var IMEMBER = 'IMEMBER';
@@ -26,6 +27,7 @@
       case IOP2:
       case IOP3:
       case IVAR:
+      case IFUNCOP:
         return this.value;
       case IFUNCALL:
         return 'CALL ' + this.value;
@@ -178,6 +180,15 @@
         n1 = nstack.pop();
         f = expr.unaryOps[item.value];
         nstack.push(f(n1));
+      } else if (type === IFUNCOP) {
+        n2 = nstack.pop();
+        n1 = nstack.pop();
+        f = expr.functions[item.value];
+        if (f.apply && f.call) {
+          nstack.push(f.apply(undefined, [n1, n2]));
+        } else {
+          throw new Error(f + ' is not a function');
+        }
       } else if (type === IFUNCALL) {
         var argCount = item.value;
         var args = [];
@@ -403,6 +414,7 @@
 
   var TEOF = 'TEOF';
   var TOP = 'TOP';
+  var TFUNCOP = 'TFUNCOP';
   var TNUMBER = 'TNUMBER';
   var TSTRING = 'TSTRING';
   var TPAREN = 'TPAREN';
@@ -425,6 +437,7 @@
     this.unaryOps = parser.unaryOps;
     this.binaryOps = parser.binaryOps;
     this.ternaryOps = parser.ternaryOps;
+    this.functions = parser.functions;
     this.consts = parser.consts;
     this.expression = expression;
     this.savedPosition = 0;
@@ -460,6 +473,7 @@
         this.isParen() ||
         this.isComma() ||
         this.isNamedOp() ||
+        this.isFuncOp() ||
         this.isConst() ||
         this.isName()) {
       return this.current;
@@ -548,6 +562,32 @@
         this.current = this.newToken(TOP, str);
         this.pos += str.length;
         return true;
+      }
+    }
+    return false;
+  };
+
+  TokenStream.prototype.isFuncOp = function () {
+    var c = this.expression.charAt(this.pos);
+    var startPos = this.pos + 1;
+    var i = startPos;
+    var str;
+    if (c === '@') {
+      for (; i < this.expression.length; i++) {
+        c = this.expression.charAt(i);
+        if (c.toUpperCase() === c.toLowerCase()) {
+          if (i === startPos || (c !== '_' && (c < '0' || c > '9'))) {
+            break;
+          }
+        }
+      }
+      if (i > startPos) {
+        str = this.expression.substring(startPos, i);
+        if (str in this.functions) {
+          this.current = this.newToken(TFUNCOP, str);
+          this.pos = startPos + str.length;
+          return true;
+        }
       }
     }
     return false;
@@ -1054,9 +1094,23 @@
   };
 
   ParserState.prototype.parsePostfixExpression = function (instr) {
-    this.parseFunctionCall(instr);
+    this.parseFunctionOperator(instr);
     while (this.accept(TOP, '!')) {
       instr.push(unaryInstruction('!'));
+    }
+  };
+
+  ParserState.prototype.parseFunctionOperator = function (instr) {
+    var functions = this.tokens.functions;
+    var op;
+    function isCustomOperator(token) {
+      return token.value in functions;
+    }
+    this.parseFunctionCall(instr);
+    while (this.accept(TFUNCOP, isCustomOperator)) {
+      op = this.current;
+      this.parseFactor(instr);
+      instr.push(new Instruction(IFUNCOP, op.value));
     }
   };
 
@@ -1279,9 +1333,9 @@
       var fourN = threeN * n;
       var fiveN = fourN * n;
       return Math.sqrt(2 * Math.PI / n) * Math.pow((n / Math.E), n) *
-        (1 + (1 / (12 * n)) + (1 / (288 * twoN)) - (139 / (51840 * threeN)) -
-        (571 / (2488320 * fourN)) + (163879 / (209018880 * fiveN)) +
-        (5246819 / (75246796800 * fiveN * n)));
+          (1 + (1 / (12 * n)) + (1 / (288 * twoN)) - (139 / (51840 * threeN)) -
+              (571 / (2488320 * fourN)) + (163879 / (209018880 * fiveN)) +
+              (5246819 / (75246796800 * fiveN * n)));
     }
 
     --n;
@@ -1323,13 +1377,13 @@
   }
 
   /**
-  * Decimal adjustment of a number.
-  * From @escopecz.
-  *
-  * @param {Number} value The number.
-  * @param {Integer} exp  The exponent (the 10 logarithm of the adjustment base).
-  * @return {Number} The adjusted value.
-  */
+   * Decimal adjustment of a number.
+   * From @escopecz.
+   *
+   * @param {Number} value The number.
+   * @param {Integer} exp  The exponent (the 10 logarithm of the adjustment base).
+   * @return {Number} The adjusted value.
+   */
   function roundTo(value, exp) {
     // If the exp is undefined or zero...
     if (typeof exp === 'undefined' || +exp === 0) {
@@ -1430,9 +1484,9 @@
   Parser.prototype.parse = function (expr) {
     var instr = [];
     var parserState = new ParserState(
-      this,
-      new TokenStream(this, expr),
-      { allowMemberAccess: this.options.allowMemberAccess }
+        this,
+        new TokenStream(this, expr),
+        { allowMemberAccess: this.options.allowMemberAccess }
     );
 
     parserState.parseExpression(instr);

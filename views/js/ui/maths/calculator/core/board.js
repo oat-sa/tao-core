@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 Open Assessment Technologies SA ;
+ * Copyright (c) 2018-2019 Open Assessment Technologies SA ;
  */
 /**
  * Defines the base component that will host the calculator UI and link it to the engine.
@@ -28,9 +28,10 @@ define([
     'ui/component',
     'ui/maths/calculator/core/areaBroker',
     'ui/maths/calculator/core/terms',
+    'ui/maths/calculator/core/tokens',
     'ui/maths/calculator/core/tokenizer',
     'util/mathsEvaluator',
-    'tpl!ui/maths/calculator/core/board'
+    'tpl!ui/maths/calculator/core/tpl/board'
 ], function (
     $,
     _,
@@ -40,6 +41,7 @@ define([
     componentFactory,
     areaBrokerFactory,
     registeredTerms,
+    tokensHelper,
     tokenizerFactory,
     mathsEvaluatorFactory,
     boardTpl
@@ -54,6 +56,12 @@ define([
         expression: '',
         position: 0
     };
+
+    /**
+     * Regex that matches the prefixed function operators
+     * @type {RegExp}
+     */
+    var rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
     /**
      * The internal namespace for built-in events listeners
@@ -244,7 +252,7 @@ define([
             /**
              * Sets a variable that can be used by the expression.
              * @param {String} name - The variable name
-             * @param {String|mathsExpression} value - The value. Can be another expression.
+             * @param {String|Number|mathsExpression} value - The value. Can be another expression.
              * @returns {calculator}
              * @fires variableadd after the variable has been set
              */
@@ -321,7 +329,29 @@ define([
                  * @param {null} name
                  */
                 this.trigger('variabledelete', null);
+                this.setLastResult('0');
                 return this;
+            },
+
+            /**
+             * Sets the value of the last result
+             * @param {String|Number|mathsExpression} [result='0']
+             * @returns {calculator}
+             */
+            setLastResult: function setLastResult(result) {
+                if (!result || tokensHelper.containsError(result)) {
+                    result = '0';
+                }
+                this.setVariable(registeredTerms.ANS.value, result);
+                return this;
+            },
+
+            /**
+             * Gets the value of the last result
+             * @returns {mathsExpression}
+             */
+            getLastResult: function getLastResult() {
+                return this.getVariable(registeredTerms.ANS.value);
             },
 
             /**
@@ -401,7 +431,17 @@ define([
              * @fires termadd-<name> when the term has been added
              */
             addTerm: function addTerm(name, term) {
-                var value;
+                var tokensList = this.getTokens();
+                var index = this.getTokenIndex();
+                var currentToken = tokensList[index];
+                var nextToken = tokensList[index + 1];
+                var isIdentifier, needsSpace, value;
+
+                // checks if the aforementioned token requires space around
+                function tokenNeedsSpace(token) {
+                    return tokensHelper.isIdentifier(token) || (isIdentifier && !tokensHelper.isSeparator(token));
+                }
+
                 if (!_.isPlainObject(term) || 'undefined' === typeof term.value) {
                     /**
                      * @event termerror
@@ -411,10 +451,31 @@ define([
                 }
 
                 value = term.value;
-                if (term.type === 'function') {
-                    value += ' ';
+
+                // will replace the current term if:
+                // - it is a 0, and the term to add is not an operator nor a dot
+                // - it is the last result, and the term to add is not an operator
+                if (!tokensHelper.isOperator(term.type) && !rePrefixedTerm.test(term.value) && tokensList.length === 1 && ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')) {
+                    this.replace(value);
+                } else {
+                    // simply add the term, with potentially spaces around
+                    if (expression && !tokensHelper.isSeparator(term.type)) {
+                        isIdentifier = tokensHelper.isIdentifier(term.type);
+                        needsSpace = tokenNeedsSpace(currentToken);
+
+                        // prepend space when either the term to add or the previous term is an identifier
+                        if (position && needsSpace) {
+                            value = ' ' + value;
+                        }
+
+                        // append space when either the term to add or the next term is an identifier
+                        if ((!position && needsSpace) || (position < expression.length && tokenNeedsSpace(nextToken))) {
+                            value += ' ';
+                        }
+                    }
+
+                    this.insert(value);
                 }
-                this.insert(value);
 
                 /**
                  * @event termadd
@@ -440,7 +501,15 @@ define([
              * @fires termadd when the term has been added
              */
             useTerm: function useTerm(name) {
-                var term = registeredTerms[name];
+                var term;
+                if (rePrefixedTerm.test(name)) {
+                    name = name.substring(1);
+                    term = _.clone(registeredTerms[name]);
+                    term.value = '@' + term.value;
+                } else {
+                    term = registeredTerms[name];
+                }
+
                 if ('undefined' === typeof term) {
                     /**
                      * @event termerror
@@ -531,15 +600,16 @@ define([
             /**
              * Replaces the expression and move the cursor at the end.
              * @param {String} newExpression - The new expression to set
+             * @param {Number|String} [newPosition=newExpression.length] - The new position to set
              * @returns {calculator}
              * @fires replace after the expression has been replaced
              */
-            replace: function replace(newExpression) {
+            replace: function replace(newExpression, newPosition) {
                 var oldExpression = expression;
                 var oldPosition = position;
 
                 this.setExpression(newExpression)
-                    .setPosition(expression.length);
+                    .setPosition('undefined' !== typeof newPosition ? newPosition : expression.length);
 
                 /**
                  * @event replace
@@ -689,6 +759,7 @@ define([
             .setTemplate(boardTpl)
             .before('init', function () {
                 this.setupMathsEvaluator();
+                this.setLastResult('0');
                 if (this.config.expression) {
                     this.setExpression(this.config.expression);
                 }
@@ -707,6 +778,9 @@ define([
                     .on('command-execute', this.evaluate.bind(this))
                     .on('command-clearAll', this.deleteVariables.bind(this))
                     .on('command-clear command-clearAll', this.clear.bind(this));
+            })
+            .after('evaluate', function(result) {
+                this.setLastResult(result);
             })
             .after('init', function () {
                 this.render($container);

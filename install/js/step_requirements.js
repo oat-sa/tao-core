@@ -138,15 +138,11 @@ require(['config'], function(){
                                         break;
                                         
                                         case 'FileSystemComponentReport':
-                                            var expectedRights = r.value.expectedRights;
-                                            var isReadable = r.value.isReadable;
-                                            var isWritable = r.value.isWritable;
-                                            var isExecutable = r.value.isExecutable;
                                             var location = r.value.location;
                                             var recursive = r.value.recursive;
                                             
-                                            var expectedRightsMessage = getExpectedRightsAsString(r.value.expectedRights);
-                                            var currentRightsMessage = getCurrentRightsAsString(r);
+                                            var expectedRightsMessage = install.getExpectedRightsAsString(r.value.expectedRights);
+                                            var currentRightsMessage = install.getCurrentRightsAsString(r);
                                             var nature = (r.value.isFile == true) ? 'file' : 'directory';
                                             var recursiveMessage = (!r.value.isFile && recursive) ? ' (and all nested files) ' : '';
                                             
@@ -245,14 +241,10 @@ require(['config'], function(){
                                                                 break;
 
                                                                 case 'FileSystemComponentReport':
-                                                                        var expectedRights = r.value.expectedRights;
-                                                                        var isReadable = r.value.isReadable;
-                                                                        var isWritable = r.value.isWritable;
-                                                                        var isExecutable = r.value.isExecutable;
                                                                         var location = r.value.location;
 
-                                                                        var expectedRightsMessage = getExpectedRightsAsString(r.value.expectedRights);
-                                                                        var currentRightsMessage = getCurrentRightsAsString(r);
+                                                                        var expectedRightsMessage = install.getExpectedRightsAsString(r.value.expectedRights);
+                                                                        var currentRightsMessage = install.getCurrentRightsAsString(r);
                                                                         var nature = (r.value.isFile == true) ? 'file' : 'directory';
 
                                                                         message = "The " + nature + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
@@ -388,41 +380,6 @@ require(['config'], function(){
         install.addHelp('hlp_taoQtiItem_custom_mathjax', 'The procedure to install MathJax on your TAO Platform can be found on the <a href="http://forge.taotesting.com/projects/tao/wiki/Enable_math" target="_blank">TAO Wiki</a>.');
         install.addHelp('hlp_taoForge_connection', 'The installer could not reach TAO Forge, and registration or link to your support account won\'t be possible');
         install.addHelp('hlp_tao_extension_php_finfo', 'The functions in this module try to guess the content type and encoding of a file by looking for certain magic byte sequences at specific positions within the file.<br>http://php.net/manual/en/book.fileinfo.php');
-    }
-
-    function getExpectedRightsAsString(expectedRights){
-        var tokens = [];
-        
-        for (var i = 0; i < expectedRights.length; i++){
-            if (expectedRights.charAt(i) == 'r'){
-                tokens.push('readable');
-            }
-            else if (expectedRights.charAt(i) == 'w'){
-                tokens.push('writable');
-            }
-            else{
-                tokens.push('executable');
-            }
-        }
-        
-        return tokens.join(', ');
-    }
-
-    function getCurrentRightsAsString(report){
-        
-        var tokens = [];
-        
-        if (report.value.isWritable == true){
-            tokens.push('writable');
-        }
-        else if (report.value.isReadable == true){
-            tokens.push('readable');
-        }
-        else{
-            tokens.push('executable');
-        }
-        
-        return tokens.join(', ');
     }
 
     });

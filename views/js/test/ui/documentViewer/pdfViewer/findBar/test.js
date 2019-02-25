@@ -258,7 +258,7 @@ define([
         assert.ok(!$('[data-control="highlight-all"]', $container).is(':checked'), 'The highlightAll option is not checked');
         assert.ok(!broker.getContentArea().hasClass('highlight-all'), 'The highlightAll option is not activated');
 
-        $('[data-control="highlight-all"]', $container).attr('checked', true).change();
+        $('[data-control="highlight-all"]', $container).prop('checked', true).change();
 
         assert.ok($('[data-control="highlight-all"]', $container).is(':checked'), 'The highlightAll option is checked');
         assert.ok(broker.getContentArea().hasClass('highlight-all'), 'The highlightAll option is activated');
@@ -277,7 +277,7 @@ define([
         assert.ok($('[data-control="highlight-all"]', $container).is(':checked'), 'The highlightAll option is checked');
         assert.ok(broker.getContentArea().hasClass('highlight-all'), 'The highlightAll option is activated');
 
-        $('[data-control="highlight-all"]', $container).removeAttr('checked').change();
+        $('[data-control="highlight-all"]', $container).prop('checked', false).change();
 
         assert.ok(!$('[data-control="highlight-all"]', $container).is(':checked'), 'The highlightAll option is not checked');
         assert.ok(!broker.getContentArea().hasClass('highlight-all'), 'The highlightAll option is not activated');
@@ -487,7 +487,7 @@ define([
                 });
 
                 expectedCount = 1;
-                $('[data-control="case-sensitive-search"]', $container).attr('checked', true).change();
+                $('[data-control="case-sensitive-search"]', $container).prop('checked', true).change();
             });
 
             $('[data-control="pdf-search-query"]', $container).val(expectedQuery).keypress();
