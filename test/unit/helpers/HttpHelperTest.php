@@ -26,8 +26,6 @@ use Slim\Http\Stream;
 use Slim\Http\Environment;
 use Slim\Http\Request;
 
-include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
-
 /**
  * @author Aleh Hutnikau hutnikau@qpt.com
  * @package tao
@@ -35,12 +33,6 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 class HttpHelperTest extends TestCase
 {
     protected $string = '0123456789';
-
-    public function setUp()
-    {
-        parent::setUp();
-        TaoPhpUnitTestRunner::initTest();
-    }
 
     /**
      * @dataProvider environmentsProvider

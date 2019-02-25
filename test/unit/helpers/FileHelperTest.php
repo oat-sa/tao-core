@@ -44,7 +44,7 @@ class FileHelperTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-		TaoPhpUnitTestRunner::initTest();
+//		TaoPhpUnitTestRunner::initTest();
         $this->initEnv($this->tmpPath, $this->envName, $this->deep, $this->fileCount);
 	}
 
