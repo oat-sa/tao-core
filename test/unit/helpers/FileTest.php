@@ -18,11 +18,11 @@
  *
  */
 
-namespace oat\tao\helpers\test;
+namespace oat\tao\test\unit\helpers;
 
-use oat\tao\test\TaoPhpUnitTestRunner;
+use oat\generis\test\TestCase;
 
-class FileTest extends TaoPhpUnitTestRunner
+class FileTest extends TestCase
 {
     /**
      * @return array[]
